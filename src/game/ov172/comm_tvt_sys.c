@@ -132,44 +132,56 @@ typedef struct CtvtMarkerPlace {
     CtvtByte4 xTable;
 } CtvtMarkerPlace;
 
-extern u32 CTVT_COMM_GetSlotConnected(CtvtWork *work, struct CtvtComm *comm, int slot);
-extern u32 CTVT_COMM_IsSlotActive(CtvtWork *work, struct CtvtComm *comm, int slot);
-extern struct StrBuf *CTVT_COMM_GetSlotParam(CtvtWork *work, struct CtvtComm *comm, int slot);
-extern int CTVT_TALK_GetMic(CtvtWork *work, struct CtvtTalk *talk);
-extern void CTVT_COMM_SendSlotHit(CtvtWork *work, struct CtvtComm *comm, s32 halfRes);
-extern void BMP_Clear(void *bmp, u8 value);
+extern u32 CTVT_COMM_GetSlotConnected(void *unused, char *comm, s32 slot);
+extern u32 CTVT_COMM_IsSlotActive(void *unused, char *comm, s32 slot);
+extern char *CTVT_COMM_GetSlotParam(int unused, char *comm, int slot);
+extern int CTVT_TALK_GetMic(int unused, int *p);
+extern void CTVT_COMM_SendSlotHit(void *work, unsigned int *comm, unsigned int value);
+struct Bmp;
+extern void BMP_Clear(struct Bmp *bmp, unsigned char value);
 extern void BMP_WIN_ClearScreen(struct BmpWin *win);
 extern void BMP_WIN_TransferChars(struct BmpWin *win);
-extern void *BMP_WIN_GetBmp(struct BmpWin *win);
-extern void STRBUF_Delete(struct StrBuf *str);
-extern struct StrBuf *MSGDATA_AllocString(struct MsgData *msg, u32 index);
+extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *win);
+struct Strbuf;
+extern void STRBUF_Delete(struct Strbuf *strbuf);
+struct MsgBank;
+extern struct Strbuf *MSGDATA_AllocString(struct MsgBank *bank, unsigned int index);
 extern void *GFL_HEAP_Alloc(unsigned int heapId, unsigned int size, int clear, const char *site, unsigned short tag);
-extern void GFL_HEAP_Free(void *p);
-extern void CLACT_SetActorDrawEnable(struct ClActor *actor, u32 enable);
-extern void CLACT_RestartActorAnim(struct ClActor *actor);
+extern unsigned int GFL_HEAP_Free(void *p);
+struct Actor;
+extern void CLACT_SetActorDrawEnable(struct Actor *actor, unsigned int value);
+extern void CLACT_RestartActorAnim(struct Actor *actor);
 extern void CLACT_AddActorSurfacePos(struct ClActor *actor, const void *delta, u32 space);
-extern u32 MYSTATUS_GetId(const struct PeerObj *obj);
-extern struct StrBuf *MYSTATUS_CreateNameStrbuf(struct StrBuf *src, int heapId);
-extern u32 PRINTSYS_MeasureWidestLine(struct StrBuf *str, u32 font, u32 flags);
+struct MyStatus;
+extern u32 MYSTATUS_GetId(struct MyStatus *mystatus);
+extern struct Strbuf *MYSTATUS_CreateNameStrbuf(unsigned short *name, int heap_id);
+struct GfFont;
+extern u32 PRINTSYS_MeasureWidestLine(struct Strbuf *text, struct GfFont *font, unsigned int spacing);
 extern void TIME_ICON_Delete(struct TimeIcon *icon);
-extern struct TimeIcon *TIME_ICON_CreateNode(void *src, void *arg, u8 x, u8 y, u16 heapId);
+struct TcblList;
+extern struct TimeIcon *TIME_ICON_CreateNode(struct TcblList *nodeList, struct BmpWin *refWin, u8 fillColor, u8 waitInterval, u16 heapId);
 extern u32 APP_ENV_IsRunOnTwl(void);
 extern int APP_ENV_HasParentalControlBits(void);
-extern struct TaskMenu *APP_TASKMENU_OpenMenu(CtvtMenuTemplate *tmpl, struct TaskMenu *res);
+struct TaskMenuRes;
+struct TaskMenuInitWork;
+struct TaskMenuWork;
+extern struct TaskMenuWork *APP_TASKMENU_OpenMenu(struct TaskMenuInitWork *init, struct TaskMenuRes *res);
 extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *data);
-extern struct SaveRecord *MET_TRAINERS_GetFromSave(struct SaveControl *save);
-extern void MET_TRAINERS_Insert(struct SaveRecord *record, u32 value);
+extern void *MET_TRAINERS_GetFromSave(void *saveData);
+struct MetTrainersSave;
+extern void MET_TRAINERS_Insert(struct MetTrainersSave *list, unsigned int value);
 extern void GFL_HEAP_CreateChildHeap(unsigned int, unsigned int, unsigned int);
-extern void *PROCSYS_AllocProcWork(struct ProcSys *proc, u32 size, u32 heapId);
+struct Proc;
+extern void *PROCSYS_AllocProcWork(struct Proc *proc, unsigned int size, unsigned int heapId);
 extern struct GameData *GAME_DATA_Create(u16 heapId);
 extern unsigned int KEY_GetCont(void);
-extern void PROCSYS_FreeProcWork(struct ProcSys *proc);
+extern void PROCSYS_FreeProcWork(struct Proc *proc);
 extern void GFL_HEAP_DeleteChecked(unsigned int heapId);
 extern u32 GFL_NET_ERR_GetErrorLevel(void);
 extern void GFL_NET_ERR_RequestScreen(void);
-extern void CTVT_CALL_WorkInit(CtvtWork *work);
-extern void CTVT_CALL_WorkDelete(CtvtWork *work);
-extern int CTVT_CALL_WorkMain(CtvtWork *work);
+extern void CTVT_CALL_WorkInit(char *self);
+extern void CTVT_CALL_WorkDelete(unsigned char *p);
+extern int CTVT_CALL_WorkMain(char *ctx);
 
 void COMM_TVT_SYS_DeleteTimeIcon(CtvtWork *work);
 
@@ -190,7 +202,7 @@ struct CtvtComm *COMM_TVT_SYS_GetComm(CtvtWork *work)
 /* Tail call into the talk module with the talk record. */
 int COMM_TVT_SYS_GetTalkStatus(CtvtWork *work)
 {
-    return CTVT_TALK_GetMic(work, work->talk);
+    return CTVT_TALK_GetMic((int)work, (int *)work->talk);
 }
 
 struct CtvtSprites *COMM_TVT_SYS_GetSprites(CtvtWork *work)
@@ -284,7 +296,7 @@ s32 COMM_TVT_SYS_GetHalfRes(CtvtWork *work)
 /* Sends the new resolution mode to the comm record. */
 void COMM_TVT_SYS_ApplyHalfRes(CtvtWork *work, s32 halfRes)
 {
-    CTVT_COMM_SendSlotHit(work, work->comm, halfRes);
+    CTVT_COMM_SendSlotHit(work, (unsigned int *)work->comm, halfRes);
 }
 
 /* Toggles the resolution mode. */
@@ -405,8 +417,8 @@ struct TaskMenu *COMM_TVT_SYS_OpenConfirmMenu(CtvtWork *work)
     CtvtMenuTemplate menu = {0};
     CtvtMenuItem items[2] = {0};
     struct TaskMenu *result;
-    items[0].label = MSGDATA_AllocString(work->msgData, 34);
-    items[1].label = MSGDATA_AllocString(work->msgData, 35);
+    items[0].label = (struct StrBuf *)MSGDATA_AllocString((struct MsgBank *)work->msgData, 34);
+    items[1].label = (struct StrBuf *)MSGDATA_AllocString((struct MsgBank *)work->msgData, 35);
     items[0].value = 14819;
     items[1].value = 14819;
     items[0].reserved = 0;
@@ -419,9 +431,9 @@ struct TaskMenu *COMM_TVT_SYS_OpenConfirmMenu(CtvtWork *work)
     menu.width = 8;
     menu.height = 3;
     menu.reserved = 0;
-    result = APP_TASKMENU_OpenMenu(&menu, work->taskMenu);
-    STRBUF_Delete(items[0].label);
-    STRBUF_Delete(items[1].label);
+    result = (struct TaskMenu *)APP_TASKMENU_OpenMenu((struct TaskMenuInitWork *)(&menu), (struct TaskMenuRes *)work->taskMenu);
+    STRBUF_Delete((struct Strbuf *)items[0].label);
+    STRBUF_Delete((struct Strbuf *)items[1].label);
     return result;
 }
 
@@ -467,30 +479,30 @@ void COMM_TVT_SYS_PlaceSlotMarker(CtvtWork *work, u8 idx)
     markerIndex = idx;
     if (work->screen == 3) return;
     if (mode == 1) markerIndex = (markerIndex == 0) ? 2 : 3;
-    if (CTVT_COMM_IsSlotActive(work, work->comm, idx) != 1) return;
-    if (CTVT_COMM_GetSlotConnected(work, work->comm, idx) != 1) return;
+    if (CTVT_COMM_IsSlotActive(work, (char *)work->comm, idx) != 1) return;
+    if (CTVT_COMM_GetSlotConnected(work, (char *)work->comm, idx) != 1) return;
     place.xTable = d_021C704C;
     place.yTable = d_021C7048;
-    name = MYSTATUS_CreateNameStrbuf(CTVT_COMM_GetSlotParam(work, work->comm, idx), work->heapId);
-    nameWidth = (u8)PRINTSYS_MeasureWidestLine(name, work->font, 0);
-    STRBUF_Delete(name);
+    name = (struct StrBuf *)MYSTATUS_CreateNameStrbuf((unsigned short *)CTVT_COMM_GetSlotParam((int)work, (char *)work->comm, idx), work->heapId);
+    nameWidth = (u8)PRINTSYS_MeasureWidestLine((struct Strbuf *)name, (struct GfFont *)work->font, 0);
+    STRBUF_Delete((struct Strbuf *)name);
     { u32 baseX = place.xTable.b[markerIndex]; place.x = baseX + (nameWidth >> 1); }
     place.y = place.yTable.b[markerIndex];
     CLACT_AddActorSurfacePos(work->marker, &place, 0);
-    CLACT_SetActorDrawEnable(work->marker, 1);
-    CLACT_RestartActorAnim(work->marker);
+    CLACT_SetActorDrawEnable((struct Actor *)work->marker, 1);
+    CLACT_RestartActorAnim((struct Actor *)work->marker);
 }
 
 void COMM_TVT_SYS_HideSlotMarker(CtvtWork *work)
 {
-    CLACT_SetActorDrawEnable(work->marker, 0);
+    CLACT_SetActorDrawEnable((struct Actor *)work->marker, 0);
 }
 
 /* Stores the peer record value in the save data. */
 void COMM_TVT_SYS_SavePeerRecord(CtvtWork *work, struct PeerObj *peer)
 {
     struct SaveRecord *record = MET_TRAINERS_GetFromSave(GAME_DATA_GetSaveControl(work->launch->gameData));
-    MET_TRAINERS_Insert(record, MYSTATUS_GetId(peer));
+    MET_TRAINERS_Insert((struct MetTrainersSave *)record, MYSTATUS_GetId((struct MyStatus *)peer));
 }
 
 /* Rebuilds the time icon, retiring the old one first. */
@@ -518,7 +530,7 @@ int COMM_TVT_SYS_ProcInit(struct ProcSys *proc, int unused, CtvtLaunchParams *la
     CtvtWork *work;
     if (launch && launch->mode == 3) GFL_HEAP_CreateChildHeap(1, 109, 0xd0000);
     else GFL_HEAP_CreateChildHeap(1, 109, 0xe8000);
-    work = PROCSYS_AllocProcWork(proc, 0x1fc, 109);
+    work = PROCSYS_AllocProcWork((struct Proc *)proc, 0x1fc, 109);
     work->heapId = 109;
     if (launch == 0) {
         work->launch = GFL_HEAP_Alloc(1, 16, 1, (const char *)d_021C724C, 1357);
@@ -528,18 +540,18 @@ int COMM_TVT_SYS_ProcInit(struct ProcSys *proc, int unused, CtvtLaunchParams *la
         if (KEY_GetCont() & 0x400) work->launch->mode = 2;
     } else work->launch = launch;
     work->netErrorPending = 0;
-    CTVT_CALL_WorkInit(work);
+    CTVT_CALL_WorkInit((char *)work);
     return 1;
 }
 
 /* Process exit: tears the screens down; generated launch params go with it. */
 int COMM_TVT_SYS_ProcExit(struct ProcSys *proc, void *unused, int keepLaunch, CtvtWork *work)
 {
-    CTVT_CALL_WorkDelete(work);
+    CTVT_CALL_WorkDelete((unsigned char *)work);
     if (keepLaunch == 0) {
         GFL_HEAP_Free(work->launch);
     }
-    PROCSYS_FreeProcWork(proc);
+    PROCSYS_FreeProcWork((struct Proc *)proc);
     GFL_HEAP_DeleteChecked(0x6d);
     return 1;
 }
@@ -551,7 +563,7 @@ int COMM_TVT_SYS_ProcMain(void *proc, void *unused1, void *unused2, CtvtWork *wo
         GFL_NET_ERR_RequestScreen();
         work->netErrorPending = 1;
     }
-    if (CTVT_CALL_WorkMain(work) == 1) {
+    if (CTVT_CALL_WorkMain((char *)work) == 1) {
         return 1;
     }
     return 0;

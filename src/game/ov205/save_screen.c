@@ -192,54 +192,66 @@ typedef enum { ST0=0,ST13=13 } State;
 typedef signed short   s16;
 
 extern void GFL_HEAP_CreateChildHeap(unsigned,unsigned,unsigned);
-extern void *PROCSYS_AllocProcWork(struct ProcOwner *obj, u32 size, u32 heap);
+extern void *PROCSYS_AllocProcWork(struct Proc *proc, unsigned int size, unsigned int heapId);
 extern void MIi_CpuClear32(unsigned,void *,unsigned);
-extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
-extern u8 *GAME_DATA_GetMyStatus(void *p);
-extern void *GAME_DATA_GetSaveControl(struct Big *p);
-extern int SAVE_CONTROL_WouldOverwriteSave(struct Sub020071E4Ctrl *ctrl);
+struct GameSystem;
+struct GameData;
+extern struct GameData *GAMESYSTEM_GetGameData(struct GameSystem *gameSystem);
+struct MyStatus;
+extern struct MyStatus *GAME_DATA_GetMyStatus(struct GameData *gd);
+struct SaveControl;
+extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gd);
+extern int SAVE_CONTROL_WouldOverwriteSave(struct SaveControl *saveControl);
 extern u32 KEY_GetTrg(void);
 extern u32 GPOWER_GetSpecialPowerId(void);
 extern void GXS_LoadBGPltt(void *,u32,u32);
 extern void FADE_Start(u32,int,int,int);
 extern int FADE_IsActive(void);
 extern void GFL_USE_PlaySeDefaultVolume(u32);
-extern void BMP_WIN_TransferChars(struct Descriptor *d);
-extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
-extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
+struct BmpWin;
+extern void BMP_WIN_TransferChars(struct BmpWin *win);
+extern void BMP_WIN_MakeScreen(struct BmpWin *win);
+extern u8 BMP_WIN_GetBgLayer(struct BmpWin *win);
 extern void BG_SYS_PushTile(u32 index);
-extern int GAME_DATA_SaveStart(int);
-extern u8 *TIME_ICON_CreateNode(u32 a, void *b, u8 c, u8 d, u16 e);
-extern int GAME_DATA_SaveMain(u8 *p);
-extern void TIME_ICON_Delete(u8 *p);
-extern void *BMP_WIN_GetBmp(struct Descriptor *p);
-extern void BMP_Clear(struct CharBuf *buf, u8 value);
-extern s32 PRINTSYS_CTRL_Update(struct Blk *blk, void *h);
-extern void TCBL_Main(struct Tcbl *p);
-extern void TIME_ICON_Update(u8 *p);
+extern int GAME_DATA_SaveStart(struct GameData *gd);
+struct TcblList;
+struct TimeIcon;
+extern struct TimeIcon *TIME_ICON_CreateNode(struct TcblList *nodeList, struct BmpWin *refWin, unsigned char fillColor, unsigned char waitInterval, unsigned short heapId);
+extern int GAME_DATA_SaveMain(struct GameData *gd);
+extern void TIME_ICON_Delete(struct TimeIcon *icon);
+struct Bmp;
+extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *win);
+extern void BMP_Clear(struct Bmp *bmp, unsigned char value);
+struct TextPrinter;
+struct PrintStreamCtrl;
+extern s32 PRINTSYS_CTRL_Update(struct PrintStreamCtrl *ctrl, struct TextPrinter *stream);
+struct TcblSystem;
+extern void TCBL_Main(struct TcblSystem *tcbl);
+extern void TIME_ICON_Update(struct TimeIcon *icon);
 extern void PROCSYS_FreeProcWork(struct Proc *p);
 extern void GFL_HEAP_DeleteChecked(unsigned int);
 extern void BG_SYS_SetLcdSwap(u32);
-extern void GX_SetBankForLCDC(u32);
+extern void GX_SetBankForLCDC(int lcdc);
 extern void MIi_CpuClearFast(u32,u32,u32);
 extern void GX_DisableBankForLCDC(void);
 extern struct GfFont *GF_FONT_Create(int,int,int,int,u32);
 extern void ARC_UTIL_UploadPaletteFromArchiveWhole(u32,u32,u32,u32,u32,u16);
 extern struct MsgBank *MSGDATA_CreateFromArchive(u32,u32,u32,u32);
-extern struct WordSet *WORDSET_CreateDefault(u32);
+extern struct WordSet *WORDSET_CreateDefault(unsigned short heapId);
 extern void BMP_MENUWORK_LoadCharAndPltt(u32,u32,u32,u32,u16);
-extern u32 BMP_WIN_Create(u32,u32,u32,u32,u8,u8,u8);
-extern struct Tcbl *TCBL_Create(u32,u16,u32,u32);
-extern struct U16Vec *STRBUF_Create(u32,u32);
-extern void TCBL_DeleteAllTasks(struct Tcbl *p);
-extern void TCBL_Destroy(struct S02031140 *p);
-extern void BMP_MENUWORK_DrawWindowBorder(void *,unsigned);
-extern unsigned int BMP_WIN_Delete(struct Descriptor *d);
+extern struct BmpWin *BMP_WIN_Create(unsigned int bgLayer, unsigned int posX, unsigned int posY, unsigned char width, unsigned char height, unsigned char palette, unsigned char allocDir);
+extern struct TcblSystem *TCBL_Create(unsigned short heapId, unsigned short workHeapId, unsigned int taskCount, unsigned int workSize);
+struct Strbuf;
+extern struct Strbuf *STRBUF_Create(u32,u32);
+extern void TCBL_DeleteAllTasks(struct TcblSystem *tcbl);
+extern void TCBL_Destroy(struct TcblSystem *tcbl);
+extern void BMP_MENUWORK_DrawWindowBorder(struct BmpWin *desc, unsigned int commitMode);
+extern unsigned int BMP_WIN_Delete(struct BmpWin *win);
 extern void STRBUF_Delete(struct U16Vec *vec);
 extern unsigned int WORDSET_Delete(struct WordSet *p);
-extern unsigned int MSGDATA_Delete(struct Rec *rec);
+extern unsigned int MSGDATA_Delete(struct MsgBank *bank);
 extern void BG_SYS_FreeLayerBuf(unsigned);
-extern u32 GF_FONT_Delete(void *ptr);
+extern u32 GF_FONT_Delete(struct GfFont *font);
 extern void BG_SYS_Create(u16);
 extern void BG_SYS_SetVramBanks(const struct DispVram *c);
 extern void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
@@ -252,31 +264,32 @@ extern void WORDSET_SetSlotMyStatus(struct WordSet *p, u32 i, void *a);
 extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 extern signed char MSG_SPEED_GetWait(void);
 extern void *PRINTSYS_PrintStream(void *,unsigned,unsigned,void *,void *,unsigned,void *,unsigned,u16,u16);
-extern void BMP_MENUWORK_DrawWindow(void *,int,int,int);
+extern void BMP_MENUWORK_DrawWindow(struct BmpWin *win, int commitMode, unsigned short tileBase, unsigned int palette);
 extern void RTC_GetDate(void *);
-extern void *GAME_DATA_GetMyParty(const struct BigObj *);
-extern void *GAME_DATA_GetSaveBlock42(void **);
+extern void *GAME_DATA_GetMyParty(struct GameData *gd);
+extern void *GAME_DATA_GetSaveBlock42(struct GameData *gd);
 extern void DENDOU_SAVEDATA_SetRecord(struct Rec *,void *,struct Date *,u32);
-extern void *GAME_DATA_GetTrainerRecord(int *p);
-extern int GAME_DATA_GetPlayTime(int gd);
+extern void *GAME_DATA_GetTrainerRecord(struct GameData *gd);
+extern struct PlayTime *GAME_DATA_GetPlayTime(struct GameData *gd);
 extern u16 PLAYTIME_GetHours(const struct PlayTime *p);
 extern u8 PLAYTIME_GetMinutes(const struct PlayTime *p);
 extern u8 PLAYTIME_GetSeconds(const struct PlayTime *p);
 extern u32 RECORD_SetCounterClamped(struct Sub02008C20Obj *obj, int i, u32 value);
 extern u32 RECORD_AddCounter(struct Sub02008C20Obj *,int,u32);
 extern u32 RECORD_GetCounterClamped(struct Sub02008C20Obj *,int);
-extern void FIELD_CLOCK_SaveTimestamp(void *);
-extern u32 SAVE_CONTROL_LoadExtraSave(struct Ctrl *ctrl, u32 id, u8 heap);
-extern void *SAVE_CONTROL_GetExtraSaveRecord(struct Sub020073D8Ctrl *ctrl, u32 id, u32 v);
-extern void DENDOU_SAVEDATA_AppendRecord(struct Obj *obj, void *party, void *date, u32 heap);
-extern void GAME_DATA_PartSaveStart(u8 *p, u32 a);
-extern int GAME_DATA_PartSaveMain(char *,int);
-extern void SAVE_CONTROL_DeleteExtraSave(struct Sub020072A4Ctrl *,u32);
+extern void FIELD_CLOCK_SaveTimestamp(struct GameData *gameData);
+extern u32 SAVE_CONTROL_LoadExtraSave(struct SaveControl *saveControl, unsigned int slot, unsigned char heapId);
+extern void *SAVE_CONTROL_GetExtraSaveRecord(struct SaveControl *saveControl, unsigned int slot, unsigned int recordId);
+struct PartyRingSave;
+extern void DENDOU_SAVEDATA_AppendRecord(struct PartyRingSave *obj, void *party, void *date, unsigned int heap);
+extern void GAME_DATA_PartSaveStart(struct GameData *gd, unsigned int blockId);
+extern int GAME_DATA_PartSaveMain(struct GameData *gd, int blockId);
+extern void SAVE_CONTROL_DeleteExtraSave(struct SaveControl *saveControl, unsigned int slot);
 extern void GFL_NET_RefreshWmIconAtTopRight(u32,u32);
 extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
-extern void MSGDATA_ReadString(struct MsgBank *,u32,void *);
+extern void MSGDATA_ReadString(struct MsgBank *bank, unsigned int index, struct Strbuf *dest);
 extern void GF_FONT_SetTextColor(u32,u32,u32);
-extern void PRINTSYS_Print(void *,s16,s16,void *,void *);
+extern void PRINTSYS_Print(struct Bmp *bmp, short x, short y, struct Strbuf *str, struct GfFont *font);
 extern void BG_SYS_MarkTileDirty(u32);
 int SAVE_SCREEN_Init(void *owner,int unused,void **args);
 int SAVE_SCREEN_Main(void *unused,State *state,SaveScreenContext *context,SaveScreenWork *p);
@@ -346,7 +359,7 @@ int SAVE_SCREEN_Main(void *unused,State *state,SaveScreenContext *context,SaveSc
         {
             GFL_USE_PlaySeDefaultVolume(0x54c);SAVE_SCREEN_PrintEntry(p,3,0,0);
             obj=p->bmpWin;BMP_WIN_TransferChars(obj);BMP_WIN_MakeScreen(obj);BG_SYS_PushTile(BMP_WIN_GetBgLayer(obj));
-            p->resumeState=4;*state=13;GAME_DATA_SaveStart(*(int *)&p->ctx);
+            p->resumeState=4;*state=13;GAME_DATA_SaveStart((struct GameData *)(*(int *)&p->ctx));
         }
         break;
     case 4:
@@ -354,7 +367,7 @@ int SAVE_SCREEN_Main(void *unused,State *state,SaveScreenContext *context,SaveSc
             if(context->mode==0){SAVE_SCREEN_SnapshotParty(p);SAVE_SCREEN_SetTrainerDate(p);}
             else {SAVE_SCREEN_SaveFieldClock(p);SAVE_SCREEN_SetTrainerFlag(p);SAVE_SCREEN_AppendPartyRecord(p);}
         }
-        p->timeIcon=TIME_ICON_CreateNode(*(u32 *)&p->tcbl,p->bmpWin,15,16,p->heapId);
+        p->timeIcon=TIME_ICON_CreateNode((struct TcblList *)(*(u32 *)&p->tcbl),p->bmpWin,15,16,p->heapId);
         (*state)++;break;
     case 5:
         if(p->hasSave==0 && p->partSaveFlag!=0){
@@ -396,7 +409,7 @@ int SAVE_SCREEN_Main(void *unused,State *state,SaveScreenContext *context,SaveSc
     case 11:SAVE_SCREEN_Delete(p);(*state)++;break;
     case 12:return 1;
     case 13:
-        if(PRINTSYS_CTRL_Update((struct Blk *)((char *)p+40),p->printStream))*state=p->resumeState;
+        if(PRINTSYS_CTRL_Update((struct PrintStreamCtrl *)((char *)p+40),p->printStream))*state=p->resumeState;
         break;
     }
     if(p->tcbl)TCBL_Main(p->tcbl);
@@ -414,7 +427,7 @@ int SAVE_SCREEN_Exit(void *p)
 }
 
 
-void SAVE_SCREEN_Setup(SaveScreenWork *p, SaveScreenContext *context) { BG_SYS_SetLcdSwap(1);GX_SetBankForLCDC(511);MIi_CpuClearFast(0,0x6800000,0xa4000);GX_DisableBankForLCDC();SAVE_SCREEN_SetupBackground(*(u16 *)p);*(struct GfFont **)&p->font=GF_FONT_Create(23,0,0,0,*(u16 *)p);ARC_UTIL_UploadPaletteFromArchiveWhole(23,5,0,416,32,*(u16 *)p);*(struct MsgBank **)&p->msgBank=MSGDATA_CreateFromArchive(0,2,*(u16 *)((char *)p+2),*(u16 *)p);*(struct WordSet **)&p->wordset=WORDSET_CreateDefault(*(u16 *)p);BMP_MENUWORK_LoadCharAndPltt(0,1,12,0,*(u16 *)p);*(u32 *)&p->bmpWin=BMP_WIN_Create(0,2,18,27,4,13,1);*(struct Tcbl **)&p->tcbl=TCBL_Create(*(u16 *)p,*(u16 *)p,10,32);*(struct U16Vec **)&p->textBuf=STRBUF_Create(1024,*(u16 *)p); }
+void SAVE_SCREEN_Setup(SaveScreenWork *p, SaveScreenContext *context) { BG_SYS_SetLcdSwap(1);GX_SetBankForLCDC(511);MIi_CpuClearFast(0,0x6800000,0xa4000);GX_DisableBankForLCDC();SAVE_SCREEN_SetupBackground(*(u16 *)p);*(struct GfFont **)&p->font=GF_FONT_Create(23,0,0,0,*(u16 *)p);ARC_UTIL_UploadPaletteFromArchiveWhole(23,5,0,416,32,*(u16 *)p);*(struct MsgBank **)&p->msgBank=MSGDATA_CreateFromArchive(0,2,*(u16 *)((char *)p+2),*(u16 *)p);*(struct WordSet **)&p->wordset=WORDSET_CreateDefault(*(u16 *)p);BMP_MENUWORK_LoadCharAndPltt(0,1,12,0,*(u16 *)p);*(u32 *)&p->bmpWin=(unsigned int)BMP_WIN_Create((unsigned int)0,(unsigned int)2,(unsigned int)18,27,4,13,1);*(struct Tcbl **)&p->tcbl=(struct Tcbl *)TCBL_Create(*(u16 *)p,*(u16 *)p,10,32);*(struct U16Vec **)&p->textBuf=(struct U16Vec *)STRBUF_Create(1024,*(u16 *)p); }
 
 
 void SAVE_SCREEN_Delete(SaveScreenWork *p)
@@ -454,9 +467,9 @@ void SAVE_SCREEN_DeleteBackground(void) { BMP_WIN_Exit();BG_SYS_Delete(); }
 void SAVE_SCREEN_PrintEntry(SaveScreenWork *p,unsigned entry,unsigned index,u16 kind)
 {
     struct U16Vec *buffer;
-    buffer=STRBUF_Create(1024,p->heapId);
+    buffer=(struct U16Vec *)STRBUF_Create(1024,p->heapId);
     BMP_Clear(BMP_WIN_GetBmp(p->bmpWin),15);
-    MSGDATA_ReadString(p->msgBank,entry,buffer);
+    MSGDATA_ReadString(p->msgBank,entry,(struct Strbuf *)buffer);
     WORDSET_SetSlotMyStatus(p->wordset,0,p->anim);
     WORDSET_CopyTaggedText(p->wordset,p->textBuf,buffer);
     p->printStream=PRINTSYS_PrintStream(p->bmpWin,index,kind,p->textBuf,p->font,MSG_SPEED_GetWait(),p->tcbl,0,p->heapId,3855);
@@ -465,7 +478,7 @@ void SAVE_SCREEN_PrintEntry(SaveScreenWork *p,unsigned entry,unsigned index,u16 
 }
 
 
-void SAVE_SCREEN_SnapshotParty(SaveScreenWork *p) { u32 date[4];void *party,*rec;RTC_GetDate(date);party=GAME_DATA_GetMyParty(*(struct BigObj * *)&p->ctx);rec=GAME_DATA_GetSaveBlock42(*(void ** *)&p->ctx);DENDOU_SAVEDATA_SetRecord(rec,party,(struct Date *)date,4); }
+void SAVE_SCREEN_SnapshotParty(SaveScreenWork *p) { u32 date[4];void *party,*rec;RTC_GetDate(date);party=GAME_DATA_GetMyParty((struct GameData *)(*(struct BigObj * *)&p->ctx));rec=GAME_DATA_GetSaveBlock42((struct GameData *)(*(void ** *)&p->ctx));DENDOU_SAVEDATA_SetRecord(rec,party,(struct Date *)date,4); }
 
 
 void SAVE_SCREEN_SetTrainerDate(SaveScreenWork *p)
@@ -473,7 +486,7 @@ void SAVE_SCREEN_SetTrainerDate(SaveScreenWork *p)
     void *counter,*date;
     unsigned year,month,day;
     counter=GAME_DATA_GetTrainerRecord(p->ctx);
-    date=(void *)GAME_DATA_GetPlayTime((int)(p->ctx));
+    date=(void *)GAME_DATA_GetPlayTime((p->ctx));
     year=PLAYTIME_GetHours(date);
     month=PLAYTIME_GetMinutes(date);
     day=PLAYTIME_GetSeconds(date);
@@ -481,10 +494,10 @@ void SAVE_SCREEN_SetTrainerDate(SaveScreenWork *p)
 }
 
 
-void SAVE_SCREEN_SetTrainerFlag(SaveScreenWork *p) { void *save,*obj;save=GAME_DATA_GetSaveControl(*(struct Big * *)&p->ctx);obj=GAME_DATA_GetTrainerRecord(*(int * *)&p->ctx);if(SAVE_CONTROL_WouldOverwriteSave(save)==0)RECORD_AddCounter(obj,71,1); }
+void SAVE_SCREEN_SetTrainerFlag(SaveScreenWork *p) { void *save,*obj;save=GAME_DATA_GetSaveControl((struct GameData *)(*(struct Big * *)&p->ctx));obj=GAME_DATA_GetTrainerRecord((struct GameData *)(*(int * *)&p->ctx));if(SAVE_CONTROL_WouldOverwriteSave(save)==0)RECORD_AddCounter(obj,71,1); }
 
 
-void SAVE_SCREEN_SaveFieldClock(SaveScreenWork *p) { if(RECORD_GetCounterClamped(GAME_DATA_GetTrainerRecord(*(int * *)&p->ctx),71)==0)FIELD_CLOCK_SaveTimestamp(*(char * *)&p->ctx); }
+void SAVE_SCREEN_SaveFieldClock(SaveScreenWork *p) { if(RECORD_GetCounterClamped(GAME_DATA_GetTrainerRecord((struct GameData *)(*(int * *)&p->ctx)),71)==0)FIELD_CLOCK_SaveTimestamp((struct GameData *)(*(char * *)&p->ctx)); }
 
 
 void SAVE_SCREEN_AppendPartyRecord(SaveScreenWork *p)
@@ -504,10 +517,10 @@ void SAVE_SCREEN_AppendPartyRecord(SaveScreenWork *p)
 }
 
 
-void SAVE_SCREEN_PartSaveMain(SaveScreenWork *p) { void *save; u32 n;save=GAME_DATA_GetSaveControl(*(struct Big * *)&p->ctx);if(SAVE_CONTROL_WouldOverwriteSave(save)==0) { n=GAME_DATA_PartSaveMain(*(char * *)&p->ctx,8);if(n-2<=1) { SAVE_CONTROL_DeleteExtraSave(save,8);p->saveDoneFlag=1; } } }
+void SAVE_SCREEN_PartSaveMain(SaveScreenWork *p) { void *save; u32 n;save=GAME_DATA_GetSaveControl((struct GameData *)(*(struct Big * *)&p->ctx));if(SAVE_CONTROL_WouldOverwriteSave(save)==0) { n=GAME_DATA_PartSaveMain((struct GameData *)(*(char * *)&p->ctx),8);if(n-2<=1) { SAVE_CONTROL_DeleteExtraSave(save,8);p->saveDoneFlag=1; } } }
 
 
-int SAVE_SCREEN_NoticeInit(struct ProcOwner *obj,u32 unused,SaveScreenContext *ctx) { SaveScreenNoticeWork *p;GFL_HEAP_CreateChildHeap(1,84,0x40000);p=(SaveScreenNoticeWork *) PROCSYS_AllocProcWork(obj,28,84);MIi_CpuClear32(0,p,28);p->heapId=84;p->mode=ctx->mode;p->textSrc=ctx->textSrc;return 1; }
+int SAVE_SCREEN_NoticeInit(struct ProcOwner *obj,u32 unused,SaveScreenContext *ctx) { SaveScreenNoticeWork *p;GFL_HEAP_CreateChildHeap(1,84,0x40000);p=(SaveScreenNoticeWork *) PROCSYS_AllocProcWork((struct Proc *)obj,28,84);MIi_CpuClear32(0,p,28);p->heapId=84;p->mode=ctx->mode;p->textSrc=ctx->textSrc;return 1; }
 
 
 int SAVE_SCREEN_NoticeMain(void *input,u32 *state,u32 unused,SaveScreenNoticeWork *p)
@@ -576,15 +589,15 @@ void SAVE_SCREEN_DeleteNoticeBackground(void) { BMP_WIN_Exit();BG_SYS_Delete(); 
 void SAVE_SCREEN_PrintText(SaveScreenNoticeWork *p,u32 index,s16 x,s16 y)
 {
     struct U16Vec *msgBuf,*drawBuf;
-    msgBuf=STRBUF_Create(0x400,*(u16 *)p);
-    drawBuf=STRBUF_Create(0x400,*(u16 *)p);
+    msgBuf=(struct U16Vec *)STRBUF_Create(0x400,*(u16 *)p);
+    drawBuf=(struct U16Vec *)STRBUF_Create(0x400,*(u16 *)p);
     BMP_Clear(BMP_WIN_GetBmp(p->bmpWin),0);
     BMP_Clear(BMP_WIN_GetBmp(p->bmpWin),15);
-    MSGDATA_ReadString(p->msgBank,index,msgBuf);
+    MSGDATA_ReadString(p->msgBank,index,(struct Strbuf *)msgBuf);
     WORDSET_SetSlotMyStatus(p->wordset,1,p->textSrc);
     WORDSET_CopyTaggedText(p->wordset,drawBuf,msgBuf);
     GF_FONT_SetTextColor(1,2,15);
-    PRINTSYS_Print(BMP_WIN_GetBmp(p->bmpWin),x,y,drawBuf,p->font);
+    PRINTSYS_Print(BMP_WIN_GetBmp(p->bmpWin),x,y,(struct Strbuf *)drawBuf,p->font);
     STRBUF_Delete(msgBuf);
     STRBUF_Delete(drawBuf);
     BMP_WIN_TransferChars(p->bmpWin);

@@ -67,17 +67,21 @@ struct Sub02008C20Obj;
 struct S020314B8;
 struct Proc;
 struct Proc;
+struct GameData;
+struct MailBox;
 
-extern struct MailData *MAIL_GetBox(void *sys);
+extern struct MailBox *MAIL_GetBox(struct GameData *gameData);
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void MIi_CpuClearFast(unsigned, void *, unsigned);
-extern struct SaveControl *GAME_DATA_GetSaveControl(struct Big *p);
+struct SaveControl;
+extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gd);
 extern struct Mail *MAIL_Create(int heapId);
 extern void MAIL_Init(struct Mail *mail);
-extern void MAIL_InitForPlayer(struct Mail *mail, u8 kind, u32 unused, void *p);
-extern unsigned POKE_TOOL_GetPartyValue(void *, unsigned, unsigned);
+extern void MAIL_InitForPlayer(struct Mail *mail, unsigned char design, unsigned int unused, struct GameData *gameData);
+struct PokemonParam;
+extern unsigned POKE_TOOL_GetPartyValue(struct PokemonParam *pp, unsigned int paramId, unsigned int arg);
 extern void MAIL_SetDesign(struct Mail *mail, u32 value);
-extern void POKE_TOOL_SetPartyValue(void *p, u32 id, u32 v);
+extern void POKE_TOOL_SetPartyValue(struct PokemonParam *pp, unsigned int paramId, unsigned int value);
 extern u32 GFL_HEAP_Free(void *p);
 extern void GFL_HEAP_CreateChildHeap(unsigned, unsigned, unsigned);
 extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
@@ -89,18 +93,18 @@ extern void GF_OVERLAY_Unload(int handle);
 extern int PMSI_PARAM_CheckCanceled(struct PmsiParam *p);
 extern void PMSI_PARAM_GetSentence(struct PmsiParam *a, struct PmsData *b);
 extern unsigned int PMSI_PARAM_GetWord(struct PmsiParam *p);
-extern void PMSI_PARAM_Delete(struct PmsiParam *a);
+extern void PMSI_PARAM_Delete(void *obj);
 extern struct Sub02008C20Obj *RECORD_GetFromSave(struct SaveControl *sys);
 extern u32 RECORD_AddOne(struct Sub02008C20Obj *obj, int i);
 extern void PROCSYS_Delete(void *v);
 extern void PROCSYS_FreeProcWork(struct Proc *v);
-extern void GFL_HEAP_GetHeapHeadChecked(u16 v);
+extern void *GFL_HEAP_GetHeapHeadChecked(unsigned int heapId);
 extern void GFL_HEAP_DeleteChecked(u32 v);
 extern void PMSI_PARAM_ClearSentence(struct PmsData *p);
-extern struct PmsiParam *PMSI_PARAM_Create(u32 kind, u32 unused, struct PmsData *src, u32 flag, struct SaveControl *sys, u32 heapId);
+extern struct PmsiParam *PMSI_PARAM_Create(unsigned int inputMode, unsigned int unused, void *initialSentence, unsigned int optionFlag, void *saveControl, unsigned int heapId);
 extern void PMSI_PARAM_SetWord(struct PmsiParam *p, u16 v);
 extern void PMSI_PARAM_Copy(struct PmsData *dst, const struct PmsData *src);
-extern int PMSI_PARAM_IsEnabled(const struct PmsData *p);
+extern int PMSI_PARAM_IsEnabled(unsigned short *word);
 extern void PMSI_PARAM_InitSentence(struct PmsData *obj, u32 id);
 extern void PMSI_PARAM_SetSentence(struct PmsiParam *dst, const struct PmsData *src);
 
@@ -124,7 +128,7 @@ void *MAILTOOL_CreateWriteArgs(void *a, unsigned b, unsigned c, unsigned d, unsi
 {
     struct MailArgs *args;
     struct MailData *mailData;
-    mailData = MAIL_GetBox(a);
+    mailData = (struct MailData *)MAIL_GetBox(a);
     args = GFL_HEAP_Alloc((u16)(((u16)heap & 0x7FFF) | 0x8000), 0x1C, 0, d_021C7EE0, 0x43);
     MIi_CpuClearFast(0, args, 0x1C);
     args->designId = d;
@@ -305,7 +309,7 @@ void MAILTOOL_StartWordInput(struct MailToolProc *proc, struct MailArgs *args)
         proc->pmsiParam = PMSI_PARAM_Create(2, 0, &proc->sentence, 1, args->saveControl, proc->heapId);
     } else {
         proc->pmsiParam = PMSI_PARAM_Create(2, 0, 0, 1, args->saveControl, proc->heapId);
-        if (PMSI_PARAM_IsEnabled(&proc->draft->message[proc->draft->selectedSlot]))
+        if (PMSI_PARAM_IsEnabled((unsigned short *)(&proc->draft->message[proc->draft->selectedSlot])))
             PMSI_PARAM_Copy(&proc->sentence, &proc->draft->message[proc->draft->selectedSlot]);
         else
             PMSI_PARAM_InitSentence(&proc->sentence, 0);

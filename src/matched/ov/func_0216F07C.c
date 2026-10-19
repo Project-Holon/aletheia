@@ -1,5 +1,5 @@
 /*
- * function: EVENT_BATTLE_IntegrityProbeC
+ * function: EVENT_BATTLE_IntegrityDecoyC
  * address:  0x0216F07C
  * packet:   pkt_0216F07C
  * region:   ov010
@@ -19,7 +19,7 @@ typedef unsigned int u32;
 
 extern u32 GF_STANDARD_Rand(void);
 
-int EVENT_BATTLE_IntegrityProbeC(int a0)
+int EVENT_BATTLE_IntegrityDecoyC(int a0)
 {
 
     a0 = GF_STANDARD_Rand();

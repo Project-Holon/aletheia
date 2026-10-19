@@ -23,6 +23,12 @@
     "_ll_divmod_entry_flag0",
     "_ll_divmod_entry_flag1"
    ],
+   "addresses": [
+    "0x0209BE4C",
+    "0x0209BE5C",
+    "0x0209C00C",
+    "0x0209C018"
+   ],
    "covers": [
     "0x0209BE4C",
     "0x0209BE5C",

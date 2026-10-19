@@ -122,9 +122,11 @@ extern unsigned short WM_GetAllowedChannel(void);
 extern void DWCi_HEAPlFree_(void **mem);
 extern void MIi_CpuClear16(unsigned short data, void *destp, unsigned long size);
 extern int WM_Initialize(void *wmSysBuf, void (*callback)(void *), unsigned short dmaNo);
-extern int WM_ReadStatus(void *statusBuf);
+struct WMStatus;
+extern int WM_ReadStatus(struct WMStatus *statusBuf);
 extern unsigned short WM_GetDispersionScanPeriod(void);
-extern int WM_StartScanEx(void (*callback)(void *), void *param);
+struct WMScanExParam;
+extern int WM_StartScanEx(void (*callback)(void *), struct WMScanExParam *param);
 extern int WM_Reset(void (*callback)(void *));
 extern int WM_End(void (*callback)(void *));
 extern int memcmp(const void *a, const void *b, unsigned long n);
@@ -186,7 +188,7 @@ int DWCi_SEARCHlBegin(void)
 	if (rs != 2)
 		return 0;
 	do {
-		WM_ReadStatus(&gSearchWork->status);
+		WM_ReadStatus((struct WMStatus *)(&gSearchWork->status));
 	} while (gSearchWork->status.state != 2);
 	gSearchWork->scan = sSearchScanParam;
 	gSearchWork->scan.buf = gSearchWork->scanBuf;
@@ -200,7 +202,7 @@ int DWCi_SEARCHlBegin(void)
  */
 static int startScan(void)
 {
-	return WM_StartScanEx(callback, &gSearchWork->scan) == 2;
+	return WM_StartScanEx(callback, (struct WMScanExParam *)(&gSearchWork->scan)) == 2;
 }
 
 
@@ -212,13 +214,13 @@ int DWCi_SEARCHlStop(void)
 	int rs;
 
 	gSearchWork->flag = 1;
-	WM_ReadStatus(&gSearchWork->status);
+	WM_ReadStatus((struct WMStatus *)(&gSearchWork->status));
 	if (gSearchWork->status.state != 2) {
 		rs = WM_Reset(callback);
 		if (rs != 2)
 			return 0;
 		do {
-			WM_ReadStatus(&gSearchWork->status);
+			WM_ReadStatus((struct WMStatus *)(&gSearchWork->status));
 		} while (gSearchWork->status.state != 2);
 	}
 	rs = WM_End(callback);

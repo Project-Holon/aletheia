@@ -62,35 +62,40 @@ typedef struct {
 
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
-extern void GFL_HEAP_Free(void *);
+extern u32 GFL_HEAP_Free(void *);
+struct G3dObject;
 
-extern int G3D_SYSTEM_LoopObjectAnimeFrame(void *,int,int);
+extern int G3D_SYSTEM_LoopObjectAnimeFrame(struct G3dObject *obj, s32 anmIdx, s32 step);
 
 extern void MTX_Identity33_(void *);
+struct G3dObjectStatus;
 
-extern void G3D_SYSTEM_DrawObject(void *,struct Arg *);
+extern void G3D_SYSTEM_DrawObject(struct G3dObject *obj, struct G3dObjectStatus *status);
+struct G3dResource;
 
-extern void *G3D_SYSTEM_CreateResourceArc(u32 arcId, u32 dataId);
+extern struct G3dResource *G3D_SYSTEM_CreateResourceArc(u32 arcId, u32 dataId);
 
-extern int G3D_SYSTEM_TransVramTexture(int *self);
+extern int G3D_SYSTEM_TransVramTexture(struct G3dResource *res);
+struct G3dRender;
 
-extern void *G3D_SYSTEM_CreateRender(void *mdlRes, u32 n, void *texRes);
+extern struct G3dRender *G3D_SYSTEM_CreateRender(struct G3dResource *mdlRes, u32 mdlIdx, struct G3dResource *texRes);
+struct G3dAnime;
 
-extern struct G3dRec *G3D_SYSTEM_CreateAnime(struct G3dOwner *render, const struct G3dOwner *anmRes, int anmIdx);
+extern struct G3dAnime *G3D_SYSTEM_CreateAnime(struct G3dRender *render, struct G3dResource *anmRes, u32 anmIdx);
 
-extern void *G3D_SYSTEM_CreateObject(u32 render, u32 *anmTbl, int anmCount);
+extern struct G3dObject *G3D_SYSTEM_CreateObject(struct G3dRender *render, struct G3dAnime **anmTbl, s32 anmCount);
 
-extern u32 G3D_SYSTEM_EnableObjectAnime(struct G3dSys *sys, u32 idx);
+extern s32 G3D_SYSTEM_EnableObjectAnime(struct G3dObject *obj, u32 anmIdx);
 
-extern void G3D_SYSTEM_DeleteObject(struct Rec *p);
+extern void G3D_SYSTEM_DeleteObject(struct G3dObject *obj);
 
-extern void G3D_SYSTEM_DeleteAnime(struct Rec *p);
+extern void G3D_SYSTEM_DeleteAnime(struct G3dAnime *anime);
 
-extern void G3D_SYSTEM_DeleteRender(struct Rec *p);
+extern void G3D_SYSTEM_DeleteRender(struct G3dRender *render);
 
-extern void G3D_SYSTEM_DeleteResource(struct Tagged *p);
+extern void G3D_SYSTEM_DeleteResource(struct G3dResource *res);
 
-extern int G3D_SYSTEM_FreeVramTexture(u32 *p);
+extern int G3D_SYSTEM_FreeVramTexture(struct G3dResource *res);
 
 u8 *STA_ACT_LIGHT_AllocElem(u32 heap,u32 v);
 
@@ -121,7 +126,7 @@ void STA_ACT_LIGHT_DeleteModel(u8 *p) { if(((LightModel *)p)->resourceArc) STA_A
 
 void STA_ACT_LIGHT_StepModelAnim(u8 *p) { u8 i; if(((LightModel *)p)->resourceArc) { for(i=0;i<3;i++) G3D_SYSTEM_LoopObjectAnimeFrame(((LightModel *)p)->object,i,4096); } }
 
-void STA_ACT_LIGHT_DrawModel(u8 *p) { if(((LightModel *)p)->resourceArc) { MTX_Identity33_(d_021F8430); G3D_SYSTEM_DrawObject(((LightModel *)p)->object,&d_021F8418); } }
+void STA_ACT_LIGHT_DrawModel(u8 *p) { if(((LightModel *)p)->resourceArc) { MTX_Identity33_(d_021F8430); G3D_SYSTEM_DrawObject(((LightModel *)p)->object,(struct G3dObjectStatus *)(&d_021F8418)); } }
 
 /*
  * extent: two-byte zero padding before 021F7048.
@@ -133,22 +138,22 @@ void STA_ACT_LIGHT_CreateModel(LightModel *p, char *q) {
     p->arcs[0] = (int)G3D_SYSTEM_CreateResourceArc(0x2f, (u32)(q + 0x24));
     p->arcs[1] = (int)G3D_SYSTEM_CreateResourceArc(0x2f, (u32)(q + 0x2e));
     p->arcs[2] = (int)G3D_SYSTEM_CreateResourceArc(0x2f, (u32)(q + 0x29));
-    if (G3D_SYSTEM_TransVramTexture((int *)p->resourceArc) != 0) {
+    if (G3D_SYSTEM_TransVramTexture((struct G3dResource *)p->resourceArc) != 0) {
         p->render = (int)G3D_SYSTEM_CreateRender((void *)p->resourceArc, 0, (void *)p->resourceArc);
-        for (i = 0; i < 3; i++) p->animes[i] = (int)G3D_SYSTEM_CreateAnime((struct G3dOwner *)p->render, (const struct G3dOwner *)p->arcs[i], 0);
-        p->object = (void *)G3D_SYSTEM_CreateObject(p->render, (u32 *)p->animes, 3);
-        for (j = 0; j < 3; j++) G3D_SYSTEM_EnableObjectAnime((struct G3dSys *)p->object, j);
+        for (i = 0; i < 3; i++) p->animes[i] = (int)G3D_SYSTEM_CreateAnime((struct G3dRender *)p->render, (struct G3dResource *)p->arcs[i], 0);
+        p->object = (void *)G3D_SYSTEM_CreateObject((struct G3dRender *)p->render, (struct G3dAnime **)p->animes, 3);
+        for (j = 0; j < 3; j++) G3D_SYSTEM_EnableObjectAnime((struct G3dObject *)p->object, j);
     }
 }
 
 void STA_ACT_LIGHT_FreeModel(LightModel *p) {
     u8 i;
-    G3D_SYSTEM_DeleteObject((struct Rec *)p->object);
-    for (i = 0; i < 3; i++) G3D_SYSTEM_DeleteAnime((struct Rec *)p->animes[i]);
-    G3D_SYSTEM_DeleteRender((struct Rec *)p->render);
-    for (i = 0; i < 3; i++) G3D_SYSTEM_DeleteResource((struct Tagged *)p->arcs[i]);
-    G3D_SYSTEM_FreeVramTexture((u32 *)p->resourceArc);
-    G3D_SYSTEM_DeleteResource((struct Tagged *)p->resourceArc);
+    G3D_SYSTEM_DeleteObject((struct G3dObject *)p->object);
+    for (i = 0; i < 3; i++) G3D_SYSTEM_DeleteAnime((struct G3dAnime *)p->animes[i]);
+    G3D_SYSTEM_DeleteRender((struct G3dRender *)p->render);
+    for (i = 0; i < 3; i++) G3D_SYSTEM_DeleteResource((struct G3dResource *)p->arcs[i]);
+    G3D_SYSTEM_FreeVramTexture((struct G3dResource *)p->resourceArc);
+    G3D_SYSTEM_DeleteResource((struct G3dResource *)p->resourceArc);
     p->resourceArc = 0;
 }
 

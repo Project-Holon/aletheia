@@ -112,10 +112,11 @@ typedef struct GameClearWork {
     int frameCount;                 /* 0x78 */
 } GameClearWork;
 
-extern void SCRIPT_SYS_RunRecoverScript(struct GameSystem *gameSystem, int value);
+extern void SCRIPT_SYS_RunRecoverScript(void *fieldSys, s32 reserved);
+struct GameEvent;
 
 /* game system, game event, game data */
-extern struct GameEvent *GAME_EVENT_Create(struct GameSystem *gameSystem, void *parent, EventTaskFn taskFn, u32 workSize);
+extern struct GameEvent *GAME_EVENT_Create(struct GameSystem *gameSystem, struct GameEvent *parent, EventTaskFn taskFn, unsigned int workSize);
 
 extern void *GAME_EVENT_GetWork(struct GameEvent *event);
 
@@ -125,7 +126,7 @@ extern void GAME_EVENT_CallProc(struct GameEvent *event, u32 overlayId, const vo
 
 extern struct GameData *GAMESYSTEM_GetGameData(struct GameSystem *gameSystem);
 
-extern struct FieldMap *GAMESYSTEM_GetFieldMap(struct GameSystem *gameSystem);
+extern void *GAMESYSTEM_GetFieldMap(struct GameSystem *gameSystem);
 
 extern struct GameComm *GAMESYSTEM_GetGameComm(struct GameSystem *gameSystem);
 
@@ -139,9 +140,10 @@ extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gameData);
 
 extern struct MyStatus *GAME_DATA_GetMyStatus(struct GameData *gameData);
 
-extern struct PokeParty *GAME_DATA_GetMyParty(struct GameData *gameData);
+extern void *GAME_DATA_GetMyParty(struct GameData *gameData);
+struct PlayTime;
 
-extern int GAME_DATA_GetPlayTime(struct GameData *gameData);
+extern struct PlayTime *GAME_DATA_GetPlayTime(struct GameData *gameData);
 
 extern struct MiscSave *GAME_DATA_GetMiscSave(struct GameData *gameData);
 
@@ -150,7 +152,7 @@ extern u32 GAME_COMM_GetKind(struct GameComm *gameComm);
 
 extern void GAME_COMM_RequestExitNoCallback(struct GameComm *gameComm);
 
-extern struct Config *SYSTEM_DATA_GetConfig(struct SaveControl *saveControl);
+extern struct Config *SYSTEM_DATA_GetConfig(void *save);
 
 extern int CONFIG_GetTextLanguage(struct Config *config);
 
@@ -161,7 +163,7 @@ extern u32 GPOWER_GetSpecialPowerId(void);
 extern void GFL_USE_FadeOutBgm(u32 frames);
 
 /* field events and field */
-extern struct GameEvent *EVENT_FIELDMAP_CONTROL_StartFadeOut(struct GameSystem *gameSystem, struct FieldMap *fieldMap, u32 a, u32 b);
+extern struct GameEvent *EVENT_FIELDMAP_CONTROL_StartFadeOut(struct GameSystem *gameSystem, struct FieldMap *fieldMap, s32 effect, s32 skipWait);
 
 extern struct GameEvent *FIELD_STATUS_CreateFieldCloseNoSoundWaitEvent(struct GameSystem *gameSystem, struct FieldMap *fieldMap);
 
@@ -319,7 +321,7 @@ void EVENT_GAMECLEAR_InitHallOfFameParam(GameClearWork *work)
 {
     work->hallOfFameParam.myParty = GAME_DATA_GetMyParty(work->gameData);
     work->hallOfFameParam.myStatus = GAME_DATA_GetMyStatus(work->gameData);
-    work->hallOfFameParam.playTime = GAME_DATA_GetPlayTime(work->gameData);
+    work->hallOfFameParam.playTime = (u32)GAME_DATA_GetPlayTime(work->gameData);
 }
 
 /* Fills the staff roll and The End parameters from the config applied flag. */

@@ -206,64 +206,74 @@ typedef struct {
 } ViewerTexInfo;
 
 extern struct Obj *CLACT_CreateActor(void *res, unsigned int a, unsigned int b, unsigned int c, const void *pos, u16 f, u16 heap);
-extern void CLACT_SetActorAutoAnim(struct Obj *p, u32 v);
+extern void CLACT_SetActorAutoAnim(struct Actor *actor, u32 enable);
 extern void CLACT_ReleaseCharacter(u32 i);
 extern void CLACT_ReleasePalette(u32 i);
 extern void CLACT_ReleaseCellAnim(u32 i);
 extern u32 CLACT_DeleteUnit(struct Bank *bank);
 extern void CLACT_ExitSystem(void);
 extern void G3D_SYSTEM_Init(u32 texMode, u32 texSize, u32 plttMode, u32 plttSize, u16 fifoSize, s16 heap, void (*setup)(void));
-extern struct LightSlot *G3D_LIGHT_CreateSlots(const struct LightSet *s, u32 heap);
+struct LightSetDesc;
+struct LightSlotValue;
+extern struct LightSlotValue *G3D_LIGHT_CreateSlots(struct LightSetDesc *set, u16 heapID);
 extern void G3D_LIGHT_ApplySlots(struct LightSlot *slots);
-extern void G3D_SYSTEM_SetProjection(const u32 *src);
+struct G3dProjection;
+extern void G3D_SYSTEM_SetProjection(struct G3dProjection *proj);
 extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
-extern void G3D_LIGHT_DeleteSlots(void *p);
+extern u32 G3D_LIGHT_DeleteSlots(void *p);
 extern void G3D_SYSTEM_Exit(void);
 extern void *G3D_UTIL_Create(int a, int b, int heap);
 extern u16 G3D_UTIL_AddUnit(void *p, const void *q);
 extern u32 G3D_UTIL_GetObject(u8 *util, int i);
-extern int G3D_SYSTEM_GetObjectAnimeCount(int *p);
-extern u32 G3D_SYSTEM_EnableObjectAnime(struct G3dSys *sys, u32 idx);
+struct G3dObject;
+extern u16 G3D_SYSTEM_GetObjectAnimeCount(struct G3dObject *obj);
+extern s32 G3D_SYSTEM_EnableObjectAnime(struct G3dObject *obj, u32 anmIdx);
 extern void *G3D_CAMERA_Create(int a, int s, int c, int d, int e, int f, int g, int h, VecFx32 *pos, VecFx32 *up, VecFx32 *tgt, int heap);
 extern u32 G3D_CAMERA_Delete(void *ptr);
 extern void G3D_UTIL_RemoveUnit(struct Ctx *c, u32 i);
 extern void G3D_UTIL_Delete(struct Rec *p);
 extern void MTX_Identity33_(MtxFx33 *m);
-extern void G3D_CAMERA_Reset(struct Light *l);
-extern u32 G3D_SYSTEM_GetObjectAnimeFrame(struct AnmCtl *c, u32 idx, s32 *frame);
-extern u32 G3D_SYSTEM_SetObjectAnimeFrame(struct AnmCtl *c, u16 idx, s32 *frame);
+struct G3dCamera;
+extern void G3D_CAMERA_Reset(struct G3dCamera *camera);
+extern s32 G3D_SYSTEM_GetObjectAnimeFrame(struct G3dObject *obj, u32 anmIdx, s32 *frame);
+extern s32 G3D_SYSTEM_SetObjectAnimeFrame(struct G3dObject *obj, u16 anmIdx, s32 *frame);
 extern void G3D_SYSTEM_DrawStart(void);
 extern void G3D_SYSTEM_ApplyLookAt(void);
-extern void G3D_SYSTEM_DrawObject(void *obj, struct Arg *status);
+struct G3dObjectStatus;
+extern void G3D_SYSTEM_DrawObject(struct G3dObject *obj, struct G3dObjectStatus *status);
 extern void G3D_SYSTEM_DrawEnd(void);
 extern void BMP_WIN_Init(u16 heapId);
-extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
-extern void *BMP_WIN_GetBmp(struct Descriptor *p);
-extern void BMP_Clear(struct CharBuf *buf, u8 value);
-extern u32 BMP_WIN_Delete(struct Descriptor *d);
+struct BmpWin;
+extern struct BmpWin *BMP_WIN_Create(u32 bgLayer, u32 posX, u32 posY, u8 width, u8 height, u8 palette, u8 allocDir);
+struct Bmp;
+extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *win);
+extern void BMP_Clear(struct Bmp *bmp, u8 value);
+extern u32 BMP_WIN_Delete(struct BmpWin *win);
 extern void BMP_WIN_Exit(void);
-extern void BMP_MENUWORK_DrawWindow(void *p, int a, int b, int c);
-extern void BMP_WIN_TransferChars(struct Descriptor *d);
-extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
-extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
+extern void BMP_MENUWORK_DrawWindow(struct BmpWin *win, s32 commitMode, u16 tileBase, u32 palette);
+extern void BMP_WIN_TransferChars(struct BmpWin *win);
+extern void BMP_WIN_MakeScreen(struct BmpWin *win);
+extern u8 BMP_WIN_GetBgLayer(struct BmpWin *win);
 extern void BG_SYS_PushTile(unsigned int index);
 extern struct GfFont *GF_FONT_Create(int archiveId, int fileId, int format, int isFixedWidth, u32 heapId);
-extern u32 PRINTSYS_QUE_Create(void *p);
-extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
-extern u32 GF_FONT_Delete(void *ptr);
-extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
-extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintSys *p, void *v);
+struct PrintQueue;
+extern struct PrintQueue *PRINTSYS_QUE_Create(u32 heap);
+extern void PRINTSYS_QUE_Delete(struct PrintQueue *queue);
+extern u32 GF_FONT_Delete(struct GfFont *font);
+extern u32 PRINTSYS_QUE_Main(struct PrintQueue *queue);
+extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintQueue *queue, struct Bmp *bmp);
 extern u32 WIPE_SYS_EndCheck(void);
-extern u32 PRINTSYS_QUE_IsFinished(const struct PrintSys *p);
+extern u32 PRINTSYS_QUE_IsFinished(struct PrintQueue *queue);
 extern u32 CLACT_IsActorAnimActive(struct Actor *a);
-extern void WIPE_SYS_Start(void *divisionMode, u32 mainPattern, u32 subPattern, u32 color, u32 frames, u32 wait, u32 heapId);
-extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
-extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
-extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
+extern void WIPE_SYS_Start(void *divisionMode, u32 mainPattern, u32 subPattern, u16 color, u32 frames, u32 wait, u32 heapId);
+struct Strbuf;
+extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, struct Strbuf *dest);
+extern void PRINTSYS_PrintQueColor(struct PrintQueue *queue, struct Bmp *bmp, u32 x, s16 y, struct Strbuf *str, struct GfFont *font, u16 color);
+extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
 extern ViewerBadgeDate TRCARD_SIGN_GetBadgeDate(void *obj, int i);
 extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
-extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
-extern void STRBUF_Delete(struct U16Vec *vec);
+extern void WORDSET_CopyTaggedText(struct WordSet *words, struct Strbuf *dst, struct Strbuf *src);
+extern void STRBUF_Delete(struct Strbuf *strbuf);
 extern int TOUCHPANEL_HitTrg(const void *rects);
 extern int TOUCHPANEL_HitCont(const void *rects);
 extern u32 TOUCHPANEL_GetPointCont(u32 *outA, u32 *outB);
@@ -273,18 +283,21 @@ extern void VIEWER_ACTOR_HandleTouchDrag(ViewerTextWork *p, int idx);
 extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
 extern void UI_SetInputMode(u8 v);
 extern int GAME_DATA_ContainsRecentId(int gd, int id);
-extern void GAME_DATA_SetRecentId(void *p, u32 a, u32 b);
-extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
-extern void *GAME_DATA_GetMiscSave(int *p);
-extern u32 MISC_GetBadge(struct Blk34 *p, u32 bit);
+struct GameData;
+extern void GAME_DATA_SetRecentId(struct GameData *gd, u32 id, u32 on);
+extern void CLACT_SetActorDrawEnable(struct Actor *actor, u32 value);
+extern void *GAME_DATA_GetMiscSave(struct GameData *gd);
+struct MiscSave;
+extern u32 MISC_GetBadge(struct MiscSave *beacon, u32 bit);
 extern void GF_STANDARD_CopyCachedRtc(struct RtcDate *date, struct RtcTime *time);
 extern s64 RTC_ConvertDateTimeToSecond(const RTCDate *date, const RTCTime *time);
-extern void TRCARD_SIGN_SetLastBadgeTime(struct Sub020089A8Obj *obj, u32 lo, u32 hi);
-extern void TRCARD_SIGN_SetBadgeTimer(struct Sub020089A8Obj *obj, int i, int value);
+struct TrainerCardSignature;
+extern void TRCARD_SIGN_SetLastBadgeTime(struct TrainerCardSignature *card, u32 lo, u32 hi);
+extern void TRCARD_SIGN_SetBadgeTimer(struct TrainerCardSignature *card, s32 badge, s32 timer);
 extern void RTC_ConvertSecondToDateTime(RTCDate *date, RTCTime *time, s64 sec);
-extern unsigned long long TRCARD_SIGN_GetLastBadgeTime(const struct Sub020089A8Obj *obj);
-extern u16 TRCARD_SIGN_GetBadgeTimer(const struct Sub020089A8Obj *obj, u32 i);
-extern void GX_LoadOBJPltt(const void *src, int ofs, int size);
+extern unsigned long long TRCARD_SIGN_GetLastBadgeTime(struct TrainerCardSignature *card);
+extern u16 TRCARD_SIGN_GetBadgeTimer(struct TrainerCardSignature *card, u32 badge);
+extern void GX_LoadOBJPltt(void *pSrc, u32 offset, u32 szByte);
 extern u32 G3D_UTIL_GetResource(u8 *util, int i);
 extern ViewerTexInfo *G3D_SYSTEM_GetResourceTex(void *p);
 extern s32 NNS_GfdRegisterNewVramTransferTask(void *p, u32 a, u32 b, s32 size);
@@ -390,13 +403,13 @@ void VIEWER_ACTOR_Init3D(ViewerTextWork *p)
     void *light;
 
     G3D_SYSTEM_Init(0, 1, 0, 1, 0x1000, 0x27, 0);
-    light = G3D_LIGHT_CreateSlots((const struct LightSet *)(&d_021C8810), 0x27);
+    light = G3D_LIGHT_CreateSlots((struct LightSetDesc *)(&d_021C8810), 0x27);
     p->lightSlot = light;
     G3D_LIGHT_ApplySlots(light);
     cam = d_021C896C;
     cam.word[1] = FX_SinCosTable_[0x16C];
     cam.word[2] = FX_SinCosTable_[0x16D];
-    G3D_SYSTEM_SetProjection((const u32 *)(&cam));
+    G3D_SYSTEM_SetProjection((struct G3dProjection *)(&cam));
     BG_SYS_SetPlaneVisible(0, 1);
     *(volatile u16 *)0x04000060 = (u16)((*(volatile u16 *)0x04000060 & ~(0x2000 | 0x1000)) | 0x8);
 }
@@ -478,7 +491,7 @@ void VIEWER_ACTOR_DrawModel(ViewerTextWork *p)
     }
     G3D_SYSTEM_DrawStart();
     G3D_SYSTEM_ApplyLookAt();
-    G3D_SYSTEM_DrawObject((void *)G3D_UTIL_GetObject(p->g3dUtil, p->g3dUnit), (struct Arg *)(&t));
+    G3D_SYSTEM_DrawObject((void *)G3D_UTIL_GetObject(p->g3dUtil, p->g3dUnit), (struct G3dObjectStatus *)(&t));
     G3D_SYSTEM_DrawEnd();
     d_021C8E80.value += d_021C8E80.step;
 }
@@ -522,7 +535,7 @@ void VIEWER_ACTOR_FlushBgWindow(ViewerTextWork *p)
 void VIEWER_ACTOR_CreateFont(ViewerTextWork *p)
 {
     p->font = GF_FONT_Create(0x17, 0, 0, 0, 0x27);
-    p->printQue = (void *)PRINTSYS_QUE_Create((void *)0x27);
+    p->printQue = (void *)PRINTSYS_QUE_Create((u32)0x27);
     p->printWindow = p->bgWindow;
     p->queDirty = 0;
 }
@@ -654,7 +667,7 @@ void VIEWER_ACTOR_PrintTextAt(ViewerTextWork *p, int x, int k, int col)
 
     MSGDATA_ReadString(p->msgBank, x + d_021C8894[k], (void *)col);
     v = p->printQue;
-    PRINTSYS_PrintQueColor(v, (u32)BMP_WIN_GetBmp(p->printWindow), (int)0, (s16)(x << 5), (int)col, (u32)p->font, (int)0x44F);
+    PRINTSYS_PrintQueColor(v, (struct Bmp *)BMP_WIN_GetBmp(p->printWindow), (int)0, (s16)(x << 5), (struct Strbuf *)col, (struct GfFont *)p->font, (int)0x44F);
     p->queDirty = 1;
 }
 
@@ -685,12 +698,12 @@ void VIEWER_ACTOR_DrawLabel(ViewerTextWork *p, int mode, int idx)
         MSGDATA_ReadString(p->msgBank, idx * 3 + 0x58, str);
         WORDSET_CopyTaggedText(p->wordSet, p->strbuf, str);
         v = p->printQue;
-        PRINTSYS_PrintQueColor(v, (u32)BMP_WIN_GetBmp(p->printWindow), (int)0, (s16)0, (u32)p->strbuf, (u32)p->font, (int)0x44F);
+        PRINTSYS_PrintQueColor(v, (struct Bmp *)BMP_WIN_GetBmp(p->printWindow), (int)0, (s16)0, (struct Strbuf *)p->strbuf, (struct GfFont *)p->font, (int)0x44F);
         p->queDirty = 1;
         for (i = 1; i < 3; i++) {
             MSGDATA_ReadString(p->msgBank, i + (idx * 3 + 0x58), str);
             v = p->printQue;
-            PRINTSYS_PrintQueColor(v, (u32)BMP_WIN_GetBmp(p->printWindow), (int)0, (s16)(i << 5), (u32)str, (u32)p->font, (int)0x44F);
+            PRINTSYS_PrintQueColor(v, (struct Bmp *)BMP_WIN_GetBmp(p->printWindow), (int)0, (s16)(i << 5), (struct Strbuf *)str, (struct GfFont *)p->font, (int)0x44F);
             p->queDirty = 1;
         }
         break;

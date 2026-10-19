@@ -43,8 +43,8 @@ typedef struct RailAttr {
 } RailAttr;
 
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *file, u16 line);
-extern void GFL_HEAP_Free(void *p);
-extern void *ARC_UTIL_LoadMemberWithSize(int arcId, int dataId, int compressed, int heapId, u32 *outSize);
+extern unsigned int GFL_HEAP_Free(void *p);
+extern int ARC_UTIL_LoadMemberWithSize(int archiveID, int memberIdx, int decompress, unsigned short heapID, unsigned int *out);
 
 RailAttr *RAIL_ATTR_Create(int heapId);
 void RAIL_ATTR_Delete(RailAttr *attr);
@@ -70,7 +70,7 @@ void RAIL_ATTR_Load(RailAttr *attr, u32 dataId, u32 heapId)
     u32 i = 0;
     u32 offset;
 
-    attr->data = ARC_UTIL_LoadMemberWithSize(RAIL_ATTR_ARC_ID, dataId, 0, (u16)heapId, &attr->dataSize);
+    attr->data = (void *)ARC_UTIL_LoadMemberWithSize(RAIL_ATTR_ARC_ID, dataId, 0, (u16)heapId, &attr->dataSize);
     attr->lineCount = *(u32 *)attr->data;
     attr->lines = GFL_HEAP_Alloc((u16)heapId, attr->lineCount * 4, 1, (const char *)&d_021DE2C4, 0x86);
     offset = 4;

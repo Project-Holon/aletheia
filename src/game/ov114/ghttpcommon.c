@@ -37,14 +37,14 @@
 
 
 extern int ghiResizeBuffer(GHIBuffer *, int);
-extern int gsDebugFormat(int index, char *table, int mask, const char *fmt, ...);
+extern void gsDebugFormat(int cat, int type, int level, char *fmt, ...);
 extern void ghiResetBuffer(GHIBuffer *);
 extern void *memmove(void *, const void *, unsigned int);
 extern unsigned int current_time(void);
-extern int ghiEncryptorSslReceiveFunc(GHIConnection *connection, GHIEncryptor *encryptor, char *buffer, int *bufferLen);
+extern int ghiEncryptorSslReceiveFunc(void *connection, void *encryptor, char *buffer, int *bufferLen);
 extern int recv(int sock, char *buf, int len, int flags);
 extern int GOAGetLastError(int sock);
-extern int ghiEncryptorSslSendFunc(GHIConnection *connection, GHIEncryptor *encryptor, char *buffer, int bufferLen, int *bytesSent);
+extern int ghiEncryptorSslSendFunc(void *connection, void *encryptor, char *buffer, int bufferLen, int *bytesSent);
 extern int send(int, char *, int, int);
 extern int ghiEncryptDataToBuffer(GHIBuffer *buffer, char *data, int dataLen);
 extern int ghiSendBufferedData(GHIConnection *connection);
@@ -86,7 +86,7 @@ int ghiDecryptReceivedData(GHIConnection *connection)
         if (aResult == 2 && aWriteLen == 0)
             continue;
         if (aReadLen > connection->decodeBuffer.len) {
-            gsDebugFormat(8, (char *)4, 1, sGhttpGhidecryptreceiveddataReadPastTheEnd, aReadLen, connection->decodeBuffer.len);
+            gsDebugFormat((int)8, (int)4, 1, sGhttpGhidecryptreceiveddataReadPastTheEnd, aReadLen, connection->decodeBuffer.len);
             return 0;
         }
         connection->decodeBuffer.pos += aReadLen;

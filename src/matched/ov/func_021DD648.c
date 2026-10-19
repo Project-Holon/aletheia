@@ -1,5 +1,5 @@
 /*
- * function: HAND_ITEM_FlavorHealDefense
+ * function: HAND_ITEM_WikiBerryFlavorHeal
  * address:  0x021DD648
  * packet:   pkt_021DD614
  * region:   ov093
@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   HAND_ITEM_FlavorHealDefense   0x021DD648  thumb
+ *   HAND_ITEM_WikiBerryFlavorHeal   0x021DD648  thumb
  *   HAND_ITEM_FlavorHeal   0x021DD7B8  thumb
  * Leaf with no calls and no pool; 7 instructions, 16 bytes: push {r3, r4, lr}; sub sp, #4; movs r4, #1; str r4, [sp]; bl HAND_ITEM_FlavorHeal; add sp, #4; pop {r3, r4, pc}.
  */
@@ -23,5 +23,5 @@ typedef signed short s16;
 typedef signed int s32;
 
 /* 021DD648  stack-arg wrapper: HAND_ITEM_FlavorHeal(a, b, c, d, 0x1) */
-void HAND_ITEM_FlavorHealDefense(int a, int b, int c, int d) { HAND_ITEM_FlavorHeal(a, b, c, d, 0x1); }
+void HAND_ITEM_WikiBerryFlavorHeal(int a, int b, int c, int d) { HAND_ITEM_FlavorHeal(a, b, c, d, 0x1); }
 

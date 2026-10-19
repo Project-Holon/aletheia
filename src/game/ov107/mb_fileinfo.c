@@ -168,22 +168,23 @@ extern s32 FS_ReadFile(struct FSFile *file, void *buffer, s32 length);
 extern int FS_SeekFile(struct FSFile *file, long offset, int origin);
 extern void *CARD_GetOwnRomHeader(void);
 extern void FS_InitFile(FSFile *file);
-extern void *FS_FindArchive(char *name, int name_len);
-extern int FS_OpenFileDirect(FSFile *file, void *arc, u32 image_top, u32 image_bottom, u32 id);
+struct FSArchive;
+extern struct FSArchive *FS_FindArchive(char *name, int name_len);
+extern int FS_OpenFileDirect(FSFile *file, struct FSArchive *arc, u32 image_top, u32 image_bottom, u32 id);
 extern void MI_CpuCopy8(const void *srcp, void *dstp, u32 size);
 extern void *CARDi_GetRomCacheBuffer(void);
-extern void MBi_InitCache(MBiCacheList *pl);
+extern void MBi_InitCache(void *pl);
 extern void MBi_AttachCacheBuffer(MBiCacheList *pl, u32 src, u32 len, void *ptr, u32 state);
 extern u32 FS_GetFileImageTop(FSFile *file);
 extern int FS_CloseFile(FSFile *file);
 void MBi_ReadSegmentHeader(MbSegmentHeaderInfo *p, u32 top, u32 bottom, int clean);
 extern void DC_FlushRange(void *startAddr, u32 nBytes);
-extern void _start_AutoloadDoneCallback(void);
+extern void _start_AutoloadDoneCallback(void **argv);
 extern void MI_CpuFill8(void *dstp, unsigned char data, unsigned long size);
 extern unsigned long OS_DisableInterrupts(void);
 extern int MBi_IsStarted(void);
 extern unsigned long OS_RestoreInterrupts(unsigned long state);
-extern void MBi_MakeGameInfo(void *, struct MBGameRegistry *, void *);
+extern void MBi_MakeGameInfo(u8 *gameInfop, u8 *mbGameRegp, u8 *parent);
 extern void MB_AddGameInfo(void *);
 extern int MBi_IsTaskAvailable(void);
 extern void MBi_InitTaskInfo(void *);
@@ -510,7 +511,7 @@ int MB_RegisterFile(struct MBGameRegistry *game_reg, void *buf)
         OS_RestoreInterrupts(enabled);
         return 0;
     }
-    MBi_MakeGameInfo((unsigned char *)mbc + 0x186c + fileID * 0x5D4, game_reg,
+    MBi_MakeGameInfo((u8 *)mbc + 0x186c + fileID * 0x5D4, (u8 *)game_reg,
                      (unsigned char *)mbc + 0x1300);
     *(u8 *)(E(fileID) + 0xd21) = fileID;
     MB_AddGameInfo((unsigned char *)mbc + 0x186c + fileID * 0x5D4);

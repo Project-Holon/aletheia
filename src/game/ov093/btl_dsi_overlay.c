@@ -23,13 +23,13 @@
 
 extern u32 OS_GetConsoleType(void);
 
-extern int GF_OVERLAY_Load(const void *overlayId);
+extern int GF_OVERLAY_Load(s32 handle);
 
-extern void GF_OVERLAY_Unload(const void *overlayId);
+extern void GF_OVERLAY_Unload(s32 handle);
 
-extern int GF_OVERLAY_Load(const void *overlayId);
+extern int GF_OVERLAY_Load(s32 handle);
 
-extern void GF_OVERLAY_Unload(const void *overlayId);
+extern void GF_OVERLAY_Unload(s32 handle);
 
 void BTLV_CORE_LoadDsiOverlay(void);
 
@@ -42,7 +42,7 @@ extern int gBtlvCoreDsiOverlayLoaded;
 void BTLV_CORE_LoadDsiOverlay(void)
 {
     if (OS_GetConsoleType() & 0x02000000) {
-        GF_OVERLAY_Load(ov140_id);
+        GF_OVERLAY_Load((s32)ov140_id);
         gBtlvCoreDsiOverlayLoaded = 1;
     } else {
         gBtlvCoreDsiOverlayLoaded = 0;
@@ -52,7 +52,7 @@ void BTLV_CORE_LoadDsiOverlay(void)
 void BTLV_CORE_UnloadDsiOverlay(void)
 {
     if (gBtlvCoreDsiOverlayLoaded != 0) {
-        GF_OVERLAY_Unload(ov140_id);
+        GF_OVERLAY_Unload((s32)ov140_id);
         gBtlvCoreDsiOverlayLoaded = 0;
     }
 }

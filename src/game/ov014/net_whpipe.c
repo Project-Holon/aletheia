@@ -139,7 +139,7 @@ extern unsigned long WIH_GetBeaconSendCount(void *unused);
 
 void DC_FlushRange(void *p, u32 n);
 
-void DWCi_MOV_WH_SetUserGameInfo(void *p, u32 n);
+void DWCi_MOV_WH_SetUserGameInfo(void *userGameInfo, u16 length);
 
 u32 GFL_USE_GetRandom(u32 n);
 

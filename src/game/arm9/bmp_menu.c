@@ -114,28 +114,33 @@ extern void BG_SYS_PushTile(u32 index);
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
 extern u32 GFL_HEAP_Free(void *p);
+struct MenuCursor;
 
-extern struct BmpCursor *BMP_CURSOR_Create(u32 heap);
+extern struct MenuCursor *BMP_CURSOR_Create(u32 heap);
 
-extern void BMP_CURSOR_SetTileBitmap(struct BmpCursor *cursor, int heapId);
+extern void BMP_CURSOR_SetTileBitmap(struct MenuCursor *cursor, s32 heap);
 
-extern void BMP_CURSOR_Delete(struct BmpCursor *p);
+extern void BMP_CURSOR_Delete(struct MenuCursor *cursor);
 
 extern u32  KEY_GetTrg(void);
 
 extern void GFL_USE_PlaySeDefaultVolume(u32 id);
+struct Bmp;
 
-extern void *BMP_WIN_GetBmp(struct BmpWin *p);
+extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *p);
+struct Bmp;
 
-extern void BMP_FillRect(void *bitmap, u32 x, u32 y, u32 w, u32 h, u32 value);
+extern void BMP_FillRect(struct Bmp *bmp, u32 x, u32 y, u32 w, u16 h, u8 value);
+struct Strbuf;
 
-extern u32 PRINTSYS_MeasureWidestLine(const void *str, struct GfFont *font, u32 flags);
+extern u32 PRINTSYS_MeasureWidestLine(struct Strbuf *text, struct GfFont *font, u32 spacing);
 
-extern void BMP_Clear(void *bitmap, u8 value);
+extern void BMP_Clear(struct Bmp *bmp, u8 value);
 
 extern void PRINTSYS_PrintQue(void *que, void *bitmap, u32 x, u32 y, const void *str, struct GfFont *font);
+struct MenuTarget;
 
-extern void BMP_CURSOR_Draw(struct BmpCursor *c, u32 x, u32 y, PrintUtil *util, void *que, struct GfFont *font);
+extern void BMP_CURSOR_Draw(struct MenuCursor *cursor, u32 x, u32 y, struct MenuTarget *target, void *printer, u32 param);
 
 extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 
@@ -143,7 +148,7 @@ extern u32 MSGDATA_Delete(struct MsgBank *bank);
 
 extern void  MI_CpuFill8(void *dest, u8 value, u32 size);
 
-extern struct BmpWin *BMP_WIN_Create(u32 bgFrame, u32 x, u32 y, u32 width, u8 height, u8 palette, u8 slotId);
+extern struct BmpWin *BMP_WIN_Create(u32 bgLayer, u32 posX, u32 posY, u8 width, u8 height, u8 palette, u8 allocDir);
 
 extern struct GfFont *GF_FONT_Create(int fontKind, int flagA, int flagB, int flagC, u32 heapId);
 
@@ -154,12 +159,13 @@ extern void *PRINTSYS_QUE_Create(void *heapIdAsPtr);
 extern void BMP_WIN_MakeScreen(struct BmpWin *cfg);
 
 extern void BMP_WIN_TransferChars(struct BmpWin *win);
+struct PrintQueue;
 
-extern u32 PRINTSYS_QUE_Main(void *que);
+extern u32 PRINTSYS_QUE_Main(struct PrintQueue *queue);
 
-extern void PRINTSYS_QUE_Clear(void *que);
+extern void PRINTSYS_QUE_Clear(struct PrintQueue *queue);
 
-extern void PRINTSYS_QUE_Delete(void *que);
+extern void PRINTSYS_QUE_Delete(struct PrintQueue *queue);
 
 extern u32 GF_FONT_Delete(struct GfFont *font);
 
@@ -233,14 +239,14 @@ BmpMenu *BMP_MENU_Create(const BmpMenuHeader *header, u8 originX, u8 originY, u8
     BmpMenu *menu = GFL_HEAP_Alloc((u32)(int)heapId, sizeof(BmpMenu), 1, sBmpMenuFile, 0x61);
 
     menu->header = *header;
-    menu->cursor = BMP_CURSOR_Create(heapId);
+    menu->cursor = (struct BmpCursor *)BMP_CURSOR_Create(heapId);
     menu->cancelMask = cancelMask;
     menu->selected = startPos;
     menu->colWidth = BMP_MENU_GetMaxItemWidth(menu);
     menu->heapId = heapId;
     menu->originX = originX;
     menu->originY = originY;
-    BMP_CURSOR_SetTileBitmap(menu->cursor, (u32)heapId);
+    BMP_CURSOR_SetTileBitmap((struct MenuCursor *)menu->cursor, (u32)heapId);
     menu->xPad = menu->header.xPad;
     menu->lineHeight = menu->header.lineHeight;
     BMP_MENU_DrawItems(menu);
@@ -278,7 +284,7 @@ void BMP_MENU_Delete(BmpMenu *menu, u8 *outSelected)
     if (outSelected != 0) {
         *outSelected = menu->selected;
     }
-    BMP_CURSOR_Delete(menu->cursor);
+    BMP_CURSOR_Delete((struct MenuCursor *)menu->cursor);
     GFL_HEAP_Free(menu);
 }
 
@@ -459,7 +465,7 @@ u32 BMP_MENU_GetMaxItemWidth(BmpMenu *menu)
     u8 idx;
 
     for (idx = 0; idx < menu->header.numColumns * menu->header.itemsPerColumn; idx++) {
-        u32 width = (u8)PRINTSYS_MeasureWidestLine(menu->header.items[idx].u.text, menu->header.fontH, 0);
+        u32 width = (u8)PRINTSYS_MeasureWidestLine((struct Strbuf *)menu->header.items[idx].u.text, menu->header.fontH, 0);
 
         if (maxWidth < width) {
             maxWidth = width;
@@ -527,7 +533,7 @@ void BMP_MENU_DrawCursor(BmpMenu *menu)
 
     if (menu->header.cursorMode != 1) {
         BMP_MENU_GetItemPixelPos(menu, &x, &y, menu->selected);
-        BMP_CURSOR_Draw(menu->cursor, x, y, menu->header.util, menu->header.que, menu->header.fontH);
+        BMP_CURSOR_Draw((struct MenuCursor *)menu->cursor, (u32)x, (u32)y, (struct MenuTarget *)menu->header.util, menu->header.que, (u32)menu->header.fontH);
     }
 }
 

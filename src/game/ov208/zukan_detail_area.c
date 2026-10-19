@@ -211,6 +211,10 @@
  *   ZUKAN_DETAIL_TOUCHBAR_SetButtonAnimSeq  0x021BDC14  thumb
  *   ZUKAN_DETAIL_GRAPHIC_Reset3dState 0x021BCF4C thumb ov208
  *   ZUKAN_DETAIL_TOUCHBAR_IsButtonAnimActive 0x021BDC2C thumb ov208
+ *   _fadd                        0x0209C95C  arm
+ *   _ffix                        0x0209C494  arm
+ *   _fflt                        0x0209BDBC  arm
+ *   _fsub                        0x0209CB8C  arm
  */
 #include "zukan_detail_types.h"
 #include "zukan_detail_shared_types.h"

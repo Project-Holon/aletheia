@@ -49,6 +49,7 @@
  *   BMP_GetPixels  0x020437D4  arm
  *   MIi_CpuCopy32  0x02082A90  arm
  *   APP_ICON_GetArchiveId 0x020275E4 thumb arm9
+ *   _u32_div_f                   0x0209C2B0  arm
  */
 #include "beacon_status_shared_types.h"
 
@@ -168,15 +169,15 @@ extern void BMP_WIN_TransferChars(struct BmpWin *win);
 
 extern void BMP_WIN_MakeScreen(struct BmpWin *win);
 
-extern struct BmpWin *BMP_WIN_Create(u32 bgFrame, u32 charPosX, u32 charPosY, u32 sizeX, u8 sizeY,
-                                   u8 palNo, u8 dir);
+extern struct BmpWin *BMP_WIN_Create(u32 bgLayer, u32 posX, u32 posY, u8 width, u8 height, u8 palette, u8 allocDir);
+struct GfFont;
+struct Strbuf;
 
-extern void PRINTSYS_PrintQueColor(struct PrintQueue *printQue, struct Bmp *bmp, u32 x, u32 y,
-                         struct StrBuf *str, struct GFont *font, u16 color);
+extern void PRINTSYS_PrintQueColor(struct PrintQueue *queue, struct Bmp *bmp, u32 x, s16 y, struct Strbuf *str, struct GfFont *font, u16 color);
 
 extern void BMP_WIN_SetPalette(struct BmpWin *win, u8 palNo);
 
-extern s32 NNS_GfdRegisterNewVramTransferTask(u32 transType, u32 offset, const void *src, s32 size);
+extern s32 NNS_GfdRegisterNewVramTransferTask(void *pTaskFunc, u32 dstOffset, u32 srcAddr, s32 szByte);
 
 extern u8 UI_GetInputMode(void);
 
@@ -190,11 +191,11 @@ extern void GFL_USE_PlaySeDefaultVolume(u32 seId);
 
 extern int TOUCHPANEL_HitTrg(const void *hitTbl);
 
-extern void *ARC_UTIL_LoadBgCharDataFromArchive(u32 arcId, u32 datId, u32 compressed, TaskMenuChrData **chrData, u16 heapId);
+extern void *ARC_UTIL_LoadBgCharDataFromArchive(u32 archiveID, u32 memberIdx, u32 heapID, void *unpackedOut, u16 flags);
 
 extern void ARC_UTIL_UploadPaletteFromArchiveWhole(u32 arcId, u32 datId, u32 pltType, u32 offset, u32 size, u16 heapId);
 
-extern u32 PRINTSYS_MeasureWidestLine(struct StrBuf *str, struct GFont *font, u32 margin);
+extern u32 PRINTSYS_MeasureWidestLine(struct Strbuf *text, struct GfFont *font, u32 spacing);
 
 extern u32 TOUCHPANEL_GetPointTrg(u32 *x, u32 *y);
 
@@ -504,7 +505,7 @@ void APP_TASKMENU_CreateWindows(TaskMenuWork *menu, TaskMenuRes *res)
         items = menu->itemWork;
         item = &items[i];
         PRINTSYS_PrintQueColor(res->printQue, BMP_WIN_GetBmp(menu->winWork[i]), 0xa, 6,
-                     items[i].str, res->font, item->msgColor);
+                     (struct Strbuf *)items[i].str, (struct GfFont *)res->font, item->msgColor);
         win = menu->winWork[i];
         BMP_WIN_TransferChars(win);
         BMP_WIN_MakeScreen(win);
@@ -545,9 +546,9 @@ void APP_TASKMENU_UpdateCursorColor(u16 *colorPhase, u16 *color, u32 bgFrame, u3
     g = (u8)(((wave * 15) >> 12) + 0xa);
     *color = (u16)(r | (g << 5) | (b << 10));
     if (bgFrame <= 3) {
-        NNS_GfdRegisterNewVramTransferTask(0xf, palNo * 32 + 0xc, color, 2);
+        (void *)NNS_GfdRegisterNewVramTransferTask((void *)0xf, (u32)(palNo * 32 + 0xc), (u32)color, 2);
     } else {
-        NNS_GfdRegisterNewVramTransferTask(0x1f, palNo * 32 + 0xc, color, 2);
+        (void *)NNS_GfdRegisterNewVramTransferTask((void *)0x1f, (u32)(palNo * 32 + 0xc), (u32)color, 2);
     }
 }
 
@@ -583,9 +584,9 @@ void APP_TASKMENU_UpdateCursorColorBlend(u16 *colorPhase, u16 *color, u16 bgFram
     g = (u8)(g0 + ((wave * (g1 - g0)) >> 12));
     *color = (u16)(r | (g << 5) | (b << 10));
     if (bgFrame <= 3) {
-        NNS_GfdRegisterNewVramTransferTask(0xf, palNo * 32 + 0xc, color, 2);
+        (void *)NNS_GfdRegisterNewVramTransferTask((void *)0xf, (u32)(palNo * 32 + 0xc), (u32)color, 2);
     } else {
-        NNS_GfdRegisterNewVramTransferTask(0x1f, palNo * 32 + 0xc, color, 2);
+        (void *)NNS_GfdRegisterNewVramTransferTask((void *)0x1f, (u32)(palNo * 32 + 0xc), (u32)color, 2);
     }
 }
 
@@ -758,7 +759,7 @@ TaskMenuRes *APP_TASKMENU_RES_Create(u16 bgFrame, u16 palNo, struct GFont *font,
     if (bgFrame > 3) {
         pltType = 4;
     }
-    res->chrBuf = ARC_UTIL_LoadBgCharDataFromArchive(APP_ICON_GetArchiveId(), 0x20, 0, &res->chrData, heapId);
+    res->chrBuf = ARC_UTIL_LoadBgCharDataFromArchive((u32)(APP_ICON_GetArchiveId()), (u32)0x20, (u32)0, (&res->chrData), heapId);
     ARC_UTIL_UploadPaletteFromArchiveWhole(APP_ICON_GetArchiveId(), 0x1f, pltType, palNo << 5, 0x40, heapId);
     return res;
 }
@@ -825,11 +826,11 @@ TaskMenuWin *APP_TASKMENU_WIN_CreateCore(TaskMenuRes *res, const TaskMenuItem *i
     win->bmpWin = bmpWin;
     APP_TASKMENU_DrawWinFrame(bmpWin, res, frameStyle);
     if (isCenter == 1) {
-        strX = (u8)(((width << 3) - PRINTSYS_MeasureWidestLine(item->str, res->font, 0)
+        strX = (u8)(((width << 3) - PRINTSYS_MeasureWidestLine((struct Strbuf *)item->str, (struct GfFont *)res->font, 0)
                      - 0x10) >> 1);
     }
     PRINTSYS_PrintQueColor(res->printQue, BMP_WIN_GetBmp(win->bmpWin),
-                 (s16)(strX + 8), 6, item->str, res->font, item->msgColor);
+                 (s16)(strX + 8), 6, (struct Strbuf *)item->str, (struct GfFont *)res->font, item->msgColor);
     win->activeColor0 = 0x3545;
     win->activeColor1 = 0x7B2C;
     return win;

@@ -176,56 +176,69 @@ extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fi
 extern void BMP_MENUWORK_LoadCharAndPltt(u32 a, u32 b, u32 c, u32 d, u16 e);
 extern void ARC_UTIL_UploadPaletteFromArchiveWhole(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void GF_FONT_SetDefaultTextColor(void);
-extern struct Tcbl *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
-extern struct PrintSys *PRINTSYS_QUE_Create(void *heapId);
-extern struct TaskMenuRes *APP_TASKMENU_RES_Create(u16 bgFrame, u16 palNo, struct GfFont *font, struct PrintSys *que, u16 heap);
-extern unsigned APP_KEYCURSOR_CreateDefault(int, int, int, unsigned);
+struct TcblSystem;
+extern struct TcblSystem *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
+struct PrintQueue;
+extern struct PrintQueue *PRINTSYS_QUE_Create(u32 heap);
+struct GFont;
+extern struct TaskMenuRes *APP_TASKMENU_RES_Create(u16 bgFrame, u16 palNo, struct GFont *font, struct PrintQueue *printQue, u16 heapId);
+struct KeyCursor;
+extern struct KeyCursor *APP_KEYCURSOR_CreateDefault(u32 id, u32 isLive, u32 isFlip, u16 heapId);
 extern int GF_OVERLAY_Load(int);
-extern struct TalkMsgWin *TALKMSGWIN_Create(u16 *param);
-extern void TALKMSGWIN_Delete(struct TalkMsgWin *win);
-extern void APP_TASKMENU_CloseMenu(struct TaskMenu *m);
+struct TalkMsgWinParam;
+struct TalkMsgWinSys;
+extern struct TalkMsgWinSys *TALKMSGWIN_Create(struct TalkMsgWinParam *param);
+extern void TALKMSGWIN_Delete(struct TalkMsgWinSys *sys);
+struct TaskMenuWork;
+extern void APP_TASKMENU_CloseMenu(struct TaskMenuWork *menu);
 extern void BMP_MENU_DeleteYesNo(void *menu);
 extern void TIME_ICON_Delete(struct TimeIcon *icon);
-extern int APP_KEYCURSOR_Delete(u32 cursor);
-extern unsigned int APP_TASKMENU_RES_Delete(struct TaskMenuRes *res);
-extern void PRINTSYS_QUE_Delete(struct PrintSys *que);
-extern void PRINTSYS_PrintStreamDelete(struct PrintStream *stream);
-extern void STRBUF_Delete(struct StrBuf *buf);
+extern void APP_KEYCURSOR_Delete(struct KeyCursor *cursor);
+extern void APP_TASKMENU_RES_Delete(struct TaskMenuRes *res);
+extern void PRINTSYS_QUE_Delete(struct PrintQueue *queue);
+struct TextPrinter;
+extern void PRINTSYS_PrintStreamDelete(struct TextPrinter *printer);
+struct Strbuf;
+extern void STRBUF_Delete(struct Strbuf *strbuf);
 extern unsigned int MSGDATA_Delete(struct MsgBank *bank);
 extern unsigned int BMP_WIN_Delete(struct BmpWin *win);
 extern unsigned int GF_FONT_Delete(struct GfFont *font);
-extern void TCBL_Destroy(struct Tcbl *tcbl);
+extern void TCBL_Destroy(struct TcblSystem *tcbl);
 extern u32 GFL_HEAP_Free(void *p);
 extern void GF_OVERLAY_Unload(int);
-extern void TCBL_Main(struct Tcbl *tcbl);
-extern void APP_KEYCURSOR_Update(u32 cursor, struct PrintStream *stream, struct BmpWin *win);
+extern void TCBL_Main(struct TcblSystem *tcbl);
+extern void APP_KEYCURSOR_Update(struct KeyCursor *cursor, struct TextPrinter *printStream, void *win);
 extern void BMP_WIN_TransferChars(struct BmpWin *);
-extern void APP_TASKMENU_UpdateMenu(struct TaskMenu *);
-extern int PRINTSYS_CTRL_Update(u8 *cursorState, struct PrintStream *stream);
-extern unsigned int PRINTSYS_QUE_Main(struct PrintSys *ps);
-extern unsigned int PRINTSYS_QUE_IsFinished(const struct PrintSys *p);
-extern struct TimeIcon *TIME_ICON_CreateNode(struct Tcbl *tcbl, struct BmpWin *win, u8 c, u8 d, u16 e);
-u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
+extern void APP_TASKMENU_UpdateMenu(struct TaskMenuWork *menu);
+struct PrintStreamCtrl;
+extern int PRINTSYS_CTRL_Update(struct PrintStreamCtrl *ctrl, struct TextPrinter *stream);
+extern unsigned int PRINTSYS_QUE_Main(struct PrintQueue *queue);
+extern unsigned int PRINTSYS_QUE_IsFinished(struct PrintQueue *queue);
+struct TcblList;
+extern struct TimeIcon *TIME_ICON_CreateNode(struct TcblList *nodeList, struct BmpWin *refWin, u8 fillColor, u8 waitInterval, u16 heapId);
+struct BmpWin *BMP_WIN_Create(u32 bgLayer, u32 posX, u32 posY, u8 width, u8 height, u8 palette, u8 allocDir);
 void *BMP_WIN_GetBmp(struct BmpWin *p);
 void BMP_Clear(void *buf, u8 value);
 void BMP_WIN_MakeScreen(struct BmpWin *win);
 void BG_SYS_PushTile(u32 index);
 struct StrBuf *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
-struct StrBuf *STRBUF_Create(u32 capacity, u32 heapId);
-void WORDSET_CopyTaggedText(struct WordSet *ws, struct StrBuf *dst, struct StrBuf *src);
-int TALKMSGWIN_DrawWindowFrame(struct TalkMsgWin *, struct BmpWin *, int);
+struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
+void WORDSET_CopyTaggedText(struct WordSet *words, struct Strbuf *dst, struct Strbuf *src);
+void TALKMSGWIN_DrawWindowFrame(struct TalkMsgWinSys *sys, struct BmpWin *bmpWin, unsigned int frameType);
 void BMP_MENUWORK_DrawWindow(struct BmpWin *, int, int, int);
 struct PrintStream *PRINTSYS_PrintStream(struct BmpWin *, int, int, struct StrBuf *, struct GfFont *, int, struct Tcbl *, int, int, int);
-void PRINTSYS_CTRL_Init(u8 *cursorState, u32 v);
-void PRINTSYS_PrintQue(struct PrintSys *p, u32 a, u32 b, u32 c, struct StrBuf *s, u32 e);
-int TALKMSGWIN_ClearWindowFrame(struct TalkMsgWin *, struct BmpWin *);
+void PRINTSYS_CTRL_Init(struct PrintStreamCtrl *ctrl, unsigned int inputType);
+struct Bmp;
+void PRINTSYS_PrintQue(struct PrintQueue *queue, struct Bmp *bmp, u32 x, s16 y, struct Strbuf *str, struct GfFont *font);
+void TALKMSGWIN_ClearWindowFrame(struct TalkMsgWinSys *sys, struct BmpWin *bmpWin);
 void BMP_MENUWORK_DrawWindowBorder(struct BmpWin *win, u32 kind);
-struct WordSet *WORDSET_CreateDefault(u32 heap);
+struct WordSet *WORDSET_CreateDefault(u16 heapId);
 u32 WORDSET_Delete(struct WordSet *p);
 void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
-extern struct TaskMenu *APP_TASKMENU_OpenMenu(MbMenuTemplate *tmpl, struct TaskMenuRes *res);
-extern u32 APP_TASKMENU_IsFinish(struct TaskMenu *m);
-extern unsigned char APP_TASKMENU_GetCursorPos(struct TaskMenu *);
+struct TaskMenuInitWork;
+extern struct TaskMenuWork *APP_TASKMENU_OpenMenu(struct TaskMenuInitWork *init, struct TaskMenuRes *res);
+extern u32 APP_TASKMENU_IsFinish(struct TaskMenuWork *menu);
+extern unsigned char APP_TASKMENU_GetCursorPos(struct TaskMenuWork *menu);
 void *BMP_MENU_CreateYesNo(MbWinRect *rect, int base, int pal, int pos, int heap);
 u32 BMP_MENU_ProcessYesNo(void *menu);
 extern const char d_021F6E38[];
@@ -281,15 +294,15 @@ MbMsgWork *MB_UTIL_MSG_Create(u16 heapId, u32 bgFrame, u32 menuBgFrame, u32 msgF
     else
         ARC_UTIL_UploadPaletteFromArchiveWhole(0x17, 5, 4, 0x1C0, 0x20, w->heapId);
     GF_FONT_SetDefaultTextColor();
-    w->tcbl = TCBL_Create(w->heapId, w->heapId, 3, 0x100);
+    w->tcbl = (struct Tcbl *)TCBL_Create(w->heapId, w->heapId, 3, 0x100);
     w->stream = 0;
     w->message = 0;
     w->wordSet = 0;
-    w->printQue = PRINTSYS_QUE_Create((void *)w->heapId);
-    w->taskMenuRes = APP_TASKMENU_RES_Create(w->menuBgFrame, 10, w->font, w->printQue, w->heapId);
+    w->printQue = (struct PrintSys *)PRINTSYS_QUE_Create((u32)w->heapId);
+    w->taskMenuRes = APP_TASKMENU_RES_Create(w->menuBgFrame, 10, (struct GFont *)w->font, (struct PrintQueue *)w->printQue, w->heapId);
     w->taskMenu = 0;
     w->yesNoMenu = 0;
-    w->keyCursor = APP_KEYCURSOR_CreateDefault(0xF, cursor, 1, w->heapId);
+    w->keyCursor = (u32)APP_KEYCURSOR_CreateDefault(0xF, cursor, 1, w->heapId);
     GF_OVERLAY_Load((int)ov021_id);
     if (useTalkWin == 1) {
         talk.heapId = heapId;
@@ -299,7 +312,7 @@ MbMsgWork *MB_UTIL_MSG_Create(u16 heapId, u32 bgFrame, u32 menuBgFrame, u32 msgF
         talk.bgFrame = bgFrame;
         talk.x = 12;
         talk.y = 14;
-        w->talkWin = TALKMSGWIN_Create(&talk.heapId);
+        w->talkWin = (struct TalkMsgWin *)TALKMSGWIN_Create((struct TalkMsgWinParam *)(&talk.heapId));
     } else {
         w->talkWin = 0;
     }
@@ -313,29 +326,29 @@ MbMsgWork *MB_UTIL_MSG_Create(u16 heapId, u32 bgFrame, u32 menuBgFrame, u32 msgF
 void MB_UTIL_MSG_Delete(MbMsgWork *work)
 {
     if (work->talkWin)
-        TALKMSGWIN_Delete(work->talkWin);
+        TALKMSGWIN_Delete((struct TalkMsgWinSys *)work->talkWin);
     if (work->taskMenu)
-        APP_TASKMENU_CloseMenu(work->taskMenu);
+        APP_TASKMENU_CloseMenu((struct TaskMenuWork *)work->taskMenu);
     if (work->yesNoMenu)
         BMP_MENU_DeleteYesNo(work->yesNoMenu);
     if (work->timeIcon) {
         TIME_ICON_Delete(work->timeIcon);
         work->timeIcon = 0;
     }
-    APP_KEYCURSOR_Delete(work->keyCursor);
+    APP_KEYCURSOR_Delete((struct KeyCursor *)work->keyCursor);
     APP_TASKMENU_RES_Delete(work->taskMenuRes);
-    PRINTSYS_QUE_Delete(work->printQue);
+    PRINTSYS_QUE_Delete((struct PrintQueue *)work->printQue);
     if (work->stream)
-        PRINTSYS_PrintStreamDelete(work->stream);
+        PRINTSYS_PrintStreamDelete((struct TextPrinter *)work->stream);
     if (work->message)
-        STRBUF_Delete(work->message);
+        STRBUF_Delete((struct Strbuf *)work->message);
     if (work->wordSet)
         MB_UTIL_MSG_DeleteWordSet(work);
     MSGDATA_Delete(work->msgData);
     if (work->window)
         BMP_WIN_Delete(work->window);
     GF_FONT_Delete(work->font);
-    TCBL_Destroy(work->tcbl);
+    TCBL_Destroy((struct TcblSystem *)work->tcbl);
     GFL_HEAP_Free(work);
     GF_OVERLAY_Unload((int)ov021_id);
 }
@@ -343,26 +356,26 @@ void MB_UTIL_MSG_Delete(MbMsgWork *work)
 void MB_UTIL_MSG_Main(MbMsgWork *work)
 {
     int done;
-    TCBL_Main(work->tcbl);
+    TCBL_Main((struct TcblSystem *)work->tcbl);
     if (work->stream) {
-        done = PRINTSYS_CTRL_Update(work->keyCursorState, work->stream);
-        APP_KEYCURSOR_Update(work->keyCursor, work->stream, work->window);
+        done = PRINTSYS_CTRL_Update((struct PrintStreamCtrl *)work->keyCursorState, (struct TextPrinter *)work->stream);
+        APP_KEYCURSOR_Update((struct KeyCursor *)work->keyCursor, (struct TextPrinter *)work->stream, work->window);
         if (done == 1) {
-            PRINTSYS_PrintStreamDelete(work->stream);
+            PRINTSYS_PrintStreamDelete((struct TextPrinter *)work->stream);
             work->stream = 0;
         }
     }
-    PRINTSYS_QUE_Main(work->printQue);
-    if (work->printQueued == 1 && PRINTSYS_QUE_IsFinished(work->printQue) == 1) {
+    PRINTSYS_QUE_Main((struct PrintQueue *)work->printQue);
+    if (work->printQueued == 1 && PRINTSYS_QUE_IsFinished((struct PrintQueue *)work->printQue) == 1) {
         BMP_WIN_TransferChars(work->window);
         work->printQueued = 0;
         if (work->timeIconPending == 1) {
             work->timeIconPending = 0;
-            work->timeIcon = TIME_ICON_CreateNode(work->tcbl, work->window, 15, 16, work->heapId);
+            work->timeIcon = TIME_ICON_CreateNode((struct TcblList *)work->tcbl, work->window, 15, 16, work->heapId);
         }
     }
     if (work->taskMenu)
-        APP_TASKMENU_UpdateMenu(work->taskMenu);
+        APP_TASKMENU_UpdateMenu((struct TaskMenuWork *)work->taskMenu);
 }
 
 void MB_UTIL_MSG_SetWindowLayout(MbMsgWork *work, int layout)
@@ -411,7 +424,7 @@ void MB_UTIL_MSG_PrintStream(MbMsgWork *work, int msgId, int speed)
     struct StrBuf *expanded;
 
     if (work->stream != 0) {
-        PRINTSYS_PrintStreamDelete(work->stream);
+        PRINTSYS_PrintStreamDelete((struct TextPrinter *)work->stream);
         work->stream = 0;
     }
     if (work->timeIcon != 0) {
@@ -421,27 +434,27 @@ void MB_UTIL_MSG_PrintStream(MbMsgWork *work, int msgId, int speed)
     work->keyWaitFlag = 0;
     work->timeIconPending = 0;
     if (work->message != 0) {
-        STRBUF_Delete(work->message);
+        STRBUF_Delete((struct Strbuf *)work->message);
         work->message = 0;
     }
     BMP_Clear(BMP_WIN_GetBmp(work->window), 0xF);
     work->message = MSGDATA_AllocString(work->msgData, msgId);
     if (work->wordSet != 0) {
-        expanded = STRBUF_Create(0x17B, work->heapId);
-        WORDSET_CopyTaggedText(work->wordSet, expanded, work->message);
-        STRBUF_Delete(work->message);
+        expanded = (struct StrBuf *)STRBUF_Create(0x17B, work->heapId);
+        WORDSET_CopyTaggedText(work->wordSet, (struct Strbuf *)expanded, (struct Strbuf *)work->message);
+        STRBUF_Delete((struct Strbuf *)work->message);
         work->message = expanded;
     }
     work->stream = PRINTSYS_PrintStream(work->window, 0, 0, work->message, work->font, speed, work->tcbl, 2, work->heapId, 0xF);
     if (work->layout == 8) {
-        TALKMSGWIN_DrawWindowFrame(work->talkWin, work->window, 0);
+        TALKMSGWIN_DrawWindowFrame((struct TalkMsgWinSys *)work->talkWin, work->window, 0);
     } else {
         BMP_MENUWORK_DrawWindow(work->window, 1, 1, 0xD);
     }
     if (work->cursorMode == 1) {
-        PRINTSYS_CTRL_Init(work->keyCursorState, 6);
+        PRINTSYS_CTRL_Init((struct PrintStreamCtrl *)work->keyCursorState, 6);
     } else {
-        PRINTSYS_CTRL_Init(work->keyCursorState, 4);
+        PRINTSYS_CTRL_Init((struct PrintStreamCtrl *)work->keyCursorState, 4);
     }
 }
 
@@ -450,7 +463,7 @@ void MB_UTIL_MSG_PrintQueued(MbMsgWork *work, int msgId)
     struct StrBuf *expanded;
 
     if (work->stream != 0) {
-        PRINTSYS_PrintStreamDelete(work->stream);
+        PRINTSYS_PrintStreamDelete((struct TextPrinter *)work->stream);
         work->stream = 0;
     }
     if (work->timeIcon != 0) {
@@ -458,21 +471,21 @@ void MB_UTIL_MSG_PrintQueued(MbMsgWork *work, int msgId)
         work->timeIcon = 0;
     }
     if (work->message != 0) {
-        STRBUF_Delete(work->message);
+        STRBUF_Delete((struct Strbuf *)work->message);
         work->message = 0;
     }
     BMP_Clear(BMP_WIN_GetBmp(work->window), 0xF);
     work->message = MSGDATA_AllocString(work->msgData, msgId);
     if (work->wordSet != 0) {
-        expanded = STRBUF_Create(0x17B, work->heapId);
-        WORDSET_CopyTaggedText(work->wordSet, expanded, work->message);
-        STRBUF_Delete(work->message);
+        expanded = (struct StrBuf *)STRBUF_Create(0x17B, work->heapId);
+        WORDSET_CopyTaggedText(work->wordSet, (struct Strbuf *)expanded, (struct Strbuf *)work->message);
+        STRBUF_Delete((struct Strbuf *)work->message);
         work->message = expanded;
     }
-    PRINTSYS_PrintQue(work->printQue, (u32)BMP_WIN_GetBmp(work->window), 0, 0, work->message, (u32)work->font);
+    PRINTSYS_PrintQue((struct PrintQueue *)work->printQue, (struct Bmp *)BMP_WIN_GetBmp(work->window), 0, 0, (struct Strbuf *)work->message, (struct GfFont *)work->font);
     work->printQueued = 1;
     if (work->layout == 8) {
-        TALKMSGWIN_DrawWindowFrame(work->talkWin, work->window, 0);
+        TALKMSGWIN_DrawWindowFrame((struct TalkMsgWinSys *)work->talkWin, work->window, 0);
         BG_SYS_PushTile(work->bgFrame);
     } else {
         BMP_MENUWORK_DrawWindow(work->window, 1, 1, 0xD);
@@ -483,7 +496,7 @@ void MB_UTIL_MSG_ClearWindow(MbMsgWork *work)
 {
     BMP_Clear(BMP_WIN_GetBmp(work->window), 0);
     if (work->layout == 8) {
-        TALKMSGWIN_ClearWindowFrame(work->talkWin, work->window);
+        TALKMSGWIN_ClearWindowFrame((struct TalkMsgWinSys *)work->talkWin, work->window);
         BG_SYS_PushTile(work->bgFrame);
     } else {
         BMP_MENUWORK_DrawWindowBorder(work->window, 1);
@@ -540,14 +553,14 @@ void MB_UTIL_MSG_OpenYesNoTaskMenu(MbMsgWork *work, int layout)
     }
     tmpl.width = 8;
     tmpl.height = 3;
-    work->taskMenu = APP_TASKMENU_OpenMenu(&tmpl, work->taskMenuRes);
-    STRBUF_Delete(entries[0].label);
-    STRBUF_Delete(entries[1].label);
+    work->taskMenu = (struct TaskMenu *)APP_TASKMENU_OpenMenu((struct TaskMenuInitWork *)(&tmpl), work->taskMenuRes);
+    STRBUF_Delete((struct Strbuf *)entries[0].label);
+    STRBUF_Delete((struct Strbuf *)entries[1].label);
 }
 
-void MB_UTIL_MSG_CloseTaskMenu(MbMsgWork *work) { APP_TASKMENU_CloseMenu(work->taskMenu); work->taskMenu = 0; }
+void MB_UTIL_MSG_CloseTaskMenu(MbMsgWork *work) { APP_TASKMENU_CloseMenu((struct TaskMenuWork *)work->taskMenu); work->taskMenu = 0; }
 
-int MB_UTIL_MSG_GetTaskMenuResult(MbMsgWork *work) { if (APP_TASKMENU_IsFinish(work->taskMenu) == 1) return APP_TASKMENU_GetCursorPos(work->taskMenu) + 1; return 0; }
+int MB_UTIL_MSG_GetTaskMenuResult(MbMsgWork *work) { if (APP_TASKMENU_IsFinish((struct TaskMenuWork *)work->taskMenu) == 1) return APP_TASKMENU_GetCursorPos((struct TaskMenuWork *)work->taskMenu) + 1; return 0; }
 
 void MB_UTIL_MSG_OpenYesNoMenu(MbYesNoMsgWork *work)
 {
@@ -580,13 +593,13 @@ void MB_UTIL_MSG_PrintStreamSystemMsg(MbMsgWork *work, int speed)
     struct MsgBank *sysMsg;
     sysMsg = MSGDATA_CreateFromArchive(0, 3, 158, work->heapId);
     if (work->stream) {
-        PRINTSYS_PrintStreamDelete(work->stream);
+        PRINTSYS_PrintStreamDelete((struct TextPrinter *)work->stream);
         work->stream = 0;
     }
     work->keyWaitFlag = 0;
     work->timeIconPending = 0;
     if (work->message) {
-        STRBUF_Delete(work->message);
+        STRBUF_Delete((struct Strbuf *)work->message);
         work->message = 0;
     }
     BMP_Clear(BMP_WIN_GetBmp(work->window), 15);
@@ -595,9 +608,9 @@ void MB_UTIL_MSG_PrintStreamSystemMsg(MbMsgWork *work, int speed)
     BMP_MENUWORK_DrawWindow(work->window, 1, 1, 13);
     MSGDATA_Delete(sysMsg);
     if (work->cursorMode == 1)
-        PRINTSYS_CTRL_Init(work->keyCursorState, 6);
+        PRINTSYS_CTRL_Init((struct PrintStreamCtrl *)work->keyCursorState, 6);
     else
-        PRINTSYS_CTRL_Init(work->keyCursorState, 4);
+        PRINTSYS_CTRL_Init((struct PrintStreamCtrl *)work->keyCursorState, 4);
 }
 
 struct MsgBank *MB_UTIL_MSG_GetMsgData(MbMsgWork *work) { return work->msgData; }
@@ -618,7 +631,7 @@ struct GfFont *MB_UTIL_MSG_GetFont(MbMsgWork *work)
  */
 int MB_UTIL_MSG_IsPrintQueFinished(MbMsgWork *work)
 {
-    return PRINTSYS_QUE_IsFinished(work->printQue);
+    return PRINTSYS_QUE_IsFinished((struct PrintQueue *)work->printQue);
 }
 
 int MB_UTIL_MSG_IsStreamIdle(MbMsgWork *work)

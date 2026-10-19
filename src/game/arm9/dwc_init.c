@@ -38,7 +38,7 @@
  *   @16103                         0x020A8070 data a1
  *   @16104                         0x020A8084 data a1
  *   s_data_02146AAC  0x02146AAC  data
- *   cardi_param  0x02146AAC  data  a4
+ *   dwc_init_state  0x02146AAC  data  a4
  */
 #include "../../matched/arm9_sdk/libc/string.h"
 
@@ -52,11 +52,9 @@ typedef void *(*DWCAllocEx)(int name, u32 size, int align);
 typedef void (*DWCFreeEx)(int name, void *ptr, u32 size);
 
 typedef struct {
-    int reserved00;
-    int len;
-    int reserved08;
-    int reserved0C;
-} CARDiParam;
+    u32 gameCode;   /* aliases dwci_gamecode */
+    int initFlag;
+} DWCInitState;
 
 extern void OSi_ReferSymbol(const void *symbol);
 extern int  DWCi_Init(int authserver, const char *gameName, u32 gameCode, DWCAllocEx alloc, DWCFreeEx free);
@@ -157,11 +155,11 @@ void *DWCi_GetGamecode(void)
 
 
 
-static CARDiParam cardi_param;
+static DWCInitState dwc_init_state;
 
 
 
 void DWCi_Np_SetInitFlag(int initialized)
 {
-    cardi_param.len = initialized;
+    dwc_init_state.initFlag = initialized;
 }

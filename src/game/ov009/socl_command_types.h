@@ -8,16 +8,16 @@
 
 /* The SOCL module global at gSoclConfig. */
 typedef struct SoclConfig {
-    int reserved0;                          /* 0x00 */
+    int useDhcp;                            /* 0x00 */
     unsigned long myIp;                     /* 0x04 */
     unsigned long netMask;                  /* 0x08 */
     unsigned long gatewayIp;                /* 0x0c */
     unsigned long dnsIp[2];                 /* 0x10 */
     void *(*alloc)(unsigned long size);     /* 0x18 */
     void (*free)(void *ptr);                /* 0x1c */
-    long cpMaxCount;                        /* 0x20 */
-    unsigned char reserved24[4];            /* 0x24 */
-    int serviceFlag;                        /* 0x28 */
+    long cmdPacketMax;                      /* 0x20 */
+    unsigned long lanBufferSize;            /* 0x24 */
+    void *lanBuffer;                        /* 0x28 */
 } SoclConfig;
 
 /* An opaque SOCL socket; the command layer only stores and reads the pointer. */
@@ -30,13 +30,15 @@ typedef struct SOCLCmdReply {
 } SOCLCmdReply;
 
 /* The command queue object at gSoclCmdQueue: the packet pool pointer, then the
- * message queue whose write/read counters sit at 0x18 and 0x20. */
+ * OSMessageQueue whose msgCount and usedCount sit at 0x18 and 0x20. */
 typedef struct SoclCmdQueue {
     void *packets;                          /* 0x00 */
-    unsigned char reserved4[0x14];          /* 0x04 */
-    int queueWrite;                         /* 0x18 */
-    int reserved1c;                         /* 0x1c */
-    int queueRead;                          /* 0x20 */
+    unsigned char queueSend[8];             /* 0x04 OSThreadQueue */
+    unsigned char queueReceive[8];          /* 0x0c OSThreadQueue */
+    void *msgArray;                         /* 0x14 */
+    int msgCount;                           /* 0x18 */
+    int firstIndex;                         /* 0x1c */
+    int usedCount;                          /* 0x20 */
 } SoclCmdQueue;
 
 /* One 0x2c-byte command packet, shared by the allocator and the handler

@@ -52,12 +52,14 @@ extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *file, u
 extern void MIi_CpuClear32(u32 value, void *dest, u32 size);
 
 extern void MI_CpuCopy8(const void *src, void *dest, u32 size);
+struct PokemonParam;
 
-extern u32 POKE_TOOL_GetPartyValue(struct Pokemon *mon, u32 field, u32 arg);
+extern u32 POKE_TOOL_GetPartyValue(struct PokemonParam *pp, u32 paramId, u32 arg);
+struct Party;
 
-extern u32 POKEPARTY_GetCount(struct PokeParty *party);
+extern u32 POKEPARTY_GetCount(struct Party *party);
 
-extern struct Pokemon *POKEPARTY_GetMember(struct PokeParty *party, u32 index);
+extern struct PokemonParam *POKEPARTY_GetMember(struct Party *party, u32 pos);
 
 extern const char _PerapVoiceFileName[];
 
@@ -206,10 +208,10 @@ void PERAPVOICE_Copy(struct PerapVoice *dest, const struct PerapVoice *src)
 void PERAPVOICE_ClearIfNoChatot(struct PerapVoice *voice, struct PokeParty *party)
 {
     int index;
-    int count = POKEPARTY_GetCount(party);
+    int count = POKEPARTY_GetCount((struct Party *)party);
 
     for (index = 0; index < count; index++) {
-        if (POKE_TOOL_GetPartyValue(POKEPARTY_GetMember(party, index), MON_DATA_SPECIES, 0) == SPECIES_CHATOT) {
+        if (POKE_TOOL_GetPartyValue(POKEPARTY_GetMember((struct Party *)party, index), MON_DATA_SPECIES, 0) == SPECIES_CHATOT) {
             return;
         }
     }

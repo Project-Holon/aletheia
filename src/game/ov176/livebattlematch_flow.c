@@ -130,6 +130,7 @@
  *   LIVEBATTLEMATCH_SAVE_AddCounter 0x0200E920 thumb
  *   DIGITALCARDCHECK_WaitRecord 0x0217D160 thumb ov176
  */
+#include "../version.h"
 #include "livebattlematch_shared_types.h"
 #include "livebattlematch_shared_types.h"
 
@@ -163,6 +164,7 @@ struct MyStatus;
 
 
 
+extern void WIFIBATTLEMATCH_UTIL_InvokeCallback(FlowCallback *cb);
 extern void MI_CpuFill8(void *,int,unsigned);
 
 extern int *WIFIBATTLEMATCH_UTIL_CreateCallback(int a, int b, int c);
@@ -173,25 +175,24 @@ extern int WIFIBATTLEMATCH_UTIL_IsCallbackNull(int **);
 
 extern int WIFIBATTLEMATCH_GRAPHIC_GetCamera(int *p);
 
-extern struct GfFont *GF_FONT_Create(int archiveId, int fileId, int format, int isFixedWidth, u32 heapId);
+#include "../arm9/gf_font.h"
 
 extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 
 extern u32 MSGDATA_Delete(struct Rec *rec);
 
-extern u32 GF_FONT_Delete(void *ptr);
 
 extern void WIFIBATTLEMATCH_UTIL_SetCallback(int *p, int v);
 
 extern void WIFIBATTLEMATCH_UTIL_ClearCallback(int a);
 
-extern void GF_PANIC_Fail(const char *expr, u32 line, const char *file);
+#include "../arm9/gf_panic.h"
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+#include "../arm9/gfl_heap_wrap.h"
 
-extern u32 GFL_HEAP_Free(void *p);
 
-extern void BATTLE_REC_ClearWork(void);
+typedef unsigned long long u64;
+#include "../arm9/battle_rec.h"
 
 extern void *GAME_DATA_GetSaveControl(struct Big *p);
 
@@ -205,7 +206,6 @@ extern void WIFIBATTLEMATCH_UTIL_DeleteMenu(void *);
 
 extern int WIFIBATTLEMATCH_UTIL_UpdateMenu(void *);
 
-extern u32 BATTLE_REC_IsDataExist(void);
 
 extern void WIFIBATTLEMATCH_VIEW_LoadBgPalette(int,int,u32);
 
@@ -217,19 +217,16 @@ extern void **WIFIBATTLEMATCH_VIEW_CreateActorArray(void *,void *,u32);
 
 extern void WIFIBATTLEMATCH_VIEW_SetActorVisible(void **,int);
 
-extern void *LIVEBATTLEMATCH_SAVE_GetFromSave(void *);
+#include "../arm9/livebattlematch_savedata.h"
 
-extern int LIVEBATTLEMATCH_SAVE_GetRecord(int p);
 
-extern struct Party *POKEPARTY_Create(u32 heap);
+#include "../arm9/pokeparty.h"
 
-extern void UI_SetSoftResetInhibitGlobal(int);
+#include "../arm9/ui.h"
 
-extern int UI_ClearSoftResetInhibitGlobal(unsigned int v);
 
-extern void DIGITALCARDCHECK_DeleteRecord(int *);
+#include "digitalcardcheck.h"
 
-extern void DIGITALCARDCHECK_DeleteRecord2(int *);
 
 extern void WIFIBATTLEMATCH_VIEW_DeleteActorArray(int *p);
 
@@ -249,21 +246,15 @@ extern int WIFIBATTLEMATCH_VIEW_UpdatePartyWindow(char *p, void *q);
 
 extern s32 REGULATION_Card_GetValue(struct Reg2 *p, unsigned int id);
 
-extern void DIGITALCARDCHECK_CreateRecord(u8 *);
 
-extern void DIGITALCARDCHECK_SetRecordMode(u8 *,int);
 
-extern int DIGITALCARDCHECK_IsRecordDone(u8 *);
 
 extern void * BATTLE_BOX_GetFromSave(void *);
 
-extern void DIGITALCARDCHECK_UpdateMenu(void *,int,int);
 
 extern void WIFIBATTLEMATCH_UTIL_SetRequest(unsigned int,unsigned int);
 
-extern int DIGITALCARDCHECK_IsWorkDone(int *p);
 
-extern void DIGITALCARDCHECK_End(u8 *,int);
 
 extern struct Rec1E *REGULATION_GetParty(struct RecBig *p, unsigned int index);
 
@@ -273,7 +264,6 @@ extern int GAME_DATA_SaveStart(int);
 
 extern int GAME_DATA_SaveMain(u8 *);
 
-extern int DIGITALCARDCHECK_GetMenuResult(u8 *);
 
 extern void WIFIBATTLEMATCH_UTIL_CommitRequest(unsigned int);
 
@@ -285,7 +275,7 @@ extern int LIVEBATTLEMATCH_IRC_DeliveryMain(char *);
 
 extern int LIVEBATTLEMATCH_IRC_CheckError(u8 *p);
 
-extern unsigned int KEY_GetTrg(void);
+#include "../arm9/key.h"
 
 extern void LIVEBATTLEMATCH_IRC_ClearState(int *);
 
@@ -293,25 +283,18 @@ extern int LIVEBATTLEMATCH_IRC_DeliveryEnd(char *);
 
 extern unsigned int REGULATION_Card_IsCrcValid(struct Reg2 *p);
 
-extern void LIVEBATTLEMATCH_SAVE_InitRecord(void *);
 
 extern void REGULATION_InitParty(struct Rec1E *p);
 
 extern void REGULATION_SetCard(struct RegulationCard *arr, unsigned int index, const struct RegulationCard *src);
 
-extern void DIGITALCARDCHECK_CreateRecord3(char *);
 
-extern int DIGITALCARDCHECK_IsRecord3DoneA(u8 *);
 
-extern int DIGITALCARDCHECK_IsRecord3DoneB(u8 *);
 
-extern void DIGITALCARDCHECK_DeleteRecord3(u8 *);
 
 extern void * REGULATION_NoOp(void *);
 
-extern void DIGITALCARDCHECK_CopyRegulation(u8 *p, const void *q);
 
-extern unsigned int POKEPARTY_GetBattleReadyCount(void *);
 
 extern int POKE_REGULATION_CheckParty(void *,void *,unsigned int *);
 
@@ -321,17 +304,14 @@ extern void BATTLE_BOX_SetLockFlags(struct Obj *p, unsigned int v);
 
 extern void REGULATION_BuildParty(int,int);
 
-extern void DIGITALCARDCHECK_BuildBattleRecord(u8 *,u8 *);
 
-extern u8 LIVEBATTLEMATCH_SAVE_GetCounter(const u8 *base, unsigned int idx);
 
 extern unsigned int REGULATION_GetRuleValue(struct Reg *p, unsigned int id);
 
 extern void BATTLE_BOX_ClearLockFlags(struct Obj *p, int v);
 
-extern unsigned int BATTLE_REC_IsVersionSupported(unsigned int v);
 
-extern void GFL_USE_PlaySeDefaultVolume(unsigned int);
+#include "../arm9/gfl_use.h"
 
 extern int LIVEBATTLEMATCH_IRC_InitState(int *);
 
@@ -341,7 +321,6 @@ extern void LIVEBATTLEMATCH_IRC_Exit(unsigned *);
 
 extern int LIVEBATTLEMATCH_IRC_WaitExit(int *);
 
-extern void DIGITALCARDCHECK_SetBattleRecordValue(int *,int *);
 
 extern int LIVEBATTLEMATCH_IRC_SendRegulation(int,int);
 
@@ -351,9 +330,7 @@ extern int POKE_REGULATION_GetDataSize(void);
 
 extern void MI_CpuCopy8(const void *,void *,unsigned int);
 
-extern unsigned int LIVEBATTLEMATCH_SAVE_HasOpponentMac(void *base, void *key);
 
-extern void GFL_USE_StopAllSe(void);
 
 extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
 
@@ -369,25 +346,18 @@ extern int LIVEBATTLEMATCH_IRC_ResetState(int *);
 
 extern int LIVEBATTLEMATCH_IRC_EndSession(int *);
 
-extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
+#include "../arm9/bg_sys.h"
 
-extern void DIGITALCARDCHECK_CreateRecord2(char *,int);
 
-extern int DIGITALCARDCHECK_IsRecord2Done(u8 *);
 
-extern void *MET_TRAINERS_GetFromSave(void *);
+#include "../arm9/met_trainers_savedata.h"
 
-extern unsigned int MYSTATUS_GetId(const struct MyStatus *obj);
+#include "../arm9/mystatus.h"
 
-extern void MET_TRAINERS_Insert(struct L0200ED54 *l, unsigned int val);
 
-extern void LIVEBATTLEMATCH_SAVE_SetOpponentMac(u8 *,unsigned int,const void *);
 
-extern void LIVEBATTLEMATCH_SAVE_SetOpponentResultByte(u8 *,unsigned int,unsigned int,u8);
 
-extern void LIVEBATTLEMATCH_SAVE_AddCounter(u8 *,unsigned int,int);
 
-extern void DIGITALCARDCHECK_WaitRecord(int *);
 
 u8 *LIVEBATTLEMATCH_FLOW_Create(LiveBattleMatchInit *src,u32 heap);
 
@@ -547,7 +517,7 @@ void LIVEBATTLEMATCH_FLOW_Main(int *sys,unsigned int *state,u8 *p)
     case 21:
         if(REGULATION_Card_IsCrcValid((struct Reg2 *)(p+0x3c))){
             unsigned a=REGULATION_Card_GetValue((struct Reg2 *)(p+0x3c),1);
-            if(a&0x200000){
+            if(a&PM_VERSION_MASK){
                 unsigned a=REGULATION_Card_GetValue(((struct LiveBattleMatchWork *)p)->card,2);
                 unsigned b=REGULATION_Card_GetValue((struct Reg2 *)(p+0x3c),2);
                 if(a==b){

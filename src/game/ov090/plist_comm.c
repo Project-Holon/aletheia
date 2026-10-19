@@ -50,13 +50,14 @@ typedef struct PartyListStatusMsg {
 } PartyListStatusMsg;
 
 extern void GFL_NET_COMMAND_DeleteCommandTable(u32 commandBase);
-extern struct NetHandle *GFL_NET_HANDLE_GetCurrentHandle(void);
-extern void GFL_NET_HANDLE_SetTimingSyncRange(struct NetHandle *handle, u32 syncNo, u32 syncGroup);
-extern u32 GFL_NET_HANDLE_IsTimingSyncRange(struct NetHandle *handle, u32 syncNo, u32 syncGroup);
-extern void GFL_NET_COMMAND_AddCommandTable(u32 commandBase, const void *commandTable, u32 commandCount, void *work);
+struct GFLNetHandle;
+extern struct GFLNetHandle *GFL_NET_HANDLE_GetCurrentHandle(void);
+extern void GFL_NET_HANDLE_SetTimingSyncRange(struct GFLNetHandle *handle, u32 timingLow, u32 timingHigh);
+extern u32 GFL_NET_HANDLE_IsTimingSyncRange(struct GFLNetHandle *handle, u32 timingLow, u32 timingHigh);
+extern void GFL_NET_COMMAND_AddCommandTable(u32 groupKey, u32 commandList, u32 listNum, u32 userData);
 extern u32 GFL_NET_ERR_GetErrorLevel(void);
-extern u32 GFL_NET_SendData(struct NetHandle *handle, u32 sendId, u32 command, u32 size, const void *data, u32 c, u32 d, u32 e);
-extern u32 GFL_NET_GetHandleNetID(struct NetHandle *handle);
+extern u32 GFL_NET_SendData(struct GFLNetHandle *handle, u32 sendId, u32 command, u32 size, void *data, u32 sendFlags, u32 skipIfQueued, u32 queueMode);
+extern u32 GFL_NET_GetHandleNetID(struct GFLNetHandle *handle);
 void PLIST_COMM_Start(PartyListCommWork *work);
 void PLIST_COMM_End(void *unused);
 void PLIST_COMM_Update(PartyListCommWork *work);
@@ -92,7 +93,7 @@ void PLIST_COMM_Update(PartyListCommWork *work)
         break;
     case 1:
         if (GFL_NET_HANDLE_IsTimingSyncRange(GFL_NET_HANDLE_GetCurrentHandle(), 1, 0x2d) == 1) {
-            GFL_NET_COMMAND_AddCommandTable(0x2d00, gPartyListCommandTable, 1, work);
+            GFL_NET_COMMAND_AddCommandTable((u32)0x2d00, (u32)gPartyListCommandTable, (u32)1, (u32)work);
             work->syncStep = 2;
         }
         break;
@@ -110,12 +111,12 @@ u32 PLIST_COMM_SendStatus(PartyListCommWork *work, u8 status, u16 selection)
     PartyListStatusMsg msg;
     struct NetHandle *handle;
 
-    handle = GFL_NET_HANDLE_GetCurrentHandle();
+    handle = (struct NetHandle *)GFL_NET_HANDLE_GetCurrentHandle();
     msg.status = status;
     msg.selection = selection;
     if (work->syncStep != 2)
         return 0;
-    return GFL_NET_SendData(handle, 0xff, 0x2d00, 4, &msg, 1, 0, 0);
+    return GFL_NET_SendData((struct GFLNetHandle *)handle, 0xff, 0x2d00, 4, &msg, 1, 0, 0);
 }
 
 

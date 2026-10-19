@@ -76,75 +76,87 @@ typedef enum { FALSE, TRUE } BOOL;
 
 void MI_CpuFill8(void *dstp, u8 data, u32 size);
 
-int GF_STANDARD_CompareBytes(const void *a, const void *b, int n);
+int GF_STANDARD_CompareBytes(u8 *a, u8 *b, u32 n);
+struct GameData;
 
-extern u32 GAME_DATA_GetOccupyInfo(const struct GameData *gameData);
+extern void *GAME_DATA_GetOccupyInfo(const struct GameData *gameData);
 
 extern u32 CURSOR_MOVE_GetTableValue(u32 trainerView);
 
 extern void FLDMMDL_InitPosRecord(void *header, u32 gridX, u32 gridZ, int gridY);
+struct MmdlHeader;
+struct MmdlSys;
+struct Mmdl;
 
-extern int FLDMMDL_AddMmdl(int mmdlSys, void *header, int param);
+extern struct Mmdl *FLDMMDL_AddMmdl(struct MmdlSys *sys, struct MmdlHeader *header, s32 zoneId);
 
-extern void *FLDMMDL_SysSearchObjId(void *mmdlSys, unsigned int objId);
+extern struct Mmdl *FLDMMDL_SysSearchObjId(struct MmdlSys *sys, u32 objId);
 
 extern void GF_PANIC_Fail(const char *expr, u32 line, const char *file);
 
-extern void FLDMMDL_SetStatusBitVanish(unsigned int *mmdl, unsigned int vanish);
+extern void FLDMMDL_SetStatusBitVanish(struct Mmdl *mmdl, s32 flag);
 
 extern void *GAMESYSTEM_GetFieldMap(struct GameSystem *gameSystem);
+struct FieldMap;
+struct UnionEff;
 
-extern u32 FIELDMAP_GetUnionEff(void *fieldMap);
+extern struct UnionEff *FIELDMAP_GetUnionEff(struct FieldMap *fieldMap);
+struct UnionEffWork;
 
-extern void UNION_EFF_DeleteIcon(char *markSys, u32 mmdl);
+extern void UNION_EFF_DeleteIcon(struct UnionEffWork *work, void *mmdl);
 
-extern void FLDMMDL_DeleteMmdl(void *mmdl);
+extern void FLDMMDL_DeleteMmdl(struct Mmdl *mmdl);
 
-extern void OS_GetMacAddress(void *ownMac);
+extern void OS_GetMacAddress(u8 *macAddress);
 
 extern int UNION_CHARA_IsWifiFriendBeacon(void *wifiFriends, UnionBeaconPc *beaconPc);
+struct MetTrainersSave;
 
-extern int MET_TRAINERS_Contains(void *metTrainers, u32 trainerId);
+extern int MET_TRAINERS_Contains(struct MetTrainersSave *list, u32 value);
 
-extern void UNION_EFF_AddIcon(char *markSys, u32 mmdl, u32 kind);
+extern void UNION_EFF_AddIcon(struct UnionEffWork *work, void *mmdl, u32 iconKind);
 
 extern unsigned int GAMESYSTEM_IsFieldMapActive(struct GameSystem *gameSystem);
 
-extern void UNION_EFF_AddAnimEffect(int markSys, int mmdl);
+extern void UNION_EFF_AddAnimEffect(struct UnionEffWork *work, void *mmdl);
+struct SaveControl;
 
-extern void *GAME_DATA_GetSaveControl(const struct GameData *gameData);
+extern struct SaveControl *GAME_DATA_GetSaveControl(const struct GameData *gameData);
 
 extern void *MET_TRAINERS_GetFromSave(void *saveControl);
+struct FieldState;
 
-extern u32 GAME_DATA_GetWifiList(const struct GameData *gameData);
+extern struct FieldState *GAME_DATA_GetWifiList(const struct GameData *gameData);
 
 extern int UNION_MSG_GetCategoryTableValue(int status);
 
 extern int UNION_CHARA_GetGroupCategory(int status);
 
-extern int FLDMMDL_CheckPossibleAcmd(int mmdl);
+extern int FLDMMDL_CheckPossibleAcmd(struct Mmdl *mmdl);
 
-extern void FLDMMDL_SetAcmd(void *mmdl, u16 acmd);
+extern void FLDMMDL_SetAcmd(struct Mmdl *mmdl, unsigned short code);
 
-extern u16 FLDMMDL_GetMoveCode(void *mmdl);
+extern u16 FLDMMDL_GetMoveCode(struct Mmdl *mmdl);
 
-extern int FLDMMDL_ChangeMoveCode(int mmdl, int moveCode);
+extern void FLDMMDL_ChangeMoveCode(struct Mmdl *mmdl, u16 moveCode);
+struct MmdlGridVec;
 
-extern void FLDMMDL_GetGridNowPos(int mmdl, s16 *pos);
+extern void FLDMMDL_GetGridNowPos(struct Mmdl *mmdl, struct MmdlGridVec *out);
 
-extern int FLDMMDL_CheckEndAcmd(int mmdl);
+extern int FLDMMDL_CheckEndAcmd(struct Mmdl *mmdl);
 
-extern int FLDMMDL_EndAcmd(char *mmdl);
+extern int FLDMMDL_EndAcmd(struct Mmdl *mmdl);
+struct FieldPlayer;
 
-extern void *FIELDMAP_GetFieldPlayer(void *fieldMap);
+extern struct FieldPlayer *FIELDMAP_GetFieldPlayer(struct FieldMap *fieldMap);
 
-extern void *FIELD_PLAYER_GetMmdl(void *fieldPlayer);
+extern struct Mmdl *FIELD_PLAYER_GetMmdl(struct FieldPlayer *player);
 
-extern u16 FLDMMDL_GetDirDisp(void *mmdl);
+extern u16 FLDMMDL_GetDirDisp(struct Mmdl *mmdl);
 
-extern u32 *FLDMMDL_SetStatusBit(u32 *mmdl, u32 bit);
+extern void FLDMMDL_SetStatusBit(struct Mmdl *mmdl, u32 bit);
 
-extern u32 *FLDMMDL_ClearStatusBit(u32 *mmdl, u32 bit);
+extern void FLDMMDL_ClearStatusBit(struct Mmdl *mmdl, u32 bit);
 
 extern void UNION_CHAT_LOG_Add(UnionRoomWork *work, UnionBeaconPc *beaconPc, u16 *outValue, u8 mode);
 
@@ -239,7 +251,7 @@ int UNION_CHARA_AddMmdl(UnionRoomWork *work, struct GameData *gameData, u16 trai
     u16 beaconIndex, memberIndex;
     UnionCharaMmdlHeader header;
 
-    mmdlSys = GAME_DATA_GetOccupyInfo(gameData);
+    mmdlSys = (s32)GAME_DATA_GetOccupyInfo(gameData);
     beaconIndex = (u16)(objId >> 8);
     memberIndex = (u16)((objId & 0xff) - 0x20);
     header = gUnionCharaMmdlHeader;
@@ -249,7 +261,7 @@ int UNION_CHARA_AddMmdl(UnionRoomWork *work, struct GameData *gameData, u16 trai
         header.f.moveCode = 15;
     FLDMMDL_InitPosRecord(&header, (u16)(gUnionCharaSeatPos[beaconIndex].x + gUnionCharaMemberOffset[memberIndex].x),
                   (u16)(gUnionCharaSeatPos[beaconIndex].z + gUnionCharaMemberOffset[memberIndex].z), 0);
-    return FLDMMDL_AddMmdl(mmdlSys, &header, 422);
+    return (s32)FLDMMDL_AddMmdl((struct MmdlSys *)mmdlSys, (struct MmdlHeader *)(&header), 422);
 }
 
 u16 UNION_CHARA_MakeObjId(UnionBeaconPc *beaconPc, UnionCharaSlot *slot) { return (beaconPc->index << 8) | (slot->memberIndex + 0x20); }
@@ -301,7 +313,7 @@ UnionCharaSlot *UNION_CHARA_AddSlot(UnionRoomWork *work, UnionBeaconPc *beaconPc
             mmdl = UNION_CHARA_MakeObjId(beaconPc, slot);
             mmdl = UNION_CHARA_AddMmdl(work, work->parent->gameData, member->trainerView, mmdl);
             if (visible == 0)
-                FLDMMDL_SetStatusBitVanish((unsigned int *)mmdl, 1);
+                FLDMMDL_SetStatusBitVanish((struct Mmdl *)mmdl, 1);
             *mmdlOut = mmdl;
             return slot;
         }
@@ -318,7 +330,7 @@ void UNION_CHARA_DeleteSlot(UnionRoomWork *work, UnionBeaconPc *beaconPc, UnionC
     fieldMap = GAMESYSTEM_GetFieldMap(work->parent->gameSystem);
     mmdl = UNION_CHARA_GetMmdl(work, beaconPc, slot);
     if (fieldMap != 0 && mmdl != 0)
-        UNION_EFF_DeleteIcon((char *)FIELDMAP_GetUnionEff(fieldMap), (u32)mmdl);
+        UNION_EFF_DeleteIcon((struct UnionEffWork *)FIELDMAP_GetUnionEff(fieldMap), (void *)mmdl);
     FLDMMDL_DeleteMmdl(mmdl);
     MI_CpuFill8(slot, 0, sizeof(UnionCharaSlot));
 }
@@ -334,16 +346,16 @@ void UNION_CHARA_AddBeaconMembers(UnionRoomWork *work, u32 metTrainers, u32 wifi
     OS_GetMacAddress(ownMac);
     for (i = 0; i < UNION_MEMBER_MAX; i++) {
         if (beaconPc->charaSlot[i] == 0 && beaconPc->beacon.group.member[i].valid == 1
-            && GF_STANDARD_CompareBytes(ownMac, (const u8 *)(&beaconPc->beacon.group.member[i]), 6) != 0
+            && GF_STANDARD_CompareBytes((u8 *)ownMac, (u8 *)(&beaconPc->beacon.group.member[i]), 6) != 0
             && UNION_CHARA_CheckMemberUnique(work, beaconPc, (u8 *)(&beaconPc->beacon.group.member[i])) != 0) {
             beaconPc->charaSlot[i] = UNION_CHARA_AddSlot(work, beaconPc, &beaconPc->beacon.group.member[i], i, 0, &mmdl);
             beaconPc->charaSlot[i]->action = 1;
             UNION_CHARA_SetNextAction(beaconPc->charaSlot[i], 0);
             if (i == 0) {
                 if (UNION_CHARA_IsWifiFriendBeacon((void *)wifiFriends, beaconPc) == 1)
-                    UNION_EFF_AddIcon((char *)markSys, mmdl, 0);
+                    UNION_EFF_AddIcon((struct UnionEffWork *)markSys, (void *)mmdl, 0);
                 else if (MET_TRAINERS_Contains((void *)metTrainers, beaconPc->beacon.trainerId) == 1)
-                    UNION_EFF_AddIcon((char *)markSys, mmdl, 1);
+                    UNION_EFF_AddIcon((struct UnionEffWork *)markSys, (void *)mmdl, 1);
             }
         }
     }
@@ -387,12 +399,12 @@ int UNION_CHARA_FocusRequestedMember(UnionRoomWork *work, UnionBeaconPc *beaconP
             continue;
         }
         if (GAMESYSTEM_IsFieldMapActive(work->parent->gameSystem) == 1) {
-            markSys = FIELDMAP_GetUnionEff(GAMESYSTEM_GetFieldMap(work->parent->gameSystem));
+            markSys = (s32)FIELDMAP_GetUnionEff(GAMESYSTEM_GetFieldMap(work->parent->gameSystem));
             if (markSys != 0) {
                 objId = UNION_CHARA_MakeObjId(beaconPc, slot);
                 objId = (int)FLDMMDL_SysSearchObjId((void *)GAME_DATA_GetOccupyInfo(work->parent->gameData), objId);
                 if (objId != 0) {
-                    UNION_EFF_AddAnimEffect(markSys, objId);
+                    UNION_EFF_AddAnimEffect((struct UnionEffWork *)markSys, (void *)objId);
                 }
             }
         }
@@ -417,8 +429,8 @@ void UNION_CHARA_Main(UnionRoomWork *work, struct GameData *gameData, void *fiel
 
     focusPending = 0;
     metTrainers = (u32)MET_TRAINERS_GetFromSave(GAME_DATA_GetSaveControl(gameData));
-    wifiFriends = GAME_DATA_GetWifiList(gameData);
-    markSys = FIELDMAP_GetUnionEff(fieldMap);
+    wifiFriends = (u32)GAME_DATA_GetWifiList(gameData);
+    markSys = (u32)FIELDMAP_GetUnionEff(fieldMap);
     GAME_DATA_GetOccupyInfo(gameData);
     if (GF_STANDARD_CompareBytes(zeroMac, work->mySituation.focusMac, 6) != 0) {
         focusPending = 1;
@@ -519,17 +531,17 @@ void UNION_CHARA_RefreshParentMarks(UnionRoomWork *work, struct GameData *gameDa
     int i;
 
     metTrainers = (int)MET_TRAINERS_GetFromSave(GAME_DATA_GetSaveControl(gameData));
-    wifiFriends = GAME_DATA_GetWifiList(gameData);
-    markSys = FIELDMAP_GetUnionEff(fieldMap);
+    wifiFriends = (s32)GAME_DATA_GetWifiList(gameData);
+    markSys = (s32)FIELDMAP_GetUnionEff(fieldMap);
     beaconPc = work->beaconPc;
     for (i = 0; i < UNION_BEACON_PC_MAX; i++, beaconPc++) {
         if (beaconPc->beacon.valid == 1 && beaconPc->charaSlot[0] != 0) {
             mmdl = (int)UNION_CHARA_GetMmdl(work, beaconPc->charaSlot[0]->beaconPc, beaconPc->charaSlot[0]);
             if (mmdl != 0) {
                 if (UNION_CHARA_IsWifiFriendBeacon((void *)wifiFriends, beaconPc) == 1) {
-                    UNION_EFF_AddIcon((char *)markSys, mmdl, 0);
+                    UNION_EFF_AddIcon((struct UnionEffWork *)markSys, (void *)mmdl, 0);
                 } else if (MET_TRAINERS_Contains((void *)metTrainers, beaconPc->beacon.trainerId) == 1) {
-                    UNION_EFF_AddIcon((char *)markSys, mmdl, 1);
+                    UNION_EFF_AddIcon((struct UnionEffWork *)markSys, (void *)mmdl, 1);
                 }
             }
         }
@@ -563,18 +575,18 @@ int UNION_CHARA_ActionIdle(UnionRoomWork *work, UnionCharaSlot *slot)
     if (appealNo != 0 && (appealNo == groupCategory || (groupCategory == 0 && appealNo == beaconPc->beacon.appealNo)) && slot->memberIndex == 0
         && UNION_MSG_GetCategoryTableValue(beaconPc->beacon.status) > beaconPc->beacon.connectNum) {
         mmdl = UNION_CHARA_GetMmdl(work, slot->beaconPc, slot);
-        if (FLDMMDL_CheckPossibleAcmd((int)mmdl) == 1) {
+        if (FLDMMDL_CheckPossibleAcmd(mmdl) == 1) {
             FLDMMDL_SetAcmd(mmdl, 0x31);
         }
     } else if (slot->memberIndex == 0 && beaconPc->beacon.connectNum > 1) {
         mmdl = UNION_CHARA_GetMmdl(work, slot->beaconPc, slot);
         if (FLDMMDL_GetMoveCode(mmdl) == 2) {
-            FLDMMDL_ChangeMoveCode((int)mmdl, 0xF);
+            FLDMMDL_ChangeMoveCode((struct Mmdl *)mmdl, 0xF);
         }
     } else if (slot->memberIndex == 0 && beaconPc->beacon.connectNum <= 1) {
         mmdl = UNION_CHARA_GetMmdl(work, slot->beaconPc, slot);
         if (FLDMMDL_GetMoveCode(mmdl) == 0xF) {
-            FLDMMDL_ChangeMoveCode((int)mmdl, 2);
+            FLDMMDL_ChangeMoveCode((struct Mmdl *)mmdl, 2);
         }
     }
     return 0;
@@ -586,18 +598,18 @@ int UNION_CHARA_ActionAppear(UnionRoomWork *work, UnionCharaSlot *slot, void *fi
     int mmdl = (int)UNION_CHARA_GetMmdl(work, slot->beaconPc, slot);
     switch (*step) {
     case 0:
-        if (FLDMMDL_CheckPossibleAcmd(mmdl) == 1) {
-            FLDMMDL_GetGridNowPos((int)FIELD_PLAYER_GetMmdl(FIELDMAP_GetFieldPlayer(fieldMap)), pos);
-            FLDMMDL_GetGridNowPos(mmdl, pos + 4);
+        if (FLDMMDL_CheckPossibleAcmd((struct Mmdl *)mmdl) == 1) {
+            FLDMMDL_GetGridNowPos(FIELD_PLAYER_GetMmdl(FIELDMAP_GetFieldPlayer(fieldMap)), (struct MmdlGridVec *)pos);
+            FLDMMDL_GetGridNowPos((struct Mmdl *)mmdl, (struct MmdlGridVec *)(pos + 4));
             if (pos[4] != pos[0] || pos[6] != pos[2]) {
                 FLDMMDL_SetAcmd((void *)mmdl, 0x44);
-                FLDMMDL_SetStatusBitVanish((unsigned int *)mmdl, 0);
+                FLDMMDL_SetStatusBitVanish((struct Mmdl *)mmdl, 0);
                 *step = *step + 1;
             }
         }
         break;
     case 1:
-        if (FLDMMDL_CheckEndAcmd(mmdl) == 1) { FLDMMDL_EndAcmd((char *)mmdl); return 1; }
+        if (FLDMMDL_CheckEndAcmd((struct Mmdl *)mmdl) == 1) { FLDMMDL_EndAcmd((struct Mmdl *)mmdl); return 1; }
         break;
     }
     return 0;
@@ -608,10 +620,10 @@ int UNION_CHARA_ActionDisappear(UnionRoomWork *work, UnionCharaSlot *slot, void 
     int mmdl = (int)UNION_CHARA_GetMmdl(work, slot->beaconPc, slot);
     switch (*step) {
     case 0:
-        if (FLDMMDL_CheckPossibleAcmd(mmdl) == 1) { FLDMMDL_SetAcmd((void *)mmdl, 0x43); *step = *step + 1; }
+        if (FLDMMDL_CheckPossibleAcmd((struct Mmdl *)mmdl) == 1) { FLDMMDL_SetAcmd((void *)mmdl, 0x43); *step = *step + 1; }
         break;
     case 1:
-        if (FLDMMDL_CheckEndAcmd(mmdl) == 1) { FLDMMDL_EndAcmd((char *)mmdl); return 1; }
+        if (FLDMMDL_CheckEndAcmd((struct Mmdl *)mmdl) == 1) { FLDMMDL_EndAcmd((struct Mmdl *)mmdl); return 1; }
         break;
     }
     return 0;
@@ -626,7 +638,7 @@ int UNION_CHARA_ActionTalk(UnionRoomWork *work, UnionCharaSlot *slot, void *fiel
     mmdl = (int)UNION_CHARA_GetMmdl(work, slot->beaconPc, slot);
     switch (*step) {
     case 0:
-        if (FLDMMDL_CheckPossibleAcmd(mmdl) == 1) {
+        if (FLDMMDL_CheckPossibleAcmd((struct Mmdl *)mmdl) == 1) {
             switch (FLDMMDL_GetDirDisp(FIELD_PLAYER_GetMmdl(FIELDMAP_GetFieldPlayer(fieldMap)))) {
             case 0:
                 acmd = 1;
@@ -647,14 +659,14 @@ int UNION_CHARA_ActionTalk(UnionRoomWork *work, UnionCharaSlot *slot, void *fiel
         }
         break;
     case 1:
-        if (FLDMMDL_EndAcmd((char *)mmdl) == 1) {
-            FLDMMDL_SetStatusBit((u32 *)mmdl, 8);
+        if (FLDMMDL_EndAcmd((struct Mmdl *)mmdl) == 1) {
+            FLDMMDL_SetStatusBit((struct Mmdl *)mmdl, 8);
             *step = *step + 1;
         }
         break;
     case 2:
         if (situation->connect.requestId != UNION_CHARA_MakeObjId(slot->beaconPc, slot)) {
-            FLDMMDL_ClearStatusBit((u32 *)mmdl, 8);
+            FLDMMDL_ClearStatusBit((struct Mmdl *)mmdl, 8);
             return 1;
         }
         break;

@@ -63,12 +63,12 @@ extern int GX_ResetBankForTexPltt(void);
 extern void GX_SetBankForTex(int tex);
 extern void GX_SetBankForTexPltt(int texPltt);
 extern void GX_SetBankForClearImage(int clrImg);
-extern void MI_NDmaCopy(u32 ndmaNo, const void *src, void *dest, u32 size);
-extern void MI_NDmaCopyAsync(u32 ndmaNo, const void *src, void *dest, u32 size, MIDmaCallback callback, void *arg);
+extern void MI_NDmaCopy(int ch, int src, int dst, int size);
+extern void MI_NDmaCopyAsync(int ch, unsigned int src, unsigned int dst, unsigned int size, MIDmaCallback callback, unsigned int arg);
 extern void MIi_DmaCopy32(u32 dmaNo, const void *src, void *dest, u32 size, BOOL dmaEnable);
 extern void MIi_DmaCopy32Async(u32 dmaNo, const void *src, void *dest, u32 size, MIDmaCallback callback, void *arg, BOOL dmaEnable);
 extern void MIi_CpuCopy32(const void *srcp, void *destp, u32 size);
-extern void MI_WaitNDma(u32 ndmaNo);
+extern void MI_WaitNDma(int ch);
 extern void MI_WaitDma(u32 dmaNo);
 extern int GX_ResetBankForClearImage(void);
 void GX_BeginLoadTex(void);
@@ -108,7 +108,7 @@ extern int g_02150E2C;
 static inline void MI_DmaCopy32(u32 dmaNo, const void *src, void *dest, u32 size)
 {
     if (dmaNo > 3) {
-        MI_NDmaCopy(dmaNo - 4, src, dest, size);
+        MI_NDmaCopy((int)(dmaNo - 4), (int)src, (int)dest, size);
     } else {
         MIi_DmaCopy32(dmaNo, src, dest, size, 1);
     }
@@ -125,7 +125,7 @@ static inline void MI_DmaCopy32(u32 dmaNo, const void *src, void *dest, u32 size
 static inline void MI_DmaCopy32Async(u32 dmaNo, const void *src, void *dest, u32 size, MIDmaCallback callback, void *arg)
 {
     if (dmaNo > 3) {
-        MI_NDmaCopyAsync(dmaNo - 4, src, dest, size, callback, arg);
+        MI_NDmaCopyAsync(dmaNo - 4, (unsigned int)src, (unsigned int)dest, (unsigned int)size, callback, (unsigned int)arg);
     } else {
         MIi_DmaCopy32Async(dmaNo, src, dest, size, callback, arg, 1);
     }

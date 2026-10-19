@@ -97,6 +97,7 @@
  */
 #include "../../matched/arm9_sdk/libc/string.h"
 #include "sb_server_types.h"
+extern int memcmp(unsigned char *s1, unsigned char *s2, unsigned int n);
 
 #define SWAP32(x) ((((x) >> 24) & 0xff) | (((x) >> 8) & 0xff00) | (((x) << 8) & 0xff0000) | (((x) << 24) & 0xff000000))
 #define LIST_CHALLENGE_LEN 8
@@ -180,19 +181,21 @@ typedef void (*SBMapLoopCallback)(SBServerList *slist, void *server, long change
 extern int SBServerGetIntValueA(SBServer *server, char *key, int idefault);
 extern double SBServerGetFloatValueA(SBServer *server, char *key, double fdefault);
 extern char *SBServerGetStringValueA(SBServer *server, char *keyname, char *def);
-extern int strcmp_nocase(const char *a, const char *b);
+extern int strcmp_nocase(unsigned char *s1, unsigned char *s2);
 extern void ArraySort(int *p, int b);
 extern void ArrayAppend(void *array, void *newElem);
-extern int ArrayLength(const void *array);
-extern void *ArrayNth(void *a, int n);
-extern int SBServerGetPublicInetAddress(const int *p);
-extern unsigned short SBServerGetPublicQueryPortNBO(const unsigned short *p);
-extern void SBServerSetNext(int *p, int v);
+extern int ArrayLength(int *array);
+struct DArrayImplementation;
+extern void *ArrayNth(struct DArrayImplementation *array, int n);
+struct SBServer;
+extern unsigned int SBServerGetPublicInetAddress(struct SBServer *server);
+extern unsigned short SBServerGetPublicQueryPortNBO(struct SBServer *server);
+extern void SBServerSetNext(struct SBServer *server, struct SBServer *next);
 extern void ArrayDeleteAt(int a, int b);
-extern int SBServerGetNext(const int *p);
+extern struct SBServer *SBServerGetNext(struct SBServer *server);
 extern void SBServerFree(void *elem);
-extern void ArrayClear(void *a);
-extern void *ArrayNew(int elemSize, int numElemsToAllocate, void (*elemFreeFn)(void *));
+extern void ArrayClear(struct DArrayImplementation *array);
+extern struct DArrayImplementation *ArrayNew(int elemSize, int numElemsToAllocate, void (*elemFreeFn)(void *));
 extern void *SBRefStrHash(void *l);
 extern struct Ref *TableLookup(void *t, void *k);
 extern char *goastrdup(char *s);
@@ -205,32 +208,33 @@ extern void SocketStartUp(void);
 extern unsigned int _u32_div_f(unsigned int a, unsigned int b);
 static int StringHash(char *s, int numbuckets);
 extern int OS_SPrintf(char *dst, char *fmt, ...);
-extern u32 inet_addr(char *name);
+extern int inet_addr(char *addrString);
 extern SOCHostEnt *SOC_GetHostByName(char *name);
 extern int socket(int pf, int type, int protocol);
-extern int connect(int sock, void *addr, int len);
+struct SOCSockAddr;
+extern int connect(int sock, struct SOCSockAddr *addr, int len);
 extern int closesocket(int sock);
 extern void *memcpy(void *dest, const void *src, size_t n);
 extern int rand(void);
 extern int send(int sock, char *buf, int len, int flags);
 extern void *gsimalloc(unsigned long size);
-extern void ArrayFree(void *a);
+extern void ArrayFree(struct DArrayImplementation *array);
 extern void gsifree(void *p);
 extern void SBRefStrHashCleanup(SBServerList *slist);
 extern void GOACryptInit(struct GOACryptState *state, unsigned char *key, unsigned char keysize);
 extern void SBServerSetFlags(SBServer *server, unsigned char flags);
-extern void SBServerSetPrivateAddr(SBServer *server, unsigned int ip, unsigned short port);
+extern void SBServerSetPrivateAddr(char *p, int v, unsigned short w);
 extern void SBServerSetICMPIP(SBServer *server, unsigned int ip);
 extern void SBServerAddIntKeyValue(SBServer *server, char *keyname, int value);
 extern void SBServerAddKeyValue(SBServer *server, char *keyname, char *value);
 extern unsigned char SBServerGetState(SBServer *server);
 extern void SBServerSetState(SBServer *server, unsigned char state);
-extern SBServer *SBAllocServer(int unused, unsigned int publicip, unsigned short publicport);
+extern SBServer *SBAllocServer(struct SBServerList *unused, u32 publicip, u16 publicport);
 extern int SBIsNullServer(int v);
-extern void GOADecrypt(void *state, unsigned char *bp, int len);
+extern void GOADecrypt(struct GOACryptState *state, unsigned char *bp, int len);
 extern int CanReceiveOnSocket(int sock);
 extern int recv(int sock, char *buf, int len, int flags);
-extern int recvfrom(int sock, char *buf, int len, int flags, SOCSockAddrIn *addr, int *fromlen);
+extern int recvfrom(int sock, char *buf, int len, int flags, struct SOCSockAddr *addr, int *fromlen);
 int prevKeyCompare(SBServer *server1, SBServer *server2);
 int IntKeyCompare(void *entry1, void *entry2);
 int FloatKeyCompare(void *entry1, void *entry2);
@@ -334,7 +338,7 @@ int prevKeyCompare(SBServer *server1, SBServer *server2)
         diff = strcmp(SBServerGetStringValueA((SBServer *)server1, prevsortkey, (char *)gSBEmptyString), SBServerGetStringValueA((SBServer *)server2, prevsortkey, (char *)gSBEmptyString));
         break;
     case 3:
-        diff = strcmp_nocase(SBServerGetStringValueA((SBServer *)server1, prevsortkey, (char *)gSBEmptyString), SBServerGetStringValueA((SBServer *)server2, prevsortkey, (char *)gSBEmptyString));
+        diff = strcmp_nocase((unsigned char *)(SBServerGetStringValueA((SBServer *)server1, prevsortkey, (char *)gSBEmptyString)), (unsigned char *)(SBServerGetStringValueA((SBServer *)server2, prevsortkey, (char *)gSBEmptyString)));
         break;
     default:
         return 0;
@@ -446,7 +450,7 @@ int StrNoCaseKeyCompare(void *entry1, void *entry2)
 	server1 = *(void **)entry1;
 	server2 = *(void **)entry2;
 	currsortkey = gSBSortContext.slist->currsortinfo.sortkey;
-	diff = strcmp_nocase(SBServerGetStringValueA(server1, currsortkey, (char *)gSBEmptyString), SBServerGetStringValueA(server2, currsortkey, (char *)gSBEmptyString));
+	diff = strcmp_nocase((unsigned char *)(SBServerGetStringValueA(server1, currsortkey, (char *)gSBEmptyString)), (unsigned char *)(SBServerGetStringValueA(server2, currsortkey, (char *)gSBEmptyString)));
 	if (diff == 0)
 		return prevKeyCompare(server1, server2);
 	if (gSBSortContext.slist->sortascending == 0)
@@ -567,9 +571,9 @@ int SBServerListFindServerByIP(SBServerList *slist, unsigned int ip, unsigned sh
 void AddServerToDeadlist(SBServerList *slist, SBServer *server)
 {
     if (slist->deadlist == 0)
-        SBServerSetNext((int *)server, 0);
+        SBServerSetNext((struct SBServer *)server, 0);
     else
-        SBServerSetNext((int *)server, (int)slist->deadlist);
+        SBServerSetNext((struct SBServer *)server, slist->deadlist);
     slist->deadlist = server;
 }
 
@@ -844,7 +848,7 @@ int ServerListConnect(SBServerList *slist)
         if (slist->slsocket == -1)
             return 1;
     }
-    if (connect(slist->slsocket, &saddr, 8) == 0)
+    if (connect(slist->slsocket, (struct SOCSockAddr *)(&saddr), 8) == 0)
         return 0;
     closesocket(slist->slsocket);
     slist->slsocket = -1;
@@ -1337,7 +1341,7 @@ int ParseServer(SBServerList *slist, SBServer *server, char *buf, int len, int u
         len -= 2;
     } else
         port = slist->defaultport;
-    SBServerSetPrivateAddr(server, ip, port);
+    SBServerSetPrivateAddr((char *)server, ip, port);
     if (flags & 8) {
         memcpy(&ip, buf, 4);
         buf += 4;
@@ -1422,10 +1426,10 @@ int IncomingListParseServer(SBServerList *slist, char *buf, int len)
         if (!FullRulesPresent(buf + i, len - i))
             return 0;
     }
-    if (!memcmp(buf + 1, gSBNatNegMagic, 4))
+    if (!memcmp((unsigned char *)(buf + 1), (unsigned char *)gSBNatNegMagic, 4))
         return -1;
     ParseServerIPPort((SBServerList *)slist, (unsigned char *)buf, len, &ip, &port);
-    server = SBAllocServer((int)slist, ip, port);
+    server = SBAllocServer(slist, ip, port);
     if (SBIsNullServer((int)server))
         return -2;
     ret = ParseServer(slist, server, buf, len, 1);
@@ -1475,7 +1479,7 @@ SBError ProcessMainListData(SBServerList *slist)
         slist->backendgameflags = NTOHS(slist->backendgameflags);
         inbuf += reqlen;
         inlen -= reqlen;
-        GOADecrypt(slist->cryptkey, (unsigned char *)inbuf, inlen);
+        GOADecrypt((struct GOACryptState *)slist->cryptkey, (unsigned char *)inbuf, inlen);
     case 1:
         if (inlen < 6)
             break;
@@ -1767,7 +1771,7 @@ int ProcessPushServer(SBServerList *slist, char *buf, int len)
 	ParseServerIPPort(slist, (unsigned char *)buf, len, &ip, &port);
 	foundexisting = SBServerListFindServerByIP(slist, ip, port);
 	if (foundexisting == -1) {
-		server = SBAllocServer((int)slist, ip, port);
+		server = SBAllocServer(slist, ip, port);
 		if (SBIsNullServer((int)server))
 			return 5;
 	} else {
@@ -1958,13 +1962,13 @@ int ProcessLanData(SBServerList *slist)
 
     saddrlen = 8;
     while (CanReceiveOnSocket(slist->slsocket)) {
-        error = recvfrom(slist->slsocket, indata, 1499, 0, &saddr, &saddrlen);
+        error = recvfrom(slist->slsocket, indata, 1499, 0, (struct SOCSockAddr *)(&saddr), &saddrlen);
         if (error == -1)
             continue;
         foundexisting = SBServerListFindServerByIP((SBServerList *)slist, saddr.addr, saddr.port);
         if (foundexisting != -1)
             continue;
-        server = SBAllocServer((int)slist, saddr.addr, saddr.port);
+        server = SBAllocServer(slist, saddr.addr, saddr.port);
         if (SBIsNullServer((int)server))
             return 5;
         SBServerSetFlags(server, 0x11);

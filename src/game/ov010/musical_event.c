@@ -256,109 +256,122 @@ typedef struct RtcDate {
     u32 day;
     u32 week;
 } RtcDate;
+struct GameSystem;
 
 /* Callees outside this file (named tree-wide by the integrator's rename map). */
-extern void *GAMESYSTEM_GetFieldMap(void *gameSys);
+extern void *GAMESYSTEM_GetFieldMap(struct GameSystem *gameSystem);
+struct GameEvent;
 
-extern void GAME_EVENT_CallEvent(void *parentEvent, void *childEvent);
+extern void GAME_EVENT_CallEvent(struct GameEvent *parent, struct GameEvent *child);
+struct FieldMap;
+struct GameSystem;
+struct GameEvent;
 
-extern void *FIELD_STATUS_CreateFieldCloseEvent(void *gameSys, void *fieldMap);
+extern struct GameEvent *FIELD_STATUS_CreateFieldCloseEvent(struct GameSystem *gameSystem, struct FieldMap *fieldMap);
 
-extern void GAMESYSTEM_CallProc(void *gameSys, u32 overlayId, void *procTable, void *procArg);
+extern void GAMESYSTEM_CallProc(struct GameSystem *gameSystem, unsigned int overlayId, void *procData, void *param);
 
-extern u32 GAMESYSTEM_GetProcStatus(void *gameSys);
+extern u32 GAMESYSTEM_GetProcStatus(struct GameSystem *gameSystem);
+struct GameData;
 
-extern void *GAMESYSTEM_GetGameData(void *gameSys);
+extern struct GameData *GAMESYSTEM_GetGameData(struct GameSystem *gameSystem);
 
 extern u32 GFL_NET_ERR_GetErrorLevel(void);
 
-extern void *GAME_DATA_GetTrainerRecord(void *gameData);
+extern void *GAME_DATA_GetTrainerRecord(struct GameData *gd);
 
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 line);
 
 extern u32 GFL_HEAP_Free(void *ptr);
 
-extern void *FIELD_STATUS_CreateFieldOpenEvent(void *gameSys);
+extern struct GameEvent *FIELD_STATUS_CreateFieldOpenEvent(struct GameSystem *gameSystem);
 
 extern struct GameEvent *GAME_EVENT_Create(void *gameSys, void *a, void *proc, u32 size);
 
 extern void *GAME_EVENT_GetWork(struct GameEvent *event);
+struct SaveControl;
 
-extern void *GAME_DATA_GetSaveControl(void *gameData);
+extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gd);
 
 extern void GFL_HEAP_CreateChildHeap(u32 a, u32 b, u32 c);
+struct GameComm;
 
-extern void *GAMESYSTEM_GetGameComm(void *gameSys);
+extern struct GameComm *GAMESYSTEM_GetGameComm(struct GameSystem *gameSystem);
+struct Strbuf;
 
-extern void *STRBUF_Create(u32 capacity, u32 heapId);
+extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
 
-extern void *GAME_DATA_GetMyParty(void *gameData);
+extern void *GAME_DATA_GetMyParty(struct GameData *gd);
+struct Party;
+struct PokemonParam;
 
-extern void *POKEPARTY_GetMember(void *party, u32 index);
+extern struct PokemonParam *POKEPARTY_GetMember(struct Party *party, unsigned int pos);
 
-extern u32 POKE_TOOL_GetPartyValue(void *mon, u32 id, void *value);
+extern u32 POKE_TOOL_GetPartyValue(struct PokemonParam *pp, unsigned int paramId, unsigned int arg);
 
-extern void GAME_BEACON_SEARCH_SetNamedEvent(void *strbuf);
+extern void GAME_BEACON_SEARCH_SetNamedEvent(struct Strbuf *name);
 
-extern void STRBUF_Delete(void *strbuf);
+extern void STRBUF_Delete(struct Strbuf *strbuf);
 
-extern void *GAME_DATA_GetSaveBlock2A(void *gameData);
+extern void *GAME_DATA_GetSaveBlock2A(struct GameData *gd);
 
 extern void *MUSICAL_MCSS_AllocDistSave(u32 heapId);
 
-extern int STA_NET_GetRole(void *session);
+extern int STA_NET_GetRole(int *p);
 
 extern u8 MUSICAL_SAVE_GetScriptSetting(struct MusicalSave *save);
 
-extern void MUSICAL_MCSS_LoadDistSave(void *musicalSystem, void *saveControl, void *session, u8 kind, u16 heapId);
+extern void MUSICAL_MCSS_LoadDistSave(unsigned char *p, unsigned int unused, void *sys, unsigned char kind, unsigned short heap);
+struct MyStatus;
 
-extern void *GAME_DATA_GetMyStatus(void *gameData);
+extern struct MyStatus *GAME_DATA_GetMyStatus(struct GameData *gd);
 
-extern void *POKE_TOOL_CastToBoxParam(void *mon);
+extern struct PokemonParam *POKE_TOOL_CastToBoxParam(struct PokemonParam *mon);
 
-extern void MUS_COMM_FUNC_InitWork(void *session, void *myStatus, void *monData, void *gameComm, void *musicalSystem, u16 heapId);
+extern void MUS_COMM_FUNC_InitWork(u8 *p, void *myStatusSrc, void *boxParamSrc, void *unused, void *hostEntry, u16 heap);
 
 extern u16 MUSICAL_SAVE_GetFanPoints(struct MusicalSave *save);
 
 extern u32 GFL_USE_GetRandomBelow(u32 n);
 
-extern u32 STA_NET_GetBoxesReceived(void *session);
+extern u32 STA_NET_GetBoxesReceived(unsigned char *p);
 
-extern void STA_NET_SetState6Pair(void *session, u32 lo, u32 hi);
+extern void STA_NET_SetState6Pair(char *p, unsigned int pairA, int pairB);
 
-extern u32 STA_NET_GetCurrentSlotValue(void *session);
+extern u32 STA_NET_GetCurrentSlotValue(char *p);
 
-extern u8 STA_NET_GetSlotValueByIndex(void *session, int index);
+extern u8 STA_NET_GetSlotValueByIndex(char *p, int index);
 
-extern void *MUS_COMM_FUNC_GetSlotValueA(void *session, u32 index);
+extern int MUS_COMM_FUNC_GetSlotValueA(char *p, unsigned int index);
 
-extern u32 STA_NET_GetSlot1Done(void *session);
+extern u32 STA_NET_GetSlot1Done(char *p);
 
 extern void *MET_TRAINERS_GetFromSave(void *saveControl);
+struct MetTrainersSave;
 
-extern void MET_TRAINERS_Insert(void *list, u32 id);
+extern void MET_TRAINERS_Insert(struct MetTrainersSave *list, unsigned int value);
 
-extern u32 MYSTATUS_GetId(const void *myStatus);
+extern u32 MYSTATUS_GetId(struct MyStatus *mystatus);
 
 extern void GFL_NET_ERR_RequestScreen(void);
 
-extern void GFL_HEAP_DumpReport(void *p);
+extern void GFL_HEAP_DumpReport(unsigned int heapId);
 
 extern void GFL_HEAP_DeleteChecked(u32 heapId);
 
-extern void *MUSICAL_MCSS_CreateMon(void *mon, int heapId);
+extern char *MUSICAL_MCSS_CreateMon(void *a, unsigned short heap);
 
-extern void STA_NET_BeginKind5Phase(void *session);
+extern void STA_NET_BeginKind5Phase(char *p);
 
-extern int MUSICAL_MCSS_FreeDistSave(void *musicalSystem);
+extern void MUSICAL_MCSS_FreeDistSave(char *p);
 
-extern void STA_NET_SetState18Value(void *session, void *performer);
+extern void STA_NET_SetState18Value(char *p, unsigned int value);
 
 extern MusicalPerformer *STA_NET_FindRecValueByKey(void *session, u8 slot);
 
-extern u32 STA_SLOT_GetSub(void *session, u32 player, u32 index);
+extern u32 STA_SLOT_GetSub(char *p, unsigned int index, unsigned int subindex);
 
-extern void *MUSICAL_MCSS_LoadActorData(int heapId);
+extern unsigned int *MUSICAL_MCSS_LoadActorData(int heapId);
 
 extern unsigned char MUSICAL_MCSS_GetElemA(void *table, int propId);
 
@@ -366,17 +379,18 @@ extern void MUSICAL_MCSS_FreeActorData(void **table);
 
 extern void GF_STANDARD_GetCachedDate(RtcDate *date);
 
-extern void STRBUF_ToChars(void *strbuf, u16 *out, u32 n);
+extern void STRBUF_ToChars(struct Strbuf *strbuf, unsigned short *out, unsigned int maxChars);
 
 extern void MI_CpuCopy8(void *src, void *dst, u32 size);
+struct MsgBank;
 
-extern void *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 
-extern void *MSGDATA_AllocString(void *msgData, u32 index);
+extern struct Strbuf *MSGDATA_AllocString(struct MsgBank *bank, unsigned int index);
 
-extern void MSGDATA_Delete(void *msgData);
+extern unsigned int MSGDATA_Delete(struct MsgBank *bank);
 
-extern void *MUSICAL_SAVE_GetFromSave(void *saveControl);
+extern struct MusicalSave *MUSICAL_SAVE_GetFromSave(struct SaveControl *save);
 
 extern void MUSICAL_SAVE_IncrementShowCount(struct MusicalSave *save);
 
@@ -398,43 +412,44 @@ extern u32 RECORD_AddCounter(void *trainerRecord, int id, u32 delta);
 
 extern struct MusicalProgram *MUSICAL_SAVE_GetProgram(struct MusicalSave *save, u32 index);
 
-extern u16 *STA_NET_GetSlotWordByIndex(void *session, u32 index);
+extern unsigned int STA_NET_GetSlotWordByIndex(char *p, unsigned int index);
 
 extern u32 MUSICAL_SAVE_IsPropOwned(struct MusicalSave *save, u8 prop);
 
-extern void *GAME_DATA_GetBgmInfo(void *gameData);
+extern unsigned int GAME_DATA_GetBgmInfo(struct GameData *gd);
 
-extern void *FIELD_SOUND_SYSTEM_StartPopTask(void *gameSys, u32 a, u32 b);
+extern struct GameEvent *FIELD_SOUND_SYSTEM_StartPopTask(struct GameSystem *gameSystem, unsigned int fadeOutFrames, unsigned int fadeInFrames);
 
-extern void *FIELD_SOUND_SYSTEM_StartWaitAcceptRequestTask(void *gameSys);
+extern struct GameEvent *FIELD_SOUND_SYSTEM_StartWaitAcceptRequestTask(struct GameSystem *gameSystem);
 
-extern void *FIELD_SOUND_SYSTEM_StartPushTask(void *gameSys, u32 a);
+extern struct GameEvent *FIELD_SOUND_SYSTEM_StartPushTask(struct GameSystem *gameSystem, unsigned int fadeOutFrames);
 
-extern void *FIELD_SOUND_SYSTEM_StartWaitSettledTask(void *gameSys);
+extern struct GameEvent *FIELD_SOUND_SYSTEM_StartWaitSettledTask(struct GameSystem *gameSystem);
 
 extern void *EVENT_MAPCHANGE_CreateWarpEventDefaultTransition(void *gameSys, void *fieldMap, s16 effectId, const Float3 *pos, u16 x);
 
 extern struct GameEvent *SCRIPT_SYS_CreateScriptEventSimple(void *gameSys, int messageId, int c, int d);
 
-extern int SCRIPT_SYS_GetEventScriptWork(void *event);
+extern void *SCRIPT_SYS_GetEventScriptWork(struct GameEvent *event);
 
-extern void *MSGDATA_CreateFromMemory(const void *file, u32 heapId);
+extern struct MsgBank *MSGDATA_CreateFromMemory(const void *file, u32 heapId);
 
-extern u8 MYSTATUS_GetSex(const void *myStatus);
+extern u8 MYSTATUS_GetSex(struct MyStatus *mystatus);
+struct WordSet;
 
-extern void WORDSET_SetSlotMyStatus(void *wordSet, u32 slot, void *myStatus);
+extern void WORDSET_SetSlotMyStatus(struct WordSet *words, unsigned int slot, void *source);
 
-extern void WORDSET_SetSlotTag(void *wordSet, u32 slot, const void *str, u32 n, u32 f, u32 c);
+extern void WORDSET_SetSlotTag(struct WordSet *words, unsigned int slot, struct Strbuf *src, unsigned int grammarCase, unsigned int isPlural, unsigned int gender);
 
-extern void *MUS_COMM_FUNC_GetSlotValueB(void *session, u32 index);
+extern int MUS_COMM_FUNC_GetSlotValueB(char *p, unsigned int index);
 
-extern void WORDSET_SetSlotMonNickname(void *wordSet, u32 slot, void *mon);
+extern void WORDSET_SetSlotMonNickname(struct WordSet *words, unsigned int slot, void *mon);
 
-extern void WORDSET_SetSlotMonNicknameAlt(void *wordSet, u32 slot, void *mon);
+extern void WORDSET_SetSlotMonNicknameAlt(struct WordSet *words, unsigned int slot, void *mon);
 
-extern u32 STA_NET_GetPairA(void *session);
+extern u32 STA_NET_GetPairA(char *p);
 
-extern u32 STA_NET_GetPairB(void *session);
+extern u32 STA_NET_GetPairB(char *p);
 
 extern u8 d_021F8360[];
 
@@ -587,7 +602,7 @@ struct GameEvent *MUSICAL_EVENT_Create(void *gameSys, void *gameData, u8 partyIn
     work->program = 0;
     nickname = STRBUF_Create(11, 4);
     work->ownMon = POKEPARTY_GetMember(GAME_DATA_GetMyParty(work->gameData), partyIndex);
-    POKE_TOOL_GetPartyValue(work->ownMon, 0x73, nickname);
+    POKE_TOOL_GetPartyValue(work->ownMon, (unsigned int)0x73, (unsigned int)nickname);
     GAME_BEACON_SEARCH_SetNamedEvent(nickname);
     STRBUF_Delete(nickname);
     work->dressup = 0;
@@ -596,11 +611,11 @@ struct GameEvent *MUSICAL_EVENT_Create(void *gameSys, void *gameData, u8 partyIn
     work->save = GAME_DATA_GetSaveBlock2A(gameData);
     work->musicalSystem = MUSICAL_MCSS_AllocDistSave(4);
     if (work->linkMode == 0 || STA_NET_GetRole(work->link->session) == 1)
-        MUSICAL_MCSS_LoadDistSave(work->musicalSystem, work->saveControl, work->gameData, MUSICAL_SAVE_GetScriptSetting(work->save), 0x2C);
+        MUSICAL_MCSS_LoadDistSave((unsigned char *)work->musicalSystem, (unsigned int)work->saveControl, work->gameData, MUSICAL_SAVE_GetScriptSetting(work->save), 0x2C);
     if (work->linkMode == 1) {
         work->state = MUSICAL_EVENT_STATE_LINK_WAIT_PEERS;
         work->step = 0;
-        MUS_COMM_FUNC_InitWork(work->session, GAME_DATA_GetMyStatus(work->gameData), POKE_TOOL_CastToBoxParam(work->ownMon), work->gameComm, work->musicalSystem, 4);
+        MUS_COMM_FUNC_InitWork(work->session, (void *)(GAME_DATA_GetMyStatus(work->gameData)), (void *)(POKE_TOOL_CastToBoxParam(work->ownMon)), work->gameComm, work->musicalSystem, 4);
     } else {
         u16 maxLevel = MUSICAL_SAVE_GetFanPoints(work->save);
         u8 i;
@@ -651,7 +666,7 @@ int MUSICAL_EVENT_Main(void *event, void *unused, MusicalEventWork *work)
             list = MET_TRAINERS_GetFromSave(work->saveControl);
             for (i = 0; i < 4; i++) {
                 if (STA_NET_GetCurrentSlotValue(work->link->session) != STA_NET_GetSlotValueByIndex(work->link->session, i)) {
-                    void *peerStatus = MUS_COMM_FUNC_GetSlotValueA(work->link->session, i);
+                    void *peerStatus = (void *)MUS_COMM_FUNC_GetSlotValueA(work->link->session, i);
                     if (peerStatus != 0)
                         MET_TRAINERS_Insert(list, MYSTATUS_GetId(peerStatus));
                 }
@@ -775,7 +790,7 @@ int MUSICAL_EVENT_Main(void *event, void *unused, MusicalEventWork *work)
         work->state = MUSICAL_EVENT_STATE_END;
         break;
     case MUSICAL_EVENT_STATE_END:
-        GFL_HEAP_DumpReport((void *)4);
+        GFL_HEAP_DumpReport((unsigned int)4);
         GFL_HEAP_DeleteChecked(0x2C);
         return 1;
     case MUSICAL_EVENT_STATE_ABORT_LEAVE:
@@ -809,7 +824,7 @@ int MUSICAL_EVENT_Main(void *event, void *unused, MusicalEventWork *work)
  */
 void MUSICAL_EVENT_CreateLocalPerformer(MusicalEventWork *work)
 {
-    work->localPerformer = MUSICAL_MCSS_CreateMon(work->ownMon, 4);
+    work->localPerformer = (struct MusicalPerformer *)MUSICAL_MCSS_CreateMon(work->ownMon, 4);
     if (work->linkMode != 0) {
         STA_NET_GetRole(work->link->session);
         STA_NET_BeginKind5Phase(work->link->session);
@@ -834,7 +849,7 @@ int MUSICAL_EVENT_Free(MusicalEventWork *work)
         GFL_HEAP_Free(work->result);
     }
     if (work->musicalSystem != 0)
-        MUSICAL_MCSS_FreeDistSave(work->musicalSystem);
+        MUSICAL_MCSS_FreeDistSave((char *)work->musicalSystem);
     if (work->localPerformer != 0)
         GFL_HEAP_Free(work->localPerformer);
     if (work->program != 0)
@@ -863,7 +878,7 @@ MusicalDressupParam *MUSICAL_EVENT_CreateDressupParam(MusicalEventWork *work)
 void MUSICAL_EVENT_SendLocalPerformer(MusicalEventWork *work)
 {
     if (work->linkMode == 1)
-        STA_NET_SetState18Value(work->session, work->localPerformer);
+        STA_NET_SetState18Value(work->session, (unsigned int)work->localPerformer);
 }
 
 /*
@@ -1003,7 +1018,7 @@ void MUSICAL_EVENT_CreateShowRecord(MusicalEventWork *work)
         if (i == work->localSlot)
             peerName = GAME_DATA_GetMyStatus(work->gameData);
         else if (work->linkMode == 1)
-            peerName = MUS_COMM_FUNC_GetSlotValueA(work->session, MUSICAL_EVENT_GetPlayerOfSlot(work, i));
+            peerName = (void *)MUS_COMM_FUNC_GetSlotValueA(work->session, MUSICAL_EVENT_GetPlayerOfSlot(work, i));
         if (peerName != 0) {
             MI_CpuCopy8(peerName, record->performers[i].name, 0x10);
         } else {
@@ -1144,7 +1159,7 @@ void MUSICAL_EVENT_RollProgramRewards(MusicalEventWork *work)
         scoreSum = MUSICAL_SAVE_GetFanPoints(work->save) + MUSICAL_EVENT_GetScoreCapped(work, work->localSlot);
     } else {
         for (j = 0; j < 4; j++) {
-            peerValue = STA_NET_GetSlotWordByIndex(work->session, MUSICAL_EVENT_GetPlayerOfSlot(work, j));
+            peerValue = (unsigned short *)STA_NET_GetSlotWordByIndex(work->session, MUSICAL_EVENT_GetPlayerOfSlot(work, j));
             if (STA_NET_FindRecValueByKey(work->session, j) != 0) {
                 scoreSum += *peerValue;
                 scoreSum += MUSICAL_EVENT_GetScoreCapped(work, j);
@@ -1469,7 +1484,7 @@ u8 MUSICAL_EVENT_GetPortraitClass(MusicalEventWork *work, u8 slot)
     if (slot == work->localSlot)
         return 0;
     if (work->linkMode == 1) {
-        peerStatus = MUS_COMM_FUNC_GetSlotValueA(work->session, player);
+        peerStatus = (void *)MUS_COMM_FUNC_GetSlotValueA(work->session, player);
         if (peerStatus != 0) {
             if (MYSTATUS_GetSex(peerStatus) == 0)
                 return 1;
@@ -1493,7 +1508,7 @@ void MUSICAL_EVENT_SetPlayerNameWord(MusicalEventWork *work, u8 slot, void *word
         WORDSET_SetSlotMyStatus(wordSet, wordIndex, GAME_DATA_GetMyStatus(work->gameData));
         done = 1;
     } else if (work->linkMode == 1) {
-        peerStatus = MUS_COMM_FUNC_GetSlotValueA(work->session, player);
+        peerStatus = (void *)MUS_COMM_FUNC_GetSlotValueA(work->session, player);
         if (peerStatus != 0) {
             WORDSET_SetSlotMyStatus(wordSet, wordIndex, peerStatus);
             done = 1;
@@ -1526,7 +1541,7 @@ void MUSICAL_EVENT_SetPokemonNameWord(MusicalEventWork *work, u8 slot, void *wor
         WORDSET_SetSlotMonNickname(wordSet, wordIndex, work->ownMon);
         done = 1;
     } else if (work->linkMode == 1) {
-        peerMon = MUS_COMM_FUNC_GetSlotValueB(work->session, player);
+        peerMon = (void *)MUS_COMM_FUNC_GetSlotValueB(work->session, player);
         if (peerMon != 0) {
             WORDSET_SetSlotMonNicknameAlt(wordSet, wordIndex, peerMon);
             done = 1;

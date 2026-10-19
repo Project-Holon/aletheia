@@ -40,11 +40,12 @@ extern unsigned int DWCi_Entry(void);
 extern void GX_LoadBG1Char(void *, unsigned long, unsigned long);
 extern void GX_LoadBG1Scr(void *, unsigned long, unsigned long);
 extern void DWCi_HEAPlFree_(void **mem);
-char *DWCi_Char(char *name);
+unsigned char *DWCi_Char(unsigned char *name);
 void *DWCi_ARClReadEx(char *path, unsigned long *size, int alignment);
 void MIi_CpuCopyFast(void *srcp, void *destp, unsigned long size);
 void DWCi_ARClRelease(void *file);
-void *DWCi_TSKlForm(int kind, void (*func)(void *, void *), void *work, unsigned char prio);
+struct TCB;
+struct TCB *DWCi_TSKlForm(int kind, void (*func)(void *, void *), void *work, unsigned char prio);
 typedef struct {
     unsigned char pad[0xF4];
     unsigned char idx;
@@ -96,7 +97,7 @@ void DWCi_HLlEnd(void)
 
 void DWCi_HLlLoad(int idx)
 {
-    char *n = DWCi_Char(FILE_NAME[idx]);
+    char *n = (char *)DWCi_Char((unsigned char *)FILE_NAME[idx]);
     void *file = DWCi_ARClReadEx(n, 0, 4);
     MIi_CpuCopyFast(file, Buffer, 0xc0);
     DWCi_ARClRelease(file);

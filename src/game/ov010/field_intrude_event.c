@@ -73,15 +73,17 @@ extern void *GAME_EVENT_GetWork(struct GameEvent *event);
 
 extern void MI_CpuFill8(void *dest, int value, int size);
 
-extern void *GAME_EVENT_GetGameSystem(struct GameEvent *event);
+extern struct GameSystem *GAME_EVENT_GetGameSystem(struct GameEvent *event);
+struct GameComm;
 
-extern void *GAMESYSTEM_GetGameComm(const struct GameSystem *gameSystem);
+extern struct GameComm *GAMESYSTEM_GetGameComm(const struct GameSystem *gameSystem);
+struct IntrudeCommSys;
 
-extern u8 *INTRUDE_COMM_GetWorkIfRunning(void *gameComm);
+extern struct IntrudeCommSys *INTRUDE_COMM_GetWorkIfRunning(struct GameComm *comm);
 
-extern int INTRUDE_COMM_RequestPartnerSymbolPage(u8 *intrudeComm, u8 requestType);
+extern int INTRUDE_COMM_RequestPartnerSymbolPage(struct IntrudeCommSys *linkState, u8 value);
 
-extern u32 INTRUDE_COMM_IsPartnerSymbolPageReceived(u8 *intrudeComm);
+extern u32 INTRUDE_COMM_IsPartnerSymbolPageReceived(struct IntrudeCommSys *linkState);
 
 extern u8 INTRUDE_COMM_GetPartnerSlot(void *gameComm, void *gameData);
 
@@ -92,28 +94,32 @@ extern void *FIELDMAP_GetFieldPlayer(void *fieldMap);
 extern void *FIELD_PLAYER_GetMmdl(void *player);
 
 extern void *FLDMMDL_GetPosPtr(void *player);
+struct FieldMap;
+struct MmdlSys;
 
-extern void *FIELDMAP_GetMmdlSys(void *fieldMap);
+extern struct MmdlSys *FIELDMAP_GetMmdlSys(struct FieldMap *fieldMap);
+struct MmdlSys;
 
-extern void FLDMMDL_SysPauseMove(void *mmdlSys);
+extern void FLDMMDL_SysPauseMove(struct MmdlSys *sys);
 
 extern void GAME_EVENT_CallEvent(struct GameEvent *parent, struct GameEvent *child);
 
 extern void GFL_USE_PlaySeDefaultVolume(u32 seNo);
 
-extern void *EVENT_FIELDMAP_CONTROL_StartFadeOut(void *gameSystem, void *fieldMap, u32 a, u32 b);
+extern struct GameEvent *EVENT_FIELDMAP_CONTROL_StartFadeOut(struct GameSystem *gameSystem, struct FieldMap *fieldMap, int effect, int skipWait);
 
-extern int SYMBOL_MAP_GetSelectedCellTile(int gameSystem, int cellId);
+extern int SYMBOL_MAP_GetSelectedCellTile(void *gameSystem, int cellId);
+struct GameData;
 
-extern void GAME_DATA_SetSymbolMapFlag(void *gameData, unsigned char cellId);
+extern void GAME_DATA_SetSymbolMapFlag(struct GameData *gd, unsigned char flag);
 
 extern void *EVENT_MAPCHANGE_CreateWarpEventDefaultTransition(void *gameSystem, void *fieldMap, u32 tileId, void *position, u32 edge);
 
-extern int FLDMMDL_BLACT_IsReservePending(void *mmdlSys);
+extern int FLDMMDL_BLACT_IsReservePending(struct MmdlSys *mmdlSys);
 
-extern void *EVENT_FIELDMAP_CONTROL_StartFadeIn(void *gameSystem, void *fieldMap, u32 a, u32 b, u32 c, u32 d, u32 e);
+extern struct GameEvent *EVENT_FIELDMAP_CONTROL_StartFadeIn(struct GameSystem *gameSystem, struct FieldMap *fieldMap, int effect, int skipWait, int restoreBg, unsigned char seasonShown, unsigned char seasonTarget);
 
-extern u32 *FLDMMDL_SysResumeMove(void *mmdlSys);
+extern void FLDMMDL_SysResumeMove(struct MmdlSys *sys);
 
 int FIELD_INTRUDE_EVENT_IntrudeRequestEventMain(struct GameEvent *event, int *state, IntrudeRequestWork *work);
 
@@ -142,7 +148,7 @@ int FIELD_INTRUDE_EVENT_IntrudeRequestEventMain(struct GameEvent *event, int *st
     u8 *intrudeComm;
     u16 *result;
 
-    intrudeComm = INTRUDE_COMM_GetWorkIfRunning(GAMESYSTEM_GetGameComm(GAME_EVENT_GetGameSystem(event)));
+    intrudeComm = (u8 *)INTRUDE_COMM_GetWorkIfRunning(GAMESYSTEM_GetGameComm(GAME_EVENT_GetGameSystem(event)));
     if (intrudeComm == 0) {
         result = work->result;
         if (result != 0)
@@ -151,11 +157,11 @@ int FIELD_INTRUDE_EVENT_IntrudeRequestEventMain(struct GameEvent *event, int *st
     }
     switch (*state) {
     case 0:
-        if (INTRUDE_COMM_RequestPartnerSymbolPage(intrudeComm, work->requestType) == 1)
+        if (INTRUDE_COMM_RequestPartnerSymbolPage((struct IntrudeCommSys *)intrudeComm, work->requestType) == 1)
             (*state)++;
         break;
     case 1:
-        if (INTRUDE_COMM_IsPartnerSymbolPageReceived(intrudeComm) == 1)
+        if (INTRUDE_COMM_IsPartnerSymbolPageReceived((struct IntrudeCommSys *)intrudeComm) == 1)
             (*state)++;
         break;
     case 2:
@@ -268,7 +274,7 @@ int FIELD_INTRUDE_EVENT_SymbolEntryEventMain(struct GameEvent *event, u32 *state
         (*state)++;
         break;
     case 3:
-        work->tileId = SYMBOL_MAP_GetSelectedCellTile((int)gameSystem, work->cellId);
+        work->tileId = SYMBOL_MAP_GetSelectedCellTile(gameSystem, work->cellId);
         GAME_DATA_SetSymbolMapFlag(gameData, work->cellId);
         GAME_EVENT_CallEvent(event, EVENT_MAPCHANGE_CreateWarpEventDefaultTransition(gameSystem, fieldMap, work->tileId, &work->position, work->edge));
         (*state)++;

@@ -30,7 +30,7 @@ typedef struct Sock {
 
 extern unsigned long OS_DisableInterrupts(void);
 extern unsigned long OS_RestoreInterrupts(unsigned long state);
-void SOCLi_SocketRegister(int a);
+void SOCLi_SocketRegister(void *a);
 void SOCLi_SocketRegisterList(void **next, char *socket);
 void SOCLi_SocketRegisterTrash(int a);
 void SOCLi_SocketUnregister(int a);
@@ -38,14 +38,14 @@ void SOCLi_SocketUnregisterList(Sock **next, Sock *socket);
 struct SOCLSocket **SOCLi_SocketGetNextPtr(struct SOCLSocket **next, struct SOCLSocket *socket);
 void SOCLi_SocketUnregisterTrash(int a);
 int SOCL_SocketIsInvalid(struct SOCLSocket *socket);
-int SOCL_SocketIsInTrash(int b);
+int SOCL_SocketIsInTrash(void *b);
 extern struct SOCLSocket *SOCLiSocketList;
 extern char SOCLiTrashList[];
 
 
 
 
-void SOCLi_SocketRegister(int a)
+void SOCLi_SocketRegister(void *a)
 {
     SOCLi_SocketRegisterList((void **)((char *)&SOCLiSocketList), (char *)(a));
 }
@@ -141,7 +141,7 @@ int SOCL_SocketIsInvalid(struct SOCLSocket *socket)
 /*
  * Non-zero test on the call that takes the object and the argument.
  */
-int SOCL_SocketIsInTrash(int b)
+int SOCL_SocketIsInTrash(void *b)
 {
     return (int)(Sock **)(SOCLi_SocketGetNextPtr((struct SOCLSocket **)((Sock * *)SOCLiTrashList), (struct SOCLSocket *)((Sock *)b))) != 0;
 }

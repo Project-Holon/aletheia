@@ -29,18 +29,15 @@
  */
 #include "pdc_types.h"
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern int GF_OVERLAY_Load(int overlayId);
-extern void GFL_HEAP_CreateChildHeap(u32 parentHeapId, u32 heapId, u32 size);
-extern void *PROCSYS_AllocProcWork(struct Proc *proc, u32 size, u32 heapId);
+typedef int s32;
+#include "../arm9/gfl_heap_wrap.h"
+#include "../arm9/gf_overlay.h"
+typedef int BOOL;
+#include "../arm9/gfl_heap.h"
+#include "../arm9/procsys.h"
 extern void MIi_CpuClearFast(int value, void *dst, u32 size);
-extern void PROCSYS_FreeProcWork(struct Proc *proc);
-extern void GFL_HEAP_DeleteChecked(unsigned int heapId);
-extern void GF_OVERLAY_Unload(int overlayId);
 
-extern struct PdcSys *PDC_MAIN_Create(struct PdcArgs *args, u16 heapId);
-extern int PDC_MAIN_Update(struct PdcSys *sys);
-extern void PDC_MAIN_Delete(struct PdcSys *sys);
+#include "pdc_main.h"
 
 extern const char gPdcSrcName[];
 extern char ov094_id[];

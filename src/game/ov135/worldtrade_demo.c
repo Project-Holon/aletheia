@@ -82,53 +82,61 @@ extern void GF_OVERLAY_Unload(s32 handle);
 extern void GF_PANIC_Fail(const char *expr, u32 line, const char *file);
 
 struct Ctx;
-extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
+struct GameSystem;
+struct GameData;
+extern struct GameData *GAMESYSTEM_GetGameData(struct GameSystem *gameSystem);
+struct Party;
+struct PokemonParam;
 
-extern void *POKEPARTY_GetMember(void *p, u32 idx);
+extern struct PokemonParam *POKEPARTY_GetMember(struct Party *party, unsigned int pos);
+struct BoxPokemon;
 
-extern void *POKE_TOOL_GetBoxParam(void *a);
+extern struct BoxPokemon *POKE_TOOL_GetBoxParam(struct PokemonParam *pp);
 
-extern u32 POKE_TOOL_GetPartyValue(void *a, u32 b, u32 c);
+extern u32 POKE_TOOL_GetPartyValue(struct PokemonParam *pp, unsigned int paramId, unsigned int arg);
 
 extern void *WORLDTRADE_NoOp(void *sys);
+struct WorldTradeData;
 
-extern void WORLDTRADE_CopyPokemon(void *sys, void *mon);
+extern void WORLDTRADE_CopyPokemon(struct WorldTradeData *trade, void *outPokemon);
+struct PartyPokemon;
 
-extern void POKE_TOOL_CopyPartyPokemon(const struct RecDC *src, struct RecDC *dest);
+extern void POKE_TOOL_CopyPartyPokemon(struct PartyPokemon *src, struct PartyPokemon *dest);
 
 extern void PROCSYS_Push(void *h, u32 id, void *a, void *b);
 
-extern u8 GAME_DATA_GetSeason(const struct BigObj *p);
+extern u8 GAME_DATA_GetSeason(struct GameData *gd);
 
-extern u32 SHINKA_CHECK_CheckEvolution(void *party, void *mon, u32 context, u32 param, u8 timezone, u32 *methodOut, u16 heap);
+extern u32 SHINKA_CHECK_CheckEvolution(struct Party *party, struct PokemonParam *pp, unsigned int mode, unsigned int arg, unsigned char timezone, unsigned int *methodOut, unsigned short heap);
 
 extern struct Party *POKEPARTY_Create(u32 heap);
 
-extern u32 POKEPARTY_Add(struct Party *p, const struct PartyMon *src);
+extern u32 POKEPARTY_Add(struct Party *party, struct PokemonParam *member);
 
 extern void *MYSTATUS_Create(int heap_id);
+struct MyStatus;
 
-extern void MYSTATUS_Init(struct Sub0200852CObj *p);
+extern void MYSTATUS_Init(struct MyStatus *mystatus);
 
-extern u32 MYSTATUS_CopyName(u32 value, void *dst);
+extern void MYSTATUS_CopyName(unsigned short *dest, unsigned short *src);
 
-extern void MYSTATUS_SetRomCode(struct Sub0200852CObj *obj, u8 value);
+extern void MYSTATUS_SetRomCode(struct MyStatus *mystatus, unsigned char rom_code);
 
-extern void MYSTATUS_SetLanguage(struct Sub0200852CObj *obj, u8 value);
+extern void MYSTATUS_SetLanguage(struct MyStatus *mystatus, unsigned char language);
 
-extern void MYSTATUS_SetSex(struct Sub0200852CObj *obj, u8 value);
+extern void MYSTATUS_SetSex(struct MyStatus *mystatus, unsigned char sex);
 
-extern void MYSTATUS_SetTrainerView(struct Sub0200852CObj *obj, u8 value);
+extern void MYSTATUS_SetTrainerView(struct MyStatus *mystatus, unsigned char trainer_view);
 
-extern void MYSTATUS_SetNationAndArea(struct Sub0200852CObj *obj, u8 a, u8 b);
+extern void MYSTATUS_SetNationAndArea(struct MyStatus *mystatus, unsigned char nation, unsigned char area);
 
 extern void WORLDTRADE_ADAPTER_CopyMon(u32 a, u32 b);
 
-extern void BOX_SAVEDATA_ClearPokemon(void *save, u32 box, u32 slot);
+extern void BOX_SAVEDATA_ClearPokemon(struct GameData *gameData, unsigned int box, unsigned int slot);
 
-extern int BOX_SAVEDATA_FindFreeSlot(void *save, int *pbox, int *pslot);
+extern int BOX_SAVEDATA_FindFreeSlot(struct GameData *gameData, int *pBox, int *pSlot);
 
-extern int BOX_SAVEDATA_AddPokemonToBox(void **save, u32 box, const struct Sub02007454Entry *src);
+extern int BOX_SAVEDATA_AddPokemonToBox(struct GameData *gameData, unsigned int box, struct BoxPokemon *mon);
 
 void WORLDTRADE_SetStateAndReturn(Work *p, u32 a, u32 b);
 
@@ -249,7 +257,7 @@ int WORLDTRADE_DEMO_EvolveStep(Work *p)
             u32 r;
 
             POKE_TOOL_GetPartyValue(e, 6, 0);
-            r = SHINKA_CHECK_CheckEvolution(0, e, 1, (u32)p->monCopy, GAME_DATA_GetSeason(GAMESYSTEM_GetGameData((const struct Ctx *)p->ctx->gameData)), &out, 0x48);
+            r = SHINKA_CHECK_CheckEvolution(0, e, 1, (u32)p->monCopy, GAME_DATA_GetSeason(GAMESYSTEM_GetGameData((struct GameSystem *)p->ctx->gameData)), &out, 0x48);
             if (r != 0) {
                 Req *w;
 
@@ -260,9 +268,9 @@ int WORLDTRADE_DEMO_EvolveStep(Work *p)
                 p->req = GFL_HEAP_Alloc(0x48, 0x14, 0, str_02203B6C, 0xEB);
                 MI_CpuFill8(p->req, 0, 0x14);
                 w = p->req;
-                w->evoGameData = GAMESYSTEM_GetGameData((const struct Ctx *)p->ctx->gameData);
+                w->evoGameData = GAMESYSTEM_GetGameData((struct GameSystem *)p->ctx->gameData);
                 w->list = POKEPARTY_Create(0x48);
-                POKEPARTY_Add(w->list, (const struct PartyMon *)e);
+                POKEPARTY_Add(w->list, (struct PokemonParam *)e);
                 w->evoSpecies = r;
                 w->evoPartyPos = 0;
                 w->evoCondition = out;
@@ -288,7 +296,7 @@ int WORLDTRADE_DEMO_EvolveStep(Work *p)
                 r = 0;
                 if (p->checkEvolution != 0) {
                     p->checkEvolution = 0;
-                    r = SHINKA_CHECK_CheckEvolution(0, e, 1, (u32)mon, GAME_DATA_GetSeason(GAMESYSTEM_GetGameData((const struct Ctx *)p->ctx->gameData)), &out, 0x48);
+                    r = SHINKA_CHECK_CheckEvolution(0, e, 1, (u32)mon, GAME_DATA_GetSeason(GAMESYSTEM_GetGameData((struct GameSystem *)p->ctx->gameData)), &out, 0x48);
                 }
                 if (r != 0) {
                     Req *w;
@@ -300,9 +308,9 @@ int WORLDTRADE_DEMO_EvolveStep(Work *p)
                     p->req = GFL_HEAP_Alloc(0x48, 0x14, 0, str_02203B6C, 0x130);
                     MI_CpuFill8(p->req, 0, 0x14);
                     w = p->req;
-                    w->evoGameData = GAMESYSTEM_GetGameData((const struct Ctx *)p->ctx->gameData);
+                    w->evoGameData = GAMESYSTEM_GetGameData((struct GameSystem *)p->ctx->gameData);
                     w->list = POKEPARTY_Create(0x48);
-                    POKEPARTY_Add(w->list, (const struct PartyMon *)e);
+                    POKEPARTY_Add(w->list, (struct PokemonParam *)e);
                     w->evoSpecies = r;
                     w->evoPartyPos = 0;
                     w->evoCondition = out;
@@ -333,7 +341,7 @@ int WORLDTRADE_DEMO_EvolveStep(Work *p)
             Req *w = p->req;
             void *e = (void *)WORLDTRADE_DEMO_GetSlotRecord((Work *)p, p->kind);
 
-            POKE_TOOL_CopyPartyPokemon(POKEPARTY_GetMember(w->list, 0), e);
+            POKE_TOOL_CopyPartyPokemon((struct PartyPokemon *)POKEPARTY_GetMember(w->list, 0), e);
             GFL_HEAP_Free(w->list);
             GFL_HEAP_Free(p->req);
             p->req = 0;
@@ -374,13 +382,13 @@ TradePartnerInfo *WORLDTRADE_DEMO_CreateMyStatusFromEntry(Entry *ent)
     TradePartnerInfo *info;
 
     info = MYSTATUS_Create(0x48);
-    MYSTATUS_Init((struct Sub0200852CObj *)info);
-    MYSTATUS_CopyName((u32)info, ent->name);
-    MYSTATUS_SetRomCode((struct Sub0200852CObj *)info, ent->romCode);
-    MYSTATUS_SetLanguage((struct Sub0200852CObj *)info, ent->language);
-    MYSTATUS_SetSex((struct Sub0200852CObj *)info, ent->sex);
-    MYSTATUS_SetTrainerView((struct Sub0200852CObj *)info, ent->trainerView);
-    MYSTATUS_SetNationAndArea((struct Sub0200852CObj *)info, ent->nation, ent->area);
+    MYSTATUS_Init((struct MyStatus *)info);
+    MYSTATUS_CopyName((unsigned short *)info, (unsigned short *)ent->name);
+    MYSTATUS_SetRomCode((struct MyStatus *)info, ent->romCode);
+    MYSTATUS_SetLanguage((struct MyStatus *)info, ent->language);
+    MYSTATUS_SetSex((struct MyStatus *)info, ent->sex);
+    MYSTATUS_SetTrainerView((struct MyStatus *)info, ent->trainerView);
+    MYSTATUS_SetNationAndArea((struct MyStatus *)info, ent->nation, ent->area);
     info->trainerId = ent->trainerId;
     info->profileId = ent->profileId;
     return info;
@@ -425,6 +433,6 @@ void WORLDTRADE_DEMO_InitSlotRecord(Work *p)
         b = 0;
         BOX_SAVEDATA_ClearPokemon((void *)p->ctx->box, p->box_u, p->pos);
         BOX_SAVEDATA_FindFreeSlot((void *)p->ctx->box, (int *)(&a), (int *)(&b));
-        BOX_SAVEDATA_AddPokemonToBox((void **)p->ctx->box, a, (const struct Sub02007454Entry *)((u32)POKE_TOOL_GetBoxParam((void *)e)));
+        BOX_SAVEDATA_AddPokemonToBox((struct GameData *)p->ctx->box, a, (struct BoxPokemon *)((u32)POKE_TOOL_GetBoxParam((void *)e)));
     }
 }

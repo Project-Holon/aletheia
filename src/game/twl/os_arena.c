@@ -19,8 +19,8 @@
 
 typedef unsigned int u32;
 
-extern void OS_GetConsoleType(void);
-extern void OS_SetProtectionRegionEx(u32, u32, u32);
+extern unsigned int OS_GetConsoleType(void);
+extern void OS_SetProtectionRegionEx(int regionNo, unsigned int address, unsigned int sizeDef);
 
 void OSi_InitArenaEx_ltdmain(void)
 {

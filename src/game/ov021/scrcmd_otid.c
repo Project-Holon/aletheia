@@ -94,7 +94,7 @@ extern struct ScriptWork *SCRCMD_WORK_GetScriptWork(struct ScrcmdWork *cmdWork);
 
 extern u16 *SCRIPT_WORK_ReadWorkPointer(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
 
-extern void SCRIPT_SYS_CallEvent(struct ScriptWork *scriptWork, struct GameEvent *event);
+extern void SCRIPT_SYS_CallEvent(void *scriptWork, void *task);
 
 extern struct GameEvent *GAME_EVENT_Create(struct GameSystem *gameSystem, void *parent, void *func, u32 workSize);
 
@@ -102,39 +102,48 @@ extern struct GameSystem *GAME_EVENT_GetGameSystem(struct GameEvent *event);
 
 extern struct GameData *GAMESYSTEM_GetGameData(struct GameSystem *gameSystem);
 
-extern struct FieldMap *GAMESYSTEM_GetFieldMap(struct GameSystem *gameSystem);
+extern void *GAMESYSTEM_GetFieldMap(struct GameSystem *gameSystem);
 
 extern struct MyStatus *GAME_DATA_GetMyStatus(struct GameData *gameData);
 
 extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gameData);
 
-extern struct PokeParty *GAME_DATA_GetMyParty(struct GameData *gameData);
+extern void *GAME_DATA_GetMyParty(struct GameData *gameData);
 
-extern struct BoxData *GAME_DATA_GetBoxManager(struct GameData *gameData);
+extern u32 GAME_DATA_GetBoxManager(struct GameData *gameData);
 
-extern u32 MYSTATUS_GetId(const void *myStatus);
+extern u32 MYSTATUS_GetId(struct MyStatus *mystatus);
+struct Party;
 
-extern u32 POKEPARTY_GetCount(struct PokeParty *party);
+extern u32 POKEPARTY_GetCount(struct Party *party);
 
-extern struct PokemonParam *POKEPARTY_GetMember(struct PokeParty *party, u32 index);
+extern struct PokemonParam *POKEPARTY_GetMember(struct Party *party, u32 pos);
 
 extern u32 POKE_TOOL_GetPartyValue(struct PokemonParam *mon, u32 dataId, u32 arg);
 
-extern int BOX_SAVEDATA_GetPokemonValue(struct BoxData *boxData, u32 box, u32 slot, int dataId, int arg);
+extern int BOX_SAVEDATA_GetPokemonValue(struct GameData *gameData, unsigned int box, unsigned int slot, int field, int arg);
 
 extern struct BattleBoxSave *BATTLE_BOX_GetFromSave(struct SaveControl *saveControl);
+struct BoxMonGroup;
+struct BoxMon;
 
-extern struct PokemonParam *BATTLE_BOX_GetMon(struct BattleBoxSave *battleBox, u32 team, u32 slot);
+extern struct BoxMon *BATTLE_BOX_GetMon(struct BoxMonGroup *groups, u32 group, u32 index);
+struct BoxPokemon;
 
-extern u32 POKE_TOOL_GetBoxValue(struct PokemonParam *mon, u32 dataId, u32 arg);
+extern u32 POKE_TOOL_GetBoxValue(struct BoxPokemon *box, u32 paramId, u32 arg);
+struct FieldSubprocTemplate;
+struct FieldSubprocMgr;
+struct FieldSubproc;
 
-extern int *FIELD_SUBPROC_Start(int overlayId, int *mapFunc, const int *procData);
+extern struct FieldSubproc *FIELD_SUBPROC_Start(int overlayId, struct FieldSubprocMgr *mgr, struct FieldSubprocTemplate *tmpl);
+struct FieldmapFunc;
 
-extern u32 FIELDMAP_GetMapFunc(struct FieldMap *fieldMap);
+extern struct FieldmapFunc *FIELDMAP_GetMapFunc(struct FieldMap *fieldMap);
+struct PlayerLocationData;
 
-extern struct PlayerLocation *PLAYER_LOCATION_GetData(struct SaveControl *saveControl);
+extern struct PlayerLocationData *PLAYER_LOCATION_GetData(void *save);
 
-extern u16 PLAYER_LOCATION_GetStepMessageCount(const struct PlayerLocation *location);
+extern u16 PLAYER_LOCATION_GetStepMessageCount(struct PlayerLocationData *location_data);
 
 extern char abs_id_39[];
 
@@ -233,12 +242,12 @@ int SCRCMD_CountOtherOtIdsTaskMain(struct GameEvent *event, int *seq, OtCountTas
 int SCRCMD_CountPartyOtherOtIds(u32 playerId, struct GameData *gameData, OtIdList *list)
 {
     struct PokeParty *party = GAME_DATA_GetMyParty(gameData);
-    int partyCount = POKEPARTY_GetCount(party);
+    int partyCount = POKEPARTY_GetCount((struct Party *)party);
     int added = 0;
     int i;
 
     for (i = 0; i < partyCount; i++) {
-        struct PokemonParam *mon = POKEPARTY_GetMember(party, i);
+        struct PokemonParam *mon = POKEPARTY_GetMember((struct Party *)party, i);
         if (POKE_TOOL_GetPartyValue(mon, MON_DATA_IS_EGG, 0) == 0) {
             u32 otId = POKE_TOOL_GetPartyValue(mon, MON_DATA_OT_ID, 0);
             if (SCRCMD_AddOtherOtId(playerId, otId, list) != 0) {
@@ -252,14 +261,14 @@ int SCRCMD_CountPartyOtherOtIds(u32 playerId, struct GameData *gameData, OtIdLis
 /* Adds the original trainers of the non-egg Pokemon of one PC box to the list. */
 int SCRCMD_CountBoxOtherOtIds(u32 playerId, struct GameData *gameData, u32 box, OtIdList *list)
 {
-    struct BoxData *boxData = GAME_DATA_GetBoxManager(gameData);
+    struct BoxData *boxData = (struct BoxData *)GAME_DATA_GetBoxManager(gameData);
     int added = 0;
     int i;
 
     for (i = 0; i < BOX_SLOT_COUNT; i++) {
-        if (BOX_SAVEDATA_GetPokemonValue(boxData, box, i, MON_DATA_HAS_SPECIES, 0) != 0) {
-            if (BOX_SAVEDATA_GetPokemonValue(boxData, box, i, MON_DATA_IS_EGG, 0) == 0) {
-                u32 otId = BOX_SAVEDATA_GetPokemonValue(boxData, box, i, MON_DATA_OT_ID, 0);
+        if (BOX_SAVEDATA_GetPokemonValue((struct GameData *)boxData, box, i, MON_DATA_HAS_SPECIES, 0) != 0) {
+            if (BOX_SAVEDATA_GetPokemonValue((struct GameData *)boxData, box, i, MON_DATA_IS_EGG, 0) == 0) {
+                u32 otId = BOX_SAVEDATA_GetPokemonValue((struct GameData *)boxData, box, i, MON_DATA_OT_ID, 0);
                 if (SCRCMD_AddOtherOtId(playerId, otId, list) != 0) {
                     added++;
                 }
@@ -279,9 +288,9 @@ int SCRCMD_CountBattleBoxOtherOtIds(u32 playerId, struct GameData *gameData, u32
     battleBox = BATTLE_BOX_GetFromSave(GAME_DATA_GetSaveControl(gameData));
     added = 0;
     for (i = 0; i < BATTLE_BOX_SLOT_COUNT; i++) {
-        struct PokemonParam *mon = BATTLE_BOX_GetMon(battleBox, team, i);
-        if (POKE_TOOL_GetBoxValue(mon, MON_DATA_HAS_SPECIES, 0) != 0) {
-            u32 otId = POKE_TOOL_GetBoxValue(mon, MON_DATA_OT_ID, 0);
+        struct PokemonParam *mon = (struct PokemonParam *)BATTLE_BOX_GetMon((struct BoxMonGroup *)battleBox, team, i);
+        if (POKE_TOOL_GetBoxValue((struct BoxPokemon *)mon, MON_DATA_HAS_SPECIES, 0) != 0) {
+            u32 otId = POKE_TOOL_GetBoxValue((struct BoxPokemon *)mon, MON_DATA_OT_ID, 0);
             if (SCRCMD_AddOtherOtId(playerId, otId, list) != 0) {
                 added++;
             }
@@ -330,7 +339,7 @@ int SCRCMD_StartSubProcOv057(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 
     SCRCMD_WORK_GetScriptWork(cmdWork);
     fieldMap = GAMESYSTEM_GetFieldMap(SCRCMD_WORK_GetGameSystem(cmdWork));
-    FIELD_SUBPROC_Start((int)abs_id_39, (int *)FIELDMAP_GetMapFunc(fieldMap), (const int *)d_021F3900);
+    FIELD_SUBPROC_Start((int)abs_id_39, (struct FieldSubprocMgr *)FIELDMAP_GetMapFunc(fieldMap), (struct FieldSubprocTemplate *)d_021F3900);
     return 0;
 }
 
@@ -341,8 +350,8 @@ int SCRCMD_GetPlayerLocationValue(struct ScriptVm *vm, struct ScrcmdWork *cmdWor
     u16 *resultVar;
 
     SCRCMD_WORK_GetScriptWork(cmdWork);
-    location = PLAYER_LOCATION_GetData(GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData(SCRCMD_WORK_GetGameSystem(cmdWork))));
+    location = (struct PlayerLocation *)PLAYER_LOCATION_GetData(GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData(SCRCMD_WORK_GetGameSystem(cmdWork))));
     resultVar = SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
-    *resultVar = PLAYER_LOCATION_GetStepMessageCount(location);
+    *resultVar = PLAYER_LOCATION_GetStepMessageCount((struct PlayerLocationData *)location);
     return 0;
 }

@@ -66,6 +66,16 @@
  *   FIELD_CAMERA_SetTarget  0x0218EC90  thumb  ov021
  *   VEC_MultAdd  0x0207CEE4  arm
  *   FLDEFF_IWAKUDAKI_Start  0x021ADD7C  thumb  ov021
+ *   _f2d                         0x0209BD38  arm
+ *   _fadd                        0x0209C95C  arm
+ *   _fdiv                        0x0209CE10  arm
+ *   _ffix                        0x0209C494  arm
+ *   _ffixu                       0x0209C4C8  arm
+ *   _fflt                        0x0209BDBC  arm
+ *   _ffltu                       0x0209BE04  arm
+ *   _fgr                         0x0209BBB0  arm
+ *   _fmul                        0x0209C77C  arm
+ *   _fsub                        0x0209CB8C  arm
  */
 #include "field_task_types.h"
 #include "field_flash_shared_types.h"
@@ -315,18 +325,20 @@ extern int FIELD_TASK_IsFinished(FieldTask *task);
 extern u16 FIELDMAP_GetHeapId(FieldMap *fieldMap);
 
 extern FieldTask *FIELD_TASK_Create(u32 heapId, u32 size, FieldTaskUpdateFunc update);
+struct FieldTask;
 
-extern void *FIELD_TASK_GetWork(FieldTask *task);
+extern u32 FIELD_TASK_GetWork(FieldTask *task);
 
 extern FieldCamera *FIELDMAP_GetCamera(FieldMap *fieldMap);
+struct FieldCamera;
 
-extern fx32 FIELD_CAMERA_GetDistance(FieldCamera *camera);
+extern u32 FIELD_CAMERA_GetDistance(FieldCamera *camera);
 
 extern u32 FIELD_CAMERA_GetMode(FieldCamera *camera);
 
 extern void FIELD_CAMERA_SetMode(FieldCamera *camera, u32 value);
 
-extern void FIELD_CAMERA_SetDistance(FieldCamera *camera, fx32 distance);
+extern void FIELD_CAMERA_SetDistance(struct FieldCamera *camera, u32 distance);
 
 extern u16 FIELD_CAMERA_GetYaw(FieldCamera *camera);
 
@@ -334,7 +346,7 @@ extern u16 FIELD_CAMERA_GetPitch(FieldCamera *camera);
 
 extern void FIELD_CAMERA_SetPitch(FieldCamera *camera, u16 angle);
 
-extern void FIELD_CAMERA_SetYaw(FieldCamera *camera, u16 angle);
+extern void FIELD_CAMERA_SetYaw(struct FieldCamera *camera, u32 yaw);
 
 extern FieldPlayer *FIELDMAP_GetFieldPlayer(FieldMap *fieldMap);
 
@@ -357,20 +369,25 @@ extern int FLDMMDL_MOVE_UpdateHeight(Mmdl *mmdl);
 extern void BUTTON_MAN_ScaleVec(const VecFx32 *v, int scale, VecFx32 *out);
 
 extern void VEC_Add(const VecFx32 *a, const VecFx32 *b, VecFx32 *out);
+struct FieldMap;
+struct FieldEffectCont;
 
-extern FieldEffectCtrl *FIELDMAP_GetEffect(FieldMap *fieldMap);
+extern struct FieldEffectCont *FIELDMAP_GetEffect(FieldMap *fieldMap);
+struct MmdlVec;
+struct Mmdl;
 
-extern void FLDMMDL_SetDrawOffset(Mmdl *mmdl, VecFx32 *offset);
+extern void FLDMMDL_SetDrawOffset(struct Mmdl *mmdl, struct MmdlVec *offset);
+struct FieldEffectSys;
 
-extern void FLDEFF_KEMURI_Start(Mmdl *mmdl, FieldEffectCtrl *effectCtrl);
+extern void FLDEFF_KEMURI_Start(struct Mmdl *mmdl, struct FieldEffectSys *sys);
 
 extern void GFL_USE_PlaySeDefaultVolume(u32 seId);
 
-extern void FADE_Start(u32 mode, u32 start, u32 end, u32 wait);
+extern void FADE_Start(u32 a, s32 b, s32 c, s32 d);
 
-extern void FLDMMDL_GetPos(const Mmdl *mmdl, VecFx32 *pos);
+extern void FLDMMDL_GetPos(struct Mmdl *mmdl, struct MmdlVec *out);
 
-extern void FLDMMDL_SetPos(Mmdl *mmdl, VecFx32 *pos);
+extern void FLDMMDL_SetPos(struct Mmdl *mmdl, struct MmdlVec *pos);
 
 extern void FIELD_CAMERA_GetTargetShift(FieldCamera *camera, VecFx32 *out);
 
@@ -382,7 +399,7 @@ extern void FIELD_CAMERA_SetTarget(FieldCamera *camera, VecFx32 *v);
 
 extern void VEC_MultAdd(int t, VecFx32 *a, VecFx32 *b, VecFx32 *out);
 
-extern void FLDEFF_IWAKUDAKI_Start(Mmdl *mmdl, FieldEffectCtrl *effectCtrl);
+extern void FLDEFF_IWAKUDAKI_Start(struct Mmdl *mmdl, struct FieldEffectSys *fieldEffect);
 
 /* Spin acmd tables (u16 per facing direction) and the FLD3D_CI id table (key, id pairs). */
 extern SpinAcmdTable gSpinAcmdLinear;
@@ -473,7 +490,7 @@ FieldTask *FIELD_TASK_CreateCameraLerp(FieldMap *fieldMap, int frames, const Vec
 
 int FIELD_TASK_UpdateCameraLerp(CameraLerpTask *task);
 
-FieldTask *FIELD_TASK_CreateRepeatPlayerEffect(FieldMap *fieldMap, int unused, u16 frames, u16 interval);
+FieldTask *FIELD_TASK_CreateRepeatPlayerEffect(FieldMap *fieldMap, struct Mmdl *unused, u16 frames, u16 interval);
 
 int FIELD_TASK_UpdateRepeatPlayerEffect(RepeatEffectTask *task);
 
@@ -910,16 +927,16 @@ int FIELD_TASK_UpdatePlayerDrop(PlayerDropTask *task)
     switch (task->state) {
     case 0:
         FIELD_TASK_CalcDropOffset(&offset, (float)(u32)task->frame, (float)(u32)task->frames, task->height);
-        FLDMMDL_SetDrawOffset(mmdl, &offset);
+        FLDMMDL_SetDrawOffset(mmdl, (struct MmdlVec *)(&offset));
         GFL_USE_PlaySeDefaultVolume(0x681);
         task->state = task->state + 1;
         break;
     case 1:
         task->frame = task->frame + 1;
         FIELD_TASK_CalcDropOffset(&offset, (float)(u32)task->frame, (float)(u32)task->frames, task->height);
-        FLDMMDL_SetDrawOffset(mmdl, &offset);
+        FLDMMDL_SetDrawOffset(mmdl, (struct MmdlVec *)(&offset));
         if (task->frames <= task->frame) {
-            FLDEFF_KEMURI_Start(mmdl, FIELDMAP_GetEffect(task->fieldMap));
+            FLDEFF_KEMURI_Start(mmdl, (struct FieldEffectSys *)FIELDMAP_GetEffect(task->fieldMap));
             GFL_USE_PlaySeDefaultVolume(0x682);
             return 1;
         }
@@ -982,7 +999,7 @@ FieldTask *FIELD_TASK_CreateMmdlDrawOffsetTween(FieldMap *fieldMap, int frames, 
     tween->state = 0;
     tween->fieldMap = fieldMap;
     tween->mmdl = mmdl;
-    FLDMMDL_GetPos(mmdl, &tween->startPos);
+    FLDMMDL_GetPos(mmdl, (struct MmdlVec *)(&tween->startPos));
     if (frames >= 0) {
         tween->reverse = 0;
         tween->frame = 0;
@@ -1006,7 +1023,7 @@ FieldTask *FIELD_TASK_CreateMmdlPosOffsetTween(FieldMap *fieldMap, int frames, c
     tween->state = 0;
     tween->fieldMap = fieldMap;
     tween->mmdl = mmdl;
-    FLDMMDL_GetPos(mmdl, &tween->startPos);
+    FLDMMDL_GetPos(mmdl, (struct MmdlVec *)(&tween->startPos));
     if (frames >= 0) {
         tween->reverse = 0;
         tween->frame = 0;
@@ -1041,7 +1058,7 @@ int FIELD_TASK_UpdateMmdlDrawOffsetTween(MmdlOffsetTween *tween)
         } else if (tween->reverse == 1) {
             FIELD_TASK_CalcOffsetByProgress(&offset, tween->frames - tween->frame, &tween->offset, tween->frames);
         }
-        FLDMMDL_SetDrawOffset(mmdl, &offset);
+        FLDMMDL_SetDrawOffset(mmdl, (struct MmdlVec *)(&offset));
         if (tween->frames <= tween->frame) {
             return 1;
         }
@@ -1061,7 +1078,7 @@ int FIELD_TASK_UpdateMmdlPosOffsetTween(MmdlOffsetTween *tween)
             FIELD_TASK_CalcOffsetByProgress(&offset, tween->frames - tween->frame, &tween->offset, tween->frames);
         }
         VEC_Add(&offset, &tween->startPos, &offset);
-        FLDMMDL_SetPos(mmdl, &offset);
+        FLDMMDL_SetPos(mmdl, (struct MmdlVec *)(&offset));
         if (tween->frames <= tween->frame) {
             return 1;
         }
@@ -1167,7 +1184,7 @@ int FIELD_TASK_UpdateCameraLerp(CameraLerpTask *task)
 }
 
 /* Run the player effect every `interval` frames for `frames` frames. */
-FieldTask *FIELD_TASK_CreateRepeatPlayerEffect(FieldMap *fieldMap, int unused, u16 frames, u16 interval)
+FieldTask *FIELD_TASK_CreateRepeatPlayerEffect(FieldMap *fieldMap, struct Mmdl *unused, u16 frames, u16 interval)
 {
     int heapId;
     FieldPlayer *player;
@@ -1178,7 +1195,7 @@ FieldTask *FIELD_TASK_CreateRepeatPlayerEffect(FieldMap *fieldMap, int unused, u
     task = FIELD_TASK_Create(heapId, 0x14, FIELD_TASK_UpdateRepeatPlayerEffect);
     effect = (RepeatEffectTask *)FIELD_TASK_GetWork(task);
     effect->fieldMap = fieldMap;
-    effect->effectCtrl = FIELDMAP_GetEffect(fieldMap);
+    effect->effectCtrl = (struct FieldEffectCtrl *)FIELDMAP_GetEffect(fieldMap);
     effect->mmdl = FIELD_PLAYER_GetMmdl(player);
     effect->state = 0;
     effect->frame = 0;
@@ -1191,7 +1208,7 @@ int FIELD_TASK_UpdateRepeatPlayerEffect(RepeatEffectTask *task)
 {
     if (task->state == 0) {
         if (task->frame % task->interval == 0)
-            FLDEFF_IWAKUDAKI_Start(task->mmdl, task->effectCtrl);
+            FLDEFF_IWAKUDAKI_Start(task->mmdl, (struct FieldEffectSys *)task->effectCtrl);
         if (task->frames <= task->frame++)
             return 1;
     }

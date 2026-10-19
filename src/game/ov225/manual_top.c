@@ -50,6 +50,7 @@
 #include "manual_common_shared_types.h"
 #include "manual_touchbar_shared_types.h"
 #include "manual_list_shared_types.h"
+extern u32 KEY_GetTrg(void);
 
 struct ManualListBuffer;
 
@@ -75,52 +76,61 @@ struct ManualListBuffer {
 extern void *GFL_HEAP_Alloc(u32, u32, int, const char *, u16);
 
 extern u32 GFL_HEAP_Free(void *p);
+struct PrintQueue;
 
-extern void PRINTSYS_QUE_Clear(struct PrintSys *);
+extern void PRINTSYS_QUE_Clear(struct PrintQueue *queue);
 
 extern void *GFL_USE_AddMainTask(unsigned,unsigned,unsigned);
+struct TcbTask;
 
-extern void TCB_DeleteTask(struct Node *n);
+extern void TCB_DeleteTask(struct TcbTask *task);
 
-extern void PRINTSYS_QUE_Clear(struct PrintSys *),BMP_WIN_Delete(struct Descriptor *);
+extern void PRINTSYS_QUE_Clear(struct PrintQueue *),BMP_WIN_Delete(struct Descriptor *);
+struct MsgBank;
+struct Strbuf;
 
-extern void *MSGDATA_AllocString(struct MsgBank *,unsigned);
+extern struct Strbuf *MSGDATA_AllocString(struct MsgBank *,unsigned);
 
-extern void STRBUF_Delete(struct U16Vec *);
+extern void STRBUF_Delete(struct Strbuf *strbuf);
 
 extern u32 KEY_GetRepeat(void);
 
 extern void UI_SetInputMode(u8);
 
 extern void GFL_USE_PlaySeDefaultVolume(u32);
+struct TaskMenuWin;
 
-extern void APP_TASKMENU_WIN_Update(u8 *p);
+extern void APP_TASKMENU_WIN_Update(struct TaskMenuWin *win);
 
-extern u32 APP_TASKMENU_WIN_IsFinish(u8 *);
+extern u32 APP_TASKMENU_WIN_IsFinish(struct TaskMenuWin *win);
 
 extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *,u32,u32,u32,u32,u16);
 
 extern u32 ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 
 extern u32 ARC_UTIL_UploadBgPaletteAddFromHandleExt(void *,u32,u32,u32,u32,u32,u32,u16);
+struct PrintQueue;
+struct GFont;
+struct TaskMenuRes;
 
-extern struct ManualRes *APP_TASKMENU_RES_Create(u16, u16, unsigned, unsigned, u16);
+extern struct TaskMenuRes *APP_TASKMENU_RES_Create(u16 bgFrame, u16 palNo, struct GFont *font, struct PrintQueue *printQue, u16 heapId);
 
 extern u8 UI_GetInputMode(void);
 
-extern void APP_TASKMENU_WIN_SetActive(struct Obj *, unsigned);
+extern void APP_TASKMENU_WIN_SetActive(struct TaskMenuWin *win, u32 isActive);
 
 extern void BG_SYS_MarkTileDirty(u32);
 
-extern void APP_TASKMENU_WIN_Delete(u8 *);
+extern void APP_TASKMENU_WIN_Delete(struct TaskMenuWin *win);
 
-extern u32 APP_TASKMENU_RES_Delete(struct TaskMenuState *s);
+extern void APP_TASKMENU_RES_Delete(struct TaskMenuRes *res);
 
 extern int TOUCHPANEL_HitTrg(const void *);
 
-extern void APP_TASKMENU_WIN_SetDecide(char *p, int v);
+extern void APP_TASKMENU_WIN_SetDecide(struct TaskMenuWin *win, s32 isDecide);
+struct TaskMenuItem;
 
-extern u32 APP_TASKMENU_WIN_Create(u32 res, u32 item, u32 charPosX, u32 charPosY, u8 width, u16 heapId);
+extern struct TaskMenuWin *APP_TASKMENU_WIN_Create(struct TaskMenuRes *res, struct TaskMenuItem *item, u16 charPosX, u16 charPosY, u8 width, u16 heapId);
 
 void MANUAL_COMMON_UpdateTouchbar(char *p);
 
@@ -172,7 +182,7 @@ char *MANUAL_COMMON_CreateDialog(char *owner, char *data)
 
 void MANUAL_COMMON_DeleteDialog(char *dialog)
 {
-    TCB_DeleteTask((struct Node *)(((struct ManualDialog *)dialog)->task));
+    TCB_DeleteTask((struct TcbTask *)(((struct ManualDialog *)dialog)->task));
     GFL_HEAP_Free(dialog);
 }
 
@@ -207,11 +217,11 @@ int MANUAL_COMMON_UpdateDialog(char *dialog)
         }
     }
     if (((struct ManualDialog *)dialog)->state==0 || ((struct ManualDialog *)dialog)->state==3) {
-        for (i=0;i<2;i++) APP_TASKMENU_WIN_Update((u8 *)(*(char **)(dialog+0xc+i*4)));
+        for (i=0;i<2;i++) APP_TASKMENU_WIN_Update((struct TaskMenuWin *)(*(char **)(dialog+0xc+i*4)));
         if (((struct ManualDialog *)dialog)->state==0) {
             if (MANUAL_COMMON_UpdateDialogInput(dialog)) ((struct ManualDialog *)dialog)->state=3;
         } else {
-            if (APP_TASKMENU_WIN_IsFinish((u8 *)(*(char **)(dialog+0xc+**(u8 * *)&((struct ManualDialog *)dialog)->owner*4)))) {
+            if (APP_TASKMENU_WIN_IsFinish((struct TaskMenuWin *)(*(char **)(dialog+0xc+**(u8 * *)&((struct ManualDialog *)dialog)->owner*4)))) {
                 unsigned value;
                 if (**(u8 * *)&((struct ManualDialog *)dialog)->owner==0) value=2;
                 else if (**(u8 * *)&((struct ManualDialog *)dialog)->owner==1) value=3;
@@ -245,7 +255,7 @@ void MANUAL_COMMON_CreateDialogWindows(char *dialog)
 {
     struct ManualTaskEntry entries[2];
     u8 i;
-    *(struct ManualRes * *)&((struct ManualDialog *)dialog)->resource = APP_TASKMENU_RES_Create(5, 4, ((struct ManualData *)(*(char * *)&((struct ManualDialog *)dialog)->data))->font, ((struct ManualData *)(*(char * *)&((struct ManualDialog *)dialog)->data))->printQue1, ((struct ManualData *)(*(char * *)&((struct ManualDialog *)dialog)->data))->heap);
+    *(struct ManualRes * *)&((struct ManualDialog *)dialog)->resource = (struct ManualRes *)APP_TASKMENU_RES_Create(5, 4, (struct GFont *)(((struct ManualData *)(*(char * *)&((struct ManualDialog *)dialog)->data))->font), (struct PrintQueue *)(((struct ManualData *)(*(char * *)&((struct ManualDialog *)dialog)->data))->printQue1), ((struct ManualData *)(*(char * *)&((struct ManualDialog *)dialog)->data))->heap);
     entries[0].resource = MSGDATA_AllocString(*(struct MsgBank * *)&((struct ManualData *)(*(char * *)&((struct ManualDialog *)dialog)->data))->bank0, 0);
     entries[0].tag = 0x39e3;
     entries[0].flags = 0;
@@ -253,17 +263,17 @@ void MANUAL_COMMON_CreateDialogWindows(char *dialog)
     entries[1].tag = 0x39e3;
     entries[1].flags = 0;
     for (i = 0; i < 2; i++) {
-        *(unsigned *)(dialog + i * 4 + 0xc) = APP_TASKMENU_WIN_Create(*(unsigned *)&((struct ManualDialog *)dialog)->resource, (unsigned)&entries[i], 1, (u8)((i + 1) * 3), 30, ((struct ManualData *)(*(char * *)&((struct ManualDialog *)dialog)->data))->heap);
+        *(unsigned *)(dialog + i * 4 + 0xc) = (u32)APP_TASKMENU_WIN_Create((struct TaskMenuRes *)(*(unsigned *)&((struct ManualDialog *)dialog)->resource), (struct TaskMenuItem *)&entries[i], 1, (u8)((i + 1) * 3), 30, ((struct ManualData *)(*(char * *)&((struct ManualDialog *)dialog)->data))->heap);
         STRBUF_Delete(entries[i].resource);
     }
-    if (UI_GetInputMode() == 0) APP_TASKMENU_WIN_SetActive(*(struct Obj **)(dialog + *(u8 *)*(char * *)&((struct ManualDialog *)dialog)->owner * 4 + 0xc), 1);
+    if (UI_GetInputMode() == 0) APP_TASKMENU_WIN_SetActive((struct TaskMenuWin *)(*(struct Obj **)(dialog + *(u8 *)*(char * *)&((struct ManualDialog *)dialog)->owner * 4 + 0xc)), 1);
 }
 
 void MANUAL_COMMON_SetDialogBgMode(char *dialog) { BG_SYS_MarkTileDirty(4); }
 
 void MANUAL_COMMON_DeleteDialogStep(char *dialog) { MANUAL_COMMON_DeleteDialogWindows(dialog); }
 
-void MANUAL_COMMON_DeleteDialogWindows(char *dialog) { u8 i; PRINTSYS_QUE_Clear(*(struct PrintSys * *)&((struct ManualData *)(*(char * *)&((struct ManualDialog *)dialog)->data))->printQue1); for(i=0;i<2;i++) APP_TASKMENU_WIN_Delete(*(u8 **)(dialog+i*4+12)); APP_TASKMENU_RES_Delete(*(struct TaskMenuState * *)&((struct ManualDialog *)dialog)->resource); BG_SYS_MarkTileDirty(5); }
+void MANUAL_COMMON_DeleteDialogWindows(char *dialog) { u8 i; PRINTSYS_QUE_Clear(*(struct PrintQueue * *)&((struct ManualData *)(*(char * *)&((struct ManualDialog *)dialog)->data))->printQue1); for(i=0;i<2;i++) APP_TASKMENU_WIN_Delete((struct TaskMenuWin *)(*(u8 **)(dialog+i*4+12))); APP_TASKMENU_RES_Delete((struct TaskMenuRes *)(*(struct TaskMenuState * *)&((struct ManualDialog *)dialog)->resource)); BG_SYS_MarkTileDirty(5); }
 
 /*
  * Lever: unhinted BF9C data uses this function's own overlay region.

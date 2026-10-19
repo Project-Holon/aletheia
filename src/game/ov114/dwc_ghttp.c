@@ -45,7 +45,7 @@ extern void ghttpCleanup(void);
 extern int DWCi_IsError(void);
 extern void ghttpThink(void);
 extern void DWCi_RemoveAllDWCGHTTPParamEntry(void);
-extern void DWC_Free(int name, void *ptr, int size);
+extern void DWC_Free(int name, void *ptr, unsigned int size);
 extern void ghttpCancelRequest(int request);
 extern void ghttpSetMaxRecvTime(int request, unsigned int maxRecvTime);
 extern void DWCi_SetError(int error, int errorCode);

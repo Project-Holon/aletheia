@@ -56,8 +56,9 @@ struct IrcRankSave {
 extern void MI_CpuFill8(void *dest, u8 data, u32 size);
 
 extern void MI_CpuCopy8(const void *src, void *dest, u32 size);
+struct RtcDateSigned;
 
-extern s32  GF_STANDARD_GetDayOfYear(struct RTCDate *date);
+extern s32  GF_STANDARD_GetDayOfYear(struct RtcDateSigned *d);
 
 extern void *SAVE_CONTROL_GetBlock(struct SaveControl *save, u32 blockId);
 
@@ -258,10 +259,10 @@ u8 IRC_RANKING_GetDateScore(u32 month, u32 day, struct RTCDate *today)
 {
     struct RTCDate date = *today;
     u32 todayNum, dayNum;
-    todayNum = GF_STANDARD_GetDayOfYear(&date);
+    todayNum = GF_STANDARD_GetDayOfYear((struct RtcDateSigned *)(&date));
     date.month = month;
     date.day = day;
-    dayNum = GF_STANDARD_GetDayOfYear(&date);
+    dayNum = GF_STANDARD_GetDayOfYear((struct RtcDateSigned *)(&date));
     if (todayNum >= dayNum) {
         dayNum += 365;
     }

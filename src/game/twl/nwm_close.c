@@ -20,11 +20,11 @@
  */
 typedef unsigned int u32;
 
-extern u32 NWMi_CheckState(u32, u32);
+extern u32 NWMi_CheckState(u32 n, ...);
 extern u32 NWMi_GetSystemWork(void);
 extern void DC_InvalidateRange(u32, u32);
 extern void NWMi_SetCallbackTable(u32, u32);
-extern u32 NWMi_SendCommand(u32, u32);
+extern u32 NWMi_SendCommand(unsigned short apiid, unsigned short argc, ...);
 
 u32 NWM_Close(u32 callback) {
     u32 r = NWMi_CheckState(1, 3);

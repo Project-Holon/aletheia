@@ -23,6 +23,7 @@
  *   FIELDMAP_GetEncount  0x02188CE8  thumb
  *   EFFECT_ENCOUNT_LoadSetting  0x021AA7DC  thumb
  *   GAME_DATA_GetFieldGimmick  0x02012A38  thumb
+ *   _u32_div_f                   0x0209C2B0  arm
  */
 #include "../arm9/script_vm_types.h"
 #include "scrcmd_musical_shared_types.h"
@@ -46,8 +47,9 @@ typedef struct FieldGimmickWork {
     u8 pad00[0x0C];
     u32 state;                            /* 0x0C */
 } FieldGimmickWork;
+struct GameData;
 
-extern struct FieldGimmickWork *GAME_DATA_GetFieldGimmick(struct GameData *gameData);
+extern u32 GAME_DATA_GetFieldGimmick(struct GameData *gameData);
 
 /* overlay loading, heap, string helpers */
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 line);
@@ -55,13 +57,14 @@ extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u
 extern u32 GFL_HEAP_Free(void *ptr);
 
 extern void MI_CpuFill8(void *dst, u8 value, u32 size);
+struct ArcHandle;
 
-extern u32 ARC_TOOL_GetHandleMemberSize(struct ArcFile *arc, u32 member);
+extern u32 ARC_TOOL_GetHandleMemberSize(struct ArcHandle *arc, u32 memberIdx);
 
-extern void ARC_TOOL_ReadHandleMemberRange(struct ArcFile *arc, u32 member, u32 offset, u32 size, void *dest);
+extern void ARC_TOOL_ReadHandleMemberRange(struct ArcHandle *arc, u32 memberIdx, u32 offset, u32 size, void *dst);
 
-/* field encounter and field objects (ov021, ov010) */
-extern int ZONEDATA_GetEncountId(u32 zoneId);
+                                                      
+extern u32 ZONEDATA_GetEncountId(u32 zoneId);
 
 extern struct EffectEncountObj *FIELDMAP_GetEncount(struct FieldMap *fieldMap);
 
@@ -95,14 +98,14 @@ int FIELD_ENCOUNT_ST_LoadEncountData(EncountRow *row, struct ArcFile *arc, u32 z
     if (member == 0xffff) {
         return 0;
     }
-    rowCount = ARC_TOOL_GetHandleMemberSize(arc, member) / 0xe8;
+    rowCount = ARC_TOOL_GetHandleMemberSize((struct ArcHandle *)arc, member) / 0xe8;
     if (rowCount != 1 && rowCount != 4) {
         return 0;
     }
     if (rowCount == 1) {
         seasonIndex = 0;
     }
-    ARC_TOOL_ReadHandleMemberRange(arc, member, seasonIndex * 0xe8, 0xe8, row);
+    ARC_TOOL_ReadHandleMemberRange((struct ArcHandle *)arc, member, seasonIndex * 0xe8, 0xe8, row);
     row->flags |= 0x80;
     return 1;
 }
@@ -132,7 +135,7 @@ FieldGimmickWork *FIELD_ENCOUNT_ST_ResetGimmickState(struct GameData *gameData)
 {
     FieldGimmickWork *gimmick;
 
-    gimmick = GAME_DATA_GetFieldGimmick(gameData);
+    gimmick = (struct FieldGimmickWork *)GAME_DATA_GetFieldGimmick(gameData);
     gimmick->state = 0;
     return gimmick;
 }

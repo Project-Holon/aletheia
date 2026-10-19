@@ -47,7 +47,7 @@ typedef struct {
 
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *file, u16 line);
 extern u32 GFL_HEAP_Free(void *p);
-extern void *ARC_TOOL_CreateHandle(u32 arcId, u32 heapId);
+extern void *ARC_TOOL_CreateHandle(u32 archiveID, u16 heapID);
 extern void ARC_TOOL_DeleteHandle(void *arcHandle);
 extern void *ARC_UTIL_LoadHandleMember(void *arcHandle, u32 dataId, u32 heapLow, u32 heapId);
 void FIELD_ZONEFOG_Clear(FieldZoneFog *zoneFog);

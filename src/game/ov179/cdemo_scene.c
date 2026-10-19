@@ -75,7 +75,7 @@ extern void BG_SYS_SetSubVisiblePlanes(u32 planes);
 extern void BG_SYS_SetLcdSwap(u32 swap);
 extern void CDEMO_MAIN_SetupVram(void);
 extern void CDEMO_MAIN_SetupScreen(char *);
-extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
+extern void *ARC_TOOL_CreateHandle(unsigned int archiveID, unsigned short heapID);
 extern void CDEMO_MAIN_SetScript(char *);
 extern void CDEMO_MAIN_StartTask(int *);
 extern void CDEMO_WIPE_StartFadeOut(char *,unsigned,unsigned,unsigned);
@@ -88,10 +88,10 @@ extern void CDEMO_MAIN_Noop(char *);
 extern void CDEMO_MAIN_HidePlane(void);
 extern u64 OS_GetTick(void);
 extern void BG_SYS_SetPriority(int idx, unsigned short val);
-extern void *ARC_UTIL_LoadHandleMember(void *narc, u32 fileID, u32 decompress, u32 heapID);
+extern void *ARC_UTIL_LoadHandleMember(void *narc, unsigned int fileID, unsigned int decompress, unsigned short heapID);
 extern void DC_FlushRange(int, int);
-extern void GX_LoadBG2Scr(int, int, int);
-extern void GX_LoadBG3Scr(int, int, int);
+extern void GX_LoadBG2Scr(void *pSrc, unsigned int offset, unsigned int szByte);
+extern void GX_LoadBG3Scr(void *pSrc, unsigned int offset, unsigned int szByte);
 extern u32 GFL_HEAP_Free(void *p);
 extern void CDEMO_WIPE_StartFadeIn(char *p, u32 a, u32 b, u32 c);
 extern void CDEMO_WIPE_StartFadeOutWhite(char *p, u32 a, u32 b, u32 c);
@@ -100,7 +100,7 @@ extern u32 ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, 
 extern void ARC_UTIL_UploadBgPaletteFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void CDEMO_WIPE_LoadPalette(void *,int,int);
 extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
-extern void GFL_USE_PlayFanfare(void *arg);
+extern void GFL_USE_PlayFanfare(unsigned int seqNo);
 int CDEMO_SCENE_Create(char *p);
 int CDEMO_SCENE_Destroy(char *p);
 u32 CDEMO_SCENE_GetResult(char *p);
@@ -245,9 +245,9 @@ void CDEMO_SCENE_LoadScreenBlock(void *a, int b, int c, int d, int e)
 
     DC_FlushRange(t, d);
     if (e == 0) {
-        GX_LoadBG2Scr(t, c, d);
+        GX_LoadBG2Scr((void *)t, c, d);
     } else {
-        GX_LoadBG3Scr(t, c, d);
+        GX_LoadBG3Scr((void *)t, c, d);
     }
     GFL_HEAP_Free((void *)t);
 }
@@ -408,7 +408,7 @@ int CDEMO_SCENE_CmdStopBgm(void)
  */
 int CDEMO_SCENE_CmdPlayFanfare(void *ctx, unsigned int *rec)
 {
-    GFL_USE_PlayFanfare((void *)rec[1]);
+    GFL_USE_PlayFanfare((unsigned int)rec[1]);
     return 1;
 }
 

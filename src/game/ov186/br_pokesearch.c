@@ -64,25 +64,27 @@
 
 struct StrBuf;
 
-extern void BR_RES_LoadBgGraphics(struct BrRes *res, unsigned kind, unsigned short heapId);
+extern void BR_RES_LoadBgGraphics(void *unusedCtx, unsigned int kind, unsigned short heapId);
 
-extern void BR_RES_ApplyBgSet(struct BrRes *res, unsigned kind);
+extern void BR_RES_ApplyBgSet(void *unusedA, u32 palSet);
+struct Strbuf;
 
-extern void STRBUF_Delete(struct StrBuf *str);
+extern void STRBUF_Delete(struct Strbuf *strbuf);
 
-extern u32 TOUCHPANEL_GetPointTrg(int *outX, int *outY);
+extern u32 TOUCHPANEL_GetPointTrg(unsigned int *x, unsigned int *y);
 
 extern void GFL_USE_PlaySeDefaultVolume(u32 seId);
 
-extern struct StrBuf *STRBUF_Create(u32 capacity, u32 heapId);
+extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
 
 extern void BG_SYS_PushTile(u32 index);
 
 extern void * MI_CpuFill8(void *,u32,u32);
+struct MsgBank;
 
-extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, struct StrBuf *dest);
+extern void MSGDATA_ReadString(struct MsgBank *bank, unsigned int index, struct Strbuf *dest);
 
-extern int BR_RES_GetSprite(struct BrRes *res, int spriteIndex, struct BrResSprite *outSprite);
+extern int BR_RES_GetSprite(struct BrRes *res, unsigned int spriteIndex, void *outSprite);
 
 extern unsigned BR_RES_GetFont(struct BrRes *res);
 
@@ -95,42 +97,43 @@ extern void *GFL_HEAP_Alloc(unsigned int,unsigned int,int,const char *,u16);
 extern u32 GFL_HEAP_Free(void *p);
 
 extern void GF_PANIC_Fail(const char *expr, u32 line, const char *file);
+struct PrintQueue;
 
-extern struct PrintSys *PRINTSYS_QUE_Create(u32 heapId);
+extern struct PrintQueue *PRINTSYS_QUE_Create(u32 heapId);
 
 extern u16 *BR_MEMBER_COUNT_GetU16Count(unsigned short heapId, unsigned *count);
 
-extern void PRINTSYS_QUE_Delete(struct PrintSys *);
+extern void PRINTSYS_QUE_Delete(struct PrintQueue *queue);
 
-extern int BR_BTN_HitTestWithSound(struct BrButton *button, int x, int y);
+extern int BR_BTN_HitTestWithSound(unsigned int *obj, int x, int y);
 
 extern void BR_UTIL_StartEffect(struct BrTapFx *tapFx, u32 mode, const struct BrPoint *point);
 
-extern void BR_UTIL_MainListMenu(struct BrListMenu *menu);
+extern void BR_UTIL_MainListMenu(char *p);
 
-extern int BR_UTIL_GetListMenuHitId(struct BrListMenu *menu);
+extern int BR_UTIL_GetListMenuHitId(char *p);
 
-extern int BR_UTIL_IsEffectDone(struct BrTapFx *tapFx);
+extern int BR_UTIL_IsEffectDone(char *p);
 
-extern void BR_FADE_Start(struct BrFade *fade, int stepIndex, int planeMask, int direction);
+extern void BR_FADE_Start(void *fade, s32 stepIndex, s32 planeMask, s32 direction);
 
 extern int BR_FADE_GetResult(struct BrFade *fade);
 
-extern int BR_UTIL_FlushText(struct BrTextWin *win);
+extern int BR_UTIL_FlushText(unsigned char *p);
 
-extern unsigned PRINTSYS_QUE_Main(struct PrintSys *);
+extern unsigned PRINTSYS_QUE_Main(struct PrintQueue *queue);
 
-extern struct BrButton *BR_BTN_CreateFromMessage(const struct BrActorPos *pos, int file, int width, int param, int uiParamA, int uiParamB, int font, int msgData, struct BrResSprite *sprite, unsigned short heapId);
+extern void *BR_BTN_CreateFromMessage(void *ctx, s32 file, u16 a, s32 b, s32 c, void *d, s32 e, s32 archive, void *config, u16 heap);
 
-extern void BR_BTN_DeleteObject(struct BrButton *button);
+extern void BR_BTN_DeleteObject(char *p);
 
-extern struct BrTextWin *BR_UTIL_Create(unsigned short plane, unsigned x, unsigned short y, unsigned short width, unsigned char height, unsigned char palette, struct PrintSys *printQue, unsigned short heapId);
+extern void *BR_UTIL_Create(unsigned short plane, unsigned int a, unsigned short b, unsigned short c, unsigned char d, unsigned char e, void *owner, unsigned short heap);
 
-extern void BR_UTIL_SetTextLayout(struct BrTextWin *win, u32 a, u32 b, u32 c);
+extern void BR_UTIL_SetTextLayout(unsigned char *p, unsigned int a, unsigned int b, unsigned int c);
 
-extern void BR_UTIL_SetTextFromMessage(struct BrTextWin *win, int msgData, int msgId, int font, unsigned short color);
+extern void BR_UTIL_SetTextFromMessage(char *p, void *a, void *b, void *font, unsigned short value);
 
-extern void BR_UTIL_Delete(struct BrTextWin *win);
+extern void BR_UTIL_Delete(unsigned char *p);
 
 extern struct BrMenuItem *BMP_MENUWORK_Create(u32 count, u32 heapId);
 
@@ -138,9 +141,9 @@ extern void BMP_MENUWORK_AddStrItem(struct BrMenuItem *item, struct StrBuf *str,
 
 extern struct BrListMenu *BR_UTIL_CreateListMenu(struct BrListMenuConfig *config, u32 heapId);
 
-extern void BR_UTIL_DeleteListMenu(struct BrListMenu *menu);
+extern void BR_UTIL_DeleteListMenu(char *p);
 
-extern u32 BMP_MENUWORK_Delete(struct BrMenuItem *items);
+extern u32 BMP_MENUWORK_Delete(void *items);
 
 extern u32 ZUKAN_SAVE_IsSeen(struct ZukanSave *zukan, u16 speciesId);
 
@@ -213,7 +216,7 @@ struct BrPokeSearch *BR_POKESEARCH_Create(struct ZukanSave *zukan, struct BrRes 
     ps->fade = fade;
     ps->uiParamA = uiParamA;
     ps->uiParamB = uiParamB;
-    ps->printQue = PRINTSYS_QUE_Create(ps->heapId);
+    ps->printQue = (struct PrintSys *)PRINTSYS_QUE_Create(ps->heapId);
     ps->groupTable = BR_MEMBER_COUNT_GetU16Count((heapId & 0x7fff) | 0x8000, &ps->groupTableCount);
     ps->listParam = listParam;
     ps->tapFx = tapFx;
@@ -228,7 +231,7 @@ void BR_POKESEARCH_Destroy(struct BrPokeSearch *ps)
         ps->seenList=0;
     }
     GFL_HEAP_Free(ps->groupTable);
-    PRINTSYS_QUE_Delete(ps->printQue);
+    PRINTSYS_QUE_Delete((struct PrintQueue *)ps->printQue);
     GFL_HEAP_Free(ps);
 }
 
@@ -242,8 +245,8 @@ int BR_POKESEARCH_Main(struct BrPokeSearch *ps)
             int x,y,held;
             struct BrPoint point;
             ps->touchedGroup=BR_POKESEARCH_PollGroupTouch(ps);
-            held=TOUCHPANEL_GetPointTrg(&x,&y);
-            if (BR_BTN_HitTestWithSound(ps->backButton,x,y)&held) {
+            held=TOUCHPANEL_GetPointTrg((unsigned int *)(&x),(unsigned int *)(&y));
+            if (BR_BTN_HitTestWithSound((unsigned int *)ps->backButton,x,y)&held) {
                 point.x=x; point.y=y;
                 BR_UTIL_StartEffect(ps->tapFx,1,&point);
                 ps->state=8; ps->result=1;
@@ -255,10 +258,10 @@ int BR_POKESEARCH_Main(struct BrPokeSearch *ps)
         case BR_POKESEARCH_PHASE_LIST: {
             int x,y,held;
             struct BrPoint point;
-            BR_UTIL_MainListMenu(ps->listMenu);
-            ps->listChoice=BR_UTIL_GetListMenuHitId(ps->listMenu);
-            held=TOUCHPANEL_GetPointTrg(&x,&y);
-            if (BR_BTN_HitTestWithSound(ps->backButton,x,y)&held) {
+            BR_UTIL_MainListMenu((char *)ps->listMenu);
+            ps->listChoice=BR_UTIL_GetListMenuHitId((char *)ps->listMenu);
+            held=TOUCHPANEL_GetPointTrg((unsigned int *)(&x),(unsigned int *)(&y));
+            if (BR_BTN_HitTestWithSound((unsigned int *)ps->backButton,x,y)&held) {
                 point.x=x; point.y=y;
                 BR_UTIL_StartEffect(ps->tapFx,1,&point);
                 ps->state=4; ps->nextState=2;
@@ -268,7 +271,7 @@ int BR_POKESEARCH_Main(struct BrPokeSearch *ps)
             break;
         }
         case BR_POKESEARCH_PHASE_TAP_WAIT:
-            if (BR_UTIL_IsEffectDone(ps->tapFx)) {
+            if (BR_UTIL_IsEffectDone((char *)ps->tapFx)) {
                 BR_FADE_Start(ps->fade,2,2,1);
                 (ps->state)++;
             }
@@ -310,9 +313,9 @@ unsigned BR_POKESEARCH_UpdatePrint(struct BrPokeSearch *ps)
     int i;
     for(i=0;i<BR_POKESEARCH_GROUP_COUNT;i++){
         struct BrTextWin *win=ps->groupWin[i];
-        if(win)r &= BR_UTIL_FlushText(win);
+        if(win)r &= BR_UTIL_FlushText((unsigned char *)win);
     }
-    return r & PRINTSYS_QUE_Main(ps->printQue);
+    return r & PRINTSYS_QUE_Main((struct PrintQueue *)ps->printQue);
 }
 
 void BR_POKESEARCH_Open(struct BrPokeSearch *ps)
@@ -356,12 +359,12 @@ void BR_POKESEARCH_CreateBackButton(struct BrPokeSearch *ps)
     pos.x = 0x50; pos.y = 0xa8; pos.animSeq = 0; pos.drawPriority = 1;
     if (!BR_RES_GetSprite(ps->res, 6, &sprite))
         GF_PANIC_Fail(gBrPokeSearchAssertString, 0, gBrPokeSearchAssertString);
-    ps->backButton = BR_BTN_CreateFromMessage(&pos, 4, 0x60, 1, ps->uiParamA, ps->uiParamB, font, msgData, &sprite, ps->heapId);
+    ps->backButton = BR_BTN_CreateFromMessage((void *)(&pos), 4, 0x60, 1, ps->uiParamA, (void *)ps->uiParamB, font, msgData, &sprite, ps->heapId);
 }
 
 void BR_POKESEARCH_DestroyBackButton(struct BrPokeSearch *ps)
 {
-    BR_BTN_DeleteObject(ps->backButton);
+    BR_BTN_DeleteObject((char *)ps->backButton);
 }
 
 void BR_POKESEARCH_CreateGroupWindows(struct BrPokeSearch *ps)
@@ -380,8 +383,8 @@ void BR_POKESEARCH_CreateGroupWindows(struct BrPokeSearch *ps)
         ps->groupWin[i] = BR_UTIL_Create(4, (unsigned char)x, (unsigned char)(y + 4), (unsigned)4, 2, 14, ps->printQue, ps->heapId);
         color = 0x3da0;
         if (!ps->groupHasSeen[i]) color = 0x2da0;
-        BR_UTIL_SetTextLayout(ps->groupWin[i], 0, 0, 1);
-        BR_UTIL_SetTextFromMessage(ps->groupWin[i], msgData, i + 0x3a, font, color);
+        BR_UTIL_SetTextLayout((unsigned char *)ps->groupWin[i], 0, 0, 1);
+        BR_UTIL_SetTextFromMessage((char *)ps->groupWin[i], (void *)msgData, (void *)(i + 0x3a), (void *)font, color);
     }
 }
 
@@ -389,7 +392,7 @@ void BR_POKESEARCH_DestroyGroupWindows(struct BrPokeSearch *ps)
 {
     int i;
     for(i=0;i<BR_POKESEARCH_GROUP_COUNT;i++){
-        BR_UTIL_Delete(ps->groupWin[i]);
+        BR_UTIL_Delete((unsigned char *)ps->groupWin[i]);
         ps->groupWin[i]=0;
     }
     BG_SYS_PushTile(4);
@@ -435,12 +438,12 @@ void BR_POKESEARCH_CreateSpeciesList(struct BrPokeSearch *ps)
     if (ps->menuItems) GF_PANIC_Fail(gBrPokeSearchAssertString,0,gBrPokeSearchAssertString);
     if (ps->listMenu) GF_PANIC_Fail(gBrPokeSearchAssertString,0,gBrPokeSearchAssertString);
     ps->menuItems=BMP_MENUWORK_Create(ps->seenCount,ps->heapId);
-    str=STRBUF_Create(11,ps->heapId);
+    str=(struct StrBuf *)STRBUF_Create(11,ps->heapId);
     for(i=0;i<ps->seenCount;i++) {
-        MSGDATA_ReadString(gSpeciesNameBank,ps->seenList[i],str);
+        MSGDATA_ReadString(gSpeciesNameBank,ps->seenList[i],(struct Strbuf *)str);
         BMP_MENUWORK_AddStrItem(ps->menuItems+i,str,ps->seenList[i],ps->heapId);
     }
-    STRBUF_Delete(str);
+    STRBUF_Delete((struct Strbuf *)str);
     cfg=gBrPokeSearchListConfig;
     cfg.items=ps->menuItems;
     cfg.itemCount=ps->seenCount;
@@ -453,7 +456,7 @@ void BR_POKESEARCH_CreateSpeciesList(struct BrPokeSearch *ps)
 
 void BR_POKESEARCH_DestroySpeciesList(struct BrPokeSearch *ps)
 {
-    BR_UTIL_DeleteListMenu(ps->listMenu);
+    BR_UTIL_DeleteListMenu((char *)ps->listMenu);
     ps->listMenu=0;
     BMP_MENUWORK_Delete(ps->menuItems);
     ps->menuItems=0;
@@ -467,7 +470,7 @@ int BR_POKESEARCH_PollGroupTouch(struct BrPokeSearch *ps)
     int index = TOUCHPANEL_HitTrg(gBrPokeSearchHitTable);
     if (index != -1) {
         if (ps->groupHasSeen[index]) {
-            TOUCHPANEL_GetPointTrg(&x, &y);
+            TOUCHPANEL_GetPointTrg((unsigned int *)(&x), (unsigned int *)(&y));
             point.x = x;
             point.y = y;
             BR_UTIL_StartEffect(ps->tapFx, 1, &point);

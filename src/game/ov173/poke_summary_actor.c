@@ -111,18 +111,20 @@ typedef enum { OFFSET=14 } Offset;
 typedef struct {short x,y;u16 unused,z;u32 a,b,c,d,e,f,g,h,i;} Row;
 
 typedef struct {short x,y;u16 z;u8 a,b;} Position;
+struct DispVramCfg;
+struct SysInit;
 
-extern void CLACT_InitSystem(const struct Cfg *,u32,u32);
+extern void CLACT_InitSystem(struct SysInit *cfg, struct DispVramCfg *res_cfg, unsigned int heapId);
 extern struct Bank *CLACT_CreateUnit(int,u8,u32);
 extern void CLACT_SetUnitDefaultRenderer(struct Bank *);
 extern void BG_SYS_SetMainPlaneVisible(u32,u32);
 extern void BG_SYS_SetSubPlaneVisible(u32,u32);
-extern void CLACT_DeleteActor(struct Obj *);
+extern void CLACT_DeleteActor(struct Actor *actor);
 extern u32 CLACT_DeleteUnit(struct Bank *bank);
 extern void CLACT_ExitSystem(void);
 extern void ARC_TOOL_DeleteHandle(void *);
 extern u32 APP_ICON_GetArchiveId(void);
-extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
+extern void *ARC_TOOL_CreateHandle(unsigned int archiveID, unsigned short heapID);
 extern u32 APP_ICON_GetMoveKindAnimFileId(void);
 extern int CLACT_RegisterCharacter(void *,u32,u32,u32,u16);
 extern u32 APP_ICON_GetTypeCellFileId(u32);
@@ -135,47 +137,57 @@ extern u32 APP_ICON_GetStatusPaletteFileId(u32);
 extern int CLACT_RegisterCellAnim(void *,u32,u32,u32);
 extern u32 APP_ICON_GetTypePaletteFileId(u32);
 extern u32 APP_ICON_GetTypeAnimFileId(u32);
-extern int POKEGRA_OpenHandle(int);
-extern void *POKE_TOOL_CastToBoxParam(void *);
-extern u32 POKE_TOOL_DecodeBoxParam(struct Sav *p);
+extern void *POKEGRA_OpenHandle(unsigned int heapId);
+struct PokemonParam;
+extern struct PokemonParam *POKE_TOOL_CastToBoxParam(struct PokemonParam *mon);
+struct BoxPokemon;
+extern u32 POKE_TOOL_DecodeBoxParam(struct BoxPokemon *box);
 extern int POKEGRA_RegisterCgrPP(int,void *,int,int,u16);
 extern int POKEGRA_RegisterPalettePP(int,void *,int,int,u16,u16);
-extern u32 POKEGRA_RegisterCellAnimPP(u32,u32,u32,u32,u16);
-extern u32 POKE_TOOL_EncodeBoxParam(struct Sav *p, u32 f);
-extern void *ARC_UTIL_LoadScreenDataFromHandle(void *arc, u32 memberIdx, u32 heapID, u32 unpackedOut, u16 flags);
+extern u32 POKEGRA_RegisterCellAnimPP(void *pp, u32 dir, u32 mapping, u32 unusedArg, u16 heapId);
+extern u32 POKE_TOOL_EncodeBoxParam(struct BoxPokemon *box, unsigned int didDecode);
+extern void *ARC_UTIL_LoadScreenDataFromHandle(void *arc, u32 memberIdx, u32 heapID, void *unpackedOut, u16 flags);
 extern void CLACT_TransferCharacter(int,struct Sub0204A9D0 *);
 extern u32 GFL_HEAP_Free(void *p);
 /* The original forwards the full entry r1 without halfword truncation. */
 extern u32 WAZA_TOOL_GetParam(u16 id, u32 field);
 extern u8 APP_ICON_GetTypePaletteOffset(int i);
-extern void CLACT_SetActorPaletteOffset(struct Obj *,u32,u32);
+extern void CLACT_SetActorPaletteOffset(struct Actor *actor, unsigned int offset, unsigned int pltt_op);
 extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
-extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
-extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
+extern void CLACT_SetActorDrawEnable(struct Actor *actor, unsigned int value);
+extern void CLACT_SetActorAnimSeq(struct Actor *actor, unsigned short value);
 extern struct Obj *CLACT_CreateActor(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
-extern void CLACT_SetActorAutoAnim(struct Obj *p, u32 v);
-void CLACT_SetActorAnimFrame(struct Obj *p, u32 value);
-extern void WIPE_SYS_Start(void *,u32,u32,u32,u32,u32,u32);
+extern void CLACT_SetActorAutoAnim(struct Actor *actor, unsigned int enable);
+void CLACT_SetActorAnimFrame(struct Actor *actor, unsigned int frame);
+extern void WIPE_SYS_Start(void *divisionMode, unsigned int mainPattern, unsigned int subPattern, unsigned short color, unsigned int frames, unsigned int wait, unsigned int heapId);
 extern void POKE_SUMMARY_MAIN_ExitScreen(char *);
 extern u16 POKE_SUMMARY_MAIN_GetRecordWord(char **);
-extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
-extern void GAMESYSTEM_CallProc(struct IcaAnime *p, u32 id, void *a, void *b);
+struct GameSystem;
+struct GameData;
+extern struct GameData *GAMESYSTEM_GetGameData(struct GameSystem *gameSystem);
+extern void GAMESYSTEM_CallProc(struct GameSystem *gameSystem, unsigned int overlayId, void *procData, void *param);
 extern void POKE_SUMMARY_MAIN_InitScreen(u8 *p);
 extern void GFL_NET_RefreshWmIconAtTopRight(u32 a, u32 b);
-extern struct CursorMove *CURSOR_MOVE_Create(u32,u32,u32,u32,u8,u16);
-extern void CURSOR_MOVE_ClearSkipBit(struct Sound *,u32);
+struct CursorVtbl;
+struct CursorEntry;
+struct Cursor;
+extern struct Cursor *CURSOR_MOVE_Create(struct CursorEntry *entries, struct CursorVtbl *vt, unsigned int ctx, unsigned int state, unsigned char start, unsigned short heapId);
+extern void CURSOR_MOVE_ClearSkipBit(struct Cursor *obj, unsigned int idx);
 extern u32 CURSOR_MOVE_Delete(void *cursor);
 extern void POKE_SUMMARY_MAIN_DrawMoveDetail(char *,int);
 extern void GFL_USE_PlaySeDefaultVolume(unsigned);
 extern void POKE_SUMMARY_MAIN_RedrawMoveList(char *);
-extern void CURSOR_MOVE_SetCurrent(struct Sound *obj, u8 sel);
-extern u32 APP_TASKMENU_WIN_Create(u32, u32, u32, u32, u8, u16);
-extern void APP_TASKMENU_WIN_Delete(u8 *p);
-extern void CURSOR_MOVE_SetSkipBit(struct Sound *obj, u32 idx);
+extern void CURSOR_MOVE_SetCurrent(struct Cursor *obj, unsigned char sel);
+struct TaskMenuItem;
+struct TaskMenuRes;
+struct TaskMenuWin;
+extern struct TaskMenuWin *APP_TASKMENU_WIN_Create(struct TaskMenuRes *res, struct TaskMenuItem *item, unsigned short charPosX, unsigned short charPosY, unsigned char width, unsigned short heapId);
+extern void APP_TASKMENU_WIN_Delete(struct TaskMenuWin *win);
+extern void CURSOR_MOVE_SetSkipBit(struct Cursor *obj, unsigned int idx);
 extern void BG_SYS_PushTile(u32);
-extern void APP_TASKMENU_WIN_SetDecide(char *,int);
+extern void APP_TASKMENU_WIN_SetDecide(struct TaskMenuWin *win, int isDecide);
 extern u32 CLACT_IsActorAnimActive(struct Actor *a);
-extern u32 APP_TASKMENU_WIN_IsFinish(u8 *p);
+extern u32 APP_TASKMENU_WIN_IsFinish(struct TaskMenuWin *win);
 extern void POKE_SUMMARY_MAIN_StartTextStream(char *p, u32 v);
 extern u8 POKE_SUMMARY_MAIN_CountFreeMoves(void ***p);
 extern void G2x_SetBlendBrightness_(u32 addr, int plane, int brightness);
@@ -220,7 +232,7 @@ extern const u8 d_021B83A8[];
 
 
 
-void POKE_SUMMARY_ACTOR_InitSystem(u8 *work, void *archiveHandle) {Offset off;struct Bank *b;CLACT_InitSystem(&d_021B820C,(u32)d_021B8250,79);off=OFFSET;b=CLACT_CreateUnit(14,0,79);off+=242;*(struct Bank **)(work+off)=b;CLACT_SetUnitDefaultRenderer(b);BG_SYS_SetMainPlaneVisible(16,1);BG_SYS_SetSubPlaneVisible(16,1);}
+void POKE_SUMMARY_ACTOR_InitSystem(u8 *work, void *archiveHandle) {Offset off;struct Bank *b;CLACT_InitSystem((struct SysInit *)(&d_021B820C),(struct DispVramCfg *)d_021B8250,79);off=OFFSET;b=CLACT_CreateUnit(14,0,79);off+=242;*(struct Bank **)(work+off)=b;CLACT_SetUnitDefaultRenderer(b);BG_SYS_SetMainPlaneVisible(16,1);BG_SYS_SetSubPlaneVisible(16,1);}
 
 
 
@@ -256,12 +268,12 @@ void POKE_SUMMARY_ACTOR_RegisterResources(char *work,void *archiveHandle)
     ((struct PokeSummaryWork *)work)->reg.named.cellAnimHandles[3]=CLACT_RegisterCellAnim(archiveHandle,24,25,79);
     ((struct PokeSummaryWork *)work)->reg.named.cellAnimHandles[4]=CLACT_RegisterCellAnim(archiveHandle,27,28,79);
     ARC_TOOL_DeleteHandle(bank);
-    second=POKEGRA_OpenHandle(79);
+    second=(int)POKEGRA_OpenHandle(79);
     mon=POKE_TOOL_CastToBoxParam(((struct PokeSummaryWork *)work)->mon->party);
     save=POKE_TOOL_DecodeBoxParam(mon);
     ((struct PokeSummaryWork *)work)->reg.named.cgrHandle=POKEGRA_RegisterCgrPP(second,mon,0,0,79);
     ((struct PokeSummaryWork *)work)->reg.named.paletteHandles[4]=POKEGRA_RegisterPalettePP(second,mon,0,0,128,79);
-    ((struct PokeSummaryWork *)work)->reg.named.cellAnimHandle2=POKEGRA_RegisterCellAnimPP((u32)mon,0,1,0,79);
+    ((struct PokeSummaryWork *)work)->reg.named.cellAnimHandle2=POKEGRA_RegisterCellAnimPP(mon,0,1,0,79);
     POKE_TOOL_EncodeBoxParam(mon,save);
     ARC_TOOL_DeleteHandle((void *)second);
 }
@@ -269,12 +281,12 @@ void POKE_SUMMARY_ACTOR_RegisterResources(char *work,void *archiveHandle)
 
 
 
-void POKE_SUMMARY_ACTOR_TransferCharacter(u32 archiveHandle,int charId,u32 memberIdx,u32 heapID,u16 heap) {void *raw;struct Sub0204A9D0 *out;raw=ARC_UTIL_LoadScreenDataFromHandle((void *)archiveHandle,memberIdx,heapID,(u32)(&out),heap);CLACT_TransferCharacter(charId,out);GFL_HEAP_Free(raw);}
+void POKE_SUMMARY_ACTOR_TransferCharacter(u32 archiveHandle,int charId,u32 memberIdx,u32 heapID,u16 heap) {void *raw;struct Sub0204A9D0 *out;raw=ARC_UTIL_LoadScreenDataFromHandle((void *)archiveHandle,memberIdx,heapID,(&out),heap);CLACT_TransferCharacter(charId,out);GFL_HEAP_Free(raw);}
 
 
 
 
-void POKE_SUMMARY_ACTOR_SetMoveIcon(u8 *work, u16 id, u16 i) {u32 n;n=WAZA_TOOL_GetParam(id,0);((struct PokeSummaryWork *)work)->transfers[i].param=n;((struct PokeSummaryWork *)work)->transfers[i].flag=1;CLACT_SetActorPaletteOffset(*(struct Obj **)(work+(i+8)*4+260),APP_ICON_GetTypePaletteOffset((u8)n),1);}
+void POKE_SUMMARY_ACTOR_SetMoveIcon(u8 *work, u16 id, u16 i) {u32 n;n=WAZA_TOOL_GetParam(id,0);((struct PokeSummaryWork *)work)->transfers[i].param=n;((struct PokeSummaryWork *)work)->transfers[i].flag=1;CLACT_SetActorPaletteOffset((struct Actor *)(*(struct Obj **)(work+(i+8)*4+260)),APP_ICON_GetTypePaletteOffset((u8)n),1);}
 
 
 
@@ -317,7 +329,7 @@ void POKE_SUMMARY_ACTOR_LayoutMoveActors(char *work)
 
 
 
-void POKE_SUMMARY_ACTOR_SetMoveAnim(u8 *work, u16 id) {CLACT_SetActorAnimSeq(*(struct Obj * *)&((struct PokeSummaryWork *)work)->actors[3],WAZA_TOOL_GetParam(id,2));}
+void POKE_SUMMARY_ACTOR_SetMoveAnim(u8 *work, u16 id) {CLACT_SetActorAnimSeq((struct Actor *)(*(struct Obj * *)&((struct PokeSummaryWork *)work)->actors[3]),WAZA_TOOL_GetParam(id,2));}
 
 
 
@@ -359,17 +371,17 @@ void POKE_SUMMARY_ACTOR_PositionMonActor(unsigned char *work, u32 idx, int unuse
         local[0] = 0x82;
         local[1] = idx * 0x18 + 0x54;
         CLACT_AddActorSurfacePos((struct Obj *)(((struct PokeSummaryWork *)work)->actors[2]), (const struct Vec2 *)local, 1);
-        CLACT_SetActorAnimFrame((struct Obj *)(((struct PokeSummaryWork *)work)->actors[2]), 0);
+        CLACT_SetActorAnimFrame((struct Actor *)(((struct PokeSummaryWork *)work)->actors[2]), 0);
     } else if (idx < 6) {
         local[0] = (idx - 4) * 0x28;
         local[1] = 0xa8;
         CLACT_AddActorSurfacePos((struct Obj *)(((struct PokeSummaryWork *)work)->actors[2]), (const struct Vec2 *)local, 1);
-        CLACT_SetActorAnimFrame((struct Obj *)(((struct PokeSummaryWork *)work)->actors[2]), 1);
+        CLACT_SetActorAnimFrame((struct Actor *)(((struct PokeSummaryWork *)work)->actors[2]), 1);
     } else {
         local[0] = 0xc0;
         local[1] = 0xa0;
         CLACT_AddActorSurfacePos((struct Obj *)(((struct PokeSummaryWork *)work)->actors[2]), (const struct Vec2 *)local, 1);
-        CLACT_SetActorAnimFrame((struct Obj *)(((struct PokeSummaryWork *)work)->actors[2]), 2);
+        CLACT_SetActorAnimFrame((struct Actor *)(((struct PokeSummaryWork *)work)->actors[2]), 2);
     }
 }
 
@@ -427,7 +439,7 @@ int POKE_SUMMARY_ACTOR_StartNetRestart(void *work)
 
 
 
-void POKE_SUMMARY_ACTOR_CreateSound(u8 *work) {struct CursorMove *q;q=CURSOR_MOVE_Create((u32)d_021B83A8,(u32)d_021B81DC,(u32)work,1,0,79);((struct PokeSummaryWork *)work)->sound=q;CURSOR_MOVE_ClearSkipBit((struct Sound *)q,8);POKE_SUMMARY_ACTOR_UpdateScrollArrows((char *)work);}
+void POKE_SUMMARY_ACTOR_CreateSound(u8 *work) {struct CursorMove *q;q=(struct CursorMove *)CURSOR_MOVE_Create((struct CursorEntry *)d_021B83A8,(struct CursorVtbl *)d_021B81DC,(u32)work,1,0,79);((struct PokeSummaryWork *)work)->sound=q;CURSOR_MOVE_ClearSkipBit((struct Cursor *)q,8);POKE_SUMMARY_ACTOR_UpdateScrollArrows((char *)work);}
 
 
 
@@ -560,8 +572,8 @@ void POKE_SUMMARY_ACTOR_ToggleTaskMenu(char *work, int flag)
 {
     if (flag == 1) {
         if (*(u32 *)&((struct PokeSummaryWork *)work)->taskMenuWindows[0] == 0) {
-            *(u32 *)&((struct PokeSummaryWork *)work)->taskMenuWindows[0] = APP_TASKMENU_WIN_Create((u32)((struct PokeSummaryWork *)work)->taskMenuRes, (u32)(work + 0x1e4), 13, 21, 9, 0x4f);
-            *(u32 *)&((struct PokeSummaryWork *)work)->taskMenuWindows[1] = APP_TASKMENU_WIN_Create((u32)((struct PokeSummaryWork *)work)->taskMenuRes, (u32)(work + 0x1f0), 22, 21, 9, 0x4f);
+            *(u32 *)&((struct PokeSummaryWork *)work)->taskMenuWindows[0] = (unsigned int)APP_TASKMENU_WIN_Create(((struct PokeSummaryWork *)work)->taskMenuRes, (struct TaskMenuItem *)((work + 0x1e4)), 13, 21, 9, 0x4f);
+            *(u32 *)&((struct PokeSummaryWork *)work)->taskMenuWindows[1] = (unsigned int)APP_TASKMENU_WIN_Create(((struct PokeSummaryWork *)work)->taskMenuRes, (struct TaskMenuItem *)((work + 0x1f0)), 22, 21, 9, 0x4f);
             CURSOR_MOVE_SetSkipBit(((struct PokeSummaryWork *)work)->sound, 8);
             ((struct PokeSummaryWork *)work)->cursorSkipFlag = 1;
             return;
@@ -665,19 +677,19 @@ int POKE_SUMMARY_ACTOR_OpenDecideWin(char *work, u16 result)
     ((struct PokeSummaryDecide *)q)->active = 0;
     ((struct PokeSummaryDecide *)q)->windowIndex = 0xd;
     ((struct PokeSummaryDecide *)q)->result = result;
-    CLACT_SetActorAnimSeq((struct Obj *)(((struct PokeSummaryWork *)work)->actors[13]), 9);
+    CLACT_SetActorAnimSeq((struct Actor *)(((struct PokeSummaryWork *)work)->actors[13]), 9);
     return 0xd;
 }
 
 
 
 
-int POKE_SUMMARY_ACTOR_ConfirmDecide(u8 *work,u16 result) {u8 *q;q=work+464;((struct PokeSummaryDecide *)q)->active=1;((struct PokeSummaryDecide *)q)->windowIndex=0;((struct PokeSummaryDecide *)q)->result=result;APP_TASKMENU_WIN_SetDecide(*(char **)(work+((struct PokeSummaryDecide *)q)->windowIndex*4+544),1);return 13;}
+int POKE_SUMMARY_ACTOR_ConfirmDecide(u8 *work,u16 result) {u8 *q;q=work+464;((struct PokeSummaryDecide *)q)->active=1;((struct PokeSummaryDecide *)q)->windowIndex=0;((struct PokeSummaryDecide *)q)->result=result;APP_TASKMENU_WIN_SetDecide((struct TaskMenuWin *)(*(char **)(work+((struct PokeSummaryDecide *)q)->windowIndex*4+544)),1);return 13;}
 
 
 
 
-int POKE_SUMMARY_ACTOR_ConfirmDecideById(char *work,unsigned short id) {unsigned short *q=(unsigned short *)(work+0x1d0);q[5]=1;q[3]=1;q[4]=id;APP_TASKMENU_WIN_SetDecide(*(char **)((unsigned)work+q[3]*4+0x220),1);return 13;}
+int POKE_SUMMARY_ACTOR_ConfirmDecideById(char *work,unsigned short id) {unsigned short *q=(unsigned short *)(work+0x1d0);q[5]=1;q[3]=1;q[4]=id;APP_TASKMENU_WIN_SetDecide((struct TaskMenuWin *)(*(char **)((unsigned)work+q[3]*4+0x220)),1);return 13;}
 
 
 

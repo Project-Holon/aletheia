@@ -123,7 +123,7 @@ extern int WCM_ConnectAsync(void *bssDesc, void *wepDesc, unsigned long option);
 extern int WCM_CleanupAsync(void);
 extern long WCM_Finish(void);
 extern int WCM_DisconnectAsync(void);
-extern int WCM_StartupAsync(WCMConfig *config, void (*notify)(struct WCMNotice *));
+extern int WCM_StartupAsync(void *config, void (*notify)(struct WCMNotice *));
 extern int WCM_LockApList(int lock);
 extern int WCM_CountApList(void);
 extern struct WMBssDesc *WCM_PointApList(unsigned short index);

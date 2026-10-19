@@ -172,15 +172,15 @@ enum {
 
 extern void FADE_Start(u32 fadeKind, s32 startLevel, s32 endLevel, s32 speed);
 extern int FADE_IsActive(void);
-extern void GX_SetBankForLCDC(u32 vramBanks);
+extern void GX_SetBankForLCDC(s32 lcdc);
 extern void OS_WaitVBlankIntr(void);
 extern void BG_SYS_SetGraphicsMode(const DispConfig *config);
-extern void GX_SetBankForBG(u32 vramBanks);
+extern void GX_SetBankForBG(s32 bg);
 extern void BG_SYS_SetPriority(int index, unsigned short value);
 extern void BG_SYS_SetPlaneVisible(unsigned char plane, unsigned char enable);
 extern void SYMBOL_MAP_StartBg2Scale(void);
 extern void FIELDMAP_SetUpdateStopped(FieldMap *fieldMap, int stopped);
-extern void G2x_SetBlendAlpha_(u32 addr, int plane1, int plane2, int ev1, int ev2);
+extern void G2x_SetBlendAlpha_(u32 *reg, u32 a, u32 b, u32 c, u32 d);
 extern void MIi_CpuClearFast(u32 value, void *dst, u32 size);
 extern void GX_DisableBankForLCDC(void);
 extern void SYMBOL_MAP_StopBg2Scale(void);
@@ -188,11 +188,11 @@ extern void FIELDMAP_ResetBgAffineHideMsg(FieldMap *fieldMap);
 extern struct FieldMsgBg *FIELDMAP_GetMsgBg(FieldMap *fieldMap);
 extern int FIELD_MSGBG_IsSetupDone(struct FieldMsgBg *msgBg);
 extern void FIELD_MSGBG_LoadWindowGraphicsStep(struct FieldMsgBg *msgBg, int step);
-extern GameEvent *EL_SCOREBOARD_StartOnField(GameSystem *gameSystem, FieldMap *fieldMap, u8 seasonShown, u8 seasonTarget);
-extern GameEvent *EL_SCOREBOARD_StartOnFieldWithCallback(GameSystem *gameSystem, FieldMap *fieldMap, u8 seasonShown, u8 seasonTarget, FieldFadeCallback finishCallback, void *finishCallbackArg);
+extern void *EL_SCOREBOARD_StartOnField(void *gameSystem, void *fieldMap, u8 shownSeason, u8 targetSeason);
+extern void *EL_SCOREBOARD_StartOnFieldWithCallback(void *gameSystem, void *fieldMap, unsigned char shownSeason, unsigned char targetSeason, FieldFadeCallback finishCallback, int finishCallbackArg);
 extern void GAME_EVENT_CallEvent(GameEvent *parent, GameEvent *child);
 extern u16 FIELDMAP_GetHeapId(FieldMap *fieldMap);
-extern void WIPE_SYS_Start(u32 type, u32 mainPattern, u32 subPattern, u16 color, u32 frames, u32 wait, u32 heapId);
+extern void WIPE_SYS_Start(void *divisionMode, u32 mainPattern, u32 subPattern, u16 color, u32 frames, u32 wait, u32 heapId);
 extern u32 WIPE_SYS_EndCheck(void);
 extern u32 BG_SYS_GetMainVisiblePlanes(void);
 extern u32 BG_SYS_GetSubVisiblePlanes(void);
@@ -719,7 +719,7 @@ int EVENT_FIELDMAP_CONTROL_RunDefaultFadeIn(GameEvent *event, int *seq, FieldFad
         BG_SYS_SetPriority(2, 0);
         BG_SYS_SetPriority(0, 1);
         BG_SYS_SetPlaneVisible(0, 1);
-        G2x_SetBlendAlpha_(REG_BLDCNT_ADDR, 4, 1, work->blendStep, 0);
+        G2x_SetBlendAlpha_((u32 *)REG_BLDCNT_ADDR, 4, 1, work->blendStep, 0);
         FADE_Start(work->fadeKind, FADE_LEVEL_MAX, 0, FADE_SPEED_DEFAULT);
         *seq = *seq + 1;
         break;
@@ -802,7 +802,7 @@ int EVENT_FIELDMAP_CONTROL_RunSeasonFadeInWithCallback(GameEvent *event, int *se
 
     switch (*seq) {
     case SEASON_FADE_STEP_START: {
-        GameEvent *scoreboardEvent = EL_SCOREBOARD_StartOnFieldWithCallback(gameSystem, fieldMap, work->seasonShown, work->seasonTarget, work->finishCallback, work->finishCallbackArg);
+        GameEvent *scoreboardEvent = EL_SCOREBOARD_StartOnFieldWithCallback(gameSystem, fieldMap, work->seasonShown, work->seasonTarget, work->finishCallback, (int)work->finishCallbackArg);
         GAME_EVENT_CallEvent(event, scoreboardEvent);
         *seq = *seq + 1;
         break;
@@ -826,7 +826,7 @@ int EVENT_FIELDMAP_CONTROL_RunWipeOutEffect4(GameEvent *event, int *seq, FieldFa
         *seq = *seq + 1;
         break;
     case WIPE_STEP_START:
-        WIPE_SYS_Start(3, 8, 8, 0, 6, 1, FIELDMAP_GetHeapId(fieldMap));
+        WIPE_SYS_Start((void *)3, 8, 8, 0, 6, 1, FIELDMAP_GetHeapId(fieldMap));
         *seq = *seq + 1;
         break;
     case WIPE_STEP_WAIT:
@@ -852,7 +852,7 @@ int EVENT_FIELDMAP_CONTROL_RunWipeOutEffect5(GameEvent *event, int *seq, FieldFa
         *seq = *seq + 1;
         break;
     case WIPE_STEP_START:
-        WIPE_SYS_Start(3, 2, 2, 0, 6, 1, FIELDMAP_GetHeapId(fieldMap));
+        WIPE_SYS_Start((void *)3, 2, 2, 0, 6, 1, FIELDMAP_GetHeapId(fieldMap));
         *seq = *seq + 1;
         break;
     case WIPE_STEP_WAIT:
@@ -878,7 +878,7 @@ int EVENT_FIELDMAP_CONTROL_RunWipeOutEffect6(GameEvent *event, int *seq, FieldFa
         *seq = *seq + 1;
         break;
     case WIPE_STEP_START:
-        WIPE_SYS_Start(3, 4, 4, 0, 6, 1, FIELDMAP_GetHeapId(fieldMap));
+        WIPE_SYS_Start((void *)3, 4, 4, 0, 6, 1, FIELDMAP_GetHeapId(fieldMap));
         *seq = *seq + 1;
         break;
     case WIPE_STEP_WAIT:
@@ -904,7 +904,7 @@ int EVENT_FIELDMAP_CONTROL_RunWipeOutEffect7(GameEvent *event, int *seq, FieldFa
         *seq = *seq + 1;
         break;
     case WIPE_STEP_START:
-        WIPE_SYS_Start(3, 10, 10, 0, 6, 1, FIELDMAP_GetHeapId(fieldMap));
+        WIPE_SYS_Start((void *)3, 10, 10, 0, 6, 1, FIELDMAP_GetHeapId(fieldMap));
         *seq = *seq + 1;
         break;
     case WIPE_STEP_WAIT:
@@ -930,7 +930,7 @@ int EVENT_FIELDMAP_CONTROL_RunWipeOutEffect8(GameEvent *event, int *seq, FieldFa
         *seq = *seq + 1;
         break;
     case WIPE_STEP_START:
-        WIPE_SYS_Start(3, 6, 6, 0, 6, 1, FIELDMAP_GetHeapId(fieldMap));
+        WIPE_SYS_Start((void *)3, 6, 6, 0, 6, 1, FIELDMAP_GetHeapId(fieldMap));
         *seq = *seq + 1;
         break;
     case WIPE_STEP_WAIT:
@@ -958,7 +958,7 @@ int EVENT_FIELDMAP_CONTROL_RunWipeInEffect5(GameEvent *event, int *seq, FieldFad
         *seq = *seq + 1;
         break;
     case WIPE_STEP_START:
-        WIPE_SYS_Start(3, 3, 3, 0, 6, 1, FIELDMAP_GetHeapId(fieldMap));
+        WIPE_SYS_Start((void *)3, 3, 3, 0, 6, 1, FIELDMAP_GetHeapId(fieldMap));
         *seq = *seq + 1;
         break;
     case WIPE_STEP_WAIT:
@@ -986,7 +986,7 @@ int EVENT_FIELDMAP_CONTROL_RunWipeInEffect6(GameEvent *event, int *seq, FieldFad
         *seq = *seq + 1;
         break;
     case WIPE_STEP_START:
-        WIPE_SYS_Start(3, 5, 5, 0, 6, 1, FIELDMAP_GetHeapId(fieldMap));
+        WIPE_SYS_Start((void *)3, 5, 5, 0, 6, 1, FIELDMAP_GetHeapId(fieldMap));
         *seq = *seq + 1;
         break;
     case WIPE_STEP_WAIT:
@@ -1014,7 +1014,7 @@ int EVENT_FIELDMAP_CONTROL_RunWipeInEffect7(GameEvent *event, int *seq, FieldFad
         *seq = *seq + 1;
         break;
     case WIPE_STEP_START:
-        WIPE_SYS_Start(3, 7, 7, 0, 6, 1, FIELDMAP_GetHeapId(fieldMap));
+        WIPE_SYS_Start((void *)3, 7, 7, 0, 6, 1, FIELDMAP_GetHeapId(fieldMap));
         *seq = *seq + 1;
         break;
     case WIPE_STEP_WAIT:
@@ -1042,7 +1042,7 @@ int EVENT_FIELDMAP_CONTROL_RunWipeInEffect8(GameEvent *event, int *seq, FieldFad
         *seq = *seq + 1;
         break;
     case WIPE_STEP_START:
-        WIPE_SYS_Start(3, 11, 11, 0, 6, 1, FIELDMAP_GetHeapId(fieldMap));
+        WIPE_SYS_Start((void *)3, 11, 11, 0, 6, 1, FIELDMAP_GetHeapId(fieldMap));
         *seq = *seq + 1;
         break;
     case WIPE_STEP_WAIT:

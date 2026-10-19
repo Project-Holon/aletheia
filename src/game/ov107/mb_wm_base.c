@@ -97,7 +97,8 @@ extern u16 WM_GetAllowedChannel(void);
 extern void MBi_CheckWmErrcode(u16 apiid, int errcode);
 extern int WM_SetIndCallback(void (*callback)(void *));
 extern int WM_SetLifeTime(void (*callback)(void *), u16 tableNumber, u16 camLifeTime, u16 frameLifeTime, u16 mpLifeTime);
-extern int WM_SetParentParameter(void (*callback)(void *), void *pparaBuf);
+struct WMParentParam;
+extern int WM_SetParentParameter(void (*callback)(void *), struct WMParentParam *pparaBuf);
 extern int WM_SetBeaconIndication(void (*callback)(void *), u16 flag);
 extern int WMi_StartParentEx(void (*callback)(void *), int powerSave);
 extern int WM_StartMPEx(void (*callback)(void *), u16 *recvBuf, u16 recvBufSize, u16 *sendBuf, u16 sendBufSize, u16 mpFreq, u16 defaultRetryCount, int minPollBmpMode, int singlePacketMode, int fixFreqMode, int ignoreFatalError);
@@ -206,7 +207,7 @@ static void MBi_ParentCallback(void *arg)
             callback(0x100, arg);
             return;
         }
-        MBi_CheckWmErrcode(7, WM_SetParentParameter(MBi_ParentCallback, *(char **)(gMbWm + 0xC)));
+        MBi_CheckWmErrcode(7, WM_SetParentParameter(MBi_ParentCallback, (struct WMParentParam *)(*(char **)(gMbWm + 0xC))));
         return;
     case 0x07:
         callback = *(void (**)(int, void *))(*(char **)(gMbWm + 0xC) + 0x51C);
@@ -451,7 +452,7 @@ static u32 mbi_reject_ggid = 0xffffffff;
 static u32 mbi_reject_ggid_mask = 0xffffffff;
 
 extern int WM_StartScanEx(void (*callback)(void *), WMScanExParam *param);
-extern BOOL MBi_CheckMBParent(WMBssDesc *bssDescp);
+extern BOOL MBi_CheckMBParent(void *bssDescp);
 extern void DC_InvalidateRange(void *startAddr, u32 nBytes);
 extern void MIi_DmaCopy16(u32 dmaNo, const void *src, void *dest, u32 size, BOOL dmaEnable);
 extern void MI_CpuCopy8(const void *srcp, void *dstp, u32 size);
@@ -755,13 +756,13 @@ typedef struct MBiFileSlot {
     MBiParentFileInfo fi;
 } MBiFileSlot;
 
-extern u32 WM_GetNextTgid(void);
+extern u16 WM_GetNextTgid(void);
 extern u32 OS_DisableInterrupts(void);
 extern void MIi_CpuClear32(u32, void *, u32);
 extern void MIi_CpuClear16(u32, void *, u32);
 extern u32 MBi_GetBeaconPeriodDispersion(void);
 extern u32 OS_RestoreInterrupts(u32);
-extern int MBi_IsCommSizeValid(unsigned short sendSize, unsigned short recvSize, unsigned short entry_num);
+static int MBi_IsCommSizeValid(unsigned short sendSize, unsigned short recvSize, unsigned short entry_num);
 extern int WM_Initialize(void *wmSysBuf, void *callback, unsigned short dmaNo);
 extern void MBi_OnInitializeDone(void);
 extern void MB_CommSetParentStateCallback(void (*callback)(u16, u32, void *));

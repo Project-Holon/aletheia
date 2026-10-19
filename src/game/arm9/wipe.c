@@ -68,8 +68,11 @@ typedef struct {
 } PaletteFade;
 
 typedef u32 (*FuncPtr)(void *);
-extern void TCB_AddTask(void *ctx, void (*fn)(void *, PaletteFade *), PaletteFade *p, s32 pri);
-extern u32 TCB_DeleteTask(struct Node *n);
+struct TcbSystem;
+struct TcbTask;
+extern struct TcbTask *TCB_AddTask(struct TcbSystem *sys, void (*fn)(void *, PaletteFade *), void *work, unsigned int priority);
+struct TcbTask;
+extern void TCB_DeleteTask(struct TcbTask *task);
 extern void GX_LoadBGPltt(void *a, u32 b, u32 c);
 extern void GXS_LoadBGPltt(void *a, u32 b, u32 c);
 extern s32 FADE_GetSpeed(void);
@@ -746,7 +749,7 @@ void WIPE_SetHBlankSlotTask(void *task, u32 *args)
 void WIPE_ClearHBlankSlotTask(struct Node *task, u32 *args)
 {
     WIPE_ClearHBlankSlot((struct WipeHBlankSlots *)args[0], args[1]);
-    TCB_DeleteTask(task);
+    TCB_DeleteTask((struct TcbTask *)task);
     GFL_HEAP_Free(args);
 }
 

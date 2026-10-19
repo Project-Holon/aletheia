@@ -16,7 +16,7 @@
  * only `(u8)(v + 0xff) <= 1` gives the add.  The dead `str r2, [sp, #0xc]`
  * after `adds r2, #0x14` is `a += 0x14;` on the spilled local before the
  * FORMCHANGE_RevertShayminAtNight call.  func_021882A0/02188318/021883CC are ov230's decrypted
- * code (ov230d token); each gets the range EVENT_MAPCHANGE_StartMarker to one of this
+ * code (ov230d token); each gets the range EVENT_MAPCHANGE_CallHookAndInvert to one of this
  * overlay's end markers.  Leaves filed for this function: ov010 0x02164454,
  * 0x0216445C, 0x02164464 and ov020 0x0218608C.
  *
@@ -32,10 +32,10 @@
  *   ZONEDATA_IsNoGameEventZone  0x02013D34  thumb
  *   GAME_COMM_GetKind  0x02026454  thumb
  *   GAME_COMM_RequestExitNoCallback  0x02026400  thumb
- *   EVENT_MAPCHANGE_StartMarker  0x02183B60  thumb  ov020
- *   EVENT_MAPCHANGE_AllocWorkBufferA  0x0218604C  thumb  ov020
- *   EVENT_MAPCHANGE_AllocWorkBufferB  0x0218606C  thumb  ov020
- *   EVENT_MAPCHANGE_EndMarker  0x0218608C  thumb  ov020
+ *   EVENT_MAPCHANGE_CallHookAndInvert  0x02183B60  thumb  ov020
+ *   EVENT_MAPCHANGE_TamperLeakA  0x0218604C  thumb  ov020
+ *   EVENT_MAPCHANGE_TamperLeakB  0x0218606C  thumb  ov020
+ *   EVENT_MAPCHANGE_NopHook  0x0218608C  thumb  ov020
  *   func_021882A0  0x021882A0  arm  ov230d
  *   func_02188318  0x02188318  arm  ov230d
  *   func_021883CC  0x021883CC  arm  ov230d
@@ -82,10 +82,10 @@ extern void func_02034A5C(int handle);
 extern u32 ZONEDATA_IsNoGameEventZone(u32 id);
 extern u32 GAME_COMM_GetKind(void *obj);
 extern void GAME_COMM_RequestExitNoCallback(struct Comm *p);
-extern int EVENT_MAPCHANGE_StartMarker(int f);
-extern void *EVENT_MAPCHANGE_AllocWorkBufferA(void);
-extern void *EVENT_MAPCHANGE_AllocWorkBufferB(void);
-extern void EVENT_MAPCHANGE_EndMarker(void);
+extern int EVENT_MAPCHANGE_CallHookAndInvert(int f);
+extern void *EVENT_MAPCHANGE_TamperLeakA(void);
+extern void *EVENT_MAPCHANGE_TamperLeakB(void);
+extern void EVENT_MAPCHANGE_NopHook(void);
 extern u32 func_021882A0(void (*a)(void), void (*b)(void), u32 c);
 extern u32 func_02188318(void (*a)(void), void (*b)(void), u32 c);
 extern u32 func_021883CC(void (*a)(void), void (*b)(void), u32 c);
@@ -145,7 +145,7 @@ int EVENT_MAPCHANGE_ChangeFieldEvent(int ctx, int *state, u8 **pp)
         }
         break;
     case 3:
-        func_021882A0((void (*)(void))EVENT_MAPCHANGE_StartMarker, (void (*)(void))EVENT_MAPCHANGE_AllocWorkBufferA, 0);
+        func_021882A0((void (*)(void))EVENT_MAPCHANGE_CallHookAndInvert, (void (*)(void))EVENT_MAPCHANGE_TamperLeakA, 0);
         EVENT_MAPCHANGE_DeleteAllMmdlOfSystem((void *)x);
         if (((struct Obj01649 *)p)->f40 != 0 && ((struct Obj01649 *)p)->f44 != 0) {
             COMM_PLAYER_SUPPORT_SetSeason(y, ((struct Obj01649 *)p)->f4A);
@@ -156,13 +156,13 @@ int EVENT_MAPCHANGE_ChangeFieldEvent(int ctx, int *state, u8 **pp)
             a += 0x14;
             FORMCHANGE_RevertShayminAtNight(y, (int)c, (u32 *)a, b);
         }
-        func_02188318((void (*)(void))EVENT_MAPCHANGE_StartMarker, (void (*)(void))EVENT_MAPCHANGE_AllocWorkBufferB, 0);
+        func_02188318((void (*)(void))EVENT_MAPCHANGE_CallHookAndInvert, (void (*)(void))EVENT_MAPCHANGE_TamperLeakB, 0);
         EVENT_MAPCHANGE_UpdateFieldStateForZone((void *)x, ((struct Obj01649 *)p)->f14);
         EVENT_MAPCHANGE_ApplyLocation((void *)x, (int)(p + 0x10));
         if (((struct Obj01649 *)p)->f30 != 4) {
             GAME_BEACON_SetZone(((struct Obj01649 *)p)->f14, y);
         }
-        func_021883CC((void (*)(void))EVENT_MAPCHANGE_StartMarker, EVENT_MAPCHANGE_EndMarker, 0);
+        func_021883CC((void (*)(void))EVENT_MAPCHANGE_CallHookAndInvert, EVENT_MAPCHANGE_NopHook, 0);
         switch (((struct Obj01649 *)p)->f30) {
         case 1:
             FIELD_MAP_CHANGE_ResetGimmickStateCase1(y, ((struct Obj01649 *)p)->f14);

@@ -103,32 +103,33 @@ extern void GF_STANDARD_XorCrypt(u16 *p, u32 size, u32 seed);
 extern int IRCNET_IsLinkAlive(void);
 
 extern int GFL_NET_Exit(int);
+struct GFLNetHandle;
 
-extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
+extern struct GFLNetHandle *GFL_NET_HANDLE_GetCurrentHandle(void);
 
-extern u32 GFL_NET_HANDLE_IsTimingSyncRange(struct Link *p, u32 lo, u32 hi);
+extern u32 GFL_NET_HANDLE_IsTimingSyncRange(struct GFLNetHandle *handle, u32 timingLow, u32 timingHigh);
 
 extern u32 GFL_NET_IsParentAid(void);
 
 extern void IRCNET_SetTimeoutLimit(int);
 
-extern void GFL_NET_HANDLE_SetTimingSyncRange(struct Link *, unsigned int, unsigned int);
+extern void GFL_NET_HANDLE_SetTimingSyncRange(struct GFLNetHandle *handle, u32 timingLow, u32 timingHigh);
 
-extern u32 GFL_NET_SendData(u32 entry, u32 sendID, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h);
+extern u32 GFL_NET_SendData(struct GFLNetHandle *handle, u32 sendId, u32 command, u32 size, void *data, u32 sendFlags, u32 skipIfQueued, u32 queueMode);
 
-extern int GFL_NET_SendToHandle(struct Entry *a, u32 b, u32 c, u32 d);
+extern int GFL_NET_SendToHandle(struct GFLNetHandle *handle, u32 command, u32 size, void *data);
 
 extern u32 GFL_USE_GetRandom(u32 range);
 
 extern int GFL_NET_GetNegotiationNum(void);
 
-extern int GFL_NET_StartChangeoverChild(int changeoverParam);
+extern void GFL_NET_StartChangeoverChild(u32 changeoverParam);
 
 extern void *GFL_HEAP_Alloc(u32, u32, int, const char *, u16);
 
 extern void GFL_NET_StartSession(struct Req *req, u32 transportArg, u32 userArg);
 
-extern int GFL_HEAP_Free();
+extern u32 GFL_HEAP_Free(void *block);
 
 void DELIVERY_IRC_SetStep(DeliveryIrcWork *work, DeliveryIrcStepFunc step, int line);
 
@@ -290,19 +291,19 @@ void DELIVERY_IRC_StepWaitEndSync(DeliveryIrcWork *work)
 void DELIVERY_IRC_StepStartEndSync(DeliveryIrcWork *work)
 {
     int k = 0x23;
-    GFL_NET_HANDLE_SetTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), k, (u8)work->param.netCommandBase);
+    GFL_NET_HANDLE_SetTimingSyncRange((struct GFLNetHandle *)GFL_NET_HANDLE_GetCurrentHandle(), k, (u8)work->param.netCommandBase);
     DELIVERY_IRC_SetStepAtLine(work, DELIVERY_IRC_StepWaitEndSync, k + 0xFC);
 }
 
 void DELIVERY_IRC_StepSendData(DeliveryIrcWork *work)
 {
-    if (GFL_NET_HANDLE_IsTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0x18, (u8)work->param.netCommandBase) == 0)
+    if (GFL_NET_HANDLE_IsTimingSyncRange((struct GFLNetHandle *)GFL_NET_HANDLE_GetCurrentHandle(), 0x18, (u8)work->param.netCommandBase) == 0)
         return;
     if (work->isParent != 0) {
         if (work->found == 1) {
             DeliveryIrcEntry *entry = &work->param.entries[work->foundIndex];
             int k = 0xFF;
-            if (GFL_NET_SendData((u32)GFL_NET_HANDLE_GetCurrentHandle(), 0xFF, (unsigned)(work->param.netCommandBase << 24) >> 16, entry->size, (u32)entry->data, 0, 0, 1) == 0)
+            if ((struct GFLNetHandle *)(void *)GFL_NET_SendData((struct GFLNetHandle *)GFL_NET_HANDLE_GetCurrentHandle(), 0xFF, (unsigned)(work->param.netCommandBase << 24) >> 16, entry->size, (void *)entry->data, 0, 0, 1) == 0)
                 return;
             DELIVERY_IRC_SetStepAtLine(work, DELIVERY_IRC_StepStartEndSync, k + 0x2F);
             return;
@@ -320,17 +321,17 @@ void DELIVERY_IRC_StepSendCrc(DeliveryIrcWork *work)
         DeliveryIrcEntry *entry = work->sendEntry;
         msg.crc = GF_STANDARD_CalcCrc16(entry->data, entry->size);
         msg.cryptKey = work->cryptKey;
-        if (GFL_NET_SendToHandle(GFL_NET_HANDLE_GetCurrentHandle(), (u16)((work->param.netCommandBase << 8) + 1), (u16)8, (u32)&msg) == 0)
+        if (GFL_NET_SendToHandle(GFL_NET_HANDLE_GetCurrentHandle(), (u16)((work->param.netCommandBase << 8) + 1), (u16)8, (void *)&msg) == 0)
             return;
-        GFL_NET_HANDLE_SetTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0x18, (u8)work->param.netCommandBase);
+        GFL_NET_HANDLE_SetTimingSyncRange((struct GFLNetHandle *)GFL_NET_HANDLE_GetCurrentHandle(), 0x18, (u8)work->param.netCommandBase);
         work->ackFlag = 0;
         DELIVERY_IRC_SetStepAtLine(work, DELIVERY_IRC_StepSendData, 0x152);
         return;
     }
     work->notFound = 1;
-    if (GFL_NET_SendToHandle(GFL_NET_HANDLE_GetCurrentHandle(), (u16)((work->param.netCommandBase << 8) + 3), (u16)4, (u32)&work->notFound) == 0)
+    if (GFL_NET_SendToHandle(GFL_NET_HANDLE_GetCurrentHandle(), (u16)((work->param.netCommandBase << 8) + 3), (u16)4, (void *)&work->notFound) == 0)
         return;
-    GFL_NET_HANDLE_SetTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0x18, (u8)work->param.netCommandBase);
+    GFL_NET_HANDLE_SetTimingSyncRange((struct GFLNetHandle *)GFL_NET_HANDLE_GetCurrentHandle(), 0x18, (u8)work->param.netCommandBase);
     work->ackFlag = 0;
     DELIVERY_IRC_SetStepAtLine(work, DELIVERY_IRC_StepSendData, 0x162);
 }
@@ -346,7 +347,7 @@ void DELIVERY_IRC_StepSearchEntry(DeliveryIrcWork *work)
     DeliveryIrcEntry *entry;
     u32 i;
     unsigned long count;
-    if (GFL_NET_HANDLE_IsTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0x17, (u8)work->param.netCommandBase) == 0)
+    if (GFL_NET_HANDLE_IsTimingSyncRange((struct GFLNetHandle *)GFL_NET_HANDLE_GetCurrentHandle(), 0x17, (u8)work->param.netCommandBase) == 0)
         return;
     if (work->isParent != 0) {
         entry = 0;
@@ -369,7 +370,7 @@ void DELIVERY_IRC_StepSearchEntry(DeliveryIrcWork *work)
         }
         return;
     }
-    GFL_NET_HANDLE_SetTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0x18, (u8)work->param.netCommandBase);
+    GFL_NET_HANDLE_SetTimingSyncRange((struct GFLNetHandle *)GFL_NET_HANDLE_GetCurrentHandle(), 0x18, (u8)work->param.netCommandBase);
     DELIVERY_IRC_SetStepAtLine(work, DELIVERY_IRC_StepSendData, 0x193);
 }
 
@@ -378,7 +379,7 @@ void DELIVERY_IRC_StepSendRequest(DeliveryIrcWork *work)
     if (work->isParent == 0) {
         work->request.id = work->param.entries[0].id;
         work->request.mask = work->param.entries[0].mask;
-        if (GFL_NET_SendToHandle(GFL_NET_HANDLE_GetCurrentHandle(), (u16)((work->param.netCommandBase << 8) + 2), (u16)8, (u32)&work->request) == 0)
+        if (GFL_NET_SendToHandle(GFL_NET_HANDLE_GetCurrentHandle(), (u16)((work->param.netCommandBase << 8) + 2), (u16)8, (void *)&work->request) == 0)
             return;
         DELIVERY_IRC_SetStepAtLine(work, DELIVERY_IRC_StepSearchEntry, 0x1A2);
         return;
@@ -389,7 +390,7 @@ void DELIVERY_IRC_StepSendRequest(DeliveryIrcWork *work)
 void DELIVERY_IRC_StepWaitConnect(DeliveryIrcWork *work)
 {
     if (GFL_NET_GetNegotiationNum() > 1) {
-        GFL_NET_HANDLE_SetTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0x17, (u8)work->param.netCommandBase);
+        GFL_NET_HANDLE_SetTimingSyncRange((struct GFLNetHandle *)GFL_NET_HANDLE_GetCurrentHandle(), 0x17, (u8)work->param.netCommandBase);
         DELIVERY_IRC_SetStepAtLine(work, DELIVERY_IRC_StepSendRequest, 0x1AF);
     }
 }

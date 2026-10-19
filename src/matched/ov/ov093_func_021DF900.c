@@ -1,5 +1,5 @@
 /*
- * function: HAND_ITEM_SeaIncenseBoostPower
+ * function: HAND_ITEM_WaveIncenseBoostPower
  * address:  0x021DF900
  * packet:   pkt_ov093_021DF900
  * region:   ov093
@@ -15,7 +15,7 @@
 
 void HAND_ITEM_BoostMovePowerOfType(int, int, int, int);
 
-void HAND_ITEM_SeaIncenseBoostPower(int a, int b, int c)
+void HAND_ITEM_WaveIncenseBoostPower(int a, int b, int c)
 {
     HAND_ITEM_BoostMovePowerOfType(a, b, c, 10);
 }

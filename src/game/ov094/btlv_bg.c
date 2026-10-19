@@ -62,18 +62,22 @@ typedef struct BtlvBgScrollJob {
 typedef struct { int scrollX, scrollY; } BtlvBgScrollArgs;
 
 extern u32 GFL_HEAP_Free(void *block);
+struct TcbSystem;
+struct TcbTask;
 
-extern void *TCB_AddTask(void *, void (*)(void *, void *), void *, u32);
+extern struct TcbTask *TCB_AddTask(struct TcbSystem *sys, void (*)(void *, void *), void *work, u32 priority);
+struct Tcb;
 
-extern void *GFL_USE_AddMainTask(void (*callback)(void *), void *context, int priority);
+extern struct Tcb *GFL_USE_AddMainTask(void (*callback)(void *), void *work, u32 priority);
 
 extern u32 FX_Div(u32 value, u32 divisor);
 
 extern void BTLV_EFFECT_ComputeVectorStep(const BtlvVec3 *from, const BtlvVec3 *to, BtlvVec3 *outDelta, int frames);
 
 extern int BTLV_EFFECT_StepMover(BtlvMover *mover, BtlvVec3 *outPos);
+struct TcblSystem;
 
-extern u32 TCBL_IsDeletePending(void *task);
+extern u32 TCBL_IsDeletePending(struct TcblSystem *tcbl);
 
 extern void BG_SYS_ChangeScrollImmediate(u32 layer, u32 param, u32 value);
 

@@ -47,7 +47,7 @@ typedef struct {int m[4];} Mtx;
 typedef unsigned char  u8;
 
 extern void GFL_HEAP_CreateChildHeap(u32 a, u32 b, u32 c);
-extern void *PROCSYS_AllocProcWork(struct ProcSystem *obj, u32 size, u32 heap);
+extern void *PROCSYS_AllocProcWork(struct Proc *proc, unsigned int size, unsigned int heapId);
 extern void MI_CpuFill8(void *p, u32 v, u32 n);
 extern int CDEMO_WIPE_RunScript(char *p);
 extern void PROCSYS_FreeProcWork(struct Proc *p);
@@ -57,12 +57,13 @@ extern void GX_SetGraphicsMode(int,int,int);
 extern void BUTTON_MAN_RotScaleMtx22(struct Mtx22 *mtx, unsigned int ang, const void *v1, const void *v2, u8 mode);
 extern void G2x_SetBGyAffine_(void *,const Mtx *,int,int,int,int);
 extern void *GFL_HEAP_Alloc(unsigned int,unsigned int,int,const char *,unsigned short);
-extern void GX_LoadBG2Scr(void *,int,int);
-extern void GX_LoadBG3Scr(void *,int,int);
+extern void GX_LoadBG2Scr(void *pSrc, unsigned int offset, unsigned int szByte);
+extern void GX_LoadBG3Scr(void *pSrc, unsigned int offset, unsigned int szByte);
 extern unsigned int GFL_HEAP_Free(void *p);
 extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
 extern int GFL_USE_AddMainTask(void *, int *, int);
-extern void TCB_DeleteTask(struct Node *n);
+struct TcbTask;
+extern void TCB_DeleteTask(struct TcbTask *task);
 int CDEMO_MAIN_Create(struct ProcSystem *p, u32 b, u32 c);
 int CDEMO_MAIN_Update(int a, int b, int c, int d);
 int CDEMO_MAIN_Destroy(void *p);
@@ -82,7 +83,7 @@ int CDEMO_MAIN_Create(struct ProcSystem *p, u32 b, u32 c)
     struct CdemoState *r;
 
     GFL_HEAP_CreateChildHeap(1, 0x7f, 0x80000);
-    r = PROCSYS_AllocProcWork(p, (u32)((void *)0x605c), 0x7f);
+    r = PROCSYS_AllocProcWork((struct Proc *)p, (u32)((void *)0x605c), 0x7f);
     MI_CpuFill8(r, 0, 0x605c);
     r->script = (struct CdemoScript *)c;
     r->finish = 0;

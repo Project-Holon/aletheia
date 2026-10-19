@@ -91,7 +91,7 @@ extern void *NNS_G3dGetResDataByName(const void *dict, const char *name);
 
 extern struct GfFont *GF_FONT_Create(int archiveId, int fileId, int format, int isFixedWidth, u32 heapId);
 
-extern u32 GF_FONT_Delete(void *ptr);
+extern u32 GF_FONT_Delete(struct GfFont *font);
 
 extern void *BMP_GetPixels(const struct Bmp *bmp);
 
@@ -102,8 +102,9 @@ int TEXT_TEXTURE_LoadTexPlttByName(void *file, const char *texName, void *extra,
 int TEXT_TEXTURE_GetTexFormatCount(void);
 
 void TEXT_TEXTURE_ClearBitmap(void *bmp);
+struct Strbuf;
 
-extern void PRINTSYS_PrintColor(void *,s16,s16,void *,void *,u16);
+extern void PRINTSYS_PrintColor(struct Bmp *bmp, s16 x, s16 y, struct Strbuf *str, struct GfFont *font, u16 color);
 
 extern u16 BMP_GetWidth(const struct Bmp *bmp);
 
@@ -117,7 +118,7 @@ extern void GX_BeginLoadTex(void);
 
 extern void DC_FlushRange(void *p, int n);
 
-extern void GX_LoadTex(void *p, int src, int n);
+extern void GX_LoadTex(void *pSrc, u32 destSlotAddr, u32 szByte);
 
 extern void GX_EndLoadTex(void);
 

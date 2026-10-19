@@ -179,10 +179,10 @@ extern unsigned char DWCi_AC_GetPhase(void);
 extern long WCM_GetPhase(void);
 extern unsigned char ConnectTestStart(ACWORK *wk);
 extern unsigned char GetIPAddress(ACWORK *wk);
-extern unsigned char ConnectTestCreate(void);
+static unsigned char ConnectTestCreate(void);
 extern unsigned char ConnectTestProcess(ACWORK *wk);
-extern unsigned char ConnectTestEnd(ACWORK *wk);
-extern unsigned char ConnectTestRetry(void);
+static unsigned char ConnectTestEnd(ACWORK *wk);
+static unsigned char ConnectTestRetry(void);
 extern void DWC_Netcheck_Abort(void);
 extern void DWC_Netcheck_Destroy(void);
 extern void MakeSOCConfig(ACHOLD *hd, ACWORK *wk, struct SOCConfig *sc);
@@ -202,8 +202,8 @@ extern int SOCL_CalmDown(void);
 extern int SOC_Cleanup(void);
 extern void MI_CpuCopy8(const void *srcp, void *dstp, unsigned long size);
 extern unsigned long ConvAddress(unsigned char *add);
-extern unsigned long ConvNetMask(unsigned char netmask);
-extern int SOC_SetResolver(SOCInAddr *dns1, SOCInAddr *dns2);
+static unsigned long ConvNetMask(unsigned char netmask);
+extern int SOC_SetResolver(unsigned int *dns1, unsigned int *dns2);
 unsigned char DWCi_AC_ConnectTest(void);
 extern int SOCLiYieldWait;
 extern int CPSNoIpReason;
@@ -540,5 +540,5 @@ void CheckSetDNS(ACWORK *wk)
     }
     dns1.addr = ConvAddress(info->dns[0]);
     dns2.addr = ConvAddress(info->dns[1]);
-    SOC_SetResolver(&dns1, &dns2);
+    SOC_SetResolver((unsigned int *)(&dns1), (unsigned int *)(&dns2));
 }

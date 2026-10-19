@@ -79,18 +79,22 @@ typedef char BAppToolEntry_size_check[(sizeof(BAppToolEntry) == 0x8) ? 1 : -1];
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32 GFL_HEAP_Free(void *p);
 extern int CLACT_CreateActor(int, int, int, int, void *, int, u16);
-extern void CLACT_SetActorPaletteOffset(struct Obj *o, u32 v, u32 flag);
-extern void CLACT_SetActorAutoAnim(struct Obj *p, unsigned int v);
-extern void CLACT_DeleteActor(struct Obj *p);
-extern void CLACT_SetActorDrawEnable(struct Obj *, unsigned int);
+struct Actor;
+extern void CLACT_SetActorPaletteOffset(struct Actor *actor, unsigned int offset, unsigned int pltt_op);
+extern void CLACT_SetActorAutoAnim(struct Actor *actor, unsigned int enable);
+extern void CLACT_DeleteActor(struct Actor *actor);
+extern void CLACT_SetActorDrawEnable(struct Actor *actor, unsigned int value);
 extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
-extern void BMP_WIN_MakeScreen(struct Cfg *);
-extern u8 BMP_WIN_GetBgLayer(struct Descriptor *);
+struct BmpWin;
+extern void BMP_WIN_MakeScreen(struct BmpWin *win);
+extern u8 BMP_WIN_GetBgLayer(struct BmpWin *win);
 extern void BG_SYS_MarkTileDirty(u32);
-extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
-extern void *BMP_WIN_GetBmp(struct Descriptor *p);
-extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintSys *p, void *v);
-extern void BMP_WIN_TransferChars(struct Descriptor *d);
+struct PrintQueue;
+extern u32 PRINTSYS_QUE_Main(struct PrintQueue *queue);
+struct Bmp;
+extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *win);
+extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintQueue *queue, struct Bmp *bmp);
+extern void BMP_WIN_TransferChars(struct BmpWin *win);
 u8 *B_APP_TOOL_Create(u16 heapId);
 void B_APP_TOOL_Delete(void *p);
 void B_APP_TOOL_CreateActors(char *p, int owner, int charRes, int palRes, int cellRes);
@@ -124,8 +128,8 @@ void B_APP_TOOL_CreateActors(char *p, int owner, int charRes, int palRes, int ce
     for(i=0;i<4;i++) {
         pos.z=i;
         tool->actors[i]=CLACT_CreateActor(owner,charRes,palRes,cellRes,&pos,1,tool->heapId);
-        CLACT_SetActorPaletteOffset((struct Obj *)tool->actors[i],0,1);
-        CLACT_SetActorAutoAnim((struct Obj *)tool->actors[i],1);
+        CLACT_SetActorPaletteOffset((struct Actor *)tool->actors[i],0,1);
+        CLACT_SetActorAutoAnim((struct Actor *)tool->actors[i],1);
     }
 }
 
@@ -140,7 +144,7 @@ void B_APP_TOOL_DeleteActors(u8 *p)
     u32 i;
 
     for (i = 0; i < 4; i++) {
-        CLACT_DeleteActor((struct Obj *)tool->actors[i]);
+        CLACT_DeleteActor((struct Actor *)tool->actors[i]);
     }
 }
 
@@ -176,7 +180,7 @@ void B_APP_TOOL_LayoutActors(int *actors, u8 *rect)
 /*
  * EXACT* tail: two zero alignment bytes after the function.
  */
-void B_APP_TOOL_ShowWindow(void **p) { BMP_WIN_MakeScreen((struct Cfg *)*p); BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer((struct Descriptor *)*p)); }
+void B_APP_TOOL_ShowWindow(void **p) { BMP_WIN_MakeScreen((struct BmpWin *)*p); BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer((struct BmpWin *)*p)); }
 
 
 
@@ -195,10 +199,10 @@ void B_APP_TOOL_ShowWindows(char *windows, unsigned char *order)
 void B_APP_TOOL_Update(BAppToolEntry *p, struct PrintSys *printSys, unsigned n)
 {
     unsigned i;
-    PRINTSYS_QUE_Main(printSys);
+    PRINTSYS_QUE_Main((struct PrintQueue *)printSys);
     for(i=0;i<n;i++) {
-        if(p[i].active && PRINTSYS_QUE_IsExistTarget(printSys,(void *)((int)BMP_WIN_GetBmp((struct Descriptor *)p[i].handle)))==0) {
-            BMP_WIN_TransferChars((struct Descriptor *)p[i].handle);
+        if(p[i].active && PRINTSYS_QUE_IsExistTarget((struct PrintQueue *)printSys,(void *)((int)BMP_WIN_GetBmp((struct BmpWin *)p[i].handle)))==0) {
+            BMP_WIN_TransferChars((struct BmpWin *)p[i].handle);
             p[i].active=0;
         }
     }

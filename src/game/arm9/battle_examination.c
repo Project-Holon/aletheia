@@ -24,6 +24,7 @@
  *   OS_WaitIrq     0x0208459C  arm
  *   SAVE_CONTROL_DeleteExtraSaveBuffered  0x0200734C  thumb
  *   GFL_HEAP_Free  0x020307B0  arm
+ *   GF_STANDARD_SetupCalc        0x0203F1FC  arm
  */
 #include "misc_savedata_shared_types.h"
 
@@ -47,20 +48,22 @@ struct TrialHouseDelivery {
 extern void MI_CpuFill8(void *dst, unsigned char val, unsigned long size);
 
 extern u16 GF_STANDARD_SetupCalc(const u8 *src, u32 len);
+struct GameData;
+struct SaveControl;
 
-extern void *GAME_DATA_GetSaveControl(struct Big *p);
+extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gd);
 
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
 extern int SAVE_CONTROL_LoadExtraSaveWithBuffer(u32 sv, u32 id, u32 heap, void *buf, u32 size);
 
-extern void GAME_DATA_PartSaveStart(u8 *p, u32 id);
+extern void GAME_DATA_PartSaveStart(struct GameData *gd, unsigned int blockId);
 
-extern int GAME_DATA_PartSaveMain(char *p, int partId);
+extern int GAME_DATA_PartSaveMain(struct GameData *gd, int blockId);
 
 extern void OS_WaitIrq(int clear, u32 mask);
 
-extern void SAVE_CONTROL_DeleteExtraSaveBuffered(struct Sub02007324Ctrl *ctrl, u32 id);
+extern void SAVE_CONTROL_DeleteExtraSaveBuffered(struct SaveControl *saveControl, u32 slot);
 
 extern u32 GFL_HEAP_Free(void *p);
 
@@ -172,7 +175,7 @@ void BATTLE_EXAMINATION_LoadDelivery(void *gameData, void *dst, u32 heap)
         }
         OS_WaitIrq(1, 1);
     }
-    SAVE_CONTROL_DeleteExtraSaveBuffered((struct Sub02007324Ctrl *)sv, 5);
+    SAVE_CONTROL_DeleteExtraSaveBuffered((struct SaveControl *)sv, 5);
     GFL_HEAP_Free(buf);
 }
 

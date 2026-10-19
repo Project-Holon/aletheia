@@ -177,16 +177,16 @@ extern int strcmp(const char *s1, const char *s2) __attribute__((pure));
 extern int DWC_Http_Create(DWCHttp *http, DWCHttpParam *param);
 extern int DWC_Auth_GetCalInfoFromNVRAM(void *cal);
 extern int DWC_Auth_SetCalInfoToHttp(DWCHttp *http, DWCCalInfo *calinfo, int allowessid);
-extern void DWC_Http_Destroy(DWCHttp *http);
+extern void DWC_Http_Destroy(char *http);
 extern int DWC_Http_Add_PostBase64Item(DWCHttp *http, char *label, char *data, unsigned long data_len);
-extern int DWC_Http_FinishHeader(DWCHttp *http);
+extern int DWC_Http_FinishHeader(char *http);
 extern unsigned long OS_GetThreadPriority(OSThread *thread);
-extern void DWC_Http_StartThread(DWCHttp *http, unsigned long prio);
+extern void DWC_Http_StartThread(char *http, unsigned int prio);
 extern int DWC_Http_ParseResult(DWCHttp *http, int noparsebody);
-extern char *DWC_Http_GetResult(DWCHttp *http, char *label);
+extern char *DWC_Http_GetResult(char *http, char *label);
 extern int DWC_Auth_SetNasTimeDiff(char *datestr);
 extern int atoi(u32 s);
-extern int DWC_Http_GetBase64DecodedResult(DWCHttp *http, char *label, char *buffer, unsigned long buffer_len);
+extern int DWC_Http_GetBase64DecodedResult(char *http, char *label, char *buffer, unsigned int buffer_len);
 int DWCi_Svl_ParseHttp(void);
 
 extern DWCSvlIntWorkarea *gDwcSvlWorkarea;
@@ -235,7 +235,7 @@ void DWC_Svl_Cleanup(void)
     if (gDwcSvlWorkarea == 0) {
         return;
     }
-    DWC_Http_Destroy(&gDwcSvlWorkarea->http);
+    DWC_Http_Destroy((char *)(&gDwcSvlWorkarea->http));
     gDwcSvlWorkarea->free(0, gDwcSvlWorkarea, 0);
     gDwcSvlWorkarea = 0;
 }
@@ -274,27 +274,27 @@ int DWC_Svl_GetTokenAsync(char *svc, DWCSvlResult *result)
     }
 
     if (!DWC_Auth_GetCalInfoFromNVRAM(&calinfo) || !DWC_Auth_SetCalInfoToHttp(&gDwcSvlWorkarea->http, &calinfo, 0)) {
-        DWC_Http_Destroy(&gDwcSvlWorkarea->http);
+        DWC_Http_Destroy((char *)(&gDwcSvlWorkarea->http));
         DWCi_SetError(9, -24100);
         return 0;
     }
 
     if (DWC_Http_Add_PostBase64Item(&gDwcSvlWorkarea->http, gDwcSvlPostLabelAction, gDwcSvlPostValueSvcloc, 6) != 0
         || DWC_Http_Add_PostBase64Item(&gDwcSvlWorkarea->http, gDwcSvlPostLabelSvc, svc, 4) != 0) {
-        DWC_Http_Destroy(&gDwcSvlWorkarea->http);
+        DWC_Http_Destroy((char *)(&gDwcSvlWorkarea->http));
         DWCi_SetError(9, -24100);
         return 0;
     }
 
-    if (DWC_Http_FinishHeader(&gDwcSvlWorkarea->http) != 0) {
-        DWC_Http_Destroy(&gDwcSvlWorkarea->http);
+    if (DWC_Http_FinishHeader((char *)(&gDwcSvlWorkarea->http)) != 0) {
+        DWC_Http_Destroy((char *)(&gDwcSvlWorkarea->http));
         DWCi_SetError(9, -24100);
         return 0;
     }
 
-    DWC_Http_StartThread(&gDwcSvlWorkarea->http, OS_GetThreadPriority(gMslRefToken.current) - 1);
+    DWC_Http_StartThread((char *)(&gDwcSvlWorkarea->http), OS_GetThreadPriority(gMslRefToken.current) - 1);
     if (gDwcSvlWorkarea->http.thread.id == 0) {
-        DWC_Http_Destroy(&gDwcSvlWorkarea->http);
+        DWC_Http_Destroy((char *)(&gDwcSvlWorkarea->http));
         DWCi_SetError(9, -24100);
         return 0;
     }
@@ -316,16 +316,16 @@ int DWC_Svl_Process(void)
         switch (gDwcSvlWorkarea->http.error) {
         case 8:
             if (DWCi_Svl_ParseHttp() == 0) {
-                DWC_Http_Destroy(&gDwcSvlWorkarea->http);
+                DWC_Http_Destroy((char *)(&gDwcSvlWorkarea->http));
                 return 4;
             }
-            DWC_Http_Destroy(&gDwcSvlWorkarea->http);
+            DWC_Http_Destroy((char *)(&gDwcSvlWorkarea->http));
             return 3;
         case 7:
-            DWC_Http_Destroy(&gDwcSvlWorkarea->http);
+            DWC_Http_Destroy((char *)(&gDwcSvlWorkarea->http));
             return 5;
         default:
-            DWC_Http_Destroy(&gDwcSvlWorkarea->http);
+            DWC_Http_Destroy((char *)(&gDwcSvlWorkarea->http));
             DWCi_SetError(0x10, -24101);
             return 4;
         }
@@ -348,11 +348,11 @@ int DWCi_Svl_ParseHttp(void)
         return 0;
     }
 
-    strp = DWC_Http_GetResult(DWChttp, gDwcSvlLabelDate);
+    strp = DWC_Http_GetResult((char *)DWChttp, gDwcSvlLabelDate);
     if (strp != 0)
         DWC_Auth_SetNasTimeDiff(strp);
 
-    strp = DWC_Http_GetResult(DWChttp, gDwcSvlLabelHttpResult);
+    strp = DWC_Http_GetResult((char *)DWChttp, gDwcSvlLabelHttpResult);
     if (strp == 0) {
         DWCi_SetError(15, -25101);
         return 0;
@@ -367,7 +367,7 @@ int DWCi_Svl_ParseHttp(void)
         return 0;
     }
 
-    if (DWC_Http_GetBase64DecodedResult(DWChttp, gDwcSvlLabelReturnCd, retcode, 4) <= 0) {
+    if (DWC_Http_GetBase64DecodedResult((char *)DWChttp, gDwcSvlLabelReturnCd, retcode, 4) <= 0) {
         DWCi_SetError(15, -25101);
         return 0;
     }
@@ -381,9 +381,9 @@ int DWCi_Svl_ParseHttp(void)
         return 0;
     }
 
-    if (DWC_Http_GetBase64DecodedResult(DWChttp, gDwcSvlLabelSvcHost, gDwcSvlWorkarea->result->svlhost, 64) < 0
-        || DWC_Http_GetBase64DecodedResult(DWChttp, gDwcSvlLabelServiceToken, gDwcSvlWorkarea->result->svltoken, 300) < 0
-        || DWC_Http_GetBase64DecodedResult(DWChttp, gDwcSvlLabelStatusData, retcode, 1) < 0) {
+    if (DWC_Http_GetBase64DecodedResult((char *)DWChttp, gDwcSvlLabelSvcHost, gDwcSvlWorkarea->result->svlhost, 64) < 0
+        || DWC_Http_GetBase64DecodedResult((char *)DWChttp, gDwcSvlLabelServiceToken, gDwcSvlWorkarea->result->svltoken, 300) < 0
+        || DWC_Http_GetBase64DecodedResult((char *)DWChttp, gDwcSvlLabelStatusData, retcode, 1) < 0) {
         DWCi_SetError(15, -25101);
         return 0;
     }

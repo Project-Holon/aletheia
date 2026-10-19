@@ -37,6 +37,7 @@
  *   MTX_ScaleApply43  0x0207B60C  arm
  *   MTX_Copy43To44_  0x0207B5C0  arm
  *   MTX_Concat44  0x0207BE14  arm
+ *   NNS_G3dGlb                   0x02148B4C  data
  */
 #include "nns_g3d_glb_types.h"
 

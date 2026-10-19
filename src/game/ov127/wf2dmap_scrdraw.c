@@ -83,7 +83,7 @@ typedef struct Wf2dmapSurface {
 } Wf2dmapSurface;
 
 extern void *GFL_HEAP_Alloc(unsigned int heapId, unsigned int size, int clear, const char *site, unsigned short tag);
-extern void *ARC_UTIL_LoadPaletteDataFromArchive(u32 archiveID, u32 memberIdx, u32 heapID, u32 unpackedOut, u16 flags);
+extern void *ARC_UTIL_LoadPaletteDataFromArchive(u32 archiveID, u32 memberIdx, u32 heapID, void *unpackedOut, u16 flags);
 extern u32 GFL_HEAP_Free(void *p);
 extern void CLACT_SetSurfacePos(void *,int,void *);
 extern void BG_SYS_FreeLayerBuf(u32 i);
@@ -122,7 +122,7 @@ Wf2dmapBitmapDesc *WF2DMAP_SCRDRAW_CreateBitmapDesc(void *src, u32 count, const 
     desc->type = res[0];
     desc->resourceId = res[1];
     WF2DMAP_SCRDRAW_LoadPalette((void *)count, res[1], (u8 *)res);
-    desc->palette = ARC_UTIL_LoadPaletteDataFromArchive(res[8], res[9], res[10], (u32)(&desc->paletteOut), heap);
+    desc->palette = ARC_UTIL_LoadPaletteDataFromArchive(res[8], res[9], res[10], (&desc->paletteOut), heap);
     return desc;
 }
 

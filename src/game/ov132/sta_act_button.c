@@ -120,7 +120,7 @@ extern int MUSICAL_MCSS_GetElemSizeFlags(int *);
 
 extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 
-extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
+extern void *ARC_TOOL_CreateHandle(unsigned int archiveID, unsigned short heapID);
 
 extern void CLACT_SetUnitDefaultRenderer(struct Bank *bank);
 
@@ -130,7 +130,7 @@ extern int CLACT_RegisterPaletteEx(void *,u32,u32,u32,u16,u16,u16),CLACT_Registe
 
 extern struct Actor *CLACT_CreateActor(void *,unsigned int,unsigned int,unsigned int,const void *,u16,u16);
 
-extern int ARC_UTIL_LoadMember(int,int,int,int);
+extern int ARC_UTIL_LoadMember(int archiveID, int memberIdx, int decompress, unsigned short heapID);
 
 extern unsigned char *NNS_G3dGetTex(unsigned char *p);
 
@@ -140,7 +140,7 @@ extern void DC_FlushRange(void *,u32);
 
 extern void GXS_LoadOBJPltt(const void *,u32,u32);
 
-extern void GXS_LoadOBJ(const void *,void *,u32);
+extern void GXS_LoadOBJ(void *pSrc, unsigned int offset, unsigned int szByte);
 
 char *STA_ACT_BUTTON_Create(unsigned heap, void *a, char *b);
 
@@ -360,7 +360,7 @@ void STA_ACT_BUTTON_LoadCharacter(u8 *p,u16 slot,int resource,u32 type)
     for(block=0;block<height;block++) {
         for(line=0;line<8;line++) {
             for(col=0;col<type;col++) {
-                GXS_LoadOBJ(src+(col*4+(block*32*type+line*type*4)),dst+(line*4+((col+x)*32+((block+y)*256))),4);
+                GXS_LoadOBJ(src+(col*4+(block*32*type+line*type*4)),(unsigned int)(dst+(line*4+((col+x)*32+((block+y)*256)))),4);
             }
         }
     }

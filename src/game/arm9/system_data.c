@@ -42,9 +42,10 @@ struct MyStatusHolder {
 #define BLOCK_ID_1B 0x1B
 
 extern void MIi_CpuClear32(u32 data, void *dest, u32 size);
+struct SaveControl;
 
 /* Save-block lookup: returns the block with the given id. */
-extern void *SAVE_CONTROL_GetBlock(void *save, u32 id);
+extern void *SAVE_CONTROL_GetBlock(struct SaveControl *saveControl, u32 blockId);
 
 void CONFIG_Init(struct Config *config);
 

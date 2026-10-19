@@ -85,13 +85,13 @@ typedef struct { int a,b,c,d; } BgSysGraphicsMode;
 /* One BG_SYS_InitBgLayer descriptor in d_021DF634. */
 typedef struct { u32 id; u32 config[8]; u32 a; u32 b; } BgLayerEntry;
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const void *site, u16 tag);
+extern void *GFL_HEAP_Alloc(unsigned int heapId, unsigned int size, int clear, char *site, unsigned short tag);
 
 extern void MI_CpuFill8(void *, int, u32);
 
 extern void BG_SYS_ClearGraphicsMemory(u32 keep);
 
-extern void BG_SYS_SetVramBanks(const void *c);
+extern void BG_SYS_SetVramBanks(struct DispVram *banks);
 
 extern void BG_SYS_SetLcdSwap(u32 swap);
 
@@ -102,10 +102,12 @@ extern void BG_SYS_ClearMainPlanes(void);
 extern void BG_SYS_ClearSubPlanes(void);
 
 extern void GF_FONT_InitTextColor(void);
+struct Tcb;
 
-extern void *GFL_USE_AddMainTask(void (*)(void *,u8 *),void *,int);
+extern struct Tcb *GFL_USE_AddMainTask(void (*)(void *,u8 *), void *work, u32 priority);
+struct TcbTask;
 
-extern void TCB_DeleteTask(void *n);
+extern void TCB_DeleteTask(struct TcbTask *task);
 
 extern void GF_FONT_SetDefaultTextColor(void);
 
@@ -134,12 +136,16 @@ extern void BMP_WIN_Exit(void);
 extern void BG_SYS_Delete(void);
 
 extern void BG_SYS_Update(void);
+struct DispVramCfg;
+struct SysInit;
 
-extern void CLACT_InitSystem(const void *cfg, u32 arg, u32 heapId);
+extern void CLACT_InitSystem(struct SysInit *cfg, struct DispVramCfg *res_cfg, u32 heapId);
 
 extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
+struct SurfaceInit;
+struct Renderer;
 
-extern struct Obj *CLACT_CreateRenderer(void *inits, u32 count, u32 heap);
+extern struct Renderer *CLACT_CreateRenderer(struct SurfaceInit *inits, u32 count, u32 heap_id);
 
 extern void CLACT_SetUnitRenderer(void *bank, void *p);
 
@@ -147,7 +153,7 @@ extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
 
 extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
 
-extern void CLACT_DeleteRenderer(void *);
+extern void CLACT_DeleteRenderer(struct Renderer *renderer);
 
 extern u32 CLACT_DeleteUnit(void *bank);
 
@@ -168,8 +174,9 @@ extern u32 G3D_CAMERA_Delete(void *ptr);
 extern void G3D_SYSTEM_Exit(void);
 
 extern void G3D_SYSTEM_DrawStart(void);
+struct G3dCamera;
 
-extern void G3D_CAMERA_Reset(void *l);
+extern void G3D_CAMERA_Reset(struct G3dCamera *camera);
 
 extern void G3D_SYSTEM_ApplyLookAt(void);
 
@@ -245,7 +252,7 @@ extern const u32 d_021DF580[];
 u8 *MYSTERY_GRAPHIC_Create(int arg,u16 heap)
 {
     u8 *p;
-    p=GFL_HEAP_Alloc(heap,28,0,d_021DFB8C,448);
+    p=GFL_HEAP_Alloc(heap,28,0,(char *)d_021DFB8C,448);
     MI_CpuFill8(p,0,28);
     ((MysteryGraphicWork *)p)->heapId=heap;
     *(volatile u16 *)0x04000050=0;
@@ -253,7 +260,7 @@ u8 *MYSTERY_GRAPHIC_Create(int arg,u16 heap)
     *(volatile unsigned *)0x04000000 &=0xFFFF1FFF;
     *(volatile unsigned *)0x04001000 &=0xFFFF1FFF;
     BG_SYS_ClearGraphicsMemory(0);
-    BG_SYS_SetVramBanks((const struct DispVram *)d_021DF604);
+    BG_SYS_SetVramBanks((struct DispVram *)d_021DF604);
     BG_SYS_SetLcdSwap(arg);
     BG_SYS_ResetSubDisplay();
     BG_SYS_ClearMainPlanes();
@@ -358,9 +365,9 @@ void MYSTERY_GRAPHIC_InitClact(void **p, u32 a, u32 heap)
 {
     void *q;
     MI_CpuFill8(p, 0, 8);
-    CLACT_InitSystem((const struct Cfg *)d_021DF5A8, a, heap);
+    CLACT_InitSystem((struct SysInit *)d_021DF5A8, (struct DispVramCfg *)a, heap);
     p[0] = CLACT_CreateUnit(128, 0, heap);
-    q = CLACT_CreateRenderer((unsigned char *)d_021DF5C4, 2, heap);
+    q = CLACT_CreateRenderer((struct SurfaceInit *)d_021DF5C4, 2, heap);
     p[1] = q;
     CLACT_SetUnitRenderer(p[0], q);
     BG_SYS_SetMainPlaneVisible(16, 1);

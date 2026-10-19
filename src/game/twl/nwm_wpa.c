@@ -33,11 +33,11 @@ typedef struct TwlMsg {
     u8 data[0x20];
 } TwlMsg;
 
-extern u32 NWMi_CheckState(u32, u32);
+extern u32 NWMi_CheckState(u32 n, ...);
 extern void DC_StoreRange(const void *, u32);
 extern void NWMi_SetCallbackTable(u32, u32);
 extern void MI_CpuCopy8(const void *, void *, u32);
-extern u32 NWMi_SendCommandDirect(void *, u32);
+extern u32 NWMi_SendCommandDirect(u32 command, u32 length);
 
 u32 NWM_SetWPAPSK(u32 callback, TwlReq *pskInfo) {
     u32 r;
@@ -64,7 +64,7 @@ u32 NWM_SetWPAPSK(u32 callback, TwlReq *pskInfo) {
     msg.len = 0x12;
     msg.kind = pskInfo->kind;
     MI_CpuCopy8(pskInfo->data, msg.data, 0x20);
-    r = NWMi_SendCommandDirect(&msg, 0x24);
+    r = NWMi_SendCommandDirect((u32)(&msg), 0x24);
     if (r == 0 || r == 2) {
         r = 2;
     }

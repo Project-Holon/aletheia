@@ -182,7 +182,7 @@ struct BgTemplateSet {
 };
 
 extern void GFL_HEAP_CreateChildHeap(unsigned int a, unsigned int heap, unsigned int size);
-extern void *PROCSYS_AllocProcWork(void *proc, u32 size, u32 heap);
+extern void *PROCSYS_AllocProcWork(struct Proc *proc, u32 size, u32 heapId);
 extern void  MIi_CpuClearFast(u32 val, void *dst, u32 size);
 extern void  WIPE_SetBrightnessFadeOut(u32 a, u32 color);
 extern void BSUBWAY_RECORD_LIST_CreateActors(BsubwayRecordListWork *work);
@@ -191,11 +191,12 @@ extern void BSUBWAY_RECORD_LIST_InitText(BsubwayRecordListWork *work);
 extern void BSUBWAY_RECORD_LIST_InitCursor(BsubwayRecordListWork *work);
 extern void  BSUBWAY_RECORD_LIST_UpdateArrowVisibility(BsubwayRecordListWork *work, int page, int pageCount);
 extern void BSUBWAY_RECORD_LIST_ShowPage(BsubwayRecordListWork *work, int page);
-extern void WIPE_SYS_Start(void *divisionMode, u32 mainPattern, u32 subPattern, u32 color, u32 frames, u32 wait, u32 heapId);
+extern void WIPE_SYS_Start(void *divisionMode, u32 mainPattern, u32 subPattern, u16 color, u32 frames, u32 wait, u32 heapId);
 extern void  GFL_NET_RefreshWmIconAtTopRight(u32 a, u32 b);
 extern int BSUBWAY_RECORD_LIST_RunInputState(BsubwayRecordListWork *work);
 extern void BSUBWAY_RECORD_LIST_UpdateText(BsubwayRecordListWork *work);
-extern void BGWINFRM_UpdateMoves(struct WinMgr *mgr);
+struct BgWinFrmWork;
+extern void BGWINFRM_UpdateMoves(struct BgWinFrmWork *wk);
 extern void CLACT_DrawSystem(void);
 extern int BSUBWAY_RECORD_LIST_DeleteCursor(BsubwayRecordListWork *work);
 extern void BSUBWAY_RECORD_LIST_ExitText(BsubwayRecordListWork *work);
@@ -204,22 +205,27 @@ extern void BSUBWAY_RECORD_LIST_DeleteActors(BsubwayRecordListWork *work);
 extern void PROCSYS_FreeProcWork(struct Proc *p);
 extern void *GFL_HEAP_GetHeapHeadChecked(u32 heapId);
 extern void GFL_HEAP_DeleteChecked(unsigned int heap);
-extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
+extern void *ARC_TOOL_CreateHandle(u32 archiveID, u16 heapID);
 extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern void *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
+struct Strbuf;
+extern struct Strbuf *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
 extern u16 *STRBUF_GetChars(struct Strbuf *vec);
 extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
 extern struct WordSet *WORDSET_Create(u32 n, u32 size, u16 heap);
-extern void *GFL_USE_AddMainTask(void (*fn)(void), void *arg, u32 priority);
+struct Tcb;
+extern struct Tcb *GFL_USE_AddMainTask(void (*fn)(void), void *arg, u32 priority);
 extern void *GAME_DATA_GetSaveBlock3B(struct GameData *gameData);
-extern struct BsubwayWifiRecordList *BSUBWAY_SAVEDATA_AllocHistoryCopy(struct BsubwayWifiData *saveBlock, u32 heap);
-extern u32 BSUBWAY_SAVEDATA_CountHistoryEntries(struct BsubwayWifiRecordList *recordList);
+struct BsubwaySave;
+struct HistoryBuf;
+extern struct HistoryBuf *BSUBWAY_SAVEDATA_AllocHistoryCopy(struct BsubwaySave *save, u32 heapId);
+extern u32 BSUBWAY_SAVEDATA_CountHistoryEntries(struct HistoryBuf *history);
 extern void BSUBWAY_RECORD_LIST_InitPageCount(BsubwayRecordListWork *work);
 extern u32 GFL_HEAP_Free(void *p);
 extern void STRBUF_Delete(struct Strbuf *vec);
 extern u32 WORDSET_Delete(struct WordSet *p);
 extern u32 MSGDATA_Delete(struct MsgBank *bank);
-extern void TCB_DeleteTask(void *task);
+struct TcbTask;
+extern void TCB_DeleteTask(struct TcbTask *task);
 extern void ARC_TOOL_DeleteHandle(void *p);
 extern void BG_SYS_SetVramBanks(const struct DispVram *c);
 extern void BG_SYS_Create(u16 heapId);
@@ -241,12 +247,14 @@ extern void ARC_UTIL_UploadPaletteFromHandle(void *arc, u32 memberIdx, u32 kind,
 extern void ARC_UTIL_UploadPaletteFromArchiveWhole(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 extern void BG_SYS_PushTile(u32 index);
-extern struct WinMgr *BGWINFRM_Create(u32 transMode, u32 frameMax, u32 heap);
-extern void BGWINFRM_AddFrame(struct WinMgr *mgr, u32 idx, u32 bg, u32 w, u32 h);
-extern void BGWINFRM_SetFrameDataArcHandle(struct WinMgr *mgr, u32 idx, void *arc, u32 member, u32 alloc);
-extern void BGWINFRM_PutFrame(struct WinMgr *mgr, u32 idx, s8 x, s8 y);
-extern void BGWINFRM_Delete(struct WinMgr *mgr);
-extern void CLACT_InitSystem(const struct ActorSystemConfig *cfg, const struct DispVram *vram, u32 heapId);
+extern struct BgWinFrmWork *BGWINFRM_Create(u32 transMode, u32 frameMax, u32 heap);
+extern void BGWINFRM_AddFrame(struct BgWinFrmWork *wk, u32 idx, u32 bgFrame, u32 sizeX, u32 sizeY);
+extern void BGWINFRM_SetFrameDataArcHandle(struct BgWinFrmWork *wk, u32 idx, void *arcHandle, u32 datId, u32 compressed);
+extern void BGWINFRM_PutFrame(struct BgWinFrmWork *wk, u32 idx, s8 x, s8 y);
+extern void BGWINFRM_Delete(struct BgWinFrmWork *wk);
+struct DispVramCfg;
+struct SysInit;
+extern void CLACT_InitSystem(struct SysInit *cfg, struct DispVramCfg *res_cfg, u32 heapId);
 extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
 extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
@@ -337,34 +345,40 @@ extern void CLACT_ReleaseCellAnim(u32 res);
 extern u32 CLACT_DeleteUnit(struct Bank *bank);
 extern void CLACT_ExitSystem(void);
 extern void BMP_WIN_Init(u16 heapId);
-extern struct BmpWin *BMP_WIN_Create(u32 layer, u32 x, u32 y, u32 width, u8 height, u8 charBase, u8 palette);
-extern struct Bitmap *BMP_WIN_GetBmp(struct BmpWin *win);
-extern void BMP_Clear(struct Bitmap *bitmap, u8 fill);
+struct BmpWin;
+extern struct BmpWin *BMP_WIN_Create(u32 bgLayer, u32 posX, u32 posY, u8 width, u8 height, u8 palette, u8 allocDir);
+struct Bmp;
+extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *win);
+extern void BMP_Clear(struct Bmp *bmp, u8 value);
 extern void BMP_WIN_TransferChars(struct BmpWin *win);
 extern void BMP_WIN_MakeScreen(struct BmpWin *win);
 extern u8 BMP_WIN_GetBgLayer(struct BmpWin *win);
 extern u32 BMP_WIN_Delete(struct BmpWin *win);
 extern void BMP_WIN_Exit(void);
 extern struct GfFont *GF_FONT_Create(int archiveId, int fileId, int format, int isFixedWidth, u32 heapId);
-extern struct PrintSys *PRINTSYS_QUE_Create(u32 heapId);
-extern void PRINTSYS_PrintQueColor(struct PrintSys *printSys, struct Bitmap *bitmap, u32 x, u32 y, struct Strbuf *text, struct GfFont *font, u16 color);
-extern void PRINTSYS_QUE_Delete(struct PrintSys *printSys);
+struct PrintQueue;
+extern struct PrintQueue *PRINTSYS_QUE_Create(u32 heapId);
+extern void PRINTSYS_PrintQueColor(struct PrintQueue *queue, struct Bmp *bmp, u32 x, s16 y, struct Strbuf *str, struct GfFont *font, u16 color);
+extern void PRINTSYS_QUE_Delete(struct PrintQueue *queue);
 extern u32 GF_FONT_Delete(struct GfFont *font);
-extern u32 PRINTSYS_QUE_Main(struct PrintSys *printSys);
-extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintSys *printSys, struct Bitmap *bitmap);
+extern u32 PRINTSYS_QUE_Main(struct PrintQueue *queue);
+extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintQueue *queue, struct Bmp *bmp);
 extern u32 WIPE_SYS_EndCheck(void);
-extern u32 PRINTSYS_QUE_IsFinished(const struct PrintSys *printSys);
-extern int CURSOR_MOVE_PollInput(struct CursorMove *cursor);
+extern u32 PRINTSYS_QUE_IsFinished(struct PrintQueue *queue);
+struct Cursor;
+extern int CURSOR_MOVE_PollInput(struct Cursor *obj);
 extern u32 CLACT_IsActorAnimActive(struct Actor *actor);
-extern struct CursorMove *CURSOR_MOVE_Create(const void *entries, const void *callbacks, void *work, u32 state, u8 start, u16 heapId);
-extern u32 CURSOR_MOVE_Delete(struct CursorMove *cursor);
+struct CursorVtbl;
+struct CursorEntry;
+extern struct Cursor *CURSOR_MOVE_Create(struct CursorEntry *entries, struct CursorVtbl *vt, u32 ctx, u32 state, u8 start, u16 heapId);
+extern u32 CURSOR_MOVE_Delete(void *cursor);
 extern void GFL_USE_PlaySeDefaultVolume(u32 seId);
-extern const u8 *CURSOR_MOVE_GetEntry(struct CursorMove *cursor, unsigned int index);
+extern struct CursorEntry *CURSOR_MOVE_GetEntry(struct Cursor *obj, u32 idx);
 extern void CLACT_AddActorSurfacePos(struct Actor *actor, const struct Vec2 *delta, u32 which);
 extern void WORDSET_SetSlotNumber(struct WordSet *wordSet, u32 index, u32 number, u32 digits, u32 dispType, u32 codeType);
 extern void WORDSET_SetSlotFromMsgE7(struct WordSet *wordSet, u32 index, u32 trainerClass);
 extern void WORDSET_SetSlotFromKeyedMessage(struct WordSet *wordSet, u32 index, u32 trainerClass, u32 trainerIndex);
-extern void WORDSET_CopyTaggedText(struct WordSet *wordSet, void *dst, void *src);
+extern void WORDSET_CopyTaggedText(struct WordSet *words, struct Strbuf *dst, struct Strbuf *src);
 extern void STRBUF_SetStringN(struct Strbuf *dst, const u16 *src, u32 len);
 extern struct Strbuf *PMSI_PARAM_ToString(const BsubwayPmsData *pms, unsigned int heap);
 extern void BG_SYS_MarkTileDirty(u32);
@@ -372,9 +386,9 @@ extern int TOUCHPANEL_HitTrg(const void *rects);
 extern unsigned KEY_GetTrg(void);
 extern void CLACT_SetActorAnimSeq(struct Actor *actor, u16 animIndex);
 extern void CLACT_SetActorDrawEnable(struct Actor *actor, unsigned int enabled);
-extern u8 CURSOR_MOVE_GetCurrent(struct CursorMove *cursor);
+extern u8 CURSOR_MOVE_GetCurrent(struct Cursor *obj);
 extern void BSUBWAY_RECORD_LIST_DrawRowName(BsubwayRecordListWork *work, int row, struct Strbuf *name, int isFemale);
-extern void BGWINFRM_HideFrame(struct WinMgr *mgr, u32 idx);
+extern void BGWINFRM_HideFrame(struct BgWinFrmWork *wk, u32 idx);
 int BSUBWAY_RECORD_LIST_StateFadeIn(BsubwayRecordListWork *work);
 int BSUBWAY_RECORD_LIST_StateInput(BsubwayRecordListWork *work);
 int BSUBWAY_RECORD_LIST_StateBackAnim(BsubwayRecordListWork *work);
@@ -400,9 +414,9 @@ extern const char sTouchRects[];
 struct GfFont;
 
 
-extern void PRINTSYS_PrintColor(struct Bitmap *bitmap, s16 x, s16 y, struct Strbuf *text, struct GfFont *font, u16 color);
-extern void BGWINFRM_PutBmpWin(struct WinMgr *mgr, u32 idx, struct BmpWin *win);
-extern void BGWINFRM_ShowFrame(struct WinMgr *mgr, u32 idx);
+extern void PRINTSYS_PrintColor(struct Bmp *bmp, s16 x, s16 y, struct Strbuf *str, struct GfFont *font, u16 color);
+extern void BGWINFRM_PutBmpWin(struct BgWinFrmWork *wk, u32 idx, void *bmpWin);
+extern void BGWINFRM_ShowFrame(struct BgWinFrmWork *wk, u32 idx);
 
 
 
@@ -437,7 +451,7 @@ int BSUBWAY_RECORD_LIST_Main(u32 proc, u32 unusedSeq, u32 unusedArgs, BsubwayRec
     if (BSUBWAY_RECORD_LIST_RunInputState(work) == 0)
         return 1;
     BSUBWAY_RECORD_LIST_UpdateText(work);
-    BGWINFRM_UpdateMoves(work->frameMgr);
+    BGWINFRM_UpdateMoves((struct BgWinFrmWork *)work->frameMgr);
     CLACT_DrawSystem();
     return 0;
 }
@@ -483,8 +497,8 @@ void BSUBWAY_RECORD_LIST_InitWork(BsubwayRecordListWork *work, BsubwayRecordList
     work->textBuf = STRBUF_Create(0x40, 0x80);
     work->wordSet = WORDSET_Create(8, 0x40, 0x80);
     work->vblankTask = GFL_USE_AddMainTask(BSUBWAY_RECORD_LIST_VBlankTask, work, 0);
-    work->recordList = BSUBWAY_SAVEDATA_AllocHistoryCopy(GAME_DATA_GetSaveBlock3B(work->args->gameData), 0x80);
-    work->entryCount = BSUBWAY_SAVEDATA_CountHistoryEntries(work->recordList);
+    work->recordList = (struct BsubwayWifiRecordList *)BSUBWAY_SAVEDATA_AllocHistoryCopy(GAME_DATA_GetSaveBlock3B(work->args->gameData), 0x80);
+    work->entryCount = BSUBWAY_SAVEDATA_CountHistoryEntries((struct HistoryBuf *)work->recordList);
     BSUBWAY_RECORD_LIST_InitPageCount(work);
 }
 
@@ -561,18 +575,18 @@ void BSUBWAY_RECORD_LIST_LoadGraphics(BsubwayRecordListWork *work)
     ARC_TOOL_DeleteHandle(spriteArc);
     ARC_UTIL_UploadPaletteFromArchiveWhole(0x17, 5, 0, 0x1E0, 0x20, 0x80);
     ARC_UTIL_UploadPaletteFromArchiveWhole(0x17, 5, 4, 0x1E0, 0x20, 0x80);
-    work->frameMgr = BGWINFRM_Create(2, 10, 0x80);
+    work->frameMgr = (struct WinMgr *)BGWINFRM_Create(2, 10, 0x80);
     for (i = 0; i < BSUBWAY_RECORD_LIST_ENTRIES_PER_PAGE; i++) {
-        BGWINFRM_AddFrame(work->frameMgr, i, 1, 0xE, 4);
-        BGWINFRM_SetFrameDataArcHandle(work->frameMgr, i, uiArc, 3, 1);
-        BGWINFRM_PutFrame(work->frameMgr, i, sRecordListFramePositions[i].x, sRecordListFramePositions[i].y);
+        BGWINFRM_AddFrame((struct BgWinFrmWork *)work->frameMgr, i, 1, 0xE, 4);
+        BGWINFRM_SetFrameDataArcHandle((struct BgWinFrmWork *)work->frameMgr, i, uiArc, 3, 1);
+        BGWINFRM_PutFrame((struct BgWinFrmWork *)work->frameMgr, i, sRecordListFramePositions[i].x, sRecordListFramePositions[i].y);
     }
 }
 
 
 void BSUBWAY_RECORD_LIST_DeleteFrames(BsubwayRecordListWork *work)
 {
-    BGWINFRM_Delete(work->frameMgr);
+    BGWINFRM_Delete((struct BgWinFrmWork *)work->frameMgr);
 }
 
 
@@ -583,7 +597,7 @@ void BSUBWAY_RECORD_LIST_SetupActors(BsubwayRecordListWork *work)
     u32 cellAnimId;
 
     spriteArc = ARC_TOOL_CreateHandle(APP_ICON_GetArchiveId(), 0x80);
-    CLACT_InitSystem(&gClActorInitParam, &sRecordListVramBanks, 0x80);
+    CLACT_InitSystem((struct SysInit *)(&gClActorInitParam), (struct DispVramCfg *)(&sRecordListVramBanks), 0x80);
     work->actorBank = CLACT_CreateUnit(4, 1, 0x80);
     work->subActorBank = CLACT_CreateUnit(2, 1, 0x80);
     BG_SYS_SetMainPlaneVisible(0x10, 1);
@@ -687,27 +701,27 @@ void BSUBWAY_RECORD_LIST_InitText(BsubwayRecordListWork *work)
     struct PrintSys *printSys;
 
     work->font = GF_FONT_Create(0x17, 0, 0, 0, 0x80);
-    work->printSys = PRINTSYS_QUE_Create(0x80);
+    work->printSys = (struct PrintSys *)PRINTSYS_QUE_Create(0x80);
     for (i = 0; i < BSUBWAY_RECORD_LIST_WIN_COUNT; i++) {
         work->printJobs[i].window = work->windows[i];
         work->printJobs[i].isPending = 0;
     }
     printSys = work->printSys;
-    PRINTSYS_PrintQueColor(printSys, BMP_WIN_GetBmp(work->printJobs[BSUBWAY_RECORD_LIST_WIN_TITLE].window), 0, 0,
+    PRINTSYS_PrintQueColor((struct PrintQueue *)printSys, BMP_WIN_GetBmp(work->printJobs[BSUBWAY_RECORD_LIST_WIN_TITLE].window), 0, 0,
                   work->messages[0], work->font, 0x3DC0);
     work->printJobs[BSUBWAY_RECORD_LIST_WIN_TITLE].isPending = 1;
     printSys = work->printSys;
-    PRINTSYS_PrintQueColor(printSys, BMP_WIN_GetBmp(work->printJobs[BSUBWAY_RECORD_LIST_WIN_LABEL_B].window), 0, 0,
+    PRINTSYS_PrintQueColor((struct PrintQueue *)printSys, BMP_WIN_GetBmp(work->printJobs[BSUBWAY_RECORD_LIST_WIN_LABEL_B].window), 0, 0,
                   work->messages[3], work->font, 0x3DC0);
     work->printJobs[BSUBWAY_RECORD_LIST_WIN_LABEL_B].isPending = 1;
     printSys = work->printSys;
-    PRINTSYS_PrintQueColor(printSys, BMP_WIN_GetBmp(work->printJobs[BSUBWAY_RECORD_LIST_WIN_LABEL_C].window), 0, 0,
+    PRINTSYS_PrintQueColor((struct PrintQueue *)printSys, BMP_WIN_GetBmp(work->printJobs[BSUBWAY_RECORD_LIST_WIN_LABEL_C].window), 0, 0,
                   work->messages[6], work->font, 0x3DC0);
     work->printJobs[BSUBWAY_RECORD_LIST_WIN_LABEL_C].isPending = 1;
 }
 
 
-void BSUBWAY_RECORD_LIST_ExitText(BsubwayRecordListWork *work) { PRINTSYS_QUE_Delete(work->printSys); GF_FONT_Delete(work->font); }
+void BSUBWAY_RECORD_LIST_ExitText(BsubwayRecordListWork *work) { PRINTSYS_QUE_Delete((struct PrintQueue *)work->printSys); GF_FONT_Delete(work->font); }
 
 
 
@@ -716,11 +730,11 @@ void BSUBWAY_RECORD_LIST_UpdateText(BsubwayRecordListWork *work)
     int i;
     struct PrintSys *printSys;
 
-    PRINTSYS_QUE_Main(work->printSys);
+    PRINTSYS_QUE_Main((struct PrintQueue *)work->printSys);
     for (i = 0; i < BSUBWAY_RECORD_LIST_WIN_COUNT; i++) {
         printSys = work->printSys;
         if (work->printJobs[i].isPending != 0) {
-            if (PRINTSYS_QUE_IsExistTarget(printSys, BMP_WIN_GetBmp(work->printJobs[i].window)) == 0) {
+            if (PRINTSYS_QUE_IsExistTarget((struct PrintQueue *)printSys, BMP_WIN_GetBmp(work->printJobs[i].window)) == 0) {
                 BMP_WIN_TransferChars(work->printJobs[i].window);
                 work->printJobs[i].isPending = 0;
             }
@@ -740,10 +754,10 @@ int BSUBWAY_RECORD_LIST_StateInput(BsubwayRecordListWork *work)
 {
     int result;
 
-    if (PRINTSYS_QUE_IsFinished(work->printSys) == 0)
+    if (PRINTSYS_QUE_IsFinished((struct PrintQueue *)work->printSys) == 0)
         return 1;
     if (BSUBWAY_RECORD_LIST_PollTouchAndCancel(work) == -1) {
-        result = CURSOR_MOVE_PollInput(work->cursorMove);
+        result = CURSOR_MOVE_PollInput((struct Cursor *)work->cursorMove);
         if (result == -6)
             BSUBWAY_RECORD_LIST_HandleAction(work, 0);
         else if (result == -5)
@@ -774,7 +788,7 @@ int BSUBWAY_RECORD_LIST_StateFadeOutWait(BsubwayRecordListWork *work)
 
 void BSUBWAY_RECORD_LIST_InitCursor(BsubwayRecordListWork *work)
 {
-    work->cursorMove = CURSOR_MOVE_Create(sCursorEntries, sCursorCallbacks, work, 1, 0, 0x80);
+    work->cursorMove = (struct CursorMove *)CURSOR_MOVE_Create((struct CursorEntry *)sCursorEntries, (struct CursorVtbl *)sCursorCallbacks, (u32)work, 1, 0, 0x80);
     BSUBWAY_RECORD_LIST_PlaceCursorActor(work, 0);
 }
 
@@ -819,7 +833,7 @@ void BSUBWAY_RECORD_LIST_PlaceCursorActor(BsubwayRecordListWork *work, int row)
     CursorPos pos;
     const u8 *entry;
 
-    entry = CURSOR_MOVE_GetEntry(work->cursorMove, row);
+    entry = (u8 *)CURSOR_MOVE_GetEntry((struct Cursor *)work->cursorMove, row);
     pos.x = entry[0];
     pos.y = entry[1];
     CLACT_AddActorSurfacePos(work->actors[BSUBWAY_RECORD_LIST_ACTOR_CURSOR], (const struct Vec2 *)(&pos), 0);
@@ -859,27 +873,27 @@ void BSUBWAY_RECORD_LIST_ShowRecordDetails(BsubwayRecordListWork *work, BsubwayW
         /* stand-in: record->trainerName changes the bytes; the byte offset (index * 0x22) must be computed first. */
         STRBUF_SetStringN(nameStr, (const u16 *)((char *)records + offset), nameLen);
         printSys = work->printSys;
-        PRINTSYS_PrintQueColor(printSys, BMP_WIN_GetBmp(work->printJobs[BSUBWAY_RECORD_LIST_WIN_NAME].window), 0, 0, nameStr, work->font, 0x3DC0);
+        PRINTSYS_PrintQueColor((struct PrintQueue *)printSys, BMP_WIN_GetBmp(work->printJobs[BSUBWAY_RECORD_LIST_WIN_NAME].window), 0, 0, nameStr, work->font, 0x3DC0);
         work->printJobs[BSUBWAY_RECORD_LIST_WIN_NAME].isPending = 1;
         WORDSET_CopyTaggedText(work->wordSet, work->textBuf, work->messages[1]);
         printSys = work->printSys;
-        PRINTSYS_PrintQueColor(printSys, BMP_WIN_GetBmp(work->printJobs[BSUBWAY_RECORD_LIST_WIN_SUMMARY].window), 0, 0, (struct Strbuf *)work->textBuf, work->font, 0x3DC0);
+        PRINTSYS_PrintQueColor((struct PrintQueue *)printSys, BMP_WIN_GetBmp(work->printJobs[BSUBWAY_RECORD_LIST_WIN_SUMMARY].window), 0, 0, (struct Strbuf *)work->textBuf, work->font, 0x3DC0);
         work->printJobs[BSUBWAY_RECORD_LIST_WIN_SUMMARY].isPending = 1;
         WORDSET_CopyTaggedText(work->wordSet, work->textBuf, work->messages[2]);
         printSys = work->printSys;
-        PRINTSYS_PrintQueColor(printSys, BMP_WIN_GetBmp(work->printJobs[BSUBWAY_RECORD_LIST_WIN_TRAINER_LINE].window), 0, 0, (struct Strbuf *)work->textBuf, work->font, 0x3DC0);
+        PRINTSYS_PrintQueColor((struct PrintQueue *)printSys, BMP_WIN_GetBmp(work->printJobs[BSUBWAY_RECORD_LIST_WIN_TRAINER_LINE].window), 0, 0, (struct Strbuf *)work->textBuf, work->font, 0x3DC0);
         work->printJobs[BSUBWAY_RECORD_LIST_WIN_TRAINER_LINE].isPending = 1;
         WORDSET_CopyTaggedText(work->wordSet, work->textBuf, work->messages[4]);
         printSys = work->printSys;
-        PRINTSYS_PrintQueColor(printSys, BMP_WIN_GetBmp(work->printJobs[BSUBWAY_RECORD_LIST_WIN_SCORE].window), 0, 0, (struct Strbuf *)work->textBuf, work->font, 0x3DC0);
+        PRINTSYS_PrintQueColor((struct PrintQueue *)printSys, BMP_WIN_GetBmp(work->printJobs[BSUBWAY_RECORD_LIST_WIN_SCORE].window), 0, 0, (struct Strbuf *)work->textBuf, work->font, 0x3DC0);
         work->printJobs[BSUBWAY_RECORD_LIST_WIN_SCORE].isPending = 1;
         WORDSET_CopyTaggedText(work->wordSet, work->textBuf, work->messages[5]);
         printSys = work->printSys;
-        PRINTSYS_PrintQueColor(printSys, BMP_WIN_GetBmp(work->printJobs[BSUBWAY_RECORD_LIST_WIN_SCORE].window), 0, 0x10, (struct Strbuf *)work->textBuf, work->font, 0x3DC0);
+        PRINTSYS_PrintQueColor((struct PrintQueue *)printSys, BMP_WIN_GetBmp(work->printJobs[BSUBWAY_RECORD_LIST_WIN_SCORE].window), 0, 0x10, (struct Strbuf *)work->textBuf, work->font, 0x3DC0);
         work->printJobs[BSUBWAY_RECORD_LIST_WIN_SCORE].isPending = 1;
         greetingStr = PMSI_PARAM_ToString(greeting, 0x80);
         printSys = work->printSys;
-        PRINTSYS_PrintQueColor(printSys, BMP_WIN_GetBmp(work->printJobs[BSUBWAY_RECORD_LIST_WIN_GREETING].window), 0, 0, greetingStr, work->font, 0x3DC0);
+        PRINTSYS_PrintQueColor((struct PrintQueue *)printSys, BMP_WIN_GetBmp(work->printJobs[BSUBWAY_RECORD_LIST_WIN_GREETING].window), 0, 0, greetingStr, work->font, 0x3DC0);
         work->printJobs[BSUBWAY_RECORD_LIST_WIN_GREETING].isPending = 1;
         STRBUF_Delete(greetingStr);
     } else {
@@ -991,7 +1005,7 @@ void BSUBWAY_RECORD_LIST_ShowPage(BsubwayRecordListWork *work, int page)
     work->page = page;
     BSUBWAY_RECORD_LIST_UpdateArrowVisibility(work, page, work->pageCount);
     BSUBWAY_RECORD_LIST_DrawPageRows(work);
-    BSUBWAY_RECORD_LIST_ShowRecordDetails(work, work->recordList->records, work->page * 10 + CURSOR_MOVE_GetCurrent(work->cursorMove));
+    BSUBWAY_RECORD_LIST_ShowRecordDetails(work, work->recordList->records, work->page * 10 + CURSOR_MOVE_GetCurrent((struct Cursor *)work->cursorMove));
 }
 
 
@@ -1026,7 +1040,7 @@ void BSUBWAY_RECORD_LIST_DrawPageRows(BsubwayRecordListWork *work)
         } while (i < rowCount);
     }
     for (; i < 10; i++)
-        BGWINFRM_HideFrame(work->frameMgr, i);
+        BGWINFRM_HideFrame((struct BgWinFrmWork *)work->frameMgr, i);
     STRBUF_Delete(nameStr);
 }
 
@@ -1042,6 +1056,6 @@ void BSUBWAY_RECORD_LIST_DrawRowName(BsubwayRecordListWork *work, int row, struc
         PRINTSYS_PrintColor(BMP_WIN_GetBmp(work->windows[row]), 0, 0, name,
                       work->font, 0x2D44);
     BMP_WIN_TransferChars(work->windows[row]);
-    BGWINFRM_PutBmpWin(work->frameMgr, row, work->windows[row]);
-    BGWINFRM_ShowFrame(work->frameMgr, row);
+    BGWINFRM_PutBmpWin((struct BgWinFrmWork *)work->frameMgr, row, work->windows[row]);
+    BGWINFRM_ShowFrame((struct BgWinFrmWork *)work->frameMgr, row);
 }

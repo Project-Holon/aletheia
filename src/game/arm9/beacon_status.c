@@ -45,20 +45,22 @@ typedef struct BeaconStatus {
 extern void MI_CpuFill8(void *dst, u8 value, u32 size);
 
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *file, u16 line);
+struct Strbuf;
 
-extern struct StrBuf *STRBUF_Create(u32 length, u32 heapId);
+extern struct Strbuf *STRBUF_Create(u32 length, u32 heapId);
+struct MsgBank;
 
-extern struct MsgData *MSGDATA_CreateFromArchive(u32 loadType, u32 arcId, u32 datId, u32 heapId);
+extern struct MsgBank *MSGDATA_CreateFromArchive(u32 loadType, u32 arcId, u32 datId, u32 heapId);
 
-extern struct StrBuf *MSGDATA_AllocString(struct MsgData *msgData, u32 strId);
+extern struct Strbuf *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
 
-extern void STRBUF_ToChars(struct StrBuf *str, u16 *code, u32 length);
+extern void STRBUF_ToChars(struct Strbuf *strbuf, u16 *out, u32 maxChars);
 
-extern void STRBUF_SetString(struct StrBuf *str, const u16 *code);
+extern void STRBUF_SetString(struct Strbuf *strbuf, u16 *srcChars);
 
-extern void STRBUF_Delete(struct StrBuf *str);
+extern void STRBUF_Delete(struct Strbuf *strbuf);
 
-extern u32 MSGDATA_Delete(struct MsgData *msgData);
+extern u32 MSGDATA_Delete(struct MsgBank *bank);
 
 extern u32 GFL_HEAP_Free(void *memory);
 
@@ -98,19 +100,19 @@ BeaconStatus *BEACON_STATUS_Create(u32 heapId, u32 msgHeapId)
     u16 code[10];
 
     bs = GFL_HEAP_Alloc(heapId, sizeof(BeaconStatus), 1, beacon_status_File, 42);
-    bs->message = STRBUF_Create(9, heapId);
-    msgData = MSGDATA_CreateFromArchive(0, 2, 8, msgHeapId);
-    str = MSGDATA_AllocString(msgData, 0x11);
-    STRBUF_ToChars(str, code, 9);
-    STRBUF_SetString(bs->message, code);
-    STRBUF_Delete(str);
-    MSGDATA_Delete(msgData);
+    bs->message = (struct StrBuf *)STRBUF_Create(9, heapId);
+    msgData = (struct MsgData *)MSGDATA_CreateFromArchive(0, 2, 8, msgHeapId);
+    str = (struct StrBuf *)MSGDATA_AllocString((struct MsgBank *)msgData, 0x11);
+    STRBUF_ToChars((struct Strbuf *)str, code, 9);
+    STRBUF_SetString((struct Strbuf *)bs->message, code);
+    STRBUF_Delete((struct Strbuf *)str);
+    MSGDATA_Delete((struct MsgBank *)msgData);
     return bs;
 }
 
 void BEACON_STATUS_Delete(BeaconStatus *bs)
 {
-    STRBUF_Delete(bs->message);
+    STRBUF_Delete((struct Strbuf *)bs->message);
     MI_CpuFill8(bs, 0, sizeof(BeaconStatus));
     GFL_HEAP_Free(bs);
 }

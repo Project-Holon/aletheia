@@ -213,6 +213,7 @@ typedef signed char s8;
 typedef signed short s16;
 typedef signed int s32;
 
+#include "../version.h"
 #include "../arm9/game_beacon_types.h"
 #include "../arm9/net_types.h"
 #include "intrude_comm_types.h"
@@ -318,21 +319,24 @@ typedef struct { u8 value; u8 enabled; } LinkValueMessage;
 extern struct GameData *GAME_COMM_GetGameData(struct GameComm *gameComm);
 extern int   INTRUDE_COMM_HasUnlockFlags(struct GameData *gameData);
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 line);
-extern struct CommPlayerWork *COMM_PLAYER_Create(int playerNum, void *gameSystem, u16 heapId, int mode);
-extern int EVENT_FIELD_PROCLINK_InitReturnSlotsWithAid(void *returnSlots);
-extern struct STRBUF *STRBUF_Create(u32 capacity, u32 heapId);
+extern void *COMM_PLAYER_Create(int playerNum, void *gameSystem, u16 heapId, int mode);
+struct EventSlots;
+extern void EVENT_FIELD_PROCLINK_InitReturnSlotsWithAid(struct EventSlots *slots);
+extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
 extern void GAME_DATA_SetOwnNetId(struct GameData *gameData, u32 exitMode);
 extern void GAME_DATA_SetIntrudeId(struct GameData *gameData, u32 intrudeId);
 extern void GAME_DATA_SetEnterMode(struct GameData *gameData, u8 enterMode);
 extern struct MyStatus *GAME_DATA_GetMyStatusPlayer(struct GameData *gameData, u32 index);
-extern void  MYSTATUS_Copy(void *src, void *dst);
-extern u8 GAME_DATA_IsSaving(const u8 *gameData);
+extern void  MYSTATUS_Copy(struct MyStatus *src, struct MyStatus *dest);
+extern u8 GAME_DATA_IsSaving(struct GameData *gd);
 extern void GFL_NET_StartSession(GFLNetInitializeStruct *init, u32 callback, u32 userArg);
 extern u32 GFL_HEAP_Free(void *memory);
-extern int GFL_NET_StartChangeoverParent(int arg);
+extern void GFL_NET_StartChangeoverParent(u32 changeoverParam);
 extern void GFL_NET_ConnectMacAddressParent(void *macAddress);
-extern u8 *GAME_DATA_GetSecondUnionInfo(struct GameData *gameData);
-extern void EVENT_FIELD_PROCLINK_RunReturnSlotsIfOffline(void *returnSlots, int unionInfo, int peerMask);
+struct UnionInfo;
+extern struct UnionInfo *GAME_DATA_GetSecondUnionInfo(struct GameData *gameData);
+struct ProcLinkSys;
+extern void EVENT_FIELD_PROCLINK_RunReturnSlotsIfOffline(struct EventSlots *slots, struct ProcLinkSys *procLink, s32 slotMask);
 extern u32 GFL_NET_ERR_GetErrorLevel(void);
 extern void GAME_COMM_RequestExitNoCallback(struct GameComm *gameComm);
 extern int   DWCi_IsFold(void);
@@ -354,31 +358,35 @@ extern void GFL_NET_HANDLE_SetTimingSyncRange(GFLNetHandle *handle, u32 timingNo
 extern u32 GFL_NET_HANDLE_IsTimingSyncRange(GFLNetHandle *handle, u32 timingNo, u32 option);
 extern int GFL_NET_IsSessionNull(void);
 extern void GFL_NET_ERR_ResetState(void);
-extern u16 GAME_DATA_GetPlayerZoneId(const void *myPlayerWork);
+struct PlayerWork;
+extern u16 GAME_DATA_GetPlayerZoneId(struct PlayerWork *player);
 extern u32 ZONEDATA_IsEntralink(u32 zoneId);
 extern void *GAMESYSTEM_GetFieldMap(const struct GameSystem *gameSystem);
-extern int FIELDMAP_IsReady(void *fieldMap);
-extern void EVENT_FIELD_PROCLINK_ClearReturnSlots(void *returnSlots);
-extern void GAME_DATA_ClearUnionInfo(u8 *gameData);
+extern int FIELDMAP_IsReady(struct FieldMap *fieldMap);
+extern void EVENT_FIELD_PROCLINK_ClearReturnSlots(struct EventSlots *slots);
+extern void GAME_DATA_ClearUnionInfo(struct GameData *gameData);
 extern void COMM_PLAYER_Delete(void *gameSystem, struct CommPlayerWork *commPlayer);
 extern u8 GAME_DATA_GetOwnNetId(const struct GameData *gameData);
 extern void GAME_COMM_SetCounter(struct GameComm *gameComm, u32 counter);
 extern void GAMESYSTEM_SetFieldMapState(struct GameSystem *gameSystem, u32 state);
 extern void GAME_COMM_ClearInfoMessages(struct GameComm *gameComm);
-extern void STRBUF_Delete(struct STRBUF *buf);
+extern void STRBUF_Delete(struct Strbuf *strbuf);
 extern int WIH_IsMatchingParent(void *whPipe);
-extern int NET_WHPIPE_CheckBeaconFlags(void *whPipe, u32 flags);
-extern IntrudeScanRecord *NET_WHPIPE_GetEntryBeacon(void *whPipe, u8 *kind);
+struct WhPipeEntry;
+extern int NET_WHPIPE_CheckBeaconFlags(struct WhPipeEntry *entry, u32 flags);
+extern u8 *NET_WHPIPE_GetEntryBeacon(struct WhPipeEntry *entry, u8 *outKind);
 extern int INTRUDE_COMM_IsListedId(u16 zoneId);
-extern void GAME_BEACON_ACCESSOR_GetPlayerName(const GameBeaconInfo *info, struct STRBUF *name);
+struct GameBeaconInfo;
+extern void GAME_BEACON_ACCESSOR_GetPlayerName(struct GameBeaconInfo *info, struct Strbuf *name);
 extern u8 GAME_BEACON_ACCESSOR_GetSex(const GameBeaconInfo *info);
-extern u8 GAME_BEACON_ACCESSOR_GetLanguage(const GameBeaconInfo *info);
-extern u16 FIELDMAP_GetZoneId(u8 *fieldObject);
+extern u32 GAME_BEACON_ACCESSOR_GetLanguage(const GameBeaconInfo *info);
+extern u16 FIELDMAP_GetZoneId(struct FieldMap *fieldMap);
 extern int INTRUDE_FIELD_IsListedZone(u32 value);
 extern void COMM_PLAYER_ClearPending(struct CommPlayerWork *commPlayer);
 extern void COMM_PLAYER_Resume(struct CommPlayerWork *commPlayer);
 extern int COMM_PLAYER_CheckOccupy(struct CommPlayerWork *commPlayer, int index);
-extern void COMM_PLAYER_SetPackage(struct CommPlayerWork *commPlayer, int index, IntrudePlayerPackage *package);
+struct CommPlayerPackage;
+extern void COMM_PLAYER_SetPackage(struct CommPlayerWork *work, s32 index, struct CommPlayerPackage *package);
 extern void COMM_PLAYER_Suspend(struct CommPlayerWork *commPlayer);
 extern void WIH_SetBeaconFoundCallback(u32 callback);
 extern u32 GFL_NET_SYSTEM_CheckError(void);
@@ -391,83 +399,94 @@ void MI_CpuCopy8(const void *src, void *dst, int size);
 extern void COMM_PLAYER_Del(struct CommPlayerWork *commPlayer, int netId);
 void GAME_COMM_UpdatePlayerStatus(struct GameComm *gameComm, int netId, u16 zoneId, u8 intrudeId, u32 fieldStatus, int quiet);
 void MI_CpuFill8(void *dst, int value, int size);
-void *GAME_DATA_GetSaveControl(void *saveData);
-u16 *INTRUDE_GetFromSave(void *sys);
+struct SaveControl;
+struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gd);
+struct IntrudeSave;
+struct IntrudeSave *INTRUDE_GetFromSave(struct SaveControl *save);
 u32 GFL_NET_SendDataMask(GFLNetHandle *handle, u32 sendMask, u32 command, u32 size, const void *data, u32 sendFlags, u32 skipIfQueued, u32 queueMode);
-void GFL_NET_SetAcceptConnection(GFLNetHandle *handle, u32 enable);
+void GFL_NET_SetAcceptConnection(void *unusedArg, void *eventArg);
 void NET_WHPIPE_SetBeaconStatus(u8 value);
 u32 GFL_NET_IsConnectMember(u32 netId);
-s32 GF_STANDARD_CompareBytes(const void *a, const void *b, u32 size);
-extern IntrudeSaveSlot *GAME_DATA_GetLastBattleRecSlot(void *saveData);
+s32 GF_STANDARD_CompareBytes(u8 *a, u8 *b, u32 n);
+extern void *GAME_DATA_GetLastBattleRecSlot(struct GameData *gameData);
 int GAME_DATA_GetPmsWork(struct GameData *gameData);
 void *GAME_DATA_GetMoveModelSys(const struct GameData *p);
 u8 FIELD_STATUS_GetSeasonDispFlag(struct FieldStatus *o);
-int COMM_PLAYER_SUPPORT_GetMode(int a);
+struct CommPlayerSupport;
+u32 COMM_PLAYER_SUPPORT_GetMode(struct CommPlayerSupport *support);
 void COMM_PLAYER_SUPPORT_SetModeAndCurrent(int a, int b, int c);
-void GAME_COMM_PushPairMessage(u32 a, u32 b, u32 c);
-u8 *GAME_DATA_GetUnionInfo(u8 *o, u32 idx);
-extern int GAME_DATA_GetMyStatusByNetId(void *saveData, int index);
-void FIELD_WFBC_DATA_LOCAL_Sanitize(u16 *p, int x);
-void GAME_DATA_TakeUnionInfo(u8 *obj, void *dst);
-void EVENT_FIELD_PROCLINK_SetReturnSlotDefaultIfOffline(u8 *p, int v);
-void EVENT_FIELD_PROCLINK_SetReturnSlotIfOffline(u8 *p, u16 v);
-void *GAME_DATA_GetMyPlayerWork(struct GameData *p);
+void GAME_COMM_PushPairMessage(struct GameComm *comm, u32 netId0, u32 netId1);
+u8 *GAME_DATA_GetUnionInfo(struct GameData *gameData, u32 index);
+extern struct MyStatus *GAME_DATA_GetMyStatusByNetId(struct GameData *gameData, u32 netId);
+struct WfbcData;
+void FIELD_WFBC_DATA_LOCAL_Sanitize(struct WfbcData *data, struct MyStatus *myStatus);
+void GAME_DATA_TakeUnionInfo(struct GameData *gameData, void *dst);
+struct EventSlot;
+void EVENT_FIELD_PROCLINK_SetReturnSlotDefaultIfOffline(struct EventSlots *slots, struct EventSlot *slot);
+void EVENT_FIELD_PROCLINK_SetReturnSlotIfOffline(struct EventSlots *slots, s32 index, struct EventSlot *slot);
+struct PlayerWork *GAME_DATA_GetMyPlayerWork(struct GameData *p);
 unsigned int ZONEDATA_IsZoneGroup118To120(unsigned int id);
-extern void INTRUDE_AddLogEntry(void *, u8 *);
-int EVENT_FIELD_PROCLINK_GetReturnResultSlot(u8 *slots, int index, void *out);
-void EVENT_FIELD_PROCLINK_ClearReturnResultSlot(u8 *slots, int index);
-int EVENT_FIELD_PROCLINK_GetReturnPendingSlot(u8 *slots, void *out, u8 *index);
-void EVENT_FIELD_PROCLINK_ClearReturnPendingSlotThunk(u8 *slots);
+struct IntrudeLogEntry;
+extern void INTRUDE_AddLogEntry(struct IntrudeSave *intrude, struct IntrudeLogEntry *entry);
+int EVENT_FIELD_PROCLINK_GetReturnResultSlot(struct EventSlots *slots, s32 index, struct EventSlot *result);
+void EVENT_FIELD_PROCLINK_ClearReturnResultSlot(struct EventSlots *slots, s32 index);
+int EVENT_FIELD_PROCLINK_GetReturnPendingSlot(struct EventSlots *slots, struct EventSlot *result, u8 *pendingKey);
+void EVENT_FIELD_PROCLINK_ClearReturnPendingSlotThunk(struct EventSlots *slots);
 void *SYMBOL_SAVE_GetBlock(void *p);
-unsigned short SYMBOL_MAP_GetEntryPage(void *symbolMap, u32 *out, u32 cap, int page, u8 *count);
-u8 SYMBOL_MAP_GetSymbolIndex(void *symbolMap);
-u8 SYMBOL_MAP_GetGroup(void *symbolMap);
-u8 *GAME_DATA_GetMyStatus(void *p);
+struct Entry32;
+unsigned short SYMBOL_MAP_GetEntryPage(struct Entry32 *list, struct Entry32 *out, u32 cap, s32 page, u8 *n);
+u8 SYMBOL_MAP_GetSymbolIndex(u8 *p);
+u8 SYMBOL_MAP_GetGroup(u8 *p);
+struct MyStatus *GAME_DATA_GetMyStatus(struct GameData *gd);
 int MYSTATUS_GetSize(void);
 extern u32 MYSTATUS_GetId(const struct MyStatus *record);
 void *GAME_DATA_GetBattleRecSlot(struct GameData *p, unsigned int idx);
 void GAME_DATA_SetSlotFlag(struct GameData *p, int i, u8 v);
-void GAME_COMM_PushPlayerMessage(u32 a, u32 b);
+void GAME_COMM_PushPlayerMessage(struct GameComm *comm, u32 netId);
 extern u32 ZONEDATA_IsSameMatrixGroup(u32 a, u32 b);
 extern u16 COMM_PLAYER_GetObjCode(struct CommPlayerWork *commPlayer, int netId);
-extern void COMM_PLAYER_Add(struct CommPlayerWork *commPlayer, int netId, int objCode, IntrudePeer *peer);
-int COMM_PLAYER_UpdateMyPackage(struct CommPlayerWork *commPlayer, IntrudePeer *peer);
+extern void COMM_PLAYER_Add(struct CommPlayerWork *work, s32 index, s32 objCode, struct CommPlayerPackage *package);
+int COMM_PLAYER_UpdateMyPackage(struct CommPlayerWork *work, struct CommPlayerPackage *out);
 u8 GAME_DATA_GetSymbolMapFlag(struct GameData *gameData);
 int GAMESYSTEM_IsEventActive(struct GameSystem *gameSystem);
 extern int MYSTATUS_GetSex(const struct MyStatus *);
-extern u32 INTRUDE_GetMissionClearCount(void *profileSys);
-extern int GAME_DATA_GetPlayTime(int gd);
-extern unsigned long long INTRUDE_UpdatePlaySeconds(u8 *p, void *q, u32 mode);
-extern unsigned long long INTRUDE_GetPlaySeconds(void *profileSys);
-extern void INTRUDE_GetObtainedFlags(void *profileSys, u8 *dest, u32 n);
-extern void *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
-extern void EVENT_FIELD_PROCLINK_SetReturnLinkId(u8 *slots, u16 intrudeId);
-extern int INTRUDE_COMM_NormalizeVersion(int version, int trainerId);
-extern u32 MYSTATUS_CopyNameChars(void *record, void *dest, u32 count);
-extern int GAME_DATA_GetBattleRecSlotByNetId(void *saveData, int index);
+extern u32 INTRUDE_GetMissionClearCount(struct IntrudeSave *intrude);
+struct PlayTime;
+extern struct PlayTime *GAME_DATA_GetPlayTime(struct GameData *gd);
+extern unsigned long long INTRUDE_UpdatePlaySeconds(struct IntrudeSave *intrude, struct PlayTime *time, u32 mode);
+extern unsigned long long INTRUDE_GetPlaySeconds(struct IntrudeSave *intrude);
+extern void INTRUDE_GetObtainedFlags(struct IntrudeSave *intrude, u8 *dest, u32 size);
+extern struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
+extern void EVENT_FIELD_PROCLINK_SetReturnLinkId(struct EventSlots *slots, u16 pendingKey);
+extern int INTRUDE_COMM_NormalizeVersion(s32 version, u32 trainerId);
+extern void MYSTATUS_CopyNameChars(u16 *src, u16 *dest, u32 n);
+struct BattleRecSlot;
+extern struct BattleRecSlot *GAME_DATA_GetBattleRecSlotByNetId(struct GameData *gameData, u32 netId);
 extern u8 MYSTATUS_GetRomCode(const struct MyStatus *record);
 extern void *memset(void *p, int value, unsigned int size);
 extern void STRBUF_SetStringN(struct Strbuf *o, const u16 *src, u32 len);
-extern void WORDSET_SetSlotTag(struct WordSet *p, u32 i, const void *src, u32 n, u32 f, u32 c);
+extern void WORDSET_SetSlotTag(struct WordSet *words, u32 slot, struct Strbuf *src, u32 grammarCase, u32 isPlural, u32 gender);
 extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern void WORDSET_SetSlotFromMsg36(struct WordSet *p, u32 i, u32 v);
 extern void WORDSET_SetSlotFromMsgA0(struct WordSet *p, u32 i, s32 v);
 extern u32 GFL_USE_GetRandom(u32 a);
 extern void *PROCSYS_AllocProcWork(struct Proc *proc, u32 size, u32 heap);
 extern void *PROCSYS_Create(int heap);
-extern void *GAME_DATA_GetMyParty(const void *p);
-extern void POKE_TOOL_HealParty(void *p);
-extern u32 POKEPARTY_GetCount(void *p);
+extern void *GAME_DATA_GetMyParty(struct GameData *gd);
+extern void POKE_TOOL_HealParty(struct Party *party);
+extern u32 POKEPARTY_GetCount(struct Party *party);
 extern struct Party *POKEPARTY_Create(u32 heap);
-extern u32 POKEPARTY_IsMemberBattleReady(void *p, u32 idx);
-extern void *POKEPARTY_GetMember(void *p, u32 idx);
-extern u32 POKEPARTY_Add(struct Party *p, const struct PartyMon *src);
-extern void POKE_TOOL_SetLevelAndRecalc(void *p, u32 v);
+extern u32 POKEPARTY_IsMemberBattleReady(struct Party *party, u32 pos);
+struct PokemonParam;
+extern struct PokemonParam *POKEPARTY_GetMember(struct Party *party, u32 pos);
+extern u32 POKEPARTY_Add(struct Party *party, struct PokemonParam *member);
+extern void POKE_TOOL_SetLevelAndRecalc(struct PokemonParam *mon, u32 level);
 extern void GF_PANIC_Fail(const char *file, u32 line, const char *expr);
-extern u32 GAMESYSTEM_GetGameComm(const struct GameSystem *a);
+extern struct GameComm *GAMESYSTEM_GetGameComm(const struct GameSystem *a);
 extern u32 PROCSYS_Main(void *a);
-extern void BTL_SETUP_SetupCommSingle(u32 work, void *h, GFLNetHandle *handle, u32 commPos, u16 heap);
-extern void BTL_SETUP_SetParty(void *p, void *src, int i);
+struct BattleSetupParam;
+extern void BTL_SETUP_SetupCommSingle(struct BattleSetupParam *param, struct GameData *gd, u32 netHandle, u8 commPos, u16 heap);
+extern void BTL_SETUP_SetParty(struct BattleSetupParam *param, struct Party *src, s32 client);
 extern void GFL_NET_HANDLE_SetUserInfo(GFLNetHandle *handle, int timingLow, int timingHigh, int netID);
 extern int GF_OVERLAY_Load(int id);
 extern void GFL_NET_COMMAND_AddCommandTable(u32 groupKey, u32 commandList, u32 listNum, u32 userData);
@@ -475,22 +494,25 @@ extern void PROCSYS_Push(u32 task, int b, void *c, IntrudePartyWork *w);
 extern int GFL_NET_GetRunState(void);
 extern void GFL_NET_COMMAND_DeleteCommandTable(u32 groupKey);
 extern void GF_OVERLAY_Unload(int handle);
-extern void BTL_SETUP_FreeSlots(IntrudePartyWork *w);
+extern void BTL_SETUP_FreeSlots(struct BattleSetupParam *param);
 extern void PROCSYS_Delete(void *subProcSys);
-extern void PROCSYS_FreeProcWork(void *procWork);
+extern void PROCSYS_FreeProcWork(struct Proc *proc);
 extern struct GameEvent *GAME_EVENT_Create(void *owner, void *a, void *b, u32 size);
 extern void *GAME_EVENT_GetWork(struct GameEvent *event);
-extern void *FIELD_SOUND_SYSTEM_StartPushOrFadeOutAndPlayTask(void *a, u32 b);
-extern void GAME_EVENT_CallEvent(struct GameEvent *event, void *nextEvent);
-extern int  FIELDMAP_GetEncEff(unsigned char *p);
-extern void ENCEFF_Start(struct GameSystem *c, u32 x, int idx);
+extern struct GameEvent *FIELD_SOUND_SYSTEM_StartPushOrFadeOutAndPlayTask(struct GameSystem *gameSystem, u32 bgmNo);
+extern void GAME_EVENT_CallEvent(struct GameEvent *parent, struct GameEvent *child);
+struct EncEff;
+extern struct EncEff *FIELDMAP_GetEncEff(struct FieldMap *fieldMap);
+struct EncEffWork;
+extern void ENCEFF_Start(struct EncEffWork *eff, struct GameEvent *parentEvent, s32 kind);
 extern struct GameEvent *FIELD_STATUS_CreateFieldCloseEvent(struct GameSystem *gameSystem, struct FieldMap *fieldMap);
-extern void GAME_EVENT_CallProc(struct GameEvent *event, int overlayId, const void *procTable, void *procArg);
-extern void *FIELD_SOUND_SYSTEM_StartPopDefaultFadeTask(void *a);
-extern void *FIELD_STATUS_CreateFieldOpenEvent(void *gameSystem);
-extern void *FIELD_SOUND_SYSTEM_StartWaitAcceptRequestTask(void *a);
+extern void GAME_EVENT_CallProc(struct GameEvent *parent, u32 overlayId, void *procData, void *param);
+extern struct GameEvent *FIELD_SOUND_SYSTEM_StartPopDefaultFadeTask(struct GameSystem *gameSystem);
+extern struct GameEvent *FIELD_STATUS_CreateFieldOpenEvent(struct GameSystem *gameSystem);
+extern struct GameEvent *FIELD_SOUND_SYSTEM_StartWaitAcceptRequestTask(struct GameSystem *gameSystem);
 extern struct GameEvent *EVENT_FIELDMAP_CONTROL_StartFadeIn(struct GameSystem *gameSystem, struct FieldMap *fieldMap, int sel, int d, int e, u8 f, u8 g);
-extern int INTRUDE_COMM_GetWorkIfRunning(int comm);
+struct IntrudeCommSys;
+extern struct IntrudeCommSys *INTRUDE_COMM_GetWorkIfRunning(struct GameComm *comm);
 extern u8 GAME_DATA_GetIntrudeId(const struct GameData *p);
 IntrudeCommSys *INTRUDE_COMM_Create(void *proc, IntrudeCommParam *param);
 int INTRUDE_COMM_StartSession(int *state, IntrudeCommParam *param, IntrudeCommSys *work);
@@ -539,11 +561,11 @@ int INTRUDE_COMM_SendAnswer(int destNetId, int value);
 void INTRUDE_COMM_RecvNoticeBytes(int netId, int size, const u8 *data, IntrudeCommSys *work);
 int INTRUDE_COMM_SendNoticeBytes(int destNetId, int value);
 void INTRUDE_COMM_RecvReady(int netId, int size, int data, IntrudeCommSys *work);
-int INTRUDE_COMM_SendReady(int unused, u8 destNetId);
+int INTRUDE_COMM_SendReady(struct IntrudeCommSys *unused, u8 destNetId);
 void INTRUDE_COMM_RecvRemoteRecord(int netId, int size, IntrudeRemoteRecord *record, IntrudeCommSys *work);
 int INTRUDE_CMD_SendSaveSummary(IntrudeCommSys *w, int sendMask);
 void INTRUDE_CMD_RecvEntryIndex(u32 netId, int size, int *entryIndex, IntrudeCommSys *w);
-int INTRUDE_CMD_SendEntryIndex(int unused, int entryIndex);
+int INTRUDE_CMD_SendEntryIndex(struct IntrudeCommSys *unused, int entryIndex);
 void INTRUDE_CMD_RecvMemberEntry(int netId, int size, IntrudeMemberEntry *entry, IntrudeCommSys *w);
 int INTRUDE_CMD_SendMemberEntry(void *unused, IntrudeSession *session, int memberIndex);
 void INTRUDE_CMD_RecvJoinRequest(int netId, int size, IntrudeJoinRequest *request, IntrudeCommSys *w);
@@ -579,9 +601,9 @@ u32 INTRUDE_COMM_SendBusyBegin(void);
 void INTRUDE_COMM_RecvBusyEnd(int netId, int size, void *data, IntrudeCommSys *work);
 u32 INTRUDE_COMM_SendBusyEnd(void);
 void INTRUDE_COMM_RecvPeerFlags(int netId, int size, u8 *flags, IntrudeCommSys *work);
-int INTRUDE_COMM_SendPeerFlags(int unused, u8 netId, int flags, ...);
+int INTRUDE_COMM_SendPeerFlags(struct IntrudeCommSys *unused, u8 netId, int flags, ...);
 void INTRUDE_COMM_RecvSupportMode(int netId, int size, int *mode, IntrudeCommSys *work);
-int INTRUDE_COMM_SendSupportMode(int unused, u8 netId, int mode, ...);
+int INTRUDE_COMM_SendSupportMode(struct IntrudeCommSys *unused, u8 netId, int mode, ...);
 void INTRUDE_COMM_RecvProfile(int netId, int size, void *profile, IntrudeCommSys *work);
 int INTRUDE_COMM_SendProfile(u8 netId, const void *profile);
 void INTRUDE_COMM_RecvPairMessage(int netId, int size, u8 *message, IntrudeCommSys *work);
@@ -745,7 +767,7 @@ IntrudeCommSys *INTRUDE_COMM_Create(void *proc, IntrudeCommParam *param)
     u8 netId;
 
     gameData = GAME_COMM_GetGameData(param->gameComm);
-    myStatus = GAME_DATA_GetMyStatus(gameData);
+    myStatus = (u8 *)GAME_DATA_GetMyStatus(gameData);
     maxConnect = 3;
     if (param->isParent == 1 && INTRUDE_COMM_HasUnlockFlags(gameData) == 0) {
         maxConnect = 2;
@@ -760,15 +782,15 @@ IntrudeCommSys *INTRUDE_COMM_Create(void *proc, IntrudeCommParam *param)
     INTRUDE_COMM_InitRequest(work, 4);
     INTRUDE_COMM_InitSession(&work->session);
     INTRUDE_COMM_InitBeacon(gameData, &work->beacon, maxConnect);
-    EVENT_FIELD_PROCLINK_InitReturnSlotsWithAid(work->returnSlots);
+    EVENT_FIELD_PROCLINK_InitReturnSlotsWithAid((struct EventSlots *)work->returnSlots);
     for (i = 0; i < 2; i++) {
-        work->foundNames[i] = STRBUF_Create(8, 5);
+        work->foundNames[i] = (struct STRBUF *)STRBUF_Create(8, 5);
     }
     GAME_DATA_SetOwnNetId(gameData, 0);
     GAME_DATA_SetIntrudeId(gameData, 0);
     GAME_DATA_SetEnterMode(gameData, 1);
     for (netId = 0; netId < 3; netId++) {
-        MYSTATUS_Copy(myStatus, GAME_DATA_GetMyStatusPlayer(gameData, netId));
+        MYSTATUS_Copy((struct MyStatus *)myStatus, GAME_DATA_GetMyStatusPlayer(gameData, netId));
     }
     return work;
 }
@@ -795,7 +817,7 @@ int INTRUDE_COMM_StartSession(int *state, IntrudeCommParam *param, IntrudeCommSy
     GFLNetInitializeStruct *init;
 
     gameData = (u8 *)GAME_COMM_GetGameData(param->gameComm);
-    if (GAME_DATA_IsSaving(gameData) == 1)
+    if (GAME_DATA_IsSaving((struct GameData *)gameData) == 1)
         return 0;
     switch (*state) {
     case 0:
@@ -847,7 +869,7 @@ void INTRUDE_COMM_MainStep(int *state, IntrudeCommParam *param, IntrudeCommSys *
 
     gameData = GAME_COMM_GetGameData(param->gameComm);
     if (work != 0 && work->step >= 7) {
-        EVENT_FIELD_PROCLINK_RunReturnSlotsIfOffline(work->returnSlots, (int)GAME_DATA_GetSecondUnionInfo(gameData), work->peerMask);
+        EVENT_FIELD_PROCLINK_RunReturnSlotsIfOffline((struct EventSlots *)work->returnSlots, (struct ProcLinkSys *)GAME_DATA_GetSecondUnionInfo(gameData), work->peerMask);
     }
     if (GFL_NET_ERR_GetErrorLevel() != 0 || work->quit == 1) {
         if (work->lock) {
@@ -880,7 +902,7 @@ void INTRUDE_COMM_MainStep(int *state, IntrudeCommParam *param, IntrudeCommSys *
                 playerStatus = GAME_DATA_GetMyStatusPlayer(gameData, GFL_NET_SYSTEM_GetCurrentAid());
                 MYSTATUS_Copy(GAME_DATA_GetMyStatus(gameData), playerStatus);
                 INTRUDE_COMM_SetIntrudeId(work, GFL_NET_SYSTEM_GetCurrentAid());
-                work->localPeer.statusCode = 0x15;
+                work->localPeer.statusCode = PM_VERSION_ID;
                 work->localPeer.season = GAME_DATA_GetSeason(gameData);
                 if (INTRUDE_COMM_HasUnlockFlags(gameData) == 0) {
                     work->localPeer.startFlag = 1;
@@ -904,7 +926,7 @@ void INTRUDE_COMM_MainStep(int *state, IntrudeCommParam *param, IntrudeCommSys *
         }
         break;
     case 2:
-        EVENT_FIELD_PROCLINK_InitReturnSlotsWithAid(work->returnSlots);
+        EVENT_FIELD_PROCLINK_InitReturnSlotsWithAid((struct EventSlots *)work->returnSlots);
         INTRUDE_COMM_RefreshSelfRecord(work);
         INTRUDE_COMM_ApplyPlayerBeacon(work, GFL_NET_SYSTEM_GetCurrentAid(), &work->ownStatus);
         (*state)++;
@@ -969,7 +991,7 @@ void INTRUDE_COMM_MainStep(int *state, IntrudeCommParam *param, IntrudeCommSys *
 
 int INTRUDE_COMM_Shutdown(int *state, IntrudeCommParam *param, IntrudeCommSys *work)
 {
-    if (GAME_DATA_IsSaving((const u8 *)GAME_COMM_GetGameData(param->gameComm)) == 1) {
+    if (GAME_DATA_IsSaving((struct GameData *)GAME_COMM_GetGameData(param->gameComm)) == 1) {
         return 0;
     }
     if (work->quit == 1 || GFL_NET_ERR_GetErrorLevel() != 0) {
@@ -1067,7 +1089,7 @@ int INTRUDE_COMM_Destroy(int unused, void **proc, IntrudeCommSys *work)
     gameComm = proc[1];
     gameData = (u32)GAME_COMM_GetGameData(gameComm);
     ok = 0;
-    if (GAME_DATA_IsSaving((const u8 *)gameData) == 1) {
+    if (GAME_DATA_IsSaving((struct GameData *)gameData) == 1) {
         return ok;
     }
     if (work->step == 10 || GFL_NET_IsSessionNull() == 1) {
@@ -1081,8 +1103,8 @@ int INTRUDE_COMM_Destroy(int unused, void **proc, IntrudeCommSys *work)
         }
     }
     if (ok == 1) {
-        EVENT_FIELD_PROCLINK_ClearReturnSlots(work->returnSlots);
-        GAME_DATA_ClearUnionInfo((u8 *)gameData);
+        EVENT_FIELD_PROCLINK_ClearReturnSlots((struct EventSlots *)work->returnSlots);
+        GAME_DATA_ClearUnionInfo((struct GameData *)gameData);
         COMM_PLAYER_Delete(proc[0], work->commPlayer);
         if (work->quit == 1 || GFL_NET_ERR_GetErrorLevel() != 0) {
             GAME_COMM_SetCounter(gameComm, 5);
@@ -1120,7 +1142,7 @@ int INTRUDE_COMM_Destroy(int unused, void **proc, IntrudeCommSys *work)
         }
         GAME_COMM_ClearInfoMessages(gameComm);
         for (i = 0; i < 2; i++) {
-            STRBUF_Delete(work->foundNames[i]);
+            STRBUF_Delete((struct Strbuf *)work->foundNames[i]);
         }
         GFL_HEAP_Free(work);
         GFL_HEAP_Free(proc);
@@ -1163,7 +1185,7 @@ void INTRUDE_COMM_ScanCallback(void *whPipe, IntrudeCommSys *work)
     if (NET_WHPIPE_CheckBeaconFlags(whPipe, ~0x10) == 0) {
         return;
     }
-    record = NET_WHPIPE_GetEntryBeacon(whPipe, &recordKind);
+    record = (struct IntrudeScanRecord *)NET_WHPIPE_GetEntryBeacon(whPipe, &recordKind);
     if (recordKind != 3) {
         return;
     }
@@ -1181,7 +1203,7 @@ void INTRUDE_COMM_ScanCallback(void *whPipe, IntrudeCommSys *work)
     if (INTRUDE_COMM_IsListedId(record->info.zoneId) == 0) {
         return;
     }
-    GAME_BEACON_ACCESSOR_GetPlayerName(&record->info, work->foundNames[work->foundCount]);
+    GAME_BEACON_ACCESSOR_GetPlayerName(&record->info, (struct Strbuf *)work->foundNames[work->foundCount]);
     work->foundSex[work->foundCount] = GAME_BEACON_ACCESSOR_GetSex(&record->info);
     work->foundLanguage[work->foundCount] = GAME_BEACON_ACCESSOR_GetLanguage(&record->info);
     work->foundTrainerIds[work->foundCount] = record->trainerId;
@@ -1208,7 +1230,7 @@ void INTRUDE_COMM_SyncPlayers(IntrudeCommSys *work, IntrudeCommSys *peerWork, in
     gameData = GAME_COMM_GetGameData(work->gameComm);
     myNetId = GAME_DATA_GetOwnNetId(gameData);
     if (GAME_DATA_GetIntrudeCount(gameData) == 0) {
-        if (INTRUDE_FIELD_IsListedZone(FIELDMAP_GetZoneId((u8 *)fieldObjectAddr)) == 1) {
+        if (INTRUDE_FIELD_IsListedZone(FIELDMAP_GetZoneId((struct FieldMap *)fieldObjectAddr)) == 1) {
             COMM_PLAYER_Resume(peerWork->commPlayer);
         } else {
             COMM_PLAYER_ClearPending(peerWork->commPlayer);
@@ -1221,7 +1243,7 @@ void INTRUDE_COMM_SyncPlayers(IntrudeCommSys *work, IntrudeCommSys *peerWork, in
             peerWork->peers[i].package.vanish = peerWork->peers[i].remoteVanish;
             package = peerWork->peers[i].package;
             package.vanish = 1;
-            COMM_PLAYER_SetPackage(peerWork->commPlayer, i, &package);
+            COMM_PLAYER_SetPackage(peerWork->commPlayer, i, (struct CommPlayerPackage *)(&package));
         }
     }
     for (i = 0; i < 3; i++) {
@@ -1292,7 +1314,7 @@ void INTRUDE_COMM_InitBeacon(struct GameData *gameData, IntrudeBeacon *beacon, i
         beacon->maxConnect = maxConnect;
     beacon->hasNetError = GFL_NET_SYSTEM_CheckError();
     beacon->version = 1;
-    MYSTATUS_Copy(GAME_DATA_GetMyStatus(gameData), beacon->ownerStatus);
+    MYSTATUS_Copy((struct MyStatus *)(GAME_DATA_GetMyStatus(gameData)), (struct MyStatus *)beacon->ownerStatus);
 }
 
 
@@ -1555,7 +1577,7 @@ int INTRUDE_COMM_SendPeerLeft(IntrudeCommSys *work, int leavingNetId)
 void INTRUDE_COMM_RecvPeerStatus(int netId, int size, const IntrudePeer *peer, IntrudeCommSys *work)
 {
     if (netId == GFL_NET_GetHandleNetID(GFL_NET_HANDLE_GetCurrentHandle())) {
-        GAME_COMM_UpdatePlayerStatus(work->gameComm, netId, peer->zoneId, peer->intrudeId, 0x15, 0);
+        GAME_COMM_UpdatePlayerStatus(work->gameComm, netId, peer->zoneId, peer->intrudeId, PM_VERSION_ID, 0);
     } else if ((work->peerMask & (1 << netId)) != 0) {
         INTRUDE_COMM_StorePlayerRecord(work, netId, peer, 0);
     }
@@ -1733,7 +1755,7 @@ void INTRUDE_COMM_RecvReady(int netId, int size, int data, IntrudeCommSys *work)
 
 
 
-int INTRUDE_COMM_SendReady(int unused, u8 destNetId)
+int INTRUDE_COMM_SendReady(struct IntrudeCommSys *unused, u8 destNetId)
 {
     if (INTRUDE_COMM_IsLinked() == 0) {
         return 1;
@@ -1777,7 +1799,7 @@ void INTRUDE_CMD_RecvEntryIndex(u32 netId, int size, int *entryIndex, IntrudeCom
 }
 
 
-int INTRUDE_CMD_SendEntryIndex(int unused, int entryIndex)
+int INTRUDE_CMD_SendEntryIndex(struct IntrudeCommSys *unused, int entryIndex)
 {
     if (INTRUDE_COMM_IsLinked() == 0) {
         return 0;
@@ -1817,7 +1839,7 @@ void INTRUDE_CMD_RecvJoinRequest(int netId, int size, IntrudeJoinRequest *reques
         if (INTRUDE_COMM_ReceiveJoinRequest(w, &w->session, request, netId) == 1) {
             kind = request->head.kind;
             if (kind == 0 || kind == 3) {
-                GFL_NET_SetAcceptConnection(GFL_NET_HANDLE_GetCurrentHandle(), 0);
+                GFL_NET_SetAcceptConnection((GFL_NET_HANDLE_GetCurrentHandle()), 0);
                 NET_WHPIPE_SetBeaconStatus(1);
                 w->busyLock = 1;
             }
@@ -1878,7 +1900,7 @@ void INTRUDE_CMD_RecvRecordEcho(int netId, int size, void *record, IntrudeCommSy
 {
     IntrudeMemberRecord *pending;
     pending = INTRUDE_COMM_GetActiveSessionRequest(&w->session);
-    if (pending != 0 && GF_STANDARD_CompareBytes(pending, record, 0x34) == 0) INTRUDE_COMM_ClearSessionTicks(&w->session);
+    if (pending != 0 && GF_STANDARD_CompareBytes((u8 *)pending, record, 0x34) == 0) INTRUDE_COMM_ClearSessionTicks(&w->session);
 }
 
 
@@ -2138,7 +2160,7 @@ void INTRUDE_COMM_RecvBusyBegin(int netId, int size, void *data, IntrudeCommSys 
 {
     work->busyCount++;
     if (work->busyLock == 0) {
-        GFL_NET_SetAcceptConnection(GFL_NET_HANDLE_GetCurrentHandle(), 0);
+        GFL_NET_SetAcceptConnection((GFL_NET_HANDLE_GetCurrentHandle()), 0);
         NET_WHPIPE_SetBeaconStatus(1);
     }
 }
@@ -2163,7 +2185,7 @@ void INTRUDE_COMM_RecvBusyEnd(int netId, int size, void *data, IntrudeCommSys *w
 {
     work->busyCount--;
     if (work->busyCount == 0 && work->busyLock == 0) {
-        GFL_NET_SetAcceptConnection(GFL_NET_HANDLE_GetCurrentHandle(), 1);
+        GFL_NET_SetAcceptConnection((GFL_NET_HANDLE_GetCurrentHandle()), (void *)1);
         NET_WHPIPE_SetBeaconStatus(0);
     }
 }
@@ -2201,7 +2223,7 @@ void INTRUDE_COMM_RecvPeerFlags(int netId, int size, u8 *flags, IntrudeCommSys *
 /*
  * Handed as 0x021744D2; the function starts at the push {r0-r3} at 0x021744D0.
  */
-int INTRUDE_COMM_SendPeerFlags(int unused, u8 netId, int flags, ...)
+int INTRUDE_COMM_SendPeerFlags(struct IntrudeCommSys *unused, u8 netId, int flags, ...)
 {
     if (INTRUDE_COMM_IsLinked() == 0) {
         return 0;
@@ -2222,7 +2244,7 @@ void INTRUDE_COMM_RecvSupportMode(int netId, int size, int *mode, IntrudeCommSys
     support = GAME_DATA_GetPmsWork(gameData);
     if (work->peerMask & (1 << netId)) {
         if (FIELD_STATUS_GetSeasonDispFlag(GAME_DATA_GetMoveModelSys((const struct GameData *)gameData)) == 1) {
-            supportState = COMM_PLAYER_SUPPORT_GetMode(support);
+            supportState = COMM_PLAYER_SUPPORT_GetMode((struct CommPlayerSupport *)support);
             if (supportState == 0 || supportState == 3) {
                 COMM_PLAYER_SUPPORT_SetModeAndCurrent(support, *mode, (int)GAME_DATA_GetMyStatusPlayer(gameData, netId));
             }
@@ -2237,7 +2259,7 @@ void INTRUDE_COMM_RecvSupportMode(int netId, int size, int *mode, IntrudeCommSys
 /*
  * Handed as 0x0217456E; the function starts at the push {r0-r3} at 0x0217456C.
  */
-int INTRUDE_COMM_SendSupportMode(int unused, u8 netId, int mode, ...)
+int INTRUDE_COMM_SendSupportMode(struct IntrudeCommSys *unused, u8 netId, int mode, ...)
 {
     if (INTRUDE_COMM_IsLinked() == 0) {
         return 0;
@@ -2280,7 +2302,7 @@ int INTRUDE_COMM_SendProfile(u8 netId, const void *profile)
 void INTRUDE_COMM_RecvPairMessage(int netId, int size, u8 *message, IntrudeCommSys *work)
 {
     if (netId != GFL_NET_GetHandleNetID(GFL_NET_HANDLE_GetCurrentHandle()) && (work->peerMask & (1 << netId))) {
-        GAME_COMM_PushPairMessage((u32)work->gameComm, netId, *message);
+        GAME_COMM_PushPairMessage((struct GameComm *)work->gameComm, netId, *message);
     }
 }
 
@@ -2334,10 +2356,10 @@ void INTRUDE_COMM_RecvUnionInfo(int netId, int size, void *info, IntrudeCommSys 
     struct GameData *gameData;
     int unionInfo;
     gameData = GAME_COMM_GetGameData(work->gameComm);
-    unionInfo = (int)GAME_DATA_GetUnionInfo((u8 *)gameData, 0);
+    unionInfo = (int)(struct GameData *)GAME_DATA_GetUnionInfo((struct GameData *)gameData, 0);
     FIELD_WFBC_DATA_LOCAL_Sanitize(info, GAME_DATA_GetMyStatusByNetId((void *)gameData, netId));
     MI_CpuCopy8(info, (void *)unionInfo, 0x1E8);
-    GAME_DATA_TakeUnionInfo((u8 *)gameData, info);
+    GAME_DATA_TakeUnionInfo((struct GameData *)gameData, info);
     work->unionInfoReceived = 1;
 }
 
@@ -2363,7 +2385,7 @@ int INTRUDE_COMM_SendUnionInfo(IntrudeCommSys *work, int netMask, void *info)
 
 void INTRUDE_COMM_RecvReturnResult(int netId, int size, int result, IntrudeCommSys *work)
 {
-    EVENT_FIELD_PROCLINK_SetReturnSlotDefaultIfOffline(work->returnSlots, result);
+    EVENT_FIELD_PROCLINK_SetReturnSlotDefaultIfOffline((struct EventSlots *)work->returnSlots, (struct EventSlot *)result);
 }
 
 
@@ -2384,7 +2406,7 @@ int INTRUDE_COMM_SendReturnResult(void *result, u8 netId)
 
 void INTRUDE_COMM_RecvReturnPending(int netId, int size, int data, IntrudeCommSys *work)
 {
-    EVENT_FIELD_PROCLINK_SetReturnSlotIfOffline(work->returnSlots, (u16)netId);
+    EVENT_FIELD_PROCLINK_SetReturnSlotIfOffline((struct EventSlots *)work->returnSlots, (u16)netId, (void *)data);
 }
 
 
@@ -2527,12 +2549,12 @@ void INTRUDE_COMM_UpdateRunning(IntrudeCommSys *work)
     if (work->peerStatusDirty == 1 && work->suspended == 0 && INTRUDE_COMM_SendPeerStatus(work, &work->localPeer) == 1) {
         work->peerStatusDirty = 0;
     }
-    if (GAME_DATA_IsSaving((const u8 *)gameData) == 0 && work->profilePending == 1) {
+    if (GAME_DATA_IsSaving((struct GameData *)gameData) == 0 && work->profilePending == 1) {
         profileSys = INTRUDE_GetFromSave(GAME_DATA_GetSaveControl((struct GameData *)gameData));
         if (INTRUDE_COMM_IsValidProfileCode(work->profile.code) == 0) {
             work->profile.code = 0x11;
         }
-        INTRUDE_AddLogEntry(profileSys, (u8 *)&work->profile);
+        INTRUDE_AddLogEntry(profileSys, (struct IntrudeLogEntry *)&work->profile);
         work->profilePending = 0;
     }
 }
@@ -2646,15 +2668,15 @@ void INTRUDE_COMM_UpdateUnionInfoAndReturnSlots(IntrudeCommSys *work)
         }
     }
     for (i = 0; i < 3; i++) {
-        if (EVENT_FIELD_PROCLINK_GetReturnResultSlot(work->returnSlots, i, result) == 1) {
+        if (EVENT_FIELD_PROCLINK_GetReturnResultSlot((struct EventSlots *)work->returnSlots, i, (struct EventSlot *)result) == 1) {
             if (INTRUDE_COMM_SendReturnResult(result, i) == 1) {
-                EVENT_FIELD_PROCLINK_ClearReturnResultSlot(work->returnSlots, i);
+                EVENT_FIELD_PROCLINK_ClearReturnResultSlot((struct EventSlots *)work->returnSlots, i);
             }
         }
     }
-    if (EVENT_FIELD_PROCLINK_GetReturnPendingSlot(work->returnSlots, pending, &i) == 1) {
+    if (EVENT_FIELD_PROCLINK_GetReturnPendingSlot((struct EventSlots *)work->returnSlots, (struct EventSlot *)pending, &i) == 1) {
         if (INTRUDE_COMM_SendReturnPending(pending, i) == 1) {
-            EVENT_FIELD_PROCLINK_ClearReturnPendingSlotThunk(work->returnSlots);
+            EVENT_FIELD_PROCLINK_ClearReturnPendingSlotThunk((struct EventSlots *)work->returnSlots);
         }
     }
 }
@@ -2706,7 +2728,7 @@ void INTRUDE_COMM_BuildSymbolPage(IntrudeCommSys *work, const IntrudePageRequest
     u8 count[4];
     page = &work->ownSymbolPage;
     symbolMap = SYMBOL_SAVE_GetBlock(GAME_DATA_GetSaveControl((struct GameData *)GAME_COMM_GetGameData(work->gameComm)));
-    SYMBOL_MAP_GetEntryPage(symbolMap, page->entries, 0x14, request->page, count);
+    SYMBOL_MAP_GetEntryPage((struct Entry32 *)symbolMap, (struct Entry32 *)page->entries, 0x14, request->page, count);
     page->count = count[0];
     page->levelSmall = SYMBOL_MAP_GetSymbolIndex(symbolMap);
     page->levelLarge = SYMBOL_MAP_GetGroup(symbolMap);
@@ -2780,13 +2802,13 @@ void INTRUDE_COMM_ApplyPlayerBeacon(IntrudeCommSys *work, int netId, IntrudeStat
     }
     changed = 1;
 skip:
-    MYSTATUS_Copy(record->myStatus, (void *)status);
+    MYSTATUS_Copy((struct MyStatus *)record->myStatus, (void *)status);
     MI_CpuCopy8(record->battleRecSlot, GAME_DATA_GetBattleRecSlot((struct GameData *)gameData, netId), 0x10);
     GAME_DATA_SetSlotFlag((struct GameData *)gameData, netId, record->peer.season);
     INTRUDE_COMM_StorePlayerRecord(work, netId, &record->peer, 1);
     work->peerMask |= (u8)(1 << netId);
     if (changed == 1 && netId != GFL_NET_SYSTEM_GetCurrentAid()) {
-        GAME_COMM_PushPlayerMessage((u32)work->gameComm, netId);
+        GAME_COMM_PushPlayerMessage((struct GameComm *)work->gameComm, netId);
     }
 }
 
@@ -2821,7 +2843,7 @@ void INTRUDE_COMM_StorePlayerRecord(IntrudeCommSys *work, int netId, const Intru
 void INTRUDE_COMM_UpdatePlayerObjects(IntrudeCommSys *work)
 {
     u8 i;
-    if (GAME_DATA_IsSaving((const u8 *)GAME_COMM_GetGameData(work->gameComm)) == 1) {
+    if (GAME_DATA_IsSaving((struct GameData *)GAME_COMM_GetGameData(work->gameComm)) == 1) {
         return;
     }
     if (work->suspended == 1) {
@@ -2880,11 +2902,11 @@ void INTRUDE_COMM_UpdatePlayerObject(IntrudeCommSys *work, int netId)
         peer->package.vanish = ShouldHidePeer(peer, self);
     }
     if (COMM_PLAYER_CheckOccupy(work->commPlayer, netId) == 1) {
-        objCode = INTRUDE_COMM_GetPlayerObjCode(peer, GAME_DATA_GetMyStatusByNetId((void *)GAME_COMM_GetGameData(work->gameComm), netId));
+        objCode = INTRUDE_COMM_GetPlayerObjCode(peer, (u32)GAME_DATA_GetMyStatusByNetId((void *)GAME_COMM_GetGameData(work->gameComm), netId));
         if (objCode != COMM_PLAYER_GetObjCode(work->commPlayer, netId)) {
             COMM_PLAYER_Del(work->commPlayer, netId);
             if (peer->objCode != 0) {
-                COMM_PLAYER_Add(work->commPlayer, netId, objCode, peer);
+                COMM_PLAYER_Add(work->commPlayer, netId, objCode, (struct CommPlayerPackage *)peer);
             }
         }
     }
@@ -3014,7 +3036,7 @@ int INTRUDE_COMM_UpdateSelfRecord(IntrudeCommSys *work)
     gameData = GAME_COMM_GetGameData(work->gameComm);
     zoneId = GAME_DATA_GetPlayerZoneId(GAME_DATA_GetMyPlayerWork((struct GameData *)gameData));
     self = &work->localPeer;
-    changed = COMM_PLAYER_UpdateMyPackage(work->commPlayer, self);
+    changed = COMM_PLAYER_UpdateMyPackage(work->commPlayer, (struct CommPlayerPackage *)self);
     if (self->zoneId != zoneId) {
         self->zoneId = zoneId;
         changed = 1;
@@ -3302,7 +3324,7 @@ void INTRUDE_COMM_BuildLocalProfile(void *saveData, IntrudeProfileData *profile)
     MI_CpuFill8(profile, 0, 0x10);
     profile->kind = INTRUDE_GetMissionClearCount(profileSys);
     if (GAME_DATA_GetIntrudeCount(saveData) == 1) {
-        profile->value = INTRUDE_UpdatePlaySeconds(profileSys, (void *)GAME_DATA_GetPlayTime((int)saveData), 2);
+        profile->value = INTRUDE_UpdatePlaySeconds(profileSys, (void *)GAME_DATA_GetPlayTime((struct GameData *)saveData), 2);
     } else {
         profile->value = INTRUDE_GetPlaySeconds(profileSys);
     }
@@ -3377,7 +3399,7 @@ void INTRUDE_COMM_SetIntrudeId(IntrudeCommSys *work, u32 intrudeId)
     gameData = GAMESYSTEM_GetGameData(work->gameSystem);
     work->localPeer.intrudeId = intrudeId;
     GAME_DATA_SetIntrudeId(gameData, intrudeId);
-    EVENT_FIELD_PROCLINK_SetReturnLinkId(work->returnSlots, (u8)intrudeId);
+    EVENT_FIELD_PROCLINK_SetReturnLinkId((struct EventSlots *)work->returnSlots, (u8)intrudeId);
 }
 
 
@@ -3816,7 +3838,7 @@ int INTRUDE_COMM_StoreResultRecord(IntrudeSession *session, IntrudeMemberRecord 
     int slot;
 
     result = &session->result;
-    if (GF_STANDARD_CompareBytes((const u8 *)&session->request, (const u8 *)record, 0x30) != 0) {
+    if (GF_STANDARD_CompareBytes((u8 *)&session->request, (u8 *)record, 0x30) != 0) {
         session->replyToSend[netId] = 2;
         return 0;
     }
@@ -3998,8 +4020,8 @@ void INTRUDE_COMM_FillMemberName(IntrudeCommSys *w, IntrudeMemberName *name, u8 
 {
     int record;
     name->netId = netId;
-    record = GAME_DATA_GetMyStatusByNetId(GAME_COMM_GetGameData(w->gameComm), name->netId);
-    MYSTATUS_CopyNameChars((void *)record, name, 8);
+    record = (s32)GAME_DATA_GetMyStatusByNetId(GAME_COMM_GetGameData(w->gameComm), name->netId);
+    MYSTATUS_CopyNameChars((u16 *)record, (u16 *)name, 8);
     name->gender = MYSTATUS_GetSex((const struct MyStatus *)record);
 }
 
@@ -4020,7 +4042,7 @@ void INTRUDE_COMM_SetMemberEntry(IntrudeCommSys *w, IntrudeSession *session, u32
     entry = &session->members[memberIndex];
     if (entry->filled != 1) {
         name = (IntrudeNameChars *)GAME_DATA_GetBattleRecSlotByNetId(saveData, memberIndex);
-        record = GAME_DATA_GetMyStatusByNetId(saveData, memberIndex);
+        record = (s32)GAME_DATA_GetMyStatusByNetId(saveData, memberIndex);
         gender = MYSTATUS_GetRomCode((const struct MyStatus *)record);
         genderFlag = INTRUDE_COMM_NormalizeVersion(gender, MYSTATUS_GetId((const struct MyStatus *)record)) == 0x15;
         entry->name = *name;
@@ -4208,10 +4230,10 @@ void INTRUDE_COMM_SetWordSetPlayerName(struct WordSet *wordSet, u32 slot, const 
 {
     struct STRBUF *buffer;
 
-    buffer = STRBUF_Create(size, heapId);
+    buffer = (struct STRBUF *)STRBUF_Create(size, heapId);
     STRBUF_SetStringN((struct Strbuf *)buffer, chars->chars, size);
-    WORDSET_SetSlotTag(wordSet, slot, buffer, gender, 1, 2);
-    STRBUF_Delete(buffer);
+    WORDSET_SetSlotTag(wordSet, slot, (struct Strbuf *)buffer, gender, 1, 2);
+    STRBUF_Delete((struct Strbuf *)buffer);
 }
 
 
@@ -4288,7 +4310,7 @@ void INTRUDE_COMM_PickEntryForKind(IntrudeSaveSlot *save, u32 kind)
     points = save->pointsA + save->pointsB;
     for (row = 0; row < 0xe0; row++) {
         IntrudePickRow *pick = &gIntrudePickTable[row];
-        if (kind == pick->kind && pick->minPoints <= points && (pick->flags & 2)) {
+        if (kind == pick->kind && pick->minPoints <= points && (pick->flags & PM_VERSION_BIT)) {
             level = pick->level;
             if (level == 100 || level >= GFL_USE_GetRandom(0x65)) {
                 save->picks[kind] = row;
@@ -4366,8 +4388,8 @@ int INTRUDE_COMM_PartyProcMain(void *proc, int *state, IntrudePartyParam *param,
     }
     switch (*state) {
     case 0:
-        BTL_SETUP_SetupCommSingle((u32)work, window, GFL_NET_HANDLE_GetCurrentHandle(), 1, 4);
-        BTL_SETUP_SetParty(work, work->party, 0);
+        BTL_SETUP_SetupCommSingle((struct BattleSetupParam *)work, window, (u32)(GFL_NET_HANDLE_GetCurrentHandle()), 1, 4);
+        BTL_SETUP_SetParty((struct BattleSetupParam *)work, work->party, 0);
         if (GFL_NET_SYSTEM_GetCurrentAid() < param->partnerNetId) {
             work->isParent = 0;
         } else {
@@ -4416,7 +4438,7 @@ int INTRUDE_COMM_PartyProcMain(void *proc, int *state, IntrudePartyParam *param,
             }
             GF_OVERLAY_Unload((int)ov093_id);
         }
-        BTL_SETUP_FreeSlots(work);
+        BTL_SETUP_FreeSlots((struct BattleSetupParam *)work);
         return 1;
     }
     return 0;
@@ -4468,7 +4490,7 @@ int INTRUDE_LINK_EventMain(struct GameEvent *event, u32 *state, IntrudeLinkEvent
         (*state)++;
         break;
     case 1:
-        ENCEFF_Start((struct GameSystem *)FIELDMAP_GetEncEff((unsigned char *)fieldMap), (u32)event, 5);
+        ENCEFF_Start((struct EncEffWork *)FIELDMAP_GetEncEff((struct FieldMap *)fieldMap), (struct GameEvent *)event, 5);
         (*state)++;
         break;
     case 2:
@@ -4511,7 +4533,7 @@ u8 INTRUDE_COMM_GetPartnerSlot(void *comm, void *gameData)
     IntrudeCommSys *link;
 
     localSlot = (int)GAME_DATA_GetOwnNetId(gameData);
-    link = (IntrudeCommSys *)INTRUDE_COMM_GetWorkIfRunning((int)comm);
+    link = (IntrudeCommSys *)INTRUDE_COMM_GetWorkIfRunning((struct GameComm *)comm);
     if (GFL_NET_ERR_GetErrorLevel()) {
         remoteSlot = (int)GAME_DATA_GetIntrudeId(gameData);
         if (remoteSlot == localSlot) {
@@ -4536,7 +4558,7 @@ void INTRUDE_COMM_GetMarkerPosForPartner(void *comm, void *gameData, LinkMarkerP
     IntrudeCommSys *link;
     int slotDistance;
 
-    link = (IntrudeCommSys *)INTRUDE_COMM_GetWorkIfRunning((int)comm);
+    link = (IntrudeCommSys *)INTRUDE_COMM_GetWorkIfRunning((struct GameComm *)comm);
     if (link == 0 || link->localPeer.intrudeId == GAME_DATA_GetOwnNetId(gameData)) {
         slotDistance = 0;
     } else {

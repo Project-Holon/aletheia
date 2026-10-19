@@ -35,9 +35,9 @@ typedef struct QueueInfo {
     int total;
 } QueueInfo;
 
-extern void DWC_Free(int kind, void *p, int size);
-extern void gt2Send(void);
-extern void *DWC_Alloc(int kind, int size);
+extern void DWC_Free(int name, void *ptr, unsigned int size);
+extern int gt2Send(void *connection, unsigned char *message, int len, int reliable);
+extern void *DWC_Alloc(int name, unsigned int size);
 extern void MIi_CpuCopy32(void *src, void *dst, int size);
 static void DWCi_InitReliableQueue(void);
 void DWCi_CleanupReliableQueue(char *p);

@@ -44,6 +44,7 @@
  *   SND_CHANNEL_UnlockChannels  0x02072974  arm
  *   NNS_SndWaveOutFreeChannel  0x02072A08  arm
  *   NNS_FndRemoveListObject  0x020605B4  arm
+ *   _u32_div_f                   0x0209C2B0  arm
  */
 #include "nns_snd_types.h"
 
@@ -53,13 +54,13 @@ typedef struct SndStrmChannel {
     s32 volumeOffset;
 } SndStrmChannel;
 
-extern void NNS_FndInitList(NNSFndList *list, int offset);
-extern void NNSi_SndStrmStart(void);
+extern void NNS_FndInitList(s32 list, s32 offset);
+struct NNSSndStrm;
+extern void NNSi_SndStrmStart(struct NNSSndStrm *strm);
 extern int NNSi_SndWaveOutLockChannels(int mask);
 extern void SND_CHANNEL_UnlockChannels(u32 mask);
 extern s32  NNSi_SndWaveOutAllocSlot(void);
-extern void SND_SetupChannelPcm(u32 chan, int fmt, u32 data, int loopmode,
-                          int a, int b, int vol, int pan, u32 period, int e);
+extern void SND_SetupChannelPcm(s32 chNo, s32 format, void *dataaddr, s32 loop, s32 loopStart, s32 loopLen, s32 volume, s32 shift, s32 timer, s32 pan);
 extern void SND_SetupAlarm(s32 chan, u32 a, u32 b, void (*cb)(void *), void *arg);
 extern void NNS_FndAppendListObject(NNSFndList *list, void *node);
 extern u32  OS_DisableInterrupts(void);
@@ -73,10 +74,11 @@ extern void SND_StopTimer(u32 a, u32 b, u32 c, u32 d);
 extern void PM_DeletePreSleepCallback(void *p);
 extern void PM_DeletePostSleepCallback(void *p);
 extern u32  SND_GetCurrentCommandTag(void);
-extern void SND_FlushCommand(u32 a);
+extern s32 SND_FlushCommand(u32 a);
 extern void SND_WaitForCommandProc(u32 a);
 extern void NNS_SndWaveOutFreeChannel(u32 timerNo);
-extern void NNS_FndRemoveListObject(volatile NNSFndList *list, void *elem);
+struct DList;
+extern void NNS_FndRemoveListObject(struct DList *list, void *elem);
 void NNS_SndStrmInit(SndStrm *strm);
 int NNS_SndStrmAllocChannel(SndStrm *strm, int numChannels, const u8 *channelList);
 void NNS_SndStrmFreeChannel(SndStrm *strm);
@@ -114,7 +116,7 @@ extern SndStrmChannel gSndStrmChannels[];
 void NNS_SndStrmInit(SndStrm *strm)
 {
     if (gSndStrmListReady == 0) {
-        NNS_FndInitList(&gSndStrmList, 0);
+        NNS_FndInitList((s32)(&gSndStrmList), 0);
         gSndStrmListReady = 1;
     }
     strm->alarm[0].handler = (void (*)(void *))NNSi_SndStrmAlarmHandler;
@@ -190,7 +192,7 @@ int NNS_SndStrmSetup(SndStrm *strm, int format, u32 bufferAddr, u32 length,
         u8 channelNo = strm->channel[i];
         gSndStrmChannels[channelNo].bufferAddr = strm->bufferSize * i + bufferAddr;
         gSndStrmChannels[channelNo].volumeOffset = 0;
-        SND_SetupChannelPcm(channelNo, format, gSndStrmChannels[channelNo].bufferAddr, 1, 0, strm->bufferSize >> 2,
+        SND_SetupChannelPcm(channelNo, format, (void *)gSndStrmChannels[channelNo].bufferAddr, 1, 0, strm->bufferSize >> 2,
                       0x7f, 0, rate << 5, 0x40);
     }
     SND_SetupAlarm(strm->timerNo, period, period, (void (*)(void *))NNSi_SndStrmTimerCallback, strm);
@@ -296,7 +298,7 @@ void NNS_SndStrmStop(SndStrm *strm)
 void NNSi_SndStrmReleaseTimer(SndStrm *strm)
 {
     NNS_SndWaveOutFreeChannel(strm->timerNo);
-    NNS_FndRemoveListObject(&gSndStrmList, strm);
+    NNS_FndRemoveListObject((struct DList *)(&gSndStrmList), strm);
     strm->flags &= ~1;
 }
 

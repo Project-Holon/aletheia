@@ -27,7 +27,7 @@ extern u32 NWMi_CheckState(u32, ...);
 extern u32 NWMi_GetSystemWork(void);
 extern void DC_InvalidateRange(u32, u32);
 extern void NWMi_SetCallbackTable(u32, u32);
-extern u32 NWMi_SendCommand(u32, u32, u32);
+extern u32 NWMi_SendCommand(unsigned short apiid, unsigned short argc, ...);
 extern u32 PM_GetExitFactor(void);
 extern void OS_SpinWaitSysCycles(u32);
 extern void PXIi_HandlerRecvFifoNotEmpty(void);

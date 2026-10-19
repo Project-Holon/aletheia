@@ -218,42 +218,49 @@ typedef struct LearnsetEntry {
     u16 move;
     u16 level;
 } LearnsetEntry;
+struct PokemonParam;
 
-extern u32 POKE_TOOL_GetPartyValue(const struct Pokemon *mon, u32 dataId, u32 arg);
-extern int DAYCARE_IsSlotInUse(void *dayCare, int slot);
-extern void DAYCARE_SwapSlots(void *dayCare, int slot, int newSlot);
+extern u32 POKE_TOOL_GetPartyValue(struct PokemonParam *pp, u32 paramId, u32 arg);
+struct DaycareSave;
+extern u32 DAYCARE_IsSlotInUse(struct DaycareSave *daycare, u32 slot);
+extern void DAYCARE_SwapSlots(struct DaycareSave *daycare, s32 slotA, s32 slotB);
 extern u32 POKE_TOOL_GetPersonalParam(u16 species, u16 form, u32 groupField);
 extern int DAYCARE_GetInUseCount(void *dayCare);
 extern u32 GFL_USE_GetRandomBelow(u32 range);
 extern struct FieldMap *FIELDMAP_GetGameSystem(struct FieldMap *p);
 extern void *GAMESYSTEM_GetGameData(const void *p);
-extern struct MyStatus *GAME_DATA_GetMyStatus(void *p);
-extern struct Pokemon *DAYCARE_GetSlotMon(void *dayCare, int slot);
+struct GameData;
+extern struct MyStatus *GAME_DATA_GetMyStatus(struct GameData *gd);
+struct PokeParam;
+extern struct PokeParam *DAYCARE_GetSlotMon(struct DaycareSave *daycare, s32 slot);
 extern u32 PERAPVOICE_ClearIfNoChatot(void *p, void *party);
 extern void *GAME_DATA_GetPerapVoiceSave(void *p);
 extern u32 MI_CpuFill8(void *dst, u32 value, u32 size);
-extern void *POKE_PERSONAL_Create(u32 species, int form, u32 heapId);
-extern u32 POKE_PERSONAL_GetParam(const struct Personal *p, u32 field);
-extern void POKE_PERSONAL_Delete(void *p);
+struct PersonalData;
+extern struct PersonalData *POKE_PERSONAL_Create(u32 species, int form, u32 heapId);
+extern u32 POKE_PERSONAL_GetParam(struct PersonalData *data, u32 field);
+extern void POKE_PERSONAL_Delete(struct PersonalData *data);
 extern u32 MYSTATUS_GetId(const struct MyStatus *status);
 extern u32 POKE_TOOL_IsShinyOtIdPersonality(u32 otId, u32 personalRnd);
 extern void POKE_PERSONAL_LoadDataDirect(unsigned int species, int form, void *dest);
 extern void *ARC_TOOL_LoadMember(u32 archive, u32 member, u32 heapId);
 extern u32 GFL_HEAP_Free(void *p);
 extern u16 FILE_UTIL_GetMachineMove(u16 item);
-extern void POKE_TOOL_SetupPartyParamEx(struct Pokemon *mon, u16 species, u16 level, unsigned long long otId, u32 power, unsigned long long personalRnd);
-extern void POKE_TOOL_SetPartyValue(struct Pokemon *mon, u32 dataId, u32 value);
-extern void POKE_TOOL_SetAbility(struct Pokemon *mon, u32 species, u32 form);
-extern struct StrBuf *MYSTATUS_CreateNameStrbuf(struct MyStatus *status, int heapId);
-extern void STRBUF_Delete(struct StrBuf *str);
-extern struct StrBuf *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
+extern void POKE_TOOL_SetupPartyParamEx(struct PokemonParam *pp, u16 species, u16 level, u64 otId, u32 ivs, u64 personality);
+extern void POKE_TOOL_SetPartyValue(struct PokemonParam *pp, u32 paramId, u32 value);
+struct BoxPokemon;
+extern void POKE_TOOL_SetAbility(struct BoxPokemon *box, u32 species, u32 form);
+struct Strbuf;
+extern struct Strbuf *MYSTATUS_CreateNameStrbuf(u16 *name, s32 heap_id);
+extern void STRBUF_Delete(struct Strbuf *strbuf);
+extern struct Strbuf *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
 extern void SAVE_EVENT_Write(struct Pokemon *mon, u32 mode, struct MyStatus *status, u32 place, u16 heapId);
-extern void POKE_TOOL_RecoverAllPP(struct Pokemon *mon);
-extern void POKE_TOOL_RecalcParam(struct Pokemon *mon);
-extern void POKE_TOOL_HealFull(struct Pokemon *mon);
+extern void POKE_TOOL_RecoverAllPP(struct PokemonParam *pp);
+extern void POKE_TOOL_RecalcParam(struct PokemonParam *pp);
+extern void POKE_TOOL_HealFull(struct PokemonParam *pp);
 extern u32 FILE_UTIL_IsMachineItem(u32 item);
 extern u32 FILE_UTIL_GetId(u32 item);
-extern void ARC_TOOL_ReadMemberRange(void *dst, u32 archive, u32 member, u32 mode, u32 *sizeOut);
+extern void ARC_TOOL_ReadMemberRange(void *dst, u32 archiveID, u32 memberIdx, u32 offset, u32 size);
 extern void *gSpeciesNameBank;
 
 int SODATEYA_MonKnowsMove(void *mon, u32 move);
@@ -311,33 +318,37 @@ extern const MoveSlotIdTable sSodateyaSharedMoveSlotIds;
 extern MoveSlotIdTable sSodateyaTmMoveSlotIds;
 extern const StatTable sSodateyaEggIvIds;
 extern void *GFL_HEAP_Alloc(u32, u32, int, const char *, u16);
-void *GAME_DATA_GetMyParty(const void *p);
-extern void *POKEPARTY_GetMember(void *p, u32 idx);
-extern void DAYCARE_SetSlotMon(void *dayCare, s32 slot, const void *mon);
-extern u32 POKEPARTY_RemoveMember(void *p, s32 idx);
-extern u32 POKE_TOOL_ChangeForm(void *p, u32 a);
-extern u32 DAYCARE_GetSlotSteps(void *dayCare, u32 slot);
-extern u32 POKEPARTY_Add(void *p, const void *src);
-extern void DAYCARE_ClearSlot(void *dayCare, s32 slot);
+void *GAME_DATA_GetMyParty(struct GameData *gd);
+struct Party;
+extern struct PokemonParam *POKEPARTY_GetMember(struct Party *party, u32 pos);
+extern void DAYCARE_SetSlotMon(struct DaycareSave *daycare, s32 slot, struct PokeParam *mon);
+extern u32 POKEPARTY_RemoveMember(struct Party *party, s32 pos);
+extern u32 POKE_TOOL_ChangeForm(struct PokemonParam *pp, u32 form);
+extern u32 DAYCARE_GetSlotSteps(struct DaycareSave *daycare, u32 slot);
+extern u32 POKEPARTY_Add(struct Party *party, struct PokemonParam *member);
+extern void DAYCARE_ClearSlot(struct DaycareSave *daycare, s32 slot);
 extern void *ZUKAN_SAVE_GetFromGameData(void *p);
-extern u32 ZUKAN_SAVE_IsCaught(void *p, u16 id);
-extern void ZUKAN_SAVE_RegisterCaught(void *p, void *m);
-extern void *POKE_TOOL_Create(u16 species, u16 level, unsigned long long id, u16 heap);
-extern int DAYCARE_GetEggReady(void *dayCare);
+struct ZukanSave;
+extern u32 ZUKAN_SAVE_IsCaught(struct ZukanSave *pZukan, u16 species);
+extern void ZUKAN_SAVE_RegisterCaught(struct ZukanSave *pZukan, void *pMon);
+extern struct PokemonParam *POKE_TOOL_Create(u16 species, u16 level, unsigned long long id, u16 heap);
+extern u32 DAYCARE_GetEggReady(struct DaycareSave *daycare);
 extern void GAME_BEACON_SEARCH_SetSymbolMapEnter(void);
-extern void DAYCARE_ClearEggReady(void *dayCare);
-extern u8 GAME_DATA_GetSeason(const void *p);
-extern void FORMCHANGE_UpdateSeasonForms(void *sys, void *party, int season);
-extern void DAYCARE_AddSteps(void *dayCare, int steps);
-extern void DAYCARE_SetEggReady(void *dayCare);
-extern u32 GAME_DATA_GetEventWork(const void *p);
-extern u32 POKEPARTY_GetCount(void *p);
-extern u32 POKEPARTY_GetCapacity(void *p);
-extern u32 ZONEDATA_GetEventWorkAddress(u32 a, u32 b);
+extern void DAYCARE_ClearEggReady(struct DaycareSave *daycare);
+extern u8 GAME_DATA_GetSeason(struct GameData *gd);
+extern void FORMCHANGE_UpdateSeasonForms(struct GameData *gameData, struct Party *party, s32 season);
+struct DaycareSlot;
+extern void DAYCARE_AddSteps(struct DaycareSlot *slots, u32 steps);
+extern void DAYCARE_SetEggReady(struct DaycareSave *daycare);
+extern void *GAME_DATA_GetEventWork(struct GameData *gd);
+extern u32 POKEPARTY_GetCount(struct Party *party);
+extern u32 POKEPARTY_GetCapacity(struct Party *party);
+struct EventWork;
+extern u16 *ZONEDATA_GetEventWorkAddress(struct EventWork *ev, u32 workId);
 extern u32 POKE_TOOL_CalcLevelFromExp(u16 species, u16 form, u32 exp);
 extern u32 POKE_TOOL_GetExpForLevel(u16 a, u16 b, u16 c);
-extern void POKE_TOOL_SetMoveSlot(void *p, u16 move, u32 slot);
-extern void POKE_TOOL_PushMove(void *p, int move);
+extern void POKE_TOOL_SetMoveSlot(struct PokemonParam *pp, u16 move, u32 slot);
+extern void POKE_TOOL_PushMove(struct PokemonParam *pp, u16 move);
 SodateyaWork *SODATEYA_Create(u32 heapId, void *fieldMap, void *dayCare);
 void SODATEYA_Delete(void *work);
 void SODATEYA_DepositPokemon(SodateyaWork *work, void *party, u32 partyPos);
@@ -485,7 +496,7 @@ void SODATEYA_SetEggFlag(void *fieldMap)
     void *eventWork = (void *)GAME_DATA_GetEventWork(gameData);
     void *party = GAME_DATA_GetMyParty(gameData);
     if ((int)POKEPARTY_GetCount(party) < (int)POKEPARTY_GetCapacity(party))
-        *((u16 *)ZONEDATA_GetEventWorkAddress((u32)eventWork, 0x4139)) = 1;
+        *((u16 *)ZONEDATA_GetEventWorkAddress((struct EventWork *)eventWork, 0x4139)) = 1;
 }
 
 /*
@@ -554,7 +565,7 @@ u8 SODATEYA_GetCompatibility(SodateyaWork *work)
     if (DAYCARE_GetInUseCount(work->dayCare) < 2)
         return 0;
     first = DAYCARE_GetSlotMon(work->dayCare, 0);
-    return SODATEYA_CalcCompatibility(first, DAYCARE_GetSlotMon(work->dayCare, 1));
+    return SODATEYA_CalcCompatibility(first, (struct Pokemon *)DAYCARE_GetSlotMon(work->dayCare, 1));
 }
 
 /* Pokemon in day care slot. */
@@ -699,10 +710,10 @@ int SODATEYA_CalcCompatibility(struct Pokemon *monA, struct Pokemon *monB)
     mons[0] = monA;
     mons[1] = monB;
     for (i = 0; i < 2; i++) {
-        species[i] = POKE_TOOL_GetPartyValue(mons[i], MON_DATA_SPECIES, 0);
-        POKE_TOOL_GetPartyValue(mons[i], MON_DATA_OT_ID, 0);
-        form[i] = POKE_TOOL_GetPartyValue(mons[i], MON_DATA_FORM, 0);
-        gender[i] = POKE_TOOL_GetPartyValue(mons[i], MON_DATA_GENDER, 0);
+        species[i] = POKE_TOOL_GetPartyValue((struct PokemonParam *)mons[i], MON_DATA_SPECIES, 0);
+        POKE_TOOL_GetPartyValue((struct PokemonParam *)mons[i], MON_DATA_OT_ID, 0);
+        form[i] = POKE_TOOL_GetPartyValue((struct PokemonParam *)mons[i], MON_DATA_FORM, 0);
+        gender[i] = POKE_TOOL_GetPartyValue((struct PokemonParam *)mons[i], MON_DATA_GENDER, 0);
         eggGroup1[i] = POKE_TOOL_GetPersonalParam(species[i], form[i], PERSONAL_EGG_GROUP_1);
         eggGroup2[i] = POKE_TOOL_GetPersonalParam(species[i], form[i], PERSONAL_EGG_GROUP_2);
     }
@@ -737,8 +748,8 @@ int SODATEYA_CalcCompatibilityScore(struct Pokemon *monA, struct Pokemon *monB)
     mons[0] = monA;
     mons[1] = monB;
     for (i = 0; i < 2; i++) {
-        species[i] = POKE_TOOL_GetPartyValue(mons[i], MON_DATA_SPECIES, 0);
-        otId[i] = POKE_TOOL_GetPartyValue(mons[i], MON_DATA_OT_ID, 0);
+        species[i] = POKE_TOOL_GetPartyValue((struct PokemonParam *)mons[i], MON_DATA_SPECIES, 0);
+        otId[i] = POKE_TOOL_GetPartyValue((struct PokemonParam *)mons[i], MON_DATA_OT_ID, 0);
     }
     if (species[0] != species[1]) {
         if (otId[0] == otId[1])
@@ -773,8 +784,8 @@ int SODATEYA_UpdateStepCounter(SodateyaWork *work)
 void SODATEYA_CreateEggMon(SodateyaWork *work, struct Pokemon *eggMon)
 {
     struct MyStatus *myStatus = GAME_DATA_GetMyStatus(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(work->fieldMap)));
-    struct Pokemon *father = DAYCARE_GetSlotMon(work->dayCare, 0);
-    struct Pokemon *mother = DAYCARE_GetSlotMon(work->dayCare, 1);
+    struct Pokemon *father = (struct Pokemon *)DAYCARE_GetSlotMon(work->dayCare, 0);
+    struct Pokemon *mother = (struct Pokemon *)DAYCARE_GetSlotMon(work->dayCare, 1);
 
     SODATEYA_BuildEgg(work->heapId, myStatus, SODATEYA_EGG_MET_PLACE, father, mother, eggMon);
 }
@@ -836,13 +847,13 @@ void SODATEYA_BuildEgg(u16 heapId, struct MyStatus *myStatus, u32 metPlace, stru
  */
 void SODATEYA_SortParentsByGender(struct Pokemon **parents)
 {
-    u32 gender = POKE_TOOL_GetPartyValue(parents[0], MON_DATA_GENDER, 0);
+    u32 gender = POKE_TOOL_GetPartyValue((struct PokemonParam *)parents[0], MON_DATA_GENDER, 0);
 
-    POKE_TOOL_GetPartyValue(parents[1], MON_DATA_GENDER, 0);
+    POKE_TOOL_GetPartyValue((struct PokemonParam *)parents[1], MON_DATA_GENDER, 0);
     if (gender == GENDER_FEMALE)
         SODATEYA_SwapParents(parents);
-    POKE_TOOL_GetPartyValue(parents[0], MON_DATA_GENDER, 0);
-    if (POKE_TOOL_GetPartyValue(parents[1], MON_DATA_GENDER, 0) == GENDER_MALE)
+    POKE_TOOL_GetPartyValue((struct PokemonParam *)parents[0], MON_DATA_GENDER, 0);
+    if (POKE_TOOL_GetPartyValue((struct PokemonParam *)parents[1], MON_DATA_GENDER, 0) == GENDER_MALE)
         SODATEYA_SwapParents(parents);
 }
 
@@ -852,8 +863,8 @@ void SODATEYA_SortParentsByGender(struct Pokemon **parents)
  */
 void SODATEYA_PutDittoSecond(struct Pokemon **parents)
 {
-    u32 species = POKE_TOOL_GetPartyValue(parents[0], MON_DATA_SPECIES, 0);
-    u32 gender = POKE_TOOL_GetPartyValue(parents[1], MON_DATA_GENDER, 0);
+    u32 species = POKE_TOOL_GetPartyValue((struct PokemonParam *)parents[0], MON_DATA_SPECIES, 0);
+    u32 gender = POKE_TOOL_GetPartyValue((struct PokemonParam *)parents[1], MON_DATA_GENDER, 0);
 
     if (species == SPECIES_DITTO && gender == GENDER_NONE)
         SODATEYA_SwapParents(parents);
@@ -880,7 +891,7 @@ int SODATEYA_InitEgg(DayCareEgg *egg)
  */
 void SODATEYA_SetBaseSpecies(struct Pokemon **parents, DayCareEgg *egg)
 {
-    egg->species = SODATEYA_GetBaseSpecies(POKE_TOOL_GetPartyValue(SODATEYA_GetSpeciesParent(parents), MON_DATA_SPECIES, 0));
+    egg->species = SODATEYA_GetBaseSpecies(POKE_TOOL_GetPartyValue((struct PokemonParam *)(SODATEYA_GetSpeciesParent(parents)), MON_DATA_SPECIES, 0));
 }
 
 /*
@@ -888,7 +899,7 @@ void SODATEYA_SetBaseSpecies(struct Pokemon **parents, DayCareEgg *egg)
  */
 void SODATEYA_RollNidoranSpecies(struct Pokemon **parents, DayCareEgg *egg)
 {
-    u32 species = POKE_TOOL_GetPartyValue(SODATEYA_GetSpeciesParent(parents), MON_DATA_SPECIES, 0);
+    u32 species = POKE_TOOL_GetPartyValue((struct PokemonParam *)(SODATEYA_GetSpeciesParent(parents)), MON_DATA_SPECIES, 0);
 
     if (species == SPECIES_NIDORAN_F || species - 0x20 <= 2) {
         if (GFL_USE_GetRandomBelow(2) == 0)
@@ -903,7 +914,7 @@ void SODATEYA_RollNidoranSpecies(struct Pokemon **parents, DayCareEgg *egg)
  */
 void SODATEYA_RollVolbeatSpecies(struct Pokemon **parents, DayCareEgg *egg)
 {
-    u32 species = POKE_TOOL_GetPartyValue(SODATEYA_GetSpeciesParent(parents), MON_DATA_SPECIES, 0);
+    u32 species = POKE_TOOL_GetPartyValue((struct PokemonParam *)(SODATEYA_GetSpeciesParent(parents)), MON_DATA_SPECIES, 0);
 
     if (species == SPECIES_VOLBEAT || species == SPECIES_ILLUMISE) {
         if (GFL_USE_GetRandomBelow(2) == 0)
@@ -918,7 +929,7 @@ void SODATEYA_RollVolbeatSpecies(struct Pokemon **parents, DayCareEgg *egg)
  */
 void SODATEYA_ApplyPhioneRule(struct Pokemon **parents, DayCareEgg *egg)
 {
-    if (POKE_TOOL_GetPartyValue(SODATEYA_GetSpeciesParent(parents), MON_DATA_SPECIES, 0) == SPECIES_MANAPHY)
+    if (POKE_TOOL_GetPartyValue((struct PokemonParam *)(SODATEYA_GetSpeciesParent(parents)), MON_DATA_SPECIES, 0) == SPECIES_MANAPHY)
         egg->species = SPECIES_PHIONE;
 }
 
@@ -934,10 +945,10 @@ void SODATEYA_ApplyIncenseBabyRule(struct Pokemon **parents, DayCareEgg *egg)
     struct Pokemon *mon = SODATEYA_GetSpeciesParent(parents);
 
     i = 0;
-    POKE_TOOL_GetPartyValue(mon, MON_DATA_SPECIES, 0);
-    POKE_TOOL_GetPartyValue(mon, MON_DATA_HELD_ITEM, 0);
-    fatherItem = POKE_TOOL_GetPartyValue(parents[0], MON_DATA_HELD_ITEM, 0);
-    motherItem = POKE_TOOL_GetPartyValue(parents[1], MON_DATA_HELD_ITEM, 0);
+    POKE_TOOL_GetPartyValue((struct PokemonParam *)mon, MON_DATA_SPECIES, 0);
+    POKE_TOOL_GetPartyValue((struct PokemonParam *)mon, MON_DATA_HELD_ITEM, 0);
+    fatherItem = POKE_TOOL_GetPartyValue((struct PokemonParam *)parents[0], MON_DATA_HELD_ITEM, 0);
+    motherItem = POKE_TOOL_GetPartyValue((struct PokemonParam *)parents[1], MON_DATA_HELD_ITEM, 0);
     for (; i < 12; i++) {
         if (egg->species == table.entries[i].babySpecies
             && fatherItem != table.entries[i].incenseItem
@@ -951,7 +962,7 @@ void SODATEYA_ApplyIncenseBabyRule(struct Pokemon **parents, DayCareEgg *egg)
 /* The parent whose species and form the offspring takes: the mother, or the father when she is a Ditto. */
 struct Pokemon *SODATEYA_GetSpeciesParent(struct Pokemon **parents)
 {
-    if (POKE_TOOL_GetPartyValue(parents[1], MON_DATA_SPECIES, 0) == SPECIES_DITTO) {
+    if (POKE_TOOL_GetPartyValue((struct PokemonParam *)parents[1], MON_DATA_SPECIES, 0) == SPECIES_DITTO) {
         return parents[0];
     }
     return parents[1];
@@ -970,10 +981,10 @@ int SODATEYA_ResetEggForm(struct Pokemon **parents, DayCareEgg *egg)
 void SODATEYA_InheritFormShellos(struct Pokemon **parents, DayCareEgg *egg)
 {
     struct Pokemon *mon = SODATEYA_GetFormParent(parents);
-    u32 species = POKE_TOOL_GetPartyValue(mon, MON_DATA_SPECIES, 0);
+    u32 species = POKE_TOOL_GetPartyValue((struct PokemonParam *)mon, MON_DATA_SPECIES, 0);
 
     if (species - 0x1A6 <= 1)
-        egg->form = POKE_TOOL_GetPartyValue(mon, MON_DATA_FORM, 0);
+        egg->form = POKE_TOOL_GetPartyValue((struct PokemonParam *)mon, MON_DATA_FORM, 0);
 }
 
 /*
@@ -982,10 +993,10 @@ void SODATEYA_InheritFormShellos(struct Pokemon **parents, DayCareEgg *egg)
 void SODATEYA_InheritFormBurmy(struct Pokemon **parents, DayCareEgg *egg)
 {
     struct Pokemon *mon = SODATEYA_GetFormParent(parents);
-    u32 species = POKE_TOOL_GetPartyValue(mon, MON_DATA_SPECIES, 0);
+    u32 species = POKE_TOOL_GetPartyValue((struct PokemonParam *)mon, MON_DATA_SPECIES, 0);
 
     if (species - 0x19C <= 1)
-        egg->form = POKE_TOOL_GetPartyValue(mon, MON_DATA_FORM, 0);
+        egg->form = POKE_TOOL_GetPartyValue((struct PokemonParam *)mon, MON_DATA_FORM, 0);
 }
 
 /*
@@ -994,16 +1005,16 @@ void SODATEYA_InheritFormBurmy(struct Pokemon **parents, DayCareEgg *egg)
 void SODATEYA_InheritFormBasculin(struct Pokemon **parents, DayCareEgg *egg)
 {
     struct Pokemon *mon = SODATEYA_GetFormParent(parents);
-    u32 species = POKE_TOOL_GetPartyValue(mon, MON_DATA_SPECIES, 0);
+    u32 species = POKE_TOOL_GetPartyValue((struct PokemonParam *)mon, MON_DATA_SPECIES, 0);
 
     if (species == SPECIES_BASCULIN)
-        egg->form = POKE_TOOL_GetPartyValue(mon, MON_DATA_FORM, 0);
+        egg->form = POKE_TOOL_GetPartyValue((struct PokemonParam *)mon, MON_DATA_FORM, 0);
 }
 
 /* Same choice as SODATEYA_GetSpeciesParent, kept as its own function by the original. */
 struct Pokemon *SODATEYA_GetFormParent(struct Pokemon **parents)
 {
-    if (POKE_TOOL_GetPartyValue(parents[1], MON_DATA_SPECIES, 0) == SPECIES_DITTO) {
+    if (POKE_TOOL_GetPartyValue((struct PokemonParam *)parents[1], MON_DATA_SPECIES, 0) == SPECIES_DITTO) {
         return parents[0];
     }
     return parents[1];
@@ -1027,13 +1038,13 @@ void SODATEYA_ApplyEverstoneRule(struct Pokemon **parents, DayCareEgg *egg)
     u32 fatherNature, motherNature;
 
     fatherHolds = 0;
-    if (POKE_TOOL_GetPartyValue(parents[0], MON_DATA_HELD_ITEM, 0) == ITEM_EVERSTONE)
+    if (POKE_TOOL_GetPartyValue((struct PokemonParam *)parents[0], MON_DATA_HELD_ITEM, 0) == ITEM_EVERSTONE)
         fatherHolds = 1;
     motherHolds = 0;
-    if (POKE_TOOL_GetPartyValue(parents[1], MON_DATA_HELD_ITEM, 0) == ITEM_EVERSTONE)
+    if (POKE_TOOL_GetPartyValue((struct PokemonParam *)parents[1], MON_DATA_HELD_ITEM, 0) == ITEM_EVERSTONE)
         motherHolds = 1;
-    fatherNature = POKE_TOOL_GetPartyValue(parents[0], MON_DATA_NATURE, 0);
-    motherNature = POKE_TOOL_GetPartyValue(parents[1], MON_DATA_NATURE, 0);
+    fatherNature = POKE_TOOL_GetPartyValue((struct PokemonParam *)parents[0], MON_DATA_NATURE, 0);
+    motherNature = POKE_TOOL_GetPartyValue((struct PokemonParam *)parents[1], MON_DATA_NATURE, 0);
     if (fatherHolds || motherHolds) {
         if (GFL_USE_GetRandomBelow(2) == 0)
             return;
@@ -1060,9 +1071,9 @@ void SODATEYA_ApplyEverstoneRule(struct Pokemon **parents, DayCareEgg *egg)
  */
 void SODATEYA_RollAbilitySlot(struct Pokemon **parents, DayCareEgg *egg, u32 heapId)
 {
-    u32 species = POKE_TOOL_GetPartyValue(parents[1], MON_DATA_SPECIES, 0);
-    u32 form = POKE_TOOL_GetPartyValue(parents[1], MON_DATA_FORM, 0);
-    u32 ability = POKE_TOOL_GetPartyValue(parents[1], MON_DATA_ABILITY, 0);
+    u32 species = POKE_TOOL_GetPartyValue((struct PokemonParam *)parents[1], MON_DATA_SPECIES, 0);
+    u32 form = POKE_TOOL_GetPartyValue((struct PokemonParam *)parents[1], MON_DATA_FORM, 0);
+    u32 ability = POKE_TOOL_GetPartyValue((struct PokemonParam *)parents[1], MON_DATA_ABILITY, 0);
     u32 motherSlot = (u32)SODATEYA_GetAbilitySlot((u16)species, (u16)form, (u16)ability, heapId);
     u32 roll = GFL_USE_GetRandomBelow(100);
 
@@ -1096,8 +1107,8 @@ void SODATEYA_RollAbilitySlot(struct Pokemon **parents, DayCareEgg *egg, u32 hea
  */
 void SODATEYA_RollDittoAbilitySlot(struct Pokemon **parents, DayCareEgg *egg)
 {
-    u32 fatherSpecies = POKE_TOOL_GetPartyValue(parents[0], MON_DATA_SPECIES, 0);
-    u32 motherSpecies = POKE_TOOL_GetPartyValue(parents[1], MON_DATA_SPECIES, 0);
+    u32 fatherSpecies = POKE_TOOL_GetPartyValue((struct PokemonParam *)parents[0], MON_DATA_SPECIES, 0);
+    u32 motherSpecies = POKE_TOOL_GetPartyValue((struct PokemonParam *)parents[1], MON_DATA_SPECIES, 0);
 
     if (fatherSpecies == SPECIES_DITTO || motherSpecies == SPECIES_DITTO) {
         if (GFL_USE_GetRandomBelow(2) == 0)
@@ -1114,12 +1125,12 @@ void SODATEYA_RollDittoAbilitySlot(struct Pokemon **parents, DayCareEgg *egg)
 void SODATEYA_SetAbilityFromSlot(struct Pokemon **parents, DayCareEgg *egg, u32 heapId)
 {
     u32 abilities[3];
-    struct Personal *personal = POKE_PERSONAL_Create((u16)egg->species, (u16)egg->form, heapId);
+    struct Personal *personal = (struct Personal *)POKE_PERSONAL_Create((u16)egg->species, (u16)egg->form, heapId);
 
-    abilities[0] = POKE_PERSONAL_GetParam(personal, 0x1a);
-    abilities[1] = POKE_PERSONAL_GetParam(personal, 0x1b);
-    abilities[2] = POKE_PERSONAL_GetParam(personal, 0x1c);
-    POKE_PERSONAL_Delete(personal);
+    abilities[0] = POKE_PERSONAL_GetParam((struct PersonalData *)personal, 0x1a);
+    abilities[1] = POKE_PERSONAL_GetParam((struct PersonalData *)personal, 0x1b);
+    abilities[2] = POKE_PERSONAL_GetParam((struct PersonalData *)personal, 0x1c);
+    POKE_PERSONAL_Delete((struct PersonalData *)personal);
     if (egg->abilitySlot < 2) {
         egg->ability = abilities[egg->abilitySlot];
         if (egg->ability == 0)
@@ -1157,8 +1168,8 @@ void SODATEYA_ApplyPowerItemRule(struct Pokemon **parents, DayCareEgg *egg)
 
     fatherHolds = 0;
     motherHolds = 0;
-    fatherItem = POKE_TOOL_GetPartyValue(parents[0], MON_DATA_HELD_ITEM, 0);
-    motherItem = POKE_TOOL_GetPartyValue(parents[1], MON_DATA_HELD_ITEM, 0);
+    fatherItem = POKE_TOOL_GetPartyValue((struct PokemonParam *)parents[0], MON_DATA_HELD_ITEM, 0);
+    motherItem = POKE_TOOL_GetPartyValue((struct PokemonParam *)parents[1], MON_DATA_HELD_ITEM, 0);
     powerItems = sSodateyaPowerItemIds;
     for (i = 0; i < 6; i++) {
         if (fatherItem == powerItems.ids[i]) {
@@ -1224,9 +1235,9 @@ void SODATEYA_CopyInheritedIvs(struct Pokemon **parents, DayCareEgg *egg)
 
     for (i = 0; i < 6; i++) {
         if (egg->fatherIvFlags[i] != 0)
-            egg->ivs[i] = POKE_TOOL_GetPartyValue(parents[0], ids[i], 0);
+            egg->ivs[i] = POKE_TOOL_GetPartyValue((struct PokemonParam *)parents[0], ids[i], 0);
         if (egg->motherIvFlags[i] != 0)
-            egg->ivs[i] = POKE_TOOL_GetPartyValue(parents[1], ids[i], 0);
+            egg->ivs[i] = POKE_TOOL_GetPartyValue((struct PokemonParam *)parents[1], ids[i], 0);
     }
 }
 
@@ -1249,9 +1260,9 @@ void SODATEYA_RollPersonalRnd(struct Pokemon **parents, DayCareEgg *egg)
 void SODATEYA_ApplyMasudaMethod(struct Pokemon **parents, DayCareEgg *egg)
 {
     int i = 0;
-    u32 fatherLanguage = POKE_TOOL_GetPartyValue(parents[0], MON_DATA_LANGUAGE, 0);
+    u32 fatherLanguage = POKE_TOOL_GetPartyValue((struct PokemonParam *)parents[0], MON_DATA_LANGUAGE, 0);
 
-    if (fatherLanguage == POKE_TOOL_GetPartyValue(parents[1], MON_DATA_LANGUAGE, 0))
+    if (fatherLanguage == POKE_TOOL_GetPartyValue((struct PokemonParam *)parents[1], MON_DATA_LANGUAGE, 0))
         return;
     if (POKE_TOOL_IsShinyOtIdPersonality(egg->otId, egg->personalRnd) != 0)
         return;
@@ -1320,7 +1331,7 @@ void SODATEYA_AddEggMoves(struct Pokemon **parents, DayCareEgg *egg, u32 heapId)
     int i;
 
     for (i = 0; i < 4; i++) {
-        u32 move = POKE_TOOL_GetPartyValue(parents[0], ids[i], 0);
+        u32 move = POKE_TOOL_GetPartyValue((struct PokemonParam *)parents[0], ids[i], 0);
         int j;
 
         for (j = 1; j <= eggMoveCount; j++) {
@@ -1361,14 +1372,14 @@ body:
     fatherKnows = 0;
     motherKnows = 0;
     for (slot = 0; slot < 4; slot++) {
-        value = POKE_TOOL_GetPartyValue(parents[0], slotIds.ids[slot], 0);
+        value = POKE_TOOL_GetPartyValue((struct PokemonParam *)parents[0], slotIds.ids[slot], 0);
         if (value == move) {
             fatherKnows = 1;
             break;
         }
     }
     for (slot = 0; slot < 4; slot++) {
-        value = POKE_TOOL_GetPartyValue(parents[1], slotIds.ids[slot], 0);
+        value = POKE_TOOL_GetPartyValue((struct PokemonParam *)parents[1], slotIds.ids[slot], 0);
         if (value == move) {
             motherKnows = 1;
             break;
@@ -1396,7 +1407,7 @@ void SODATEYA_AddTmMoves(struct Pokemon **parents, DayCareEgg *egg, u32 heapId)
     int i;
 
     for (i = 0; i < 4; i++) {
-        u32 move = POKE_TOOL_GetPartyValue(parents[0], slotIds.ids[i], 0);
+        u32 move = POKE_TOOL_GetPartyValue((struct PokemonParam *)parents[0], slotIds.ids[i], 0);
         int tmItem;
 
         for (tmItem = TM_ITEM_FIRST; tmItem <= TM_ITEM_LAST; tmItem++) {
@@ -1416,8 +1427,8 @@ void SODATEYA_AddTmMoves(struct Pokemon **parents, DayCareEgg *egg, u32 heapId)
 void SODATEYA_AddVoltTackle(struct Pokemon **parents, DayCareEgg *egg)
 {
     if (egg->species == SPECIES_PICHU) {
-        if (POKE_TOOL_GetPartyValue(parents[0], MON_DATA_HELD_ITEM, 0) == ITEM_LIGHT_BALL
-            || POKE_TOOL_GetPartyValue(parents[1], MON_DATA_HELD_ITEM, 0) == ITEM_LIGHT_BALL)
+        if (POKE_TOOL_GetPartyValue((struct PokemonParam *)parents[0], MON_DATA_HELD_ITEM, 0) == ITEM_LIGHT_BALL
+            || POKE_TOOL_GetPartyValue((struct PokemonParam *)parents[1], MON_DATA_HELD_ITEM, 0) == ITEM_LIGHT_BALL)
             SODATEYA_AddMove(egg, MOVE_VOLT_TACKLE);
     }
 }
@@ -1464,33 +1475,33 @@ void SODATEYA_SetupEggMon(struct Pokemon *mon, const DayCareEgg *egg, struct MyS
     int i;
     struct StrBuf *str;
 
-    POKE_TOOL_SetupPartyParamEx(mon, egg->species, egg->level, egg->otId, -1, egg->personalRnd);
-    POKE_TOOL_SetPartyValue(mon, MON_DATA_FORM, egg->form);
-    POKE_TOOL_SetPartyValue(mon, MON_DATA_NATURE, egg->nature);
-    POKE_TOOL_SetPartyValue(mon, MON_DATA_FRIENDSHIP, egg->baseFriendship);
+    POKE_TOOL_SetupPartyParamEx((struct PokemonParam *)mon, egg->species, egg->level, egg->otId, -1, egg->personalRnd);
+    POKE_TOOL_SetPartyValue((struct PokemonParam *)mon, MON_DATA_FORM, egg->form);
+    POKE_TOOL_SetPartyValue((struct PokemonParam *)mon, MON_DATA_NATURE, egg->nature);
+    POKE_TOOL_SetPartyValue((struct PokemonParam *)mon, MON_DATA_FRIENDSHIP, egg->baseFriendship);
     if (egg->abilitySlot == 2)
-        POKE_TOOL_SetAbility(mon, egg->species, egg->form);
+        POKE_TOOL_SetAbility((struct BoxPokemon *)mon, egg->species, egg->form);
     else
-        POKE_TOOL_SetPartyValue(mon, MON_DATA_ABILITY_SET, egg->ability);
+        POKE_TOOL_SetPartyValue((struct PokemonParam *)mon, MON_DATA_ABILITY_SET, egg->ability);
     for (i = 0; i < 6; i++) {
         if (egg->fatherIvFlags[i] != 0 || egg->motherIvFlags[i] != 0)
-            POKE_TOOL_SetPartyValue(mon, ivIds.ids[i], egg->ivs[i]);
+            POKE_TOOL_SetPartyValue((struct PokemonParam *)mon, ivIds.ids[i], egg->ivs[i]);
     }
-    POKE_TOOL_SetPartyValue(mon, MON_DATA_MOVE1, egg->moves[0]);
-    POKE_TOOL_SetPartyValue(mon, MON_DATA_MOVE2, egg->moves[1]);
-    POKE_TOOL_SetPartyValue(mon, MON_DATA_MOVE3, egg->moves[2]);
-    POKE_TOOL_SetPartyValue(mon, MON_DATA_MOVE4, egg->moves[3]);
-    str = MYSTATUS_CreateNameStrbuf(myStatus, heapId);
-    POKE_TOOL_SetPartyValue(mon, MON_DATA_OT_NAME, (u32)str);
-    STRBUF_Delete(str);
-    str = MSGDATA_AllocString(gSpeciesNameBank, 0x28a);
-    POKE_TOOL_SetPartyValue(mon, MON_DATA_NICKNAME, (u32)str);
-    STRBUF_Delete(str);
+    POKE_TOOL_SetPartyValue((struct PokemonParam *)mon, MON_DATA_MOVE1, egg->moves[0]);
+    POKE_TOOL_SetPartyValue((struct PokemonParam *)mon, MON_DATA_MOVE2, egg->moves[1]);
+    POKE_TOOL_SetPartyValue((struct PokemonParam *)mon, MON_DATA_MOVE3, egg->moves[2]);
+    POKE_TOOL_SetPartyValue((struct PokemonParam *)mon, MON_DATA_MOVE4, egg->moves[3]);
+    str = (struct StrBuf *)MYSTATUS_CreateNameStrbuf((u16 *)myStatus, heapId);
+    POKE_TOOL_SetPartyValue((struct PokemonParam *)mon, MON_DATA_OT_NAME, (u32)str);
+    STRBUF_Delete((struct Strbuf *)str);
+    str = (struct StrBuf *)MSGDATA_AllocString(gSpeciesNameBank, 0x28a);
+    POKE_TOOL_SetPartyValue((struct PokemonParam *)mon, MON_DATA_NICKNAME, (u32)str);
+    STRBUF_Delete((struct Strbuf *)str);
     SAVE_EVENT_Write(mon, 5, myStatus, metPlace, heapId);
-    POKE_TOOL_SetPartyValue(mon, MON_DATA_IS_EGG, 1);
-    POKE_TOOL_RecoverAllPP(mon);
-    POKE_TOOL_RecalcParam(mon);
-    POKE_TOOL_HealFull(mon);
+    POKE_TOOL_SetPartyValue((struct PokemonParam *)mon, MON_DATA_IS_EGG, 1);
+    POKE_TOOL_RecoverAllPP((struct PokemonParam *)mon);
+    POKE_TOOL_RecalcParam((struct PokemonParam *)mon);
+    POKE_TOOL_HealFull((struct PokemonParam *)mon);
 }
 
 /*
@@ -1508,15 +1519,15 @@ int SODATEYA_CanLearnTm(u32 heapId, u32 species, u32 form, u32 tmItem)
     personal = (u32)POKE_PERSONAL_Create(species, form, heapId);
     tmIndex = FILE_UTIL_GetId(tmItem);
     if (tmIndex < 0x20) {
-        mask = POKE_PERSONAL_GetParam((const struct Personal *)personal, 0x27);
+        mask = POKE_PERSONAL_GetParam((struct PersonalData *)personal, 0x27);
     } else if (tmIndex < 0x40) {
-        mask = POKE_PERSONAL_GetParam((const struct Personal *)personal, 0x28);
+        mask = POKE_PERSONAL_GetParam((struct PersonalData *)personal, 0x28);
         tmIndex -= 0x20;
     } else if (tmIndex < 0x60) {
-        mask = POKE_PERSONAL_GetParam((const struct Personal *)personal, 0x29);
+        mask = POKE_PERSONAL_GetParam((struct PersonalData *)personal, 0x29);
         tmIndex -= 0x40;
     } else {
-        mask = POKE_PERSONAL_GetParam((const struct Personal *)personal, 0x2a);
+        mask = POKE_PERSONAL_GetParam((struct PersonalData *)personal, 0x2a);
         tmIndex -= 0x60;
     }
     POKE_PERSONAL_Delete((void *)personal);
@@ -1533,7 +1544,7 @@ u16 SODATEYA_GetBaseSpecies(u16 species)
 
     if (species >= SPECIES_COUNT)
         return species;
-    ARC_TOOL_ReadMemberRange(&baseSpecies, 0x14, species, 0, (u32 *)2);
+    ARC_TOOL_ReadMemberRange(&baseSpecies, (u32)0x14, (u32)species, (u32)0, (u32)2);
     return baseSpecies;
 }
 
@@ -1547,9 +1558,9 @@ u8 SODATEYA_GetAbilitySlot(u32 species, u32 form, u32 ability, u32 heapId)
     u32 personal = (u32)POKE_PERSONAL_Create(species, form, heapId);
     u32 slot;
 
-    abilities[0] = POKE_PERSONAL_GetParam((const struct Personal *)personal, 0x1a);
-    abilities[1] = POKE_PERSONAL_GetParam((const struct Personal *)personal, 0x1b);
-    abilities[2] = POKE_PERSONAL_GetParam((const struct Personal *)personal, 0x1c);
+    abilities[0] = POKE_PERSONAL_GetParam((struct PersonalData *)personal, 0x1a);
+    abilities[1] = POKE_PERSONAL_GetParam((struct PersonalData *)personal, 0x1b);
+    abilities[2] = POKE_PERSONAL_GetParam((struct PersonalData *)personal, 0x1c);
     POKE_PERSONAL_Delete((void *)personal);
     for (slot = 0; slot < 3; slot++) {
         if (ability == abilities[slot])

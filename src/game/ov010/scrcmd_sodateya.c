@@ -64,28 +64,32 @@ typedef struct DaycareEventWork {
 } DaycareEventWork;
 
 extern void *GAME_DATA_GetMyParty(const struct GameData *);
+struct Party;
 
-extern u32 POKEPARTY_GetCount(void *);
+extern u32 POKEPARTY_GetCount(struct Party *party);
+struct GameSystem;
 
-extern void *GAMESYSTEM_GetGameData(const struct GameSystem *);
+extern struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *);
 
 extern void *ZUKAN_SAVE_GetFromGameData(void *);
 
 extern u32 GFL_HEAP_Free(void *);
+struct GameEvent;
 
-extern void *FIELD_STATUS_CreateFieldOpenEvent(void *);
+extern struct GameEvent *FIELD_STATUS_CreateFieldOpenEvent(struct GameSystem *gameSystem);
+struct FieldMap;
 
-extern int FIELD_STATUS_CreateFieldCloseEvent(int, int);
+extern struct GameEvent *FIELD_STATUS_CreateFieldCloseEvent(struct GameSystem *gameSystem, struct FieldMap *fieldMap);
 
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
-extern void *EVENT_FIELDMAP_CONTROL_StartFadeOut(void *, void *, int, int);
+extern struct GameEvent *EVENT_FIELDMAP_CONTROL_StartFadeOut(struct GameSystem *gameSystem, struct FieldMap *fieldMap, int effect, int skipWait);
 
-extern void *EVENT_FIELDMAP_CONTROL_StartFadeIn(void *, void *, int, int, int, int, int);
+extern struct GameEvent *EVENT_FIELDMAP_CONTROL_StartFadeIn(struct GameSystem *gameSystem, struct FieldMap *fieldMap, int effect, int skipWait, int restoreBg, unsigned char seasonShown, unsigned char seasonTarget);
 
-extern void GAME_EVENT_CallEvent(struct GameEvent *evt, struct GameEvent **out);
+extern void GAME_EVENT_CallEvent(struct GameEvent *parent, struct GameEvent *child);
 
-extern void *FIELD_STATUS_CreateSubProcListEvent(char *, int, int, int);
+extern void *FIELD_STATUS_CreateSubProcListEvent(void *anime, int slot, int config, int target);
 
 extern u32 ZUKAN_SAVE_IsNationalDexEnabled(struct ZukanSave *);
 
@@ -109,7 +113,7 @@ int SCRCMD_SODATEYA_RunPartyMenuEvent(void *event, u32 *seq, DaycareEventWork *w
         *seq = 1;
         break;
     case 1:
-        GAME_EVENT_CallEvent(event, (struct GameEvent **)FIELD_STATUS_CreateFieldCloseEvent((int)gameSystem, (int)work->fieldMap));
+        GAME_EVENT_CallEvent((struct GameEvent *)event, (struct GameEvent *)FIELD_STATUS_CreateFieldCloseEvent((struct GameSystem *)gameSystem, (struct FieldMap *)work->fieldMap));
         work->menuParam->selectedPos = work->menuState->selectedPos;
         *seq = 2;
         break;
@@ -118,7 +122,7 @@ int SCRCMD_SODATEYA_RunPartyMenuEvent(void *event, u32 *seq, DaycareEventWork *w
         *seq = 3;
         break;
     case 3:
-        GAME_EVENT_CallEvent(event, FIELD_STATUS_CreateFieldOpenEvent(gameSystem));
+        GAME_EVENT_CallEvent((struct GameEvent *)event, (struct GameEvent *)FIELD_STATUS_CreateFieldOpenEvent(gameSystem));
         *seq = 4;
         break;
     case 4:

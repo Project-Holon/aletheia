@@ -47,7 +47,7 @@ typedef struct {
     unsigned char passphrase[0x20];
     unsigned char pmk[0x20];
     unsigned char ssid[2][0x20];
-    unsigned char reserved80;
+    unsigned char ssidLength0; /* aossEx.ssidLength[0] (TKIP); overlays wpa.rsv in WPA records */
     unsigned char wpaMode;
     unsigned char proxyMode;
     unsigned char proxyAuthType;
@@ -150,7 +150,7 @@ typedef struct {
 extern void *DWCi_AC_GetMemPtr(unsigned long name);
 extern void MIi_CpuClear32(unsigned long data, void *destp, unsigned long size);
 extern int OS_IsRunOnTwl(void);
-extern int strncmp(const char *s1, const char *s2, unsigned long n);
+extern int strncmp(unsigned char *s1, unsigned char *s2, unsigned int n);
 extern void MI_CpuCopy8(const void *srcp, void *dstp, unsigned long size);
 int DWCi_AC_MakeSearchList(int type);
 unsigned char DWCi_AC_CheckFreespot(WMBssDesc *bssdesc);
@@ -212,7 +212,7 @@ unsigned char DWCi_AC_CheckFreespot(WMBssDesc *bssdesc)
     ACWORK *wk = DWCi_AC_GetMemPtr(0x10);
 
     if (wk->connectType == 0 || wk->connectType == 6) {
-        if (strncmp((char *)bssdesc->ssid, (const char *)FREESPOT_SSID, 8) == 0) {
+        if (strncmp((unsigned char *)bssdesc->ssid, (unsigned char *)FREESPOT_SSID, 8) == 0) {
             return 0x14;
         }
     }

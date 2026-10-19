@@ -69,7 +69,7 @@ extern void MI_Zero36B(void *p);
 extern void VEC_Normalize(const int *src, int *dst);
 s32 NNS_G3dGetResDictIdxByName(const NNSG3dResDict *pDict, const NNSG3dResName *pName);
 extern void *NNS_G3dGetResDataByName(const NNSG3dResDict *pDict, const NNSG3dResName *pName);
-extern fx32 FX_Div(fx32 numer, fx32 denom);
+extern u32 FX_Div(u32 numer, u32 denom);
 extern const NNSG3dResTexPatAnmFV *NNSi_G3dTexPatAnmGetFrameValue(const NNSG3dResTexPatAnm *pPatAnm, u32 dataIdx, u32 frame);
 extern const NNSG3dResName *NNSi_G3dGetTexPatAnmTexNameByIdx(const NNSG3dResTexPatAnm *pPatAnm, u8 texIdx);
 extern const NNSG3dResName *NNSi_G3dGetTexPatAnmPlttNameByIdx(const NNSG3dResTexPatAnm *pPatAnm, u8 plttIdx);

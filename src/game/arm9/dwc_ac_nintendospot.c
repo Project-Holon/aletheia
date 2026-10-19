@@ -105,7 +105,7 @@ extern void WDS_StartScan_CB(void);
 extern void WDS_EndScan_CB(void);
 extern void WDS_End_CB(void);
 extern void WDS_Error_End_CB(void);
-extern void DWC_Free(int name, void *ptr, long size);
+extern void DWC_Free(s32 name, void *ptr, u32 size);
 BOOL DWC_AC_StartupGetWDSInfo(DWCWDSData *nspotInfo, u16 dmaNo);
 int DWC_AC_ProcessGetWDSInfo(void);
 void DWC_AC_CancelGetWDSInfo(void);

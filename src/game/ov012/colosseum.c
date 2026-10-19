@@ -81,7 +81,7 @@ extern void POKEPARTY_Init(struct Party *party);
 
 extern u32 GFL_HEAP_Free(void *p);
 
-extern void GFL_NET_COMMAND_AddCommandTable(u32 baseCommand, const u32 *table, u32 count, UnionRoomWork *work);
+extern void GFL_NET_COMMAND_AddCommandTable(u32 groupKey, u32 commandList, u32 listNum, u32 userData);
 
 void COLOSSEUM_AddCommandTable(UnionRoomWork *unionRoom);
 
@@ -90,7 +90,7 @@ extern u32 gColosseumCommandTable[];
 /* Registers the colosseum network commands (base id 0x1500, 14 entries). */
 void COLOSSEUM_AddCommandTable(UnionRoomWork *unionRoom)
 {
-    GFL_NET_COMMAND_AddCommandTable(0x1500, gColosseumCommandTable, 14, unionRoom);
+    GFL_NET_COMMAND_AddCommandTable((u32)0x1500, (u32)gColosseumCommandTable, (u32)14, (u32)unionRoom);
 }
 
 /* Net command ids of the colosseum. The receive callbacks sit in the union
@@ -154,20 +154,25 @@ extern int POKE_REGULATION_GetDataSize(void);
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
 extern void *COMM_PLAYER_Create(int playerMax, void *gameSystem, u16 heapId, int sysOption);
+struct GameData;
 
-extern struct Party *GAME_DATA_GetMyParty(const struct GameData *gameData);
+extern void *GAME_DATA_GetMyParty(const struct GameData *gameData);
+struct MyStatus;
 
-extern void MYSTATUS_Copy(const struct MyStatus *src, void *dst);
+extern void MYSTATUS_Copy(struct MyStatus *src, struct MyStatus *dest);
 
-extern void OS_GetMacAddress(void *p);
+extern void OS_GetMacAddress(u8 *macAddress);
+struct TrainerCardProfile;
 
-extern void TRCARD_SYS_BuildProfile(struct TrainerCardProfile *out, const struct GameData *gameData, u32 mode, u32 flag, u32 heapId);
+extern void TRCARD_SYS_BuildProfile(struct TrainerCardProfile *out, void *save, s32 mode, s32 flag, u16 heap);
+struct CommPlayerWork;
 
-extern void COMM_PLAYER_Delete(void *gameSystem, void *commPlayer);
+extern void COMM_PLAYER_Delete(void *gameSystem, struct CommPlayerWork *work);
 
 void COLOSSEUM_SetupBattleMember(ColosseumWork *colosseum, ColosseumBattleMember *member, u8 playerIndex, int heapId);
+struct GameSystem;
 
-extern void *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
+extern struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
 
 extern void *GAME_DATA_GetTrainerRecord(const struct GameData *gameData);
 
@@ -467,7 +472,7 @@ ColosseumWork *COLOSSEUM_Create(const struct GameData *gameData, void *gameSyste
     work->myChoiceReply = COLOSSEUM_NO_CHOICE;
     POKEPARTY_Copy(GAME_DATA_GetMyParty(gameData), work->party[selfNetId]);
     self = &work->player[selfNetId];
-    MYSTATUS_Copy(myStatus, self);
+    MYSTATUS_Copy((struct MyStatus *)myStatus, (struct MyStatus *)self);
     OS_GetMacAddress(self->statusExtra);
     self->isEntered = 1;
     flag = 1;
@@ -476,7 +481,7 @@ ColosseumWork *COLOSSEUM_Create(const struct GameData *gameData, void *gameSyste
     }
     self->modeFlag = flag;
     self->levelLimit = 0x64;
-    TRCARD_SYS_BuildProfile(work->trainerCard[selfNetId], gameData, 1, 0, COLOSSEUM_HEAP_ID);
+    TRCARD_SYS_BuildProfile(work->trainerCard[selfNetId], (void *)gameData, 1, 0, COLOSSEUM_HEAP_ID);
     work->trainerCardReceived[selfNetId] = 1;
     return work;
 }

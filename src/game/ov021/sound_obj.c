@@ -35,6 +35,12 @@
  *   ICA_ANIME_IncFrameLoop  0x02011590  thumb  arm9
  *   ICA_ANIME_SetFrame  0x020115EC  thumb  arm9
  *   ICA_ANIME_GetTranslate  0x02011610  thumb  arm9
+ *   _fadd                        0x0209C95C  arm
+ *   _fdiv                        0x0209CE10  arm
+ *   _ffixu                       0x0209C4C8  arm
+ *   _fflt                        0x0209BDBC  arm
+ *   _fls                         0x0209BC74  arm
+ *   _fmul                        0x0209C77C  arm
  */
 #include "field_effect_types.h"
 #include "../ov010/fldmmdl_types.h"
@@ -120,14 +126,15 @@ typedef struct BbActRec {
 
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32 GFL_HEAP_Free(void *p);
-extern u16 FIELDMAP_GetHeapId(u8 *p);
-extern void *FIELDMAP_GetGameSystem(void *p);
-extern u32 GAMESYSTEM_GetIssSystem(u32 *p);
+extern u16 FIELDMAP_GetHeapId(struct FieldMap *fieldMap);
+struct GameSystem;
+extern struct GameSystem *FIELDMAP_GetGameSystem(struct FieldMap *fieldMap);
+extern void *GAMESYSTEM_GetIssSystem(struct GameSystem *gameSystem);
 extern u32 ISS_SYS_Get3dsSys(void *obj);
 extern int ISS_3DS_SYS_IsSourceActive(int a, int b);
 extern void ISS_3DS_SYS_StartSource(void *m, int i, int a, int b);
 extern void ICA_ANIME_Delete(struct IcaAnime *p);
-extern void *ICA_ANIME_CreateStream(u32 heap, u32 arcId, u32 dataId, u32 bufFrameNum);
+extern struct IcaAnime *ICA_ANIME_CreateStream(u32 heap, u32 arcId, u32 dataId, u32 bufFrameNum);
 extern u32 ICA_ANIME_IncFrameLoop(struct IcaAnime *p, s32 v);
 extern void ICA_ANIME_SetFrame(struct IcaAnime *p, s32 v);
 extern u32 ICA_ANIME_GetFrame(struct IcaAnime *p);
@@ -152,11 +159,11 @@ extern char ov171_id[];
 /* Sound object (sound_obj.c): a 3D sound source, optionally moved by an ICA animation. */
 SoundObj *SOUND_OBJ_Create(FieldMap *fieldMap, VecFx32 *pos, u32 sourceId, u32 startArg0, u32 startArg1)
 {
-    int heapId = FIELDMAP_GetHeapId((u8 *)fieldMap);
+    int heapId = FIELDMAP_GetHeapId((struct FieldMap *)fieldMap);
     void *iss3dsSys;
     SoundObj *obj;
 
-    iss3dsSys = (void *)ISS_SYS_Get3dsSys((void *)GAMESYSTEM_GetIssSystem((u32 *)FIELDMAP_GetGameSystem((void *)fieldMap)));
+    iss3dsSys = (void *)ISS_SYS_Get3dsSys((void *)GAMESYSTEM_GetIssSystem((struct GameSystem *)FIELDMAP_GetGameSystem((void *)fieldMap)));
     obj = GFL_HEAP_Alloc(heapId, 0x18, 0, gSoundObjFileName, 0x3c);
     obj->heapId = heapId;
     obj->fieldMap = fieldMap;
@@ -173,7 +180,7 @@ SoundObj *SOUND_OBJ_Create(FieldMap *fieldMap, VecFx32 *pos, u32 sourceId, u32 s
 /* Sound object without a sound source, only the animated target. */
 SoundObj *SOUND_OBJ_CreateNoSource(FieldMap *fieldMap, SoundObjTarget *target)
 {
-    u32 heapId = FIELDMAP_GetHeapId((u8 *)fieldMap);
+    u32 heapId = FIELDMAP_GetHeapId((struct FieldMap *)fieldMap);
     SoundObj *obj = GFL_HEAP_Alloc(heapId, 0x18, 0, gSoundObjFileName, 0x61);
 
     obj->heapId = heapId;

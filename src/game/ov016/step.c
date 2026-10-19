@@ -67,16 +67,18 @@ extern void DWCi_HEAPlFree_(void **mem);
 extern void *DWCi_CEINlSetExCell(int lcd, int idx, bool head);
 extern void DWCi_CEINlSet(int lcd, int idx, GXOamAttr *obj);
 extern GXOamAttr *DWCi_CELLlGetObj(void *cell, int idx);
-extern void DWCi_CELLlDelete(void *cell);
+struct CellInfo;
+extern void DWCi_CELLlDelete(struct CellInfo *p);
 extern void DWCi_CELLlGetPosition(void *cell, int idx, int *x, int *y);
 extern void DWCi_CELLlSetPosition(void *cell, int idx, int x, int y);
-extern void DWCi_CELLlSetPalette(void *cell, int idx, int mode, int plt);
+extern void DWCi_CELLlSetPalette(unsigned char *obj, int idx, unsigned int v, unsigned int w);
 extern void DWCi_CELLlSetPriority(void *cell, int idx, int priority);
-extern void *DWCi_TSKlForm(int kind, void (*func)(void *, void *), void *work, unsigned char prio);
+struct TCB;
+extern struct TCB *DWCi_TSKlForm(int kind, void (*func)(void *, void *), void *work, unsigned char prio);
 extern void DWCi_TSKlChangeFunc(void *task, void (*func)(void *));
 extern void DWCi_TSKlDelete(int kind, void *task);
-extern void DWCi_SNDlPlay(int no);
-extern char *DWCi_Char(char *name);
+extern void DWCi_SNDlPlay(unsigned int v);
+extern unsigned char *DWCi_Char(unsigned char *name);
 extern void *DWCi_ARClReadEx(char *path, unsigned long *size, int alignment);
 extern void DWCi_ARClRelease(void *file);
 extern void DC_FlushRange(void *startAddr, unsigned long nBytes);
@@ -372,7 +374,7 @@ bool DWCi_STEPlIsEnd(void)
 
 void DWCi_STEPlChangeScr(int step)
 {
-    char *n = DWCi_Char(FILE_NAME[step]);
+    char *n = (char *)DWCi_Char((unsigned char *)FILE_NAME[step]);
 
     File = DWCi_ARClReadEx(n, 0, 4);
     DWCi_TSKlForm(1, (void (*)(void *, void *))taskChange, 0, 0x78);

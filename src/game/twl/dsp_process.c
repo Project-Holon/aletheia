@@ -132,7 +132,7 @@ extern DspGlobals DAT_027344AC;
    through two symbols (two literal pool entries). */
 extern DspProc *DSPi_ProcList;
 extern s32 STD_CompareString(const char *a, const char *b);
-extern s32 STD_SearchString(char *a, char *b);
+extern char *STD_SearchString(char *a, char *b);
 extern void MIi_CpuClearFast(u32 v, void *dst, u32 n);
 extern void MI_CpuFill8(void *p, s32 v, u32 n);
 extern void STD_CopyString(void *dst, void *src);
@@ -153,7 +153,7 @@ extern void DSP_PowerOnCore(void);
 extern void DSP_PowerOffCore(void);
 extern void DSP_ResetOnCore(void);
 extern void DSP_ResetOffExCore(u32 v);
-extern void DSP_MaskSemaphoreCore(u32 v);
+extern void DSP_MaskSemaphoreCore(u16 mask);
 extern void DSP_SendDataCore(u32 ch, u32 v);
 extern u16 DSP_RecvDataCore(u32 ch);
 extern s32 FS_SeekFile(void *file, u32 a, u32 b);
@@ -162,14 +162,14 @@ extern void DSP_InitPipe(void);
 extern DspRing *DSP_LoadPipe(DspRing *out, int ch, int dir);
 extern void DSP_WritePipe(DspRing *r, void *src, u16 count);
 extern void DSP_HookPipeNotification(u32 arg);
-extern void *MI_GetWramMapStart_B(void);
-extern void *MI_GetWramMapStart_C(void);
-extern u32 MI_GetWramMapStart(s32 sel);
-extern s32 MI_IsWramSlotUsed(s32 sel, u32 id);
-extern s32 MI_GetWramBankMaster(s32 sel, u32 id);
+extern u32 MI_GetWramMapStart_B(void);
+extern u32 MI_GetWramMapStart_C(void);
+extern u32 MI_GetWramMapStart(u32 type);
+extern u32 MI_IsWramSlotUsed(u32 ch, u32 idx);
+extern u32 MI_GetWramBankMaster(u32 type, u32 bank);
 extern s32 MI_FreeWramSlot(s32 sel, u32 id, s32 n, s32 v);
-extern s32 MI_AllocWramSlot(s32 sel, u32 id, s32 n, s32 mode);
-extern void MI_FreeWram(u32 a, u32 b);
+extern u32 MI_AllocWramSlot(u32 ch, s32 start, s32 num, u32 proc);
+extern u32 MI_FreeWram(u32 a, u32 b);
 
 void DSP_StopDSPComponent(void);
 void DSPi_ShutdownCallback(void);
@@ -187,7 +187,7 @@ void DSP_HookPostStartProcess(void);
 u32 DSP_ExecuteProcess(DspProc *p, void *a, u16 b, u16 c);
 void DSP_QuitProcess(DspProc *p);
 DspProc *DSP_FindProcess(const char *name);
-void DSP_WriteProcessPipe(u32 process, int port, void *buf, u32 len);
+void DSP_WriteProcessPipe(void *process, int port, void *buf, u32 len);
 
 static inline void *chanPtr(DspProc *proc, s32 sel, s32 offset)
 {
@@ -467,8 +467,8 @@ u32 DSP_MapAndLoadProcessImage(DspProc *proc, void *file, u16 bankMaskA, u16 ban
     proc->bankMaskB = bankMaskB;
     ok = 0;
     if (DSP_EnumSections(proc, DSPi_MapAndLoadProcessImageCallback)) {
-        DC_FlushRange(MI_GetWramMapStart_B(), 0x40000);
-        DC_FlushRange(MI_GetWramMapStart_C(), 0x40000);
+        DC_FlushRange((void *)MI_GetWramMapStart_B(), 0x40000);
+        DC_FlushRange((void *)MI_GetWramMapStart_C(), 0x40000);
         if (DSP_SwitchProcessMemory(proc, 1, 0, 0x20000, 2)) {
             if (DSP_SwitchProcessMemory(proc, 2, 0, 0x20000, 2)) {
                 ok = 1;
@@ -622,7 +622,7 @@ DspProc *DSP_FindProcess(const char *name)
     return p;
 }
 
-void DSP_WriteProcessPipe(u32 process, int port, void *buf, u32 len)
+void DSP_WriteProcessPipe(void *process, int port, void *buf, u32 len)
 {
     DspRing pipe;
     DSP_LoadPipe(&pipe, port, 1);

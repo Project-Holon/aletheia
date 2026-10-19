@@ -135,36 +135,43 @@ extern void PALANM_TransferPalettes(struct PalAnmSlot *p);
 extern void CLACT_VBlankSystem(void);
 
 extern void BG_SYS_Update(void);
+struct MsgBank;
 
-extern struct MsgData *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 
 extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
+struct PrintQueue;
+struct GFont;
+struct TaskMenuRes;
 
-extern struct AppTaskMenuRes *APP_TASKMENU_RES_Create(u16 bgFrame, u16 palNo, struct GfFont *font, struct PrintQue *printQue, u16 heap);
+extern struct TaskMenuRes *APP_TASKMENU_RES_Create(unsigned short bgFrame, unsigned short palNo, struct GFont *font, struct PrintQueue *printQue, unsigned short heapId);
 
 extern void PALANM_SetAutoTransfer(struct PalAnmSlot *o, int v);
 
 extern u32 TCB_GetTaskOffset(u32 idx);
+struct TcbSystem;
 
-extern void *TCB_Init(u32 capacity, void *mem);
+extern struct TcbSystem *TCB_Init(unsigned int capacity, struct TcbSystem *sys);
+struct TcbTask;
 
-extern void *TCB_AddTask(void *taskList, void (*task)(void *, struct MailEditProc *), struct MailEditProc *work, int prio);
+extern struct TcbTask *TCB_AddTask(struct TcbSystem *sys, void (*task)(void *, struct MailEditProc *), void *work, unsigned int priority);
 
-extern unsigned int MSGDATA_Delete(struct MsgData *msgData);
+extern unsigned int MSGDATA_Delete(struct MsgBank *bank);
 
-extern u32 APP_TASKMENU_RES_Delete(struct AppTaskMenuRes *res);
+extern void APP_TASKMENU_RES_Delete(struct TaskMenuRes *res);
 
-extern struct PrintQue *PRINTSYS_QUE_Create(u32 heapId);
+extern struct PrintQueue *PRINTSYS_QUE_Create(u32 heapId);
 
 extern struct ClactUnit *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
+struct PmsDraw;
 
-extern struct PmsDraw *PMS_DRAW_Create(struct ClactUnit *clactUnit, u32 b, struct PrintQue *printQue, struct GfFont *font, u8 e0, u8 e1, u16 heap);
+extern struct PmsDraw *PMS_DRAW_Create(unsigned int clunit, unsigned int drawType, unsigned int printQue, unsigned int font, unsigned char plttOffset, unsigned char elemMax, unsigned short heapId);
 
 extern void PMS_DRAW_SetNullColorPalette(struct PmsDraw *p, u8 v);
 
 extern void PMS_DRAW_Delete(struct PmsDraw *p);
 
-extern void PRINTSYS_QUE_Delete(struct PrintQue *p);
+extern void PRINTSYS_QUE_Delete(struct PrintQueue *queue);
 
 extern u32 CLACT_DeleteUnit(struct ClactUnit *bank);
 
@@ -241,7 +248,7 @@ int MAILVIEW_SetupStep(struct MailEditProc *proc)
 {
     switch (proc->subStep) {
     case 0:
-        proc->msgData = MSGDATA_CreateFromArchive(0, 2, 60, (u16)proc->heapId);
+        proc->msgData = (struct MsgData *)MSGDATA_CreateFromArchive(0, 2, 60, (u16)proc->heapId);
         proc->msgBuf = STRBUF_Create(128, (u16)proc->heapId);
         MAILVIEW_InitBgs(proc);
         break;
@@ -253,7 +260,7 @@ int MAILVIEW_SetupStep(struct MailEditProc *proc)
         break;
     case 3:
         MAILVIEW_InitActorSystem(proc);
-        proc->taskMenuRes = APP_TASKMENU_RES_Create(0, 8, proc->font, proc->printQue, (u16)proc->heapId);
+        proc->taskMenuRes = (struct AppTaskMenuRes *)APP_TASKMENU_RES_Create(0, 8, (struct GFont *)proc->font, (struct PrintQueue *)proc->printQue, (u16)proc->heapId);
         proc->subStep = 0;
         MAILVIEW_CreatePmsDraw(proc);
         MAILVIEW_PrintSentences(proc);
@@ -283,9 +290,9 @@ int MAILVIEW_Teardown(struct MailEditProc *proc)
 {
     MAILVIEW_DeletePmsDraw(proc);
     MAILVIEW_ExitActorSystem(proc);
-    if (proc->pad_28) MSGDATA_Delete(proc->msgData);
+    if (proc->pad_28) MSGDATA_Delete((struct MsgBank *)proc->msgData);
     STRBUF_Delete(proc->msgBuf);
-    APP_TASKMENU_RES_Delete(proc->taskMenuRes);
+    APP_TASKMENU_RES_Delete((struct TaskMenuRes *)proc->taskMenuRes);
     MAILVIEW_DeleteWindows(proc);
     MAILVIEW_FreeGraphics(proc);
     MAILVIEW_FreeBgs(proc);
@@ -294,16 +301,16 @@ int MAILVIEW_Teardown(struct MailEditProc *proc)
 
 void MAILVIEW_CreatePmsDraw(struct MailEditProc *proc)
 {
-    proc->pmsPrintQue = PRINTSYS_QUE_Create((u16)proc->heapId);
+    proc->pmsPrintQue = (struct PrintQue *)PRINTSYS_QUE_Create((u16)proc->heapId);
     proc->pmsClactUnit = CLACT_CreateUnit(8, 1, (u16)proc->heapId);
-    proc->pmsDraw = PMS_DRAW_Create(proc->pmsClactUnit, 0, proc->pmsPrintQue, proc->font, 0, 4, (u16)proc->heapId);
+    proc->pmsDraw = PMS_DRAW_Create((unsigned int)proc->pmsClactUnit, (unsigned int)0, (unsigned int)proc->pmsPrintQue, (unsigned int)proc->font, 0, 4, (u16)proc->heapId);
     PMS_DRAW_SetNullColorPalette(proc->pmsDraw, 0);
 }
 
 void MAILVIEW_DeletePmsDraw(struct MailEditProc *proc)
 {
     PMS_DRAW_Delete(proc->pmsDraw);
-    PRINTSYS_QUE_Delete(proc->pmsPrintQue);
+    PRINTSYS_QUE_Delete((struct PrintQueue *)proc->pmsPrintQue);
     proc->pmsPrintQue = 0;
     CLACT_DeleteUnit(proc->pmsClactUnit);
 }
@@ -315,7 +322,7 @@ void MAILVIEW_SetVramBanks(void)
 
 extern u32 GFL_HEAP_Free(void *p);
 
-extern int PMSI_PARAM_IsEnabled(const struct PmsData *p);
+extern int PMSI_PARAM_IsEnabled(unsigned short *word);
 
 extern void TCB_DeleteTask(void *task);
 
@@ -335,7 +342,7 @@ extern void BG_SYS_PushTile(u32 v);
 
 extern void BMP_WIN_ClearScreen(struct BmpWin *d);
 
-extern void *MSGDATA_AllocString(struct MsgData *bank, u32 index);
+extern struct Strbuf *MSGDATA_AllocString(struct MsgBank *bank, unsigned int index);
 
 extern void BG_SYS_SetGraphicsMode(struct DispConfig *);
 
@@ -349,7 +356,7 @@ extern void BG_SYS_InitRun(u8 layer, u32 size, u32 offset, u32 heapId);
 
 extern void BG_SYS_FreeLayerBuf(u32 bgId);
 
-extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
+extern void *ARC_TOOL_CreateHandle(unsigned int archiveID, unsigned short heapID);
 
 extern void BMP_MENUWORK_LoadCharAndPltt(u32 a, u32 b, u32 c, u32 d, u16 e);
 
@@ -375,7 +382,7 @@ extern void GF_FONT_SetDefaultTextColor(void);
 
 extern void ARC_TOOL_DeleteHandle(void *);
 
-extern void BG_SYS_SetTileEntry(unsigned int, int, int, int, unsigned char, unsigned char, unsigned char);
+extern void BG_SYS_SetTileEntry(unsigned int layer, unsigned short value, unsigned char x0, unsigned char y0, unsigned char w, unsigned char h, unsigned char mode);
 
 extern void BG_SYS_MarkTileDirty(u32);
 
@@ -385,25 +392,29 @@ extern u32 PALANM_Delete(void *ctx);
 
 extern void TCB_Noop(void *);
 
-extern void G2x_SetBlendAlpha_(void *, int, int, int, int);
+extern void G2x_SetBlendAlpha_(unsigned int *reg, unsigned int a, unsigned int b, unsigned int c, unsigned int d);
 
 extern void BMP_WIN_Init(u16);
 
-extern struct BmpWin *BMP_WIN_Create(u8 bg, u8 x, u8 y, u8 w, u8 h, u8 pal, u8 base);
+extern struct BmpWin *BMP_WIN_Create(unsigned int bgLayer, unsigned int posX, unsigned int posY, unsigned char width, unsigned char height, unsigned char palette, unsigned char allocDir);
+struct TaskMenuItem;
+struct TaskMenuWin;
 
-extern struct AppTaskMenuWin *APP_TASKMENU_WIN_Create(struct AppTaskMenuRes *res, struct MailMenuEntry *entry, u32 x, u32 y, u8 w, u16 heapId);
+extern struct TaskMenuWin *APP_TASKMENU_WIN_Create(struct TaskMenuRes *res, struct TaskMenuItem *item, unsigned short charPosX, unsigned short charPosY, unsigned char width, unsigned short heapId);
 
-extern void APP_TASKMENU_WIN_Delete(struct AppTaskMenuWin *p);
+extern void APP_TASKMENU_WIN_Delete(struct TaskMenuWin *win);
 
 extern u32 BMP_WIN_Delete(struct BmpWin *d);
 
 extern void BMP_WIN_Exit(void);
 
-extern void PMS_DRAW_Print(struct PmsDraw *draw, struct BmpWin *win, struct PmsData *pms, u8 index);
+extern void PMS_DRAW_Print(unsigned int wk, unsigned int bmpWin, unsigned int pms, unsigned int id);
 
-extern void PRINTSYS_PrintQueColor(struct PrintQue *queue, struct Bmp *bmp, s16 x, s16 y, struct Strbuf *text, struct GfFont *font, u16 color);
+extern void PRINTSYS_PrintQueColor(struct PrintQueue *queue, struct Bmp *bmp, unsigned int x, short y, struct Strbuf *str, struct GfFont *font, unsigned short color);
+struct DispVramCfg;
+struct SysInit;
 
-extern void CLACT_InitSystem(const struct Cfg *cfg, const struct DispVram *vram, u32 heapId);
+extern void CLACT_InitSystem(struct SysInit *cfg, struct DispVramCfg *res_cfg, unsigned int heapId);
 
 extern void CLACT_SetUnitDefaultRenderer(struct ClactUnit *bank);
 
@@ -535,7 +546,7 @@ void MAILVIEW_CreateWindows(struct MailEditProc *proc)
         proc->slot[i].win = proc->win[i];
         proc->slot[i].flag = 0;
     }
-    proc->printQue = PRINTSYS_QUE_Create((u16)proc->heapId);
+    proc->printQue = (struct PrintQue *)PRINTSYS_QUE_Create((u16)proc->heapId);
     for (i = 0; i < 7; i++) {
         BMP_Clear(BMP_WIN_GetBmp(proc->win[i]), 0);
         if (i < 5) {
@@ -550,14 +561,14 @@ void MAILVIEW_CreateWindows(struct MailEditProc *proc)
 void MAILVIEW_CreateButtons(struct MailEditProc *proc)
 {
     if (proc->mode == 1) {
-        proc->buttonEntry[0].text = MSGDATA_AllocString(proc->msgData, 0);
+        proc->buttonEntry[0].text = MSGDATA_AllocString((struct MsgBank *)proc->msgData, 0);
         proc->buttonEntry[0].color = 0x39E3;
         proc->buttonEntry[0].selected = 0;
-        proc->buttonEntry[1].text = MSGDATA_AllocString(proc->msgData, 1);
+        proc->buttonEntry[1].text = MSGDATA_AllocString((struct MsgBank *)proc->msgData, 1);
         proc->buttonEntry[1].color = 0x39E3;
         proc->buttonEntry[1].selected = 1;
-        proc->sendButton = APP_TASKMENU_WIN_Create(proc->taskMenuRes, &proc->buttonEntry[0], 21, 18, 10, (u16)proc->heapId);
-        proc->cancelButton = APP_TASKMENU_WIN_Create(proc->taskMenuRes, &proc->buttonEntry[1], 21, 21, 10, (u16)proc->heapId);
+        proc->sendButton = (struct AppTaskMenuWin *)APP_TASKMENU_WIN_Create((struct TaskMenuRes *)proc->taskMenuRes, (struct TaskMenuItem *)(&proc->buttonEntry[0]), 21, 18, 10, (u16)proc->heapId);
+        proc->cancelButton = (struct AppTaskMenuWin *)APP_TASKMENU_WIN_Create((struct TaskMenuRes *)proc->taskMenuRes, (struct TaskMenuItem *)(&proc->buttonEntry[1]), 21, 21, 10, (u16)proc->heapId);
     }
 }
 
@@ -570,12 +581,12 @@ void MAILVIEW_DeleteWindows(struct MailEditProc *proc)
     int i;
     struct BmpWin *w;
     if (proc->mode == 1) {
-        APP_TASKMENU_WIN_Delete(proc->sendButton);
-        APP_TASKMENU_WIN_Delete(proc->cancelButton);
+        APP_TASKMENU_WIN_Delete((struct TaskMenuWin *)proc->sendButton);
+        APP_TASKMENU_WIN_Delete((struct TaskMenuWin *)proc->cancelButton);
         STRBUF_Delete(proc->buttonEntry[0].text);
         STRBUF_Delete(proc->buttonEntry[1].text);
     }
-    PRINTSYS_QUE_Delete(proc->printQue);
+    PRINTSYS_QUE_Delete((struct PrintQueue *)proc->printQue);
     proc->printQue = 0;
     for (i = 0; i < 7; i++) {
         w = proc->win[i];
@@ -595,8 +606,8 @@ void MAILVIEW_PrintSentences(struct MailEditProc *proc)
     struct MailDraft *draft;
     struct BmpWin *w;
     for (i = 0; i < 3; i++) {
-        if (PMSI_PARAM_IsEnabled(&proc->draft->message[i])) {
-            PMS_DRAW_Print(proc->pmsDraw, proc->win[i + 1], &proc->draft->message[i], (u8)i);
+        if (PMSI_PARAM_IsEnabled((unsigned short *)(&proc->draft->message[i]))) {
+            PMS_DRAW_Print((unsigned int)proc->pmsDraw, (unsigned int)(proc->win[i + 1]), (unsigned int)(&proc->draft->message[i]), (u8)i);
         }
     }
     draft = proc->draft;
@@ -604,11 +615,11 @@ void MAILVIEW_PrintSentences(struct MailEditProc *proc)
         proc->closingWord.sentenceType = 6;
         proc->closingWord.sentenceId = 0;
         proc->closingWord.word[0] = draft->messageId;
-        PMS_DRAW_Print(proc->pmsDraw, proc->win[4], &proc->closingWord, (u8)3);
+        PMS_DRAW_Print((unsigned int)proc->pmsDraw, (unsigned int)proc->win[4], (unsigned int)(&proc->closingWord), (u8)3);
     }
     if (proc->mode == 0) {
         struct PrintQue *queue = proc->printQue;
-        PRINTSYS_PrintQueColor(queue, BMP_WIN_GetBmp(proc->slot[5].win), 0, 2, proc->draft->writerName, proc->font, 0x440);
+        PRINTSYS_PrintQueColor((struct PrintQueue *)queue, BMP_WIN_GetBmp(proc->slot[5].win), 0, 2, proc->draft->writerName, proc->font, 0x440);
         proc->slot[5].flag = 1;
         w = proc->win[5];
         BMP_WIN_TransferChars(w);
@@ -619,7 +630,7 @@ void MAILVIEW_PrintSentences(struct MailEditProc *proc)
 
 void MAILVIEW_InitActorSystem(struct MailEditProc *proc)
 {
-    CLACT_InitSystem((const struct Cfg *)gClActorInitParam, &d_021C77C4, (u16)(proc->heapId));
+    CLACT_InitSystem((struct SysInit *)gClActorInitParam, (struct DispVramCfg *)(&d_021C77C4), (u16)(proc->heapId));
     proc->clactUnit = CLACT_CreateUnit(4, (int)0, (u16)(proc->heapId));
     CLACT_SetUnitDefaultRenderer(proc->clactUnit);
     BG_SYS_SetMainPlaneVisible(16, 1);

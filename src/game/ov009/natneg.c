@@ -274,33 +274,33 @@ typedef enum NegotiateState {
 extern unsigned int current_time(void);
 extern void Util_RandSeed(unsigned long seed);
 extern unsigned int Util_RandInt(unsigned int min, unsigned int max);
-extern int ArrayLength(void *array);
-extern void *ArrayNth(void *array, int n);
-extern void *ArrayNew(int elemSize, int numElemsToAllocate, void (*elemFreeFn)(void *));
+extern int ArrayLength(int *array);
+extern void *ArrayNth(struct DArrayImplementation *array, int n);
+extern struct DArrayImplementation *ArrayNew(int elemSize, int numElemsToAllocate, void (*elemFreeFn)(void *));
 extern void ArrayAppend(void *array, void *newElem);
-extern void ArrayRemoveAt(void *array, int n);
-extern void gsDebugFormat(int theCat, int theType, unsigned char theLevel, const char *theTokenStr, ...);
+extern void ArrayRemoveAt(struct DArrayImplementation *array, int n);
+extern void gsDebugFormat(int cat, int type, int level, char *fmt, ...);
 extern void ArrayFree(struct DArrayImplementation *array);
-extern int memcmp(const u8 *a, const u8 *b, int n);
+extern int memcmp(unsigned char *s1, unsigned char *s2, unsigned int n);
 extern int sendto(int sock, char *buf, int len, int flags, struct SOCSockAddr *addr, int tolen);
 extern SOCHostEnt *getlocalhost(void);
 extern int IsPrivateIP(SOCInAddr *addr);
-extern int getsockname(int sock, void *addr, int *len);
+extern int getsockname(int sock, struct SOCSockAddr *addr, int *len);
 extern int GetClientUniqueID();
 extern char *SOC_InetNtoA(unsigned int in);
 static void SendPacket(int sock, unsigned int toaddr, unsigned short toport, void *data, int len);
 extern char *strcpy(char *dst, const char *src);
 extern void NNCancel(int cookie);
-extern int NatifyThink();
+extern int NatifyThink(int sock, void *nat);
 extern int DetermineNatType();
 extern int closesocket(int sock);
-extern int inet_addr(int a);
+extern int inet_addr(char *addrString);
 extern SOCHostEnt *SOC_GetHostByName(char *name);
 extern int OS_SNPrintf(char *dst, unsigned long len, const char *fmt, ...);
 extern int socket(int pf, int type, int protocol);
 extern NATNegotiator *FindNegotiatorForCookie(int cookie);
 extern int CanReceiveOnSocket(int sock);
-extern int recvfrom(int sock, char *buf, int len, int flags, SOCSockAddrIn *addr, int *fromlen);
+extern int recvfrom(int sock, char *buf, int len, int flags, struct SOCSockAddr *addr, int *fromlen);
 extern int GOAGetLastError(int sock);
 NATNegotiator *AddNegotiator(void);
 void RemoveNegotiator(NATNegotiator *neg);
@@ -321,7 +321,7 @@ int NNBeginNegotiationWithSocket(int gamesocket, int cookie, int clientindex, vo
 void NNCancel(int cookie);
 void RemoveFinishedNegotiator(int *p);
 void NegotiateThink(NATNegotiator *neg);
-void NNThink(void *p);
+void NNThink(void);
 void SendConnectAck(NATNegotiator *neg, SOCSockAddrIn *toaddr);
 void ProcessConnectPacket(NATNegotiator *neg, NatNegPacket *p, SOCSockAddrIn *fromaddr);
 void ProcessPingPacket(NATNegotiator *neg, NatNegPacket *p, SOCSockAddrIn *fromaddr);
@@ -464,7 +464,7 @@ NATNegotiator *FindNegotiatorForCookie(int cookie)
 
     if (!negotiateList)
         return 0;
-    for (i = 0; i < ArrayLength(negotiateList); i++) {
+    for (i = 0; i < ArrayLength((int *)negotiateList); i++) {
         neg = (NATNegotiator *)ArrayNth(negotiateList, i);
         if (neg->cookie == cookie)
             return neg;
@@ -485,7 +485,7 @@ NATNegotiator *AddNegotiator(void)
     if (!negotiateList)
         negotiateList = ArrayNew(sizeof(NATNegotiator), 4, 0);
     ArrayAppend(negotiateList, &_neg);
-    return (NATNegotiator *)ArrayNth(negotiateList, ArrayLength(negotiateList) - 1);
+    return (NATNegotiator *)ArrayNth(negotiateList, ArrayLength((int *)negotiateList) - 1);
 }
 
 
@@ -499,7 +499,7 @@ void RemoveNegotiator(NATNegotiator *neg)
 {
     int i;
 
-    for (i = 0; i < ArrayLength(negotiateList); i++) {
+    for (i = 0; i < ArrayLength((int *)negotiateList); i++) {
         if (neg == ArrayNth(negotiateList, i)) {
             ArrayRemoveAt(negotiateList, i);
             return;
@@ -515,7 +515,7 @@ void NNFreeNegotiateList(void)
 {
     if (negotiateList == 0)
         return;
-    gsDebugFormat(7, 3, 8, gNatNegFreeFmt, ArrayLength(negotiateList));
+    gsDebugFormat(7, 3, 8, gNatNegFreeFmt, ArrayLength((int *)negotiateList));
     ArrayFree(negotiateList);
     negotiateList = 0;
 }
@@ -529,7 +529,7 @@ void NNFreeNegotiateList(void)
  */
 int CheckMagic(const u8 *a)
 {
-    return memcmp(a, (const u8 *)((char *)&gNatNegMagic), 6) == 0;
+    return memcmp((unsigned char *)a, (unsigned char *)((char *)&gNatNegMagic), 6) == 0;
 }
 
 
@@ -584,7 +584,7 @@ static unsigned short GetLocalPort(int sock)
 	int saddrlen;
 
 	saddrlen = 8;
-	ret = getsockname(sock, &saddr, &saddrlen);
+	ret = getsockname(sock, (struct SOCSockAddr *)(&saddr), &saddrlen);
 	if (ret == -1)
 		return 0;
 	return saddr.port;
@@ -832,7 +832,7 @@ unsigned int NameToIp(char *name)
     SOCHostEnt *hent;
     unsigned int ret;
 
-    ret = inet_addr((int)name);
+    ret = inet_addr(name);
     if (ret != (unsigned int)-1)
         return ret;
     hent = SOC_GetHostByName(name);
@@ -938,7 +938,7 @@ int NNBeginNegotiationWithSocket(int gamesocket, int cookie, int clientindex,
     SendPreinitPacket((NATNegotiator *)neg);
 
     namelen = sizeof(saddr);
-    getsockname(neg->negotiateSock, &saddr, &namelen);
+    getsockname(neg->negotiateSock, (struct SOCSockAddr *)(&saddr), &namelen);
     gsDebugFormat(7, 0, 8, gNatNegSocketFmt, (unsigned short)(((saddr.port >> 8) & 0xFF) | ((saddr.port << 8) & 0xFF00)));
 
     return 0;
@@ -1015,7 +1015,7 @@ void NegotiateThink(NATNegotiator *neg)
         do {
             if (!CanReceiveOnSocket(neg->negotiateSock))
                 break;
-            error = recvfrom(neg->negotiateSock, gNatNegRecvBuf, 512, 0, &saddr, &saddrlen);
+            error = recvfrom(neg->negotiateSock, gNatNegRecvBuf, 512, 0, (struct SOCSockAddr *)(&saddr), &saddrlen);
             if (error == -1) {
                 gsDebugFormat(7, 0, 8, gNatNegRecvErrFmt, neg->cookie, GOAGetLastError(neg->negotiateSock));
                 break;
@@ -1097,7 +1097,7 @@ void NegotiateThink(NATNegotiator *neg)
 /*
  * sdk:      NNThink (natneg.o)
  */
-void NNThink(void *p)
+void NNThink(void)
 {
     int i;
 

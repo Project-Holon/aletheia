@@ -1,5 +1,5 @@
 /*
- * function: EVENT_MAPCHANGE_StartMarker
+ * function: EVENT_MAPCHANGE_CallHookAndInvert
  * address:  0x02183B60
  * packet:   pkt_02183B60
  * region:   ov020
@@ -12,7 +12,7 @@
 
 typedef int (*fp)(void);
 
-int EVENT_MAPCHANGE_StartMarker(int f)
+int EVENT_MAPCHANGE_CallHookAndInvert(int f)
 {
     if (f)
         ((fp)f)();

@@ -22,6 +22,7 @@
  *   MI_CpuCopy8         0x02082D44  arm
  *   MI_CpuFill8   0x02082BCC  arm
  */
+#include "../version.h"
 #include "config_shared_types.h"
 
 struct Strbuf;
@@ -65,7 +66,7 @@ void MYSTATUS_Init(struct MyStatus *mystatus)
 {
     MI_CpuFill8(mystatus, 0, sizeof(struct MyStatus));
     mystatus->language = 2;
-    MYSTATUS_SetRomCode(mystatus, 0x15);
+    MYSTATUS_SetRomCode(mystatus, PM_VERSION_ID);
 }
 
 /* Non-zero when all eight name characters are zero. */

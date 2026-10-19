@@ -205,11 +205,13 @@ typedef struct DendouViewPosYX { s16 y, x; } DendouViewPosYX;
 #define SPECIES_NIDORAN_M 32
 
 extern void GFL_HEAP_CreateChildHeap(u32, u32, u32);
-extern void *PROCSYS_AllocProcWork(struct ProcSys *proc, u32 size, u32 heapId);
+struct Proc;
+extern void *PROCSYS_AllocProcWork(struct Proc *proc, unsigned int size, unsigned int heapId);
 extern void MI_CpuFill8(void *dst, u32 value, u32 size);
-extern void PROCSYS_FreeProcWork(void *work);
+extern void PROCSYS_FreeProcWork(struct Proc *proc);
 extern void GFL_HEAP_DeleteChecked(u32 heapId);
-extern int GFL_USE_AddMainTask(void (*task)(void *, const DendouViewWork *), DendouViewWork *work, int priority);
+struct Tcb;
+extern struct Tcb *GFL_USE_AddMainTask(void (*task)(void *, const DendouViewWork *), void *work, unsigned int priority);
 extern int TCB_DeleteTask(int taskId);
 extern void BG_SYS_Update(void), CLACT_VBlankSystem(void);
 extern void PALANM_TransferPalettes(struct PalAnmSlot *palAnm);
@@ -220,44 +222,50 @@ extern void BG_SYS_SetGraphicsMode(BgDispConfig *);
 extern void BG_SYS_InitBgLayer(u32 layer, const BgTemplate *, u32);
 extern void BG_SYS_SetMainPlaneVisible(u32, u32), BG_SYS_SetSubPlaneVisible(u32, u32);
 extern void BG_SYS_FreeLayerBuf(unsigned), BG_SYS_Delete(void);
-extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
+extern void *ARC_TOOL_CreateHandle(unsigned int archiveID, unsigned short heapID);
 extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *archive, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern u32 ARC_UTIL_UploadBgCharFromHandle(void *archive, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void ARC_UTIL_UploadBgPaletteFromHandle(void *archive, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void ARC_TOOL_DeleteHandle(void *archive);
 extern u32 BG_SYS_GetBuf(int a);
-extern void BG_SYS_DrawTile(u32 index, u32 src, u32 dx, u32 dy, u8 cw, u8 ch);
+extern void BG_SYS_DrawTile(unsigned int index, void *src, unsigned char dx, unsigned char dy, unsigned char cw, unsigned char ch);
 extern void ARC_UTIL_UploadPaletteFromArchiveWhole(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
-extern struct PalAnmSlot *PALANM_Create(u32 heap);
+extern void *PALANM_Create(u32 heap);
 extern void PALANM_AllocSlotBuffers(struct PalAnmSlot *palAnm, u32 idx, u32 size, u32 heap);
 extern void PALANM_FreeSlotBuffers(struct PalAnmSlot *palAnm, u32 idx);
-extern u32 PALANM_Delete(struct PalAnmSlot *palAnm);
+extern u32 PALANM_Delete(void *ctx);
 extern void PALANM_BlendChannelMask(struct PalAnmSlot *palAnm, unsigned, u16, unsigned, unsigned);
 extern void PALANM_SetAutoTransfer(struct PalAnmSlot *palAnm, int v);
 extern u32 PALANM_GetFadeRequestBits(struct PalAnmSlot *palAnm);
-extern void G2x_SetBlendAlpha_(int, int, int, int, int);
-extern struct MsgData *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern void G2x_SetBlendAlpha_(unsigned int *reg, unsigned int a, unsigned int b, unsigned int c, unsigned int d);
+struct MsgBank;
+extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern struct GfFont *GF_FONT_Create(int archiveId, int fileId, int format, int isFixedWidth, u32 heapId);
-extern struct WordSet *WORDSET_CreateDefault(u32 heap);
-extern struct PrintQue *PRINTSYS_QUE_Create(u32 heapId);
+struct WordSet;
+extern struct WordSet *WORDSET_CreateDefault(unsigned short heapId);
+struct PrintQueue;
+extern struct PrintQueue *PRINTSYS_QUE_Create(u32 heapId);
 extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
 extern void STRBUF_Delete(struct Strbuf *str);
-extern void PRINTSYS_QUE_Delete(struct PrintQue *que);
+extern void PRINTSYS_QUE_Delete(struct PrintQueue *queue);
 extern unsigned int WORDSET_Delete(struct WordSet *wordSet);
 extern u32 GF_FONT_Delete(struct GfFont *font);
-extern u32 MSGDATA_Delete(struct MsgData *msgData);
-extern void *GAME_DATA_GetSaveBlock42(void *gameData);
-extern int DENDOU_SAVEDATA_GetMemberCount(const void *saveBlock);
-extern void DENDOU_SAVEDATA_GetRecordDate(const void *saveBlock, u32 *date);
+extern u32 MSGDATA_Delete(struct MsgBank *bank);
+struct GameData;
+extern void *GAME_DATA_GetSaveBlock42(struct GameData *gd);
+extern int DENDOU_SAVEDATA_GetMemberCount(char *records);
+struct RecordDate;
+extern void DENDOU_SAVEDATA_GetRecordDate(unsigned char *record, struct RecordDate *out);
 extern void DENDOU_SAVEDATA_ExportMember(const void *saveBlock, int index, DendouViewMember *dst);
-extern void *GAME_DATA_GetSaveControl(void *gameData);
-extern u32 SAVE_CONTROL_LoadExtraSave(void *saveControl, u32 id, u8 heap);
-extern void *SAVE_CONTROL_GetExtraSaveRecord(void *saveControl, u32 id, u32 v);
-extern int DENDOU_SAVEDATA_GetRingMemberCount(void *extraData, int row);
-extern u32 DENDOU_SAVEDATA_GetHallNumber(void *extraData, u32 row);
-extern void DENDOU_SAVEDATA_GetRingRecordDate(void *extraData, int row, u32 *date);
-extern void DENDOU_SAVEDATA_ExportRingMember(void *extraData, u32 row, u32 member, DendouViewMember *dst);
-extern void SAVE_CONTROL_DeleteExtraSave(void *saveControl, u32 id);
+struct SaveControl;
+extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gd);
+extern u32 SAVE_CONTROL_LoadExtraSave(struct SaveControl *saveControl, unsigned int slot, unsigned char heapId);
+extern void *SAVE_CONTROL_GetExtraSaveRecord(struct SaveControl *saveControl, unsigned int slot, unsigned int recordId);
+extern int DENDOU_SAVEDATA_GetRingMemberCount(char *o, int idx);
+extern u32 DENDOU_SAVEDATA_GetHallNumber(char *ring, unsigned int count);
+extern void DENDOU_SAVEDATA_GetRingRecordDate(unsigned char *ring, int index, void *out);
+extern void DENDOU_SAVEDATA_ExportRingMember(void *ring, unsigned int index, void *recordIndex, void *target);
+extern void SAVE_CONTROL_DeleteExtraSave(struct SaveControl *saveControl, unsigned int slot);
 extern int GF_OVERLAY_Load(s32 overlayId);
 extern void BG_SYS_SetMainVisiblePlanes(u32 planes);
 extern void BG_SYS_SetSubVisiblePlanes(u32 planes);
@@ -265,23 +273,24 @@ extern void BG_SYS_SetLcdSwap(u32 swap);
 extern void GXx_SetMasterBrightness_(volatile u16 *reg, int brightness);
 extern void GFL_NET_RefreshWmIconAtTopRight(u32 a, u32 b);
 extern void GF_OVERLAY_Unload(int);
-extern u32 PRINTSYS_QUE_IsFinished(const struct PrintQue *que);
+extern u32 PRINTSYS_QUE_IsFinished(struct PrintQueue *queue);
 extern u32 WIPE_SYS_EndCheck(void);
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
-extern void WIPE_SYS_Start(void *, u32, u32, u32, u32, u32, u32);
+extern void WIPE_SYS_Start(void *divisionMode, unsigned int mainPattern, unsigned int subPattern, unsigned short color, unsigned int frames, unsigned int wait, unsigned int heapId);
 extern void BMP_WIN_Init(u16 heapId);
-extern struct BmpWin *BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
+struct BmpWin;
+extern struct BmpWin *BMP_WIN_Create(unsigned int bgLayer, unsigned int posX, unsigned int posY, unsigned char width, unsigned char height, unsigned char palette, unsigned char allocDir);
 extern u32 BMP_WIN_Delete(struct BmpWin *win);
 extern void BMP_WIN_Exit(void);
-extern u32 PRINTSYS_QUE_Main(struct PrintQue *que);
+extern u32 PRINTSYS_QUE_Main(struct PrintQueue *queue);
 extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *win);
-extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintQue *que, struct Bmp *bmp);
+extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintQueue *queue, struct Bmp *bmp);
 extern void BMP_WIN_TransferChars(struct BmpWin *win);
 extern void BMP_WIN_MakeScreen(struct BmpWin *win);
 extern u8 BMP_WIN_GetBgLayer(struct BmpWin *win);
 extern void BG_SYS_MarkTileDirty(u32 bit);
 extern void BMP_Clear(struct Bmp *bmp, u8 value);
-extern struct Strbuf *MSGDATA_AllocString(struct MsgData *msgData, u32 index);
+extern struct Strbuf *MSGDATA_AllocString(struct MsgBank *bank, unsigned int index);
 extern void WORDSET_SetSlotNumber(struct WordSet *wordSet, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern void WORDSET_CopyTaggedText(struct WordSet *wordSet, struct Strbuf *dst, struct Strbuf *src);
 extern u8 BMP_WIN_GetDispWidth(struct BmpWin *win);
@@ -294,17 +303,20 @@ extern void WORDSET_SetSlotTag(struct WordSet *wordSet, u32 i, struct Strbuf *sr
 extern void WORDSET_SetSlotFromMsgCB(struct WordSet *wordSet, u32 i, u32 v);
 extern void BMP_WIN_ClearScreen(struct BmpWin *win);
 extern void CLACT_ExitSystem(void);
-extern u32 CLACT_GetActorAutoAnim(struct ClactActor *);
-extern void CLACT_AddActorAnimFrame(struct ClactActor *, u32);
+struct Actor;
+extern u32 CLACT_GetActorAutoAnim(struct Actor *actor);
+extern void CLACT_AddActorAnimFrame(struct Actor *actor, unsigned int frames);
 extern void CLACT_DrawSystem(void);
-extern void CLACT_SetActorDrawEnable(struct ClactActor *, unsigned int);
-extern void CLACT_SetActorAnimFrame(struct ClactActor *, u32);
-extern void CLACT_SetActorAnimSeq(struct ClactActor *, u16);
-extern void CLACT_SetActorAutoAnim(struct ClactActor *, u32);
-extern u32 CLACT_IsActorAnimActive(struct ClactActor *);
+extern void CLACT_SetActorDrawEnable(struct Actor *actor, unsigned int value);
+extern void CLACT_SetActorAnimFrame(struct Actor *actor, unsigned int frame);
+extern void CLACT_SetActorAnimSeq(struct Actor *actor, unsigned short value);
+extern void CLACT_SetActorAutoAnim(struct Actor *actor, unsigned int enable);
+extern u32 CLACT_IsActorAnimActive(struct Actor *actor);
 extern void CLACT_AddActorSurfacePos(struct ClactActor *, const DendouViewPos *, u32);
 extern void CLACT_GetActorSurfacePos(struct ClactActor *, DendouViewPos *out, u16 space);
-extern void CLACT_InitSystem(const ClactSystemConfig *, const void *vramBanks, u32 heapId);
+struct DispVramCfg;
+struct SysInit;
+extern void CLACT_InitSystem(struct SysInit *cfg, struct DispVramCfg *res_cfg, unsigned int heapId);
 extern u32 APP_ICON_GetArchiveId(void);
 extern u32 APP_ICON_GetMoveKindAnimFileId(void);
 extern u32 APP_ICON_GetMoveKindPaletteFileId(void);
@@ -318,9 +330,9 @@ extern void CLACT_ReleasePalette(u32);
 extern void CLACT_ReleaseCellAnim(u32);
 extern struct ClactActor *CLACT_CreateActor(struct ClactUnit *, unsigned int cgr, unsigned int pal, unsigned int cell, const void *tmpl, unsigned short, unsigned short heap);
 extern struct ClactUnit *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
-extern void CLACT_DeleteActor(struct ClactActor *actor);
+extern void CLACT_DeleteActor(struct Actor *actor);
 extern u32 CLACT_DeleteUnit(struct ClactUnit *unit);
-extern void *POKEGRA_OpenHandle(int heapId);
+extern void *POKEGRA_OpenHandle(unsigned int heapId);
 extern u32 POKEGRA_RegisterCgr(void *handle, u32 species, u32 form, u32 gender, u32 shiny, u32, u32, u32 personality, u32, u16 heap);
 extern u32 POKEGRA_RegisterPalette(void *handle, u32 species, u32 form, u32 gender, u32 shiny, u32, u32, u32, u16 palOffset, u16 heap);
 extern u32 POKEGRA_RegisterCellAnim(u32 species, u32 form, u32 gender, u32 shiny, u32, u32, u32, u32, u16 heap);
@@ -328,8 +340,9 @@ extern u32 POKE_TOOL_IsShinyOtIdPersonality(u32 trainerId, u32 personality);
 extern void PALANM_CopyHwPaletteToSlot(struct PalAnmSlot *palAnm, u32 bank, u32 off, u32 size);
 extern s16 GF_STANDARD_CosFromDegreesWrapped(s32 x);
 extern short GF_STANDARD_SinFromDegreesWrapped(unsigned short x);
-extern void CLACT_SetActorDrawPriority(struct ClactActor *actor, u32 val);
-extern struct BmpOamSys *BMP_OAM_CreateSys(unsigned int heapId, struct ClactUnit *unit);
+extern void CLACT_SetActorDrawPriority(struct Actor *actor, unsigned int priority);
+struct BmpOamSys;
+extern struct BmpOamSys *BMP_OAM_CreateSys(unsigned int heapId, void *clact);
 extern struct Bmp *BMP_Create(u32 width, u32 height, u32 depth, u16 heap);
 extern struct BmpOam *BMP_OAM_Create(struct BmpOamSys *sys, const DendouViewBmpOamParam *param);
 extern void BMP_OAM_SetEnabled(struct BmpOam *oam, u32 a);
@@ -437,7 +450,7 @@ int DENDOU_VIEW_ProcInit(struct ProcSys *proc, void *unused, DendouViewParams *p
 {
     DendouViewWork *work;
     GFL_HEAP_CreateChildHeap(1, DENDOU_VIEW_HEAP, 0x60000);
-    work = PROCSYS_AllocProcWork(proc, sizeof(DendouViewWork), DENDOU_VIEW_HEAP);
+    work = PROCSYS_AllocProcWork((struct Proc *)proc, sizeof(DendouViewWork), DENDOU_VIEW_HEAP);
     MI_CpuFill8(work, 0, sizeof(DendouViewWork));
     work->params = params;
     return 1;
@@ -459,7 +472,7 @@ int DENDOU_VIEW_ProcExit(void *work)
 
 void DENDOU_VIEW_StartVBlankTask(DendouViewWork *work)
 {
-    work->vblankTaskId = GFL_USE_AddMainTask(DENDOU_VIEW_VBlankTask, work, 0);
+    work->vblankTaskId = (int)GFL_USE_AddMainTask(DENDOU_VIEW_VBlankTask, work, 0);
 }
 
 int DENDOU_VIEW_StopVBlankTask(DendouViewWork *work)
@@ -546,7 +559,7 @@ void DENDOU_VIEW_LoadGraphics(void)
     ARC_UTIL_UploadBgPaletteFromHandle(archive, 4, 2, 0, 0, 1, DENDOU_VIEW_HEAP);
     ARC_UTIL_UploadBgPaletteFromHandle(archive, 7, 4, 0, 0, 1, DENDOU_VIEW_HEAP);
     ARC_TOOL_DeleteHandle(archive);
-    BG_SYS_DrawTile(3, BG_SYS_GetBuf(0) + 0x540, 0, 0x15, 0x20, 3);
+    BG_SYS_DrawTile(3, (void *)(BG_SYS_GetBuf(0) + 0x540), 0, 0x15, 0x20, 3);
     ARC_UTIL_UploadPaletteFromArchiveWhole(0x17, 5, 0, 0x1e0, 0x20, DENDOU_VIEW_HEAP);
     ARC_UTIL_UploadPaletteFromArchiveWhole(0x17, 5, 4, 0x1e0, 0x20, DENDOU_VIEW_HEAP);
 }
@@ -583,27 +596,27 @@ int DENDOU_VIEW_IsPaletteFadeBusy(DendouViewWork *work)
 
 void DENDOU_VIEW_InitBlend(void)
 {
-    G2x_SetBlendAlpha_(DENDOU_VIEW_REG_MAIN_BLDCNT, 6, 0x11, 0x10, 8);
+    G2x_SetBlendAlpha_((unsigned int *)DENDOU_VIEW_REG_MAIN_BLDCNT, 6, 0x11, 0x10, 8);
 }
 
 void DENDOU_VIEW_InitText(DendouViewWork *work)
 {
-    work->msgData = MSGDATA_CreateFromArchive(0, 2, 0x55, DENDOU_VIEW_HEAP);
+    work->msgData = (struct MsgData *)MSGDATA_CreateFromArchive(0, 2, 0x55, DENDOU_VIEW_HEAP);
     work->fontBody = GF_FONT_Create(0x17, 0, 0, 0, DENDOU_VIEW_HEAP);
     work->fontLevelLabel = GF_FONT_Create(0x17, 3, 0, 0, DENDOU_VIEW_HEAP);
     work->wordSet = WORDSET_CreateDefault(DENDOU_VIEW_HEAP);
-    work->printQueue = PRINTSYS_QUE_Create(DENDOU_VIEW_HEAP);
+    work->printQueue = (struct PrintQue *)PRINTSYS_QUE_Create(DENDOU_VIEW_HEAP);
     work->textBuf = STRBUF_Create(0x400, DENDOU_VIEW_HEAP);
 }
 
 void DENDOU_VIEW_ExitText(DendouViewWork *work)
 {
     STRBUF_Delete(work->textBuf);
-    PRINTSYS_QUE_Delete(work->printQueue);
+    PRINTSYS_QUE_Delete((struct PrintQueue *)work->printQueue);
     WORDSET_Delete(work->wordSet);
     GF_FONT_Delete(work->fontLevelLabel);
     GF_FONT_Delete(work->fontBody);
-    MSGDATA_Delete(work->msgData);
+    MSGDATA_Delete((struct MsgBank *)work->msgData);
 }
 
 /*
@@ -630,7 +643,7 @@ void DENDOU_VIEW_LoadHallOfFame(DendouViewWork *work)
     if (params->source == 0) {
         void *saveBlock = GAME_DATA_GetSaveBlock42(params->gameData);
         work->rows[0].memberCount = DENDOU_SAVEDATA_GetMemberCount(saveBlock);
-        DENDOU_SAVEDATA_GetRecordDate(saveBlock, &work->rows[0].year);
+        DENDOU_SAVEDATA_GetRecordDate(saveBlock, (struct RecordDate *)(&work->rows[0].year));
         for (member = 0; member < work->rows[0].memberCount; member++)
             DENDOU_SAVEDATA_ExportMember(saveBlock, member, &work->rows[0].members[member]);
         work->rowCount = 1;
@@ -647,7 +660,7 @@ void DENDOU_VIEW_LoadHallOfFame(DendouViewWork *work)
                     DENDOU_SAVEDATA_GetRingRecordDate(extraData, loadRow, &work->rows[loadRow].year);
                     if (work->rows[loadRow].memberCount != 0) {
                         for (member = 0; member < work->rows[loadRow].memberCount; member++)
-                            DENDOU_SAVEDATA_ExportRingMember(extraData, loadRow, member, &work->rows[loadRow].members[member]);
+                            DENDOU_SAVEDATA_ExportRingMember((void *)extraData, loadRow, (void *)member, &work->rows[loadRow].members[member]);
                         work->rowCount++;
                     }
                 }
@@ -724,7 +737,7 @@ int DENDOU_VIEW_StateExit(DendouViewWork *work)
 
 int DENDOU_VIEW_StateWaitWipe(DendouViewWork *work)
 {
-    if (PRINTSYS_QUE_IsFinished(work->printQueue) == 1 && WIPE_SYS_EndCheck() == 1)
+    if (PRINTSYS_QUE_IsFinished((struct PrintQueue *)work->printQueue) == 1 && WIPE_SYS_EndCheck() == 1)
         return work->wipeNextState;
     return DENDOU_VIEW_STATE_WAIT_WIPE;
 }
@@ -739,7 +752,7 @@ u32 DENDOU_VIEW_StateWaitButton(DendouViewWork *work)
 int DENDOU_VIEW_StateOverview(DendouViewWork *work)
 {
     int input;
-    if (!PRINTSYS_QUE_IsFinished(work->printQueue))
+    if (!PRINTSYS_QUE_IsFinished((struct PrintQueue *)work->printQueue))
         return DENDOU_VIEW_STATE_OVERVIEW;
     input = DENDOU_VIEW_ReadOverviewInput(work);
     switch (input) {
@@ -831,7 +844,7 @@ int DENDOU_VIEW_StateDetail(DendouViewWork *work)
 {
     int input;
     s8 previous;
-    if (!PRINTSYS_QUE_IsFinished(work->printQueue))
+    if (!PRINTSYS_QUE_IsFinished((struct PrintQueue *)work->printQueue))
         return DENDOU_VIEW_STATE_DETAIL;
     input = DENDOU_VIEW_ReadDetailInput(work);
     switch (input) {
@@ -1127,11 +1140,11 @@ void DENDOU_VIEW_FlushWindows(DendouViewWork *work)
 {
     unsigned i;
     struct PrintQue *queue;
-    PRINTSYS_QUE_Main(work->printQueue);
+    PRINTSYS_QUE_Main((struct PrintQueue *)work->printQueue);
     for (i = 0; i < 2; ++i) {
         queue = work->printQueue;
         if (work->windows[i].transferPending) {
-            if (!PRINTSYS_QUE_IsExistTarget(queue, BMP_WIN_GetBmp(work->windows[i].win))) {
+            if (!PRINTSYS_QUE_IsExistTarget((struct PrintQueue *)queue, BMP_WIN_GetBmp(work->windows[i].win))) {
                 BMP_WIN_TransferChars(work->windows[i].win);
                 work->windows[i].transferPending = 0;
             }
@@ -1157,17 +1170,17 @@ void DENDOU_VIEW_DrawTitle(DendouViewWork *work)
     row = &work->rows[work->rowIndex];
     BMP_Clear(BMP_WIN_GetBmp(work->windows[0].win), 0);
     if (work->params->source == 0) {
-        titleText = MSGDATA_AllocString(work->msgData, 0);
+        titleText = MSGDATA_AllocString((struct MsgBank *)work->msgData, 0);
         TOUCHBAR_PrintAligned(&work->windows[0], work->printQueue, 0, 0, titleText, work->fontBody, 0x440, 0);
         STRBUF_Delete(titleText);
     } else {
-        numberedText = MSGDATA_AllocString(work->msgData, 1);
+        numberedText = MSGDATA_AllocString((struct MsgBank *)work->msgData, 1);
         WORDSET_SetSlotNumber(work->wordSet, 0, row->hallNumber, 4, 0, 1);
         WORDSET_CopyTaggedText(work->wordSet, work->textBuf, numberedText);
         TOUCHBAR_PrintAligned(&work->windows[0], work->printQueue, 0, 0, work->textBuf, work->fontBody, 0x440, 0);
         STRBUF_Delete(numberedText);
     }
-    dateText = MSGDATA_AllocString(work->msgData, 2);
+    dateText = MSGDATA_AllocString((struct MsgBank *)work->msgData, 2);
     WORDSET_SetSlotNumber(work->wordSet, 0, row->year, 2, 2, 1);
     WORDSET_SetSlotNumber(work->wordSet, 1, row->month, 2, 2, 1);
     WORDSET_SetSlotNumber(work->wordSet, 2, row->day, 2, 2, 1);
@@ -1191,12 +1204,12 @@ void DENDOU_VIEW_DrawPageCounter(DendouViewWork *work)
     if (work->rowCount == 1)
         return;
     BMP_Clear(work->pageBmp, 0);
-    labelText = MSGDATA_AllocString(work->msgData, 3);
+    labelText = MSGDATA_AllocString((struct MsgBank *)work->msgData, 3);
     labelWidth = PRINTSYS_MeasureWidestLine(labelText, work->fontBody, 0);
     x = (40 - labelWidth) / 2;
     PRINTSYS_PrintColor(work->pageBmp, x, 4, labelText, work->fontBody, 0x1900);
     STRBUF_Delete(labelText);
-    numbersText = MSGDATA_AllocString(work->msgData, 4);
+    numbersText = MSGDATA_AllocString((struct MsgBank *)work->msgData, 4);
     WORDSET_SetSlotNumber(work->wordSet, 0, work->rowIndex + 1, 2, 0, 1);
     WORDSET_CopyTaggedText(work->wordSet, work->textBuf, numbersText);
     font = work->fontBody;
@@ -1221,45 +1234,45 @@ void DENDOU_VIEW_DrawMemberInfo(DendouViewWork *work)
     u32 levelLabelWidth, i;
     member = &work->rows[work->rowIndex].members[work->cursor];
     BMP_Clear(BMP_WIN_GetBmp(work->windows[1].win), 0);
-    speciesText = MSGDATA_AllocString(work->msgData, 5);
+    speciesText = MSGDATA_AllocString((struct MsgBank *)work->msgData, 5);
     WORDSET_SetSlotSpeciesName(work->wordSet, 0, member->species);
     WORDSET_CopyTaggedText(work->wordSet, work->textBuf, speciesText);
     TOUCHBAR_PrintAligned(&work->windows[1], work->printQueue, 0, 0, work->textBuf, work->fontBody, 0x440, 0);
     STRBUF_Delete(speciesText);
     if (member->gender == 0) {
         if (member->species != SPECIES_NIDORAN_M) {
-            maleText = MSGDATA_AllocString(work->msgData, 6);
+            maleText = MSGDATA_AllocString((struct MsgBank *)work->msgData, 6);
             TOUCHBAR_PrintAligned(&work->windows[1], work->printQueue, 64, 0, maleText, work->fontBody, 0xc80, 0);
             STRBUF_Delete(maleText);
         }
     } else if (member->gender == 1) {
         if (member->species != SPECIES_NIDORAN_F) {
-            femaleText = MSGDATA_AllocString(work->msgData, 7);
+            femaleText = MSGDATA_AllocString((struct MsgBank *)work->msgData, 7);
             TOUCHBAR_PrintAligned(&work->windows[1], work->printQueue, 64, 0, femaleText, work->fontBody, 0x14c0, 0);
             STRBUF_Delete(femaleText);
         }
     }
-    levelLabelText = MSGDATA_AllocString(work->msgData, 11);
+    levelLabelText = MSGDATA_AllocString((struct MsgBank *)work->msgData, 11);
     levelLabelWidth = PRINTSYS_MeasureWidestLine(levelLabelText, work->fontLevelLabel, 0);
     TOUCHBAR_PrintAligned(&work->windows[1], work->printQueue, 80, 4, levelLabelText, work->fontLevelLabel, 0x440, 0);
     STRBUF_Delete(levelLabelText);
-    levelText = MSGDATA_AllocString(work->msgData, 8);
+    levelText = MSGDATA_AllocString((struct MsgBank *)work->msgData, 8);
     WORDSET_SetSlotNumber(work->wordSet, 0, member->level, 3, 0, 1);
     WORDSET_CopyTaggedText(work->wordSet, work->textBuf, levelText);
     TOUCHBAR_PrintAligned(&work->windows[1], work->printQueue, levelLabelWidth + 80, 0, work->textBuf, work->fontBody, 0x440, 0);
     STRBUF_Delete(levelText);
-    nicknameText = MSGDATA_AllocString(work->msgData, 9);
+    nicknameText = MSGDATA_AllocString((struct MsgBank *)work->msgData, 9);
     WORDSET_SetSlotTag(work->wordSet, 0, member->nickname, 0, 1, 2);
     WORDSET_CopyTaggedText(work->wordSet, work->textBuf, nicknameText);
     TOUCHBAR_PrintAligned(&work->windows[1], work->printQueue, 0, 24, work->textBuf, work->fontBody, 0x440, 0);
     STRBUF_Delete(nicknameText);
-    trainerText = MSGDATA_AllocString(work->msgData, 10);
+    trainerText = MSGDATA_AllocString((struct MsgBank *)work->msgData, 10);
     WORDSET_SetSlotTag(work->wordSet, 0, member->trainerName, 0, 1, 2);
     WORDSET_CopyTaggedText(work->wordSet, work->textBuf, trainerText);
     TOUCHBAR_PrintAligned(&work->windows[1], work->printQueue, 0, 48, work->textBuf, work->fontBody, 0x440, 0);
     STRBUF_Delete(trainerText);
     for (i = 0; i < 4; i++) {
-        moveText = MSGDATA_AllocString(work->msgData, i + 12);
+        moveText = MSGDATA_AllocString((struct MsgBank *)work->msgData, i + 12);
         WORDSET_SetSlotFromMsgCB(work->wordSet, 0, member->moves[i]);
         WORDSET_CopyTaggedText(work->wordSet, work->textBuf, moveText);
         TOUCHBAR_PrintAligned(&work->windows[1], work->printQueue, (i & 1) * 96, (i >> 1) * 16 + 88, work->textBuf, work->fontBody, 0x440, 0);
@@ -1301,8 +1314,8 @@ void DENDOU_VIEW_UpdateActors(DendouViewWork *work)
 {
     unsigned i;
     for (i = 0; i < DENDOU_VIEW_ACTOR_MAX; i++) {
-        if (work->actors[i] != 0 && CLACT_GetActorAutoAnim(work->actors[i]) != 1)
-            CLACT_AddActorAnimFrame(work->actors[i], 4096);
+        if (work->actors[i] != 0 && CLACT_GetActorAutoAnim((struct Actor *)work->actors[i]) != 1)
+            CLACT_AddActorAnimFrame((struct Actor *)work->actors[i], 4096);
     }
     CLACT_DrawSystem();
 }
@@ -1311,19 +1324,19 @@ void DENDOU_VIEW_SetActorVisible(DendouViewWork *work, int actorIndex, int visib
 {
     struct ClactActor *actor = work->actors[actorIndex];
     if (actor)
-        CLACT_SetActorDrawEnable(actor, visible);
+        CLACT_SetActorDrawEnable((struct Actor *)actor, visible);
 }
 
 void DENDOU_VIEW_SetActorAnim(DendouViewWork *work, int actorIndex, int animSeq)
 {
-    CLACT_SetActorAnimFrame(work->actors[actorIndex], 0);
-    CLACT_SetActorAnimSeq(work->actors[actorIndex], animSeq);
-    CLACT_SetActorAutoAnim(work->actors[actorIndex], 1);
+    CLACT_SetActorAnimFrame((struct Actor *)work->actors[actorIndex], 0);
+    CLACT_SetActorAnimSeq((struct Actor *)work->actors[actorIndex], animSeq);
+    CLACT_SetActorAutoAnim((struct Actor *)work->actors[actorIndex], 1);
 }
 
 int DENDOU_VIEW_IsActorAnimActive(DendouViewWork *work, int actorIndex)
 {
-    return CLACT_IsActorAnimActive(work->actors[actorIndex]);
+    return CLACT_IsActorAnimActive((struct Actor *)work->actors[actorIndex]);
 }
 
 void DENDOU_VIEW_MoveActor(DendouViewWork *work, int actorIndex, int dx, int dy)
@@ -1349,7 +1362,7 @@ void DENDOU_VIEW_GetActorPos(DendouViewWork *work, int actorIndex, s16 *outX, s1
 void DENDOU_VIEW_InitClactSystem(DendouViewWork *work)
 {
     ClactSystemConfig config = d_021DEB88;
-    CLACT_InitSystem(&config, DENDOU_VIEW_GetVramBanks(), 140);
+    CLACT_InitSystem((struct SysInit *)(&config), (struct DispVramCfg *)(DENDOU_VIEW_GetVramBanks()), 140);
 }
 
 /*
@@ -1440,7 +1453,7 @@ void DENDOU_VIEW_CreateButtonActors(DendouViewWork *work)
 void DENDOU_VIEW_DeleteActor(DendouViewWork *work, int actorIndex)
 {
     if (work->actors[actorIndex] != 0) {
-        CLACT_DeleteActor(work->actors[actorIndex]);
+        CLACT_DeleteActor((struct Actor *)work->actors[actorIndex]);
         work->actors[actorIndex] = 0;
     }
 }
@@ -1572,7 +1585,7 @@ void DENDOU_VIEW_SortActorPriorities(DendouViewWork *work)
     for (i = 0; i < work->rows[work->rowIndex].memberCount; i++) {
         actor = work->actors[order[i]];
         if (actor)
-            CLACT_SetActorDrawPriority(actor, i);
+            CLACT_SetActorDrawPriority((struct Actor *)actor, i);
     }
 }
 

@@ -115,14 +115,14 @@ typedef enum {
     CS_REBOOT
 } ChildState;
 
-extern void DWCi_MOV_WH_MemInit(int);
+extern void DWCi_MOV_WH_MemInit(void *mw);
 extern int MB_Init(void *work, MBUserInfo *user, u32 ggid, u32 tgid, u32 dma);
 extern int MB_SetParentCommParam(u16 sendSize, u16 maxChildren);
 extern void MB_CommSetParentStateCallback(void (*cb)(u16, u32, void *));
 extern int MB_StartParentFromIdle(int channel);
 extern void FS_InitFile(FSFile *file);
 extern int FS_OpenFile(FSFile *file, char *path);
-extern u32 MB_GetSegmentLength(FSFile *file);
+extern u32 MB_GetSegmentLength(void *file);
 extern int MB_ReadSegment(FSFile *file, void *buf, u32 len);
 extern int MB_RegisterFile(MBGameRegistry *game_reg, void *buf);
 extern int FS_CloseFile(FSFile *file);
@@ -170,7 +170,7 @@ void DWCi_MOV_MBP_MemInit(int x)
     int *g = (int *)0x021DE65C;
 
     g[0] = x;
-    DWCi_MOV_WH_MemInit(x + 0x160 + 0x1b000);
+    DWCi_MOV_WH_MemInit((void *)(x + 0x160 + 0x1b000));
     *(int *)(g[0] + 0x1b000 + 0x140) = 0;
     *(int *)(g[0] + 0x1b000 + 0x144) = 0;
 }

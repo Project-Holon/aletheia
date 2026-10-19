@@ -63,7 +63,7 @@ extern void MI_CpuCopy8(const void *src, void *dst, int size);
 
 extern void MI_CpuFill8(void *dst, int value, int size);
 
-extern void OS_GetMacAddress(void *mac);
+extern void OS_GetMacAddress(u8 *macAddress);
 
 extern struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
 
@@ -79,13 +79,14 @@ extern u32 GFL_NET_GetHandleNetID(GFLNetHandle *handle);
 
 extern struct MyStatus *GAME_DATA_GetMyStatusPlayer(struct GameData *gameData, u32 index);
 
-extern void MYSTATUS_Copy(const void *src, struct MyStatus *dst);
+extern void MYSTATUS_Copy(struct MyStatus *src, struct MyStatus *dest);
 
 extern int MYSTATUS_GetSize(void);
 
 extern u32 GFL_NET_SendData(GFLNetHandle *handle, u32 sendId, u32 command, u32 size, const void *data, u32 sendFlags, u32 skipIfQueued, u32 queueMode);
+struct CommEntryMenu;
 
-extern void COMM_ENTRY_MENU_AddMember(void *entryMenu, int netId, struct MyStatus *myStatus, u32 modeFlag, const void *mac);
+extern void COMM_ENTRY_MENU_AddMember(struct CommEntryMenu *menu, s32 netId, void *myStatus, u32 autoAccept, u8 *mac);
 
 extern int UNION_APP_TryAcceptMember(struct UnionAppWork *app, int netId);
 
@@ -98,8 +99,9 @@ extern void UNION_APP_SetQuitAccepted(struct UnionAppWork *app);
 extern void UNION_APP_AddSettingTarget(struct UnionAppWork *app, u8 netId);
 
 extern void UNION_APP_SetSetting(struct UnionAppWork *app, const void *value);
+struct GFLNetHandle;
 
-extern u32 UNION_APP_GetSettingSize(GFLNetHandle *handle);
+extern u32 UNION_APP_GetSettingSize(struct GFLNetHandle *entry);
 
 extern void UNION_APP_SetMemberEntry(struct UnionAppWork *app, UnionRoomWork *work, u8 netId, const void *data);
 
@@ -107,7 +109,7 @@ extern void UNION_APP_AddEntryTarget(struct UnionAppWork *app, u8 netId);
 
 extern void UNION_APP_QueueJoinConfirm(struct UnionAppWork *app, int netId);
 
-extern void UNION_APP_OnMemberDropped(struct UnionAppWork *app, u8 value);
+extern void UNION_APP_OnMemberDropped(struct UnionAppWork *app, s32 netId);
 
 void UNION_COMM_StartConnectSync(UnionRoomWork *work);
 
@@ -263,7 +265,7 @@ int UNION_COMMAND_SendPartnerMode(int mode)
 
 void UNION_COMMAND_RecvMyStatus(u32 netId, int size, const void *data, UnionRoomWork *work)
 {
-    MYSTATUS_Copy(data, GAME_DATA_GetMyStatusPlayer(work->parent->gameData, netId));
+    MYSTATUS_Copy((struct MyStatus *)data, GAME_DATA_GetMyStatusPlayer(work->parent->gameData, netId));
     work->mySituation.connect.myStatusRecvBits |= (u8)(1 << netId);
 }
 
@@ -308,8 +310,8 @@ void UNION_COMMAND_RecvColosseumEntry(int netId, int size, const ColosseumPlayer
         GF_PANIC_Fail(sUnionCmdAssertText, 0, sUnionCmdAssertText);
         return;
     }
-    OS_GetMacAddress(macBuffer);
-    COMM_ENTRY_MENU_AddMember(colosseum->entryMenu, netId, GAME_DATA_GetMyStatus(gameData), player->modeFlag, macBuffer);
+    OS_GetMacAddress((u8 *)macBuffer);
+    COMM_ENTRY_MENU_AddMember(colosseum->entryMenu, netId, GAME_DATA_GetMyStatus(gameData), player->modeFlag, (u8 *)macBuffer);
 }
 
 void UNION_COMMAND_RecvColosseumSetting(int netId, int size, const u32 *value, UnionRoomWork *work)

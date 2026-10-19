@@ -52,9 +52,9 @@
  *   GF_FONT_Delete    0x0201D83C  thumb
  *   ov088_id       0x00000058  data  a1
  *   ov179_id       0x000000B3  data  a1
- *   d_021BD8E8     0x021BD8E8  data
+ *   d_021BD8E8     0x021BD8E8  data ov088
  *   d_021B68D8     0x021B68D8  data  ov179
- *   d_021BD574     0x021BD574  data
+ *   d_021BD574     0x021BD574  data ov088
  *   sOverlayLaunchWork     0x02146948  data
  *   sOverlayLaunchWorkArg 0x02146948  data
  *   PROCSYS_PushGlobal  0x020312CC  arm
@@ -112,7 +112,7 @@ extern u32 GFL_NET_Main(void);
 
 extern int GFL_NET_IsSessionNull(void);
 
-extern int UI_ClearSoftResetInhibitGlobal(u32 stage);
+extern void UI_ClearSoftResetInhibitGlobal(u32 stage);
 
 extern void GFL_USE_PollPowerExit(void);
 
@@ -126,7 +126,7 @@ extern int GX_ResetBankForBG(void);
 
 extern int GX_ResetBankForSubBG(void);
 
-extern void GX_SetBankForBG(u32 layerMask);
+extern void GX_SetBankForBG(s32 bg);
 
 extern void GX_SetGraphicsMode(int dispMode, int bgMode, int bg0Is3d);
 
@@ -134,9 +134,10 @@ extern void *G2_GetBG1CharPtr(void);
 
 extern void MIi_CpuClear32(u32 value, u32 dest, u32 size);
 
-extern int ARC_UTIL_LoadMember(int arcId, int memberId, int compressed, int heapId);
+extern int ARC_UTIL_LoadMember(s32 archiveID, s32 memberIdx, s32 decompress, u16 heapID);
+struct NitroFileHeader;
 
-extern s32 NNS_G2dGetUnpackedCharacterDataEx(struct ArchiveRecord *file, void **out);
+extern s32 NNS_G2dGetUnpackedCharacterDataEx(struct NitroFileHeader *file, void **out);
 
 extern void DC_FlushRange(u32 addr, u32 size);
 
@@ -146,9 +147,9 @@ extern int NNS_G2dGetUnpackedScreenData(void *file, void **out);
 
 extern void *G2_GetBG1ScrPtr(void);
 
-extern s32 NNS_G2dGetUnpackedPaletteCompressInfo(struct ArchiveRecord *file, void **out);
+extern s32 NNS_G2dGetUnpackedPaletteCompressInfo(struct NitroFileHeader *file, void **out);
 
-extern s32 NNS_G2dGetUnpackedPaletteData(struct ArchiveRecord *file, void **out);
+extern s32 NNS_G2dGetUnpackedPaletteData(struct NitroFileHeader *file, void **out);
 
 extern void MIi_CpuClear16(u32 value, u32 dest, u32 size);
 
@@ -333,7 +334,7 @@ void APP_POWER_LoadShutdownScreen(void)
 
     MIi_CpuClear32(0, (u32)G2_GetBG1CharPtr(), 0x4000);
     res = ARC_UTIL_LoadMember(0x16, 1, 0, 7);
-    if (NNS_G2dGetUnpackedCharacterDataEx((struct ArchiveRecord *)res, (void **)(&chars)) != 0) {
+    if (NNS_G2dGetUnpackedCharacterDataEx((struct NitroFileHeader *)res, (void **)(&chars)) != 0) {
         DC_FlushRange(chars[5], chars[4]);
         MIi_CpuCopy16(chars[5], (u32)G2_GetBG1CharPtr(), charSize = chars[4]);
     }
@@ -345,8 +346,8 @@ void APP_POWER_LoadShutdownScreen(void)
     }
     GFL_HEAP_Free((void *)res);
     res = ARC_UTIL_LoadMember(0x16, 0, 0, 7);
-    NNS_G2dGetUnpackedPaletteCompressInfo((struct ArchiveRecord *)res, (void **)(&paletteHeader));
-    if (NNS_G2dGetUnpackedPaletteData((struct ArchiveRecord *)res, (void **)(&palette)) != 0) {
+    NNS_G2dGetUnpackedPaletteCompressInfo((struct NitroFileHeader *)res, (void **)(&paletteHeader));
+    if (NNS_G2dGetUnpackedPaletteData((struct NitroFileHeader *)res, (void **)(&palette)) != 0) {
         DC_FlushRange(palette[3], 0x20);
         MIi_CpuCopy16(palette[3], 0x05000000, 0x20);
     }

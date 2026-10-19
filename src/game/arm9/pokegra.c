@@ -221,14 +221,16 @@ extern void  MIi_CpuCopyFast(void *dst, const void *src, u32 size);
 extern u32 POKE_TOOL_GetPersonalParam(u16 a, u16 b, u32 k);
 
 extern u32 ARC_TOOL_GetMemberSize(u32 a, u32 b);
+struct BoxPokemon;
 
-extern u32 POKE_TOOL_GetBoxValue(void *mon, u32 id, u32 v);
+extern u32 POKE_TOOL_GetBoxValue(struct BoxPokemon *box, u32 paramId, u32 arg);
+struct BoxPokemon;
 
-extern u32 POKE_TOOL_IsBoxShiny(void *mon);
+extern u32 POKE_TOOL_IsBoxShiny(struct BoxPokemon *box);
 
-extern void *ARC_UTIL_LoadScreenDataFromArchive(u32 archiveID, u32 memberIdx, u32 heapID, u32 unpackedOut, u16 flags);
+extern void *ARC_UTIL_LoadScreenDataFromArchive(u32 archiveID, u32 memberIdx, u32 heapID, void *unpackedOut, u16 flags);
 
-extern u32 CLACT_RegisterPaletteEx(void *h, u32 file_idx, u32 engine, u32 vram_offset, u32 s0, u32 s1, u32 s2);
+extern s32 CLACT_RegisterPaletteEx(void *archive, u32 file_idx, u32 vram_mode, u32 vram_offset, u16 first_color, u16 color_count, u16 heap_id);
 
 extern u32 CLACT_RegisterCharacter(void *h, u32 file_idx, u32 compressed, u32 engine, u32 s0);
 
@@ -249,12 +251,14 @@ extern void  ARC_TOOL_DeleteHandle(void *h);
 extern int APP_ICON_GetBallAnimFileId(int a);
 
 extern int APP_ICON_GetBallFrameFileId(int a);
+struct ArcHandle;
 
-extern void *ARC_TOOL_LoadHandleMember(struct ArcFile *arc, u32 member, u32 heap);
+extern void *ARC_TOOL_LoadHandleMember(struct ArcHandle *arc, u32 memberIdx, u16 heapID);
 
-extern void *ARC_UTIL_LoadScreenDataFromHandle(void *arc, u32 memberIdx, u32 heapID, u32 unpackedOut, u16 flags);
+extern void *ARC_UTIL_LoadScreenDataFromHandle(void *arc, u32 memberIdx, u32 heapID, void *unpackedOut, u16 flags);
+struct PaletteData;
 
-extern void  CLACT_TransferPalette(void *dst, void *src, u32 flag);
+extern void  CLACT_TransferPalette(u32 idx, struct PaletteData *dest, u32 count);
 
 extern s32 NNS_G2dGetUnpackedPaletteData(struct NitroFileHeader *file, void **out);
 
@@ -264,7 +268,7 @@ void POKEGRA_ConvertCharTo1D(u32 *charData, u32 heapId);
 
 void POKEGRA_DrawSpindaSpots(struct NNSG2dCharacterData *charData, u32 personality);
 
-u32 POKEGRA_GetTrainerArcID(u32 isBack);
+u32 POKEGRA_GetTrainerArcID(void *isBack);
 
 u32 POKEGRA_GetTrainerCgrArcIndex(u32 trType, u32 flags);
 
@@ -298,13 +302,13 @@ int POKEGRA_RegisterPalettePP(int handle, void *pp, int dir, int drawType, unsig
 
 int POKEGRA_RegisterCgrPP(int handle, void *pp, int dir, int drawType, unsigned short heapId);
 
-u32 POKEGRA_RegisterCellAnimPP(u32 pp, u32 dir, u32 mapping, u32 unusedArg, u16 heapId);
+u32 POKEGRA_RegisterCellAnimPP(void *pp, u32 dir, u32 mapping, u32 unusedArg, u16 heapId);
 
 void *POKEGRA_OpenTrainerHandle(u32 heapId);
 
-s32 POKEGRA_RegisterTrainerPalette(u32 handle, u32 trType, u32 drawType, u32 palOffset, u16 heapId);
+s32 POKEGRA_RegisterTrainerPalette(u8 *handle, u32 trType, u32 drawType, u32 palOffset, u16 heapId);
 
-void POKEGRA_RegisterTrainerCgr(u32 handle, u32 trType, u32 drawType, u32 heapId);
+void POKEGRA_RegisterTrainerCgr(u8 *handle, u32 trType, u32 drawType, u32 heapId);
 
 s32 POKEGRA_RegisterTrainerCellAnim(u32 unusedArg, u32 mapping, u32 drawType, u16 heapId);
 
@@ -542,7 +546,7 @@ void POKEGRA_CalcArcIndex(void *arcId, u32 monsNo, s32 formNo, s32 sex,
     }
 }
 
-u32 POKEGRA_GetTrainerArcID(u32 isBack)
+u32 POKEGRA_GetTrainerArcID(void *isBack)
 {
     if (isBack != 0) {
         return 0x49;
@@ -717,7 +721,7 @@ void *POKEGRA_LoadCharData(u32 *outCharData, u32 monsNo, u32 formNo, u32 sex,
     void *file;
 
     arcIndex = POKEGRA_GetCgrArcIndex(POKEGRA_GetArcID(), monsNo, formNo, sex, rare, dir, egg);
-    file = ARC_UTIL_LoadScreenDataFromArchive(POKEGRA_GetArcID(), arcIndex, 1, (u32)outCharData, heapId);
+    file = ARC_UTIL_LoadScreenDataFromArchive(POKEGRA_GetArcID(), arcIndex, 1, outCharData, heapId);
     if (monsNo == 0x147) {
         POKEGRA_ConvertCharTo2D((void *)(*outCharData), heapId);
         POKEGRA_DrawSpindaSpots((struct NNSG2dCharacterData *)(*outCharData), personality);
@@ -873,7 +877,7 @@ int POKEGRA_RegisterCgrPP(int handle, void *pp, int dir, int drawType, unsigned 
  * EXACT* only: the follower at 0x0202DA04 is unlabelled, so the inferred
  * extent runs over the trailing alignment halfword. Never a byte difference.
  */
-u32 POKEGRA_RegisterCellAnimPP(u32 pp, u32 dir, u32 mapping, u32 unusedArg, u16 heapId)
+u32 POKEGRA_RegisterCellAnimPP(void *pp, u32 dir, u32 mapping, u32 unusedArg, u16 heapId)
 {
     u32 monsNo;
     u32 formNo;
@@ -894,12 +898,12 @@ void *POKEGRA_OpenTrainerHandle(u32 heapId)
     return ARC_TOOL_CreateHandle(POKEGRA_GetTrainerArcID(0), heapId);
 }
 
-s32 POKEGRA_RegisterTrainerPalette(u32 handle, u32 trType, u32 drawType, u32 palOffset, u16 heapId)
+s32 POKEGRA_RegisterTrainerPalette(u8 *handle, u32 trType, u32 drawType, u32 palOffset, u16 heapId)
 {
     return CLACT_RegisterPaletteEx((void *)handle, POKEGRA_GetTrainerPalArcIndex(trType, 0), drawType, palOffset, 0, 1, heapId);
 }
 
-void POKEGRA_RegisterTrainerCgr(u32 handle, u32 trType, u32 drawType, u32 heapId)
+void POKEGRA_RegisterTrainerCgr(u8 *handle, u32 trType, u32 drawType, u32 heapId)
 {
     CLACT_RegisterCharacter((void *)handle, POKEGRA_GetTrainerCgrArcIndex(trType, 0), 1, drawType, heapId);
 }
@@ -939,10 +943,10 @@ void POKEGRA_LoadTrainerGraphics(void *handle, u32 trType, void *charDst, void *
 
     file = ARC_TOOL_LoadHandleMember(handle, POKEGRA_GetTrainerPalArcIndex(trType, 0), heapId);
     NNS_G2dGetUnpackedPaletteData(file, &palData);
-    CLACT_TransferPalette(palDst, palData, 1);
+    CLACT_TransferPalette((u32)palDst, palData, 1);
     GFL_HEAP_Free(file);
 
-    file = ARC_UTIL_LoadScreenDataFromHandle(handle, POKEGRA_GetTrainerCgrArcIndex(trType, 0), 1, (u32)(&charData), heapId);
+    file = ARC_UTIL_LoadScreenDataFromHandle((void *)handle, POKEGRA_GetTrainerCgrArcIndex(trType, 0), 1, (&charData), heapId);
     CLACT_TransferCharacter((int)charDst, charData);
     GFL_HEAP_Free(file);
 }

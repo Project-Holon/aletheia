@@ -61,6 +61,7 @@
  *   gpiOthersBuddyList  0x021908B0  arm   ov009
  */
 #include "gpi_types.h"
+extern void *__memcpy(void *dest, const void *src, unsigned long n);
 /* Response records handed back to the game when a call short-circuits. */
 typedef struct GPConnectResponseArg {
     int a[8];
@@ -104,8 +105,8 @@ extern GPIProfile *gpiFindBuddy(void **connection, int buddyIndex);
 extern int gpiGetProfile(void **connection, int profileid, GPIProfile **pProfile);
 extern int gpiDeleteBuddy(void **connection, int profile, int sendServerRequest);
 extern int strcmp(const char *a, const char *b);
-extern int gpiSendBuddyMessage(void **connection, int profileid, int type, char *message,
-                         int sendOption, void *peerOp);
+struct GPIPeerOp;
+extern int gpiSendBuddyMessage(void **connection, int profileid, int type, char *message, int sendOption, struct GPIPeerOp *peerOp);
 extern int gpiOthersBuddyList(void **connection, int *profiles, int numOfProfiles, int blocking, void (*callback)(void **, void *, void *), void *param);
 int gpInitialize(void **connection, int productID, int namespaceID, int partnerID);
 void gpDestroy(int **p);

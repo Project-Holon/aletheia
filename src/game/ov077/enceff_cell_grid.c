@@ -56,10 +56,11 @@ extern void FADE_Start(u32 planes, s32 startLevel, s32 endLevel, s32 wait);
 extern int FADE_IsActive(void);
 extern struct GameEvent *ENCEFF_GetEffect(struct EncEffWork *eff);
 extern void G3X_SetClearColor(u16 color, int alpha, int depth, int polygonId, int clearImage);
-extern void ENCEFF_DrawScreenTexEffect(struct GameEvent *effect);
+struct EncEffScreenTexWork;
+extern void ENCEFF_DrawScreenTexEffect(struct EncEffScreenTexWork *work);
 extern void MTX_RotY33_(Mtx33 *mtx, int sinValue, int cosValue);
 extern void MTX_RotZ33_(Mtx33 *mtx, int sinValue, int cosValue);
-extern void G3_MultMtx33(const Mtx33 *mtx);
+extern void G3_MultMtx33(void *m);
 void *ENCEFF_StartCellGrid(void *gameSystem, const EncEffGridParam *param, int useSubScreen);
 int ENCEFF_CellGridEventMain(struct GameEvent *event, int *state);
 int ENCEFF_StepCellGrid(EncEffGridWork *work);
@@ -192,7 +193,7 @@ void ENCEFF_UpdateCellGrid(struct EncEffWork *eff) {
     struct GameEvent *effect = ENCEFF_GetEffect(eff);
     EncEffGridWork *work = ENCEFF_GetWork(eff);
     G3X_SetClearColor(work->clearColor,31,0x7FFF,0,0);
-    ENCEFF_DrawScreenTexEffect(effect);
+    ENCEFF_DrawScreenTexEffect((struct EncEffScreenTexWork *)effect);
 }
 
 

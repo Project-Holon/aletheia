@@ -111,25 +111,26 @@ typedef struct GSIDimeHeader {
 } GSIDimeHeader;
 
 extern void gsifree(void *);
-extern void gsXmlFreeWriter(void *);
+extern void gsXmlFreeWriter(void **writerRef);
 extern void *gsimalloc(unsigned long size);
-extern void *ArrayNew(int, int, void (*)(void *));
-extern void ArrayFree(void *);
+struct DArrayImplementation;
+extern struct DArrayImplementation *ArrayNew(int, int, void (*)(void *));
+extern void ArrayFree(struct DArrayImplementation *array);
 extern GHIConnection *ghiRequestToConnection(int request);
 extern void ghiPostCleanupState(GHIConnection *connection);
 extern char *goastrdup(char *src);
 extern void ArrayAppend(void *array, void *newElem);
 extern int ArrayLength(const int *p);
-extern void *ArrayNth(void *, int);
+extern void *ArrayNth(struct DArrayImplementation *array, s32 n);
 extern int gsXmlWriterGetDataLength(void *);
-extern int fseek(void *, int, int);
+extern int fseek(u32 stream, u32 pos, u32 whence);
 extern s32 ftell(u32 stream);
 extern int rewind(void *);
-extern int fclose(void *stream);
-void ghiPostStateCleanup(GHIPostState *state);
+extern int fclose(u8 *stream);
+static void ghiPostStateCleanup(GHIPostState *state);
 extern int ghiPostGetContentLength(GHIConnection *);
-extern void *ArrayNth(void *array, int n);
-extern void ArrayFree(void *array);
+extern void *ArrayNth(struct DArrayImplementation *array, s32 n);
+extern void ArrayFree(struct DArrayImplementation *array);
 extern void ghiFreePost(GHIPost *post);
 extern int ghiAppendCharToBuffer(GHIBuffer *buffer, int ch);
 extern int ghiAppendDataToBuffer(GHIBuffer *, char *, int);
@@ -140,9 +141,9 @@ extern char *gsXmlWriterGetData(void *);
 extern int ghiEncryptDataToBuffer(struct GHIBuffer *buffer, const char *data, int dataLen);
 extern s32 fread(void *ptr, u32 memb_size, u32 num_memb, u32 stream);
 extern int ghiDoSend(struct GHIConnection *connection, char *buffer, int len);
-extern unsigned long gsiSafeStrcpyA(char *dst, char *src, unsigned long size);
+extern s32 gsiSafeStrcpyA(char *dst, char *src, unsigned long size);
 extern int OS_SPrintf(char *dst, const char *fmt, ...);
-GHIPostingResult ghiPostStateDoPosting(GHIPostState *state, GHIConnection *connection,
+static GHIPostingResult ghiPostStateDoPosting(GHIPostState *state, GHIConnection *connection,
                                        GHTTPBool first, GHTTPBool last);
 void ghiPostDataFree(void *elem);
 GHIPost *ghiNewPost(void);
@@ -497,7 +498,7 @@ int ghiPostStateInit(GHIPostState *state)
     } else if (type == 1) {
         if (state->state.fileDisk.file == 0)
             return 0;
-        if (fseek(state->state.fileDisk.file, 0, 2) != 0)
+        if (fseek((u32)state->state.fileDisk.file, 0, 2) != 0)
             return 0;
         state->state.fileDisk.len = ftell((u32)state->state.fileDisk.file);
         if (state->state.fileDisk.len == -1)

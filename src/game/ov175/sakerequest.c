@@ -85,9 +85,9 @@ extern int gsXmlWriteOpenTag(void *stream, char *namespaceName, char *tag);
 extern int gsXmlWriteCloseTag(void *stream, char *namespaceName, char *tag);
 extern int gsXmlWriteIntElement(void *stream, char *namespaceName, char *tag, unsigned int value);
 extern int gsXmlWriteStringElement(void *stream, char *namespaceName, char *tag, char *value);
-extern void gsXmlFreeWriter(void *stream);
+extern void gsXmlFreeWriter(void **writerRef);
 extern int gsXmlCloseWriter(void *stream);
-extern GSSoapTask *gsiExecuteSoap(char *url, char *service, void *soap, GSSoapCallback callback, void *userData);
+extern void *gsiExecuteSoap(char *url, char *service, void *soap, GSSoapCallback callback, void *userData);
 
 SAKERequestInternal *sakeiInitRequest(SAKEInternal *sake, int type, void *input, SAKERequestCallback callback, void *userData);
 void sakeiFreeRequest(SAKERequestInternal *request);

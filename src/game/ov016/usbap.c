@@ -120,17 +120,18 @@ enum WMErrCode {
 
 extern void *DWCi_HEAPlAllocEx(unsigned long size, int alignment);
 extern u64 OS_GetTick(void);
-extern int WM_Initialize(void *wmBuf, void (*callback)(void *), int dmaNo);
-extern void WM_ReadStatus(void *status);
+extern int WM_Initialize(void *wmSysBuf, void (*callback)(void *), unsigned short dmaNo);
+extern int WM_ReadStatus(struct WMStatus *statusBuf);
 extern u16 WM_GetDispersionScanPeriod(void);
 extern void OS_GetOwnerInfo(OwnerT *info);
 extern void MI_CpuCopy8(const void *src, void *dst, unsigned long size);
-extern void *DWCi_TSKlForm(int kind, void (*func)(void *), void *work, unsigned char prio);
+struct TCB;
+extern struct TCB *DWCi_TSKlForm(int kind, void (*func)(void *), void *work, unsigned char prio);
 extern void DWCi_HEAPlFree_(void **mem);
 extern int WM_StartScanEx();
 extern enum WMErrCode WM_Reset(void (*)(void *));
 extern enum WMErrCode WM_End(void (*)(void *));
-extern void DWCi_TSKlDeleteByIndex(unsigned int idx, void *r4);
+extern void DWCi_TSKlDeleteByIndex(unsigned int taskIdx, struct TCB *task);
 extern void OS_Terminate(void);
 extern void DC_InvalidateRange(void *ptr, unsigned long nBytes);
 extern void DWCi_TSKlDelete(int kind, void *task);
@@ -179,7 +180,7 @@ int DWCi_USBAPlBegin(void (*callback)(int))
     if (rs != 2)
         goto fail;
     do {
-        WM_ReadStatus(&gUsbapWork->status);
+        WM_ReadStatus((struct WMStatus *)(&gUsbapWork->status));
     } while (gUsbapWork->status.state != 2);
     gUsbapWork->param = sUsbApScanParam;
     gUsbapWork->param.scanBuf = gUsbapWork->scanBuf;

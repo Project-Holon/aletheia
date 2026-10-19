@@ -44,12 +44,13 @@ extern int B_PLIST_MAIN_GetOrderIndex(u8 *,int);
 extern u32 B_PLIST_MAIN_IsBattleSlot(u32,u32);
 extern void *GFL_HEAP_Alloc(u32,u32,int,const char *,u16);
 extern u32 GFL_HEAP_Free(void *p);
-extern void BG_SYS_DrawTile(u32,u32,u32,u32,u8,u8);
+extern void BG_SYS_DrawTile(unsigned int index, void *src, unsigned char dx, unsigned char dy, unsigned char cw, unsigned char ch);
 extern void BG_SYS_MarkTileDirty(u32);
 extern int B_PLIST_MAIN_GetSlotState(u8 *p, int i);
 extern void PALANM_CopyToSlot(struct PalAnmSlot *slots, const void *src, u32 idx, u32 off, u16 size);
 extern int B_PLIST_MAIN_PopSelectionPair(u8 *,u8 *,u8 *,int);
-extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
+struct BmpWin;
+extern struct BmpWin *BMP_WIN_Create(unsigned int bgLayer, unsigned int posX, unsigned int posY, unsigned char width, unsigned char height, unsigned char palette, unsigned char allocDir);
 extern void B_PLIST_DRAW_CreateStateWindows(u8 *, unsigned int);
 void B_PLIST_ANM_CopyMonSpriteTiles(char *p,u16 *src);
 void B_PLIST_ANM_CopySubSpriteTiles(char *p,u16 *src);
@@ -194,7 +195,7 @@ void B_PLIST_ANM_UploadTileBuffer(u8 *p,u8 state,u8 flag,u8 mode)
     u32 width=((const u8 *)d_02211A74)[tableOffset+2];
     void *buf=GFL_HEAP_Alloc((u16)((((struct B_PlistWork *)p)->owner->heapId&0x7FFF)|0x8000),width*height*2,0,d_02212540,0x205);
     B_PLIST_ANM_ApplyTilePalette(p,buf,state,flag,mode);
-    BG_SYS_DrawTile(6,(u32)buf,((const u8 *)d_02211A74)[tableOffset],((const u8 *)d_02211A74)[tableOffset+1],width,height);
+    BG_SYS_DrawTile(6,buf,((const u8 *)d_02211A74)[tableOffset],((const u8 *)d_02211A74)[tableOffset+1],width,height);
     BG_SYS_MarkTileDirty(6);
     GFL_HEAP_Free(buf);
 }
@@ -321,7 +322,7 @@ void B_PLIST_ANM_UpdateByMode(u8 *p,u32 mode)
 
 void B_PLIST_ANM_CopyPaletteSlot(unsigned char *p, u32 unused)
 {
-    PALANM_CopyToSlot((struct PalAnmSlot *)(((struct B_PlistWork *)p)->u1D8.palAnm), ((struct B_PlistWork *)p)->palette, 1, 0xc0, 0x20);
+    PALANM_CopyToSlot((struct PalAnmSlot *)(((struct B_PlistWork *)p)->palAnm), ((struct B_PlistWork *)p)->palette, 1, 0xc0, 0x20);
 }
 
 /*

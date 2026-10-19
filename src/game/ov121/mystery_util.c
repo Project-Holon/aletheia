@@ -89,6 +89,7 @@
  *   GFL_USE_GetMainTaskList  0x020056BC  thumb  arm9
  *   BMP_MENULIST_GetAttr  0x02020350  thumb  arm9
  *   BMP_MENULIST_SetCancelDisabled  0x02020D10  thumb  arm9
+ *   _u32_div_f                   0x0209C2B0  arm
  */
 #include "mystery_net_types.h"
 #include "mystery_util_shared_types.h"
@@ -344,77 +345,88 @@ struct Pt { s16 x; s16 y; };
 /* BMP_OAM create parameter (MYSTERY_UTIL_CreateTaskEx). */
 typedef struct { void *win; s16 x,y; int z; int pal; u8 a,b; u16 c; int d; } MysteryUtilOamParam;
 
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const void *site, u16 tag);
+extern void *GFL_HEAP_Alloc(unsigned int heapId, unsigned int size, int clear, char *site, unsigned short tag);
 
 extern void MI_CpuFill8(void *, int, u32);
 
 extern u32 GFL_HEAP_Free(void *p);
 
 extern void *STRBUF_Create(u32, u16);
+struct BmpWin;
 
-extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
+extern struct BmpWin *BMP_WIN_Create(u32 bgLayer, u32 posX, u32 posY, u8 width, u8 height, u8 palette, u8 allocDir);
+struct Bmp;
 
-extern void *BMP_WIN_GetBmp(void *p);
+extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *win);
 
-extern void BMP_Clear(void *buf, u8 value);
+extern void BMP_Clear(struct Bmp *bmp, u8 value);
 
-extern void BMP_WIN_TransferChars(void *d);
+extern void BMP_WIN_TransferChars(struct BmpWin *win);
 
-extern void BMP_WIN_MakeScreen(void *cfg);
+extern void BMP_WIN_MakeScreen(struct BmpWin *win);
 
-extern u8 BMP_WIN_GetBgLayer(void *p);
+extern u8 BMP_WIN_GetBgLayer(struct BmpWin *win);
 
 extern void BG_SYS_PushTile(u32);
 
-extern u32 BMP_WIN_Delete(void *d);
+extern u32 BMP_WIN_Delete(struct BmpWin *win);
+struct Strbuf;
 
-extern void STRBUF_Delete(void *vec);
+extern void STRBUF_Delete(struct Strbuf *strbuf);
 
-extern void BMP_WIN_ClearScreen(void *d);
+extern void BMP_WIN_ClearScreen(struct BmpWin *win);
 
-extern void MSGDATA_ReadString(void *bank, u32 index, void *dest);
+extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, struct Strbuf *dest);
+struct GfFont;
+struct PrintQueue;
 
-extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
+extern void PRINTSYS_PrintQueColor(struct PrintQueue *queue, struct Bmp *bmp, u32 x, s16 y, struct Strbuf *str, struct GfFont *font, u16 color);
 
-extern void STRBUF_Copy(void *dst, void *src);
+extern void STRBUF_Copy(struct Strbuf *dst, struct Strbuf *src);
 
-extern u32 PRINTSYS_QUE_IsExistTarget(void *p, void *v);
+extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintQueue *queue, struct Bmp *bmp);
 
 extern void BG_SYS_MarkTileDirty(unsigned);
 
-extern u16 BMP_GetWidth(const void *bmp);
+extern u16 BMP_GetWidth(struct Bmp *bmp);
 
-extern u16 BMP_GetHeight(const void *bmp);
+extern u16 BMP_GetHeight(struct Bmp *bmp);
 
-extern u32 PRINTSYS_MeasureWidestLine(void *s, u32 a, u32 b);
+extern u32 PRINTSYS_MeasureWidestLine(struct Strbuf *text, struct GfFont *font, u32 spacing);
 
-extern u32 PRINTSYS_CountLines(void *s, void *font);
+extern u32 PRINTSYS_CountLines(struct Strbuf *text, struct GfFont *font);
+struct TcblSystem;
 
-extern struct Tcbl *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
+extern struct TcblSystem *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
 
 extern void PRINTSYS_CTRL_Init(void *p, u32 v);
+struct TextPrinter;
 
-extern void PRINTSYS_PrintStreamDelete(void *p);
+extern void PRINTSYS_PrintStreamDelete(struct TextPrinter *printer);
+struct TimeIcon;
 
-extern void TIME_ICON_Delete(void *);
+extern void TIME_ICON_Delete(struct TimeIcon *icon);
+struct KeyCursor;
 
-extern int APP_KEYCURSOR_Delete(int cursor);
+extern void APP_KEYCURSOR_Delete(struct KeyCursor *cursor);
 
-extern void TCBL_Destroy(void *p);
+extern void TCBL_Destroy(struct TcblSystem *tcbl);
 
-extern void BMP_MENUWORK_DrawWindowBorder(void *, u32);
+extern void BMP_MENUWORK_DrawWindowBorder(struct BmpWin *desc, u32 commitMode);
 
-extern void APP_KEYCURSOR_Update(void *ctx, void *p, void *cell);
+extern void APP_KEYCURSOR_Update(struct KeyCursor *cursor, struct TextPrinter *printStream, void *win);
+struct PrintStreamCtrl;
 
-extern s32 PRINTSYS_CTRL_Update(void *blk, void *h);
+extern s32 PRINTSYS_CTRL_Update(struct PrintStreamCtrl *ctrl, struct TextPrinter *stream);
 
-extern void TCBL_Main(void *p);
+extern void TCBL_Main(struct TcblSystem *tcbl);
+struct TcbList;
 
-extern u32 GFL_USE_GetMainTaskList(void);
+extern struct TcbList *GFL_USE_GetMainTaskList(void);
 
-extern u8 *TIME_ICON_Create(void *owner, void *refWin, u8 fillColor, u8 waitInterval, volatile u16 heap);
+extern struct TimeIcon *TIME_ICON_Create(struct TcbList *taskList, struct BmpWin *refWin, u8 fillColor, u8 waitInterval, u16 heapId);
 
-extern void PRINTSYS_PrintQue(void *p, u32 a, u32 b, u32 c, void *s, u32 e);
+extern void PRINTSYS_PrintQue(struct PrintQueue *queue, struct Bmp *bmp, u32 x, s16 y, struct Strbuf *str, struct GfFont *font);
 
 extern void *APP_KEYCURSOR_CreateDefault(u32,u32,u32,u32);
 
@@ -427,40 +439,43 @@ extern void BMP_MENUWORK_DrawWindow(void *, int, int, int);
 extern void *BMP_MENUWORK_Create(u32,u32);
 
 extern void BMP_MENUWORK_AddMsgItem(void *table, u32 a, u32 b, u32 tag, u32 heap);
+struct MenuTemplate;
+struct BmpMenuList;
 
-extern struct Obj *BMP_MENULIST_Create(void *src, u16 a, u16 b, u32 heap);
+extern struct BmpMenuList *BMP_MENULIST_Create(struct MenuTemplate *menuTemplate, u16 scroll, u16 row, u32 heap);
 
-extern void BMP_MENULIST_ResetCursorTile(void *p, int heap);
+extern void BMP_MENULIST_ResetCursorTile(struct BmpMenuList *menu, s32 heap);
 
-extern void BMP_MENULIST_SetCancelDisabled(void *p, u32 v);
+extern void BMP_MENULIST_SetCancelDisabled(struct BmpMenuList *menu, u32 disabled);
 
-extern void BMP_MENULIST_Delete(void *o, void *a, void *b);
+extern void BMP_MENULIST_Delete(struct BmpMenuList *menu, u16 *outScroll, u16 *outRow);
 
 extern u32 BMP_MENUWORK_Delete(void *p);
 
-extern s32 BMP_MENULIST_Main(void *o);
+extern s32 BMP_MENULIST_Main(struct BmpMenuList *menu);
 
-extern u32 BMP_MENULIST_GetAttr(void *obj, u32 what);
+extern u32 BMP_MENULIST_GetAttr(struct BmpMenuList *menu, u32 attr);
 
-extern u8 BMP_GetTileBytes(void *b);
+extern u8 BMP_GetTileBytes(struct Bmp *bmp);
 
 extern struct Bmp *BMP_Create(u32 width, u32 height, u32 depth, u16 heap);
 
-extern void BMP_Delete(void *p);
+extern void BMP_Delete(struct Bmp *bmp);
 
-extern void BMP_CopyPixels(void *dst, const void *src);
+extern void BMP_CopyPixels(struct Bmp *src, struct Bmp *dst);
 
-extern void *MSGDATA_AllocString(void *bank, u32 index);
+extern struct Strbuf *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
 
-extern struct U16Vec *STRBUF_Clone(void *src, u32 heapId);
+extern struct Strbuf *STRBUF_Clone(struct Strbuf *src, u32 heapId);
 
 extern void CLACT_AddActorSurfacePos(void *p, const void *delta, u32 which);
+struct Actor;
 
-extern void CLACT_SetActorDrawEnable(void *p, u32 v);
+extern void CLACT_SetActorDrawEnable(struct Actor *actor, u32 value);
 
-extern void CLACT_SetActorAnimSeq(void *p, u16 value);
+extern void CLACT_SetActorAnimSeq(struct Actor *actor, u16 value);
 
-extern void CLACT_SetActorAutoAnim(void *p, u32 v);
+extern void CLACT_SetActorAutoAnim(struct Actor *actor, u32 enable);
 
 extern u32 KEY_GetTrg(void);
 
@@ -470,10 +485,11 @@ extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 
 
 extern struct Grid *BMP_OAM_Create(void *sys, const void *param);
+struct BmpOam;
 
-extern void BMP_OAM_Delete(void *g);
+extern void BMP_OAM_Delete(struct BmpOam *bmpOam);
 
-extern void BMP_OAM_UploadChars(void *o);
+extern void BMP_OAM_UploadChars(struct BmpOam *bmpOam);
 
 extern s32 NNS_GfdRegisterNewVramTransferTask(void *p, u32 a, u32 b, s32 size);
 
@@ -483,7 +499,7 @@ void MYSTERY_UTIL_DeleteWindow(u8 *p);
 
 void MYSTERY_UTIL_ClearWindow(u8 *p);
 
-void MYSTERY_UTIL_ShowMessage(u8 *p, u16 a, int b, int c);
+void MYSTERY_UTIL_ShowMessage(u8 *p, struct MsgBank *a, int b, int c);
 
 void MYSTERY_UTIL_ShowString(u8 *p, int a, int b);
 
@@ -523,7 +539,7 @@ void MYSTERY_UTIL_DeleteMenu(u8 *p);
 
 int MYSTERY_UTIL_UpdateMenu(char *p);
 
-void *MYSTERY_UTIL_CreateWindowList(void *a,const char *desc,u32 n,u16 b,u8 c,u32 d,u16 e,int f,u16 heap);
+void *MYSTERY_UTIL_CreateWindowList(void *a,const char *desc,u32 n,u16 b,u8 c,u32 d,struct MsgBank *e,int f,u16 heap);
 
 void MYSTERY_UTIL_DeleteWindowList(u8 *p);
 
@@ -605,7 +621,7 @@ void *MYSTERY_UTIL_CreateWindow(u32 a, u32 b, u16 c, u16 d, u8 e, u8 f, u8 g, u3
 {
     u8 *p;
     void *q;
-    p = GFL_HEAP_Alloc(heap, 0x28, 0, d_021DFBA0, 0x55);
+    p = GFL_HEAP_Alloc(heap, 0x28, 0, (char *)d_021DFBA0, 0x55);
     MI_CpuFill8(p, 0, 0x28);
     ((MysteryUtilWindow *)p)->printOwner = (void *)h;
     ((MysteryUtilWindow *)p)->textParam = b;
@@ -637,16 +653,16 @@ void MYSTERY_UTIL_ClearWindow(u8 *p) { BMP_WIN_ClearScreen(((MysteryUtilWindow *
 /*
  * extent: two zero padding bytes at 0x021D9AC6.
  */
-void MYSTERY_UTIL_ShowMessage(u8 *p, u16 a, int b, int c)
+void MYSTERY_UTIL_ShowMessage(u8 *p, struct MsgBank *a, int b, int c)
 {
     MysteryUtilTextPos xy;
     void *q;
     BMP_Clear(BMP_WIN_GetBmp(((MysteryUtilWindow *)p)->bmpWin2), ((MysteryUtilWindow *)p)->color & 31);
-    MSGDATA_ReadString((struct MsgBank *)a, b, ((MysteryUtilWindow *)p)->textBuf);
+    MSGDATA_ReadString(a, b, ((MysteryUtilWindow *)p)->textBuf);
     MYSTERY_UTIL_ComputeTextPosition(p, c, &xy);
     q = ((MysteryUtilWindow *)p)->printOwner;
-    PRINTSYS_PrintQueColor(q, (u32)BMP_WIN_GetBmp(((MysteryUtilWindow *)p)->bmpWin), (s16)xy.x, (s16)xy.y,
-                 (u32)(((MysteryUtilWindow *)p)->textBuf), c, ((MysteryUtilWindow *)p)->color);
+    PRINTSYS_PrintQueColor(q, (struct Bmp *)BMP_WIN_GetBmp(((MysteryUtilWindow *)p)->bmpWin), (s16)xy.x, (s16)xy.y,
+                 (struct Strbuf *)(((MysteryUtilWindow *)p)->textBuf), (struct GfFont *)c, ((MysteryUtilWindow *)p)->color);
     p[4] = 1;
 }
 
@@ -658,11 +674,11 @@ void MYSTERY_UTIL_ShowString(u8 *p, int a, int b)
     MysteryUtilTextPos xy;
     void *q;
     BMP_Clear(BMP_WIN_GetBmp(((MysteryUtilWindow *)p)->bmpWin2), ((MysteryUtilWindow *)p)->color & 31);
-    STRBUF_Copy(((MysteryUtilWindow *)p)->textBuf, (struct U16Vec *)a);
+    STRBUF_Copy((struct Strbuf *)(((MysteryUtilWindow *)p)->textBuf), (struct Strbuf *)a);
     MYSTERY_UTIL_ComputeTextPosition(p, b, &xy);
     q = ((MysteryUtilWindow *)p)->printOwner;
-    PRINTSYS_PrintQueColor(q, (u32)BMP_WIN_GetBmp(((MysteryUtilWindow *)p)->bmpWin), (s16)xy.x, (s16)xy.y,
-                 (u32)(((MysteryUtilWindow *)p)->textBuf), b, ((MysteryUtilWindow *)p)->color);
+    PRINTSYS_PrintQueColor(q, (struct Bmp *)BMP_WIN_GetBmp(((MysteryUtilWindow *)p)->bmpWin), (s16)xy.x, (s16)xy.y,
+                 (struct Strbuf *)(((MysteryUtilWindow *)p)->textBuf), (struct GfFont *)b, ((MysteryUtilWindow *)p)->color);
     p[4] = 1;
 }
 
@@ -681,8 +697,8 @@ int MYSTERY_UTIL_IsMessageDone(u8 *p)
     if (((MysteryUtilWindow *)p)->variant == 0) {
         q = (u32)((MysteryUtilWindow *)p)->printOwner;
         if (p[4]) {
-            if (PRINTSYS_QUE_IsExistTarget((struct PrintSys *)q, (void *)((u32)BMP_WIN_GetBmp((struct Descriptor *)((MysteryUtilWindow *)p)->bmpWin))) == 0) {
-                BMP_WIN_TransferChars((struct Descriptor *)((MysteryUtilWindow *)p)->bmpWin);
+            if (PRINTSYS_QUE_IsExistTarget((struct PrintQueue *)q, (void *)((u32)BMP_WIN_GetBmp((struct BmpWin *)((MysteryUtilWindow *)p)->bmpWin))) == 0) {
+                BMP_WIN_TransferChars((struct BmpWin *)((MysteryUtilWindow *)p)->bmpWin);
                 p[4] = 0;
             }
         }
@@ -690,7 +706,7 @@ int MYSTERY_UTIL_IsMessageDone(u8 *p)
         return 0;
     } else {
         if (p[4]) {
-            if (PRINTSYS_QUE_IsExistTarget((struct PrintSys *)(((MysteryUtilWindow *)p)->printOwner), (void *)((u32)BMP_WIN_GetBmp((struct Descriptor *)((MysteryUtilWindow *)p)->bmpWin))) == 0)
+            if (PRINTSYS_QUE_IsExistTarget((struct PrintQueue *)(((MysteryUtilWindow *)p)->printOwner), (void *)((u32)BMP_WIN_GetBmp((struct BmpWin *)((MysteryUtilWindow *)p)->bmpWin))) == 0)
                 p[4] = 0;
         }
         if (p[4] == 0) return 1;
@@ -728,22 +744,22 @@ void MYSTERY_UTIL_AlignText(u32 mode, const MysteryUtilTextPos *in, const void *
         *out = *in;
         return;
     case 1:
-        x = (u32)BMP_GetWidth(bitmap) / 2;
-        y = (u32)BMP_GetHeight(bitmap) / 2;
-        x -= PRINTSYS_MeasureWidestLine(obj, a, 0) / 2;
+        x = (u32)BMP_GetWidth((struct Bmp *)bitmap) / 2;
+        y = (u32)BMP_GetHeight((struct Bmp *)bitmap) / 2;
+        x -= PRINTSYS_MeasureWidestLine(obj, (struct GfFont *)a, 0) / 2;
         y -= PRINTSYS_CountLines(obj, (void *)a) / 2;
         out->x = x + in->x;
         out->y = y + in->y;
         return;
     case 2:
-        y = (u32)BMP_GetHeight(bitmap) / 2;
+        y = (u32)BMP_GetHeight((struct Bmp *)bitmap) / 2;
         y -= PRINTSYS_CountLines(obj, (void *)a) / 2;
         out->x = in->x;
         out->y = y + in->y;
         return;
     case 3:
-        x = BMP_GetWidth(bitmap);
-        x -= PRINTSYS_MeasureWidestLine(obj, a, 0);
+        x = BMP_GetWidth((struct Bmp *)bitmap);
+        x -= PRINTSYS_MeasureWidestLine(obj, (struct GfFont *)a, 0);
         if (x < 0) x = 0;
         out->x = x + in->x;
         out->y = in->y;
@@ -753,7 +769,7 @@ void MYSTERY_UTIL_AlignText(u32 mode, const MysteryUtilTextPos *in, const void *
 
 static inline void *allocate(u16 heap, u32 size, const char *site, u16 line)
 {
-    return GFL_HEAP_Alloc(heap, size, 0, site, line);
+    return GFL_HEAP_Alloc(heap, size, 0, (char *)site, line);
 }
 
 /*
@@ -799,7 +815,7 @@ void *MYSTERY_UTIL_CreateMenuWindow2(int a, u8 b, void *c, void *d, u16 heap)
 {
     u8 *p;
     struct Descriptor *q;
-    p = GFL_HEAP_Alloc(heap, 0x40, 0, d_021DFBA0, 0x1ae);
+    p = GFL_HEAP_Alloc(heap, 0x40, 0, (char *)d_021DFBA0, 0x1ae);
     MI_CpuFill8(p, 0, 0x40);
     *(u16 *)(p + 0x18) = 15;
     *(void **)(p + 4) = d;
@@ -811,12 +827,12 @@ void *MYSTERY_UTIL_CreateMenuWindow2(int a, u8 b, void *c, void *d, u16 heap)
     *(struct Descriptor **)(p + 0x10) = q;
     *(struct Descriptor **)(p + 0x1c) = q;
     p[0x20] = 0;
-    BMP_Clear(BMP_WIN_GetBmp(*(struct Descriptor **)(p + 0x10)), *(u16 *)(p + 0x18));
+    BMP_Clear(BMP_WIN_GetBmp((struct BmpWin *)(*(struct Descriptor **)(p + 0x10))), *(u16 *)(p + 0x18));
     q = *(struct Descriptor **)(p + 0x10);
-    BMP_WIN_TransferChars(q);
-    BMP_WIN_MakeScreen((struct Cfg *)q);
-    BG_SYS_PushTile(BMP_WIN_GetBgLayer(q));
-    *(struct Tcbl **)(p + 0xc) = TCBL_Create(heap, heap, 1, 32);
+    BMP_WIN_TransferChars((struct BmpWin *)q);
+    BMP_WIN_MakeScreen((struct BmpWin *)q);
+    BG_SYS_PushTile(BMP_WIN_GetBgLayer((struct BmpWin *)q));
+    *(struct Tcbl **)(p + 0xc) = (struct Tcbl *)TCBL_Create(heap, heap, 1, 32);
     return p;
 }
 
@@ -830,7 +846,7 @@ void MYSTERY_UTIL_DeleteMenuWindow(u8 *p)
         TIME_ICON_Delete(((MysteryUtilMenuWindow *)p)->timeIcon);
         ((MysteryUtilMenuWindow *)p)->timeIcon = 0;
     }
-    if (((MysteryUtilMenuWindow *)p)->keyCursor) APP_KEYCURSOR_Delete((int)(((MysteryUtilMenuWindow *)p)->keyCursor));
+    if (((MysteryUtilMenuWindow *)p)->keyCursor) APP_KEYCURSOR_Delete((struct KeyCursor *)(((MysteryUtilMenuWindow *)p)->keyCursor));
     TCBL_Destroy(((MysteryUtilMenuWindow *)p)->tcbl);
     BMP_MENUWORK_DrawWindowBorder(((MysteryUtilMenuWindow *)p)->bmpWin, 0);
     BMP_WIN_Delete(((MysteryUtilMenuWindow *)p)->bmpWin);
@@ -848,8 +864,8 @@ void MYSTERY_UTIL_UpdateMenuWindow(u8 *p)
     case 2:
         q = ((MysteryUtilMenuWindow *)p)->elementSlot;
         if (p[0x20]) {
-            if (PRINTSYS_QUE_IsExistTarget((struct PrintSys *)q, (void *)((u32)BMP_WIN_GetBmp((struct Descriptor *)((MysteryUtilMenuWindow *)p)->bmpWin2))) == 0) {
-                BMP_WIN_TransferChars((struct Descriptor *)((MysteryUtilMenuWindow *)p)->bmpWin2);
+            if (PRINTSYS_QUE_IsExistTarget((struct PrintQueue *)q, (void *)((u32)BMP_WIN_GetBmp((struct BmpWin *)((MysteryUtilMenuWindow *)p)->bmpWin2))) == 0) {
+                BMP_WIN_TransferChars((struct BmpWin *)((MysteryUtilMenuWindow *)p)->bmpWin2);
                 p[0x20] = 0;
             }
         }
@@ -857,8 +873,8 @@ void MYSTERY_UTIL_UpdateMenuWindow(u8 *p)
     case 0:
         q = ((MysteryUtilMenuWindow *)p)->elementSlot;
         if (p[0x20]) {
-            if (PRINTSYS_QUE_IsExistTarget((struct PrintSys *)q, (void *)((u32)BMP_WIN_GetBmp((struct Descriptor *)((MysteryUtilMenuWindow *)p)->bmpWin2))) == 0) {
-                BMP_WIN_TransferChars((struct Descriptor *)((MysteryUtilMenuWindow *)p)->bmpWin2);
+            if (PRINTSYS_QUE_IsExistTarget((struct PrintQueue *)q, (void *)((u32)BMP_WIN_GetBmp((struct BmpWin *)((MysteryUtilMenuWindow *)p)->bmpWin2))) == 0) {
+                BMP_WIN_TransferChars((struct BmpWin *)((MysteryUtilMenuWindow *)p)->bmpWin2);
                 p[0x20] = 0;
             }
         }
@@ -867,15 +883,15 @@ void MYSTERY_UTIL_UpdateMenuWindow(u8 *p)
     case 1:
         if (((MysteryUtilMenuWindow *)p)->printStream) {
             if (((MysteryUtilMenuWindow *)p)->keyCursor)
-                APP_KEYCURSOR_Update((struct Ctx *)(((MysteryUtilMenuWindow *)p)->keyCursor), (void *)(((MysteryUtilMenuWindow *)p)->printStream), (void *)(((MysteryUtilMenuWindow *)p)->bmpWin));
-            if (PRINTSYS_CTRL_Update((struct Blk *)(p + 0x34), (void *)(((MysteryUtilMenuWindow *)p)->printStream)))
+                APP_KEYCURSOR_Update((struct KeyCursor *)(((MysteryUtilMenuWindow *)p)->keyCursor), (void *)(((MysteryUtilMenuWindow *)p)->printStream), (void *)(((MysteryUtilMenuWindow *)p)->bmpWin));
+            if (PRINTSYS_CTRL_Update((struct PrintStreamCtrl *)(p + 0x34), (void *)(((MysteryUtilMenuWindow *)p)->printStream)))
                 ((MysteryUtilMenuWindow *)p)->result = 1;
         }
         break;
     case 3:
         break;
     }
-    TCBL_Main((struct Tcbl *)(((MysteryUtilMenuWindow *)p)->tcbl));
+    TCBL_Main((struct TcblSystem *)(((MysteryUtilMenuWindow *)p)->tcbl));
 }
 
 void MYSTERY_UTIL_SetMenuMessage(u8 *a, int b, int c, int d)
@@ -893,7 +909,7 @@ void MYSTERY_UTIL_SetMenuMode(u8 *p,int mode)
         ((MysteryUtilMenuWindow *)p)->printStream=0;
     }
     if(((MysteryUtilMenuWindow *)p)->keyCursor) {
-        APP_KEYCURSOR_Delete((int)(((MysteryUtilMenuWindow *)p)->keyCursor));
+        APP_KEYCURSOR_Delete((struct KeyCursor *)(((MysteryUtilMenuWindow *)p)->keyCursor));
         ((MysteryUtilMenuWindow *)p)->keyCursor=0;
     }
     MYSTERY_UTIL_ResetMenuWindow(p);
@@ -901,13 +917,13 @@ void MYSTERY_UTIL_SetMenuMode(u8 *p,int mode)
     case 2:
         ((MysteryUtilMenuWindow *)p)->timeIcon=TIME_ICON_Create((void *)GFL_USE_GetMainTaskList(),((MysteryUtilMenuWindow *)p)->bmpWin,((MysteryUtilMenuWindow *)p)->height,16,((MysteryUtilMenuWindow *)p)->heapTag);
         q=((MysteryUtilMenuWindow *)p)->elementSlot;
-        PRINTSYS_PrintQue((struct PrintSys *)q,(u32)BMP_WIN_GetBmp(((MysteryUtilMenuWindow *)p)->bmpWin2),0,0,((MysteryUtilMenuWindow *)p)->textBuf,((MysteryUtilMenuWindow *)p)->printArg);
+        PRINTSYS_PrintQue((struct PrintQueue *)q,(struct Bmp *)BMP_WIN_GetBmp(((MysteryUtilMenuWindow *)p)->bmpWin2),0,0,((MysteryUtilMenuWindow *)p)->textBuf,(struct GfFont *)(((MysteryUtilMenuWindow *)p)->printArg));
         p[0x20]=1;
         ((MysteryUtilMenuWindow *)p)->state=0;
         break;
     case 0:
         q=((MysteryUtilMenuWindow *)p)->elementSlot;
-        PRINTSYS_PrintQue((struct PrintSys *)q,(u32)BMP_WIN_GetBmp(((MysteryUtilMenuWindow *)p)->bmpWin2),0,0,((MysteryUtilMenuWindow *)p)->textBuf,((MysteryUtilMenuWindow *)p)->printArg);
+        PRINTSYS_PrintQue((struct PrintQueue *)q,(struct Bmp *)BMP_WIN_GetBmp(((MysteryUtilMenuWindow *)p)->bmpWin2),0,0,((MysteryUtilMenuWindow *)p)->textBuf,(struct GfFont *)(((MysteryUtilMenuWindow *)p)->printArg));
         p[0x20]=1;
         ((MysteryUtilMenuWindow *)p)->state=0;
         break;
@@ -928,7 +944,7 @@ void MYSTERY_UTIL_DrawMenuWindow(u8 *p, int a, int b)
     BMP_MENUWORK_DrawWindow(((MysteryUtilMenuWindow *)p)->bmpWin, 0, a, b);
 }
 
-void MYSTERY_UTIL_ResetMenuWindow(u8 *p) { ((MysteryUtilMenuWindow *)p)->result=1; if(*(u8 * *)&((MysteryUtilMenuWindow *)p)->timeIcon) { TIME_ICON_Delete(*(u8 * *)&((MysteryUtilMenuWindow *)p)->timeIcon); *(u32 *)&((MysteryUtilMenuWindow *)p)->timeIcon=0; BMP_WIN_MakeScreen(((MysteryUtilMenuWindow *)p)->bmpWin); BG_SYS_PushTile(BMP_WIN_GetBgLayer(((MysteryUtilMenuWindow *)p)->bmpWin)); } }
+void MYSTERY_UTIL_ResetMenuWindow(u8 *p) { ((MysteryUtilMenuWindow *)p)->result=1; if(*(u8 * *)&((MysteryUtilMenuWindow *)p)->timeIcon) { TIME_ICON_Delete((struct TimeIcon *)(*(u8 * *)&((MysteryUtilMenuWindow *)p)->timeIcon)); *(u32 *)&((MysteryUtilMenuWindow *)p)->timeIcon=0; BMP_WIN_MakeScreen(((MysteryUtilMenuWindow *)p)->bmpWin); BG_SYS_PushTile(BMP_WIN_GetBgLayer(((MysteryUtilMenuWindow *)p)->bmpWin)); } }
 
 /*
  * lever: const source parameter and the original heap stack argument to 0201F878.
@@ -939,7 +955,7 @@ void *MYSTERY_UTIL_CreateMenu(const u8 *p,u16 heap)
     void *q;
     u32 i;
     MysteryUtilMenuListSrc cfg;
-    out=GFL_HEAP_Alloc(heap,24,0,d_021DFBA0,0x2cb);
+    out=GFL_HEAP_Alloc(heap,24,0,(char *)d_021DFBA0,0x2cb);
     MI_CpuFill8(out,0,24);
     ((MysteryUtilMenu *)out)->printOwner=((MysteryUtilMenuDef *)p)->printOwner;
     ((MysteryUtilMenu *)out)->bmpWin=(void *)BMP_WIN_Create((u8)(((MysteryUtilMenuDef *)p)->bgLayer),(u16)19,(u16)((u8)(17-(u8)(((MysteryUtilMenuDef *)p)->count*2))),(u8)12,(u8)(((MysteryUtilMenuDef *)p)->count*2),((MysteryUtilMenuDef *)p)->palette,1);
@@ -962,7 +978,7 @@ void *MYSTERY_UTIL_CreateMenu(const u8 *p,u16 heap)
     cfg.slotPointer=(u32)(out+8);
     cfg.printOwner=((MysteryUtilMenuDef *)p)->printOwner;
     cfg.messageTable=((MysteryUtilMenuDef *)p)->messageTable;
-    ((MysteryUtilMenu *)out)->menuList=BMP_MENULIST_Create((struct Src *)(&cfg),0,0,heap);
+    ((MysteryUtilMenu *)out)->menuList=BMP_MENULIST_Create((struct MenuTemplate *)(&cfg),0,0,heap);
     BMP_MENULIST_ResetCursorTile(((MysteryUtilMenu *)out)->menuList,heap);
     BMP_MENULIST_SetCancelDisabled(((MysteryUtilMenu *)out)->menuList,0);
     return out;
@@ -978,8 +994,8 @@ int MYSTERY_UTIL_UpdateMenu(char *p)
     u32 q = ((MysteryUtilMenu *)p)->printOwner;
     int r;
     if (((MysteryUtilMenu *)p)->winFlag) {
-        if (PRINTSYS_QUE_IsExistTarget((struct PrintSys *)q,(void *)((u32)BMP_WIN_GetBmp((struct Descriptor *)((MysteryUtilMenu *)p)->bmpWin2))) == 0) {
-            BMP_WIN_TransferChars((struct Descriptor *)((MysteryUtilMenu *)p)->bmpWin2);
+        if (PRINTSYS_QUE_IsExistTarget((struct PrintQueue *)q,(void *)((u32)BMP_WIN_GetBmp((struct BmpWin *)((MysteryUtilMenu *)p)->bmpWin2))) == 0) {
+            BMP_WIN_TransferChars((struct BmpWin *)((MysteryUtilMenu *)p)->bmpWin2);
             ((MysteryUtilMenu *)p)->winFlag=0;
         }
     }
@@ -991,16 +1007,16 @@ int MYSTERY_UTIL_UpdateMenu(char *p)
 /*
  * lever: b is u16; const descriptor input and an element slot pointer reproduce scheduling.
  */
-void *MYSTERY_UTIL_CreateWindowList(void *a,const char *desc,u32 n,u16 b,u8 c,u32 d,u16 e,int f,u16 heap)
+void *MYSTERY_UTIL_CreateWindowList(void *a,const char *desc,u32 n,u16 b,u8 c,u32 d,struct MsgBank *e,int f,u16 heap)
 {
     u32 i;
     int size=n*4+16;
-    char *out=GFL_HEAP_Alloc(heap,size,0,d_021DFBA0,0x374);
+    char *out=GFL_HEAP_Alloc(heap,size,0,(char *)d_021DFBA0,0x374);
     MI_CpuFill8(out,0,size);
     *(const char * *)&((MysteryUtilWindowList *)out)->desc=desc;
     ((MysteryUtilWindowList *)out)->count=n;
     ((MysteryUtilWindowList *)out)->printOwner=f;
-    ((MysteryUtilWindowList *)out)->msgBank=e;
+    ((MysteryUtilWindowList *)out)->msgBank=(int)e;
     for(i=0;i<((MysteryUtilWindowList *)out)->count;i++) {
         const char *v=desc+i*24;
         MysteryUtilWindowSlot *slot=(MysteryUtilWindowSlot *)(out+i*4);
@@ -1031,7 +1047,7 @@ void *MYSTERY_UTIL_CreateBmpList(char *p,u16 heap)
 {
     u32 i;
     int size=((MysteryUtilWindowList *)p)->count*4+8;
-    char *out=GFL_HEAP_Alloc(heap,size,0,d_021DFBA0,0x42e);
+    char *out=GFL_HEAP_Alloc(heap,size,0,(char *)d_021DFBA0,0x42e);
     MI_CpuFill8(out,0,size);
     *(char * *)&((MysteryUtilBmpList *)out)->srcList=p;
     ((MysteryUtilBmpList *)out)->heapId=heap;
@@ -1062,9 +1078,9 @@ void MYSTERY_UTIL_DrawBmpList(char *p,char *desc,void *dst)
             pos.x=((MysteryUtilMenuEntry *)d)->posX;
             pos.y=((MysteryUtilMenuEntry *)d)->posY;
             MYSTERY_UTIL_AlignText(((MysteryUtilMenuEntry *)d)->layoutMode,&pos,*(void **)(p+i*4+8),text,((MysteryUtilWindowList *)((MysteryUtilBmpList *)p)->srcList)->printOwner,&out);
-            if(((MysteryUtilMenuEntry *)d)->str.stringId) STRBUF_Copy(text,(struct U16Vec *)(((MysteryUtilMenuEntry *)d)->str.stringId));
+            if(((MysteryUtilMenuEntry *)d)->str.stringId) STRBUF_Copy((struct Strbuf *)text,(struct Strbuf *)(((MysteryUtilMenuEntry *)d)->str.stringId));
             else MSGDATA_ReadString((struct MsgBank *)(((MysteryUtilWindowList *)((MysteryUtilBmpList *)p)->srcList)->msgBank),((MysteryUtilMenuEntry *)d)->messageId,text);
-            PRINTSYS_PrintQueColor(dst,(u32)(*(void **)(p+i*4+8)),(s16)out.x,(s16)out.y,(u32)text,((MysteryUtilWindowList *)((MysteryUtilBmpList *)p)->srcList)->printOwner,((MysteryUtilMenuEntry *)d)->color);
+            PRINTSYS_PrintQueColor(dst,(struct Bmp *)(*(void **)(p+i*4+8)),(s16)out.x,(s16)out.y,(struct Strbuf *)text,(struct GfFont *)(((MysteryUtilWindowList *)((MysteryUtilBmpList *)p)->srcList)->printOwner),((MysteryUtilMenuEntry *)d)->color);
         }
     }
     GFL_HEAP_Free(text);
@@ -1086,7 +1102,7 @@ struct MysteryUtilDetailWindow *MYSTERY_UTIL_CreateDetailWindow(const struct Mys
     u32 i;
     u8 c;
     u16 w;
-    struct MysteryUtilDetailWindow *out = GFL_HEAP_Alloc(heap, 0x64, 0, d_021DFBA0, 0x4e7);
+    struct MysteryUtilDetailWindow *out = GFL_HEAP_Alloc(heap, 0x64, 0, (char *)d_021DFBA0, 0x4e7);
     MI_CpuFill8(out, 0, 0x64);
     out->count = in->count;
     out->actor = (u32)in->actor;
@@ -1113,7 +1129,7 @@ struct MysteryUtilDetailWindow *MYSTERY_UTIL_CreateDetailWindow(const struct Mys
         r->b += (u8)in->rowOffset;
         r->a += (u8)in->colOffset;
         if (in->bank) r->h = MSGDATA_AllocString(in->bank, in->ids[i]);
-        else r->h = STRBUF_Clone((struct U16Vec *)in->ids[i], (u16)((heap & 0x7FFF) | 0x8000));
+        else r->h = STRBUF_Clone((struct Strbuf *)in->ids[i], (u16)((heap & 0x7FFF) | 0x8000));
     }
     c = in->windowPalette;
     w = in->bgLayer;
@@ -1200,7 +1216,7 @@ void MYSTERY_UTIL_SetListValue(u8 *p,u32 i,u32 value)
     *(u32 *)(p+i*4+76)=value;
 }
 
-void *MYSTERY_UTIL_CreateTask(void *a,void *b,u16 heap) { u8 *p; p=GFL_HEAP_Alloc(heap,20,0,d_021DFBA0,0x61c); MI_CpuFill8(p,0,20); ((MysteryUtilTask *)p)->arg.ptr=a; MYSTERY_UTIL_SetTaskHandler((u32 *)p,(u32)b); return p; }
+void *MYSTERY_UTIL_CreateTask(void *a,void *b,u16 heap) { u8 *p; p=GFL_HEAP_Alloc(heap,20,0,(char *)d_021DFBA0,0x61c); MI_CpuFill8(p,0,20); ((MysteryUtilTask *)p)->arg.ptr=a; MYSTERY_UTIL_SetTaskHandler((u32 *)p,(u32)b); return p; }
 
 void MYSTERY_UTIL_DeleteTask(void *p) { GFL_HEAP_Free(p); }
 
@@ -1226,7 +1242,7 @@ void MYSTERY_UTIL_GetTaskArg(u32 *p) { p[2]=p[4]; }
 void *MYSTERY_UTIL_CreateTaskEx(const char *p,u16 a,u16 b,int c,u8 d,int e,void *f,void *g,u16 heap)
 {
     MysteryUtilOamParam desc;
-    char *out=GFL_HEAP_Alloc(heap,36,0,d_021DFBA0,0x6b1);
+    char *out=GFL_HEAP_Alloc(heap,36,0,(char *)d_021DFBA0,0x6b1);
     MI_CpuFill8(out,0,36);
     ((MysteryUtilActorPair *)out)->printQueue=g;
     ((MysteryUtilActorPair *)out)->textBuf=STRBUF_Create(128,heap);
@@ -1249,7 +1265,7 @@ void MYSTERY_UTIL_DeleteActorPair(u8 *p) { BMP_OAM_Delete(((MysteryUtilActorPair
 
 void MYSTERY_UTIL_UpdateActorPair(char *p)
 {
-    BMP_Clear((struct CharBuf *)((MysteryUtilActorPair *)p)->bmp, (unsigned char)(((MysteryUtilActorPair *)p)->color & 0x1f));
+    BMP_Clear((struct Bmp *)((MysteryUtilActorPair *)p)->bmp, (unsigned char)(((MysteryUtilActorPair *)p)->color & 0x1f));
     BMP_OAM_UploadChars(((MysteryUtilActorPair *)p)->oam);
 }
 
@@ -1259,10 +1275,10 @@ void MYSTERY_UTIL_UpdateActorPair(char *p)
 void MYSTERY_UTIL_SetActorPairText(char *p,int a,int b,int c)
 {
     int xy[2];
-    BMP_Clear((struct CharBuf *)((MysteryUtilActorPair *)p)->bmp,(u8)(((MysteryUtilActorPair *)p)->color&31));
+    BMP_Clear((struct Bmp *)((MysteryUtilActorPair *)p)->bmp,(u8)(((MysteryUtilActorPair *)p)->color&31));
     MSGDATA_ReadString((struct MsgBank *)a,b,((MysteryUtilActorPair *)p)->textBuf);
     MYSTERY_UTIL_BuildPaletteRow(p,c,xy);
-    PRINTSYS_PrintQueColor(((MysteryUtilActorPair *)p)->printQueue,(u32)((MysteryUtilActorPair *)p)->bmp,(s16)xy[0],(s16)xy[1],(u32)(((MysteryUtilActorPair *)p)->textBuf),c,((MysteryUtilActorPair *)p)->color);
+    PRINTSYS_PrintQueColor(((MysteryUtilActorPair *)p)->printQueue,(struct Bmp *)((MysteryUtilActorPair *)p)->bmp,(s16)xy[0],(s16)xy[1],(struct Strbuf *)(((MysteryUtilActorPair *)p)->textBuf),(struct GfFont *)c,((MysteryUtilActorPair *)p)->color);
     ((MysteryUtilActorPair *)p)->done=1;
 }
 
@@ -1270,7 +1286,7 @@ void MYSTERY_UTIL_SetActorPairColor(u8 *p,int a) { ((MysteryUtilActorPair *)p)->
 
 void MYSTERY_UTIL_SetVec(u32 *p,u32 a,u32 b,u32 c) { p[3]=a; p[4]=b; p[5]=c; }
 
-int MYSTERY_UTIL_IsMenuFinished(u8 *p) { if(((MysteryUtilActorPair *)p)->done) { if(PRINTSYS_QUE_IsExistTarget((struct PrintSys *)((MysteryUtilActorPair *)p)->printQueue,(void *)((MysteryUtilActorPair *)p)->bmp)==0) { BMP_OAM_UploadChars(((MysteryUtilActorPair *)p)->oam); ((MysteryUtilActorPair *)p)->done=0; } } if(((MysteryUtilActorPair *)p)->done==0) return 1; return 0; }
+int MYSTERY_UTIL_IsMenuFinished(u8 *p) { if(((MysteryUtilActorPair *)p)->done) { if(PRINTSYS_QUE_IsExistTarget((struct PrintQueue *)((MysteryUtilActorPair *)p)->printQueue,(void *)((MysteryUtilActorPair *)p)->bmp)==0) { BMP_OAM_UploadChars(((MysteryUtilActorPair *)p)->oam); ((MysteryUtilActorPair *)p)->done=0; } } if(((MysteryUtilActorPair *)p)->done==0) return 1; return 0; }
 
 /*
  * extent: two bytes of zero alignment padding after the return.
@@ -1284,15 +1300,15 @@ void MYSTERY_UTIL_BuildPaletteRow(char *p,int a,int *out)
         *(MysteryUtilTextPos *)out=*(MysteryUtilTextPos *)(p+12);
         break;
     case 1:
-        x=BMP_GetWidth((const struct Bmp *)((MysteryUtilActorPair *)p)->bmp)/2;
-        y=BMP_GetHeight((const struct Bmp *)((MysteryUtilActorPair *)p)->bmp)/2;
-        x-=PRINTSYS_MeasureWidestLine(((MysteryUtilActorPair *)p)->textBuf,a,0)/2;
+        x=BMP_GetWidth((struct Bmp *)((MysteryUtilActorPair *)p)->bmp)/2;
+        y=BMP_GetHeight((struct Bmp *)((MysteryUtilActorPair *)p)->bmp)/2;
+        x-=PRINTSYS_MeasureWidestLine(((MysteryUtilActorPair *)p)->textBuf,(struct GfFont *)a,0)/2;
         y-=PRINTSYS_CountLines(((MysteryUtilActorPair *)p)->textBuf,(void *)a)/2;
         out[0]=x+((MysteryUtilActorPair *)p)->posX;
         out[1]=y+((MysteryUtilActorPair *)p)->posY;
         break;
     case 2:
-        x=BMP_GetHeight((const struct Bmp *)((MysteryUtilActorPair *)p)->bmp)/2;
+        x=BMP_GetHeight((struct Bmp *)((MysteryUtilActorPair *)p)->bmp)/2;
         x-=PRINTSYS_CountLines(((MysteryUtilActorPair *)p)->textBuf,(void *)a)/2;
         out[0]=((MysteryUtilActorPair *)p)->posX;
         out[1]=x+((MysteryUtilActorPair *)p)->posY;

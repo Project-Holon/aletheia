@@ -114,8 +114,9 @@ extern void BG_SYS_ClearSubPlanes(void);
 extern void GF_FONT_InitTextColor(void);
 
 extern void *GFL_USE_AddMainTask(unsigned, unsigned, unsigned);
+struct TcbTask;
 
-extern void TCB_DeleteTask(struct Node *n);
+extern void TCB_DeleteTask(struct TcbTask *task);
 
 extern void GF_FONT_SetDefaultTextColor(void);
 
@@ -152,8 +153,10 @@ extern void BMP_WIN_Exit(void);
 extern void BG_SYS_Delete(void);
 
 extern void BG_SYS_Update(void);
+struct DispVramCfg;
+struct SysInit;
 
-extern void CLACT_InitSystem(const struct Cfg *cfg, unsigned int arg, unsigned int heapId);
+extern void CLACT_InitSystem(struct SysInit *cfg, struct DispVramCfg *res_cfg, unsigned int heapId);
 
 extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 
@@ -173,8 +176,10 @@ extern void CLACT_VBlankSystem(void);
 
 extern void G3D_SYSTEM_Init(u32 texMode, u32 texSize, u32 plttMode, u32 plttSize,
                           u16 fifoSize, s16 heap, void (*setup)(void));
+struct LightSetDesc;
+struct LightSlotValue;
 
-extern struct LightSlot *G3D_LIGHT_CreateSlots(const struct LightSet *s, u32 heap);
+extern struct LightSlotValue *G3D_LIGHT_CreateSlots(struct LightSetDesc *set, unsigned short heapID);
 
 extern void DEMO3D_SetupGx(void);
 
@@ -384,7 +389,7 @@ void DEMO3D_GRAPHIC_UpdateBg(void *unused){BG_SYS_Update();}
 void DEMO3D_GRAPHIC_InitClact(Demo3dGraphicClact *p, int a, int b)
 {
     MI_CpuFill8(p, 0, 4);
-    CLACT_InitSystem((const struct Cfg *)0x021BFB60, a, b);
+    CLACT_InitSystem((struct SysInit *)0x021BFB60, (struct DispVramCfg *)a, b);
     p->unit = CLACT_CreateUnit(0x20, 0, b);
     CLACT_SetUnitDefaultRenderer(p->unit);
     BG_SYS_SetMainPlaneVisible(0x10, 1);
@@ -410,7 +415,7 @@ int DEMO3D_GRAPHIC_GetClactUnit(Demo3dGraphicClact *p){return (int)p->unit;}
 void DEMO3D_GRAPHIC_InitG3d(Demo3dGraphicG3d *p, u8 heap)
 {
     G3D_SYSTEM_Init(0, 2, 0, 4, 0, heap, DEMO3D_SetupGx);
-    p->lightSlots = G3D_LIGHT_CreateSlots(&d_021BFB48, heap);
+    p->lightSlots = (struct LightSlot *)G3D_LIGHT_CreateSlots((struct LightSetDesc *)(&d_021BFB48), heap);
     G3D_LIGHT_ApplySlots(p->lightSlots);
 }
 

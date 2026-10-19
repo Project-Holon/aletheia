@@ -107,7 +107,7 @@ extern void MI_CpuFill8(void *dstp, u8 data, u32 size);
 extern int  OS_IsRunOnTwl(void);
 extern s32  NCFG_CheckConfigEx(void *work);
 extern s32  NCFG_CheckConfig(void *work);
-extern int  DWCi_BACKUPlRead(DWCMemMap *mem);
+extern int  DWCi_BACKUPlRead(void *mem);
 extern void DWCi_BACKUPlSetWiFi(u8 *wifi);
 
 int DWC_BM_Init(void *work)

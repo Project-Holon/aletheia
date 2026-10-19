@@ -49,21 +49,23 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 
 typedef unsigned int   u32;
+struct GameData;
 
-void *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
+struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
 struct GameEvent *GAME_EVENT_Create(void *gameSystem, void *eventFileName, void *eventMain, u32 workSize);
-u32 GAMESYSTEM_GetGameComm(const struct GameSystem *gameSystem);
-u32 GAME_COMM_GetKind(void *gameComm);
+struct GameComm *GAMESYSTEM_GetGameComm(const struct GameSystem *gameSystem);
+u32 GAME_COMM_GetKind(struct GameComm *comm);
 void GAME_COMM_RequestExitNoCallback(struct GameComm *gameComm);
 void *GAME_EVENT_GetWork(struct GameEvent *event);
 extern void *GAMESYSTEM_GetFieldMap(const struct GameSystem *gameSystem);
-extern int FIELD_STATUS_CreateFieldCloseEvent(int gameSystem, int fieldMap);
-extern void GAME_EVENT_CallEvent(struct GameEvent *event, struct GameEvent **callee);
-extern void GAMESYSTEM_CallProc(struct ProcHandle *gameSystem, u32 overlayId, void *procData, void *procArgs);
+struct FieldMap;
+extern struct GameEvent *FIELD_STATUS_CreateFieldCloseEvent(struct GameSystem *gameSystem, struct FieldMap *fieldMap);
+extern void GAME_EVENT_CallEvent(struct GameEvent *parent, struct GameEvent *child);
+extern void GAMESYSTEM_CallProc(struct GameSystem *gameSystem, u32 overlayId, void *procData, void *param);
 extern u32 GAMESYSTEM_GetProcStatus(const struct GameSystem *gameSystem);
-extern void *FIELD_STATUS_CreateFieldOpenEvent(void *gameSystem);
-extern int EVENT_FIELDMAP_CONTROL_StartFadeOut(void *gameSystem, int fieldMap, int sel, int d);
-extern int EVENT_FIELDMAP_CONTROL_StartFadeIn(void *gameSystem, int fieldMap, int sel, int d, int e, u8 f, u8 g);
+extern struct GameEvent *FIELD_STATUS_CreateFieldOpenEvent(struct GameSystem *gameSystem);
+extern struct GameEvent *EVENT_FIELDMAP_CONTROL_StartFadeOut(struct GameSystem *gameSystem, struct FieldMap *fieldMap, int effect, int skipWait);
+extern struct GameEvent *EVENT_FIELDMAP_CONTROL_StartFadeIn(struct GameSystem *gameSystem, struct FieldMap *fieldMap, int effect, int skipWait, int restoreBg, unsigned char seasonShown, unsigned char seasonTarget);
 int EVENT_BSUBWAY_COMM_Start(int gameSystem, BsubwayProcArgs *args);
 void *EVENT_BSUBWAY_COMM_CreateEvent(void *gameSystem, int value, int resultPtr);
 u32 EVENT_BSUBWAY_COMM_EventMain(void *event, u32 *stage, u32 *work);
@@ -107,15 +109,15 @@ u32 EVENT_BSUBWAY_COMM_EventMain(void *event, u32 *stage, u32 *work)
             (*stage)++;
         break;
     case 1:
-        GAME_EVENT_CallEvent(event, (struct GameEvent **)EVENT_FIELDMAP_CONTROL_StartFadeOut((void *)gameSystem, (int)fieldMap, 0, 0));
+        GAME_EVENT_CallEvent((struct GameEvent *)event, (struct GameEvent *)EVENT_FIELDMAP_CONTROL_StartFadeOut((void *)gameSystem, fieldMap, 0, 0));
         (*stage)++;
         break;
     case 2:
-        GAME_EVENT_CallEvent(event, (struct GameEvent **)FIELD_STATUS_CreateFieldCloseEvent(gameSystem, (int)fieldMap));
+        GAME_EVENT_CallEvent((struct GameEvent *)event, (struct GameEvent *)FIELD_STATUS_CreateFieldCloseEvent((struct GameSystem *)gameSystem, (struct FieldMap *)fieldMap));
         (*stage)++;
         break;
     case 3:
-        GAMESYSTEM_CallProc((struct ProcHandle *)gameSystem, (u32)ov116_id, d_021D83A4, work);
+        GAMESYSTEM_CallProc((struct GameSystem *)gameSystem, (u32)ov116_id, d_021D83A4, work);
         (*stage)++;
         break;
     case 4:
@@ -132,7 +134,7 @@ u32 EVENT_BSUBWAY_COMM_EventMain(void *event, u32 *stage, u32 *work)
         (*stage)++;
         break;
     case 6:
-        GAME_EVENT_CallEvent(event, (struct GameEvent **)EVENT_FIELDMAP_CONTROL_StartFadeIn((void *)gameSystem, (int)fieldMap, 0, 0, 1, 0, 0));
+        GAME_EVENT_CallEvent((struct GameEvent *)event, (struct GameEvent *)EVENT_FIELDMAP_CONTROL_StartFadeIn((void *)gameSystem, fieldMap, 0, 0, 1, 0, 0));
         (*stage)++;
         break;
     case 7:

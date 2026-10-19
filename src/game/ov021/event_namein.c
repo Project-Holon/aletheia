@@ -81,23 +81,27 @@ extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
 extern void STRBUF_Delete(struct Strbuf *vec);
 extern struct GameEvent *GAME_EVENT_Create(void *owner, void *a, void *b, u32 size);
 extern void *GAME_EVENT_GetWork(struct GameEvent *event);
-extern void *GAMESYSTEM_GetGameData(const struct GameSystem *p);
-extern void *GAME_DATA_GetSaveControl(struct SaveControl *p);
-extern void *MISC_GetBlock(void *sys);
-extern u8 *GAME_DATA_GetMyStatus(void *p);
-extern void *GAME_DATA_GetItemUseWork(const struct GameData *p);
+extern struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *p);
+extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gd);
+struct MiscSave;
+extern struct MiscSave *MISC_GetBlock(struct SaveControl *save);
+extern struct MyStatus *GAME_DATA_GetMyStatus(struct GameData *gd);
+extern u32 GAME_DATA_GetItemUseWork(const struct GameData *p);
 extern u8 MYSTATUS_GetSex(const struct MyStatus *obj);
-extern u16 *MISC_GetGreetMessage(struct NameSave *p);
-extern u16 *MISC_GetThanksMessage(struct NameSave *p);
+extern u16 *MISC_GetGreetMessage(struct MiscSave *beacon);
+extern u16 *MISC_GetThanksMessage(struct MiscSave *beacon);
 extern void STRBUF_SetString(struct Strbuf *o, const u16 *src);
-extern void *FIELD_STATUS_CreateSubProcEvent(char *gameSystem, int fieldMap, int overlayId, int procData, int procWork);
-extern void GAME_EVENT_CallEvent(struct GameEvent *evt, struct GameEvent **out);
-extern void MISC_SetGreetMessage(struct NameSave *p, const u16 *src);
+struct FieldMap;
+extern struct GameEvent *FIELD_STATUS_CreateSubProcEvent(struct GameSystem *gameSystem, struct FieldMap *fieldMap, u32 overlayId, void *procData, void *procWork);
+extern void GAME_EVENT_CallEvent(struct GameEvent *parent, struct GameEvent *child);
+struct StrBuf;
+extern void MISC_SetGreetMessage(struct MiscSave *beacon, struct StrBuf *message);
 extern void GAME_BEACON_UpdateGreeting(void);
-extern void MISC_SetThanksMessage(struct NameSave *p, const u16 *src);
-extern int BEACON_STATUS_GetMessage(void *p);
+extern void MISC_SetThanksMessage(struct MiscSave *beacon, struct StrBuf *message);
+struct BeaconStatus;
+extern struct StrBuf *BEACON_STATUS_GetMessage(struct BeaconStatus *bs);
 extern void STRBUF_Copy(struct Strbuf *dst, struct Strbuf *src);
-extern void GAME_BEACON_SEARCH_SetFreeText(void *v);
+extern void GAME_BEACON_SEARCH_SetFreeText(struct Strbuf *text);
 
 struct GameEvent *EVENT_NAMEIN_Create(void *gameSystem, void *fieldMap, void *parentEvent, u32 mode, u16 *resultVar);
 int EVENT_NAMEIN_Main(struct GameEvent *event, int *seq, NameInEvent *work);
@@ -125,9 +129,9 @@ struct GameEvent *EVENT_NAMEIN_Create(void *gameSystem, void *fieldMap, void *pa
     work->resultVar = resultVar;
     work->mode = mode;
     work->param.heapId = 4;
-    work->nameSave = MISC_GetBlock(GAME_DATA_GetSaveControl(work->gameData));
+    work->nameSave = (struct NameSave *)MISC_GetBlock(GAME_DATA_GetSaveControl(work->gameData));
     work->myStatus = GAME_DATA_GetMyStatus(work->gameData);
-    work->beaconSave = GAME_DATA_GetItemUseWork(work->gameData);
+    work->beaconSave = (void *)GAME_DATA_GetItemUseWork(work->gameData);
     work->param.mode = mode;
     work->param.gender = MYSTATUS_GetSex(work->myStatus);
     work->param.nameSave = work->nameSave;
@@ -135,10 +139,10 @@ struct GameEvent *EVENT_NAMEIN_Create(void *gameSystem, void *fieldMap, void *pa
     work->param.name = (struct Strbuf *)STRBUF_Create(work->param.maxLength + 1, work->param.heapId);
     switch (mode) {
     case 5:
-        STRBUF_SetString(work->param.name, MISC_GetGreetMessage(work->nameSave));
+        STRBUF_SetString(work->param.name, MISC_GetGreetMessage((struct MiscSave *)work->nameSave));
         break;
     case 6:
-        STRBUF_SetString(work->param.name, MISC_GetThanksMessage(work->nameSave));
+        STRBUF_SetString(work->param.name, MISC_GetThanksMessage((struct MiscSave *)work->nameSave));
         break;
     case 7:
         break;
@@ -156,8 +160,8 @@ int EVENT_NAMEIN_Main(struct GameEvent *event, int *seq, NameInEvent *work)
 
     switch (*seq) {
     case 0:
-        proc = (int)FIELD_STATUS_CreateSubProcEvent(work->gameSystem, (int)work->fieldMap, (int)abs_id_C2, (int)(&gNameInProcData), (int)&work->param);
-        GAME_EVENT_CallEvent(event, (struct GameEvent **)proc);
+        proc = (int)FIELD_STATUS_CreateSubProcEvent(work->gameSystem, (struct FieldMap *)work->fieldMap, (int)abs_id_C2, (void *)(&gNameInProcData), (void *)&work->param);
+        GAME_EVENT_CallEvent((struct GameEvent *)event, (struct GameEvent *)proc);
         (*seq)++;
         break;
     case 1:
@@ -183,11 +187,11 @@ void EVENT_NAMEIN_StoreResult(NameInEvent *work, NameInParam *param)
         return;
     switch (work->mode) {
     case 5:
-        MISC_SetGreetMessage(work->nameSave, (const u16 *)param->name);
+        MISC_SetGreetMessage((struct MiscSave *)work->nameSave, (struct StrBuf *)param->name);
         GAME_BEACON_UpdateGreeting();
         return;
     case 6:
-        MISC_SetThanksMessage(work->nameSave, (const u16 *)param->name);
+        MISC_SetThanksMessage((struct MiscSave *)work->nameSave, (struct StrBuf *)param->name);
         return;
     case 7:
         STRBUF_Copy((struct Strbuf *)BEACON_STATUS_GetMessage(work->beaconSave), (struct Strbuf *)work->param.name);

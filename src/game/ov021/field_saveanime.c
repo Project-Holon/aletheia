@@ -97,22 +97,27 @@ typedef struct FieldSaveAnime {
 
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32 GFL_HEAP_Free(void *p);
-extern void BG_SYS_FreeSlot(int a);
+extern void BG_SYS_FreeSlot(u8 idx);
 extern void *GFL_USE_AddMainTask(void *, void *, int);
-extern void TCB_DeleteTask(struct Node *n);
+struct TcbTask;
+extern void TCB_DeleteTask(struct TcbTask *task);
 extern void *ARC_TOOL_CreateHandle(unsigned int id, unsigned int heap);
-extern void *FIELDMAP_GetGameSystem(void *p);
-extern void *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
-extern u8 *GAME_DATA_GetMyStatus(void *p);
-extern u8 MYSTATUS_GetSex(const struct Sub0200852CObj *obj);
+extern struct GameSystem *FIELDMAP_GetGameSystem(struct FieldMap *fieldMap);
+extern struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
+struct MyStatus;
+extern struct MyStatus *GAME_DATA_GetMyStatus(struct GameData *gd);
+extern u8 MYSTATUS_GetSex(struct MyStatus *mystatus);
 extern struct Bmp *BMP_CreateFromArchive(u32 arc, u32 member, u32 heap2, u32 heap);
 extern void ARC_UTIL_UploadPaletteFromHandle(void *h, u32 id, u32 type, u32 ofs, u32 src, u32 size, u32 heap);
 extern void ARC_TOOL_DeleteHandle(void *h);
 extern void BMP_Delete(struct Bmp *p);
-extern void *FIELDMAP_GetFieldPlayer(struct FieldMap *p);
-extern void *FIELDMAP_GetCamera(void *p);
-extern u32 FIELD_CAMERA_GetG3dCamera(u8 *p);
-extern void G3D_CAMERA_Reset(struct Light *l);
+struct FieldPlayer;
+extern struct FieldPlayer *FIELDMAP_GetFieldPlayer(struct FieldMap *p);
+struct FieldCamera;
+extern struct FieldCamera *FIELDMAP_GetCamera(struct FieldMap *fieldMap);
+struct G3dCamera;
+extern struct G3dCamera *FIELD_CAMERA_GetG3dCamera(struct FieldCamera *camera);
+extern void G3D_CAMERA_Reset(struct G3dCamera *camera);
 extern void G3D_CAMERA_GetCamTarget(u32 l, V *out);
 extern void G3D_CAMERA_GetEye(u32 l, V *out);
 extern void VEC_Subtract(const V *a, const V *b, V *c);
@@ -120,17 +125,18 @@ extern void VEC_Normalize(const V *a, V *b);
 extern void VEC_CrossProduct(const V *a, const V *b, V *c);
 extern void FIELD_PLAYER_GetPos(unsigned char *p, struct VecFx32 *out);
 extern void NNS_G3dWorldPosToScrPos(V *a, int *x, int *y);
-extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
-extern void *BMP_WIN_GetBmp(struct Descriptor *a);
-extern void BMP_Clear(struct CharBuf *buf, u8 value);
-extern void BMP_WIN_TransferChars(struct Descriptor *d);
-extern u32 BMP_WIN_Delete(struct Descriptor *d);
+struct BmpWin;
+extern struct BmpWin *BMP_WIN_Create(u32 bgLayer, u32 posX, u32 posY, u8 width, u8 height, u8 palette, u8 allocDir);
+extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *win);
+extern void BMP_Clear(struct Bmp *bmp, u8 value);
+extern void BMP_WIN_TransferChars(struct BmpWin *win);
+extern u32 BMP_WIN_Delete(struct BmpWin *win);
 extern u32 BG_SYS_SetPlaneVisible(u32 which, u32 enable);
 extern void BG_SYS_MarkTileDirty(u32 bit);
 extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
 extern void BMP_WIN_ClearScreen(struct Descriptor *d);
-extern u16 BMP_WIN_GetCharOffset(struct Descriptor *p);
-extern void BMP_Blit(struct Bmp *dst, struct Bmp *src, u32 x, u32 y, int sx, int sy, u32 w, u32 h, u32 key);
+extern u16 BMP_WIN_GetCharOffset(struct BmpWin *win);
+extern void BMP_Blit(struct Bmp *src, struct Bmp *dst, unsigned int srcX, unsigned int srcY, int dstX, int dstY, unsigned int w, unsigned int h, unsigned short colorKey);
 extern void *BMP_GetPixels(const struct Bmp *bmp);
 extern u32 BMP_GetByteSize(const struct Bmp *bmp);
 extern void BG_SYS_LoadTileData(int index, const void *src, u32 size, u32 tile);
@@ -180,7 +186,7 @@ void FIELD_SAVEANIME_Start(FieldSaveAnime *work)
 void FIELD_SAVEANIME_Stop(FieldSaveAnime *work)
 {
     if (work->tcb != 0) {
-        TCB_DeleteTask(work->tcb);
+        TCB_DeleteTask((struct TcbTask *)work->tcb);
         work->tcb = 0;
         FIELD_SAVEANIME_HideWindow(work);
     }
@@ -192,7 +198,7 @@ void FIELD_SAVEANIME_LoadResource(FieldSaveAnime *work, u32 heapId)
     void *arc = ARC_TOOL_CreateHandle(200, heapId);
     u32 version;
 
-    version = MYSTATUS_GetSex((const struct Sub0200852CObj *)GAME_DATA_GetMyStatus(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(work->fieldMap))));
+    version = MYSTATUS_GetSex((struct MyStatus *)GAME_DATA_GetMyStatus(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(work->fieldMap))));
     work->charData = BMP_CreateFromArchive(200, 0, 0, heapId);
     ARC_UTIL_UploadPaletteFromHandle(arc, 1, 0, d_021DB97C[version] << 5, 0x120, 0x20, heapId);
     ARC_TOOL_DeleteHandle(arc);
@@ -224,8 +230,8 @@ void FIELD_SAVEANIME_CreateWindow(FieldSaveAnime *work)
     u32 camera;
 
     player = FIELDMAP_GetFieldPlayer(work->fieldMap);
-    camera = FIELD_CAMERA_GetG3dCamera(FIELDMAP_GetCamera(work->fieldMap));
-    G3D_CAMERA_Reset((struct Light *)camera);
+    camera = (u32)FIELD_CAMERA_GetG3dCamera(FIELDMAP_GetCamera(work->fieldMap));
+    G3D_CAMERA_Reset((struct G3dCamera *)camera);
     G3D_CAMERA_GetCamTarget(camera, &eye);
     G3D_CAMERA_GetEye(camera, &target);
     VEC_Subtract(&eye, &target, &dir);
@@ -259,14 +265,14 @@ void FIELD_SAVEANIME_CreateWindow(FieldSaveAnime *work)
         y = 0x18;
     }
     work->bmpWin = (struct Descriptor *)BMP_WIN_Create(_SAVEANIME_BG_FRAME, (u8)x, (u8)y, 5, (u32)5, (u32)9, (u32)1);
-    BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp(work->bmpWin)), 0);
-    BMP_WIN_TransferChars(work->bmpWin);
+    BMP_Clear((struct Bmp *)((u32)BMP_WIN_GetBmp((struct BmpWin *)work->bmpWin)), 0);
+    BMP_WIN_TransferChars((struct BmpWin *)work->bmpWin);
     FIELD_SAVEANIME_DrawFrame(work, 0);
 }
 
 u32 FIELD_SAVEANIME_DeleteWindow(FieldSaveAnime *work)
 {
-    BMP_WIN_Delete(work->bmpWin);
+    BMP_WIN_Delete((struct BmpWin *)work->bmpWin);
     work->bmpWin = 0;
     return 0;
 }
@@ -288,8 +294,8 @@ int FIELD_SAVEANIME_HideWindow(FieldSaveAnime *work)
 /* Copies icon frame `frame` into the window and transfers its characters. */
 void FIELD_SAVEANIME_DrawFrame(FieldSaveAnime *work, u32 frame)
 {
-    u32 charBase = BMP_WIN_GetCharOffset(work->bmpWin);
-    u32 bmp = (u32)BMP_WIN_GetBmp(work->bmpWin);
+    u32 charBase = BMP_WIN_GetCharOffset((struct BmpWin *)work->bmpWin);
+    u32 bmp = (u32)BMP_WIN_GetBmp((struct BmpWin *)work->bmpWin);
     u32 chars;
     u32 size;
 

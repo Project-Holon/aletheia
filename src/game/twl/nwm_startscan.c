@@ -59,8 +59,8 @@ extern void MI_CpuFill8(void *, u32, u32);
 extern void DC_StoreRange(void *, u32);
 extern void NWMi_SetCallbackTable(u32, u32);
 extern void MI_CpuCopy8(const void *, void *, u32);
-extern u32 NWMi_SendCommandDirect(void *, u32);
-extern u32 MI_CpuComp8(void *, void *, u32);
+extern u32 NWMi_SendCommandDirect(unsigned int command, unsigned int length);
+extern int MI_CpuComp8(void *, void *, u32);
 u32 NWM_StartScanEx(u32 callback, const ApInfo *param);
 u8 *NWM_GetInfoElements(u8 *bssDesc, u8 elementId);
 u8 *NWM_GetVenderInfoElements(u8 *bssDesc, u32 elementId, void *oui);
@@ -113,7 +113,7 @@ u32 NWM_StartScanEx(u32 callback, const ApInfo *param) {
     cmd.ssidMatchLength = param->ssidMatchLength;
     MI_CpuCopy8(param->ssid, cmd.ssid, 0x20);
     MI_CpuCopy8(param->mac, cmd.mac, 6);
-    r = NWMi_SendCommandDirect(&cmd, 0x38);
+    r = NWMi_SendCommandDirect((unsigned int)(&cmd), 0x38);
     if (r == 0 || r == 2) {
         r = 2;
     }

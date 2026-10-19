@@ -52,28 +52,32 @@
 #include "gpi_types.h"
 
 extern void gsifree(void * ptr);
-extern void ArrayFree(void * array);
+struct DArrayImplementation;
+extern void ArrayFree(struct DArrayImplementation *array);
 extern void gpiFreeInfoCache(GPIProfile * profile);
-extern void * TableNew(int elemSize, int nBuckets, int (*hashFn)(void *, int), int (*compFn)(void *, void *), void (*freeFn)(void *));
+struct HashImplementation;
+extern struct HashImplementation *TableNew(int elemSize, int nBuckets, int (*hashFn)(void *, int), int (*compFn)(void *, void *), void (*freeFn)(void *));
 extern int gpiCheckForError(int *connection, const char *input, int fatal);
 extern int strncmp(const u8 *s1, const u8 *s2, unsigned int n);
 extern void gpiSetError(int *connection, int result, int errorString);
-extern int gpiCallErrorCallback(int *connection, int result, int fatal);
+extern int gpiCallErrorCallback(void **connection, int result, int fatal);
 extern int gpiValueForKey(const char *command, const char *key, char *value, int valueLen);
 extern int atoi(const char *s);
 extern void *gsimalloc(unsigned long size);
 extern void gpiSetErrorString(int *p, int b);
-extern int gpiAddCallback(void **connection, GPICallback callback, void *arg, GPIOperation *operation, int type);
+struct GPICallback;
+extern int gpiAddCallback(void **connection, struct GPICallback callback, void *arg, int *operation, int type);
 extern void gpiRemoveOperation(void **connection, GPIOperation *operation);
 extern int gpiGetProfile(void **connection, int profileid, GPIProfile **pProfile);
-extern void TableEnter(void *table, void *newElem);
-extern void * TableLookup(void * table, void * elemKey);
-extern int TableRemove(void * table, void * delElem);
+struct HashImplementation;
+extern void TableEnter(struct HashImplementation *table, void *newElem);
+extern void * TableLookup(struct HashImplementation *table, void *elemKey);
+extern int TableRemove(struct HashImplementation *table, void *delElem);
 extern int strcmp(const char * a, const char * b);
-extern void * TableMapSafe2(void * table, int (*cb)(void *, void *), void * udata);
+extern void * TableMapSafe2(struct HashImplementation *table, int (*cb)(void *, void *), void *clientData);
 extern int gpiCheckForBlock(void * unused, GPIProfile * profile, void * udata);
 extern int gpiValueForKeyWithIndex(char *command, char *key, int *index, char *value, int len);
-extern char *strstr(const char *s1, const char *s2);
+extern unsigned char *strstr(unsigned char *s1, unsigned char *s2);
 extern int gpiBuddyDeletedLocally(void **connection, int id, int isDeleted);
 int gpiProfilesTableHash(void *elem, int numBuckets);
 int gpiProfilesTableCompare(void *a, void *b);
@@ -214,13 +218,13 @@ int gpiProcessNewProfile(void **connection, GPIOperation *operation, char *input
     if (strncmp((const u8 *)input, (const u8 *)gGpiProfileResponsePr, 5) != 0) {
         gpiSetError((int *)connection, 1, (int)gGpiProfileErrorUnexpectedData);
         __result__ = 3;
-        gpiCallErrorCallback((int *)connection, __result__, 1);
+        gpiCallErrorCallback((void **)connection, __result__, 1);
         return __result__;
     }
     if (!gpiValueForKey(input, gGpiProfileKeyProfileId, buffer, 16)) {
         gpiSetError((int *)connection, 1, (int)gGpiProfileErrorUnexpectedData);
         __result__ = 3;
-        gpiCallErrorCallback((int *)connection, __result__, 1);
+        gpiCallErrorCallback((void **)connection, __result__, 1);
         return __result__;
     }
     pid = atoi(buffer);
@@ -233,7 +237,7 @@ int gpiProcessNewProfile(void **connection, GPIOperation *operation, char *input
         }
         arg->profile = pid;
         arg->result = 0;
-        __result__ = gpiAddCallback(connection, callback, arg, operation, 0);
+        __result__ = gpiAddCallback(connection, callback, arg, (int *)operation, 0);
         if (__result__ != 0)
             return __result__;
     }
@@ -311,7 +315,7 @@ int gpiProcessDeleteProfle(void **connection, GPIOperation *operation, char *inp
         return 4;
     if (strncmp((const u8 *)input, (const u8 *)gGpiProfileResponseDpr, 5) != 0) {
         gpiSetError((int *)connection, 1, (int)gGpiProfileErrorUnexpectedData);
-        gpiCallErrorCallback((int *)connection, 3, 1);
+        gpiCallErrorCallback((void **)connection, 3, 1);
         return 3;
     }
     callback = operation->callback;
@@ -323,7 +327,7 @@ int gpiProcessDeleteProfle(void **connection, GPIOperation *operation, char *inp
         }
         arg->profile = iconnection->profileid;
         arg->result = 0;
-        __result__ = gpiAddCallback(connection, callback, arg, operation, 0);
+        __result__ = gpiAddCallback(connection, callback, arg, (int *)operation, 0);
         if (__result__ != 0)
             return __result__;
     }
@@ -527,15 +531,15 @@ int gpiProcessRecvBlockedList(void **connection, char *input)
 
     if (!gpiValueForKeyWithIndex(input, gGpiProfileKeyBlk, &index, buffer, sizeof(buffer))) {
         gpiSetError((int *)connection, 1, (int)gGpiProfileErrorUnexpectedData);
-        gpiCallErrorCallback((int *)connection, 3, 1);
+        gpiCallErrorCallback((void **)connection, 3, 1);
         return 3;
     }
     num = atoi(buffer);
 
-    str = strstr(input, gGpiProfileKeyList);
+    str = (char *)strstr((unsigned char *)input, (unsigned char *)gGpiProfileKeyList);
     if (!str) {
         gpiSetError((int *)connection, 1, (int)gGpiProfileErrorUnexpectedData);
-        gpiCallErrorCallback((int *)connection, 3, 1);
+        gpiCallErrorCallback((void **)connection, 3, 1);
         return 3;
     }
     index += 6;
@@ -549,7 +553,7 @@ int gpiProcessRecvBlockedList(void **connection, char *input)
         } else {
             if (!gpiValueForKeyWithIndex(input, gGpiProfileComma, &index, buffer, sizeof(buffer))) {
                 gpiSetError((int *)connection, 1, (int)gGpiProfileErrorUnexpectedData);
-                gpiCallErrorCallback((int *)connection, 3, 1);
+                gpiCallErrorCallback((void **)connection, 3, 1);
                 return 3;
             }
         }

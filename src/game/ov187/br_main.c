@@ -107,16 +107,18 @@ typedef struct BrListSceneWork {
 } BrListSceneWork;
 
 extern void GFL_HEAP_CreateChildHeap(unsigned, unsigned, unsigned);
+struct Proc;
 
-extern void *PROCSYS_AllocProcWork(void *proc, unsigned int size, unsigned int heap);
+extern void *PROCSYS_AllocProcWork(struct Proc *proc, unsigned int size, unsigned int heapId);
 
 extern void *MI_CpuFill8(void *, int, unsigned);
 
 extern void BATTLE_REC_AllocWork(unsigned);
+struct Strbuf;
 
-extern void STRBUF_Delete(struct StrBuf *vec);
+extern void STRBUF_Delete(struct Strbuf *strbuf);
 
-extern void PROCSYS_FreeProcWork(void *p);
+extern void PROCSYS_FreeProcWork(struct Proc *proc);
 
 extern void GFL_HEAP_DeleteChecked(unsigned int heap);
 
@@ -144,7 +146,7 @@ extern void BATTLE_REC_UnloadToolOverlay(void);
 
 extern void BATTLE_REC_TOOL_UnpackSetup(struct BattleSetupParam *, u32);
 
-extern void GFL_USE_SetBgmPaused(void *p);
+extern void GFL_USE_SetBgmPaused(unsigned int value);
 
 extern int GFL_USE_PushBgm(void);
 
@@ -157,8 +159,9 @@ extern unsigned int GAME_DATA_GetBgmInfo(const struct GameData *);
 extern int GFL_USE_PopBgm(void);
 
 extern void GFL_USE_FadeInBgmFull(u32);
+struct FieldSoundSystem;
 
-extern void FIELD_SOUND_SYSTEM_FadeVolume(struct SoundSys *sys, u8 level, u16 frames);
+extern void FIELD_SOUND_SYSTEM_FadeVolume(struct FieldSoundSystem *s, unsigned char level, unsigned short frames);
 
 extern void BTL_SETUP_ClearWithSlots(struct BattleSetupParam *p);
 
@@ -209,7 +212,7 @@ int BR_MAIN_Exit(int a, int b, int c, BrMainWork *work)
         for (i = 0; i < 4; i++) {
             struct StrBuf *name = work->slotNames[i];
             if (name != 0)
-                STRBUF_Delete(name);
+                STRBUF_Delete((struct Strbuf *)name);
         }
     }
     BR_MAIN_FreeSceneManager(&work->sceneManager);
@@ -317,7 +320,7 @@ void *BR_MAIN_CreateReplayScene(u32 heapId, BrMainWork *work)
     BATTLE_REC_LoadToolOverlay();
     BATTLE_REC_TOOL_UnpackSetup(setup, heapId);
     BATTLE_REC_UnloadToolOverlay();
-    GFL_USE_SetBgmPaused((void *)1);
+    GFL_USE_SetBgmPaused((unsigned int)1);
     GFL_USE_PushBgm();
     BR_MAIN_SanitizeBgmIds(&setup->bgmBattle, &setup->bgmWin);
     GFL_USE_CancelChangeAndPlayBgm(setup->bgmBattle, 65535);

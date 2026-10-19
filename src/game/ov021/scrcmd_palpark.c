@@ -67,35 +67,46 @@ typedef struct PalParkProcParam {
     void *gameData;
 } PalParkProcParam;
 
-extern void *GFL_HEAP_Alloc(u16 heap, u32 size, u32 clear, const char *file, u32 line);
-extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
-extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
-extern void *SCRCMD_WORK_GetScriptWork(void *p);
-extern void *SCRCMD_WORK_GetGameSystem(void *p);
-extern int NAMEIN_SETUP_StartFallEvent(void *a, u8 *b);
+extern void *GFL_HEAP_Alloc(unsigned int heapId, unsigned int size, int clear, char *site, unsigned short tag);
+struct GameSystem;
+extern void *GAMESYSTEM_GetFieldMap(struct GameSystem *gameSystem);
+struct GameSystem;
+struct GameData;
+extern struct GameData *GAMESYSTEM_GetGameData(struct GameSystem *gameSystem);
+struct ScrcmdWork;
+struct ScriptWork;
+extern struct ScriptWork *SCRCMD_WORK_GetScriptWork(struct ScrcmdWork *work);
+extern struct GameSystem *SCRCMD_WORK_GetGameSystem(struct ScrcmdWork *work);
+struct FieldMap;
+struct GameEvent;
+extern struct GameEvent *NAMEIN_SETUP_StartFallEvent(struct GameSystem *gameSystem, struct FieldMap *fieldMap);
 extern void SCRIPT_SYS_CallEvent(void *a, void *b);
-extern void *SCRCMD_WORK_GetGameData(void *work);
+extern struct GameData *SCRCMD_WORK_GetGameData(struct ScrcmdWork *work);
 extern void *FIELD_STATUS_CreateSubProcNoFadeCallbackEvent(char *gameSystem, int fieldMap, int overlayId, int procData, int procWork, int callback, int callbackWork);
-extern u16 *SCRIPT_WORK_ReadWorkPointer(void *vm, void *cmdWork);
-extern void *GAME_DATA_GetSaveControl(struct Big *p);
-extern void *MISC_GetBlock(void *p);
-extern u8 MISC_GetRank(struct Blk34 *p);
-extern u32 MISC_GetBestScore(struct Blk34 *p);
-extern unsigned int SCRIPT_WORK_ReadWorkValue(void *a, void *b);
-extern void GAME_BEACON_SEARCH_SetItemFound(void *itemNo);
-extern void GAME_BEACON_SEARCH_SetCountValue(void *count);
+struct ScriptVm;
+extern u16 *SCRIPT_WORK_ReadWorkPointer(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
+struct SaveControl;
+extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gd);
+struct MiscSave;
+extern struct MiscSave *MISC_GetBlock(struct SaveControl *save);
+extern u8 MISC_GetRank(struct MiscSave *beacon);
+extern u32 MISC_GetBestScore(struct MiscSave *beacon);
+extern unsigned int SCRIPT_WORK_ReadWorkValue(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
+extern void GAME_BEACON_SEARCH_SetItemFound(u32 itemNo);
+extern void GAME_BEACON_SEARCH_SetCountValue(u32 count);
 extern void GAME_BEACON_SEARCH_SetFieldEvent(void);
 extern void GAME_BEACON_SEARCH_SetSimpleEventA(void);
 extern void GAME_BEACON_SEARCH_SetByteValue(u8 a);
 extern void GAME_BEACON_SEARCH_SetSimpleEventC(void);
 extern void GAME_BEACON_SEARCH_SetFacilityExit(void);
-extern void GAME_BEACON_SEARCH_SetWordValue(void *value);
+extern void GAME_BEACON_SEARCH_SetWordValue(u32 value);
 extern void GAME_BEACON_SEARCH_SetWordClear(void);
 extern u8 GPOWER_GetExpiringPowerId(void);
-extern void *GPOWER_LoadPowerTable(u32 heap);
-extern void GPOWER_ClearByPowerId(u16 v, void *p);
-extern void GPOWER_FreePowerTable(void *p);
-extern void *GPOWER_EVENT_CreateFlashEvent(void *p);
+struct GPowerData;
+extern struct GPowerData *GPOWER_LoadPowerTable(u32 heap);
+extern void GPOWER_ClearByPowerId(int powerId, struct GPowerData *table);
+extern void GPOWER_FreePowerTable(struct GPowerData *table);
+extern struct GameEvent *GPOWER_EVENT_CreateFlashEvent(struct GameSystem *gameSystem);
 
 int SCRCMD_PALPARK_CallFallEvent(void *core, void *work);
 int SCRCMD_PALPARK_CallPalParkProc(u32 core, u32 work);
@@ -113,7 +124,7 @@ int SCRCMD_PALPARK_CallFallEvent(void *core, void *work)
 {
     void *script = SCRCMD_WORK_GetScriptWork(work);
     void *gsys = SCRCMD_WORK_GetGameSystem(work);
-    SCRIPT_SYS_CallEvent(script, (void *)NAMEIN_SETUP_StartFallEvent((void *)gsys, (u8 *)GAMESYSTEM_GetFieldMap(gsys)));
+    SCRIPT_SYS_CallEvent(script, (void *)NAMEIN_SETUP_StartFallEvent((void *)gsys, (struct FieldMap *)GAMESYSTEM_GetFieldMap(gsys)));
     return 1;
 }
 
@@ -130,7 +141,7 @@ int SCRCMD_PALPARK_CallPalParkProc(u32 core, u32 work)
     gsys = SCRCMD_WORK_GetGameSystem((void *)work);
     gameData = SCRCMD_WORK_GetGameData((void *)work);
     fieldmap = GAMESYSTEM_GetFieldMap((void *)gsys);
-    param = GFL_HEAP_Alloc(4, 8, 0, d_021DE5A8, 0x44);
+    param = GFL_HEAP_Alloc(4, 8, 0, (char *)d_021DE5A8, 0x44);
     param->result = 0;
     param->gameData = gameData;
     SCRIPT_SYS_CallEvent(script, FIELD_STATUS_CreateSubProcNoFadeCallbackEvent(gsys, (int)fieldmap, (u32)ov107_id, (int)d_021F6D78, (int)param, 0, (int)param));
@@ -146,7 +157,7 @@ int SCRCMD_PALPARK_GetSaveValue(ScriptVM *core, void *work)
 
     mode = *core->pc;
     core->pc++;
-    result = SCRIPT_WORK_ReadWorkPointer(core, work);
+    result = SCRIPT_WORK_ReadWorkPointer((struct ScriptVm *)core, work);
     saveBlock = MISC_GetBlock(GAME_DATA_GetSaveControl(SCRCMD_WORK_GetGameData(work)));
     switch (mode) {
     case 0:
@@ -178,10 +189,10 @@ int SCRCMD_PALPARK_SetBeacon(u32 core, u32 work)
     SCRCMD_WORK_GetScriptWork((void *)work);
     switch (kind) {
     case 0:
-        GAME_BEACON_SEARCH_SetItemFound((void *)value);
+        GAME_BEACON_SEARCH_SetItemFound((u32)value);
         break;
     case 1:
-        GAME_BEACON_SEARCH_SetCountValue((void *)value);
+        GAME_BEACON_SEARCH_SetCountValue((u32)value);
         break;
     case 2:
         GAME_BEACON_SEARCH_SetFieldEvent();
@@ -199,7 +210,7 @@ int SCRCMD_PALPARK_SetBeacon(u32 core, u32 work)
         GAME_BEACON_SEARCH_SetFacilityExit();
         break;
     case 7:
-        GAME_BEACON_SEARCH_SetWordValue((void *)value);
+        GAME_BEACON_SEARCH_SetWordValue((u32)value);
         break;
     case 8:
         GAME_BEACON_SEARCH_SetWordClear();

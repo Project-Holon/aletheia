@@ -56,21 +56,22 @@ struct SNDTrackInfo;
 extern NNSSndHeap *NNS_SndHeapCreate(u32 start, u32 size);
 extern void *NNS_SndHeapAlloc(NNSSndHeap *heap, u32 size, NNSSndHeapDisposeCallback callback, u32 data1, u32 data2);
 extern void NNS_FndAppendListObject(NNSFndList *list, void *object);
-extern void *NNS_FndGetNextListObject(NNSFndList *list, void *object);
+struct DList;
+extern void *NNS_FndGetNextListObject(struct DList *list, void *elem);
 extern void NNSi_SndFaderSet(SndFader *fader, s32 target, u32 frames);
-extern void SND_SetPlayerChannelPriority(u8 playerNo, u32 value);
+extern void SND_SetPlayerChannelPriority(s32 playerNo, s32 prio);
 extern void SND_SetTrackMute(int playerNo, u32 trackBitMask, int flag);
 extern void SND_SetTrackMuteEx(int playerNo, u32 trackBitMask, int mute);
-extern void SND_SetTrackVolume(u8 playerNo, u32 trackBitMask, int volume);
-extern void SND_SetTrackPitch(u8 playerNo, u32 trackBitMask, u32 pitch);
-extern void SND_SetTrackPan(u8 playerNo, u32 trackBitMask, u32 pan);
-extern void SND_SetTrackModDepth(u8 playerNo, u32 trackBitMask, u32 depth);
-extern void SND_SetTrackModSpeed(u8 playerNo, u32 trackBitMask, u32 speed);
-extern void SND_SetPlayerTempoRatio(u8 playerNo, u32 value);
+extern void SND_SetTrackVolume(s32 playerNo, u32 trackBitMask, s32 volume);
+extern void SND_SetTrackPitch(s32 playerNo, u32 trackBitMask, s32 pitch);
+extern void SND_SetTrackPan(s32 playerNo, u32 trackBitMask, s32 pan);
+extern void SND_SetTrackModDepth(s32 playerNo, u32 trackBitMask, u32 depth);
+extern void SND_SetTrackModSpeed(s32 playerNo, u32 trackBitMask, u32 speed);
+extern void SND_SetPlayerTempoRatio(s32 playerNo, s32 ratio);
 extern int NNS_SndReadTrackInfo(int playerNo, int trackNo, struct SNDTrackInfo *trackInfo);
-extern void NNS_FndRemoveListObject(volatile NNSFndList *list, void *object);
-extern void NNS_FndInitList(NNSFndList *list, int offset);
-extern void NNS_FndInsertListObject(volatile NNSFndList *list, void *before, void *object);
+extern void NNS_FndRemoveListObject(struct DList *list, void *elem);
+extern void NNS_FndInitList(s32 list, s32 offset);
+extern void NNS_FndInsertListObject(struct DList *list, void *before, void *elem);
 extern void NNS_SndHeapClear(NNSSndHeap *heap);
 extern void NNS_SndHeapDestroy(NNSSndHeap *heap);
 extern u32 SND_GetPlayerStatus(void);
@@ -79,11 +80,12 @@ extern void NNS_SndFaderUpdate(SndFader *fader);
 extern s32 NNS_SndFaderGet(SndFader *fader);
 extern int NNS_SndFaderIsFinished(SndFader *fader);
 extern int NNSi_SndFaderReset(SndFader *fader, int value);
-extern void SND_SetPlayerVolume(u32 playerNo, int volume);
+extern void SND_SetPlayerVolume(s32 playerNo, s32 volume);
 extern void SND_StartPreparedSeq(u32 playerNo);
 extern void SND_StopSeq(int playerNo);
 extern void SND_PauseSeq(int playerNo, int flag);
-extern void SND_PrepareSeq(int playerNo, const void *seqBase, u32 seqOffset, const void *bankData);
+struct SNDBankData;
+extern void SND_PrepareSeq(s32 playerNo, void *base, u32 offset, struct SNDBankData *bank);
 extern void SND_SetTrackAllocatableChannel(int playerNo, u32 trackBitMask, u32 chBitMask);
 extern u32  SND_GetCurrentCommandTag(void);
 void NNS_SndPlayerSetPlayerVolume(u32 playerNo, u32 volume);
@@ -249,12 +251,12 @@ s32 NNS_SndPlayerCountPlayingSeqBySeqNo(u32 seqNo)
     s32 count;
 
     count = 0;
-    seqPlayer = NNS_FndGetNextListObject(&gSndActiveSeqList, 0);
+    seqPlayer = NNS_FndGetNextListObject((struct DList *)(&gSndActiveSeqList), 0);
     while (seqPlayer != 0) {
         if (seqPlayer->seqType == SND_SEQ_TYPE_SEQ && seqPlayer->seqNo == seqNo) {
             count++;
         }
-        seqPlayer = NNS_FndGetNextListObject(&gSndActiveSeqList, seqPlayer);
+        seqPlayer = NNS_FndGetNextListObject((struct DList *)(&gSndActiveSeqList), seqPlayer);
     }
     return count;
 }
@@ -441,8 +443,8 @@ void NNS_SndPlayerInit(void)
     SndSeqPlayer *seqPlayer;
     SndPlayer *player;
 
-    NNS_FndInitList(&gSndActiveSeqList, 0x14);
-    NNS_FndInitList(&gSndFreeSeqList, 0x14);
+    NNS_FndInitList((s32)(&gSndActiveSeqList), 0x14);
+    NNS_FndInitList((s32)(&gSndFreeSeqList), 0x14);
 
     for (i = 0, seqPlayer = gSndSeqPlayers; i < 0x10; i++, seqPlayer++) {
         seqPlayer->state = SND_SEQ_STATE_FREE;
@@ -451,8 +453,8 @@ void NNS_SndPlayerInit(void)
     }
 
     for (i = 0, player = gSndPlayers; i < 0x20; i++, player++) {
-        NNS_FndInitList(&player->seqList, 0xc);
-        NNS_FndInitList(&player->heapList, 0);
+        NNS_FndInitList((s32)(&player->seqList), 0xc);
+        NNS_FndInitList((s32)(&player->heapList), 0);
         player->volume = 0x7f;
         player->playableSeqCount = 1;
         player->allocatableChannelMask = 0;
@@ -492,14 +494,14 @@ void NNS_SndPlayerMain(void)
     s32 volume;
 
     mask = SND_GetPlayerStatus();
-    seqPlayer = NNS_FndGetNextListObject(&gSndActiveSeqList, 0);
+    seqPlayer = NNS_FndGetNextListObject((struct DList *)(&gSndActiveSeqList), 0);
     if (seqPlayer == 0) {
         return;
     }
     lo = -0x8000;
     tbl = g_020A5D08;
     do {
-        next = NNS_FndGetNextListObject(&gSndActiveSeqList, seqPlayer);
+        next = NNS_FndGetNextListObject((struct DList *)(&gSndActiveSeqList), seqPlayer);
         if (seqPlayer->isPrepared == 0) {
             if (SND_IsFinishedCommandTag(seqPlayer->commandTag) != 0) {
                 seqPlayer->isPrepared = 1;
@@ -555,7 +557,7 @@ SndSeqPlayer *NNSi_SndPlayerAllocSeqPlayer(SndHandle *handle, s32 playerNo, s32 
         NNS_SndHandleReleaseSeq(handle);
     }
     if (player->seqList.numObjects >= player->playableSeqCount) {
-        seqPlayer = NNS_FndGetNextListObject(&player->seqList, 0);
+        seqPlayer = NNS_FndGetNextListObject((struct DList *)(&player->seqList), 0);
         if (seqPlayer == 0) {
             return 0;
         }
@@ -591,7 +593,7 @@ void NNSi_SndPlayerStartSeqPlayer(SndSeqPlayer *seqPlayer, const void *seqBase, 
 {
     SndPlayer *player = seqPlayer->pPlayer;
 
-    SND_PrepareSeq(seqPlayer->playerNo, seqBase, seqOffset, bankData);
+    SND_PrepareSeq(seqPlayer->playerNo, (void *)seqBase, seqOffset, (struct SNDBankData *)bankData);
     if (player->allocatableChannelMask != 0) {
         SND_SetTrackAllocatableChannel(seqPlayer->playerNo, 0xFFFF, player->allocatableChannelMask);
     }
@@ -638,10 +640,10 @@ void NNSi_SndSeqPlayerPause(SndSeqPlayer *seqPlayer, u8 flag)
 NNSSndHeap *NNSi_SndPlayerAllocHeap(s32 playerNo, SndSeqPlayer *seqPlayer)
 {
     SndPlayer *player = &gSndPlayers[playerNo];
-    SndPlayerHeap *pPlayerHeap = NNS_FndGetNextListObject(&player->heapList, 0);
+    SndPlayerHeap *pPlayerHeap = NNS_FndGetNextListObject((struct DList *)(&player->heapList), 0);
 
     if (pPlayerHeap == 0) return 0;
-    NNS_FndRemoveListObject(&player->heapList, pPlayerHeap);
+    NNS_FndRemoveListObject((struct DList *)(&player->heapList), pPlayerHeap);
     pPlayerHeap->pOwner = seqPlayer;
     seqPlayer->pPlayerHeap = pPlayerHeap;
     NNS_SndHeapClear(pPlayerHeap->heap);
@@ -667,14 +669,14 @@ void NNSi_SndSeqPlayerResetState(SndSeqPlayer *seqPlayer)
 /* Inserts the sequence player into the slot's sequence list, sorted by priority, and records the slot. */
 void NNSi_SndPlayerInsertSeqPlayer(SndPlayer *player, SndSeqPlayer *seqPlayer)
 {
-    SndSeqPlayer *curr = (SndSeqPlayer *)NNS_FndGetNextListObject(&player->seqList, 0);
+    SndSeqPlayer *curr = (SndSeqPlayer *)NNS_FndGetNextListObject((struct DList *)(&player->seqList), 0);
     while (curr != 0) {
         if (seqPlayer->priority < curr->priority) {
             break;
         }
-        curr = (SndSeqPlayer *)NNS_FndGetNextListObject(&player->seqList, curr);
+        curr = (SndSeqPlayer *)NNS_FndGetNextListObject((struct DList *)(&player->seqList), curr);
     }
-    NNS_FndInsertListObject(&player->seqList, curr, seqPlayer);
+    NNS_FndInsertListObject((struct DList *)(&player->seqList), curr, seqPlayer);
     seqPlayer->pPlayer = player;
 }
 
@@ -682,14 +684,14 @@ void NNSi_SndPlayerInsertSeqPlayer(SndPlayer *player, SndSeqPlayer *seqPlayer)
 /* Inserts the sequence player into the active list, sorted by priority. */
 void NNSi_SndInsertActiveSeqPlayer(SndSeqPlayer *seqPlayer)
 {
-    SndSeqPlayer *curr = NNS_FndGetNextListObject(&gSndActiveSeqList, 0);
+    SndSeqPlayer *curr = NNS_FndGetNextListObject((struct DList *)(&gSndActiveSeqList), 0);
     while (curr != 0) {
         if (seqPlayer->priority < curr->priority) {
             break;
         }
-        curr = NNS_FndGetNextListObject(&gSndActiveSeqList, curr);
+        curr = NNS_FndGetNextListObject((struct DList *)(&gSndActiveSeqList), curr);
     }
-    NNS_FndInsertListObject(&gSndActiveSeqList, curr, seqPlayer);
+    NNS_FndInsertListObject((struct DList *)(&gSndActiveSeqList), curr, seqPlayer);
 }
 
 
@@ -713,15 +715,15 @@ void NNSi_SndSeqPlayerStopNow(SndSeqPlayer *seqPlayer)
 SndSeqPlayer *NNSi_SndAllocFreeSeqPlayer(s32 priority)
 {
     SndSeqPlayer *seqPlayer;
-    seqPlayer = NNS_FndGetNextListObject(&gSndFreeSeqList, 0);
+    seqPlayer = NNS_FndGetNextListObject((struct DList *)(&gSndFreeSeqList), 0);
     if (seqPlayer == 0) {
-        seqPlayer = NNS_FndGetNextListObject(&gSndActiveSeqList, 0);
+        seqPlayer = NNS_FndGetNextListObject((struct DList *)(&gSndActiveSeqList), 0);
         if (priority < seqPlayer->priority) {
             return 0;
         }
         NNSi_SndSeqPlayerStopNow(seqPlayer);
     }
-    NNS_FndRemoveListObject(&gSndFreeSeqList, seqPlayer);
+    NNS_FndRemoveListObject((struct DList *)(&gSndFreeSeqList), seqPlayer);
     seqPlayer->priority = (u8)priority;
     NNSi_SndInsertActiveSeqPlayer(seqPlayer);
     return seqPlayer;
@@ -741,14 +743,14 @@ void NNSi_SndSeqPlayerRelease(SndSeqPlayer *seqPlayer)
         seqPlayer->pHandle = 0;
     }
     player = seqPlayer->pPlayer;
-    NNS_FndRemoveListObject(&player->seqList, seqPlayer);
+    NNS_FndRemoveListObject((struct DList *)(&player->seqList), seqPlayer);
     seqPlayer->pPlayer = 0;
     if (seqPlayer->pPlayerHeap != 0) {
         NNS_FndAppendListObject(&player->heapList, seqPlayer->pPlayerHeap);
         seqPlayer->pPlayerHeap->pOwner = 0;
         seqPlayer->pPlayerHeap = 0;
     }
-    NNS_FndRemoveListObject(&gSndActiveSeqList, seqPlayer);
+    NNS_FndRemoveListObject((struct DList *)(&gSndActiveSeqList), seqPlayer);
     NNS_FndAppendListObject(&gSndFreeSeqList, seqPlayer);
     seqPlayer->state = SND_SEQ_STATE_FREE;
 }
@@ -764,7 +766,7 @@ void NNSi_SndPlayerHeapDisposeCallback(SndPlayerHeap *pPlayerHeap)
     if (pPlayerHeap->heap == 0) return;
     NNS_SndHeapDestroy(pPlayerHeap->heap);
     if (pPlayerHeap->pOwner != 0) { pPlayerHeap->pOwner->pPlayerHeap = 0; return; }
-    NNS_FndRemoveListObject(&gSndPlayers[pPlayerHeap->playerNo].heapList, pPlayerHeap);
+    NNS_FndRemoveListObject((struct DList *)(&gSndPlayers[pPlayerHeap->playerNo].heapList), pPlayerHeap);
 }
 
 
@@ -772,8 +774,8 @@ void NNSi_SndPlayerHeapDisposeCallback(SndPlayerHeap *pPlayerHeap)
 void NNSi_SndSeqPlayerSetPriority(SndSeqPlayer *seqPlayer, u32 priority)
 {
     SndPlayer *player = seqPlayer->pPlayer;
-    if (player != 0) { NNS_FndRemoveListObject(&player->seqList, seqPlayer); seqPlayer->pPlayer = 0; }
-    NNS_FndRemoveListObject(&gSndActiveSeqList, seqPlayer);
+    if (player != 0) { NNS_FndRemoveListObject((struct DList *)(&player->seqList), seqPlayer); seqPlayer->pPlayer = 0; }
+    NNS_FndRemoveListObject((struct DList *)(&gSndActiveSeqList), seqPlayer);
     seqPlayer->priority = (u8)priority;
     if (player != 0) NNSi_SndPlayerInsertSeqPlayer(player, seqPlayer);
     NNSi_SndInsertActiveSeqPlayer(seqPlayer);

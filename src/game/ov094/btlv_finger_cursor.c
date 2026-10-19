@@ -48,14 +48,15 @@
 #include "btlv_clact_shared_types.h"
 
 extern u32 GFL_HEAP_Free(void *p);
+struct TcbTask;
 
-extern void TCB_DeleteTask(void *task);
+extern void TCB_DeleteTask(struct TcbTask *task);
 
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
 extern struct Unit *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 
-extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
+extern void *ARC_TOOL_CreateHandle(u32 archiveID, u16 heapID);
 
 extern s32 CLACT_RegisterCharacter(void *archive, u32 fileIdx, u32 compressed, u32 vramMode, u16 heapId);
 
@@ -102,8 +103,9 @@ typedef struct ClactAnimCommand {
 } ClactAnimCommand;
 
 extern void ARC_TOOL_DeleteHandle(void *archive);
+struct TcbSystem;
 
-extern void *TCB_AddTask(void *owner, void (*fn)(void *, void *), void *work, u32 priority);
+extern struct TcbTask *TCB_AddTask(struct TcbSystem *sys, void (*fn)(void *, void *), void *work, u32 priority);
 
 extern void BTLV_FINGER_CURSOR_TaskHideAfterDelay(void *task, void *work);
 

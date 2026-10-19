@@ -52,72 +52,85 @@
 #include "../arm9/billboard_act_types.h"
 
 extern void *SCRCMD_WORK_GetTargetObject(void *a);
+struct TcblTask;
 
-extern int FIELD_PLAYER_GRID_EVENT_IsHopDone(void *x);
+extern int FIELD_PLAYER_GRID_EVENT_IsHopDone(struct TcblTask *task);
 
-extern int FIELD_PLAYER_GRID_EVENT_DeleteHopTask(u32 a);
+extern int FIELD_PLAYER_GRID_EVENT_DeleteHopTask(struct TcblTask *task);
+struct ScrcmdWork;
+struct GameSystem;
 
-extern void *SCRCMD_WORK_GetGameSystem(void *work);
+extern struct GameSystem *SCRCMD_WORK_GetGameSystem(struct ScrcmdWork *work);
 
-extern void *GAMESYSTEM_GetFieldMap(const void *p);
+extern void *GAMESYSTEM_GetFieldMap(struct GameSystem *gameSystem);
+struct FieldMap;
+struct FieldPlayer;
 
-extern void *FIELDMAP_GetFieldPlayer(void *p);
+extern struct FieldPlayer *FIELDMAP_GetFieldPlayer(struct FieldMap *fieldMap);
+struct Mmdl;
 
-extern void *FIELD_PLAYER_GetMmdl(void *p);
+extern struct Mmdl *FIELD_PLAYER_GetMmdl(struct FieldPlayer *player);
 
-extern u16 FLDMMDL_GetDirDisp(void *p);
+extern u16 FLDMMDL_GetDirDisp(struct Mmdl *mmdl);
+struct FieldG3dMapper;
 
-extern u32 FIELDMAP_GetG3dMapper(void *p);
+extern struct FieldG3dMapper *FIELDMAP_GetG3dMapper(struct FieldMap *fieldMap);
 
-extern u16 SCRCMD_WORK_GetHeapId(void *work);
+extern u16 SCRCMD_WORK_GetHeapId(struct ScrcmdWork *work);
 
-extern void FIELD_PLAYER_GetPosInDir(u32 *a, int b, int *out);
+extern void FIELD_PLAYER_GetPosInDir(struct FieldPlayer *player, s32 dir, s32 *out);
 
 extern int MAP_ATTR_GetAt(void *a, void *b);
 
 extern u32 FIELD_PLAYER_GRID_EVENT_CreateHopTask(void *a, u32 b, u32 c, u32 d);
 
-extern void SCRCMD_WORK_SetTargetObject(void *p, u32 v);
+extern void SCRCMD_WORK_SetTargetObject(struct ScrcmdWork *work, void *object);
 
 extern void VM_SetWait(char *p, int val);
 
-extern int FIELD_PLAYER_GRID_EVENT_IsJumpDone(void *x);
+extern int FIELD_PLAYER_GRID_EVENT_IsJumpDone(struct TcblTask *task);
 
-extern void FIELD_PLAYER_GRID_EVENT_DeleteJumpTask(void *x);
+extern void FIELD_PLAYER_GRID_EVENT_DeleteJumpTask(struct TcblTask *task);
 
-extern u16 FIELD_PLAYER_GetDirDisp(void *p);
+extern u16 FIELD_PLAYER_GetDirDisp(struct FieldPlayer *player);
+struct ScriptVm;
 
-extern u32 SCRIPT_WORK_ReadWorkValue(void *a, void *b);
+extern u32 SCRIPT_WORK_ReadWorkValue(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
 
 extern u32 FIELD_PLAYER_GRID_EVENT_CreateJumpTask(void *a, u32 b, u32 c, u32 d);
+struct FieldEffectCont;
 
-extern u32 FIELDMAP_GetEffect(void *p);
+extern struct FieldEffectCont *FIELDMAP_GetEffect(struct FieldMap *fieldMap);
+struct FieldEffectSys;
 
-extern void FLDEFF_IAIGIRI_Start(u32 a, u32 b);
+extern void FLDEFF_IAIGIRI_Start(struct Mmdl *mmdl, struct FieldEffectSys *fieldEffect);
+struct ScriptWork;
 
-extern void *SCRCMD_WORK_GetScriptWork(void *p);
+extern struct ScriptWork *SCRCMD_WORK_GetScriptWork(struct ScrcmdWork *work);
+struct GameEvent;
 
-extern void *FLDEFF_RIPPLE_CreateZoneStartWarpTask(void *a, u32 b);
+extern struct GameEvent *FLDEFF_RIPPLE_CreateZoneStartWarpTask(struct GameSystem *gameSystem, struct FieldMap *fieldMap);
 
-extern void *FLDEFF_RIPPLE_CreateSpecialLocationWarpTask(void *a, u32 b, u32 c);
+extern struct GameEvent *FLDEFF_RIPPLE_CreateSpecialLocationWarpTask(struct GameSystem *gameSystem, struct FieldMap *fieldMap, u32 useSpin);
 
 extern void SCRIPT_SYS_CallEvent(void *a, void *b);
 
 extern void *GAME_EVENT_Create(void *owner, void *a, void *b, u32 size);
 
-extern void *GAME_EVENT_GetWork(void *p);
+extern void *GAME_EVENT_GetWork(struct GameEvent *event);
 
 extern int GF_OVERLAY_Load(int a);
 
-extern void FIELD_PLAYER_SetDirDisp(void *p, u32 b);
+extern void FIELD_PLAYER_SetDirDisp(struct FieldPlayer *player, s32 dir);
+struct RailSlipdown;
 
-extern void *RAIL_SLIPDOWN_Create(void *a, u32 b, u32 c, u32 d);
+extern struct RailSlipdown *RAIL_SLIPDOWN_Create(void *gameSystem, void *fieldMap, struct Mmdl *mmdl, s32 isPlayer);
 
 extern void GF_OVERLAY_Unload(s32 handle);
 
-extern int RAIL_SLIPDOWN_IsDone(int *p);
+extern int RAIL_SLIPDOWN_IsDone(struct RailSlipdown *slipdown);
 
-extern void RAIL_SLIPDOWN_Delete(u8 *p);
+extern void RAIL_SLIPDOWN_Delete(struct RailSlipdown *slipdown);
 
 int SCRCMD_PLAYER_GRID_EVENT_WaitHop(void *vm, void *scriptWork);
 
@@ -148,7 +161,7 @@ int SCRCMD_PLAYER_GRID_EVENT_WaitHop(void *vm, void *scriptWork)
     void *gridEvent = SCRCMD_WORK_GetTargetObject(scriptWork);
 
     if (FIELD_PLAYER_GRID_EVENT_IsHopDone(gridEvent) == 1) {
-        FIELD_PLAYER_GRID_EVENT_DeleteHopTask((u32)gridEvent);
+        FIELD_PLAYER_GRID_EVENT_DeleteHopTask((struct TcblTask *)gridEvent);
         return 1;
     }
     return 0;
@@ -173,7 +186,7 @@ u32 SCRCMD_PLAYER_GRID_EVENT_StartHop(u32 vm, void *scriptWork)
     FIELD_PLAYER_GetPosInDir(player, playerWork, (int *)pos);
     result = MAP_ATTR_GetAt(fieldMap, pos);
     result = FIELD_PLAYER_GRID_EVENT_CreateHopTask(player, playerWork, result, effectId);
-    SCRCMD_WORK_SetTargetObject((void *)scriptWork, result);
+    SCRCMD_WORK_SetTargetObject((void *)scriptWork, (void *)result);
     VM_SetWait((char *)vm, (int)SCRCMD_PLAYER_GRID_EVENT_WaitHop);
     return 1;
 }
@@ -205,7 +218,7 @@ u32 SCRCMD_PLAYER_GRID_EVENT_StartJump(u32 vm, void *scriptWork)
     playerWork = FIELD_PLAYER_GetDirDisp(player);
     result = SCRIPT_WORK_ReadWorkValue((void *)vm, (void *)scriptWork);
     result = FIELD_PLAYER_GRID_EVENT_CreateJumpTask(player, playerWork, result, effectId);
-    SCRCMD_WORK_SetTargetObject((void *)scriptWork, result);
+    SCRCMD_WORK_SetTargetObject((void *)scriptWork, (void *)result);
     VM_SetWait((char *)vm, (int)SCRCMD_PLAYER_GRID_EVENT_WaitJump);
     return 1;
 }
@@ -218,7 +231,7 @@ int SCRCMD_IAIGIRI_StartOnPlayer(void *vm, void *scriptWork)
     void *fieldMap = GAMESYSTEM_GetFieldMap(SCRCMD_WORK_GetGameSystem(scriptWork));
     void *playerMmdl = FIELD_PLAYER_GetMmdl(FIELDMAP_GetFieldPlayer((void *)fieldMap));
 
-    FLDEFF_IAIGIRI_Start((u32)playerMmdl, FIELDMAP_GetEffect(fieldMap));
+    FLDEFF_IAIGIRI_Start((struct Mmdl *)playerMmdl, (struct FieldEffectSys *)FIELDMAP_GetEffect(fieldMap));
     return 0;
 }
 
@@ -240,11 +253,11 @@ int SCRCMD_SAVEANIME_Start(void *vm, void *scriptWork)
     scriptObj = SCRCMD_WORK_GetScriptWork(scriptWork);
     type = SCRIPT_WORK_ReadWorkValue(vm, scriptWork);
     if (type == 0)
-        SCRIPT_SYS_CallEvent(scriptObj, FLDEFF_RIPPLE_CreateZoneStartWarpTask(saveAnimeArg, (u32)fieldMap));
+        SCRIPT_SYS_CallEvent(scriptObj, FLDEFF_RIPPLE_CreateZoneStartWarpTask(saveAnimeArg, (struct FieldMap *)fieldMap));
     else if (type == 1)
-        SCRIPT_SYS_CallEvent(scriptObj, FLDEFF_RIPPLE_CreateSpecialLocationWarpTask(saveAnimeArg, (u32)fieldMap, 0));
+        SCRIPT_SYS_CallEvent(scriptObj, FLDEFF_RIPPLE_CreateSpecialLocationWarpTask(saveAnimeArg, (struct FieldMap *)fieldMap, 0));
     else
-        SCRIPT_SYS_CallEvent(scriptObj, FLDEFF_RIPPLE_CreateSpecialLocationWarpTask(saveAnimeArg, (u32)fieldMap, 1));
+        SCRIPT_SYS_CallEvent(scriptObj, FLDEFF_RIPPLE_CreateSpecialLocationWarpTask(saveAnimeArg, (struct FieldMap *)fieldMap, 1));
     return 1;
 }
 
@@ -263,7 +276,7 @@ u32 RAIL_SLIPDOWN_StartAtPlayer(u32 a, u32 b, u32 c)
     fieldMap = FIELDMAP_GetFieldPlayer((void *)b);
     player = FIELD_PLAYER_GetMmdl((void *)fieldMap);
     FIELD_PLAYER_SetDirDisp(fieldMap, c);
-    *effectSlot = (u32)RAIL_SLIPDOWN_Create((void *)a, b, (u32)player, 1);
+    *effectSlot = (u32)RAIL_SLIPDOWN_Create((void *)a, (void *)b, (struct Mmdl *)player, 1);
     return task;
 }
 
@@ -276,7 +289,7 @@ void *RAIL_SLIPDOWN_Start(void *a, u32 b, u32 c)
     void **effectSlot = GAME_EVENT_GetWork(task);
 
     GF_OVERLAY_Load((u32)ov063_id);
-    *effectSlot = RAIL_SLIPDOWN_Create(a, b, c, 0);
+    *effectSlot = RAIL_SLIPDOWN_Create((void *)a, (void *)b, (struct Mmdl *)c, 0);
     return task;
 }
 

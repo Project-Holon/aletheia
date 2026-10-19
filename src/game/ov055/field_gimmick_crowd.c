@@ -215,8 +215,10 @@ extern int FLDMMDL_GetGridNowZ(Mmdl *mmdl);
 extern u32 GFL_USE_GetRandom(u32);
 extern Mmdl *FLDMMDL_AddMmdl(MmdlSys *mmdlSys, const MmdlHeader *header, int zoneId);
 extern void FLDMMDL_SetStatusBitVanish(Mmdl *mmdl, int flag);
-extern int FLDMMDL_SetMoveBitAttrEffectOff(Mmdl *mmdl, int flag);
-extern void FLDMMDL_SetDrawOffset(Mmdl *mmdl, int *offset);
+struct Mmdl;
+extern void FLDMMDL_SetMoveBitAttrEffectOff(Mmdl *mmdl, int flag);
+struct MmdlVec;
+extern void FLDMMDL_SetDrawOffset(struct Mmdl *mmdl, struct MmdlVec *offset);
 extern void FLDMMDL_DeleteMmdl(Mmdl *mmdl);
 extern u16 FLDMMDL_GetObjCode(Mmdl *mmdl);
 extern void FLDMMDL_InitPosRecord(MmdlHeader *header, int x, int z, int y);
@@ -228,25 +230,27 @@ extern int FLDMMDL_MOVE_GetDirAddGridX(int dir);
 extern int FLDMMDL_MOVE_GetDirAddGridZ(int dir);
 extern void FLDMMDL_SetAcmd(Mmdl *mmdl, u16 walkCmd);
 extern void *ARC_TOOL_CreateHandle(unsigned int id, u16 heap);
-extern void *ARC_TOOL_LoadHandleMember(struct ArcFile *arc, u32 member, u32 heap);
-extern u32 ARC_TOOL_GetHandleMemberSize(struct ArcFile *arc, u32 member);
-extern void ARC_TOOL_ReadHandleMemberRange(struct ArcFile *arc, u32 member, u32 offset, u32 size, void *dst);
+struct ArcHandle;
+extern void *ARC_TOOL_LoadHandleMember(struct ArcHandle *arc, u32 memberIdx, u16 heapID);
+extern u32 ARC_TOOL_GetHandleMemberSize(struct ArcHandle *arc, u32 memberIdx);
+extern void ARC_TOOL_ReadHandleMemberRange(struct ArcHandle *arc, u32 memberIdx, u32 offset, u32 size, void *dst);
 extern u32 GFL_HEAP_Free(void *p);
 extern void ARC_TOOL_DeleteHandle(void *);
-extern int FLDMMDL_SetStatusBitHeightGetOff(Mmdl *mmdl, int flag);
-extern int FLDMMDL_SetStatusBitAttrGetOff(Mmdl *mmdl, int flag);
+extern void FLDMMDL_SetStatusBitHeightGetOff(Mmdl *mmdl, int flag);
+extern void FLDMMDL_SetStatusBitAttrGetOff(Mmdl *mmdl, int flag);
 extern void FLDMMDL_SetStatusBitFellowHit(Mmdl *mmdl, int flag);
 extern void FLDMMDL_SetEventId(Mmdl *mmdl, u16 eventId);
-extern int FLDMMDL_CheckEndAcmd();
+extern int FLDMMDL_CheckEndAcmd(struct Mmdl *mmdl);
 extern Mmdl *FIELD_PLAYER_GetMmdl(struct FieldPlayer *player);
 extern int FLDMMDL_SysSearchUseMmdl(MmdlSys *mmdlSys, Mmdl **out, u32 *iter);
-extern int FLDMMDL_CheckStatusBit(Mmdl *mmdl, int bit);
+extern u32 FLDMMDL_CheckStatusBit(struct Mmdl *mmdl, u32 bit);
 extern int FLDMMDL_CheckStatusBitVanish(Mmdl *mmdl);
 extern int FLDMMDL_GetGridOldX(Mmdl *mmdl);
 extern int FLDMMDL_GetGridOldZ(Mmdl *mmdl);
-extern struct MsgData *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+struct MsgBank;
+extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void CROWD_CloseChatterSlot(CrowdChatterSlot *slot, struct FieldMsgBg *msgBg);
-extern u32 MSGDATA_Delete(struct MsgData *msgData);
+extern u32 MSGDATA_Delete(struct MsgBank *bank);
 extern void FIELD_MSGBG_AddSubMsgWinMsg(struct FieldMsgBg *msgBg, struct MsgData *msgData, u32 msgId, u32 windowId, u8 x, u8 y, u8 width, u8 height);
 extern void FIELD_MSGBG_DeleteSubMsgWin(struct FieldMsgBg *msgBg, u32 windowId);
 void CROWD_Init(struct FieldSubproc *proc, FieldMap *fieldMap, CrowdWork *work);
@@ -458,7 +462,7 @@ void CROWD_CreatePerson(CrowdPerson *person, MmdlSys *mmdlSys, int zoneId, const
     {
         int drawOffset[3] = {0, 0, 0};
         drawOffset[0] = GFL_USE_GetRandom(0x8000) - 0x4000;
-        FLDMMDL_SetDrawOffset(person->mmdl, drawOffset);
+        FLDMMDL_SetDrawOffset(person->mmdl, (struct MmdlVec *)drawOffset);
     }
 }
 
@@ -569,16 +573,16 @@ void CROWD_LoadConfig(CrowdConfig *config, int timeZone, int zoneId, u16 heapId)
 
     tempHeapId = (heapId & 0x7fff) | 0x8000;
     arc = ARC_TOOL_CreateHandle(0xba, tempHeapId);
-    zoneTable = ARC_TOOL_LoadHandleMember(arc, 5, (u16)tempHeapId);
-    count = ARC_TOOL_GetHandleMemberSize(arc, 5) >> 2;
+    zoneTable = ARC_TOOL_LoadHandleMember((struct ArcHandle *)arc, 5, (u16)tempHeapId);
+    count = ARC_TOOL_GetHandleMemberSize((struct ArcHandle *)arc, 5) >> 2;
     for (i = 0; i < count; i++) {
         if (zoneId == zoneTable[i])
             break;
     }
-    ARC_TOOL_ReadHandleMemberRange(arc, i, 0, 0x32, config);
+    ARC_TOOL_ReadHandleMemberRange((struct ArcHandle *)arc, i, 0, 0x32, config);
     GFL_HEAP_Free(zoneTable);
-    count = ARC_TOOL_GetHandleMemberSize(arc, 6);
-    config->modelTable = ARC_TOOL_LoadHandleMember(arc, 6, (u16)heapId);
+    count = ARC_TOOL_GetHandleMemberSize((struct ArcHandle *)arc, 6);
+    config->modelTable = ARC_TOOL_LoadHandleMember((struct ArcHandle *)arc, 6, (u16)heapId);
     config->modelTableCount = count >> 4;
     ARC_TOOL_DeleteHandle(arc);
     for (j = 0; j < CROWD_AREA_MAX; j++)
@@ -842,7 +846,7 @@ void CROWD_InitChatter(CrowdChatter *chatter, struct FieldMsgBg *msgBg, const Cr
     interval = config->intervalByTimeZone[timeZone];
     chatter->timer = i;
     chatter->interval = 0x10 + rand % interval;
-    chatter->msgData = MSGDATA_CreateFromArchive(0, 3, 0x9f, heapId);
+    chatter->msgData = (struct MsgData *)MSGDATA_CreateFromArchive(0, 3, 0x9f, heapId);
     chatter->msgBg = msgBg;
     chatter->nextSlot = rand & 0xf;
     for (i = 0; i < CROWD_CHATTER_SLOT_MAX; i++) {
@@ -851,7 +855,7 @@ void CROWD_InitChatter(CrowdChatter *chatter, struct FieldMsgBg *msgBg, const Cr
 }
 
 /* Close the windows and free the message data. */
-void CROWD_ExitChatter(CrowdChatter *chatter) { int i; for (i=0;i<CROWD_CHATTER_SLOT_MAX;i++) CROWD_CloseChatterSlot(&chatter->slots[i],chatter->msgBg); chatter->msgBg=0; MSGDATA_Delete(chatter->msgData); chatter->msgData=0; }
+void CROWD_ExitChatter(CrowdChatter *chatter) { int i; for (i=0;i<CROWD_CHATTER_SLOT_MAX;i++) CROWD_CloseChatterSlot(&chatter->slots[i],chatter->msgBg); chatter->msgBg=0; MSGDATA_Delete((struct MsgBank *)chatter->msgData); chatter->msgData=0; }
 
 /* Close all open windows. */
 void CROWD_CloseAllChatterSlots(CrowdChatter *chatter) { int i; for (i=0;i<CROWD_CHATTER_SLOT_MAX;i++) CROWD_CloseChatterSlot(&chatter->slots[i],chatter->msgBg); }

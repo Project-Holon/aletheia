@@ -155,61 +155,71 @@ typedef struct Pair {
 } Pair;
 
 extern struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
-extern void REGULATION_SetRuleValue(struct Reg *regulation, u32 id, int value);
-extern void *GFL_NET_HANDLE_GetCurrentHandle(void);
-extern void BTL_SETUP_SetupCommSingle(void *battleSetup, struct GameData *gameData, void *handle, u32 a, u16 b);
-extern void BTL_SETUP_SetupCommDouble(void *battleSetup, struct GameData *gameData, void *handle, u32 a, u16 b);
-extern void BTL_SETUP_SetupCommTriple(void *battleSetup, struct GameData *gameData, void *handle, u32 a, u16 b);
-extern void BTL_SETUP_SetupCommRotation(void *battleSetup, struct GameData *gameData, void *handle, u32 a, u16 b);
-extern void BTL_SETUP_AllocRecordBuffer(void *battleSetup, u32 heapArg);
-extern void BTL_SETUP_ApplyRegulation(void *battleSetup, void *regulation, u32 a);
-extern void POKE_REGULATION_AdjustPartyLevels(void *dst, void *src);
+struct Regulation;
+extern void REGULATION_SetRuleValue(struct Regulation *rule, unsigned int id, int value);
+struct GFLNetHandle;
+extern struct GFLNetHandle *GFL_NET_HANDLE_GetCurrentHandle(void);
+struct BattleSetupParam;
+extern void BTL_SETUP_SetupCommSingle(struct BattleSetupParam *param, struct GameData *gd, u32 netHandle, u8 commPos, u16 heap);
+extern void BTL_SETUP_SetupCommDouble(struct BattleSetupParam *param, struct GameData *gd, u32 netHandle, u8 commPos, u16 heap);
+extern void BTL_SETUP_SetupCommTriple(struct BattleSetupParam *param, struct GameData *gd, u32 netHandle, u8 commPos, u16 heap);
+extern void BTL_SETUP_SetupCommRotation(struct BattleSetupParam *param, struct GameData *gd, u32 netHandle, u8 commPos, u16 heap);
+extern void BTL_SETUP_AllocRecordBuffer(struct BattleSetupParam *param, u32 heap);
+struct Regulation;
+extern void BTL_SETUP_ApplyRegulation(struct BattleSetupParam *param, struct Regulation *reg, u32 level);
+extern void POKE_REGULATION_AdjustPartyLevels(struct Regulation *reg, struct Party *party);
 extern void *GAME_DATA_GetTrainerRecord(struct GameData *gameData);
-extern u32 GFL_NET_GetHandleNetID(struct Link *handle);
-void *GAME_DATA_GetMyStatusPlayer(void *gameData, u32 index);
+extern u32 GFL_NET_GetHandleNetID(struct GFLNetHandle *handle);
+struct MyStatus;
+struct MyStatus *GAME_DATA_GetMyStatusPlayer(struct GameData *gd, unsigned int playerId);
 const void *MYSTATUS_GetName(const void *p);
-u8 MYSTATUS_GetSex(const void *playerRecord);
-void POKEPARTY_Init(void *party);
-void BTL_SETUP_SetParty(void *battleSetup, void *party, int a);
+u8 MYSTATUS_GetSex(struct MyStatus *mystatus);
+void POKEPARTY_Init(struct Party *party);
+void BTL_SETUP_SetParty(struct BattleSetupParam *param, struct Party *src, int client);
 extern void GFL_USE_SetPlayerVolumes(u32 value, u32 mask);
 extern void PM_VOICE_SetMasterVolume(u8 volume);
 extern u16 GFL_USE_GetBgmNo(void);
 extern void GFL_USE_FadeOutBgm(u32 frames);
-extern void *GAMESYSTEM_GetGameComm(const struct GameSystem *gameSystem);
-extern u32 GAME_COMM_GetKind(void *gameComm);
-extern int FIELD_STATUS_CreateFieldCloseEvent(int gameSystem, int fieldMap);
-extern void *FIELD_STATUS_CreateFieldOpenEvent(void *gameSystem);
-extern void GAME_EVENT_CallEvent(struct GameEvent *event, struct GameEvent **newEvent);
+extern struct GameComm *GAMESYSTEM_GetGameComm(const struct GameSystem *gameSystem);
+extern u32 GAME_COMM_GetKind(struct GameComm *comm);
+struct FieldMap;
+struct GameEvent;
+extern struct GameEvent *FIELD_STATUS_CreateFieldCloseEvent(struct GameSystem *gameSystem, struct FieldMap *fieldMap);
+extern struct GameEvent *FIELD_STATUS_CreateFieldOpenEvent(struct GameSystem *gameSystem);
+extern void GAME_EVENT_CallEvent(struct GameEvent *parent, struct GameEvent *child);
 extern void GFL_USE_SetSleepVolumeHooks(void);
 extern int GFL_NET_IsSessionNull(void);
 extern void RINGTONE_SYS_RegisterSleepCallbacks(void);
-extern int EVENT_FIELDMAP_CONTROL_StartFadeIn(void *gameSystem, int fieldMap, int sel, int d, int e, u8 f, u8 g);
+extern struct GameEvent *EVENT_FIELDMAP_CONTROL_StartFadeIn(struct GameSystem *gameSystem, struct FieldMap *fieldMap, int effect, int skipWait, int restoreBg, unsigned char seasonShown, unsigned char seasonTarget);
 extern void MI_CpuFill8(void *dst, int value, int size);
 extern void PM_VOICE_ResetMasterVolume(void);
-extern void GFL_USE_CancelChangeAndPlayBgm(u32 bgmNo, u16 fadeTarget);
+extern void GFL_USE_CancelChangeAndPlayBgm(u32 bgmNo, u32 trackMask);
 extern void GFL_USE_FadeInBgmFull(u32 frames);
 extern void *PROCSYS_Create(int heapId);
 extern void PROCSYS_Push(void *task, u32 overlayId, u32 procData, u32 param);
 extern u32 PROCSYS_Main(void *task);
 extern void PROCSYS_Delete(void *task);
 extern u32 GFL_NET_ERR_ShowScreen(u32 isFatal);
-extern u32 GAME_DATA_GetWifiList(const struct GameData *gameData);
-extern u32 WIFILIST_CountFriends(void *battleRecord);
+struct FieldState;
+extern struct FieldState *GAME_DATA_GetWifiList(const struct GameData *gameData);
+struct WifiList;
+extern u32 WIFILIST_CountFriends(struct WifiList *list);
 extern int GF_OVERLAY_Load(int overlayId);
 extern void GF_OVERLAY_Unload(int overlayId);
-extern void WIFICLUB_RunPeerAddrRoutine(char *scratchBuffer);
-extern int BTL_SETUP_Delete(int battleSetup);
-extern void GAME_EVENT_CallProc(struct GameEvent *event, u32 overlayId, u32 procData, u32 param);
-extern void *BTL_SETUP_Create(u32 heapId);
+struct WifiClubPlayerStatus;
+extern void WIFICLUB_RunPeerAddrRoutine(struct WifiClubPlayerStatus *status);
+extern void BTL_SETUP_Delete(struct BattleSetupParam *param);
+extern void GAME_EVENT_CallProc(struct GameEvent *parent, u32 overlayId, void *procData, void *param);
+extern struct BattleSetupParam *BTL_SETUP_Create(u32 heapId);
 extern void GFL_NET_COMMAND_AddCommandTable(u32, u32, u32, u32);
-extern void GFL_NET_HANDLE_SetTimingSyncRange(struct Link *handle, u32 rangeStart, u32 rangeEnd);
-extern u32 GFL_NET_HANDLE_IsTimingSyncRange(struct Link *handle, u32 rangeStart, u32 rangeEnd);
+extern void GFL_NET_HANDLE_SetTimingSyncRange(struct GFLNetHandle *handle, u32 timingLow, u32 timingHigh);
+extern u32 GFL_NET_HANDLE_IsTimingSyncRange(struct GFLNetHandle *handle, u32 timingLow, u32 timingHigh);
 extern int GFL_NET_GetRunState(void);
 extern u32 GFL_NET_ERR_GetErrorLevel(void);
 extern u32 GFL_NET_ERR_WaitLinkClosed(void);
 extern void GFL_NET_ERR_ShowSimpleScreen(void);
-extern void *GAME_DATA_GetMyStatusPlayer(void *gameData, u32 index);
-extern void WIFILIST_AddFriendBattleRecord(void *battleRecord, int ruleIndex, int win, int lose, int draw);
+extern struct MyStatus *GAME_DATA_GetMyStatusPlayer(struct GameData *gd, unsigned int playerId);
+extern void WIFILIST_AddFriendBattleRecord(struct WifiList *list, int slot, int wins, int losses, int trades);
 extern void GFL_NET_COMMAND_DeleteCommandTable(u32);
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *fileName, u16 line);
 extern u32 GFL_HEAP_Free(void *p);
@@ -217,9 +227,10 @@ extern int GFL_NET_Exit(int);
 extern u32 GFL_NET_IsIdle(void);
 void *GAME_EVENT_GetWork(struct GameEvent *event);
 void GAME_COMM_RequestExitNoCallback(struct GameComm *gameComm);
-void *POKEPARTY_Create(u32 heapId);
-void *GAME_DATA_GetSaveControl(struct GameData *gameData);
-void *REGULATION_Create(u32 heapId);
+struct Party *POKEPARTY_Create(u32 heapId);
+struct SaveControl;
+struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gameData);
+struct Regulation *REGULATION_Create(u32 heapId);
 void *GAME_EVENT_Create(void *gameSystem, void *a, void *callback, u32 workSize);
 void EVENT_WIFICLUB_SetupBattle(WifiClubEventWork *work, int menuIndex);
 void EVENT_WIFICLUB_BuildBattleEntry(WifiClubEventWork *work, void *gameData, int seq);
@@ -301,19 +312,19 @@ void EVENT_WIFICLUB_SetupBattle(WifiClubEventWork *work, int menuIndex)
     switch (menuIndex) {
     case 7:
     case 8:
-        BTL_SETUP_SetupCommSingle(work->battleSetup, gameData, GFL_NET_HANDLE_GetCurrentHandle(), 1, 4);
+        BTL_SETUP_SetupCommSingle(work->battleSetup, gameData, (u32)GFL_NET_HANDLE_GetCurrentHandle(), 1, 4);
         break;
     case 9:
     case 10:
-        BTL_SETUP_SetupCommDouble(work->battleSetup, gameData, GFL_NET_HANDLE_GetCurrentHandle(), 1, 4);
+        BTL_SETUP_SetupCommDouble(work->battleSetup, gameData, (u32)GFL_NET_HANDLE_GetCurrentHandle(), 1, 4);
         break;
     case 11:
     case 12:
-        BTL_SETUP_SetupCommTriple(work->battleSetup, gameData, GFL_NET_HANDLE_GetCurrentHandle(), 1, 4);
+        BTL_SETUP_SetupCommTriple(work->battleSetup, gameData, (u32)GFL_NET_HANDLE_GetCurrentHandle(), 1, 4);
         break;
     case 13:
     case 14:
-        BTL_SETUP_SetupCommRotation(work->battleSetup, gameData, GFL_NET_HANDLE_GetCurrentHandle(), 1, 4);
+        BTL_SETUP_SetupCommRotation(work->battleSetup, gameData, (u32)GFL_NET_HANDLE_GetCurrentHandle(), 1, 4);
         break;
     }
     BTL_SETUP_AllocRecordBuffer(work->battleSetup, 1);
@@ -427,7 +438,7 @@ int EVENT_WIFICLUB_Main(struct GameEvent *event, u32 *seq, WifiClubEventWork *wo
     case 1:
         if (!GAME_COMM_GetKind(GAMESYSTEM_GetGameComm(gameSystem))) {
             work->reserved10 = 0;
-            GAME_EVENT_CallEvent(event, (void *)FIELD_STATUS_CreateFieldCloseEvent((int)gameSystem, work->fieldMap));
+            GAME_EVENT_CallEvent(event, (void *)FIELD_STATUS_CreateFieldCloseEvent((struct GameSystem *)gameSystem, (struct FieldMap *)work->fieldMap));
             ++*seq;
         }
         break;
@@ -447,12 +458,12 @@ int EVENT_WIFICLUB_Main(struct GameEvent *event, u32 *seq, WifiClubEventWork *wo
         break;
     case 5:
         RINGTONE_SYS_RegisterSleepCallbacks();
-        GAME_EVENT_CallEvent(event, FIELD_STATUS_CreateFieldOpenEvent(gameSystem));
+        GAME_EVENT_CallEvent((struct GameEvent *)event, (struct GameEvent *)FIELD_STATUS_CreateFieldOpenEvent(gameSystem));
         ++*seq;
         break;
     case 6:
         if (work->hideFieldObjects)
-            GAME_EVENT_CallEvent(event, (void *)EVENT_FIELDMAP_CONTROL_StartFadeIn(gameSystem, work->fieldMap, 0, 0, 1, 0, 0));
+            GAME_EVENT_CallEvent(event, (void *)EVENT_FIELDMAP_CONTROL_StartFadeIn(gameSystem, (struct FieldMap *)work->fieldMap, 0, 0, 1, 0, 0));
         ++*seq;
         break;
     case 7: return 1;
@@ -502,9 +513,9 @@ int EVENT_WIFICLUB_Main(struct GameEvent *event, u32 *seq, WifiClubEventWork *wo
     case 11:
         GF_OVERLAY_Load((int)ov099_id);
         GF_OVERLAY_Load((int)ov067_id);
-        WIFICLUB_RunPeerAddrRoutine((char *)work->session->scratchBuffer);
-        if (work->battleSetup) { BTL_SETUP_Delete((int)work->battleSetup); work->battleSetup = 0; }
-        GAME_EVENT_CallProc(work->event, (u32)ov127_id, (u32)d_021C37E8, (u32)work->session);
+        WIFICLUB_RunPeerAddrRoutine((struct WifiClubPlayerStatus *)work->session->scratchBuffer);
+        if (work->battleSetup) { BTL_SETUP_Delete((struct BattleSetupParam *)work->battleSetup); work->battleSetup = 0; }
+        GAME_EVENT_CallProc(work->event, (u32)ov127_id, (void *)d_021C37E8, (void *)work->session);
         ++*seq;
         break;
     case 12:
@@ -518,7 +529,7 @@ int EVENT_WIFICLUB_Main(struct GameEvent *event, u32 *seq, WifiClubEventWork *wo
         EVENT_WIFICLUB_BuildBattleEntry(work, (void *)GAMESYSTEM_GetGameData(gameSystem), step);
         work->battleSetup = BTL_SETUP_Create(4);
         EVENT_WIFICLUB_SetupBattle(work, work->session->menuChoice);
-        GAME_EVENT_CallProc(work->event, (u32)ov134_id, (u32)d_021DCCA4, (u32)&work->battleEntry);
+        GAME_EVENT_CallProc(work->event, (u32)ov134_id, (void *)d_021DCCA4, (void *)&work->battleEntry);
         ++*seq;
         break;
     case 14:
@@ -568,7 +579,7 @@ int EVENT_WIFICLUB_Main(struct GameEvent *event, u32 *seq, WifiClubEventWork *wo
         work->startParam.enabled = 1;
         work->trainerRecord = GAME_DATA_GetTrainerRecord(GAMESYSTEM_GetGameData(work->gameSystem));
         GF_OVERLAY_Unload((int)ov093_id);
-        GAME_EVENT_CallProc(work->event, (u32)ov008_id, (u32)d_0215513C, (u32)&work->startParam);
+        GAME_EVENT_CallProc(work->event, (u32)ov008_id, (void *)d_0215513C, (void *)&work->startParam);
         ++*seq;
         break;
     case 17:
@@ -587,7 +598,7 @@ int EVENT_WIFICLUB_Main(struct GameEvent *event, u32 *seq, WifiClubEventWork *wo
         break;
     case 19:
         work->tradeParam.gameData = GAMESYSTEM_GetGameData(gameSystem);
-        GAME_EVENT_CallProc(work->event, (u32)ov119_id, (u32)d_021E75C0, (u32)&work->tradeParam);
+        GAME_EVENT_CallProc(work->event, (u32)ov119_id, (void *)d_021E75C0, (void *)&work->tradeParam);
         ++*seq;
         break;
     case 20:
@@ -611,7 +622,7 @@ int EVENT_WIFICLUB_Main(struct GameEvent *event, u32 *seq, WifiClubEventWork *wo
         request->fromTrade = 1;
         request->reserved2 = 0;
         work->tradeParam.evolutionRequest = request;
-        GAME_EVENT_CallProc(work->event, (u32)ov195_id, (u32)d_02208C40, (u32)request);
+        GAME_EVENT_CallProc(work->event, (u32)ov195_id, (void *)d_02208C40, (void *)request);
         *seq = 22;
         break;
     case 22:
@@ -626,7 +637,7 @@ int EVENT_WIFICLUB_Main(struct GameEvent *event, u32 *seq, WifiClubEventWork *wo
     case 23:
         work->viewParam.gameData = GAMESYSTEM_GetGameData(gameSystem);
         work->viewParam.mode = 3;
-        GAME_EVENT_CallProc(work->event, (u32)ov172_id, (u32)d_021C7240, (u32)&work->viewParam);
+        GAME_EVENT_CallProc(work->event, (u32)ov172_id, (void *)d_021C7240, (void *)&work->viewParam);
         ++*seq;
         break;
     case 24:
@@ -657,7 +668,7 @@ void EVENT_WIFICLUB_FreeWork(WifiClubEventWork *work)
 {
     int battleSetup = (int)work->battleSetup;
     if (battleSetup != 0) {
-        BTL_SETUP_Delete(battleSetup);
+        BTL_SETUP_Delete((struct BattleSetupParam *)battleSetup);
         work->battleSetup = 0;
     }
     GFL_HEAP_Free(work->session->party[0]);
@@ -690,7 +701,7 @@ void EVENT_WIFICLUB_InitWork(void *event, void *gameSystem, int fieldMap, int hi
     work->session->rulesLoaded = 1;
     work->session->rematch = 0;
     work->paramGameData = work->session->gameData;
-    work->battleRecord = GAME_DATA_GetWifiList(work->paramGameData);
+    work->battleRecord = (unsigned int)GAME_DATA_GetWifiList(work->paramGameData);
     work->session->menuChoice = 0;
     work->tradeParam.party = work->battleParty = POKEPARTY_Create(0x8004);
     work->self = work;

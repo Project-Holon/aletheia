@@ -65,10 +65,11 @@ void GREETING_SAVEDATA_Init(void *greetings)
 struct QuadRecord {
     u16 data[4];
 };
+struct SaveControl;
 
-extern void *SAVE_CONTROL_GetBlock(struct Sub020071CCCtrl *ctrl, u32 id);
+extern void *SAVE_CONTROL_GetBlock(struct SaveControl *saveControl, u32 blockId);
 
-extern void *SAVE_CONTROL_GetBlock(struct Sub020071CCCtrl *ctrl, u32 id);
+extern void *SAVE_CONTROL_GetBlock(struct SaveControl *saveControl, u32 blockId);
 
 void *GREETING_SAVEDATA_GetFromSaveThunk(u32 a);
 
@@ -100,7 +101,7 @@ void *GREETING_SAVEDATA_GetFromSaveThunk(u32 saveData)
 
 void *GREETING_SAVEDATA_GetFromSave(u32 saveData)
 {
-    return SAVE_CONTROL_GetBlock((struct Sub020071CCCtrl *)saveData, 0x3e);
+    return SAVE_CONTROL_GetBlock((struct SaveControl *)saveData, 0x3e);
 }
 
 /*

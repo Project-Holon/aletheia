@@ -241,9 +241,20 @@
  *   STA_ACTING_ReplaceWaveData 0x021F969C thumb ov132
  *   STA_ACTING_PlayBgm  0x021F96B0  thumb
  *   STA_ACTING_StopBgm  0x021F96C4  thumb
+ *   _fadd                        0x0209C95C  arm
+ *   _fdiv                        0x0209CE10  arm
+ *   _ffix                        0x0209C494  arm
+ *   _fflt                        0x0209BDBC  arm
+ *   _ffltu                       0x0209BE04  arm
+ *   _fgr                         0x0209BBB0  arm
+ *   _fmul                        0x0209C77C  arm
+ *   _fsub                        0x0209CB8C  arm
+ *   _ull_mul                     0x0209C054  arm
  */
 #include "ov132_types.h"
 #include "sta_acting_shared_types.h"
+extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
+extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
 
 #define FX(x) ((int)(((x) > 0) ? ((x) * 4096.0f + 0.5f) : ((x) * 4096.0f - 0.5f)))
 
@@ -324,14 +335,15 @@ typedef enum { ENABLED = 1 } Enabled;
 typedef enum { ACTION7 = 7, ACTION8 = 8 } Action;
 
 extern void *GFL_HEAP_Alloc(unsigned int heapId, unsigned int size, int clear, const char *site, u16 tag);
+struct Tcb;
 
-extern void *GFL_USE_AddMainTask(void (*)(void),void *,unsigned int);
+extern struct Tcb *GFL_USE_AddMainTask(void (*)(void),void *,unsigned int);
 
 extern unsigned int STA_NET_GetCurrentSlotValue(char *p);
 
-extern void *ARC_TOOL_CreateHandle(unsigned int id, unsigned int heap);
+extern void *ARC_TOOL_CreateHandle(unsigned int archiveID, unsigned short heapID);
 
-extern void *STA_ACT_LIGHT_CreateUnit(u16,void *);
+extern Object *STA_ACT_LIGHT_CreateUnit(u16,void *);
 
 extern char *STA_ACT_AUDIENCE_Create(unsigned int,void *,unsigned int);
 
@@ -349,23 +361,27 @@ extern void GFL_USE_ClearPreloadedBgmBuffers(void);
 
 extern void GXx_SetMasterBrightness_(volatile u16 *,int);
 
-extern void G2x_SetBlendAlpha_(void *,int,int,int,int);
+extern void G2x_SetBlendAlpha_(unsigned int *reg, unsigned int a, unsigned int b, unsigned int c, unsigned int d);
 
 extern void STA_ACT_SCRIPT_Delete(char *);
+struct Strbuf;
 
-extern void STRBUF_Delete(struct U16Vec *vec);
+extern void STRBUF_Delete(struct Strbuf *strbuf);
+struct PrintQueue;
 
-extern void PRINTSYS_QUE_Clear(struct PrintSys *p);
+extern void PRINTSYS_QUE_Clear(struct PrintQueue *queue);
 
-extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
+extern void PRINTSYS_QUE_Delete(struct PrintQueue *queue);
 
-extern unsigned int MSGDATA_Delete(struct Rec *rec);
+extern unsigned int MSGDATA_Delete(struct MsgBank *bank);
+struct BmpWin;
 
-extern unsigned int BMP_WIN_Delete(struct Descriptor *d);
+extern unsigned int BMP_WIN_Delete(struct BmpWin *win);
 
-extern unsigned int GF_FONT_Delete(void *ptr);
+extern unsigned int GF_FONT_Delete(struct GfFont *font);
+struct TcblSystem;
 
-extern void TCBL_Destroy(struct S02031140 *p);
+extern void TCBL_Destroy(struct TcblSystem *tcbl);
 
 extern void STA_ACT_BUTTON_Delete(char *);
 
@@ -398,14 +414,15 @@ extern void BG_SYS_FreeLayerBuf(unsigned int);
 extern void BMP_WIN_Exit(void);
 
 extern void BG_SYS_Delete(void);
+struct TcbTask;
 
-extern void TCB_DeleteTask(struct Node *n);
+extern void TCB_DeleteTask(struct TcbTask *task);
 
 extern void ARC_TOOL_DeleteHandle(void *);
 
 extern unsigned int GFL_HEAP_Free(void *p);
 
-extern void WIPE_SYS_Start(void *,unsigned int,unsigned int,unsigned int,unsigned int,unsigned int,unsigned int);
+extern void WIPE_SYS_Start(void *divisionMode, unsigned int mainPattern, unsigned int subPattern, unsigned short color, unsigned int frames, unsigned int wait, unsigned int heapId);
 
 extern unsigned int WIPE_SYS_EndCheck(void);
 
@@ -460,8 +477,11 @@ extern void G3D_SYSTEM_DrawEnd(void);
 extern void CLACT_DrawSystem(void);
 
 extern void CLACT_VBlankSystem(void);
+struct LightSlot;
+struct BbBoard;
+struct G3dCamera;
 
-extern void BILLBOARD_Draw(struct Board *b, struct Camera *cam, struct Lights *lights);
+extern void BILLBOARD_Draw(struct BbBoard *board, struct G3dCamera *camera, struct LightSlot *lights);
 
 extern void BG_SYS_ClearMainPlanes(void);
 
@@ -469,7 +489,7 @@ extern void BG_SYS_ClearSubPlanes(void);
 
 extern void WIPE_SetBrightnessFadeOut(unsigned int,unsigned int);
 
-extern unsigned int WIPE_ResetWndMask(void *);
+extern void WIPE_ResetWndMask(void *);
 
 extern void BG_SYS_SetVramBanks(const struct DispVram *c);
 
@@ -487,17 +507,20 @@ extern void BG_SYS_EnableBg0WithPriority(unsigned int);
 
 extern void G3D_SYSTEM_SetSwapBuffersMode(unsigned int,unsigned int);
 
-extern void *G3D_CAMERA_Create(unsigned int,unsigned int,unsigned int,unsigned int,unsigned int,unsigned int,unsigned int,unsigned int,const Vec3 *,const Vec3 *,const Vec3 *,u16);
+extern u32 *G3D_CAMERA_Create(unsigned int,unsigned int,unsigned int,unsigned int,unsigned int,unsigned int,unsigned int,unsigned int,const Vec3 *,const Vec3 *,const Vec3 *,u16);
+struct G3dCamera;
 
-extern void G3D_CAMERA_Reset(struct Light *l);
+extern void G3D_CAMERA_Reset(struct G3dCamera *camera);
 
 extern void G3X_SetEdgeColorTable(const void *);
 
 extern void *BILLBOARD_Create(u8 *src, void *heap);
 
 extern void BILLBOARD_SetScale(u8 *dst, struct Blk3 *src);
+struct DispVramCfg;
+struct SysInit;
 
-extern void CLACT_InitSystem(const struct Cfg *cfg, unsigned int arg, unsigned int heapId);
+extern void CLACT_InitSystem(struct SysInit *cfg, struct DispVramCfg *res_cfg, unsigned int heapId);
 
 extern void ARC_UTIL_UploadPaletteFromHandle(void *arc, unsigned int memberIdx, unsigned int kind, unsigned int offset, unsigned int dest, unsigned int size, u16 flags);
 
@@ -512,8 +535,9 @@ extern void MIi_CpuCopy16(const void *,void *,unsigned int);
 extern void BG_SYS_PushTile(unsigned int);
 
 extern u8 *STA_ACT_LIGHT_AllocElem(unsigned int heap, unsigned int v);
+struct MusicalShowProgram;
 
-extern u8 MUSICAL_PROGRAM_GetBaseProgramId(char *program);
+extern u8 MUSICAL_PROGRAM_GetBaseProgramId(struct MusicalShowProgram *program);
 
 extern void STA_ACT_LIGHT_CreateModel(void *, int);
 
@@ -524,8 +548,9 @@ extern void BG_SYS_FreeSlot(u32);
 extern void *MUSICAL_MCSS_CreateRenderObj(u32);
 
 extern void MUSICAL_MCSS_SetRenderCellVramBase(void **p, int b);
+struct McssActorPool;
 
-extern struct Object *MUSICAL_MCSS_CreateActorPool(u32 owner, int count, u16 heap);
+extern struct McssActorPool *MUSICAL_MCSS_CreateActorPool(u32 owner, int count, u16 heap);
 
 extern u8 *STA_ACT_LIGHT_AddBillboardImage(u16 heap, u32 b, u32 c, u32 d, u32 e);
 
@@ -559,17 +584,17 @@ extern void BG_SYS_ChangeScrollImmediate(u32, u32, u32);
 
 extern void *STA_ACT_SCRIPT_AddScript(char *p, void *arg, int flag);
 
-extern void *ARC_UTIL_LoadHandleMember(void *narc, u32 fileID, u32 decompress, u32 heapID);
+extern void *ARC_UTIL_LoadHandleMember(void *narc, unsigned int fileID, unsigned int decompress, unsigned short heapID);
 
 extern char *STA_ACT_SCRIPT_AddScriptFromTable(char *p, char *base, unsigned index, unsigned char flag);
 
 extern int NNS_GfdRegisterNewVramTransferTask(void *, u32, u32, int);
 
-extern u32 BMP_WIN_Create(u32,u32,u32,u32,u8,u8,u8);
+extern struct BmpWin *BMP_WIN_Create(unsigned int bgLayer, unsigned int posX, unsigned int posY, unsigned char width, unsigned char height, unsigned char palette, unsigned char allocDir);
 
-extern void BMP_WIN_TransferChars(struct Descriptor *d);
+extern void BMP_WIN_TransferChars(struct BmpWin *win);
 
-extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
+extern void BMP_WIN_MakeScreen(struct BmpWin *win);
 
 extern struct GfFont *GF_FONT_Create(int archiveId, int fileId, int format, int isFixedWidth, u32 heapId);
 
@@ -577,25 +602,27 @@ extern struct MsgBank *MSGDATA_CreateFromMemory(const void *file, u32 heapId);
 
 extern void ARC_UTIL_UploadPaletteFromArchiveWhole(u32,u32,u32,u32,u32,u16);
 
-extern struct Tcbl *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
+extern struct TcblSystem *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
 
-extern u32 PRINTSYS_QUE_Create(void *);
+extern struct PrintQueue *PRINTSYS_QUE_Create(unsigned int heap);
 
-extern void TCBL_Main(struct Tcbl *p);
+extern void TCBL_Main(struct TcblSystem *tcbl);
+struct TextPrinter;
 
-extern unsigned PRINTSYS_PrintStreamGetState(void *);
+extern unsigned PRINTSYS_PrintStreamGetState(struct TextPrinter *printer);
 
-extern void PRINTSYS_PrintStreamDelete(struct Rec3 *p);
+extern void PRINTSYS_PrintStreamDelete(struct TextPrinter *printer);
 
-extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
+extern u32 PRINTSYS_QUE_Main(struct PrintQueue *queue);
 
-extern u32 PRINTSYS_QUE_IsFinished(const struct PrintSys *p);
+extern u32 PRINTSYS_QUE_IsFinished(struct PrintQueue *queue);
+struct Bmp;
 
-extern void *BMP_WIN_GetBmp(struct Descriptor *p);
+extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *win);
 
-extern void BMP_Clear(struct CharBuf *buf, u8 value);
+extern void BMP_Clear(struct Bmp *bmp, unsigned char value);
 
-extern void *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
+extern struct Strbuf *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
 
 extern void *PRINTSYS_PrintStream(void *, u32, u32, void *, void *, u32, void *, u32, u16, u32);
 
@@ -611,7 +638,7 @@ extern void GFL_USE_StartSeq(u32 a);
 
 extern int GFL_USE_ReplaceWaveData(u32, u32, u32, u32);
 
-extern void GFL_USE_CancelChangeAndPlayBgm(int, int);
+extern void GFL_USE_CancelChangeAndPlayBgm(unsigned int bgmNo, unsigned int trackMask);
 
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 
@@ -632,12 +659,13 @@ extern void STA_SLOT_ClearCurrent(unsigned char *p);
 extern void STA_SLOT_ResetStateByKey(unsigned char *p, unsigned char key);
 
 extern u32 GFL_NET_IsParentAid(void);
+struct StaSlotOwner;
 
-extern void STA_SLOT_PushRecord(void *, u32, u32, u32);
+extern void STA_SLOT_PushRecord(struct StaSlotOwner *p, unsigned int player, unsigned int action, unsigned int result);
 
 extern unsigned char MUSICAL_MCSS_GetElemA(void *p, int i);
 
-extern u16 MUSICAL_PROGRAM_GetCategoryShare(int program, int category);
+extern u16 MUSICAL_PROGRAM_GetCategoryShare(struct MusicalShowProgram *program, int category);
 
 extern void STA_SLOT_SetValueByKey(char *p, u32 key, u8 value);
 
@@ -1073,7 +1101,7 @@ void STA_ACTING_InitDisplay(u8 *p)
     board=BILLBOARD_Create((u8 *)(&big),(void *)(unsigned int)*(u16 *)p);
     *(void **)(p+0xAC)=board;
     BILLBOARD_SetScale(board,(struct Blk3 *)(&small));
-    CLACT_InitSystem((const struct Cfg *)gClActorInitParam,(unsigned int)d_021FDBA0,*(u16 *)p);
+    CLACT_InitSystem((struct SysInit *)gClActorInitParam,(struct DispVramCfg *)d_021FDBA0,*(u16 *)p);
     BG_SYS_SetMainPlaneVisible(16,1); BG_SYS_SetSubPlaneVisible(16,1);
     G2x_SetBlendAlpha_((void *)0x04000050,8,1,0,10);
     GX_SetVisibleWnd(4);
@@ -1276,9 +1304,9 @@ void STA_ACTING_FadePalette(Fade *p)
 void STA_ACTING_CreateText(u8 *p)
 {
     int zero;
-    ((struct ActingScene *)p)->bmpWin.u=BMP_WIN_Create(1,4,20,24,4,15,1);
-    BMP_WIN_TransferChars((struct Descriptor *)((struct ActingScene *)p)->bmpWin.u);
-    BMP_WIN_MakeScreen((struct Cfg *)(((struct ActingScene *)p)->bmpWin.u));
+    ((struct ActingScene *)p)->bmpWin.u=(unsigned int)BMP_WIN_Create((unsigned int)1,(unsigned int)4,(unsigned int)20,24,4,15,1);
+    BMP_WIN_TransferChars((struct BmpWin *)((struct ActingScene *)p)->bmpWin.u);
+    BMP_WIN_MakeScreen((struct BmpWin *)(((struct ActingScene *)p)->bmpWin.u));
     BG_SYS_PushTile(1);
     zero=0;
     ((struct ActingScene *)p)->font.u=(u32)GF_FONT_Create(23,0,0,0,((struct ActingScene *)p)->heapId);
@@ -1288,7 +1316,7 @@ void STA_ACTING_CreateText(u8 *p)
     ((struct ActingScene *)p)->printStream.u=zero;
     ((struct ActingScene *)p)->strBuf.u=zero;
     ((struct ActingScene *)p)->queuePending.u=zero;
-    ((struct ActingScene *)p)->printQueue.u=PRINTSYS_QUE_Create((void *)(u32)((struct ActingScene *)p)->heapId);
+    ((struct ActingScene *)p)->printQueue.u=(unsigned int)PRINTSYS_QUE_Create((unsigned int)(u32)((struct ActingScene *)p)->heapId);
 }
 
 void STA_ACTING_UpdateText(u8 *p)
@@ -1568,7 +1596,7 @@ int STA_ACTING_AddScore(char *p, unsigned player, unsigned actionIndex)
 {
     u16 v;
     u8 old;
-    v = MUSICAL_PROGRAM_GetCategoryShare((int)(((struct ActingPartA *)(*(char * *)&((struct ActingScene *)p)->input))->program), (u8)(int)MUSICAL_MCSS_GetElemA((void *)STA_ACTING_GetActorCount((u8 *)p), (u16)(*(u16 *)(*(char **)(*(char * *)&((struct ActingScene *)p)->input + player * 4 + 4) + actionIndex * 6 + 0x14))));
+    v = MUSICAL_PROGRAM_GetCategoryShare((((struct ActingPartA *)(*(char * *)&((struct ActingScene *)p)->input))->program), (u8)(int)MUSICAL_MCSS_GetElemA((void *)STA_ACTING_GetActorCount((u8 *)p), (u16)(*(u16 *)(*(char **)(*(char * *)&((struct ActingScene *)p)->input + player * 4 + 4) + actionIndex * 6 + 0x14))));
     old = *(u8 *)(p + 0xf7 + player);
     *(u8 *)(p + 0xf7 + player) = old + v;
     STA_ACTING_RankScores((u8 *)p);

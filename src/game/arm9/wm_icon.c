@@ -89,19 +89,20 @@ extern u32 GFL_HEAP_Free(void *p);
 
 extern void GF_PANIC_Fail(const char *file, u32 line, const char *expr);
 
-extern u32  GX_GetBankForOBJ(void);
+extern u16 GX_GetBankForOBJ(void);
 
-extern u32  GX_GetBankForSubOBJ(void);
+extern u16 GX_GetBankForSubOBJ(void);
 
 extern void GX_LoadOAM(const void *src, u32 offset, u32 size);
 
 extern void GXS_LoadOAM(const void *src, u32 offset, u32 size);
 
 extern u32  WM_ICON_GetArcId(void);
+struct NetDeviceHeader;
 
-extern void WM_ICON_InitArcData(WmIconArcData *ids);
+extern void WM_ICON_InitArcData(struct NetDeviceHeader *hdr);
 
-extern void *ARC_TOOL_CreateHandle(u32 arcId, u32 heapId);
+extern void *ARC_TOOL_CreateHandle(u32 archiveID, u16 heapID);
 
 extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *arc, u32 dataId, int palType, int offset, int size, int heapId);
 
@@ -327,7 +328,7 @@ void GFL_NET_WM_ICON_LoadGraphics(int engine, int iconVariant, int heapId)
     int charOffset;
 
     arc = ARC_TOOL_CreateHandle(WM_ICON_GetArcId(), (u16)((heapId & 0x7fff) | 0x8000));
-    WM_ICON_InitArcData(&ids);
+    WM_ICON_InitArcData((struct NetDeviceHeader *)(&ids));
     if (engine == 1) {
         palType = 1;
         objEngine = 0;

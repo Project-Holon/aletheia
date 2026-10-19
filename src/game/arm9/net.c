@@ -106,19 +106,19 @@ extern void MI_CpuCopy8(const void *src, void *dst, int n);
 
 extern void GFL_HEAP_CreateChildHeap(u32 parentHeapId, u32 heapId, u32 size);
 
-extern struct GFLNetModeOps *NET_DEVICE_TABLE_Select(u32 netType);
+extern s32 NET_DEVICE_TABLE_Select(u32 netType);
 
 extern void NET_DEVICE_TABLE_Reset(u32 netType);
 
 extern void GFL_HEAP_DeleteChecked(u32 heapId);
 
-extern void UI_ClearKeepAwakeFlagsGlobal(u32 flag);
+extern void UI_ClearKeepAwakeFlagsGlobal(u8 v);
 
 extern void GFL_NET_LOWER_DATA_MainSend(void);
 
 extern u32  FLASH_ACCESS_GetBusyFlag(void);
 
-extern void GFL_NET_HANDLE_IsTimingSync(void);
+extern u32 GFL_NET_HANDLE_IsTimingSync(GFLNetHandle *handle, u32 timingNo);
 
 void GFL_NET_WM_ICON_EasyStart(u32 iconX, u32 iconY, u32 isWifi, u32 heapId);
 
@@ -149,8 +149,9 @@ int GFL_NET_HANDLE_GetNetHandleID(GFLNetHandle *handle);
 void GFL_NET_HANDLE_InitWork(GFLNetSession *unused);
 
 void GFL_NET_HANDLE_ExitWork(GFLNetSession *unused);
+struct GFLNetHandle;
 
-u32 GFL_NET_HANDLE_IsNegotiationDone(u8 *handle);
+u32 GFL_NET_HANDLE_IsNegotiationDone(struct GFLNetHandle *handle);
 
 int GFL_NET_HANDLE_GetNegotiationNum(void);
 
@@ -158,13 +159,13 @@ void GFL_NET_HANDLE_StartTimingSync(GFLNetHandle *handle, u16 tag);
 
 void GFL_NET_HANDLE_Main(void);
 
-void GFL_NET_HANDLE_SetAllTimingValue(u8 *handle, u32 gameKind);
+void GFL_NET_HANDLE_SetAllTimingValue(struct GFLNetHandle *handle, u32 timing);
 
 void GFL_NET_COMMAND_Init(u32 gameKindShifted, u32 recvFuncTable, u32 recvFuncTableNum, u32 userArg, u32 heapId);
 
-void GFL_NET_STATE_DeviceInitialize(u32 heapId, u32 transportArg);
+void GFL_NET_STATE_DeviceInitialize(void *heapId, u32 initCallback);
 
-void GFL_NET_STATE_ConnectMacAddress(int context, int flag);
+void GFL_NET_STATE_ConnectMacAddress(void *mac, s32 anyParent);
 
 void GFL_NET_STATE_BeaconScan(void);
 
@@ -254,7 +255,7 @@ int GFL_NET_GetNegotiationNum(void);
 
 u32 GFL_NET_IsConnectMember(u32 index);
 
-void GFL_NET_SetAcceptConnection(u32 unusedArg, void *eventArg);
+void GFL_NET_SetAcceptConnection(void *unusedArg, void *eventArg);
 
 u32 GFL_NET_IsIdle(void);
 
@@ -284,7 +285,7 @@ void GFL_NET_IsSendQueueEntryOfHandle(GFLNetHandle *handle, u32 command);
 
 void GFL_NET_StartTimingSync(GFLNetHandle *handle, u16 tag);
 
-void GFL_NET_CheckTimingSync(void);
+u32 GFL_NET_CheckTimingSync(GFLNetHandle *handle, u32 timingNo);
 
 void GFL_NET_SetGameKind(int gameKind, int unused);
 
@@ -384,7 +385,7 @@ extern const char file_020A7D2C[];
 
 void GFL_NET_SetupHeaps(u32 parentHeapId, u32 zero, u32 oldBaseHeapId, u32 newBaseHeapId)
 {
-    GFLNetModeOps *ops = NET_DEVICE_TABLE_Select(1);
+    GFLNetModeOps *ops = (struct GFLNetModeOps *)NET_DEVICE_TABLE_Select(1);
 
     if (ops != 0)
         ops->initLibrary(parentHeapId, zero);
@@ -426,7 +427,7 @@ void GFL_NET_StartSession(GFLNetInitializeStruct *req, u32 transportArg, u32 use
     session = (GFLNetSession *)GFL_HEAP_Alloc(req->heapId, 0x354, 1, sNetFileName, 0x6a);
     gGFLNetMain.session = session;
     session->errorCheckEnabled = 1;
-    session->ops = NET_DEVICE_TABLE_Select(req->bNetType);
+    session->ops = (struct GFLNetModeOps *)NET_DEVICE_TABLE_Select(req->bNetType);
     if (session->ops == 0)
         GF_PANIC_Fail(sNetFileName, 0x6f, str_020A7CA8);
     if (req->bNetType == 4)
@@ -456,7 +457,7 @@ void GFL_NET_StartSession(GFLNetInitializeStruct *req, u32 transportArg, u32 use
         return;
     }
     session->userArg = userArg;
-    GFL_NET_STATE_DeviceInitialize(req->heapId, transportArg);
+    GFL_NET_STATE_DeviceInitialize((void *)req->heapId, transportArg);
     GFL_NET_HANDLE_InitWork(session);
     GFL_NET_COMMAND_Init(req->gameKind << 8, req->recvFuncTable, req->recvFuncTableNum, session->userArg, req->heapId);
     netType = req->bNetType;
@@ -668,7 +669,7 @@ void GFL_NET_RequestDisconnect(void)
  */
 void GFL_NET_ConnectMacAddressParent(void *context)
 {
-    GFL_NET_STATE_ConnectMacAddress((int)context, 1);
+    GFL_NET_STATE_ConnectMacAddress(context, 1);
 }
 
 /*
@@ -677,7 +678,7 @@ void GFL_NET_ConnectMacAddressParent(void *context)
  */
 void GFL_NET_ConnectMacAddressChild(void *context)
 {
-    GFL_NET_STATE_ConnectMacAddress((int)context, 0);
+    GFL_NET_STATE_ConnectMacAddress(context, 0);
 }
 
 /*
@@ -831,10 +832,10 @@ u32 GFL_NET_IsConnectMember(u32 index)
     if (GFL_NET_GetSession() == 0) {
         return 0;
     }
-    return GFL_NET_HANDLE_IsNegotiationDone((u8 *)GFL_NET_HANDLE_GetNetHandle(index));
+    return GFL_NET_HANDLE_IsNegotiationDone((struct GFLNetHandle *)GFL_NET_HANDLE_GetNetHandle(index));
 }
 
-void GFL_NET_SetAcceptConnection(u32 unusedArg, void *eventArg)
+void GFL_NET_SetAcceptConnection(void *unusedArg, void *eventArg)
 {
     void (*setAcceptConnection)(void *) = GFL_NET_GetSession()->ops->setAcceptConnection;
 
@@ -1066,9 +1067,9 @@ void GFL_NET_StartTimingSync(GFLNetHandle *handle, u16 tag)
     GFL_NET_HANDLE_StartTimingSync(handle, tag);
 }
 
-void GFL_NET_CheckTimingSync(void)
+u32 GFL_NET_CheckTimingSync(GFLNetHandle *handle, u32 timingNo)
 {
-    GFL_NET_HANDLE_IsTimingSync();
+    return GFL_NET_HANDLE_IsTimingSync(handle, timingNo);
 }
 
 /*
@@ -1082,7 +1083,7 @@ void GFL_NET_SetGameKind(int gameKind, int unused)
     GFL_NET_GetSession();
     initSession = GFL_NET_GetInitParam();
     initSession->init.gameKind = (u8)gameKind;
-    GFL_NET_HANDLE_SetAllTimingValue((u8 *)GFL_NET_HANDLE_GetNetHandle(0xff), gameKind);
+    GFL_NET_HANDLE_SetAllTimingValue((struct GFLNetHandle *)GFL_NET_HANDLE_GetNetHandle(0xff), gameKind);
 }
 
 /*

@@ -41,12 +41,14 @@
 
 
 extern void GFL_HEAP_CreateChildHeap(u32 a, u32 b, u32 c);
-extern void *PROCSYS_AllocProcWork(void *obj, u32 size, u32 heap);
+struct Proc;
+extern void *PROCSYS_AllocProcWork(struct Proc *proc, unsigned int size, unsigned int heapId);
 extern void MI_CpuFill8(void *p, u32 v, u32 n);
 extern u32 ZKNSEARCH_MAIN_RunState(u8 *p);
-extern void PROCSYS_FreeProcWork(void *p);
+extern void PROCSYS_FreeProcWork(struct Proc *proc);
 extern void GFL_HEAP_DeleteChecked(u32);
-extern u32 GFL_USE_AddMainTask(void (*)(void), u8 *, u32);
+struct Tcb;
+extern struct Tcb *GFL_USE_AddMainTask(void (*)(void), void *work, unsigned int priority);
 extern u32 TCB_DeleteTask(u32 a);
 extern void BG_SYS_Update(void);
 extern void CLACT_VBlankSystem(void);
@@ -55,7 +57,8 @@ extern void BG_SYS_SetMainPlaneVisible(unsigned,unsigned);
 extern void BG_SYS_SetSubPlaneVisible(unsigned,unsigned);
 extern void *GFL_USE_AddHBlankTask(u32 a, u32 b, u32 c);
 extern void BG_SYS_ClearGraphicsMemory(u32 a);
-extern void BG_SYS_SetVramBanks(const void *c);
+struct DispVram;
+extern void BG_SYS_SetVramBanks(struct DispVram *banks);
 u32 ZKNSEARCH_SYS_Create(void *man, u32 b, u32 arg);
 u32 ZKNSEARCH_SYS_IsReady(u32 a, u32 b, u32 c, u32 d);
 u32 ZKNSEARCH_SYS_Delete(void *p);
@@ -101,7 +104,7 @@ u32 ZKNSEARCH_SYS_Delete(void *work)
 
 void ZKNSEARCH_SYS_RegisterVBlank(u8 *work)
 {
-    ((ZknSearchWork *)work)->vblank = GFL_USE_AddMainTask((void (*)(void))ZKNSEARCH_SYS_VBlankHandler, work, 0);
+    ((ZknSearchWork *)work)->vblank = (unsigned int)GFL_USE_AddMainTask((void (*)(void))ZKNSEARCH_SYS_VBlankHandler, work, (unsigned int)0);
 }
 
 
@@ -183,7 +186,7 @@ void ZKNSEARCH_SYS_HBlankHandler(void *ctx, unsigned char *work)
 void ZKNSEARCH_SYS_SetVramBanks(void)
 {
     BG_SYS_ClearGraphicsMemory(0);
-    BG_SYS_SetVramBanks((const void *)d_021C0754);
+    BG_SYS_SetVramBanks((struct DispVram *)d_021C0754);
 }
 
 

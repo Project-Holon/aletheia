@@ -22,6 +22,7 @@
  *   OS_Terminate  0x02088234  arm  arm9
  *   OS_CreateAlarm  0x02087254  arm  arm9
  *   OS_SetAlarm  0x0208738C  arm  arm9
+ *   data_027344D8                0x027344D8  data
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -57,14 +58,15 @@ typedef struct DspSys {
 extern DspSys data_027344D8;
 extern int data_02732D78;
 extern void OS_Terminate(void);
-extern void *DSP_FindProcess(int);
-extern void DSP_WriteProcessPipe(void *, int, void *, u16);
+struct DspProc;
+extern struct DspProc *DSP_FindProcess(char *name);
+extern void DSP_WriteProcessPipe(void *process, int port, void *buf, u32 len);
 extern u32 SNDEXi_PreProcessForShutterSound(void);
-extern void SNDEXi_PostProcessForShutterSound(void (*cb)(u32), u32 v);
+extern u32 SNDEXi_PostProcessForShutterSound(void (*cb)(u32), void *userData);
 extern void DSP_SetPipeCallback(int i, DspCb a, void *b);
 extern DspRing *DSP_LoadPipe(DspRing *out, int ch, int dir);
 extern u16 DSP_GetPipeReadableSize(DspRing *r);
-extern void DSP_ReadPipe(DspRing *r, u8 *buf, u16 count);
+extern void DSP_ReadPipe(struct DspRing *pipe, void *dst, u16 count);
 extern void OS_CreateAlarm(void *alarm);
 extern void OS_SetAlarm(void *alarm, unsigned long long tick, void (*handler)(void), u32 arg);
 extern void OS_SpinWaitSysCycles(u32);
@@ -116,7 +118,7 @@ void DSPi_PipeCallbackForSound(void *userdata, int port, int peer)
         OS_CreateAlarm(&data_027344D8.alarm);
         OS_SetAlarm(&data_027344D8.alarm, 0x3D5D, sound_handler, z);
         if (data_02732D78 == 0) {
-            SNDEXi_PostProcessForShutterSound(DSPiShutterPostProcessCallback, z);
+            (void *)SNDEXi_PostProcessForShutterSound(DSPiShutterPostProcessCallback, (void *)z);
         }
         data_02732D78 = 0x20;
     }
@@ -129,7 +131,7 @@ void DSPi_PlaySoundEx(u8 *data, u32 size, u32 mode, int priority)
 {
     u32 msg[4];
     int zero = 0;
-    void *h = DSP_FindProcess(zero);
+    void *h = DSP_FindProcess((char *)zero);
     if (h == 0) {
         return;
     }
@@ -185,7 +187,7 @@ void DSPi_StopSoundCore(void)
 {
     u32 msg[4];
     int zero = 0;
-    void *h = DSP_FindProcess(zero);
+    void *h = DSP_FindProcess((char *)zero);
     if (h == 0 || data_027344D8.soundBusy == 0) {
         return;
     }

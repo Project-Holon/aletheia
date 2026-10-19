@@ -73,7 +73,7 @@ extern void BG_SYS_LoadTileData(int index, const void *src, u32 size, u32 tile);
 
 extern u8 BG_SYS_GetType(int channel);
 
-extern void BG_SYS_DrawTileEx(u32 index, u32 dx, u32 dy, u32 cw, u8 ch, u32 src, u8 sx, u8 sy, u8 sw, u8 sh);
+extern void BG_SYS_DrawTileEx(u32 index, u8 dx, u8 dy, u8 cw, u8 ch, void *src, u8 sx, u8 sy, u8 sw, u8 sh);
 
 extern void BG_SYS_SetTileEntry(u32 index, u16 tile, u8 x, u8 y, u8 w, u8 h, u8 m);
 
@@ -459,7 +459,7 @@ void BMP_WIN_MakeScreen(struct BmpWin *win)
     }
 
     BG_SYS_DrawTileEx(win->bgLayer, win->posX, win->posY, win->dispWidth,
-                  win->dispHeight, (u32)cells, 0, 0, win->width, win->height);
+                  win->dispHeight, (void *)cells, 0, 0, win->width, win->height);
     GFL_HEAP_Free(cells);
 }
 

@@ -27,6 +27,7 @@
  *   MET_TRAINERS_Contains  0x0200EDC4  thumb
  *   gUnionChatEmptyMac     0x021D9AE0  data  a4
  *   GF_STANDARD_CompareBytes  0x0203EFC8  arm
+ *   _u32_div_f                   0x0209C2B0  arm
  */
 typedef int fx32;
 
@@ -64,27 +65,34 @@ typedef struct UnionChatRing {
 
 extern void GF_PANIC_Fail(const char *expr, u32 line, const char *file);
 
-u32 MYSTATUS_CopyNameChars(void *myStatus, u16 *dst, u32 size);
+void MYSTATUS_CopyNameChars(u16 *src, u16 *dest, u32 n);
+struct MyStatus;
 
-u8 MYSTATUS_GetSex(void *myStatus);
+u8 MYSTATUS_GetSex(struct MyStatus *mystatus);
 
 void WORDSET_CopyString(const u16 *src, u16 *dst, u32 n);
 
 void OS_GetMacAddress(u8 *outMac);
 
 void MI_CpuCopy8(const void *src, void *dst, int n);
+struct GameSystem;
+struct GameData;
 
-void *GAMESYSTEM_GetGameData(void *gameSystem);
+struct GameData *GAMESYSTEM_GetGameData(struct GameSystem *gameSystem);
+struct FieldState;
 
-void *GAME_DATA_GetWifiList(void *gameData);
+struct FieldState *GAME_DATA_GetWifiList(struct GameData *gameData);
+struct SaveControl;
 
-void *GAME_DATA_GetSaveControl(void *gameData);
+struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gd);
 
 void *MET_TRAINERS_GetFromSave(void *saveControl);
+struct UnionBeaconPc;
 
-int UNION_CHARA_IsWifiFriendBeacon(void *wifiList, UnionBeacon *beacon);
+int UNION_CHARA_IsWifiFriendBeacon(void *wifiFriends, struct UnionBeaconPc *beaconPc);
+struct MetTrainersSave;
 
-int MET_TRAINERS_Contains(void *list, u32 trainerId);
+int MET_TRAINERS_Contains(struct MetTrainersSave *list, u32 value);
 
 extern s32 GF_STANDARD_CompareBytes(const u8 *a, const u8 *b, u32 n);
 
@@ -149,7 +157,7 @@ void UNION_CHAT_LOG_Add(UnionRoomWork *work, UnionBeaconPc *beaconPc, u16 *chatP
         saveControl = GAMESYSTEM_GetGameData(work->parent->gameSystem);
         wifiList = GAME_DATA_GetWifiList(saveControl);
         saveControl = MET_TRAINERS_GetFromSave(GAME_DATA_GetSaveControl(saveControl));
-        if (UNION_CHARA_IsWifiFriendBeacon(wifiList, &beaconPc->beacon) == 1) {
+        if (UNION_CHARA_IsWifiFriendBeacon(wifiList, (struct UnionBeaconPc *)(&beaconPc->beacon)) == 1) {
             relation = 1;
         } else if (MET_TRAINERS_Contains(saveControl, beaconPc->beacon.trainerId) == 1) {
             relation = 2;

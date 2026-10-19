@@ -34,7 +34,7 @@ extern void  POKE_TOOL_SetPartyValue(struct PokemonParam *pp, u32 id, u32 value)
 
 extern u32   GF_STANDARD_Rand(void);
 
-extern u32   FILE_UTIL_GetItemParam(u32 item, u32 param, u16 heap);
+extern u32   FILE_UTIL_GetItemParam(u32 item, u32 sel, u32 heap);
 
 extern u32   ZONEDATA_GetPlaceNameId(u32 zoneId);
 

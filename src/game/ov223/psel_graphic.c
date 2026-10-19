@@ -202,24 +202,30 @@ typedef enum { BIT8=8, BIT32=32 } Bits;
 typedef enum { TOON, HIGHLIGHT } Shading;
 
 struct Entry { unsigned id; char fields[32]; unsigned a,b; };
+struct Strbuf;
 
-extern void *MSGDATA_AllocString(struct MsgBank *, unsigned);
-extern struct TaskMenu *APP_TASKMENU_OpenMenu(struct TaskMenuTmpl *, void *);
-extern void STRBUF_Delete(struct U16Vec *);
-extern void APP_TASKMENU_CloseMenu(struct TaskMenu *);
-extern void APP_TASKMENU_UpdateMenu(Obj *);
-extern unsigned APP_TASKMENU_IsFinish(struct TaskMenu *);
-extern u8 APP_TASKMENU_GetCursorPos(const u8 *p);
-extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
-extern void *ARC_UTIL_LoadPaletteBlockFromHandle(void *arc, u32 memberIdx, u32 unpackedOut, u32 flags);
+extern struct Strbuf *MSGDATA_AllocString(struct MsgBank *, unsigned);
+struct TaskMenuRes;
+struct TaskMenuInitWork;
+struct TaskMenuWork;
+extern struct TaskMenuWork *APP_TASKMENU_OpenMenu(struct TaskMenuInitWork *init, struct TaskMenuRes *res);
+extern void STRBUF_Delete(struct Strbuf *strbuf);
+extern void APP_TASKMENU_CloseMenu(struct TaskMenuWork *menu);
+extern void APP_TASKMENU_UpdateMenu(struct TaskMenuWork *menu);
+extern unsigned APP_TASKMENU_IsFinish(struct TaskMenuWork *menu);
+extern u8 APP_TASKMENU_GetCursorPos(struct TaskMenuWork *menu);
+extern void *ARC_TOOL_CreateHandle(u32 archiveID, u16 heapID);
+extern void *ARC_UTIL_LoadPaletteBlockFromHandle(void *arc, u32 memberIdx, void *unpackedOut, u16 flags);
 extern void MI_CpuCopy8(const void *, void *, unsigned);
 extern u32 GFL_HEAP_Free(void *p);
 extern void ARC_TOOL_DeleteHandle(void *);
 extern int NNS_GfdRegisterNewVramTransferTask(void *, unsigned, unsigned, int);
 extern struct GfFont *GF_FONT_Create(int, int, int, int, unsigned);
-extern unsigned PRINTSYS_QUE_Create(void *);
+struct PrintQueue;
+extern struct PrintQueue *PRINTSYS_QUE_Create(u32 heap);
 extern void BG_SYS_SetPriority(int, u16);
-extern void *GFL_USE_AddMainTask(void (*)(void *, char *), void *, int);
+struct Tcb;
+extern struct Tcb *GFL_USE_AddMainTask(void (*)(void *, char *), void *work, u32 priority);
 extern void PSEL_Task(void *, char *);
 extern void PSEL_CreateG3dUtil(char *);
 extern void PSEL_CreateBmpWindows(u16 *p);
@@ -230,7 +236,7 @@ extern void PSEL_SetupListAnime(u8 *p);
 extern void PSEL_InitBgLayers(u16 *p);
 extern void PSEL_DeleteBgLayers(unsigned short *);
 extern void PSEL_ClearWin2(char *p);
-extern void G2x_SetBlendAlpha_(void *, unsigned, unsigned, unsigned, unsigned);
+extern void G2x_SetBlendAlpha_(u32 *reg, u32 a, u32 b, u32 c, u32 d);
 extern void PSEL_UpdateListAnime(char *p);
 extern void FADE_Start(unsigned, int, int, int);
 extern int FADE_IsActive(void);
@@ -270,7 +276,7 @@ extern void PSEL_SetAnimTargetIndex(char *,u32);
 extern void PSEL_ClearWin(char *);
 extern void PSEL_PrintSubWindow(char *p, int idx);
 extern u8 UI_GetInputMode(void);
-extern u32 PM_VOICE_Play(u32,u32,u32,u32,u32,u32,u32,u32);
+extern u32 PM_VOICE_Play(u32 species, u32 form, u32 pan, u32 dual, u32 volumeBiasB, u32 frequencyOffsetB, u32 reverse, void **recordedVoice);
 extern void PSEL_NopBgUpdate(char *);
 extern void PSEL_ClearBgLayerEx(char *);
 extern void PSEL_DeleteActors(char *);
@@ -280,14 +286,16 @@ extern int PSEL_DeleteTaskResData(int *);
 extern void PSEL_DeleteWin(char *p);
 extern void PSEL_NopBgWindows(int *);
 extern void PSEL_DeleteG3dUtil(int *);
-extern void TCB_DeleteTask(struct Node *n);
-extern void PRINTSYS_QUE_Clear(struct PrintSys *p);
-extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
-extern u32 GF_FONT_Delete(void *ptr);
+struct TcbTask;
+extern void TCB_DeleteTask(struct TcbTask *task);
+extern void PRINTSYS_QUE_Clear(struct PrintQueue *queue);
+extern void PRINTSYS_QUE_Delete(struct PrintQueue *queue);
+extern u32 GF_FONT_Delete(struct GfFont *font);
 extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
 extern void G3X_SetFog(int,int,int,int);
 extern void G3X_SetClearColor(unsigned short,int,int,int,int);
-extern void G3D_SYSTEM_SetLight(u32 idx, const u16 *src);
+struct G3dLight;
+extern void G3D_SYSTEM_SetLight(u32 lightIdx, struct G3dLight *light);
 extern void G3D_SYSTEM_SetSwapBuffersMode(u32 a, u32 b);
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void MI_CpuFill8(void *,int,int);
@@ -308,7 +316,9 @@ extern void BG_SYS_FreeLayerBuf(u32 i);
 extern void BMP_WIN_Exit(void);
 extern void BG_SYS_Delete(void);
 extern void BG_SYS_Update(void);
-extern void CLACT_InitSystem(const struct Cfg *cfg, unsigned int arg, unsigned int heapId);
+struct DispVramCfg;
+struct SysInit;
+extern void CLACT_InitSystem(struct SysInit *cfg, struct DispVramCfg *res_cfg, u32 heapId);
 extern struct Bank *CLACT_CreateUnit(int count, u8 flag, unsigned int heapId);
 extern void CLACT_SetUnitDefaultRenderer(struct Bank *bank);
 extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
@@ -321,7 +331,8 @@ extern int G3D_CAMERA_Create(int,int,int,int,int,int,int,int,const int *,const i
 extern u32 G3D_CAMERA_Delete(void *ptr);
 extern int G3D_SYSTEM_Exit(int);
 extern void G3D_SYSTEM_DrawStart(void);
-extern void G3D_CAMERA_Reset(struct Light *l);
+struct G3dCamera;
+extern void G3D_CAMERA_Reset(struct G3dCamera *camera);
 extern void G3D_SYSTEM_ApplyLookAt(void);
 extern void G3D_SYSTEM_DrawEnd(void);
 void PSEL_GRAPHIC_OpenMenu(char *work);
@@ -431,7 +442,7 @@ void PSEL_GRAPHIC_OpenMenu(char *work)
     tmpl.width = 9;
     tmpl.height = 3;
     tmpl.items = items;
-    *(struct TaskMenu * *)&((struct PselWork *)work)->taskMenu = APP_TASKMENU_OpenMenu(&tmpl, ((struct PselWork *)work)->taskRes);
+    *(struct TaskMenu * *)&((struct PselWork *)work)->taskMenu = (struct TaskMenu *)APP_TASKMENU_OpenMenu((struct TaskMenuInitWork *)(&tmpl), ((struct PselWork *)work)->taskRes);
     for (i = 0; i < 2; i++)
         STRBUF_Delete(items[i].text);
 }
@@ -444,7 +455,7 @@ void PSEL_GRAPHIC_OpenMenu(char *work)
 
 void PSEL_GRAPHIC_CloseMenu(char *work)
 {
-    APP_TASKMENU_CloseMenu(*(struct TaskMenu * *)&((struct PselWork *)work)->taskMenu);
+    APP_TASKMENU_CloseMenu((struct TaskMenuWork *)(*(struct TaskMenu * *)&((struct PselWork *)work)->taskMenu));
 }
 
 
@@ -455,7 +466,7 @@ void PSEL_GRAPHIC_CloseMenu(char *work)
 
 void PSEL_GRAPHIC_UpdateMenu(char *work)
 {
-    APP_TASKMENU_UpdateMenu(*(Obj * *)&((struct PselWork *)work)->taskMenu);
+    APP_TASKMENU_UpdateMenu((struct TaskMenuWork *)(*(Obj * *)&((struct PselWork *)work)->taskMenu));
 }
 
 
@@ -466,7 +477,7 @@ void PSEL_GRAPHIC_UpdateMenu(char *work)
 
 unsigned PSEL_GRAPHIC_IsMenuFinished(char *work)
 {
-    return APP_TASKMENU_IsFinish(*(struct TaskMenu * *)&((struct PselWork *)work)->taskMenu);
+    return APP_TASKMENU_IsFinish((struct TaskMenuWork *)(*(struct TaskMenu * *)&((struct PselWork *)work)->taskMenu));
 }
 
 
@@ -478,7 +489,7 @@ unsigned PSEL_GRAPHIC_IsMenuFinished(char *work)
 
 int PSEL_GRAPHIC_GetMenuChoice(int *work)
 {
-    return APP_TASKMENU_GetCursorPos((const u8 *)work[0x99]) == 0;
+    return APP_TASKMENU_GetCursorPos((struct TaskMenuWork *)work[0x99]) == 0;
 }
 
 
@@ -506,10 +517,10 @@ void PSEL_GRAPHIC_LoadFadeSources(u8 *work)
     u8 i;
     for (i = 0; i < 3; i++) {
         u8 *out;
-        void *buffer = ARC_UTIL_LoadPaletteBlockFromHandle(object, d_021BC73C[i].b, (u32)&out, ((struct PselWork *)work)->heapId);
+        void *buffer = ARC_UTIL_LoadPaletteBlockFromHandle((void *)object, d_021BC73C[i].b, &out, ((struct PselWork *)work)->heapId);
         MI_CpuCopy8(*(u8 **)(out + 0xC), (u8 *)((struct PselWork *)work)->fade.slots[i].src, 0x20);
         GFL_HEAP_Free(buffer);
-        buffer = ARC_UTIL_LoadPaletteBlockFromHandle(object, d_021BC73C[i].e, (u32)&out, ((struct PselWork *)work)->heapId);
+        buffer = ARC_UTIL_LoadPaletteBlockFromHandle((void *)object, d_021BC73C[i].e, &out, ((struct PselWork *)work)->heapId);
         MI_CpuCopy8(*(u8 **)(out + 0xC), (u8 *)((struct PselWork *)work)->fade.slots[i].dst, 0x20);
         GFL_HEAP_Free(buffer);
     }
@@ -599,7 +610,7 @@ void PSEL_GRAPHIC_LoadPaletteBuffers(char *work)
     u8 i;
     for (i = 0; i < 4; i++) {
         char *out;
-        void *buffer = ARC_UTIL_LoadPaletteBlockFromHandle(object, d_021BC708[i], (u32)(&out), ((struct PselWork *)work)->heapId);
+        void *buffer = ARC_UTIL_LoadPaletteBlockFromHandle((void *)object, d_021BC708[i], (&out), ((struct PselWork *)work)->heapId);
         MI_CpuCopy8(((struct PselResMember *)out)->data + 256, (char *)((struct PselWork *)work)->palBuf[i], 256);
         GFL_HEAP_Free(buffer);
     }
@@ -741,7 +752,7 @@ int PSEL_GRAPHIC_Init(char *work)
 {
     ((struct PselWork *)work)->graphicSys = PSEL_GRAPHIC_Create(1, ((struct PselWork *)work)->heapId);
     *(struct GfFont * *)&((struct PselWork *)work)->font = GF_FONT_Create(23, 0, 0, 0, ((struct PselWork *)work)->heapId);
-    ((struct PselWork *)work)->printQue = PRINTSYS_QUE_Create((void *)(unsigned)((struct PselWork *)work)->heapId);
+    ((struct PselWork *)work)->printQue = (u32)PRINTSYS_QUE_Create((u32)(unsigned)((struct PselWork *)work)->heapId);
     BG_SYS_SetPriority(0, 2);
     BG_SYS_SetPriority(1, 3);
     BG_SYS_SetPriority(2, 1);
@@ -1028,7 +1039,7 @@ int PSEL_GRAPHIC_StateCleanup(char *work)
 int PSEL_GRAPHIC_Delete(int *work)
 {
     PSEL_DeleteTaskResData(work); PSEL_DeleteWin((char *)work); PSEL_NopBgWindows(work); PSEL_DeleteG3dUtil(work);
-    TCB_DeleteTask((void *)work[8]); PRINTSYS_QUE_Clear((struct PrintSys *)work[7]); PRINTSYS_QUE_Delete((struct PrintSys *)work[7]);
+    TCB_DeleteTask((void *)work[8]); PRINTSYS_QUE_Clear((struct PrintQueue *)work[7]); PRINTSYS_QUE_Delete((struct PrintQueue *)work[7]);
     GF_FONT_Delete((void *)work[6]); PSEL_GRAPHIC_Destroy((unsigned *)work[5]);
     return 13;
 }
@@ -1077,7 +1088,7 @@ void PSEL_GRAPHIC_G3dCallback(void)
     G3X_SetFog(0,0,0,0);
     G3X_SetClearColor(0,0,32767,63,0);
     *(volatile unsigned *)0x04000580=0xBFFF0000;
-    for(i=0;i<4;i++) G3D_SYSTEM_SetLight((unsigned char)i,(const u16 *)(d_021BC960+i*8));
+    for(i=0;i<4;i++) G3D_SYSTEM_SetLight((unsigned char)i,(struct G3dLight *)(d_021BC960+i*8));
     G3D_SYSTEM_SetSwapBuffersMode(0,0);
 }
 
@@ -1219,7 +1230,7 @@ void PSEL_GRAPHIC_UpdateBg(void *unused) {BG_SYS_Update();}
 void PSEL_GRAPHIC_InitClact(int *out, int a, int b)
 {
     MI_CpuFill8(out, 0, 4);
-    CLACT_InitSystem((const struct Cfg *)(&d_021BC944), a, b);
+    CLACT_InitSystem((struct SysInit *)(&d_021BC944), (struct DispVramCfg *)a, b);
     *out = (int)CLACT_CreateUnit(0x80, 0, b);
     CLACT_SetUnitDefaultRenderer((void *)*out);
     BG_SYS_SetMainPlaneVisible(0x10, 1);
@@ -1281,7 +1292,7 @@ void PSEL_GRAPHIC_ExitG3d(int *camera)
 void PSEL_GRAPHIC_ApplyLookAt(int *camera)
 {
     G3D_SYSTEM_DrawStart();
-    G3D_CAMERA_Reset((struct Light *)(*camera));
+    G3D_CAMERA_Reset((struct G3dCamera *)(*camera));
     G3D_SYSTEM_ApplyLookAt();
 }
 

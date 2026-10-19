@@ -76,6 +76,19 @@
  *   MYSTATUS_GetName  0x020084F4  thumb  arm9
  *   MYSTATUS_GetId  0x02008530  thumb  arm9
  *   MYSTATUS_GetSex  0x02008550  thumb  arm9
+ *   GAME_DATA_GetMyStatus        0x02012944  thumb
+ *   POKE_TOOL_AddMove            0x0201808C  thumb
+ *   POKE_TOOL_CastToBoxParam              0x020185F0  thumb
+ *   POKE_TOOL_GetPartyValue      0x02017E1C  thumb
+ *   POKE_TOOL_RecalcParam        0x020185C4  thumb
+ *   POKE_TOOL_SetAbility         0x02018A00  thumb
+ *   POKE_TOOL_SetDefaultMoves    0x02017FA8  thumb
+ *   POKE_TOOL_SetPartyValue      0x02017E40  thumb
+ *   _u32_div_f                   0x0209C2B0  arm
+ *   _ull_mul                     0x0209C054  arm
+ *   g0209DF08                    0x0209DF08  data
+ *   g0209DF0C                    0x0209DF0C  data
+ *   gSpeciesNameBank             0x020A7370  data
  */
 
 typedef unsigned char  u8;
@@ -87,6 +100,7 @@ extern unsigned int GFL_HEAP_Free(void *p);
 
 #define Q(k) (*(u32 *)(q+(k)))
 #define W(k) (*(u32 *)(p+(k)))
+#include "../version.h"
 #include "mystery_net_types.h"
 struct Req;
 struct Rec;
@@ -116,7 +130,8 @@ extern void MI_CpuFill8(void *,int,u32);
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern int GFL_NET_GetRunState(void);
 extern char *GFL_NET_GetInitParam(void);
-extern void WIH_DWC_Delete(u8 *);
+struct WihContext;
+extern void WIH_DWC_Delete(struct WihContext *context);
 extern void GFL_NET_ERR_ResetState(void);
 extern u32 GFL_NET_ERR_GetErrorLevel(void);
 extern u32 GFL_NET_STATE_GetError(void);
@@ -128,22 +143,26 @@ extern void GFL_NET_ERR_HaltIfActive(void);
 extern void GFL_NET_StartSession(struct Req *req, unsigned int transportArg, unsigned int userArg);
 extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
 extern void GFL_NET_RefreshWmIconAtTopRight(unsigned, unsigned);
-extern u8 *WIH_DWC_Create(int idx, void *heap);
+extern struct WihContext *WIH_DWC_Create(int idx, void *heap);
 extern void GFL_NET_BeaconScanStart(void);
 extern int GFL_NET_Exit(int);
 extern void WIH_DWC_TickTimers(void);
 extern u32 WIH_DWC_PollStatus(void *key);
-extern void *DELIVERY_BEACON_Create(u8 *p);
-extern int DELIVERY_BEACON_Start(u32 *);
-extern int DELIVERY_BEACON_Delete(void *work);
+struct DeliveryBeaconParam;
+struct DeliveryBeacon;
+extern struct DeliveryBeacon *DELIVERY_BEACON_Create(struct DeliveryBeaconParam *param);
+extern int DELIVERY_BEACON_Start(struct DeliveryBeacon *work);
+extern int DELIVERY_BEACON_Delete(struct DeliveryBeacon *work);
 extern unsigned GFL_NET_IsIdle(void);
-extern void DELIVERY_BEACON_RunStep(u8 *);
-extern int DELIVERY_BEACON_TryComplete(u8 *);
-extern void *DELIVERY_IRC_Create(u8 *p);
-extern int DELIVERY_IRC_Start(void *);
-extern int DELIVERY_IRC_Delete(void *work);
-extern void DELIVERY_IRC_Main(u8 *p);
-extern unsigned char DELIVERY_IRC_GetResult(char *p);
+extern void DELIVERY_BEACON_RunStep(struct DeliveryBeacon *work);
+extern int DELIVERY_BEACON_TryComplete(struct DeliveryBeacon *work);
+struct DeliveryIrcParam;
+extern void *DELIVERY_IRC_Create(struct DeliveryIrcParam *param);
+struct DeliveryIrcWork;
+extern int DELIVERY_IRC_Start(struct DeliveryIrcWork *work);
+extern int DELIVERY_IRC_Delete(struct DeliveryIrcWork *work);
+extern void DELIVERY_IRC_Main(struct DeliveryIrcWork *work);
+extern unsigned char DELIVERY_IRC_GetResult(struct DeliveryIrcWork *work);
 extern void DWC_RAP_SetErrorHookCallback(int,int);
 extern int DWC_NdInitAsync(void (*callback)(int, int), char *gamecd, char *passwd);
 extern int DWC_NdSetAttr(char *,char *,char *);
@@ -323,7 +342,7 @@ int MYSTERY_NET_UpdateWifiError(void *p)
 
 
 
-void MYSTERY_NET_Exit(char *p) {if(*(u8 * *)&((MysteryNetWork *)p)->wihHandle) {WIH_DWC_Delete(*(u8 * *)&((MysteryNetWork *)p)->wihHandle); *(int *)&((MysteryNetWork *)p)->wihHandle=0;} MYSTERY_NET_SetAction(p,0); GFL_NET_ERR_ResetState();}
+void MYSTERY_NET_Exit(char *p) {if(*(u8 * *)&((MysteryNetWork *)p)->wihHandle) {WIH_DWC_Delete((struct WihContext *)(*(u8 * *)&((MysteryNetWork *)p)->wihHandle)); *(int *)&((MysteryNetWork *)p)->wihHandle=0;} MYSTERY_NET_SetAction(p,0); GFL_NET_ERR_ResetState();}
 
 
 
@@ -428,7 +447,7 @@ void MYSTERY_NET_PollWihStatus(int a, int b, char *c)
 
 
 
-void MYSTERY_NET_StartBeacon(void *a,int *state,char *p) {Config cfg;u32 h; switch(*state) {case 0: MI_CpuFill8(&cfg,0,124);cfg.kind=9;cfg.bytes=720;cfg.data=p+1956;cfg.lang=GAME_LANGUAGE_Code;cfg.align=2097152;cfg.last=1;cfg.flag=0;cfg.heap=((MysteryNetWork *)p)->heapId;h=(u32)DELIVERY_BEACON_Create((u8 *)(&cfg));((MysteryNetWork *)p)->beacon=(void *)h;DELIVERY_BEACON_Start((u32 *)h);BG_SYS_SetSubPlaneVisible(16,0);((MysteryNetWork *)p)->recvState=0;*state=1;break;case 1:if(GFL_NET_GetRunState()) {GFL_NET_RefreshWmIconAtTopRight(1,((MysteryNetWork *)p)->heapId);BG_SYS_SetSubPlaneVisible(16,1);*state=2;}break;case 2:MYSTERY_NET_SetHandler(a,MYSTERY_NET_RunBeacon);break;} }
+void MYSTERY_NET_StartBeacon(void *a,int *state,char *p) {Config cfg;u32 h; switch(*state) {case 0: MI_CpuFill8(&cfg,0,124);cfg.kind=9;cfg.bytes=720;cfg.data=p+1956;cfg.lang=GAME_LANGUAGE_Code;cfg.align=PM_VERSION_MASK;cfg.last=1;cfg.flag=0;cfg.heap=((MysteryNetWork *)p)->heapId;h=(u32)DELIVERY_BEACON_Create((struct DeliveryBeaconParam *)(&cfg));((MysteryNetWork *)p)->beacon=(void *)h;DELIVERY_BEACON_Start((struct DeliveryBeacon *)h);BG_SYS_SetSubPlaneVisible(16,0);((MysteryNetWork *)p)->recvState=0;*state=1;break;case 1:if(GFL_NET_GetRunState()) {GFL_NET_RefreshWmIconAtTopRight(1,((MysteryNetWork *)p)->heapId);BG_SYS_SetSubPlaneVisible(16,1);*state=2;}break;case 2:MYSTERY_NET_SetHandler(a,MYSTERY_NET_RunBeacon);break;} }
 
 
 
@@ -450,7 +469,7 @@ void MYSTERY_NET_DeleteBeacon(void *a, int *state, char *p)
 
 
 
-void MYSTERY_NET_RunBeacon(void *a,int b,char *p) {DELIVERY_BEACON_RunStep(*(u8 * *)&((MysteryNetWork *)p)->beacon);if(DELIVERY_BEACON_TryComplete(*(u8 * *)&((MysteryNetWork *)p)->beacon)) {((MysteryNetWork *)p)->recvState=1;MYSTERY_NET_SetHandler(a,MYSTERY_NET_DeleteBeacon);}}
+void MYSTERY_NET_RunBeacon(void *a,int b,char *p) {DELIVERY_BEACON_RunStep((struct DeliveryBeacon *)(*(u8 * *)&((MysteryNetWork *)p)->beacon));if(DELIVERY_BEACON_TryComplete((struct DeliveryBeacon *)(*(u8 * *)&((MysteryNetWork *)p)->beacon))) {((MysteryNetWork *)p)->recvState=1;MYSTERY_NET_SetHandler(a,MYSTERY_NET_DeleteBeacon);}}
 
 
 
@@ -467,8 +486,8 @@ void MYSTERY_NET_StartIrc(void *a, int *state, char *p)
         d.heap = ((MysteryNetWork *)p)->heapId;
         d.setting = GAME_LANGUAGE_Code;
         d.enabled = 1;
-        d.flags = 0x200000;
-        ((MysteryNetWork *)p)->irc = DELIVERY_IRC_Create((u8 *)(&d));
+        d.flags = PM_VERSION_MASK;
+        ((MysteryNetWork *)p)->irc = DELIVERY_IRC_Create((struct DeliveryIrcParam *)(&d));
         DELIVERY_IRC_Start(((MysteryNetWork *)p)->irc);
         ((MysteryNetWork *)p)->recvState = 0;
         *state = 1;
@@ -550,7 +569,7 @@ void MYSTERY_NET_RunNdDownload(void *task,int *state,char *p)
     case 2:
         for(i=0;i<10;i++) {
             if(!MYSTERY_NET_IsZeroBlock((const unsigned *)(q+0xb0*i),0xb0)) {
-                if(MYSTERY_NET_ParseHexValue((const signed char *)(q+0xb0*i+0x93))&0x200000)
+                if(MYSTERY_NET_ParseHexValue((const signed char *)(q+0xb0*i+0x93))&PM_VERSION_MASK)
                     ((Flag *)((u32)q+(u32)i*4))->flag=1;
                 else ((Flag *)((u32)q+(u32)i*4))->flag=0;
             } else ((Flag *)((u32)q+(u32)i*4))->flag=0;
@@ -858,26 +877,33 @@ extern u8 g0209DF0C;
 extern void *gSpeciesNameBank;
 
 extern u32 GFL_USE_GetRandom(u32 range);
-extern u8 *GAME_DATA_GetMyStatus(void *p);
+struct GameData;
+struct MyStatus;
+extern struct MyStatus *GAME_DATA_GetMyStatus(struct GameData *gd);
 struct Sub0200852CObj;
 
-extern u32 MYSTATUS_GetId(const struct Sub0200852CObj *obj);
+extern u32 MYSTATUS_GetId(struct MyStatus *mystatus);
 extern void *POKE_TOOL_Create(u16 species, u16 level, u32 otId, u32 otIdHigh, u32 heap);
-extern u32 POKE_TOOL_CreatePersonalRnd(u32 otId, int species, int form, int ratioMode, int shinyWanted, int mode);
-extern void POKE_TOOL_SetupPartyParamEx(struct Mon *p, u16 species, u16 level, unsigned long long id, u32 pow, unsigned long long rnd);
-extern void POKE_TOOL_SetPartyValue(void *p, u32 id, u32 v);
-extern u32 POKE_TOOL_GetPartyValue(void *p, u32 id, u32 v);
-extern u32 POKE_TOOL_SetDefaultMoves(void *p);
-extern u32 POKE_TOOL_AddMove(void *p, u32 move);
-extern void POKE_TOOL_PushMove(void *p, int move);
-extern void POKE_TOOL_SetAbility(void *p, u32 species, u32 arg);
+extern u32 POKE_TOOL_CreatePersonalRnd(u32 otId, s32 species, u16 form, s32 ratioMode, s32 shinyWanted, s32 mode);
+struct PokemonParam;
+extern void POKE_TOOL_SetupPartyParamEx(struct PokemonParam *pp, u16 species, u16 level, u64 otId, u32 ivs, u64 personality);
+extern void POKE_TOOL_SetPartyValue(struct PokemonParam *pp, u32 paramId, u32 value);
+extern u32 POKE_TOOL_GetPartyValue(struct PokemonParam *pp, u32 paramId, u32 arg);
+extern u32 POKE_TOOL_SetDefaultMoves(struct PokemonParam *pp);
+extern u16 POKE_TOOL_AddMove(struct PokemonParam *pp, u16 move);
+extern void POKE_TOOL_PushMove(struct PokemonParam *pp, u16 move);
+struct BoxPokemon;
+extern void POKE_TOOL_SetAbility(struct BoxPokemon *box, u32 species, u32 form);
 extern const void *MYSTATUS_GetName(const void *p);
-extern u8 MYSTATUS_GetSex(const struct Sub0200852CObj *obj);
-extern void *POKE_TOOL_Dummy(void *p);
-extern void SAVE_EVENT_WriteWithDate(void *save, u32 eventId, u32 year, u32 month, u32 day);
-extern void POKE_TOOL_RecalcParam(void *p);
-extern void *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
-extern void STRBUF_Delete(struct U16Vec *vec);
+extern u8 MYSTATUS_GetSex(struct MyStatus *mystatus);
+extern void *POKE_TOOL_CastToBoxParam(void *p);
+struct SaveData;
+extern void SAVE_EVENT_WriteWithDate(struct SaveData *save, u32 eventId, u32 year, u32 month, u32 day);
+extern void POKE_TOOL_RecalcParam(struct PokemonParam *pp);
+struct MsgBank;
+struct Strbuf;
+extern struct Strbuf *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
+extern void STRBUF_Delete(struct Strbuf *strbuf);
 
 static inline int chk1(const struct Rec *r)
 {
@@ -980,7 +1006,7 @@ int MYSTERY_NET_BuildPokemonFromRecord(struct Rec *r, void *gs, u16 heap)
             if (level == 0)
                 level = (u16)(GFL_USE_GetRandom(0x64) + 1);
             if (r->otIdOrItem == 0)
-                id = MYSTATUS_GetId((const struct Sub0200852CObj *)GAME_DATA_GetMyStatus(gs));
+                id = MYSTATUS_GetId((struct MyStatus *)GAME_DATA_GetMyStatus(gs));
             if (gender == 0xff)
                 gender = 2;
             for (i = 0; i < 6; i++) {
@@ -1085,7 +1111,7 @@ int MYSTERY_NET_BuildPokemonFromRecord(struct Rec *r, void *gs, u16 heap)
                 if (v <= 2)
                     POKE_TOOL_SetPartyValue(mon, 0x9a, v);
                 else {
-                    v = MYSTATUS_GetSex((const struct Sub0200852CObj *)GAME_DATA_GetMyStatus(gs));
+                    v = MYSTATUS_GetSex((struct MyStatus *)GAME_DATA_GetMyStatus(gs));
                     POKE_TOOL_SetPartyValue(mon, 0x9a, v);
                 }
             }
@@ -1104,7 +1130,7 @@ int MYSTERY_NET_BuildPokemonFromRecord(struct Rec *r, void *gs, u16 heap)
                 month = (u8)(w >> 8);
                 day = w;
                 loc = r->isEgg ? r->eggLocation : r->metLocation;
-                SAVE_EVENT_WriteWithDate(POKE_TOOL_Dummy(mon), loc, year - 2000, month, day);
+                SAVE_EVENT_WriteWithDate(POKE_TOOL_CastToBoxParam(mon), loc, year - 2000, month, day);
             }
             POKE_TOOL_RecalcParam(mon);
             res = 0;

@@ -23,7 +23,7 @@ typedef int            BOOL;
 #define NNS_SND_ARC_GROUP_WAVEARC 2
 #define NNS_SND_ARC_GROUP_SEQARC  3
 
-#include "nns_fnd_types.h"
+#include "../arm9/nns_fnd_types.h"
 
 struct FSFile;
 

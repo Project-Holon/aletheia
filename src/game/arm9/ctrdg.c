@@ -88,7 +88,7 @@ extern void OS_RestoreInterrupts(u32 state);
 extern void SVC_WaitByLoop(u32 cycles);
 extern void OS_UnLockCartridge(u16 lockID);
 
-extern u32 PXI_SendWordByFifo(u32 fifotag, u32 data, u32 err);
+extern int PXI_SendWordByFifo(int fifotag, unsigned int data, int err);
 BOOL CTRDG_IsExistedAtInit(void);
 void CTRDGi_InitCommon(void);
 BOOL CTRDG_IsExisting(void);

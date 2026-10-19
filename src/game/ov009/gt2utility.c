@@ -51,12 +51,12 @@ typedef struct SOCHostEnt
 
 extern char *SOC_InetNtoA(SOCInAddr in);
 extern int OS_SPrintf(char *dst, char *fmt, ...);
-extern char *strchr();
-extern void *memcpy();
-extern int atoi();
-extern u32 inet_addr();
+extern unsigned char *strchr(unsigned char *s, int c);
+extern void *memcpy(void *dest, void *src, unsigned int n);
+extern int atoi(unsigned int s);
+extern int inet_addr(char *addrString);
 extern SOCHostEnt *SOC_GetHostByName();
-extern int strlen(const char *s);
+extern int strlen(u8 *s);
 char *gt2AddressToString(unsigned int ip, unsigned short port, char *string);
 int gt2StringToAddress(char *string, u32 *ip, u16 *port);
 void gti2MessageCheck(unsigned char **message, int *len);
@@ -119,7 +119,7 @@ int gt2StringToAddress(char *string, u32 *ip, u16 *port)
         char *colon;
         char *host;
 
-        colon = strchr(string, ':');
+        colon = (char *)strchr((unsigned char *)string, ':');
         if (!colon)
         {
             host = string;
@@ -150,7 +150,7 @@ int gt2StringToAddress(char *string, u32 *ip, u16 *port)
                     return 0;
             }
 
-            temp = atoi(colon + 1);
+            temp = atoi((unsigned int)(colon + 1));
             if (temp < 0 || temp > 0xFFFF)
                 return 0;
             srcPort = (u16)temp;
@@ -187,5 +187,5 @@ void gti2MessageCheck(unsigned char **message, int *len)
         return;
     }
     if (*len == -1)
-        *len = strlen((char *)*message) + 1;
+        *len = strlen((u8 *)*message) + 1;
 }

@@ -77,7 +77,7 @@ extern void SND_SetChannelVolume(u32 chBitMask, int volume, int shift);
 extern void SND_SetChannelTimer(u32 chBitMask, int timer);
 extern int SND_IsFinishedCommandTag(u32 tag);
 extern u32 SND_GetChannelStatus(void);
-extern void SND_FlushCommand(int v);
+extern int SND_FlushCommand(unsigned int flags);
 extern void SND_WaitForCommandProc(u32 tag);
 int NNSi_SndWaveOutLockChannels(int mask);
 void SND_CHANNEL_UnlockChannels(u32 channelMask);

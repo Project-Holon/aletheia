@@ -45,11 +45,13 @@ typedef struct BtlPokeSet {
 } BtlPokeSet;
 
 void MI_CpuFill8(void *p, int v, int n);
-int BTL_POKEPARAM_IsFainted(void *x);
-int BTL_POKEPARAM_GetPokeId();
-int BTL_MAIN_IsPokeSamePair(int a, int b);
-u16 BTL_SERVER_FLOW_CalcPokeSpeedWrapper(int ctx, void *id, int k);
-int BTL_CALC_Random(int k);
+struct BtlPokeParam;
+int BTL_POKEPARAM_IsFainted(struct BtlPokeParam *pp);
+u8 BTL_POKEPARAM_GetPokeId(struct BtlPokeParam *pp);
+int BTL_MAIN_IsPokeSamePair(unsigned int pokeIdA, unsigned int pokeIdB);
+struct BtlServerFlow;
+u16 BTL_SERVER_FLOW_CalcPokeSpeedWrapper(struct BtlServerFlow *flow, unsigned char *poke, int useItem);
+unsigned int BTL_CALC_Random(unsigned int range);
 void BTL_POKESET_Clear(void *p);
 void BTL_POKESET_Add(BtlPokeSet *p, void *id);
 void BTL_POKESET_AddWithDamage(BtlPokeSet *p, void *id, u16 amt, int flag);
@@ -326,7 +328,7 @@ void BTL_POKESET_SortBySpeed(BtlPokeSet *p, int ctx)
 
     if (p->count > 1) {
         for (i = 0; i < p->count; i++)
-            p->speed[i] = BTL_SERVER_FLOW_CalcPokeSpeedWrapper(ctx, p->poke[i], 1);
+            p->speed[i] = BTL_SERVER_FLOW_CalcPokeSpeedWrapper((struct BtlServerFlow *)ctx, p->poke[i], 1);
         for (i = 0; i < p->count; i++) {
             for (j = i + 1; j < p->count; j++) {
                 pj = (u16 *)p + j;

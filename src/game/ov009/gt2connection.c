@@ -111,9 +111,9 @@ extern int gti2SendReject(struct GTI2Connection *connection,
 extern int gti2SocketSend(struct GTI2Socket *socket, unsigned int ip,
                           unsigned short port, unsigned char *message, int len);
 extern unsigned int current_time(void);
-extern int gti2SendClosed(struct GTI2Connection *connection);
+extern int gti2SendClosed(int *p);
 extern int gti2ConnectedCallback(struct GTI2Connection *c, int result, unsigned char *msg, int len);
-extern int ArrayLength(struct DArrayImplementation *array);
+extern int ArrayLength(int *array);
 extern void *ArrayNth(struct DArrayImplementation *array, int n);
 extern int gti2ResendMessage(struct GTI2Connection *connection,
                              struct GTI2OutgoingBufferMessage *message);
@@ -123,9 +123,9 @@ extern int gti2ClosedCallback(struct GTI2Connection *connection, int reason);
 extern void gti2FreeSocketConnection(struct GTI2Connection *connection);
 extern int gti2SendClose(struct GTI2Connection *connection);
 extern int TableRemove(struct HashImplementation *table, void *delElem);
-extern void ArrayAppend(struct DArrayImplementation *array, void *newElem);
+extern void ArrayAppend(void *p, void *a);
 extern void gsifree(void *ptr);
-extern void ArrayFree(void *array);
+extern void ArrayFree(struct DArrayImplementation *array);
 int gti2NewOutgoingConnection(struct GTI2Socket *socket, struct GTI2Connection **connection, unsigned int ip, unsigned short port);
 int gti2NewIncomingConnection(struct GTI2Socket *socket, struct GTI2Connection **connection, unsigned int ip, unsigned short port);
 int gti2StartConnectionAttempt(struct GTI2Connection *c, unsigned char *message, int len, struct GT2ConnectionCallbacks *callbacks);
@@ -281,7 +281,7 @@ int gti2CheckTimeout(struct GTI2Connection *c, unsigned int now)
 				timedOut = 1;
 		}
 		if (timedOut) {
-			gti2SendClosed(c);
+			gti2SendClosed((int *)c);
 			gti2ConnectionClosed(c);
 			if (!gti2ConnectedCallback(c, 6, 0, 0))
 				return 0;
@@ -299,7 +299,7 @@ static int gti2SendRetries(struct GTI2Connection *connection, unsigned int now)
     int i;
     int len;
 
-    len = ArrayLength(connection->outgoingBuffers);
+    len = ArrayLength((int *)connection->outgoingBuffers);
     for (i = 0; i < len; i++)
     {
         struct GTI2OutgoingBufferMessage *message =
@@ -370,7 +370,7 @@ void gti2CloseConnection(struct GTI2Connection *connection, int hard)
         if (connection->state >= 7)
             return;
         gti2ConnectionClosed(connection);
-        gti2SendClosed(connection);
+        gti2SendClosed((int *)connection);
         gti2ClosedCallback(connection, 0);
         gti2FreeSocketConnection(connection);
     }

@@ -61,8 +61,10 @@
 extern u16 FIELDMAP_GetHeapId(struct FieldMap *fieldMap);
 extern void *FIELDMAP_AllocCommonWork(struct FieldMap *fieldMap, int id, int heapId, int size);
 extern void FIELDMAP_FreeCommonWork(struct FieldMap *fieldMap, int id);
-extern void FLD_EXP_OBJ_AddUnitFromArchive(FldExpObjCnt *expObj, const G3dUtilSetup *setup, int unitIndex);
-extern void FLD_EXP_OBJ_AddUnit(FldExpObjCnt *expObj, const G3dUtilSetup *setup, int unitIndex);
+struct G3dUtilSetup;
+struct FldExpObjCnt;
+extern void FLD_EXP_OBJ_AddUnitFromArchive(struct FldExpObjCnt *cnt, struct G3dUtilSetup *setup, u16 unitIdx);
+extern void FLD_EXP_OBJ_AddUnit(struct FldExpObjCnt *cnt, struct G3dUtilSetup *setup, u16 unitIdx);
 extern void FLD_EXP_OBJ_RemoveUnit(FldExpObjCnt *expObj, u16 unitIndex);
 extern void FLD_EXP_OBJ_SetModelHidden(FldExpObjCnt *expObj, int unitIndex, int modelIndex, int hidden);
 extern void FLD_EXP_OBJ_SetAnimeLoop(FldExpObjAnime *anime, int loop);
@@ -109,14 +111,15 @@ extern struct MmdlSys *FIELDMAP_GetMmdlSys(struct FieldMap *fieldMap);
 extern struct Mmdl *FLDMMDL_SysSearchObjId(struct MmdlSys *mmdlSys, u32 objectId);
 extern void FLDMMDL_DeleteMmdl(struct Mmdl *mmdl);
 extern struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
-extern struct EventData *GAME_DATA_GetEventData(const struct GameData *gameData);
-extern u16 EVENTDATA_SYSTEM_GetNpcCount(struct EventData *eventData);
+extern void *GAME_DATA_GetEventData(const struct GameData *gameData);
+struct EventDataSystem;
+extern u16 EVENTDATA_SYSTEM_GetNpcCount(struct EventDataSystem *system);
 extern struct PlayerWork *GAME_DATA_GetMyPlayerWork(struct GameData *gameData);
 extern u16 GAME_DATA_GetPlayerZoneId(const struct PlayerWork *playerWork);
-extern u32 GAME_DATA_GetEventWork(const struct GameData *gameData);
-extern struct NpcHeader *EVENTDATA_SYSTEM_GetNpcHeaders(struct EventData *eventData);
-extern struct Mmdl *FLDMMDL_AddMmdlHeaderById(struct MmdlSys *mmdlSys, struct NpcHeader *headers, u32 zoneId, int count,
-                                  u32 eventWork, u32 objectId);
+extern void *GAME_DATA_GetEventWork(const struct GameData *gameData);
+extern u32 EVENTDATA_SYSTEM_GetNpcHeaders(struct EventDataSystem *system);
+struct MmdlHeader;
+extern struct Mmdl *FLDMMDL_AddMmdlHeaderById(struct MmdlSys *sys, struct MmdlHeader *header, s32 zoneId, s32 count, void *evWork, u32 objId);
 extern void FLDMMDL_OnMoveBitMovePause(struct Mmdl *mmdl);
 
 /* First two-model variant: add the unit, hide both models and stop all their animations. */
@@ -489,11 +492,11 @@ int SP_POKE_GIMMICK_SwapNpcEventMain(struct GameEvent *event, int *seq, void *ev
         FLDMMDL_DeleteMmdl(FLDMMDL_SysSearchObjId(mmdlSys, removeObjectId));
         gameData = GAMESYSTEM_GetGameData(gameSystem);
         eventData = GAME_DATA_GetEventData(gameData);
-        npcCount = EVENTDATA_SYSTEM_GetNpcCount(eventData);
+        npcCount = EVENTDATA_SYSTEM_GetNpcCount((struct EventDataSystem *)eventData);
         zoneId = GAME_DATA_GetPlayerZoneId(GAME_DATA_GetMyPlayerWork(gameData));
         if (npcCount != 0) {
-            eventFlagWork = GAME_DATA_GetEventWork(gameData);
-            mmdl = FLDMMDL_AddMmdlHeaderById(mmdlSys, EVENTDATA_SYSTEM_GetNpcHeaders(eventData), zoneId, npcCount, eventFlagWork, addObjectId);
+            eventFlagWork = (u32)GAME_DATA_GetEventWork(gameData);
+            mmdl = FLDMMDL_AddMmdlHeaderById(mmdlSys, (struct MmdlHeader *)(void *)EVENTDATA_SYSTEM_GetNpcHeaders((struct EventDataSystem *)eventData), zoneId, npcCount, (void *)eventFlagWork, addObjectId);
             if (mmdl != 0)
                 FLDMMDL_OnMoveBitMovePause(mmdl);
         }

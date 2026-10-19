@@ -54,23 +54,33 @@ typedef struct FieldCameraDirection {
     u8 reserved[0x26];
     u16 angle;        /* 0x26: 0x10000 is a full turn */
 } FieldCameraDirection;
+struct ScriptWork;
 
-extern void *SCRCMD_WORK_GetScriptWork(void *p);
-extern void *SCRCMD_WORK_GetGameSystem(void *work);
-extern void *SCRCMD_WORK_GetGameData(void *work);
-extern u16 SCRIPT_WORK_ReadWorkValue(void *, void *);
-extern void FLDMMDL_SetAreaIdRef(u8 *p, u32 v);
+extern struct ScriptWork *SCRCMD_WORK_GetScriptWork(struct ScrcmdWork *work);
+extern struct GameSystem *SCRCMD_WORK_GetGameSystem(struct ScrcmdWork *work);
+struct GameData;
+extern struct GameData *SCRCMD_WORK_GetGameData(struct ScrcmdWork *work);
+struct ScriptVm;
+extern u32 SCRIPT_WORK_ReadWorkValue(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
+struct MmdlSys;
+extern void FLDMMDL_SetAreaIdRef(struct MmdlSys *sys, u16 *areaIdRef);
 extern void *GAMESYSTEM_GetFieldMap(const struct GameSystem *p);
-extern u32 FIELDMAP_GetTcblSys(u8 *p);
-extern u16 FIELDMAP_GetHeapId(u8 *p);
-extern void *FIELDMAP_GetCamera(void *p);
-extern void *FIELDMAP_GetMmdlSys(u8 *p);
-extern u8 *FIELD_CAMERA_GetViewYawPtr(u8 *p);
-extern u8 *FIELD_CAMERA_GetMoveGoal(u8 *p);
+struct FieldMap;
+struct TcblSys;
+extern struct TcblSys *FIELDMAP_GetTcblSys(struct FieldMap *fieldMap);
+extern u16 FIELDMAP_GetHeapId(struct FieldMap *fieldMap);
+struct FieldCamera;
+extern struct FieldCamera *FIELDMAP_GetCamera(struct FieldMap *fieldMap);
+extern struct MmdlSys *FIELDMAP_GetMmdlSys(struct FieldMap *fieldMap);
+extern u16 *FIELD_CAMERA_GetViewYawPtr(struct FieldCamera *camera);
+struct FieldCameraView;
+extern struct FieldCameraView *FIELD_CAMERA_GetMoveGoal(struct FieldCamera *camera);
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void TCB_AddTask(u32, void (*)(), void *, u32);
+struct TcbSystem;
+struct TcbTask;
+extern struct TcbTask *TCB_AddTask(struct TcbSystem *sys, void (*)(), void *work, u32 priority);
 extern u32 GFL_HEAP_Free(void *p);
-extern void TCB_DeleteTask(struct Tcb *tcb);
+extern void TCB_DeleteTask(struct TcbTask *task);
 int SCRCMD_C03CENTER_TurnCameraToQuarter(struct ScriptVm *vm, struct ScrcmdWork *work);
 void SCRCMD_C03CENTER_CameraTurnTaskMain(struct Tcb *tcb, CameraTurnTask *turn);
 extern const char sScrcmdC03centerFileName[];
@@ -103,15 +113,15 @@ int SCRCMD_C03CENTER_TurnCameraToQuarter(struct ScriptVm *vm, struct ScrcmdWork 
     gameSystem = SCRCMD_WORK_GetGameSystem(work);
     SCRCMD_WORK_GetGameData(work);
     gameSystem = GAMESYSTEM_GetFieldMap(gameSystem);
-    tcbSys = FIELDMAP_GetTcblSys(gameSystem);
+    tcbSys = (u32)FIELDMAP_GetTcblSys(gameSystem);
     heapId = FIELDMAP_GetHeapId(gameSystem);
-    camera = FIELDMAP_GetCamera(gameSystem);
-    mmdlSys = FIELDMAP_GetMmdlSys(gameSystem);
+    camera = (u8 *)FIELDMAP_GetCamera(gameSystem);
+    mmdlSys = (u8 *)FIELDMAP_GetMmdlSys(gameSystem);
     frameCount = SCRIPT_WORK_ReadWorkValue(vm, work);
     turn = GFL_HEAP_Alloc(heapId, 0x10, 1, sScrcmdC03centerFileName, 0x5d);
-    gCameraTurnAngle = *(u16 *)FIELD_CAMERA_GetViewYawPtr(camera);
-    FLDMMDL_SetAreaIdRef(mmdlSys, (u32)&g_021EE724_ref);
-    cameraDirection = (FieldCameraDirection *)FIELD_CAMERA_GetMoveGoal(camera);
+    gCameraTurnAngle = *(u16 *)FIELD_CAMERA_GetViewYawPtr((struct FieldCamera *)camera);
+    FLDMMDL_SetAreaIdRef((struct MmdlSys *)mmdlSys, (u16 *)&g_021EE724_ref);
+    cameraDirection = (FieldCameraDirection *)FIELD_CAMERA_GetMoveGoal((struct FieldCamera *)camera);
     turn->startAngle = gCameraTurnAngle;
     angle = cameraDirection->angle;
     turn->angleDelta = angle;
@@ -132,7 +142,7 @@ int SCRCMD_C03CENTER_TurnCameraToQuarter(struct ScriptVm *vm, struct ScrcmdWork 
     }
     turn->frame = 0;
     turn->frameCount = frameCount;
-    TCB_AddTask(tcbSys, SCRCMD_C03CENTER_CameraTurnTaskMain, turn, 0);
+    TCB_AddTask((struct TcbSystem *)tcbSys, SCRCMD_C03CENTER_CameraTurnTaskMain, turn, 0);
     return 0;
 }
 
@@ -144,6 +154,6 @@ void SCRCMD_C03CENTER_CameraTurnTaskMain(struct Tcb *tcb, CameraTurnTask *turn)
     gCameraTurnAngle = gCameraTurnAngle + (u16)turn->startAngle;
     if (turn->frame >= turn->frameCount) {
         GFL_HEAP_Free(turn);
-        TCB_DeleteTask(tcb);
+        TCB_DeleteTask((struct TcbTask *)tcb);
     }
 }

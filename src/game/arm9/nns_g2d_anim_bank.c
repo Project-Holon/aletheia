@@ -64,7 +64,7 @@ struct AnimBank {
     AnimSequenceData *pSequences;  /* +0x04 */
     AnimFrameData *pFrames;        /* +0x08 */
     u8 *pPool;                     /* +0x0c */
-    u32 reserved10;                    /* +0x10 */
+    u32 pStringBank;               /* +0x10  label bank offset (NNSG2dAnimBankData), never read here */
     u8 *pSubBank;                  /* +0x14 */
 };
 
@@ -126,8 +126,9 @@ struct MultiCellBank {
     u32 reserved0C;
     u8 *pAnimBank;
 };
+struct NNSG2dBinaryFileHeader;
 
-extern void *NNS_G2dFindBinaryBlock(struct NitroFileHeader *file, u32 signature);
+extern void *NNS_G2dFindBinaryBlock(struct NNSG2dBinaryFileHeader *pHeader, u32 signature);
 extern void NNSi_G2dFixupOffsets(struct Tbl *t);
 int NNS_G2dGetUnpackedAnimBank(u32 a, u32 *out);
 void NNS_G2dGetUnpackedAnimBankEx(u32 a, u32 *out);
@@ -136,10 +137,10 @@ void NNSi_G2dUnpackAnimBank(volatile struct AnimBank *bank);
 AnimSequenceData *NNS_G2dGetAnimSequenceByIdx(struct AnimBank *bank, u32 idx);
 void *NNSi_G2dGetCellDataBankOamBase(struct CellDataBank *bank);
 void NNSi_G2dFixupCellAnimBankTbl(void *p);
-int NNS_G2dGetUnpackedCellBank(int a, int *out);
+int NNS_G2dGetUnpackedCellBank(void *a, int *out);
 void *NNS_G2dGetCellDataByIdx(struct CellDataBank *bank, u32 idx);
 void NNSi_G2dUnpackCellBank(int *p);
-int NNS_G2dGetUnpackedMultiCellBank(u32 a, u32 *out);
+int NNS_G2dGetUnpackedMultiCellBank(void *a, u32 *out);
 void NNSi_G2dFixupMultiCellAnimBankTbl(void *animBank);
 void NNSi_G2dUnpackMultiCellBank(volatile struct MultiCellBank *bank);
 struct MultiCellData *NNS_G2dGetMultiCellDataByIdx(struct MultiCellBank *bank, u32 idx);
@@ -165,7 +166,7 @@ void NNSi_G2dFixupPaletteData(u8 *block);
  */
 int NNS_G2dGetUnpackedAnimBank(u32 a, u32 *out)
 {
-    u32 r = (u32)NNS_G2dFindBinaryBlock((struct NitroFileHeader *)a, 0x41424E4B);
+    u32 r = (u32)NNS_G2dFindBinaryBlock((struct NNSG2dBinaryFileHeader *)a, 0x41424E4B);
 
     if (r == 0) {
         *out = 0;
@@ -333,9 +334,9 @@ void NNSi_G2dFixupCellAnimBankTbl(void *p)
 
 
 
-int NNS_G2dGetUnpackedCellBank(int a, int *out)
+int NNS_G2dGetUnpackedCellBank(void *a, int *out)
 {
-    char *o = (char *)NNS_G2dFindBinaryBlock((struct NitroFileHeader *)a, 0x4345424b);
+    char *o = (char *)NNS_G2dFindBinaryBlock((struct NNSG2dBinaryFileHeader *)a, 0x4345424b);
     if (o == 0) {
         *out = 0;
         return 0;
@@ -433,9 +434,9 @@ void NNSi_G2dUnpackCellBank(int *p)
  * `bl NNSi_G2dUnpackMultiCellBank` at 0x02062934, and this call is the only branch to
  * 0x0206296C in the image.  The `bl NNS_G2dFindBinaryBlock` site resolves (`label x40`).
  */
-int NNS_G2dGetUnpackedMultiCellBank(u32 a, u32 *out)
+int NNS_G2dGetUnpackedMultiCellBank(void *a, u32 *out)
 {
-    u32 r = (u32)NNS_G2dFindBinaryBlock((struct NitroFileHeader *)a, 0x4D43424B);
+    u32 r = (u32)NNS_G2dFindBinaryBlock((struct NNSG2dBinaryFileHeader *)a, 0x4D43424B);
 
     if (r == 0) {
         *out = 0;
@@ -574,7 +575,7 @@ struct MultiCellData *NNS_G2dGetMultiCellDataByIdx(struct MultiCellBank *bank, u
  */
 s32 NNS_G2dGetUnpackedCharacterData(struct NitroFileHeader *file, void **out)
 {
-    void *block = NNS_G2dFindBinaryBlock(file, 0x43484152);
+    void *block = NNS_G2dFindBinaryBlock((struct NNSG2dBinaryFileHeader *)file, 0x43484152);
 
     if (block == 0) {
         *out = 0;
@@ -614,7 +615,7 @@ void NNSi_G2dFixupCharacterData(u8 *block)
  */
 s32 NNS_G2dGetUnpackedCharacterDataEx(struct NitroFileHeader *file, void **out)
 {
-    void *block = NNS_G2dFindBinaryBlock(file, 0x43484152);
+    void *block = NNS_G2dFindBinaryBlock((struct NNSG2dBinaryFileHeader *)file, 0x43484152);
 
     if (block == 0) {
         *out = 0;
@@ -654,7 +655,7 @@ void NNSi_G2dFixupCharacterDataEx(u8 *block)
  */
 s32 NNS_G2dGetUnpackedPaletteData(struct NitroFileHeader *file, void **out)
 {
-    void *block = NNS_G2dFindBinaryBlock(file, 0x504C5454);
+    void *block = NNS_G2dFindBinaryBlock((struct NNSG2dBinaryFileHeader *)file, 0x504C5454);
 
     if (block == 0) {
         *out = 0;
@@ -678,7 +679,7 @@ s32 NNS_G2dGetUnpackedPaletteData(struct NitroFileHeader *file, void **out)
  */
 s32 NNS_G2dGetUnpackedPaletteCompressInfo(struct NitroFileHeader *file, void **out)
 {
-    void *block = NNS_G2dFindBinaryBlock(file, 0x50434D50);
+    void *block = NNS_G2dFindBinaryBlock((struct NNSG2dBinaryFileHeader *)file, 0x50434D50);
 
     if (block == 0) {
         *out = 0;

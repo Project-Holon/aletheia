@@ -221,29 +221,30 @@ typedef signed int     s32;
 typedef unsigned long long u64;
 #include "../ov010/script_work_types.h"
 #include "../ov021/field_wfbc_types.h"
+#include "../version.h"
 extern void *GAME_DATA_GetMyPlayerWork(struct GameData *p);
 struct MsgData *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-u32 GFL_HEAP_Free(void *p);
-void STRBUF_Delete(struct Strbuf *vec);
-u32 MSGDATA_Delete(struct MsgData *rec);
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+#include "../arm9/gfl_heap_wrap.h"
+#include "../arm9/strbuf.h"
+struct MsgBank;
+u32 MSGDATA_Delete(struct MsgBank *bank);
 u16 FLDMMDL_GetObjId(const struct Mmdl *mmdl);
 extern void EVENT_FIELD_PROCLINK_ClearReturnEntry(WfbcPerson *person);
 extern u32 MYSTATUS_GetId(const struct MyStatus *obj);
-extern u32 GFL_USE_GetRandom(u32 n);
-extern int EVENT_FIELD_PROCLINK_IsReturnEntryAllowed(const WfbcPerson *person);
+#include "../arm9/gfl_use.h"
+struct ProcLinkEntry;
+extern int EVENT_FIELD_PROCLINK_IsReturnEntryAllowed(struct ProcLinkEntry *entry);
 u8 MYSTATUS_GetRomCode(const struct MyStatus *obj);
-int INTRUDE_COMM_NormalizeVersion(int a, int b);
+int INTRUDE_COMM_NormalizeVersion(s32 version, u32 trainerId);
 extern int EVENT_FIELD_PROCLINK_IsReturnEntryValid(const WfbcPerson *person);
 extern u16 GAME_DATA_GetPlayerZoneId(const struct PlayerWork *p);
 extern WfbcData *GAME_DATA_GetSecondUnionInfo(struct GameData *gameData);
 extern u16 *GAME_DATA_GetMusicalShotTitle(struct GameData *gameData);
 extern WfbcDailyState *GAME_DATA_GetMusicalShotExtraData(struct GameData *gameData);
-extern int ZONEDATA_IsZoneInTableDFEC(u16 id);
+#include "../arm9/zonedata.h"
 extern void EVENT_FIELD_PROCLINK_CompactReturnList(WfbcData *data, int mode);
 extern void EVENT_FIELD_PROCLINK_InitIdList(u16 *itemSlots);
 extern void FLDMMDL_InitPosRecord(MmdlHeader *header, u16 gridX, u16 gridZ, int direction);
-extern u16 STRBUF_GetEosChar(void);
 extern const void *MYSTATUS_GetName(const void *p);
 extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
 extern void *ARC_TOOL_CreateHandle(unsigned int id, unsigned int heap);
@@ -276,10 +277,10 @@ extern int FIELD_WFBC_GetPeopleNum(FieldWfbc *wfbc);
 extern struct GameSystem *FIELDMAP_GetGameSystem(void *fieldSystem);
 extern struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
 void *GAME_DATA_GetMyParty(const struct GameData *p);
-u32 POKEPARTY_GetCount(void *a);
-void GF_STANDARD_GetCachedDate(struct RtcDate *date);
-void *POKEPARTY_GetMember(void *a, u32 i);
-u32 POKE_TOOL_GetPartyValue(void *p, u32 id, u32 v);
+#include "../arm9/pokeparty.h"
+#include "../arm9/gf_standard.h"
+typedef signed char s8;
+#include "../arm9/poke_tool.h"
 extern unsigned char FIELD_WFBC_GetCityType(FieldWfbc *wfbc);
 extern struct GameSystem *SCRCMD_WORK_GetGameSystem(struct ScrcmdWork *work);
 extern void *GAMESYSTEM_GetFieldMap(const struct GameSystem *gameSystem);
@@ -291,32 +292,32 @@ void *INTRUDE_COMM_GetWorkIfRunning(void *eventWork);
 void *INTRUDE_COMM_GetReturnSlots(void *eventWork);
 struct GameEvent *GAME_EVENT_Create(struct GameSystem *gameSystem, void *parent, void *proc, u32 workSize);
 void *GAME_EVENT_GetWork(struct GameEvent *p);
-struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
 struct WordSet *WORDSET_CreateDefault(u32 heap);
 WfbcData *GAME_DATA_GetUnionInfo(struct GameData *gameData, u32 index);
 void FLDMMDL_GetPos(const struct Mmdl *mmdl, struct VecFx32 *out);
-int EVENT_FIELD_PROCLINK_ClearReturnDefaultAndPending(void *returnList);
-void EVENT_FIELD_PROCLINK_RequestReturn(void *returnList, int personIndex, int mode);
+struct EventSlots;
+void EVENT_FIELD_PROCLINK_ClearReturnDefaultAndPending(struct EventSlots *slots);
+void EVENT_FIELD_PROCLINK_RequestReturn(struct EventSlots *slots, s32 entryId, s32 handlerIndex);
 int EVENT_FIELD_PROCLINK_HasReturnDefaultSlot(void *returnList, int personIndex);
 u16 EVENT_FIELD_PROCLINK_GetReturnDefaultSlotType(void *returnList);
 int EVENT_FIELD_PROCLINK_HasEventdataEntry(WfbcData *data, int personIndex, unsigned mode);
-void FADE_Start(u32 a, s32 b, s32 c, s32 d);
-int FADE_IsActive(void);
-void *GAME_DATA_GetMyStatus(struct GameData *gameData);
+#include "../arm9/fade.h"
+struct MyStatus *GAME_DATA_GetMyStatus(struct GameData *gameData);
 void EVENT_FIELD_PROCLINK_ApplyReturnEntry(void *returnList, WfbcData *ownData, WfbcData *cityData, void *playerBlock, u16 personIndex, u16 heapId);
 int FIELD_WFBC_RemovePeople(FieldWfbc *wfbc, u32 personIndex);
 void FLDMMDL_DeleteMmdl(struct Mmdl *mmdl);
-u32 WORDSET_Delete(struct WordSet *p);
+#include "../arm9/wordset.h"
 extern void MSGDATA_ReadString(struct MsgData *bank, u32 index, struct Strbuf *dest);
-extern void WORDSET_CopyTaggedText(struct WordSet *wordSet, struct Strbuf *dst, struct Strbuf *src);
 extern struct FieldMsgHandle *FIELD_MSGBG_AddTalkWin(int msgBgSys, int speed, int *playerPos, struct Strbuf *message, u32 c, u32 d);
 extern u32 FIELD_MSGBG_TalkWinMain(struct FieldMsgHandle *handle);
-extern u32 KEY_GetTrg(void);
+#include "../arm9/key.h"
 extern struct FieldYesNoHandle *FIELD_MSGBG_CreateYesNoMenu(int msgBgSys, u32 b);
 extern int FIELD_MSGBG_YesNoMenuMain(struct FieldYesNoHandle *h);
-extern int FIELD_MSGBG_DeleteMenuFunc(struct FieldYesNoHandle *handle);
-extern int FIELD_MSGBG_DeleteTalkWin(struct FieldMsgHandle *handle);
-extern int FIELD_MSGBG_WaitTalkWinClose(struct FieldMsgHandle *handle);
+struct FieldMenuFunc;
+extern int FIELD_MSGBG_DeleteMenuFunc(struct FieldMenuFunc *menu);
+struct FieldTalkWin;
+extern int FIELD_MSGBG_DeleteTalkWin(struct FieldTalkWin *talkWin);
+extern int FIELD_MSGBG_WaitTalkWinClose(struct FieldTalkWin *talkWin);
 extern int FIELD_MSGBG_ClearTalkWin(struct FieldMsgHandle *handle);
 int FIELD_WFBC_DATA_LOCAL_GetPersonIndexFromMmdl(const struct Mmdl *mmdl);
 void FIELD_WFBC_DATA_LOCAL_ClearPeopleList(WfbcData *data);
@@ -428,7 +429,11 @@ void FIELD_WFBC_DATA_LOCAL_Init(WfbcData *data, const struct MyStatus *myStatus,
 
     data->isValid = 1;
     i = 0;
+#if VERSION == VERSION_WHITE
+    data->cityType = 1;      /* White starts as White Forest, Black as Black City */
+#else
     data->cityType = 0;
+#endif
     remaining = 0x1CE;
     data->playerId = MYSTATUS_GetId(myStatus);
     npcData = FIELD_WFBC_DATA_LOCAL_OpenNpcData(0, (u16)((heapSeed & 0x7FFF) | 0x8000));
@@ -466,7 +471,7 @@ int FIELD_WFBC_DATA_LOCAL_IsFullyPopulated(WfbcData *data)
     i = 0;
     people = data->people;
     for (; i < 10; i++)
-        if (EVENT_FIELD_PROCLINK_IsReturnEntryAllowed(&people[i]) == 0)
+        if (EVENT_FIELD_PROCLINK_IsReturnEntryAllowed((struct ProcLinkEntry *)(&people[i])) == 0)
             return 0;
     return 1;
 }
@@ -1520,7 +1525,7 @@ int FIELD_WFBC_DATA_LOCAL_PersonTalkEventMain(struct GameEvent *event, int *stat
             break;
         STRBUF_Delete(talk->msgBuf);
         STRBUF_Delete(talk->tmpBuf);
-        MSGDATA_Delete(talk->msgData);
+        MSGDATA_Delete((struct MsgBank *)talk->msgData);
         WORDSET_Delete(talk->wordSet);
         return 1;
     }
@@ -1593,15 +1598,15 @@ int FIELD_WFBC_DATA_LOCAL_UpdateTalkMessage(WfbcTalkEvent *talk)
         else
             talk->answerYes = 0;
         talk->msgState = 4;
-        FIELD_MSGBG_DeleteMenuFunc(talk->yesNoHandle);
+        FIELD_MSGBG_DeleteMenuFunc((struct FieldMenuFunc *)talk->yesNoHandle);
         talk->yesNoHandle = 0;
         break;
     case 4:
-        FIELD_MSGBG_DeleteTalkWin(talk->msgHandle);
+        FIELD_MSGBG_DeleteTalkWin((struct FieldTalkWin *)talk->msgHandle);
         talk->msgState = talk->msgState + 1;
         break;
     case 5:
-        if (FIELD_MSGBG_WaitTalkWinClose(talk->msgHandle) != 0) {
+        if (FIELD_MSGBG_WaitTalkWinClose((struct FieldTalkWin *)talk->msgHandle) != 0) {
             talk->msgHandle = 0;
             return 1;
         }
@@ -1620,7 +1625,7 @@ int FIELD_WFBC_DATA_LOCAL_FreeTalkMessage(WfbcTalkEvent *talk)
 {
     if (talk->msgHandle != 0) {
         if (talk->msgState == 5) {
-            if (FIELD_MSGBG_WaitTalkWinClose(talk->msgHandle) == 0) return 0;
+            if (FIELD_MSGBG_WaitTalkWinClose((struct FieldTalkWin *)talk->msgHandle) == 0) return 0;
             talk->msgHandle = 0;
         } else {
             FIELD_MSGBG_ClearTalkWin(talk->msgHandle);
@@ -1628,7 +1633,7 @@ int FIELD_WFBC_DATA_LOCAL_FreeTalkMessage(WfbcTalkEvent *talk)
         }
     }
     if (talk->yesNoHandle != 0) {
-        FIELD_MSGBG_DeleteMenuFunc(talk->yesNoHandle);
+        FIELD_MSGBG_DeleteMenuFunc((struct FieldMenuFunc *)talk->yesNoHandle);
         talk->yesNoHandle = 0;
     }
     return 1;

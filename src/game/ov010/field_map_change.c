@@ -43,30 +43,37 @@ struct Situation;
 typedef unsigned int u32;
 
 extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gameData);
-extern void *MOVE_POKEMON_SAVE_GetBlock(struct SaveControl *saveControl);
-extern u16 FIELDMAP_GetZoneId(u8 *p);
-extern void MOVE_POKEMON_SetCommonArea(int block, int value);
-extern void MOVE_POKEMON_MoveActiveEntriesChecked(void *);
+extern void *MOVE_POKEMON_SAVE_GetBlock(void *saveControl);
+struct FieldMap;
+extern u16 FIELDMAP_GetZoneId(struct FieldMap *fieldMap);
+struct MovePokemonSave;
+extern void MOVE_POKEMON_SetCommonArea(struct MovePokemonSave *block, int value);
+extern void MOVE_POKEMON_MoveActiveEntriesChecked(struct GameData *gameData);
 extern void *GAME_DATA_GetEventWork(const struct GameData *gameData);
-extern void ZONEDATA_ResetEventFlag(char *, int);
-extern int FIELD_ENCOUNT_ST_GetEffectEncount(int fieldMap);
-extern MmdlSys *GAME_DATA_GetMoveModelSys(const struct GameData *gameData);
+struct EventWork;
+extern void ZONEDATA_ResetEventFlag(struct EventWork *ev, int flagId);
+extern int FIELD_ENCOUNT_ST_GetEffectEncount(struct FieldMap *fieldMap);
+extern void *GAME_DATA_GetMoveModelSys(const struct GameData *gameData);
 extern u32 ZONEDATA_GetFieldSkillMapEffect(u32 id);
-extern void FIELD_STATUS_SetFlashActive(MmdlSys *mmdlSys, u8 value);
-extern void MOVE_POKEMON_MoveActiveEntries(void *object);
-extern void  HIDDEN_ITEM_Respawn(void *a);
+struct FieldStatus;
+extern void FIELD_STATUS_SetFlashActive(struct FieldStatus *fs, u8 flashActive);
+extern void MOVE_POKEMON_MoveActiveEntries(struct GameData *gameData);
+struct EventWork;
+extern void  HIDDEN_ITEM_Respawn(struct EventWork *eventWork);
 extern u32 ZONEDATA_IsZoneInTableDFB8(u32 id);
-extern struct Situation *PLAYER_LOCATION_GetData(struct SaveControl *saveControl);
-extern void PLAYER_LOCATION_SetStepMessageCount(struct Situation *situation, u16 value);
-extern int FIELD_ENCOUNT_ST_ResetGimmickState(int gameData);
+struct PlayerLocationData;
+extern struct PlayerLocationData *PLAYER_LOCATION_GetData(void *save);
+extern void PLAYER_LOCATION_SetStepMessageCount(struct PlayerLocationData *location_data, u16 value);
+struct FieldGimmickWork;
+extern struct FieldGimmickWork *FIELD_ENCOUNT_ST_ResetGimmickState(struct GameData *gameData);
 void FIELD_MAP_CHANGE_ApplyZoneHeader(struct GameData *gameData, void *zoneHeader);
 void FIELD_MAP_CHANGE_SetupZone(struct GameData *gameData, u32 zoneId);
 int FIELD_MAP_CHANGE_ResetGimmickStateCase1(int object, int unused);
 int FIELD_MAP_CHANGE_ResetGimmickStateCase3(int object, int unused);
 int FIELD_MAP_CHANGE_ResetGimmickStateCase2(int object, int unused);
-int FIELD_MAP_CHANGE_ResetGimmickStateCase4(int object, int unused);
+int FIELD_MAP_CHANGE_ResetGimmickStateCase4(struct GameData *object, int unused);
 void FIELD_MAP_CHANGE_MoveActiveEntries(void *object, int unused);
-void FIELD_MAP_CHANGE_Empty(int system, u16 zoneId);
+void FIELD_MAP_CHANGE_Empty(struct GameData *system, u16 zoneId);
 
 /*
  * interface: FIELDMAP_GetZoneId reads the u16 field at +0xD8;
@@ -74,7 +81,7 @@ void FIELD_MAP_CHANGE_Empty(int system, u16 zoneId);
  * whose matched ARM9 body takes u16 and stores only that halfword.
  * The legacy FIELD_MAP_CHANGE_SetupZone declaration uses a pointer for this ID.
  */
-void FIELD_MAP_CHANGE_ApplyZoneHeader(struct GameData *gameData, void *zoneHeader) { void *saveWork=MOVE_POKEMON_SAVE_GetBlock(GAME_DATA_GetSaveControl(gameData)); MOVE_POKEMON_SetCommonArea((int)saveWork,FIELDMAP_GetZoneId((u8 *)zoneHeader)); MOVE_POKEMON_MoveActiveEntriesChecked(gameData); ZONEDATA_ResetEventFlag((char *)GAME_DATA_GetEventWork(gameData),0x964); FIELD_ENCOUNT_ST_GetEffectEncount((int)zoneHeader); }
+void FIELD_MAP_CHANGE_ApplyZoneHeader(struct GameData *gameData, void *zoneHeader) { void *saveWork=MOVE_POKEMON_SAVE_GetBlock(GAME_DATA_GetSaveControl(gameData)); MOVE_POKEMON_SetCommonArea(saveWork,FIELDMAP_GetZoneId((struct FieldMap *)zoneHeader)); MOVE_POKEMON_MoveActiveEntriesChecked(gameData); ZONEDATA_ResetEventFlag((struct EventWork *)GAME_DATA_GetEventWork(gameData),0x964); FIELD_ENCOUNT_ST_GetEffectEncount(zoneHeader); }
 
 /*
  * Per-object setup: registers the object with the frame list, applies
@@ -87,9 +94,9 @@ void FIELD_MAP_CHANGE_SetupZone(struct GameData *gameData, u32 zoneId)
     MmdlSys *mmdlSys = GAME_DATA_GetMoveModelSys(gameData);
     void *eventWork;
     if ((ZONEDATA_GetFieldSkillMapEffect(zoneId) & 3) == 0) {
-        FIELD_STATUS_SetFlashActive(mmdlSys, 0);
+        FIELD_STATUS_SetFlashActive((struct FieldStatus *)mmdlSys, 0);
     }
-    MOVE_POKEMON_SetCommonArea((int)MOVE_POKEMON_SAVE_GetBlock(GAME_DATA_GetSaveControl(gameData)), (int)zoneId);
+    MOVE_POKEMON_SetCommonArea(MOVE_POKEMON_SAVE_GetBlock(GAME_DATA_GetSaveControl(gameData)), (int)zoneId);
     MOVE_POKEMON_MoveActiveEntries(gameData);
     eventWork = GAME_DATA_GetEventWork(gameData);
     ZONEDATA_ResetEventFlag(eventWork, 0x964);
@@ -110,7 +117,7 @@ void FIELD_MAP_CHANGE_SetupZone(struct GameData *gameData, u32 zoneId)
  */
 int FIELD_MAP_CHANGE_ResetGimmickStateCase1(int object, int unused)
 {
-    return FIELD_ENCOUNT_ST_ResetGimmickState(object);
+    return (int)FIELD_ENCOUNT_ST_ResetGimmickState((struct GameData *)object);
 }
 
 /*
@@ -124,7 +131,7 @@ int FIELD_MAP_CHANGE_ResetGimmickStateCase1(int object, int unused)
  */
 int FIELD_MAP_CHANGE_ResetGimmickStateCase3(int object, int unused)
 {
-    return FIELD_ENCOUNT_ST_ResetGimmickState(object);
+    return (int)FIELD_ENCOUNT_ST_ResetGimmickState((struct GameData *)object);
 }
 
 /*
@@ -138,7 +145,7 @@ int FIELD_MAP_CHANGE_ResetGimmickStateCase3(int object, int unused)
  */
 int FIELD_MAP_CHANGE_ResetGimmickStateCase2(int object, int unused)
 {
-    return FIELD_ENCOUNT_ST_ResetGimmickState(object);
+    return (int)FIELD_ENCOUNT_ST_ResetGimmickState((struct GameData *)object);
 }
 
 /*
@@ -155,9 +162,9 @@ int FIELD_MAP_CHANGE_ResetGimmickStateCase2(int object, int unused)
  * Every ov020 caller passes a second argument (r1), but FIELD_ENCOUNT_ST_ResetGimmickState
  * reads only r0, so b stays unused here; its result passes back in r0.
  */
-int FIELD_MAP_CHANGE_ResetGimmickStateCase4(int object, int unused)
+int FIELD_MAP_CHANGE_ResetGimmickStateCase4(struct GameData *object, int unused)
 {
-    return FIELD_ENCOUNT_ST_ResetGimmickState(object);
+    return (int)FIELD_ENCOUNT_ST_ResetGimmickState((struct GameData *)object);
 }
 
 /*
@@ -175,6 +182,6 @@ void FIELD_MAP_CHANGE_MoveActiveEntries(void *object, int unused)
  *
  * Addresses are Black-image addresses.
  */
-void FIELD_MAP_CHANGE_Empty(int system, u16 zoneId)
+void FIELD_MAP_CHANGE_Empty(struct GameData *system, u16 zoneId)
 {
 }

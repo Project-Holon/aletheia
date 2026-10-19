@@ -30,13 +30,14 @@ typedef struct {
 extern u32 data_02707CB4[];
 extern Fs data_02735940;
 extern u32 data_0273594C[];
-extern u32 FS_IsAvailable(void);
+extern int FS_IsAvailable(void);
 extern void FS_Init(u32 a);
 extern void FS_InitFile(u32 *file);
 extern u32 FS_CreateFileFromMemory(u32 *file, void *addr, u32 size);
-extern void DSP_InitProcessContext(u32 *a, const char *b);
+struct DspProc;
+extern void DSP_InitProcessContext(struct DspProc *o, void *src);
 extern u32 DSP_ExecuteProcess(u32 *a, u32 b, u32 c, u32 d);
-extern void DSP_QuitProcess(u32 *a);
+extern void DSP_QuitProcess(struct DspProc *proc);
 
 void DSPi_OpenStaticComponentG711Core(u32 *file);
 u32 DSPi_LoadG711Core(u32 a, u32 b, u32 c);
@@ -52,7 +53,7 @@ void DSPi_OpenStaticComponentG711Core(u32 *file) {
 
 u32 DSPi_LoadG711Core(u32 file, u32 bankMaskA, u32 bankMaskB) {
     if (data_02735940.ready == 0) {
-        DSP_InitProcessContext(data_0273594C, "g711");
+        DSP_InitProcessContext((struct DspProc *)data_0273594C, "g711");
         if (DSP_ExecuteProcess(data_0273594C, file, bankMaskA, bankMaskB) != 0) {
             data_02735940.ready = 1;
         }
@@ -62,7 +63,7 @@ u32 DSPi_LoadG711Core(u32 file, u32 bankMaskA, u32 bankMaskB) {
 
 void DSPi_UnloadG711Core(void) {
     if (data_02735940.ready != 0) {
-        DSP_QuitProcess(data_0273594C);
+        DSP_QuitProcess((struct DspProc *)data_0273594C);
         data_02735940.ready = 0;
     }
 }

@@ -138,7 +138,8 @@ extern void GFL_HEAP_CreateChildHeap(u32 a, u32 b, u32 c);
 extern void *PROCSYS_AllocProcWork(struct Proc *,u32,u32);
 extern void MI_CpuFill8(void *,u32,u32);
 extern struct GfFont *GF_FONT_Create(int,int,int,int,u32);
-extern u32 PRINTSYS_QUE_Create(void *);
+struct PrintQueue;
+extern struct PrintQueue *PRINTSYS_QUE_Create(u32 heap);
 extern void BG_SYS_SetPriority(int,u16);
 extern void *GFL_USE_AddMainTask(u32,u32,u32);
 extern void BG_SYS_ClearSubPlanes(void);
@@ -148,7 +149,7 @@ extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type
 extern void BG_SYS_FreeSlot(u8);
 extern void BG_SYS_SetPlaneVisible(u8,u8);
 extern void BG_SYS_SetSubPlaneVisible(u32,u32);
-extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
+extern void *ARC_TOOL_CreateHandle(u32 archiveID, u16 heapID);
 extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *,u32,u32,u32,u32,u16);
 extern u32 ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void ARC_UTIL_UploadBgPaletteFromHandle(void *,u32,u32,u32,u32,u32,u16);
@@ -157,21 +158,23 @@ extern void BG_SYS_PushTile(u32);
 extern void FADE_Start(u32,int,int,int);
 extern void GFL_NET_RefreshWmIconAtTopRight(u32,u32);
 extern void BG_SYS_FreeLayerBuf(u32 i);
-extern void TCB_DeleteTask(struct Node *n);
-extern void PRINTSYS_QUE_Clear(struct PrintSys *p);
-extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
-extern u32 GF_FONT_Delete(void *ptr);
+struct TcbTask;
+extern void TCB_DeleteTask(struct TcbTask *task);
+extern void PRINTSYS_QUE_Clear(struct PrintQueue *queue);
+extern void PRINTSYS_QUE_Delete(struct PrintQueue *queue);
+extern u32 GF_FONT_Delete(struct GfFont *font);
 extern void PROCSYS_FreeProcWork(struct Proc *);
 extern void GFL_HEAP_DeleteChecked(unsigned int heap);
 extern int FADE_IsActive(void);
 extern u32 KEY_GetTrg(void);
 extern void UI_SetInputMode(u8 v);
 extern u32 TOUCHPANEL_GetPointTrg(u32 *outA, u32 *outB);
-extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
+extern u32 PRINTSYS_QUE_Main(struct PrintQueue *queue);
 extern void BG_SYS_SetMainPlaneVisible(u32,u32);
 extern void G3X_SetFog(int,int,int,int);
 extern void G3X_SetClearColor(u16,int,int,int,int);
-extern void G3D_SYSTEM_SetLight(u32 idx, const u16 *src);
+struct G3dLight;
+extern void G3D_SYSTEM_SetLight(u32 lightIdx, struct G3dLight *light);
 extern void G3D_SYSTEM_SetSwapBuffersMode(u32,u32);
 extern void *GFL_HEAP_Alloc(u32, u32, int, const char *, u16);
 extern void BG_SYS_ClearGraphicsMemory(u32);
@@ -188,7 +191,9 @@ extern void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
 extern void BMP_WIN_Exit(void);
 extern void BG_SYS_Delete(void);
 extern void BG_SYS_Update(void);
-extern void CLACT_InitSystem(const struct Cfg *cfg, unsigned int arg, unsigned int heapId);
+struct DispVramCfg;
+struct SysInit;
+extern void CLACT_InitSystem(struct SysInit *cfg, struct DispVramCfg *res_cfg, u32 heapId);
 extern struct Bank *CLACT_CreateUnit(int count, u8 flag, unsigned int heapId);
 extern void CLACT_SetUnitDefaultRenderer(struct Bank *bank);
 extern u32 CLACT_DeleteUnit(struct Bank *bank);
@@ -254,7 +259,7 @@ int SUBWAY_MAP_GRAPHIC_Init(struct Proc *proc,void *unused,void **args)
  p->heap=0x88; p->args=args;
  p->screen=SUBWAY_MAP_GRAPHIC_CreateScreen(1,p->heap);
  p->font=GF_FONT_Create(23,0,0,0,p->heap);
- p->string=PRINTSYS_QUE_Create((void *)(u32)p->heap);
+ p->string=(u32)PRINTSYS_QUE_Create((u32)(u32)p->heap);
  BG_SYS_SetPriority(1,1); BG_SYS_SetPriority(2,0);
  p->task=GFL_USE_AddMainTask((u32)SUBWAY_MAP_GRAPHIC_TaskNoop,(u32)p,1);
  SUBWAY_MAP_GRAPHIC_LoadCommonAssets((u16 *)p);
@@ -423,7 +428,7 @@ void SUBWAY_MAP_GRAPHIC_Setup3d(void)
     G3X_SetFog(0,0,0,0);
     G3X_SetClearColor(0,0,0x7fff,0x3f,0);
     *(volatile u32 *)0x04000580 = 0xbfff0000;
-    for (; i < 4; i++) G3D_SYSTEM_SetLight((unsigned char)i,gSubwayMapGraphicLightParams[i]);
+    for (; i < 4; i++) G3D_SYSTEM_SetLight((unsigned char)i,(struct G3dLight *)gSubwayMapGraphicLightParams[i]);
     G3D_SYSTEM_SetSwapBuffersMode(0,0);
 }
 
@@ -559,7 +564,7 @@ void SUBWAY_MAP_GRAPHIC_VBlankBg(void *work) { BG_SYS_Update(); }
 void SUBWAY_MAP_GRAPHIC_CreateClactUnit(unsigned char *p, int a, int b)
 {
     MI_CpuFill8(p, 0, 4);
-    CLACT_InitSystem((const struct Cfg *)0x021B9C64, a, b);
+    CLACT_InitSystem((struct SysInit *)0x021B9C64, (struct DispVramCfg *)a, b);
     ((struct SubwayMapClactUnit *)p)->unit = (int)CLACT_CreateUnit(0x80, 0, b);
     CLACT_SetUnitDefaultRenderer((void *)((struct SubwayMapClactUnit *)p)->unit);
     BG_SYS_SetMainPlaneVisible(0x10, 1);

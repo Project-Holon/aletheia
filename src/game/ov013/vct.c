@@ -60,8 +60,9 @@ extern void VCT_SESSION_CheckAnnounceTimeout(void);
 extern int VCT_AUDIO_SendFrameStep(void);
 
 extern int VCT_AUDIO_DecodePendingFrames(void);
+struct VctAudioFrame;
 
-extern int VCT_AUDIO_ReceiveFrame(int senderId, VctAudioFrame *frame, int length, unsigned long long tick);
+extern int VCT_AUDIO_ReceiveFrame(u32 senderAid, struct VctAudioFrame *frame, u32 size, u64 arrivalTick);
 
 extern int VCT_SESSION_HandlePacket(int senderId, VctPacket *packet, int length, VctEvent *event);
 

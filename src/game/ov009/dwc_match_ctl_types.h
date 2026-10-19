@@ -15,7 +15,7 @@ typedef unsigned int u32;
 typedef unsigned long long u64;
 #endif
 
-#include "qr2_types.h"
+#include "../ov009/qr2_types.h"
 
 /* g_021AAA20 / s_bInNNThink: the NN-think reentrancy guard and its filter. */
 struct DWCstMatchControl;

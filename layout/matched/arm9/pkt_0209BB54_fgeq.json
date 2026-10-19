@@ -20,6 +20,9 @@
    "functions": [
     "_fgeq"
    ],
+   "addresses": [
+    "0x0209BB54"
+   ],
    "covers": [
     "0x0209BB54"
    ]

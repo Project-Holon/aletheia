@@ -1,5 +1,5 @@
 /*
- * function: EVENT_MAPCHANGE_AllocWorkBufferB
+ * function: EVENT_MAPCHANGE_TamperLeakB
  * address: 0x0218606C
  * packet: pkt_ov020_0218606C
  * region: ov020
@@ -16,4 +16,4 @@ extern char d_02187EA0[];
 typedef unsigned short u16;
 typedef unsigned int   u32;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-void *EVENT_MAPCHANGE_AllocWorkBufferB(void) { return func_02030734(0x8004,0x1000,0,d_02187EA0,0xe3a); }
+void *EVENT_MAPCHANGE_TamperLeakB(void) { return func_02030734(0x8004,0x1000,0,d_02187EA0,0xe3a); }

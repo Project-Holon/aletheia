@@ -25,10 +25,10 @@
 
 typedef unsigned int u32;
 
-extern void LOADER_DECRYPT_DecodeBlocks(void);
+extern void LOADER_DECRYPT_DecodeBlocks(u32 *desc);
 
 /* hand-written in the original: position-independent call stub, pops the dispatcher address out of its own parameter block, which follows it */
-asm u32 OV230_CallSealedBody0(void (*caller)(void), void (*target)(void), u32 arg)
+asm u32 OV230_CallSealedBody0(void (*hook)(void), void (*hookArg)(void), u32 unused)
 {
     orr     ip, pc, pc
     ands    ip, ip, ip
@@ -48,7 +48,7 @@ asm u32 OV230_CallSealedBody0(void (*caller)(void), void (*target)(void), u32 ar
 }
 
 /* hand-written in the original: position-independent call stub, pops the dispatcher address out of its own parameter block, which follows it */
-asm u32 OV230_CallSealedBody1(void (*caller)(void), void (*target)(void), u32 arg)
+asm u32 OV230_CallSealedBody1(void (*hook)(void), void (*hookArg)(void), u32 unused)
 {
     orr     ip, pc, pc
     ands    ip, ip, ip
@@ -68,7 +68,7 @@ asm u32 OV230_CallSealedBody1(void (*caller)(void), void (*target)(void), u32 ar
 }
 
 /* hand-written in the original: position-independent call stub, pops the dispatcher address out of its own parameter block, which follows it */
-asm u32 OV230_CallSealedBody2(void (*caller)(void), void (*target)(void), u32 arg)
+asm u32 OV230_CallSealedBody2(void (*hook)(void), void (*hookArg)(void), u32 unused)
 {
     orr     ip, pc, pc
     ands    ip, ip, ip
@@ -88,7 +88,7 @@ asm u32 OV230_CallSealedBody2(void (*caller)(void), void (*target)(void), u32 ar
 }
 
 /* hand-written in the original: position-independent call stub, pops the dispatcher address out of its own parameter block, which follows it */
-asm u32 OV230_CallSealedBody3(void (*caller)(void), void (*target)(void), u32 arg)
+asm u32 OV230_CallSealedBody3(void (*hook)(void), void (*hookArg)(void), u32 unused)
 {
     orr     ip, pc, pc
     ands    ip, ip, ip
@@ -108,7 +108,7 @@ asm u32 OV230_CallSealedBody3(void (*caller)(void), void (*target)(void), u32 ar
 }
 
 /* hand-written in the original: position-independent call stub, pops the dispatcher address out of its own parameter block, which follows it */
-asm u32 OV230_CallSealedBody4(void (*caller)(void), void (*target)(void), u32 arg)
+asm u32 OV230_CallSealedBody4(void (*hook)(void), void (*hookArg)(void), u32 unused)
 {
     orr     ip, pc, pc
     ands    ip, ip, ip
@@ -128,7 +128,7 @@ asm u32 OV230_CallSealedBody4(void (*caller)(void), void (*target)(void), u32 ar
 }
 
 /* hand-written in the original: position-independent call stub, pops the dispatcher address out of its own parameter block, which follows it */
-asm u32 OV230_CallSealedBody5(void (*caller)(void), void (*target)(void), u32 arg)
+asm u32 OV230_CallSealedBody5(void (*hook)(void), void (*hookArg)(void), u32 unused)
 {
     orr     ip, pc, pc
     ands    ip, ip, ip

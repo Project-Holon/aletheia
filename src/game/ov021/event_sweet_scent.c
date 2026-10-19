@@ -77,54 +77,65 @@ typedef struct BgPoint {
 } BgPoint;
 
 extern void *GAME_EVENT_Create(void *owner, void *a, void *b, u32 size);
+struct GameEvent;
 
-extern void *GAME_EVENT_GetWork(void *task);
+extern void *GAME_EVENT_GetWork(struct GameEvent *event);
 
 extern void MI_CpuFill8(void *p, int v, int n);
+struct FieldMap;
+struct FieldPlayer;
 
-extern void *FIELDMAP_GetFieldPlayer(void *fieldMap);
+extern struct FieldPlayer *FIELDMAP_GetFieldPlayer(struct FieldMap *fieldMap);
+struct GameSystem;
+struct GameData;
 
-extern void *GAMESYSTEM_GetGameData(void *gameSys);
+extern struct GameData *GAMESYSTEM_GetGameData(struct GameSystem *gameSystem);
 
-extern void FIELD_PLAYER_StartFormChange(void *player, u32 mask);
+extern void FIELD_PLAYER_StartFormChange(struct FieldPlayer *player, u32 mask);
 
-extern int FIELD_PLAYER_StepFormChange(void *player);
+extern int FIELD_PLAYER_StepFormChange(struct FieldPlayer *player);
+struct Mmdl;
 
-extern void *FIELD_PLAYER_GetMmdl(void *player);
+extern struct Mmdl *FIELD_PLAYER_GetMmdl(struct FieldPlayer *player);
 
-extern void FLDMMDL_SetAcmd(void *mmdl, u16 code);
+extern void FLDMMDL_SetAcmd(struct Mmdl *mmdl, u16 code);
 
-extern int FLDMMDL_EndAcmd(void *mmdl);
+extern int FLDMMDL_EndAcmd(struct Mmdl *mmdl);
+struct Fld3dCi;
 
-extern void *FIELDMAP_GetFld3dCi(void *fieldMap);
+extern struct Fld3dCi *FIELDMAP_GetFld3dCi(struct FieldMap *fieldMap);
 
-extern void *FLD3D_CI_StartPartyMemberSequence(void *gameSys, void *a, int partyIdx);
+extern void *FLD3D_CI_StartPartyMemberSequence(void *gameSystem, struct Fld3dCi *ci, s32 partyPos);
 
-extern void GAME_EVENT_CallEvent(void *task, void *sub);
+extern void GAME_EVENT_CallEvent(struct GameEvent *parent, struct GameEvent *child);
+struct FieldEncount;
 
-extern void *FIELDMAP_GetEncount(void *fieldMap);
+extern struct FieldEncount *FIELDMAP_GetEncount(struct FieldMap *fieldMap);
 
-extern void *FIELD_ENCOUNT_CheckWildEncount(void *a, int mode);
+extern s32 FIELD_ENCOUNT_CheckWildEncount(struct FieldEncount *encount, s32 triggerMode);
 
-extern int SCRIPT_SYS_CallScriptEvent(void *task, u16 b, int c, int d, u16 e);
+extern void *SCRIPT_SYS_CallScriptEvent(void *parentEvent, u16 scriptId, void *target, void *parentWork, u16 reserved);
+struct MmdlSys;
 
-extern void *FIELDMAP_GetMmdlSys(void *fieldMap);
+extern struct MmdlSys *FIELDMAP_GetMmdlSys(struct FieldMap *fieldMap);
 
-extern u32 *FLDMMDL_SysResumeMove(void *c);
+extern void FLDMMDL_SysResumeMove(struct MmdlSys *sys);
+struct WeatherSys;
 
-extern void *FIELDMAP_GetWeather(void *fieldMap);
+extern struct WeatherSys *FIELDMAP_GetWeather(struct FieldMap *fieldMap);
 
-extern u16 WEATHER_GetWeatherId(void *weatherTask);
+extern u16 WEATHER_GetWeatherId(struct WeatherSys *sys);
+struct FldVReq;
 
-extern void *FIELDMAP_GetVReq(void *fieldMap);
+extern struct FldVReq *FIELDMAP_GetVReq(struct FieldMap *fieldMap);
 
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 
-extern void FLD_VREQ_SetMainBlendAlphaEv(void *a, int b, int c);
+extern void FLD_VREQ_SetMainBlendAlphaEv(struct FldVReq *vreq, s32 ev1, s32 ev2);
 
-extern void FLD_VREQ_SetMainBlendAlpha(void *p, u32 a, u32 b, u32 c, u32 d);
+extern void FLD_VREQ_SetMainBlendAlpha(struct FldVReq *vreq, u32 plane1, u32 plane2, u32 ev1, u32 ev2);
 
-extern void FLD_VREQ_SetBgVisible(void *p, int i, u8 v);
+extern void FLD_VREQ_SetBgVisible(struct FldVReq *vreq, s32 frame, u8 visible);
 
 extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
 
@@ -132,7 +143,7 @@ extern void BG_SYS_LoadPltt(u32 r7, void *r6, u32 r5, u32 r4);
 
 extern void BG_SYS_Init(u32 layer, u32 value, u32 count, u32 index);
 
-extern void BG_SYS_SetTileEntry(int, int, int, int, int, int, int);
+extern void BG_SYS_SetTileEntry(u32 layer, u16 value, u8 x0, u8 y0, u8 w, u8 h, u8 mode);
 
 extern void BG_SYS_PushTile(u32 index);
 
@@ -217,7 +228,7 @@ int SWEET_SCENT_EventMain(void *task, int *state, SweetScentWork *w)
         *state = 6;
         break;
     case 6:
-        sub = FIELD_ENCOUNT_CheckWildEncount(FIELDMAP_GetEncount(w->fieldMap), 2);
+        sub = (void *)FIELD_ENCOUNT_CheckWildEncount(FIELDMAP_GetEncount(w->fieldMap), 2);
         if (sub == 0) {
             *state = 7;
             break;

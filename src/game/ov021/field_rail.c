@@ -218,7 +218,7 @@
 
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *file, u16 line);
 extern u32 GFL_HEAP_Free(void *mem);
-extern s32 GF_STANDARD_CompareBytes(const void *a, const void *b, u32 size);
+extern s32 GF_STANDARD_CompareBytes(u8 *a, u8 *b, u32 n);
 extern void MI_CpuFill8(void *dst, u32 value, u32 size);
 extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
 extern void VEC_Subtract(const VecFx32 *a, const VecFx32 *b, VecFx32 *ab);
@@ -334,7 +334,7 @@ extern const u8 gRailStepSizes[];
 
 extern void BUTTON_MAN_ScaleVec(const VecFx32 *v, int scale, VecFx32 *dst);
 extern void VEC_MultAdd(int scale, VecFx32 *a, VecFx32 *b, VecFx32 *c);
-extern int FX_Atan2Idx(int a, int b);
+extern u16 FX_Atan2Idx(int a, int b);
 extern int VEC_Fx16Mag(s16 *v);
 extern fx32 VEC_Mag(const VecFx32 *v);
 extern fx32 FX_Div(fx32 numer, fx32 denom);
@@ -629,7 +629,7 @@ int FIELD_RAIL_StepLocation(RailManager *manager, RailLocation *location, u16 ke
     FIELD_RAIL_WORK_StartStep(manager->probeWork, 4, key);
     FIELD_RAIL_WORK_UpdateStep(manager->probeWork);
     FIELD_RAIL_WORK_GetPos(manager->probeWork, outPos);
-    if (GF_STANDARD_CompareBytes(location, &manager->probeWork->location, 8) == 0)
+    if (GF_STANDARD_CompareBytes((u8 *)location, (u8 *)(&manager->probeWork->location), 8) == 0)
         return 0;
     return FIELD_RAIL_WORK_IsLocationValid(manager->probeWork, &manager->probeWork->location);
 }
@@ -641,7 +641,7 @@ int FIELD_RAIL_TryStepLocation(RailManager *manager, const RailLocation *locatio
     FIELD_RAIL_WORK_StartStep(manager->probeWork, 4, key);
     FIELD_RAIL_WORK_UpdateStep(manager->probeWork);
     FIELD_RAIL_WORK_GetLocation(manager->probeWork, outLocation);
-    if (GF_STANDARD_CompareBytes(&startLocation, outLocation, 8) == 0)
+    if (GF_STANDARD_CompareBytes((u8 *)(&startLocation), (u8 *)outLocation, 8) == 0)
         return 0;
     return FIELD_RAIL_WORK_IsLocationValid(manager->probeWork, outLocation);
 }
@@ -1855,7 +1855,7 @@ int FIELD_RAIL_ProbeStep(RailManager *manager, RailLocation *location, u32 key, 
             FIELD_RAIL_WORK_GetPos(manager->probeWork, outPos);
         FIELD_RAIL_WORK_UpdateStep(manager->probeWork);
     }
-    if (GF_STANDARD_CompareBytes(location, &manager->probeWork->location, 8) == 0)
+    if (GF_STANDARD_CompareBytes((u8 *)location, (u8 *)(&manager->probeWork->location), 8) == 0)
         return 0;
     return FIELD_RAIL_WORK_IsLocationValid(manager->probeWork, &manager->probeWork->location);
 }
@@ -2430,7 +2430,7 @@ int FIELD_RAIL_LINEFUNC_Straight(int lineIndex, RailManager *manager, const VecF
         outLocation->lineGrid = FIELD_RAIL_RoundToGrid(diff);
         FIELD_RAIL_ClampLocation(manager, outLocation, &checkLocation);
         FIELD_RAIL_GetLocationPos(manager, &checkLocation, outPos);
-        if (GF_STANDARD_CompareBytes(outLocation, &checkLocation, 8) == 0) {
+        if (GF_STANDARD_CompareBytes((u8 *)outLocation, (u8 *)(&checkLocation), 8) == 0) {
             return 1;
         }
         return 0;
@@ -2533,7 +2533,7 @@ int FIELD_RAIL_LINEFUNC_Arc(int lineIndex, RailManager *manager, const VecFx32 *
                 }
                 FIELD_RAIL_ClampLocation(manager, outLocation, &checkLocation);
                 FIELD_RAIL_GetLocationPos(manager, outLocation, outPos);
-                if (GF_STANDARD_CompareBytes(outLocation, &checkLocation, 8) == 0) {
+                if (GF_STANDARD_CompareBytes((u8 *)outLocation, (u8 *)(&checkLocation), 8) == 0) {
                     return 1;
                 }
                 return 0;

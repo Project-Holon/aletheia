@@ -184,9 +184,9 @@ typedef struct NCFGApInfo {
 extern void *DWCi_AC_GetMemPtr(u32 name);
 extern void MIi_CpuClear32(u32 data, void *destp, u32 size);
 extern void *DWCi_AC_Alloc(u32 name, s32 size);
-extern BOOL DWCi_BM_GetApInfo(NCFGSlotInfo *buf);
+extern BOOL DWCi_BM_GetApInfo(void *buf);
 extern BOOL OS_IsRunOnTwl(void);
-extern BOOL DWCi_BM_GetApInfoEx(NCFGSlotInfoEx *buf);
+extern BOOL DWCi_BM_GetApInfoEx(void *buf);
 extern s32 WCM_InitEx(void *buf, s32 len, u8 deviceId);
 extern s32 WCM_Init(void *buf, s32 len);
 extern void DWCi_AC_FreeAll(void);
@@ -216,7 +216,7 @@ extern u8 *WCM_GetApEssid(u16 *length);
 extern void DC_InvalidateRange(void *startAddr, u32 nBytes);
 extern BOOL DWCi_AC_GetPostalCode(char *ssid, u8 *pos);
 extern void DWCi_AC_Free(u32 name, void *ptr, s32 size);
-extern int strncmp(const char *s1, const char *s2, u32 n);
+extern int strncmp(u8 *s1, u8 *s2, u32 n);
 extern BOOL OS_IsAgreeEULA(void);
 extern u8 OS_GetAgreedEULAVersion(void);
 extern u8 OS_GetROMHeaderEULAVersion(void);
@@ -841,7 +841,7 @@ BOOL CheckDuplicate(void)
     num = wk->findListNum;
     for (i = 0; i < num; i++) {
         if (i != connectNo && wk->findList[i].b1 < 0x12 &&
-            strncmp((char *)ssid1, (char *)wk->bssDesc[i].bssid, wk->bssDesc[i].ssidLength) == 0) {
+            strncmp((u8 *)ssid1, (u8 *)wk->bssDesc[i].bssid, wk->bssDesc[i].ssidLength) == 0) {
             return 2;
         }
     }

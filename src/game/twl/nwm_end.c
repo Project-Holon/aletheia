@@ -17,6 +17,8 @@
  *   OS_DisableInterrupts  0x02087988  arm  arm9
  *   OS_RestoreInterrupts  0x0208799C  arm  arm9
  *   PXI_SetFifoRecvCallback  0x020885A0  arm  arm9
+ *   DAT_027341a0                 0x027341A0  data
+ *   DAT_027341a4                 0x027341A4  data
  */
 typedef unsigned char u8;
 typedef unsigned short u16;

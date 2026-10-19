@@ -73,30 +73,34 @@ struct G3dSys;
 struct Rec;
 struct Tagged;
 extern struct Desc *GAME_EVENT_Create(void *owner, void *a, void *b, u32 size);
-extern void SCREENTEX_SetupCamera(void *object);
+extern void SCREENTEX_SetupCamera(void *dst);
 extern struct GameSystem *GAME_EVENT_GetGameSystem(struct GameEvent *event);
 extern void FADE_Start(u32 planes, s32 startLevel, s32 endLevel, s32 wait);
 extern int FADE_IsActive(void);
 extern u16 GX_GetBankForTex(void);
-extern void GX_SetBankForTex(u32 bank);
-extern void *G3D_SYSTEM_CreateResourceArc(u32 archiveId, u32 memberIndex);
+extern void GX_SetBankForTex(s32 tex);
+struct G3dResource;
+extern struct G3dResource *G3D_SYSTEM_CreateResourceArc(u32 archiveId, u32 memberIndex);
 extern u16 FIELDMAP_GetHeapId(struct FieldMap *fieldMap);
 extern void *SCREENTEX_Create(u32 heapId, u32 sel);
-extern void *G3D_SYSTEM_CreateRender(void *modelResource, u32 modelIndex, void *screenTex);
-extern struct G3dRec *G3D_SYSTEM_CreateAnime(struct G3dOwner *render, const struct G3dOwner *animeResource, int index);
-extern void *G3D_SYSTEM_CreateObject(void *render, void **animes, int count);
-extern u32 G3D_SYSTEM_EnableObjectAnime(struct G3dSys *object, u32 index);
+struct G3dRender;
+extern struct G3dRender *G3D_SYSTEM_CreateRender(struct G3dResource *mdlRes, u32 mdlIdx, struct G3dResource *texRes);
+struct G3dAnime;
+extern struct G3dAnime *G3D_SYSTEM_CreateAnime(struct G3dRender *render, struct G3dResource *anmRes, u32 anmIdx);
+struct G3dObject;
+extern struct G3dObject *G3D_SYSTEM_CreateObject(struct G3dRender *render, struct G3dAnime **anmTbl, s32 anmCount);
+extern s32 G3D_SYSTEM_EnableObjectAnime(struct G3dObject *obj, u32 anmIdx);
 extern void SCREENTEX_CaptureDisplay(u32 captureIndex, u32 copyIndex);
-extern u32 FIELDMAP_GetDrawMode(struct FieldMap *fieldMap);
-extern void FIELDMAP_SetDrawMode(struct FieldMap *fieldMap, u32 mode);
-extern int G3D_SYSTEM_GetObjectAnimeFrameMax(int *object, int index, int *frameMax);
+extern s32 FIELDMAP_GetDrawMode(struct FieldMap *fieldMap);
+extern void FIELDMAP_SetDrawMode(struct FieldMap *fieldMap, s32 drawMode);
+extern int G3D_SYSTEM_GetObjectAnimeFrameMax(struct G3dObject *obj, s32 anmIdx, s32 *frameMax);
 extern void GFL_USE_PlaySeDefaultVolume(u32 id);
-extern u32 G3D_SYSTEM_GetObjectAnimeFrame(struct AnmCtl *object, u32 index, s32 *frame);
-extern int G3D_SYSTEM_IncObjectAnimeFrame(void *object, int index, int amount);
-extern void G3D_SYSTEM_DeleteObject(struct Rec *object);
-extern void G3D_SYSTEM_DeleteAnime(struct Rec *anime);
-extern void G3D_SYSTEM_DeleteRender(struct Rec *render);
-extern void G3D_SYSTEM_DeleteResource(struct Tagged *resource);
+extern s32 G3D_SYSTEM_GetObjectAnimeFrame(struct G3dObject *obj, u32 anmIdx, s32 *frame);
+extern int G3D_SYSTEM_IncObjectAnimeFrame(struct G3dObject *obj, s32 anmIdx, s32 step);
+extern void G3D_SYSTEM_DeleteObject(struct G3dObject *obj);
+extern void G3D_SYSTEM_DeleteAnime(struct G3dAnime *anime);
+extern void G3D_SYSTEM_DeleteRender(struct G3dRender *render);
+extern void G3D_SYSTEM_DeleteResource(struct G3dResource *res);
 void *ENCEFF_BuildModelSceneKind00(void *gameSystem, struct FieldMap *fieldMap, int useSubScreen);
 void *ENCEFF_BuildModelSceneKind01(void *gameSystem, struct FieldMap *fieldMap, int useSubScreen);
 void *ENCEFF_BuildModelSceneKind05(void *gameSystem, struct FieldMap *fieldMap, int useSubScreen);
@@ -155,7 +159,7 @@ void *ENCEFF_StartModelScene(void *gameSystem, struct FieldMap *fieldMap, u32 mo
 }
 
 
-void ENCEFF_UpdateModelScene(struct EncEffWork *eff) { SCREENTEX_SetupCamera(ENCEFF_GetWork(eff)->object); }
+void ENCEFF_UpdateModelScene(struct EncEffWork *eff) { SCREENTEX_SetupCamera((ENCEFF_GetWork(eff)->object)); }
 
 
 int ENCEFF_ModelSceneEventMain(struct GameEvent *event, int *state)
@@ -200,7 +204,7 @@ int ENCEFF_ModelSceneEventMain(struct GameEvent *event, int *state)
         scene->screenTex = SCREENTEX_Create(FIELDMAP_GetHeapId(scene->fieldMap), 3);
         scene->renderObj = G3D_SYSTEM_CreateRender(scene->modelResource, 0, scene->screenTex);
         scene->animeObj = G3D_SYSTEM_CreateAnime(scene->renderObj, scene->animeResource, 0);
-        scene->object = G3D_SYSTEM_CreateObject(scene->renderObj, &scene->animeObj, 1);
+        scene->object = G3D_SYSTEM_CreateObject(scene->renderObj, (struct G3dAnime **)(&scene->animeObj), 1);
         G3D_SYSTEM_EnableObjectAnime(scene->object, 0);
         SCREENTEX_CaptureDisplay(3, 3);
         scene->savedDrawMode = FIELDMAP_GetDrawMode(scene->fieldMap);

@@ -142,7 +142,7 @@ typedef struct SoundEntryRecord {
 
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
-extern void *PLAYER_VOLUME_FADER_Create(void *a, int v);
+extern struct Fader *PLAYER_VOLUME_FADER_Create(void *a, int v);
 
 extern Ringtone *RINGTONE_SYS_Create(u32 heapId, struct Fader *volumeFader);
 
@@ -152,7 +152,7 @@ extern void GFL_USE_CancelChangeAndStopBgm(void);
 
 extern void RINGTONE_SYS_Delete(Ringtone *p);
 
-extern void PLAYER_VOLUME_FADER_Delete(struct Fader *p);
+extern void PLAYER_VOLUME_FADER_Delete(void *ptr);
 
 extern u32 GFL_HEAP_Free(void *p);
 
@@ -180,11 +180,11 @@ extern void GFL_USE_SetSeSlotVolume(int i, u32 level);
 
 extern void GFL_USE_StopSeSlot(int i);
 
-extern SoundEventRecord *NNS_SndArcGetSeqInfo(int index);
+extern void *NNS_SndArcGetSeqInfo(int index);
 
 extern u32 NNS_SndArcGetFileAddress(u32 idx);
 
-extern SoundGroupRecord *NNS_SndArcGetBankInfo(int index);
+extern void *NNS_SndArcGetBankInfo(int index);
 
 extern SoundEntryRecord *NNS_SndArcGetWaveArcInfo(u32 id);
 
@@ -1203,14 +1203,15 @@ extern void ISS_3DS_SYS_SetVolume(struct Iss3dsSys *iss3ds, u32 volume);
 extern u32 ZONEDATA_GetBgmId(u32 zoneId, u32 season);
 
 extern void *GAME_DATA_GetEventWork(const struct GameData *gameData);
+struct EventWork;
 
-extern u32 ZONEDATA_CheckEventFlag(void *eventFlags, s32 flagId);
+extern u32 ZONEDATA_CheckEventFlag(struct EventWork *ev, s32 flagId);
 
 extern u32 ZONEDATA_IsRideBgmEnabled(u32 zoneId);
 
 extern struct PlayerWork *GAME_DATA_GetMyPlayerWork(struct GameData *gameData);
 
-extern int GAME_DATA_GetPlayerObjectCode(const struct PlayerWork *player);
+extern u32 GAME_DATA_GetPlayerObjectCode(const struct PlayerWork *player);
 
 extern const TrainerClassBgm sTrainerClassBgmTable[];
 

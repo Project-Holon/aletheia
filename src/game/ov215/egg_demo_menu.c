@@ -87,52 +87,58 @@ typedef unsigned char u8;
 typedef signed int     s32;
 
 extern int GFL_USE_PopBgm(void);
-extern void GFL_USE_SetBgmPaused(void *p);
+extern void GFL_USE_SetBgmPaused(unsigned int value);
 extern void GFL_USE_FadeInBgmFull(u32 a);
 extern void ARC_UTIL_UploadPaletteFromArchiveWhole(u32,u32,u32,u32,u32,u16);
-extern u32 BMP_WIN_Create(u32,u32,u32,u32,u8,u8,u8);
-extern void *BMP_WIN_GetBmp(struct Descriptor *);
-extern void BMP_Clear(struct CharBuf *buf, u8 value);
-extern void BMP_WIN_TransferChars(struct Descriptor *);
-extern void *BMP_MENUWORK_LoadFrameGfx(void *layer, u32 palSlot, u32 frameId, u32 heapId);
+struct BmpWin;
+extern struct BmpWin *BMP_WIN_Create(unsigned int bgLayer, unsigned int posX, unsigned int posY, unsigned char width, unsigned char height, unsigned char palette, unsigned char allocDir);
+struct Bmp;
+extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *win);
+extern void BMP_Clear(struct Bmp *bmp, unsigned char value);
+extern void BMP_WIN_TransferChars(struct BmpWin *win);
+extern void *BMP_MENUWORK_LoadFrameGfx(unsigned int layer, unsigned int palSlot, unsigned int frameId, unsigned short heapId);
 extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern struct Tcbl *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
+struct TcblSystem;
+extern struct TcblSystem *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
 extern void GF_FONT_SetTextColor(u32,u32,u32);
 extern void BG_SYS_MarkTileDirty(u32);
 extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
-extern void PRINTSYS_PrintStreamDelete(struct Rec3 *p);
+struct TextPrinter;
+extern void PRINTSYS_PrintStreamDelete(struct TextPrinter *printer);
 extern void STRBUF_Delete(struct U16Vec *vec);
-extern void TCBL_Destroy(struct S02031140 *p);
-extern u32 MSGDATA_Delete(struct Rec *rec);
+extern void TCBL_Destroy(struct TcblSystem *tcbl);
+extern u32 MSGDATA_Delete(struct MsgBank *bank);
 extern void BG_SYS_FreeTileRun(u32 layer, u32 offset, u32 size);
-extern u32 BMP_WIN_Delete(struct Descriptor *d);
-extern void TCBL_Main(struct Tcbl *p);
-extern void BMP_MENUWORK_DrawWindow(void *win, int commitMode, int tileBase, int palette);
-extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
-extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
+extern u32 BMP_WIN_Delete(struct BmpWin *win);
+extern void TCBL_Main(struct TcblSystem *tcbl);
+extern void BMP_MENUWORK_DrawWindow(struct BmpWin *win, int commitMode, unsigned short tileBase, unsigned int palette);
+extern void BMP_WIN_MakeScreen(struct BmpWin *win);
+extern u8 BMP_WIN_GetBgLayer(struct BmpWin *win);
 extern void BG_SYS_PushTile(u32 index);
-extern void *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
-extern struct WordSet *WORDSET_CreateDefault(u32 heap);
+struct Strbuf;
+extern struct Strbuf *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
+extern struct WordSet *WORDSET_CreateDefault(unsigned short heapId);
 extern void WORDSET_SetSlotMonSpeciesName(struct WordSet *p, u32 i, void *mon);
-extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
-extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
+extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
+extern void WORDSET_CopyTaggedText(struct WordSet *words, struct Strbuf *dst, struct Strbuf *src);
 extern u32 WORDSET_Delete(struct WordSet *p);
 extern signed char MSG_SPEED_GetWait(void);
 extern void *PRINTSYS_PrintStream(void *,unsigned,unsigned,void *,unsigned,unsigned,void *,unsigned,u16,u16);
-extern unsigned PRINTSYS_PrintStreamGetState(void *);
+extern unsigned PRINTSYS_PrintStreamGetState(struct TextPrinter *printer);
 extern unsigned int KEY_GetCont(void);
 extern int TOUCHPANEL_GetCont(void);
-extern void PRINTSYS_PrintStreamShortWait(struct Rec *p, s32 v);
+extern void PRINTSYS_PrintStreamShortWait(struct TextPrinter *printer, int wait);
 extern u32 KEY_GetTrg(void);
 extern int TOUCHPANEL_GetTrg(void);
-extern void PRINTSYS_PrintStreamReleasePause(void *);
+extern void PRINTSYS_PrintStreamReleasePause(struct TextPrinter *printer);
 extern u32 BG_SYS_CreateRun(u32 layer, u32 size, u32 top);
 extern unsigned BMP_MENU_ProcessYesNo(u8 *);
 extern struct BmpMenu *BMP_MENU_CreateYesNo(const struct WinDat *,unsigned short,unsigned char,unsigned char,unsigned short);
 extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
 extern void G3X_SetFog(int,int,int,int);
 extern void G3X_SetClearColor(u16,int,int,int,int);
-extern void G3D_SYSTEM_SetLight(u32 idx, const u16 *src);
+struct G3dLight;
+extern void G3D_SYSTEM_SetLight(unsigned int lightIdx, struct G3dLight *light);
 extern void G3D_SYSTEM_SetSwapBuffersMode(unsigned,unsigned);
 void EGG_DEMO_MENU_FadeInBgm(void);
 void EGG_DEMO_MENU_Create(int unused,char *p);
@@ -144,8 +150,8 @@ int EGG_DEMO_MENU_WaitText(void *unused,char *p);
 void EGG_DEMO_MENU_InitDialog(int unused, unsigned char *q);
 void EGG_DEMO_MENU_Noop(int args, char *work);
 void EGG_DEMO_MENU_ProcessDialog(void *unused, char *p);
-int EGG_DEMO_MENU_CreateDialog(int a,char *p);
-int EGG_DEMO_MENU_GetDialogResult(int a,char *p);
+int EGG_DEMO_MENU_CreateDialog(u32 *a, char *p);
+int EGG_DEMO_MENU_GetDialogResult(u32 *a, char *p);
 void EGG_DEMO_MENU_InitGraphics(void);
 extern const u16 d_021F71A4[];
 
@@ -161,12 +167,12 @@ void EGG_DEMO_MENU_Create(int unused,char *work)
 {
     ARC_UTIL_UploadPaletteFromArchiveWhole(23,5,0,32,32,((struct EggDemoWork *)work)->heapId);
     ((struct EggDemoWork *)work)->windowSub=(void *)BMP_WIN_Create(1,0,0,1,1,1,0);
-    BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)((struct EggDemoWork *)work)->windowSub)),0);
-    BMP_WIN_TransferChars((struct Descriptor *)((struct EggDemoWork *)work)->windowSub);
+    BMP_Clear((struct Bmp *)((u32)BMP_WIN_GetBmp((struct BmpWin *)((struct EggDemoWork *)work)->windowSub)),0);
+    BMP_WIN_TransferChars((struct BmpWin *)((struct EggDemoWork *)work)->windowSub);
     ((struct EggDemoWork *)work)->window=(void *)BMP_WIN_Create(1,1,19,30,4,1,0);
-    BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)((struct EggDemoWork *)work)->window)),15);
-    BMP_WIN_TransferChars((struct Descriptor *)((struct EggDemoWork *)work)->window);
-    ((struct EggDemoWork *)work)->frameGfx=(u32)BMP_MENUWORK_LoadFrameGfx((void *)1,2,0,((struct EggDemoWork *)work)->heapId);
+    BMP_Clear((struct Bmp *)((u32)BMP_WIN_GetBmp((struct BmpWin *)((struct EggDemoWork *)work)->window)),15);
+    BMP_WIN_TransferChars((struct BmpWin *)((struct EggDemoWork *)work)->window);
+    ((struct EggDemoWork *)work)->frameGfx=(u32)BMP_MENUWORK_LoadFrameGfx((unsigned int)1,2,0,((struct EggDemoWork *)work)->heapId);
     ((struct EggDemoWork *)work)->msgBank=MSGDATA_CreateFromArchive(0,3,260,((struct EggDemoWork *)work)->heapId);
     ((struct EggDemoWork *)work)->tcbl=TCBL_Create(((struct EggDemoWork *)work)->heapId,((struct EggDemoWork *)work)->heapId,1,0);
     GF_FONT_SetTextColor(1,2,15);
@@ -280,12 +286,12 @@ void EGG_DEMO_MENU_ProcessDialog(void *unused, char *work)
     }
 }
 
-int EGG_DEMO_MENU_CreateDialog(int unused,char *work){*(struct BmpMenu * *)&((struct EggDemoWork *)work)->bmpMenu=BMP_MENU_CreateYesNo((const struct WinDat *)(work+0x70),((struct EggDemoWork *)work)->frameGfx,2,0,((struct EggDemoWork *)work)->heapId);((struct EggDemoWork *)work)->dialogResult=2;((struct EggDemoWork *)work)->dialogState=1;return 1;}
+int EGG_DEMO_MENU_CreateDialog(u32 *unused, char *work){*(struct BmpMenu * *)&((struct EggDemoWork *)work)->bmpMenu=BMP_MENU_CreateYesNo((const struct WinDat *)(work+0x70),((struct EggDemoWork *)work)->frameGfx,2,0,((struct EggDemoWork *)work)->heapId);((struct EggDemoWork *)work)->dialogResult=2;((struct EggDemoWork *)work)->dialogState=1;return 1;}
 
 /*
  * extent: includes cleared tiny follower EGG_DEMO_MENU_GetDialogResult; no further code included.
  */
-int EGG_DEMO_MENU_GetDialogResult(int unused,char *work){return ((struct EggDemoWork *)work)->dialogResult;}
+int EGG_DEMO_MENU_GetDialogResult(u32 *unused, char *work){return ((struct EggDemoWork *)work)->dialogResult;}
 
 static inline void SetPriority(int priority)
 {
@@ -308,6 +314,6 @@ void EGG_DEMO_MENU_InitGraphics(void)
     G3X_SetFog(0,0,0,0);
     G3X_SetClearColor(0,0,0x7FFF,63,0);
     *(volatile unsigned *)0x04000580=0xBFFF0000;
-    for(i=0;i<4;i++) G3D_SYSTEM_SetLight((u8)i,d_021F71A4+i*4);
+    for(i=0;i<4;i++) G3D_SYSTEM_SetLight((u8)i,(struct G3dLight *)(d_021F71A4+i*4));
     G3D_SYSTEM_SetSwapBuffersMode(0,0);
 }

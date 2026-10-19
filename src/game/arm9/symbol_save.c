@@ -70,19 +70,20 @@ extern void  MI_CpuFill8(void *dest, u8 value, u32 size);
 
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
-extern u32 GF_STANDARD_Checksum(const void *p, u32 len);
+extern u32 GF_STANDARD_Checksum(u8 *p, u32 len);
 
-extern void GF_STANDARD_XorCrypt(void *p, u32 size, u32 seed);
+extern void GF_STANDARD_XorCrypt(u16 *p, u32 size, u32 seed);
 
 extern void GF_STANDARD_XorCryptEx(void *p, unsigned int size, unsigned int seed);
+struct SaveControl;
 
-extern void *SAVE_CONTROL_GetBlock(struct SaveBlockTable *ctrl, u32 id);
+extern void *SAVE_CONTROL_GetBlock(struct SaveControl *saveControl, u32 blockId);
 
 extern u32 GFL_HEAP_Free(void *p);
 
 extern u32   SAVE_CONTROL_ReadRecordFromFlash(void *a, u32 b, u32 c, void *d, u32 e);
 
-extern int   GF_STANDARD_CompareBytes(const void *a, const void *b, u32 n);
+extern int   GF_STANDARD_CompareBytes(u8 *a, u8 *b, u32 n);
 
 extern u8 QUESTIONNAIRE_GetAnswerBitOffset(u32 id);
 
@@ -160,8 +161,8 @@ void SYMBOL_SAVE_UpdateChecksum(struct SymbolSave *save)
     if (save->seed == 0) {
         save->seed = 1;
     }
-    save->checksum = GF_STANDARD_Checksum(save, 0x84c);
-    GF_STANDARD_XorCrypt(save, 0x84c,
+    save->checksum = GF_STANDARD_Checksum((u8 *)save, 0x84c);
+    GF_STANDARD_XorCrypt((u16 *)save, 0x84c,
                   save->checksum +
                   (save->seed << 16));
 }
@@ -440,7 +441,7 @@ u32 SYMBOL_SAVE_FindRecord(void *saveData, u32 *keyWord, void *heapId, u32 match
                     found = 1;
                     break;
                 } else {
-                    if (GF_STANDARD_CompareBytes(&save->records[recordIndex], keyWord, 4) != 0) continue;
+                    if (GF_STANDARD_CompareBytes((u8 *)(&save->records[recordIndex]), (u8 *)keyWord, 4) != 0) continue;
                     found = 1;
                     break;
                 }

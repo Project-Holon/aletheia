@@ -51,16 +51,21 @@ extern void *GFL_HEAP_Alloc(u32, u32, int, const char *, u16);
 extern void *ARC_UTIL_LoadHandleMemberWithSize(void *, int, int, u32, u32 *);
 
 extern u32 GFL_HEAP_Free(void *p);
+struct GameData;
+struct SaveControl;
 
-extern void *GAME_DATA_GetSaveControl(struct Big *);
+extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gd);
+struct CgearSaveBlock;
 
-extern struct Sub02009210Obj *BLOCK20_SAVEDATA_GetBlock(void *);
+extern struct CgearSaveBlock *BLOCK20_SAVEDATA_GetBlock(void *);
+struct CGearSave;
 
-extern u8 CGEAR_SAVE_GetObtained(const struct Sub020090B0Obj *);
+extern u8 CGEAR_SAVE_GetObtained(struct CGearSave *save);
 
-extern u32 GAME_DATA_GetEventWork(const struct BigObj *p);
+extern void *GAME_DATA_GetEventWork(struct GameData *gd);
+struct EventWork;
 
-extern unsigned ZONEDATA_CheckEventFlag(void *,int);
+extern unsigned ZONEDATA_CheckEventFlag(struct EventWork *ev, int flagId);
 
 extern void *MET_TRAINERS_GetFromSave(void *p);
 
@@ -96,11 +101,11 @@ u16 MANUAL_COMMON_GetGroupCount(const char *p);
 
 int MANUAL_COMMON_CheckUnlocked(void *unused,int kind,void *save);
 
-int MANUAL_COMMON_GetSaveValue(void *unused, int b, int c);
+int MANUAL_COMMON_GetSaveValue(void *unused, int b, void *c);
 
 void MANUAL_COMMON_SetSaveValue(void *unused,int code,struct Big *save);
 
-int MANUAL_COMMON_IsValidKey(unsigned unused,unsigned key);
+int MANUAL_COMMON_IsValidKey(char *unused, unsigned key);
 
 int MANUAL_COMMON_GetDefaultId(void *unused);
 
@@ -167,7 +172,7 @@ int MANUAL_COMMON_CheckUnlocked(void *unused,int kind,void *save)
     switch(kind) {
     case 0:result=1;break;
     case 1:
-        if(CGEAR_SAVE_GetObtained((const struct Sub020090B0Obj *)BLOCK20_SAVEDATA_GetBlock(GAME_DATA_GetSaveControl((struct Big *)save)))!=0)result=1;
+        if(CGEAR_SAVE_GetObtained((struct CGearSave *)BLOCK20_SAVEDATA_GetBlock(GAME_DATA_GetSaveControl((struct GameData *)save)))!=0)result=1;
         break;
     case 2:
         if(ZONEDATA_CheckEventFlag((void *)GAME_DATA_GetEventWork(save),2400)!=0)result=1;
@@ -176,14 +181,14 @@ int MANUAL_COMMON_CheckUnlocked(void *unused,int kind,void *save)
     return result;
 }
 
-int MANUAL_COMMON_GetSaveValue(void *unused, int id, int save)
+int MANUAL_COMMON_GetSaveValue(void *unused, int id, void *save)
 {
-    return MET_TRAINERS_TestBit(MET_TRAINERS_GetFromSave(GAME_DATA_GetSaveControl((struct Big *)save)), id);
+    return MET_TRAINERS_TestBit(MET_TRAINERS_GetFromSave(GAME_DATA_GetSaveControl((struct GameData *)save)), id);
 }
 
-void MANUAL_COMMON_SetSaveValue(void *unused,int value,struct Big *save) {MET_TRAINERS_SetBit(MET_TRAINERS_GetFromSave(GAME_DATA_GetSaveControl(save)),value);}
+void MANUAL_COMMON_SetSaveValue(void *unused,int value,struct Big *save) {MET_TRAINERS_SetBit(MET_TRAINERS_GetFromSave(GAME_DATA_GetSaveControl((struct GameData *)save)),value);}
 
-int MANUAL_COMMON_IsValidKey(unsigned unused,unsigned key) {if(key!=65535)return 1;return 0;}
+int MANUAL_COMMON_IsValidKey(char *unused, unsigned key) {if(key!=65535)return 1;return 0;}
 
 int MANUAL_COMMON_GetDefaultId(void *unused){return 0x48;}
 

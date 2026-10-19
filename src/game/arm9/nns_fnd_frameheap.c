@@ -27,6 +27,7 @@
  * symbols:
  *   NNSi_FndInitHeapHead  0x020606D0  arm
  *   MIi_CpuClear32  0x02082A7C  arm
+ *   FNDHEAP_Finalize             0x0206074C  arm
  */
 #include "nns_fnd_types.h"
 

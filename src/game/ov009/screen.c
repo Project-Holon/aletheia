@@ -24,7 +24,7 @@
  */
 extern void MIi_CpuCopyFast(void * srcp, void * destp, unsigned long size);
 extern void MIi_CpuClearFast(unsigned long data, void * destp, unsigned long size);
-extern int OS_VSNPrintf(char * dst, unsigned long len, const char * fmt, char * vlist);
+extern int OS_VSNPrintf(char *dst, unsigned int len, char *format, void *vlist);
 extern void PrintChar(char c);
 extern void OS_WaitVBlankIntr(void);
 void ScrollTopScreen(void);

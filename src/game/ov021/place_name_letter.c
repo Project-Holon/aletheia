@@ -34,6 +34,11 @@
  *   BMP_OAM_Delete  0x0202570C  thumb  arm9
  *   BMP_OAM_SetPos  0x0202590C  thumb  arm9
  *   BMP_Create  0x02043678  arm  arm9
+ *   _fadd                        0x0209C95C  arm
+ *   _fdiv                        0x0209CE10  arm
+ *   _fmul                        0x0209C77C  arm
+ *   _fneq                        0x0209BCD0  arm
+ *   _fsub                        0x0209CB8C  arm
  */
 typedef unsigned char u8;
 typedef unsigned short u16;

@@ -147,7 +147,7 @@ typedef struct {
 } DWCCheckNintendoZoneWork;
 
 extern void MI_CpuFill8(void *dstp, unsigned char data, unsigned long size);
-extern void CPS_SetSslHandshakePriority(unsigned short priority);
+extern void CPS_SetSslHandshakePriority(int len);
 extern int OS_IsRunOnTwl(void);
 extern int DWC_AC_Create(DWCACConfig *config);
 extern void DWCi_SetError(int error, int errorCode);
@@ -163,7 +163,8 @@ extern int DWC_AC_Process(void);
 extern long WCM_GetPhase(void);
 extern int DWC_AC_GetStatus(void);
 extern unsigned long CPS_GetSslHandshakePriority(void);
-extern int DWC_AC_StartupGetWDSInfo(void *nspotInfo, unsigned short dmaNo);
+struct tagDWCWDSData;
+extern int DWC_AC_StartupGetWDSInfo(struct tagDWCWDSData *nspotInfo, unsigned short dmaNo);
 extern void DWC_AC_CancelGetWDSInfo(void);
 extern int DWC_AC_Destroy(void);
 extern void OS_Sleep(unsigned long msec);
@@ -176,7 +177,7 @@ extern void DC_InvalidateRange(void *startAddr, unsigned long nBytes);
 extern unsigned long OS_RestoreInterrupts(unsigned long state);
 extern unsigned char *WCM_GetApEssid(unsigned short *length);
 extern int DWC_AC_GetApSpotInfo(unsigned char *apSpotInfo);
-extern int DWC_AC_GetSecuritySetting(void);
+extern unsigned int DWC_AC_GetSecuritySetting(void);
 extern int DWC_AC_CheckWiFiStation(void *ssid, unsigned short len);
 extern int DWCi_AC_GetPostalCode(char *ssid, unsigned char *pos);
 extern void MATHi_CRC16InitTableRev(MATHCRC16Table *table, unsigned short poly);
@@ -436,7 +437,7 @@ int DWC_GetInetStatus(void)
             if (rwin_Temp != 0) {
                 DWC_SetRwinSize(rwin_Temp);
             }
-            DWC_AC_StartupGetWDSInfo(&g_02146AD4.stpInetCntl->nspotInfo, dmaNoTemp);
+            DWC_AC_StartupGetWDSInfo((struct tagDWCWDSData *)(&g_02146AD4.stpInetCntl->nspotInfo), dmaNoTemp);
             g_02146AD4.stpInetCntl->processWDSstate = 1;
             g_02146AD4.stpInetCntl->ac_state = 0;
             return 2;

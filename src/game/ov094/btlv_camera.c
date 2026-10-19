@@ -33,6 +33,10 @@
  *   BTLV_EFFECT_ComputeVectorStep 0x021F918C thumb ov094
  *   BTLV_EFFECT_StepMover  0x021F9260  thumb  ov094
  *   BTLV_EFFECT_StepScalarWithLimit 0x021F9220 thumb ov094
+ *   _fadd                        0x0209C95C  arm
+ *   _ffix                        0x0209C494  arm
+ *   _fflt                        0x0209BDBC  arm
+ *   _fsub                        0x0209CB8C  arm
  */
 #include "btlv_effvm_types.h"
 #include "btlv_camera_shared_types.h"
@@ -46,7 +50,7 @@ extern struct G3dCamera *G3D_CAMERA_Create(int mode, int nearClip, int farClip, 
 
 extern void G3D_CAMERA_Reset(struct G3dCamera *camera);
 
-extern unsigned int G3D_CAMERA_Delete(struct G3dCamera *camera);
+extern unsigned int G3D_CAMERA_Delete(void *camera);
 
 extern void G3D_CAMERA_SetEye(struct G3dCamera *camera, const BtlvVec3 *eye);
 
@@ -58,7 +62,7 @@ extern void G3D_CAMERA_GetEye(struct G3dCamera *camera, BtlvVec3 *out);
 
 extern void G3D_CAMERA_GetCamTarget(struct G3dCamera *camera, BtlvVec3 *out);
 
-extern int FX_Atan2Idx(int, int);
+extern u16 FX_Atan2Idx(int, int);
 
 extern int VEC_Mag(BtlvVec3 *);
 

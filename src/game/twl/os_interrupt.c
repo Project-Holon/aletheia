@@ -14,6 +14,7 @@
  *
  * symbols:
  *   OS_EnableIrqMask  0x02084968  arm  arm9
+ *   data_02150F68                0x02150F68  data
  */
 
 typedef unsigned int u32;

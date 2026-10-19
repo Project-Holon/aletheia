@@ -20,6 +20,9 @@
    "functions": [
     "__fdiv"
    ],
+   "addresses": [
+    "0x0209CE10"
+   ],
    "covers": [
     "0x0209CE10"
    ]

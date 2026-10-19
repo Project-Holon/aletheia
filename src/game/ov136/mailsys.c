@@ -119,10 +119,10 @@ extern void PROCSYS_FreeProcWork(struct Proc *v);
 extern void GFL_HEAP_GetHeapHeadChecked(u16 v);
 extern void GFL_HEAP_DeleteChecked(u32 v);
 extern void PMSI_PARAM_Copy(struct PmsData *dst, const struct PmsData *src);
-extern int PMSI_PARAM_IsEnabled(const struct PmsData *p);
+extern int PMSI_PARAM_IsEnabled(unsigned short *word);
 extern u32 MAIL_GetWriterId(const struct Mail *mail);
 extern struct Strbuf *STRBUF_Create(unsigned, u16);
-extern u8 *MAIL_GetWriterName(struct Mail *mail);
+extern unsigned short *MAIL_GetWriterName(struct Mail *mail);
 extern void STRBUF_SetString(struct Strbuf *o, const u16 *src);
 extern u8 MAIL_GetDesign(const struct Mail *mail);
 extern u8 MAIL_GetLanguage(const struct Mail *mail);
@@ -135,27 +135,33 @@ extern void MAIL_SetMessageId(struct Mail *mail, u16 value);
 extern void PMSI_PARAM_InitSentenceId(struct PmsData *msg, u32 type, u32 id);
 extern signed char MSG_SPEED_GetWait(void);
 extern struct GfFont *GF_FONT_Create(int archiveId, int fileId, int format, int isFixedWidth, u32 heapId);
-extern struct Tcbl *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
+struct TcblSystem;
+extern struct TcblSystem *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
 extern void BG_SYS_Create(u16);
 extern void BG_SYS_Delete(void);
-extern void TCBL_Destroy(struct Tcbl *p);
+extern void TCBL_Destroy(struct TcblSystem *tcbl);
 extern u32 GF_FONT_Delete(struct GfFont *font);
 extern void WIPE_SetBrightnessFadeOut(u32 a, u32 b);
-extern u32 WIPE_ResetWndMask(void *win);
+extern void WIPE_ResetWndMask(void *win);
 extern void *GFL_USE_AddMainTask(void *callback, void *ctx, int priority);
 extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
 extern void WIPE_ResetBrightness(u32 a);
-extern void G2x_SetBlendAlpha_(void *reg, int a, int b, int c, int d);
-extern u32 GFL_USE_GetMainTaskList(void);
+extern void G2x_SetBlendAlpha_(unsigned int *reg, unsigned int a, unsigned int b, unsigned int c, unsigned int d);
+struct TcbList;
+extern struct TcbList *GFL_USE_GetMainTaskList(void);
 extern void PALANM_RequestFade(struct PalAnmSlot *p, int a, int b, int c, int d, int e, int f, u32 g);
 extern u32 PALANM_GetFadeRequestBits(const struct PalAnmSlot *p);
 extern void PMS_DRAW_Main(struct PmsDraw *p);
-extern void APP_TASKMENU_WIN_Update(struct AppTaskMenuWin *p);
-extern void TCB_DeleteTask(void *task);
+struct TaskMenuWin;
+extern void APP_TASKMENU_WIN_Update(struct TaskMenuWin *win);
+struct TcbTask;
+extern void TCB_DeleteTask(struct TcbTask *task);
 extern void CLACT_DrawSystem(struct ClactUnit *p);
-extern void TCB_Main(void *taskList);
-extern void TCBL_Main(struct Tcbl *p);
-extern u32 PRINTSYS_QUE_Main(struct PrintQue *ps);
+struct TcbSystem;
+extern void TCB_Main(struct TcbSystem *sys);
+extern void TCBL_Main(struct TcblSystem *tcbl);
+struct PrintQueue;
+extern u32 PRINTSYS_QUE_Main(struct PrintQueue *queue);
 extern int PMSI_PARAM_IsComplete(const struct PmsData *p, u32 heapId);
 extern void PALANM_BlendChannel(struct PalAnmSlot *p, u32 idx, u32 c, u32 count, u8 weight, u16 color);
 extern int TOUCHPANEL_GetCont(void);
@@ -163,10 +169,11 @@ extern unsigned int KEY_GetCont(void);
 extern u32 KEY_GetTrg(void);
 extern int TOUCHPANEL_GetTrg(void);
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
-extern void APP_TASKMENU_WIN_SetDecide(struct AppTaskMenuWin *p, int v);
-extern void APP_TASKMENU_WIN_SetActive(struct AppTaskMenuWin *obj, u32 a);
+extern void APP_TASKMENU_WIN_SetDecide(struct TaskMenuWin *win, int isDecide);
+extern void APP_TASKMENU_WIN_SetActive(struct TaskMenuWin *win, unsigned int isActive);
 extern int TOUCHPANEL_HitTrg(const void *p);
-extern void BMP_MENUWORK_DrawWindow(struct BmpWin *win, int, int, int);
+struct BmpWin;
+extern void BMP_MENUWORK_DrawWindow(struct BmpWin *win, int commitMode, unsigned short tileBase, unsigned int palette);
 extern void *BMP_WIN_GetBmp(struct BmpWin *p);
 extern void BMP_Clear(void *buf, u8 value);
 extern void MSGDATA_ReadString(struct MsgData *bank, u32 index, struct Strbuf *dest);
@@ -175,20 +182,25 @@ extern void BMP_WIN_TransferChars(struct BmpWin *d);
 extern void BMP_WIN_MakeScreen(struct BmpWin *cfg);
 extern u8 BMP_WIN_GetBgLayer(struct BmpWin *p);
 extern void BG_SYS_PushTile(u32 index);
-extern u32 APP_TASKMENU_WIN_IsFinish(struct AppTaskMenuWin *p);
-extern void APP_TASKMENU_WIN_ResetDecide(struct AppTaskMenuWin *obj);
-extern u32 PRINTSYS_PrintStreamGetState(void *p);
-extern void PRINTSYS_PrintStreamDelete(void *p);
+extern u32 APP_TASKMENU_WIN_IsFinish(struct TaskMenuWin *win);
+extern void APP_TASKMENU_WIN_ResetDecide(struct TaskMenuWin *win);
+struct TextPrinter;
+extern u32 PRINTSYS_PrintStreamGetState(struct TextPrinter *printer);
+extern void PRINTSYS_PrintStreamDelete(struct TextPrinter *printer);
 extern void BMP_MENUWORK_DrawWindowBorder(struct BmpWin *win, u32 kind);
 extern void BMP_WIN_ClearScreen(struct BmpWin *d);
-extern struct Strbuf *MSGDATA_AllocString(struct MsgData *bank, u32 index);
-extern struct AppTaskMenu *APP_TASKMENU_OpenMenu(struct MailMenuTemplate *tmpl, struct AppTaskMenuRes *res);
-extern void APP_TASKMENU_WIN_ClearScreen(struct AppTaskMenuWin *p);
-extern u32 APP_TASKMENU_IsFinish(struct AppTaskMenu *m);
-extern u8 APP_TASKMENU_GetCursorPos(const struct AppTaskMenu *p);
-extern void APP_TASKMENU_CloseMenu(struct AppTaskMenu *m);
-extern void APP_TASKMENU_UpdateMenu(struct AppTaskMenu *p);
-extern void APP_TASKMENU_WIN_TransChar(struct AppTaskMenuWin *p);
+struct MsgBank;
+extern struct Strbuf *MSGDATA_AllocString(struct MsgBank *bank, unsigned int index);
+struct TaskMenuRes;
+struct TaskMenuInitWork;
+struct TaskMenuWork;
+extern struct TaskMenuWork *APP_TASKMENU_OpenMenu(struct TaskMenuInitWork *init, struct TaskMenuRes *res);
+extern void APP_TASKMENU_WIN_ClearScreen(struct TaskMenuWin *win);
+extern u32 APP_TASKMENU_IsFinish(struct TaskMenuWork *menu);
+extern u8 APP_TASKMENU_GetCursorPos(struct TaskMenuWork *menu);
+extern void APP_TASKMENU_CloseMenu(struct TaskMenuWork *menu);
+extern void APP_TASKMENU_UpdateMenu(struct TaskMenuWork *menu);
+extern void APP_TASKMENU_WIN_TransChar(struct TaskMenuWin *win);
 
 int MAILSYS_ProcMain(void *a, void *b, void *c, struct MailEditProc *proc);
 int MAILSYS_ProcExit(void *a, void *b, void *c, struct MailEditProc *proc);
@@ -253,7 +265,7 @@ void MAILSYS_FillDefaultSentences(struct MailEditProc *proc, struct MailDraft *d
 {
     int i;
     for (i = 0; i < 3; i++) {
-        if (PMSI_PARAM_IsEnabled(&draft->message[i]) == 0) {
+        if (PMSI_PARAM_IsEnabled((unsigned short *)(&draft->message[i])) == 0) {
             if (d_021C77A0[draft->design][i] != 0xFF) PMSI_PARAM_InitSentenceId(&draft->message[i], 5, d_021C77A0[draft->design][i]);
         }
         if (d_021C77A0[draft->design][i] == 0xFF) draft->slotEnabled[i] = 0;
@@ -281,7 +293,7 @@ int MAILSYS_ProcInit(void *a, void *b, struct MailDraft *draft)
     proc->textSpeed = MSG_SPEED_GetWait();
     MAILSYS_FillDefaultSentences(proc, proc->draft);
     proc->font = GF_FONT_Create((unsigned)0x17, (unsigned)0, (unsigned)0, (unsigned)0, (u16)(proc->heapId));
-    proc->tcbl = TCBL_Create((u16)(proc->heapId), proc->heapId, 0x20, 0x20);
+    proc->tcbl = (struct Tcbl *)TCBL_Create((u16)(proc->heapId), proc->heapId, 0x20, 0x20);
     proc->inputMode = 1;
     BG_SYS_Create(proc->heapId);
     return 1;
@@ -297,7 +309,7 @@ int MAILSYS_ProcExit(void *a, void *b, void *c, struct MailEditProc *proc)
 {
     u32 h;
     BG_SYS_Delete();
-    TCBL_Destroy(proc->tcbl);
+    TCBL_Destroy((struct TcblSystem *)proc->tcbl);
     GF_FONT_Delete(proc->font);
     h = proc->heapId;
     PROCSYS_FreeProcWork(a);
@@ -326,7 +338,7 @@ int MAILSYS_RunSequence(struct MailEditProc *proc)
             BG_SYS_SetMainPlaneVisible(0x10, 1);
             WIPE_ResetBrightness(0);
             G2x_SetBlendAlpha_((void *)0x04000050, 4, 8, 0x1C, 4);
-            t = GFL_USE_GetMainTaskList();
+            t = (unsigned int)GFL_USE_GetMainTaskList();
             PALANM_RequestFade(proc->palAnm, 5, 0xFFFF, -1, 0x10, 0, 0, t);
             (proc->step)++;
         }
@@ -339,13 +351,13 @@ int MAILSYS_RunSequence(struct MailEditProc *proc)
     case 3:
         if (data_021C7774[proc->mode](proc) == 1) {
             (proc->step)++;
-            t = GFL_USE_GetMainTaskList();
+            t = (unsigned int)GFL_USE_GetMainTaskList();
             PALANM_RequestFade(proc->palAnm, 5, 0xFFFF, -1, 0, 0x10, 0, t);
         }
         PMS_DRAW_Main(proc->pmsDraw);
         if (proc->sendButton) {
-            APP_TASKMENU_WIN_Update(proc->sendButton);
-            APP_TASKMENU_WIN_Update(proc->cancelButton);
+            APP_TASKMENU_WIN_Update((struct TaskMenuWin *)proc->sendButton);
+            APP_TASKMENU_WIN_Update((struct TaskMenuWin *)proc->cancelButton);
         }
         break;
     case 4:
@@ -368,11 +380,11 @@ int MAILSYS_RunSequence(struct MailEditProc *proc)
     if (proc->blinkTaskList)
         TCB_Main(proc->blinkTaskList);
     if (proc->tcbl)
-        TCBL_Main(proc->tcbl);
+        TCBL_Main((struct TcblSystem *)proc->tcbl);
     if (proc->printQue)
-        PRINTSYS_QUE_Main(proc->printQue);
+        PRINTSYS_QUE_Main((struct PrintQueue *)proc->printQue);
     if (proc->pmsPrintQue)
-        PRINTSYS_QUE_Main(proc->pmsPrintQue);
+        PRINTSYS_QUE_Main((struct PrintQueue *)proc->pmsPrintQue);
     return r;
 }
 
@@ -392,7 +404,7 @@ int MAILSYS_IsMessageIncomplete(struct MailEditProc *proc)
         if (d_021C77A0[x->design][i] != 0xFF) {
             if (PMSI_PARAM_IsComplete(&x->message[i], 0x64)) c1++;
         } else {
-            if (PMSI_PARAM_IsEnabled(&x->message[i])) c0++;
+            if (PMSI_PARAM_IsEnabled((unsigned short *)(&x->message[i]))) c0++;
         }
     }
     if (c0 < t || c1 < n) return 1;
@@ -468,7 +480,7 @@ int MAILSYS_HandleKeyInput(struct MailEditProc *proc)
             GFL_USE_PlaySeDefaultVolume(0x54E);
             proc->draft->selectedSlot = 0;
             proc->draft->selectedSub = 0;
-            APP_TASKMENU_WIN_SetDecide(proc->sendButton, 1);
+            APP_TASKMENU_WIN_SetDecide((struct TaskMenuWin *)proc->sendButton, 1);
             return 1;
         }
         if (proc->cursor == 5) {
@@ -505,14 +517,14 @@ int MAILSYS_HandleKeyInput(struct MailEditProc *proc)
     }
     GFL_USE_PlaySeDefaultVolume(0x54C);
     if (proc->cursor < 4) {
-        APP_TASKMENU_WIN_SetActive(proc->sendButton, 0);
-        APP_TASKMENU_WIN_SetActive(proc->cancelButton, 0);
+        APP_TASKMENU_WIN_SetActive((struct TaskMenuWin *)proc->sendButton, 0);
+        APP_TASKMENU_WIN_SetActive((struct TaskMenuWin *)proc->cancelButton, 0);
     } else if (proc->cursor == 4) {
-        APP_TASKMENU_WIN_SetActive(proc->sendButton, 1);
-        APP_TASKMENU_WIN_SetActive(proc->cancelButton, 0);
+        APP_TASKMENU_WIN_SetActive((struct TaskMenuWin *)proc->sendButton, 1);
+        APP_TASKMENU_WIN_SetActive((struct TaskMenuWin *)proc->cancelButton, 0);
     } else if (proc->cursor == 5) {
-        APP_TASKMENU_WIN_SetActive(proc->sendButton, 0);
-        APP_TASKMENU_WIN_SetActive(proc->cancelButton, 1);
+        APP_TASKMENU_WIN_SetActive((struct TaskMenuWin *)proc->sendButton, 0);
+        APP_TASKMENU_WIN_SetActive((struct TaskMenuWin *)proc->cancelButton, 1);
     }
     proc->highlightSlot = proc->cursor;
     return 0;
@@ -544,8 +556,8 @@ int MAILSYS_HandleTouchInput(struct MailEditProc *proc)
     GFL_USE_PlaySeDefaultVolume(0x54E);
     proc->draft->selectedSlot = 0;
     proc->draft->selectedSub = 0;
-    APP_TASKMENU_WIN_SetDecide(proc->sendButton, 1);
-    APP_TASKMENU_WIN_SetActive(proc->cancelButton, 0);
+    APP_TASKMENU_WIN_SetDecide((struct TaskMenuWin *)proc->sendButton, 1);
+    APP_TASKMENU_WIN_SetActive((struct TaskMenuWin *)proc->cancelButton, 0);
     return 1;
 }
 
@@ -574,14 +586,14 @@ int MAILSYS_StepIncompleteNotice(struct MailEditProc *proc)
     struct BmpWin *win;
     switch (proc->subStep) {
     case 0:
-        APP_TASKMENU_WIN_SetDecide(proc->sendButton, 1);
-        APP_TASKMENU_WIN_SetActive(proc->cancelButton, 0);
+        APP_TASKMENU_WIN_SetDecide((struct TaskMenuWin *)proc->sendButton, 1);
+        APP_TASKMENU_WIN_SetActive((struct TaskMenuWin *)proc->cancelButton, 0);
         proc->subStep = 1;
         break;
     case 1:
-        if (APP_TASKMENU_WIN_IsFinish(proc->sendButton) != 0) {
-            APP_TASKMENU_WIN_ResetDecide(proc->sendButton);
-            APP_TASKMENU_WIN_SetActive(proc->sendButton, 1);
+        if (APP_TASKMENU_WIN_IsFinish((struct TaskMenuWin *)proc->sendButton) != 0) {
+            APP_TASKMENU_WIN_ResetDecide((struct TaskMenuWin *)proc->sendButton);
+            APP_TASKMENU_WIN_SetActive((struct TaskMenuWin *)proc->sendButton, 1);
             MAILSYS_PrintMessageText(proc, 2);
             proc->subStep = 2;
         }
@@ -610,10 +622,10 @@ int MAILSYS_StepIncompleteNotice(struct MailEditProc *proc)
 void MAILSYS_OpenConfirmMenu(struct MailEditProc *proc)
 {
     struct MailMenuTemplate t;
-    proc->dialogEntry[0].text = MSGDATA_AllocString(proc->msgData, 4);
+    proc->dialogEntry[0].text = MSGDATA_AllocString((struct MsgBank *)proc->msgData, 4);
     proc->dialogEntry[0].color = 0x39E3;
     proc->dialogEntry[0].selected = 0;
-    proc->dialogEntry[1].text = MSGDATA_AllocString(proc->msgData, 5);
+    proc->dialogEntry[1].text = MSGDATA_AllocString((struct MsgBank *)proc->msgData, 5);
     proc->dialogEntry[1].color = 0x39E3;
     proc->dialogEntry[1].selected = 0;
     t.heapId = proc->heapId;
@@ -624,18 +636,18 @@ void MAILSYS_OpenConfirmMenu(struct MailEditProc *proc)
     t.y = 6;
     t.w = 8;
     t.h = 3;
-    proc->dialogMenu = APP_TASKMENU_OpenMenu(&t, proc->taskMenuRes);
+    proc->dialogMenu = (struct AppTaskMenu *)APP_TASKMENU_OpenMenu((struct TaskMenuInitWork *)(&t), (struct TaskMenuRes *)proc->taskMenuRes);
     PALANM_BlendChannel(proc->palAnm, 0, 0, 48, 10, 0);
-    APP_TASKMENU_WIN_ClearScreen(proc->sendButton);
-    APP_TASKMENU_WIN_ClearScreen(proc->cancelButton);
+    APP_TASKMENU_WIN_ClearScreen((struct TaskMenuWin *)proc->sendButton);
+    APP_TASKMENU_WIN_ClearScreen((struct TaskMenuWin *)proc->cancelButton);
 }
 
 int MAILSYS_PollConfirmMenu(struct MailEditProc *proc)
 {
     int r = -1;
-    if (APP_TASKMENU_IsFinish(proc->dialogMenu)) {
-        r = APP_TASKMENU_GetCursorPos(proc->dialogMenu);
-        APP_TASKMENU_CloseMenu(proc->dialogMenu);
+    if (APP_TASKMENU_IsFinish((struct TaskMenuWork *)proc->dialogMenu)) {
+        r = APP_TASKMENU_GetCursorPos((struct TaskMenuWork *)proc->dialogMenu);
+        APP_TASKMENU_CloseMenu((struct TaskMenuWork *)proc->dialogMenu);
         STRBUF_Delete(proc->dialogEntry[0].text);
         STRBUF_Delete(proc->dialogEntry[1].text);
     }
@@ -649,13 +661,13 @@ int MAILSYS_StepQuitConfirm(struct MailEditProc *proc)
 
     switch (proc->subStep) {
     case 0:
-        APP_TASKMENU_WIN_SetActive(proc->sendButton, 0);
-        APP_TASKMENU_WIN_SetDecide(proc->cancelButton, 1);
+        APP_TASKMENU_WIN_SetActive((struct TaskMenuWin *)proc->sendButton, 0);
+        APP_TASKMENU_WIN_SetDecide((struct TaskMenuWin *)proc->cancelButton, 1);
         break;
     case 1:
-        if (APP_TASKMENU_WIN_IsFinish(proc->cancelButton)) {
-            APP_TASKMENU_WIN_ResetDecide(proc->cancelButton);
-            APP_TASKMENU_WIN_SetActive(proc->cancelButton, 1);
+        if (APP_TASKMENU_WIN_IsFinish((struct TaskMenuWin *)proc->cancelButton)) {
+            APP_TASKMENU_WIN_ResetDecide((struct TaskMenuWin *)proc->cancelButton);
+            APP_TASKMENU_WIN_SetActive((struct TaskMenuWin *)proc->cancelButton, 1);
             proc->dialogActive = 1;
             MAILSYS_PrintMessageText(proc, 3);
             MAILSYS_ResetCursorBlend(proc);
@@ -671,7 +683,7 @@ int MAILSYS_StepQuitConfirm(struct MailEditProc *proc)
         }
         return 0;
     case 3:
-        APP_TASKMENU_UpdateMenu(proc->dialogMenu);
+        APP_TASKMENU_UpdateMenu((struct TaskMenuWork *)proc->dialogMenu);
         r = MAILSYS_PollConfirmMenu(proc);
         if (r < 0)
             return 0;
@@ -688,8 +700,8 @@ int MAILSYS_StepQuitConfirm(struct MailEditProc *proc)
         proc->dialogActive = 0;
         proc->mode = proc->prevMode;
         PALANM_BlendChannel(proc->palAnm, 0, 0, 0x30, 0, 0);
-        APP_TASKMENU_WIN_TransChar(proc->sendButton);
-        APP_TASKMENU_WIN_TransChar(proc->cancelButton);
+        APP_TASKMENU_WIN_TransChar((struct TaskMenuWin *)proc->sendButton);
+        APP_TASKMENU_WIN_TransChar((struct TaskMenuWin *)proc->cancelButton);
         return 0;
     }
     (proc->subStep)++;

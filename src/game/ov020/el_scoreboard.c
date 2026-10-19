@@ -212,7 +212,8 @@ extern void *ARC_TOOL_CreateHandle(unsigned int id, unsigned int heap);
 extern void ARC_TOOL_DeleteHandle(void *p);
 extern void *ARC_TOOL_LoadHandleMember(struct ArcHandle *arc, unsigned int member,
                            unsigned int heap);
-u16 FIELDMAP_GetHeapId(u8 *p);
+struct FieldMap;
+u16 FIELDMAP_GetHeapId(struct FieldMap *fieldMap);
 struct GameEvent *GAME_EVENT_Create(void *owner, void *a, void *b, u32 size);
 void *GAME_EVENT_GetWork(struct GameEvent *p);
 extern u32 KEY_GetTrg(void);
@@ -225,7 +226,7 @@ extern u32 BG_SYS_GetMainVisiblePlanes(void);
 extern void FIELDMAP_SetBgMode(void);
 extern void BG_SYS_SetMainVisiblePlanes(u32 planes);
 extern void BG_SYS_SetPriority(int idx, unsigned short val);
-extern void BG_SYS_FreeSlot(int a);
+extern void BG_SYS_FreeSlot(u8 idx);
 void BG_SYS_SetVramBanks(const struct DispVram *c);
 void BG_SYS_Create(u16 heapId);
 void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
@@ -239,12 +240,12 @@ void BG_SYS_LoadTileData(int index, const void *src, u32 size, u32 tile);
 int NNS_G2dGetUnpackedScreenData(void *file, void **out);
 void BG_SYS_PushTileSource(u32 index, const void *src, u32 mode, u32 offset);
 void G2x_SetBlendBrightness_(u32 addr, int plane, int brightness);
-void G2x_SetBlendAlpha_(u32 addr, int plane1, int plane2, int ev1, int ev2);
+void G2x_SetBlendAlpha_(u32 *reg, u32 a, u32 b, u32 c, u32 d);
 void GXx_SetMasterBrightness_(volatile u16 *reg, int brightness);
 u8 COMM_PLAYER_SUPPORT_NextSeason(u8 x);
 void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
-void FIELDMAP_ResetBgAffineShowMsg(u8 *a);
-extern void FIELDMAP_SetSubscreenBusy(char *p, int v);
+void FIELDMAP_ResetBgAffineShowMsg(struct FieldMap *fieldMap);
+extern void FIELDMAP_SetSubscreenBusy(struct FieldMap *fieldMap, s32 busy);
 ElLamp *EL_SCOREBOARD_CreateLamp(void *archive, const char *texName, const char *plttName, u32 texFormat, ElTexParams loadParams);
 void EL_SCOREBOARD_DeleteLamp(ElLamp *lamp);
 void EL_SCOREBOARD_TickLamp(ElLamp *lamp);
@@ -352,7 +353,7 @@ void *EL_SCOREBOARD_StartOnField(void *gameSystem, void *fieldMap, u8 shownSeaso
     void *eventTask = GAME_EVENT_Create(gameSystem, 0, EL_SCOREBOARD_EventMain, 0x28);
     ElScoreboardWork *work = GAME_EVENT_GetWork(eventTask);
     u32 *statePtr = GAME_EVENT_GetSeq(eventTask);
-    work->gameSystem = gameSystem; work->fieldMap = fieldMap; work->heapId = FIELDMAP_GetHeapId((u8 *)fieldMap); work->mode = 0; work->finished = 0;
+    work->gameSystem = gameSystem; work->fieldMap = fieldMap; work->heapId = FIELDMAP_GetHeapId((struct FieldMap *)fieldMap); work->mode = 0; work->finished = 0;
     work->targetSeason = targetSeason; work->shownSeason = COMM_PLAYER_SUPPORT_PrevSeason(shownSeason); work->finishCallback = 0; work->finishCallbackArg = 0;
     EL_SCOREBOARD_EnterState(work, (int *)statePtr, 0);
     return eventTask;
@@ -363,7 +364,7 @@ void *EL_SCOREBOARD_StartOnFieldWithCallback(void *gameSystem, void *fieldMap, u
     void *eventTask = GAME_EVENT_Create(gameSystem, 0, EL_SCOREBOARD_EventMain, 0x28);
     ElScoreboardWork *work = GAME_EVENT_GetWork(eventTask);
     u32 *statePtr = GAME_EVENT_GetSeq(eventTask);
-    work->gameSystem = gameSystem; work->fieldMap = fieldMap; work->heapId = FIELDMAP_GetHeapId((u8 *)fieldMap); work->mode = 0; work->finished = 0;
+    work->gameSystem = gameSystem; work->fieldMap = fieldMap; work->heapId = FIELDMAP_GetHeapId((struct FieldMap *)fieldMap); work->mode = 0; work->finished = 0;
     work->targetSeason = targetSeason; work->shownSeason = COMM_PLAYER_SUPPORT_PrevSeason(shownSeason); work->finishCallback = finishCallback; work->finishCallbackArg = finishCallbackArg;
     EL_SCOREBOARD_EnterState(work, (int *)statePtr, 0);
     return eventTask;
@@ -515,7 +516,7 @@ void EL_SCOREBOARD_UpdateFadeShared(const ElScoreboardWork *work, int state)
     } else if (state == 4) {
         if (work->shownSeason == work->targetSeason) {
             alpha = (int)(16.0f * ((float)work->stateTimer / (float)work->stateDuration));
-            G2x_SetBlendAlpha_(0x04000050, 8, 0x11, 16 - alpha, alpha);
+            G2x_SetBlendAlpha_((u32 *)0x04000050, 8, 0x11, 16 - alpha, alpha);
             GXx_SetMasterBrightness_((volatile u16 *)0x0400106C,
                 (int)(16.0f * ((float)work->stateTimer / (float)work->stateDuration) + -16.0f));
         } else {
@@ -599,7 +600,7 @@ void EL_SCOREBOARD_EnterState(ElScoreboardWork *work, int *statePtr, int state)
     case 4:
         work->stateDuration = EL_SCOREBOARD_GetFadeOutDuration(work);
         if (EL_SCOREBOARD_GetMode(work) == 0 && work->shownSeason == work->targetSeason) {
-            FIELDMAP_ResetBgAffineShowMsg((u8 *)work->fieldMap);
+            FIELDMAP_ResetBgAffineShowMsg((struct FieldMap *)work->fieldMap);
             BG_SYS_SetPlaneVisible(3, 1);
             EL_SCOREBOARD_CallFinishCallback(work);
         }

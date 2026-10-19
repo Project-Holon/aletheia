@@ -59,11 +59,15 @@ extern struct FieldCamera *FIELDMAP_GetCamera(FieldMap *fieldMap);
 extern GameEvent *GAME_EVENT_Create(GameSystem *gameSystem, GameEvent *parent, EntranceInEventFunc func, u32 workSize);
 extern void *GAME_EVENT_GetWork(GameEvent *event);
 extern void GFL_USE_PlaySeDefaultVolume(u32 seId);
-extern GameEvent *FIELD_GROUND_ANIME_CreateB(EntranceParam *param);
+struct GroundAnimeArgs;
+extern void *FIELD_GROUND_ANIME_CreateB(struct GroundAnimeArgs *args);
 extern void GAME_EVENT_CallEvent(GameEvent *event, GameEvent *child);
-extern int EVENT_FIELD_PROCLINK_StartHopAnim(FieldMap *fieldMap);
+extern int EVENT_FIELD_PROCLINK_StartHopAnim(void *fieldObject);
 extern int EVENT_FIELD_PROCLINK_IsHopAnimDone(int animHandle);
-extern GameEvent *EVENT_DISAPPEAR_CreateRisingSpin(int unused, GameSystem *gameSystem, FieldMap *fieldMap);
+struct FieldMap;
+struct GameSystem;
+struct GameEvent;
+extern GameEvent *EVENT_DISAPPEAR_CreateRisingSpin(struct GameEvent *parent, struct GameSystem *gameSystem, struct FieldMap *fieldMap);
 extern int FIELD_CAMERA_HasDelay(struct FieldCamera *camera);
 extern u32 FIELD_CAMERA_IsDelayEnabled(struct FieldCamera *camera);
 extern void FIELD_CAMERA_EndDelay(struct FieldCamera *camera);
@@ -71,14 +75,16 @@ extern void FIELD_CAMERA_StopTargetTrace(struct FieldCamera *camera);
 extern GameEvent *EVENT_FIELDMAP_CONTROL_StartFadeOut(GameSystem *gameSystem, FieldMap *fieldMap, int effectId, int wait);
 extern int FIELD_SOUND_SYSTEM_HasZoneBgmOverride(GameData *gameData, int zoneId);
 extern int FIELD_SOUND_SYSTEM_GetFinalBgm(const GameData *gameData);
-extern struct IssSystem *GAMESYSTEM_GetIssSystem(GameSystem *gameSystem);
+extern void *GAMESYSTEM_GetIssSystem(GameSystem *gameSystem);
 extern struct IssDungeonSys *ISS_SYS_GetDungeonSys(struct IssSystem *issSystem);
 extern u32 ISS_DUNGEON_SYS_IsActive(struct IssDungeonSys *dungeon);
-extern u32 ISS_DUNGEON_SYS_HasRecord(struct IssDungeonSys *dungeon, u32 zoneId);
+extern u32 ISS_DUNGEON_SYS_HasRecord(struct IssDungeonSys *dungeon, u16 areaId);
 extern struct FieldPlayer *FIELDMAP_GetFieldPlayer(FieldMap *fieldMap);
 extern u32 FIELD_PLAYER_GetFormCode(struct FieldPlayer *player);
-extern struct BgmInfo *GAME_DATA_GetBgmInfo(const GameData *gameData);
-extern void FIELD_SOUND_SYSTEM_PostZoneBgmReplace(struct BgmInfo *bgmInfo, GameData *gameData, u16 zoneId, u8 season);
+struct GameData;
+extern u32 GAME_DATA_GetBgmInfo(const GameData *gameData);
+struct FieldSoundSystem;
+extern void FIELD_SOUND_SYSTEM_PostZoneBgmReplace(struct FieldSoundSystem *fieldSound, struct GameData *gameData, u16 zoneId, u8 season);
 extern GameEvent *FIELD_SOUND_SYSTEM_StartFadeOutTask(GameSystem *gameSystem, u32 frames);
 GameEvent *EVENT_ENTRANCE_IN_Create(EntranceParam *param);
 u32 EVENT_ENTRANCE_IN_RunPlain(GameEvent *event, int *seq, EntranceInWork *work);
@@ -162,7 +168,7 @@ u32 EVENT_ENTRANCE_IN_RunGroundAnime(GameEvent *event, int *seq, EntranceInWork 
 
     switch (*seq) {
     case 0:
-        GAME_EVENT_CallEvent(event, FIELD_GROUND_ANIME_CreateB(param));
+        GAME_EVENT_CallEvent(event, FIELD_GROUND_ANIME_CreateB((struct GroundAnimeArgs *)param));
         (*seq)++;
         break;
     case 1:
@@ -244,7 +250,7 @@ u32 EVENT_ENTRANCE_IN_RunCamera(GameEvent *event, int *seq, EntranceInWork *work
         *seq = 2;
         return ENTRANCE_EVENT_YIELD;
     case 2:
-        GAME_EVENT_CallEvent(event, FIELD_GROUND_ANIME_CreateB(param));
+        GAME_EVENT_CallEvent(event, FIELD_GROUND_ANIME_CreateB((struct GroundAnimeArgs *)param));
         *seq = 3;
         return ENTRANCE_EVENT_YIELD;
     case 3:
@@ -312,7 +318,7 @@ void EVENT_ENTRANCE_IN_ReplaceBgm(EntranceInWork *work)
     EntranceParam *param = work->param;
     GameData *gameData = param->gameData;
 
-    FIELD_SOUND_SYSTEM_PostZoneBgmReplace(GAME_DATA_GetBgmInfo(gameData), gameData, param->destination.zoneId, param->toSeason);
+    FIELD_SOUND_SYSTEM_PostZoneBgmReplace((struct FieldSoundSystem *)GAME_DATA_GetBgmInfo(gameData), gameData, param->destination.zoneId, param->toSeason);
     param->bgmReplaced = 1;
 }
 

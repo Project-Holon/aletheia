@@ -230,6 +230,10 @@
  *   BG_SYS_FreeSlot  0x020414AC  arm  arm9
  *   BG_SYS_ChangeScrollImmediate  0x02040618  arm  arm9
  *   GFL_USE_GetRandomBelow  0x02005728  thumb  arm9
+ *   _fdiv                        0x0209CE10  arm
+ *   _ffixu                       0x0209C4C8  arm
+ *   _fflt                        0x0209BDBC  arm
+ *   _u32_div_f                   0x0209C2B0  arm
  */
 #include "ctvt_types.h"
 
@@ -321,7 +325,7 @@ struct Rec {
     u8 pad10[8];
     u16 value;
     u8 pad1A[6];
-    u8 changeStamp;
+    u8 memberCount;      /* +0x20: member count of the peer session (copy of its CtvtComm.prevMemberCount) */
     u8 f21_0 : 1;
     u8 f21_1 : 1;
     u8 f21_2 : 6;
@@ -1492,7 +1496,7 @@ void CTVT_CALL_RefreshPeers(void *ctx, u8 *list)
                                 refresh = 1;
                             }
                         }
-                        if (kind == 0x20 && (((CtvtCallEntry *)(e + 0x1e4))->peer)[0x20] != p->changeStamp) {
+                        if (kind == 0x20 && (((CtvtCallEntry *)(e + 0x1e4))->peer)[0x20] != p->memberCount) {
                             found = 0;
                             diff = 1;
                             slot = k;

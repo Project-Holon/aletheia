@@ -20,7 +20,7 @@
  *   _dsub  0x0209AF34  arm
  *   frexp  0x0209A6E8  arm
  *   ldexp  0x0209A7A8  arm
- *   _d2u  0x0209C554  arm
+ *   _ll_ufrom_d  0x0209C554  arm
  *   copysign  0x0209A368  arm
  *   pow  0x0209AB80  arm
  *   pow_10  0x020A8A7C  data
@@ -51,6 +51,13 @@
  *   __fpclassifyd 0x020921F4 arm arm9
  *   MSL_C_LIB_IncrementDigits 0x02096620 arm arm9
  *   MSL_C_LIB_SetPrecision 0x02096670 arm arm9
+ *   _dadd                        0x0209AC04  arm
+ *   _ddiv                        0x0209D1E0  arm
+ *   _dflt                        0x0209B750  arm
+ *   _dfltu                       0x0209B790  arm
+ *   _dmul                        0x0209B2E8  arm
+ *   _f2d                         0x0209BD38  arm
+ *   _ll_udiv                     0x0209C00C  arm
  */
 #include "msl_crt_shared_types.h"
 #include "msl_stdio_shared_types.h"
@@ -84,8 +91,6 @@ extern double _dsub(double a, double b);
 extern double frexp(double x, int *eptr);
 
 extern double ldexp(double x, int n);
-
-extern u64 _d2u(double x);
 
 extern double copysign(double x, double y);                        /* copysign */
 
@@ -787,7 +792,7 @@ void __num2dec(DB *r, double x)
     v = *(u64 *)&g | 0x0010000000000000ULL;
     k = 0x35 - MSL_C_LIB_PopCount64((v & -v) - 1);
     __two_exp((struct decimal2 *)(&b), e - k);
-    __ull2dec((struct decimal2 *)(&a), _d2u(ldexp(f, k)));
+    __ull2dec((struct decimal2 *)(&a), (u64)ldexp(f, k));
     __timesdec((struct decimal2 *)r, (const struct decimal2 *)(&a), (const struct decimal2 *)(&b));
     r->sign = neg;
 }

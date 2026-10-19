@@ -231,7 +231,7 @@ typedef MATHRandContext32 RandCtx;
 
 extern void OSi_ReferSymbol(void *sym);
 extern u64 OS_GetTick(void);
-extern void WCM_GetMacAddress(u8 *macAddress);
+extern void WCM_GetMacAddress(u8 *a);
 extern void OS_CreateThread(struct _OSThread *thread, void (*func)(void *), void *arg, void *stack, u32 stackSize, u32 prio);
 extern void OS_WakeupThreadDirect(struct _OSThread *thread);
 extern void OS_CreateAlarm(struct OSiAlarm *alarm);
@@ -240,22 +240,22 @@ extern int OS_IsThreadTerminated(void *thread);
 extern unsigned long OS_RestoreInterrupts(unsigned long state);
 extern void OS_JoinThread(void *thread);
 extern void OS_DestroyThread(void *thread);
-extern void OS_CancelAlarm(void *alarm);
+extern void OS_CancelAlarm(struct OSiAlarm *alarm);
 extern int OS_SetThreadPriority(void *thread, unsigned long prio);
-extern unsigned long is_broadcast(unsigned long ip);
+static unsigned long is_broadcast(unsigned long ip);
 extern long WCM_SendDCFDataEx(unsigned char *dst, unsigned char *header, long headerLen, unsigned char *body, long bodyLen);
 extern void MI_CpuCopy(const void *srcp, void *destp, u32 size);
 extern void OS_SleepThread(void *queue);
 extern void MI_CpuFill8(void *dstp, unsigned char data, unsigned long size);
 extern void OS_Sleep(unsigned long msec);
-extern unsigned long ip_islocal(unsigned long ip);
-extern unsigned long get_targetip(unsigned long ip);
+static unsigned long ip_islocal(unsigned long ip);
+static unsigned long get_targetip(unsigned long ip);
 extern void dacktimer_reschedule(void);
 void _tcp_send_handshake(char *soc, unsigned char flag);
-extern CPSSoc *find_socket(unsigned char *iphdr, unsigned char *tcphdr);
+static CPSSoc *find_socket(unsigned char *iphdr, unsigned char *tcphdr);
 extern void OS_YieldThread(void);
-extern void _tcp_send_ack(struct _CPSSoc *soc, int flush);
-extern void dt_rst(unsigned char *iphdr, unsigned char *tcphdr);
+static void _tcp_send_ack(struct _CPSSoc *soc, int flush);
+static void dt_rst(unsigned char *iphdr, unsigned char *tcphdr);
 extern unsigned long CPSi_SslConnect(struct _CPSSoc *soc);
 void _tcp_send_finack(int a);
 extern void CPSi_SslShutdown(struct _CPSSoc *soc);
@@ -266,17 +266,17 @@ extern void OS_Terminate(void);
 extern void CPSi_SslConsume(unsigned long len, struct _CPSSoc *soc);
 extern void CPSi_SocConsumeRaw(unsigned long len, struct _CPSSoc *soc);
 extern unsigned long tcp_write_do(unsigned char *buf, unsigned long len, struct _CPSSoc *soc, int need_probe);
-extern void tcp_write_do2(u8 *buf, u32 len, u8 *buf2, u32 len2, struct _CPSSoc *soc, int need_probe);
+static void tcp_write_do2(u8 *buf, u32 len, u8 *buf2, u32 len2, struct _CPSSoc *soc, int need_probe);
 extern unsigned long CPSi_SslWrite2(unsigned char *buf, unsigned long len, unsigned char *buf2, unsigned long len2, struct _CPSSoc *soc);
 extern void MI_CpuMove(void *src, void *dst, unsigned long size);
 extern long CPSi_SslGetLength(struct CPSSoc *soc);
 extern void CPSi_SslPeriodical(unsigned long now);
-extern void OS_SetAlarm(void *alarm, unsigned long long tick, void (*handler)(void *), void *arg);
+extern void OS_SetAlarm(struct OSiAlarm *alarm, unsigned long long tick, void (*handler)(void *), void *arg);
 void dacktimer_alarmhandler(void);
-extern unsigned char *pad_mem(unsigned char pattern, unsigned long minimum, unsigned char *d, unsigned long curlen);
+static unsigned char *pad_mem(unsigned char pattern, unsigned long minimum, unsigned char *d, unsigned long curlen);
 extern void CPS_SocConsume(u32 len);
-extern u8 *dns_skipname(u8 *p);
-extern unsigned long strtol10(unsigned char *s, unsigned char **end);
+static u8 *dns_skipname(u8 *p);
+static unsigned long strtol10(unsigned char *s, unsigned char **end);
 void CPS_Startup(CPSConfig *config);
 int CPS_CalmDown(void);
 void CPS_SetScavengerCallback(int v);
@@ -1337,8 +1337,8 @@ void dacktimer_reschedule(void)
 		}
 	}
 	if (nextdelay != 0xffffffff) {
-		OS_CancelAlarm(gCpsDackTimerAlarm);
-		OS_SetAlarm(gCpsDackTimerAlarm, nextdelay, (void (*)(void *))dacktimer_alarmhandler, 0);
+		OS_CancelAlarm((struct OSiAlarm *)gCpsDackTimerAlarm);
+		OS_SetAlarm((struct OSiAlarm *)gCpsDackTimerAlarm, nextdelay, (void (*)(void *))dacktimer_alarmhandler, 0);
 	}
 	OS_RestoreInterrupts(enabled);
 }
@@ -4748,7 +4748,7 @@ void CPS_Cleanup(void)
     CPS_CalmDown();
     OS_JoinThread(((char *)&gCpsScavengerThread));
     OS_DestroyThread(((char *)&gCpsTcpipThread));
-    OS_CancelAlarm(gCpsDackTimerAlarm);
+    OS_CancelAlarm((struct OSiAlarm *)gCpsDackTimerAlarm);
     enable = OS_DisableInterrupts();
     if (!OS_IsThreadTerminated(((char *)&gCpsDackTimerThread)))
         OS_WakeupThreadDirect((struct _OSThread *)(((char *)&gCpsDackTimerThread)));

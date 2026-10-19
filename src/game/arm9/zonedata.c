@@ -41,6 +41,7 @@
  *   ZONEDATA_ResetEventFlagRange  0x02014368  thumb
  *   _DirToRailKeyTable  0x0209E050  data
  */
+#include "../version.h"
 #include "zonedata_shared_types.h"
 
 typedef signed short   s16;
@@ -171,9 +172,9 @@ extern struct ArcHandle *ARC_TOOL_CreateHandle(u32 arcId, u32 heapId);
 
 extern void *ARC_UTIL_LoadMemberWithSize(u32 arcId, u32 member, int compressed, u32 heapId, u32 *size);
 
-extern void GFL_HEAP_Free(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 
-extern void ARC_TOOL_DeleteHandle(struct ArcHandle *handle);
+extern void ARC_TOOL_DeleteHandle(void *handle);
 
 extern void ARC_TOOL_ReadHandleMemberRange(struct ArcHandle *handle, u32 member, u32 offset, u32 size, void *dst);
 
@@ -471,6 +472,10 @@ void ZONEDATA_Init(u32 heap)
     g_ZoneDataMgr->mapEffectCount = size2 >> 2;
 
     g_ZoneDataMgr->cachedZoneId = 0x1ab;
+#if VERSION == VERSION_WHITE
+    ZONEDATA_SetChangeZoneEnable(0, 1);
+    ZONEDATA_SetChangeZoneEnable(1, 1);
+#endif
 }
 
 /*
@@ -732,6 +737,10 @@ u32 ZONEDATA_GetBgmId(u32 id, u32 which)
         v = r->bgm[3];
         break;
     }
+#if VERSION == VERSION_WHITE
+    if (v == 0x409)
+        v = 0x40a;
+#endif
     return v;
 }
 
@@ -1045,7 +1054,11 @@ u32 ZONEDATA_GetPlaceNameId(u32 id)
     u32 v = r->placeNameId;
 
     if ((u16)(v + 0xff90) <= 1)
+#if VERSION == VERSION_WHITE
+        v = 0x71;
+#else
         v = 0x70;
+#endif
     return v;
 }
 

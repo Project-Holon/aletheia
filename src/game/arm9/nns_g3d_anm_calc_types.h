@@ -5,8 +5,8 @@
 #ifndef NNS_G3D_ANM_CALC_TYPES_H
 #define NNS_G3D_ANM_CALC_TYPES_H
 
-#include "nns_g3d_anm_types.h"
-#include "nns_g3d_glb_types.h"
+#include "../arm9/nns_g3d_anm_types.h"
+#include "../arm9/nns_g3d_glb_types.h"
 
 typedef signed short   s16;
 typedef signed long long s64;

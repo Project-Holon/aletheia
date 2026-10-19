@@ -41,7 +41,7 @@ void *DWCi_GsMalloc(unsigned long size);
 void *DWCi_GsRealloc(void *ptr, unsigned long size);
 void DWCi_GsFree(void *ptr);
 void *DWCi_GsMemalign(unsigned long boundary, unsigned long size);
-extern DWCiMemFunc s_mem;
+static DWCiMemFunc s_mem;
 
 void *DWCi_GetAllocateHeader(char *p)
 {

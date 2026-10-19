@@ -52,20 +52,24 @@ typedef unsigned int   u32;
 extern void *DWCi_HEAPlAllocEx(unsigned long size, int alignment);
 extern void *DWCi_ARClReadEx(char *path, unsigned long *size, int alignment);
 extern void NNS_SndInit();
-extern void NNS_SndArcInitOnMemory();
-extern void NNS_SndArcPlayerSetup();
-extern void NNS_SndHandleInit();
-extern void NNS_SndPlayerSetPlayerVolume();
-extern void NNS_SndPlayerSetPlayableSeqCount();
-extern void NNS_SndPlayerSetAllocatableChannel();
-extern void *DWCi_TSKlForm(int kind, void (*func)(void *, void *), void *work, unsigned char prio);
+struct NNSSndArc;
+extern void NNS_SndArcInitOnMemory(struct NNSSndArc *arc, unsigned char *base);
+struct NNSSndHeap;
+extern unsigned int NNS_SndArcPlayerSetup(struct NNSSndHeap *heap);
+struct SndHandle;
+extern void NNS_SndHandleInit(struct SndHandle *handle);
+extern void NNS_SndPlayerSetPlayerVolume(unsigned int playerNo, unsigned int volume);
+extern void NNS_SndPlayerSetPlayableSeqCount(int playerNo, int playableSeqCount);
+extern void NNS_SndPlayerSetAllocatableChannel(unsigned int playerNo, unsigned int channelMask);
+struct TCB;
+extern struct TCB *DWCi_TSKlForm(int kind, void (*func)(void *, void *), void *work, unsigned char prio);
 extern void taskSound(void);
 extern void DWCi_TSKlDelete(int kind, void *task);
 extern void DWCi_HEAPlFree_(void **mem);
 extern u32 NNS_SndArcPlayerStartSeqArc(u32 a, u32 b, u32 c);
 extern void NNS_SndHandleSetVolume(char *, unsigned int);
-extern void NNS_SndHandleSetTrackPitch(struct Obj *o, u32 v, u32 w);
-extern void NNS_SndHandleStopSeq(void **r0, int fadeFrame);
+extern void NNS_SndHandleSetTrackPitch(struct SndHandle *handle, unsigned int trackMask, unsigned int value);
+extern void NNS_SndHandleStopSeq(struct SndHandle *handle, int fadeFrame);
 extern void NNS_SndBoot(void);
 void DWCi_SNDlInit(void);
 void DWCi_SNDlEnd(void);
@@ -90,9 +94,9 @@ void DWCi_SNDlInit(void)
 	gSoundWork = (struct SND *)((SND *)DWCi_HEAPlAllocEx(0xac, 4));
 	gSoundWork->arc = DWCi_ARClReadEx(sSoundTable, &size, 0x20);
 	NNS_SndInit();
-	NNS_SndArcInitOnMemory(((SND *)gSoundWork), gSoundWork->arc);
+	NNS_SndArcInitOnMemory((struct NNSSndArc *)(((SND *)gSoundWork)), gSoundWork->arc);
 	NNS_SndArcPlayerSetup(0);
-	NNS_SndHandleInit(&gSoundWork->handle);
+	NNS_SndHandleInit((struct SndHandle *)(&gSoundWork->handle));
 	for (playerNo = 0; playerNo < 0x20; playerNo++) {
 		NNS_SndPlayerSetPlayerVolume(playerNo, 0x7f);
 		NNS_SndPlayerSetPlayableSeqCount(playerNo, 1);
@@ -142,13 +146,13 @@ void DWCi_SNDlSetVolume(unsigned int v)
  */
 void DWCi_SNDlSetPitch(unsigned int a, unsigned int b)
 {
-    NNS_SndHandleSetTrackPitch((struct Obj *)(*(char **)0x021DE648 + 0xa0), a, b);
+    NNS_SndHandleSetTrackPitch((struct SndHandle *)(*(char **)0x021DE648 + 0xa0), a, b);
 }
 
 
 void DWCi_SNDlStop(void)
 {
-    NNS_SndHandleStopSeq((void **)(*(char **)0x021DE648 + 0xa0), 0);
+    NNS_SndHandleStopSeq((struct SndHandle *)(*(char **)0x021DE648 + 0xa0), 0);
 }
 
 

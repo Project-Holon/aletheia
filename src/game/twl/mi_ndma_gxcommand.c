@@ -53,12 +53,12 @@ extern NdmaConfig data_02732EFC[];
 extern u32 OS_DisableInterrupts(void);
 extern void OS_RestoreInterrupts(u32);
 extern void MI_WaitNDma(int);
-extern void MIi_NDmaAsync_withConfig_Dev(int mode, int ch, u32 src, u32 dst, u32 fill, u32 size, void (*cb)(), u32 arg, void *cfg, int words, u32 flags);
-extern void OS_DisableIrqMask(u32);
-extern void OS_ResetRequestIrqMask(u32);
+extern void MIi_NDmaAsync_withConfig_Dev(int mode, int ch, u32 src, u32 dst, u32 fill, u32 size, void (*cb)(), u32 arg, NdmaConfig *cfg, int words, u32 flags);
+extern u32 OS_DisableIrqMask(u32);
+extern u32 OS_ResetRequestIrqMask(u32);
 extern IrqHandler OS_GetIrqFunction(u32);
 extern void OS_SetIrqFunction(u32, IrqHandler);
-extern void OS_EnableIrqMask(u32);
+extern u32 OS_EnableIrqMask(u32);
 
 void MI_SendNDmaGXCommandAsync(u32 ch, u32 src, u32 size, void (*cb)(u32), u32 arg);
 static void MIi_FIFOCallback(void);

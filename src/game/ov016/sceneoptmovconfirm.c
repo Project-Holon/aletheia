@@ -58,7 +58,7 @@ extern bool DWCi_EFFlFade(int kind, int lcd, int plane, int frame);
 extern void DWCi_GXlVisible(int lcd, int plane);
 extern bool DWCi_EFFlCheck(int lcd);
 extern void DWCi_CMNlButton(int kind);
-extern int DWCi_BTNlGet(void);
+extern char DWCi_BTNlGet(void);
 extern void DWCi_BTNlEnable(void);
 extern int DWCi_IPTlCheckTrigger(unsigned int f);
 extern void DWCi_BTNlSet(signed char v);

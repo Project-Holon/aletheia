@@ -37,6 +37,11 @@
  *   CLACT_CreateActor 0x0204B294 arm
  *   CLACT_DeleteActor 0x0204B3B4 arm
  *   STA_ACT_LIGHT_CopyActorPos 0x021F8044 thumb ov112
+ *   _fdiv                        0x0209CE10  arm
+ *   _ffix                        0x0209C494  arm
+ *   _fflt                        0x0209BDBC  arm
+ *   _ffltu                       0x0209BE04  arm
+ *   _fsub                        0x0209CB8C  arm
  */
 #include "sta_act_light_shared_types.h"
 
@@ -80,8 +85,9 @@ typedef struct {
     void *board;         /* 0x04 BILLBOARD board */
     StaActObjEntry entries[5]; /* 0x08 */
 } StaActObjObject;
+struct BbBoard;
 
-extern void BILLBOARD_SetElemVisible(void *,u32,u32 *);
+extern void BILLBOARD_SetElemVisible(struct BbBoard *board, u32 elemIndex, u32 *visible);
 
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
@@ -89,7 +95,7 @@ extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 
 extern void CLACT_SetUnitDefaultRenderer(struct Bank *bank);
 
-extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
+extern void *ARC_TOOL_CreateHandle(u32 archiveID, u16 heapID);
 
 extern signed int CLACT_RegisterPalette(void *a, u32 b, u32 c, u32 d, u16 g);
 
@@ -107,15 +113,16 @@ extern void CLACT_ReleaseCellAnim(u32);
 
 extern void CLACT_DeleteUnit(void *);
 
-extern void GFL_HEAP_Free(void *);
+extern u32 GFL_HEAP_Free(void *);
 
 extern u16 STA_ACTING_GetCameraScrollX(u8 *p);
 
 extern int STA_ACTING_GetSelection(char *p);
 
 extern void CLACT_AddActorSurfacePos(struct Obj *p, const Vec2 *delta, u32 which);
+struct Actor;
 
-extern void CLACT_SetActorDrawEnable(struct Obj *p, unsigned int v);
+extern void CLACT_SetActorDrawEnable(struct Actor *actor, u32 value);
 
 extern void *STA_ACTING_GetActorSystem(char *p);
 
@@ -123,7 +130,7 @@ extern void *STA_ACTING_GetActor(char *p, u32 i);
 
 extern struct Obj *CLACT_CreateActor(void *, unsigned int, unsigned int, unsigned int, const void *, unsigned short, unsigned short);
 
-extern void CLACT_DeleteActor(struct Obj *p);
+extern void CLACT_DeleteActor(struct Actor *actor);
 
 void STA_ACT_LIGHT_SetElemVisible(char *p,u32 *q,u32 flag);
 
@@ -199,10 +206,10 @@ void STA_ACT_LIGHT_PlaceActor(char *p, char *q) {
         point.y = (short)((float)((LightActor *)q)->y / 4096.0f);
         CLACT_AddActorSurfacePos((struct Obj *)((LightActor *)q)->actor, (const Vec2 *)(&point), 0);
         if (*(int *)&((Object *)p)->a != 0 && STA_ACTING_GetSelection((char *)(*(int *)&((Object *)p)->a)) != 4) {
-            CLACT_SetActorDrawEnable((struct Obj *)((LightActor *)q)->actor, 0);
+            CLACT_SetActorDrawEnable((struct Actor *)((LightActor *)q)->actor, 0);
             return;
         }
-        CLACT_SetActorDrawEnable((struct Obj *)((LightActor *)q)->actor, 1);
+        CLACT_SetActorDrawEnable((struct Actor *)((LightActor *)q)->actor, 1);
     }
 }
 
@@ -265,7 +272,7 @@ u8 *STA_ACT_LIGHT_CreateActor(u8 *p, int v)
     pos.b = 2;
     o = CLACT_CreateActor(*(void **)(p + 0xa8), *(u32 *)(p + 0xb0), *(u32 *)(p + 0xac), *(u32 *)(p + 0xb4), &pos, 0, *(u16 *)p);
     *(struct Obj **)(q + 0x1c) = o;
-    CLACT_SetActorDrawEnable(o, 1);
+    CLACT_SetActorDrawEnable((struct Actor *)o, 1);
     return q;
 }
 

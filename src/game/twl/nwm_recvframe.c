@@ -40,13 +40,13 @@ typedef struct TwlWork {
     void (*cb[1])(TwlMsg *);
 } TwlWork;
 
-extern TwlWork *NWMi_GetSystemWork(void);
-extern u32 NWMi_CheckState(u32, u32, u32);
-extern void MIi_DmaFill32(u32, u32, u32, u32, u32);
+extern unsigned int NWMi_GetSystemWork(void);
+extern u32 NWMi_CheckState(unsigned int n, ...);
+extern void MIi_DmaFill32(unsigned int dmaNo, void *dest, unsigned int data, unsigned int size, int dmaEnable);
 extern void DC_StoreRange(void *, u32);
 extern void NWMi_SetCallbackTable(u32, u32);
 extern void NWMi_SetReceiveCallbackTable(u32, u32);
-extern u32 NWMi_SendCommand();
+extern u32 NWMi_SendCommand(u16 apiid, u16 argc, ...);
 u32 NWM_SetReceivingFrameBuffer(u32 callback, u32 recvBuf, u32 recvBufSize, u32 protocol);
 u32 NWM_UnsetReceivingFrameBuffer(u32 callback, u32 protocol);
 void NWMi_ReceivingFrameCallback(TwlMsg *msg);
@@ -55,12 +55,12 @@ u32 NWM_SetReceivingFrameBuffer(u32 callback, u32 recvBuf, u32 recvBufSize, u32 
     TwlWork *w;
     u32 r;
 
-    w = NWMi_GetSystemWork();
+    w = (struct TwlWork *)NWMi_GetSystemWork();
     r = NWMi_CheckState(2, 3, 4);
     if (r != 0 && r != 2) {
         return r;
     }
-    MIi_DmaFill32(w->h2280, recvBuf, 0, recvBufSize, 1);
+    MIi_DmaFill32(w->h2280, (void *)recvBuf, 0, recvBufSize, 1);
     DC_StoreRange((void *)recvBuf, recvBufSize);
     NWMi_SetCallbackTable(0xA, (u32)NWMi_ReceivingFrameCallback);
     NWMi_SetReceiveCallbackTable(protocol, callback);
@@ -93,7 +93,7 @@ void NWMi_ReceivingFrameCallback(TwlMsg *msg) {
     TwlWork *w;
     u32 first;
 
-    w = NWMi_GetSystemWork();
+    w = (struct TwlWork *)NWMi_GetSystemWork();
     if (msg->kind != 0) {
         if (msg->kind != 0xB) {
             return;

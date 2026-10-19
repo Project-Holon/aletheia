@@ -62,23 +62,24 @@ extern void GFL_HEAP_CreateChildHeap(u32 a, u32 b, u32 c);
 
 extern void *MUSICAL_MCSS_AllocDistSave(u32 heapId);
 
-extern void MUSICAL_MCSS_LoadDistSave(void *musicalSystem, void *saveControl, void *session, u8 kind, u16 heapId);
+extern void MUSICAL_MCSS_LoadDistSave(unsigned char *p, unsigned int unused, void *sys, unsigned char kind, unsigned short heap);
 
 extern void GFL_HEAP_DeleteChecked(u32 heapId);
 
-extern int MUSICAL_MCSS_FreeDistSave(void *musicalSystem);
+extern void MUSICAL_MCSS_FreeDistSave(char *p);
+struct Proc;
 
-extern void *PROCSYS_AllocProcWork(void *proc, u32 size, u32 heapId);
+extern void *PROCSYS_AllocProcWork(struct Proc *proc, unsigned int size, unsigned int heapId);
 
-extern void PROCSYS_FreeProcWork(void *proc);
+extern void PROCSYS_FreeProcWork(struct Proc *proc);
 
-extern void *STA_ACTING_Create(void *input, int heapId);
+extern unsigned char *STA_ACTING_Create(unsigned char *input, int heap);
 
-extern int STA_ACTING_Update(void *ui);
+extern int STA_ACTING_Update(unsigned char *p);
 
-extern void STA_ACTING_Delete(void *ui);
+extern void STA_ACTING_Delete(char *p);
 
-extern MusicalPerformer *MUSICAL_MCSS_AllocMon(u16 monsNo, u8 form, u8 c, u8 d, u32 personality, u16 heapId);
+extern char *MUSICAL_MCSS_AllocMon(u16 monsNo, u8 form, u8 c, u8 d, u32 personality, u16 heapId);
 
 extern u8 ov112_id[];
 
@@ -185,7 +186,7 @@ int MUSICAL_STAGE_SYS_Main(void *proc, int *state, int unused, MusicalStageWork 
 {
     switch (*state) {
     case 0:
-        work->ui = STA_ACTING_Create(work->stage, 0x2e);
+        work->ui = STA_ACTING_Create((unsigned char *)work->stage, 0x2e);
         *state = 1;
         break;
     case 1:
@@ -251,7 +252,7 @@ int MUSICAL_STAGE_SYS_SetLocalPerformer(MusicalStage *stage, int slot, MusicalPe
  */
 void MUSICAL_STAGE_SYS_CreateNpcPerformer(MusicalStage *stage, u8 slot, u16 monsNo, u8 form, u32 personality, u16 appealBase, u16 heapId)
 {
-    stage->performers[slot] = MUSICAL_MCSS_AllocMon(monsNo, form, 0, 0, personality, heapId);
+    stage->performers[slot] = (struct MusicalPerformer *)MUSICAL_MCSS_AllocMon(monsNo, form, 0, 0, personality, heapId);
     stage->performers[slot]->origin = MUSICAL_PERFORMER_NPC;
     stage->performers[slot]->appealBase = appealBase;
 }

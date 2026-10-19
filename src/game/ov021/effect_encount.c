@@ -45,8 +45,8 @@
  *   sSearchAreaOffsets     0x021D8E76  data  a1
  *   FIELD_G3D_MAPPER_GetFocusSlot  0x0218D168  thumb  ov021
  *   FIELD_G3D_MAPPER_CheckSlotReady  0x0218DBD4  thumb  ov021
- *   _s32_to_float  0x0209BDBC  arm
- *   __fadd  0x0209C95C  arm
+ *   _fflt  0x0209BDBC  arm
+ *   _fadd  0x0209C95C  arm
  *   _fsub  0x0209CB8C  arm
  *   _ffix  0x0209C494  arm
  *   FIELD_G3D_MAPPER_QuerySlotPlane  0x0218DBAC  thumb  ov021
@@ -60,6 +60,7 @@
  *   FIELD_ENCOUNT_CheckWildEncount  0x021A9F40  thumb  ov021
  *   MAP_ATTR_GetEncounterEffectKind  0x021AB504  thumb  ov021
  *   FIELD_EFFECT_DeleteObject  0x021AC154  thumb  ov021
+ *   _u32_div_f                   0x0209C2B0  arm
  */
 #include "effect_encount_types.h"
 
@@ -103,7 +104,7 @@ typedef struct EffectEncountArea {
 } EffectEncountArea;
 
 /* Cell data of the map mapper (attribute and height of one tile). */
-typedef struct MapCellInfo {
+typedef struct FieldG3dMapHit {
     u8 pad00[8];
     u32 attribute;
     u32 height;
@@ -128,28 +129,36 @@ extern struct FieldG3dMapper *FIELDMAP_GetG3dMapper(struct FieldMap *fieldMap);
 extern struct Mmdl *FIELD_PLAYER_GetMmdl(struct FieldPlayer *player);
 extern int FLDMMDL_GetGridNowX(struct Mmdl *mmdl);
 extern int FLDMMDL_GetGridNowZ(struct Mmdl *mmdl);
-extern struct FieldEffectSys *FIELDMAP_GetEffect(struct FieldMap *fieldMap);
-extern void *GAME_DATA_GetFieldWork(const struct GameData *gameData);
-extern void FLDMMDL_GetPos(const struct Mmdl *mmdl, VecFx32 *out);
-extern int MAP_MATRIX_IsInRangeByPos(int matrix, int posX, int posZ);
-extern int MAP_MATRIX_GetZoneIdByPos(int matrix, int posX, int posZ);
-extern struct MiscSave *GAME_DATA_GetMiscSave(struct GameData *gameData);
+struct FieldEffectCont;
+extern struct FieldEffectCont *FIELDMAP_GetEffect(struct FieldMap *fieldMap);
+extern u32 GAME_DATA_GetFieldWork(const struct GameData *gameData);
+struct MmdlVec;
+extern void FLDMMDL_GetPos(struct Mmdl *mmdl, struct MmdlVec *out);
+struct MapMatrix;
+extern int MAP_MATRIX_IsInRangeByPos(struct MapMatrix *matrix, int posX, int posZ);
+extern int MAP_MATRIX_GetZoneIdByPos(struct MapMatrix *matrix, int posX, int posZ);
+extern void *GAME_DATA_GetMiscSave(struct GameData *gameData);
 extern u32 MISC_GetBadge(struct MiscSave *beacon, u32 bit);
 extern u32 FIELDMAP_GetMoveKind(struct FieldMap *fieldMap);
-extern void FLDMMDL_GetGridNowPos(struct Mmdl *mmdl, GridPos *out);
+struct MmdlGridVec;
+extern void FLDMMDL_GetGridNowPos(struct Mmdl *mmdl, struct MmdlGridVec *out);
 extern int FIELD_PLAYER_IsGridHopping(struct FieldPlayer *player);
 extern void FIELD_PLAYER_FinishGridHop(struct FieldPlayer *player);
 extern int FIELD_G3D_MAPPER_GetFocusSlot(struct FieldG3dMapper *mapper);
 extern int FIELD_G3D_MAPPER_CheckSlotReady(struct FieldG3dMapper *mapper, int blockIndex);
-extern int FIELD_G3D_MAPPER_QuerySlotPlane(struct FieldG3dMapper *mapper, int blockIndex, VecFx32 *pos, MapCellInfo *out);
+struct FieldG3dMapHit;
+extern int FIELD_G3D_MAPPER_QuerySlotPlane(struct FieldG3dMapper *mapper, s32 slotIndex, VecFx32 *pos, struct FieldG3dMapHit *outHit);
 extern struct MmdlSys *FIELDMAP_GetMmdlSys(struct FieldMap *fieldMap);
 extern int FLDMMDL_SysSearchUseMmdl(struct MmdlSys *sys, struct Mmdl **out, u32 *iter);
 extern int FLDMMDL_CheckEndAcmd(struct Mmdl *mmdl);
 extern MmdlObjSize *FLDMMDL_GetObjCodeParam(struct Mmdl *mmdl);
-extern FieldEffectObj *FLDEFF_ENCOUNT_Start(FieldEncount *encount, FieldEffectSys *fieldEffectSys, int gridX, int gridZ, int heightFx, int kind);
+struct EncountSys;
+struct FieldEffectObj;
+extern FieldEffectObj *FLDEFF_ENCOUNT_Start(struct EncountSys *encount, struct FieldEffectSys *fieldEffect, s32 gridX, s32 gridZ, s32 y, s32 setIndex);
 extern void FLDEFF_ENCOUNT_SetPaused(FieldEffectObj *effect, int paused);
 extern void FLDEFF_ENCOUNT_SetDrawHidden(FieldEffectObj *effect, int flag);
-extern int SCRIPT_SYS_CreateScriptEventSimple(struct GameSystem *gameSystem, u32 scriptId, int target, u16 heapId);
+struct GameEvent;
+extern struct GameEvent *SCRIPT_SYS_CreateScriptEventSimple(void *fieldSys, u16 scriptId, void *target, s32 reserved);
 extern int FIELD_ENCOUNT_CheckWildEncount(FieldEncount *encount, int triggerMode);
 extern int MAP_ATTR_GetEncounterEffectKind(u32 attribute);
 extern void FIELD_EFFECT_DeleteObject(FieldEffectObj *effect);
@@ -203,7 +212,7 @@ int EFFECT_ENCOUNT_Delete(EffectEncount *effectEncount)
 
 void EFFECT_ENCOUNT_Init(FieldEncount *encount, EffectEncount *effectEncount)
 {
-    effectEncount->fieldEffectSys = FIELDMAP_GetEffect(encount->fieldMap);
+    effectEncount->fieldEffectSys = (struct FieldEffectSys *)FIELDMAP_GetEffect(encount->fieldMap);
     EFFECT_ENCOUNT_LoadSetting(encount, effectEncount);
     EFFECT_ENCOUNT_RestoreSpot(encount, effectEncount);
 }
@@ -236,14 +245,14 @@ void EFFECT_ENCOUNT_OnPlayerStep(FieldEncount *encount)
 
     if (encount == 0 || encount->encountData == 0 || !encount->encountData->enabled)
         return;
-    fieldWork = GAME_DATA_GetFieldWork(encount->gameData);
+    fieldWork = (void *)GAME_DATA_GetFieldWork(encount->gameData);
     if (encount->fieldMap == 0 || fieldWork == 0)
         return;
     playerZoneId = FIELDMAP_GetZoneId(encount->fieldMap);
-    FLDMMDL_GetPos(FIELD_PLAYER_GetMmdl(FIELDMAP_GetFieldPlayer(encount->fieldMap)), &pos);
-    if (MAP_MATRIX_IsInRangeByPos((int)fieldWork, pos.x, pos.z) == 0)
+    FLDMMDL_GetPos(FIELD_PLAYER_GetMmdl(FIELDMAP_GetFieldPlayer(encount->fieldMap)), (struct MmdlVec *)(&pos));
+    if (MAP_MATRIX_IsInRangeByPos(fieldWork, pos.x, pos.z) == 0)
         return;
-    mapZoneId = MAP_MATRIX_GetZoneIdByPos((int)fieldWork, pos.x, pos.z);
+    mapZoneId = MAP_MATRIX_GetZoneIdByPos(fieldWork, pos.x, pos.z);
     if (playerZoneId == 0xFFFF || mapZoneId == 0xFFFF || playerZoneId != mapZoneId)
         return;
     if (MISC_GetBadge(GAME_DATA_GetMiscSave(encount->gameData), 0) == 0)
@@ -312,7 +321,7 @@ int EFFECT_ENCOUNT_TriggerSpot(FieldEncount *encount)
 
     if (gimmick->spot.active == 0)
         return isItemEvent;
-    FLDMMDL_GetGridNowPos(FIELD_PLAYER_GetMmdl(FIELDMAP_GetFieldPlayer(encount->fieldMap)), &playerPos);
+    FLDMMDL_GetGridNowPos(FIELD_PLAYER_GetMmdl(FIELDMAP_GetFieldPlayer(encount->fieldMap)), (struct MmdlGridVec *)(&playerPos));
     if (!isSpotAt(spot, &playerPos))
         return 0;
     roll = GFL_USE_GetRandomBelow(1000);
@@ -361,7 +370,7 @@ int EFFECT_ENCOUNT_GetSpotDistance(FieldEncount *encount, short *out)
         *out = 0;
         return 0;
     }
-    FLDMMDL_GetGridNowPos(FIELD_PLAYER_GetMmdl(FIELDMAP_GetFieldPlayer(encount->fieldMap)), &playerPos);
+    FLDMMDL_GetGridNowPos(FIELD_PLAYER_GetMmdl(FIELDMAP_GetFieldPlayer(encount->fieldMap)), (struct MmdlGridVec *)(&playerPos));
     distX = (short)(spot->gridX - playerPos.x);
     if (distX < 0)
         distX = distX * 0xffffffff; /* stand-in: -distX and 0 - distX change the bytes */
@@ -585,7 +594,7 @@ int EFFECT_ENCOUNT_IsTileOccupied(FieldEncount *encount, s16 gridX, s16 gridHeig
         if (mmdl == player && ignorePlayer)
             continue;
         size = FLDMMDL_GetObjCodeParam(mmdl);
-        FLDMMDL_GetGridNowPos(mmdl, &pos);
+        FLDMMDL_GetGridNowPos(mmdl, (struct MmdlGridVec *)(&pos));
         if (gridHeight != pos.y)
             continue;
         if (gridX < pos.x || gridX >= pos.x + size->gridWidth)
@@ -624,7 +633,7 @@ void EFFECT_ENCOUNT_CreateEffectObj(FieldEncount *encount, EffectEncount *effect
 {
     if (effectEncount->effectObj == 0) {
         /* stand-in: the (u16) casts make the loads ldrh as the original has them; the spot fields are s16 elsewhere */
-        effectEncount->effectObj = FLDEFF_ENCOUNT_Start(encount, effectEncount->fieldEffectSys, (u16)spot->gridX, (u16)spot->gridZ, spot->heightFx, spot->kind);
+        effectEncount->effectObj = FLDEFF_ENCOUNT_Start((struct EncountSys *)encount, effectEncount->fieldEffectSys, (u16)spot->gridX, (u16)spot->gridZ, spot->heightFx, spot->kind);
         if (effectEncount->effectObj == 0) {
             MI_CpuFill8(spot, 0, 0x10);
         }
@@ -664,5 +673,5 @@ u16 EFFECT_ENCOUNT_PickItemKind7(void)
 int EFFECT_ENCOUNT_StartItemEvent(FieldEncount *encount, u16 itemId)
 {
     encount->effectEncount->itemId = itemId;
-    return SCRIPT_SYS_CreateScriptEventSimple(encount->gameSystem, 0x2795, 0, FIELDMAP_GetHeapId(encount->fieldMap));
+    return (s32)SCRIPT_SYS_CreateScriptEventSimple(encount->gameSystem, 0x2795, 0, FIELDMAP_GetHeapId(encount->fieldMap));
 }

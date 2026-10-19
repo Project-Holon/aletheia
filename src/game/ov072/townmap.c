@@ -160,6 +160,10 @@
  *   BMP_WIN_ClearScreen 0x020456F8 arm
  *   TOWNMAP_TownGetField  0x021BA774  thumb
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb  arm9
+ *   _fadd                        0x0209C95C  arm
+ *   _ffix                        0x0209C494  arm
+ *   _fflt                        0x0209BDBC  arm
+ *   _fsub                        0x0209CB8C  arm
  */
 #include "townmap_types.h"
 
@@ -244,20 +248,24 @@ typedef struct { u32 w[8]; } BgTemplate;
 
 extern int GF_OVERLAY_Load(s32 handle);
 extern void GFL_HEAP_CreateChildHeap(u32 a, u32 b, u32 c);
-extern void *PROCSYS_AllocProcWork(struct HeapTask *obj, u32 size, u32 heap);
+extern void *PROCSYS_AllocProcWork(struct Proc *proc, u32 size, u32 heapId);
 extern void MI_CpuFill8(void *p, int v, int n);
 extern struct GfFont *GF_FONT_Create(int archiveId, int fileId, int format, int isFixedWidth, u32 heapId);
 extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
+struct GameSystem;
+struct GameData;
+extern struct GameData *GAMESYSTEM_GetGameData(struct GameSystem *gameSystem);
 extern void GF_FONT_SetTextColor(u32 a, u32 b, u32 c);
 extern void GF_FONT_SetDefaultTextColor(void);
 extern void BG_SYS_ChangeScrollImmediate(u32 a, u32 b, u32 c);
 extern int GFL_NET_GetRunState(void);
 extern void GFL_NET_RefreshWmIconAtTopRight(u32 a, u32 b);
-extern u32 GFL_USE_AddMainTask(void (*cb)(void *, void *), void *arg, int pri);
-extern void TCB_DeleteTask(struct Node *n);
-extern u32 MSGDATA_Delete(struct Rec *rec);
-extern u32 GF_FONT_Delete(void *ptr);
+struct Tcb;
+extern struct Tcb *GFL_USE_AddMainTask(void (*cb)(void *, void *), void *work, u32 priority);
+struct TcbTask;
+extern void TCB_DeleteTask(struct TcbTask *task);
+extern u32 MSGDATA_Delete(struct MsgBank *bank);
+extern u32 GF_FONT_Delete(struct GfFont *font);
 extern void PROCSYS_FreeProcWork(struct Proc *p);
 extern void GFL_HEAP_DeleteChecked(u32 heap);
 extern void GF_OVERLAY_Unload(s32 handle);
@@ -265,7 +273,7 @@ void FADE_Start(u32 a, s32 b, s32 c, s32 d);
 int FADE_IsActive(void);
 extern void GFL_USE_PlaySeDefaultVolume(u32);
 extern u8 UI_GetInputMode(void);
-extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
+extern void *ARC_TOOL_CreateHandle(u32 archiveID, u16 heapID);
 extern s32 CLACT_RegisterPaletteEx(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
 extern u32 CLACT_RegisterCharacter(void *arc, u32 id, u32 a, u32 b, u32 heap);
 extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
@@ -293,8 +301,8 @@ extern int TOUCHBAR_GetPressedButtonIdIfDone(unsigned char *);
 int TOUCHBAR_IsBusy(unsigned char *p);
 extern void CLACT_AddActorSurfacePos(struct Actor *p, const struct Vec2 *delta, unsigned int which);
 extern void CLACT_SetActorDrawEnable(struct Actor *p, u32 v);
-extern void CLACT_SetActorBgPriority(int obj, int v);
-extern void CLACT_SetActorDrawPriority(struct Node *node, u32 val);
+extern void CLACT_SetActorBgPriority(struct Actor *actor, u32 priority);
+extern void CLACT_SetActorDrawPriority(struct Actor *actor, u32 priority);
 extern unsigned int KEY_GetCont(void);
 extern void VEC_Subtract(const struct Vec3 *a, const struct Vec3 *b, struct Vec3 *d);
 extern int VEC_Mag(const struct Vec3 *v);
@@ -309,7 +317,8 @@ extern void CLACT_SetActorAffineMode(struct Actor *actor, u32 value);
 extern void BUTTON_MAN_InitSphere(struct Ball *dst, struct Vec *src, unsigned radius);
 extern void BUTTON_MAN_InitSegment(char *p, struct Vec3 *q, struct Vec3 *r, u32 v);
 extern u32 BUTTON_MAN_SegmentSphereTest(struct Seg *seg, struct Ball *b, struct Out *out);
-extern void CLACT_SetActorScale(struct Actor *dst, struct Pair *src);
+struct Pair32;
+extern void CLACT_SetActorScale(struct Actor *actor, struct Pair32 *src);
 void BG_SYS_Update(void);
 int TOWNMAP_Create(void *taskArg, void *unused, TownMapArgs *args);
 int TOWNMAP_Destroy(void *taskArg, int unusedA, int unusedB, TownMapWork *work);
@@ -413,9 +422,10 @@ void TOWNMAP_GRH_VBlankSprites(TownMapSprites *sprites);
 struct ClactActor *TOWNMAP_GRH_GetSpriteActor(TownMapSprites *sprites, int n);
 unsigned int TOWNMAP_GRH_GetSpriteHandle(TownMapSprites *sprites, int n);
 int TOWNMAP_GRH_GetSpriteResourceId(TownMapSprites *sprites, int i);
-int TOWNMAP_GRH_LoadTownInfo(int a);
-void TOWNMAP_GRH_FreeTownInfo(void *p);
-unsigned short TOWNMAP_GRH_GetTownInfoValue(char *p, int a, int b);
+struct TownMapInfoRow;
+struct TownMapInfoRow *TOWNMAP_GRH_LoadTownInfo(int a);
+void TOWNMAP_GRH_FreeTownInfo(struct TownMapInfoRow *info);
+unsigned short TOWNMAP_GRH_GetTownInfoValue(struct TownMapInfoRow *info, u16 row, s32 col);
 extern char ov067_id[];
 extern const TownMapPoint d_021BBB78;
 extern ButtonTable d_021BBB8C;
@@ -423,17 +433,20 @@ extern char d_021BBD60[];
 extern void BG_SYS_ChangeScroll(u32 bgId, u32 which, u32 value);
 extern void BG_SYS_ChangeCenter(u32 bgId, u32 which, u16 value);
 extern void BG_SYS_ChangeScale(u32 bgId, u32 which, u32 value);
-extern struct BmpWin *BMP_WIN_Create(u32 bgId, u32 x, u32 y, u32 width, u8 height, u8 palette, u8 baseTile);
-extern struct StrBuf *STRBUF_Create(u32 capacity, u32 heapId);
-extern void STRBUF_Delete(struct StrBuf *text);
+struct BmpWin;
+extern struct BmpWin *BMP_WIN_Create(u32 bgLayer, u32 posX, u32 posY, u8 width, u8 height, u8 palette, u8 allocDir);
+struct Strbuf;
+extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
+extern void STRBUF_Delete(struct Strbuf *strbuf);
 extern u32 BMP_WIN_Delete(struct BmpWin *win);
-extern struct Bitmap *BMP_WIN_GetBmp(struct BmpWin *win);
-extern void BMP_Clear(struct Bitmap *bitmap, u8 value);
+struct Bmp;
+extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *win);
+extern void BMP_Clear(struct Bmp *bmp, u8 value);
 extern u32 ZONEDATA_GetPlaceNameId(u32 townId);
-extern void MSGDATA_ReadString(struct MsgBank *msg, u32 index, struct StrBuf *dest);
+extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, struct Strbuf *dest);
 extern u8 BMP_WIN_GetWidth(struct BmpWin *win);
-extern u32 PRINTSYS_MeasureWidestLine(struct StrBuf *text, void *font, u32 spacing);
-extern void PRINTSYS_Print(struct Bitmap *bitmap, s16 x, s16 y, struct StrBuf *text, void *font);
+extern u32 PRINTSYS_MeasureWidestLine(struct Strbuf *text, struct GfFont *font, u32 spacing);
+extern void PRINTSYS_Print(struct Bmp *bmp, s16 x, s16 y, struct Strbuf *str, struct GfFont *font);
 extern void BMP_WIN_TransferChars(struct BmpWin *win);
 extern void BMP_WIN_MakeScreen(struct BmpWin *win);
 extern u8 BMP_WIN_GetBgLayer(struct BmpWin *win);
@@ -460,9 +473,9 @@ int TOWNMAP_Create(void *taskArg, void *unused, TownMapArgs *args)
     work->nameMsg = MSGDATA_CreateFromArchive(0, 2, 0x59, 0x44);
     work->detailMsg = MSGDATA_CreateFromArchive(0, 2, 0xb9, 0x44);
     work->gfx = TOWNMAP_GRH_Create(0x44);
-    work->mapInfo = TOWNMAP_GRH_LoadTownInfo(0x44);
+    work->mapInfo = (s32)TOWNMAP_GRH_LoadTownInfo(0x44);
     TOWNMAP_ProcInit(&work->proc, work, (TownMapStepFunc)TOWNMAP_StepFadeIn);
-    ctx = (u32)GAMESYSTEM_GetGameData((const struct Ctx *)work->args->gameCtx);
+    ctx = (u32)GAMESYSTEM_GetGameData((struct GameSystem *)work->args->gameCtx);
     if (work->args->mode != 1) {
         TOWNMAP_GRH_InitTextBox(&work->panel, TOWNMAP_GRH_GetBgId(work->gfx, 1), work->fontSystem, work->detailMsg, 0, 0x15, 0x18, 3, 0x44);
         GF_FONT_SetTextColor(0xf, 1, 0);
@@ -472,7 +485,7 @@ int TOWNMAP_Create(void *taskArg, void *unused, TownMapArgs *args)
     TOWNMAP_BackButtonInit(&work->buttonBar, work->args->mode, TOWNMAP_GRH_GetHandle(work->gfx, 0), TOWNMAP_GRH_GetBgId(work->gfx, 0), 0xf, 8, ctx, 0x44);
     TOWNMAP_GRH_InitLabel(&work->label, TOWNMAP_GRH_GetBgId(work->gfx, 1), work->fontSystem, work->nameMsg, TOWNMAP_GRH_GetActor(work->gfx, 0), 0x44);
     BG_SYS_ChangeScrollImmediate(TOWNMAP_GRH_GetBgId(work->gfx, 1), 3, -4);
-    TOWNMAP_MapInit(&work->map, args->townId, args->townSubId, work->mapInfo, work->gfx, (u32)GAMESYSTEM_GetGameData((const struct Ctx *)work->args->gameCtx), (u16)0x44, pickMode);
+    TOWNMAP_MapInit(&work->map, args->townId, args->townSubId, work->mapInfo, work->gfx, (u32)GAMESYSTEM_GetGameData((struct GameSystem *)work->args->gameCtx), (u16)0x44, pickMode);
     TOWNMAP_CursorInit(&work->cursor, (void *)TOWNMAP_GRH_GetActor(work->gfx, 1), (void *)TOWNMAP_GRH_GetActor(work->gfx, 2), 0x44);
     town = TOWNMAP_MapFindTownById(&work->map, args->townId, args->townSubId);
     if (town != 0) {
@@ -497,14 +510,14 @@ int TOWNMAP_Create(void *taskArg, void *unused, TownMapArgs *args)
     if (GFL_NET_GetRunState()) {
         GFL_NET_RefreshWmIconAtTopRight(1, 0x44);
     }
-    work->vblankTask = GFL_USE_AddMainTask(TOWNMAP_GRH_EmptyTask, work, 0);
+    work->vblankTask = (u32)GFL_USE_AddMainTask(TOWNMAP_GRH_EmptyTask, work, 0);
     return 1;
 }
 
 
 int TOWNMAP_Destroy(void *taskArg, int unusedA, int unusedB, TownMapWork *work)
 {
-    TCB_DeleteTask((struct Node *)work->vblankTask);
+    TCB_DeleteTask((struct TcbTask *)work->vblankTask);
     TOWNMAP_GRH_ClearTouch(&work->touch);
     TOWNMAP_ExitSelection(&work->selection);
     TOWNMAP_ClearScroll(&work->scroll);
@@ -518,8 +531,8 @@ int TOWNMAP_Destroy(void *taskArg, int unusedA, int unusedB, TownMapWork *work)
     TOWNMAP_ProcClear(&work->proc);
     TOWNMAP_GRH_FreeTownInfo((void *)work->mapInfo);
     TOWNMAP_GRH_Delete(work->gfx);
-    MSGDATA_Delete((struct Rec *)work->detailMsg);
-    MSGDATA_Delete((struct Rec *)work->nameMsg);
+    MSGDATA_Delete((struct MsgBank *)work->detailMsg);
+    MSGDATA_Delete((struct MsgBank *)work->nameMsg);
     GF_FONT_Delete(work->fontSystem);
     PROCSYS_FreeProcWork(taskArg);
     GFL_HEAP_DeleteChecked(0x44);
@@ -833,9 +846,9 @@ void TOWNMAP_CursorInit(TownMapCursor *cursor, void *arrowSprite, void *hoverSpr
     CLACT_SetActorDrawEnable(cursor->arrowSprite, 1);
     one = 1;
     CLACT_SetActorDrawEnable(cursor->hoverSprite, 0);
-    CLACT_SetActorBgPriority((int)cursor->arrowSprite, 0);
+    CLACT_SetActorBgPriority((struct Actor *)cursor->arrowSprite, 0);
     CLACT_SetActorDrawPriority(cursor->arrowSprite, 0);
-    CLACT_SetActorBgPriority((int)cursor->hoverSprite, 2);
+    CLACT_SetActorBgPriority((struct Actor *)cursor->hoverSprite, 2);
     CLACT_SetActorDrawPriority(cursor->hoverSprite, 3);
     CLACT_SetActorAutoAnim(cursor->hoverSprite, 1);
     if (UI_GetInputMode() == 0) {
@@ -1192,7 +1205,7 @@ TownMapTown *TOWNMAP_MapFindNearestTown(TownMapMap *map, TownMapCursor *cursor)
 int TOWNMAP_TownGetField(TownMapTown *town, int field) {
  if (field>=2 && field<=10) return town->values[field-2];
  if (field==12) return town->selectable;
- return TOWNMAP_GRH_GetTownInfoValue(town->info,(u16)(town->index),field);
+ return TOWNMAP_GRH_GetTownInfoValue((struct TownMapInfoRow *)town->info,(u16)(town->index),field);
 }
 
 
@@ -1240,7 +1253,7 @@ int TOWNMAP_TownIsRevealed(TownMapTown *town)
 {
     int flag;
 
-    flag = TOWNMAP_GRH_GetTownInfoValue(town->info, (u16)(town->index), 15);
+    flag = TOWNMAP_GRH_GetTownInfoValue((struct TownMapInfoRow *)town->info, (u16)(town->index), 15);
     if ((flag != 65535 && town->visited != 0 && town->locked == 0) || flag == 65535)
         return 1;
     return 0;
@@ -1257,7 +1270,7 @@ void TOWNMAP_TownInit(TownMapTown *town, int mapInfo, int townIndex, int clactSe
     town->scale = 0x1000;
     town->info = (char *)mapInfo;
     town->index = townIndex;
-    flag = TOWNMAP_GRH_GetTownInfoValue((char *)mapInfo, (u16)townIndex, 15);
+    flag = TOWNMAP_GRH_GetTownInfoValue((struct TownMapInfoRow *)mapInfo, (u16)townIndex, 15);
     if (flag != 0xFFFF)
         town->visited = SYMBOL_MAP_CheckEventFlag(gameData, flag);
     else
@@ -1265,12 +1278,12 @@ void TOWNMAP_TownInit(TownMapTown *town, int mapInfo, int townIndex, int clactSe
     if (pickMode)
         town->visited = 1;
     for (i = 0; i < 9; i++)
-        town->values[i] = TOWNMAP_GRH_GetTownInfoValue(town->info, (u16)town->index, i + 2);
+        town->values[i] = TOWNMAP_GRH_GetTownInfoValue((struct TownMapInfoRow *)town->info, (u16)town->index, i + 2);
     if (pickMode)
         town->selectable = 1;
     else
-        town->selectable = town->visited && TOWNMAP_GRH_GetTownInfoValue(town->info, (u16)town->index, 12);
-    flag = TOWNMAP_GRH_GetTownInfoValue(town->info, (u16)town->index, 16);
+        town->selectable = town->visited && TOWNMAP_GRH_GetTownInfoValue((struct TownMapInfoRow *)town->info, (u16)town->index, 12);
+    flag = TOWNMAP_GRH_GetTownInfoValue((struct TownMapInfoRow *)town->info, (u16)town->index, 16);
     if (flag != 0xFFFF)
         town->locked = SYMBOL_MAP_CheckEventFlag(gameData, flag) == 0;
     else
@@ -1312,8 +1325,8 @@ void TOWNMAP_TownInit(TownMapTown *town, int mapInfo, int townIndex, int clactSe
         init.y = TOWNMAP_TownGetField(town, 3);
         town->sprite = CLACT_CreateActor((void *)clactSet, plttRes, charRes, cellRes, &init, 0, heapId);
         CLACT_SetActorAffineMode((struct Actor *)town->sprite, 2);
-        CLACT_SetActorBgPriority((int)town->sprite, 2);
-        CLACT_SetActorDrawPriority((struct Node *)town->sprite, 4);
+        CLACT_SetActorBgPriority((struct Actor *)town->sprite, 2);
+        CLACT_SetActorDrawPriority((struct Actor *)town->sprite, 4);
     }
     TOWNMAP_TownUnhighlight(town);
 }
@@ -1415,16 +1428,16 @@ void TOWNMAP_TownSetScale(TownMapTown *town, int scale, const TownMapPoint *cent
         } else {
             base = center->y;
         }
-        d = TOWNMAP_GRH_GetTownInfoValue(town->info, (u16)town->index, i + 2) - base;
+        d = TOWNMAP_GRH_GetTownInfoValue((struct TownMapInfoRow *)town->info, (u16)town->index, i + 2) - base;
         d = d * scale >> 12;
         town->values[i] = d + base;
     }
-    town->values[8] = scale * TOWNMAP_GRH_GetTownInfoValue(town->info, (u16)town->index, 10) >> 12;
+    town->values[8] = scale * TOWNMAP_GRH_GetTownInfoValue((struct TownMapInfoRow *)town->info, (u16)town->index, 10) >> 12;
     town->scale = scale;
     if (town->sprite != 0) {
         scaleXY[0] = scale;
         scaleXY[1] = scale;
-        CLACT_SetActorScale((struct Actor *)town->sprite, (struct Pair *)scaleXY);
+        CLACT_SetActorScale((struct Actor *)town->sprite, (struct Pair32 *)scaleXY);
     }
 }
 
@@ -1509,8 +1522,8 @@ void TOWNMAP_MarkerInit(TownMapMarker *marker, TownMapTown *town, int clactSet, 
         init.y = TOWNMAP_TownGetField(town, 3);
     }
     marker->sprite = CLACT_CreateActor((void *)clactSet, plttRes, charRes, cellRes, &init, 0, heapId);
-    CLACT_SetActorBgPriority((int)marker->sprite, 2);
-    CLACT_SetActorDrawPriority((struct Node *)marker->sprite, 2);
+    CLACT_SetActorBgPriority((struct Actor *)marker->sprite, 2);
+    CLACT_SetActorDrawPriority((struct Actor *)marker->sprite, 2);
     CLACT_SetActorAnimSeq((struct Actor *)marker->sprite, 6);
     CLACT_SetActorAutoAnim((struct Actor *)marker->sprite, 1);
     if (town == 0) {
@@ -1672,12 +1685,12 @@ void TOWNMAP_InitSelection(TownMapSelection *sel, int bgId, void *font, struct M
     sel->detailMsg = detailMsg;
     sel->box.msg = nameMsg;
     sel->box.win = BMP_WIN_Create(bgId, 0, 0, 0x20, 0x18, 0xe, 0);
-    sel->box.text = STRBUF_Create(0xff, heapId);
+    sel->box.text = (struct StrBuf *)STRBUF_Create(0xff, heapId);
 }
 
 void TOWNMAP_ExitSelection(TownMapSelection *sel)
 {
-    STRBUF_Delete(sel->box.text);
+    STRBUF_Delete((struct Strbuf *)sel->box.text);
     BMP_WIN_Delete(sel->box.win);
     MI_CpuFill8(sel, 0, sizeof(TownMapSelection));
 }
@@ -1690,49 +1703,49 @@ void TOWNMAP_DrawSelection(TownMapSelection *sel, TownMapTown *town)
     s16 halfWidth;
     u16 msgId;
 
-    bitmap = BMP_WIN_GetBmp(sel->box.win);
-    BMP_Clear(bitmap, 0);
+    bitmap = (struct Bitmap *)BMP_WIN_GetBmp(sel->box.win);
+    BMP_Clear((struct Bmp *)bitmap, 0);
     if (town != 0) {
-        MSGDATA_ReadString(sel->box.msg, ZONEDATA_GetPlaceNameId((u16)TOWNMAP_TownGetField(town, 0)), sel->box.text);
+        MSGDATA_ReadString(sel->box.msg, ZONEDATA_GetPlaceNameId((u16)TOWNMAP_TownGetField(town, 0)), (struct Strbuf *)sel->box.text);
         centerX = ((u32)BMP_WIN_GetWidth(sel->box.win) << 3) / 2;
-        halfWidth = PRINTSYS_MeasureWidestLine(sel->box.text, sel->box.font, 0) >> 1;
+        halfWidth = PRINTSYS_MeasureWidestLine((struct Strbuf *)sel->box.text, sel->box.font, 0) >> 1;
         centerX = centerX - halfWidth;
-        PRINTSYS_Print(bitmap, centerX, 0x30, sel->box.text, sel->box.font);
+        PRINTSYS_Print((struct Bmp *)bitmap, centerX, 0x30, (struct Strbuf *)sel->box.text, sel->box.font);
         msgId = TOWNMAP_TownGetField(town, 0x11);
         if (msgId != 0xFFFF) {
-            MSGDATA_ReadString(sel->detailMsg, msgId, sel->box.text);
-            PRINTSYS_Print(bitmap, 0x1c, 0x50, sel->box.text, sel->box.font);
+            MSGDATA_ReadString(sel->detailMsg, msgId, (struct Strbuf *)sel->box.text);
+            PRINTSYS_Print((struct Bmp *)bitmap, 0x1c, 0x50, (struct Strbuf *)sel->box.text, sel->box.font);
         }
         if (TOWNMAP_TownIsRevealed(town)) {
             msgId = TOWNMAP_TownGetField(town, 0x12);
             if (msgId != 0xFFFF) {
-                MSGDATA_ReadString(sel->detailMsg, msgId, sel->box.text);
-                PRINTSYS_Print(bitmap, 0x10, 0x80, sel->box.text, sel->box.font);
+                MSGDATA_ReadString(sel->detailMsg, msgId, (struct Strbuf *)sel->box.text);
+                PRINTSYS_Print((struct Bmp *)bitmap, 0x10, 0x80, (struct Strbuf *)sel->box.text, sel->box.font);
             }
             msgId = TOWNMAP_TownGetField(town, 0x13);
             if (msgId != 0xFFFF) {
-                MSGDATA_ReadString(sel->detailMsg, msgId, sel->box.text);
-                PRINTSYS_Print(bitmap, 0x10, 0x90, sel->box.text, sel->box.font);
+                MSGDATA_ReadString(sel->detailMsg, msgId, (struct Strbuf *)sel->box.text);
+                PRINTSYS_Print((struct Bmp *)bitmap, 0x10, 0x90, (struct Strbuf *)sel->box.text, sel->box.font);
             }
             msgId = TOWNMAP_TownGetField(town, 0x14);
             if (msgId != 0xFFFF) {
-                MSGDATA_ReadString(sel->detailMsg, msgId, sel->box.text);
-                PRINTSYS_Print(bitmap, 0x10, 0xa0, sel->box.text, sel->box.font);
+                MSGDATA_ReadString(sel->detailMsg, msgId, (struct Strbuf *)sel->box.text);
+                PRINTSYS_Print((struct Bmp *)bitmap, 0x10, 0xa0, (struct Strbuf *)sel->box.text, sel->box.font);
             }
             msgId = TOWNMAP_TownGetField(town, 0x15);
             if (msgId != 0xFFFF) {
-                MSGDATA_ReadString(sel->detailMsg, msgId, sel->box.text);
-                PRINTSYS_Print(bitmap, 0x88, 0x80, sel->box.text, sel->box.font);
+                MSGDATA_ReadString(sel->detailMsg, msgId, (struct Strbuf *)sel->box.text);
+                PRINTSYS_Print((struct Bmp *)bitmap, 0x88, 0x80, (struct Strbuf *)sel->box.text, sel->box.font);
             }
             msgId = TOWNMAP_TownGetField(town, 0x16);
             if (msgId != 0xFFFF) {
-                MSGDATA_ReadString(sel->detailMsg, msgId, sel->box.text);
-                PRINTSYS_Print(bitmap, 0x88, 0x90, sel->box.text, sel->box.font);
+                MSGDATA_ReadString(sel->detailMsg, msgId, (struct Strbuf *)sel->box.text);
+                PRINTSYS_Print((struct Bmp *)bitmap, 0x88, 0x90, (struct Strbuf *)sel->box.text, sel->box.font);
             }
             msgId = TOWNMAP_TownGetField(town, 0x17);
             if (msgId != 0xFFFF) {
-                MSGDATA_ReadString(sel->detailMsg, msgId, sel->box.text);
-                PRINTSYS_Print(bitmap, 0x88, 0xa0, sel->box.text, sel->box.font);
+                MSGDATA_ReadString(sel->detailMsg, msgId, (struct Strbuf *)sel->box.text);
+                PRINTSYS_Print((struct Bmp *)bitmap, 0x88, 0xa0, (struct Strbuf *)sel->box.text, sel->box.font);
             }
         }
     }

@@ -66,24 +66,30 @@ typedef struct { u16 x,y,z; u8 pad,n; } ActorTemplate;
 
 extern void *GFL_HEAP_Alloc(u32,u32,int,const char *,u16);
 extern void MI_CpuFill8(void *,int,u32);
-extern struct TaskMenuState *APP_TASKMENU_RES_Create(u16 bgFrame, u16 palNo, u32 font, u32 printQue, u16 heap);
+struct PrintQueue;
+struct GFont;
+struct TaskMenuRes;
+extern struct TaskMenuRes *APP_TASKMENU_RES_Create(u16 bgFrame, u16 palNo, struct GFont *font, struct PrintQueue *printQue, u16 heapId);
 extern u8 BG_SYS_GetPriority(u32);
 extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern void *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
-extern u32 APP_TASKMENU_WIN_Create(u32 res, u32 item, u32 charPosX, u32 charPosY, u8 width, u16 heapId);
-extern void STRBUF_Delete(struct U16Vec *vec);
-extern u32 MSGDATA_Delete(struct Rec *rec);
-extern void APP_TASKMENU_WIN_Delete(unsigned char *);
-extern void APP_TASKMENU_RES_Delete(struct TaskMenuState *);
-extern void GFL_HEAP_Free(void *);
+struct Strbuf;
+extern struct Strbuf *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
+struct TaskMenuItem;
+struct TaskMenuWin;
+extern struct TaskMenuWin *APP_TASKMENU_WIN_Create(struct TaskMenuRes *res, struct TaskMenuItem *item, u16 charPosX, u16 charPosY, u8 width, u16 heapId);
+extern void STRBUF_Delete(struct Strbuf *strbuf);
+extern u32 MSGDATA_Delete(struct MsgBank *bank);
+extern void APP_TASKMENU_WIN_Delete(struct TaskMenuWin *win);
+extern void APP_TASKMENU_RES_Delete(struct TaskMenuRes *res);
+extern u32 GFL_HEAP_Free(void *);
 extern void IRC_APPBAR_DeleteActors(void *);
-extern unsigned int APP_TASKMENU_WIN_IsTouch(void **p);
+extern unsigned int APP_TASKMENU_WIN_IsTouch(struct TaskMenuWin *win);
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
-extern void APP_TASKMENU_WIN_SetDecide(char *p, int v);
-extern u32 APP_TASKMENU_WIN_IsFinish(u8 *p);
-extern void APP_TASKMENU_WIN_ResetDecide(struct Obj *obj);
-extern void APP_TASKMENU_WIN_SetActive(struct Obj *obj, u32 a);
-extern void APP_TASKMENU_WIN_Update(u8 *p);
+extern void APP_TASKMENU_WIN_SetDecide(struct TaskMenuWin *win, int isDecide);
+extern u32 APP_TASKMENU_WIN_IsFinish(struct TaskMenuWin *win);
+extern void APP_TASKMENU_WIN_ResetDecide(struct TaskMenuWin *win);
+extern void APP_TASKMENU_WIN_SetActive(struct TaskMenuWin *win, u32 isActive);
+extern void APP_TASKMENU_WIN_Update(struct TaskMenuWin *win);
 extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
 extern void *ARC_TOOL_CreateHandle(unsigned int id, unsigned int heap);
 extern int CLACT_RegisterPaletteEx(void *,unsigned,unsigned,u16,u16,u16,unsigned);
@@ -94,7 +100,8 @@ extern void CLACT_ReleaseCellAnim(unsigned);
 extern void CLACT_ReleaseCharacter(unsigned);
 extern void CLACT_ReleasePalette(unsigned);
 extern struct Obj *CLACT_CreateActor(void *,unsigned int,unsigned int,unsigned int,const void *,u16,u16);
-extern void CLACT_DeleteActor(struct Obj *);
+struct Actor;
+extern void CLACT_DeleteActor(struct Actor *actor);
 
 /*
  * lever: distinct enum first/choice values preserve branch-local setup and saved-register allocation.
@@ -130,20 +137,20 @@ IrcAppBar *IRC_APPBAR_Create(u32 unusedArg,void *clactUnit,u16 layer,u16 x,u8 pa
     if(layer>=4) { side=1; first=1; choice=4; }
     else { first=0; choice=0; }
     IRC_APPBAR_LoadResources(bar,first,choice,unusedExtra,x,paletteSlot,heapId);
-    bar->taskMenuRes=APP_TASKMENU_RES_Create(layer,x,(u32)font,(u32)printQueue,heapId);
+    bar->taskMenuRes=(struct TaskMenuState *)APP_TASKMENU_RES_Create(layer,x,(struct GFont *)font,(struct PrintQueue *)printQueue,heapId);
     IRC_APPBAR_CreateActor(bar,(unsigned)clactUnit,unusedArg,side,BG_SYS_GetPriority(layer),heapId);
     bank=MSGDATA_CreateFromArchive(0,2,49,heapId);
     MI_CpuFill8(&desc,0,12);
     desc.color=0x39e3;
     desc.str=MSGDATA_AllocString(bank,8);
     desc.flag=1;
-    bar->taskMenuWin=(u8 *)APP_TASKMENU_WIN_Create((u32)bar->taskMenuRes,(u32)(&desc),19,21,13,heapId);
+    bar->taskMenuWin=(u8 *)APP_TASKMENU_WIN_Create((struct TaskMenuRes *)bar->taskMenuRes,(struct TaskMenuItem *)(&desc),19,21,13,heapId);
     STRBUF_Delete(desc.str);
     MSGDATA_Delete(bank);
     return bar;
 }
 
-void IRC_APPBAR_Delete(IrcAppBar *bar) { APP_TASKMENU_WIN_Delete(bar->taskMenuWin); IRC_APPBAR_DeleteActors(bar); APP_TASKMENU_RES_Delete(bar->taskMenuRes); IRC_APPBAR_ReleaseResources(bar); GFL_HEAP_Free(bar); }
+void IRC_APPBAR_Delete(IrcAppBar *bar) { APP_TASKMENU_WIN_Delete((struct TaskMenuWin *)bar->taskMenuWin); IRC_APPBAR_DeleteActors(bar); APP_TASKMENU_RES_Delete((struct TaskMenuRes *)bar->taskMenuRes); IRC_APPBAR_ReleaseResources(bar); GFL_HEAP_Free(bar); }
 
 
 void IRC_APPBAR_Update(IrcAppBar *bar)
@@ -152,16 +159,16 @@ void IRC_APPBAR_Update(IrcAppBar *bar)
         switch (bar->state) {
         case 0:
             bar->result = -1;
-            if (APP_TASKMENU_WIN_IsTouch((void **)bar->taskMenuWin)) {
+            if (APP_TASKMENU_WIN_IsTouch((struct TaskMenuWin *)bar->taskMenuWin)) {
                 GFL_USE_PlaySeDefaultVolume(0x551);
-                APP_TASKMENU_WIN_SetDecide((char *)bar->taskMenuWin, 1);
+                APP_TASKMENU_WIN_SetDecide((struct TaskMenuWin *)bar->taskMenuWin, 1);
                 bar->state = 1;
             }
             break;
         case 1:
-            if (APP_TASKMENU_WIN_IsFinish(bar->taskMenuWin)) {
-                APP_TASKMENU_WIN_ResetDecide((struct Obj *)bar->taskMenuWin);
-                APP_TASKMENU_WIN_SetActive((struct Obj *)bar->taskMenuWin, 0);
+            if (APP_TASKMENU_WIN_IsFinish((struct TaskMenuWin *)bar->taskMenuWin)) {
+                APP_TASKMENU_WIN_ResetDecide((struct TaskMenuWin *)bar->taskMenuWin);
+                APP_TASKMENU_WIN_SetActive((struct TaskMenuWin *)bar->taskMenuWin, 0);
                 bar->state = 2;
             }
             break;
@@ -169,7 +176,7 @@ void IRC_APPBAR_Update(IrcAppBar *bar)
             bar->result = 1;
             break;
         }
-        APP_TASKMENU_WIN_Update(bar->taskMenuWin);
+        APP_TASKMENU_WIN_Update((struct TaskMenuWin *)bar->taskMenuWin);
     }
 }
 
@@ -185,8 +192,8 @@ int IRC_APPBAR_IsPressed(IrcAppBar *bar) { if(bar->state>0) return 1; return 0; 
  * APP_TASKMENU_WIN_SetActive 0x02028218 thumb
  */
 void IRC_APPBAR_Reset(IrcAppBar *bar) {
- APP_TASKMENU_WIN_ResetDecide((struct Obj *)bar->taskMenuWin);
- APP_TASKMENU_WIN_SetActive((struct Obj *)bar->taskMenuWin,0);
+ APP_TASKMENU_WIN_ResetDecide((struct TaskMenuWin *)bar->taskMenuWin);
+ APP_TASKMENU_WIN_SetActive((struct TaskMenuWin *)bar->taskMenuWin,0);
  bar->state=0;
 }
 
@@ -218,15 +225,15 @@ void IRC_APPBAR_SetLabel(IrcAppBar *bar,unsigned labelIndex) {
  unsigned bank;
  LabelDesc desc;
  if(labelIndex==bar->labelIndex) return;
- APP_TASKMENU_WIN_Delete(bar->taskMenuWin);
+ APP_TASKMENU_WIN_Delete((struct TaskMenuWin *)bar->taskMenuWin);
  bank=(unsigned int)MSGDATA_CreateFromArchive(0,2,0x31,bar->heapId);
  MI_CpuFill8(&desc,0,12);
  desc.tag=0x39e3;
  desc.data=(unsigned int)MSGDATA_AllocString((struct MsgBank *)bank,labelIndex+8);
  desc.flag=1;
- bar->taskMenuWin=(u8 *)APP_TASKMENU_WIN_Create((u32)bar->taskMenuRes,(u32)(&desc),0x13,0x15,0xd,bar->heapId);
- STRBUF_Delete((struct U16Vec *)desc.data);
- MSGDATA_Delete((struct Rec *)bank);
+ bar->taskMenuWin=(u8 *)APP_TASKMENU_WIN_Create((struct TaskMenuRes *)bar->taskMenuRes,(struct TaskMenuItem *)(&desc),0x13,0x15,0xd,bar->heapId);
+ STRBUF_Delete((struct Strbuf *)desc.data);
+ MSGDATA_Delete((struct MsgBank *)bank);
  bar->labelIndex=labelIndex; bar->state=0; bar->result=-1;
 }
 

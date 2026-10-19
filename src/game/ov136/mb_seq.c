@@ -265,16 +265,19 @@ extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u
 extern void CLACT_VBlankSystem(void);
 
 extern void BG_SYS_Update(void);
+struct MsgBank;
 
-extern struct MsgData *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 
 extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
+struct PrintQueue;
 
-extern struct PrintQue *PRINTSYS_QUE_Create(u32 heapId);
+extern struct PrintQueue *PRINTSYS_QUE_Create(u32 heapId);
 
 extern struct ClactUnit *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
+struct PmsDraw;
 
-extern struct PmsDraw *PMS_DRAW_Create(struct ClactUnit *clactUnit, u32 b, struct PrintQue *printQue, struct GfFont *font, u8 e0, u8 e1, u16 heap);
+extern struct PmsDraw *PMS_DRAW_Create(unsigned int clunit, unsigned int drawType, unsigned int printQue, unsigned int font, unsigned char plttOffset, unsigned char elemMax, unsigned short heapId);
 
 extern void PMS_DRAW_SetNullColorPalette(struct PmsDraw *p, u8 v);
 
@@ -367,8 +370,10 @@ struct MailBoxChildFinish {
     int result;
     int unused;
 };
+struct GameData;
+struct MailBox;
 
-extern struct MailData *MAIL_GetBox(void *sys);
+extern struct MailBox *MAIL_GetBox(struct GameData *gameData);
 
 extern u32 GFL_HEAP_Free(void *p);
 
@@ -376,7 +381,7 @@ extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
 
 extern void GFL_HEAP_DeleteChecked(u32);
 
-extern int PMSI_PARAM_IsEnabled(const struct PmsData *p);
+extern int PMSI_PARAM_IsEnabled(unsigned short *word);
 
 extern u16 *MAIL_GetWriterName(struct Mail *mail);
 
@@ -393,26 +398,28 @@ extern void STRBUF_Delete(struct Strbuf *vec);
 extern signed char MSG_SPEED_GetWait(void);
 
 extern struct GfFont *GF_FONT_Create(int archiveId, int fileId, int format, int isFixedWidth, u32 heapId);
+struct TcblSystem;
 
-extern struct Tcbl *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
+extern struct TcblSystem *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
 
 extern void BG_SYS_Create(u16);
 
 extern void BG_SYS_Delete(void);
 
-extern void TCBL_Destroy(struct Tcbl *p);
+extern void TCBL_Destroy(struct TcblSystem *tcbl);
 
-extern u32 GF_FONT_Delete(void *ptr);
+extern u32 GF_FONT_Delete(struct GfFont *font);
 
 extern void BG_SYS_SetMainPlaneVisible(u32, u32);
 
 extern void PMS_DRAW_Main(struct PmsDraw *draw);
+struct TcbTask;
 
-extern void TCB_DeleteTask(void *task);
+extern void TCB_DeleteTask(struct TcbTask *task);
 
-extern void TCBL_Main(struct Tcbl *p);
+extern void TCBL_Main(struct TcblSystem *tcbl);
 
-extern u32 PRINTSYS_QUE_Main(struct PrintQue *ps);
+extern u32 PRINTSYS_QUE_Main(struct PrintQueue *queue);
 
 extern u32 KEY_GetTrg(void);
 
@@ -422,7 +429,7 @@ extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *win);
 
 extern void BMP_Clear(struct Bmp *bmp, u8 value);
 
-extern void MSGDATA_ReadString(struct MsgData *bank, u32 index, struct Strbuf *dest);
+extern void MSGDATA_ReadString(struct MsgBank *bank, unsigned int index, struct Strbuf *dest);
 
 extern struct PrintStream *PRINTSYS_PrintStream(struct BmpWin *win, u32 x, u32 y, struct Strbuf *text, struct GfFont *font, int speed, struct Tcbl *tcbl, u32 unused, u16 heapId, u16 clearColor);
 
@@ -433,28 +440,32 @@ extern void BMP_WIN_MakeScreen(struct BmpWin *cfg);
 extern u8 BMP_WIN_GetBgLayer(struct BmpWin *p);
 
 extern void BG_SYS_PushTile(u32 v);
+struct TextPrinter;
 
-extern u32 PRINTSYS_PrintStreamGetState(struct PrintStream *stream);
+extern u32 PRINTSYS_PrintStreamGetState(struct TextPrinter *printer);
 
-extern void PRINTSYS_PrintStreamDelete(struct PrintStream *stream);
+extern void PRINTSYS_PrintStreamDelete(struct TextPrinter *printer);
 
-extern void BMP_MENUWORK_DrawWindowBorder(void *desc, u32 kind);
+extern void BMP_MENUWORK_DrawWindowBorder(struct BmpWin *desc, unsigned int commitMode);
 
-extern void *MSGDATA_AllocString(struct MsgData *bank, u32 index);
+extern struct Strbuf *MSGDATA_AllocString(struct MsgBank *bank, unsigned int index);
+struct TaskMenuRes;
+struct TaskMenuInitWork;
+struct TaskMenuWork;
 
-extern struct AppTaskMenu *APP_TASKMENU_OpenMenu(struct MailMenuTemplate *tmpl, struct AppTaskMenuRes *res);
+extern struct TaskMenuWork *APP_TASKMENU_OpenMenu(struct TaskMenuInitWork *init, struct TaskMenuRes *res);
 
-extern u32 APP_TASKMENU_IsFinish(struct AppTaskMenu *m);
+extern u32 APP_TASKMENU_IsFinish(struct TaskMenuWork *menu);
 
-extern void APP_TASKMENU_CloseMenu(struct AppTaskMenu *m);
+extern void APP_TASKMENU_CloseMenu(struct TaskMenuWork *menu);
 
 extern void BG_SYS_SetSubPlaneVisible(u32, u32);
 
-extern u32 APP_TASKMENU_RES_Delete(struct AppTaskMenuRes *s);
+extern void APP_TASKMENU_RES_Delete(struct TaskMenuRes *res);
 
 extern void PMS_DRAW_Delete(struct PmsDraw *draw);
 
-extern void PRINTSYS_QUE_Delete(struct PrintQue *p);
+extern void PRINTSYS_QUE_Delete(struct PrintQueue *queue);
 
 extern u32 CLACT_DeleteUnit(struct ClactUnit *bank);
 
@@ -468,7 +479,7 @@ extern void BG_SYS_InitRun(u8 layer, u32 size, u32 offset, u32 heapId);
 
 extern void BG_SYS_FreeLayerBuf(u32 bgId);
 
-extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
+extern void *ARC_TOOL_CreateHandle(unsigned int archiveID, unsigned short heapID);
 
 extern void BMP_MENUWORK_LoadCharAndPltt(u32 a, u32 b, u32 c, u32 d, u16 e);
 
@@ -484,7 +495,7 @@ extern void ARC_TOOL_DeleteHandle(void *);
 
 extern void BG_SYS_MarkTileDirty(u32);
 
-extern void G2x_SetBlendAlpha_(void *, int, int, int, int);
+extern void G2x_SetBlendAlpha_(unsigned int *reg, unsigned int a, unsigned int b, unsigned int c, unsigned int d);
 
 extern void BMP_WIN_Init(u16);
 
@@ -497,8 +508,10 @@ extern void BMP_WIN_Exit(void);
 extern void PMS_DRAW_Print(struct PmsDraw *draw, struct BmpWin *win, struct PmsData *pms, u8 index);
 
 extern void PRINTSYS_PrintQueColor(struct PrintQue *queue, struct Bmp *bmp, s16 x, s16 y, struct Strbuf *text, struct GfFont *font, u16 color);
+struct DispVramCfg;
+struct SysInit;
 
-extern void CLACT_InitSystem(const struct Cfg *cfg, const struct DispVram *vram, u32 heapId);
+extern void CLACT_InitSystem(struct SysInit *cfg, struct DispVramCfg *res_cfg, unsigned int heapId);
 
 extern void CLACT_SetUnitDefaultRenderer(struct ClactUnit *bank);
 
@@ -539,7 +552,7 @@ int MB_SEQ_ProcInit(void *procSys, int unused, struct MailBoxArgs *args)
     p = PROCSYS_AllocProcWork(procSys,52,101);
     MIi_CpuClearFast(0,p,52);
     p->args = args;
-    p->mailData = MAIL_GetBox(args->gameData);
+    p->mailData = (struct MailData *)MAIL_GetBox(args->gameData);
     p->nextState = 8;
     p->vblankTask = 0;
     p->procSys = PROCSYS_Create(101);
@@ -572,31 +585,34 @@ void MB_SEQ_SetVramBanks(void)
     BG_SYS_SetVramBanks(&d_021C78E0);
 }
 
-extern void *ARC_UTIL_LoadBgCharDataFromHandle(void *arc, u32 memberIdx, u32 heapID, struct BgCharData **out, u16 flags);
+extern void *ARC_UTIL_LoadBgCharDataFromHandle(void *arc, unsigned int memberIdx, unsigned int heapID, unsigned int unpackedOut, unsigned short flags);
 
 extern void MIi_CpuCopyFast(void *, const void *, u32);
+struct BgWinFrmWork;
 
-extern struct BgWinFrm *BGWINFRM_Create(u32 transMode, u32 frameMax, u32 heap);
+extern struct BgWinFrmWork *BGWINFRM_Create(u32 transMode, u32 frameMax, u32 heap);
 
-extern void BGWINFRM_AddFrame(struct BgWinFrm *mgr, u32 idx, u32 bg, u32 w, u32 h);
+extern void BGWINFRM_AddFrame(struct BgWinFrmWork *wk, unsigned int idx, unsigned int bgFrame, unsigned int sizeX, unsigned int sizeY);
 
-extern void BGWINFRM_SetFrameDataArc(struct BgWinFrm *mgr, u32 idx, u32 arc, u32 member, u32 alloc);
+extern void BGWINFRM_SetFrameDataArc(struct BgWinFrmWork *wk, unsigned int idx, unsigned int arcId, unsigned int datId, unsigned int compressed);
 
-extern void *BGWINFRM_GetFrameBuffer(struct BgWinFrm *mgr, u32 idx);
+extern unsigned short *BGWINFRM_GetFrameBuffer(struct BgWinFrmWork *wk, unsigned int idx);
 
 extern void MI_CpuCopy8(void *,void *,u32);
 
-extern void BGWINFRM_PutFrame(struct BgWinFrm *mgr, u32 idx, s8 x, s8 y);
+extern void BGWINFRM_PutFrame(struct BgWinFrmWork *wk, unsigned int idx, char x, char y);
 
-extern void BGWINFRM_Delete(struct BgWinFrm *mgr);
+extern void BGWINFRM_Delete(struct BgWinFrmWork *wk);
+struct WordSet;
 
-extern struct WordSet *WORDSET_CreateDefault(u32 heap);
+extern struct WordSet *WORDSET_CreateDefault(unsigned short heapId);
 
 extern u32 WORDSET_Delete(struct WordSet *p);
 
-extern u32 MSGDATA_Delete(struct MsgData *msgData);
+extern u32 MSGDATA_Delete(struct MsgBank *bank);
+struct GFont;
 
-extern struct AppTaskMenuRes *APP_TASKMENU_RES_Create(u16, u16, struct GfFont *font, struct PrintQue *printQue, u16);
+extern struct TaskMenuRes *APP_TASKMENU_RES_Create(unsigned short bgFrame, unsigned short palNo, struct GFont *font, struct PrintQueue *printQue, unsigned short heapId);
 
 void MB_SEQ_InitBgs(struct MailBoxProc *p);
 
@@ -735,7 +751,7 @@ void MB_SEQ_LoadFrameCharData(struct MailBoxProc *p)
     ARC_UTIL_UploadBgCharFromHandle(handle, 0x26, 1, 0, 0, 1, 0x66);
     ARC_UTIL_UploadBgPaletteFromHandle(handle, 0x25, 3, 0, 0, 1, 0x66);
     ARC_UTIL_UploadPaletteFromHandleWhole(handle, 0x27, 0, 0, 0, 0x66);
-    buf = ARC_UTIL_LoadBgCharDataFromHandle(handle, 0x26, 1, &charData, 0x66);
+    buf = ARC_UTIL_LoadBgCharDataFromHandle(handle, (unsigned int)0x26, (unsigned int)1, (unsigned int)(&charData), 0x66);
     tiles = charData->tiles;
     MIi_CpuCopyFast(tiles + 0x100, p->view->blankTile[0], 0x20);
     MIi_CpuCopyFast(tiles + 0x100, p->view->blankTile[1], 0x20);
@@ -755,23 +771,23 @@ void MB_SEQ_CreateFrames(struct MailBoxProc *p)
 {
     u32 i;
     void *first;
-    p->view->frames = BGWINFRM_Create(2,11,102);
-    for(i=0;i<10;i++) BGWINFRM_AddFrame(p->view->frames,i,2,14,4);
-    BGWINFRM_AddFrame(p->view->frames,10,1,14,4);
-    BGWINFRM_SetFrameDataArc(p->view->frames,0,155,40,1);
-    first = BGWINFRM_GetFrameBuffer(p->view->frames,0);
-    for(i=1;i<=10;i++) MI_CpuCopy8(first,BGWINFRM_GetFrameBuffer(p->view->frames,i),112);
-    for(i=0;i<10;i++) BGWINFRM_PutFrame(p->view->frames,i,(i%2)*16+1,(i/2)*4);
+    p->view->frames = (struct BgWinFrm *)BGWINFRM_Create(2,11,102);
+    for(i=0;i<10;i++) BGWINFRM_AddFrame((struct BgWinFrmWork *)p->view->frames,i,2,14,4);
+    BGWINFRM_AddFrame((struct BgWinFrmWork *)p->view->frames,10,1,14,4);
+    BGWINFRM_SetFrameDataArc((struct BgWinFrmWork *)p->view->frames,0,155,40,1);
+    first = BGWINFRM_GetFrameBuffer((struct BgWinFrmWork *)p->view->frames,0);
+    for(i=1;i<=10;i++) MI_CpuCopy8(first,BGWINFRM_GetFrameBuffer((struct BgWinFrmWork *)p->view->frames,i),112);
+    for(i=0;i<10;i++) BGWINFRM_PutFrame((struct BgWinFrmWork *)p->view->frames,i,(i%2)*16+1,(i/2)*4);
 }
 
 void MB_SEQ_DeleteFrames(struct MailBoxProc *p)
 {
-    BGWINFRM_Delete(p->view->frames);
+    BGWINFRM_Delete((struct BgWinFrmWork *)p->view->frames);
 }
 
 void MB_SEQ_CreateMessageResources(struct MailBoxView *view)
 {
-    view->msgData = MSGDATA_CreateFromArchive(0, 2, 0x3b, 0x66);
+    view->msgData = (struct MsgData *)MSGDATA_CreateFromArchive(0, 2, 0x3b, 0x66);
     view->wordSet = WORDSET_CreateDefault(0x66);
     view->msgBuf = STRBUF_Create(0x400, 0x66);
 }
@@ -780,7 +796,7 @@ void MB_SEQ_DeleteMessageResources(struct MailBoxView *view)
 {
     STRBUF_Delete(view->msgBuf);
     WORDSET_Delete(view->wordSet);
-    MSGDATA_Delete(view->msgData);
+    MSGDATA_Delete((struct MsgBank *)view->msgData);
 }
 
 void MB_SEQ_OpenTwoEntryMenu(struct MailBoxProc *p)
@@ -794,7 +810,7 @@ void MB_SEQ_OpenTwoEntryMenu(struct MailBoxProc *p)
     t.y = 8;
     t.w = 10;
     t.h = 3;
-    p->view->taskMenu = APP_TASKMENU_OpenMenu(&t, p->view->taskMenuRes);
+    p->view->taskMenu = (struct AppTaskMenu *)APP_TASKMENU_OpenMenu((struct TaskMenuInitWork *)(&t), (struct TaskMenuRes *)p->view->taskMenuRes);
 }
 
 /*
@@ -806,16 +822,16 @@ void MB_SEQ_CreateMenuEntries(struct MailBoxProc *p)
 {
     u16 i;
     const struct MailBoxMenuDef *t;
-    p->view->taskMenuRes = APP_TASKMENU_RES_Create(0, 5, p->font, p->view->printQue, 0x66);
+    p->view->taskMenuRes = (struct AppTaskMenuRes *)APP_TASKMENU_RES_Create(0, 5, (struct GFont *)p->font, (struct PrintQueue *)p->view->printQue, 0x66);
     for (i = 0; i < 4; i++) {
         t = &g_78C0[i];
-        p->view->fourEntry[i].text = MSGDATA_AllocString(p->view->msgData, t->messageId);
+        p->view->fourEntry[i].text = MSGDATA_AllocString((struct MsgBank *)p->view->msgData, t->messageId);
         p->view->fourEntry[i].color = 0x39E3;
         p->view->fourEntry[i].selected = t->value;
     }
     for (i = 0; i < 2; i++) {
         t = &g_78B0[i];
-        p->view->twoEntry[i].text = MSGDATA_AllocString(p->view->msgData, t->messageId);
+        p->view->twoEntry[i].text = MSGDATA_AllocString((struct MsgBank *)p->view->msgData, t->messageId);
         p->view->twoEntry[i].color = 0x39E3;
         p->view->twoEntry[i].selected = t->value;
     }
@@ -828,7 +844,7 @@ void MB_SEQ_DeleteMenuEntries(struct MailBoxProc *p)
         STRBUF_Delete(p->view->fourEntry[i].text);
     STRBUF_Delete(p->view->twoEntry[0].text);
     STRBUF_Delete(p->view->twoEntry[1].text);
-    APP_TASKMENU_RES_Delete(p->view->taskMenuRes);
+    APP_TASKMENU_RES_Delete((struct TaskMenuRes *)p->view->taskMenuRes);
 }
 
 void MB_SEQ_OpenFourEntryMenu(struct MailBoxProc *p)
@@ -842,23 +858,24 @@ void MB_SEQ_OpenFourEntryMenu(struct MailBoxProc *p)
     t.y = 12;
     t.w = 12;
     t.h = 3;
-    p->view->taskMenu = APP_TASKMENU_OpenMenu(&t, p->view->taskMenuRes);
+    p->view->taskMenu = (struct AppTaskMenu *)APP_TASKMENU_OpenMenu((struct TaskMenuInitWork *)(&t), (struct TaskMenuRes *)p->view->taskMenuRes);
 }
 
 void MB_SEQ_CloseMenu(struct MailBoxProc *p)
 {
-    APP_TASKMENU_CloseMenu(p->view->taskMenu);
+    APP_TASKMENU_CloseMenu((struct TaskMenuWork *)p->view->taskMenu);
 }
 
-extern struct Mail *MAIL_CreateSlotCopy(struct MailData *mailData, u32 unused, int index, u32 heapId);
+extern struct Mail *MAIL_CreateSlotCopy(struct Mail *box, unsigned int boxKind, int index, unsigned int heapId);
 
 extern int MAIL_IsDesignValid(const struct Mail *mail);
 
-extern void BGWINFRM_HideFrame(struct BgWinFrm *mgr, u32 idx);
+extern void BGWINFRM_HideFrame(struct BgWinFrmWork *wk, unsigned int idx);
 
-extern void BGWINFRM_ShowFrame(struct BgWinFrm *mgr, u32 idx);
+extern void BGWINFRM_ShowFrame(struct BgWinFrmWork *wk, unsigned int idx);
+struct Actor;
 
-extern void CLACT_SetActorPaletteOffset(struct ClactActor *actor, u32 v, u32 flag);
+extern void CLACT_SetActorPaletteOffset(struct Actor *actor, unsigned int offset, unsigned int pltt_op);
 
 extern void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 
@@ -866,11 +883,11 @@ extern u32 PRINTSYS_MeasureWidestLine(struct Strbuf *text, struct GfFont *font, 
 
 extern struct Bmp *BMP_CreateFromBuffer(void *pixels, u32 width, u32 height, u32 depth, u16 heap);
 
-extern void BMP_Blit(struct Bmp *dst, struct Bmp *src, u32 x, u32 y, int sx, int sy, u32 w, u32 h, u32 key);
+extern void BMP_Blit(struct Bmp *src, struct Bmp *dst, unsigned int srcX, unsigned int srcY, int dstX, int dstY, unsigned int w, unsigned int h, unsigned short colorKey);
 
 extern u8 MAIL_GetGender(const struct Mail *mail);
 
-extern void BGWINFRM_PutBmpWin(struct BgWinFrm *mgr, u32 idx, struct BmpWin *win);
+extern void BGWINFRM_PutBmpWin(struct BgWinFrmWork *wk, unsigned int idx, void *bmpWin);
 
 extern void BMP_Delete(struct Bmp *bmp);
 
@@ -878,9 +895,9 @@ extern void WORDSET_SetSlotTag(struct WordSet *wordSet, u32 i, struct Strbuf *sr
 
 extern void WORDSET_CopyTaggedText(struct WordSet *wordSet, struct Strbuf *dst, struct Strbuf *src);
 
-extern void BMP_MENUWORK_DrawWindow(void *win, int commitMode, int tileBase, int palette);
+extern void BMP_MENUWORK_DrawWindow(struct BmpWin *win, int commitMode, unsigned short tileBase, unsigned int palette);
 
-extern void CLACT_SetActorAutoAnim(struct ClactActor *actor, u32 v);
+extern void CLACT_SetActorAutoAnim(struct Actor *actor, unsigned int enable);
 
 extern void CLACT_DrawSystem(struct ClactUnit *unit);
 
@@ -890,17 +907,17 @@ extern void CLACT_ReleasePalette(u32 i);
 
 extern struct ClactActor *CLACT_CreateActor(struct ClactUnit *unit, u32 i, u32 j, u32 k, const struct ClactActorParam *param, u16 space, u16 heap);
 
-extern void CLACT_DeleteActor(struct ClactActor *actor);
+extern void CLACT_DeleteActor(struct Actor *actor);
 
-extern void CLACT_SetActorAnimSeq(struct ClactActor *actor, u16 value);
+extern void CLACT_SetActorAnimSeq(struct Actor *actor, unsigned short value);
 
-extern void CLACT_SetActorDrawEnable(struct ClactActor *actor, u32 v);
+extern void CLACT_SetActorDrawEnable(struct Actor *actor, unsigned int value);
 
 extern void CLACT_AddActorSurfacePos(struct ClactActor *actor, const struct ClactPos *delta, unsigned int which);
 
-extern void CLACT_SetActorAnimFrame(struct ClactActor *actor, u32 value);
+extern void CLACT_SetActorAnimFrame(struct Actor *actor, unsigned int frame);
 
-extern void CLACT_SetActorObjMode(struct ClactActor *actor, u32 value);
+extern void CLACT_SetActorObjMode(struct Actor *actor, unsigned int value);
 
 extern u32 APP_ICON_GetArchiveId(void);
 
@@ -926,9 +943,9 @@ extern u32 APP_ICON_GetStatusCellFileId(u32);
 
 extern u32 APP_ICON_GetStatusPaletteFileId(u32);
 
-extern void BGWINFRM_UpdateMoves(struct BgWinFrm *mgr);
+extern void BGWINFRM_UpdateMoves(struct BgWinFrmWork *wk);
 
-extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintQue *p, void *v);
+extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintQueue *queue, struct Bmp *bmp);
 
 void MB_SEQ_CollectMails(struct MailBoxProc *p);
 
@@ -1024,7 +1041,7 @@ void MB_SEQ_CollectMails(struct MailBoxProc *p)
     p->view->mailCount=0;
     for(i=0;i<20;i++) {
         p->view->listIndex[i]=255;
-        p->view->mails[i]=MAIL_CreateSlotCopy(p->mailData,0,i,102);
+        p->view->mails[i]=MAIL_CreateSlotCopy((struct Mail *)p->mailData,0,i,102);
         if(MAIL_IsDesignValid(p->view->mails[i])==1) {
             p->view->listIndex[p->view->mailCount]=i;
             ++p->view->mailCount;
@@ -1053,10 +1070,10 @@ void MB_SEQ_DrawPage(struct MailBoxProc *p)
     row = p->view->listIndex+offset;
     offset += 2;
     for (i=0;i<10;i++) {
-        if(row[i]==255) BGWINFRM_HideFrame(p->view->frames,frameIndex);
+        if(row[i]==255) BGWINFRM_HideFrame((struct BgWinFrmWork *)p->view->frames,frameIndex);
         else {
             MB_SEQ_DrawMailEntry(p,frameIndex,offset,row[i]);
-            BGWINFRM_ShowFrame(p->view->frames,frameIndex);
+            BGWINFRM_ShowFrame((struct BgWinFrmWork *)p->view->frames,frameIndex);
         }
         offset++;
         frameIndex++;
@@ -1066,7 +1083,7 @@ void MB_SEQ_DrawPage(struct MailBoxProc *p)
 void MB_SEQ_DrawSelectedMail(struct MailBoxProc *p)
 {
     MB_SEQ_DrawMailEntry(p, 10, 0x16, p->selectedMail);
-    BGWINFRM_PutFrame(p->view->frames, 10, 4, 7);
+    BGWINFRM_PutFrame((struct BgWinFrmWork *)p->view->frames, 10, 4, 7);
 }
 
 int MB_SEQ_StepSelectFlash(struct MailBoxProc *p)
@@ -1075,7 +1092,7 @@ int MB_SEQ_StepSelectFlash(struct MailBoxProc *p)
     switch (flash->state) {
     case 0:
         if (flash->isWindow == 0) {
-            CLACT_SetActorPaletteOffset(p->view->actor[flash->target], flash->paletteFirst, 1);
+            CLACT_SetActorPaletteOffset((struct Actor *)p->view->actor[flash->target], flash->paletteFirst, 1);
         } else {
             BG_SYS_FillTileMap(flash->target, flash->x, flash->y, flash->w, flash->h, flash->paletteFirst);
             BG_SYS_MarkTileDirty(flash->target);
@@ -1086,7 +1103,7 @@ int MB_SEQ_StepSelectFlash(struct MailBoxProc *p)
         flash->count++;
         if (flash->count == 4) {
             if (flash->isWindow == 0) {
-                CLACT_SetActorPaletteOffset(p->view->actor[flash->target], flash->paletteSecond, 1);
+                CLACT_SetActorPaletteOffset((struct Actor *)p->view->actor[flash->target], flash->paletteSecond, 1);
             } else {
                 BG_SYS_FillTileMap(flash->target, flash->x, flash->y, flash->w, flash->h, flash->paletteSecond);
                 BG_SYS_MarkTileDirty(flash->target);
@@ -1119,16 +1136,16 @@ void MB_SEQ_LoadSelectedMailGraphics(struct MailBoxProc *p)
 
 void MB_SEQ_CreatePmsDraw(struct MailBoxProc *p)
 {
-    p->view->pmsPrintQue = PRINTSYS_QUE_Create(102);
+    p->view->pmsPrintQue = (struct PrintQue *)PRINTSYS_QUE_Create(102);
     p->view->pmsClactUnit = CLACT_CreateUnit(8,2,102);
-    p->view->pmsDraw = PMS_DRAW_Create(p->view->pmsClactUnit,1,p->view->pmsPrintQue,p->font,4,4,102);
+    p->view->pmsDraw = PMS_DRAW_Create((unsigned int)p->view->pmsClactUnit,(unsigned int)1,(unsigned int)p->view->pmsPrintQue,(unsigned int)p->font,4,4,102);
     PMS_DRAW_SetNullColorPalette(p->view->pmsDraw,0);
 }
 
 void MB_SEQ_DeletePmsDraw(struct MailBoxProc *p)
 {
     PMS_DRAW_Delete(p->view->pmsDraw);
-    PRINTSYS_QUE_Delete(p->view->pmsPrintQue);
+    PRINTSYS_QUE_Delete((struct PrintQueue *)p->view->pmsPrintQue);
     CLACT_DeleteUnit(p->view->pmsClactUnit);
 }
 
@@ -1146,8 +1163,8 @@ void MB_SEQ_CreateWindows(struct MailBoxProc *p)
     struct BmpWin *win;
     BMP_WIN_Init(0x66);
     p->font = GF_FONT_Create(0x17, 0, 0, 0, 0x66);
-    p->view->tcbl = TCBL_Create(0x66, 0x66, 0x20, 0x20);
-    p->view->printQue = PRINTSYS_QUE_Create(0x66);
+    p->view->tcbl = (struct Tcbl *)TCBL_Create(0x66, 0x66, 0x20, 0x20);
+    p->view->printQue = (struct PrintQue *)PRINTSYS_QUE_Create(0x66);
     for (i = 0; i < 0x20; i++) {
         p->view->win[i] = BMP_WIN_Create(g_7A20[i].bg, g_7A20[i].x, g_7A20[i].y, g_7A20[i].w, g_7A20[i].h, g_7A20[i].palette, 1);
         slot = p->view->slot;
@@ -1171,8 +1188,8 @@ void MB_SEQ_CreateWindows(struct MailBoxProc *p)
 void MB_SEQ_DeleteWindows(struct MailBoxProc *p)
 {
     u32 i;
-    PRINTSYS_QUE_Delete(p->view->printQue);
-    TCBL_Destroy(p->view->tcbl);
+    PRINTSYS_QUE_Delete((struct PrintQueue *)p->view->printQue);
+    TCBL_Destroy((struct TcblSystem *)p->view->tcbl);
     for (i = 0; i < 0x20; i++) {
         BMP_WIN_Delete(p->view->win[i]);
     }
@@ -1193,7 +1210,7 @@ void MB_SEQ_PrintTextToSlot(struct BmpWin *unused, struct Strbuf *text, struct M
 void MB_SEQ_PrintMessageToSlot(struct MailBoxView *view, struct MsgData *msgData, int i, u32 message, int x, int y, struct GfFont *font, u16 color, int align)
 {
     struct Strbuf *text;
-    text = MSGDATA_AllocString(msgData, message);
+    text = MSGDATA_AllocString((struct MsgBank *)msgData, message);
     MB_SEQ_PrintTextToSlot(view->win[i], text, &view->slot[i], view->printQue, x, y, font, color, align);
     STRBUF_Delete(text);
 }
@@ -1228,7 +1245,7 @@ void MB_SEQ_DrawMailEntry(struct MailBoxProc *p, u32 frameIndex, int winIndex, i
         MB_SEQ_PrintTextToSlot(win, p->view->msgBuf, slot,
                       p->view->printQue, 0, 0, p->font, 0x1D04, 0);
     }
-    BGWINFRM_PutBmpWin(p->view->frames, frameIndex, win);
+    BGWINFRM_PutBmpWin((struct BgWinFrmWork *)p->view->frames, frameIndex, win);
     BMP_Delete(tile1);
     BMP_Delete(tile0);
 }
@@ -1279,7 +1296,7 @@ void MB_SEQ_PrintDetailMessage(struct MailBoxProc *p)
 {
     struct Strbuf *text;
     MB_SEQ_SetWriterWord(p, 0);
-    text = MSGDATA_AllocString(p->view->msgData, 9);
+    text = MSGDATA_AllocString((struct MsgBank *)p->view->msgData, 9);
     WORDSET_CopyTaggedText(p->view->wordSet, p->view->msgBuf, text);
     STRBUF_Delete(text);
     MB_SEQ_StartMessagePrint(p);
@@ -1304,11 +1321,11 @@ void MB_SEQ_HideMessageWindow(struct MailBoxProc *p)
 void MB_SEQ_PrintMenuMessage(struct MailBoxProc *p, unsigned int i)
 {
     switch (i) {
-    case 0: MSGDATA_ReadString(p->view->msgData, 10, p->view->msgBuf); break;
-    case 1: MSGDATA_ReadString(p->view->msgData, 11, p->view->msgBuf); break;
-    case 2: MSGDATA_ReadString(p->view->msgData, 12, p->view->msgBuf); break;
-    case 3: MSGDATA_ReadString(p->view->msgData, 13, p->view->msgBuf); break;
-    case 4: MSGDATA_ReadString(p->view->msgData, 14, p->view->msgBuf); break;
+    case 0: MSGDATA_ReadString((struct MsgBank *)p->view->msgData, 10, p->view->msgBuf); break;
+    case 1: MSGDATA_ReadString((struct MsgBank *)p->view->msgData, 11, p->view->msgBuf); break;
+    case 2: MSGDATA_ReadString((struct MsgBank *)p->view->msgData, 12, p->view->msgBuf); break;
+    case 3: MSGDATA_ReadString((struct MsgBank *)p->view->msgData, 13, p->view->msgBuf); break;
+    case 4: MSGDATA_ReadString((struct MsgBank *)p->view->msgData, 14, p->view->msgBuf); break;
     }
     MB_SEQ_StartMessagePrint(p);
 }
@@ -1325,7 +1342,7 @@ void MB_SEQ_DrawMailDetail(struct MailBoxProc *p)
 
     for (i = 0; i < 3; i++) {
         sentence = MAIL_GetMessage(p->view->mails[p->selectedMail], (u8)i);
-        if (PMSI_PARAM_IsEnabled(sentence)) {
+        if (PMSI_PARAM_IsEnabled((unsigned short *)sentence)) {
             PMS_DRAW_Print(p->view->pmsDraw, p->view->win[i + 27], sentence, (u8)i);
             win = p->view->win[i + 27];
             BMP_WIN_TransferChars(win);
@@ -1352,7 +1369,7 @@ void MB_SEQ_DrawMailDetail(struct MailBoxProc *p)
 static inline void setActorAutoAnimOn(struct ClactActor *actor)
 {
     Active on = ACTIVE;
-    CLACT_SetActorAutoAnim(actor, on);
+    CLACT_SetActorAutoAnim((struct Actor *)actor, on);
 }
 
 /*
@@ -1416,7 +1433,7 @@ void MB_SEQ_InitActorSystem(struct MailBoxView *view)
 {
     struct ClactUnit *unit;
 
-    CLACT_InitSystem(&d_021C7BA0, &d_021C78E0, 0x66);
+    CLACT_InitSystem((struct SysInit *)(&d_021C7BA0), (struct DispVramCfg *)(&d_021C78E0), 0x66);
     unit = CLACT_CreateUnit(8, 0, 0x66);
     view->clactUnit = unit;
     CLACT_SetUnitDefaultRenderer(unit);
@@ -1449,7 +1466,7 @@ struct ClactActor *MB_SEQ_CreateActor(struct MailBoxView *view, const struct Mai
 void MB_SEQ_DeleteActor(struct MailBoxView *view, int i)
 {
     if (view->actor[i]) {
-        CLACT_DeleteActor(view->actor[i]);
+        CLACT_DeleteActor((struct Actor *)view->actor[i]);
         view->actor[i] = 0;
     }
 }
@@ -1463,12 +1480,12 @@ void MB_SEQ_DeleteAllActors(struct MailBoxView *view)
 
 void MB_SEQ_SetActorAnim(struct MailBoxView *view, int i, u32 animSeq)
 {
-    CLACT_SetActorAnimSeq(view->actor[i], (u16)animSeq);
+    CLACT_SetActorAnimSeq((struct Actor *)view->actor[i], (u16)animSeq);
 }
 
 void MB_SEQ_SetActorVisible(struct MailBoxView *view, int i, u32 visible)
 {
-    CLACT_SetActorDrawEnable(view->actor[i], visible);
+    CLACT_SetActorDrawEnable((struct Actor *)view->actor[i], visible);
 }
 
 void MB_SEQ_SetActorPosition(struct MailBoxView *view, int i, int x, int y)
@@ -1480,15 +1497,15 @@ void MB_SEQ_SetActorPosition(struct MailBoxView *view, int i, int x, int y)
         CLACT_AddActorSurfacePos(view->actor[i], &pos, 0);
     else
         CLACT_AddActorSurfacePos(view->actor[i], &pos, 1);
-    CLACT_SetActorAnimFrame(view->actor[i], 0);
+    CLACT_SetActorAnimFrame((struct Actor *)view->actor[i], 0);
 }
 
 void MB_SEQ_SetActorObjMode(struct MailBoxView *view, int i, int on)
 {
     if (on == 1) {
-        CLACT_SetActorObjMode(view->actor[i], 1);
+        CLACT_SetActorObjMode((struct Actor *)view->actor[i], 1);
     } else {
-        CLACT_SetActorObjMode(view->actor[i], 0);
+        CLACT_SetActorObjMode((struct Actor *)view->actor[i], 0);
     }
 }
 
@@ -1553,15 +1570,15 @@ int MB_SEQ_Update(struct MailBoxProc *p, int *state)
         return 0;
     }
     if (p->view != 0) {
-        BGWINFRM_UpdateMoves(p->view->frames);
+        BGWINFRM_UpdateMoves((struct BgWinFrmWork *)p->view->frames);
         MB_SEQ_DrawActors(p->view);
         if (p->view->printQue != 0) {
-            PRINTSYS_QUE_Main(p->view->printQue);
+            PRINTSYS_QUE_Main((struct PrintQueue *)p->view->printQue);
             for (i = 0; i < 0x1B; i++) {
                 struct PrintQue *queue = p->view->printQue;
                 struct MailWinSlot *slot = &p->view->slot[i];
                 if (slot->flag != 0) {
-                    if (PRINTSYS_QUE_IsExistTarget(queue, BMP_WIN_GetBmp(slot->win)) == 0) {
+                    if (PRINTSYS_QUE_IsExistTarget((struct PrintQueue *)queue, BMP_WIN_GetBmp(slot->win)) == 0) {
                         BMP_WIN_TransferChars(slot->win);
                         slot->flag = 0;
                     }
@@ -1569,16 +1586,16 @@ int MB_SEQ_Update(struct MailBoxProc *p, int *state)
             }
         }
         if (p->view->tcbl != 0) {
-            TCBL_Main(p->view->tcbl);
+            TCBL_Main((struct TcblSystem *)p->view->tcbl);
         }
         if (p->view->pmsPrintQue != 0) {
             PMS_DRAW_Main(p->view->pmsDraw);
-            PRINTSYS_QUE_Main(p->view->pmsPrintQue);
+            PRINTSYS_QUE_Main((struct PrintQueue *)p->view->pmsPrintQue);
             for (j = 0x1B; j < 0x20; j++) {
                 struct PrintQue *queue = p->view->printQue;
                 struct MailWinSlot *slot = &p->view->slot[j];
                 if (slot->flag != 0) {
-                    if (PRINTSYS_QUE_IsExistTarget(queue, BMP_WIN_GetBmp(slot->win)) == 0) {
+                    if (PRINTSYS_QUE_IsExistTarget((struct PrintQueue *)queue, BMP_WIN_GetBmp(slot->win)) == 0) {
                         BMP_WIN_TransferChars(slot->win);
                         slot->flag = 0;
                     }
@@ -1594,32 +1611,34 @@ extern void BG_SYS_SetMainVisiblePlanes(u32);
 extern void BG_SYS_SetSubVisiblePlanes(u32);
 
 extern void BG_SYS_SetLcdSwap(u32);
+struct Tcb;
 
-extern void *GFL_USE_AddMainTask(void (*)(void *), void *, u32);
+extern struct Tcb *GFL_USE_AddMainTask(void (*)(void *), void *, u32);
 
 extern u32 WIPE_SYS_EndCheck(void);
 
 extern void GFL_USE_PlaySeDefaultVolume(u32);
 
-extern void APP_TASKMENU_UpdateMenu(struct AppTaskMenu *menu);
+extern void APP_TASKMENU_UpdateMenu(struct TaskMenuWork *menu);
 
-extern u8 APP_TASKMENU_GetCursorPos(const struct AppTaskMenu *menu);
+extern u8 APP_TASKMENU_GetCursorPos(struct TaskMenuWork *menu);
 
 extern unsigned int PROCSYS_Main(void *p);
 
-extern u32 PRINTSYS_QUE_IsFinished(const struct PrintQue *p);
+extern u32 PRINTSYS_QUE_IsFinished(struct PrintQueue *queue);
+struct Cursor;
 
-extern int CURSOR_MOVE_PollRepeatInput(struct TouchSelect *select);
+extern int CURSOR_MOVE_PollRepeatInput(struct Cursor *obj);
 
-extern u8 CURSOR_MOVE_GetCurrent(struct TouchSelect *select);
+extern u8 CURSOR_MOVE_GetCurrent(struct Cursor *obj);
 
 int MB_SEQ_IsXPressed(void);
 
 extern u16 FILE_UTIL_GetItemId(u32);
 
-extern u32 CLACT_IsActorAnimActive(struct ClactActor *actor);
+extern u32 CLACT_IsActorAnimActive(struct Actor *actor);
 
-extern void WIPE_SYS_Start(void *divisionMode, u32 mainPattern, u32 subPattern, u32 color, u32 frames, u32 wait, u32 heapId);
+extern void WIPE_SYS_Start(void *divisionMode, unsigned int mainPattern, unsigned int subPattern, unsigned short color, unsigned int frames, unsigned int wait, unsigned int heapId);
 
 extern void BGWINFRM_GetPos(struct BgWinFrm *mgr, u32 idx, s8 *x, s8 *y);
 
@@ -1628,38 +1647,43 @@ extern void BGWINFRM_GetSize(struct BgWinFrm *mgr, u32 idx, u16 *w, u16 *h);
 extern void PMS_DRAW_Clear(struct PmsDraw *draw, int index, u32 isTrans);
 
 extern void *GAME_DATA_GetMyItem(struct GameData *gameData);
+struct MyItem;
 
-extern u32 MYITEM_SAVEDATA_AddItem(u8 *base, u16 id, u16 qty, u16 d);
+extern u32 MYITEM_SAVEDATA_AddItem(struct MyItem *bag, unsigned short itemId, unsigned short quantity, unsigned short heapId);
 
-extern void MAIL_ClearSlot(struct MailData *mailData, u32 unused, int index);
+extern void MAIL_ClearSlot(struct Mail *box, unsigned int boxKind, int index);
 
 extern void *GAME_DATA_GetMyParty(struct GameData *gameData);
 
-extern void *ZUKAN_SAVE_GetFromGameData(struct GameData *gameData);
+extern void *ZUKAN_SAVE_GetFromGameData(void *gameData);
 
 extern void PROCSYS_Push(void *, u32, const void *, void *);
 
 extern u8 FILE_UTIL_GetItemSlot(u16 v);
 
-extern struct MailArgs *MAILTOOL_CreateWriteArgs(struct GameData *gameData, unsigned b, unsigned c, unsigned d, unsigned heap);
+extern void *MAILTOOL_CreateWriteArgs(void *a, unsigned int b, unsigned int c, unsigned int d, unsigned int heap);
 
 extern u32 MAILTOOL_IsMailSent(struct MailArgs *args);
 
 extern int MAILTOOL_StoreMailToPartyMon(struct MailArgs *args, void *mon);
 
 extern void MAILTOOL_DeleteArgs(struct MailArgs *args);
+struct Party;
+struct PokemonParam;
 
-extern void *POKEPARTY_GetMember(void *, u32);
+extern struct PokemonParam *POKEPARTY_GetMember(struct Party *party, unsigned int pos);
 
-extern u32 MYITEM_SAVEDATA_RemoveItem(u8 *base, u16 id, u16 qty, u16 d);
+extern u32 MYITEM_SAVEDATA_RemoveItem(struct MyItem *bag, unsigned short itemId, unsigned short quantity, unsigned short heapId);
 
 extern int TOUCHPANEL_HitTrg(const void *);
+struct CursorVtbl;
+struct CursorEntry;
 
-extern struct TouchSelect *CURSOR_MOVE_Create(const struct TouchRect *rects, const u8 *keyTable, void *owner, u32 state, u8 start, u16 heapId);
+extern struct Cursor *CURSOR_MOVE_Create(struct CursorEntry *entries, struct CursorVtbl *vt, unsigned int ctx, unsigned int state, unsigned char start, unsigned short heapId);
 
-extern u32 CURSOR_MOVE_Delete(struct TouchSelect *select);
+extern u32 CURSOR_MOVE_Delete(void *cursor);
 
-extern u8 *CURSOR_MOVE_GetEntry(struct TouchSelect *select, u32 index);
+extern struct CursorEntry *CURSOR_MOVE_GetEntry(struct Cursor *obj, unsigned int idx);
 
 int MB_SEQ_StateInit(struct MailBoxProc *p);
 
@@ -1869,13 +1893,13 @@ int MB_SEQ_StateFadeWait(struct MailBoxProc *p)
 
 u32 MB_SEQ_StateMessageWait(struct MailBoxProc *p)
 {
-    if (PRINTSYS_PrintStreamGetState(p->view->printStream) == 2) {
+    if (PRINTSYS_PrintStreamGetState((struct TextPrinter *)p->view->printStream) == 2) {
         if (p->view->waitForInput == 0) {
-            PRINTSYS_PrintStreamDelete(p->view->printStream);
+            PRINTSYS_PrintStreamDelete((struct TextPrinter *)p->view->printStream);
             return p->nextState;
         }
         if (TOUCHPANEL_GetTrg() == 1 || (KEY_GetTrg() & 3) != 0) {
-            PRINTSYS_PrintStreamDelete(p->view->printStream);
+            PRINTSYS_PrintStreamDelete((struct TextPrinter *)p->view->printStream);
             GFL_USE_PlaySeDefaultVolume(1352);
             return p->nextState;
         }
@@ -1885,14 +1909,14 @@ u32 MB_SEQ_StateMessageWait(struct MailBoxProc *p)
 
 int MB_SEQ_StateConfirmMenu(struct MailBoxProc *p)
 {
-    APP_TASKMENU_UpdateMenu(p->view->taskMenu);
-    if (APP_TASKMENU_IsFinish(p->view->taskMenu) == 0) return 4;
-    switch (APP_TASKMENU_GetCursorPos(p->view->taskMenu)) {
+    APP_TASKMENU_UpdateMenu((struct TaskMenuWork *)p->view->taskMenu);
+    if (APP_TASKMENU_IsFinish((struct TaskMenuWork *)p->view->taskMenu) == 0) return 4;
+    switch (APP_TASKMENU_GetCursorPos((struct TaskMenuWork *)p->view->taskMenu)) {
     case 0:
-        APP_TASKMENU_CloseMenu(p->view->taskMenu);
+        APP_TASKMENU_CloseMenu((struct TaskMenuWork *)p->view->taskMenu);
         return d_021C7D68[p->view->menuKind].onFirst(p);
     case 1:
-        APP_TASKMENU_CloseMenu(p->view->taskMenu);
+        APP_TASKMENU_CloseMenu((struct TaskMenuWork *)p->view->taskMenu);
         return d_021C7D68[p->view->menuKind].onSecond(p);
     }
     return 4;
@@ -1928,7 +1952,7 @@ int MB_SEQ_StateList(struct MailBoxProc *p)
     u32 hit;
     u8 *entry;
 
-    if (PRINTSYS_QUE_IsFinished(p->view->printQue) == 0) {
+    if (PRINTSYS_QUE_IsFinished((struct PrintQueue *)p->view->printQue) == 0) {
         return 9;
     }
     switch (MB_SEQ_GetPageButtonHit(p)) {
@@ -1957,7 +1981,7 @@ int MB_SEQ_StateList(struct MailBoxProc *p)
         p->nextState = 10;
         return 0x19;
     }
-    hit = CURSOR_MOVE_PollRepeatInput(p->view->select);
+    hit = CURSOR_MOVE_PollRepeatInput((struct Cursor *)p->view->select);
     switch (hit) {
     case 0:
     case 1:
@@ -1983,7 +2007,7 @@ int MB_SEQ_StateList(struct MailBoxProc *p)
         p->nextState = 10;
         return 0x18;
     case (u32)-5:
-        CURSOR_MOVE_GetCurrent(p->view->select);
+        CURSOR_MOVE_GetCurrent((struct Cursor *)p->view->select);
         if (p->page != p->view->lastPage) {
             p->page += 1;
             GFL_USE_PlaySeDefaultVolume(0x548);
@@ -1991,7 +2015,7 @@ int MB_SEQ_StateList(struct MailBoxProc *p)
         }
         break;
     case (u32)-6:
-        CURSOR_MOVE_GetCurrent(p->view->select);
+        CURSOR_MOVE_GetCurrent((struct Cursor *)p->view->select);
         if (p->page != 0) {
             p->page -= 1;
             GFL_USE_PlaySeDefaultVolume(0x548);
@@ -2052,11 +2076,11 @@ int MB_SEQ_StateOpenActionMenu(struct MailBoxProc *p)
 
 int MB_SEQ_StateActionMenu(struct MailBoxProc *p)
 {
-    APP_TASKMENU_UpdateMenu(p->view->taskMenu);
-    if (APP_TASKMENU_IsFinish(p->view->taskMenu) == 0) {
+    APP_TASKMENU_UpdateMenu((struct TaskMenuWork *)p->view->taskMenu);
+    if (APP_TASKMENU_IsFinish((struct TaskMenuWork *)p->view->taskMenu) == 0) {
         return 0xE;
     }
-    switch (APP_TASKMENU_GetCursorPos(p->view->taskMenu)) {
+    switch (APP_TASKMENU_GetCursorPos((struct TaskMenuWork *)p->view->taskMenu)) {
     case 0:
         MB_SEQ_CloseMenu(p);
         MB_SEQ_HideMessageWindow(p);
@@ -2084,7 +2108,7 @@ int MB_SEQ_StateActionMenu(struct MailBoxProc *p)
     case 3:
         MB_SEQ_CloseMenu(p);
         MB_SEQ_HideMessageWindow(p);
-        BGWINFRM_HideFrame(p->view->frames, 10);
+        BGWINFRM_HideFrame((struct BgWinFrmWork *)p->view->frames, 10);
         MB_SEQ_SetButtonsEnabled(p->view, 0);
         MB_SEQ_SetActorVisible(p->view, 2, 1);
         return 9;
@@ -2107,9 +2131,9 @@ int MB_SEQ_StateDetail(struct MailBoxProc *p)
 int MB_SEQ_CloseMailDetail(struct MailBoxProc *p)
 {
     MB_SEQ_ClearMailDetailText(p);
-    MB_SEQ_MoveCursorToPosition(p, CURSOR_MOVE_GetCurrent(p->view->select));
+    MB_SEQ_MoveCursorToPosition(p, CURSOR_MOVE_GetCurrent((struct Cursor *)p->view->select));
     MB_SEQ_EmptyHookDetailReturn(p->view);
-    BGWINFRM_HideFrame(p->view->frames, 10);
+    BGWINFRM_HideFrame((struct BgWinFrmWork *)p->view->frames, 10);
     MB_SEQ_SetActorVisible(p->view, 2, 1);
     MB_SEQ_SetButtonsEnabled(p->view, 0);
     return 9;
@@ -2170,7 +2194,7 @@ int MB_SEQ_StartPartyListForReturn(struct MailBoxProc *p)
 
 int MB_SEQ_StateBackButtonDone(struct MailBoxProc *p)
 {
-    if (CLACT_IsActorAnimActive(p->view->actor[3]) == 0) {
+    if (CLACT_IsActorAnimActive((struct Actor *)p->view->actor[3]) == 0) {
         p->args->result = 0;
         MB_SEQ_SetActorAnim(p->view, 7, 0);
         return p->nextState;
@@ -2180,7 +2204,7 @@ int MB_SEQ_StateBackButtonDone(struct MailBoxProc *p)
 
 int MB_SEQ_StateCloseButtonDone(struct MailBoxProc *p)
 {
-    if (CLACT_IsActorAnimActive(p->view->actor[7]) == 0) {
+    if (CLACT_IsActorAnimActive((struct Actor *)p->view->actor[7]) == 0) {
         p->args->result = 1;
         return p->nextState;
     }
@@ -2190,8 +2214,8 @@ int MB_SEQ_StateCloseButtonDone(struct MailBoxProc *p)
 int MB_SEQ_CancelDetail(struct MailBoxProc *p)
 {
     MB_SEQ_HideMessageWindow(p);
-    BGWINFRM_HideFrame(p->view->frames, 10);
-    MB_SEQ_MoveCursorToPosition(p, CURSOR_MOVE_GetCurrent(p->view->select));
+    BGWINFRM_HideFrame((struct BgWinFrmWork *)p->view->frames, 10);
+    MB_SEQ_MoveCursorToPosition(p, CURSOR_MOVE_GetCurrent((struct Cursor *)p->view->select));
     MB_SEQ_SetActorVisible(p->view, 2, 1);
     MB_SEQ_SetButtonsEnabled(p->view, 0);
     return 9;
@@ -2312,7 +2336,7 @@ void MB_SEQ_ClearMailDetailText(struct MailBoxProc *p)
 {
     int i;
     for (i = 0; i < 3; i++) {
-        if (PMSI_PARAM_IsEnabled(MAIL_GetMessage(p->view->mails[p->selectedMail], (u8)i)) != 0) {
+        if (PMSI_PARAM_IsEnabled((unsigned short *)(MAIL_GetMessage(p->view->mails[p->selectedMail], (u8)i))) != 0) {
             PMS_DRAW_Clear(p->view->pmsDraw, (u8)i, (int)0);
         }
     }
@@ -2341,7 +2365,7 @@ void MB_SEQ_ReturnMailItemToBag(struct MailBoxProc *p)
 
 void MB_SEQ_DeleteSelectedMail(struct MailBoxProc *p)
 {
-    MAIL_ClearSlot(p->mailData, 0, p->selectedMail);
+    MAIL_ClearSlot((struct Mail *)p->mailData, 0, p->selectedMail);
 }
 
 void MB_SEQ_CreatePartyListArgs(struct MailBoxProc *p, int mode, u16 itemId, u16 mailSlot)
@@ -2431,7 +2455,7 @@ void MB_SEQ_ReloadMailList(struct MailBoxProc *p)
         p->selectedColumn = 0;
     }
     MB_SEQ_DrawPage(p);
-    BGWINFRM_HideFrame(p->view->frames, 10);
+    BGWINFRM_HideFrame((struct BgWinFrmWork *)p->view->frames, 10);
     MB_SEQ_PrintMenuMessage(p, 1);
     MB_SEQ_SetMessageWait(p, 1, 18);
 }
@@ -2474,7 +2498,7 @@ void MB_SEQ_CreateTouchSelect(struct MailBoxProc *p)
     } else {
         column = p->selectedColumn;
     }
-    p->view->select = CURSOR_MOVE_Create(d_021C7E40, d_021C7E1C, p, 1, column, 102);
+    p->view->select = (struct TouchSelect *)CURSOR_MOVE_Create((struct CursorEntry *)d_021C7E40, (struct CursorVtbl *)d_021C7E1C, (unsigned int)p, 1, column, 102);
     MB_SEQ_MoveCursorToPosition(p, column);
 }
 
@@ -2503,7 +2527,7 @@ void MB_SEQ_MoveCursorB(struct MailBoxProc *p, u32 position)
 
 void MB_SEQ_MoveCursorToPosition(struct MailBoxProc *p, u32 position)
 {
-    u8 *xy = CURSOR_MOVE_GetEntry(p->view->select, position);
+    u8 *xy = (unsigned char *)CURSOR_MOVE_GetEntry((struct Cursor *)p->view->select, position);
     MB_SEQ_SetActorPosition(p->view, 2, xy[0], xy[1]);
     if (position == 10) {
         MB_SEQ_SetActorAnim(p->view, 2, 4);

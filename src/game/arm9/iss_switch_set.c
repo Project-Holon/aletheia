@@ -177,8 +177,7 @@ extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u
 
 extern u32 GFL_HEAP_Free(void *p);
 
-extern u32 ARC_TOOL_ReadMemberRange(void *dst, u32 term, void *src,
-                                           u32 srcOffset, u32 dstSize);
+extern void ARC_TOOL_ReadMemberRange(void *dst, u32 archiveID, u32 memberIdx, u32 offset, u32 size);
 
 u32 ISS_SWITCH_SET_GetZoneCount(struct IssSwitchSet *set);
 
@@ -246,16 +245,16 @@ u32 ISS_SWITCH_SET_LoadData(struct IssSwitchSet *set, void *datId)
 
     i = 0;
     offset = 0;
-    ARC_TOOL_ReadMemberRange(set, 0x93, datId, offset, 4);
+    ARC_TOOL_ReadMemberRange(set, (u32)0x93, (u32)datId, offset, 4);
     offset += 4;
 
     for (; i < 9; i++, offset += 2) {
-        ARC_TOOL_ReadMemberRange(&trackBits[i], 0x93, datId, offset, 2);
+        ARC_TOOL_ReadMemberRange(&trackBits[i], (u32)0x93, (u32)datId, offset, 2);
     }
 
-    ARC_TOOL_ReadMemberRange(&fadeFrames, 0x93, datId, offset, 2);
-    ARC_TOOL_ReadMemberRange(&set->zoneCount, 0x93, datId, offset + 2, 1);
-    ARC_TOOL_ReadMemberRange(set->zones, 0x93, datId, offset + 3, set->zoneCount * 2);
+    ARC_TOOL_ReadMemberRange(&fadeFrames, (u32)0x93, (u32)datId, offset, 2);
+    ARC_TOOL_ReadMemberRange(&set->zoneCount, (u32)0x93, (u32)datId, offset + 2, 1);
+    ARC_TOOL_ReadMemberRange(set->zones, (u32)0x93, (u32)datId, offset + 3, set->zoneCount * 2);
 
     i = 0;
     for (; i < 9; i++) {

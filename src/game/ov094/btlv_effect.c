@@ -176,6 +176,7 @@
  *   BTLV_GAUGE_InitSlotFromBattlePoke 0x022070C0 thumb ov094
  *   BTLV_GAUGE_InitSlotFromPartyPoke 0x02207288 thumb ov094
  *   BTLV_GAUGE_DeleteSlotTask 0x02207960 thumb ov094
+ *   _ull_mul                     0x0209C054  arm
  */
 #include "btlv_effvm_types.h"
 #include "btlv_stage_shared_types.h"
@@ -243,7 +244,7 @@ typedef struct BtlvEffSpriteTransitionTask {
 
 extern void *GFL_HEAP_Alloc(u32, u32, int, const char *, u16);
 
-extern void *ARC_TOOL_LoadMember(u32, u32, u32);
+extern void *ARC_TOOL_LoadMember(u32 archiveID, u32 memberIdx, u16 heapID);
 
 extern void *G3D_SYSTEM_GetResourceFile(G3dResource *res);
 
@@ -255,47 +256,51 @@ extern u32 GFL_HEAP_Free(void *p);
 
 extern u32 FX_Div(u32 a, u32 b);
 
-extern int BTL_MAIN_IsMultiMode(unsigned char **p);
+extern int BTL_MAIN_IsMultiMode(struct BtlMain *main);
 
-extern u8 BTL_MAIN_IsOwnClientSecondTeam(u8 *p);
+extern u8 BTL_MAIN_IsOwnClientSecondTeam(struct BtlMain *main);
 
-extern u8 BTL_MAIN_GetOwnClientId(u8 *);
+extern u8 BTL_MAIN_GetOwnClientId(struct BtlMain *main);
 
-extern u8 BTL_MAIN_GetOwnPartnerClient(u8 *p);
+extern u8 BTL_MAIN_GetOwnPartnerClient(struct BtlMain *main);
 
-extern u16 BTL_MAIN_GetTrainerType(char *, int);
+extern u16 BTL_MAIN_GetTrainerType(struct BtlMain *main, s32 slot);
 
-extern u8 BTL_MAIN_GetOwnOpponentClient(u8 *p, int k);
+extern u8 BTL_MAIN_GetOwnOpponentClient(struct BtlMain *main, s32 nth);
 
-extern u32 BTL_MAIN_GetRule(void **p);
+extern u32 BTL_MAIN_GetRule(struct BtlMain *main);
 
-extern void *BTL_MAIN_GetCompetitor(void ***);
+extern u32 BTL_MAIN_GetCompetitor(struct BtlMain *main);
+struct FieldSituation;
 
-extern char *BTL_MAIN_GetFieldSituation(char **);
+extern struct FieldSituation *BTL_MAIN_GetFieldSituation(struct BtlMain *main);
 
 extern unsigned TCB_GetTaskOffset(unsigned);
+struct TcbSystem;
 
-extern struct Ctx *TCB_Init(u32 capacity, struct Ctx *c);
+extern struct TcbSystem *TCB_Init(u32 capacity, struct TcbSystem *sys);
 
-extern struct PalAnmSlot *PALANM_Create(u32 heap);
+extern void *PALANM_Create(u32 heap);
 
 extern void PALANM_SetAutoTransfer(struct PalAnmSlot *palanm, int v);
 
 extern void PALANM_AllocSlotBuffers(struct PalAnmSlot *slots, u32 idx, u32 size, u32 heap);
 
-extern int BTL_MAIN_CheckSetupStatusFlag(char **p, int m);
+extern int BTL_MAIN_CheckSetupStatusFlag(struct BtlMain *main, s32 mask);
 
 extern void ZONEDATA_GetTimeLightColors(u32 id, u32 hour, u32 minute, u32 lightTableId, u32 b0, u16 *b1, u16 heap);
+struct G3dLight;
 
-extern void G3D_SYSTEM_SetLight(u32 idx, const BtlvEffLight *light);
+extern void G3D_SYSTEM_SetLight(u32 lightIdx, struct G3dLight *light);
 
 BtlvTimer *BTLV_TIMER_Create(u16 heapId);
 
 BtlvBg *BTLV_BG_Create(void *taskSystem, u16 heapId);
 
 extern void PARTICLE_InitManager(u32);
+struct Tcb;
 
-extern void *GFL_USE_AddMainTask(void (*)(void *, void *), void *, int);
+extern struct Tcb *GFL_USE_AddMainTask(void (*)(void *, void *), void *work, u32 priority);
 
 extern void PM_VOICE_AllocBuffers(int n, u32 heap);
 
@@ -315,7 +320,7 @@ extern void TCB_DeleteTask(struct Node *n);
 
 extern void TCB_Noop(void *);
 
-extern void * TCB_Main(struct Ctx *c);
+extern void TCB_Main(struct TcbSystem *sys);
 
 extern void G3D_SYSTEM_DrawStart(void);
 
@@ -324,8 +329,9 @@ extern void G3D_SYSTEM_ApplyLookAt(void);
 extern void PARTICLE_Main(void);
 
 extern void G3D_SYSTEM_DrawEnd(void);
+struct TcbTask;
 
-extern void *TCB_AddTask(void *owner, void (*fn)(void *, void *), void *p, u32 n);
+extern struct TcbTask *TCB_AddTask(struct TcbSystem *sys, void (*fn)(void *, void *), void *work, u32 priority);
 
 extern int WAZA_TOOL_GetDamageType(int);
 
@@ -379,17 +385,18 @@ void BTLV_GAUGE_SetLowHpBgmSuppressed(BtlvGaugeWork *work, int suppressed);
 
 extern int GFL_USE_PopBgm(void);
 
-extern void GFL_USE_CancelChangeAndPlayBgm(u32 a, u16 b);
+extern void GFL_USE_CancelChangeAndPlayBgm(u32 bgmNo, u32 trackMask);
 
 void BTLV_GAUGE_SetSavedBgmNo(BtlvGaugeWork *work, int bgmNo);
 
 void BTLV_GAUGE_SetBgmReplaced(BtlvGaugeWork *work, int replaced);
 
-extern int BTL_MAIN_IsRecordEnabledInComm(char **p);
+extern int BTL_MAIN_IsRecordEnabledInComm(struct BtlMain *main);
 
-extern int BTL_MAIN_IsRecordAllowed(char **p);
+extern int BTL_MAIN_IsRecordAllowed(struct BtlMain *main);
+struct TcblSystem;
 
-extern void *TCBL_IsDeletePending(void *task);
+extern u32 TCBL_IsDeletePending(struct TcblSystem *tcbl);
 
 extern void TCB_DeleteTask(struct Node *n);
 
@@ -679,28 +686,30 @@ int BTLV_EFFECT_StepMover(BtlvMover *mover, BtlvVec3 *out);
 int BTLV_EFFECT_GetBitMask(int x);
 
 void BTLV_EFFECT_UpdateTexturePaletteFade(BtlvPalFade *fade);
+struct ScriptVm;
 
-BtlvEffVmWork *BTLV_EFFVM_Create(void *owner, u16 heap);
+struct ScriptVm *BTLV_EFFVM_Create(void *owner, u32 heapId);
 
-int BTLV_EFFVM_Main(BtlvEffVmWork *vm);
+int BTLV_EFFVM_Main(void *vm);
 
 void BTLV_EFFVM_Destroy(BtlvEffVmWork *vm);
+struct BtlvEffVmParams;
 
-void BTLV_EFFVM_StartScript(BtlvEffVmWork *vm, u32 attackerPos, u32 defenderPos, u16 id, BtlvEffVmParams *q);
+void BTLV_EFFVM_StartScript(void *vm, u32 attackerPos, u32 defenderPos, u16 effectId, struct BtlvEffVmParams *params);
 
-void BTLV_EFFVM_StopScript(BtlvEffVmWork *vm);
+void BTLV_EFFVM_StopScript(void *vm);
 
-void BTLV_EFFVM_ClearBlockedFlag(BtlvEffVmWork *vm);
+void BTLV_EFFVM_ClearBlockedFlag(void *vm);
 
 void BTLV_EFFVM_InitParams(BtlvEffVmParams *p);
 
-void BTLV_EFFVM_StartSePlayTask(BtlvEffVmWork *vm, u32 a, int b, u32 c, int e, u32 f, int g, int h, int d);
+void BTLV_EFFVM_StartSePlayTask(void *vm, u32 seId, s32 slot, u32 pan, s32 pitch, u32 volume, s32 modDepth, s32 modSpeed, s32 delay);
 
-void BTLV_EFFVM_StartSeVolumeTask(BtlvEffVmWork *vm, u32 a, int mode, int c, int x, int dest, int e, int f, int g, int duration);
+void BTLV_EFFVM_StartSeVolumeTask(void *vm, u32 slot, s32 mode, s32 param, s32 from, s32 to, s32 startDelay, s32 stepCount, s32 framesPerStep, s32 duration);
 
-void BTLV_EFFVM_StopLiveSounds(BtlvEffVmWork *vm);
+void BTLV_EFFVM_StopLiveSounds(void *vm);
 
-void BTLV_EFFVM_ClearLastEffect(BtlvEffVmWork *vm);
+void BTLV_EFFVM_ClearLastEffect(void *vm);
 
 BtlvMcssWork *BTLV_MCSS_Create(int rule, void *taskOwner, u16 heapId);
 
@@ -809,24 +818,24 @@ BtlvEffSetup *BTLV_EFFECT_CreateSetupFromBattleMain(u8 *battleMain, int param, u
     int mode, type;
     BtlvEffFieldSituation *fieldSituation;
     for (i = 0; i < 4; i++) trainerTypes[i] = 0;
-    if (BTL_MAIN_IsMultiMode((unsigned char **)battleMain) == 1) {
-        side = BTL_MAIN_IsOwnClientSecondTeam(battleMain);
-        idx = BTL_MAIN_GetOwnClientId(battleMain);
-        other = BTL_MAIN_GetOwnPartnerClient(battleMain);
-        trainerTypes[side * 2] = BTL_MAIN_GetTrainerType((char *)battleMain, idx);
-        if (other != 4) trainerTypes[(side ^ 1) * 2] = BTL_MAIN_GetTrainerType((char *)battleMain, other);
-        trainerTypes[1] = BTL_MAIN_GetTrainerType((char *)battleMain, BTL_MAIN_GetOwnOpponentClient(battleMain, 0));
-        trainerTypes[3] = BTL_MAIN_GetTrainerType((char *)battleMain, BTL_MAIN_GetOwnOpponentClient(battleMain, 1));
+    if (BTL_MAIN_IsMultiMode((struct BtlMain *)battleMain) == 1) {
+        side = BTL_MAIN_IsOwnClientSecondTeam((struct BtlMain *)battleMain);
+        idx = BTL_MAIN_GetOwnClientId((struct BtlMain *)battleMain);
+        other = BTL_MAIN_GetOwnPartnerClient((struct BtlMain *)battleMain);
+        trainerTypes[side * 2] = BTL_MAIN_GetTrainerType((struct BtlMain *)battleMain, idx);
+        if (other != 4) trainerTypes[(side ^ 1) * 2] = BTL_MAIN_GetTrainerType((struct BtlMain *)battleMain, other);
+        trainerTypes[1] = BTL_MAIN_GetTrainerType((struct BtlMain *)battleMain, BTL_MAIN_GetOwnOpponentClient((struct BtlMain *)battleMain, 0));
+        trainerTypes[3] = BTL_MAIN_GetTrainerType((struct BtlMain *)battleMain, BTL_MAIN_GetOwnOpponentClient((struct BtlMain *)battleMain, 1));
     } else {
-        trainerTypes[0] = BTL_MAIN_GetTrainerType((char *)battleMain, BTL_MAIN_GetOwnClientId(battleMain));
-        trainerTypes[1] = BTL_MAIN_GetTrainerType((char *)battleMain, BTL_MAIN_GetOwnOpponentClient(battleMain, 0));
+        trainerTypes[0] = BTL_MAIN_GetTrainerType((struct BtlMain *)battleMain, BTL_MAIN_GetOwnClientId((struct BtlMain *)battleMain));
+        trainerTypes[1] = BTL_MAIN_GetTrainerType((struct BtlMain *)battleMain, BTL_MAIN_GetOwnOpponentClient((struct BtlMain *)battleMain, 0));
         trainerTypes[2] = 0;
         trainerTypes[3] = 0;
     }
-    mode = BTL_MAIN_GetRule((void **)battleMain);
-    type = (int)BTL_MAIN_GetCompetitor((void ***)battleMain);
-    fieldSituation = (BtlvEffFieldSituation *)BTL_MAIN_GetFieldSituation((char **)battleMain);
-    return BTLV_EFFECT_CreateSetup(mode, type, fieldSituation, BTL_MAIN_IsMultiMode((unsigned char **)battleMain), trainerTypes, battleMain, param, heap);
+    mode = BTL_MAIN_GetRule((struct BtlMain *)battleMain);
+    type = (int)BTL_MAIN_GetCompetitor((struct BtlMain *)battleMain);
+    fieldSituation = (BtlvEffFieldSituation *)BTL_MAIN_GetFieldSituation((struct BtlMain *)battleMain);
+    return BTLV_EFFECT_CreateSetup(mode, type, fieldSituation, BTL_MAIN_IsMultiMode((struct BtlMain *)battleMain), trainerTypes, battleMain, param, heap);
 }
 
 /*
@@ -849,7 +858,7 @@ void BTLV_EFFECT_Init(BtlvEffSetup *setup, void *font, u16 heap)
     w->heap = heap;
     gBtlvEff->taskBuf = GFL_HEAP_Alloc(heap, TCB_GetTaskOffset(0x20), 1, gBtlvEffectFileName, 0x11c);
     gBtlvEff->owner = TCB_Init(0x20, gBtlvEff->taskBuf);
-    gBtlvEff->effvm = BTLV_EFFVM_Create(gBtlvEff->owner, heap);
+    gBtlvEff->effvm = (struct BtlvEffVmWork *)BTLV_EFFVM_Create(gBtlvEff->owner, heap);
     gBtlvEff->palanm = PALANM_Create(heap);
     PALANM_SetAutoTransfer(gBtlvEff->palanm, 1);
     PALANM_AllocSlotBuffers(gBtlvEff->palanm, 0, 0x200, heap);
@@ -874,7 +883,7 @@ void BTLV_EFFECT_Init(BtlvEffSetup *setup, void *font, u16 heap)
         r.x = 0;
         r.y = -0x1000;
         r.z = 0;
-        G3D_SYSTEM_SetLight(0, &r);
+        G3D_SYSTEM_SetLight(0, (struct G3dLight *)(&r));
     }
     GFL_HEAP_Free(tbl);
     gBtlvEff->camera = BTLV_CAMERA_Create(gBtlvEff->owner, heap);
@@ -1774,7 +1783,7 @@ void BTLV_EFFECT_DeleteTask(void *task)
 
     if (task == 0)
         return;
-    w = TCBL_IsDeletePending(task);
+    w = (void *)TCBL_IsDeletePending(task);
     if (gBtlvEff->taskCallback[i] != 0)
         gBtlvEff->taskCallback[i](task);
     if (w != 0)
@@ -1928,7 +1937,7 @@ void BTLV_EFFECT_DamageTintTaskMain(void *task, void *arg)
  */
 void BTLV_EFFECT_ClearTaskMaskM0(void *tcb)
 {
-    BtlvEffDamageTintTask *task = TCBL_IsDeletePending(tcb);
+    BtlvEffDamageTintTask *task = (struct BtlvEffDamageTintTask *)TCBL_IsDeletePending(tcb);
     int m = BTLV_EFFECT_GetBitMask(task->pos);
     gBtlvEff->damageTintTaskMask &= m ^ 0xffffffff;
 }
@@ -2001,7 +2010,7 @@ void BTLV_EFFECT_SequenceTaskMain(void *task, void *arg)
  */
 void BTLV_EFFECT_ClearTaskMaskM1(void *tcb)
 {
-    BtlvEffHitTask *task = TCBL_IsDeletePending(tcb);
+    BtlvEffHitTask *task = (struct BtlvEffHitTask *)TCBL_IsDeletePending(tcb);
     int m = BTLV_EFFECT_GetBitMask(task->pos);
     gBtlvEff->hitTaskMask &= m ^ 0xffffffff;
 }
@@ -2035,7 +2044,7 @@ void BTLV_EFFECT_PokeSpriteTransitionTaskMain(void *task, void *arg)
 
 void BTLV_EFFECT_ClearTaskMaskM2(void *tcb)
 {
-    BtlvEffSpriteTransitionTask *task = TCBL_IsDeletePending(tcb);
+    BtlvEffSpriteTransitionTask *task = (struct BtlvEffSpriteTransitionTask *)TCBL_IsDeletePending(tcb);
     int m = BTLV_EFFECT_GetBitMask(task->pos);
     gBtlvEff->spriteTransitionTaskMask &= m ^ 0xffffffff;
 }
@@ -2058,7 +2067,7 @@ void BTLV_EFFECT_DelayedStartEffectTaskMain(void *task, void *arg)
  */
 void BTLV_EFFECT_FreeTaskArg(void *tcb)
 {
-    BtlvEffQueuedScript *task = TCBL_IsDeletePending(tcb);
+    BtlvEffQueuedScript *task = (struct BtlvEffQueuedScript *)TCBL_IsDeletePending(tcb);
     if (task->params != 0)
         GFL_HEAP_Free(task->params);
 }

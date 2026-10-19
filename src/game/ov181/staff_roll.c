@@ -130,6 +130,19 @@
  *   BG_SYS_SetScrollRegs 0x02040860 arm
  */
 
+#include "../version.h"
+
+/* Black fades the credits to black, White to white. */
+#if VERSION == VERSION_WHITE
+#define FADE_LEVEL 0x10
+#define FADE_PALETTE_COLOR 0xFFFF
+#define FADE_WIPE_COLOR 0x7FFF
+#else
+#define FADE_LEVEL (-0x10)
+#define FADE_PALETTE_COLOR 0
+#define FADE_WIPE_COLOR 0
+#endif
+
 #define STATE(p) (((StaffRoll *)(p))->scriptState)
 #define ENTRIES(p) (((StaffRollEntry *)(((StaffRoll *)(p))->entryTable)))
 #define IDX(p) (((StaffRoll *)(p))->rowIndex)
@@ -505,7 +518,7 @@ int STAFF_ROLL_Teardown(char *p) {
 if(GFL_USE_IsBgmFading()==1)return 2;
 if(GFL_USE_IsBgmPlaying()==1)GFL_USE_CancelChangeAndStopBgm();
 STAFF_ROLL_RemoveVblankTask(p);STAFF_ROLL_FreeRows(p);STAFF_ROLL_Exit3d(p);STAFF_ROLL_DeleteWindows(p);STAFF_ROLL_DeleteText(p);STAFF_ROLL_TeardownBackgrounds();
-GXx_SetMasterBrightness_((volatile u16 *)0x0400006c,-16);GXx_SetMasterBrightness_((volatile u16 *)0x0400106c,-16);
+GXx_SetMasterBrightness_((volatile u16 *)0x0400006c,FADE_LEVEL);GXx_SetMasterBrightness_((volatile u16 *)0x0400106c,FADE_LEVEL);
 *(volatile u16 *)0x04000050=0;*(volatile u16 *)0x04001050=0;
 BG_SYS_SetMainVisiblePlanes(0);BG_SYS_SetSubVisiblePlanes(0);GF_OVERLAY_Unload((int)overlay_id);return 5;
 }
@@ -639,8 +652,8 @@ void STAFF_ROLL_LoadGraphics(void)
     ARC_UTIL_UploadPaletteFromHandleWhole(p, 0xc, 0, 0x1e0, 0x20, 0x8e);
     ARC_UTIL_UploadPaletteFromHandleWhole(p, 0xc, 4, 0x1e0, 0x20, 0x8e);
     ARC_TOOL_DeleteHandle(p);
-    BG_SYS_LoadPlttEntry(1, 0);
-    BG_SYS_LoadPlttEntry(5, 0);
+    BG_SYS_LoadPlttEntry(1, FADE_PALETTE_COLOR);
+    BG_SYS_LoadPlttEntry(5, FADE_PALETTE_COLOR);
 }
 
 
@@ -657,7 +670,7 @@ void STAFF_ROLL_ReloadGraphics(void *unused, int mode)
         ARC_UTIL_UploadPaletteFromHandleWhole(h, 0xC, 0, 0x1E0, 0x20, 0x8E);
     }
     ARC_TOOL_DeleteHandle(h);
-    BG_SYS_LoadPlttEntry(1, 0);
+    BG_SYS_LoadPlttEntry(1, FADE_PALETTE_COLOR);
 }
 
 
@@ -863,7 +876,7 @@ void STAFF_ROLL_Init3d(char *p) {
     BG_SYS_EnableBg0WithPriority(2);
     STAFF_ROLL_InitLights((u8 *)(p+0x28));
     BG_SYS_SetMainPlaneVisible(1,0);
-    G2x_SetBlendBrightness_(0x04000050,1,-16);
+    G2x_SetBlendBrightness_(0x04000050,1,FADE_LEVEL);
 }
 
 
@@ -1010,7 +1023,7 @@ void STAFF_ROLL_SetLightMode(u8 *p, u32 mode){((StaffRollLight *)p)->lightMode=m
 
 
 
-int STAFF_ROLL_StartWipe(u8 *p, int delay){WIPE_SYS_Start(0,0,0,0,6,1,142);((StaffRoll *)p)->wipeDelay=delay;return 1;}
+int STAFF_ROLL_StartWipe(u8 *p, int delay){WIPE_SYS_Start(0,0,0,FADE_WIPE_COLOR,6,1,142);((StaffRoll *)p)->wipeDelay=delay;return 1;}
 
 
 
@@ -1021,7 +1034,11 @@ void STAFF_ROLL_UpdateBrightness(char *p)
     int v = ((StaffRoll *)p)->brightness;
     if (v <= 0x10000) {
         ((StaffRoll *)p)->brightness = v + (((StaffRoll *)p)->fastFlag == 1 ? 0x400 : 0x100);
+#if VERSION == VERSION_WHITE
+        G2x_SetBlendBrightness_(0x04000050, 1, 0x10 - *(volatile int *)&((StaffRoll *)p)->brightness / 0x1000);
+#else
         G2x_SetBlendBrightness_(0x04000050, 1, *(volatile int *)&((StaffRoll *)p)->brightness / 0x1000 - 0x10);
+#endif
     }
 }
 
@@ -1369,7 +1386,11 @@ int STAFF_ROLL_CmdQueueLight(u8 *p,u8 *q){u8 *s=(u8 *)((u32)p+0x28);STAFF_ROLL_Q
 
 int STAFF_ROLL_CmdSetRecord(char *ctx, unsigned char *rec)
 {
+#if VERSION == VERSION_WHITE
+    rec = rec + ((rec[7] + 1) << 4);       /* White's record table has one more leading record */
+#else
     rec = rec + (rec[7] << 4);
+#endif
     STAFF_ROLL_PrintRowText(ctx, rec);
     ((StaffRoll *)ctx)->scriptTimer = ((StaffRollEntry *)rec)->y;
     ((StaffRoll *)ctx)->scriptState = 1;

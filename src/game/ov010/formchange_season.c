@@ -24,15 +24,16 @@
 #include "formchange_shaymin_shared_types.h"
 
 extern struct PokedexSave *ZUKAN_SAVE_GetFromGameData(struct GameData *gameData);
+struct ZukanSave;
 
-extern void ZUKAN_SAVE_RegisterSeen(struct PokedexSave *pokedex, struct PokemonParam *mon);
+extern void ZUKAN_SAVE_RegisterSeen(struct ZukanSave *pZukan, void *pMon);
 
 /* Party and Pokemon. */
 extern u32 POKEPARTY_GetCount(struct Party *party);
 
 extern struct PokemonParam *POKEPARTY_GetMember(struct Party *party, u32 index);
 
-extern u32 POKE_TOOL_GetPartyValue(struct PokemonParam *mon, u32 paramId, void *buffer);
+extern u32 POKE_TOOL_GetPartyValue(struct PokemonParam *pp, u32 paramId, u32 arg);
 
 extern void POKE_TOOL_ChangeForm(struct PokemonParam *mon, u16 form);
 
@@ -93,13 +94,13 @@ void FORMCHANGE_UpdateSeasonForms(struct GameData *gameData, struct Party *party
         if (species == SPECIES_DEERLING && form != deerlingForm) {
             POKE_TOOL_ChangeForm(mon, deerlingForm);
             if (!deerlingRegistered) {
-                ZUKAN_SAVE_RegisterSeen(pokedex, mon);
+                ZUKAN_SAVE_RegisterSeen((struct ZukanSave *)pokedex, mon);
                 deerlingRegistered = 1;
             }
         } else if (species == SPECIES_SAWSBUCK && form != sawsbuckForm) {
             POKE_TOOL_ChangeForm(mon, sawsbuckForm);
             if (!sawsbuckRegistered) {
-                ZUKAN_SAVE_RegisterSeen(pokedex, mon);
+                ZUKAN_SAVE_RegisterSeen((struct ZukanSave *)pokedex, mon);
                 sawsbuckRegistered = 1;
             }
         }

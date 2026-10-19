@@ -114,7 +114,7 @@ extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u
 
 extern u32 GFL_HEAP_Free(void *block);
 
-extern void *ARC_TOOL_CreateHandle(u32 arcId, u32 heapId);
+extern void *ARC_TOOL_CreateHandle(u32 archiveID, u16 heapID);
 
 extern void ARC_TOOL_DeleteHandle(void *arcTool);
 

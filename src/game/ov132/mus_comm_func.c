@@ -121,20 +121,24 @@ struct Context { char pad0[0x60]; struct Record rec[4]; };
 extern void *GFL_HEAP_Alloc(unsigned, unsigned, int, const char *, u16);
 
 extern u32 GFL_HEAP_Free(void *p);
+struct GameSystem;
+struct GameData;
 
-extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
+extern struct GameData *GAMESYSTEM_GetGameData(struct GameSystem *gameSystem);
+struct GameComm;
 
-extern void GAME_COMM_Start(struct Comm *p, u32 kind, u32 param);
+extern void GAME_COMM_Start(struct GameComm *comm, unsigned int kind, unsigned int param);
 
-extern void GAME_COMM_RequestExitNoCallback(struct Comm *);
+extern void GAME_COMM_RequestExitNoCallback(struct GameComm *comm);
+struct MyStatus;
 
-extern u8 *GAME_DATA_GetMyStatus(void *p);
+extern struct MyStatus *GAME_DATA_GetMyStatus(struct GameData *gd);
 
 extern void GFL_NET_StartSession(struct Req *req, u32 transportArg, u32 userArg);
 
-extern void MYSTATUS_Copy(void *, void *);
+extern void MYSTATUS_Copy(struct MyStatus *src, struct MyStatus *dest);
 
-extern void OS_GetMacAddress(void *);
+extern void OS_GetMacAddress(unsigned char *macAddress);
 
 extern int GFL_NET_GetNegotiationNum(void);
 
@@ -145,18 +149,20 @@ extern void GFL_NET_COMMAND_DeleteCommandTable(u32);
 extern void GFL_NET_SetLoginOption(u8 loginOption);
 
 extern u32 GFL_NET_ERR_GetErrorLevel(void);
+struct GFLNetHandle;
 
-extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
+extern struct GFLNetHandle *GFL_NET_HANDLE_GetCurrentHandle(void);
+struct GFLNetHandle;
 
-extern int GFL_NET_SendToHandle(struct Entry *a, u32 b, u32 c, u32 d);
+extern int GFL_NET_SendToHandle(struct GFLNetHandle *handle, unsigned int command, unsigned int size, void *data);
 
-extern void GAMESYSTEM_SetFieldMapState(struct Ctx *p, u32 v);
+extern void GAMESYSTEM_SetFieldMapState(struct GameSystem *gameSystem, unsigned int state);
 
 extern int GFL_NET_IsSessionNull(void);
 
 extern void GFL_NET_COMMAND_AddCommandTable(u32,u32,u32,u32);
 
-extern void *GAME_DATA_GetSaveBlock2A(void *);
+extern void *GAME_DATA_GetSaveBlock2A(struct GameData *gd);
 
 extern u32 POKE_TOOL_GetPartyParamSize(void);
 
@@ -165,8 +171,9 @@ extern u32 POKE_TOOL_GetBoxParamSize(void);
 extern int MYSTATUS_GetSize(void);
 
 extern void MI_CpuFill8(void *,u8,u32);
+struct MusicalSave;
 
-extern u16 MUSICAL_SAVE_GetFanPoints(struct Big *p);
+extern u16 MUSICAL_SAVE_GetFanPoints(struct MusicalSave *musical);
 
 extern int STA_NET_SendRandomOrder(u8 *p);
 
@@ -186,19 +193,19 @@ extern int STA_NET_IsTransferDone(char *);
 
 extern void STA_NET_UpdateTransferState(char *);
 
-extern void GFL_NET_HANDLE_SetTimingSyncRange(struct Link *, unsigned int, unsigned int);
+extern void GFL_NET_HANDLE_SetTimingSyncRange(struct GFLNetHandle *handle, unsigned int timingLow, unsigned int timingHigh);
 
-extern unsigned int GFL_NET_HANDLE_IsTimingSyncRange(struct Link *p, unsigned int lo, unsigned int hi);
+extern unsigned int GFL_NET_HANDLE_IsTimingSyncRange(struct GFLNetHandle *handle, unsigned int timingLow, unsigned int timingHigh);
 
-extern u32 GFL_NET_SendData(u32,u32,u32,u32,u32,u32,u32,u32);
+extern u32 GFL_NET_SendData(struct GFLNetHandle *handle, u32 sendId, u32 command, u32 size, void *data, u32 sendFlags, u32 skipIfQueued, u32 queueMode);
 
-extern struct Entry *GFL_NET_HANDLE_GetNetHandle(int);
+extern struct GFLNetHandle *GFL_NET_HANDLE_GetNetHandle(int);
 
 extern void GFL_USE_PlaySeDefaultVolume(u32);
 
 extern void MI_CpuCopy8(void *,void *,u32);
 
-extern int MYSTATUS_IsNameEmpty(const u16 *values);
+extern int MYSTATUS_IsNameEmpty(struct MyStatus *mystatus);
 
 void MUS_COMM_FUNC_Create(int a, void *b, void *c, int d);
 
@@ -216,7 +223,7 @@ void MUS_COMM_FUNC_SetHostFlag(char *p);
 
 void MUS_COMM_FUNC_InitCommandTable(char *p);
 
-void MUS_COMM_FUNC_InitWork(u8 *p,void *a,void *b,int unused,void *d,u16 heap);
+void MUS_COMM_FUNC_InitWork(u8 *p, void *a, void *b, void *unused, void *d, u16 heap);
 
 void MUS_COMM_FUNC_DeleteBuffers(char *p);
 
@@ -238,7 +245,7 @@ u32 MUS_COMM_FUNC_GetRecordSize(void);
 
 int MUS_COMM_FUNC_Equals(int a,int b);
 
-void MUS_COMM_FUNC_SendCommand(int unused,int kind,u32 value,u32 id);
+void MUS_COMM_FUNC_SendCommand(char *unused, int kind, u32 value, u32 id);
 
 u32 MUS_COMM_FUNC_SendCommandWait(int unused,int kind,u32 value,u32 id);
 
@@ -287,7 +294,7 @@ void MUS_COMM_FUNC_Create(int unused, void *icaCtx, void *comm, int useExistingS
     GAME_COMM_Start(comm, 4, (u32)p);
 }
 
-void MUS_COMM_FUNC_Delete(char *p) { MUS_COMM_FUNC_DeleteBuffers(p); GAME_COMM_RequestExitNoCallback(*(struct Comm * *)&((struct ActingHost *)p)->comm); }
+void MUS_COMM_FUNC_Delete(char *p) { MUS_COMM_FUNC_DeleteBuffers(p); GAME_COMM_RequestExitNoCallback((struct GameComm *)(*(struct Comm * *)&((struct ActingHost *)p)->comm)); }
 
 void *MUS_COMM_FUNC_StartSession(int unused,char *p)
 {
@@ -297,8 +304,8 @@ void *MUS_COMM_FUNC_StartSession(int unused,char *p)
         d_021FDE4C[5]=0;
         GFL_NET_StartSession((struct Req *)d_021FDDEC,(u32)MUS_COMM_FUNC_SetReady,(u32)p);
     }
-    MYSTATUS_Copy(((struct ActingHost *)p)->myStatus,p+0x20);
-    OS_GetMacAddress(p+0x40);
+    MYSTATUS_Copy((struct MyStatus *)(((struct ActingHost *)p)->myStatus),(struct MyStatus *)(p+0x20));
+    OS_GetMacAddress((unsigned char *)(p+0x40));
     ((struct ActingHost *)p)->sessionId=0x3a0b;
     return p;
 }
@@ -323,12 +330,12 @@ int MUS_COMM_FUNC_UpdateNetState(int *state,u8 *p)
  case 2:
   if(((struct ActingHost *)p)->isInitialized==0) {GFL_NET_Exit(0);return 1;}
   if(GFL_NET_IsParentAid()==0) {
-   if(GFL_NET_SendToHandle(GFL_NET_HANDLE_GetCurrentHandle(),1,0,0)==1) return 1;
+   if(GFL_NET_SendToHandle((struct GFLNetHandle *)(GFL_NET_HANDLE_GetCurrentHandle()),1,0,0)==1) return 1;
   } else if(GFL_NET_GetNegotiationNum()<=1) {GFL_NET_Exit(0);return 1;}
   if(GFL_NET_ERR_GetErrorLevel()!=0) *state=10;
   break;
  case 10:
-  if(GFL_NET_ERR_GetErrorLevel()!=0) GAMESYSTEM_SetFieldMapState(*(struct Ctx * *)&((struct ActingHost *)p)->icaCtx,1);
+  if(GFL_NET_ERR_GetErrorLevel()!=0) GAMESYSTEM_SetFieldMapState((struct GameSystem *)(*(struct Ctx * *)&((struct ActingHost *)p)->icaCtx),1);
   GFL_NET_Exit(0);return 1;
  }
  return 0;
@@ -354,12 +361,12 @@ static inline void clear8(void *dest,u32 size)
  * The SDK MI_CpuClear8 inline spelling restores both fill-call setup orders
  * (direct MI_CpuFill8 leaves 15 bytes; data/size signedness changes are flat).
  */
-void MUS_COMM_FUNC_InitWork(u8 *p,void *myStatusSrc,void *boxParamSrc,int unused,void *hostEntry,u16 heap)
+void MUS_COMM_FUNC_InitWork(u8 *p, void *myStatusSrc, void *boxParamSrc, void *unused, void *hostEntry, u16 heap)
 {
  void *data;
  u32 size1,size2;
  u8 i,j;
- data=GAME_DATA_GetSaveBlock2A(P(p,0x58));
+ data=GAME_DATA_GetSaveBlock2A((struct GameData *)(P(p,0x58)));
  ((struct ActingHost *)p)->heapId=heap;
  for(i=0;i<4;i++) {
   u8 *row;
@@ -577,10 +584,10 @@ void MUS_COMM_FUNC_Update(char *p)
 
 void MUS_COMM_FUNC_SetTimingSync(int unused, int timingId)
 {
-    GFL_NET_HANDLE_SetTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), timingId, 0x11);
+    GFL_NET_HANDLE_SetTimingSyncRange((struct GFLNetHandle *)GFL_NET_HANDLE_GetCurrentHandle(), timingId, 0x11);
 }
 
-int MUS_COMM_FUNC_CheckTimingSync(char *p,int id) {if(GFL_NET_HANDLE_IsTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),id,0x11)==1)return 1;if(((struct ActingHost *)p)->hasError==1)return 1;return 0;}
+int MUS_COMM_FUNC_CheckTimingSync(char *p,int id) {if(GFL_NET_HANDLE_IsTimingSyncRange((struct GFLNetHandle *)GFL_NET_HANDLE_GetCurrentHandle(),id,0x11)==1)return 1;if(((struct ActingHost *)p)->hasError==1)return 1;return 0;}
 
 int MUS_COMM_FUNC_GetSlotValueA(char *p,u32 index) {if(((struct ActingHost *)p)->state!=0 && *(int *)((u32)p+index*0x30+0x68)==1)return *(int *)((u32)p+index*0x30+0x84);return 0;}
 
@@ -592,9 +599,9 @@ u32 MUS_COMM_FUNC_GetRecordSize(void){return 40;}
 
 int MUS_COMM_FUNC_Equals(int lhs,int rhs){if(lhs==rhs)return 1;return 0;}
 
-void MUS_COMM_FUNC_SendCommand(int unused,int kind,u32 value,u32 id) {struct Entry *e;struct Request request;e=GFL_NET_HANDLE_GetCurrentHandle();request.kind=kind;request.value=value;GFL_NET_SendData((u32)e,id,0x1100,8,(u32)&request,1,0,0);}
+void MUS_COMM_FUNC_SendCommand(char *unused, int kind, u32 value, u32 id) {struct GFLNetHandle *e;struct Request request;e=GFL_NET_HANDLE_GetCurrentHandle();request.kind=kind;request.value=value;GFL_NET_SendData(e,id,0x1100,8,&request,1,0,0);}
 
-u32 MUS_COMM_FUNC_SendCommandWait(int unused,int kind,u32 value,u32 id) {struct Entry *e;struct Request request;e=GFL_NET_HANDLE_GetNetHandle(255);request.kind=kind;request.value=value;return GFL_NET_SendData((u32)e,id,0x1100,8,(u32)&request,1,0,0);}
+u32 MUS_COMM_FUNC_SendCommandWait(int unused,int kind,u32 value,u32 id) {struct GFLNetHandle *e;struct Request request;e=GFL_NET_HANDLE_GetNetHandle(255);request.kind=kind;request.value=value;return GFL_NET_SendData(e,id,0x1100,8,&request,1,0,0);}
 
 void MUS_COMM_FUNC_HandlePacket(unsigned long slot, int unused, const Packet *packet, char *p)
 {
@@ -769,7 +776,7 @@ u32 MUS_COMM_FUNC_SendMyStatus(struct ActingHost *p)
     MI_CpuCopy8(&p->fanPoints,q,4);
     MI_CpuCopy8(p->myStatusSrc,q+4,MYSTATUS_GetSize());
     MI_CpuCopy8(p->boxParamSrc,t,POKE_TOOL_GetBoxParamSize());
-    return GFL_NET_SendData((u32)GFL_NET_HANDLE_GetCurrentHandle(),0xff,0x1101,MYSTATUS_GetSize()+4+POKE_TOOL_GetBoxParamSize(),(u32)p->myStatusSendBuf,1,0,1);
+    return GFL_NET_SendData(GFL_NET_HANDLE_GetCurrentHandle(),0xff,0x1101,MYSTATUS_GetSize()+4+POKE_TOOL_GetBoxParamSize(),p->myStatusSendBuf,1,0,1);
 }
 
 void MUS_COMM_FUNC_SetEntryFlag(int index, int unused, int unused1, T *p) { p->e[index].w[2] = 1; p->e[index].w[0] = 1; }
@@ -796,7 +803,7 @@ int MUS_COMM_FUNC_SendBoxData(char *p)
     h=GFL_NET_HANDLE_GetNetHandle(0xff);
     m=MYSTATUS_GetSize();
     n=POKE_TOOL_GetBoxParamSize();
-    return GFL_NET_SendData((u32)h,0xff,0x1102,(m+4+n)*4,(u32)(((struct ActingHost *)p)->boxRecvBuf),1,0,1);
+    return GFL_NET_SendData(h,0xff,0x1102,(m+4+n)*4,(((struct ActingHost *)p)->boxRecvBuf),1,0,1);
 }
 
 /*
@@ -853,7 +860,7 @@ int MUS_COMM_FUNC_SendStatusBlock(char *p, char *src)
     MI_CpuCopy8(((struct MusCommBlockHeader *)src)->payload,q,n);
     h=GFL_NET_HANDLE_GetCurrentHandle();
     n=POKE_TOOL_GetPartyParamSize();
-    return GFL_NET_SendData((u32)h,0xff,0x1103,n+0x7c,(u32)(((struct ActingHost *)p)->statusSendBuf),1,zero,1);
+    return GFL_NET_SendData(h,0xff,0x1103,n+0x7c,(((struct ActingHost *)p)->statusSendBuf),1,zero,1);
 }
 
 /*
@@ -897,7 +904,7 @@ int MUS_COMM_FUNC_SendRecordBlock(const char *p)
     }
     h=GFL_NET_HANDLE_GetNetHandle(0xff);
     n=POKE_TOOL_GetPartyParamSize();
-    return GFL_NET_SendData((u32)h,0xff,0x1104,(n+0x7c)*4,*(u32 *)(p+0x128),1,0,1);
+    return GFL_NET_SendData(h,0xff,0x1104,(n+0x7c)*4,(void *)(*(u32 *)(p+0x128)),1,0,1);
 }
 
 /*
@@ -912,7 +919,7 @@ void MUS_COMM_FUNC_ReceiveRecordBlock(int unused,int unused1,int unused2,const s
     u32 n;
     for(i=0;i<4;i++) {
         s=(char *)p+i*0x30;
-        if(MYSTATUS_IsNameEmpty(*(u16 **)(s+0x84))==0) {
+        if(MYSTATUS_IsNameEmpty((struct MyStatus *)(*(u16 **)(s+0x84)))==0) {
             n=POKE_TOOL_GetPartyParamSize()+0x7c;
             q=p->partyRecordBuf;
             k=i*n;

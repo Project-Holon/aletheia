@@ -87,56 +87,64 @@ struct InfoMsgWin;
 typedef int (*GameEventFunc)(struct GameEvent *event, int *seq, void *work);
 
 extern struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
-extern struct GPowerTable *GPOWER_LoadPowerTable(u32 heapId);
-extern struct GameEvent *SCRIPT_SYS_CreateScriptEventSimple(struct GameSystem *gameSystem, int scriptId, int param, int heapId);
-extern struct ScriptWork *SCRIPT_SYS_GetEventScriptWork(struct GameEvent *event);
-extern unsigned int GPOWER_GetPowerType(struct GPowerTable *table, int powerId);
-extern void GPOWER_Activate(int powerId, struct GPowerTable *table, int payWithItems);
+struct GPowerData;
+extern struct GPowerData *GPOWER_LoadPowerTable(u32 heapId);
+extern struct GameEvent *SCRIPT_SYS_CreateScriptEventSimple(void *fieldSys, u16 scriptId, void *target, s32 reserved);
+extern void *SCRIPT_SYS_GetEventScriptWork(struct GameEvent *event);
+extern unsigned int GPOWER_GetPowerType(struct GPowerData *table, s32 powerId);
+extern void GPOWER_Activate(s32 powerId, struct GPowerData *table, s32 select);
 extern int SCRIPT_WORK_SetParams(struct ScriptWork *scriptWork, u16 powerId, u16 powerType, u16 payWithItems, u16 unused);
-extern struct WordSet *SCRIPT_WORK_GetWordSet(struct ScriptWork *scriptWork);
+extern void *SCRIPT_WORK_GetWordSet(struct ScriptWork *scriptWork);
 extern u16   GPOWER_GetPowerCost(struct GPowerTable *table, int powerId);
-extern struct MyItem *GAME_DATA_GetMyItem(const struct GameData *gameData);
+extern void *GAME_DATA_GetMyItem(const struct GameData *gameData);
 extern u32 MYITEM_SAVEDATA_RemoveItem(struct MyItem *myItem, u16 itemId, u16 count, u16 heapId);
-extern void GAME_BEACON_SEARCH_SetVersionAction(int powerId);
+extern void GAME_BEACON_SEARCH_SetVersionAction(u32 version);
 extern void  GAME_BEACON_SEARCH_SetHalfwordValue(int powerId);
-extern void  GPOWER_FreePowerTable(struct GPowerTable *table);
+extern void  GPOWER_FreePowerTable(struct GPowerData *table);
 extern struct GameEvent *GAME_EVENT_Create(struct GameSystem *gameSystem, struct GameEvent *parent, GameEventFunc func, u32 workSize);
 extern void *GAME_EVENT_GetWork(struct GameEvent *event);
 extern struct FieldMsgBg *FIELDMAP_GetMsgBg(struct FieldMap *fieldMap);
-extern struct FldMmdlSys *FIELDMAP_GetMmdlSys(struct FieldMap *fieldMap);
-extern struct MsgData *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern struct WordSet *WORDSET_CreateDefault(u32 heapId);
+struct MmdlSys;
+extern struct MmdlSys *FIELDMAP_GetMmdlSys(struct FieldMap *fieldMap);
+struct MsgBank;
+extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern struct WordSet *WORDSET_CreateDefault(u16 heapId);
 extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
-extern void FLDMMDL_SysPauseMove(struct FldMmdlSys *mmdlSys);
+extern void FLDMMDL_SysPauseMove(struct MmdlSys *sys);
 extern void STRBUF_Delete(struct Strbuf *str);
 extern u32 WORDSET_Delete(struct WordSet *wordSet);
-extern u32 MSGDATA_Delete(struct MsgData *msgData);
-extern u32 *FLDMMDL_SysResumeMove(struct FldMmdlSys *mmdlSys);
+extern u32 MSGDATA_Delete(struct MsgBank *bank);
+extern void FLDMMDL_SysResumeMove(struct MmdlSys *sys);
 extern void FADE_Start(u32 a, s32 b, s32 c, s32 d);
 extern int  FADE_IsActive(void);
 extern void GFL_USE_PlaySeDefaultVolume(u32 seId);
-extern struct PokeParty *GAME_DATA_GetMyParty(const struct GameData *gameData);
-extern u32   POKEPARTY_FindFirstBattleReady(struct PokeParty *party);
-extern struct Pokemon *POKEPARTY_GetMember(struct PokeParty *party, u32 index);
-extern void WORDSET_SetSlotMonNickname(struct WordSet *wordSet, u32 index, struct Pokemon *pokemon);
-extern u32   GPOWER_UseHpRestore(struct PokeParty *party);
-extern u32   GPOWER_UsePpRestore(struct PokeParty *party);
-extern struct InfoSysWin *FIELD_MSGBG_CreateInfoSysWin(struct FieldMsgBg *msgBg, struct MsgData *msgData, u32 msgId);
-extern void FIELD_MSGBG_InfoSysWinPrintMsg(struct InfoSysWin *win, u32, u32, u32);
-extern u32 FIELD_MSGBG_InfoSysWinMain(struct InfoSysWin *win);
-extern int FIELD_MSGBG_DeleteInfoSysWin(struct InfoSysWin *win);
-extern struct InfoMsgWin *FIELD_MSGBG_CreateInfoMsgWin(struct FieldMsgBg *msgBg, struct MsgData *msgData, u32 b, u32 c, u16 d, u16 e);
-extern void FIELD_MSGBG_ClearInfoMsgWin(struct InfoMsgWin *win);
-extern int FIELD_MSGBG_DeleteInfoMsgWin(struct InfoMsgWin *win);
+extern void *GAME_DATA_GetMyParty(const struct GameData *gameData);
+struct Party;
+extern u32   POKEPARTY_FindFirstBattleReady(struct Party *party);
+struct PokemonParam;
+extern struct PokemonParam *POKEPARTY_GetMember(struct Party *party, u32 pos);
+extern void WORDSET_SetSlotMonNickname(struct WordSet *words, u32 slot, void *mon);
+extern u32   GPOWER_UseHpRestore(void *party);
+extern u32   GPOWER_UsePpRestore(void *party);
+struct FieldSysWin;
+extern struct FieldSysWin *FIELD_MSGBG_CreateInfoSysWin(struct FieldMsgBg *msgBg, struct MsgData *msgData, u32 msgId);
+extern void FIELD_MSGBG_InfoSysWinPrintMsg(struct FieldSysWin *sysWin, u32 x, u16 y, u32 msgId);
+extern u32 FIELD_MSGBG_InfoSysWinMain(struct FieldSysWin *sysWin);
+extern int FIELD_MSGBG_DeleteInfoSysWin(struct FieldSysWin *sysWin);
+struct FieldMsgWin;
+extern struct FieldMsgWin *FIELD_MSGBG_CreateInfoMsgWin(struct FieldMsgBg *msgBg, struct MsgData *msgData, u32 b, u32 c, u16 d, u16 e);
+extern void FIELD_MSGBG_ClearInfoMsgWin(struct FieldMsgWin *msgWin);
+extern int FIELD_MSGBG_DeleteInfoMsgWin(struct FieldMsgWin *msgWin);
 extern u32 KEY_GetTrg(void);
 extern void WORDSET_SetSlotFromMsgA0(struct WordSet *wordSet, u32 index, s32 value);
 extern void WORDSET_SetSlotNumber(struct WordSet *wordSet, u32 index, u32 value, u32 digits, u32 padding, u32 d);
 extern void WORDSET_CopyTaggedText(struct WordSet *wordSet, struct Strbuf *dst, struct Strbuf *src);
-extern void FIELD_MSGBG_InfoMsgWinPrintStr(struct InfoMsgWin *win, int x, int y, struct Strbuf *str);
+extern void FIELD_MSGBG_InfoMsgWinPrintStr(struct FieldMsgWin *msgWin, s32 x, s32 y, struct Strbuf *str);
 extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gameData);
-extern struct GPowerSave *INTRUDE_GetFromSave(struct SaveControl *saveControl);
-extern u8 INTRUDE_GetMonolithLevel(struct GPowerSave *gpowerSave);
-extern void MSGDATA_ReadString(struct MsgData *msgData, u32 msgId, struct Strbuf *dst);
+struct IntrudeSave;
+extern struct IntrudeSave *INTRUDE_GetFromSave(struct SaveControl *saveControl);
+extern u8 INTRUDE_GetMonolithLevel(struct IntrudeSave *intrude);
+extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, struct Strbuf *dest);
 extern u8 GPOWER_GetActiveIdByType(int type);
 extern u32 GPOWER_GetMinutesLeftByType(u32 type);
 struct GameEvent *GPOWER_EVENT_CreateActivateEvent(struct GameSystem *gameSystem, GPowerActivateParam *param);
@@ -163,15 +171,15 @@ struct GameEvent *GPOWER_EVENT_CreateActivateEvent(struct GameSystem *gameSystem
     u16 cost;
 
     gameData = GAMESYSTEM_GetGameData(gameSystem);
-    table = GPOWER_LoadPowerTable(GPOWER_EVENT_HEAP_ID_BACK);
+    table = (struct GPowerTable *)GPOWER_LoadPowerTable(GPOWER_EVENT_HEAP_ID_BACK);
     powerId = param->powerId;
     event = SCRIPT_SYS_CreateScriptEventSimple(gameSystem, 0x28B9, 0, GPOWER_EVENT_HEAP_ID);
     scriptWork = SCRIPT_SYS_GetEventScriptWork(event);
     if (powerId == GPOWER_ID_NONE || powerId > GPOWER_ID_LAST) {
         powerId = 0;
     }
-    powerType = GPOWER_GetPowerType(table, powerId);
-    GPOWER_Activate(powerId, table, param->payWithItems);
+    powerType = GPOWER_GetPowerType((struct GPowerData *)table, powerId);
+    GPOWER_Activate(powerId, (struct GPowerData *)table, param->payWithItems);
     /* Power 0x27 tells the script type 0xB whatever its table type is. */
     if (powerId == 0x27) {
         SCRIPT_WORK_SetParams(scriptWork, powerId, 0xB, param->payWithItems, 0);
@@ -186,7 +194,7 @@ struct GameEvent *GPOWER_EVENT_CreateActivateEvent(struct GameSystem *gameSystem
     } else {
         GAME_BEACON_SEARCH_SetHalfwordValue(powerId);
     }
-    GPOWER_FreePowerTable(table);
+    GPOWER_FreePowerTable((struct GPowerData *)table);
     return event;
 }
 
@@ -226,13 +234,13 @@ void GPOWER_EVENT_InitListWork(GPowerListWork *work, struct GameSystem *gameSyst
     work->gameSystem = gameSystem;
     work->gameData = GAMESYSTEM_GetGameData(gameSystem);
     work->msgBg = FIELDMAP_GetMsgBg(work->fieldMap);
-    work->mmdlSys = FIELDMAP_GetMmdlSys(work->fieldMap);
-    work->powerTable = GPOWER_LoadPowerTable(work->heapId);
-    work->msgData = MSGDATA_CreateFromArchive(0, 3, 0x108, work->heapId);
+    work->mmdlSys = (struct FldMmdlSys *)FIELDMAP_GetMmdlSys(work->fieldMap);
+    work->powerTable = (struct GPowerTable *)GPOWER_LoadPowerTable(work->heapId);
+    work->msgData = (struct MsgData *)MSGDATA_CreateFromArchive(0, 3, 0x108, work->heapId);
     work->wordSet = WORDSET_CreateDefault(work->heapId);
     work->templateStr = STRBUF_Create(0x81, work->heapId);
     work->lineStr = STRBUF_Create(0x81, work->heapId);
-    FLDMMDL_SysPauseMove(work->mmdlSys);
+    FLDMMDL_SysPauseMove((struct MmdlSys *)work->mmdlSys);
 }
 
 
@@ -241,9 +249,9 @@ void GPOWER_EVENT_FreeListWork(GPowerListWork *work)
     STRBUF_Delete(work->lineStr);
     STRBUF_Delete(work->templateStr);
     WORDSET_Delete(work->wordSet);
-    MSGDATA_Delete(work->msgData);
-    GPOWER_FreePowerTable(work->powerTable);
-    FLDMMDL_SysResumeMove(work->mmdlSys);
+    MSGDATA_Delete((struct MsgBank *)work->msgData);
+    GPOWER_FreePowerTable((struct GPowerData *)work->powerTable);
+    FLDMMDL_SysResumeMove((struct MmdlSys *)work->mmdlSys);
 }
 
 
@@ -275,8 +283,8 @@ void GPOWER_EVENT_RestoreParty(struct GameSystem *gameSystem, struct WordSet *wo
     struct PokeParty *party = GAME_DATA_GetMyParty(GAMESYSTEM_GetGameData(gameSystem));
     u8 firstReady;
 
-    firstReady = POKEPARTY_FindFirstBattleReady(party);
-    WORDSET_SetSlotMonNickname(wordSet, 1, POKEPARTY_GetMember(party, firstReady));
+    firstReady = POKEPARTY_FindFirstBattleReady((struct Party *)party);
+    WORDSET_SetSlotMonNickname(wordSet, 1, POKEPARTY_GetMember((struct Party *)party, firstReady));
     switch (powerType) {
     case 5:
         GPOWER_UseHpRestore(party);
@@ -293,20 +301,20 @@ int GPOWER_EVENT_ListMain(struct GameEvent *event, int *seq, GPowerListWork *wor
     struct InfoSysWin *openWin;
     switch (*seq) {
     case 0:
-        openWin = FIELD_MSGBG_CreateInfoSysWin(work->msgBg, work->msgData, 19);
+        openWin = (struct InfoSysWin *)FIELD_MSGBG_CreateInfoSysWin(work->msgBg, work->msgData, 19);
         work->infoSysWin = openWin;
-        FIELD_MSGBG_InfoSysWinPrintMsg(openWin, 0, 0, 3);
+        FIELD_MSGBG_InfoSysWinPrintMsg((struct FieldSysWin *)openWin, 0, 0, 3);
         *seq += 1;
         break;
     case 1:
-        if (FIELD_MSGBG_InfoSysWinMain(work->infoSysWin)) {
-            FIELD_MSGBG_DeleteInfoSysWin(work->infoSysWin);
+        if (FIELD_MSGBG_InfoSysWinMain((struct FieldSysWin *)work->infoSysWin)) {
+            FIELD_MSGBG_DeleteInfoSysWin((struct FieldSysWin *)work->infoSysWin);
             *seq += 1;
         }
         break;
     case 2:
-        work->infoMsgWin = FIELD_MSGBG_CreateInfoMsgWin(work->msgBg, work->msgData, 4, 1, 24, 22);
-        FIELD_MSGBG_ClearInfoMsgWin(work->infoMsgWin);
+        work->infoMsgWin = (struct InfoMsgWin *)FIELD_MSGBG_CreateInfoMsgWin(work->msgBg, work->msgData, 4, 1, 24, 22);
+        FIELD_MSGBG_ClearInfoMsgWin((struct FieldMsgWin *)work->infoMsgWin);
         GPOWER_EVENT_PrintPowerList(work);
         *seq += 1;
         break;
@@ -314,8 +322,8 @@ int GPOWER_EVENT_ListMain(struct GameEvent *event, int *seq, GPowerListWork *wor
         if (KEY_GetTrg() & 3) *seq += 1;
         break;
     default:
-        FIELD_MSGBG_ClearInfoMsgWin(work->infoMsgWin);
-        FIELD_MSGBG_DeleteInfoMsgWin(work->infoMsgWin);
+        FIELD_MSGBG_ClearInfoMsgWin((struct FieldMsgWin *)work->infoMsgWin);
+        FIELD_MSGBG_DeleteInfoMsgWin((struct FieldMsgWin *)work->infoMsgWin);
         GPOWER_EVENT_FreeListWork(work);
         return 1;
     }
@@ -329,7 +337,7 @@ void GPOWER_EVENT_PrintPowerRow(GPowerListWork *work, struct Strbuf *templateStr
     WORDSET_SetSlotNumber(work->wordSet, 1, minutes / 60, 2, 1, 1);
     WORDSET_SetSlotNumber(work->wordSet, 2, minutes % 60, 2, 2, 1);
     WORDSET_CopyTaggedText(work->wordSet, work->lineStr, templateStr);
-    FIELD_MSGBG_InfoMsgWinPrintStr(work->infoMsgWin, 8, (u16)(row << 4), work->lineStr);
+    FIELD_MSGBG_InfoMsgWinPrintStr((struct FieldMsgWin *)work->infoMsgWin, 8, (u16)(row << 4), work->lineStr);
 }
 
 
@@ -345,17 +353,17 @@ void GPOWER_EVENT_PrintPowerList(GPowerListWork *work)
     u8 count;
     u8 swapTmp;
 
-    gpowerSave = INTRUDE_GetFromSave(GAME_DATA_GetSaveControl(work->gameData));
-    MSGDATA_ReadString(work->msgData, 4, work->templateStr);
-    FIELD_MSGBG_InfoMsgWinPrintStr(work->infoMsgWin, 0, 0, work->templateStr);
-    MSGDATA_ReadString(work->msgData, 6, work->templateStr);
-    powerId = (int)INTRUDE_GetMonolithLevel(gpowerSave);
+    gpowerSave = (struct GPowerSave *)INTRUDE_GetFromSave(GAME_DATA_GetSaveControl(work->gameData));
+    MSGDATA_ReadString((struct MsgBank *)work->msgData, 4, work->templateStr);
+    FIELD_MSGBG_InfoMsgWinPrintStr((struct FieldMsgWin *)work->infoMsgWin, 0, 0, work->templateStr);
+    MSGDATA_ReadString((struct MsgBank *)work->msgData, 6, work->templateStr);
+    powerId = (int)INTRUDE_GetMonolithLevel((struct IntrudeSave *)gpowerSave);
     if (powerId != GPOWER_ID_NONE) {
         GPOWER_EVENT_PrintPowerRow(work, work->templateStr, powerId, 0, 1);
     }
-    MSGDATA_ReadString(work->msgData, 5, work->templateStr);
-    FIELD_MSGBG_InfoMsgWinPrintStr(work->infoMsgWin, 0, 0x30, work->templateStr);
-    MSGDATA_ReadString(work->msgData, 7, work->templateStr);
+    MSGDATA_ReadString((struct MsgBank *)work->msgData, 5, work->templateStr);
+    FIELD_MSGBG_InfoMsgWinPrintStr((struct FieldMsgWin *)work->infoMsgWin, 0, 0x30, work->templateStr);
+    MSGDATA_ReadString((struct MsgBank *)work->msgData, 7, work->templateStr);
 
     /* The `for (i = 0, count = 0; ...)` form (not `count = 0;` before the loop) keeps the constant zero in r4 across the calls and seeds i from it. */
     for (i = 0, count = 0; i < 13; i++) {

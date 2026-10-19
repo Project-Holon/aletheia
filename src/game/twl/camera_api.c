@@ -46,6 +46,16 @@
  *   PXI_SetFifoRecvCallback  0x020885A0  arm  arm9
  *   OS_EnableInterrupts  0x02087974  arm  arm9
  *   OS_GetCpsrIrq  0x020879E0  arm  arm9
+ *   data_02732FC0                0x02732FC0  data
+ *   data_02732FC8                0x02732FC8  data
+ *   data_02732FF8                0x02732FF8  data
+ *   data_02733008                0x02733008  data
+ *   data_0273302C                0x0273302C  data
+ *   data_02733FC8                0x02733FC8  data
+ *   data_027340EC                0x027340EC  data
+ *   data_0273417C                0x0273417C  data
+ *   data_0273419C                0x0273419C  data
+ *   data_04000208                0x04000208  data
  */
 typedef unsigned int u32;
 typedef signed int s32;
@@ -129,30 +139,32 @@ extern u32 data_0273302C[];
 extern u32 data_027340EC[];
 extern u16 data_04000208;
 
-extern u32 OS_IsRunOnTwl(void);
+extern s32 OS_IsRunOnTwl(void);
 extern u64 OS_GetTick(void);
-extern void OS_SendMessage(u32*, u32, u32);
+struct OSMessageQueue;
+extern s32 OS_SendMessage(struct OSMessageQueue *mq, void *msg, s32 flags);
 extern u32 OS_DisableInterrupts(void);
 extern void OS_Sleep(u32);
-extern u32 OS_ReceiveMessage(u32*, u32*, u32);
+extern s32 OS_ReceiveMessage(struct OSMessageQueue *mq, void **msg, s32 flags);
 extern void OS_EnableInterrupts(void);
 extern void PXI_Init(void);
-extern u32 PXI_IsCallbackReady(u32, u32);
-extern void PXI_SetFifoRecvCallback(u32, void (*)(int, u32, int));
-extern void PMi_InsertPreSleepCallbackEx(u32*, u32);
-extern void PMi_InsertPostExitCallbackEx(u32*, u32);
+extern s32 PXI_IsCallbackReady(s32 fifotag, s32 proc);
+extern void PXI_SetFifoRecvCallback(s32 fifotag, void (*)(int, u32, int));
+struct PMiGenCallbackInfo;
+extern void PMi_InsertPreSleepCallbackEx(struct PMiGenCallbackInfo *info, s32 priority);
+extern void PMi_InsertPostExitCallbackEx(struct PMiGenCallbackInfo *info, s32 priority);
 extern void OS_SetIrqFunction(u32, TwlFn);
-extern void OS_EnableIrqMask(u32);
-extern void OS_InitMessageQueue(u32*, u32*, u32);
+extern u32 OS_EnableIrqMask(u32);
+extern void OS_InitMessageQueue(struct OSMessageQueue *mq, void **msgArray, s32 msgCount);
 extern void OS_CreateThread(u32*, void (*)(void), u32, u32*, u32, u32);
 extern void OS_WakeupThreadDirect(u32*);
-extern void PM_DeletePreSleepCallback(u32*);
-extern void PM_DeletePostExitCallback(u32*);
-extern void OS_DisableIrqMask(u32);
-extern void OS_KillThread(u32*, u32);
+extern void PM_DeletePreSleepCallback(struct PMiGenCallbackInfo *info);
+extern void PM_DeletePostExitCallback(struct PMiGenCallbackInfo *info);
+extern u32 OS_DisableIrqMask(u32);
+extern void OS_KillThread(void *thread, void *arg);
 extern void OS_SpinWaitSysCycles(u32);
 extern void OS_RestoreInterrupts(u32);
-extern int PXI_SendWordByFifo(u32, u32, u32);
+extern int PXI_SendWordByFifo(s32 fifotag, u32 data, s32 err);
 extern u32 OS_GetCpsrIrq(void);
 extern void PXIi_HandlerRecvFifoNotEmpty(void);
 
@@ -302,7 +314,7 @@ u32 CAMERA_GetExposureFromPhotoMode(u32 mode) {
 void CAMERA_GoReboot(void) {
     data_02732FC8.busy = 1;
     data_02733FC8.retryCount++;
-    OS_SendMessage(data_0273417C, 0, 0);
+    OS_SendMessage((struct OSMessageQueue *)data_0273417C, 0, 0);
 }
 
 
@@ -509,7 +521,7 @@ void CAMERA_MonitorThread(void) {
     OS_DisableInterrupts();
     for (;;) {
         OS_Sleep(100);
-        if (OS_ReceiveMessage(data_0273417C, &msg, 0) != 0) {
+        if (OS_ReceiveMessage((struct OSMessageQueue *)data_0273417C, (void **)(&msg), 0) != 0) {
             goto handle;
         }
         if (data_02733FC8.retryCount != 0) {
@@ -575,10 +587,10 @@ u32 CAMERA_InitCore(void) {
     CAMERA_ClearBufferCore();
     data_02732FC8.preSleepCallback = CameraStandbyCallback;
     data_02732FC8.preSleepArg = 0;
-    PMi_InsertPreSleepCallbackEx(data_02732FF8, 0x3FC);
+    PMi_InsertPreSleepCallbackEx((struct PMiGenCallbackInfo *)data_02732FF8, 0x3FC);
     data_02732FC8.postExitCallback = CameraStandbyCallback;
     data_02732FC8.postExitArg = 0;
-    PMi_InsertPostExitCallbackEx(data_02733008, 0x3FC);
+    PMi_InsertPostExitCallbackEx((struct PMiGenCallbackInfo *)data_02733008, 0x3FC);
     CAMERA_SetVsyncInterruptCore(0x200);
     CAMERA_SetBufferErrorInterruptCore(1);
     CAMERA_SetMasterInterruptCore(1);
@@ -614,7 +626,7 @@ u32 CAMERA_InitCore(void) {
     data_02733FC8.outAutoWhiteBalance = 1;
     data_02733FC8.outContext = 1;
     data_02733FC8.ledEnabled = 0;
-    OS_InitMessageQueue(data_0273417C, data_0273419C, 1);
+    OS_InitMessageQueue((struct OSMessageQueue *)data_0273417C, (void **)data_0273419C, 1);
     OS_CreateThread(data_0273302C, CAMERA_MonitorThread, 0, data_027340EC, 0x1000, 4);
     OS_WakeupThreadDirect(data_0273302C);
     return 0;
@@ -624,8 +636,8 @@ u32 CAMERA_InitCore(void) {
 void CAMERA_EndCore(void) {
     if (data_02732FC0[0] == 0) return;
     data_02732FC0[0] = 0;
-    PM_DeletePreSleepCallback(data_02732FF8);
-    PM_DeletePostExitCallback(data_02733008);
+    PM_DeletePreSleepCallback((struct PMiGenCallbackInfo *)data_02732FF8);
+    PM_DeletePostExitCallback((struct PMiGenCallbackInfo *)data_02733008);
     CAMERA_I2CActivateCore(0);
     CAMERA_ResetCore();
     CAMERA_StopCaptureCore();

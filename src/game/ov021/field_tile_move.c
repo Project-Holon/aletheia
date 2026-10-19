@@ -44,6 +44,7 @@
  *   FLDEFF_NAMIPOKE_SPLASH_StartAtPos  0x021AD598  thumb  ov021
  *   GFL_USE_IsLoaderBusy  0x02005C64  thumb
  *   GFL_USE_PlaySeInSlot  0x0200616C  thumb
+ *   _u32_div_f                   0x0209C2B0  arm
  */
 #include "../ov010/fldmmdl_types.h"
 
@@ -62,7 +63,7 @@ typedef struct GameSystem GameSystem;
 typedef struct GameEvent GameEvent;
 typedef struct FieldMap FieldMap;
 typedef struct FieldPlayer FieldPlayer;
-typedef struct FieldEffectCtrl FieldEffectCtrl;
+typedef struct FieldEffectSys FieldEffectCtrl;
 
 /* Update function of a game event: (event, state, work), returns 1 when finished. */
 typedef int (*GameEventFunc)();
@@ -123,22 +124,25 @@ extern FieldPlayer *FIELDMAP_GetFieldPlayer(FieldMap *fieldMap);
 extern Mmdl *FIELD_PLAYER_GetMmdl(FieldPlayer *player);
 extern u16 FLDMMDL_GetDirDisp(Mmdl *mmdl);
 extern void FIELD_PLAYER_GetPos(FieldPlayer *player, VecFx32 *outPos);
-extern void *FIELDMAP_GetG3dMapper(FieldMap *fieldMap);
-extern int MAP_ATTR_GetAt(void *mapAttr, VecFx32 *pos);
+struct FieldG3dMapper;
+extern struct FieldG3dMapper *FIELDMAP_GetG3dMapper(FieldMap *fieldMap);
+extern int MAP_ATTR_GetAt(void *g3dMapper, void *pos);
 extern u16 MAP_ATTR_GetTerrainId(u32 attr);
 extern void FLDMMDL_ClearStatusBit(Mmdl *mmdl, u32 bit);
 extern void FLDMMDL_SetDirDispCheckPause(Mmdl *mmdl, int dir);
 extern void FLDMMDL_SetStatusBit(Mmdl *mmdl, u32 bit);
 extern void FLDMMDL_SetAcmd(Mmdl *mmdl, u16 acmd);
-extern int GFL_USE_IsSeSlotBusy(int seSlot);
+extern int GFL_USE_IsSeSlotBusy(u32 slot);
 extern void GFL_USE_PlaySeDefaultVolume(u32 seId);
 extern u32 FLDMMDL_MOVE_HitCheckMoveDir(Mmdl *mmdl, u16 dir);
 extern u32 FIELD_PLAYER_GetRideEffect(FieldPlayer *player);
 extern u32 FLDEFF_NAMIPOKE_SetWakeEnabled(u32 namipoke, int visible);
-extern FieldEffectCtrl *FIELDMAP_GetEffect(FieldMap *fieldMap);
-extern int FIELD_EFFECT_IsResourceLoaded(FieldEffectCtrl *ctrl, int effectId);
-extern void FIELD_EFFECT_LoadResources(FieldEffectCtrl *ctrl, int *effectIds, int count);
-extern void FLDEFF_NAMIPOKE_SPLASH_StartAtPos(FieldEffectCtrl *ctrl, u32 kind, VecFx32 *pos);
+struct FieldEffectCont;
+extern struct FieldEffectCont *FIELDMAP_GetEffect(FieldMap *fieldMap);
+struct FieldEffectSys;
+extern int FIELD_EFFECT_IsResourceLoaded(struct FieldEffectSys *sys, s32 id);
+extern void FIELD_EFFECT_LoadResources(struct FieldEffectSys *sys, s32 *ids, s32 count);
+extern void FLDEFF_NAMIPOKE_SPLASH_StartAtPos(struct FieldEffectSys *fieldEffect, s32 type, VecFx32 *pos);
 extern int GFL_USE_IsLoaderBusy(void);
 extern void GFL_USE_PlaySeInSlot(u32 seId, int seSlot);
 
@@ -466,10 +470,10 @@ void FIELD_TILE_MOVE_SlideFinishBump(TileSlideWork *work)
     FieldEffectCtrl *effectCtrl;
 
     if (work->bumpEntry != 0) {
-        effectCtrl = FIELDMAP_GetEffect(work->fieldMap);
+        effectCtrl = (struct FieldEffectSys *)FIELDMAP_GetEffect(work->fieldMap);
         effectId = 9;
-        if (FIELD_EFFECT_IsResourceLoaded(effectCtrl, effectId) == 0) {
-            FIELD_EFFECT_LoadResources(effectCtrl, &effectId, 1);
+        if (FIELD_EFFECT_IsResourceLoaded((struct FieldEffectSys *)effectCtrl, effectId) == 0) {
+            FIELD_EFFECT_LoadResources((struct FieldEffectSys *)effectCtrl, &effectId, 1);
         }
         FIELD_PLAYER_GetPos(work->player, &pos);
         FLDEFF_NAMIPOKE_SPLASH_StartAtPos(effectCtrl, 0, &pos);

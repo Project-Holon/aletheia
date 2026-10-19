@@ -109,22 +109,26 @@ struct NetSaveProcWork {
 };
 
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *file, u16 line);
-extern struct Link *GFL_NET_HANDLE_GetCurrentHandle(void);
-extern void GFL_NET_HANDLE_SetTimingSyncRange(struct Link *link, u32 timingId, u32 size);
+struct GFLNetHandle;
+extern struct GFLNetHandle *GFL_NET_HANDLE_GetCurrentHandle(void);
+extern void GFL_NET_HANDLE_SetTimingSyncRange(struct GFLNetHandle *handle, u32 timingLow, u32 timingHigh);
 extern u32 GFL_HEAP_Free(void *task);
 extern u32  GFL_NET_ERR_GetErrorLevel(void);
-extern void GAME_DATA_SaveCancel(u32 gameData);
-extern u32 GFL_NET_HANDLE_IsTimingSyncRange(struct Link *link, u32 timingId, u32 size);
-extern int GAME_DATA_SaveStart(u32 gameData);
-extern int  GAME_DATA_SaveMain(u32 gameData);
+struct GameData;
+extern void GAME_DATA_SaveCancel(struct GameData *gd);
+extern u32 GFL_NET_HANDLE_IsTimingSyncRange(struct GFLNetHandle *handle, u32 timingLow, u32 timingHigh);
+extern int GAME_DATA_SaveStart(struct GameData *gd);
+extern int  GAME_DATA_SaveMain(struct GameData *gd);
 extern u32  GFL_USE_GetRandom(u32 frames);
 extern void  GFL_HEAP_CreateChildHeap(u32 a, u32 heapId, u32 size);
-extern void *PROCSYS_AllocProcWork(void *proc, u32 size, u32 heapId);
+struct Proc;
+extern void *PROCSYS_AllocProcWork(struct Proc *proc, u32 size, u32 heapId);
 extern void  MI_CpuFill8(void *dst, int val, unsigned n);
-extern void *GAME_DATA_Create(u16 heapId);
-extern struct SaveControl *GAME_DATA_GetSaveControl(void *gameData);
+extern struct GameData *GAME_DATA_Create(u16 heapId);
+extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gd);
 extern struct GameSyncData *GAME_SYNC_GetBlock(struct SaveControl *saveControl);
-extern u8 BLOCK20_SAVEDATA_GetPending(const struct GameSyncData *data);
+struct CgearSaveBlock;
+extern u8 BLOCK20_SAVEDATA_GetPending(struct CgearSaveBlock *block);
 extern void PROCSYS_PushGlobal(u32 overlayId, const void *procData, void *arg);
 extern u32 GFL_NET_ERR_ShowScreen(u32 mode);
 extern int GFL_NET_GetRunState(void);
@@ -251,7 +255,7 @@ u32 GFL_NET_SAVE_CheckFinished(struct NetSaveTask *task)
         task->step(task);
     if (GFL_NET_ERR_GetErrorLevel() != 0) {
         if (task->gameData != 0)
-            GAME_DATA_SaveCancel(task->gameData);
+            GAME_DATA_SaveCancel((struct GameData *)task->gameData);
         return 1;
     }
     if (task->step == 0)
@@ -273,7 +277,7 @@ void GFL_NET_SAVE_Delete(struct NetSaveTask *task)
 void GFL_NET_SAVE_StepBegin(struct NetSaveTask *task)
 {
     if (GFL_NET_HANDLE_IsTimingSyncRange(GFL_NET_HANDLE_GetCurrentHandle(), 0x71, 8) != 0) {
-        GAME_DATA_SaveStart(task->gameData);
+        GAME_DATA_SaveStart((struct GameData *)task->gameData);
         GFL_NET_SAVE_SetStep(task, GFL_NET_SAVE_StepWaitSaveStart);
     }
 }
@@ -286,7 +290,7 @@ void GFL_NET_SAVE_StepBegin(struct NetSaveTask *task)
  */
 void GFL_NET_SAVE_StepWaitSaveStart(struct NetSaveTask *task)
 {
-    if (GAME_DATA_SaveMain(task->gameData) == 1) {
+    if (GAME_DATA_SaveMain((struct GameData *)task->gameData) == 1) {
         GFL_NET_HANDLE_SetTimingSyncRange(GFL_NET_HANDLE_GetCurrentHandle(), 0x72, 8);
         task->delayFrames = GFL_USE_GetRandom(0x3c);
         GFL_NET_SAVE_SetStep(task, GFL_NET_SAVE_StepWaitSync72);
@@ -347,7 +351,7 @@ void GFL_NET_SAVE_StepProgress(struct NetSaveTask *task)
     if (task->progressCallback != 0) {
         task->progressCallback(task->callbackArg);
     }
-    if (GAME_DATA_SaveMain(task->gameData) == 2) {
+    if (GAME_DATA_SaveMain((struct GameData *)task->gameData) == 2) {
         task->gameData = 0;
         GFL_NET_HANDLE_SetTimingSyncRange(GFL_NET_HANDLE_GetCurrentHandle(), 0x74, 8);
         GFL_NET_SAVE_SetStep(task, GFL_NET_SAVE_StepFinish);
@@ -379,7 +383,7 @@ int GFL_NET_SAVE_InitWork(void *proc)
     work->heapId = 0x67;
     gameData = GAME_DATA_Create(0x67);
     work->gameData = gameData;
-    if (BLOCK20_SAVEDATA_GetPending(GAME_SYNC_GetBlock(GAME_DATA_GetSaveControl(gameData))) != 0) {
+    if (BLOCK20_SAVEDATA_GetPending((struct CgearSaveBlock *)(GAME_SYNC_GetBlock(GAME_DATA_GetSaveControl(gameData)))) != 0) {
         work->state = 1;
         work->skipFinalSave = 1;
     } else {

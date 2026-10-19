@@ -157,18 +157,22 @@ extern void GAME_EVENT_CallEvent(GameEvent *parent, GameEvent *child);
 extern struct FieldCamera *FIELDMAP_GetCamera(FieldMap *fieldMap);
 extern struct FieldPlayer *FIELDMAP_GetFieldPlayer(FieldMap *fieldMap);
 extern FieldTaskManager *FIELDMAP_GetTaskManager(FieldMap *fieldMap);
-extern struct FieldEffectCtrl *FIELDMAP_GetEffect(FieldMap *fieldMap);
+struct FieldMap;
+struct FieldEffectCont;
+extern struct FieldEffectCont *FIELDMAP_GetEffect(FieldMap *fieldMap);
 extern Mmdl *FIELD_PLAYER_GetMmdl(struct FieldPlayer *player);
 extern unsigned int FIELD_CAMERA_GetMode(struct FieldCamera *camera);
 extern void FIELD_CAMERA_SetMode(struct FieldCamera *camera, unsigned int mode);
 extern void FIELD_CAMERA_EndDelay(struct FieldCamera *camera);
 extern unsigned int FIELD_CAMERA_IsDelayEnabled(struct FieldCamera *camera);
-extern void FLDMMDL_SetDrawOffset(Mmdl *mmdl, VecFx32 *offset);
+struct MmdlVec;
+struct Mmdl;
+extern void FLDMMDL_SetDrawOffset(struct Mmdl *mmdl, struct MmdlVec *offset);
 extern void FLDMMDL_SetAcmd(Mmdl *mmdl, u16 acmdCode);
 extern int FLDMMDL_CheckEndAcmd(Mmdl *mmdl);
 extern int FLDMMDL_EndAcmd(Mmdl *mmdl);
 extern GameEvent *EVENT_FIELDMAP_CONTROL_StartFadeIn(GameSystem *gameSystem, FieldMap *fieldMap, int mode, int wait, int bgInit, u8 season, u8 seasonTarget);
-extern GameEvent *EVENT_FIELDMAP_CONTROL_CreateSeasonFadeInEventWithCallback(GameSystem *gameSystem, FieldMap *fieldMap, int seasonShown, int seasonTarget, EventAppearCallback finishCallback, EventAppearWork *finishCallbackArg);
+extern GameEvent *EVENT_FIELDMAP_CONTROL_CreateSeasonFadeInEventWithCallback(struct GameSystem *gameSystem, struct FieldMap *fieldMap, int seasonShown, int seasonTarget, EventAppearCallback finishCallback, void *finishCallbackArg);
 extern FieldTask *FIELD_TASK_CreatePlayerDrop(FieldMap *fieldMap, Mmdl *mmdl, int frames, int height);
 extern FieldTask *FIELD_TASK_CreatePlayerSpinEaseOut(FieldMap *fieldMap, u16 frames, int spins, int endDirection);
 extern FieldTask *FIELD_TASK_CreatePlayerSpinLinear(FieldMap *fieldMap, u32 frames, u32 spins);
@@ -180,10 +184,11 @@ extern void FIELD_CAMERA_ANIME_SetData(struct FieldCameraAnime *anime, FieldCame
 extern int FIELD_CAMERA_ANIME_Setup(struct FieldCameraAnime *anime);
 extern void FIELD_CAMERA_ANIME_GetCurrentParam(struct FieldCamera *camera, FieldCameraParam *param);
 extern void FIELD_CAMERA_ANIME_ApplyStartParam(struct FieldCameraAnime *anime);
-extern int FIELD_CAMERA_ANIME_Start(struct FieldCameraAnime *anime);
+extern void FIELD_CAMERA_ANIME_Start(struct FieldCameraAnime *anime);
 extern void FIELD_CAMERA_ANIME_Restore(struct FieldCameraAnime *anime);
 extern void FIELD_CAMERA_ANIME_Delete(struct FieldCameraAnime *anime);
-extern void FLDEFF_KEMURI_Start(Mmdl *mmdl, struct FieldEffectCtrl *effectCtrl);
+struct FieldEffectSys;
+extern void FLDEFF_KEMURI_Start(struct Mmdl *mmdl, struct FieldEffectSys *sys);
 extern void GFL_USE_PlaySeDefaultVolume(u32 seId);
 
 GameEvent *EVENT_APPEAR_CreatePlayerDrop(GameEvent *parent, GameSystem *gameSystem, FieldMap *fieldMap);
@@ -300,7 +305,7 @@ int EVENT_APPEAR_RunPlayerDrop(GameEvent *event, int *seq, EventAppearWork *work
         FIELD_CAMERA_SetMode(camera, FIELD_CAMERA_MODE_TRACK_TARGET);
         drawOffset = d_021DA080;
         player = FIELD_PLAYER_GetMmdl(FIELDMAP_GetFieldPlayer(work->fieldMap));
-        FLDMMDL_SetDrawOffset(player, &drawOffset);
+        FLDMMDL_SetDrawOffset(player, (struct MmdlVec *)(&drawOffset));
         FLDMMDL_SetAcmd(player, EVENT_APPEAR_ACMD_DROP_START);
         GAME_EVENT_CallEvent(event, EVENT_FIELDMAP_CONTROL_StartFadeIn(work->gameSystem, work->fieldMap, 0, 1, 1, 0, 0));
         dropTask = FIELD_TASK_CreatePlayerDrop(work->fieldMap, FIELD_PLAYER_GetMmdl(FIELDMAP_GetFieldPlayer(work->fieldMap)), EVENT_APPEAR_DROP_FRAMES, EVENT_APPEAR_DROP_HEIGHT);
@@ -569,7 +574,7 @@ int EVENT_APPEAR_RunSpinZoomSmoke(GameEvent *event, int *seq, EventAppearWork *w
     case EVENT_APPEAR_ZOOM_WAIT:
         if (FIELD_TASK_MANAGER_IsEmpty(taskManager) != 0) {
             player = FIELD_PLAYER_GetMmdl(FIELDMAP_GetFieldPlayer(fieldMap));
-            FLDEFF_KEMURI_Start(player, FIELDMAP_GetEffect(fieldMap));
+            FLDEFF_KEMURI_Start(player, (struct FieldEffectSys *)FIELDMAP_GetEffect(fieldMap));
             (*seq)++;
         }
         break;
@@ -607,7 +612,7 @@ int EVENT_APPEAR_RunDescendingSpin(GameEvent *event, int *seq, EventAppearWork *
             startOffset.y = 0xA000;
             startOffset.x = 0;
             startOffset.z = 0;
-            FLDMMDL_SetDrawOffset(player, &startOffset);
+            FLDMMDL_SetDrawOffset(player, (struct MmdlVec *)(&startOffset));
         }
         GAME_EVENT_CallEvent(event, EVENT_FIELDMAP_CONTROL_StartFadeIn(work->gameSystem, fieldMap, 0, 1, 1, 0, 0));
         {
@@ -629,7 +634,7 @@ int EVENT_APPEAR_RunDescendingSpin(GameEvent *event, int *seq, EventAppearWork *
         break;
     case EVENT_APPEAR_DESCENT_SMOKE:
         player = FIELD_PLAYER_GetMmdl(FIELDMAP_GetFieldPlayer(fieldMap));
-        FLDEFF_KEMURI_Start(player, FIELDMAP_GetEffect(work->fieldMap));
+        FLDEFF_KEMURI_Start(player, (struct FieldEffectSys *)FIELDMAP_GetEffect(work->fieldMap));
         GFL_USE_PlaySeDefaultVolume(EVENT_APPEAR_SE_DESCENT_END);
         (*seq)++;
         break;

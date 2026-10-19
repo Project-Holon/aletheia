@@ -23,6 +23,10 @@
  *   _f2s             0x0209C494  arm
  *   MCSS_SetAnmStopFlag  0x02015E04  thumb
  *   POKETRADE_NEGO_PlaySeByEvent 0x021DFAD0 thumb ov119
+ *   _fdiv                        0x0209CE10  arm
+ *   _ffix                        0x0209C494  arm
+ *   _fflt                        0x0209BDBC  arm
+ *   _fmul                        0x0209C77C  arm
  */
 #include "pokemontrade_types.h"
 
@@ -35,14 +39,15 @@
 
 
 extern void MI_CpuCopy8(const void *,void *,unsigned);
+struct McssWork;
 
-extern void MCSS_GetPosition(void *p, u32 *out);
+extern void MCSS_GetPosition(struct McssWork *work, u32 *out);
 
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
-extern void MCSS_SetPosition(void *p, u32 *src);
+extern void MCSS_SetPosition(struct McssWork *work, u32 *src);
 
-extern void MCSS_SetAnmStopFlag(void *p);
+extern void MCSS_SetAnmStopFlag(struct McssWork *work);
 
 void POKETRADE_NEGO_PlaySeByEvent(int eventId, u8 *work);
 

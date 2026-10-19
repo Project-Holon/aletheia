@@ -50,28 +50,33 @@
 struct GameEvent;
 
 extern void *FIELDMAP_GetExpObj(void *fieldMap);
-extern u16 FIELDMAP_GetHeapId(void *fieldMap);
-extern FieldGimmickArcEffectWork *FIELDMAP_AllocCommonWork(void *fieldMap, int id, int heapId, int size);
+struct FieldMap;
+extern u16 FIELDMAP_GetHeapId(struct FieldMap *fieldMap);
+extern void *FIELDMAP_AllocCommonWork(struct FieldMap *fieldMap, s32 id, s32 heapId, s32 size);
 extern u32 GPOWER_GetSpecialPowerId(void);
-extern void FLD_EXP_OBJ_AddUnitFromArchive(void *expObj, void *unitDesc, int b);
+struct G3dUtilSetup;
+struct FldExpObjCnt;
+extern void FLD_EXP_OBJ_AddUnitFromArchive(struct FldExpObjCnt *cnt, struct G3dUtilSetup *setup, u16 unitIdx);
 extern void FLD_EXP_OBJ_SetModelHidden(void *expObj, int unit, int model, int hidden);
-extern void *FLD_EXP_OBJ_GetAnime(void *expObj, int unit, unsigned int model, int animeIdx);
-extern void FLD_EXP_OBJ_SetAnimeLoop(u8 *anime, int loop);
-extern void FLD_EXP_OBJ_SetAnimePaused(u8 *anime, int paused);
+struct FldExpObjAnime;
+extern struct FldExpObjAnime *FLD_EXP_OBJ_GetAnime(struct FldExpObjCnt *cnt, s32 unitIdx, u32 modelIdx, s32 animeIdx);
+extern void FLD_EXP_OBJ_SetAnimeLoop(struct FldExpObjAnime *anime, s32 loop);
+extern void FLD_EXP_OBJ_SetAnimePaused(struct FldExpObjAnime *anime, s32 paused);
 extern void FLD_EXP_OBJ_SetAnimeEnabled(void *expObj, int unit, int model, u16 animeIdx, int enabled);
-extern void FIELDMAP_FreeCommonWork(void *fieldMap, int id);
-extern void FLD_EXP_OBJ_RemoveUnit(void *expObj, unsigned short unit);
-extern void FLD_EXP_OBJ_UpdateAnimes(void *expObj);
+extern void FIELDMAP_FreeCommonWork(struct FieldMap *fieldMap, s32 id);
+extern void FLD_EXP_OBJ_RemoveUnit(struct FldExpObjCnt *cnt, u16 unitIdx);
+extern void FLD_EXP_OBJ_UpdateAnimes(struct FldExpObjCnt *cnt);
 extern void *GAMESYSTEM_GetFieldMap(void *gameSystem);
 extern void *FIELDMAP_GetFieldPlayer(void *fieldMap);
 extern void FIELD_PLAYER_GetPos(void *player, VecFx32 *out);
 extern VecFx32 *FLD_EXP_OBJ_GetModelStatus(void *expObj, unsigned unit, int model);
 extern void FLD_EXP_OBJ_SetAnimeFrame(void *expObj, int unit, int model, u16 animeIdx, int frame);
-extern struct GameEvent *GAME_EVENT_Create(void *owner, void *a, int (*eventFunc)(void *event, int *seq), u32 size);
-extern void *GAME_EVENT_GetGameSystem(void *event);
-extern FieldGimmickArcEffectWork *FIELDMAP_GetCommonWork(void *fieldMap, int idx);
-extern int FLD_EXP_OBJ_GetAnimeFrame(void *expObj, int unit, int model, int animeIdx);
-extern int FLD_EXP_OBJ_GetAnimeLastFrame(u8 *anime);
+struct GameSystem;
+extern struct GameEvent *GAME_EVENT_Create(struct GameSystem *gameSystem, struct GameEvent *parent, int (*eventFunc)(void *event, int *seq), u32 workSize);
+extern struct GameSystem *GAME_EVENT_GetGameSystem(struct GameEvent *event);
+extern void *FIELDMAP_GetCommonWork(struct FieldMap *fieldMap, s32 id);
+extern int FLD_EXP_OBJ_GetAnimeFrame(struct FldExpObjCnt *cnt, s32 unitIdx, s32 modelIdx, s32 animeIdx);
+extern int FLD_EXP_OBJ_GetAnimeLastFrame(struct FldExpObjAnime *anime);
 extern void GFL_USE_StopAllSe(void);
 extern void GFL_USE_PlaySeDefaultVolume(u32 seId);
 extern void FADE_Start(u32 screen, s32 from, s32 to, s32 wait);
@@ -90,7 +95,7 @@ int FIELD_GIMMICK_ARC_EFFECT_ArcEffectEvent(void *event, int *unusedSeq);
 int FIELD_GIMMICK_ARC_EFFECT_IsArcPeakReached(void *event, int *unusedSeq);
 extern char gArcEffectPlayerUnitSetup[];
 extern char gArcEffectDefaultUnitSetup[];
-extern int FLD_EXP_OBJ_IsAnimeStopped(void *anime);
+extern int FLD_EXP_OBJ_IsAnimeStopped(struct FldExpObjAnime *anime);
 
 void FIELD_GIMMICK_ARC_EFFECT_Init(void *fieldMap)
 {
@@ -103,23 +108,23 @@ void FIELD_GIMMICK_ARC_EFFECT_Init(void *fieldMap)
     work = FIELDMAP_AllocCommonWork(fieldMap, FIELD_GIMMICK_ARC_EFFECT_WORK_ID, FIELDMAP_GetHeapId(fieldMap), sizeof(FieldGimmickArcEffectWork));
     work->fadeWait = 0;
     if (GPOWER_GetSpecialPowerId() == FIELD_GIMMICK_ARC_EFFECT_SPECIAL_POWER_ID) {
-        FLD_EXP_OBJ_AddUnitFromArchive(expObj, gArcEffectPlayerUnitSetup, 0);
+        FLD_EXP_OBJ_AddUnitFromArchive(expObj, (struct G3dUtilSetup *)gArcEffectPlayerUnitSetup, 0);
     } else {
-        FLD_EXP_OBJ_AddUnitFromArchive(expObj, gArcEffectDefaultUnitSetup, 0);
+        FLD_EXP_OBJ_AddUnitFromArchive(expObj, (struct G3dUtilSetup *)gArcEffectDefaultUnitSetup, 0);
     }
     work->fadeTarget = 4;
     FLD_EXP_OBJ_SetModelHidden(expObj, 0, FIELD_GIMMICK_ARC_EFFECT_PLAYER_MODEL, 1);
     FLD_EXP_OBJ_SetModelHidden(expObj, 0, FIELD_GIMMICK_ARC_EFFECT_ARC_MODEL, 1);
     for (animeIdx = 0; animeIdx < FIELD_GIMMICK_ARC_EFFECT_PLAYER_ANIME_COUNT; animeIdx++) {
-        anime = FLD_EXP_OBJ_GetAnime(expObj, 0, FIELD_GIMMICK_ARC_EFFECT_PLAYER_MODEL, (u16)animeIdx);
-        FLD_EXP_OBJ_SetAnimeLoop(anime, 0);
-        FLD_EXP_OBJ_SetAnimePaused(anime, 1);
+        anime = (u8 *)FLD_EXP_OBJ_GetAnime(expObj, 0, FIELD_GIMMICK_ARC_EFFECT_PLAYER_MODEL, (u16)animeIdx);
+        FLD_EXP_OBJ_SetAnimeLoop((struct FldExpObjAnime *)anime, 0);
+        FLD_EXP_OBJ_SetAnimePaused((struct FldExpObjAnime *)anime, 1);
         FLD_EXP_OBJ_SetAnimeEnabled(expObj, 0, FIELD_GIMMICK_ARC_EFFECT_PLAYER_MODEL, animeIdx, 0);
     }
     for (animeIdx = 0; animeIdx < FIELD_GIMMICK_ARC_EFFECT_ARC_ANIME_COUNT; animeIdx++) {
-        anime = FLD_EXP_OBJ_GetAnime(expObj, 0, FIELD_GIMMICK_ARC_EFFECT_ARC_MODEL, (u16)animeIdx);
-        FLD_EXP_OBJ_SetAnimeLoop(anime, 0);
-        FLD_EXP_OBJ_SetAnimePaused(anime, 1);
+        anime = (u8 *)FLD_EXP_OBJ_GetAnime(expObj, 0, FIELD_GIMMICK_ARC_EFFECT_ARC_MODEL, (u16)animeIdx);
+        FLD_EXP_OBJ_SetAnimeLoop((struct FldExpObjAnime *)anime, 0);
+        FLD_EXP_OBJ_SetAnimePaused((struct FldExpObjAnime *)anime, 1);
         FLD_EXP_OBJ_SetAnimeEnabled(expObj, 0, FIELD_GIMMICK_ARC_EFFECT_ARC_MODEL, animeIdx, 0);
     }
 }

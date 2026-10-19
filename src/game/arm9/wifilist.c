@@ -97,7 +97,7 @@ extern int  DWC_IsValidFriendData(const void *friendData);
 
 extern void STRBUF_SetStringN(struct Strbuf *dest, const u16 *src, u32 size);
 
-extern void STRBUF_ToChars(struct U16Vec *src, u16 *dest, u32 size);
+extern void STRBUF_ToChars(struct Strbuf *strbuf, u16 *out, u32 maxChars);
 
 u32 WIFILIST_GetWorkSize(void);
 
@@ -140,16 +140,21 @@ struct RTCDate {
     u32 day;
     u32 week;
 };
+struct RtcDate;
 
-extern void GF_STANDARD_GetCachedDate(struct RTCDate *date);
+extern void GF_STANDARD_GetCachedDate(struct RtcDate *date);
+struct DWCstAccUserData;
 
-extern void DWC_CreateExchangeToken(void *userData, void *friendData);
+extern void DWC_CreateExchangeToken(struct DWCstAccUserData *userdata, void *token);
+struct DWCstAccUserData;
 
-extern int  DWC_GetGsProfileId(void *userData, void *friendData);
+extern int  DWC_GetGsProfileId(struct DWCstAccUserData *userdata, void *frienddata);
+struct DWCstAccUserData;
 
-extern int  DWC_CheckValidConsole(void *userData);
+extern int  DWC_CheckValidConsole(struct DWCstAccUserData *userdata);
+struct DWCstAccUserData;
 
-extern int  DWC_CheckHasProfile(void *userData);
+extern int  DWC_CheckHasProfile(struct DWCstAccUserData *userdata);
 
 extern void *SAVE_CONTROL_GetBlock(struct SaveControl *save, u32 blockId);
 
@@ -365,7 +370,7 @@ void WIFILIST_CopyFriendNameToStrbuf(struct WifiList *list, int index, struct St
 
 void WIFILIST_StoreFriendNameFromStrbuf(struct WifiList *list, int index, struct U16Vec *dest)
 {
-    STRBUF_ToChars(dest, (u16 *)(&list->friendInfo[index]), 0x10);
+    STRBUF_ToChars((struct Strbuf *)dest, (u16 *)(&list->friendInfo[index]), 0x10);
 }
 
 int WIFILIST_IsFriendDataValid(struct WifiList *list, u32 index)
@@ -499,7 +504,7 @@ void WIFILIST_SetFriendLastSeen(struct WifiList *list, int slot)
 {
     struct RTCDate date;
 
-    GF_STANDARD_GetCachedDate(&date);
+    GF_STANDARD_GetCachedDate((struct RtcDate *)(&date));
     list->friendInfo[slot].lastYear = date.year + 2000;
     list->friendInfo[slot].lastMonth = date.month;
     list->friendInfo[slot].lastDay = date.day;
@@ -574,7 +579,7 @@ void WIFILIST_CreateExchangeToken(void *userData, void *friendData)
 
 void WIFILIST_MakeExchangeToken(struct WifiList *list, void *token)
 {
-    DWC_CreateExchangeToken(WIFILIST_GetWork(list), token);
+    DWC_CreateExchangeToken((struct DWCstAccUserData *)(WIFILIST_GetWork(list)), token);
 }
 
 /*
@@ -668,6 +673,9 @@ struct WifiList *WIFILIST_GetFromSave(struct SaveControl *save)
     WIFILIST_GetFriendInfo(list, 0);
     return list;
 }
+
+int WIFILIST_FindFriendByStatusAndOutfit(struct WifiList *list, const void *name, u32 id,
+                 u32 outfitVariant, u32 *outSlot);
 
 int WIFILIST_FindFriendByStatus(struct WifiList *list, struct MyStatus *status,
                  u32 *outSlot)

@@ -32,6 +32,7 @@
  *   STRBUF_Delete  0x02045808  arm
  *   ARC_UTIL_UploadPaletteFromArchiveWhole  0x02049B40  arm
  *   ARC_UTIL_RegisterObjCharFromArchive  0x020496E4  arm
+ *   ARC_UTIL_UploadBgCharFromArchive 0x02049624  arm
  */
 #include "bmp_menuwork_shared_types.h"
 
@@ -39,9 +40,9 @@ struct U16Vec;
 
 extern void ARC_UTIL_UploadBgCharFromArchive(u32 arcId, u32 fileId, u32 layer, u32 tileOffset, u32 flagA, u32 flagB, u32 heapId);
 
-extern void ARC_UTIL_UploadPaletteFromArchiveWhole(u32 arcId, u32 fileId, u32 palBase, u32 byteOffset, u32 byteSize, u32 heapId);
+extern void ARC_UTIL_UploadPaletteFromArchiveWhole(u32 archiveID, u32 memberIdx, u32 kind, u32 dest, u32 size, u16 flags);
 
-extern void *ARC_UTIL_RegisterObjCharFromArchive(u32 arcId, u32 fileId, u32 layer, u32 flagA, u32 flagB, u32 heapId);
+extern u32 ARC_UTIL_RegisterObjCharFromArchive(u32 archiveID, u32 memberIdx, u32 bgId, u32 size, u32 heapID, u16 flags);
 
 extern void BG_SYS_FreeTileRun(u32 layer, u32 offset, u32 size);
 
@@ -65,12 +66,14 @@ extern void BG_SYS_MarkTileDirty(u32 bit);
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
 extern u32 GFL_HEAP_Free(void *p);
+struct MsgBank;
+struct Strbuf;
 
-extern void *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
+extern struct Strbuf *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
 
-extern struct U16Vec *STRBUF_Clone(const struct U16Vec *src, u32 heapId);
+extern struct Strbuf *STRBUF_Clone(struct Strbuf *src, u32 heapId);
 
-extern void STRBUF_Delete(struct U16Vec *vec);
+extern void STRBUF_Delete(struct Strbuf *strbuf);
 
 u8 BMP_MENUWORK_GetCharFileId(int index);
 
@@ -216,7 +219,7 @@ void BMP_MENUWORK_LoadCharAndPltt(u32 layer, u32 tileOffset, u32 palSlot, u32 fr
  */
 void *BMP_MENUWORK_LoadFrameGfx(u32 layer, u32 palSlot, u32 frameId, u16 heapId)
 {
-    void *charResult = ARC_UTIL_RegisterObjCharFromArchive(5, BMP_MENUWORK_GetCharFileId(frameId), layer, 0, 0, heapId);
+    void *charResult = (void *)ARC_UTIL_RegisterObjCharFromArchive(5, BMP_MENUWORK_GetCharFileId(frameId), layer, 0, 0, heapId);
 
     BMP_MENUWORK_LoadPltt(layer, palSlot, frameId, heapId);
     return charResult;
@@ -486,7 +489,7 @@ void BMP_MENUWORK_AddStrItem(BmpMenuWork *items, const struct U16Vec *src, u32 p
 
     entry = BMP_MENUWORK_FindFreeEntry(items, &unusedTerminator);
     if (entry != 0) {
-        entry->u.handle = STRBUF_Clone(src, heapId);
+        entry->u.handle = STRBUF_Clone((struct Strbuf *)src, heapId);
         entry->value = param;
     }
 }

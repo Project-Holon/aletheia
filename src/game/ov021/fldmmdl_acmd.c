@@ -383,7 +383,8 @@ typedef struct AcmdFlyReadyWork {
 extern void FLDMMDL_MOVE_UpdateGridPosDir(Mmdl *mmdl, int dir);
 extern void FLDMMDL_MOVE_UpdateOldGridPos(Mmdl *mmdl);
 extern void FLDMMDL_MOVE_AddDirVectorPos(Mmdl *mmdl, int dir, int amount);
-extern void FLDMMDL_MOVE_UpdateHeight(Mmdl *mmdl);
+struct Mmdl;
+extern s32 FLDMMDL_MOVE_UpdateHeight(Mmdl *mmdl);
 extern int FLDMMDL_CheckPossibleAcmd(Mmdl *mmdl);
 extern void FLDMMDL_SetAcmd(Mmdl *mmdl, u16 code);
 extern int FLDMMDL_CheckEndAcmd(Mmdl *mmdl);
@@ -425,18 +426,25 @@ extern int FLDMMDL_CheckMoveBitMovePause(Mmdl *mmdl);
 extern int FLDMMDL_CheckMoveBitAcmd(Mmdl *mmdl);
 
 extern void FLDMMDL_BLACT_Exit(MmdlSys *sys);
-extern void FLDMMDL_G3DOBJ_Delete(MmdlSys *sys);
-extern void *FIELDMAP_GetEffect(void *fieldMap);
-extern u32 FLDEFF_GYOE_SetMMdl(void *fieldEffectSys, Mmdl *mmdl, u32 type, u32 sePlay);
-extern int FLDEFF_GYOE_IsFinished(u32 effect);
-extern void FIELD_EFFECT_DeleteObject(u32 effect);
+struct MmdlSys;
+extern void FLDMMDL_G3DOBJ_Delete(struct MmdlSys *mmdlSys);
+struct FieldMap;
+struct FieldEffectCont;
+extern struct FieldEffectCont *FIELDMAP_GetEffect(struct FieldMap *fieldMap);
+extern void *FLDEFF_GYOE_SetMMdl(void *fieldEffectSys, Mmdl *mmdl, u32 type, u32 sePlay);
+extern int FLDEFF_GYOE_IsFinished(void *task);
+struct FieldEffectObj;
+extern void FIELD_EFFECT_DeleteObject(struct FieldEffectObj *obj);
 
 extern void GFL_USE_PlaySeDefaultVolume(u32 se);
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *file, u16 line);
-extern int GFL_HEAP_Free(void *mem);
-extern void TCB_AddTask(void *tcbSys, void (*func)(void *, MmdlAcmdListWork *), void *work, u32 priority);
-extern void TCB_DeleteTask(void *tcb);
-extern void *TCBL_IsDeletePending(void *tcb);
+extern u32 GFL_HEAP_Free(void *mem);
+struct TcbSystem;
+struct TcbTask;
+extern struct TcbTask *TCB_AddTask(struct TcbSystem *sys, void (*func)(void *, MmdlAcmdListWork *), void *work, u32 priority);
+extern void TCB_DeleteTask(struct TcbTask *task);
+struct TcblSystem;
+extern u32 TCBL_IsDeletePending(struct TcblSystem *tcbl);
 
 extern u8 d_021DDBE0;
 extern int (*const d_021D4A50[])(MmdlAcmdListWork *);
@@ -446,7 +454,7 @@ extern int (**const d_021D5F58[])(Mmdl *);
 extern int *d_021DDBD4[];
 extern void FLDMMDL_MOVE_AddVectorPos(Mmdl *mmdl, const MmdlVec *step);
 extern u16 FLDMMDL_GetObjCode(Mmdl *mmdl);
-extern void FLDMMDL_SetDirMove(Mmdl *mmdl, u16 dir);
+extern void FLDMMDL_SetDirMove(struct Mmdl *mmdl, s32 dir);
 extern int FLDMMDL_CallDrawGetProc(Mmdl *mmdl, u32 kind);
 extern void FLDMMDL_SetGridOldX(Mmdl *mmdl, int grid);
 extern int FLDMMDL_GetGridNowX(Mmdl *mmdl);
@@ -459,17 +467,19 @@ extern void FLDMMDL_AddGridNowY(Mmdl *mmdl, s16 amount);
 extern void FLDMMDL_AddGridNowZ(Mmdl *mmdl, s16 amount);
 extern void FLDMMDL_SetPos(Mmdl *mmdl, const MmdlVec *pos);
 extern void FLDMMDL_OnMoveBitMoveStart(Mmdl *mmdl);
-extern void *FLDMMDL_BLACT_GetBbActSys(void *blActCont);
-extern int BILLBOARD_ACT_GetEntryLastCommand(void *blActSys, int animeId, u16 *animeFlag);
-extern u32 FLDMMDL_MOVE_GetHideEffect(Mmdl *mmdl);
+struct BlactSys;
+struct BbActSys;
+extern struct BbActSys *FLDMMDL_BLACT_GetBbActSys(struct BlactSys *cont);
+extern u32 BILLBOARD_ACT_GetEntryLastCommand(struct BbActSys *sys, s32 entryIndex, u16 *lastCommand);
+extern s32 FLDMMDL_MOVE_GetHideEffect(Mmdl *mmdl);
 extern void FLDMMDL_MOVE_SetHideEffect(Mmdl *mmdl, u32 effect);
 extern void FLDMMDL_MOVE_SetHideNoEffect(Mmdl *mmdl);
-extern void FLDEFF_HIDE_RequestEnd(u32 effect);
-extern int FLDEFF_HIDE_IsFinished(u32 effect);
+extern void FLDEFF_HIDE_RequestEnd(struct FieldEffectObj *effect);
+extern int FLDEFF_HIDE_IsFinished(struct FieldEffectObj *effect);
 extern int FLDMMDL_DRAW_GetBlactAnimeTypeA(Mmdl *mmdl, u16 *animeState, u16 *animeFrame);
 extern int FLDMMDL_DRAW_GetBlactAnimeTypeB(Mmdl *mmdl, u16 *animeState, u16 *animeFrame);
 extern void FLDMMDL_DRAW_ResetBlactAnime(Mmdl *mmdl);
-extern int FLDMMDL_DRAW_CheckBlactReady(Mmdl *mmdl);
+extern u32 FLDMMDL_DRAW_CheckBlactReady(Mmdl *mmdl);
 
 extern const u32 d_021D4A44[];
 extern const u32 d_021D4A68[];
@@ -587,7 +597,7 @@ void FLDMMDL_ACMD_ListDelete(void *tcb)
 {
     MmdlAcmdListWork *work;
 
-    work = TCBL_IsDeletePending(tcb);
+    work = (struct MmdlAcmdListWork *)TCBL_IsDeletePending(tcb);
     FLDMMDL_EndAcmd(work->mmdl);
     GFL_HEAP_Free(work);
     TCB_DeleteTask(tcb);
@@ -1497,7 +1507,7 @@ void FLDMMDL_ACMD_MarkInit(Mmdl *mmdl, u32 markType, u32 reserved)
     AcmdMarkWork *work;
     work = FLDMMDL_InitMoveCmdWork(mmdl, sizeof(AcmdMarkWork));
     work->markType = markType;
-    work->effect = FLDEFF_GYOE_SetMMdl(FIELDMAP_GetEffect(FLDMMDL_SysGetFieldMap(FLDMMDL_GetMmdlSys(mmdl))), mmdl, markType, 1);
+    work->effect = (u32)FLDEFF_GYOE_SetMMdl(FIELDMAP_GetEffect(FLDMMDL_SysGetFieldMap(FLDMMDL_GetMmdlSys(mmdl))), mmdl, markType, 1);
     FLDMMDL_IncAcmdSeq(mmdl);
 }
 
@@ -1505,8 +1515,8 @@ int FLDMMDL_ACMD_MarkWait(Mmdl *mmdl)
 {
     AcmdMarkWork *work;
     work = FLDMMDL_GetMoveCmdWork(mmdl);
-    if (FLDEFF_GYOE_IsFinished(work->effect) == 1) {
-        FIELD_EFFECT_DeleteObject(work->effect);
+    if (FLDEFF_GYOE_IsFinished((void *)work->effect) == 1) {
+        FIELD_EFFECT_DeleteObject((struct FieldEffectObj *)work->effect);
         FLDMMDL_IncAcmdSeq(mmdl);
         return 1;
     }
@@ -1814,7 +1824,7 @@ int FLDMMDL_ACMD_HideOffInit(Mmdl *mmdl)
     FLDMMDL_InitMoveCmdWork(mmdl, sizeof(AcmdHideWork));
     effect = FLDMMDL_MOVE_GetHideEffect(mmdl);
     if (effect != 0) {
-        FLDEFF_HIDE_RequestEnd(effect);
+        FLDEFF_HIDE_RequestEnd((struct FieldEffectObj *)effect);
     }
     {
         MmdlVec offset = { 0, 0, 0 };
@@ -1838,8 +1848,8 @@ int FLDMMDL_ACMD_HideOffMove(Mmdl *mmdl)
         FLDMMDL_SetDrawOffset(mmdl, &offset);
         effect = FLDMMDL_MOVE_GetHideEffect(mmdl);
         if (effect != 0) {
-            if (FLDEFF_HIDE_IsFinished(effect) == 1) {
-                FIELD_EFFECT_DeleteObject(effect);
+            if (FLDEFF_HIDE_IsFinished((struct FieldEffectObj *)effect) == 1) {
+                FIELD_EFFECT_DeleteObject((struct FieldEffectObj *)effect);
                 FLDMMDL_MOVE_SetHideEffect(mmdl, 0);
             }
         }

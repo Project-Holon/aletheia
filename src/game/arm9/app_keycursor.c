@@ -247,13 +247,14 @@ extern u16  BMP_GetWidth(const struct Bmp *bmp);
 
 extern u16 BMP_GetHeight(const struct Bmp *bmp);
 
-extern void BMP_FillRect(const struct Bmp *b, u32 x, u32 y, u32 w, u32 h, u32 value);
+extern void BMP_FillRect(struct Bmp *bmp, u32 x, u32 y, u32 w, u16 h, u8 value);
 
-extern void BMP_Blit(struct Bmp *dst, const struct Bmp *src, u32 x, u32 y, int sx, int sy, u32 w, u32 h, u32 key);
+extern void BMP_Blit(struct Bmp *src, struct Bmp *dst, u32 srcX, u32 srcY, s32 dstX, s32 dstY, u32 w, u32 h, u16 colorKey);
+struct BmpWin;
 
-extern void *BMP_WIN_GetBmp(struct Descriptor *p);
+extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *win);
 
-extern void BMP_WIN_TransferChars(struct Descriptor *d);
+extern void BMP_WIN_TransferChars(struct BmpWin *win);
 
 extern u32 GFL_HEAP_Free(void *p);
 
@@ -301,7 +302,7 @@ void APP_KEYCURSOR_DrawMark(struct KeyCursor *cursor, const struct Bmp *bmp, u32
     u16 w = BMP_GetWidth(bmp) - 11;
     u16 h = BMP_GetHeight(bmp) - 9;
 
-    BMP_FillRect(bmp, (s16)w, (s16)(h + cursor->phase), 0xa, 7, (u8)color);
+    BMP_FillRect((struct Bmp *)bmp, (s16)w, (s16)(h + cursor->phase), 0xa, 7, (u8)color);
 }
 
 void APP_KEYCURSOR_Animate(struct KeyCursor *cursor, const struct Bmp *bmp, u32 color)
@@ -321,7 +322,7 @@ void APP_KEYCURSOR_Animate(struct KeyCursor *cursor, const struct Bmp *bmp, u32 
     w = BMP_GetWidth(bmp) - 11;
     h = BMP_GetHeight(bmp) - 9;
 
-    BMP_Blit(cursor->item, bmp, 0, 2, w, h + cursor->phase, 0xa, 7, 0);
+    BMP_Blit((struct Bmp *)cursor->item, (struct Bmp *)bmp, 0, 2, w, h + cursor->phase, 0xa, 7, 0);
 }
 
 void APP_KEYCURSOR_Update(struct KeyCursor *cursor, struct TextPrinter *printStream, void *win)

@@ -55,6 +55,7 @@
  *   MATH_CountPopulation  0x02080D24  arm  arm9
  *   DC_StoreRange  0x020862D4  arm  arm9
  *   WCMi_NotifyEx  0x021659F8  arm  ov009
+ *   _u32_div_f  0x0209C2B0  arm
  */
 
 typedef unsigned int u32;
@@ -134,9 +135,10 @@ extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
 extern NetWork *WCMi_GetSystemWork(void);
 extern void DC_InvalidateRange(u32 buf, u32 len);
 extern int NWM_StartScanEx(void *cb, void *buf);
-extern u32 NWM_Init(u32 buf, u32 size, u32 mode);
+struct CamBuf;
+extern u32 NWM_Init(struct CamBuf *buf, unsigned int size, unsigned int mode);
 extern void WCMi_SetPhase(unsigned char phase);
-extern u32 NWM_LoadDevice(void *arg);
+extern u32 NWM_LoadDevice(u32 callback);
 extern u32 NWM_Close(void *arg);
 extern u32 NWM_SetWEPKey(void *a, u32 b, u32 c, void *d, u32 e);
 extern u32 NWM_SetWPAPSK(void *a, void *b);
@@ -145,26 +147,26 @@ extern u32 NWM_GetState(void);
 extern u32 NWM_End(void);
 extern u32 NWM_UnloadDevice(void *arg);
 extern u32 NWM_Disconnect(void *arg);
-extern NetObj *WCMi_GetCpsifWork(void);
+extern void *WCMi_GetCpsifWork(void);
 extern u32 NWM_SendFrame(void *cb, u32 a, u32 b, u32 c);
 extern void OS_SleepThread(void *queue);
 extern u32 NWM_GetAllowedChannel(void);
-extern void WCMi_Notify(u32 a, void *b, u32 c, u32 d);
-extern void WCMi_NotifyEx(u32 a, u32 b, u32 c, void *d, u32 e);
+extern void WCMi_Notify(short result, void *para0, void *para1, int para2);
+extern void WCMi_NotifyEx(short notify, short result, void *para0, void *para1, int para2);
 extern void WCMi_EntryApList(u32 a, u32 b);
 extern u16 WCMi_GetNextScanChannel(u16 a);
 extern void DC_StoreRange(u32 buf, u32 len);
-extern u32 MATH_CountPopulation(u32 x);
+extern unsigned char MATH_CountPopulation(u32 x);
 extern u32 NWM_Open(void *arg);
-extern void OS_GetMacAddress(void *mac);
+extern void OS_GetMacAddress(u8 *macAddress);
 extern void WCMi_CpsifSetMacAddress(void *mac);
 extern u32 NWM_SetPowerSaveMode(void *arg, u32 b);
 extern u32 NWM_SetReceivingFrameBuffer(void *arg, void *b, u32 c, u32 d);
 extern void WCMi_ShelterRssi(u8 v);
-extern void WCMi_CpsifRecvCallback(u8 *a, u8 *b, u8 *c, u32 len);
+extern void WCMi_CpsifRecvCallback(unsigned char *s, unsigned char *d, unsigned char *dat, int len);
 extern int NWM_Connect(void *cb, u8 flag, void *buf);
 extern unsigned long WCM_UpdateOption(unsigned long option);
-extern u32 NWM_GetDispersionScanPeriod(u32 a);
+extern u16 NWM_GetDispersionScanPeriod(u32 a);
 extern void WCMi_ResetKeepAliveAlarm(void);
 extern void OS_WakeupThread(void *queue);
 u32 WCMi_NwmifStartupAsync(void);
@@ -216,7 +218,7 @@ u32 WCMi_NwmifStartupAsync(void)
 {
     NetWork *w = WCMi_GetSystemWork();
 
-    switch (NWM_Init((u32)w->rxBuf, 0x3000, w->cmdArg & 0xff)) {
+    switch (NWM_Init((struct CamBuf *)w->rxBuf, 0x3000, w->cmdArg & 0xff)) {
     case 3:
         WCMi_SetPhase(11);
         return 7;
@@ -230,7 +232,7 @@ u32 WCMi_NwmifStartupAsync(void)
         return 7;
     case 0:
         w->txFlag = 0;
-        switch (NWM_LoadDevice(WcmNwmcbCommon)) {
+        switch (NWM_LoadDevice((u32)WcmNwmcbCommon)) {
         case 2:
             WCMi_SetPhase(2);
             w->phase = 1;
@@ -514,12 +516,12 @@ void WcmNwmReset(void)
         tx = w->txFlag;
         w->txFlag = 0;
         WCMi_SetPhase(3);
-        WCMi_Notify(1, w->buf, tx, 683);
+        WCMi_Notify(1, (void *)w->buf, (void *)tx, 683);
         return;
     case 9:
     case 12:
         WCMi_SetPhase(3);
-        WCMi_Notify(0, w->buf, 1, 691);
+        WCMi_Notify(0, (void *)w->buf, (void *)1, 691);
         return;
     case 10:
         WCMi_SetPhase(3);
@@ -541,7 +543,7 @@ void WcmNwmReset(void)
         }
     default:
         WCMi_SetPhase(11);
-        WCMi_Notify(7, 0, w->state, 727);
+        WCMi_Notify(7, (void *)0, (void *)w->state, 727);
         return;
     }
 }
@@ -655,13 +657,13 @@ void WcmNwmcbScanEx(SendPkt *p)
                 DC_InvalidateRange(w->sendBuf, w->sendLen);
                 for (i = 0; i < p->count; i++) {
                     WCMi_EntryApList(p->ptr[i], p->size[i]);
-                    WCMi_NotifyEx(7, 0, p->ptr[i], p, 953);
+                    WCMi_NotifyEx(7, 0, (void *)p->ptr[i], p, 953);
                 }
             }
             if ((w->linkFlags & 0xc00000) == 0xc00000) {
                 u32 n = MATH_CountPopulation(w->linkFlags & 0x3ffe);
                 if (n != 0 && w->sendCount % n == 0) {
-                    WCMi_NotifyEx(8, 0, w->sendCount, 0, 967);
+                    WCMi_NotifyEx(8, 0, (void *)w->sendCount, 0, 967);
                 }
             }
             w->sendMask = (1 << WCMi_GetNextScanChannel(32 - clz32(p->len))) >> 1;
@@ -779,7 +781,7 @@ void WcmNwmcbConnect(u16 *arg)
             return;
         default:
             WCMi_SetPhase(11);
-            WCMi_Notify(7, w->buf, arg[8], 1153);
+            WCMi_Notify(7, (void *)w->buf, (void *)arg[8], 1153);
             return;
         }
     case 5:

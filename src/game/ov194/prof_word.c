@@ -39,7 +39,7 @@ typedef signed short   s16;
 typedef signed char    s8;
 
 extern void *GFL_HEAP_Alloc(unsigned, unsigned, int, const char *, unsigned short);
-extern int ARC_UTIL_LoadMemberWithSize(int, int, int, int, unsigned *);
+extern int ARC_UTIL_LoadMemberWithSize(int archiveID, int memberIdx, int decompress, unsigned short heapID, unsigned int *out);
 extern void GF_STANDARD_XorCryptEx(void *p, unsigned int size, unsigned int seed);
 extern u32 GFL_HEAP_Free(void *p);
 extern void MI_CpuCopy8(const void *,void *,unsigned);

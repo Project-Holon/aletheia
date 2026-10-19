@@ -46,31 +46,32 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 extern int gti2CreateSocket(void **sock, char *addr, int outSize, int inSize, void *callback, int type);
-extern void gti2CloseSocket(void *p);
+extern void gti2CloseSocket(struct GTI2Socket *socket);
 extern int gti2ReceiveMessages(struct GTI2Socket *socket);
 extern int gti2SocketConnectionsThink(struct GTI2Socket *socket);
 extern void gti2FreeClosedConnections(struct GTI2Socket *socket);
 extern void gti2SetConnectAttemptCallback(GTI2Socket *socket, void *connectAttemptCallback);
-extern int gti2AcceptConnection(GTI2Connection *connection, GT2ConnectionCallbacks *callbacks);
-extern void gti2RejectConnection(void);
-extern int gt2StringToAddress();
-extern int gti2NewOutgoingConnection();
-extern int gti2StartConnectionAttempt();
-extern void gti2FreeSocketConnection();
-extern void msleep();
+struct GT2ConnectionCallbacks;
+struct GTI2Connection;
+extern int gti2AcceptConnection(struct GTI2Connection *connection, struct GT2ConnectionCallbacks *callbacks);
+extern void gti2RejectConnection(GTI2Connection *connection, unsigned char *message, int len);
+extern int gt2StringToAddress(char *string, unsigned int *ip, unsigned short *port);
+extern int gti2NewOutgoingConnection(struct GTI2Socket *socket, struct GTI2Connection **connection, unsigned int ip, unsigned short port);
+extern int gti2StartConnectionAttempt(struct GTI2Connection *c, unsigned char *message, int len, struct GT2ConnectionCallbacks *callbacks);
+extern void gti2FreeSocketConnection(struct GTI2Connection *connection);
+extern void msleep(unsigned int msec);
 extern void gti2MessageCheck(unsigned char **message, int *len);
-extern int ArrayLength(void *array);
-extern int gti2SendFilterCallback(void *connection, int filterID,
-    unsigned char *message, int len, int reliable);
+extern int ArrayLength(int *array);
+extern int gti2SendFilterCallback(struct GTI2Connection *c, int filterID, unsigned char *msg, int len, int reliable);
 extern int gti2Send(void *connection, unsigned char *message, int len, int reliable);
-extern void gti2CloseConnection(int a, int b);
+extern void gti2CloseConnection(struct GTI2Connection *connection, int hard);
 extern void TableMapSafe(int a, char *p, int c);
 int gt2CreateSocket(void **sock, char *addr, int outSize, int inSize, void *callback);
 void gt2CloseSocket(void *p);
 void gt2Think(struct GTI2Socket *socket);
 void gt2Listen(GTI2Socket *socket, void *connectAttemptCallback);
 int gt2Accept(GTI2Connection *connection, GT2ConnectionCallbacks *callbacks);
-void gt2Reject(void);
+void gt2Reject(GTI2Connection *connection, unsigned char *message, int len);
 int gt2Connect(void *socket, GTI2Connection **connection, char *remoteAddress, u8 *message, int len, int timeout, void *callbacks, int blocking);
 int gt2Send(void *connection, unsigned char *message, int len, int reliable);
 void gt2CloseConnectionHard(int a);
@@ -150,9 +151,9 @@ int gt2Accept(GTI2Connection *connection, GT2ConnectionCallbacks *callbacks)
 
 
 
-void gt2Reject(void)
+void gt2Reject(GTI2Connection *connection, unsigned char *message, int len)
 {
-    gti2RejectConnection();
+    gti2RejectConnection(connection, message, len);
 }
 
 static void gti2CloseAllConnectionsHardMap(void **elem);
@@ -239,7 +240,7 @@ int gt2Send(void *connection, unsigned char *message, int len, int reliable)
  */
 void gt2CloseConnectionHard(int a)
 {
-    gti2CloseConnection(a, 1);
+    gti2CloseConnection((struct GTI2Connection *)a, 1);
 }
 
 

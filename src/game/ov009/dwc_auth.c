@@ -135,34 +135,34 @@ extern void OS_CreateThread(void *thread, void (*func)(void *), void *arg, void 
 extern void OS_WakeupThreadDirect(void *thread);
 extern void OS_LockMutex(OSMutex *mutex);
 extern void OS_UnlockMutex(OSMutex *mutex);
-extern void DWC_Http_Abort(DWCHttp *http);
+extern void DWC_Http_Abort(char *http);
 extern void OS_JoinThread(void *thread);
-extern void DWC_Http_Destroy(DWCHttp *http);
+extern void DWC_Http_Destroy(char *http);
 extern void MI_CpuCopy8(void *src, void *dst, unsigned long size);
 extern int strcmp(const char *, const char *);
 extern int DWC_Http_Create(DWCHttp *http, DWCHttpParam *param);
 extern void DWCi_BM_GetWiFiInfo(struct DWCWiFiInfo *buf);
-extern int DWC_Http_FinishHeader(DWCHttp *http);
+extern int DWC_Http_FinishHeader(char *http);
 extern unsigned long OS_GetThreadPriority(void *thread);
-extern void DWC_Http_StartThread(DWCHttp *http, unsigned long prio);
+extern void DWC_Http_StartThread(char *http, unsigned int prio);
 extern unsigned long long OS_GetTick(void);
 extern void OS_Sleep(unsigned long msec);
 extern int DWC_Http_ParseResult(DWCHttp *http, int noparsebody);
 extern int DWCi_AUTH_UpDateWiFiID(struct DWCWiFiInfo *wifiinfo, void *work);
 extern int DWCi_AUTH_RemakeWiFiID(struct DWCWiFiInfo *wifiinfo);
 extern int DWCi_AUTH_MakeWiFiID(void *work);
-extern char *DWC_Http_GetResult(DWCHttp *http, char *label);
+extern char *DWC_Http_GetResult(char *http, char *label);
 extern int DWC_Auth_SetNasTimeDiff(char *datestr);
 extern int atoi(u32 s);
-extern int DWC_Http_GetBase64DecodedResult(DWCHttp *http, char *label, char *buffer, unsigned long buffer_len);
+extern int DWC_Http_GetBase64DecodedResult(char *http, char *label, char *buffer, unsigned int buffer_len);
 extern s32 strtol(u32 s, u32 *endptr, u32 base);
 extern int strlen(const u8 *s);
-extern int DWC_Http_GetRawResult(DWCHttp *http, char *label, char *buffer, int buffer_len);
+extern int DWC_Http_GetRawResult(char *http, char *label, char *buffer, int buffer_len);
 extern int DWC_Http_Add_PostBase64Item(DWCHttp *http, char *label, char *data, unsigned long data_len);
 extern int DWC_Auth_GetCalInfoFromWiFiInfo(DWCCalInfo *cal, struct DWCWiFiInfo *wifiinfo);
 extern int DWC_Auth_SetCalInfoToHttp(DWCHttp *http, DWCCalInfo *calinfo, int allowessid);
 extern int wcslen(const u16 *s);
-void DWC_Auth_SetCustomNas(int v);
+void DWC_Auth_SetCustomNas(char *v);
 char *DWC_Auth_GetCustomNas(void);
 int DWC_Auth_Create(DWCAuthParam *param, DWCHttp *http);
 void DWCi_Auth_StartThread(void);
@@ -203,7 +203,7 @@ extern char gDwcAuthPostLabelIsWfc[];
 extern char gDwcAuthPostLabelIngamesn[];
 
 
-void DWC_Auth_SetCustomNas(int v)
+void DWC_Auth_SetCustomNas(char *v)
 {
     g_021A2358.url = (char *)v;
 }
@@ -277,7 +277,7 @@ void DWC_Auth_Abort(void)
 	gDwcAuthGlobal.auth->abort_flag = 1;
 	OS_UnlockMutex(&gDwcAuthGlobal.auth->mutex);
 	if (gDwcAuthGlobal.auth->http != 0)
-		DWC_Http_Abort(gDwcAuthGlobal.auth->http);
+		DWC_Http_Abort((char *)gDwcAuthGlobal.auth->http);
 	if (gDwcAuthGlobal.auth->started == 0)
 		return;
 	if (OS_IsThreadTerminated(gDwcAuthGlobal.auth->thread) != 0)
@@ -300,7 +300,7 @@ void DWC_Auth_Destroy(void)
 		return;
 	free = gDwcAuthGlobal.auth->param.free;
 	if (gDwcAuthGlobal.auth->http != 0)
-		DWC_Http_Destroy(gDwcAuthGlobal.auth->http);
+		DWC_Http_Destroy((char *)gDwcAuthGlobal.auth->http);
 	free(0, gDwcAuthGlobal.auth, 0);
 	gDwcAuthGlobal.auth = 0;
 }
@@ -388,10 +388,10 @@ int DWCi_Auth_Start(int getwifiinfofromflash)
     if (gDwcAuthGlobal.auth->error != 0)
         return 4;
 
-    if (DWC_Http_FinishHeader(gDwcAuthGlobal.auth->http) != 0)
+    if (DWC_Http_FinishHeader((char *)gDwcAuthGlobal.auth->http) != 0)
         return 4;
 
-    DWC_Http_StartThread(gDwcAuthGlobal.auth->http, OS_GetThreadPriority(gMslRefToken.current) - 1);
+    DWC_Http_StartThread((char *)gDwcAuthGlobal.auth->http, OS_GetThreadPriority(gMslRefToken.current) - 1);
     return 0;
 }
 
@@ -472,7 +472,7 @@ void DWCi_Auth_Thread(void *arg)
             OS_Sleep(5000);
         }
 
-        DWC_Http_Destroy(gDwcAuthGlobal.auth->http);
+        DWC_Http_Destroy((char *)gDwcAuthGlobal.auth->http);
         OS_LockMutex(&gDwcAuthGlobal.auth->mutex);
         gDwcAuthGlobal.auth->error = DWCi_Auth_Start(getwifiinfofromflash);
         if (gDwcAuthGlobal.auth->error != 0) {
@@ -560,13 +560,13 @@ int DWCi_Auth_FillResult(void)
     int returncode;
 
     endptr = 0;
-    endptr = DWC_Http_GetResult(gDwcAuthGlobal.auth->http, gDwcAuthLabelDate);
+    endptr = DWC_Http_GetResult((char *)gDwcAuthGlobal.auth->http, gDwcAuthLabelDate);
     if (endptr != 0)
         DWC_Auth_SetNasTimeDiff(endptr);
 
     endptr = 0;
     errno = 0;
-    returncode = atoi((u32)DWC_Http_GetResult(gDwcAuthGlobal.auth->http, gDwcAuthLabelHttpResult));
+    returncode = atoi((u32)DWC_Http_GetResult((char *)gDwcAuthGlobal.auth->http, gDwcAuthLabelHttpResult));
     if (errno == 0x22) {
         gDwcAuthGlobal.auth->result.returncode = 20101;
         return 12;
@@ -575,7 +575,7 @@ int DWCi_Auth_FillResult(void)
         gDwcAuthGlobal.auth->result.returncode = returncode + 23000;
         return 18;
     }
-    if (DWC_Http_GetBase64DecodedResult(gDwcAuthGlobal.auth->http, gDwcAuthLabelReturnCd, gDwcAuthGlobal.auth->result.retcode, 4) <= 0) {
+    if (DWC_Http_GetBase64DecodedResult((char *)gDwcAuthGlobal.auth->http, gDwcAuthLabelReturnCd, gDwcAuthGlobal.auth->result.retcode, 4) <= 0) {
         gDwcAuthGlobal.auth->result.returncode = 20101;
         return 14;
     }
@@ -591,11 +591,11 @@ int DWCi_Auth_FillResult(void)
         gDwcAuthGlobal.auth->result.challenge[0] = 0;
         gDwcAuthGlobal.auth->result.datetime[0] = 0;
         gDwcAuthGlobal.auth->result.cookie[0] = 0;
-        DWC_Http_GetBase64DecodedResult(gDwcAuthGlobal.auth->http, gDwcAuthLabelToken, gDwcAuthGlobal.auth->result.token, 0x12d);
-        DWC_Http_GetBase64DecodedResult(gDwcAuthGlobal.auth->http, gDwcAuthLabelLocator, gDwcAuthGlobal.auth->result.locator, 0x33);
-        DWC_Http_GetBase64DecodedResult(gDwcAuthGlobal.auth->http, gDwcAuthLabelChallenge, gDwcAuthGlobal.auth->result.challenge, 9);
-        DWC_Http_GetBase64DecodedResult(gDwcAuthGlobal.auth->http, gDwcAuthLabelDateTime, gDwcAuthGlobal.auth->result.datetime, 0xf);
-        DWC_Http_GetRawResult(gDwcAuthGlobal.auth->http, gDwcAuthLabelSetCookie, gDwcAuthGlobal.auth->result.cookie, 0x41);
+        DWC_Http_GetBase64DecodedResult((char *)gDwcAuthGlobal.auth->http, gDwcAuthLabelToken, gDwcAuthGlobal.auth->result.token, 0x12d);
+        DWC_Http_GetBase64DecodedResult((char *)gDwcAuthGlobal.auth->http, gDwcAuthLabelLocator, gDwcAuthGlobal.auth->result.locator, 0x33);
+        DWC_Http_GetBase64DecodedResult((char *)gDwcAuthGlobal.auth->http, gDwcAuthLabelChallenge, gDwcAuthGlobal.auth->result.challenge, 9);
+        DWC_Http_GetBase64DecodedResult((char *)gDwcAuthGlobal.auth->http, gDwcAuthLabelDateTime, gDwcAuthGlobal.auth->result.datetime, 0xf);
+        DWC_Http_GetRawResult((char *)gDwcAuthGlobal.auth->http, gDwcAuthLabelSetCookie, gDwcAuthGlobal.auth->result.cookie, 0x41);
         gDwcAuthGlobal.auth->result.cookieEnd = 0;
         if (returncode != 40)
             gDwcAuthGlobal.state = 1;

@@ -174,6 +174,17 @@
  *   PM_VOICE_GetVolume 0x02006B20 thumb
  *   BMP_WIN_GetCharOffset 0x02045768 arm
  *   BG_SYS_DrawTile 0x02041090 arm
+ *   _fadd                        0x0209C95C  arm
+ *   _fdiv                        0x0209CE10  arm
+ *   _ffix                        0x0209C494  arm
+ *   _ffixu                       0x0209C4C8  arm
+ *   _fflt                        0x0209BDBC  arm
+ *   _ffltu                       0x0209BE04  arm
+ *   _fgr                         0x0209BBB0  arm
+ *   _fleq                        0x0209BC0C  arm
+ *   _fmul                        0x0209C77C  arm
+ *   _fsub                        0x0209CB8C  arm
+ *   _ll_udiv                     0x0209C00C  arm
  */
 #include "zukan_detail_types.h"
 #include "zukan_detail_shared_types.h"
@@ -182,28 +193,33 @@
 extern u32 GFL_HEAP_Free(void *p);
 
 extern void ARC_TOOL_DeleteHandle(void *h);
+struct TcbTask;
 
-extern void TCB_DeleteTask(struct Node *n);
+extern void TCB_DeleteTask(struct TcbTask *task);
+struct PrintQueue;
 
-extern void PRINTSYS_QUE_Clear(struct PrintSys *p);
+extern void PRINTSYS_QUE_Clear(struct PrintQueue *queue);
 
 extern void *GFL_USE_AddMainTask(unsigned,unsigned,unsigned);
 
-extern void *ARC_TOOL_CreateHandle(unsigned int id, unsigned int heap);
+extern void *ARC_TOOL_CreateHandle(unsigned int archiveID, unsigned short heapID);
 
 extern void BG_SYS_ChangeScrollImmediate(unsigned,unsigned,unsigned);
 
 extern void BG_SYS_SetPriority(int,u16);
+struct BmpWin;
 
-extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
+extern struct BmpWin *BMP_WIN_Create(unsigned int bgLayer, unsigned int posX, unsigned int posY, unsigned char width, unsigned char height, unsigned char palette, unsigned char allocDir);
 
 extern void BMP_Delete(struct Bmp *p);
 
-extern u32 BMP_WIN_Delete(struct Descriptor *d);
+extern u32 BMP_WIN_Delete(struct BmpWin *win);
+struct GfFont;
+struct Strbuf;
 
-extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, struct GfFont *e, u16 f);
+extern void PRINTSYS_PrintQueColor(struct PrintQueue *queue, struct Bmp *bmp, unsigned int x, short y, struct Strbuf *str, struct GfFont *font, unsigned short color);
 
-extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintSys *p, void *v);
+extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintQueue *queue, struct Bmp *bmp);
 
 extern void *ZUKAN_SAVE_GetFromGameData(void *a);
 
@@ -214,9 +230,9 @@ extern void BG_SYS_FreeSlot(u8);
 
 extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
 
-extern u32  CLACT_RegisterPaletteEx(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
+extern int CLACT_RegisterPaletteEx(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
 
-extern u32  CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 vram_mode, u16 flags);
+extern int CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 vram_mode, u16 flags);
 
 extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 
@@ -226,13 +242,14 @@ extern void CLACT_ReleaseCharacter(u32 i);
 
 extern void CLACT_ReleasePalette(u32 i);
 
-extern void BG_SYS_PushTile(u8 channel);
+extern void BG_SYS_PushTile(unsigned int index);
 
 extern struct Obj *CLACT_CreateActor(u32 owner, u32 i, u32 j, u32 k, const void *position, u16 f, u16 g);
+struct Actor;
 
-extern void CLACT_SetActorAutoAnim(struct Obj *p, u32 v);
+extern void CLACT_SetActorAutoAnim(struct Actor *actor, unsigned int enable);
 
-extern void CLACT_DeleteActor(struct Obj *p);
+extern void CLACT_DeleteActor(struct Actor *actor);
 
 extern u32 TOUCHPANEL_GetPointTrg(u32 *outA, u32 *outB);
 
@@ -240,67 +257,75 @@ extern void UI_SetInputMode(u8 v);
 
 extern u32 KEY_GetTrg(void);
 
-extern void CLACT_SetActorDrawEnable(struct Obj *p,u32 v);
+extern void CLACT_SetActorDrawEnable(struct Actor *actor, unsigned int value);
+struct Ov208Fsm;
 
-extern void *ZUKAN_DETAIL_PROCSYS_AllocBuffer(struct Ov208Buf *p, u32 size, u32 heap);
+extern void *ZUKAN_DETAIL_PROCSYS_AllocBuffer(struct Ov208Fsm *p, unsigned int size, unsigned int heap);
 
 extern void *ZUKAN_DETAIL_COMMON_AllocBlendWork(u32 heap);
+struct Ov208Blend;
 
-extern void ZUKAN_DETAIL_COMMON_InitBrightnessTarget(void *p);
+extern void ZUKAN_DETAIL_COMMON_InitBrightnessTarget(struct Ov208Blend *p);
 
-extern void ZUKAN_DETAIL_COMMON_SetBrightnessNone(int flag, void *p);
+extern void ZUKAN_DETAIL_COMMON_SetBrightnessNone(int flag, struct Ov208Blend *p);
 
 extern void ZUKAN_DETAIL_COMMON_FreeBlendWork(void *p);
 
 extern void ZUKAN_DETAIL_PROCSYS_FreeBuffer(char *);
+struct Ov208Scene;
 
-extern int ZUKAN_DETAIL_TOUCHBAR_GetMode(void *s);
+extern int ZUKAN_DETAIL_TOUCHBAR_GetMode(struct Ov208Scene *p);
 
-extern void ZUKAN_DETAIL_TOUCHBAR_SetMode(void *s, u32 a, u32 b, u32 c);
+extern void ZUKAN_DETAIL_TOUCHBAR_SetMode(struct Ov208Scene *p, unsigned int mode, unsigned int kind, unsigned int flag);
 
-extern void ZUKAN_DETAIL_TOUCHBAR_SetEnabled(void *s, int a);
+extern void ZUKAN_DETAIL_TOUCHBAR_SetEnabled(struct Ov208Scene *p, int scrollIdx);
 
 extern void ZUKAN_DETAIL_TOUCHBAR_SetPaletteForKind(void *s, u32 a);
 
 extern int GAME_DATA_ContainsRecentId(void *gd, int b);
 
 extern int ZUKAN_DETAIL_HEADBAR_GetIconKind(void *s);
+struct Ov208Icon;
 
-extern void ZUKAN_DETAIL_HEADBAR_SetIconKind(void *s, int a);
+extern void ZUKAN_DETAIL_HEADBAR_SetIconKind(struct Ov208Icon *p, int kind);
 
-extern void ZUKAN_DETAIL_HEADBAR_SetIconSpecies(void *s);
+extern void ZUKAN_DETAIL_HEADBAR_SetIconSpecies(struct Ov208Icon *p);
 
-extern void ZUKAN_DETAIL_TOUCHBAR_ClearButtonState(void *s);
+extern void ZUKAN_DETAIL_TOUCHBAR_ClearButtonState(struct Ov208Scene *p);
 
-extern void ZUKAN_DETAIL_HEADBAR_SetIconForm(void *s);
+extern void ZUKAN_DETAIL_HEADBAR_SetIconForm(struct Ov208Icon *p);
 
-extern void ZUKAN_DETAIL_COMMON_UpdateBlendFades(void *a, void *b);
+extern void ZUKAN_DETAIL_COMMON_UpdateBlendFades(struct Ov208Blend *main, struct Ov208Blend *sub);
+struct GameData;
 
-extern void GAME_DATA_SetRecentId(void *p, u32 a, u32 b);
+extern void GAME_DATA_SetRecentId(struct GameData *gd, unsigned int id, unsigned int on);
 
-extern void CLACT_SetActorObjMode(struct Obj *p,u32 value);
+extern void CLACT_SetActorObjMode(struct Actor *actor, unsigned int value);
 
 extern void ZUKAN_SAVE_GetViewGenderAndForm(void *, u32, u32 *, u32 *, u32 *, u16);
+struct ZukanSave;
 
-extern u32 ZUKAN_SAVE_GetSpindaPersonality(struct Blk37 *, u32);
+extern u32 ZUKAN_SAVE_GetSpindaPersonality(struct ZukanSave *pZukan, unsigned int which);
+struct Ov208Win;
 
-extern void ZUKAN_DETAIL_COMMON_FreeBgPalette(void *p);
+extern void ZUKAN_DETAIL_COMMON_FreeBgPalette(struct Ov208Win *p);
+struct Ov208PalFade;
 
-extern void ZUKAN_DETAIL_COMMON_DeletePaletteAnim(void *p);
+extern void ZUKAN_DETAIL_COMMON_DeletePaletteAnim(struct Ov208PalFade *p);
 
-extern void ZUKAN_DETAIL_COMMON_SetBrightnessFull(int flag, void *p);
+extern void ZUKAN_DETAIL_COMMON_SetBrightnessFull(int flag, struct Ov208Blend *p);
 
-extern void ZUKAN_DETAIL_COMMON_TransferPalettes(void *p);
+extern void ZUKAN_DETAIL_COMMON_TransferPalettes(struct Ov208PalFade *p);
 
-extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
+extern void BMP_WIN_MakeScreen(struct BmpWin *win);
 
-extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
+extern u8 BMP_WIN_GetBgLayer(struct BmpWin *win);
 
 extern void ARC_UTIL_UploadPaletteFromArchive(u32 archiveID, u32 memberIdx, u32 kind, u32 offset, u32 dest, u32 size, u16 flags);
 
 extern void CLACT_GetActorSurfacePos(struct Obj *actor, struct PtS *out, u16 space);
 
-extern u32 ZUKAN_DETAIL_GRAPHIC_Reset3dState(void *display);
+extern int ZUKAN_DETAIL_GRAPHIC_Reset3dState(char *p);
 
 extern void *ZUKAN_DETAIL_COMMON_CreatePaletteAnimDefault(u32 heap);
 
@@ -314,25 +339,25 @@ extern u32 ZUKAN_DETAIL_COMMON_LoadBgPaletteRange(int,u16,u8,u8,u8,u8,u32,u32,u3
 
 extern struct Ov208Win *ZUKAN_DETAIL_COMMON_LoadBgPaletteAlloc(u16,u32,u8,u8,u8);
 
-extern void ZUKAN_DETAIL_COMMON_CopyHwPalettesToSlots(void *p);
+extern void ZUKAN_DETAIL_COMMON_CopyHwPalettesToSlots(struct Ov208PalFade *p);
 
-extern void ZUKAN_DETAIL_COMMON_StartFadeIn(void *p);
+extern void ZUKAN_DETAIL_COMMON_StartFadeIn(struct Ov208PalFade *p);
 
-extern void ZUKAN_DETAIL_COMMON_StartFadeOut(void *p);
+extern void ZUKAN_DETAIL_COMMON_StartFadeOut(struct Ov208PalFade *p);
 
-extern int ZUKAN_DETAIL_COMMON_IsFadeBusy(void *p);
+extern int ZUKAN_DETAIL_COMMON_IsFadeBusy(struct Ov208PalFade *p);
 
-extern void ZUKAN_DETAIL_COMMON_StartFadeOutAlt(void *p);
+extern void ZUKAN_DETAIL_COMMON_StartFadeOutAlt(struct Ov208PalFade *p);
 
-extern void ZUKAN_DETAIL_COMMON_TickFlashEffect(void *p);
+extern void ZUKAN_DETAIL_COMMON_TickFlashEffect(struct Ov208Win *p);
 
-extern void ZUKAN_DETAIL_COMMON_UpdatePaletteAnim(void *p);
+extern void ZUKAN_DETAIL_COMMON_UpdatePaletteAnim(struct Ov208PalFade *p);
 
 extern void GFL_USE_FadeOutBgm(u32 v);
 
 extern int GFL_USE_PopBgm(void);
 
-extern void GFL_USE_SetBgmPaused(void *p);
+extern void GFL_USE_SetBgmPaused(unsigned int value);
 
 extern void GFL_USE_FadeInBgmFull(u32 a);
 
@@ -340,9 +365,9 @@ extern int GFL_USE_IsBgmFading(void);
 
 extern int GFL_USE_PushBgm(void);
 
-extern void CLACT_SetActorAnimIndex(struct Obj *actor, int animIndex);
+extern void CLACT_SetActorAnimIndex(struct Actor *actor, unsigned int anim_idx);
 
-extern int POKEGRA_OpenHandle(int heapId);
+extern void *POKEGRA_OpenHandle(unsigned int heapId);
 
 extern u32 POKEGRA_RegisterCgr(u32,u32,u32,u32,u32,u32,u32,u32,u32,u16);
 
@@ -354,13 +379,14 @@ extern int POKEGRA_GetArcID(void);
 
 extern s32 POKEGRA_GetPalArcIndex(u32 arcId, u32 monsNo, u32 formNo, u32 sex, u32 s5, u32 s6, u32 s7);
 
-extern void ZUKAN_DETAIL_COMMON_LoadPaletteToSlot(void *p, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f, u16 g);
+extern void ZUKAN_DETAIL_COMMON_LoadPaletteToSlot(struct Ov208PalFade *p, unsigned int arcHandle, unsigned int fileId, unsigned int heapId, unsigned int slotIdx, unsigned int byteSize, unsigned short dstOffset, unsigned short srcOffset);
 
 extern struct Obj *CLACT_CreateAffineActor(u32 owner, u32 i, u32 j, u32 k, u32 e, u16 f, u16 g);
+struct Pair32;
 
-extern void CLACT_GetActorScale(const struct Obj *o, struct Pair *p);
+extern void CLACT_GetActorScale(struct Actor *actor, struct Pair32 *out_scale);
 
-extern void CLACT_SetActorScale(struct Obj *dst, struct Pair *src);
+extern void CLACT_SetActorScale(struct Actor *actor, struct Pair32 *src);
 
 void ZUKAN_DETAIL_TOUCHBAR_SetButtonEnabled(struct Ov208Scene *p, int v);
 
@@ -380,34 +406,34 @@ extern void BG_SYS_MarkTileDirty(u32 bit);
 
 typedef signed char    s8;
 
-extern void BMP_WIN_TransferChars(struct Descriptor *);
+extern void BMP_WIN_TransferChars(struct BmpWin *win);
+struct MsgBank;
 
-extern void *MSGDATA_AllocString(struct MsgBank *bank,u32 index);
+extern struct Strbuf *MSGDATA_AllocString(struct MsgBank *bank,u32 index);
 
-extern u32 PRINTSYS_MeasureWidestLine(struct StrObj *s,struct GfFont *a,u32 b);
+extern u32 PRINTSYS_MeasureWidestLine(struct Strbuf *text, struct GfFont *font, unsigned int spacing);
 
-extern void *BMP_WIN_GetBmp(struct Descriptor *p);
+extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *win);
 
 extern u16 BMP_GetWidth(const struct Bmp *p);
 
-extern void STRBUF_Delete(struct U16Vec *s);
+extern void STRBUF_Delete(struct Strbuf *strbuf);
 
-extern void BMP_Clear(struct CharBuf *p, u8 v);
+extern void BMP_Clear(struct Bmp *bmp, unsigned char value);
 
 extern u64 OS_GetTick(void);
 
-extern u32 PM_VOICE_Play(u32 species, u32 form, u32 pan, u32 dual, u32 volumeBiasB, u32 frequencyOffsetB, u32 reverse, u32 recordedVoice);
+extern u32 PM_VOICE_Play(unsigned int species, unsigned int form, unsigned int pan, unsigned int dual, unsigned int volumeBiasB, unsigned int frequencyOffsetB, unsigned int reverse, void **recordedVoice);
 
 extern void *GFL_HEAP_Alloc(u32 heap,u32 size,int clear,const char *file,u16 line);
 
 extern struct Bmp *BMP_Create(u32 width, u32 height, u32 depth, u16 heap);
 
-extern void BMP_FillRect(struct Bmp *p,u32 a,u32 b,u32 c,u32 d,u32 e);
+extern void BMP_FillRect(struct Bmp *bmp, unsigned int x, unsigned int y, unsigned int w, unsigned short h, unsigned char value);
 
-extern void BMP_Blit(struct Bmp *dst, struct Bmp *src, u32 x, u32 y,
-                          int sx, int sy, u32 w, u32 h, u32 key);
+extern void BMP_Blit(struct Bmp *src, struct Bmp *dst, unsigned int srcX, unsigned int srcY, int dstX, int dstY, unsigned int w, unsigned int h, unsigned short colorKey);
 
-extern u32 PM_VOICE_GetData(u32 i);
+extern unsigned char *PM_VOICE_GetData(u32 i);
 
 extern u32 PM_VOICE_GetSampleRate(u32 i);
 
@@ -417,11 +443,11 @@ extern u32 PM_VOICE_GetDataSize(u32 i);
 
 extern s8 PM_VOICE_GetVolume(u32 i);
 
-extern u16 BMP_WIN_GetCharOffset(struct Descriptor *p);
+extern u16 BMP_WIN_GetCharOffset(struct BmpWin *win);
 
-extern void BG_SYS_DrawTile(u32 index,u32 a,u32 b,u32 c,u8 d,u8 e);
+extern void BG_SYS_DrawTile(unsigned int index, void *src, unsigned char dx, unsigned char dy, unsigned char cw, unsigned char ch);
 
-extern void G2x_SetBlendAlpha_(u32 reg,int a,int b,int ev1,int ev2);
+extern void G2x_SetBlendAlpha_(unsigned int *reg, unsigned int a, unsigned int b, unsigned int c, unsigned int d);
 
 extern struct MsgBank *gSpeciesNameBank;
 
@@ -562,7 +588,7 @@ int ZUKAN_DETAIL_VOICE_Main(void *unused, int *seq, u16 *heapIdPtr, struct Zukan
         BG_SYS_SetPriority(4, 3);
         ZUKAN_DETAIL_VOICE_CreateNumberActors(heapIdPtr, voice, ctx);
         ZUKAN_DETAIL_VOICE_LoadPokemonGraphics(heapIdPtr, (u8 *)voice, ctx, voice->currentSlot);
-        CLACT_SetActorObjMode(voice->pokemonActor[voice->currentSlot], 1);
+        CLACT_SetActorObjMode((struct Actor *)voice->pokemonActor[voice->currentSlot], 1);
         ZUKAN_DETAIL_VOICE_CreateTimerWindow(heapIdPtr, voice, ctx);
         ZUKAN_DETAIL_VOICE_DrawSpeciesName(heapIdPtr, voice, ctx);
         ZUKAN_DETAIL_VOICE_LoadWindowPalette(heapIdPtr, voice, ctx);
@@ -751,7 +777,7 @@ void ZUKAN_DETAIL_VOICE_UpdateBgmFade(int unused, struct ZukanDetailVoice *voice
 {
     if (voice->bgmPhase == 1) {
         if (GFL_USE_IsBgmFading() == 0) {
-            GFL_USE_SetBgmPaused((void *)1);
+            GFL_USE_SetBgmPaused((unsigned int)1);
             GFL_USE_PushBgm();
             voice->bgmPhase = 2;
         }
@@ -788,18 +814,18 @@ void ZUKAN_DETAIL_VOICE_CreateNumberActors(u16 *heapIdPtr, struct ZukanDetailVoi
         pos.animSeq = row[3];
         pos.priority = row[4];
         voice->actor[i] = CLACT_CreateActor(voice->clactSys, voice->gfxRes[row[5]], voice->gfxRes[row[6]], voice->gfxRes[row[7]], &pos, row[8], *heapIdPtr);
-        CLACT_SetActorDrawEnable(voice->actor[i], 1);
-        CLACT_SetActorObjMode(voice->actor[i], 1);
+        CLACT_SetActorDrawEnable((struct Actor *)voice->actor[i], 1);
+        CLACT_SetActorObjMode((struct Actor *)voice->actor[i], 1);
         i++;
     } while (i < 7);
-    CLACT_SetActorAutoAnim(voice->actor[6], 1);
+    CLACT_SetActorAutoAnim((struct Actor *)voice->actor[6], 1);
 }
 
 void ZUKAN_DETAIL_VOICE_DeleteNumberActors(void *unused, struct ZukanDetailVoice *voice, struct Ov208Ctx *ctx)
 {
     u8 i;
     for (i = 0; i < 7; i++)
-        CLACT_DeleteActor(voice->actor[i]);
+        CLACT_DeleteActor((struct Actor *)voice->actor[i]);
     CLACT_ReleasePalette(voice->gfxRes[1]);
     CLACT_ReleaseCharacter(voice->gfxRes[0]);
     CLACT_ReleaseCellAnim(voice->gfxRes[2]);
@@ -821,7 +847,7 @@ void ZUKAN_DETAIL_VOICE_SetNumberDigits(void *unused, struct ZukanDetailVoice *v
     if (digits[2] > 9) digits[2] = 9;
     digits[3] = hundredths % 10;
     for (i = 0; i < 4; i++)
-        CLACT_SetActorAnimIndex(voice->actor[digitSlots.slot[i]], digits[i]);
+        CLACT_SetActorAnimIndex((struct Actor *)voice->actor[digitSlots.slot[i]], digits[i]);
 }
 
 void ZUKAN_DETAIL_VOICE_LoadPokemonGraphics(u16 *heapIdPtr, u8 *p, struct Ov208Ctx *ctx, u32 slot)
@@ -835,7 +861,7 @@ void ZUKAN_DETAIL_VOICE_LoadPokemonGraphics(u16 *heapIdPtr, u8 *p, struct Ov208C
     zukanSave = ZUKAN_SAVE_GetFromGameData(ZUKAN_DETAIL_COMMON_GetSource(ctx));
     ZUKAN_SAVE_GetViewGenderAndForm(zukanSave, species, &gender, &shiny, &formNo, *heapIdPtr);
     if (species == 327) spindaPersonality = ZUKAN_SAVE_GetSpindaPersonality(zukanSave, spindaPersonality);
-    arc = POKEGRA_OpenHandle(*heapIdPtr);
+    arc = (unsigned int)POKEGRA_OpenHandle((unsigned int)(*heapIdPtr));
     *(u32 *)((u32)p + 0x44 + slot * 4) = POKEGRA_RegisterCgr(arc, species, formNo, gender, shiny, 0, 0, spindaPersonality, 1, *heapIdPtr);
     *(u32 *)((u32)p + 0x3c + slot * 4) = POKEGRA_RegisterPalette(arc, species, formNo, gender, shiny, 0, 0, 1, (u16)(slot << 5), *heapIdPtr);
     *(u32 *)((u32)p + 0x4c + slot * 4) = POKEGRA_RegisterCellAnim(species, formNo, gender, shiny, 0, 0, 2, 1, *heapIdPtr);
@@ -845,14 +871,14 @@ void ZUKAN_DETAIL_VOICE_LoadPokemonGraphics(u16 *heapIdPtr, u8 *p, struct Ov208C
     desc.x = 128; desc.y = 128; desc.z = 0; desc.animSeq = 0; desc.priority = 0; desc.palOffset = 0; desc.flipMode = 0;
     desc.scaleX = 4096; desc.scaleY = 4096; desc.rotation = 0; desc.drawMode = 2;
     *(u32 *)((u32)p + 0x54 + slot * 4) = (u32)CLACT_CreateAffineActor(((struct ZukanDetailVoice *)p)->clactSys, *(u32 *)((u32)p + 0x44 + slot * 4), *(u32 *)((u32)p + 0x3c + slot * 4), *(u32 *)((u32)p + 0x4c + slot * 4), (u32)(&desc), 1, *heapIdPtr);
-    CLACT_SetActorObjMode((struct Obj *)(*(u32 *)((u32)p + 0x54 + slot * 4)), 0);
+    CLACT_SetActorObjMode((struct Actor *)(*(u32 *)((u32)p + 0x54 + slot * 4)), 0);
     ((struct ZukanDetailVoice *)p)->scaleState = 0;
 }
 
 void ZUKAN_DETAIL_VOICE_UnloadPokemonGraphics(void *unused, struct ZukanDetailVoice *voice, struct Ov208Ctx *unused2, u32 slot)
 {
     if (voice->pokemonActor[slot] != 0) {
-        CLACT_DeleteActor(voice->pokemonActor[slot]);
+        CLACT_DeleteActor((struct Actor *)voice->pokemonActor[slot]);
         voice->pokemonActor[slot] = 0;
         CLACT_ReleasePalette(voice->palRes[slot]);
         CLACT_ReleaseCharacter(voice->charRes[slot]);
@@ -871,7 +897,7 @@ void ZUKAN_DETAIL_VOICE_UpdatePokemonScaleAnim(u16 *heapIdPtr, struct ZukanDetai
         break;
     case 1:
         CLACT_GetActorSurfacePos(voice->pokemonActor[voice->currentSlot], (struct PtS *)&pos, 1);
-        CLACT_GetActorScale(voice->pokemonActor[voice->currentSlot], &scale);
+        CLACT_GetActorScale((struct Actor *)voice->pokemonActor[voice->currentSlot], (struct Pair32 *)(&scale));
         scaleY = (float)scale.y / 4096.0f;
         scaleY += 0.01f;
         if (scaleY >= 1.1f) {
@@ -884,11 +910,11 @@ void ZUKAN_DETAIL_VOICE_UpdatePokemonScaleAnim(u16 *heapIdPtr, struct ZukanDetai
         else
             scale.y = (int)(4096.0f * scaleY - 0.5f);
         CLACT_AddActorSurfacePos(voice->pokemonActor[voice->currentSlot], (const struct Vec2 *)(&pos), 1);
-        CLACT_SetActorScale(voice->pokemonActor[voice->currentSlot], &scale);
+        CLACT_SetActorScale((struct Actor *)voice->pokemonActor[voice->currentSlot], (struct Pair32 *)(&scale));
         break;
     case 3:
         CLACT_GetActorSurfacePos(voice->pokemonActor[voice->currentSlot], (struct PtS *)&pos, 1);
-        CLACT_GetActorScale(voice->pokemonActor[voice->currentSlot], &scale);
+        CLACT_GetActorScale((struct Actor *)voice->pokemonActor[voice->currentSlot], (struct Pair32 *)(&scale));
         scaleY = (float)scale.y / 4096.0f - 0.01f;
         if (scaleY <= 1.0f) {
             scaleY = 1.0f;
@@ -902,7 +928,7 @@ void ZUKAN_DETAIL_VOICE_UpdatePokemonScaleAnim(u16 *heapIdPtr, struct ZukanDetai
         else
             scale.y = (int)(4096.0f * scaleY - 0.5f);
         CLACT_AddActorSurfacePos(voice->pokemonActor[voice->currentSlot], (const struct Vec2 *)(&pos), 1);
-        CLACT_SetActorScale(voice->pokemonActor[voice->currentSlot], &scale);
+        CLACT_SetActorScale((struct Actor *)voice->pokemonActor[voice->currentSlot], (struct Pair32 *)(&scale));
         break;
     }
 }
@@ -929,7 +955,7 @@ void ZUKAN_DETAIL_VOICE_ResetPokemonTransform(u16 *heapIdPtr, struct ZukanDetail
     buf.scale[0] = 0x1000;
     buf.scale[1] = 0x1000;
     CLACT_AddActorSurfacePos(voice->pokemonActor[voice->currentSlot], (const struct Vec2 *)buf.pos, 1);
-    CLACT_SetActorScale(voice->pokemonActor[voice->currentSlot], (struct Pair *)buf.scale);
+    CLACT_SetActorScale((struct Actor *)voice->pokemonActor[voice->currentSlot], (struct Pair32 *)buf.scale);
     voice->scaleState = 1;
 }
 
@@ -951,7 +977,7 @@ void ZUKAN_DETAIL_VOICE_CreateTimerWindow(u16 *heapIdPtr, struct ZukanDetailVoic
     voice->nameWin = (struct Descriptor *)BMP_WIN_Create(6, 10, 5, 12, 4, 0, 1);
     voice->namePending = 0;
     ZUKAN_DETAIL_VOICE_ClearTimerWindow(heapIdPtr, voice, ctx);
-    BMP_WIN_TransferChars(voice->nameWin);
+    BMP_WIN_TransferChars((struct BmpWin *)voice->nameWin);
 }
 
 /*
@@ -961,7 +987,7 @@ void ZUKAN_DETAIL_VOICE_DeleteTimerWindow(void *unused, struct ZukanDetailVoice 
 {
     voice->namePending = 0;
     PRINTSYS_QUE_Clear(voice->printQue);
-    BMP_WIN_Delete(voice->nameWin);
+    BMP_WIN_Delete((struct BmpWin *)voice->nameWin);
 }
 
 void ZUKAN_DETAIL_VOICE_DrawSpeciesName(u16 *heapIdPtr, struct ZukanDetailVoice *voice, struct Ov208Ctx *ctx)
@@ -969,11 +995,11 @@ void ZUKAN_DETAIL_VOICE_DrawSpeciesName(u16 *heapIdPtr, struct ZukanDetailVoice 
     struct StrObj *name;
     u16 textWidth;
     u16 winWidth;
-    name = MSGDATA_AllocString(gSpeciesNameBank, ZUKAN_DETAIL_COMMON_GetCurrentEntry(ctx));
-    textWidth = PRINTSYS_MeasureWidestLine(name, voice->font, 0);
-    winWidth = BMP_GetWidth(BMP_WIN_GetBmp(voice->nameWin));
-    PRINTSYS_PrintQueColor(voice->printQue, (u32)BMP_WIN_GetBmp(voice->nameWin), (s16)((u16)((winWidth - textWidth) / 2)), (s16)1, (u32)name, voice->font, 0x3c40);
-    STRBUF_Delete((struct U16Vec *)name);
+    name = (struct StrObj *)MSGDATA_AllocString(gSpeciesNameBank, ZUKAN_DETAIL_COMMON_GetCurrentEntry(ctx));
+    textWidth = PRINTSYS_MeasureWidestLine((struct Strbuf *)name, voice->font, 0);
+    winWidth = BMP_GetWidth(BMP_WIN_GetBmp((struct BmpWin *)voice->nameWin));
+    PRINTSYS_PrintQueColor(voice->printQue, BMP_WIN_GetBmp((struct BmpWin *)voice->nameWin), (s16)((u16)((winWidth - textWidth) / 2)), (s16)1, (struct Strbuf *)name, voice->font, 0x3c40);
+    STRBUF_Delete((struct Strbuf *)name);
     voice->namePending = 1;
     ZUKAN_DETAIL_VOICE_FlushTimerWindow(heapIdPtr, voice, ctx);
 }
@@ -982,18 +1008,18 @@ void ZUKAN_DETAIL_VOICE_ClearTimerWindow(u16 *heapIdPtr, struct ZukanDetailVoice
 {
     voice->namePending = 0;
     PRINTSYS_QUE_Clear(voice->printQue);
-    BMP_Clear(BMP_WIN_GetBmp(voice->nameWin), 0);
+    BMP_Clear(BMP_WIN_GetBmp((struct BmpWin *)voice->nameWin), 0);
 }
 
 void ZUKAN_DETAIL_VOICE_FlushTimerWindow(u16 *heapIdPtr, struct ZukanDetailVoice *voice, struct Ov208Ctx *ctx)
 {
     struct Descriptor *win;
     if (voice->namePending != 0) {
-        if (PRINTSYS_QUE_IsExistTarget(voice->printQue, BMP_WIN_GetBmp(voice->nameWin)) == 0) {
+        if (PRINTSYS_QUE_IsExistTarget(voice->printQue, BMP_WIN_GetBmp((struct BmpWin *)voice->nameWin)) == 0) {
             win = voice->nameWin;
-            BMP_WIN_TransferChars(win);
-            BMP_WIN_MakeScreen((struct Cfg *)win);
-            BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer(win));
+            BMP_WIN_TransferChars((struct BmpWin *)win);
+            BMP_WIN_MakeScreen((struct BmpWin *)win);
+            BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer((struct BmpWin *)win));
             voice->namePending = 0;
         }
     }
@@ -1080,7 +1106,7 @@ void ZUKAN_DETAIL_VOICE_StopVoice(int unused, struct ZukanDetailVoice *voice, st
 void ZUKAN_DETAIL_VOICE_SwitchPokemonSlot(u16 *heapIdPtr, struct ZukanDetailVoice *voice, struct Ov208Ctx *ctx)
 {
     if (voice->pokemonActor[voice->currentSlot])
-        CLACT_SetActorDrawEnable(voice->pokemonActor[voice->currentSlot], 0);
+        CLACT_SetActorDrawEnable((struct Actor *)voice->pokemonActor[voice->currentSlot], 0);
     voice->currentSlot = (voice->currentSlot + 1) % 2;
     ZUKAN_DETAIL_VOICE_ClearTimerWindow(heapIdPtr, voice, ctx);
     ZUKAN_DETAIL_VOICE_UnloadPokemonGraphics(heapIdPtr, voice, ctx, voice->currentSlot);
@@ -1139,7 +1165,7 @@ void ZUKAN_DETAIL_VOICE_CreateWaveformWindow(u16 *heapIdPtr, struct ZukanDetailV
 void ZUKAN_DETAIL_VOICE_DeleteWaveformWindow(void *unused, struct ZukanDetailVoice *voice, struct Ov208Ctx *ctx)
 {
     BMP_Delete((struct Bmp *)voice->waveBmp);
-    BMP_WIN_Delete(voice->waveWin);
+    BMP_WIN_Delete((struct BmpWin *)voice->waveWin);
     GFL_HEAP_Free(voice->waveTileMap);
 }
 
@@ -1164,8 +1190,8 @@ void ZUKAN_DETAIL_VOICE_InitWaveformState(u16 *heapIdPtr, struct ZukanDetailVoic
     voice->waveWidth = 0;
     voice->waveCopied = voice->waveWidth;
     voice->voiceLengthMs = 0;
-    bmp = BMP_WIN_GetBmp(voice->waveWin);
-    BMP_Clear((struct CharBuf *)bmp, 0);
+    bmp = BMP_WIN_GetBmp((struct BmpWin *)voice->waveWin);
+    BMP_Clear((struct Bmp *)bmp, 0);
     BMP_FillRect(bmp, 0, 0x37, 0xee, 1, 0xf);
     ZUKAN_DETAIL_VOICE_UpdateWaveformTiles(heapIdPtr, voice, ctx);
 }
@@ -1177,7 +1203,7 @@ void ZUKAN_DETAIL_VOICE_ScrollWaveform(u16 *heapIdPtr, struct ZukanDetailVoice *
     s16 x;
     s16 *subPixelsPtr;
     s16 drawn;
-    bmp = BMP_WIN_GetBmp(voice->waveWin);
+    bmp = BMP_WIN_GetBmp((struct BmpWin *)voice->waveWin);
     x = (s16)(((s16)(voice->scrollSubPixels + (voice->scrollColumn << 3)) + 0xee) % 0xf8);
     drawn = 0;
     subPixelsPtr = &voice->scrollSubPixels;
@@ -1245,7 +1271,7 @@ void ZUKAN_DETAIL_VOICE_DrawWaveform(u16 *heapIdPtr, struct ZukanDetailVoice *vo
     voice->voiceLengthMs = (u32)(1000.0f * (32768.0f * (float)PM_VOICE_GetDataSize(voice->voiceHandle)
                                            / (float)(int)sampleRate
                                            / (float)(int)frequency) + 0.5f);
-    BMP_Clear((struct CharBuf *)voice->waveBmp, 0);
+    BMP_Clear((struct Bmp *)voice->waveBmp, 0);
     column = 0;
     sample = 0;
     while (sample < PM_VOICE_GetDataSize(voice->voiceHandle)) {
@@ -1293,7 +1319,7 @@ void ZUKAN_DETAIL_VOICE_UpdateWaveformTiles(u16 *heapIdPtr, struct ZukanDetailVo
     u16 index;
     u16 col;
     int base;
-    tile = BMP_WIN_GetCharOffset(voice->waveWin);
+    tile = BMP_WIN_GetCharOffset((struct BmpWin *)voice->waveWin);
     index = 0;
     for (row = 0; row < 15; row++) {
         base = tile + row * 31;
@@ -1302,9 +1328,9 @@ void ZUKAN_DETAIL_VOICE_UpdateWaveformTiles(u16 *heapIdPtr, struct ZukanDetailVo
             index++;
         }
     }
-    BG_SYS_DrawTile(3, (u32)voice->waveTileMap, 1, 2, 31, 15);
+    BG_SYS_DrawTile(3, voice->waveTileMap, 1, 2, 31, 15);
     voice->waveBgDirty = 1;
-    BMP_WIN_TransferChars(voice->waveWin);
+    BMP_WIN_TransferChars((struct BmpWin *)voice->waveWin);
 }
 
 void ZUKAN_DETAIL_VOICE_SetActorsNormalMode(void *unused, struct ZukanDetailVoice *voice, struct Ov208Ctx *ctx)
@@ -1312,12 +1338,12 @@ void ZUKAN_DETAIL_VOICE_SetActorsNormalMode(void *unused, struct ZukanDetailVoic
     u8 i;
     for (i = 0; i < 2; i++) {
         if (voice->pokemonActor[i])
-            CLACT_SetActorObjMode(voice->pokemonActor[i], 0);
+            CLACT_SetActorObjMode((struct Actor *)voice->pokemonActor[i], 0);
     }
     for (i = 0; i < 6; i++)
-        CLACT_SetActorObjMode(voice->actor[i], 0);
-    G2x_SetBlendAlpha_(0x04000050, 4, 0x3f, 0x10, 8);
-    G2x_SetBlendAlpha_(0x04001050, 0, 0x3f, 0xc, 4);
+        CLACT_SetActorObjMode((struct Actor *)voice->actor[i], 0);
+    G2x_SetBlendAlpha_((unsigned int *)0x04000050, 4, 0x3f, 0x10, 8);
+    G2x_SetBlendAlpha_((unsigned int *)0x04001050, 0, 0x3f, 0xc, 4);
 }
 
 void ZUKAN_DETAIL_VOICE_SetActorsAlphaMode(void *unused, struct ZukanDetailVoice *voice, struct Ov208Ctx *ctx)
@@ -1325,10 +1351,10 @@ void ZUKAN_DETAIL_VOICE_SetActorsAlphaMode(void *unused, struct ZukanDetailVoice
     u8 i;
     for (i = 0; i < 2; i++) {
         if (voice->pokemonActor[i])
-            CLACT_SetActorObjMode(voice->pokemonActor[i], 1);
+            CLACT_SetActorObjMode((struct Actor *)voice->pokemonActor[i], 1);
     }
     for (i = 0; i < 6; i++)
-        CLACT_SetActorObjMode(voice->actor[i], 1);
+        CLACT_SetActorObjMode((struct Actor *)voice->actor[i], 1);
     ZUKAN_DETAIL_COMMON_InitBrightnessTarget(voice->blendTop);
     ZUKAN_DETAIL_COMMON_InitBrightnessTarget(voice->blendBottom);
 }

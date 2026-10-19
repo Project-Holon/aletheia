@@ -25,7 +25,7 @@
 struct ProcSystem;
 struct Proc;
 extern void GFL_HEAP_CreateChildHeap(unsigned,unsigned,unsigned);
-extern void *PROCSYS_AllocProcWork(struct ProcSystem *,unsigned,unsigned);
+extern void *PROCSYS_AllocProcWork(struct Proc *proc, unsigned int size, unsigned int heapId);
 extern void MI_CpuFill8(void *,int,int);
 extern void PROCSYS_FreeProcWork(struct Proc *);
 extern void GFL_HEAP_DeleteChecked(unsigned int);
@@ -35,7 +35,7 @@ int ZUKAN_SEARCH_PROC_Delete(struct Proc *obj);
 int ZUKAN_SEARCH_PROC_Update(struct ZukanSearchWork *work);
 extern unsigned char d_021BC8D8[];
 
-int ZUKAN_SEARCH_PROC_Create(struct ProcSystem *obj,int unused,struct ZukanSearchOwner *owner){struct ZukanSearchWork *work;GFL_HEAP_CreateChildHeap(1,126,0x60000);work=PROCSYS_AllocProcWork(obj,16,126);MI_CpuFill8(work,0,16);work->owner=owner;return 1;}
+int ZUKAN_SEARCH_PROC_Create(struct ProcSystem *obj,int unused,struct ZukanSearchOwner *owner){struct ZukanSearchWork *work;GFL_HEAP_CreateChildHeap(1,126,0x60000);work=PROCSYS_AllocProcWork((struct Proc *)obj,16,126);MI_CpuFill8(work,0,16);work->owner=owner;return 1;}
 
 int ZUKAN_SEARCH_PROC_IsDone(int unused1,int unused2,int unused3,struct ZukanSearchWork *work){return ZUKAN_SEARCH_PROC_Update(work)==0;}
 

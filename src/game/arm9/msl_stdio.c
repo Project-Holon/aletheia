@@ -33,6 +33,7 @@
  *   memcpy 0x02092344 arm arm9
  *   strncpy 0x02094860 arm arm9
  *   fwide 0x02096508 arm arm9
+ *   _u32_div_f                   0x0209C2B0  arm
  */
 #include "msl_crt_shared_types.h"
 #include "msl_stdio_shared_types.h"
@@ -100,12 +101,13 @@ typedef struct {
     unsigned char pad[8];
     MslFormatHook *hook;
 } MslFormatHookHolder;
+struct OSMutex;
 
-extern void OS_LockMutex(void *mutex);
+extern void OS_LockMutex(struct OSMutex *mutex);
 
-extern int OS_TryLockMutex(void *mutex);
+extern int OS_TryLockMutex(struct OSMutex *mutex);
 
-extern void OS_UnlockMutex(void *mutex);
+extern void OS_UnlockMutex(struct OSMutex *mutex);
 
 
 int MSL_C_LIB_FlushAllGated(void);
@@ -317,7 +319,7 @@ int fread(void *ptr, u32 memb_size, u32 num_memb, u32 stream)
     u8 *blk = gMslMutexTable + idx * 0x18;
     int r;
 
-    if (OS_TryLockMutex(blk) == 0) {
+    if (OS_TryLockMutex((struct OSMutex *)blk) == 0) {
         gMslRefGen[idx] = gMslRefToken.refs[0x1b];
         gMslRefCount[idx] = 1;
     } else {
@@ -327,14 +329,14 @@ int fread(void *ptr, u32 memb_size, u32 num_memb, u32 stream)
         if (cur == ref) {
             gMslRefCount[idx]++;
         } else {
-            OS_LockMutex(blk);
+            OS_LockMutex((struct OSMutex *)blk);
             gMslRefGen[idx] = gMslRefToken.refs[0x1b];
             gMslRefCount[idx] = 1;
         }
     }
     r = __fread((void *)ptr, memb_size, num_memb, (struct FILE *)stream);
     gMslRefCount[idx]--;
-    if (gMslRefCount[idx] == 0) OS_UnlockMutex(blk);
+    if (gMslRefCount[idx] == 0) OS_UnlockMutex((struct OSMutex *)blk);
     return r;
 }
 
@@ -714,7 +716,7 @@ int ftell(u32 stream)
     u8 *blk = gMslMutexTable + idx * 0x18;
     int r;
 
-    if (OS_TryLockMutex(blk) == 0) {
+    if (OS_TryLockMutex((struct OSMutex *)blk) == 0) {
         gMslRefGen[idx] = gMslRefToken.refs[0x1b];
         gMslRefCount[idx] = 1;
     } else {
@@ -724,14 +726,14 @@ int ftell(u32 stream)
         if (cur == ref) {
             gMslRefCount[idx]++;
         } else {
-            OS_LockMutex(blk);
+            OS_LockMutex((struct OSMutex *)blk);
             gMslRefGen[idx] = gMslRefToken.refs[0x1b];
             gMslRefCount[idx] = 1;
         }
     }
     r = __ftell((struct MslStream *)stream);
     gMslRefCount[idx]--;
-    if (gMslRefCount[idx] == 0) OS_UnlockMutex(blk);
+    if (gMslRefCount[idx] == 0) OS_UnlockMutex((struct OSMutex *)blk);
     return r;
 }
 
@@ -819,7 +821,7 @@ int fseek(u32 stream, u32 pos, u32 whence)
     u8 *blk = gMslMutexTable + idx * 0x18;
     int r;
 
-    if (OS_TryLockMutex(blk) == 0) {
+    if (OS_TryLockMutex((struct OSMutex *)blk) == 0) {
         gMslRefGen[idx] = gMslRefToken.refs[0x1b];
         gMslRefCount[idx] = 1;
     } else {
@@ -829,14 +831,14 @@ int fseek(u32 stream, u32 pos, u32 whence)
         if (cur == ref) {
             gMslRefCount[idx]++;
         } else {
-            OS_LockMutex(blk);
+            OS_LockMutex((struct OSMutex *)blk);
             gMslRefGen[idx] = gMslRefToken.refs[0x1b];
             gMslRefCount[idx] = 1;
         }
     }
     r = __fseek((MslStream *)stream, pos, whence);
     gMslRefCount[idx]--;
-    if (gMslRefCount[idx] == 0) OS_UnlockMutex(blk);
+    if (gMslRefCount[idx] == 0) OS_UnlockMutex((struct OSMutex *)blk);
     return r;
 }
 

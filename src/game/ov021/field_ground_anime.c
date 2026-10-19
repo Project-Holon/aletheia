@@ -85,6 +85,7 @@
  *   FIELD_BUILDMODEL_GetNodeCurrentKindTableEntry  0x0218C990  thumb
  *   EVENT_FIELDMAP_CONTROL_StartFadeIn  0x021BE92C  thumb  ov021
  *   EVENT_FIELDMAP_CONTROL_StartFadeOut  0x021BE8D4  thumb
+ *   _u32_div_f                   0x0209C2B0  arm
  */
 
 typedef unsigned char u8;
@@ -319,15 +320,16 @@ typedef struct GroundAnimeWork {
 
 extern void *GFL_HEAP_Alloc(u16 heapId, u32 size, u32 one, char *file, u32 line);
 extern u32 GFL_HEAP_Free(void *p);
-extern void *ARC_UTIL_LoadMember(u32 arcId, u32 memberId, u32 zero, u16 heapId);
-extern NNSG3dResAnm *NNS_G3dGetAnmByIdx(void *file, u32 idx);
-extern void *G3D_SYSTEM_GetResourceFile(void *resource);
-extern ModelSetRes *NNS_G3dGetMdlSet(void *file);
+extern int ARC_UTIL_LoadMember(int archiveID, int memberIdx, int decompress, unsigned short heapID);
+extern unsigned char *NNS_G3dGetAnmByIdx(unsigned char *pFile, unsigned int resIdx);
+struct G3dResource;
+extern void *G3D_SYSTEM_GetResourceFile(struct G3dResource *res);
+extern s32 NNS_G3dGetMdlSet(s32 pFile);
 extern TexRes *G3D_SYSTEM_GetResourceTex(void *resource);
 extern void MI_CpuFill8(void *p, u32 value, u32 size);
 extern void NNS_G3dAnmObjInit(NNSG3dAnmObj *anmObj, NNSG3dResAnm *pResAnm, u32 pResMdl, u32 pResTex);
 extern void NNS_G3dRenderObjAddAnmObj(void *renderObj, NNSG3dAnmObj *anmObj);
-extern int G3D_SYSTEM_GetResourceSize(void);
+extern unsigned int G3D_SYSTEM_GetResourceSize(void);
 extern void G3D_SYSTEM_InitResourceByFile(void *out, void *file);
 extern s32 NNS_GfdRegisterNewVramTransferTask(void *p, u32 a, u32 b, s32 size);
 extern int NNS_G3dGetResDictIdxByName(const Dict *dict, const void *name);
@@ -335,50 +337,66 @@ extern void *FLDMMDL_FreeAcmd(char *p);
 extern void *FIELDMAP_GetFieldPlayer(void *p);
 extern void *FIELD_PLAYER_GetMmdl(unsigned char *p);
 extern void *GAME_EVENT_Create(void *owner, void *a, void *b, u32 size);
-extern void *GAME_EVENT_GetWork(void *task);
-extern void *GAME_DATA_GetBgmInfo(void *gameData);
-extern void *ENTRANCE_CAMERA_Create(void *p);
+struct GameEvent;
+extern void *GAME_EVENT_GetWork(struct GameEvent *event);
+struct GameData;
+extern u32 GAME_DATA_GetBgmInfo(struct GameData *gd);
+struct FieldMap;
+extern void *ENTRANCE_CAMERA_Create(struct FieldMap *fieldMap);
 extern int EVENT_FIELD_PROCLINK_IsSlotIndexOutOfRange(int a);
+struct FieldCamera;
 
-extern void *FIELDMAP_GetCamera(void *fieldMap);
-extern void *FIELDMAP_GetTaskManager(void *fieldMap);
-extern u16 FIELDMAP_GetZoneId(void *fieldMap);
-extern void EVENT_MAPCHANGE_SetPlayerVanish(void *fieldMap, u32 value);
-extern int FIELD_CAMERA_HasDelay(void *camera);
-extern void FIELD_CAMERA_EndDelay(void *camera);
-extern u32 FIELD_CAMERA_IsDelayEnabled(void *camera);
+extern struct FieldCamera *FIELDMAP_GetCamera(struct FieldMap *fieldMap);
+struct FieldTaskManager;
+extern struct FieldTaskManager *FIELDMAP_GetTaskManager(struct FieldMap *fieldMap);
+extern u16 FIELDMAP_GetZoneId(struct FieldMap *fieldMap);
+extern void EVENT_MAPCHANGE_SetPlayerVanish(struct FieldMap *fieldMap, u32 vanish);
+extern int FIELD_CAMERA_HasDelay(struct FieldCamera *camera);
+extern void FIELD_CAMERA_EndDelay(struct FieldCamera *camera);
+extern u32 FIELD_CAMERA_IsDelayEnabled(struct FieldCamera *camera);
 extern void ENTRANCE_CAMERA_Setup(void *entrance, int *param);
 extern void FIELD_SOUND_SYSTEM_PostFadeIn(void *bgmInfo, void *gameData);
-extern void *EVENT_FIELD_PROCLINK_StartObjAnim(void *gameSystem, void *fieldMap);
-extern void GAME_EVENT_CallEvent(void *gameEvent, void *subEvent);
-extern int ENTRANCE_CAMERA_IsActive(void *entrance);
-extern int ENTRANCE_CAMERA_IsInstant(void *entrance);
-extern void ENTRANCE_CAMERA_Start(void *entrance);
-extern int FIELD_TASK_MANAGER_IsEmpty(void *fieldProc);
-extern void ENTRANCE_CAMERA_Restore(void *entrance);
-extern int FIELD_CAMERA_ReloadSetting(void *camera);
-extern void ENTRANCE_CAMERA_Delete(void *entrance);
-extern void FIELD_SOUND_SYSTEM_PostZoneBgmReplace(void *bgmInfo, void *gameData, u16 zoneId, u8 flag);
+struct GameSystem;
+extern struct GameEvent *EVENT_FIELD_PROCLINK_StartObjAnim(struct GameSystem *gameSystem, void *source);
+extern void GAME_EVENT_CallEvent(struct GameEvent *parent, struct GameEvent *child);
+struct EntranceCamera;
+extern int ENTRANCE_CAMERA_IsActive(struct EntranceCamera *work);
+extern int ENTRANCE_CAMERA_IsInstant(struct EntranceCamera *work);
+extern void ENTRANCE_CAMERA_Start(struct EntranceCamera *work);
+extern int FIELD_TASK_MANAGER_IsEmpty(struct FieldTaskManager *manager);
+extern void ENTRANCE_CAMERA_Restore(struct EntranceCamera *work);
+extern int FIELD_CAMERA_ReloadSetting(struct FieldCamera *camera);
+extern void ENTRANCE_CAMERA_Delete(struct EntranceCamera *work);
+struct FieldSoundSystem;
+extern void FIELD_SOUND_SYSTEM_PostZoneBgmReplace(struct FieldSoundSystem *fieldSound, struct GameData *gameData, u16 zoneId, u8 season);
 extern void GFL_USE_PlaySeDefaultVolume(u32 seId);
-extern u16 FIELD_PLAYER_GetDirDisp(void *player);
-extern void FIELD_PLAYER_GetPos(void *player, VecFx32 *out);
-extern u32 FIELDMAP_GetMoveKind(void *fieldMap);
-extern void FIELD_PLAYER_GetMoveOffsetInDir(void *player, int moveMode, VecFx32 *out);
+struct FieldPlayer;
+extern u16 FIELD_PLAYER_GetDirDisp(struct FieldPlayer *player);
+extern void FIELD_PLAYER_GetPos(struct FieldPlayer *player, VecFx32 *out);
+extern u32 FIELDMAP_GetMoveKind(struct FieldMap *fieldMap);
+extern void FIELD_PLAYER_GetMoveOffsetInDir(struct FieldPlayer *player, s32 dir, s32 *out);
 extern void VEC_MultAdd(int scale, VecFx32 *from, VecFx32 *to, VecFx32 *out);
-extern void FLDMMDL_MOVE_GetMapHeight(void *map, VecFx32 *pos, int *heightOut);
-extern void *FIELDMAP_GetNogridMapper(void *fieldMap);
-extern void *FIELD_NOGRID_MAPPER_GetRailMan(void *fieldMapSub);
-extern int FIELD_PLAYER_GetNogridLocationByDir(void *player, u32 moveMode, void *buf);
+struct Mmdl;
+extern s32 FLDMMDL_MOVE_GetMapHeight(struct Mmdl *mmdl, VecFx32 *pos, s32 *outHeight);
+struct FieldNogridMapper;
+extern struct FieldNogridMapper *FIELDMAP_GetNogridMapper(struct FieldMap *fieldMap);
+struct RailManager;
+extern struct RailManager *FIELD_NOGRID_MAPPER_GetRailMan(struct FieldNogridMapper *mapper);
+extern int FIELD_PLAYER_GetNogridLocationByDir(struct FieldPlayer *player, u32 a, void *b);
 extern void FIELD_RAIL_GetLocationPos(void *rail, int *in, VecFx32 *out);
-extern void *FIELDMAP_GetG3dMapper(void *fieldMap);
-extern void *FIELD_G3D_MAPPER_GetBuildModel(void *mapper);
-extern void *FIELD_BUILDMODEL_CreateNodeNearPos(void *mapper, int mode, VecFx32 *pos);
-extern void FIELD_BUILDMODEL_DeleteNode(void *model);
-extern int FIELD_BUILDMODEL_TryOpenNodeCurrentSlot(void *model);
-extern void FIELD_BUILDMODEL_PlayNodeSlot(void *model, int animIndex, int arg);
-extern int FIELD_BUILDMODEL_GetNodeCurrentKindTableEntry(void *model, u16 *seOut);
-extern void *EVENT_FIELDMAP_CONTROL_StartFadeIn(void *gameSystem, void *fieldMap, int selector, int skipWait, int restoreBg, u8 flagA, u8 flagB);
-extern void *EVENT_FIELDMAP_CONTROL_StartFadeOut(void *gameSystem, void *fieldMap, int selector, int skipWait);
+struct FieldG3dMapper;
+extern struct FieldG3dMapper *FIELDMAP_GetG3dMapper(struct FieldMap *fieldMap);
+struct FieldBuildModel;
+extern struct FieldBuildModel *FIELD_G3D_MAPPER_GetBuildModel(struct FieldG3dMapper *mapper);
+struct BuildModelMan;
+struct BuildModelNode;
+extern struct BuildModelNode *FIELD_BUILDMODEL_CreateNodeNearPos(struct BuildModelMan *man, s32 kind, s32 *pos);
+extern void FIELD_BUILDMODEL_DeleteNode(struct BuildModelNode *node);
+extern int FIELD_BUILDMODEL_TryOpenNodeCurrentSlot(struct BuildModelNode *node);
+extern void FIELD_BUILDMODEL_PlayNodeSlot(struct BuildModelNode *node, s32 slot, s32 mode);
+extern int FIELD_BUILDMODEL_GetNodeCurrentKindTableEntry(struct BuildModelNode *node, s32 out);
+extern struct GameEvent *EVENT_FIELDMAP_CONTROL_StartFadeIn(struct GameSystem *gameSystem, struct FieldMap *fieldMap, s32 effect, s32 skipWait, s32 restoreBg, u8 seasonShown, u8 seasonTarget);
+extern struct GameEvent *EVENT_FIELDMAP_CONTROL_StartFadeOut(struct GameSystem *gameSystem, struct FieldMap *fieldMap, s32 effect, s32 skipWait);
 int FIELD_GROUND_ANIME_MainA(void *task, int *state, GroundAnimeWork *work);
 void *FIELD_GROUND_ANIME_CreateB(GroundAnimeArgs *args);
 void FIELD_GROUND_ANIME_SetupStepsB(GroundAnimeWork *work);
@@ -509,8 +527,8 @@ void FIELD_GROUND_ANIME_AnmSetInit(GroundAnmSet *set, u32 arcId, u32 memberId, u
     u32 i;
     NNSG3dResAnm *pResAnm;
     i = 0;
-    set->file = ARC_UTIL_LoadMember(arcId, memberId, 0, heapId);
-    pResAnm = NNS_G3dGetAnmByIdx(set->file, 0);
+    set->file = (void *)ARC_UTIL_LoadMember(arcId, memberId, 0, heapId);
+    pResAnm = (struct NNSG3dResAnm *)NNS_G3dGetAnmByIdx(set->file, 0);
     set->entries = GFL_HEAP_Alloc(heapId, count * 12, 1, &_FieldGroundAnimeFileName, 0x196);
     set->count = count;
     for (i = 0; i < set->count; i++)
@@ -589,7 +607,7 @@ static inline u32 ModelSetGetFirstModel(ModelSetRes *set)
 u32 FIELD_GROUND_ANIME_AnmEntryBind(GroundAnmEntry *entry, u32 fileRes, u32 texRes, u32 renderObj)
 {
     u32 pResMdl;
-    pResMdl = ModelSetGetFirstModel(NNS_G3dGetMdlSet(G3D_SYSTEM_GetResourceFile((void *)fileRes)));
+    pResMdl = ModelSetGetFirstModel((struct ModelSetRes *)NNS_G3dGetMdlSet((s32)G3D_SYSTEM_GetResourceFile((void *)fileRes)));
     if (texRes != 0)
         texRes = (u32)G3D_SYSTEM_GetResourceTex((void *)texRes);
     else
@@ -626,7 +644,7 @@ int FIELD_GROUND_ANIME_AnmEntryUpdate(GroundAnmEntry *entry, int frame)
 void FIELD_GROUND_ANIME_TexAnmSetInit(GroundTexAnmSet *set, u32 arcId, u32 memberId, void *modelRes, u16 heapId)
 {
     u32 i;
-    set->table = ARC_UTIL_LoadMember(arcId, memberId, 0, heapId);
+    set->table = (struct GroundTexAnmTable *)ARC_UTIL_LoadMember(arcId, memberId, 0, heapId);
     for (i = 0; i < set->table->count; i++)
         FIELD_GROUND_ANIME_TexAnmInit(&set->anms[i], set->table, i, modelRes, heapId);
 }
@@ -1144,7 +1162,7 @@ void *FIELD_GROUND_ANIME_CreateB(GroundAnimeArgs *args)
     task = GAME_EVENT_Create(args->gameSystem, 0, FIELD_GROUND_ANIME_MainB, 0x3C);
     work = GAME_EVENT_GetWork(task);
     work->args = args;
-    work->bgmInfo = GAME_DATA_GetBgmInfo(args->gameData);
+    work->bgmInfo = (void *)GAME_DATA_GetBgmInfo(args->gameData);
     work->buildModel = 0;
     work->frameCounter = 0;
     work->playerMoveMode = FIELD_GROUND_ANIME_GetPlayerMoveMode(args->fieldMap);
@@ -1332,7 +1350,7 @@ void FIELD_GROUND_ANIME_GetGridEntryPos(void *fieldMap, VecFx32 *out)
     player = FIELDMAP_GetFieldPlayer(fieldMap);
     moveMode = FIELD_PLAYER_GetDirDisp(player);
     FIELD_PLAYER_GetPos(player, &playerPos);
-    FIELD_PLAYER_GetMoveOffsetInDir(player, moveMode, &frontPos);
+    FIELD_PLAYER_GetMoveOffsetInDir(player, moveMode, (s32 *)(&frontPos));
     VEC_MultAdd(0x10000, &frontPos, &playerPos, &entryPos);
     FLDMMDL_MOVE_GetMapHeight(FIELD_PLAYER_GetMmdl(player), &entryPos, &height);
     entryPos.y = height;
@@ -1378,7 +1396,7 @@ void FIELD_GROUND_ANIME_AdvanceStep(GroundAnimeWork *work)
 /* Creates the build model (door or ground object) at the entry position. */
 void FIELD_GROUND_ANIME_CreateBuildModel(GroundAnimeWork *work)
 {
-    work->buildModel = FIELD_BUILDMODEL_CreateNodeNearPos(FIELD_G3D_MAPPER_GetBuildModel(FIELDMAP_GetG3dMapper(work->args->fieldMap)), 1, &work->entryPos);
+    work->buildModel = FIELD_BUILDMODEL_CreateNodeNearPos((struct BuildModelMan *)FIELD_G3D_MAPPER_GetBuildModel(FIELDMAP_GetG3dMapper(work->args->fieldMap)), 1, (s32 *)(&work->entryPos));
 }
 
 void FIELD_GROUND_ANIME_DeleteBuildModel(GroundAnimeWork *work)
@@ -1414,7 +1432,7 @@ void FIELD_GROUND_ANIME_PlayBuildModelForward(GroundAnimeWork *work)
     u16 seId;
     if (FIELD_GROUND_ANIME_HasBuildModel(work)) {
         FIELD_BUILDMODEL_PlayNodeSlot(work->buildModel, 0, 0);
-        if (FIELD_BUILDMODEL_GetNodeCurrentKindTableEntry(work->buildModel, &seId)) {
+        if (FIELD_BUILDMODEL_GetNodeCurrentKindTableEntry(work->buildModel, (s32)(&seId))) {
             GFL_USE_PlaySeDefaultVolume(seId);
         }
     }
@@ -1426,7 +1444,7 @@ void FIELD_GROUND_ANIME_PlayBuildModelReverse(GroundAnimeWork *work)
     u16 seId;
     if (FIELD_GROUND_ANIME_HasBuildModel(work)) {
         FIELD_BUILDMODEL_PlayNodeSlot(work->buildModel, 1, 0);
-        if (FIELD_BUILDMODEL_GetNodeCurrentKindTableEntry(work->buildModel, &seId)) {
+        if (FIELD_BUILDMODEL_GetNodeCurrentKindTableEntry(work->buildModel, (s32)(&seId))) {
             GFL_USE_PlaySeDefaultVolume(seId);
         }
     }

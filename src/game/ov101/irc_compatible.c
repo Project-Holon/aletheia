@@ -43,6 +43,11 @@
  *   COMPATIBLE_IRC_SYS_Delete 0x021B6148 thumb ov101
  *   COMPATIBLE_IRC_SYS_BuildProfile 0x021B658C thumb ov101
  *   PROCSYS_Main  0x02031330  arm  arm9
+ *   _fadd                        0x0209C95C  arm
+ *   _ffix                        0x0209C494  arm
+ *   _ffltu                       0x0209BE04  arm
+ *   _fsub                        0x0209CB8C  arm
+ *   _u32_div_f                   0x0209C2B0  arm
  */
 struct Proc;
 struct GameSystem;
@@ -110,10 +115,11 @@ extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int align, const char *file, u
 extern void MI_CpuFill8(void *dst, int value, u32 size);
 extern u32 GFL_HEAP_Free(void *mem);
 extern u32 GFL_NET_IsParentAid(void);
-extern void *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
+struct GameData;
+extern struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
 extern void GFL_HEAP_CreateChildHeap(u32,u32,u32);
 extern void *PROCSYS_AllocProcWork(struct Proc *proc, u32 size, u32 heapId);
-extern void GFL_USE_SetBgmPaused(void *p);
+extern void GFL_USE_SetBgmPaused(u32 value);
 extern int GFL_USE_PushBgm(void);
 extern int GFL_USE_PopBgm(void);
 extern void PROCSYS_FreeProcWork(struct Proc *proc);
@@ -123,11 +129,15 @@ extern void *PROCSYS_Create(int heapId);
 extern unsigned int PROCSYS_Main(void *queue);
 extern void PROCSYS_Delete(void *queue);
 extern void PROCSYS_Push(void *queue, int taskProc, int priority, void *args);
-extern void *GAME_DATA_GetSaveControl(void *gameData);
-extern void *IRC_RANKING_GetFromSave(void *saveBlock);
-extern u32 MYSTATUS_GetId(const u8 *myStatus);
-extern int IRC_RANKING_HasEntry(void *saveBlock, u32 nameKey);
-extern u16 *MYSTATUS_GetName(void *myStatus);
+struct SaveControl;
+extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gd);
+struct IrcRankSave;
+extern struct IrcRankSave *IRC_RANKING_GetFromSave(struct SaveControl *save);
+struct MyStatus;
+extern u32 MYSTATUS_GetId(struct MyStatus *mystatus);
+struct IrcRankEntry;
+extern int IRC_RANKING_HasEntry(struct IrcRankEntry *entries, u32 trainerId);
+extern void *MYSTATUS_GetName(void *myStatus);
 extern u16 STRBUF_GetEosChar(void);
 extern unsigned char IRC_RANKING_GetDateScore(unsigned month, unsigned day, struct DateBytes *date);
 void *COMPATIBLE_IRC_SYS_Create(int context,int playerRecords,int heapId,int offline);
@@ -188,7 +198,7 @@ int IRC_COMPATIBLE_ProcInit(struct Proc *proc, int seq, IrcCompatibleParam *para
     work->view = COMPATIBLE_IRC_SYS_Create(-1, gameData, IRC_COMPATIBLE_HEAP_ID, 0);
     work->isFirstRun = 1;
     IRC_COMPATIBLE_SetHandler(work, IRC_COMPATIBLE_HandleEntry);
-    GFL_USE_SetBgmPaused((void *)1);
+    GFL_USE_SetBgmPaused((u32)1);
     GFL_USE_PushBgm();
     return 1;
 }
@@ -532,7 +542,7 @@ void *IRC_COMPATIBLE_ResultStepCreateArgs(u32 heapId, IrcCompatibleWork *work)
         /* the first call below discards its result; kept as in the original code */
         GAMESYSTEM_GetGameData(work->param->gameSystem);
         saveBlock=IRC_RANKING_GetFromSave(GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData(work->param->gameSystem)));
-        if(IRC_RANKING_HasEntry(saveBlock,MYSTATUS_GetId(partnerName))==0) isNewPartner=1;
+        if(IRC_RANKING_HasEntry(saveBlock,MYSTATUS_GetId((struct MyStatus *)partnerName))==0) isNewPartner=1;
         useBonus=0;
         if(work->secondTestBonus && isNewPartner) useBonus=1;
         COMPATIBLE_IRC_SYS_BuildProfile(work->param->gameSystem,&ownProfile);

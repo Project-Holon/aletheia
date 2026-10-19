@@ -75,42 +75,48 @@
 #include "gsync_common_types.h"
 
 struct Blk;
+struct TimeIcon;
 
-extern void TIME_ICON_Delete(u8 *);
+extern void TIME_ICON_Delete(struct TimeIcon *icon);
+struct BmpWin;
+struct TcblList;
 
-extern u8 *TIME_ICON_CreateNode(u32,void *,u8,u8,u16);
+extern struct TimeIcon *TIME_ICON_CreateNode(struct TcblList *nodeList, struct BmpWin *refWin, u8 fillColor, u8 waitInterval, u16 heapId);
 
-extern u32 BMP_WIN_Delete(void *d);
+extern u32 BMP_WIN_Delete(struct BmpWin *win);
 
 extern int MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
 
 extern void GF_FONT_SetDefaultTextColor(void);
 
-extern void BMP_WIN_ClearScreen(void *d);
+extern void BMP_WIN_ClearScreen(struct BmpWin *win);
 
-extern void BMP_MENUWORK_DrawWindowBorder(void *desc, u32 kind);
+extern void BMP_MENUWORK_DrawWindowBorder(struct BmpWin *desc, u32 commitMode);
 
 extern void ARC_UTIL_UploadPaletteFromArchiveWhole(u32 h, u32 a, u32 c, u32 d, u32 e, u16 heap);
 
-extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
+extern struct BmpWin *BMP_WIN_Create(u32 bgLayer, u32 posX, u32 posY, u8 width, u8 height, u8 palette, u8 allocDir);
 
 extern void *BMP_WIN_GetBmp(void *p);
+struct Bmp;
 
-extern void BMP_Clear(struct CharBuf *buf, u8 value);
+extern void BMP_Clear(struct Bmp *bmp, u8 value);
 
 extern void GF_FONT_SetTextColor(u32 r, u32 g, u32 b);
 
 extern void PRINTSYS_Print(void *x, short y, short z, void *s, void *w);
 
-extern void BMP_WIN_TransferChars(void *d);
+extern void BMP_WIN_TransferChars(struct BmpWin *win);
 
-extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
+extern void BMP_WIN_MakeScreen(struct BmpWin *win);
+struct ButtonMan;
 
-extern void BUTTON_MAN_Delete(void *p);
+extern void BUTTON_MAN_Delete(struct ButtonMan *bm);
 
 extern void BG_SYS_MarkTileDirty(u32 bit);
+struct Strbuf;
 
-extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
+extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
 
 extern struct GfFont *GF_FONT_Create(int archiveId, int fileId, int format, int isFixedWidth, u32 heapId);
 
@@ -118,59 +124,68 @@ extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fi
 
 extern u32 GFL_HEAP_Free(void *p);
 
-extern void *BMP_MENUWORK_LoadFrameGfx(void *, u32, u32, u32);
+extern void *BMP_MENUWORK_LoadFrameGfx(u32 layer, u32 palSlot, u32 frameId, u16 heapId);
 
 extern void BG_SYS_FreeTileRun(u32 layer, u32 offset, u32 size);
 
-extern u32 MSGDATA_Delete(void *rec);
+extern u32 MSGDATA_Delete(struct MsgBank *bank);
 
-extern u32 GF_FONT_Delete(void *ptr);
+extern u32 GF_FONT_Delete(struct GfFont *font);
 
-extern void STRBUF_Delete(struct U16Vec *vec);
+extern void STRBUF_Delete(struct Strbuf *strbuf);
+struct TaskMenuRes;
+struct TaskMenuInitWork;
+struct TaskMenuWork;
 
-extern struct TaskMenu *APP_TASKMENU_OpenMenu(struct TaskMenuTmpl *tmpl, void *res);
+extern struct TaskMenuWork *APP_TASKMENU_OpenMenu(struct TaskMenuInitWork *init, struct TaskMenuRes *res);
+struct TextPrinter;
+struct KeyCursor;
 
-extern void APP_KEYCURSOR_Update(struct Ctx *ctx, void *p, void *cell);
+extern void APP_KEYCURSOR_Update(struct KeyCursor *cursor, struct TextPrinter *printStream, void *win);
 
-extern void PRINTSYS_PrintStreamDelete(struct Rec3 *p);
+extern void PRINTSYS_PrintStreamDelete(struct TextPrinter *printer);
 
 extern signed char MSG_SPEED_GetWait(void);
 
 extern void *PRINTSYS_PrintStream(void *, int, int, void *, void *, void *, void *, int, u16, int);
 
-extern void BMP_MENUWORK_DrawWindow(void *win, int commitMode, int tileBase, int palette);
+extern void BMP_MENUWORK_DrawWindow(struct BmpWin *win, s32 commitMode, u16 tileBase, u32 palette);
 
 extern void BMP_WIN_Init(u16);
 
 extern void GF_FONT_InitTextColor(void);
 
 extern void *GFL_HEAP_Alloc(u32,u32,int,const char *,u16);
+struct TcblSystem;
 
-extern struct Tcbl *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
+extern struct TcblSystem *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
 
-extern u32 APP_KEYCURSOR_CreateDefault(u32,u32,u32,u32);
+extern struct KeyCursor *APP_KEYCURSOR_CreateDefault(u32 id, u32 isLive, u32 isFlip, u16 heapId);
+struct PrintQueue;
 
-extern u32 PRINTSYS_QUE_Create(void *);
+extern struct PrintQueue *PRINTSYS_QUE_Create(u32 heap);
+struct GFont;
 
-extern struct TaskMenuRes *APP_TASKMENU_RES_Create(u16 bgFrame, u16 palNo, u32 font, u32 printQue, u16 heap);
+extern struct TaskMenuRes *APP_TASKMENU_RES_Create(u16 bgFrame, u16 palNo, struct GFont *font, struct PrintQueue *printQue, u16 heapId);
 
-extern void TCBL_Main(struct Tcbl *p);
+extern void TCBL_Main(struct TcblSystem *tcbl);
 
-extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
+extern u32 PRINTSYS_QUE_Main(struct PrintQueue *queue);
 
-extern int APP_KEYCURSOR_Delete(int cursor);
+extern void APP_KEYCURSOR_Delete(struct KeyCursor *cursor);
 
-extern void PRINTSYS_QUE_Clear(struct PrintSys *p);
+extern void PRINTSYS_QUE_Clear(struct PrintQueue *queue);
 
-extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
+extern void PRINTSYS_QUE_Delete(struct PrintQueue *queue);
 
-extern void TCBL_Destroy(struct S02031140 *p);
+extern void TCBL_Destroy(struct TcblSystem *tcbl);
 
-extern u32 APP_TASKMENU_RES_Delete(struct TaskMenuState *s);
+extern void APP_TASKMENU_RES_Delete(struct TaskMenuRes *res);
 
 extern void BMP_WIN_Exit(void);
+struct WordSet;
 
-extern struct WordSet *WORDSET_CreateDefault(u32 heap);
+extern struct WordSet *WORDSET_CreateDefault(u16 heapId);
 
 extern u32 WORDSET_Delete(struct WordSet *p);
 
@@ -180,9 +195,10 @@ extern void WORDSET_SetSlotMonNickname(struct WordSet *,u32,void *);
 
 extern void WORDSET_SetSlotNumber(struct WordSet *,u32,u32,u32,u32,u32);
 
-extern void WORDSET_CopyTaggedText(struct WordSet *,void *,void *);
+extern void WORDSET_CopyTaggedText(struct WordSet *words, struct Strbuf *dst, struct Strbuf *src);
+struct PrintStreamCtrl;
 
-extern s32 PRINTSYS_CTRL_Update(struct Blk *blk, void *h);
+extern s32 PRINTSYS_CTRL_Update(struct PrintStreamCtrl *ctrl, struct TextPrinter *stream);
 
 extern void G2x_SetBlendBrightness_(u32 addr, int plane, int brightness);
 
@@ -239,15 +255,15 @@ GsyncMessageWork *GSYNC_MESSAGE_InitSystem(u32 heap, u32 msgBank)
     BMP_WIN_Init(work->heap);
     GF_FONT_InitTextColor();
     work->tcbl = TCBL_Create(work->heap, work->heap, 2, 0);
-    work->printQue = (void *)PRINTSYS_QUE_Create((void *)(u32)work->heap);
+    work->printQue = (void *)PRINTSYS_QUE_Create((u32)(u32)work->heap);
     work->msgBuf = STRBUF_Create(400, work->heap);
     work->tmpBuf = STRBUF_Create(400, work->heap);
     work->font = GF_FONT_Create(23, 0, 0, 0, work->heap);
     work->msgData = MSGDATA_CreateFromArchive(0, 2, (u16)msgBank, work->heap);
     work->keyCursor = (void *)APP_KEYCURSOR_CreateDefault(15, 1, 1, work->heap);
-    work->taskMenuRes = APP_TASKMENU_RES_Create(5, 9, (u32)work->font, (u32)work->printQue, work->heap);
-    work->bg5Frame = (u32)BMP_MENUWORK_LoadFrameGfx((void *)5, 12, 0, work->heap);
-    work->bg6Frame = (u32)BMP_MENUWORK_LoadFrameGfx((void *)6, 12, 0, work->heap);
+    work->taskMenuRes = APP_TASKMENU_RES_Create(5, 9, (struct GFont *)work->font, (struct PrintQueue *)work->printQue, work->heap);
+    work->bg5Frame = (u32)(u32)BMP_MENUWORK_LoadFrameGfx((u32)5, 12, 0, work->heap);
+    work->bg6Frame = (u32)(u32)BMP_MENUWORK_LoadFrameGfx((u32)6, 12, 0, work->heap);
     ARC_UTIL_UploadPaletteFromArchiveWhole(23, 5, 4, 352, 32, work->heap);
     ARC_UTIL_UploadPaletteFromArchiveWhole(23, 5, 0, 352, 32, work->heap);
     return work;
@@ -280,7 +296,7 @@ void GSYNC_MESSAGE_ExitSystem(GsyncMessageWork *work)
     high = work->bg6Frame >> 16;
     BG_SYS_FreeTileRun((int)6, (u16)(work->bg6Frame), (u16)high);
     GSYNC_MESSAGE_DeleteButtonManager(work);
-    APP_KEYCURSOR_Delete((int)(work->keyCursor));
+    APP_KEYCURSOR_Delete((struct KeyCursor *)(work->keyCursor));
     WORDSET_Delete(work->wordSet);
     GF_FONT_SetDefaultTextColor();
     MSGDATA_Delete(work->msgData);
@@ -336,7 +352,7 @@ int GSYNC_MESSAGE_UpdateStream(GsyncMessageWork *work)
 {
     if (work->printStream) {
         APP_KEYCURSOR_Update(work->keyCursor, work->printStream, work->mainWindow);
-        if (!PRINTSYS_CTRL_Update((struct Blk *)work->streamWait, work->printStream))
+        if (!PRINTSYS_CTRL_Update((struct PrintStreamCtrl *)work->streamWait, work->printStream))
             return 0;
         PRINTSYS_PrintStreamDelete(work->printStream);
         work->printStream = 0;
@@ -380,7 +396,7 @@ int GSYNC_MESSAGE_OpenYesNoMenu(GsyncMessageWork *work, int layout)
     work->menuItems[1].text = STRBUF_Create(100, work->heap);
     MSGDATA_ReadString(work->msgData, 5, work->menuItems[1].text);
     work->menuItems[1].color = 0x39e0;
-    result = (int)APP_TASKMENU_OpenMenu(&tmpl, work->taskMenuRes);
+    result = (int)APP_TASKMENU_OpenMenu((struct TaskMenuInitWork *)(&tmpl), work->taskMenuRes);
     STRBUF_Delete(work->menuItems[0].text);
     STRBUF_Delete(work->menuItems[1].text);
     G2x_SetBlendBrightness_(0x04001050, 9, -8);
@@ -438,7 +454,7 @@ void GSYNC_MESSAGE_RestartTimeIcon(GsyncMessageWork *work)
         TIME_ICON_Delete(work->timeIcon);
         work->timeIcon = 0;
     }
-    work->timeIcon = TIME_ICON_CreateNode((u32)work->tcbl, work->mainWindow, 15, 16, work->heap);
+    work->timeIcon = TIME_ICON_CreateNode((struct TcblList *)work->tcbl, work->mainWindow, 15, 16, work->heap);
 }
 
 void GSYNC_MESSAGE_PrintDefault(GsyncMessageWork *work, int value)

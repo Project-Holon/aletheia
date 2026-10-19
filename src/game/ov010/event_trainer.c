@@ -27,22 +27,26 @@ typedef signed int     s32;
 typedef struct RecordHead24 {
     int word[6];
 } RecordHead24;
+struct EventWork;
 
-extern u32 ZONEDATA_CheckEventFlag(void *bitmap, s32 id);
+extern u32 ZONEDATA_CheckEventFlag(struct EventWork *ev, s32 flagId);
 
-extern void ZONEDATA_SetEventFlag(char *, int);
+extern void ZONEDATA_SetEventFlag(struct EventWork *ev, s32 flagId);
 
-extern void ZONEDATA_ResetEventFlag(char *ev, int flagId);
+extern void ZONEDATA_ResetEventFlag(struct EventWork *ev, s32 flagId);
+struct GameEvent;
 
-extern int SCRIPT_SYS_GetEventScriptWork(int);
+extern void *SCRIPT_SYS_GetEventScriptWork(struct GameEvent *event);
+struct ScriptWork;
+struct ScriptTrainerEntry;
 
-extern char *SCRIPT_WORK_GetTrainerEntry(char *p, int i);
+extern struct ScriptTrainerEntry *SCRIPT_WORK_GetTrainerEntry(struct ScriptWork *work, s32 index);
 
 extern u32 TPOKE_DATA_GetRecordField(void *a, u32 idx);
 
 void EVENT_TRAINER_SetScriptTrainerEntry(int scrcmdWork, int index, RecordHead24 *src)
 {
-    int *entry = (int *)SCRIPT_WORK_GetTrainerEntry((char *)SCRIPT_SYS_GetEventScriptWork(scrcmdWork), index);
+    int *entry = (int *)SCRIPT_WORK_GetTrainerEntry((struct ScriptWork *)SCRIPT_SYS_GetEventScriptWork((struct GameEvent *)scrcmdWork), index);
 
     *(RecordHead24 *)entry = *src;
     entry[6] = 0;
@@ -86,6 +90,6 @@ int EVENT_TRAINER_GetBattleType(int saveData)
  */
 unsigned EVENT_TRAINER_CheckDefeatedFlag(void *flagSet, unsigned flagOffset) { return ZONEDATA_CheckEventFlag(flagSet, (u16)(flagOffset + 1420)); }
 
-void EVENT_TRAINER_SetDefeatedFlag(char *flagSet, unsigned flagOffset) { ZONEDATA_SetEventFlag(flagSet, (u16)(flagOffset + 1420)); }
+void EVENT_TRAINER_SetDefeatedFlag(char *flagSet, unsigned flagOffset) { ZONEDATA_SetEventFlag((struct EventWork *)flagSet, (u16)(flagOffset + 1420)); }
 
-void EVENT_TRAINER_ClearDefeatedFlag(char *flagSet, unsigned flagOffset) { ZONEDATA_ResetEventFlag(flagSet, (u16)(flagOffset + 1420)); }
+void EVENT_TRAINER_ClearDefeatedFlag(char *flagSet, unsigned flagOffset) { ZONEDATA_ResetEventFlag((struct EventWork *)flagSet, (u16)(flagOffset + 1420)); }

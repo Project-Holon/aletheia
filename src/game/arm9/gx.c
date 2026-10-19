@@ -53,7 +53,7 @@ typedef long fx32;
 extern void GX_InitGXState(void);
 extern s32 OS_GetLockID(void);
 extern void OS_Terminate(void);
-extern void MI_NDmaFill(u32 ndmaNo, void *dest, u32 data, u32 size);
+extern void MI_NDmaFill(s32 ch, s32 dst, s32 data, s32 size);
 extern void MIi_DmaFill32(u32 dmaNo, void *dest, u32 data, u32 size, BOOL dmaEnable);
 extern void MIi_CpuClear32(u32 data, void *destp, u32 size);
 void GX_Init(void);
@@ -128,9 +128,9 @@ void GX_Init(void)
 
     if (sIsDispOn.dmaId != GX_DMA_NOT_USE) {
         if (sIsDispOn.dmaId > 3) {
-            MI_NDmaFill(sIsDispOn.dmaId - 4, (void *)REG_BG0CNT_ADDR, 0, 0x60);
+            MI_NDmaFill((s32)(sIsDispOn.dmaId - 4), (s32)REG_BG0CNT_ADDR, 0, 0x60);
             reg_GX_MASTER_BRIGHT = 0;
-            MI_NDmaFill(sIsDispOn.dmaId - 4, (void *)REG_DB_DISPCNT_ADDR, 0, 0x70);
+            MI_NDmaFill((s32)(sIsDispOn.dmaId - 4), (s32)REG_DB_DISPCNT_ADDR, 0, 0x70);
         } else {
             MIi_DmaFill32(sIsDispOn.dmaId, (void *)REG_BG0CNT_ADDR, 0, 0x60, 1);
             reg_GX_MASTER_BRIGHT = 0;

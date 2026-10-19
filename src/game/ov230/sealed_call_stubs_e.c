@@ -20,7 +20,7 @@
 
 typedef unsigned int u32;
 
-extern void LOADER_DECRYPT_DecodeBlocks(void);
+extern void LOADER_DECRYPT_DecodeBlocks(u32 *desc);
 
 /* hand-written in the original: position-independent call stub, pops the dispatcher address out of its own parameter block, which follows it */
 asm u32 OV230_CallSealedBody14(void (*caller)(void), void (*target)(void), u32 arg)

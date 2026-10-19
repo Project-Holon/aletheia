@@ -117,26 +117,31 @@ struct Table { u8 pad00[0x1c]; u32 count; struct Entry arr[]; };
 extern void *NNS_SndArcGetSeqInfo(int index);
 extern void *NNS_SndArcGetSeqArcInfo(int index);
 extern u32   NNS_SndArcGetFileAddress(u32 a);
-extern struct Node *NNSi_SndPlayerAllocSeqPlayer(struct SndTrack *o, s32 idx, s32 pri);
-extern void *NNSi_SndPlayerAllocHeap(s32 idx, void *owner);
-extern u32   NNSi_SndArcLoadBank(u32 a, u32 b, u32 c, u32 d, u32 *out);
-extern u32 NNSi_SndArcLoadSeq(u32 a, u32 b, u32 c, u32 d, u32 *out);
-extern void  NNSi_SndPlayerFreeSeqPlayer(void *h);
-extern void NNSi_SndPlayerStartSeqPlayer(struct SndTrack *o, const void *seqBase, u32 seqOffset, const void *bankData);
-extern void NNS_SndHandleSetInitialVolume(struct SndTrack *o, u8 v);
-extern void NNS_SndHandlePause(struct SndTrack *o, u32 v);
+struct SndHandle;
+struct SndSeqPlayer;
+extern struct SndSeqPlayer *NNSi_SndPlayerAllocSeqPlayer(struct SndHandle *handle, s32 playerNo, s32 priority);
+struct NNSSndHeap;
+extern struct NNSSndHeap *NNSi_SndPlayerAllocHeap(s32 playerNo, struct SndSeqPlayer *seqPlayer);
+extern u32   NNSi_SndArcLoadBank(u32 bankNo, u32 loadFlag, struct NNSSndHeap *heap, u32 isSetAddress, u32 *outAddress);
+extern u32 NNSi_SndArcLoadSeq(u32 seqNo, u32 loadFlag, struct NNSSndHeap *heap, u32 isSetAddress, u32 *outAddress);
+extern void  NNSi_SndPlayerFreeSeqPlayer(struct SndSeqPlayer *seqPlayer);
+extern void NNSi_SndPlayerStartSeqPlayer(struct SndSeqPlayer *seqPlayer, void *seqBase, u32 seqOffset, void *bankData);
+extern void NNS_SndHandleSetInitialVolume(struct SndHandle *handle, u8 volume);
+extern void NNS_SndHandlePause(struct SndHandle *handle, u32 value);
 extern void  NNSi_SndHandleSetSeqNo(u32 a, u32 b);
-extern void NNSi_SndHandleSetSeqArc(struct SndTrack *o, u32 a, u32 b);
+extern void NNSi_SndHandleSetSeqArc(struct SndHandle *handle, u32 seqArcNo, u32 seqArcIndex);
 extern void NNS_SndStrmStart(SndStrm *a);
 extern void NNS_SndStrmSetVolume(SndStrm *, s32);
 extern s32 NNS_SndFaderGet(SndFader *o);
 extern void NNS_SndFaderUpdate(SndFader *obj);
 extern int NNS_SndFaderIsFinished(SndFader *obj);
-extern void OS_LockMutex(void *p);
-extern void OS_UnlockMutex(void *p);
+struct OSMutex;
+extern void OS_LockMutex(struct OSMutex *mutex);
+extern void OS_UnlockMutex(struct OSMutex *mutex);
 extern void NNSi_SndStrmStopIfSetup(SndStrm *o);
 extern void NNS_SndStrmFreeChannel(SndStrm *x);
-extern void NNS_FndAppendListObject(void *list, void *object);
+struct NNSFndList;
+extern void NNS_FndAppendListObject(struct NNSFndList *list, void *object);
 extern u32  OS_DisableInterrupts(void);
 extern void OS_RestoreInterrupts(u32);
 extern void *NNS_FndGetNextListObject(struct DList *list, void *elem);
@@ -262,22 +267,22 @@ u32 NNSi_SndArcPlayerStartSeq(u32 handle, u32 playerNo, u32 bankNo, u32 priority
     struct SndBlock *block;
     u32 slot;
 
-    seqPlayer = NNSi_SndPlayerAllocSeqPlayer((struct SndTrack *)handle, playerNo, priority);
+    seqPlayer = NNSi_SndPlayerAllocSeqPlayer((struct SndHandle *)handle, playerNo, priority);
     if (seqPlayer == 0) {
         return 0;
     }
     heap = (u32)NNSi_SndPlayerAllocHeap(playerNo, seqPlayer);
-    if (NNSi_SndArcLoadBank(bankNo, 6, heap, 0, &slot) != 0) {
+    if ((struct NNSSndHeap *)NNSi_SndArcLoadBank(bankNo, 6, (struct NNSSndHeap *)heap, 0, &slot) != 0) {
         NNSi_SndPlayerFreeSeqPlayer(seqPlayer);
         return 0;
     }
-    if (NNSi_SndArcLoadSeq(seqNo, 1, heap, 0, (u32 *)(&block)) != 0) {
+    if ((struct NNSSndHeap *)NNSi_SndArcLoadSeq(seqNo, 1, (struct NNSSndHeap *)heap, 0, (u32 *)(&block)) != 0) {
         NNSi_SndPlayerFreeSeqPlayer(seqPlayer);
         return 0;
     }
-    NNSi_SndPlayerStartSeqPlayer(seqPlayer, (u32 *)((u8 *)block + block->dataOffset), 0, (const void *)slot);
-    NNS_SndHandleSetInitialVolume((struct SndTrack *)handle, entry->initialVolume);
-    NNS_SndHandlePause((struct SndTrack *)handle, entry->pauseFlag);
+    NNSi_SndPlayerStartSeqPlayer(seqPlayer, (void *)((u8 *)block + block->dataOffset), 0, (void *)slot);
+    NNS_SndHandleSetInitialVolume((struct SndHandle *)handle, entry->initialVolume);
+    NNS_SndHandlePause((struct SndHandle *)handle, entry->pauseFlag);
     NNSi_SndHandleSetSeqNo(handle, seqNo);
     return 1;
 }
@@ -327,22 +332,22 @@ u32 NNSi_SndArcPlayerStartSeqArc(u32 handle, u32 playerNo, u32 bankNo, u32 prior
     u32 heap;
     u32 slot;
 
-    seqPlayer = NNSi_SndPlayerAllocSeqPlayer((struct SndTrack *)handle, playerNo, priority);
+    seqPlayer = NNSi_SndPlayerAllocSeqPlayer((struct SndHandle *)handle, playerNo, priority);
     if (seqPlayer == 0) {
         return 0;
     }
 
     heap = (u32)NNSi_SndPlayerAllocHeap(playerNo, seqPlayer);
 
-    if (NNSi_SndArcLoadBank(bankNo, 6, heap, 0, &slot) != 0) {
+    if ((struct NNSSndHeap *)NNSi_SndArcLoadBank(bankNo, 6, (struct NNSSndHeap *)heap, 0, &slot) != 0) {
         NNSi_SndPlayerFreeSeqPlayer(seqPlayer);
         return 0;
     }
 
-    NNSi_SndPlayerStartSeqPlayer(seqPlayer, (u32 *)((u8 *)block + block->dataOffset), entry->seqOffset, (const void *)slot);
-    NNS_SndHandleSetInitialVolume((struct SndTrack *)handle, entry->initialVolume);
-    NNS_SndHandlePause((struct SndTrack *)handle, entry->pauseFlag);
-    NNSi_SndHandleSetSeqArc((struct SndTrack *)handle, arcIndex, index);
+    NNSi_SndPlayerStartSeqPlayer(seqPlayer, (void *)((u8 *)block + block->dataOffset), entry->seqOffset, (void *)slot);
+    NNS_SndHandleSetInitialVolume((struct SndHandle *)handle, entry->initialVolume);
+    NNS_SndHandlePause((struct SndHandle *)handle, entry->pauseFlag);
+    NNSi_SndHandleSetSeqArc((struct SndHandle *)handle, arcIndex, index);
     return 1;
 }
 
@@ -479,20 +484,20 @@ void NNSi_SndTrackStop(struct SndTrack *track)
 {
     u8 *p;
 
-    OS_LockMutex(g_02150178);
+    OS_LockMutex((struct OSMutex *)g_02150178);
     p = *(u8 **)(g_0214EA90 + 4);
     if (p != 0)
-        OS_LockMutex(p + 0x10c8);
+        OS_LockMutex((struct OSMutex *)(p + 0x10c8));
     if (track->followFader != 0)
         NNSi_SndStrmStopIfSetup(&track->stream);
     if (track->active != 0)
         track->releaseCallback(track);
     NNSi_SndTrackClose(track);
-    OS_UnlockMutex(g_02150178);
+    OS_UnlockMutex((struct OSMutex *)g_02150178);
     p = *(u8 **)(g_0214EA90 + 4);
     if (p == 0)
         return;
-    OS_UnlockMutex(p + 0x10c8);
+    OS_UnlockMutex((struct OSMutex *)(p + 0x10c8));
 }
 
 
@@ -563,7 +568,7 @@ void NNSi_SndTrackListUnlinkByValue(void *list, u32 value)
 void NNSi_SndTrackListUnlinkElem(void *elem)
 {
     u32 intrState = OS_DisableInterrupts();
-    NNS_FndAppendListObject(g_0214EA90 + 0xc, elem);
+    NNS_FndAppendListObject((struct NNSFndList *)(g_0214EA90 + 0xc), elem);
     OS_RestoreInterrupts(intrState);
 }
 

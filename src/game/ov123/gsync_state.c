@@ -210,15 +210,16 @@ struct Sub020075B0Entry;
 
 struct BigObj;
 
-extern void WIPE_SYS_Start(void *, u32, u32, u32, u32, u32, u32);
+extern void WIPE_SYS_Start(void *divisionMode, unsigned int mainPattern, unsigned int subPattern, unsigned short color, unsigned int frames, unsigned int wait, unsigned int heapId);
 
 extern int GFL_NET_GetRunState(void);
+struct TaskMenuWork;
 
-extern u32 APP_TASKMENU_IsFinish(struct TaskMenu *m);
+extern u32 APP_TASKMENU_IsFinish(struct TaskMenuWork *menu);
 
-extern u8 APP_TASKMENU_GetCursorPos(const u8 *p);
+extern u8 APP_TASKMENU_GetCursorPos(struct TaskMenuWork *menu);
 
-extern void APP_TASKMENU_CloseMenu(struct TaskMenu *m);
+extern void APP_TASKMENU_CloseMenu(struct TaskMenuWork *menu);
 
 extern void MI_CpuCopy8(const void *, void *, u32);
 
@@ -229,12 +230,14 @@ extern u32 WIPE_SYS_EndCheck(void);
 extern int TOUCHPANEL_GetTrg(void);
 
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
+struct GameData;
 
-extern int GAME_DATA_SaveMain(u8 *p);
+extern int GAME_DATA_SaveMain(struct GameData *gd);
 
-extern int GAME_DATA_SaveStart(int gd);
+extern int GAME_DATA_SaveStart(struct GameData *gd);
+struct SaveControl;
 
-extern void *GAME_DATA_GetSaveControl(struct Big *p);
+extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gd);
 
 extern void GFL_HEAP_CreateChildHeap(u32,u32,u32);
 
@@ -246,7 +249,7 @@ extern void *GFL_HEAP_Alloc(u32,u32,int,const char *,u16);
 
 extern void GFL_NET_RefreshWmIconAtTopRight(u32,u32);
 
-extern void APP_TASKMENU_UpdateMenu(void *);
+extern void APP_TASKMENU_UpdateMenu(struct TaskMenuWork *menu);
 
 extern void WIPE_SetBrightnessFadeOut(unsigned int,unsigned int);
 
@@ -264,71 +267,78 @@ extern void GF_OVERLAY_Unload(int);
 
 extern u32 GFL_USE_GetRandom(u32 range);
 
-extern u32 POKE_TOOL_NormalizeForm(u32 a, u32 n);
+extern u32 POKE_TOOL_NormalizeForm(unsigned short species, unsigned short form);
 
 extern u32 KEY_GetTrg(void);
 
-extern void GAME_DATA_SaveCancel(char *p);
+extern void GAME_DATA_SaveCancel(struct GameData *gd);
+struct _NHTTPRapSession;
 
-extern void NHTTP_RAP_DeleteConnection(u8 *p);
+extern void NHTTP_RAP_DeleteConnection(struct _NHTTPRapSession *session_p);
 
 extern int GFL_USE_PopBgm(void);
 
-extern void GFL_USE_SetBgmPaused(void *p);
+extern void GFL_USE_SetBgmPaused(unsigned int value);
 
 extern void GFL_USE_FadeInBgmFull(u32 v);
 
 extern int GFL_USE_PushBgm(void);
 
-extern void GFL_USE_CancelChangeAndPlayBgm(int, int);
+extern void GFL_USE_CancelChangeAndPlayBgm(unsigned int bgmNo, unsigned int trackMask);
+struct GameSyncData;
 
-extern struct Sub02009448Obj *GAME_SYNC_GetBlock(void *sys);
+extern struct GameSyncData *GAME_SYNC_GetBlock(struct SaveControl *saveControl);
 
-extern int BOX_SAVEDATA_FindFreeSlot(void *save, int *pbox, int *pslot);
+extern int BOX_SAVEDATA_FindFreeSlot(struct GameData *gameData, int *pBox, int *pSlot);
 
 extern u32 POKE_TOOL_GetPartyParamSize(void);
+struct CgearSaveBlock;
 
-extern u8 *BLOCK20_SAVEDATA_GetPokemon(struct Sub02009210Obj *obj);
+extern u8 *BLOCK20_SAVEDATA_GetPokemon(struct CgearSaveBlock *block);
+struct PokemonParam;
 
-extern u32 POKE_TOOL_GetPartyValue(void *p, u32 id, u32 v);
+extern u32 POKE_TOOL_GetPartyValue(struct PokemonParam *pp, unsigned int paramId, unsigned int arg);
 
-extern void POKE_TOOL_SetLevelAndRecalc(void *p, u32 v);
+extern void POKE_TOOL_SetLevelAndRecalc(struct PokemonParam *mon, unsigned int level);
+struct BoxPokemon;
 
-extern void *POKE_TOOL_GetBoxParam(void *p);
+extern struct BoxPokemon *POKE_TOOL_GetBoxParam(struct PokemonParam *pp);
 
-extern int BOX_SAVEDATA_AddPokemon(void **save, const struct Sub02007454Entry *src);
+extern int BOX_SAVEDATA_AddPokemon(struct GameData *gameData, struct BoxPokemon *mon);
 
-extern void BLOCK20_SAVEDATA_SetActive(struct Sub02009210Obj *obj, u8 value);
+extern void BLOCK20_SAVEDATA_SetActive(struct CgearSaveBlock *block, unsigned char value);
 
-extern void BLOCK20_SAVEDATA_SetSavedValue(struct Sub02009210Obj *obj, s32 value);
+extern void BLOCK20_SAVEDATA_SetSavedValue(struct CgearSaveBlock *block, int value);
 
-extern int POKE_TOOL_CastToBoxParam(void *);
+extern struct PokemonParam *POKE_TOOL_CastToBoxParam(struct PokemonParam *mon);
 
-extern int NHTTP_RAP_GetResultCode(u8 *p);
+extern int NHTTP_RAP_GetResultCode(struct _NHTTPRapSession *session_p);
 
-extern int NHTTP_RAP_PollConnection(u8 *p);
+extern int NHTTP_RAP_PollConnection(struct _NHTTPRapSession *session_p);
 
-extern u8 *NHTTP_RAP_GetRecvBuffer(u8 *p);
+extern char *NHTTP_RAP_GetRecvBuffer(struct _NHTTPRapSession *session_p);
 
-extern int NHTTP_RAP_CreateRequest(int index, u8 *p);
+extern int NHTTP_RAP_CreateRequest(int index, struct _NHTTPRapSession *session_p);
+struct _NHTTPConnection;
 
-extern int NHTTP_RAP_GetConnection(char *p);
+extern struct _NHTTPConnection *NHTTP_RAP_GetConnection(struct _NHTTPRapSession *session_p);
 
-extern int NHTTP_RAP_StartConnection(u8 *p);
+extern int NHTTP_RAP_StartConnection(struct _NHTTPRapSession *session_p);
 
 extern int NHTTP_AddPostDataRaw(void *handle, void *value_p, unsigned long length);
 
-extern void BLOCK20_SAVEDATA_SetMode(struct Sub02009210Obj *obj, u8 value);
+extern void BLOCK20_SAVEDATA_SetMode(struct CgearSaveBlock *block, unsigned char value);
 
-extern void BLOCK20_SAVEDATA_SetEntry(struct Sub02009210Obj *obj, int i, u16 a, u8 b);
+extern void BLOCK20_SAVEDATA_SetEntry(struct CgearSaveBlock *block, int index, unsigned short id, unsigned char value);
 
-extern int GAME_DATA_PartSaveMain(char *p, int blockId);
+extern int GAME_DATA_PartSaveMain(struct GameData *gd, int blockId);
 
-extern void SAVE_CONTROL_DeleteExtraSaveBuffered(struct Sub02007324Ctrl *,unsigned int);
+extern void SAVE_CONTROL_DeleteExtraSaveBuffered(struct SaveControl *saveControl, unsigned int slot);
 
-extern struct Sub02009210Obj *BLOCK20_SAVEDATA_GetBlock(void *sys);
+extern struct CgearSaveBlock *BLOCK20_SAVEDATA_GetBlock(void *sys);
+struct CGearSave;
 
-extern void CGEAR_SAVE_SetGsyncState(struct Sub020090B0Obj *obj, unsigned char value);
+extern void CGEAR_SAVE_SetGsyncState(struct CGearSave *save, unsigned char gsyncState);
 
 extern u16 GF_STANDARD_CalcCrc16(const u8 *src, u32 len);
 
@@ -336,9 +346,9 @@ extern int SAVE_CONTROL_LoadExtraSaveWithBuffer(int,int,u16,int,int);
 
 extern void ZUKAN_SKIN_SAVE_SetValidFlag(void *obj, u32 value);
 
-extern void GAME_DATA_PartSaveStart(u8 *,u32);
+extern void GAME_DATA_PartSaveStart(struct GameData *gd, unsigned int blockId);
 
-extern void CGEAR_SAVE_SetGsyncId(struct Sub020090B0Obj *obj, u16 value);
+extern void CGEAR_SAVE_SetGsyncId(struct CGearSave *save, unsigned short gsyncId);
 
 extern u32 MUSICAL_DIST_SAVE_ProcessApply(struct MusicalDist *p);
 
@@ -347,14 +357,16 @@ extern struct MusicalDist *MUSICAL_DIST_SAVE_CreateFromData(void *sys, const voi
 extern u32 MUSICAL_DIST_SAVE_GetBlockSize(void);
 
 extern u32 ZUKAN_SKIN_SAVE_GetSize(void);
+struct CgearSaveRecord;
 
-extern struct Sub02009210Ent *BLOCK20_SAVEDATA_GetRecord(struct Sub02009210Obj *obj, int i);
+extern struct CgearSaveRecord *BLOCK20_SAVEDATA_GetRecord(struct CgearSaveBlock *block, int index);
 
 extern s32 GF_STANDARD_CompareBytes(const u8 *a, const u8 *b, u32 n);
+struct CgearSaveBlock;
 
-extern void BLOCK20_SAVEDATA_SetRecord(struct Sub02009210Obj *obj, int i, const void *src);
+extern void BLOCK20_SAVEDATA_SetRecord(struct CgearSaveBlock *block, s32 index, void *src);
 
-extern void BLOCK20_SAVEDATA_SetProgress(struct Sub02009210Obj *obj, int value);
+extern void BLOCK20_SAVEDATA_SetProgress(struct CgearSaveBlock *block, s32 value);
 
 extern void *TPOKE_DATA_Create(int);
 
@@ -370,63 +382,67 @@ extern void SYMBOL_SAVE_WriteRecord(void *, u16, u16, u8, int, u8, u32);
 
 extern void TPOKE_Delete(void *);
 
-extern s32 BLOCK20_SAVEDATA_GetSavedValue(const struct Sub02009210Obj *obj);
+extern s32 BLOCK20_SAVEDATA_GetSavedValue(struct CgearSaveBlock *block);
 
-extern u32 BLOCK20_SAVEDATA_CountEntries(const struct Sub02009210Obj *obj);
+extern u32 BLOCK20_SAVEDATA_CountEntries(struct CgearSaveBlock *block);
 
-extern void BLOCK20_SAVEDATA_SetPending(struct Sub02009210Obj *obj, u8 value);
+extern void BLOCK20_SAVEDATA_SetPending(struct CgearSaveBlock *block, unsigned char value);
+struct MyStatus;
 
-extern u8 *GAME_DATA_GetMyStatus(void *p);
+extern struct MyStatus *GAME_DATA_GetMyStatus(struct GameData *gd);
 
-extern u32 MYSTATUS_GetProfileId(const struct Sub0200852CObj *obj);
+extern u32 MYSTATUS_GetProfileId(struct MyStatus *mystatus);
 
-extern void *SAVE_CONTROL_GetWorkArea(struct Ctrl020071D8 *ctrl, int *out);
+extern void *SAVE_CONTROL_GetWorkArea(struct SaveControl *saveControl, unsigned int *size);
+struct DailyClock;
 
-extern struct Sub02008AECSession *CONSOLE_STAMP_GetDailyClock(void *sys);
+extern struct DailyClock *CONSOLE_STAMP_GetDailyClock(struct SaveControl *control);
 
-extern int DAILY_CLOCK_HasAllowance(const struct Sub02008AECSession *s);
+extern int DAILY_CLOCK_HasAllowance(struct DailyClock *clock);
 
-extern u32 BLOCK20_SAVEDATA_GetDateStamp(const struct Sub02009210Obj *obj);
+extern u32 BLOCK20_SAVEDATA_GetDateStamp(struct CgearSaveBlock *block);
+struct RtcDate;
 
-extern void GF_STANDARD_GetCachedDate(struct GsyncRtcDate *);
+extern void GF_STANDARD_GetCachedDate(struct RtcDate *date);
+struct RtcDateSigned;
 
-extern int GF_STANDARD_GetDayOfYear(struct GsyncRtcDate *);
+extern int GF_STANDARD_GetDayOfYear(struct RtcDateSigned *d);
 
 extern void GFL_NET_STATE_SetError(int a, u32 b, u32 c, u32 d);
 
 extern u32 GFL_NET_STATE_SetErrorMode(u8 mode);
 
-extern void BLOCK20_SAVEDATA_SetDateStamp(struct Sub02009210Obj *obj, u32 value);
+extern void BLOCK20_SAVEDATA_SetDateStamp(struct CgearSaveBlock *block, unsigned int value);
 
-extern u32 BLOCK20_SAVEDATA_GetProgress(const struct Sub02009210Obj *obj);
+extern u32 BLOCK20_SAVEDATA_GetProgress(struct CgearSaveBlock *block);
 
-extern void BLOCK20_SAVEDATA_SetFlag(struct Sub02009210Obj *obj, int value);
+extern void BLOCK20_SAVEDATA_SetFlag(struct CgearSaveBlock *block, int value);
 
-extern void *GAME_DATA_GetTrainerRecord(int *p);
+extern void *GAME_DATA_GetTrainerRecord(struct GameData *gd);
 
 extern u32 RECORD_AddOne(struct Sub02008C20Obj *obj, int i);
 
-extern struct Sub020079BCEntry *BOX_SAVEDATA_GetPokemon(void **save, u32 box, u32 slot);
+extern struct BoxPokemon *BOX_SAVEDATA_GetPokemon(struct GameData *gameData, unsigned int box, unsigned int slot);
 
-extern void *POKE_TOOL_CreateFromBoxParam(struct Mon *p, u32 heap);
+extern struct PokemonParam *POKE_TOOL_CreateFromBoxParam(struct PokemonParam *src, unsigned short heapId);
 
-extern void BLOCK20_SAVEDATA_SetPokemon(struct Sub02009210Obj *obj, const void *src);
+extern void BLOCK20_SAVEDATA_SetPokemon(struct CgearSaveBlock *block, void *src);
 
-extern void BOX_SAVEDATA_ClearPokemon(void *save, u32 box, u32 slot);
+extern void BOX_SAVEDATA_ClearPokemon(struct GameData *gameData, unsigned int box, unsigned int slot);
 
-extern void NHTTP_RAP_Destroy(u8 *p);
+extern void NHTTP_RAP_Destroy(struct _NHTTPRapSession *session_p);
 
 extern u32 BLOCK20_SAVEDATA_GetBlockSize(void);
 
-extern int BOX_SAVEDATA_SetPokemon(void *save, u32 box, u32 slot, const struct Sub020075B0Entry *src);
+extern int BOX_SAVEDATA_SetPokemon(struct GameData *gameData, unsigned int box, unsigned int slot, struct BoxPokemon *mon);
 
-extern void POKE_TOOL_ClearPartyParam(struct Sav *p);
+extern void POKE_TOOL_ClearPartyParam(struct PokemonParam *pp);
 
-extern u32 GAME_DATA_GetBoxManager(const struct BigObj *p);
+extern u32 GAME_DATA_GetBoxManager(struct GameData *gd);
 
-extern u8 BLOCK20_SAVEDATA_GetPending(const struct Sub02009210Obj *obj);
+extern u8 BLOCK20_SAVEDATA_GetPending(struct CgearSaveBlock *block);
 
-extern u8 *NHTTP_RAP_Create(int,int,int);
+extern struct _NHTTPRapSession *NHTTP_RAP_Create(unsigned int heapId, unsigned int gameCode, char *source_p);
 
 extern void DWC_RAP_SetErrorCallback(int,int);
 
@@ -489,8 +505,9 @@ int GSYNC_DOWNLOAD_GetFileAsync(GsyncDownloadWork *work);
 int GSYNC_DOWNLOAD_CleanupOnce(GsyncDownloadWork *work);
 
 void GSYNC_DOWNLOAD_Process(GsyncDownloadWork *work);
+struct GsyncDownloadWork;
 
-void *GSYNC_DOWNLOAD_GetFileSize(GsyncDispWork *disp);
+unsigned int GSYNC_DOWNLOAD_GetFileSize(struct GsyncDownloadWork *work);
 
 u8 *GSYNC_DISP_Init(u32 heap);
 
@@ -517,8 +534,9 @@ void GSYNC_DISP_EnableActorAutoAnim(GsyncDispWork *disp);
 void GSYNC_DISP_RestartActorAnim(GsyncDispWork *disp);
 
 void GSYNC_DISP_StartPaletteWave(GsyncDispWork *disp);
+struct GsyncDispWork;
 
-void GSYNC_DISP_SetFadeDirection(GsyncStateWork *state,int flag);
+void GSYNC_DISP_SetFadeDirection(struct GsyncDispWork *disp, int flag);
 
 void GSYNC_DISP_UpdateProgressPosition(GsyncDispWork *disp, int progress);
 
@@ -792,7 +810,7 @@ void GSYNC_STATE_StateWaitInputCancelSave(unsigned char *state)
     if (KEY_GetTrg() == 0 && TOUCHPANEL_GetTrg() == 0)
         return;
     if (((GsyncStateWork *)state)->saveActive != 0) {
-        GAME_DATA_SaveCancel((char *)(((GsyncStateWork *)state)->saveData));
+        GAME_DATA_SaveCancel((struct GameData *)(((GsyncStateWork *)state)->saveData));
         ((GsyncStateWork *)state)->saveActive = 0;
     }
     GSYNC_STATE_CommitReceivedMon((GsyncStateWork *)state);
@@ -876,7 +894,7 @@ void GSYNC_STATE_StateShowResultMessage(int state)
     GSYNC_MESSAGE_SetMonName((void *)((*(int *)&((GsyncStateWork *)state)->messageWork)), 0x16, ((GsyncStateWork *)state)->messageArg,
                  (void *)((*(int *)&((GsyncStateWork *)state)->receivedMon)));
     GSYNC_MESSAGE_PrintStream((GsyncMessageWork *)((char *)((*(int *)&((GsyncStateWork *)state)->messageWork))), 0);
-    GFL_USE_SetBgmPaused((void *)1);
+    GFL_USE_SetBgmPaused((unsigned int)1);
     GFL_USE_PushBgm();
     GFL_USE_CancelChangeAndPlayBgm(0x515, 0xffff);
     ((GsyncStateWork *)state)->bgmWait = 0xb4;
@@ -914,7 +932,7 @@ void GSYNC_STATE_LoadReceivedMon(GsyncStateWork *state)
             }
             POKE_TOOL_SetLevelAndRecalc(monData,monValue);
         }
-        BOX_SAVEDATA_AddPokemon(state->boxSave,(const struct Sub02007454Entry *)((int)POKE_TOOL_GetBoxParam(monData)));
+        BOX_SAVEDATA_AddPokemon(state->boxSave,(struct BoxPokemon *)((int)POKE_TOOL_GetBoxParam(monData)));
         state->receivedMon=monData;
         BLOCK20_SAVEDATA_SetActive(saveSystem,0);
         BLOCK20_SAVEDATA_SetSavedValue(saveSystem,state->entryId);
@@ -937,7 +955,7 @@ void GSYNC_STATE_StateSaveFinishMessage(char *state)
         GSYNC_DISP_SetSlotAnimSeq((GsyncDispWork *)(((GsyncStateWork *)state)->displayWork),0,1);
         animCallback.value=0; animCallback.object=state; animCallback.callback=GSYNC_STATE_ResetSlotActors;
         GSYNC_DISP_SetSlotAnimCommand((GsyncDispWork *)(((GsyncStateWork *)state)->displayWork),0,(int)&animCallback);
-        GSYNC_DISP_SetFadeDirection((GsyncStateWork *)((u8 *)(((GsyncStateWork *)state)->displayWork)),0);
+        GSYNC_DISP_SetFadeDirection((struct GsyncDispWork *)((u8 *)(((GsyncStateWork *)state)->displayWork)),0);
         GSYNC_DISP_CreateMonIconActor((GsyncDispWork *)(((GsyncStateWork *)state)->displayWork),(void *)POKE_TOOL_CastToBoxParam(((GsyncStateWork *)state)->receivedMon),0);
         GSYNC_DISP_RestartActorAnim((GsyncDispWork *)(((GsyncStateWork *)state)->displayWork));
         GFL_USE_PlaySeDefaultVolume(0x658);
@@ -988,14 +1006,14 @@ void GSYNC_STATE_StateSaveStart(int state)
         GSYNC_STATE_StoreListEntries(saveSystem,(u8 *)(((GsyncStateWork *)state)->listBuffer));
         GSYNC_STATE_BuildMonEntries((GsyncStateWork *)state,saveSystem,(u8 *)(((GsyncStateWork *)state)->listBuffer));
         GSYNC_STATE_CopyMonRecord((void *)saveSystem,(char *)(((GsyncStateWork *)state)->listBuffer));
-        BLOCK20_SAVEDATA_SetMode((struct Sub02009210Obj *)saveSystem,*(u8 *)(((GsyncStateWork *)state)->listBuffer+0x5a));
+        BLOCK20_SAVEDATA_SetMode((struct CgearSaveBlock *)saveSystem,*(u8 *)(((GsyncStateWork *)state)->listBuffer+0x5a));
     } else {
         monHeader=(u8 *)((GsyncStateWork *)state)->connection+0xc;
         GSYNC_STATE_BuildMonEntry((GsyncStateWork *)state,saveSystem,((GsyncMonHeader *)monHeader)->species,monHeader[7],monHeader[6],((GsyncMonHeader *)monHeader)->arg,GFL_USE_GetRandom(8));
-        for(slotIndex=0;slotIndex<20;slotIndex++) BLOCK20_SAVEDATA_SetEntry((struct Sub02009210Obj *)saveSystem,slotIndex,*(u16 *)(monHeader+8+slotIndex*2),monHeader[0x30+slotIndex]);
+        for(slotIndex=0;slotIndex<20;slotIndex++) BLOCK20_SAVEDATA_SetEntry((struct CgearSaveBlock *)saveSystem,slotIndex,*(u16 *)(monHeader+8+slotIndex*2),monHeader[0x30+slotIndex]);
     }
     ((GsyncStateWork *)state)->saveActive=1;
-    GAME_DATA_SaveStart(((GsyncStateWork *)state)->saveData);
+    GAME_DATA_SaveStart((struct GameData *)(((GsyncStateWork *)state)->saveData));
     GSYNC_STATE_ChangeState((GsyncStateWork *)state,(int)GSYNC_STATE_StateSaveMainWait,0x311);
 }
 
@@ -1013,10 +1031,10 @@ void GSYNC_STATE_StateFreeReceivedMon(u8 *state) { ((GsyncStateWork *)state)->wa
 
 void GSYNC_STATE_StateExtraSaveMain(u8 *state)
 {
-    int saveControl = (int)GAME_DATA_GetSaveControl((struct Big *)(((GsyncStateWork *)state)->saveData));
-    if(GAME_DATA_PartSaveMain((char *)(((GsyncStateWork *)state)->saveData),4)==2) {
-        SAVE_CONTROL_DeleteExtraSaveBuffered((struct Sub02007324Ctrl *)saveControl,4);
-        CGEAR_SAVE_SetGsyncState((struct Sub020090B0Obj *)BLOCK20_SAVEDATA_GetBlock((void *)saveControl),1);
+    int saveControl = (int)GAME_DATA_GetSaveControl((struct GameData *)(((GsyncStateWork *)state)->saveData));
+    if(GAME_DATA_PartSaveMain((struct GameData *)(((GsyncStateWork *)state)->saveData),4)==2) {
+        SAVE_CONTROL_DeleteExtraSaveBuffered((struct SaveControl *)saveControl,4);
+        CGEAR_SAVE_SetGsyncState((struct CGearSave *)BLOCK20_SAVEDATA_GetBlock((void *)saveControl),1);
         GSYNC_STATE_ChangeState((GsyncStateWork *)state,(int)GSYNC_STATE_StateFreeReceivedMon,0x333);
     }
 }
@@ -1027,7 +1045,7 @@ void GSYNC_STATE_StateExtraSaveLoadStart(int state)
     int saveControl;
     u8 *downloadData;
     int buffer;
-    saveControl=(int)GAME_DATA_GetSaveControl((struct Big *)(((GsyncStateWork *)state)->saveData));
+    saveControl=(int)GAME_DATA_GetSaveControl((struct GameData *)(((GsyncStateWork *)state)->saveData));
     downloadData=(u8 *)GSYNC_DOWNLOAD_GetFileBuffer((GsyncDownloadWork *)((char *)(((GsyncStateWork *)state)->downloadWork)));
     checksum=GF_STANDARD_CalcCrc16(downloadData,0x2600);
     if(checksum!=*(u16 *)(downloadData+0x2600)) {
@@ -1040,14 +1058,14 @@ void GSYNC_STATE_StateExtraSaveLoadStart(int state)
     (*(int *)&((GsyncStateWork *)state)->iconBuffer)=buffer;
     SAVE_CONTROL_LoadExtraSaveWithBuffer(saveControl,4,((GsyncStateWork *)state)->heapId,buffer,0x3000);
     MI_CpuCopy8(downloadData,(void *)buffer,0x2600);
-    CGEAR_SAVE_SetGsyncId((struct Sub020090B0Obj *)BLOCK20_SAVEDATA_GetBlock((void *)saveControl),checksum);
-    GAME_DATA_PartSaveStart((u8 *)((GsyncStateWork *)state)->saveData,4);
+    CGEAR_SAVE_SetGsyncId((struct CGearSave *)BLOCK20_SAVEDATA_GetBlock((void *)saveControl),checksum);
+    GAME_DATA_PartSaveStart((struct GameData *)((GsyncStateWork *)state)->saveData,4);
     GSYNC_STATE_ChangeState((GsyncStateWork *)state,(int)GSYNC_STATE_StateExtraSaveMain,0x355);
 }
 
 void GSYNC_STATE_StateFreeExtraSaveBuffer(u8 *state) { ((GsyncStateWork *)state)->wantRecordSave=0; GFL_HEAP_Free(((GsyncStateWork *)state)->extraSaveBuffer); ((GsyncStateWork *)state)->netDone=0; ((GsyncStateWork *)state)->extraSaveBuffer=0; GSYNC_STATE_ChangeState((GsyncStateWork *)state,(int)GSYNC_STATE_StateCleanupDownload,0x360); }
 
-void GSYNC_STATE_StateExtraSaveMainSecond(char *state) { int saveControl; saveControl=(int)GAME_DATA_GetSaveControl((struct Big *)(((GsyncStateWork *)state)->saveData)); if(GAME_DATA_PartSaveMain((char *)(((GsyncStateWork *)state)->saveData),7)==2) { SAVE_CONTROL_DeleteExtraSaveBuffered((struct Sub02007324Ctrl *)saveControl,7); GSYNC_STATE_ChangeState((GsyncStateWork *)state,(int)GSYNC_STATE_StateFreeExtraSaveBuffer,0x36a); } }
+void GSYNC_STATE_StateExtraSaveMainSecond(char *state) { int saveControl; saveControl=(int)GAME_DATA_GetSaveControl((struct GameData *)(((GsyncStateWork *)state)->saveData)); if(GAME_DATA_PartSaveMain((struct GameData *)(((GsyncStateWork *)state)->saveData),7)==2) { SAVE_CONTROL_DeleteExtraSaveBuffered((struct SaveControl *)saveControl,7); GSYNC_STATE_ChangeState((GsyncStateWork *)state,(int)GSYNC_STATE_StateFreeExtraSaveBuffer,0x36a); } }
 
 void GSYNC_STATE_StateExtraSaveLoadStartSecond(int state)
 {
@@ -1055,7 +1073,7 @@ void GSYNC_STATE_StateExtraSaveLoadStartSecond(int state)
     u8 *downloadData;
     int buffer;
     u16 checksum;
-    saveControl=(int)GAME_DATA_GetSaveControl((struct Big *)(((GsyncStateWork *)state)->saveData));
+    saveControl=(int)GAME_DATA_GetSaveControl((struct GameData *)(((GsyncStateWork *)state)->saveData));
     downloadData=(u8 *)GSYNC_DOWNLOAD_GetFileBuffer((GsyncDownloadWork *)((char *)(((GsyncStateWork *)state)->downloadWork)));
     checksum=GF_STANDARD_CalcCrc16(downloadData,0x6200);
     if(checksum!=*(u16 *)(downloadData+0x6200)) {
@@ -1069,7 +1087,7 @@ void GSYNC_STATE_StateExtraSaveLoadStartSecond(int state)
     SAVE_CONTROL_LoadExtraSaveWithBuffer(saveControl,7,((GsyncStateWork *)state)->heapId,*(int *)&((GsyncStateWork *)state)->extraSaveBuffer,0x6800);
     MI_CpuCopy8(downloadData,((GsyncStateWork *)state)->extraSaveBuffer,0x6200);
     ZUKAN_SKIN_SAVE_SetValidFlag((void *)(*(int *)&((GsyncStateWork *)state)->extraSaveBuffer),1);
-    GAME_DATA_PartSaveStart((u8 *)((GsyncStateWork *)state)->saveData,7);
+    GAME_DATA_PartSaveStart((struct GameData *)((GsyncStateWork *)state)->saveData,7);
     GSYNC_STATE_ChangeState((GsyncStateWork *)state,(int)GSYNC_STATE_StateExtraSaveMainSecond,0x383);
 }
 
@@ -1119,7 +1137,7 @@ void GSYNC_STATE_StateMusicalSaveRetry(int state)
 {
     switch(((GsyncStateWork *)state)->downloadKind) {
     case 0: GSYNC_STATE_ChangeState((GsyncStateWork *)state,(int)GSYNC_STATE_StateExtraSaveLoadStart,0x3cb); break;
-    case 1: GSYNC_STATE_StateMusicalSaveCreate(state,(int)GSYNC_DOWNLOAD_GetFileSize((GsyncDispWork *)((u8 *)(((GsyncStateWork *)state)->downloadWork)))-2); break;
+    case 1: GSYNC_STATE_StateMusicalSaveCreate(state,(int)GSYNC_DOWNLOAD_GetFileSize((struct GsyncDownloadWork *)((u8 *)(((GsyncStateWork *)state)->downloadWork)))-2); break;
     case 2: GSYNC_STATE_ChangeState((GsyncStateWork *)state,(int)GSYNC_STATE_StateExtraSaveLoadStartSecond,0x3d1); break;
     }
 }
@@ -1155,7 +1173,7 @@ void GSYNC_STATE_StateWaitDownloadIdleThenRequest(int state)
         return;
     }
     if(GSYNC_DOWNLOAD_ClearResult((GsyncDownloadWork *)((char *)(((GsyncStateWork *)state)->downloadWork)))) {
-        if((void *)(int)GSYNC_DOWNLOAD_GetFileSize((GsyncDispWork *)((u8 *)((int)((u8 *)(((GsyncStateWork *)state)->downloadWork)))))==0) {
+        if((void *)(int)GSYNC_DOWNLOAD_GetFileSize((struct GsyncDownloadWork *)((u8 *)((int)((u8 *)(((GsyncStateWork *)state)->downloadWork)))))==0) {
             ((GsyncStateWork *)state)->errorCode=0xfff0;
             GSYNC_STATE_ChangeState((GsyncStateWork *)state,(int)GSYNC_STATE_StateErrorMessage,0x407);
             return;
@@ -1266,7 +1284,7 @@ void GSYNC_STATE_CopyMonRecord(void *saveSystem, char *records)
     }
 }
 
-int GSYNC_STATE_StoreListEntries(int saveSystem,u8 *listBuffer) { int slotIndex,found; u16 species; found=0; for(slotIndex=0;slotIndex<20;slotIndex++) { species=*(u16 *)(listBuffer+92+slotIndex*2); if(species!=0 && species<=626) { BLOCK20_SAVEDATA_SetEntry((struct Sub02009210Obj *)saveSystem,slotIndex,species,listBuffer[132+slotIndex]); found=1; } } return found; }
+int GSYNC_STATE_StoreListEntries(int saveSystem,u8 *listBuffer) { int slotIndex,found; u16 species; found=0; for(slotIndex=0;slotIndex<20;slotIndex++) { species=*(u16 *)(listBuffer+92+slotIndex*2); if(species!=0 && species<=626) { BLOCK20_SAVEDATA_SetEntry((struct CgearSaveBlock *)saveSystem,slotIndex,species,listBuffer[132+slotIndex]); found=1; } } return found; }
 
 int GSYNC_STATE_HasListEntry(int saveSystem,GsyncConn *list) { int slotIndex,found; u16 species; found=0; for(slotIndex=0;slotIndex<20;slotIndex++) { species=*(u16 *)((u8 *)list+92+slotIndex*2); if(species!=0 && species<=626) found=1; } return found; }
 
@@ -1364,7 +1382,7 @@ void GSYNC_STATE_StateReceiveList(char *state)
         GSYNC_DISP_UpdateProgressPosition((GsyncDispWork *)(((GsyncStateWork *)state)->displayWork),((GsyncStateWork *)state)->progressPercent);
         if (GSYNC_STATE_HandleHttpError((GsyncStateWork *)state,NHTTP_RAP_GetResultCode(((GsyncStateWork *)state)->httpConnection))) return;
         if (NHTTP_RAP_PollConnection(((GsyncStateWork *)state)->httpConnection)) return;
-        response=(char *)NHTTP_RAP_GetRecvBuffer((u8 *)(((GsyncStateWork *)state)->httpConnection));
+        response=(char *)NHTTP_RAP_GetRecvBuffer((struct _NHTTPRapSession *)(((GsyncStateWork *)state)->httpConnection));
         saveSystem=GAME_SYNC_GetBlock(((GsyncStateWork *)state)->saveControl);
         listData=response+0x80;
         listBuffer=GFL_HEAP_Alloc(((GsyncStateWork *)state)->heapId,0x11c,1,gGsyncStateAllocSource,0x573);
@@ -1421,7 +1439,7 @@ void GSYNC_STATE_StateShowProgressMessage(char *state)
     GSYNC_MESSAGE_RestartTimeIcon((GsyncMessageWork *)(((GsyncStateWork *)state)->messageWork));
     GSYNC_DISP_DeleteSlotActor(((GsyncStateWork *)state)->displayWork, 8);
     GSYNC_DISP_StartPaletteWave((GsyncDispWork *)((u8 *)(((GsyncStateWork *)state)->displayWork)));
-    GSYNC_DISP_SetFadeDirection((GsyncStateWork *)((u8 *)(((GsyncStateWork *)state)->displayWork)), 1);
+    GSYNC_DISP_SetFadeDirection((struct GsyncDispWork *)((u8 *)(((GsyncStateWork *)state)->displayWork)), 1);
     GSYNC_DISP_SetSlotAnimSeq(((GsyncStateWork *)state)->displayWork, 6, 5);
     GSYNC_DISP_CreateSlotActor((GsyncDispWork *)((u8 *)(((GsyncStateWork *)state)->displayWork)), 0);
     GSYNC_DISP_CreateSlotActor((GsyncDispWork *)((u8 *)(((GsyncStateWork *)state)->displayWork)), 12);
@@ -1500,7 +1518,7 @@ void GSYNC_STATE_StateShowEmptyMessage(char *state)
     GSYNC_DISP_CreateSlotActor((GsyncDispWork *)((u8 *)(((GsyncStateWork *)state)->displayWork)), 12);
     GSYNC_DISP_CreateSlotActor((GsyncDispWork *)((u8 *)(((GsyncStateWork *)state)->displayWork)), 6);
     GSYNC_DISP_CreateSlotActor((GsyncDispWork *)((u8 *)(((GsyncStateWork *)state)->displayWork)), 8);
-    if (BLOCK20_SAVEDATA_CountEntries((const struct Sub02009210Obj *)GAME_SYNC_GetBlock(((GsyncStateWork *)state)->saveControl)))
+    if (BLOCK20_SAVEDATA_CountEntries((struct CgearSaveBlock *)GAME_SYNC_GetBlock(((GsyncStateWork *)state)->saveControl)))
         GSYNC_MESSAGE_PrintStreamId((GsyncMessageWork *)(((GsyncStateWork *)state)->messageWork), 21);
     else
         GSYNC_MESSAGE_PrintStreamId((GsyncMessageWork *)(((GsyncStateWork *)state)->messageWork), 10);
@@ -1518,7 +1536,7 @@ void GSYNC_STATE_StateWaitInputClearWindow(char *state)
 {
     if (KEY_GetTrg() != 0 || TOUCHPANEL_GetTrg() != 0) {
         GSYNC_MESSAGE_ClearWindow((GsyncMessageWork *)(((GsyncStateWork *)state)->messageWork));
-        BLOCK20_SAVEDATA_SetPending((struct Sub02009210Obj *)GAME_SYNC_GetBlock(((GsyncStateWork *)state)->saveControl), 1);
+        BLOCK20_SAVEDATA_SetPending((struct CgearSaveBlock *)GAME_SYNC_GetBlock(((GsyncStateWork *)state)->saveControl), 1);
         ((GsyncStateWork *)state)->responseValid = 1;
         GSYNC_STATE_ChangeState((GsyncStateWork *)state, (int)GSYNC_STATE_StateSendFinalRequest, 0x6a2);
     }
@@ -1535,7 +1553,7 @@ void GSYNC_STATE_StateWaitInputPrintNext(char *state)
 
 void GSYNC_STATE_StatePrintErrorMessage(char *state)
 {
-    GSYNC_MESSAGE_PrintDefault((GsyncMessageWork *)(((GsyncStateWork *)state)->messageWork), MYSTATUS_GetProfileId((const struct Sub0200852CObj *)GAME_DATA_GetMyStatus(((struct GsyncConn *)(((GsyncStateWork *)state)->connection))->saveData)));
+    GSYNC_MESSAGE_PrintDefault((GsyncMessageWork *)(((GsyncStateWork *)state)->messageWork), MYSTATUS_GetProfileId((struct MyStatus *)GAME_DATA_GetMyStatus(((struct GsyncConn *)(((GsyncStateWork *)state)->connection))->saveData)));
     GSYNC_MESSAGE_PrintStream((GsyncMessageWork *)(((GsyncStateWork *)state)->messageWork), 1);
     GSYNC_MESSAGE_PrintId((GsyncMessageWork *)((u8 *)(((GsyncStateWork *)state)->messageWork)), 47);
     GSYNC_MESSAGE_PrintInWindow((GsyncMessageWork *)(((GsyncStateWork *)state)->messageWork), 7, 14);
@@ -1548,7 +1566,7 @@ void GSYNC_STATE_StateReceiveResponse(char *state)
     if (GFL_NET_GetRunState()) {
         if (GSYNC_STATE_HandleHttpError((GsyncStateWork *)state, NHTTP_RAP_GetResultCode(((GsyncStateWork *)state)->httpConnection))) return;
         if (NHTTP_RAP_PollConnection(((GsyncStateWork *)state)->httpConnection)) return;
-        response = (char *)NHTTP_RAP_GetRecvBuffer((u8 *)(((GsyncStateWork *)state)->httpConnection));
+        response = (char *)NHTTP_RAP_GetRecvBuffer((struct _NHTTPRapSession *)(((GsyncStateWork *)state)->httpConnection));
         if (((GsyncHttpResponse *)response)->resultCode == 2) {
             GSYNC_STATE_ChangeState((GsyncStateWork *)state, (int)GSYNC_STATE_StateSendFinalRequest, 0x6d4);
             return;
@@ -1572,7 +1590,7 @@ void GSYNC_STATE_StateSendResponse(char *state)
     unsigned int workArea;
     if (GFL_NET_GetRunState()) {
         if (NHTTP_RAP_CreateRequest(9,((GsyncStateWork *)state)->httpConnection)) {
-            workArea=(unsigned int)SAVE_CONTROL_GetWorkArea(((GsyncStateWork *)state)->saveControl,&workAreaSize);
+            workArea=(unsigned int)SAVE_CONTROL_GetWorkArea(((GsyncStateWork *)state)->saveControl,(unsigned int *)(&workAreaSize));
             NHTTP_AddPostDataRaw((void *)NHTTP_RAP_GetConnection(((GsyncStateWork *)state)->httpConnection),(void *)workArea,0x80000);
             if (!NHTTP_RAP_StartConnection(((GsyncStateWork *)state)->httpConnection))
                 GSYNC_STATE_ChangeState((GsyncStateWork *)state,(int)GSYNC_STATE_StateReceiveResponse,0x6fa);
@@ -1665,7 +1683,7 @@ void GSYNC_STATE_StateReceiveParsedResponse(char *state)
     if (GFL_NET_GetRunState()) {
         if (GSYNC_STATE_HandleHttpError((GsyncStateWork *)state,NHTTP_RAP_GetResultCode(((GsyncStateWork *)state)->httpConnection))) return;
         if (NHTTP_RAP_PollConnection(((GsyncStateWork *)state)->httpConnection)) return;
-        response=(char *)NHTTP_RAP_GetRecvBuffer((u8 *)(((GsyncStateWork *)state)->httpConnection));
+        response=(char *)NHTTP_RAP_GetRecvBuffer((struct _NHTTPRapSession *)(((GsyncStateWork *)state)->httpConnection));
         MI_CpuCopy8(response+0x80,(char *)((GsyncStateWork *)state)->connection+0xc,0x44);
         ((struct GsyncConn *)(((GsyncStateWork *)state)->connection))->rapFlags=1;
         GSYNC_STATE_ParseResponse((GsyncStateWork *)state,((GsyncConn *)response)->responseCode,(int *)response);
@@ -1713,7 +1731,7 @@ void GSYNC_STATE_StateReceiveFinalResponse(char *state)
     if (GFL_NET_GetRunState()) {
         if (GSYNC_STATE_HandleHttpError((GsyncStateWork *)state,NHTTP_RAP_GetResultCode(((GsyncStateWork *)state)->httpConnection))) return;
         if (NHTTP_RAP_PollConnection(((GsyncStateWork *)state)->httpConnection)) return;
-        response=(char *)NHTTP_RAP_GetRecvBuffer((u8 *)(((GsyncStateWork *)state)->httpConnection));
+        response=(char *)NHTTP_RAP_GetRecvBuffer((struct _NHTTPRapSession *)(((GsyncStateWork *)state)->httpConnection));
         resultCode=((GsyncHttpResponse *)response)->resultCode;
         if (resultCode==0 || resultCode==8) {
             MI_CpuCopy8(response+0x80,(char *)((GsyncStateWork *)state)->connection+0x1d8,0x80);
@@ -1738,14 +1756,14 @@ void GSYNC_STATE_StateSendFinalRequest(char *state)
         GSYNC_STATE_ChangeState((GsyncStateWork *)state,(int)GSYNC_STATE_StateWaitMessageThenPrintSecond,0x85c);
         return;
     }
-    rtcPacked=BLOCK20_SAVEDATA_GetDateStamp((const struct Sub02009210Obj *)GAME_SYNC_GetBlock(((GsyncStateWork *)state)->saveControl));
+    rtcPacked=BLOCK20_SAVEDATA_GetDateStamp((struct CgearSaveBlock *)GAME_SYNC_GetBlock(((GsyncStateWork *)state)->saveControl));
     saved.year=(u8)(rtcPacked>>24);
     saved.month=(u8)(rtcPacked>>16);
     saved.day=(u8)(rtcPacked>>8);
     saved.week=(u8)rtcPacked;
-    GF_STANDARD_GetCachedDate((struct GsyncRtcDate *)&current);
-    day=GF_STANDARD_GetDayOfYear((struct GsyncRtcDate *)&saved);
-    if (day==GF_STANDARD_GetDayOfYear((struct GsyncRtcDate *)&current)) {
+    GF_STANDARD_GetCachedDate((struct RtcDate *)&current);
+    day=GF_STANDARD_GetDayOfYear((struct RtcDateSigned *)&saved);
+    if (day==GF_STANDARD_GetDayOfYear((struct RtcDateSigned *)&current)) {
         GSYNC_STATE_ChangeState((GsyncStateWork *)state,(int)GSYNC_STATE_StateWaitMessageThenPrintSecond,0x869);
         return;
     }
@@ -1784,7 +1802,7 @@ void GSYNC_STATE_StateShowCompletionMessage(char *state)
     GSYNC_MESSAGE_SetMonName(((GsyncStateWork *)state)->messageWork,14,0,(void *)((*(int *)&((GsyncStateWork *)state)->receivedMon)));
     GSYNC_MESSAGE_PrintStream((GsyncMessageWork *)(((GsyncStateWork *)state)->messageWork),0);
     GSYNC_DISP_CreateSlotActor((GsyncDispWork *)(((GsyncStateWork *)state)->displayWork),8);
-    GSYNC_DISP_SetFadeDirection((GsyncStateWork *)(((GsyncStateWork *)state)->displayWork),0);
+    GSYNC_DISP_SetFadeDirection((struct GsyncDispWork *)(((GsyncStateWork *)state)->displayWork),0);
     GSYNC_DISP_CreateSlotActor((GsyncDispWork *)(((GsyncStateWork *)state)->displayWork),0);
     GSYNC_DISP_SetSlotAnimSeq(((GsyncStateWork *)state)->displayWork,4,6);
     GFL_USE_PlaySeDefaultVolume(0x658);
@@ -1822,7 +1840,7 @@ void GSYNC_STATE_StateTrainerRecordSaveStart(char *state)
     struct GsyncRtcDate date;
     saveSystem=GAME_SYNC_GetBlock(((GsyncStateWork *)state)->saveControl);
     ((GsyncStateWork *)state)->monStored=0;
-    GF_STANDARD_GetCachedDate((struct GsyncRtcDate *)&date);
+    GF_STANDARD_GetCachedDate((struct RtcDate *)&date);
     BLOCK20_SAVEDATA_SetDateStamp(saveSystem, (date.year << 24) | ((date.month & 255) << 16) | ((date.day & 255) << 8) | date.week);
     if (BLOCK20_SAVEDATA_GetProgress(saveSystem)!=127) {
         BLOCK20_SAVEDATA_SetFlag(saveSystem,1);
@@ -1831,7 +1849,7 @@ void GSYNC_STATE_StateTrainerRecordSaveStart(char *state)
     ((GsyncStateWork *)state)->progressPercent=50;
     RECORD_AddOne(GAME_DATA_GetTrainerRecord((*(void * *)&((GsyncStateWork *)state)->saveData)),119);
     ((GsyncStateWork *)state)->saveActive=1;
-    GAME_DATA_SaveStart((int)((*(void * *)&((GsyncStateWork *)state)->saveData)));
+    GAME_DATA_SaveStart(((*(void * *)&((GsyncStateWork *)state)->saveData)));
     GSYNC_STATE_ChangeState((GsyncStateWork *)state,(int)GSYNC_STATE_StateSaveErrorExit,0x914);
 }
 
@@ -1859,7 +1877,7 @@ void GSYNC_STATE_StateReceiveRecordResponse(char *state)
         GSYNC_DISP_UpdateProgressPosition((GsyncDispWork *)(((GsyncStateWork *)state)->displayWork),((GsyncStateWork *)state)->progressPercent);
         if (GSYNC_STATE_HandleHttpError((GsyncStateWork *)state,NHTTP_RAP_GetResultCode(((GsyncStateWork *)state)->httpConnection))) return;
         if (NHTTP_RAP_PollConnection(((GsyncStateWork *)state)->httpConnection)) return;
-        response=(char *)NHTTP_RAP_GetRecvBuffer((u8 *)(((GsyncStateWork *)state)->httpConnection));
+        response=(char *)NHTTP_RAP_GetRecvBuffer((struct _NHTTPRapSession *)(((GsyncStateWork *)state)->httpConnection));
         if (GSYNC_STATE_IsCommIdleWithTarget((GsyncStateWork *)state)) GSYNC_MESSAGE_ClearWindow((GsyncMessageWork *)(((GsyncStateWork *)state)->messageWork));
         resultCode=((GsyncHttpResponse *)response)->resultCode;
         if (resultCode==0) {
@@ -1895,7 +1913,7 @@ void GSYNC_STATE_StateSendRecordRequest(char *state)
         ((GsyncStateWork *)state)->waitTicks=0;
         if (GSYNC_STATE_IsConnectionAlive((GsyncStateWork *)state)) {
             if (NHTTP_RAP_CreateRequest(3,((GsyncStateWork *)state)->httpConnection)) {
-                workArea=(unsigned int)SAVE_CONTROL_GetWorkArea(((GsyncStateWork *)state)->saveControl,&workAreaSize);
+                workArea=(unsigned int)SAVE_CONTROL_GetWorkArea(((GsyncStateWork *)state)->saveControl,(unsigned int *)(&workAreaSize));
                 NHTTP_AddPostDataRaw((void *)NHTTP_RAP_GetConnection(((GsyncStateWork *)state)->httpConnection),(void *)workArea,0x80000);
                 GSYNC_DISP_UpdateProgressPosition((GsyncDispWork *)(((GsyncStateWork *)state)->displayWork),0);
                 ((GsyncStateWork *)state)->progressPercent=0;
@@ -1915,7 +1933,7 @@ void GSYNC_STATE_StateStartTransferAnimation(char *state)
         GSYNC_DISP_StartPaletteWave((GsyncDispWork *)((unsigned char *)(((GsyncStateWork *)state)->displayWork)));
         GSYNC_MESSAGE_PrintStreamId((GsyncMessageWork *)(((GsyncStateWork *)state)->messageWork),8);
         GSYNC_MESSAGE_RestartTimeIcon((GsyncMessageWork *)(((GsyncStateWork *)state)->messageWork));
-        GSYNC_DISP_SetFadeDirection((GsyncStateWork *)(((GsyncStateWork *)state)->displayWork),1);
+        GSYNC_DISP_SetFadeDirection((struct GsyncDispWork *)(((GsyncStateWork *)state)->displayWork),1);
         GSYNC_DISP_SetSlotAnimSeq(((GsyncStateWork *)state)->displayWork,4,5);
         GSYNC_DISP_SetSlotAnimSeq(((GsyncStateWork *)state)->displayWork,0,0);
         GSYNC_DISP_CreateSlotActor((GsyncDispWork *)(((GsyncStateWork *)state)->displayWork),12);
@@ -2014,11 +2032,11 @@ int GSYNC_STATE_ProcInit(void *procSys,int unused,GsyncConn *connection)
         state->connection=(char *)connection;
         (*(void * *)&state->saveData)=connection->saveData;
         state->saveControl=GAME_DATA_GetSaveControl(connection->saveData);
-        profileValue=MYSTATUS_GetProfileId((const struct Sub0200852CObj *)GAME_DATA_GetMyStatus(connection->saveData));
+        profileValue=MYSTATUS_GetProfileId((struct MyStatus *)GAME_DATA_GetMyStatus(connection->saveData));
         (*(unsigned int *)&state->boxSave)=GAME_DATA_GetBoxManager(connection->saveData);
         state->boxIndex=connection->boxIndex;
         state->slotIndex=connection->slotIndex;
-        state->responsePending=BLOCK20_SAVEDATA_GetPending((const struct Sub02009210Obj *)GAME_SYNC_GetBlock(state->saveControl));
+        state->responsePending=BLOCK20_SAVEDATA_GetPending((struct CgearSaveBlock *)GAME_SYNC_GetBlock(state->saveControl));
         state->responseValid=state->responsePending;
         GAME_SYNC_GetBlock(state->saveControl);
         switch (connection->state) {
@@ -2043,7 +2061,7 @@ int GSYNC_STATE_ProcInit(void *procSys,int unused,GsyncConn *connection)
             break;
         }
         if (*(int *)&connection->state!=4) {
-            state->httpConnection=NHTTP_RAP_Create(98,profileValue,(int)((char *)connection+0x54));
+            state->httpConnection=NHTTP_RAP_Create(98,profileValue,((char *)connection+0x54));
             DWC_RAP_SetErrorCallback((int)GSYNC_STATE_DestroyHttpConnection,(int)state);
         }
     }

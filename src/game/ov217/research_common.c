@@ -88,10 +88,11 @@ struct PaletteAnimeBindData {
     u8 colorCount;
 };
 
-extern void *ARC_TOOL_CreateHandle(unsigned int id, u32 heap);
+extern void *ARC_TOOL_CreateHandle(u32 archiveID, u16 heapID);
 extern u32 GFL_HEAP_Free(void *mem);
 extern void ARC_TOOL_DeleteHandle(void *arc);
-extern void CLACT_SetActorDrawEnable(struct ClactActor *actor, unsigned int enable);
+struct Actor;
+extern void CLACT_SetActorDrawEnable(struct Actor *actor, unsigned int value);
 extern s32 CLACT_RegisterCharacter(void *arc, u32 id, u32 compressed, u32 vramType, u16 heapId);
 extern s32 CLACT_RegisterCellAnim(void *arc, u32 cellId, u32 animId, u32 heapId);
 extern void CLACT_ReleaseCharacter(u32 resId);
@@ -99,7 +100,7 @@ extern u32 CLACT_ReleaseCellAnim();
 extern s32 CLACT_RegisterPaletteEx(void *arc, u32 id, u32 type, u32 offset, u16 palCount, u16 slot, u16 heapId);
 extern struct ClactUnit *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 extern u32 CLACT_DeleteUnit(struct ClactUnit *unit);
-extern void CLACT_DeleteActor(struct ClactActor *actor);
+extern void CLACT_DeleteActor(struct Actor *actor);
 extern void *PALANM_Create(u32 heapId);
 extern void PALANM_AllocSlotBuffers(struct PalAnmSlot *slots, u32 slot, u32 size, u32 heapId);
 extern void PALANM_CopyHwPaletteToSlot(struct PalAnmSlot *slots, u32 slot, u32 offset, u32 size);
@@ -108,19 +109,24 @@ extern void PALANM_FreeSlotBuffers(struct PalAnmSlot *slots, u32 slot);
 extern void CLACT_ReleasePalette(u32 resId);
 extern void MI_CpuFill8(void *dst, int val, u32 n);
 extern void *GFL_HEAP_Alloc(u32 heap, u32 size, int clear, const char *site, u16 tag);
-extern void *GAMESYSTEM_GetGameData(const struct Ctx *ctx);
-extern void CLACT_InitSystem(const struct Cfg *cfg, u32 arg, u32 heapId);
+struct GameSystem;
+struct GameData;
+extern struct GameData *GAMESYSTEM_GetGameData(struct GameSystem *gameSystem);
+struct DispVramCfg;
+struct SysInit;
+extern void CLACT_InitSystem(struct SysInit *cfg, struct DispVramCfg *res_cfg, unsigned int heapId);
 extern u32 CLACT_ExitSystem(u32 a);
 extern struct ClactActor *CLACT_CreateActor(void *unit, unsigned int charId, unsigned int palId, unsigned int cellId, const struct ActorHeader *header, unsigned short priority, unsigned short heapId);
 
 /* palette_anime.c */
 extern u32 PALETTE_ANIME_Create(u32 heapId);
-extern u32 PALETTE_ANIME_Destroy(void *anime);
-extern void PALETTE_ANIME_Bind(void *anime, u32 palette, u32 original, u32 colorCount);
-extern void PALETTE_ANIME_Update(u32 anime);
-extern void PALETTE_ANIME_Start(u8 *anime, u32 mode, u16 color);
-extern void PALETTE_ANIME_Stop(u32 anime);
-extern int PALETTE_ANIME_Restore(char *anime);
+struct PaletteAnime;
+extern u32 PALETTE_ANIME_Destroy(struct PaletteAnime *anime);
+extern void PALETTE_ANIME_Bind(struct PaletteAnime *anime, unsigned short *palette, unsigned short *original, int colorCount);
+extern void PALETTE_ANIME_Update(struct PaletteAnime *anime);
+extern void PALETTE_ANIME_Start(struct PaletteAnime *anime, unsigned int mode, unsigned short color);
+extern void PALETTE_ANIME_Stop(struct PaletteAnime *anime);
+extern int PALETTE_ANIME_Restore(struct PaletteAnime *anime);
 
 struct ResearchCommon *RESEARCH_COMMON_Create(u32 heapId, const struct Ctx *ctx);
 u32 RESEARCH_COMMON_Destroy(struct ResearchCommon *common);
@@ -311,7 +317,7 @@ void RESEARCH_COMMON_Init(struct ResearchCommon *common, const struct Ctx *ctx, 
 {
     common->heapId = heapId;
     common->ctx = ctx;
-    common->appResource = GAMESYSTEM_GetGameData(ctx);
+    common->appResource = GAMESYSTEM_GetGameData((struct GameSystem *)ctx);
     RESEARCH_COMMON_InitClact(common);
     RESEARCH_COMMON_RegisterResources(common);
     RESEARCH_COMMON_CreateClactUnit(common);
@@ -344,7 +350,7 @@ u32 RESEARCH_COMMON_Exit(struct ResearchCommon *common)
  */
 void RESEARCH_COMMON_InitClact(struct ResearchCommon *common)
 {
-    CLACT_InitSystem((const struct Cfg *)d_021C3F64, (u32)d_021C3F9C, common->heapId);
+    CLACT_InitSystem((struct SysInit *)d_021C3F64, (struct DispVramCfg *)d_021C3F9C, common->heapId);
 }
 
 /* Veneer: shuts the CLACT system down. */
@@ -422,13 +428,13 @@ void RESEARCH_COMMON_CreateActor(struct ResearchCommon *common)
     paletteId = RESEARCH_COMMON_GetResourceId(common, d_021C3F80.paletteIndex);
     cellAnimId = RESEARCH_COMMON_GetResourceId(common, d_021C3F80.cellAnimIndex);
     common->actor = CLACT_CreateActor((void *)unit, charId, paletteId, cellAnimId, &header, d_021C3F80.priority, common->heapId);
-    CLACT_SetActorDrawEnable(common->actor, 1);
+    CLACT_SetActorDrawEnable((struct Actor *)common->actor, 1);
 }
 
 /* Deletes the shared actor. */
 void RESEARCH_COMMON_DeleteActor(struct ResearchCommon *common)
 {
-    CLACT_DeleteActor(common->actor);
+    CLACT_DeleteActor((struct Actor *)common->actor);
 }
 
 /* Clears the palette-animation system slot. */
@@ -495,19 +501,19 @@ void RESEARCH_COMMON_DestroyPaletteAnime(struct ResearchCommon *common)
 void RESEARCH_COMMON_BindPaletteAnime(struct ResearchCommon *common)
 {
     const struct PaletteAnimeBindData *bind = (const struct PaletteAnimeBindData *)0x21C3F50;
-    PALETTE_ANIME_Bind(common->paletteAnime[0], bind->palette, bind->original, bind->colorCount);
+    PALETTE_ANIME_Bind(common->paletteAnime[0], (unsigned short *)bind->palette, (unsigned short *)bind->original, bind->colorCount);
 }
 
 /* Restores the colours of palette animation 0. */
 void RESEARCH_COMMON_ExitPaletteAnime(struct ResearchCommon *common)
 {
-    PALETTE_ANIME_Restore((char *)common->paletteAnime[0]);
+    PALETTE_ANIME_Restore((struct PaletteAnime *)common->paletteAnime[0]);
 }
 
 /* Starts palette animation index with mode and colour from the preset table (stride 0x14). */
 void RESEARCH_COMMON_StartPaletteAnimeImpl(struct ResearchCommon *common, u32 index)
 {
-    PALETTE_ANIME_Start((u8 *)common->paletteAnime[index],
+    PALETTE_ANIME_Start((struct PaletteAnime *)common->paletteAnime[index],
                   *(u32 *)(d_021C3F5C + index * 0x14),
                   *(u16 *)(d_021C3F60 + index * 0x14));
 }
@@ -515,19 +521,19 @@ void RESEARCH_COMMON_StartPaletteAnimeImpl(struct ResearchCommon *common, u32 in
 /* Stops the palette animation at index. */
 void RESEARCH_COMMON_StopPaletteAnimeImpl(struct ResearchCommon *common, u32 index)
 {
-    PALETTE_ANIME_Stop((u32)common->paletteAnime[index]);
+    PALETTE_ANIME_Stop(common->paletteAnime[index]);
 }
 
 /* Restores the colours of the palette animation at index. */
 void RESEARCH_COMMON_RestorePaletteAnimeImpl(struct ResearchCommon *common, u32 index)
 {
-    PALETTE_ANIME_Restore((char *)common->paletteAnime[index]);
+    PALETTE_ANIME_Restore((struct PaletteAnime *)common->paletteAnime[index]);
 }
 
 /* Advances palette animation 0 by one frame. */
 void RESEARCH_COMMON_UpdatePaletteAnimeImpl(struct ResearchCommon *common)
 {
-    PALETTE_ANIME_Update((u32)common->paletteAnime[0]);
+    PALETTE_ANIME_Update(common->paletteAnime[0]);
 }
 
 /* Copies the two touch rectangles from ROM, reordering each pair of bytes. */

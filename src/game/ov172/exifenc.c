@@ -182,13 +182,12 @@ struct Adf0 {
     u32 makerNoteBufferSize;
     u32 makerNoteBuffer;
     u32 makerNoteUserBuffer;
-    u8  pad24[0x13];
-    u8  reserved37;
+    u8  dateTime[20];   /* dateTimeData: "YYYY:MM:DD HH:MM:SS" plus NUL (EXIF DateTime, 20 bytes) */
 };
 
 void MI_CpuCopy(const void *src, void *dst, u32 n);
 extern int RTC_GetDateTime(struct RTCDate *date, struct RTCTime *time);
-void STD_TSPrintf(char *dst, const char *fmt, ...);
+int STD_TSPrintf(char *dst, const char *fmt, ...);
 int STD_CopyLString(char *destp, const char *srcp, int siz);
 extern int STD_GetStringLength(char *str);
 extern void MI_CpuCopy8(const void *src, void *dst, u32 n);

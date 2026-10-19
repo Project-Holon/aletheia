@@ -71,8 +71,9 @@ u32 GFL_NET_STATE_GetError(void);
 void GF_PANIC_Fail(const char *expr, u32 line, const char *file);
 
 extern void DWC_ClearError(void);
+struct DWCstAccUserData;
 
-void DWC_ClearDirtyFlag(int userData);
+void DWC_ClearDirtyFlag(struct DWCstAccUserData *userdata);
 
 extern int GF_OVERLAY_Load(signed int id);
 
@@ -349,7 +350,7 @@ void DWC_RAPCOMMON_InitUserData(void *userData)
     MIi_CpuClearFast(0, userData, 0x40);
     if (DWC_CheckUserData(userData) == 0) {
         DWC_CreateUserData(userData);
-        DWC_ClearDirtyFlag((int)userData);
+        DWC_ClearDirtyFlag((struct DWCstAccUserData *)userData);
     }
 }
 

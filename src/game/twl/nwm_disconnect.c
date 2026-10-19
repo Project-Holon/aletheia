@@ -27,11 +27,11 @@ typedef struct TwlWork {
     u8 *busy;
 } TwlWork;
 
-extern u32 NWMi_CheckState(u32, u32);
-extern TwlWork *NWMi_GetSystemWork(void);
+extern u32 NWMi_CheckState(u32 n, ...);
+extern u32 NWMi_GetSystemWork(void);
 extern void DC_InvalidateRange(u8 *, u32);
 extern void NWMi_SetCallbackTable(u32, u32);
-extern u32 NWMi_SendCommand(u32, u32);
+extern u32 NWMi_SendCommand(unsigned short apiid, unsigned short argc, ...);
 
 u32 NWM_Disconnect(u32 callback) {
     u32 r;
@@ -42,7 +42,7 @@ u32 NWM_Disconnect(u32 callback) {
     if (r != 0 && r != 2) {
         return r;
     }
-    w = NWMi_GetSystemWork();
+    w = (struct TwlWork *)NWMi_GetSystemWork();
     if (w != 0) {
         DC_InvalidateRange(w->busy + 9, 1);
         busy = (w->busy[9] == 1);

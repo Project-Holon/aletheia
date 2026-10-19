@@ -106,38 +106,46 @@ typedef unsigned short u16;
 
 typedef char WorldTradeEventWork_SizeCheck[sizeof(WorldTradeEventWork) == 0x54 ? 1 : -1];
 
-void *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
+struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
 void *GAME_EVENT_Create(void *gameSystem, void *a, void *callback, u32 workSize);
 struct GameComm *GAMESYSTEM_GetGameComm(const struct GameSystem *gameSystem);
-u32 GAME_COMM_GetKind(void *gameComm);
+u32 GAME_COMM_GetKind(struct GameComm *comm);
 void GAME_COMM_RequestExitNoCallback(struct GameComm *gameComm);
 void *GAME_EVENT_GetWork(struct GameEvent *event);
 void MI_CpuFill8(void *dst, int value, int size);
 struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gameData);
-void *WORLDTRADE_GetFromSave(void *saveControl);
-void *CONSOLE_STAMP_GetFromSave(void *saveControl);
-void *POKEPARTY_GetSaveData(void *saveControl);
-struct BoxManager *GAME_DATA_GetBoxManager(const struct GameData *gameData);
-struct WorldTradeSave *ZUKAN_SAVE_GetFromGameData(void *gameData);
-u32 GAME_DATA_GetWifiList(const struct GameData *gameData);
-void *WIFI_HISTORY_GetBlock(void *saveControl);
-void *SYSTEM_DATA_GetMyStatus(void *saveControl);
+struct WorldTradeData;
+struct WorldTradeData *WORLDTRADE_GetFromSave(struct SaveControl *save);
+struct ConsoleStamp;
+struct ConsoleStamp *CONSOLE_STAMP_GetFromSave(struct SaveControl *control);
+struct Party;
+struct Party *POKEPARTY_GetSaveData(struct SaveControl *save);
+u32 GAME_DATA_GetBoxManager(const struct GameData *gameData);
+void *ZUKAN_SAVE_GetFromGameData(void *gameData);
+struct FieldState;
+struct FieldState *GAME_DATA_GetWifiList(const struct GameData *gameData);
+struct WifiHistory;
+struct WifiHistory *WIFI_HISTORY_GetBlock(struct SaveControl *saveControl);
+struct MyStatus *SYSTEM_DATA_GetMyStatus(void *saveControl);
 struct Config *SYSTEM_DATA_GetConfig(void *saveControl);
 void *RECORD_GetFromSave(void *saveControl);
-struct MyItem *GAME_DATA_GetMyItem(const struct GameData *gameData);
-u32 ZUKAN_SAVE_IsNationalDexEnabled(struct WorldTradeSave *zukanSave);
-int WIFILIST_GetGsProfileId(void *wifiList);
+void *GAME_DATA_GetMyItem(const struct GameData *gameData);
+struct ZukanSave;
+u32 ZUKAN_SAVE_IsNationalDexEnabled(struct ZukanSave *pZukan);
+struct WifiList;
+int WIFILIST_GetGsProfileId(struct WifiList *list);
 extern u16 GFL_USE_GetBgmNo(void);
 extern void GFL_USE_FadeOutBgm(u32 frames);
-extern int FIELD_STATUS_CreateFieldCloseEvent(int gameSystem, int fieldMap);
-extern void GAME_EVENT_CallEvent(struct GameEvent *event, struct GameEvent **newEvent);
+struct FieldMap;
+extern struct GameEvent *FIELD_STATUS_CreateFieldCloseEvent(struct GameSystem *gameSystem, struct FieldMap *fieldMap);
+extern void GAME_EVENT_CallEvent(struct GameEvent *parent, struct GameEvent *child);
 extern void GAMESYSTEM_CallProc(struct GameSystem *gameSystem, u32 overlayId, void *procData, void *param);
 extern u32 GAMESYSTEM_GetProcStatus(const struct GameSystem *gameSystem);
 extern void  GFL_USE_CancelChangeAndPlayBgm(u32 bgmNo, u32 fadeTarget);
 extern void GFL_USE_FadeInBgmFull(u32 frames);
-extern void *FIELD_STATUS_CreateFieldOpenEvent(void *gameSystem);
-extern int EVENT_FIELDMAP_CONTROL_StartFadeOut(void *gameSystem, int fieldMap, int sel, int d);
-extern int EVENT_FIELDMAP_CONTROL_StartFadeIn(void *gameSystem, int fieldMap, int sel, int d, int e, u8 f, u8 g);
+extern struct GameEvent *FIELD_STATUS_CreateFieldOpenEvent(struct GameSystem *gameSystem);
+extern struct GameEvent *EVENT_FIELDMAP_CONTROL_StartFadeOut(struct GameSystem *gameSystem, struct FieldMap *fieldMap, int effect, int skipWait);
+extern struct GameEvent *EVENT_FIELDMAP_CONTROL_StartFadeIn(struct GameSystem *gameSystem, struct FieldMap *fieldMap, int effect, int skipWait, int restoreBg, unsigned char seasonShown, unsigned char seasonTarget);
 int EVENT_WORLDTRADE_Entry(int gameSystem, Pair *request);
 int EVENT_WORLDTRADE_Create(int gameSystem, int fieldMap, int unused);
 u32 EVENT_WORLDTRADE_Main(struct GameEvent *event, u32 *seq, WorldTradeEventWork *work);
@@ -172,16 +180,16 @@ int EVENT_WORLDTRADE_Create(int gameSystem, int fieldMap, int unused)
     work->param.worldTradeData = WORLDTRADE_GetFromSave(work->saveControl);
     work->param.consoleStamp = CONSOLE_STAMP_GetFromSave(work->saveControl);
     work->param.party = POKEPARTY_GetSaveData(work->saveControl);
-    work->param.boxManager = GAME_DATA_GetBoxManager((const struct GameData *)gameData);
+    work->param.boxManager = (struct BoxManager *)GAME_DATA_GetBoxManager((const struct GameData *)gameData);
     work->param.zukanSave = ZUKAN_SAVE_GetFromGameData((void *)gameData);
-    work->param.wifiList = GAME_DATA_GetWifiList((const struct GameData *)gameData);
+    work->param.wifiList = (u32)GAME_DATA_GetWifiList((const struct GameData *)gameData);
     work->param.wifiHistory = WIFI_HISTORY_GetBlock(work->saveControl);
     work->param.myStatus = SYSTEM_DATA_GetMyStatus(work->saveControl);
     work->param.config = SYSTEM_DATA_GetConfig(work->saveControl);
     work->param.record = RECORD_GetFromSave(work->saveControl);
     work->param.myItem = GAME_DATA_GetMyItem((const struct GameData *)gameData);
     work->paramGameSystem = (struct GameSystem *)gameSystem;
-    work->param.nationalDexEnabled = ZUKAN_SAVE_IsNationalDexEnabled(work->param.zukanSave);
+    work->param.nationalDexEnabled = ZUKAN_SAVE_IsNationalDexEnabled((struct ZukanSave *)work->param.zukanSave);
     work->param.gsProfileId = WIFILIST_GetGsProfileId((void *)work->param.wifiList);
     work->param.reserved = 0;
     work->param.reserved2 = 0;
@@ -198,13 +206,13 @@ u32 EVENT_WORLDTRADE_Main(struct GameEvent *event, u32 *seq, WorldTradeEventWork
         break;
     case 1:
         if (work->hideFieldObjects)
-            GAME_EVENT_CallEvent(event, (struct GameEvent **)EVENT_FIELDMAP_CONTROL_StartFadeOut(work->gameSystem, work->fieldMap, 0, 0));
+            GAME_EVENT_CallEvent((struct GameEvent *)event, (struct GameEvent *)EVENT_FIELDMAP_CONTROL_StartFadeOut(work->gameSystem, (struct FieldMap *)work->fieldMap, 0, 0));
         work->savedBgmNo = GFL_USE_GetBgmNo();
         GFL_USE_FadeOutBgm(6);
         *seq = 2;
         break;
     case 2:
-        GAME_EVENT_CallEvent(event, (struct GameEvent **)FIELD_STATUS_CreateFieldCloseEvent((int)work->gameSystem, work->fieldMap));
+        GAME_EVENT_CallEvent((struct GameEvent *)event, (struct GameEvent *)FIELD_STATUS_CreateFieldCloseEvent((struct GameSystem *)work->gameSystem, (struct FieldMap *)work->fieldMap));
         *seq = 3;
         break;
     case 3:
@@ -221,7 +229,7 @@ u32 EVENT_WORLDTRADE_Main(struct GameEvent *event, u32 *seq, WorldTradeEventWork
         break;
     case 5:
         if (work->hideFieldObjects)
-            GAME_EVENT_CallEvent(event, (struct GameEvent **)EVENT_FIELDMAP_CONTROL_StartFadeIn(work->gameSystem, work->fieldMap, 0, 0, 1, 0, 0));
+            GAME_EVENT_CallEvent((struct GameEvent *)event, (struct GameEvent *)EVENT_FIELDMAP_CONTROL_StartFadeIn(work->gameSystem, (struct FieldMap *)work->fieldMap, 0, 0, 1, 0, 0));
         *seq = 6;
         break;
     case 6:

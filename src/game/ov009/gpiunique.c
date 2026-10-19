@@ -54,10 +54,10 @@ typedef struct {
 extern int gpiCheckForError(int *connection, const char *input, int fatal);
 extern int strncmp(const u8 *s1, const u8 *s2, u32 n);
 extern void gpiSetError(int *connection, int result, int errorString);
-extern int gpiCallErrorCallback(int *connection, int result, int fatal);
+extern int gpiCallErrorCallback(void **connection, int result, int fatal);
 extern void *gsimalloc(unsigned long size);
 extern void gpiSetErrorString(int *p, int b);
-extern int gpiAddCallback(void **connection, GPICallback callback, void *arg, GPIOperation *operation, int type);
+extern int gpiAddCallback(void **connection, struct GPICallback callback, void *arg, int *operation, int type);
 extern void gpiRemoveOperation(void **connection, struct GPIOperation *operation);
 int gpiProcessRegisterUniqueNick(void **connection, GPIOperation *operation, char *input);
 int gpiProcessRegisterCdKey(void **connection, GPIOperation *operation, char *input);
@@ -81,7 +81,7 @@ int gpiProcessRegisterUniqueNick(void **connection, GPIOperation *operation, cha
     if (strncmp((const u8 *)input, (const u8 *)gGpiUniqueResponseN, 4) != 0) {
         gpiSetError((int *)connection, 1, (int)gGpiUniqueErrorUnexpectedData);
         __result__ = 3;
-        gpiCallErrorCallback((int *)connection, __result__, 1);
+        gpiCallErrorCallback((void **)connection, __result__, 1);
         return __result__;
     }
     callback = operation->callback;
@@ -92,7 +92,7 @@ int gpiProcessRegisterUniqueNick(void **connection, GPIOperation *operation, cha
             return 1;
         }
         arg->result = 0;
-        __result__ = gpiAddCallback(connection, callback, arg, operation, 0);
+        __result__ = gpiAddCallback(connection, callback, arg, (int *)operation, 0);
         if (__result__ != 0)
             return __result__;
     }
@@ -115,7 +115,7 @@ int gpiProcessRegisterCdKey(void **connection, GPIOperation *operation, char *in
     if (strncmp((const u8 *)input, (const u8 *)gGpiUniqueResponseC, 4) != 0) {
         gpiSetError((int *)connection, 1, (int)gGpiUniqueErrorUnexpectedData);
         __result__ = 3;
-        gpiCallErrorCallback((int *)connection, __result__, 1);
+        gpiCallErrorCallback((void **)connection, __result__, 1);
         return __result__;
     }
     callback = operation->callback;
@@ -126,7 +126,7 @@ int gpiProcessRegisterCdKey(void **connection, GPIOperation *operation, char *in
             return 1;
         }
         arg->result = 0;
-        __result__ = gpiAddCallback(connection, callback, arg, operation, 0);
+        __result__ = gpiAddCallback(connection, callback, arg, (int *)operation, 0);
         if (__result__ != 0)
             return __result__;
     }

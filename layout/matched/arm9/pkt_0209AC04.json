@@ -21,6 +21,10 @@
     "_double_arith_prelude",
     "__dadd_dsub"
    ],
+   "addresses": [
+    "0x0209AC04",
+    "0x0209AF34"
+   ],
    "covers": [
     "0x0209AC04",
     "0x0209AF34"

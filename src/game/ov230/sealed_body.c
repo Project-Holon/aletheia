@@ -33,7 +33,7 @@ extern char gLoaderDecryptBssStart[];
 extern void LOADER_DECRYPT_SyncCacheRange(void *addr, u32 size);
 extern int OV230_OpenBuffer(const u8 *key, u8 *src, u8 *dst, u32 size);
 extern int OV230_SealBuffer(const u8 *key, u8 *src, u8 *dst, u32 size);
-extern void LOADER_DECRYPT_DecodeBlocks(void);
+extern void LOADER_DECRYPT_DecodeBlocks(u32 *desc);
 
 u8 *OV230_OpenSealedBody(u32 seed, u32 body, u32 end)
 {

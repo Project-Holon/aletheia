@@ -109,38 +109,47 @@ typedef struct BbActRec {
 extern u32 MI_CpuFill8(void *p, int v, int n);
 extern void GFL_USE_PlaySeDefaultVolume(u32 se);
 struct Desc *GAME_EVENT_Create(void *owner, void *a, void *b, u32 size);
-void *GAME_EVENT_GetWork(struct Obj *p);
-extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
-extern void *GAME_DATA_GetTrainerRecord(int *p);
+struct GameEvent;
+void *GAME_EVENT_GetWork(struct GameEvent *event);
+struct GameSystem;
+struct GameData;
+extern struct GameData *GAMESYSTEM_GetGameData(struct GameSystem *gameSystem);
+extern void *GAME_DATA_GetTrainerRecord(struct GameData *gd);
 extern u32 RECORD_AddOne(struct Sub02008C20Obj *obj, int i);
-extern u32 FIELDMAP_GetG3dMapper(u8 *p);
-extern void *FIELDMAP_GetFieldPlayer(void *fieldMap);
-extern void *FIELD_PLAYER_GetMmdl(u8 *p);
-extern u16 FLDMMDL_GetDirDisp(void *p);
-extern void FIELD_PLAYER_GetPosInDir(u32 *a, int b, int *out);
-extern u32 FIELDMAP_GetMoveKind(u8 *p);
+struct FieldG3dMapper;
+extern struct FieldG3dMapper *FIELDMAP_GetG3dMapper(struct FieldMap *fieldMap);
+struct FieldPlayer;
+extern struct FieldPlayer *FIELDMAP_GetFieldPlayer(struct FieldMap *fieldMap);
+struct Mmdl;
+extern struct Mmdl *FIELD_PLAYER_GetMmdl(struct FieldPlayer *player);
+extern u16 FLDMMDL_GetDirDisp(struct Mmdl *mmdl);
+extern void FIELD_PLAYER_GetPosInDir(struct FieldPlayer *player, s32 dir, s32 *out);
+extern u32 FIELDMAP_GetMoveKind(struct FieldMap *fieldMap);
 extern int FIELD_G3D_MAPPER_QueryNearestHit(u32 a, int *b, u32 *out);
 extern u16 MAP_ATTR_GetTerrainId(u32 attr);
 extern int MAP_ATTR_IsLongHopEdge(int id);
 extern int MAP_ATTR_IsFishableWater(u16 id);
 extern void FLDMMDL_MOVE_AddDirVector(int dir, int *p, int amt);
-extern u32 FIELDMAP_GetEncount(u8 *p);
-extern void *FIELDMAP_GetMmdlSys(u8 *q);
-extern void FIELD_PLAYER_GetPos(unsigned char *id, VecFx32 *out);
-extern int FIELD_PLAYER_GetFormSlot(u8 *p);
-extern int EFFECT_ENCOUNT_IsSpotAt(struct Self *self, short *pos);
-/* Retain the mode used to store f59 for the helper's second argument. */
-extern struct Obj *FIELD_ENCOUNT_CheckFishingEncount(struct Ctx *ctx, int mode);
-extern void FLDMMDL_SysPauseMove(void *o);
-extern void FIELD_PLAYER_StartFormChange(u8 *p, u32 mask);
-extern int FIELD_PLAYER_StepFormChange(u8 *p);
-extern void FLDMMDL_SetDrawStatus(void *p, u16 v);
+struct FieldEncount;
+extern struct FieldEncount *FIELDMAP_GetEncount(struct FieldMap *fieldMap);
+struct MmdlSys;
+extern struct MmdlSys *FIELDMAP_GetMmdlSys(struct FieldMap *fieldMap);
+extern void FIELD_PLAYER_GetPos(struct FieldPlayer *player, VecFx32 *out);
+extern int FIELD_PLAYER_GetFormSlot(struct FieldPlayer *player);
+extern int EFFECT_ENCOUNT_IsSpotAt(struct FieldEncount *encount, s16 *pos);
+struct BattleSetupParam;
+                                                                         
+extern struct BattleSetupParam *FIELD_ENCOUNT_CheckFishingEncount(struct FieldEncount *encount, s32 triggerMode);
+extern void FLDMMDL_SysPauseMove(struct MmdlSys *sys);
+extern void FIELD_PLAYER_StartFormChange(struct FieldPlayer *player, u32 mask);
+extern int FIELD_PLAYER_StepFormChange(struct FieldPlayer *player);
+extern void FLDMMDL_SetDrawStatus(struct Mmdl *mmdl, u16 drawStatus);
 extern u32 GFL_USE_GetRandomBelow(u32 v);
-extern int SCRIPT_SYS_CallScriptEvent(void *p, u16 b, int c, int d, u16 e);
-extern void EFFECT_ENCOUNT_Reset(u8 *p);
-extern int BTL_SETUP_Delete(int param);
+extern void *SCRIPT_SYS_CallScriptEvent(void *parentEvent, u16 scriptId, void *target, void *parentWork, u16 reserved);
+extern void EFFECT_ENCOUNT_Reset(struct FieldEncount *encount);
+extern void BTL_SETUP_Delete(struct BattleSetupParam *param);
 extern int EVENT_BATTLE_CreateScriptedBattle(int gameSystem, int battleSrc, int btlSetup, int returnImmediately, int effectId);
-extern void GAME_EVENT_ChangeEvent(struct S0201235C *o, u32 *out);
+extern void GAME_EVENT_ChangeEvent(struct GameEvent *now, struct GameEvent *next);
 int FISHING_StepCounter(FishingWork *w, u32 limit);
 int FISHING_WaitBite(FishingWork *w, u32 limit);
 void FISHING_ShowBiteMark(FishingWork *w);
@@ -152,10 +161,12 @@ void *FISHING_CreateEvent(struct FieldMap *fieldMap, void *gameSystem);
 int FISHING_EventMain(void *task, int *state, FishingWork *work);
 extern unsigned char abs_id_C2[];
 extern u32 KEY_GetTrg(void);
-extern void *FIELDMAP_GetEffect(void *fieldMap);
-extern u32 FLDEFF_GYOE_SetMMdl(void *a, void *mmdl, u32 b, u32 c);
-extern void FLDEFF_FISHING_SetAnimeSpeed(u32 effect, u16 v);
-extern void FIELD_EFFECT_DeleteObject(u32 effect);
+struct FieldEffectCont;
+extern struct FieldEffectCont *FIELDMAP_GetEffect(struct FieldMap *fieldMap);
+extern void *FLDEFF_GYOE_SetMMdl(void *fieldEffectCtrl, struct Mmdl *mmdl, u32 type, u32 sePlay);
+struct FieldEffectObj;
+extern void FLDEFF_FISHING_SetAnimeSpeed(struct FieldEffectObj *effect, u16 animeSpeed);
+extern void FIELD_EFFECT_DeleteObject(struct FieldEffectObj *obj);
 extern u32 FLDEFF_FISHING_Start(void *a, void *b, u32 c, int d);
 int FISHING_CheckFacingWater(u32 unused, void *fieldMap, VecFx32 *outPos)
 {
@@ -165,11 +176,11 @@ int FISHING_CheckFacingWater(u32 unused, void *fieldMap, VecFx32 *outPos)
     u32 mapData;
     u8 playerDir;
 
-    mapData = FIELDMAP_GetG3dMapper((u8 *)fieldMap);
+    mapData = (u32)FIELDMAP_GetG3dMapper((struct FieldMap *)fieldMap);
     player = FIELDMAP_GetFieldPlayer(fieldMap);
     playerDir = FLDMMDL_GetDirDisp(FIELD_PLAYER_GetMmdl(player));
     FIELD_PLAYER_GetPosInDir(player, playerDir, facingPos);
-    if (FIELDMAP_GetMoveKind((u8 *)fieldMap) == 1)
+    if (FIELDMAP_GetMoveKind((struct FieldMap *)fieldMap) == 1)
         return 0;
     if (FIELD_G3D_MAPPER_QueryNearestHit(mapData, facingPos, tileInfo) == 0)
         return 0;
@@ -203,9 +214,9 @@ void *FISHING_CreateEvent(struct FieldMap *fieldMap, void *gameSystem)
     work->gameSystem = gameSystem;
     work->fieldMap = fieldMap;
     work->gameData = GAMESYSTEM_GetGameData(gameSystem);
-    work->encount = (void *)FIELDMAP_GetEncount((u8 *)work->fieldMap);
+    work->encount = (void *)FIELDMAP_GetEncount((struct FieldMap *)work->fieldMap);
     work->trainerRecord = GAME_DATA_GetTrainerRecord(work->gameData);
-    work->mmdlSys = FIELDMAP_GetMmdlSys((u8 *)work->fieldMap);
+    work->mmdlSys = FIELDMAP_GetMmdlSys((struct FieldMap *)work->fieldMap);
     work->fieldPlayer = FIELDMAP_GetFieldPlayer(fieldMap);
     work->mmdl = FIELD_PLAYER_GetMmdl(work->fieldPlayer);
     work->playerDir = FLDMMDL_GetDirDisp(work->mmdl);
@@ -241,10 +252,10 @@ int FISHING_EventMain(void *task, int *state, FishingWork *work)
             *state = 8;
             break;
         }
-        FIELD_PLAYER_StartFormChange((u8 *)work->fieldPlayer, 0x200);
+        FIELD_PLAYER_StartFormChange((struct FieldPlayer *)work->fieldPlayer, 0x200);
         (*state)++;
     case 1:
-        if (FIELD_PLAYER_StepFormChange((u8 *)work->fieldPlayer) != 1)
+        if (FIELD_PLAYER_StepFormChange((struct FieldPlayer *)work->fieldPlayer) != 1)
             break;
         FLDMMDL_SetDrawStatus(work->mmdl, 0);
         GFL_USE_PlaySeDefaultVolume(0x684);
@@ -302,22 +313,22 @@ int FISHING_EventMain(void *task, int *state, FishingWork *work)
         if (work->wildEncounter != 0) {
             if (work->hasEncounter == 1)
                 EFFECT_ENCOUNT_Reset(work->encount);
-            BTL_SETUP_Delete((int)work->wildEncounter);
+            BTL_SETUP_Delete((struct BattleSetupParam *)work->wildEncounter);
         }
         FLDMMDL_SetDrawStatus(work->mmdl, 1);
         SCRIPT_SYS_CallScriptEvent(task, (u16)(*state + 0x2792), (u32)0, (u32)0, (u32)0x15);
         *state = 8;
         break;
     case 8:
-        FIELD_PLAYER_StartFormChange((u8 *)work->fieldPlayer, 8);
+        FIELD_PLAYER_StartFormChange((struct FieldPlayer *)work->fieldPlayer, 8);
         *state = 9;
     case 9:
-        if (FIELD_PLAYER_StepFormChange((u8 *)work->fieldPlayer) == 1)
+        if (FIELD_PLAYER_StepFormChange((struct FieldPlayer *)work->fieldPlayer) == 1)
             return 1;
         break;
     case 10:
         RECORD_AddOne((struct Sub02008C20Obj *)work->trainerRecord, 8);
-        GAME_EVENT_ChangeEvent(task, (u32 *)EVENT_BATTLE_CreateScriptedBattle((int)work->gameSystem, (int)work->fieldMap, (int)work->wildEncounter, 0, (u8)(work->hasEncounter == 1 ? 1 : 4)));
+        GAME_EVENT_ChangeEvent((struct GameEvent *)task, (struct GameEvent *)EVENT_BATTLE_CreateScriptedBattle((int)work->gameSystem, (int)work->fieldMap, (int)work->wildEncounter, 0, (u8)(work->hasEncounter == 1 ? 1 : 4)));
         return 0;
     }
     return 0;
@@ -359,14 +370,14 @@ void FISHING_ShowBiteMark(FishingWork *w)
     void *effectSys = FIELDMAP_GetEffect(w->fieldMap);
 
     FLDMMDL_SetDrawStatus(w->mmdl, 2);
-    w->exclamEffect = FLDEFF_GYOE_SetMMdl(effectSys, w->mmdl, 0, 1);
-    FLDEFF_FISHING_SetAnimeSpeed(w->rodEffect, 1);
+    w->exclamEffect = (u32)FLDEFF_GYOE_SetMMdl(effectSys, w->mmdl, 0, 1);
+    FLDEFF_FISHING_SetAnimeSpeed((struct FieldEffectObj *)w->rodEffect, 1);
 }
 
 void FISHING_HideBiteMark(FishingWork *w)
 {
     if (w->exclamEffect != 0) {
-        FIELD_EFFECT_DeleteObject(w->exclamEffect);
+        FIELD_EFFECT_DeleteObject((struct FieldEffectObj *)w->exclamEffect);
         w->exclamEffect = 0;
     }
 }
@@ -379,7 +390,7 @@ void FISHING_StartRodEffect(FishingWork *w)
 void FISHING_EndRodEffect(FishingWork *w)
 {
     if (w->rodEffect != 0) {
-        FIELD_EFFECT_DeleteObject(w->rodEffect);
+        FIELD_EFFECT_DeleteObject((struct FieldEffectObj *)w->rodEffect);
         w->rodEffect = 0;
     }
 }

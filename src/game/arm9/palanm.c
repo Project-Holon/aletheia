@@ -83,13 +83,14 @@ struct PalAnmRes {
 };
 
 extern u64 OS_GetTick(void);
-extern u32 GAME_DATA_AddPlayTime(u8 *target, u32 elapsedUnits);
+struct GameData;
+extern u32 GAME_DATA_AddPlayTime(struct GameData *gd, u32 limit);
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 allocTag);
 extern void MI_CpuFill8(void *dest, u32 data, u32 size);
 extern u32 GFL_HEAP_Free(void *block);
 extern void MIi_CpuCopy16(const void *src, void *dest, u32 size);
-extern void *ARC_UTIL_LoadPaletteBlockFromArchive(u32 archiveID, u32 memberIdx, u32 unpackedOut, u32 flags);
-extern void *ARC_UTIL_LoadPaletteBlockFromHandle(void *arc, u32 memberIdx, u32 unpackedOut, u32 flags);
+extern void *ARC_UTIL_LoadPaletteBlockFromArchive(u32 archiveID, u32 memberIdx, void *unpackedOut, u16 flags);
+extern void *ARC_UTIL_LoadPaletteBlockFromHandle(void *arc, u32 memberIdx, void *unpackedOut, u16 flags);
 int ITEM_IsBerry(u32 colorCode);
 u32 PALANM_IsOutsideReservedIdRange(u16 id);
 u16 PALANM_LookupPairedCode(int value, int column);
@@ -148,6 +149,9 @@ typedef struct {
     u16 autoTrans : 1;
     u8  forceStop;
 } PaletteFade;
+struct TcbSystem;
+struct TcbTask;
+extern struct TcbTask *TCB_AddTask(struct TcbSystem *sys, void (*fn)(void *, PaletteFade *), void *work, unsigned int priority);
 
 struct Rgb555 {
     u16 r : 5;
@@ -155,8 +159,9 @@ struct Rgb555 {
     u16 b : 5;
     u16 pad : 1;
 };
+struct TcbTask;
 
-extern u32 TCB_DeleteTask(struct Node *n);
+extern void TCB_DeleteTask(struct TcbTask *task);
 
 extern void DC_FlushRange(void *a, u32 b);
 
@@ -180,13 +185,13 @@ extern void GX_LoadOBJExtPltt(void *a, u32 b, u32 c);
 
 extern void GX_EndLoadOBJExtPltt(void);
 
-extern void GXS_BeginLoadBGExtPltt(void);
+extern void *GXS_BeginLoadBGExtPltt(void);
 
 extern void GXS_LoadBGExtPltt(void *a, u32 b, u32 c);
 
 extern void GXS_EndLoadBGExtPltt(void);
 
-extern void GXS_BeginLoadOBJExtPltt(void);
+extern void *GXS_BeginLoadOBJExtPltt(void);
 
 extern void GXS_LoadOBJExtPltt(void *a, u32 b, u32 c);
 
@@ -348,7 +353,7 @@ void PALANM_UpdateTimer(u8 *target)
     if (sPalAnmTimer.doneUnits >= units) {
         return;
     }
-    GAME_DATA_AddPlayTime(target, (u32)(units - sPalAnmTimer.doneUnits));
+    GAME_DATA_AddPlayTime((struct GameData *)target, (u32)(units - sPalAnmTimer.doneUnits));
     if (sPalAnmTimer.lastTick == now) {
         sPalAnmTimer.doneUnits = units;
     } else {
@@ -505,7 +510,7 @@ void PALANM_LoadArcPaletteToSlotAt(struct PalAnmSlot *palSlots, u32 arcId, u32 f
     struct PalAnmRes *res;
     void *block;
 
-    block = ARC_UTIL_LoadPaletteBlockFromArchive(arcId, fileId, (u32)(&res), (u16)((heapId & 0x7fff) | 0x8000));
+    block = ARC_UTIL_LoadPaletteBlockFromArchive(arcId, fileId, (&res), (u16)((heapId & 0x7fff) | 0x8000));
     if (byteSize == 0) {
         byteSize = res->byteSize;
     }
@@ -557,7 +562,7 @@ void PALANM_LoadHandlePaletteToSlotAt(struct PalAnmSlot *palSlots, void *arcHand
     struct PalAnmRes *res;
     void *block;
 
-    block = ARC_UTIL_LoadPaletteBlockFromHandle(arcHandle, fileId, (u32)(&res), (u16)((heapId & 0x7fff) | 0x8000));
+    block = ARC_UTIL_LoadPaletteBlockFromHandle((void *)arcHandle, fileId, (&res), (u16)((heapId & 0x7fff) | 0x8000));
     if (byteSize == 0) {
         byteSize = res->byteSize;
     }

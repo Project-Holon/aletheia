@@ -72,7 +72,7 @@ typedef struct WMStatus {
     u32 dcf_flag;
 } WMStatus;
 
-extern WMArm9Buf *WMi_GetSystemWork(void);
+extern void *WMi_GetSystemWork(void);
 extern WMErrCode WMi_CheckStateEx(s32 paramNum, ...);
 extern void DC_InvalidateRange(void *startAddr, u32 nBytes);
 extern void DC_StoreRange(void *startAddr, u32 nBytes);

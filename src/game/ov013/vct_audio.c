@@ -67,7 +67,7 @@ extern int VCT_DSP_HighPassFilter(short *samples, u32 byteCount);
 
 extern void VCT_DSP_SuppressEchoWithReference(short *samples, u32 byteCount, u32 rms);
 
-extern int VCT_DSP_UpdateVoiceGate(u32 energy, u32 rms, u8 *outFlag);
+extern u32 VCT_DSP_UpdateVoiceGate(u32 energy, u32 rms, u8 *outFlag);
 
 extern void VCT_ADPCM_EncodePacket(AdpcmHeader *header, void *dst, int sampleCount, AdpcmState *state, int mode);
 
@@ -92,10 +92,12 @@ extern void MI_CpuFill8(void *dst, int value, int size);
 extern unsigned long long OS_GetTick(void);
 
 extern VctPeer *VCT_SESSION_AllocPeer(unsigned int index);
+struct VctPacket;
+struct VctPeer;
 
-extern void VCT_SESSION_InitPacketHeader(void *peer, void *message, unsigned int type);
+extern s32 VCT_SESSION_InitPacketHeader(struct VctPeer *peer, struct VctPacket *packet, s32 command);
 
-extern int VCT_SESSION_CheckCommandAllowed(void *peer, const u8 *message);
+extern int VCT_SESSION_CheckCommandAllowed(struct VctPeer *peer, struct VctPacket *packet);
 
 extern int VCT_SESSION_HasNoOtherTalker(VctPeer *peer);
 
@@ -1040,8 +1042,8 @@ int VCT_SESSION_BuildGroupCommand(void *peer, unsigned int type, unsigned char *
     if (type >= 5)
         return -3;
     buffer[4] = dstId;
-    VCT_SESSION_InitPacketHeader(peer, buffer, type & 0xff);
-    if (VCT_SESSION_CheckCommandAllowed(peer, buffer) == 0)
+    VCT_SESSION_InitPacketHeader(peer, (struct VctPacket *)buffer, type & 0xff);
+    if (VCT_SESSION_CheckCommandAllowed(peer, (struct VctPacket *)buffer) == 0)
         return 0xfc - dstId;
     if (gVctSession.mode == 1 && type == 0) {
         if (VCT_SESSION_HasNoOtherTalker(peer) == 0)
@@ -1068,7 +1070,7 @@ int VCT_SESSION_BuildPeerReply(VctPeer *peer, unsigned int type, unsigned char *
     if (type >= 6)
         return -3;
     buffer[4] = zero;
-    VCT_SESSION_InitPacketHeader(peer, buffer, type & 0xff);
+    VCT_SESSION_InitPacketHeader(peer, (struct VctPacket *)buffer, type & 0xff);
     if (type == 0) {
         if (gVctSession.mode == 1 && peer->phase == 4) {
             if (VCT_SESSION_HasNoOtherTalker(peer) == 0)
@@ -1076,7 +1078,7 @@ int VCT_SESSION_BuildPeerReply(VctPeer *peer, unsigned int type, unsigned char *
         }
         peer->memberMask = peer->peerId ? 1 << peer->peerId : 1;
     }
-    if (VCT_SESSION_CheckCommandAllowed(peer, buffer) == 0)
+    if (VCT_SESSION_CheckCommandAllowed(peer, (struct VctPacket *)buffer) == 0)
         return -3;
     return 0;
 }

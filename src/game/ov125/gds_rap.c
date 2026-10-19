@@ -118,6 +118,7 @@ typedef unsigned int u32;
 typedef unsigned long long u64;
 typedef signed int s32;
 
+#include "../version.h"
 #include "gds_rap_types.h"
 
 struct MyStatus;
@@ -130,19 +131,22 @@ extern void MI_CpuFill8(void *dst, int value, u32 size);
 extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32 GFL_HEAP_Free(void *p);
-extern struct MsgData *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern u32 MSGDATA_Delete(struct MsgData *msg);
-extern void MSGDATA_ReadUnits(struct MsgData *msg, u32 msgIndex, u16 *str, u32 maxLen);
-extern struct WordSet *WORDSET_CreateDefault(u32 heapId);
+struct MsgBank;
+extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern u32 MSGDATA_Delete(struct MsgBank *bank);
+extern void MSGDATA_ReadUnits(struct MsgBank *bank, u32 msgIndex, u16 *str, u32 maxLen);
+struct WordSet;
+extern struct WordSet *WORDSET_CreateDefault(u16 heapId);
 extern u32 WORDSET_Delete(struct WordSet *wordSet);
-extern struct StrBuf *STRBUF_Create(u32 capacity, u32 heapId);
-extern void STRBUF_Delete(struct StrBuf *str);
+struct Strbuf;
+extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
+extern void STRBUF_Delete(struct Strbuf *strbuf);
 extern struct MyStatus *GAME_DATA_GetMyStatus(struct GameData *gameData);
 extern u32 MYSTATUS_GetProfileId(const struct MyStatus *status);
 extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gameData);
 extern void GAME_DATA_PartSaveStart(struct GameData *gameData, u32 id);
 extern int GAME_DATA_PartSaveMain(struct GameData *gameData, int id);
-extern u32 SAVE_CONTROL_LoadExtraSave(struct SaveControl *save, u32 id, u32 heap);
+extern u32 SAVE_CONTROL_LoadExtraSave(struct SaveControl *saveControl, u32 slot, u8 heapId);
 extern void *SAVE_CONTROL_GetExtraSaveRecord(struct SaveControl *save, u32 id, u32 arg);
 extern void SAVE_CONTROL_DeleteExtraSave(struct SaveControl *save, u32 id);
 extern u16 GF_STANDARD_CalcCrc16(const u8 *src, u32 len);
@@ -254,11 +258,11 @@ int GDS_RAP_Init(GdsRapWork *work, GdsRapInitParams *params)
     work->finishedRequestId = GDS_REQUEST_NONE;
     work->replyBuffer = GFL_HEAP_Alloc(params->heapId, GDS_SOCKET_GetMaxReplySize(-1), 0, sGdsRapFileName, 0x84);
     MI_CpuFill8(work->replyBuffer, 0, GDS_SOCKET_GetMaxReplySize(-1));
-    work->msgData = MSGDATA_CreateFromArchive(0, 2, 0xE8, params->heapId);
+    work->msgData = (struct MsgData *)MSGDATA_CreateFromArchive(0, 2, 0xE8, params->heapId);
     work->wordSet = WORDSET_CreateDefault(params->heapId);
-    work->strBuf = STRBUF_Create(0x100, params->heapId);
+    work->strBuf = (struct StrBuf *)STRBUF_Create(0x100, params->heapId);
     work->client.profileId = params->profileId;
-    work->client.packetType = 0x15;
+    work->client.packetType = PM_VERSION_ID;
     work->client.protocolVersion = 2;
     if (GDS_SOCKET_Begin(&work->client, sGdsServerHost, 0x3071) != 1)
         GF_PANIC_Fail(sGdsEmptyString, 0, sGdsEmptyString);
@@ -276,9 +280,9 @@ void GDS_RAP_Exit(GdsRapWork *work)
     }
     GDS_SOCKET_Shutdown();
     work->active = 0;
-    STRBUF_Delete(work->strBuf);
+    STRBUF_Delete((struct Strbuf *)work->strBuf);
     WORDSET_Delete(work->wordSet);
-    MSGDATA_Delete(work->msgData);
+    MSGDATA_Delete((struct MsgBank *)work->msgData);
     GFL_HEAP_Free(work->replyBuffer);
     GF_OVERLAY_Unload((int)ov114_id);
 }

@@ -127,11 +127,11 @@ extern unsigned short GAME_DATA_GetPlayerZoneId(const struct PlayerWork *player)
 
 extern struct FieldPlayer *FIELDMAP_GetFieldPlayer(struct FieldMap *fieldMap);
 
-extern void *FIELD_PLAYER_GetNowAttribute(struct FieldPlayer *fieldPlayer);
+extern u32 FIELD_PLAYER_GetNowAttribute(struct FieldPlayer *fieldPlayer);
 
-extern void *MAP_ATTR_GetTerrainId(void *encountState);
+extern unsigned short MAP_ATTR_GetTerrainId(unsigned int attr);
 
-extern int MAP_ATTR_IsRoughGround(void *effect);
+extern int MAP_ATTR_IsRoughGround(int terrainId);
 
 extern u32 ZONEDATA_IsBikeEnabled(u32 zoneId);
 
@@ -143,13 +143,15 @@ extern int FISHING_CheckFacingWater(struct GameData *gameData, struct FieldMap *
 
 extern u32 ZONEDATA_IsZone34(u32 zoneId);
 
-extern struct FieldMap *GAMESYSTEM_GetFieldMap(const struct GameSystem *gameSystem);
+extern void *GAMESYSTEM_GetFieldMap(const struct GameSystem *gameSystem);
+struct GameComm;
 
-extern void *GAMESYSTEM_GetGameComm(const struct GameSystem *gameSystem);
+extern struct GameComm *GAMESYSTEM_GetGameComm(const struct GameSystem *gameSystem);
 
-extern int INTRUDE_COMM_IsSessionEndPending(void *gameComm, int frames);
+extern int INTRUDE_COMM_IsSessionEndPending(struct GameComm *comm, int unused);
+struct MmdlSys;
 
-extern void *FIELDMAP_GetMmdlSys(struct FieldMap *fieldMap);
+extern struct MmdlSys *FIELDMAP_GetMmdlSys(struct FieldMap *fieldMap);
 
 extern u32 FIELDMAP_ApplyPlayerFormRequest(struct FieldMap *fieldMap);
 
@@ -162,12 +164,13 @@ extern struct GameEvent *GAME_EVENT_Create(void *gameSystem, void *parent, void 
 extern void *GAME_EVENT_GetWork(struct GameEvent *event);
 
 extern void EVENT_MAPCHANGE_CreateIntrudeWarpEvent(struct GameSystem *gameSystem, int id, const void *position, int flags);
+struct FieldSubscreen;
 
-extern void *FIELDMAP_GetSubscreen(struct FieldMap *fieldMap);
+extern struct FieldSubscreen *FIELDMAP_GetSubscreen(struct FieldMap *fieldMap);
 
-extern u32 FIELD_SUBSCREEN_GetMode(void *subscreen);
+extern u32 FIELD_SUBSCREEN_GetMode(struct FieldSubscreen *work);
 
-extern int FIELD_SUBSCREEN_RequestMode(void *subscreen, u32 mode);
+extern int FIELD_SUBSCREEN_RequestMode(struct FieldSubscreen *work, u32 mode);
 
 extern FieldLinkEventEntry FieldLinkEventTable[];
 
@@ -215,7 +218,7 @@ int FIELD_SKILL_CHECK_Bicycle(struct GameData *gameData, struct FieldMap *fieldM
 
     zoneId = GAME_DATA_GetPlayerZoneId(player);
     objectCode = GAME_DATA_GetPlayerObjectCode(player);
-    encountEffect = MAP_ATTR_IsRoughGround(MAP_ATTR_GetTerrainId(FIELD_PLAYER_GetNowAttribute(FIELDMAP_GetFieldPlayer(fieldMap))));
+    encountEffect = MAP_ATTR_IsRoughGround(MAP_ATTR_GetTerrainId((unsigned int)FIELD_PLAYER_GetNowAttribute(FIELDMAP_GetFieldPlayer(fieldMap))));
     if (objectCode == 1) {
         if (encountEffect == 0) {
             return 1;

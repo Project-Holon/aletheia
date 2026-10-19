@@ -295,33 +295,37 @@ typedef int BOOL;
 extern int FADE_IsActive(void);
 extern int GF_OVERLAY_Load(int);
 extern void GFL_HEAP_CreateChildHeap(u32,u32,u32);
-extern void *PROCSYS_AllocProcWork(void *,u32,u32);
+struct Proc;
+extern void *PROCSYS_AllocProcWork(struct Proc *proc, unsigned int size, unsigned int heapId);
 extern void MI_CpuFill8(void *,u32,u32);
 extern void *COMM_BTL_DEMO_GRAPHIC_Create(u32,u32);
-extern void *GF_FONT_Create(int,int,int,int,u32);
-extern void *MSGDATA_CreateFromArchive(u32,u32,u32,u32);
-extern void *PRINTSYS_QUE_Create(u32);
+struct GfFont;
+extern struct GfFont *GF_FONT_Create(int,int,int,int,u32);
+struct MsgBank;
+extern struct MsgBank *MSGDATA_CreateFromArchive(u32,u32,u32,u32);
+struct PrintQueue;
+extern struct PrintQueue *PRINTSYS_QUE_Create(u32);
 extern void *UI_SCENE_Create(u32,const void *,u8,u32,void *);
 extern void GFL_NET_RefreshWmIconAtTopRight(u32,u32);
 extern void FADE_Start(u32,int,int,int);
 extern void BG_SYS_ChangeScroll(u32,u32,u32);
-extern void UI_SCENE_Delete(void *);
-extern void MSGDATA_Delete(struct MsgData *);
-extern void PRINTSYS_QUE_Delete(struct PrintSys *);
-extern void GF_FONT_Delete(void *);
+extern void UI_SCENE_Delete(struct UiScene *scene);
+extern unsigned int MSGDATA_Delete(struct MsgBank *bank);
+extern void PRINTSYS_QUE_Delete(struct PrintQueue *queue);
+extern unsigned int GF_FONT_Delete(struct GfFont *font);
 extern void COMM_BTL_DEMO_MAIN_DeleteCursor(char *),COMM_BTL_DEMO_MAIN_DeleteGraphics(char *),COMM_BTL_DEMO_GRAPHIC_Delete(unsigned char *);
-extern void PROCSYS_FreeProcWork(struct ProcOwner *);
+extern void PROCSYS_FreeProcWork(struct Proc *proc);
 extern void GFL_HEAP_DeleteChecked(u32);
 extern void GF_OVERLAY_Unload(int);
 extern void COMM_BTL_DEMO_GRAPHIC_Draw(char *p);
 extern int UI_SCENE_Step(struct UiScene *s);
-extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
-extern void *ARC_TOOL_CreateHandle(unsigned int id, unsigned int heap);
+extern u32 PRINTSYS_QUE_Main(struct PrintQueue *queue);
+extern void *ARC_TOOL_CreateHandle(unsigned int archiveID, unsigned short heapID);
 extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *,unsigned,unsigned,unsigned,unsigned,u16);
 extern u32 ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void ARC_UTIL_UploadBgPaletteFromHandle(void *,unsigned,unsigned,unsigned,unsigned,unsigned,u16);
 extern void ARC_TOOL_DeleteHandle(void *);
-extern void UI_SCENE_SetNextScene(unsigned char *task, int value);
+extern void UI_SCENE_SetNextScene(struct UiScene *scene, int nextSceneIndex);
 extern u32 G3D_UTIL_GetObject(u8 *, int);
 extern u32 UI_SCENE_GetPhaseFrame(const u8 *);
 extern void UI_SCENE_AdvancePhaseFrame(u8 *);
@@ -331,23 +335,28 @@ extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern void CLACT_SetActorDrawEnable(struct Actor *p, unsigned int v);
 extern void FADE_Start(u32,int,int,int);
 extern int FADE_IsActive(void);
-extern u32 POKEPARTY_GetCount(void *p);
-extern void *POKEPARTY_GetMember(void*,u32);
+struct Party;
+extern u32 POKEPARTY_GetCount(struct Party *party);
+struct PokemonParam;
+extern struct PokemonParam *POKEPARTY_GetMember(struct Party *party, unsigned int pos);
 extern void CLACT_DeleteActor(struct Actor *p);
 extern void CLACT_SetActorDrawEnable(struct Actor *p, unsigned int v),CLACT_SetActorBgPriority(void*,u32);
 extern void CLACT_ChangeActorAnimSeq(struct Actor *p, u16 v);
 extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
-extern struct StrBuf *STRBUF_Create(u32 capacity, u32 heapId);
-extern void MYSTATUS_NameToStrbuf(void *,void *);
-extern u8 MYSTATUS_GetSex(const struct TextSys *obj);
-extern void STRBUF_Delete(struct StrBuf *vec);
+struct Strbuf;
+extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
+extern void MYSTATUS_NameToStrbuf(unsigned short *name, struct Strbuf *buf);
+struct MyStatus;
+extern u8 MYSTATUS_GetSex(struct MyStatus *mystatus);
+extern void STRBUF_Delete(struct Strbuf *strbuf);
 extern u32 BMP_WIN_Delete(struct BmpWin *d);
-extern void *BMP_WIN_GetBmp(struct BmpWin *p);
-extern void BMP_Clear(struct BmpCharBuf *buf, u8 value);
+struct Bmp;
+extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *p);
+extern void BMP_Clear(struct Bmp *bmp, unsigned char value);
 extern void GF_FONT_SetTextColor(u32 r, u32 g, u32 b);
-extern void PRINTSYS_Print(void *x, s16 y, s16 z, void *s, void *w);
+extern void PRINTSYS_Print(struct Bmp *bmp, short x, short y, struct Strbuf *str, struct GfFont *font);
 extern void BMP_WIN_TransferChars(struct BmpWin *d);
-extern void BMP_WIN_MakeScreen(struct BmpWinCfg *cfg);
+extern void BMP_WIN_MakeScreen(struct BmpWin *win);
 extern u8 BMP_WIN_GetBgLayer(struct BmpWin *p);
 extern void BG_SYS_MarkTileDirty(u32 bit);
 void COMM_BTL_DEMO_MAIN_UpdateRowContext();
@@ -366,31 +375,36 @@ extern void COMM_BTL_DEMO_GRAPHIC_Draw3d(char *p);
 extern void COMM_BTL_DEMO_GRAPHIC_DrawEnd(char *p);
 extern void PARTICLE_Main(void);
 extern void MTX_Identity33_(MtxFx33 *p);
-extern void G3D_SYSTEM_DrawObject(void *obj, struct G3dDrawArg *status);
-extern int PARTICLE_CreateSystemDefault(int a,int b,int c,int d);
-extern int PARTICLE_ReleaseCamera(int a);
+struct G3dObjectStatus;
+struct G3dObject;
+extern void G3D_SYSTEM_DrawObject(struct G3dObject *obj, struct G3dObjectStatus *status);
+struct ParticleSys;
+extern struct ParticleSys *PARTICLE_CreateSystemDefault(unsigned int workBuf, unsigned int workSize, unsigned int withCamera, unsigned int heapId);
+extern int PARTICLE_ReleaseCamera(struct ParticleSys *sys);
 extern void PARTICLE_InitCamera(struct ParticleCamera *p,struct ParticleCameraParam *src,u16 angle,int *pos,int *target,int *up,u32 heap);
-extern int PARTICLE_LoadArchiveMember(u32 a,u32 b,u32 c);
+extern void *PARTICLE_LoadArchiveMember(u32 a,u32 b,u32 c);
 extern u16 PARTICLE_RESOURCE_GetType(void *res);
-extern u32 GFL_USE_GetMainTaskList(void);
-extern void PARTICLE_SetupSystem(u8 *o,u32 block,u32 applyNow,u32 taskMgr);
-extern void PARTICLE_KillAllEffects(u8 *);
-extern void PARTICLE_DeleteSystem(u8 *);
+struct TcbList;
+extern struct TcbList *GFL_USE_GetMainTaskList(void);
+extern void PARTICLE_SetupSystem(struct ParticleSys *sys, void *block, unsigned int applyNow, unsigned int taskMgr);
+extern void PARTICLE_KillAllEffects(struct ParticleSys *sys);
+extern void PARTICLE_DeleteSystem(struct ParticleSys *sys);
 extern void PARTICLE_ExitManager(void);
-extern int PARTICLE_StartEffect(void *,int,int);
+extern int PARTICLE_StartEffect(struct ParticleSys *sys, int resId, int arg);
 extern int G3D_SYSTEM_GetObjectRender(int *),G3D_SYSTEM_GetRenderTexRes(int *),G3D_SYSTEM_GetRenderObj(int *);
 extern int G3D_SYSTEM_GetResourceTex(char *);
 extern void NNS_G3dReleaseMdlPltt(char *);
 extern int NNS_G3dBindMdlPlttEx(char *,char *,u32,u32);
 extern u16 G3D_UTIL_AddUnit(Util *util, const struct G3dUnitSetup *setup);
-extern int G3D_SYSTEM_GetObjectAnimeCount(int *p);
-extern u32 G3D_SYSTEM_EnableObjectAnime(struct G3dSystem *sys, u32 idx);
+extern unsigned short G3D_SYSTEM_GetObjectAnimeCount(struct G3dObject *obj);
+extern int G3D_SYSTEM_EnableObjectAnime(struct G3dObject *obj, unsigned int anmIdx);
 extern void G3D_UTIL_RemoveUnit(struct G3dUtil *,u32);
-extern int G3D_SYSTEM_LoopObjectAnimeFrame(void *a, int idx, int amount);
+extern int G3D_SYSTEM_LoopObjectAnimeFrame(struct G3dObject *obj, int anmIdx, int step);
 extern void BG_SYS_SetMainPlaneVisible(unsigned, unsigned);
 extern void G3X_SetFog(BOOL, int, int, int);
 extern void G3X_SetClearColor(unsigned short, int, int, int, BOOL);
-extern void G3D_SYSTEM_SetLight(u32 idx, const u16 *src);
+struct G3dLight;
+extern void G3D_SYSTEM_SetLight(unsigned int lightIdx, struct G3dLight *light);
 extern void G3D_SYSTEM_SetSwapBuffersMode(unsigned, unsigned);
 int COMM_BTL_DEMO_MAIN_Create(void *manager,int *state,struct CommBtlDemoArgs *args);
 int COMM_BTL_DEMO_MAIN_Delete(struct ProcOwner *owner,int unused,const void *cfg,char *p);
@@ -530,7 +544,7 @@ PRINTSYS_QUE_Delete(((struct CommBtlDemoMain *)p)->printQue);
 GF_FONT_Delete(((struct CommBtlDemoMain *)p)->font);
 COMM_BTL_DEMO_MAIN_DeleteCursor(p+0xc);COMM_BTL_DEMO_MAIN_DeleteGraphics(p+0x24);
 COMM_BTL_DEMO_GRAPHIC_Delete(((struct CommBtlDemoMain *)p)->graphic);
-heap=((struct CommBtlDemoMain *)p)->heap;PROCSYS_FreeProcWork(owner);GFL_HEAP_DeleteChecked(heap);GF_OVERLAY_Unload((int)overlay_id);return 1;
+heap=((struct CommBtlDemoMain *)p)->heap;PROCSYS_FreeProcWork((struct Proc *)owner);GFL_HEAP_DeleteChecked(heap);GF_OVERLAY_Unload((int)overlay_id);return 1;
 }
 
 
@@ -602,7 +616,7 @@ void COMM_BTL_DEMO_MAIN_LoadGraphics(int a,u16 heap,int index)
 void COMM_BTL_DEMO_MAIN_Exit(u8 *task, char *p) {
     COMM_BTL_DEMO_MAIN_DeleteRows(p);
     COMM_BTL_DEMO_MAIN_DeleteBattleContext((struct CommBtlDemoBattleContext *)(p + 0x498C));
-    UI_SCENE_SetNextScene(task,65534);
+    UI_SCENE_SetNextScene((struct UiScene *)task,65534);
 }
 
 
@@ -753,7 +767,7 @@ int COMM_BTL_DEMO_MAIN_Tick(u8 *task,char *p)
 
 
 
-int COMM_BTL_DEMO_MAIN_Exit2(u8 *task,void *p) {COMM_BTL_DEMO_MAIN_DeleteRows((char *)p);UI_SCENE_SetNextScene(task,65534);return 1;}
+int COMM_BTL_DEMO_MAIN_Exit2(u8 *task,void *p) {COMM_BTL_DEMO_MAIN_DeleteRows((char *)p);UI_SCENE_SetNextScene((struct UiScene *)task,65534);return 1;}
 
 
 
@@ -827,7 +841,7 @@ int COMM_BTL_DEMO_MAIN_UpdateBattle(unsigned char *state,unsigned char *p)
             CLACT_SetActorDrawEnable(((struct CommBtlDemoBattleContext *)(p+0x498c))->sideActor[index],0);
         }else if(((struct CommBtlDemoMain *)p)->stage==120)FADE_Start(3,0,16,-3);
         else if(((struct CommBtlDemoMain *)p)->stage==128)return 1;
-        if(((struct CommBtlDemoMain *)p)->stage%180==0){
+        if((int)((struct CommBtlDemoMain *)p)->stage%180==0){
             if(((struct CommBtlDemoMain *)p)->variant==1){x=-0x2800;y=0x2000;}
             else{x=0x2800;y=-0x1800;}
             effectPos0=d0;effectPos0.x=x;effectPos0.y=y;COMM_BTL_DEMO_MAIN_StartEffect((char *)(p+0x24),0,(int)(&effectPos0));
@@ -852,7 +866,7 @@ int COMM_BTL_DEMO_MAIN_UpdateBattle(unsigned char *state,unsigned char *p)
 
 
 
-int COMM_BTL_DEMO_MAIN_UpdateExit(u8 *task,char *p) {if(((struct CommBtlDemoMain *)p)->variant==2){GFL_USE_PlaySeDefaultVolume(COMM_BTL_DEMO_MAIN_GetSoundId(4,((struct CommBtlDemoMain *)p)->args->soundKind));UI_SCENE_SetNextScene(task,2);return 1;}COMM_BTL_DEMO_MAIN_Exit(task,p);return 1;}
+int COMM_BTL_DEMO_MAIN_UpdateExit(u8 *task,char *p) {if(((struct CommBtlDemoMain *)p)->variant==2){GFL_USE_PlaySeDefaultVolume(COMM_BTL_DEMO_MAIN_GetSoundId(4,((struct CommBtlDemoMain *)p)->args->soundKind));UI_SCENE_SetNextScene((struct UiScene *)task,2);return 1;}COMM_BTL_DEMO_MAIN_Exit(task,p);return 1;}
 
 
 
@@ -1115,7 +1129,7 @@ void COMM_BTL_DEMO_MAIN_RefreshRowText(struct CommBtlDemoRow *a)
 
 
 
-void COMM_BTL_DEMO_MAIN_DeleteRowContext(struct CommBtlDemoRow *p) {STRBUF_Delete((struct StrBuf *)(p->textBuf));COMM_BTL_DEMO_MAIN_DeleteActorRow(&p->actor);BMP_WIN_Delete((struct BmpWin *)(p->window));}
+void COMM_BTL_DEMO_MAIN_DeleteRowContext(struct CommBtlDemoRow *p) {STRBUF_Delete((struct Strbuf *)(p->textBuf));COMM_BTL_DEMO_MAIN_DeleteActorRow(&p->actor);BMP_WIN_Delete((struct BmpWin *)(p->window));}
 
 
 
@@ -1148,7 +1162,7 @@ void COMM_BTL_DEMO_MAIN_DrawRowText(struct CommBtlDemoRow *p, int a)
     PRINTSYS_Print(BMP_WIN_GetBmp((struct BmpWin *)p->window), 1, 1, (void *)(p->textBuf), (void *)a);
     q = p->window;
     BMP_WIN_TransferChars((struct BmpWin *)q);
-    BMP_WIN_MakeScreen((struct BmpWinCfg *)q);
+    BMP_WIN_MakeScreen((struct BmpWin *)q);
     BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer((struct BmpWin *)q));
 }
 
@@ -1319,7 +1333,7 @@ void COMM_BTL_DEMO_MAIN_DrawGraphics(unsigned char *p)
         arg.scale.x=0x1000; arg.scale.y=0x1000; arg.scale.z=0x1000;
         MTX_Identity33_(&arg.rot);
         object=(void *)G3D_UTIL_GetObject((u8 *)(*(Util * *)&((struct CommBtlDemoGfx *)p)->util),((struct CommBtlDemoGfx *)p)->unitIndex);
-        G3D_SYSTEM_DrawObject(object,&arg);
+        G3D_SYSTEM_DrawObject(object,(struct G3dObjectStatus *)(&arg));
     }
     COMM_BTL_DEMO_GRAPHIC_DrawEnd(((struct CommBtlDemoGfx *)p)->state);
 }
@@ -1332,7 +1346,7 @@ void COMM_BTL_DEMO_MAIN_InitEffect(u8 *p,unsigned code)
     int resource;
     u32 context;
     if(*(int *)&((struct CommBtlDemoGfx *)p)->particleSystem) COMM_BTL_DEMO_MAIN_DeleteEffect((char *)p,*(int *)&((struct CommBtlDemoGfx *)p)->particleSystem);
-    *(int *)&((struct CommBtlDemoGfx *)p)->particleSystem=PARTICLE_CreateSystemDefault((int)(p+20),0x4800,1,((struct CommBtlDemoGfx *)p)->heap);
+    *(int *)&((struct CommBtlDemoGfx *)p)->particleSystem=(int)PARTICLE_CreateSystemDefault((int)(p+20),0x4800,1,((struct CommBtlDemoGfx *)p)->heap);
     config.f04=0x3000;
     config.f08=-0x3000;
     config.f00=2;
@@ -1341,21 +1355,21 @@ void COMM_BTL_DEMO_MAIN_InitEffect(u8 *p,unsigned code)
     config.f14=0x1000;
     config.f18=0x400000;
     config.f1c=0;
-    PARTICLE_ReleaseCamera(*(int *)&((struct CommBtlDemoGfx *)p)->particleSystem);
+    PARTICLE_ReleaseCamera((struct ParticleSys *)(*(int *)&((struct CommBtlDemoGfx *)p)->particleSystem));
     PARTICLE_InitCamera(*(struct ParticleCamera * *)&((struct CommBtlDemoGfx *)p)->particleSystem,&config,0x2000,d_021BB330,d_021BB324,d_021BB360,((struct CommBtlDemoGfx *)p)->heap);
-    resource=PARTICLE_LoadArchiveMember(0xB5,code,((struct CommBtlDemoGfx *)p)->heap);
+    resource=(int)PARTICLE_LoadArchiveMember(0xB5,code,((struct CommBtlDemoGfx *)p)->heap);
     ((struct CommBtlDemoGfx *)p)->resourceType=PARTICLE_RESOURCE_GetType((void *)resource);
-    context=GFL_USE_GetMainTaskList();
-    PARTICLE_SetupSystem(*(u8 * *)&((struct CommBtlDemoGfx *)p)->particleSystem,resource,0,context);
+    context=(unsigned int)GFL_USE_GetMainTaskList();
+    PARTICLE_SetupSystem((struct ParticleSys *)(*(u8 * *)&((struct CommBtlDemoGfx *)p)->particleSystem),(void *)resource,0,context);
 }
 
 
 
-void COMM_BTL_DEMO_MAIN_DeleteEffect(char *p, int object) { PARTICLE_KillAllEffects(*(u8 * *)&((struct CommBtlDemoGfx *)p)->particleSystem); PARTICLE_DeleteSystem(*(u8 * *)&((struct CommBtlDemoGfx *)p)->particleSystem); *(u32 *)&((struct CommBtlDemoGfx *)p)->particleSystem=0; }
+void COMM_BTL_DEMO_MAIN_DeleteEffect(char *p, int object) { PARTICLE_KillAllEffects((struct ParticleSys *)(*(u8 * *)&((struct CommBtlDemoGfx *)p)->particleSystem)); PARTICLE_DeleteSystem((struct ParticleSys *)(*(u8 * *)&((struct CommBtlDemoGfx *)p)->particleSystem)); *(u32 *)&((struct CommBtlDemoGfx *)p)->particleSystem=0; }
 
 
 
-void COMM_BTL_DEMO_MAIN_DeleteEffectManager(char *p) { if(*(u8 * *)&((struct CommBtlDemoGfx *)p)->particleSystem) PARTICLE_DeleteSystem(*(u8 * *)&((struct CommBtlDemoGfx *)p)->particleSystem); PARTICLE_ExitManager(); }
+void COMM_BTL_DEMO_MAIN_DeleteEffectManager(char *p) { if(*(u8 * *)&((struct CommBtlDemoGfx *)p)->particleSystem) PARTICLE_DeleteSystem((struct ParticleSys *)(*(u8 * *)&((struct CommBtlDemoGfx *)p)->particleSystem)); PARTICLE_ExitManager(); }
 
 
 
@@ -1388,8 +1402,8 @@ void COMM_BTL_DEMO_MAIN_LoadObject(unsigned char *p, int index)
     ((struct CommBtlDemoGfx *)p)->unitIndex=G3D_UTIL_AddUnit(*(Util * *)&((struct CommBtlDemoGfx *)p)->util, &d_021BB0F8[index]);
     ((struct CommBtlDemoGfx *)p)->loaded=1;
     object=(int *)G3D_UTIL_GetObject((u8 *)(*(Util * *)&((struct CommBtlDemoGfx *)p)->util), ((struct CommBtlDemoGfx *)p)->unitIndex);
-    count=G3D_SYSTEM_GetObjectAnimeCount(object);
-    for(i=0;i<count;i++) G3D_SYSTEM_EnableObjectAnime((struct G3dSystem *)object,(u16)i);
+    count=G3D_SYSTEM_GetObjectAnimeCount((struct G3dObject *)object);
+    for(i=0;i<count;i++) G3D_SYSTEM_EnableObjectAnime((struct G3dObject *)object,(u16)i);
 }
 
 
@@ -1414,9 +1428,9 @@ int COMM_BTL_DEMO_MAIN_UpdateObjectAnime(unsigned char *p)
     int count,i;
     if(((struct CommBtlDemoGfx *)p)->animeDone) return 0;
     object=(int *)G3D_UTIL_GetObject((u8 *)(*(Util * *)&((struct CommBtlDemoGfx *)p)->util), ((struct CommBtlDemoGfx *)p)->unitIndex);
-    count=G3D_SYSTEM_GetObjectAnimeCount(object);
+    count=G3D_SYSTEM_GetObjectAnimeCount((struct G3dObject *)object);
     for(i=0;i<count;i++) {
-        result=G3D_SYSTEM_LoopObjectAnimeFrame(object,(u16)i,d_021BB320<<12);
+        result=G3D_SYSTEM_LoopObjectAnimeFrame((struct G3dObject *)object,(u16)i,d_021BB320<<12);
         if(!result) ((struct CommBtlDemoGfx *)p)->animeDone=1;
     }
     return result;
@@ -1488,6 +1502,6 @@ void COMM_BTL_DEMO_MAIN_Init3dSystem(void)
     G3X_SetFog(0, 0, 0, 0);
     G3X_SetClearColor(0, 0, 0x7FFF, 63, 0);
     *(volatile unsigned *)0x04000580 = 0xBFFF0000;
-    for (i = 0; i < 4; i++) G3D_SYSTEM_SetLight((unsigned char)i, d_021BB1A8[i]);
+    for (i = 0; i < 4; i++) G3D_SYSTEM_SetLight((unsigned char)i, (struct G3dLight *)d_021BB1A8[i]);
     G3D_SYSTEM_SetSwapBuffersMode(1, 0);
 }

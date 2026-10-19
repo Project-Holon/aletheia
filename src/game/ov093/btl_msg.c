@@ -71,7 +71,7 @@ typedef signed int s32;
 
 typedef char *va_list;
 
-struct BtlSystem;
+struct BtlMain;
 
 struct BtlPokeList;
 
@@ -85,7 +85,7 @@ struct Strbuf;
 
 /* Message formatter state (gBtlMsgState). */
 struct BtlMsgState {
-    struct BtlSystem *battle;       /* 0x00 */
+    struct BtlMain *battle;       /* 0x00 */
     struct BtlPokeList *pokeList;   /* 0x04 */
     struct WordSet *wordSet;        /* 0x08 */
     struct Strbuf *msgBuf;          /* 0x0c */
@@ -119,8 +119,9 @@ typedef struct {
     int entry;
     int tier;
 } BtlMsgEffectArgsB;
+struct BtlMain;
 
-extern int BTL_MAIN_CheckSetupStatusFlag(struct BtlSystem *battle, int flag);
+extern int BTL_MAIN_CheckSetupStatusFlag(struct BtlMain *main, s32 mask);
 
 extern struct WordSet *WORDSET_CreateDefault(u32 heapId);
 
@@ -133,42 +134,45 @@ extern u32 WORDSET_Delete(struct WordSet *wordSet);
 extern void STRBUF_Delete(struct Strbuf *buf);
 
 extern u32 MSGDATA_Delete(struct MsgBank *bank);
+struct BtlSide;
+struct BtlPokeParam;
 
-extern struct BtlPoke *BTL_SIDE_GetPokeById(struct BtlPokeList *list, u8 pokeId);
+extern struct BtlPokeParam *BTL_SIDE_GetPokeById(struct BtlSide *side, u8 pokeId);
+struct PokemonParam;
 
-extern void *BTL_POKEPARAM_GetDisplayMon(struct BtlPoke *poke);
+extern struct PokemonParam *BTL_POKEPARAM_GetDisplayMon(struct BtlPokeParam *pp);
 
 extern void WORDSET_SetSlotMonNickname(struct WordSet *wordSet, u32 slot, void *mon);
 
-extern void *BTL_POKEPARAM_GetMon(struct BtlPoke *poke);
+extern struct PokemonParam *BTL_POKEPARAM_GetMon(struct BtlPokeParam *pp);
 
 extern void WORDSET_SetSlotMonSpeciesName(struct WordSet *wordSet, u32 slot, void *mon);
 
-extern unsigned short BTL_MAIN_GetTrainerType(struct BtlSystem *battle, int clientId);
+extern unsigned short BTL_MAIN_GetTrainerType(struct BtlMain *main, s32 slot);
 
 extern void WORDSET_SetSlotFromMsgBF(struct WordSet *wordSet, u32 slot, u32 value);
 
-extern int BTL_MAIN_IsTrainerSlotNpc(struct BtlSystem *battle, int clientId);
+extern int BTL_MAIN_IsTrainerSlotNpc(struct BtlMain *main, s32 slot);
 
-extern int BTL_MAIN_GetCompetitor(struct BtlSystem *battle);
+extern u32 BTL_MAIN_GetCompetitor(struct BtlMain *main);
 
-extern u16 BTL_MAIN_GetTrainerId(struct BtlSystem *battle, int clientId);
+extern u16 BTL_MAIN_GetTrainerId(struct BtlMain *main, s32 slot);
 
-extern const void *BTL_MAIN_GetTrainerNameAndType(struct BtlSystem *battle, int clientId, u32 *outClass);
+extern u32 BTL_MAIN_GetTrainerNameAndType(struct BtlMain *main, s32 slot, u32 *outTrainerType);
 
-extern struct Strbuf *BTL_MAIN_GetTrainerHandle(struct BtlSystem *battle, int clientId);
+extern s32 BTL_MAIN_GetTrainerHandle(struct BtlMain *main, s32 slot);
 
-extern struct Strbuf *BTL_MAIN_UpdateCommPlayerSupport(struct BtlSystem *battle);
+extern struct Strbuf *BTL_MAIN_UpdateCommPlayerSupport(struct BtlMain *battle);
 
 extern u8 TPOKE_DATA_GetGenderValue(u32 trainerClass);
 
-extern void WORDSET_SetSlotTag(struct WordSet *wordSet, u32 slot, const void *src, u32 classType, u32 nameMode, u32 nameFlags);
+extern void WORDSET_SetSlotTag(struct WordSet *words, u32 slot, struct Strbuf *src, u32 grammarCase, u32 isPlural, u32 gender);
 
 extern void WORDSET_SetSlotMyStatus(struct WordSet *wordSet, u32 slot, struct Strbuf *src);
 
 extern void WORDSET_SetSlotFromMsgBE(struct WordSet *wordSet, u32 slot, u32 value);
 
-extern int BTL_MAIN_IsLocalSide(struct BtlSystem *battle, unsigned char clientId);
+extern int BTL_MAIN_IsLocalSide(struct BtlMain *main, u8 side);
 
 extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, struct Strbuf *dest);
 
@@ -202,9 +206,9 @@ extern void WORDSET_SetSlotFromMsgC7(struct WordSet *wordSet, u32 slot, u32 valu
 
 extern u8 BTL_MAIN_PokeIdToClientIdThunk(u32 clientId);
 
-extern int BTL_MAIN_IsOpposingPos(struct BtlSystem *battle, int clientId, int side);
+extern int BTL_MAIN_IsOpposingPos(void *unusedWork, s32 posA, s32 posB);
 
-extern u8 BTL_MAIN_GetOwnClientId(struct BtlSystem *battle);
+extern u8 BTL_MAIN_GetOwnClientId(struct BtlMain *main);
 
 extern struct BtlMsgState gBtlMsgState;
 
@@ -214,7 +218,7 @@ extern const u16 sBtlMsgSidePairIds[];
 
 extern struct BtlMsgBuilder sBtlMsgBuilders[];
 
-void BTL_MSG_Init(struct BtlSystem *battle, u32 clientId, struct BtlPokeList *pokeList, u32 heapId);
+void BTL_MSG_Init(struct BtlMain *battle, u32 clientId, struct BtlPokeList *pokeList, u32 heapId);
 
 void BTL_MSG_Exit(void);
 
@@ -274,7 +278,7 @@ void BTL_MSG_BuildBallStatusOpen(struct Strbuf *dest, u32 ball0, u32 ball1, u32 
 
 void BTL_MSG_BuildBallStatusRefresh(struct Strbuf *dest, u32 ball0, u32 ball1, u32 ball2, u32 ball3, u32 ball4, u32 ball5);
 
-void BTL_MSG_Init(struct BtlSystem *battle, u32 clientId, struct BtlPokeList *pokeList, u32 heapId)
+void BTL_MSG_Init(struct BtlMain *battle, u32 clientId, struct BtlPokeList *pokeList, u32 heapId)
 {
     int i;
 
@@ -282,7 +286,7 @@ void BTL_MSG_Init(struct BtlSystem *battle, u32 clientId, struct BtlPokeList *po
     gBtlMsgState.pokeList = pokeList;
     gBtlMsgState.heapId = heapId;
     gBtlMsgState.clientId = clientId;
-    gBtlMsgState.plainWording = BTL_MAIN_CheckSetupStatusFlag(battle, 0x200);
+    gBtlMsgState.plainWording = BTL_MAIN_CheckSetupStatusFlag((struct BtlMain *)battle, 0x200);
     gBtlMsgState.useSpeciesName = 0;
     gBtlMsgState.wordSet = WORDSET_CreateDefault(heapId);
     gBtlMsgState.msgBuf = STRBUF_Create(0x200 >> 1, heapId);
@@ -303,22 +307,22 @@ void BTL_MSG_Exit(void)
 
 void BTL_MSG_SetPokeName(u8 pokeId, u32 slot)
 {
-    WORDSET_SetSlotMonNickname(gBtlMsgState.wordSet, slot, BTL_POKEPARAM_GetDisplayMon(BTL_SIDE_GetPokeById(gBtlMsgState.pokeList, pokeId)));
+    WORDSET_SetSlotMonNickname(gBtlMsgState.wordSet, slot, BTL_POKEPARAM_GetDisplayMon(BTL_SIDE_GetPokeById((struct BtlSide *)gBtlMsgState.pokeList, pokeId)));
 }
 
 void BTL_MSG_SetPokeSpecies(u8 pokeId, u32 slot)
 {
-    WORDSET_SetSlotMonNickname(gBtlMsgState.wordSet, slot, BTL_POKEPARAM_GetMon(BTL_SIDE_GetPokeById(gBtlMsgState.pokeList, pokeId)));
+    WORDSET_SetSlotMonNickname(gBtlMsgState.wordSet, slot, BTL_POKEPARAM_GetMon(BTL_SIDE_GetPokeById((struct BtlSide *)gBtlMsgState.pokeList, pokeId)));
 }
 
 void BTL_MSG_SetPokeNickname(u8 pokeId, u8 slot)
 {
-    WORDSET_SetSlotMonSpeciesName(gBtlMsgState.wordSet, slot, BTL_POKEPARAM_GetDisplayMon(BTL_SIDE_GetPokeById(gBtlMsgState.pokeList, pokeId)));
+    WORDSET_SetSlotMonSpeciesName(gBtlMsgState.wordSet, slot, BTL_POKEPARAM_GetDisplayMon(BTL_SIDE_GetPokeById((struct BtlSide *)gBtlMsgState.pokeList, pokeId)));
 }
 
 void BTL_MSG_SetClientValue(struct WordSet *wordSet, u8 slot, u8 clientId)
 {
-    WORDSET_SetSlotFromMsgBF(wordSet, slot, (u8)BTL_MAIN_GetTrainerType(gBtlMsgState.battle, clientId));
+    WORDSET_SetSlotFromMsgBF(wordSet, slot, (u8)BTL_MAIN_GetTrainerType((struct BtlMain *)gBtlMsgState.battle, clientId));
 }
 
 void BTL_MSG_SetClientName(struct WordSet *wordSet, u8 slot, u8 clientId)
@@ -328,17 +332,17 @@ void BTL_MSG_SetClientName(struct WordSet *wordSet, u8 slot, u8 clientId)
     const void *trainerData;
 
     if (clientId != 4) {
-        if (BTL_MAIN_IsTrainerSlotNpc(gBtlMsgState.battle, clientId) != 0) {
+        if (BTL_MAIN_IsTrainerSlotNpc((struct BtlMain *)gBtlMsgState.battle, clientId) != 0) {
             if (BTL_MAIN_GetCompetitor(gBtlMsgState.battle) == 1) {
-                trainerId = BTL_MAIN_GetTrainerId(gBtlMsgState.battle, clientId);
+                trainerId = BTL_MAIN_GetTrainerId((struct BtlMain *)gBtlMsgState.battle, clientId);
                 if (trainerId != 0)
                     WORDSET_SetSlotFromMsgBE(wordSet, slot, trainerId);
             } else {
-                trainerData = BTL_MAIN_GetTrainerNameAndType(gBtlMsgState.battle, clientId, &trainerClass);
-                WORDSET_SetSlotTag(wordSet, slot, trainerData, TPOKE_DATA_GetGenderValue(trainerClass), 1, 2);
+                trainerData = (void *)BTL_MAIN_GetTrainerNameAndType((struct BtlMain *)gBtlMsgState.battle, clientId, &trainerClass);
+                WORDSET_SetSlotTag(wordSet, slot, (struct Strbuf *)trainerData, TPOKE_DATA_GetGenderValue(trainerClass), 1, 2);
             }
         } else {
-            WORDSET_SetSlotMyStatus(wordSet, slot, BTL_MAIN_GetTrainerHandle(gBtlMsgState.battle, clientId));
+            WORDSET_SetSlotMyStatus(wordSet, slot, (struct Strbuf *)BTL_MAIN_GetTrainerHandle((struct BtlMain *)gBtlMsgState.battle, clientId));
         }
     } else {
         WORDSET_SetSlotMyStatus(wordSet, slot, BTL_MAIN_UpdateCommPlayerSupport(gBtlMsgState.battle));
@@ -371,7 +375,7 @@ void BTL_MSG_FormatWithSide(struct Strbuf *dest, u16 msgId, u32 *args)
 
     for (i = 0; i < 27; i++) {
         if (msgId == sBtlMsgSidePairIds[i]) {
-            if (BTL_MAIN_IsLocalSide(gBtlMsgState.battle, (u8)*args) == 0)
+            if (BTL_MAIN_IsLocalSide((struct BtlMain *)gBtlMsgState.battle, (u8)*args) == 0)
                 msgId = msgId + 1;
             break;
         }
@@ -674,8 +678,8 @@ void BTL_MSG_BuildClientAction(struct Strbuf *dest, u32 msgId, u32 *args)
     u8 clientId = args[0];
     int msgIndex;
 
-    if (clientId != BTL_MAIN_GetOwnClientId(gBtlMsgState.battle)) {
-        if (BTL_MAIN_IsTrainerSlotNpc(gBtlMsgState.battle, clientId))
+    if (clientId != BTL_MAIN_GetOwnClientId((struct BtlMain *)gBtlMsgState.battle)) {
+        if (BTL_MAIN_IsTrainerSlotNpc((struct BtlMain *)gBtlMsgState.battle, clientId))
             msgIndex = 0x23;
         else
             msgIndex = 0x22;

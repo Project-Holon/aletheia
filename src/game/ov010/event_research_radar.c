@@ -97,87 +97,96 @@ typedef struct ResearchReportWork {
     struct WordSet *wordSet;        /* 0x1C */
 } ResearchReportWork;
 
-extern void *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
+extern struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
 
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *fileName, u16 line);
 
 extern struct GameTask *GAME_EVENT_Create(void *parent, void *reserved, void *mainFunc, u32 workSize);
+struct GameEvent;
 
-extern void *GAME_EVENT_GetWork(struct GameTask *task);
+extern void *GAME_EVENT_GetWork(struct GameEvent *event);
 
-extern int GFL_HEAP_Free();
+extern u32 GFL_HEAP_Free(void *block);
 
-extern int FIELD_STATUS_CreateFieldCloseEvent(int gameSystem, int transitionArg);
+extern struct GameEvent *FIELD_STATUS_CreateFieldCloseEvent(struct GameSystem *gameSystem, struct FieldMap *fieldMap);
 
-extern void GAME_EVENT_CallEvent(struct GameTask *task, struct GameEvent **event);
+extern void GAME_EVENT_CallEvent(struct GameEvent *parent, struct GameEvent *child);
 
 extern void GAMESYSTEM_CallProc(struct GameSystem *gameSystem, u32 overlayId, void *procTable, void *param);
 
-extern void *FIELD_STATUS_CreateFieldOpenEvent(void *gameSystem);
+extern struct GameEvent *FIELD_STATUS_CreateFieldOpenEvent(struct GameSystem *gameSystem);
 
-extern int EVENT_FIELDMAP_CONTROL_StartFadeOut(void *gameSystem, int transitionArg, int sel, int d);
+extern struct GameEvent *EVENT_FIELDMAP_CONTROL_StartFadeOut(struct GameSystem *gameSystem, struct FieldMap *fieldMap, int effect, int skipWait);
 
-extern int EVENT_FIELDMAP_CONTROL_StartFadeIn(void *gameSystem, int transitionArg, int sel, int d, int e, u8 f, u8 g);
+extern struct GameEvent *EVENT_FIELDMAP_CONTROL_StartFadeIn(struct GameSystem *gameSystem, struct FieldMap *fieldMap, int effect, int skipWait, int restoreBg, unsigned char seasonShown, unsigned char seasonTarget);
+struct MyStatus;
 
-extern u8 *GAME_DATA_GetMyStatus(void *gameData);
+extern struct MyStatus *GAME_DATA_GetMyStatus(struct GameData *gd);
 
 extern void MI_CpuFill8(void *dst, u8 val, u32 size);
 
 extern void *GAMESYSTEM_GetFieldMap(const struct GameSystem *gameSystem);
+struct FieldMsgWin;
 
-extern int FIELD_MSGBG_IsMsgWinTransDone(struct InfoWindow *window);
+extern int FIELD_MSGBG_IsMsgWinTransDone(struct FieldMsgWin *msgWin);
 
 extern u32 KEY_GetTrg(void);
 
-extern u16 FIELDMAP_GetHeapId(void *fieldMap);
+extern u16 FIELDMAP_GetHeapId(struct FieldMap *fieldMap);
+struct FieldMsgBg;
 
-extern u32 FIELDMAP_GetMsgBg(void *fieldMap);
+extern struct FieldMsgBg *FIELDMAP_GetMsgBg(struct FieldMap *fieldMap);
 
 extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 
-extern int MSGDATA_Delete();
+extern u32 MSGDATA_Delete(struct MsgBank *bank);
+struct MsgData;
 
-extern struct InfoWindow *FIELD_MSGBG_CreateMsgWin(void *fx, struct MsgBank *msgBank, u16 x, u16 y, u16 width, u16 height);
+extern struct FieldMsgWin *FIELD_MSGBG_CreateMsgWin(struct FieldMsgBg *msgBg, struct MsgData *msgData, u16 x, u16 y, u16 width, u16 height);
 
-extern int FIELD_MSGBG_DeleteMsgWin();
+extern int FIELD_MSGBG_DeleteMsgWin(struct FieldMsgWin *msgWin);
 
-extern struct WordSet *WORDSET_CreateDefault(u32 heapId);
+extern struct WordSet *WORDSET_CreateDefault(u16 heapId);
 
-extern int WORDSET_Delete();
+extern u32 WORDSET_Delete(struct WordSet *words);
+struct Strbuf;
 
-extern struct StrBuf *STRBUF_Create(u32 capacity, u32 heapId);
+extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
 
 extern void WORDSET_SetSlotMyStatus(struct WordSet *wordSet, u32 index, void *myStatus);
 
 extern void WORDSET_SetSlotNumber(struct WordSet *wordSet, u32 index, u32 number, u32 digits, u32 c, u32 d);
 
-extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
+extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, struct Strbuf *dest);
 
-extern void WORDSET_CopyTaggedText(struct WordSet *wordSet, void *dst, void *src);
+extern void WORDSET_CopyTaggedText(struct WordSet *words, struct Strbuf *dst, struct Strbuf *src);
 
 extern void WORDSET_ClearAllSlots(struct WordSet *wordSet);
 
-extern int FIELD_MSGBG_MsgWinPrintStr(struct InfoWindow *window, u32 b, u32 c, u32 text);
+extern void FIELD_MSGBG_MsgWinPrintStr(struct FieldMsgWin *msgWin, int x, int y, struct Strbuf *str);
+struct BmpWin;
 
-extern u32 FIELD_MSGBG_GetMsgWinBmpWin(struct InfoWindow *window);
+extern struct BmpWin *FIELD_MSGBG_GetMsgWinBmpWin(struct FieldMsgWin *msgWin);
 
-extern u8 BMP_WIN_GetBgLayer(void *bmpWin);
+extern u8 BMP_WIN_GetBgLayer(struct BmpWin *win);
 
 extern void BG_SYS_PushTile(u32 index);
 
-extern void STRBUF_Delete(struct StrBuf *buf);
+extern void STRBUF_Delete(struct Strbuf *strbuf);
 
-extern int FIELD_MSGBG_ClearMsgWin();
+extern void FIELD_MSGBG_ClearMsgWin(struct FieldMsgWin *msgWin);
+struct SaveControl;
 
-extern void *GAME_DATA_GetSaveControlWork(struct GameData *gameData);
+extern struct SaveControl *GAME_DATA_GetSaveControlWork(struct GameData *gameData);
+struct MiscSave;
 
-extern void *MISC_GetFromSave(void *saveControlWork);
+extern struct MiscSave *MISC_GetFromSave(struct SaveControl *save);
 
-extern u8 MISC_GetResearchRank(struct ReportBlock *block);
+extern u8 MISC_GetResearchRank(struct MiscSave *beacon);
 
-extern u32 MISC_GetThanksCount(struct ReportBlock *block);
+extern u32 MISC_GetThanksCount(struct MiscSave *beacon);
 
-extern u32 MISC_GetGreetCount(struct ReportBlock *block);
+extern u32 MISC_GetGreetCount(struct MiscSave *beacon);
 
 int EVENT_RESEARCH_RADAR_TopTaskMain(void *task, int *state, ResearchTopTaskWork *work);
 
@@ -229,11 +238,11 @@ int EVENT_RESEARCH_RADAR_TopTaskMain(void *task, int *state, ResearchTopTaskWork
     int transitionArg = work->transitionArg;
     switch (*state) {
     case 0:
-        GAME_EVENT_CallEvent(task, (struct GameEvent **)EVENT_FIELDMAP_CONTROL_StartFadeOut(gameSystem, transitionArg, 0, 0));
+        GAME_EVENT_CallEvent((struct GameEvent *)task, (struct GameEvent *)EVENT_FIELDMAP_CONTROL_StartFadeOut(gameSystem, (struct FieldMap *)transitionArg, 0, 0));
         *state = 1;
         break;
     case 1:
-        GAME_EVENT_CallEvent(task, (struct GameEvent **)FIELD_STATUS_CreateFieldCloseEvent((int)gameSystem, transitionArg));
+        GAME_EVENT_CallEvent((struct GameEvent *)task, (struct GameEvent *)FIELD_STATUS_CreateFieldCloseEvent((struct GameSystem *)gameSystem, (struct FieldMap *)transitionArg));
         *state = 2;
         break;
     case 2:
@@ -241,11 +250,11 @@ int EVENT_RESEARCH_RADAR_TopTaskMain(void *task, int *state, ResearchTopTaskWork
         *state = 3;
         break;
     case 3:
-        GAME_EVENT_CallEvent(task, (struct GameEvent **)((int)FIELD_STATUS_CreateFieldOpenEvent(gameSystem)));
+        GAME_EVENT_CallEvent((struct GameEvent *)task, (struct GameEvent *)((int)FIELD_STATUS_CreateFieldOpenEvent(gameSystem)));
         *state = 4;
         break;
     case 4:
-        GAME_EVENT_CallEvent(task, (struct GameEvent **)EVENT_FIELDMAP_CONTROL_StartFadeIn(gameSystem, transitionArg, 0, 0, 1, 0, 0));
+        GAME_EVENT_CallEvent((struct GameEvent *)task, (struct GameEvent *)EVENT_FIELDMAP_CONTROL_StartFadeIn(gameSystem, (struct FieldMap *)transitionArg, 0, 0, 1, 0, 0));
         *state = 5;
         break;
     case 5:
@@ -261,7 +270,7 @@ void *EVENT_RESEARCH_RADAR_CreateTopTask(void *gameSystem, void *transitionArg) 
     ResearchTopTaskWork *work;
     ResearchTopParam *param;
     task = GAME_EVENT_Create(gameSystem, 0, EVENT_RESEARCH_RADAR_TopTaskMain, 12);
-    work = GAME_EVENT_GetWork(task);
+    work = GAME_EVENT_GetWork((struct GameEvent *)task);
     work->gameSystem = gameSystem;
     work->transitionArg = (int)transitionArg;
     param = GFL_HEAP_Alloc(4, 4, 0, g_ResearchRadarFileName, 117);
@@ -285,7 +294,7 @@ int EVENT_RESEARCH_RADAR_ReportTaskMain(void *task, int *state, ResearchReportWo
         *state = *state + 1;
         break;
     case 1:
-        if (FIELD_MSGBG_IsMsgWinTransDone(work->window) == 1)
+        if (FIELD_MSGBG_IsMsgWinTransDone((struct FieldMsgWin *)work->window) == 1)
             *state = *state + 1;
         break;
     case 2:
@@ -305,7 +314,7 @@ int EVENT_RESEARCH_RADAR_ReportTaskMain(void *task, int *state, ResearchReportWo
 void *EVENT_RESEARCH_RADAR_CreateReportTask(void *gameSystem) {
     struct GameTask *task;
     task = GAME_EVENT_Create(gameSystem, 0, EVENT_RESEARCH_RADAR_ReportTaskMain, 32);
-    EVENT_RESEARCH_RADAR_InitReportWork(GAME_EVENT_GetWork(task), gameSystem);
+    EVENT_RESEARCH_RADAR_InitReportWork(GAME_EVENT_GetWork((struct GameEvent *)task), gameSystem);
     return task;
 }
 
@@ -362,12 +371,12 @@ void EVENT_RESEARCH_RADAR_CreateInfoWindow(ResearchReportWork *work)
         height = 8;
         break;
     }
-    work->window = FIELD_MSGBG_CreateMsgWin(work->fx, work->msgBank, x, x, width, height);
+    work->window = (struct InfoWindow *)FIELD_MSGBG_CreateMsgWin(work->fx, (struct MsgData *)work->msgBank, x, x, width, height);
 }
 
 int EVENT_RESEARCH_RADAR_DeleteInfoWindow(ResearchReportWork *work)
 {
-    FIELD_MSGBG_DeleteMsgWin(work->window);
+    FIELD_MSGBG_DeleteMsgWin((struct FieldMsgWin *)work->window);
     work->window = 0;
     return 0;
 }
@@ -396,8 +405,8 @@ void EVENT_RESEARCH_RADAR_PrintReport(ResearchReportWork *work)
     int messageId;
     int numberA;
     int numberB;
-    rawText = STRBUF_Create(0x100, work->heapId);
-    formattedText = STRBUF_Create(0x100, work->heapId);
+    rawText = (struct StrBuf *)STRBUF_Create(0x100, work->heapId);
+    formattedText = (struct StrBuf *)STRBUF_Create(0x100, work->heapId);
     messageId = EVENT_RESEARCH_RADAR_GetReportKind(work);
     numberA = EVENT_RESEARCH_RADAR_GetReportNumberA(work);
     numberB = EVENT_RESEARCH_RADAR_GetReportNumberB(work);
@@ -405,19 +414,19 @@ void EVENT_RESEARCH_RADAR_PrintReport(ResearchReportWork *work)
     WORDSET_SetSlotMyStatus(work->wordSet, 0, GAME_DATA_GetMyStatus(work->gameData));
     WORDSET_SetSlotNumber(work->wordSet, 1, numberA, 5, 1, 1);
     WORDSET_SetSlotNumber(work->wordSet, 2, numberB, 5, 1, 1);
-    MSGDATA_ReadString(work->msgBank, messageId, rawText);
-    WORDSET_CopyTaggedText(work->wordSet, formattedText, rawText);
+    MSGDATA_ReadString(work->msgBank, messageId, (struct Strbuf *)rawText);
+    WORDSET_CopyTaggedText(work->wordSet, (struct Strbuf *)formattedText, (struct Strbuf *)rawText);
     WORDSET_ClearAllSlots(work->wordSet);
-    FIELD_MSGBG_MsgWinPrintStr(work->window, 8, 0, (u32)formattedText);
-    BG_SYS_PushTile(BMP_WIN_GetBgLayer((void *)FIELD_MSGBG_GetMsgWinBmpWin(work->window)));
-    STRBUF_Delete(rawText);
-    STRBUF_Delete(formattedText);
+    FIELD_MSGBG_MsgWinPrintStr((struct FieldMsgWin *)work->window, 8, 0, (struct Strbuf *)formattedText);
+    BG_SYS_PushTile(BMP_WIN_GetBgLayer((void *)FIELD_MSGBG_GetMsgWinBmpWin((struct FieldMsgWin *)work->window)));
+    STRBUF_Delete((struct Strbuf *)rawText);
+    STRBUF_Delete((struct Strbuf *)formattedText);
 }
 
 void EVENT_RESEARCH_RADAR_CloseInfoWindow(ResearchReportWork *work)
 {
-    FIELD_MSGBG_ClearMsgWin(work->window);
-    BG_SYS_PushTile(BMP_WIN_GetBgLayer((void *)FIELD_MSGBG_GetMsgWinBmpWin(work->window)));
+    FIELD_MSGBG_ClearMsgWin((struct FieldMsgWin *)work->window);
+    BG_SYS_PushTile(BMP_WIN_GetBgLayer((void *)FIELD_MSGBG_GetMsgWinBmpWin((struct FieldMsgWin *)work->window)));
 }
 
 /* Report kind (0..5) from the research report block. */

@@ -76,9 +76,9 @@ extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fi
 
 extern void *WORDSET_Create(unsigned,unsigned,unsigned);
 
-extern unsigned int MSGDATA_Delete(struct MsgDataRec *rec);
+extern unsigned int MSGDATA_Delete(struct MsgBank *bank);
 
-extern unsigned int GF_FONT_Delete(void *ptr);
+extern unsigned int GF_FONT_Delete(struct GfFont *font);
 
 extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
 
@@ -105,8 +105,9 @@ extern void CLACT_ReleaseCharacter(u32 i);
 extern void CLACT_ReleaseCellAnim(u32 i);
 
 extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *,unsigned,unsigned,unsigned,unsigned,unsigned);
+struct BrFade;
 
-extern void BR_FADE_LoadPalette(void *fade, void *archive, u32 fileId, u32 slot, u32 offset, u32 count, u16 heapId);
+extern void BR_FADE_LoadPalette(struct BrFade *fade, void *archive, unsigned int fileId, unsigned int slot, unsigned int offset, unsigned int count, unsigned short heapId);
 
 void *BR_RES_Create(unsigned palSet,unsigned useCustomSet,unsigned heapId);
 
@@ -114,7 +115,7 @@ void BR_RES_Delete(struct BrRes *res);
 
 void BR_RES_LoadBgGraphics(void *unusedCtx,unsigned kind,unsigned short heapId);
 
-void BR_RES_ApplyBgSet(int unusedA,unsigned palSet);
+void BR_RES_ApplyBgSet(void *unusedA, unsigned palSet);
 
 void BR_RES_LoadSprite(struct BrRes *res, u32 spriteIndex, u32 heapId);
 
@@ -179,7 +180,7 @@ void *BR_RES_Create(unsigned palSet,unsigned useCustomSet,unsigned heapId)
     return res;
 }
 
-void BR_RES_Delete(struct BrRes *res) {BR_RES_ReleaseUiPalette(res,0);BR_RES_ReleaseUiPalette(res,1);WORDSET_Delete(res->wordSet);MSGDATA_Delete((struct MsgDataRec *)res->msgData);GF_FONT_Delete(res->font);GFL_HEAP_Free(res);}
+void BR_RES_Delete(struct BrRes *res) {BR_RES_ReleaseUiPalette(res,0);BR_RES_ReleaseUiPalette(res,1);WORDSET_Delete(res->wordSet);MSGDATA_Delete((struct MsgBank *)res->msgData);GF_FONT_Delete(res->font);GFL_HEAP_Free(res);}
 
 void BR_RES_LoadBgGraphics(void *unusedCtx,unsigned kind,unsigned short heapId)
 {
@@ -316,7 +317,7 @@ void BR_RES_LoadBgGraphics(void *unusedCtx,unsigned kind,unsigned short heapId)
     ARC_TOOL_DeleteHandle(h);
 }
 
-void BR_RES_ApplyBgSet(int unusedA,unsigned palSet)
+void BR_RES_ApplyBgSet(void *unusedA, unsigned palSet)
 {
     switch(palSet){
     case 24:

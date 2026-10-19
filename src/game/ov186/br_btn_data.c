@@ -34,8 +34,9 @@
 struct WordSet;
 struct MsgBank;
 struct U16Vec;
+struct Strbuf;
 
-extern void STRBUF_Delete(struct U16Vec *vec);
+extern void STRBUF_Delete(struct Strbuf *strbuf);
 
 extern void GF_PANIC_Fail(const char *expr, u32 line, const char *file);
 
@@ -45,17 +46,17 @@ extern void MI_CpuFill8(void *, int, int);
 
 extern u32 GFL_HEAP_Free(void *p);
 
-extern void *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
+extern struct Strbuf *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
 
-extern struct WordSet *WORDSET_CreateDefault(unsigned int heapId);
+extern struct WordSet *WORDSET_CreateDefault(unsigned short heapId);
 
-extern void WORDSET_SetSlotTag(struct WordSet *p, unsigned int i, const void *src, unsigned int n, unsigned int f, unsigned int c);
+extern void WORDSET_SetSlotTag(struct WordSet *words, unsigned int slot, struct Strbuf *src, unsigned int grammarCase, unsigned int isPlural, unsigned int gender);
 
-extern u16 STRBUF_GetLength(struct U16Vec *vec);
+extern u16 STRBUF_GetLength(struct Strbuf *strbuf);
 
-extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
+extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
 
-extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
+extern void WORDSET_CopyTaggedText(struct WordSet *words, struct Strbuf *dst, struct Strbuf *src);
 
 extern u32 WORDSET_Delete(struct WordSet *p);
 
@@ -155,7 +156,7 @@ void *BR_BTN_DATA_CreateLabel(unsigned *const *wordSetSrc,void *record,struct Ms
     if(hasWordSet){
         if((*wordSetSrc)[index]!=0){
             wordSet=WORDSET_CreateDefault((unsigned short)((heapId&0x7fff)|0x8000));
-            WORDSET_SetSlotTag(wordSet,0,(const void *)((*wordSetSrc+index)[4]),(*wordSetSrc+index)[8],1,2);
+            WORDSET_SetSlotTag(wordSet,0,(struct Strbuf *)((*wordSetSrc+index)[4]),(*wordSetSrc+index)[8],1,2);
             src=MSGDATA_AllocString(archive,(int)BR_BTN_DATA_GetRowField(record,3));
             result=STRBUF_Create(STRBUF_GetLength(src)+7,heapId);
             WORDSET_CopyTaggedText(wordSet,result,src);

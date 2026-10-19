@@ -114,7 +114,7 @@ extern void *GFL_HEAP_GetAllocatableSize(u32 heapId);
 
 extern void MSL_C_LIB_SetTwlFlag(int x);
 
-extern void NNSi_FndWalkHeapBlocks(int *heap, HeapVisitFunc visitor, u32 userParam);
+extern void NNSi_FndWalkHeapBlocks(int *p, HeapVisitFunc visitor, int ctx);
 
 extern signed int GFL_HEAP_InitSystemHeap(u32 size);
 

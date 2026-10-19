@@ -99,19 +99,21 @@ extern void NET_WHPIPE_PublishBeacon(void);
 
 extern u32 GFL_NET_IsParentAid(void);
 
-extern int MATH_CountPopulation(u8 bits);
+extern u8 MATH_CountPopulation(u32 x);
 
 extern int GFL_NET_GetNegotiationNum(void);
 
 extern void GFL_NET_SetLoginOption(u8 option);
 
 extern int UNION_SCENE_IsScenePending(UnionRoomWork *work);
+struct CommPlayerWork;
 
-extern void COMM_PLAYER_Update(struct GameSystem *gameSystem, void *commPlayer);
+extern void COMM_PLAYER_Update(void *gameSystem, struct CommPlayerWork *work);
+struct CommPlayerPackage;
 
-extern int COMM_PLAYER_UpdateMyPackage(void *commPlayer, CommPlayerPackage *package);
+extern int COMM_PLAYER_UpdateMyPackage(struct CommPlayerWork *work, struct CommPlayerPackage *out);
 
-extern u32 COLOSSEUM_SendPackage(const CommPlayerPackage *package);
+extern u32 COLOSSEUM_SendPackage(void *package);
 
 extern void COLOSSEUM_UpdateCommPlayers(ColosseumWork *colosseum);
 
@@ -119,21 +121,21 @@ extern void COLOSSEUM_FlushChoiceReplies(ColosseumWork *colosseum);
 
 extern void COLOSSEUM_UpdateReadyState(ColosseumWork *colosseum);
 
-extern UnionBeacon *GFL_NET_GetScanResult(int index);
+extern u32 GFL_NET_GetScanResult(u32 index);
 
-extern const u8 *GFL_NET_GetScanResultMac(int index);
+extern void *GFL_NET_GetScanResultMac(u32 index);
 
 extern void NET_WHPIPE_ReleaseEntry(u32 index);
 
-extern int GF_STANDARD_CompareBytes(const void *lhs, const void *rhs, int size);
+extern int GF_STANDARD_CompareBytes(u8 *a, u8 *b, u32 n);
 
 extern void MI_CpuCopy8(const void *src, void *dst, int size);
 
 extern void MI_CpuFill8(void *dst, int value, int size);
 
-extern void OS_GetMacAddress(void *mac);
+extern void OS_GetMacAddress(u8 *macAddress);
 
-extern u32 MYSTATUS_CopyNameChars(const struct MyStatus *status, u16 *dest, u32 size);
+extern void MYSTATUS_CopyNameChars(u16 *src, u16 *dest, u32 n);
 
 extern u8 MYSTATUS_GetTrainerView(const struct MyStatus *status);
 
@@ -146,16 +148,19 @@ extern u8 MYSTATUS_GetNation(const struct MyStatus *status);
 extern u8 MYSTATUS_GetArea(const struct MyStatus *status);
 
 extern struct GameData *GAMESYSTEM_GetGameData(struct GameSystem *gameSystem);
+struct FieldState;
+struct FieldState;
 
-extern struct WifiList *GAME_DATA_GetWifiList(struct GameData *gameData);
+extern struct FieldState *GAME_DATA_GetWifiList(struct GameData *gameData);
 
-extern int WIFILIST_MakeExchangeToken(struct WifiList *wifiList, u8 *friendKey);
+extern void WIFILIST_MakeExchangeToken(struct FieldState *list, void *token);
 
 extern int UNION_APP_IsClosed(struct UnionAppWork *app);
 
 extern void UNION_APP_Delete(struct UnionAppWork *app);
+struct ColosseumWork;
 
-extern void COLOSSEUM_Delete(ColosseumWork *colosseum, struct GameSystem *gameSystem);
+extern void COLOSSEUM_Delete(struct ColosseumWork *work, void *gameSystem);
 
 extern u32 GFL_USE_GetRandom(u32 range);
 
@@ -519,7 +524,7 @@ void UNION_COMM_UpdateBeaconScan(UnionRoomWork *work)
     const u8 *mac;
 
     for (i = 0; i < UNION_BEACON_PC_MAX; i++) {
-        beacon = GFL_NET_GetScanResult(i);
+        beacon = (struct UnionBeacon *)GFL_NET_GetScanResult(i);
         if (beacon) {
             mac = GFL_NET_GetScanResultMac(i);
             if (mac) UNION_COMM_StoreBeacon(work, beacon, mac);
@@ -537,7 +542,7 @@ int UNION_COMM_StoreBeacon(UnionRoomWork *work, const UnionBeacon *beacon, const
         return 0;
     for (i = 0; i < UNION_BEACON_PC_MAX; i++) {
         UnionBeaconPc *pc = &pcs[i];
-        if (pc->beacon.valid == 1 && GF_STANDARD_CompareBytes(mac, pc->mac, 6) == 0) {
+        if (pc->beacon.valid == 1 && GF_STANDARD_CompareBytes((u8 *)mac, pc->mac, 6) == 0) {
             MI_CpuCopy8(beacon, pc, sizeof(UnionBeacon));
             if (pcs[i].updateState != 1)
                 pcs[i].updateState = 2;
@@ -571,7 +576,7 @@ int UNION_COMM_IsNotGroupMember(UnionRoomWork *work, const UnionBeacon *beacon, 
     for (i = 0; i < UNION_BEACON_PC_MAX; i++, pc++) {
         if (pc->beacon.valid == 1) {
             for (j = 0; j < UNION_MEMBER_MAX; j++) {
-                if (pc->beacon.group.member[j].valid == 1 && GF_STANDARD_CompareBytes(mac, pc->beacon.group.member[j].mac, 6) == 0) {
+                if (pc->beacon.group.member[j].valid == 1 && GF_STANDARD_CompareBytes((u8 *)mac, pc->beacon.group.member[j].mac, 6) == 0) {
                     if (pc->life != 0) {
                         pc->life = 1;
                     }
@@ -603,7 +608,7 @@ void UNION_COMM_BuildBeacon(UnionRoomWork *work, UnionBeacon *beacon)
     beacon->playCategory = situation->playCategory;
     beacon->appealNo = situation->appealNo;
     beacon->status = situation->status;
-    MYSTATUS_CopyNameChars(work->parent->myStatus, beacon->name, 8);
+    MYSTATUS_CopyNameChars((u16 *)work->parent->myStatus, beacon->name, 8);
     beacon->trainerView = MYSTATUS_GetTrainerView(work->parent->myStatus);
     beacon->sex = MYSTATUS_GetSex(work->parent->myStatus);
     beacon->trainerId = MYSTATUS_GetId(work->parent->myStatus);
@@ -738,7 +743,7 @@ int UNION_COMM_AddMember(UnionConnectInfo *connect, const u8 *mac, u8 trainerVie
     i = 0;
     member = connect->group.member;
     for (; i < UNION_MEMBER_MAX; i++) {
-        if (member[i].valid == 1 && GF_STANDARD_CompareBytes(mac, member[i].mac, 6) == 0) {
+        if (member[i].valid == 1 && GF_STANDARD_CompareBytes((u8 *)mac, member[i].mac, 6) == 0) {
             return i;
         }
     }
@@ -764,7 +769,7 @@ void UNION_COMM_RemoveMember(UnionConnectInfo *connect, const u8 *mac)
     i = 0;
     member = connect->group.member;
     for (; i < UNION_MEMBER_MAX; i++) {
-        if (member[i].valid == 1 && GF_STANDARD_CompareBytes(mac, member[i].mac, 6) == 0) {
+        if (member[i].valid == 1 && GF_STANDARD_CompareBytes((u8 *)mac, member[i].mac, 6) == 0) {
             MI_CpuFill8(&member[i], 0, sizeof(UnionMember));
             return;
         }

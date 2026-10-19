@@ -41,6 +41,7 @@
  *   GF_STANDARD_GetRtcTimestamp 0x0203F524 arm
  *   DAILY_CLOCK_HasAllowance  0x02008BD0  thumb
  *   FORMCHANGE_RevertShayminIfTimeOfDayChanged  0x0216A2EC  thumb  ov010
+ *   _ll_sdiv                     0x0209BE5C  arm
  */
 #include "fld_btl_inst_tool_shared_types.h"
 
@@ -71,62 +72,74 @@ typedef struct FieldClock {
     u8 reserved24[8];
     u8 timestamp[8];            /* 0x2C: u64 stored unaligned */
 } FieldClock;
+struct GameData;
 
-extern Party *GAME_DATA_GetMyParty(GameData *gameData);
+extern void *GAME_DATA_GetMyParty(GameData *gameData);
 
 extern SaveControl *GAME_DATA_GetSaveControl(GameData *gameData);
 
 extern FieldClock *CONSOLE_STAMP_GetDailyClock(SaveControl *saveControl);
 
 extern void GF_STANDARD_CopyCachedRtc(RTCDate *date, RTCTime *time);
+struct DailyClock;
 
-extern void DAILY_CLOCK_Spend(FieldClock *clock, u32 minutes);
+extern void DAILY_CLOCK_Spend(struct DailyClock *clock, u32 minutes);
 
 extern long long RTC_ConvertDateTimeToSecond(RTCDate *date, RTCTime *time);
 
 extern int RTC_ConvertDateToDay(RTCDate *date);
 
-extern u32 GAME_DATA_GetEventWork(GameData *gameData);
+extern void *GAME_DATA_GetEventWork(GameData *gameData);
+struct EventWork;
 
-extern void ZONEDATA_ClearTimeFlags(u32 eventWork);
+extern void ZONEDATA_ClearTimeFlags(struct EventWork *ev);
 
-extern void MOVE_POKEMON_SAVE_RollStartLocation(SaveControl *saveControl);
+extern void MOVE_POKEMON_SAVE_RollStartLocation(void *saveControl);
 
 extern void POKERUS_DecreaseDays(Party *party, int days);
 
 extern void *GAME_DATA_GetTrainerRecord(GameData *gameData);
 
 extern void RECORD_FoldPairs(void *trainerRecord);
+struct SaveControl;
+struct WifiHistory;
 
-extern void *WIFI_HISTORY_GetBlock(SaveControl *saveControl);
+extern struct WifiHistory *WIFI_HISTORY_GetBlock(SaveControl *saveControl);
 
-extern void WIFI_HISTORY_PromoteVisitedStates(void *obj);
+extern void WIFI_HISTORY_PromoteVisitedStates(struct WifiHistory *history);
 
-extern void FIELD_WFBC_DATA_LOCAL_AdvanceDays(GameData *gameData, int days, int a);
+extern void FIELD_WFBC_DATA_LOCAL_AdvanceDays(struct GameData *gameData, int days, unsigned int heapSeed);
 
-extern void *SYMBOL_SAVE_GetBitBlock(SaveControl *saveControl);
+extern void *SYMBOL_SAVE_GetBitBlock(void *saveData);
+struct Tally;
 
-extern void MISC_SAVEDATA_FoldTally(void *obj);
+extern void MISC_SAVEDATA_FoldTally(struct Tally *tally);
+struct SaveControl;
+struct IrcRankSave;
 
-extern void *IRC_RANKING_GetFromSave(SaveControl *saveControl);
+extern struct IrcRankSave *IRC_RANKING_GetFromSave(SaveControl *saveControl);
+struct IrcRankEntry;
 
-extern void IRC_RANKING_ClearNewFlags(void *obj);
+extern void IRC_RANKING_ClearNewFlags(struct IrcRankEntry *entries);
+struct Party;
 
-extern PartySave *POKEPARTY_GetSaveData(SaveControl *saveControl);
+extern struct Party *POKEPARTY_GetSaveData(SaveControl *saveControl);
 
 extern u8 GAME_DATA_GetSeason(GameData *gameData);
+struct MiscSave;
 
-extern void *MISC_GetBlock(SaveControl *saveControl);
+extern struct MiscSave *MISC_GetBlock(SaveControl *saveControl);
 
-extern void MISC_SubGatePoints(void *obj, u16 v);
+extern void MISC_SubGatePoints(struct MiscSave *beacon, unsigned short sub);
 
 extern int TIMEZONE_GetTimeZoneOfHour(int season, int hour);
 
 extern u64 GF_STANDARD_GetRtcTimestamp(void);
 
-extern int DAILY_CLOCK_HasAllowance(const FieldClock *clock);
+extern int DAILY_CLOCK_HasAllowance(struct DailyClock *clock);
+struct TimeOfDay;
 
-int FORMCHANGE_RevertShayminIfTimeOfDayChanged(GameData *gameData, PartySave *partySave, int minutes, RTCTime *time, int season);
+int FORMCHANGE_RevertShayminIfTimeOfDayChanged(struct GameData *gameData, struct Party *party, int elapsedMinutes, struct TimeOfDay *time, int season);
 
 void FIELD_CLOCK_Update(GameData *gameData);
 
@@ -174,7 +187,7 @@ void FIELD_CLOCK_Update(GameData *gameData)
     if (minutes == 0 && days != 0)
         return;
     if (minutes != 0) {
-        DAILY_CLOCK_Spend(clock, minutes);
+        DAILY_CLOCK_Spend((struct DailyClock *)clock, minutes);
         FIELD_CLOCK_UpdateMinutes(gameData, minutes, &time);
     }
     if (days != 0)
@@ -238,7 +251,7 @@ void FIELD_CLOCK_UpdateDays(GameData *gameData, int days)
     WIFI_HISTORY_PromoteVisitedStates(WIFI_HISTORY_GetBlock(saveControl));
     FIELD_WFBC_DATA_LOCAL_AdvanceDays(gameData, days, 4);
     MISC_SAVEDATA_FoldTally(SYMBOL_SAVE_GetBitBlock(saveControl));
-    IRC_RANKING_ClearNewFlags(IRC_RANKING_GetFromSave(saveControl));
+    IRC_RANKING_ClearNewFlags((struct IrcRankEntry *)IRC_RANKING_GetFromSave(saveControl));
 }
 
 /*
@@ -248,7 +261,7 @@ void FIELD_CLOCK_UpdateDays(GameData *gameData, int days)
  * extent: trailing two-byte alignment padding.
  * interface: final u16 argument follows the original lsls/lsrs #16 pair.
  */
-void FIELD_CLOCK_UpdateMinutes(GameData *gameData, int minutes, RTCTime *time) { PartySave *partySave=POKEPARTY_GetSaveData(GAME_DATA_GetSaveControl(gameData)); FORMCHANGE_RevertShayminIfTimeOfDayChanged(gameData,partySave,minutes,time,GAME_DATA_GetSeason(gameData)); MISC_SubGatePoints(MISC_GetBlock(GAME_DATA_GetSaveControl(gameData)),minutes); }
+void FIELD_CLOCK_UpdateMinutes(GameData *gameData, int minutes, RTCTime *time) { PartySave *partySave=(struct PartySave *)POKEPARTY_GetSaveData(GAME_DATA_GetSaveControl(gameData)); FORMCHANGE_RevertShayminIfTimeOfDayChanged(gameData,(struct Party *)partySave,minutes,(struct TimeOfDay *)time,GAME_DATA_GetSeason(gameData)); MISC_SubGatePoints(MISC_GetBlock(GAME_DATA_GetSaveControl(gameData)),minutes); }
 
 /*
  * Date of the clock checkpoint.
@@ -342,5 +355,5 @@ int FIELD_CLOCK_GetCounter(GameData *gameData)
 
     saveControl = GAME_DATA_GetSaveControl(gameData);
     clock = CONSOLE_STAMP_GetDailyClock(saveControl);
-    return DAILY_CLOCK_HasAllowance(clock);
+    return DAILY_CLOCK_HasAllowance((struct DailyClock *)clock);
 }

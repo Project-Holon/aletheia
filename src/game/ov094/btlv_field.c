@@ -41,7 +41,7 @@
 
 extern void *GFL_HEAP_Alloc(u32, u32, int, const char *, u16);
 
-extern void *ARC_TOOL_LoadMember(u32, u32, u32);
+extern void *ARC_TOOL_LoadMember(u32 archiveID, u32 memberIdx, u16 heapID);
 
 extern G3dResource *G3D_SYSTEM_CreateResourceArc(u32, u32);
 

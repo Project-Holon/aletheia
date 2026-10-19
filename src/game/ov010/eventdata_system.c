@@ -160,18 +160,22 @@ typedef struct VecFx32 {
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void *ARC_TOOL_CreateHandle(unsigned int id, unsigned int heap);
 extern void ARC_TOOL_DeleteHandle(void *arc);
-extern int GFL_HEAP_Free();
-extern int FIELD_ENCOUNT_ST_LoadEncountData(struct EncountData *encount, int a, int b, int n);
+extern u32 GFL_HEAP_Free(void *block);
+struct EncountRow;
+extern int FIELD_ENCOUNT_ST_LoadEncountData(struct EncountRow *row, struct ArcFile *arc, u32 zoneId, s32 seasonIndex);
 extern unsigned ZONEDATA_GetEventDataId(unsigned);
-extern unsigned ARC_TOOL_GetHandleMemberSize(struct ArcFile *, unsigned);
-extern void ARC_TOOL_ReadHandleMemberRange(struct ArcFile *, unsigned, unsigned, unsigned, void *);
-extern void ZONEDATA_InitLocation(int loc);
+struct ArcHandle;
+extern unsigned ARC_TOOL_GetHandleMemberSize(struct ArcHandle *arc, u32 memberIdx);
+extern void ARC_TOOL_ReadHandleMemberRange(struct ArcHandle *arc, u32 memberIdx, u32 offset, u32 size, void *dst);
+struct Location;
+extern void ZONEDATA_InitLocation(struct Location *loc);
 extern void ZONEDATA_SetExitLocation(int *, u16, s16, u16, int, unsigned, unsigned, unsigned);
 extern void ZONEDATA_SetExitRailLocation(int *, u16, s16, u16, int, u16, u16, s16);
 extern int ZONEDATA_SetExitLocationIdOnly(int loc, int zoneId, int exitId, int exitOffset);
-extern u32 ZONEDATA_GetEventWorkAddress(u32 a, u32 b);
+struct EventWork;
+extern u16 *ZONEDATA_GetEventWorkAddress(struct EventWork *ev, u32 workId);
 extern u16 HIDDEN_ITEM_GetFlag(u16 id);
-extern u32 ZONEDATA_CheckEventFlag(void *bitmap, s32 id);
+extern u32 ZONEDATA_CheckEventFlag(struct EventWork *ev, s32 flagId);
 extern u8 ZONEDATA_DirToRailKey(int m);
 extern u32 FX_Div(u32 a, u32 b);
 extern void MI_CpuFill8(void *dst, u8 val, u32 size);
@@ -284,7 +288,7 @@ void EVENTDATA_SYSTEM_LoadEventData(EventDataSystem *system, u16 zoneId, u8 unus
 
 void EVENTDATA_SYSTEM_LoadEncountData(EventDataSystem *system, int zoneId, int encountParam)
 {
-    FIELD_ENCOUNT_ST_LoadEncountData((struct EncountData *)system->encountHead, (int)system->encountArc, zoneId, encountParam);
+    (struct ArcFile *)FIELD_ENCOUNT_ST_LoadEncountData((struct EncountRow *)system->encountHead, (struct ArcFile *)system->encountArc, zoneId, encountParam);
     system->encountLoaded = 1;
 }
 
@@ -364,8 +368,8 @@ void EVENTDATA_SYSTEM_ReadEventFile(EventDataSystem *system, int zoneId)
     const EventFileData *fileData;
 
     fileId = ZONEDATA_GetEventDataId(zoneId);
-    fileSize = ARC_TOOL_GetHandleMemberSize(system->eventArc, fileId);
-    ARC_TOOL_ReadHandleMemberRange(system->eventArc, fileId, 0, fileSize, &system->fileSize);
+    fileSize = ARC_TOOL_GetHandleMemberSize((struct ArcHandle *)system->eventArc, fileId);
+    ARC_TOOL_ReadHandleMemberRange((struct ArcHandle *)system->eventArc, fileId, 0, fileSize, &system->fileSize);
     offset = 0;
     fileData = &system->fileData;
     tableBase = (unsigned)fileData + 4;
@@ -493,7 +497,7 @@ int EVENTDATA_SYSTEM_SetConnectExitLocation(const EventDataSystem *system, int *
     RailLocation railPos;
     connect = EVENTDATA_SYSTEM_GetConnectData(system, connectIndex);
     if (connect == 0) return 0;
-    ZONEDATA_InitLocation((int)exitInfo);
+    ZONEDATA_InitLocation((struct Location *)exitInfo);
     if (connect->exitId == 0x100) *exitInfo = 3;
     else *exitInfo = 2;
     if (connect->posType == 0) {
@@ -662,7 +666,7 @@ struct EventRec *EVENTDATA_SYSTEM_SearchPosEvent(EventDataSystem *system, void *
             if (EVENTDATA_SYSTEM_IsPosEventGridHit(event, pos) != 0 && event->checkType == checkType) {
                 if (event->workId == 0)
                     return event;
-                workValue = *((u16 *)ZONEDATA_GetEventWorkAddress((u32)eventWork, event->workId));
+                workValue = *((u16 *)ZONEDATA_GetEventWorkAddress((struct EventWork *)eventWork, event->workId));
                 if (workValue == event->workValue)
                     return event;
             }
@@ -686,7 +690,7 @@ struct EventRec *EVENTDATA_SYSTEM_SearchPosEventIgnoreHeight(EventDataSystem *sy
             if (EVENTDATA_SYSTEM_IsPosEventGridHitIgnoreHeight(event, pos) != 0 && event->checkType == checkType) {
                 if (event->workId == 0)
                     return event;
-                workValue = *((u16 *)ZONEDATA_GetEventWorkAddress((u32)eventWork, event->workId));
+                workValue = *((u16 *)ZONEDATA_GetEventWorkAddress((struct EventWork *)eventWork, event->workId));
                 if (workValue == event->workValue)
                     return event;
             }
@@ -707,7 +711,7 @@ struct EventRec *EVENTDATA_SYSTEM_SearchAutoPosEvent(EventDataSystem *system, vo
             if (EVENTDATA_SYSTEM_IsPosEventGridHit(event, pos) != 0 && event->checkType == 6) {
                 if (event->workId == 0)
                     return event;
-                workValue = *((u16 *)ZONEDATA_GetEventWorkAddress((u32)eventWork, event->workId));
+                workValue = *((u16 *)ZONEDATA_GetEventWorkAddress((struct EventWork *)eventWork, event->workId));
                 if (workValue == event->workValue)
                     return event;
             }
@@ -726,7 +730,7 @@ struct EventRec *EVENTDATA_SYSTEM_SearchRailPosEvent(EventDataSystem *system, vo
         count = system->posCount;
         for (i = 0; i < count; i++, event++) {
             if (EVENTDATA_SYSTEM_IsPosEventRailHit(event, location) != 0) {
-                workValue = *((u16 *)ZONEDATA_GetEventWorkAddress((u32)eventWork, event->workId));
+                workValue = *((u16 *)ZONEDATA_GetEventWorkAddress((struct EventWork *)eventWork, event->workId));
                 if (workValue == event->workValue)
                     return event;
             }

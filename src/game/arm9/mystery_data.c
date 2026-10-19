@@ -85,11 +85,11 @@ extern void *SAVE_CONTROL_GetBlock(struct SaveControl *save, u32 blockId);
 
 extern u8   SAVE_CONTROL_HasFlashSave(const struct SaveControl *save);
 
-extern u16  GF_STANDARD_CalcCrc16(const void *data, u32 size);
+extern u16  GF_STANDARD_CalcCrc16(u8 *src, u32 len);
 
-extern u32  GF_STANDARD_Checksum(const void *data, u32 size);
+extern u32  GF_STANDARD_Checksum(u8 *p, u32 len);
 
-extern void GF_STANDARD_XorCrypt(void *data, u32 size, u32 key);
+extern void GF_STANDARD_XorCrypt(u16 *p, u32 size, u32 seed);
 
 extern void GF_STANDARD_XorCryptEx(void *data, u32 size, u32 key);
 
@@ -433,7 +433,7 @@ int MYSTERY_DATA_CheckPacketCrc(struct MysteryGiftPacket *packet)
             spin++;
         }
     } while (spin < (int)spinLimit);
-    return packet->crc == GF_STANDARD_CalcCrc16(packet, 0x2ce);
+    return packet->crc == GF_STANDARD_CalcCrc16((u8 *)packet, 0x2ce);
 }
 
 void MYSTERY_DATA_SwapCards(struct MysteryData *data, u32 slotA, u32 slotB)
@@ -775,7 +775,7 @@ void MYSTERY_DATA_EncryptBuffer(u8 *buffer, u32 saveType)
         footer->cryptSeed = 1;
     }
     footer->checksum = GF_STANDARD_Checksum(buffer, size - 4);
-    GF_STANDARD_XorCrypt(buffer, size - 4, footer->checksum + (footer->cryptSeed << 16));
+    GF_STANDARD_XorCrypt((u16 *)buffer, size - 4, footer->checksum + (footer->cryptSeed << 16));
 }
 
 void MYSTERY_DATA_DecryptBuffer(u8 *buffer, u32 saveType)

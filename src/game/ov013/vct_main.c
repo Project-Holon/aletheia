@@ -66,6 +66,7 @@
  *   VCT_SESSION_AddPeer  0x021B21A4  arm ov013
  *   VCT_SESSION_RemovePeer  0x021B2254  arm ov013
  *   MIi_CpuClearFast 0x02082AC0  arm
+ *   _u32_div_f                   0x0209C2B0  arm
  */
 #include "vct_types.h"
 
@@ -81,10 +82,11 @@ extern unsigned int PM_SetAmp(unsigned int status);
 extern unsigned int PM_SetAmpGain(unsigned int gain);
 
 extern u32 APP_ENV_IsRunOnTwl(void);
+struct MICAutoParam;
 
-extern int MIC_StartAutoSamplingAsync(void *param, void (*callback)(void), void *arg);
+extern int MIC_StartAutoSamplingAsync(struct MICAutoParam *param, void (*callback)(void), void *arg);
 
-extern int MIC_StartLimitedSamplingAsync(void *param, void (*callback)(void), void *arg);
+extern int MIC_StartLimitedSamplingAsync(struct MICAutoParam *param, void (*callback)(void), void *arg);
 
 extern u32 MIC_GetLastSamplingAddress(void);
 
@@ -94,21 +96,21 @@ extern int MIC_StopLimitedSampling(void);
 
 /* Sound system and sound stream object (arm9 unit_020737C0). */
 extern void NNS_SndInit(void);
+struct SndStrm;
 
-extern void NNS_SndStrmInit(void *stream);
+extern void NNS_SndStrmInit(struct SndStrm *strm);
 
-extern int NNS_SndStrmAllocChannel(u8 *stream, int channelCount, u8 *channelNumbers);
+extern int NNS_SndStrmAllocChannel(struct SndStrm *strm, int numChannels, unsigned char *channelList);
 
-extern void NNS_SndStrmSetVolume(void *stream, s32 volume);
+extern void NNS_SndStrmSetVolume(struct SndStrm *strm, int volume);
 
-extern int NNS_SndStrmSetup(void *stream, int format, void *buffer, u32 length, int rate,
-                         int frames, VctStreamCallback callback, void *arg);
+extern int NNS_SndStrmSetup(struct SndStrm *strm, int format, unsigned int bufferAddr, unsigned int length, unsigned int rate, int frames, VctStreamCallback callback, unsigned int userData);
 
-extern void NNS_SndStrmStart(void *stream);
+extern void NNS_SndStrmStart(struct SndStrm *strm);
 
-extern void NNSi_SndStrmStopIfSetup(void *stream);
+extern void NNSi_SndStrmStopIfSetup(struct SndStrm *strm);
 
-extern void NNS_SndStrmFreeChannel(void *stream);
+extern void NNS_SndStrmFreeChannel(struct SndStrm *strm);
 
 extern void MI_CpuFill8(void *dst, int value, u32 size);
 
@@ -119,7 +121,7 @@ extern void GF_PANIC_Fail(const char *expr, u32 line, const char *file);
 /* Wi-Fi glue (ov009). */
 extern void DWC_RAP_CleanupVchat(void);
 
-extern void *DWC_RAPCOMMON_Alloc(void *heap, u32 size, u32 align);
+extern unsigned int DWC_RAPCOMMON_Alloc(unsigned int ownerId, unsigned int size, unsigned int align);
 
 extern void DWC_RAPCOMMON_Free(u32 heap, void *block, int unused);
 
@@ -128,21 +130,23 @@ extern u8 DWC_GetMyAID(void);
 /* Engine (ov013). */
 extern VctPeer *VCT_SESSION_AllocPeerRecord(unsigned int peerType);
 
-extern int VCT_SESSION_SendGroupCommand(VctPeer *peer, int command);
+extern int VCT_SESSION_SendGroupCommand(int peer, int type);
 
 extern int VCT_SESSION_FreePeerRecord(VctPeer *peer);
 
-extern int VCT_SESSION_SendPeerReply(VctPeer *peer, int state);
+extern int VCT_SESSION_SendPeerReply(int peer, int type);
 
 extern int VCT_SESSION_AddPeer(u8 aid);
 
 extern int VCT_SESSION_RemovePeer(int aid);
 
 extern void VCT_Update(void);
+struct VctFrameHeader;
 
-extern int VCT_ReceiveFrame(int aid, void *data, int size);
+extern int VCT_ReceiveFrame(int senderId, struct VctFrameHeader *frame, int length);
+struct VctInitParams;
 
-extern void VCT_Init(VctInitParams *param);
+extern int VCT_Init(VctInitParams *param);
 
 extern void VCT_Exit(void);
 
@@ -173,7 +177,7 @@ void VCT_MAIN_ReleasePeer(VctPeer *peer);
 
 void VCT_MAIN_Update(int sendPaused);
 
-int VCT_MAIN_HandlePacket(int aid, int data, int size);
+int VCT_MAIN_HandlePacket(int aid, u8 *data, int size);
 
 void VCT_MAIN_Start(void *heap, int codecMode, int peerCount);
 
@@ -215,7 +219,7 @@ void VCT_MAIN_InitAudio(void)
     PM_SetAmpGain(3);
     VCT_MIXER_SetSendEnabled(1);
     NNS_SndInit();
-    NNS_SndStrmInit(gVctWork->audioStream);
+    NNS_SndStrmInit((struct SndStrm *)gVctWork->audioStream);
     MIi_CpuClearFast(0, gVctWork->playbackBuffers[1], VCT_BUFFER_BYTES);
     gVctWork->microsecondDebt = 0;
     VCT_MIXER_SetFilterEnabled(1);
@@ -253,12 +257,12 @@ void VCT_MAIN_StreamCallback(int status, int channelCount, void **buffers, u32 l
     }
     if (APP_ENV_IsRunOnTwl() == 0) {
         if (gVctWork->micRestartPending != 0) {
-            MIC_StartAutoSamplingAsync(&gVctWork->micParam, VCT_MAIN_MicRestartDone, 0);
+            MIC_StartAutoSamplingAsync((struct MICAutoParam *)(&gVctWork->micParam), VCT_MAIN_MicRestartDone, 0);
             gVctWork->micRestartPending = 0;
         }
     } else {
         if (gVctWork->micRestartPending != 0) {
-            MIC_StartLimitedSamplingAsync(&gVctWork->micParam, VCT_MAIN_MicRestartDone, 0);
+            MIC_StartLimitedSamplingAsync((struct MICAutoParam *)(&gVctWork->micParam), VCT_MAIN_MicRestartDone, 0);
             gVctWork->micRestartPending = 0;
         }
     }
@@ -297,9 +301,9 @@ int VCT_MAIN_RequestConnection(int peerType)
         if (peer == 0) {
             return 0;
         }
-        result = VCT_SESSION_SendGroupCommand(peer, 0);
+        result = VCT_SESSION_SendGroupCommand((int)peer, 0);
     } else {
-        result = VCT_SESSION_SendGroupCommand(peer, 0);
+        result = VCT_SESSION_SendGroupCommand((int)peer, 0);
     }
     if (result != 0) {
         VCT_SESSION_FreePeerRecord(peer);
@@ -318,7 +322,7 @@ int VCT_MAIN_AcceptPendingPeer(int unused)
 
     if (peer != 0 && peer->phase == 4) {
         accepted = 0;
-        if (VCT_SESSION_SendPeerReply(peer, 0) != 0) {
+        if (VCT_SESSION_SendPeerReply((int)peer, 0) != 0) {
             return accepted;
         }
         if (VCT_MIXER_AddMember(gVctWork->pendingPeer) != 0) {
@@ -345,21 +349,21 @@ void VCT_MAIN_OnEventPair(int aid, int event, VctPeer *peer, int arg)
     switch (event) {
     case VCT_EVENT_REQUEST_RECEIVED:
         if (gVctWork->pendingPeer != 0) {
-            VCT_SESSION_SendPeerReply(peer, 3);
+            VCT_SESSION_SendPeerReply((int)peer, 3);
             VCT_SESSION_FreePeerRecord(peer);
             return;
         }
         gVctWork->pendingPeer = peer;
         return;
     case VCT_EVENT_REQUEST_REFUSED:
-        VCT_SESSION_SendPeerReply(peer, 0);
+        VCT_SESSION_SendPeerReply((int)peer, 0);
         VCT_MAIN_ReleasePeer(peer);
         return;
     case VCT_EVENT_PEER_LEFT:
         VCT_MAIN_ReleasePeer(peer);
         return;
     case VCT_EVENT_CONNECTION_CLOSED:
-        VCT_SESSION_SendPeerReply(peer, 4);
+        VCT_SESSION_SendPeerReply((int)peer, 4);
         VCT_MAIN_ReleasePeer(peer);
         return;
     case VCT_EVENT_PEER_JOINED:
@@ -450,7 +454,7 @@ void VCT_MAIN_Update(int sendPaused)
  * Narrow first callee argument follows the explicit lsls/lsrs at 021AEF52;
  * the other two inputs stay live from entry for the three-input callee.
  */
-int VCT_MAIN_HandlePacket(int aid, int data, int size)
+int VCT_MAIN_HandlePacket(int aid, u8 *data, int size)
 {
     if (gVctWork == 0) return 0;
     if (VCT_ReceiveFrame((unsigned char)aid, (void *)data, size) != 0) return 1;
@@ -469,9 +473,9 @@ void VCT_MAIN_Start(void *heap, int codecMode, int peerCount)
     u8 channelNumbers[3] = {0, 0, 0};
 
     if (gVctWork == 0) {
-        gVctWork = DWC_RAPCOMMON_Alloc(heap, sizeof(VctWork), 0x20);
+        gVctWork = (struct VctWork *)DWC_RAPCOMMON_Alloc((unsigned int)heap, sizeof(VctWork), 0x20);
         MI_CpuFill8(gVctWork, 0, sizeof(VctWork));
-        gVctWork->frameMemory = DWC_RAPCOMMON_Alloc(heap, peerCount * VCT_PEER_QUEUE_BYTES + 0x20, 0x20);
+        gVctWork->frameMemory = (void *)DWC_RAPCOMMON_Alloc((unsigned int)heap, peerCount * VCT_PEER_QUEUE_BYTES + 0x20, 0x20);
         gVctWork->exitCallback = 0;
         VCT_MAIN_InitAudio();
     }
@@ -487,11 +491,11 @@ void VCT_MAIN_Start(void *heap, int codecMode, int peerCount)
     gVctWork->micParam.fullCallback = 0;
     gVctWork->micParam.fullArg = 0;
     gVctWork->micRestartPending = 1;
-    NNS_SndStrmAllocChannel(gVctWork->audioStream, 1, channelNumbers);
-    NNS_SndStrmSetVolume(gVctWork->audioStream, 0);
-    if (NNS_SndStrmSetup(gVctWork->audioStream, 1, gVctWork->playbackBuffers, VCT_BUFFER_BYTES,
-                      APP_ENV_IsRunOnTwl() ? 0x40 : 0x41, 2, VCT_MAIN_StreamCallback,
-                      gVctWork) == 0) {
+    NNS_SndStrmAllocChannel((struct SndStrm *)gVctWork->audioStream, 1, channelNumbers);
+    NNS_SndStrmSetVolume((struct SndStrm *)gVctWork->audioStream, 0);
+    if (NNS_SndStrmSetup((struct SndStrm *)gVctWork->audioStream, 1, (unsigned int)gVctWork->playbackBuffers, (unsigned int)VCT_BUFFER_BYTES,
+                      (unsigned int)(APP_ENV_IsRunOnTwl() ? 0x40 : 0x41), 2, VCT_MAIN_StreamCallback,
+                      (unsigned int)gVctWork) == 0) {
         GF_PANIC_Fail(VCT_ERROR_TEXT, 0, VCT_ERROR_TEXT);
     }
     gVctWork->linkState = 0;
@@ -519,7 +523,7 @@ void VCT_MAIN_Start(void *heap, int codecMode, int peerCount)
 }
 
 /* Start the playback stream. */
-void VCT_MAIN_StartStream(void) { NNS_SndStrmStart(gVctWork->audioStream); }
+void VCT_MAIN_StartStream(void) { NNS_SndStrmStart((struct SndStrm *)gVctWork->audioStream); }
 
 /* Hang up: ask the engine to end the pending request, then stop the chat. */
 void VCT_MAIN_HangUp(void)
@@ -529,12 +533,12 @@ void VCT_MAIN_HangUp(void)
         return;
     }
     if (gVctWork->linkState == 1) {
-        if (VCT_SESSION_SendGroupCommand(gVctWork->pendingPeer, 2)) {
+        if (VCT_SESSION_SendGroupCommand((int)gVctWork->pendingPeer, 2)) {
             DWC_RAP_CleanupVchat();
             return;
         }
     }
-    if (VCT_SESSION_SendGroupCommand(gVctWork->pendingPeer, 1)) {
+    if (VCT_SESSION_SendGroupCommand((int)gVctWork->pendingPeer, 1)) {
         DWC_RAP_CleanupVchat();
     }
 }
@@ -559,8 +563,8 @@ void VCT_MAIN_Exit(void)
     } else {
         MIC_StopLimitedSampling();
     }
-    NNSi_SndStrmStopIfSetup(gVctWork->audioStream);
-    NNS_SndStrmFreeChannel(gVctWork->audioStream);
+    NNSi_SndStrmStopIfSetup((struct SndStrm *)gVctWork->audioStream);
+    NNS_SndStrmFreeChannel((struct SndStrm *)gVctWork->audioStream);
     VCT_Exit();
     PM_SetAmp(0);
     DWC_RAPCOMMON_Free(0, gVctWork->frameMemory, 0);

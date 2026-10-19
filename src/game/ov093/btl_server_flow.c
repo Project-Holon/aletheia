@@ -16,6 +16,7 @@
  * symbols:
  *   gClientFirstPokeIds  0x021EFCF0  data  ov093
  *   BTL_MAIN_DecodeMessageCode  0x021B8778  thumb  ov093
+ *   _u32_div_f  0x0209C2B0  arm
  *   BTL_POKEPARAM_IsFainted  0x021D5B68  thumb  ov093
  *   BTL_POKEPARAM_GetPokeId  0x021D5440  thumb  ov093
  *   BTL_MAIN_GetClientTrainerIndex  0x021B8BEC  thumb  ov093
@@ -1670,7 +1671,7 @@ extern void BTL_POKEPARAM_RestoreRealMovePP(u8 *a, int b, int c);
 extern void BTL_POKEPARAM_RestoreMovePP(u8 *a, int b, int c);
 extern void BTL_POKEPARAM_SetContFlag(u8 *p, unsigned int n);
 extern void BTL_POKEPARAM_ClearContFlag(u8 *, unsigned int);
-extern u8 WAZA_TOOL_GetType(void *p);
+extern u8 WAZA_TOOL_GetType(u16 move);
 extern u32 WAZA_TOOL_IsAlwaysHit(u16 id);
 extern u8 BTL_POKEPARAM_GetCritStage(struct UtilWork *p);
 extern int BTL_CALC_RollCriticalHit(int i);
@@ -1694,7 +1695,7 @@ unsigned int BTL_MAIN_GetActivePosPerSide(unsigned int **p);
 extern unsigned int SHINKA_CHECK_GetRowParam(void *, unsigned int, unsigned int, unsigned int);
 int HAND_SIDE_IsActive(int a, int b);
 extern int HAND_SIDE_GetStackCount(unsigned int, int);
-extern int HAND_POS_IsRegistered(int);
+extern int HAND_POS_IsRegistered(int factorKey, int position);
 extern u16 BTL_POKEPARAM_GetWeight(u8 *p);
 extern int BTL_POKEPARAM_IsMovePPFull(u8 *p, int i, int s);
 extern int BTL_SICK_BuildAddMessage(int, union Slot, u8 *, unsigned long, struct Msg *);
@@ -2237,8 +2238,8 @@ int BTL_SERVER_FLOW_GetEffectiveWeatherThunk(BtlServerFlow *flow);
 int BTL_SERVER_FLOW_CheckAllyMoveAutoHitById(BtlServerFlow *flow, int attackerId, int defenderId, void *moveId);
 int BTL_SERVER_FLOW_QueryMainFlag(BtlServerFlow *flow, int value);
 int BTL_SERVER_FLOW_CheckSideEffectActive(int a, int b, int c);
-int BTL_SERVER_FLOW_GetSideEffectEntry(int unused, unsigned int v, int k);
-int BTL_SERVER_FLOW_CheckFieldEffectActive(int a, int b, int c);
+int BTL_SERVER_FLOW_GetSideEffectEntry(void *unused, unsigned int v, int k);
+int BTL_SERVER_FLOW_CheckFieldEffectActive(void *a, int b, int c);
 u32 BTL_SERVER_FLOW_GetClientIdBySide(int *flow, u8 side);
 unsigned int BTL_SERVER_FLOW_TestStateFlagBit0(u8 *p);
 void BTL_SERVER_FLOW_AppendFrontOrder(u8 *flow, int pokeId);
@@ -13597,7 +13598,7 @@ void BTL_SERVER_FLOW_GetMoveParam(BtlServerFlow *flow, u16 moveId, u8 *attacker,
     int line = 11464;
     BTL_EVENT_PushVarFrame(line);
     BTL_EVENT_SetVarReadOnly(2, BTL_POKEPARAM_GetPokeId(attacker));
-    BTL_EVENT_SetVarOnce(0x16, WAZA_TOOL_GetType((void *)moveId));
+    BTL_EVENT_SetVarOnce(0x16, WAZA_TOOL_GetType(moveId));
     BTL_EVENT_SetVar(0x1C, BTL_POKEPARAM_GetTypePair(attacker));
     BTL_EVENT_SetVar(0x1A, WAZA_TOOL_GetDamageType(moveId));
     BTL_EVENT_SetVar(0x1B, WAZA_TOOL_GetParam(moveId, 0x1B));
@@ -16124,7 +16125,7 @@ int BTL_SERVER_FLOW_CheckSideEffectActive(int flow, int side, int hazardKind)
 /*
  * extent: two bytes alignment padding precede non-C veneer 021C82E4.
  */
-int BTL_SERVER_FLOW_GetSideEffectEntry(int unused, unsigned int v, int k) { return HAND_SIDE_GetStackCount(BTL_MAIN_GetPosParity(v),k); }
+int BTL_SERVER_FLOW_GetSideEffectEntry(void *unused, unsigned int v, int k) { return HAND_SIDE_GetStackCount(BTL_MAIN_GetPosParity(v),k); }
 
 
 
@@ -16142,9 +16143,9 @@ int BTL_SERVER_FLOW_GetSideEffectEntry(int unused, unsigned int v, int k) { retu
  * Tail-call stub: mov r0, r2; bx to the pool word 0x068982AD (a thumb
  * target in the 0x06xxxxxx window, not an image address).
  */
-int BTL_SERVER_FLOW_CheckFieldEffectActive(int flow, int unused, int factorKey)
+int BTL_SERVER_FLOW_CheckFieldEffectActive(void *flow, int position, int factorKey)
 {
-    return HAND_POS_IsRegistered(factorKey);
+    return HAND_POS_IsRegistered(factorKey, position);
 }
 
 

@@ -53,7 +53,7 @@ typedef unsigned int u32;
 typedef signed short s16;
 
 extern u32 GFL_HEAP_Free(void *p);
-extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
+extern void *ARC_TOOL_CreateHandle(u32 archiveID, u16 heapID);
 extern int CLACT_RegisterCharacter(void *arc, u32 fileId, u32 a, u32 screen, u16 heapId);
 extern int CLACT_RegisterCellAnim(void *arc, u32 fileId, u32 a, u32 heapId);
 extern void ARC_TOOL_DeleteHandle(void *arc);
@@ -73,7 +73,7 @@ extern void DC_FlushRange(void *dst, int size);
 extern int CLACT_GetCharacterVramAddress(u32 charRes, u32 screen);
 extern void GX_LoadOBJ(void *dst, void *src, u32 size);
 extern void GXS_LoadOBJ(void *dst, void *src, u32 size);
-struct StaOamManager *P_STA_OAM_CreateManager(u32 heapId, u32 clunit);
+struct StaOamManager *P_STA_OAM_CreateManager(u32 heapId, void *clunit);
 void P_STA_OAM_DeleteManager(struct StaOamManager *mgr);
 struct StaOamBitmapActors *P_STA_OAM_CreateBitmapActors(struct StaOamManager *mgr, const struct StaOamBitmapDesc *desc);
 void P_STA_OAM_DeleteBitmapActors(struct StaOamBitmapActors *grid);
@@ -89,7 +89,7 @@ extern const char P_STA_OAM_FileName[];
 extern const struct StaRibbonInfo P_STA_RIBBON_InfoTable[];
 
 
-struct StaOamManager *P_STA_OAM_CreateManager(u32 heapId, u32 clunit) {
+struct StaOamManager *P_STA_OAM_CreateManager(u32 heapId, void *clunit) {
     struct StaOamManager *mgr = GFL_HEAP_Alloc(heapId, 0x14, 1, P_STA_OAM_FileName, 0x5d);
     int i;
     mgr->heapId = heapId;

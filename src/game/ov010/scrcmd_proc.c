@@ -242,7 +242,7 @@ typedef struct RelearnCallbackData {
     u16 *resultVar;
 } RelearnCallbackData;
 
-typedef struct PlayerName {
+typedef struct IntrudeMemberEntry {
     u16 chars[20];
 } PlayerName;
 
@@ -254,7 +254,7 @@ typedef struct PlayerRecord {
     u8 data[0x28];
 } PlayerRecord;
 
-typedef struct CommState {
+typedef struct IntrudeCommSys {
     u8 pad00[0x86];
     u16 localPlayerId : 3;  /* 0x086 */
     u16 reserved : 13;
@@ -292,56 +292,59 @@ typedef struct WifiBattleMatchParam {
 typedef struct MenuProcParam { u32 fieldMap; u32 mode; } MenuProcParam;
 
 extern u16 SCRIPT_WORK_ReadWorkValue(void *, void *);
+struct ScrcmdWork;
 
-extern u16 *SCRIPT_WORK_ReadWorkPointer(void *, void *);
+extern u16 *SCRIPT_WORK_ReadWorkPointer(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
+struct GameData;
 
-extern void *SCRCMD_WORK_GetGameData(void *);
+extern struct GameData *SCRCMD_WORK_GetGameData(struct ScrcmdWork *work);
 
 extern void *GAME_DATA_GetMyParty(const struct GameData *);
 
-extern u32 POKEPARTY_GetCount(void *);
+extern u32 POKEPARTY_GetCount(struct Party *party);
 
-extern void *POKEPARTY_GetMember(void *, u32 idx);
+extern struct PokemonParam *POKEPARTY_GetMember(struct Party *party, u32 pos);
 
-extern u32 POKE_TOOL_GetPartyValue(void *, u32 id, u32);
+extern u32 POKE_TOOL_GetPartyValue(struct PokemonParam *pp, u32 paramId, u32 arg);
 
-extern void POKE_TOOL_HealParty(void *);
+extern void POKE_TOOL_HealParty(struct Party *party);
 
 extern u16 VM_ReadU16(struct ScriptVm *);
 
-extern void POKE_TOOL_SetPartyValue(void *, u32 id, u32);
+extern void POKE_TOOL_SetPartyValue(struct PokemonParam *pp, u32 paramId, u32 value);
 
-extern u32 POKEPARTY_FindFirstBattleReady(void *);
+extern u32 POKEPARTY_FindFirstBattleReady(struct Party *party);
 
-extern u32 POKEPARTY_FindFirstNonEgg(void *);
+extern u32 POKEPARTY_FindFirstNonEgg(struct Party *party);
 
-extern u32 POKEPARTY_GetCapacity(void *);
+extern u32 POKEPARTY_GetCapacity(struct Party *party);
 
-extern u32 POKEPARTY_GetNonEggCount(void *);
+extern u32 POKEPARTY_GetNonEggCount(struct Party *party);
 
-extern u32 POKEPARTY_GetBattleReadyCount(void *);
+extern u32 POKEPARTY_GetBattleReadyCount(struct Party *party);
 
-extern u32 POKEPARTY_GetEggCount(void *);
+extern u32 POKEPARTY_GetEggCount(struct Party *party);
 
-extern u32 POKEPARTY_GetBadEggCount(void *);
+extern u32 POKEPARTY_GetBadEggCount(struct Party *party);
 
 extern u32 GAME_DATA_GetBoxManager(const struct GameData *);
 
-extern int BOX_SAVEDATA_CountPokemon(void *);
+extern int BOX_SAVEDATA_CountPokemon(struct GameData *gameData);
 
-extern int BOX_SAVEDATA_CountNonEggPokemon(void *);
+extern int BOX_SAVEDATA_CountNonEggPokemon(struct GameData *gameData);
+struct GameSystem;
 
-extern void *SCRCMD_WORK_GetGameSystem(void *);
+extern struct GameSystem *SCRCMD_WORK_GetGameSystem(struct ScrcmdWork *work);
 
-extern u16 SCRCMD_WORK_GetHeapId(void *);
+extern u16 SCRCMD_WORK_GetHeapId(struct ScrcmdWork *work);
 
-extern u8 *GAME_DATA_GetMyStatus(void *);
+extern struct MyStatus *GAME_DATA_GetMyStatus(struct GameData *gd);
 
 extern u32 POKE_TOOL_DecodePartyParam(struct PokemonParam *);
 
-extern void POKE_TOOL_PushMove(void *, int move);
+extern void POKE_TOOL_PushMove(struct PokemonParam *pp, u16 move);
 
-extern void POKE_TOOL_SetMoveSlot(void *, u16 move, u32 slot);
+extern void POKE_TOOL_SetMoveSlot(struct PokemonParam *pp, u16 move, u32 slot);
 
 extern u32 POKE_TOOL_EncodePartyParam(struct PokemonParam *, u32);
 
@@ -349,7 +352,7 @@ extern u32 MYSTATUS_GetId(const struct MyStatus *obj);
 
 extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
 
-extern void MYSTATUS_NameToStrbuf(void *player, void *str);
+extern void MYSTATUS_NameToStrbuf(u16 *name, struct Strbuf *buf);
 
 extern int STRBUF_IsEqual(struct Strbuf *, struct Strbuf *);
 
@@ -359,15 +362,15 @@ extern u8 MYSTATUS_GetSex(const struct MyStatus *obj);
 
 extern void *SCRCMD_WORK_GetScriptWork(void *);
 
-extern void *GAMESYSTEM_GetGameData(const struct GameSystem *);
+extern struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *);
 
-extern u32 POKE_TOOL_ChangeForm(void *, u32);
+extern u32 POKE_TOOL_ChangeForm(struct PokemonParam *pp, u32 form);
 
 extern void *ZUKAN_SAVE_GetFromGameData(void *);
 
 extern void ZUKAN_SAVE_RegisterSeen(struct ZukanSave *, void *);
 
-extern u32 POKE_TOOL_SetRotomFormMove(void *, u32 idx, u32 val);
+extern u32 POKE_TOOL_SetRotomFormMove(struct PokemonParam *pp, u32 formIndex, u32 fallbackSlot);
 
 extern u16 *WAZA_OSHIE_CreateMoveList(void *mon, u32 heap);
 
@@ -375,61 +378,65 @@ extern int WAZA_OSHIE_IsListEntryValid(u16 *);
 
 extern u32 GFL_HEAP_Free(void *);
 
-extern void POKE_TOOL_RecalcParam(void *);
+extern void POKE_TOOL_RecalcParam(struct PokemonParam *pp);
 
 extern void *POKE_TOOL_Create(u32 species, u32 level, u64 id, u32 heap);
 
-extern void *MYSTATUS_CreateNameStrbuf(void *, int tag);
+extern struct Strbuf *MYSTATUS_CreateNameStrbuf(u16 *name, s32 heap_id);
 
-extern void *POKE_PERSONAL_Create(unsigned int species, int form, unsigned int heap);
+extern struct PersonalData *POKE_PERSONAL_Create(unsigned int species, int form, unsigned int heap);
 
 extern u32 POKE_PERSONAL_GetParam(const struct PersonalData *, u32 field);
 
-extern void POKE_PERSONAL_Delete(void *);
+extern void POKE_PERSONAL_Delete(struct PersonalData *data);
 
-extern void *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
+extern struct Strbuf *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
 
 extern void SAVE_EVENT_Write(void *mon, u32, void *, u32, u32 heap);
 
 extern u32 POKEPARTY_Add(struct Party *, const struct PokemonParam *src);
 
-extern u32 POKE_TOOL_CreatePersonalRnd(u32, int, int, int, int, int);
+extern u32 POKE_TOOL_CreatePersonalRnd(u32 otId, s32 species, u16 form, s32 ratioMode, s32 shinyWanted, s32 mode);
 
-extern void *POKE_TOOL_CreateEx(u16, u16, u64, u32, u64, u16);
+extern struct PokemonParam *POKE_TOOL_CreateEx(u16, u16, u64, u32, u64, u16);
 
 extern int FILE_UTIL_GetItemParam(u16, u32, u16);
 
 extern unsigned short PALANM_GetPairedCodeForFirst(int);
 
-extern void *GAME_DATA_GetMyPlayerWork(struct GameData *);
+extern struct PlayerWork *GAME_DATA_GetMyPlayerWork(struct GameData *);
 
 extern u16 GAME_DATA_GetPlayerZoneId(const struct PlayerWork *);
 
 extern u32 ZONEDATA_GetPlaceNameId(u32 id);
+struct BoxPokemon;
 
-extern void *POKE_TOOL_GetBoxParam(void *);
+extern struct BoxPokemon *POKE_TOOL_GetBoxParam(struct PokemonParam *pp);
 
-extern int BOX_SAVEDATA_AddPokemon(void **save, const struct BoxPokemonParam *src);
+extern int BOX_SAVEDATA_AddPokemon(struct GameData *gameData, struct BoxPokemon *mon);
 
 extern void ZUKAN_SAVE_RegisterCaught(struct ZukanSave *, void *);
 
-extern void *GAME_DATA_GetMiscSave(int *);
+extern void *GAME_DATA_GetMiscSave(struct GameData *gd);
 
 extern u32 MISC_AddMoney(struct MiscSave *, u32);
 
 extern u32 MISC_SubMoney(struct MiscSave *, u32);
 
 extern u32 MISC_GetMoney(struct MiscSave *);
+struct GameEvent;
 
-extern void *FIELD_STATUS_CreateFieldOpenEvent(void *);
+extern struct GameEvent *FIELD_STATUS_CreateFieldOpenEvent(struct GameSystem *gameSystem);
 
 extern void SCRIPT_SYS_CallEvent(void *, void *);
 
 extern void *GAMESYSTEM_GetFieldMap(const struct GameSystem *);
+struct FieldMap;
 
-extern int FIELD_STATUS_CreateFieldCloseEvent(int, int);
+extern struct GameEvent *FIELD_STATUS_CreateFieldCloseEvent(struct GameSystem *gameSystem, struct FieldMap *fieldMap);
+struct ScriptWork;
 
-extern void *SCRIPT_WORK_GetUserWorkPtr(void *);
+extern void *SCRIPT_WORK_GetUserWorkPtr(struct ScriptWork *work);
 
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
@@ -437,13 +444,14 @@ extern void GAMESYSTEM_CallProc(struct GameSystem *, u32 id, void *, void *);
 
 extern void VM_SetWait(char *, int val);
 
-extern u32 SCRIPT_WORK_GetUserWork(void *);
+extern void *SCRIPT_WORK_GetUserWork(struct ScriptWork *work);
 
 extern u32 GAMESYSTEM_GetProcStatus(const struct GameSystem *);
 
 extern int SCRIPT_WORK_FreeUserWork();
+struct BigObj;
 
-extern void *BAG_PARAM_Create(const struct GameData *, int, int, int);
+extern void *BAG_PARAM_Create(struct BigObj *gameData, u8 *itemCheck, s32 mode, s32 heapId);
 
 extern void *FIELD_STATUS_CreateSubProcNoFadeCallbackEvent(char *, int, int, int, int, int, int);
 
@@ -452,32 +460,39 @@ extern int WAZA_OSHIE_Delete();
 extern void *WAZA_OSHIE_Create(u32 heap);
 
 extern void *FIELD_STATUS_CreateSubProcCallbackEvent(char *, int, int, int, int, int, int);
+struct GameComm;
 
-extern u32 GAMESYSTEM_GetGameComm(const struct GameSystem *);
+extern struct GameComm *GAMESYSTEM_GetGameComm(const struct GameSystem *);
+struct IntrudeCommSys;
 
-extern int INTRUDE_COMM_GetWorkIfRunning(int);
+extern struct IntrudeCommSys *INTRUDE_COMM_GetWorkIfRunning(struct GameComm *comm);
 
 extern u8 GAME_DATA_GetOwnNetId(const struct GameData *);
 
-extern u8 GAME_DATA_GetIntrudeIdByte(void *);
+extern u8 GAME_DATA_GetIntrudeIdByte(struct GameData *gameData);
+struct IntrudeMemberName;
 
-extern int INTRUDE_COMM_GetMemberNameNetId(u8 *);
+extern int INTRUDE_COMM_GetMemberNameNetId(struct IntrudeMemberName *name);
+struct IntrudeMemberEntry;
 
-extern PlayerName *INTRUDE_COMM_GetMemberEntry(CommState *, int idx);
+extern struct IntrudeMemberEntry *INTRUDE_COMM_GetMemberEntry(struct IntrudeCommSys *work, s32 index);
+struct SaveControl;
 
-extern void *GAME_DATA_GetSaveControl(struct GameData *);
+extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *);
+struct IntrudeSave;
 
-extern u16 *INTRUDE_GetFromSave(void *);
+extern struct IntrudeSave *INTRUDE_GetFromSave(struct SaveControl *save);
+struct IntrudeProfileData;
 
-extern void INTRUDE_COMM_BuildLocalProfile(void *sv, struct PlayerProfile *o);
+extern void INTRUDE_COMM_BuildLocalProfile(void *saveData, struct IntrudeProfileData *profile);
 
-extern void *SCRIPT_WORK_GetEvent(void *);
+extern void *SCRIPT_WORK_GetEvent(struct ScriptWork *work);
 
-extern void *EVENT_FIELD_PROCLINK_CreateCommExitEvent(void *, void *, int kind, int sub, int flag);
+extern struct GameEvent *EVENT_FIELD_PROCLINK_CreateCommExitEvent(struct GameSystem *gameSystem, struct GameEvent *parent, s32 kind, s32 sub, s32 useRealTime);
 
 extern void GAME_BEACON_SEARCH_SetScriptEvent(void);
 
-extern struct GameEvent *GAME_EVENT_CreateOverlayEvent(void *, u32, u32 (*fn)(void *, u32), u32);
+extern struct GameEvent *GAME_EVENT_CreateOverlayEvent(struct GameSystem *gameSystem, unsigned int overlayId, u32 (*fn)(void *, u32), void *arg);
 
 extern void EVENT_WIFIBATTLEMATCH_Entry(s32, s32 *);
 
@@ -487,41 +502,44 @@ extern int GF_OVERLAY_Load(s32 handle);
 
 extern void GF_OVERLAY_Unload(s32 handle);
 
-extern void GIMMICK_INIT_SetCartLanesFlags(unsigned int, int, int);
+extern void GIMMICK_INIT_SetCartLanesFlags(void *gameSystem, s32 setFirst, s32 setSecond);
 
-extern void GIMMICK_INIT_SetFlagAnimeFlag(void *, int);
+extern void GIMMICK_INIT_SetFlagAnimeFlag(struct GameSystem *gameSystem, s32 enable);
 
-extern void GIMMICK_INIT_SetButtonStatesFlags(unsigned int, int);
+extern void GIMMICK_INIT_SetButtonStatesFlags(void *gameSystem, s32 buttonMask);
 
-extern void GIMMICK_INIT_RestorePlateDoorsState(unsigned int, unsigned short **);
+extern void GIMMICK_INIT_RestorePlateDoorsState(void *gameSystem, u16 **foundVars);
 
-extern void GIMMICK_INIT_ResetRotatingRoomPanels(unsigned int);
+extern void GIMMICK_INIT_ResetRotatingRoomPanels(void *gameSystem);
+struct Sodateya;
 
-extern void *FIELDMAP_GetSodateya(void *);
+extern struct Sodateya *FIELDMAP_GetSodateya(struct FieldMap *fieldMap);
 
 extern int SODATEYA_HasEgg(void *);
+struct SodateyaWork;
 
-extern void SODATEYA_ReceiveEgg(unsigned int *, unsigned int);
+extern void SODATEYA_ReceiveEgg(struct SodateyaWork *work, void *party);
 
-extern void SODATEYA_DeclineEgg(void **);
+extern void SODATEYA_DeclineEgg(struct SodateyaWork *work);
+struct DaycareSave;
 
-extern void *DAYCARE_GetFromSave(void *);
+extern struct DaycareSave *DAYCARE_GetFromSave(struct SaveControl *save);
 
-extern void SODATEYA_DepositPokemon(unsigned int *, unsigned int, unsigned int);
+extern void SODATEYA_DepositPokemon(struct SodateyaWork *work, void *party, u32 partyPos);
 
-extern void SODATEYA_WithdrawPokemon(unsigned int *, unsigned int, unsigned int);
+extern void SODATEYA_WithdrawPokemon(struct SodateyaWork *work, u32 slot, void *party);
 
-extern int SODATEYA_GetPokemonCount();
+extern int SODATEYA_GetPokemonCount(struct SodateyaWork *work);
 
-extern u8 SODATEYA_GetCompatibility(void **);
+extern u8 SODATEYA_GetCompatibility(struct SodateyaWork *work);
 
-extern void *SODATEYA_GetPokemon(void *, unsigned int);
+extern void *SODATEYA_GetPokemon(struct SodateyaWork *work, u32 slot);
 
-extern int SODATEYA_GetCurrentLevel(unsigned int *, unsigned int);
+extern int SODATEYA_GetCurrentLevel(struct SodateyaWork *work, u32 slot);
 
-extern int SODATEYA_GetLevelsGained(void **, int);
+extern int SODATEYA_GetLevelsGained(struct SodateyaWork *work, s32 slot);
 
-extern int SODATEYA_GetWithdrawCost(void **, int);
+extern int SODATEYA_GetWithdrawCost(struct SodateyaWork *work, s32 slot);
 
 int SCRCMD_PROC_LookupTableValue(int, int);
 
@@ -1837,7 +1855,7 @@ int SCRCMD_PROC_AddEggToParty(void *vm, void *cmdWork)
     }
     mon = POKE_TOOL_Create(species, 1, (u64)-1, heapId);
     POKE_TOOL_SetPartyValue(mon, 0x6F, form);
-    tempStrbuf = (u32)MYSTATUS_CreateNameStrbuf(GAME_DATA_GetMyStatus(gameData), heapId);
+    tempStrbuf = (u32)MYSTATUS_CreateNameStrbuf((u16 *)GAME_DATA_GetMyStatus(gameData), heapId);
     POKE_TOOL_SetPartyValue(mon, 0x8D, tempStrbuf);
     STRBUF_Delete((struct Strbuf *)tempStrbuf);
     personal = (u32)POKE_PERSONAL_Create((u16)POKE_TOOL_GetPartyValue(mon, 5, 0), (u16)POKE_TOOL_GetPartyValue(mon, 0x6F, 0), heapId);
@@ -1887,7 +1905,7 @@ int SCRCMD_PROC_AddMonToBox(void *gameData, void *spec)
     if (BOX_SAVEDATA_CountPokemon(boxManager) >= 0x2D0)
         return 0;
     mon = SCRCMD_PROC_CreateMonFromSpec(gameData, spec);
-    BOX_SAVEDATA_AddPokemon(boxManager, (const struct BoxPokemonParam *)((u32)POKE_TOOL_GetBoxParam(mon)));
+    BOX_SAVEDATA_AddPokemon(boxManager, (struct BoxPokemon *)((u32)POKE_TOOL_GetBoxParam(mon)));
     ZUKAN_SAVE_RegisterCaught(ZUKAN_SAVE_GetFromGameData(gameData), mon);
     GFL_HEAP_Free(mon);
     return 1;
@@ -1967,7 +1985,7 @@ callArg0 = cmdWorkCopy + 0;
 callArg0 = cmdWorkCopy + 0;
     gameSystem = SCRCMD_WORK_GetGameSystem((void *)callArg0);
     fieldMap = GAMESYSTEM_GetFieldMap(gameSystem);
-    callArg0 = FIELD_STATUS_CreateFieldCloseEvent((int)gameSystem, (int)fieldMap);
+    callArg0 = (s32)FIELD_STATUS_CreateFieldCloseEvent((struct GameSystem *)gameSystem, (struct FieldMap *)fieldMap);
 callArg1 = callArg0 + 0;
     SCRIPT_SYS_CallEvent(eventSlot, (void *)callArg1);
 callArg0 = 1;
@@ -2008,7 +2026,7 @@ callArg0 = cmdWorkOrSlot + 0;
 callArg0 = cmdWorkOrSlot + 0;
     callArg0 = (int)SCRCMD_WORK_GetScriptWork((void *)callArg0); /* int-typed on purpose: pointer local changes codegen */
 cmdWorkOrSlot = callArg0 + 0;
-    callArg0 = SCRIPT_WORK_GetUserWork((void *)callArg0);
+    callArg0 = (s32)SCRIPT_WORK_GetUserWork((void *)callArg0);
 handoff = callArg0 + 0;
     callArg0 = GAMESYSTEM_GetProcStatus(gameSystem);
     if (callArg0 == 0) goto checkCallback;
@@ -2091,7 +2109,7 @@ int SCRCMD_PROC_CallBagScreen(void *vm, void *cmdWork)
         bagType = 5;
     else
         bagType = 0;
-    bagParam = BAG_PARAM_Create((const struct GameData *)SCRCMD_WORK_GetGameData(cmdWork), 0, bagType, 4);
+    bagParam = BAG_PARAM_Create((struct BigObj *)(struct BigObj *)SCRCMD_WORK_GetGameData(cmdWork), 0, bagType, 4);
     closeData = GFL_HEAP_Alloc(4, 8, 1, sAllocSiteScrcmdProc, 0x118);
     closeData[0] = selectedVar;
     closeData[1] = itemVar;
@@ -2244,10 +2262,10 @@ int SCRCMD_PROC_CallPlayerProfile(void *vm, void *cmdWork)
     gameComm = (void *)GAMESYSTEM_GetGameComm(gameSystem);
     gameData = GAMESYSTEM_GetGameData(gameSystem);
     SCRCMD_WORK_GetScriptWork(cmdWork);
-    commState = (CommState *)INTRUDE_COMM_GetWorkIfRunning((int)gameComm);
+    commState = (CommState *)INTRUDE_COMM_GetWorkIfRunning((struct GameComm *)gameComm);
     work = GFL_HEAP_Alloc(4, sizeof(ProfileProcWork), 1, sAllocSiteScrcmdProc, 0x1BC);
     if (commState != 0 && commState->localPlayerId != GAME_DATA_GetOwnNetId(gameData)
-        && INTRUDE_COMM_GetMemberNameNetId((u8 *)(&commState->records[GAME_DATA_GetIntrudeIdByte(gameData)])) == 1
+        && INTRUDE_COMM_GetMemberNameNetId((struct IntrudeMemberName *)(&commState->records[GAME_DATA_GetIntrudeIdByte(gameData)])) == 1
         && ((u8 *)commState)[0x922] == 1) {
         playerIndex = GAME_DATA_GetIntrudeIdByte(gameData);
         work->name = *INTRUDE_COMM_GetMemberEntry(commState, playerIndex);
@@ -2255,7 +2273,7 @@ int SCRCMD_PROC_CallPlayerProfile(void *vm, void *cmdWork)
         work->isRemote = 1;
     } else {
         INTRUDE_GetFromSave(GAME_DATA_GetSaveControl(gameData));
-        INTRUDE_COMM_BuildLocalProfile(gameData, (struct PlayerProfile *)(&work->profile));
+        INTRUDE_COMM_BuildLocalProfile(gameData, (struct IntrudeProfileData *)(&work->profile));
         playerIndex = 0;
         work->isRemote = 0;
     }
@@ -2442,7 +2460,7 @@ int SCRCMD_PROC_CallWifiBattleMatch(void *vm, void *cmdWork)
     param.enabled = 1;
     param.flag = flagValue;
     param.matchKind = kindIndex;
-    SCRIPT_SYS_CallEvent(eventSlot, GAME_EVENT_CreateOverlayEvent(gameSystem, (u32)ov002_id, (void *)EVENT_WIFIBATTLEMATCH_Entry, (u32)(&param)));
+    SCRIPT_SYS_CallEvent(eventSlot, GAME_EVENT_CreateOverlayEvent(gameSystem, (u32)ov002_id, (void *)EVENT_WIFIBATTLEMATCH_Entry, (&param)));
     return 1;
 }
 
@@ -2458,7 +2476,7 @@ int SCRCMD_PROC_CallMenuProc(void *vm, void *cmdWork)
     u32 mode = !SCRIPT_WORK_ReadWorkValue(vm, cmdWork) ? 1 : 2;
     param.fieldMap = (u32)GAMESYSTEM_GetFieldMap(gameSystem);
     param.mode = mode;
-    SCRIPT_SYS_CallEvent(eventSlot, GAME_EVENT_CreateOverlayEvent(gameSystem, (u32)ov003_id, (void *)EVENT_MENUPROC_Entry, (u32)(&param)));
+    SCRIPT_SYS_CallEvent(eventSlot, GAME_EVENT_CreateOverlayEvent(gameSystem, (u32)ov003_id, (void *)EVENT_MENUPROC_Entry, (&param)));
     return 1;
 }
 
@@ -2468,7 +2486,7 @@ int SCRCMD_PROC_Ov037InitFromVars(void *vm, void *cmdWork)
     u16 *firstVar = SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
     u16 *secondVar = SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
     GF_OVERLAY_Load((u32)ov037_id);
-    GIMMICK_INIT_SetCartLanesFlags((unsigned int)gameSystem, *firstVar, *secondVar);
+    GIMMICK_INIT_SetCartLanesFlags(gameSystem, *firstVar, *secondVar);
     GF_OVERLAY_Unload((u32)ov037_id);
     return 0;
 }
@@ -2488,7 +2506,7 @@ int SCRCMD_PROC_Ov037SetValueB(void *vm, void *cmdWork)
     void *gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
     int value = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
     GF_OVERLAY_Load((int)ov037_id);
-    GIMMICK_INIT_SetButtonStatesFlags((unsigned int)gameSystem, value);
+    GIMMICK_INIT_SetButtonStatesFlags(gameSystem, value);
     GF_OVERLAY_Unload((int)ov037_id);
     return 0;
 }
@@ -2506,7 +2524,7 @@ int SCRCMD_PROC_Ov037ReadEightVars(void *vm, void *cmdWork)
     resultVars[6] = SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
     resultVars[7] = SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
     GF_OVERLAY_Load((u32)ov037_id);
-    GIMMICK_INIT_RestorePlateDoorsState((unsigned int)gameSystem, resultVars);
+    GIMMICK_INIT_RestorePlateDoorsState(gameSystem, resultVars);
     GF_OVERLAY_Unload((u32)ov037_id);
     return 0;
 }
@@ -2515,7 +2533,7 @@ int SCRCMD_PROC_Ov037Finish(void *vm, void *cmdWork)
 {
     void *gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
     GF_OVERLAY_Load((int)ov037_id);
-    GIMMICK_INIT_ResetRotatingRoomPanels((unsigned int)gameSystem);
+    GIMMICK_INIT_ResetRotatingRoomPanels(gameSystem);
     GF_OVERLAY_Unload((int)ov037_id);
     return 0;
 }
@@ -2546,7 +2564,7 @@ int SCRCMD_PROC_ReceiveDaycareEgg(void *vm, void *cmdWork)
 {
     void *gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
     void *party = GAME_DATA_GetMyParty(SCRCMD_WORK_GetGameData(cmdWork));
-    SODATEYA_ReceiveEgg(FIELDMAP_GetSodateya(GAMESYSTEM_GetFieldMap(gameSystem)), (unsigned int)party);
+    SODATEYA_ReceiveEgg((struct SodateyaWork *)FIELDMAP_GetSodateya(GAMESYSTEM_GetFieldMap(gameSystem)), (void *)party);
     return 0;
 }
 
@@ -2558,7 +2576,7 @@ int SCRCMD_PROC_DeclineDaycareEgg(int callArg0, int callArg1)
 callArg0 = callArg1 + 0;
     gameSystem = SCRCMD_WORK_GetGameSystem((void *)callArg0);
     fieldMap = GAMESYSTEM_GetFieldMap(gameSystem);
-    SODATEYA_DeclineEgg((void **)FIELDMAP_GetSodateya(fieldMap));
+    SODATEYA_DeclineEgg((struct SodateyaWork *)FIELDMAP_GetSodateya(fieldMap));
 callArg0 = 0;
     return callArg0;}
 
@@ -2579,7 +2597,7 @@ int SCRCMD_PROC_DepositDaycareMon(void *vm, void *cmdWork)
 {
     int partyIndex = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
     void *party = GAME_DATA_GetMyParty(SCRCMD_WORK_GetGameData(cmdWork));
-    SODATEYA_DepositPokemon(FIELDMAP_GetSodateya(GAMESYSTEM_GetFieldMap(SCRCMD_WORK_GetGameSystem(cmdWork))), (unsigned int)party, partyIndex);
+    SODATEYA_DepositPokemon((struct SodateyaWork *)FIELDMAP_GetSodateya(GAMESYSTEM_GetFieldMap(SCRCMD_WORK_GetGameSystem(cmdWork))), (void *)party, partyIndex);
     return 0;
 }
 
@@ -2587,7 +2605,7 @@ int SCRCMD_PROC_WithdrawDaycareMon(void *vm, void *cmdWork)
 {
     int daycareSlot = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
     void *party = GAME_DATA_GetMyParty(SCRCMD_WORK_GetGameData(cmdWork));
-    SODATEYA_WithdrawPokemon(FIELDMAP_GetSodateya(GAMESYSTEM_GetFieldMap(SCRCMD_WORK_GetGameSystem(cmdWork))), daycareSlot, (unsigned int)party);
+    SODATEYA_WithdrawPokemon((struct SodateyaWork *)FIELDMAP_GetSodateya(GAMESYSTEM_GetFieldMap(SCRCMD_WORK_GetGameSystem(cmdWork))), daycareSlot, (void *)party);
     return 0;
 }
 
@@ -2602,7 +2620,7 @@ cmdWorkCopy = callArg1 + 0;
 callArg0 = cmdWorkCopy + 0;
     gameSystem = SCRCMD_WORK_GetGameSystem((void *)callArg0);
     fieldMap = GAMESYSTEM_GetFieldMap(gameSystem);
-    callArg0 = SODATEYA_GetPokemonCount(FIELDMAP_GetSodateya(fieldMap));
+    callArg0 = SODATEYA_GetPokemonCount((struct SodateyaWork *)FIELDMAP_GetSodateya(fieldMap));
 *resultVar = callArg0;
 callArg0 = 0;
     return callArg0;}
@@ -2618,7 +2636,7 @@ cmdWorkCopy = callArg1 + 0;
 callArg0 = cmdWorkCopy + 0;
     gameSystem = SCRCMD_WORK_GetGameSystem((void *)callArg0);
     fieldMap = GAMESYSTEM_GetFieldMap(gameSystem);
-    callArg0 = SODATEYA_GetCompatibility((void **)FIELDMAP_GetSodateya(fieldMap));
+    callArg0 = SODATEYA_GetCompatibility((struct SodateyaWork *)FIELDMAP_GetSodateya(fieldMap));
 *resultVar = callArg0;
 callArg0 = 0;
     return callArg0;}
@@ -2631,7 +2649,7 @@ int SCRCMD_PROC_GetDaycareMonSpecies(void *vm, void *cmdWork)
 {
     u16 *resultVar = SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
     int daycareSlot = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
-    void *daycareMon = SODATEYA_GetPokemon(FIELDMAP_GetSodateya(GAMESYSTEM_GetFieldMap(SCRCMD_WORK_GetGameSystem(cmdWork))), daycareSlot);
+    void *daycareMon = SODATEYA_GetPokemon((struct SodateyaWork *)FIELDMAP_GetSodateya(GAMESYSTEM_GetFieldMap(SCRCMD_WORK_GetGameSystem(cmdWork))), daycareSlot);
     *resultVar = POKE_TOOL_GetPartyValue(daycareMon, 5, 0);
 
     return 0;
@@ -2641,7 +2659,7 @@ int SCRCMD_PROC_GetDaycareMonForm(void *vm, void *cmdWork)
 {
     u16 *resultVar = SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
     int daycareSlot = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
-    void *daycareMon = SODATEYA_GetPokemon(FIELDMAP_GetSodateya(GAMESYSTEM_GetFieldMap(SCRCMD_WORK_GetGameSystem(cmdWork))), daycareSlot);
+    void *daycareMon = SODATEYA_GetPokemon((struct SodateyaWork *)FIELDMAP_GetSodateya(GAMESYSTEM_GetFieldMap(SCRCMD_WORK_GetGameSystem(cmdWork))), daycareSlot);
     *resultVar = POKE_TOOL_GetPartyValue(daycareMon, 111, 0);
 
     return 0;
@@ -2651,7 +2669,7 @@ int SCRCMD_PROC_GetDaycareMonGender(void *vm, void *cmdWork)
 {
     u16 *resultVar = SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
     int daycareSlot = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
-    void *daycareMon = SODATEYA_GetPokemon(FIELDMAP_GetSodateya(GAMESYSTEM_GetFieldMap(SCRCMD_WORK_GetGameSystem(cmdWork))), daycareSlot);
+    void *daycareMon = SODATEYA_GetPokemon((struct SodateyaWork *)FIELDMAP_GetSodateya(GAMESYSTEM_GetFieldMap(SCRCMD_WORK_GetGameSystem(cmdWork))), daycareSlot);
     *resultVar = POKE_TOOL_GetPartyValue(daycareMon, 110, 0);
 
     return 0;
@@ -2661,7 +2679,7 @@ int SCRCMD_PROC_GetDaycareSlotLevel(void *vm, void *cmdWork)
 {
     u16 *resultVar = SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
     int daycareSlot = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
-    *resultVar = SODATEYA_GetCurrentLevel(FIELDMAP_GetSodateya(GAMESYSTEM_GetFieldMap(SCRCMD_WORK_GetGameSystem(cmdWork))), daycareSlot);
+    *resultVar = SODATEYA_GetCurrentLevel((struct SodateyaWork *)FIELDMAP_GetSodateya(GAMESYSTEM_GetFieldMap(SCRCMD_WORK_GetGameSystem(cmdWork))), daycareSlot);
 
     return 0;
 }
@@ -2670,9 +2688,9 @@ int SCRCMD_PROC_GetDaycareSlotLevelsGrown(void *vm,void *cmdWork)
 {
  u16 *resultVar = SCRIPT_WORK_ReadWorkPointer(vm,cmdWork);
  int daycareSlot = SCRIPT_WORK_ReadWorkValue(vm,cmdWork);
- void **daycare = FIELDMAP_GetSodateya(GAMESYSTEM_GetFieldMap(SCRCMD_WORK_GetGameSystem(cmdWork)));
- SODATEYA_GetPokemon(daycare,daycareSlot);
- *resultVar = SODATEYA_GetLevelsGained(daycare,daycareSlot);
+ void **daycare = (void **)FIELDMAP_GetSodateya(GAMESYSTEM_GetFieldMap(SCRCMD_WORK_GetGameSystem(cmdWork)));
+ SODATEYA_GetPokemon((struct SodateyaWork *)daycare,daycareSlot);
+ *resultVar = SODATEYA_GetLevelsGained((struct SodateyaWork *)daycare,daycareSlot);
  return 0;
 }
 
@@ -2680,9 +2698,9 @@ int SCRCMD_PROC_GetDaycareSlotPrice(void *vm,void *cmdWork)
 {
  u16 *resultVar = SCRIPT_WORK_ReadWorkPointer(vm,cmdWork);
  int daycareSlot = SCRIPT_WORK_ReadWorkValue(vm,cmdWork);
- void **daycare = FIELDMAP_GetSodateya(GAMESYSTEM_GetFieldMap(SCRCMD_WORK_GetGameSystem(cmdWork)));
- SODATEYA_GetPokemon(daycare,daycareSlot);
- *resultVar = SODATEYA_GetWithdrawCost(daycare,daycareSlot);
+ void **daycare = (void **)FIELDMAP_GetSodateya(GAMESYSTEM_GetFieldMap(SCRCMD_WORK_GetGameSystem(cmdWork)));
+ SODATEYA_GetPokemon((struct SodateyaWork *)daycare,daycareSlot);
+ *resultVar = SODATEYA_GetWithdrawCost((struct SodateyaWork *)daycare,daycareSlot);
  return 0;
 }
 

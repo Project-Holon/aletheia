@@ -89,6 +89,8 @@
  *   G3D_CAMERA_Delete   0x02048AC4  arm
  *   G3D_SYSTEM_Exit   0x02046788  arm
  */
+extern void BG_SYS_Delete(void);
+extern void BMP_WIN_Exit(void);
 
 struct ProcSystem;
 struct GfFont;
@@ -139,37 +141,41 @@ struct TheEndActors {
 typedef unsigned long long u64;
 
 extern void GFL_HEAP_CreateChildHeap(unsigned int, unsigned int, unsigned int);
-extern void *PROCSYS_AllocProcWork(struct ProcSystem *obj, unsigned int size, unsigned int heap);
+extern void *PROCSYS_AllocProcWork(struct Proc *proc, unsigned int size, unsigned int heapId);
 extern void MI_CpuFill8(void *, int, int);
 extern struct GfFont *GF_FONT_Create(int archiveId, int fileId, int format, int isFixedWidth, u32 heapId);
-extern u32 PRINTSYS_QUE_Create(void *p);
+struct PrintQueue;
+extern struct PrintQueue *PRINTSYS_QUE_Create(unsigned int heap);
 extern void BG_SYS_SetPriority(int idx, unsigned short val);
-extern void *GFL_USE_AddMainTask(void (*)(void), void *, int);
+struct Tcb;
+extern struct Tcb *GFL_USE_AddMainTask(void (*)(void), void *work, unsigned int priority);
 extern unsigned GPOWER_GetSpecialPowerId(void);
-extern void GXS_LoadBGPltt(void *, int, int);
+extern void GXS_LoadBGPltt(void *pSrc, unsigned int offset, unsigned int szByte);
 extern void BG_SYS_FreeLayerBuf(u32 i);
-extern void TCB_DeleteTask(struct Node *n);
-extern void PRINTSYS_QUE_Clear(struct PrintSys *p);
-extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
-extern u32 GF_FONT_Delete(void *ptr);
+struct TcbTask;
+extern void TCB_DeleteTask(struct TcbTask *task);
+extern void PRINTSYS_QUE_Clear(struct PrintQueue *queue);
+extern void PRINTSYS_QUE_Delete(struct PrintQueue *queue);
+extern u32 GF_FONT_Delete(struct GfFont *font);
 extern void PROCSYS_FreeProcWork(struct Proc *p);
 extern void GFL_HEAP_DeleteChecked(u32 heap);
 extern int FADE_IsActive(void);
 extern unsigned KEY_GetTrg(void);
-extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
-extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
+extern u32 PRINTSYS_QUE_Main(struct PrintQueue *queue);
+extern void *ARC_TOOL_CreateHandle(unsigned int archiveID, unsigned short heapID);
 extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern u32 ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void ARC_UTIL_UploadBgPaletteFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
-extern void ARC_TOOL_DeleteHandle(unsigned char *);
+extern void ARC_TOOL_DeleteHandle(void *handle);
 extern void BG_SYS_PushTile(u32 index);
 extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
 extern void FADE_Start(u32 a, s32 b, s32 c, s32 d);
 extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
 extern void G3X_SetFog(int, int, int, int);
 extern void G3X_SetClearColor(u16 rgb, int alpha, int depth, int polygonID, int fog);
-extern void G3D_SYSTEM_SetLight(u32 idx, const u16 *src);
+struct G3dLight;
+extern void G3D_SYSTEM_SetLight(unsigned int lightIdx, struct G3dLight *light);
 extern void G3D_SYSTEM_SetSwapBuffersMode(u32 a, u32 b);
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void BG_SYS_ClearGraphicsMemory(u32 keep);
@@ -187,7 +193,9 @@ extern void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
 extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void BG_SYS_FreeSlot(unsigned char);
 extern void BG_SYS_Update(void);
-extern void CLACT_InitSystem(const struct Cfg *cfg, unsigned int arg, unsigned int heapId);
+struct DispVramCfg;
+struct SysInit;
+extern void CLACT_InitSystem(struct SysInit *cfg, struct DispVramCfg *res_cfg, unsigned int heapId);
 extern struct Bank *CLACT_CreateUnit(int count, u8 flag, unsigned int heapId);
 extern void CLACT_SetUnitDefaultRenderer(struct Bank *bank);
 extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
@@ -253,7 +261,7 @@ int THE_END_GRAPHIC_Init(void *task, int b, int c)
     ((struct TheEndProcWork *)p)->initParam = c;
     ((struct TheEndProcWork *)p)->graphic = THE_END_GRAPHIC_Create(1, ((struct TheEndProcWork *)p)->heapId);
     ((struct TheEndProcWork *)p)->font = GF_FONT_Create(0x17, 0, 0, 0, ((struct TheEndProcWork *)p)->heapId);
-    ((struct TheEndProcWork *)p)->printQueue = (void *)PRINTSYS_QUE_Create((void *)(((struct TheEndProcWork *)p)->heapId));
+    ((struct TheEndProcWork *)p)->printQueue = (void *)PRINTSYS_QUE_Create((unsigned int)(((struct TheEndProcWork *)p)->heapId));
     BG_SYS_SetPriority(1, 1);
     BG_SYS_SetPriority(2, 0);
     ((struct TheEndProcWork *)p)->vblankNode = GFL_USE_AddMainTask(THE_END_GRAPHIC_DummyTask, p, 1);
@@ -283,8 +291,8 @@ int THE_END_GRAPHIC_Exit(void *task, int b, int c, char *p)
     *(volatile u32 *)0x04001000 &= ~0xe000;
     THE_END_GRAPHIC_Dummy(p);
     TCB_DeleteTask(((struct TheEndProcWork *)p)->vblankNode);
-    PRINTSYS_QUE_Clear(((struct TheEndProcWork *)p)->printQueue);
-    PRINTSYS_QUE_Delete(((struct TheEndProcWork *)p)->printQueue);
+    PRINTSYS_QUE_Clear((struct PrintQueue *)(((struct TheEndProcWork *)p)->printQueue));
+    PRINTSYS_QUE_Delete((struct PrintQueue *)(((struct TheEndProcWork *)p)->printQueue));
     GF_FONT_Delete(((struct TheEndProcWork *)p)->font);
     THE_END_GRAPHIC_Delete(((struct TheEndProcWork *)p)->graphic);
     PROCSYS_FreeProcWork(task);
@@ -339,7 +347,7 @@ int THE_END_GRAPHIC_Main(void *a, unsigned *state, void *c, char *p)
         break;
     case 7: return 1;
     }
-    PRINTSYS_QUE_Main(((struct TheEndProcWork *)p)->printQueue);
+    PRINTSYS_QUE_Main((struct PrintQueue *)(((struct TheEndProcWork *)p)->printQueue));
     THE_END_GRAPHIC_Update((char *)((struct TheEndProcWork *)p)->graphic);
     return 0;
 }
@@ -425,7 +433,7 @@ void THE_END_GRAPHIC_Setup3d(void)
     G3X_SetClearColor(0, 0, 0x7fff, 0x3f, 0);
     *(volatile u32 *)0x04000580 = 0xbfff0000;
     for (i = 0; i < 4; i++)
-        G3D_SYSTEM_SetLight((u8)i, (const u16 *)d_021B9C28[i]);
+        G3D_SYSTEM_SetLight((u8)i, (struct G3dLight *)d_021B9C28[i]);
     G3D_SYSTEM_SetSwapBuffersMode(0, 0);
 }
 
@@ -563,7 +571,7 @@ void THE_END_GRAPHIC_RefreshDisplay(void *unused) { BG_SYS_Update(); }
 void THE_END_GRAPHIC_InitActors(int *p, int b, int c)
 {
     MI_CpuFill8((void *)((int)p), 0, 4);
-    CLACT_InitSystem((const struct Cfg *)d_021B9C0C, b, c);
+    CLACT_InitSystem((struct SysInit *)d_021B9C0C, (struct DispVramCfg *)b, c);
     p[0] = (int)CLACT_CreateUnit(0x80, 0, c);
     CLACT_SetUnitDefaultRenderer((void *)p[0]);
     BG_SYS_SetMainPlaneVisible(0x10, 1);

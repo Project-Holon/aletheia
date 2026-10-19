@@ -62,55 +62,58 @@ typedef struct Desc {short x,y,n;unsigned char flag,pad;} Desc;
 
 typedef struct Triple {int a,b,c;} Triple;
 
-extern void *BR_UTIL_CreateTextWin(int a, void *owner, u16 heap);
+extern void *BR_UTIL_CreateTextWin(void *a, void *owner, u16 heap);
 extern void BR_UTIL_SetWindowText(char *p, char *q, void *text);
 extern void BR_UTIL_StartEffect(int, int, int *);
 extern void BR_UTIL_DeleteTextWin(void *,int);
-extern unsigned BR_RES_GetFont(char *p);
-extern int BR_RES_GetMsgData(char *);
-extern int BR_RES_GetWordSet(char *);
-extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
+struct BrRes;
+extern unsigned BR_RES_GetFont(struct BrRes *res);
+extern int BR_RES_GetMsgData(struct BrRes *res);
+extern int BR_RES_GetWordSet(struct BrRes *res);
+struct Strbuf;
+extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
 extern void MI_CpuFill8(void *,int,unsigned),BR_RES_LoadSprite(char *,unsigned,unsigned);
-extern int BR_RES_GetSprite(void *,int,Triple *);
-extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
-extern void WORDSET_SetSlotTag(struct WordSet *p, u32 i, const void *src, u32 n, u32 f, u32 c);
-extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
+extern int BR_RES_GetSprite(struct BrRes *res, unsigned int spriteIndex, void *outSprite);
+extern void MSGDATA_ReadString(struct MsgBank *bank, unsigned int index, struct Strbuf *dest);
+extern void WORDSET_SetSlotTag(struct WordSet *words, unsigned int slot, struct Strbuf *src, unsigned int grammarCase, unsigned int isPlural, unsigned int gender);
+extern void WORDSET_CopyTaggedText(struct WordSet *words, struct Strbuf *dst, struct Strbuf *src);
 extern void *BR_BTN_CreateObject(void *,void *,int,int,int,int,int,void *,u16);
-extern void *BR_BTN_CreateFromMessage(void *,int,int,int,int,int,int,int,void *,u16);
+extern void *BR_BTN_CreateFromMessage(void *ctx, int file, u16 a, int b, int c, void *d, int e, int archive, void *config, u16 heap);
 extern struct BattleRecSave *BATTLE_REC_GetWork(void);
 extern void *GDS_PROFILE_CreateNameStr(const void *src, u32 tag);
-extern u32 GDS_PROFILE_GetEggFlag(struct RecGet *p);
+struct StoredMon;
+extern u32 GDS_PROFILE_GetEggFlag(struct StoredMon *p);
 extern void BR_UTIL_SetWindowTextBuf(char *p, void *q, void *text);
-extern void STRBUF_Delete(struct U16Vec *vec);
+extern void STRBUF_Delete(struct Strbuf *strbuf);
 extern void BR_BTN_DeleteObject(char *p);
-extern void BR_RES_ReleaseSprite(char *,unsigned);
+extern void BR_RES_ReleaseSprite(struct BrRes *res, unsigned int spriteIndex);
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
-void BR_CODEIN_ShowMenuText(struct CodeinMenuState *menu);
-void BR_CODEIN_HideMenuText(struct CodeinMenuState *menu);
+void BR_CODEIN_ShowMenuText(struct CodeinSoclWork *menu);
+void BR_CODEIN_HideMenuText(struct CodeinSoclWork *menu);
 void BR_CODEIN_GetMenuCallbacks(Pair *out);
-void BR_CODEIN_CreateMenuButtons(struct CodeinMenuState *menu,struct CodeinMenuArg *arg);
-void BR_CODEIN_DeleteMenuButtons(struct CodeinMenuState *menu,struct CodeinMenuArg *arg);
-int BR_CODEIN_HitTestOptionLeft(struct CodeinMenuState *menu, int x, int y);
-int BR_CODEIN_HitTestOptionRight(struct CodeinMenuState *menu, int x, int y);
+void BR_CODEIN_CreateMenuButtons(struct CodeinSoclWork *menu,struct CodeinMenuArg *arg);
+void BR_CODEIN_DeleteMenuButtons(struct CodeinSoclWork *menu,struct CodeinMenuArg *arg);
+int BR_CODEIN_HitTestOptionLeft(struct CodeinSoclWork *menu, int x, int y);
+int BR_CODEIN_HitTestOptionRight(struct CodeinSoclWork *menu, int x, int y);
 extern const Table d_021E3910;
 
 
 
-void BR_CODEIN_ShowMenuText(struct CodeinMenuState *menu)
+void BR_CODEIN_ShowMenuText(struct CodeinSoclWork *menu)
 {
     int args[2];
     if (menu->textWin == 0)
-        menu->textWin = BR_UTIL_CreateTextWin(((struct CodeinMenuSub *)menu->sub)->handle, menu->owner, menu->heapId);
-    BR_UTIL_SetWindowText(menu->textWin, (char *)((struct CodeinMenuSub *)menu->sub)->handle, (void *)0x14b);
+        menu->textWin = BR_UTIL_CreateTextWin((void *)(((struct CodeinMenuSub *)menu->arg)->handle), menu->printQue, menu->heapId);
+    BR_UTIL_SetWindowText(menu->textWin, (char *)((struct CodeinMenuSub *)menu->arg)->handle, (void *)0x14b);
     args[0] = 0x80;
     args[1] = 0x60;
-    BR_UTIL_StartEffect(menu->effectShow, 4, args);
+    BR_UTIL_StartEffect(menu->introFx, 4, args);
 }
 
 
 
 
-void BR_CODEIN_HideMenuText(struct CodeinMenuState *menu) { int zero=0;BR_UTIL_StartEffect(menu->effectShow, 0, (int *)0);if(menu->textWin){BR_UTIL_DeleteTextWin(menu->textWin,((struct CodeinMenuSub *)menu->sub)->handle);*(int *)&menu->textWin=zero;} }
+void BR_CODEIN_HideMenuText(struct CodeinSoclWork *menu) { int zero=0;BR_UTIL_StartEffect(menu->introFx, 0, (int *)0);if(menu->textWin){BR_UTIL_DeleteTextWin(menu->textWin,((struct CodeinMenuSub *)menu->arg)->handle);*(int *)&menu->textWin=zero;} }
 
 
 
@@ -122,7 +125,7 @@ void BR_CODEIN_GetMenuCallbacks(Pair *out) {
 
 
 
-void BR_CODEIN_CreateMenuButtons(struct CodeinMenuState *menu,struct CodeinMenuArg *arg)
+void BR_CODEIN_CreateMenuButtons(struct CodeinSoclWork *menu,struct CodeinMenuArg *arg)
 {
     Triple t;
     Desc d;
@@ -130,9 +133,9 @@ void BR_CODEIN_CreateMenuButtons(struct CodeinMenuState *menu,struct CodeinMenuA
     void *a,*b,*s,*owner,*tmp;
     int i;
     unsigned offset;
-    h=BR_RES_GetFont((char *)arg->resource);
-    c=BR_RES_GetMsgData((char *)arg->resource);
-    a=(void *)BR_RES_GetWordSet((char *)arg->resource);
+    h=BR_RES_GetFont((struct BrRes *)arg->resource);
+    c=BR_RES_GetMsgData((struct BrRes *)arg->resource);
+    a=(void *)BR_RES_GetWordSet((struct BrRes *)arg->resource);
     b=STRBUF_Create(0x80,menu->heapId);
     s=STRBUF_Create(0x80,menu->heapId);
     MI_CpuFill8(&d,0,8);
@@ -143,19 +146,19 @@ void BR_CODEIN_CreateMenuButtons(struct CodeinMenuState *menu,struct CodeinMenuA
         offset=(i+1)*4;
         if(*(unsigned *)((char *)arg->entries+offset)) {
             MSGDATA_ReadString((struct MsgBank *)c,0x1a,s);
-            WORDSET_SetSlotTag(a,0,(const void *)(*(unsigned *)((char *)arg->entries+offset+0x10)),*(unsigned *)((char *)arg->entries+offset+0x20),1,2);
+            WORDSET_SetSlotTag(a,0,(struct Strbuf *)(*(unsigned *)((char *)arg->entries+offset+0x10)),*(unsigned *)((char *)arg->entries+offset+0x20),1,2);
             WORDSET_CopyTaggedText(a,b,s);
         }else MSGDATA_ReadString((struct MsgBank *)c,9,b);
-        menu->buttons[i]=BR_BTN_CreateObject(&d,b,0xa0,1,arg->windowKind,menu->kind,h,&t,menu->heapId);
+        menu->button[i]=BR_BTN_CreateObject(&d,b,0xa0,1,arg->windowKind,(int)menu->oamSys,h,&t,menu->heapId);
         d.y=d.y+0x28;
     }
     d.n=1;
-    menu->buttons[3]=BR_BTN_CreateFromMessage(&d,4,0xa0,1,arg->windowKind,menu->kind,h,c,&t,menu->heapId);
+    menu->button[3]=BR_BTN_CreateFromMessage((void *)(&d),4,0xa0,1,arg->windowKind,menu->oamSys,h,c,&t,menu->heapId);
     owner=BATTLE_REC_GetWork();
     tmp=GDS_PROFILE_CreateNameStr(owner,(u16)((menu->heapId&0x7fff)|0x8000));
-    if(!menu->textWin) menu->textWin=BR_UTIL_CreateTextWin((int)arg->resource,menu->owner,menu->heapId);
+    if(!menu->textWin) menu->textWin=BR_UTIL_CreateTextWin(arg->resource,menu->printQue,menu->heapId);
     MSGDATA_ReadString((struct MsgBank *)c,0x5c,s);
-    WORDSET_SetSlotTag(a,0,(const void *)tmp,GDS_PROFILE_GetEggFlag(owner),1,2);
+    WORDSET_SetSlotTag(a,0,(struct Strbuf *)tmp,GDS_PROFILE_GetEggFlag(owner),1,2);
     WORDSET_CopyTaggedText(a,b,s);
     BR_UTIL_SetWindowTextBuf(menu->textWin,arg->resource,b);
     STRBUF_Delete(tmp);STRBUF_Delete(s);STRBUF_Delete(b);
@@ -164,12 +167,12 @@ void BR_CODEIN_CreateMenuButtons(struct CodeinMenuState *menu,struct CodeinMenuA
 
 
 
-void BR_CODEIN_DeleteMenuButtons(struct CodeinMenuState *menu,struct CodeinMenuArg *arg) { int i;if(menu->textWin){BR_UTIL_DeleteTextWin(menu->textWin,(int)arg->resource);menu->textWin=0;}for(i=0;i<4;i++){if(menu->buttons[i]){BR_BTN_DeleteObject(menu->buttons[i]);menu->buttons[i]=0;}}BR_RES_ReleaseSprite((char *)arg->resource,1); }
+void BR_CODEIN_DeleteMenuButtons(struct CodeinSoclWork *menu,struct CodeinMenuArg *arg) { int i;if(menu->textWin){BR_UTIL_DeleteTextWin(menu->textWin,(int)arg->resource);menu->textWin=0;}for(i=0;i<4;i++){if(menu->button[i]){BR_BTN_DeleteObject(menu->button[i]);menu->button[i]=0;}}BR_RES_ReleaseSprite((struct BrRes *)arg->resource,1); }
 
 
 
 
-int BR_CODEIN_HitTestOptionLeft(struct CodeinMenuState *menu, int x, int y)
+int BR_CODEIN_HitTestOptionLeft(struct CodeinSoclWork *menu, int x, int y)
 {
     int ok = ((unsigned int)(x - 0x20) <= 0x48) &
              ((unsigned int)(y - 0x30) <= 0x10);
@@ -177,7 +180,7 @@ int BR_CODEIN_HitTestOptionLeft(struct CodeinMenuState *menu, int x, int y)
         int args[2];
         args[0] = x;
         args[1] = y;
-        BR_UTIL_StartEffect(menu->effectHit, 1, args);
+        BR_UTIL_StartEffect(menu->tapFx, 1, args);
         GFL_USE_PlaySeDefaultVolume(0x703);
     }
     return ok;
@@ -186,7 +189,7 @@ int BR_CODEIN_HitTestOptionLeft(struct CodeinMenuState *menu, int x, int y)
 
 
 
-int BR_CODEIN_HitTestOptionRight(struct CodeinMenuState *menu, int x, int y)
+int BR_CODEIN_HitTestOptionRight(struct CodeinSoclWork *menu, int x, int y)
 {
     int ok = ((unsigned int)(x - 0x90) <= 0x48) &
              ((unsigned int)(y - 0x30) <= 0x10);
@@ -196,7 +199,7 @@ int BR_CODEIN_HitTestOptionRight(struct CodeinMenuState *menu, int x, int y)
 
         args[0] = x;
         args[1] = y;
-        BR_UTIL_StartEffect(menu->effectHit, 1, args);
+        BR_UTIL_StartEffect(menu->tapFx, 1, args);
         GFL_USE_PlaySeDefaultVolume(0x703);
     }
     return ok;

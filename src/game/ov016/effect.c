@@ -57,7 +57,8 @@ typedef struct { u8 b[4]; } U4;
 extern void *DWCi_HEAPlAllocEx(unsigned long size, int alignment);
 extern void DWCi_HEAPlFree_(void **mem);
 extern void G2x_SetBlendBrightness_(unsigned long addr, int plane, int brightness);
-extern void *DWCi_TSKlForm(int kind, void (*func)(void *, void *), void *work,
+struct TCB;
+extern struct TCB *DWCi_TSKlForm(int kind, void (*func)(void *, void *), void *work,
                            unsigned char prio);
 extern long FX_DivS32(long a, long b);
 extern void DWCi_WindowG2x_ChangeBlendBrightness_(unsigned long addr, int brightness);

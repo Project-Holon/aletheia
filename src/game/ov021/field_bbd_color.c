@@ -58,7 +58,8 @@ extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u
 extern void *ARC_TOOL_CreateHandle(unsigned int id, unsigned int heap);
 extern u32 GFL_HEAP_Free(void *p);
 extern void ARC_TOOL_DeleteHandle(void *h);
-extern void ARC_TOOL_ReadHandleMember(struct ArcFile *arc, u32 member, void *dst);
+struct ArcHandle;
+extern void ARC_TOOL_ReadHandleMember(struct ArcHandle *arc, u32 memberIdx, void *dst);
 extern void VEC_Fx16Normalize(u16 *a, u16 *b);
 extern void BILLBOARD_SetFixedNormal(u8 *board, short *normal);
 extern void BILLBOARD_SetDiffuse(u8 *dst, u16 *src);
@@ -89,7 +90,7 @@ int FIELD_BBD_COLOR_Delete(FieldBbdColor *bbdColor)
 
 void FIELD_BBD_COLOR_Load(FieldBbdColor *bbdColor, u32 colorId)
 {
-    ARC_TOOL_ReadHandleMember(bbdColor->arc, colorId, &bbdColor->data);
+    ARC_TOOL_ReadHandleMember((struct ArcHandle *)bbdColor->arc, colorId, &bbdColor->data);
 }
 
 /* Applies the loaded light vector (normalized) and the four material colors as GX RGB555. */

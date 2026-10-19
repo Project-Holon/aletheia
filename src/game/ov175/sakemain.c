@@ -37,6 +37,7 @@
  */
 #include "../../matched/arm9_sdk/libc/string.h"
 #include "sake_types.h"
+extern void *MSL_C_LIB_MemsetPtr(void *dest, int c, unsigned long n);
 
 struct GSTask;
 

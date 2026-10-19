@@ -200,6 +200,7 @@ extern void GFL_USE_StopSeSlot(int seSlot);
 extern struct SndHandle *GFL_USE_GetSeHandle(int seSlot);
 extern void GFL_USE_StopAllSe(void);
 extern void NNS_SndHandleSetSeqPriority(struct SndHandle *handle, u8 priority);
+extern void NNS_SndHandleSetVolume(struct SndHandle *handle, int volume);
 extern unsigned int KEY_GetCont(void);
 
 extern struct IcaAnime *ICA_ANIME_CreateWithFullBuffer(u32 heapId, u32 arcId, u16 dataId, void *buffer, u32 bufferSize);

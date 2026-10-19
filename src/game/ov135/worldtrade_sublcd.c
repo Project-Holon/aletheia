@@ -54,23 +54,25 @@ extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u
 
 extern u32 GFL_HEAP_Free(void *p);
 
-extern void *ARC_UTIL_LoadPaletteBlockFromArchive(u32 archiveID, u32 memberIdx, u32 unpackedOut, u32 flags);
+extern void *ARC_UTIL_LoadPaletteBlockFromArchive(u32 archiveID, u32 memberIdx, void *unpackedOut, u16 flags);
 
 extern void DC_FlushRange(void *p, u32 size);
 
 extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
+struct TcbTask;
 
-extern void TCB_DeleteTask(struct Node *n);
+extern void TCB_DeleteTask(struct TcbTask *task);
 
 extern struct Obj *CLACT_CreateActor(void *, unsigned int, unsigned int, unsigned int, const void *, unsigned short, unsigned short);
+struct Actor;
 
-extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
+extern void CLACT_SetActorAnimSeq(struct Actor *actor, unsigned short value);
 
 extern u32 CLACT_IsActorAnimActive(struct Actor *a);
 
-extern void CLACT_SetActorPaletteOffset(struct Obj *o, u32 v, u32 flag);
+extern void CLACT_SetActorPaletteOffset(struct Actor *actor, unsigned int offset, unsigned int pltt_op);
 
-extern u16 CLACT_GetActorAnimSeq(struct Obj *p);
+extern u16 CLACT_GetActorAnimSeq(struct Actor *actor);
 
 struct PtS;
 
@@ -78,11 +80,11 @@ struct S02030EE8;
 
 typedef struct { int state; int y; Work *p; } Anim;
 
-extern void CLACT_SetActorDrawEnable(struct Obj *obj, unsigned int on);
+extern void CLACT_SetActorDrawEnable(struct Actor *actor, unsigned int value);
 
-extern void CLACT_SetActorAutoAnim(struct Obj *,u32);
+extern void CLACT_SetActorAutoAnim(struct Actor *actor, unsigned int enable);
 
-extern void CLACT_SetActorBgPriority(void *, int);
+extern void CLACT_SetActorBgPriority(struct Actor *actor, unsigned int priority);
 
 extern void GFL_USE_PlaySeDefaultVolume(unsigned);
 
@@ -91,18 +93,20 @@ extern void WORLDTRADE_SetActorSurfacePos(void *, int, int);
 extern int TOUCHPANEL_HitTrg(const void *);
 
 extern void CLACT_GetActorSurfacePos(struct Actor *actor, struct PtS *out, u16 space);
+struct TcbSystem;
 
-extern void *TCB_AddTask(void *, void (*)(void *, Anim *), void *, int);
+extern struct TcbTask *TCB_AddTask(struct TcbSystem *sys, void (*)(void *, Anim *), void *work, unsigned int priority);
+struct TcblSystem;
 
-extern u32 TCBL_IsDeletePending(struct S02030EE8 *p);
+extern u32 TCBL_IsDeletePending(struct TcblSystem *tcbl);
 
-extern u32 CLACT_GetActorDrawEnable(struct Obj *p);
+extern u32 CLACT_GetActorDrawEnable(struct Actor *actor);
 
-extern void *ARC_UTIL_LoadScreenDataFromArchive(u32 archiveID, u32 memberIdx, u32 heapID, u32 unpackedOut, u16 flags);
+extern void *ARC_UTIL_LoadScreenDataFromArchive(u32 archiveID, u32 memberIdx, u32 heapID, void *unpackedOut, u16 flags);
 
-extern void GXS_LoadOBJ(void *, int, int);
+extern void GXS_LoadOBJ(void *pSrc, unsigned int offset, unsigned int szByte);
 
-extern void GXS_LoadOBJPltt(void *, int, int);
+extern void GXS_LoadOBJPltt(void *pSrc, unsigned int offset, unsigned int szByte);
 
 void WORLDTRADE_SUBLCD_CreateActors(Work *p);
 
@@ -168,30 +172,30 @@ void WORLDTRADE_SUBLCD_CreateActors(Work *p)
     s.d = 0;
     s.e = 0;
     p->spr[0] = (u32)CLACT_CreateActor((void *)p->res_res.unit, p->res_res.primaryChar, p->res_res.primaryPlt, p->res_res.primaryCell, &s, 1, 0x48);
-    CLACT_SetActorAutoAnim((struct Obj *)p->spr[0], 1);
+    CLACT_SetActorAutoAnim((struct Actor *)p->spr[0], 1);
     CLACT_SetActorBgPriority((void *)p->spr[0], 2);
-    CLACT_SetActorAnimSeq((struct Obj *)p->spr[0], 3);
-    CLACT_SetActorDrawEnable((struct Obj *)p->spr[0], 1);
+    CLACT_SetActorAnimSeq((struct Actor *)p->spr[0], 3);
+    CLACT_SetActorDrawEnable((struct Actor *)p->spr[0], 1);
     for (i = 0; i < 7; i++) {
         p->spr[i + 1] = (u32)CLACT_CreateActor((void *)p->res_res.unit, p->res_res.slotChar, p->res_res.slotPlt, p->res_res.slotCell, &s, 1, 0x48);
-        CLACT_SetActorAutoAnim((struct Obj *)p->spr[i + 1], 1);
-        CLACT_SetActorAnimSeq((struct Obj *)p->spr[i + 1], i * 4 + 0xE);
-        CLACT_SetActorDrawEnable((struct Obj *)p->spr[i + 1], 0);
+        CLACT_SetActorAutoAnim((struct Actor *)p->spr[i + 1], 1);
+        CLACT_SetActorAnimSeq((struct Actor *)p->spr[i + 1], i * 4 + 0xE);
+        CLACT_SetActorDrawEnable((struct Actor *)p->spr[i + 1], 0);
         WORLDTRADE_SUBLCD_SetActorSurfacePos(p->spr[i + 1], tbl_022038A2[i].x, tbl_022038A2[i].y);
         CLACT_SetActorBgPriority((void *)p->spr[i + 1], 2);
-        CLACT_SetActorPaletteOffset((struct Obj *)p->spr[i + 1], (u8)(i + 2), 1);
+        CLACT_SetActorPaletteOffset((struct Actor *)p->spr[i + 1], (u8)(i + 2), 1);
     }
     p->arrow = (u32)CLACT_CreateActor((void *)p->res_res.unit, p->res_res.slotChar, p->res_res.slotPlt, p->res_res.slotCell, &s, 1, 0x48);
-    CLACT_SetActorAutoAnim((struct Obj *)p->arrow, 1);
-    CLACT_SetActorAnimSeq((struct Obj *)p->arrow, 0x2b);
-    CLACT_SetActorDrawEnable((struct Obj *)p->arrow, 0);
+    CLACT_SetActorAutoAnim((struct Actor *)p->arrow, 1);
+    CLACT_SetActorAnimSeq((struct Actor *)p->arrow, 0x2b);
+    CLACT_SetActorDrawEnable((struct Actor *)p->arrow, 0);
     WORLDTRADE_SUBLCD_SetActorSurfacePos(p->arrow, 0x80, 0x56);
     CLACT_SetActorBgPriority((void *)p->arrow, 1);
     p->scrollBarObj = (u32)CLACT_CreateActor((void *)p->res_res.unit, p->res_res.slotChar, p->res_res.slotPlt, p->res_res.slotCell, &s, 1, 0x48);
-    CLACT_SetActorAutoAnim((struct Obj *)p->scrollBarObj, 1);
-    CLACT_SetActorAnimSeq((struct Obj *)p->scrollBarObj, 0x2a);
+    CLACT_SetActorAutoAnim((struct Actor *)p->scrollBarObj, 1);
+    CLACT_SetActorAnimSeq((struct Actor *)p->scrollBarObj, 0x2a);
     WORLDTRADE_SetActorSurfacePos((void *)p->scrollBarObj, 0x37, p->pageNum + 0xa8);
-    CLACT_SetActorDrawEnable((struct Obj *)p->scrollBarObj, 0);
+    CLACT_SetActorDrawEnable((struct Actor *)p->scrollBarObj, 0);
     for (i = 0; i < 8; i++) {
         CLACT_GetActorSurfacePos((struct Actor *)p->spr[i], (struct PtS *)&pos, 1);
         p->pos_spos8[i].x = pos.x;
@@ -219,7 +223,7 @@ void WORLDTRADE_SUBLCD_StartAnimTaskA(Work *p)
  */
 void WORLDTRADE_SUBLCD_SetActorAnim(u32 *p, u32 animSeq)
 {
-    CLACT_SetActorAnimSeq((struct Obj *)(*(u32 *)(p[2] + 0xd0c)), (u16)animSeq);
+    CLACT_SetActorAnimSeq((struct Actor *)(*(u32 *)(p[2] + 0xd0c)), (u16)animSeq);
 }
 
 void WORLDTRADE_SUBLCD_AnimTaskA(void *task, Anim *anim)
@@ -347,11 +351,11 @@ void WORLDTRADE_SUBLCD_UpdateSlotPalettes(Work *p, int count, int flag)
     for (i = 0; i < 7; i++) {
         if (i < count) {
             WORLDTRADE_SUBLCD_LoadSlotPalette((CharData **)((u8 *)p + 0xE5C), (McssPlttData *)(*(void **)((u8 *)p + a)), i, *(u8 *)((u8 *)p + i * 0x128 + b), *(u8 *)((u8 *)p + i * 0x128 + 0x302));
-            if (flag != 0) CLACT_SetActorAnimSeq((struct Obj *)(*(u32 *)((u8 *)p + i * 4 + 0xD10)), i * 4 + 14);
-            else CLACT_SetActorAnimSeq((struct Obj *)(*(u32 *)((u8 *)p + i * 4 + 0xD10)), i * 4 + 17);
-            CLACT_SetActorDrawEnable((struct Obj *)*(u32 *)((u8 *)p + i * 4 + 0xD10), 1);
+            if (flag != 0) CLACT_SetActorAnimSeq((struct Actor *)(*(u32 *)((u8 *)p + i * 4 + 0xD10)), i * 4 + 14);
+            else CLACT_SetActorAnimSeq((struct Actor *)(*(u32 *)((u8 *)p + i * 4 + 0xD10)), i * 4 + 17);
+            CLACT_SetActorDrawEnable((struct Actor *)*(u32 *)((u8 *)p + i * 4 + 0xD10), 1);
         } else {
-            CLACT_SetActorDrawEnable((struct Obj *)*(u32 *)((u8 *)p + i * 4 + 0xD10), 0);
+            CLACT_SetActorDrawEnable((struct Actor *)*(u32 *)((u8 *)p + i * 4 + 0xD10), 0);
         }
     }
 }
@@ -373,10 +377,10 @@ void WORLDTRADE_SUBLCD_UpdateSlotAnims(Work *p)
     for (i = 0; i < 7; i++) {
         if (*(u32 *)((u8 *)p + i * 4 + 0xD10) != 0) {
             int a;
-            a = CLACT_GetActorAnimSeq((struct Obj *)(*(u32 *)((u8 *)p + i * 4 + 0xD10)));
+            a = CLACT_GetActorAnimSeq((struct Actor *)(*(u32 *)((u8 *)p + i * 4 + 0xD10)));
             if (a != WORLDTRADE_SUBLCD_GetSlotAnimBase(i) + 1) {
-                if (CLACT_GetActorDrawEnable((struct Obj *)(*(u32 *)((u8 *)p + i * 4 + 0xD10))) != 0) {
-                    CLACT_SetActorAnimSeq((struct Obj *)(*(u32 *)((u8 *)p + i * 4 + 0xD10)), WORLDTRADE_SUBLCD_GetSlotAnimBase(i) + 1);
+                if (CLACT_GetActorDrawEnable((struct Actor *)(*(u32 *)((u8 *)p + i * 4 + 0xD10))) != 0) {
+                    CLACT_SetActorAnimSeq((struct Actor *)(*(u32 *)((u8 *)p + i * 4 + 0xD10)), WORLDTRADE_SUBLCD_GetSlotAnimBase(i) + 1);
                 }
             }
         }
@@ -393,9 +397,9 @@ void WORLDTRADE_SUBLCD_LoadPalette(Work *p)
 {
     int i;
 
-    p->main = ARC_UTIL_LoadPaletteBlockFromArchive(0x20, 0, (u32)(&p->palData), 0x48);
+    p->main = ARC_UTIL_LoadPaletteBlockFromArchive(0x20, 0, (&p->palData), 0x48);
     for (i = 0; i < 16; i++) {
-        p->buf[i] = ARC_UTIL_LoadScreenDataFromArchive(0x20, i + 0x31, 0, (u32)(&p->chr[i]), 0x48);
+        p->buf[i] = ARC_UTIL_LoadScreenDataFromArchive(0x20, i + 0x31, 0, (&p->chr[i]), 0x48);
     }
     for (i = 0; i < 16; i++) {
         DC_FlushRange(p->chr[i]->pixels, 0x200);

@@ -1,7 +1,7 @@
 /*
  * file:     event_battle.c
  * unit:     yes
- * function: EVENT_BATTLE_CallAndInvert, EVENT_BATTLE_ProcScriptedBattle, EVENT_BATTLE_CreateScriptedBattle, EVENT_BATTLE_CreateEncounterTask, EVENT_BATTLE_CreateResultOnlyTask, EVENT_BATTLE_CreateForcedWinTask, EVENT_BATTLE_CreateCatchTutorial, EVENT_BATTLE_CreateEncounterTaskWithMon, EVENT_BATTLE_ProcBattleTask, EVENT_BATTLE_GetBattleKindClass, EVENT_BATTLE_DispatchBattleKindNotify, EVENT_BATTLE_NotifyLeadSpecies, EVENT_BATTLE_NotifyBattleEnd, EVENT_BATTLE_AddBattleRecord, EVENT_BATTLE_IsResultSilent, EVENT_BATTLE_GetResultFlag, EVENT_BATTLE_IsTaskResultSilent, EVENT_BATTLE_FinishBattleTask, EVENT_BATTLE_InitTaskWork, EVENT_BATTLE_FreeBtlSetup, EVENT_BATTLE_IntegrityProbeA, EVENT_BATTLE_IntegrityProbeB, EVENT_BATTLE_IntegrityProbeC
+ * function: EVENT_BATTLE_CallAndInvert, EVENT_BATTLE_ProcScriptedBattle, EVENT_BATTLE_CreateScriptedBattle, EVENT_BATTLE_CreateEncounterTask, EVENT_BATTLE_CreateResultOnlyTask, EVENT_BATTLE_CreateForcedWinTask, EVENT_BATTLE_CreateCatchTutorial, EVENT_BATTLE_CreateEncounterTaskWithMon, EVENT_BATTLE_ProcBattleTask, EVENT_BATTLE_GetBattleKindClass, EVENT_BATTLE_DispatchBattleKindNotify, EVENT_BATTLE_NotifyLeadSpecies, EVENT_BATTLE_NotifyBattleEnd, EVENT_BATTLE_AddBattleRecord, EVENT_BATTLE_IsResultSilent, EVENT_BATTLE_GetResultFlag, EVENT_BATTLE_IsTaskResultSilent, EVENT_BATTLE_FinishBattleTask, EVENT_BATTLE_InitTaskWork, EVENT_BATTLE_FreeBtlSetup, EVENT_BATTLE_IntegrityProbeA, EVENT_BATTLE_IntegrityProbeB, EVENT_BATTLE_IntegrityDecoyC
  * address:  0x0216E680
  * region:   ov010
  * compiler: dsi/1.1p1
@@ -113,6 +113,7 @@
  *   MIi_CpuClear32 0x02082A7C arm
  *   BTL_SETUP_Delete  0x020130B4  thumb
  *   GF_STANDARD_Rand  0x0203F0A8  arm
+ *   _u32_div_f                   0x0209C2B0  arm
  */
 
 struct BtlSetup;
@@ -133,6 +134,8 @@ struct Strbuf;
 struct PlayerWork;
 struct SaveData;
 struct BattleEndCtx;
+#include "../version.h"
+
 typedef unsigned int u32;
 
 typedef unsigned char u8;
@@ -192,40 +195,47 @@ typedef struct BattleEndCtx {
     BtlSetup *btlSetup;     /* 0x08 */
 } BattleEndCtx;
 
-extern unsigned int POKE_TOOL_GetPartyValue(void *a, unsigned int b, unsigned int c);
-extern void *GAMESYSTEM_GetGameData(const struct GameSystem *p);
+extern unsigned int POKE_TOOL_GetPartyValue(struct PokemonParam *pp, u32 paramId, u32 arg);
+struct GameData;
+extern struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *p);
 extern struct GameEvent *GAME_EVENT_Create(void *owner, void *a, void *b, u32 size);
-extern void *BTL_SETUP_GetParty(void *p, int i);
-extern void *POKEPARTY_GetMember(void *party, u32 i);
+struct BattleSetupParam;
+extern void *BTL_SETUP_GetParty(struct BattleSetupParam *param, s32 client);
+struct Party;
+extern struct PokemonParam *POKEPARTY_GetMember(struct Party *party, u32 pos);
 extern void *GAMESYSTEM_GetFieldMap(const struct GameSystem *p);
-extern void ENCEFF_SelectEffectAndBgm(u32 species, u32 a, u32 b, void *c, u32 *d, void *e);
-extern void GAME_EVENT_CallEvent(struct GameEvent *evt, struct GameEvent **out);
-extern int GAME_DATA_GetPmsWork(int gd);
-extern void COMM_PLAYER_SUPPORT_Init(u8 *p);
-extern u32 GAME_DATA_GetLastBattleResult(const struct BtlSetup *p);
-extern void *SCRCMD_NETWORK_CreateCommProcEvent(void *sys);
-extern void GAME_EVENT_ChangeEvent(struct GameEvent *o, u32 *out);
-extern void *EVENT_FIELDMAP_CONTROL_StartFadeIn(void *sys, void *proc, u32 a, u32 b, u32 c, u32 d, u32 e);
-extern int COMM_PLAYER_SUPPORT_HasSavedMode(int *p);
-extern void *EVENT_COMM_COMMON_CreateSupportMsgEvent(void *sys, u32 v);
-extern void *GAME_DATA_GetTrainerRecord(int *p);
+struct FieldMap;
+extern void ENCEFF_SelectEffectAndBgm(s32 species, s32 effectId, s32 hasWildOpponent, struct FieldMap *fieldMap, u32 *outEffectKind, u16 *outBgmId);
+extern void GAME_EVENT_CallEvent(struct GameEvent *parent, struct GameEvent *child);
+extern int GAME_DATA_GetPmsWork(struct GameData *gd);
+struct CommPlayerSupport;
+extern void COMM_PLAYER_SUPPORT_Init(struct CommPlayerSupport *support);
+extern u32 GAME_DATA_GetLastBattleResult(struct GameData *gd);
+extern struct GameEvent *SCRCMD_NETWORK_CreateCommProcEvent(struct GameSystem *gameSystem);
+extern void GAME_EVENT_ChangeEvent(struct GameEvent *now, struct GameEvent *next);
+extern struct GameEvent *EVENT_FIELDMAP_CONTROL_StartFadeIn(struct GameSystem *gameSystem, struct FieldMap *fieldMap, s32 effect, s32 skipWait, s32 restoreBg, u8 seasonShown, u8 seasonTarget);
+extern int COMM_PLAYER_SUPPORT_HasSavedMode(struct CommPlayerSupport *support);
+extern struct GameEvent *EVENT_COMM_COMMON_CreateSupportMsgEvent(struct GameSystem *gameSystem, u32 heapId);
+extern void *GAME_DATA_GetTrainerRecord(struct GameData *gd);
 extern u32 RECORD_AddOne(struct RecordBlock *obj, int i);
-extern u32 FIELDMAP_GetEncount(u8 *p);
-extern void EFFECT_ENCOUNT_ConsumeSpot(int s);
-extern void *BTL_SETUP_Create(u32 heap);
-extern void FIELD_ENCOUNT_SetupTrainerBattle(struct GameSystem *ctx, void *btlSetup, u32 mode, u32 flag, void *mon, u32 trainerId2, u16 heap);
-extern void BTL_SETUP_SetStatusFlag(char *p, int v);
-extern void ENCEFF_SelectEffectAndBgmForTrainer(u32 a, u32 x, int *out, u16 *out2);
+struct FieldEncount;
+extern struct FieldEncount *FIELDMAP_GetEncount(struct FieldMap *fieldMap);
+extern void EFFECT_ENCOUNT_ConsumeSpot(struct FieldEncount *encount);
+extern struct BattleSetupParam *BTL_SETUP_Create(u32 heap);
+extern void FIELD_ENCOUNT_SetupTrainerBattle(struct FieldEncount *encount, struct BattleSetupParam *btlSetup, unsigned int rule, unsigned int partnerId, unsigned int trainerId1, unsigned int trainerId2, unsigned short heapId);
+extern void BTL_SETUP_SetStatusFlag(struct BattleSetupParam *param, s32 flag);
+extern void ENCEFF_SelectEffectAndBgmForTrainer(void *trainerData, struct FieldMap *fieldMap, s32 *outEffectKind, u16 *outBgmId);
 extern void *POKEPARTY_Create(u16 heap);
 extern u32 POKE_TOOL_GetPartyParamSize(void);
 extern void *GFL_HEAP_Alloc(u32 heap, u32 size, int clear, const char *site, u16 tag);
-extern void POKE_TOOL_SetupPartyParam(void *mon, u16 species, u16 level, u64 id);
-extern void POKE_TOOL_SetPartyValue(void *p, u32 id, u32 v);
-extern u32 POKEPARTY_Add(struct PokeParty *p, const struct PokemonParam *src);
-extern void FIELD_ENCOUNT_SetFieldSituation(struct BtlSetup *out, void *gameData, void *fieldMap);
+extern void POKE_TOOL_SetupPartyParam(struct PokemonParam *pp, u16 species, u16 level, u64 otId);
+extern void POKE_TOOL_SetPartyValue(struct PokemonParam *pp, u32 paramId, u32 value);
+extern u32 POKEPARTY_Add(struct Party *party, struct PokemonParam *member);
+struct FieldSituation;
+extern void FIELD_ENCOUNT_SetFieldSituation(struct FieldSituation *situation, struct GameData *gameData, struct FieldMap *fieldMap);
 extern void BTL_SETUP_SetupDemo(void *bs, void *ctx, void *enemyParty, void *partnerParty, BattleLocation *loc, u32 heap);
 extern u32 GFL_HEAP_Free(void *p);
-extern void *GAME_DATA_GetSaveBlock43(void **p);
+extern void *GAME_DATA_GetSaveBlock43(struct GameData *gd);
 extern u32   MON_SNAPSHOT_IsFilled(const void *obj, u32 idx);
 extern void *GAME_EVENT_GetWork(struct GameEvent *p);
 extern u32   MON_SNAPSHOT_GetSpeciesForSlot(const void *obj, u32 a, u32 b);
@@ -236,45 +246,51 @@ extern void  POKE_TOOL_SetupPartyParamEx(void *p, u16 species, u32 level, u64 id
 extern u32   MON_SNAPSHOT_HasAbility(const void *obj, u32 idx);
 extern u8    MON_SNAPSHOT_GetAbility(const void *obj, u32 idx);
 extern void *MON_SNAPSHOT_GetNickname(void *obj, u32 idx);
-extern void POKE_TOOL_ChangeSpecies(void *p, u32 a);
-extern u32   POKE_TOOL_SetDefaultMoves(void *p);
-extern void GAME_EVENT_CallProc(struct GameEvent *obj, u32 overlayId, u32 procData, u32 param);
-extern void *GAME_DATA_GetMoveModelSys(const struct BtlSetup *p);
-extern void *GAME_DATA_GetListCursor(void *base);
+extern void POKE_TOOL_ChangeSpecies(struct PokemonParam *pp, u32 species);
+extern u32   POKE_TOOL_SetDefaultMoves(struct PokemonParam *pp);
+extern void GAME_EVENT_CallProc(struct GameEvent *parent, u32 overlayId, void *procData, void *param);
+extern void *GAME_DATA_GetMoveModelSys(struct GameData *gd);
+extern u32 *GAME_DATA_GetListCursor(struct GameData *gd);
 extern u8 FIELD_STATUS_SwapSeasonDispFlag(struct FieldStatus *o, u8 v);
-extern int FIELD_STATUS_CreateFieldCloseEvent(int gameSystem, int fieldMap);
-extern void *FIELD_STATUS_CreateFieldOpenEvent(void *sys);
-extern void *FIELD_SOUND_SYSTEM_StartFadeOutAndResetTask(void *a, u16 b);
-extern void *FIELD_SOUND_SYSTEM_StartPushOrFadeOutAndPlayTask(void *a, u32 b);
-extern void *FIELD_SOUND_SYSTEM_StartPopDefaultFadeTask(void *a);
-extern void *FIELD_SOUND_SYSTEM_StartWaitAcceptRequestTask(void *a);
-extern void COMM_PLAYER_SUPPORT_StashMode(u32 *p);
+extern struct GameEvent *FIELD_STATUS_CreateFieldCloseEvent(struct GameSystem *gameSystem, struct FieldMap *fieldMap);
+extern struct GameEvent *FIELD_STATUS_CreateFieldOpenEvent(struct GameSystem *gameSystem);
+extern struct GameEvent *FIELD_SOUND_SYSTEM_StartFadeOutAndResetTask(struct GameSystem *gameSystem, u16 fadeOutFrames);
+extern struct GameEvent *FIELD_SOUND_SYSTEM_StartPushOrFadeOutAndPlayTask(struct GameSystem *gameSystem, u32 bgmNo);
+extern struct GameEvent *FIELD_SOUND_SYSTEM_StartPopDefaultFadeTask(struct GameSystem *gameSystem);
+extern struct GameEvent *FIELD_SOUND_SYSTEM_StartWaitAcceptRequestTask(struct GameSystem *gameSystem);
+extern void COMM_PLAYER_SUPPORT_StashMode(struct CommPlayerSupport *support);
 extern int GF_OVERLAY_Load(s32 handle);
 extern void GF_OVERLAY_Unload(s32 handle);
-extern void *GFL_USE_AddMainTask(void (*callback)(void *, void *), void *work, u32 key);
+struct Tcb;
+extern struct Tcb *GFL_USE_AddMainTask(void (*callback)(void *, void *), void *work, u32 key);
 extern void GAMESYSTEM_RandTwice(void);
-extern void FLD_BTL_INST_TOOL_AddBattleTally(struct TallyRecord *r, struct Result *s);
-extern int FIELDMAP_GetEncEff(unsigned char *p);
-extern u32 OV230_CallSealedBody1(void (*a)(void), void (*b)(void), u32 c);
-extern u32 OV230_CallSealedBody3(void (*a)(void), void (*b)(void), u32 c);
-extern u32 OV230_CallSealedBody4(void (*a)(void), void (*b)(void), u32 c);
-extern void ENCEFF_Start(struct GameSystem *c, u32 x, int idx);
+struct BtlInstResult;
+struct BtlInstRecord;
+extern void FLD_BTL_INST_TOOL_AddBattleTally(struct BtlInstRecord *record, struct BtlInstResult *result);
+struct EncEff;
+extern struct EncEff *FIELDMAP_GetEncEff(struct FieldMap *fieldMap);
+extern u32 OV230_CallSealedBody1(void (*hook)(void), void (*hookArg)(void), u32 unused);
+extern u32 OV230_CallSealedBody3(void (*hook)(void), void (*hookArg)(void), u32 unused);
+extern u32 OV230_CallSealedBody4(void (*hook)(void), void (*hookArg)(void), u32 unused);
+struct EncEffWork;
+extern void ENCEFF_Start(struct EncEffWork *eff, struct GameEvent *parentEvent, s32 kind);
 extern u32 TPOKE_DATA_GetRecordField(void *a, u32 idx);
 extern u8 TPOKE_DATA_GetTrainerKind(u32 key);
-extern int GAME_BEACON_SEARCH_SetBattlePokeStart(int monsNo);
-extern int GAME_BEACON_SEARCH_SetBattlePokeWin(int monsNo);
+extern void GAME_BEACON_SEARCH_SetBattlePokeStart(u32 monsNo);
+extern void GAME_BEACON_SEARCH_SetBattlePokeWin(u32 monsNo);
 extern void GAME_BEACON_SEARCH_SetPokeEvent(u16 species);
-extern void *GAME_DATA_GetMyParty(const struct BtlSetup *p);
-extern u32 POKEPARTY_FindFirstNonEgg(void *p);
+extern void *GAME_DATA_GetMyParty(struct GameData *gd);
+extern u32 POKEPARTY_FindFirstNonEgg(struct Party *party);
 extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
-extern void GAME_BEACON_SEARCH_SetEventBattleNameC(void *name);
-extern void GAME_BEACON_SEARCH_SetEventBattleNameA(void *name);
-extern void GAME_BEACON_SEARCH_SetEventBattleNameB(void *name);
-extern void GAME_BEACON_SEARCH_SetEventBattleNameD(void *name);
+extern void GAME_BEACON_SEARCH_SetEventBattleNameC(struct Strbuf *name);
+extern void GAME_BEACON_SEARCH_SetEventBattleNameA(struct Strbuf *name);
+extern void GAME_BEACON_SEARCH_SetEventBattleNameB(struct Strbuf *name);
+extern void GAME_BEACON_SEARCH_SetEventBattleNameD(struct Strbuf *name);
 extern void STRBUF_Delete(struct Strbuf *vec);
-extern void GAME_DATA_SetLastBattleResult(struct BtlSetup *p, u32 v);
-extern void MOVE_POKEMON_HandleBattleResult(void *gameData, struct BtlSetup *w);
-extern void *GAME_DATA_GetMyPlayerWork(struct SaveData *p);
+extern void GAME_DATA_SetLastBattleResult(struct GameData *gd, u32 value);
+struct BattleResultWork;
+extern void MOVE_POKEMON_HandleBattleResult(struct GameData *gameData, struct BattleResultWork *work);
+extern struct PlayerWork *GAME_DATA_GetMyPlayerWork(struct GameData *gameData);
 extern u16 GAME_DATA_GetPlayerZoneId(const struct PlayerWork *p);
 extern int WEATHER_StoreZoneWeatherId(int,int);
 extern void MIi_CpuClear32(int,void *,int);
@@ -286,7 +302,7 @@ int EVENT_BATTLE_CreateScriptedBattle(int gameSystem, int battleSrc, int btlSetu
 int EVENT_BATTLE_CreateEncounterTask(int gameSystem, int battleSrc, int battleMode, int battleFlags, int battleKind, int fieldEffect, int options);
 int EVENT_BATTLE_CreateResultOnlyTask(int gameSystem, int battleSrc, int btlSetup);
 int EVENT_BATTLE_CreateForcedWinTask(void *gameSystem, void *battleSrc, void *btlSetup);
-void *EVENT_BATTLE_CreateCatchTutorial(void *gameSystem, u32 fieldMap, u32 heapId);
+void *EVENT_BATTLE_CreateCatchTutorial(void *gameSystem, void *fieldMap, u32 heapId);
 void *EVENT_BATTLE_CreateEncounterTaskWithMon(void *gameSystem, u32 battleSrc, u32 battleMode, u32 battleFlags, u32 battleKind, u32 fieldEffect, u32 options, u32 entryIndex);
 int EVENT_BATTLE_ProcBattleTask(void *evt, u32 *state, BattleTask *work);
 int EVENT_BATTLE_GetBattleKindClass(void *battleKind);
@@ -302,7 +318,7 @@ void EVENT_BATTLE_InitTaskWork(BattleTask *task, void *gameSystem, void *btlSetu
 int EVENT_BATTLE_FreeBtlSetup(BattleTask *task);
 int EVENT_BATTLE_IntegrityProbeA(int unused);
 int EVENT_BATTLE_IntegrityProbeB(int unused);
-int EVENT_BATTLE_IntegrityProbeC(int unused);
+int EVENT_BATTLE_IntegrityDecoyC(int unused);
 extern const char d_02172B54[];
 extern u8 ov093_id[];
 extern u8 ov092_id[];
@@ -352,7 +368,7 @@ int EVENT_BATTLE_ProcScriptedBattle(void *event, u32 *state, ScriptedBattleArgs 
         EVENT_BATTLE_InitTaskWork(work, gameSystem, args->btlSetup);
         hasWildOpponent = 1;
         work->isScripted = 1;
-        species = POKE_TOOL_GetPartyValue(POKEPARTY_GetMember(BTL_SETUP_GetParty(args->btlSetup, 1), 0), 5, 0);
+        species = POKE_TOOL_GetPartyValue(POKEPARTY_GetMember(BTL_SETUP_GetParty((struct BattleSetupParam *)args->btlSetup, 1), 0), 5, 0);
         {
             void *fieldMap = GAMESYSTEM_GetFieldMap(gameSystem);
 
@@ -365,11 +381,11 @@ int EVENT_BATTLE_ProcScriptedBattle(void *event, u32 *state, ScriptedBattleArgs 
         break;
     case 1:
         if (args->returnImmediately == 1) {
-            COMM_PLAYER_SUPPORT_Init((void *)GAME_DATA_GetPmsWork((int)gameData));
+            COMM_PLAYER_SUPPORT_Init((void *)(struct GameData *)GAME_DATA_GetPmsWork((struct GameData *)gameData));
             return 1;
         }
         if (EVENT_BATTLE_IsResultSilent(GAME_DATA_GetLastBattleResult(gameData), 0) == 1) {
-            COMM_PLAYER_SUPPORT_Init((void *)GAME_DATA_GetPmsWork((int)gameData));
+            COMM_PLAYER_SUPPORT_Init((void *)(struct GameData *)GAME_DATA_GetPmsWork((struct GameData *)gameData));
             GAME_EVENT_ChangeEvent(event, SCRCMD_NETWORK_CreateCommProcEvent(gameSystem));
         } else {
             GAME_EVENT_CallEvent(event, EVENT_FIELDMAP_CONTROL_StartFadeIn(gameSystem, GAMESYSTEM_GetFieldMap(gameSystem), 0, 0, 1, 0, 0));
@@ -377,12 +393,12 @@ int EVENT_BATTLE_ProcScriptedBattle(void *event, u32 *state, ScriptedBattleArgs 
         (*state)++;
         break;
     case 2:
-        if (COMM_PLAYER_SUPPORT_HasSavedMode((void *)GAME_DATA_GetPmsWork((int)gameData)) == 1)
+        if (COMM_PLAYER_SUPPORT_HasSavedMode((void *)(struct GameData *)GAME_DATA_GetPmsWork((struct GameData *)gameData)) == 1)
             GAME_EVENT_CallEvent(event, EVENT_COMM_COMMON_CreateSupportMsgEvent(gameSystem, 4));
         (*state)++;
         break;
     case 3:
-        COMM_PLAYER_SUPPORT_Init((void *)GAME_DATA_GetPmsWork((int)gameData));
+        COMM_PLAYER_SUPPORT_Init((void *)(struct GameData *)GAME_DATA_GetPmsWork((struct GameData *)gameData));
         return 1;
     }
     return 0;
@@ -408,7 +424,7 @@ int EVENT_BATTLE_CreateScriptedBattle(int gameSystem, int battleSrc, int btlSetu
     args->effectId = effectId;
     EVENT_BATTLE_NotifyLeadSpecies((void *)btlSetup, 0);
     RECORD_AddOne(GAME_DATA_GetTrainerRecord(GAMESYSTEM_GetGameData((const struct GameSystem *)gameSystem)), 5);
-    EFFECT_ENCOUNT_ConsumeSpot(FIELDMAP_GetEncount((u8 *)battleSrc));
+    EFFECT_ENCOUNT_ConsumeSpot(FIELDMAP_GetEncount((struct FieldMap *)battleSrc));
     return (int)taskEvent;
 }
 
@@ -425,21 +441,21 @@ int EVENT_BATTLE_CreateEncounterTask(int gameSystem, int battleSrc, int battleMo
 
     taskEvent = GAME_EVENT_Create((void *)gameSystem, 0, EVENT_BATTLE_ProcBattleTask, 0x28);
     task = GAME_EVENT_GetWork(taskEvent);
-    battleObj = FIELDMAP_GetEncount((u8 *)battleSrc);
+    battleObj = (s32)FIELDMAP_GetEncount((struct FieldMap *)battleSrc);
     records = (int)GAME_DATA_GetTrainerRecord(GAMESYSTEM_GetGameData((const struct GameSystem *)gameSystem));
     btlSetup = (int)BTL_SETUP_Create(4);
-    FIELD_ENCOUNT_SetupTrainerBattle((struct GameSystem *)battleObj, (void *)btlSetup, battleMode, battleFlags, (void *)battleKind, fieldEffect, 4);
+    FIELD_ENCOUNT_SetupTrainerBattle((struct FieldEncount *)battleObj, (void *)btlSetup, (unsigned int)battleMode, (unsigned int)battleFlags, (unsigned int)battleKind, fieldEffect, 4);
     EVENT_BATTLE_DispatchBattleKindNotify(battleKind, 0);
     RECORD_AddOne((struct RecordBlock *)records, 6);
     RECORD_AddOne((struct RecordBlock *)records, 0x56);
     EVENT_BATTLE_InitTaskWork(task, (void *)gameSystem, (void *)btlSetup);
     task->isScripted = 1;
     if (options & 1) {
-        BTL_SETUP_SetStatusFlag((char *)btlSetup, 0x100);
+        BTL_SETUP_SetStatusFlag((struct BattleSetupParam *)btlSetup, 0x100);
         task->skipResultCheck = 1;
     }
-    ENCEFF_SelectEffectAndBgmForTrainer(battleKind, battleSrc, (int *)&task->encounterEffect, &task->btlSetup->bgmId);
-    EFFECT_ENCOUNT_ConsumeSpot(FIELDMAP_GetEncount((u8 *)battleSrc));
+    ENCEFF_SelectEffectAndBgmForTrainer((void *)battleKind, (struct FieldMap *)battleSrc, (int *)&task->encounterEffect, &task->btlSetup->bgmId);
+    EFFECT_ENCOUNT_ConsumeSpot(FIELDMAP_GetEncount((struct FieldMap *)battleSrc));
     return (int)taskEvent;
 }
 
@@ -458,7 +474,7 @@ int EVENT_BATTLE_CreateResultOnlyTask(int gameSystem, int battleSrc, int btlSetu
     task->skipResultCheck = 1;
     task->keepBtlSetup = 1;
     task->encounterEffect = 9;
-    EFFECT_ENCOUNT_ConsumeSpot(FIELDMAP_GetEncount((u8 *)battleSrc));
+    EFFECT_ENCOUNT_ConsumeSpot(FIELDMAP_GetEncount((struct FieldMap *)battleSrc));
     return (int)taskEvent;
 }
 
@@ -478,7 +494,7 @@ int EVENT_BATTLE_CreateForcedWinTask(void *gameSystem, void *battleSrc, void *bt
     task->skipResultCheck = 1;
     task->encounterEffect = 9;
     task->btlSetup->bgmId = 0x46b;
-    EFFECT_ENCOUNT_ConsumeSpot(FIELDMAP_GetEncount((u8 *)battleSrc));
+    EFFECT_ENCOUNT_ConsumeSpot(FIELDMAP_GetEncount((struct FieldMap *)battleSrc));
     return (int)taskEvent;
 }
 
@@ -489,7 +505,7 @@ int EVENT_BATTLE_CreateForcedWinTask(void *gameSystem, void *battleSrc, void *bt
  * Set up the scripted catching-tutorial battle (Minccino Lv7 against
  * Patrat Lv2) and push EVENT_BATTLE_ProcBattleTask as its battleTask. First draft.
  */
-void *EVENT_BATTLE_CreateCatchTutorial(void *gameSystem, u32 fieldMap, u32 heapId)
+void *EVENT_BATTLE_CreateCatchTutorial(void *gameSystem, void *fieldMap, u32 heapId)
 {
     BattleLocation location;
     u16 tempHeapId;
@@ -519,7 +535,7 @@ void *EVENT_BATTLE_CreateCatchTutorial(void *gameSystem, u32 fieldMap, u32 heapI
     POKE_TOOL_SetPartyValue(pokemon, 0x38, 0);
     POKE_TOOL_SetPartyValue(pokemon, 0x39, 0);
     POKEPARTY_Add(opponentParty, pokemon);
-    FIELD_ENCOUNT_SetFieldSituation((struct BtlSetup *)(&location), gameData, (void *)fieldMap);
+    FIELD_ENCOUNT_SetFieldSituation((struct FieldSituation *)(&location), gameData, (void *)fieldMap);
     location.battleBg = 5;
     location.terrain = 0;
     BTL_SETUP_SetupDemo(btlSetup, gameData, playerParty, opponentParty, &location, heapId);
@@ -565,7 +581,7 @@ void *EVENT_BATTLE_CreateEncounterTaskWithMon(void *gameSystem, u32 battleSrc, u
     if (MON_SNAPSHOT_IsFilled(giftData, entryIndex) != 0) {
         mon = POKEPARTY_GetMember(*(void **)(*(u8 **)((u8 *)GAME_EVENT_GetWork(task) + 8) + 0x28), 0);
         oldSpecies = POKE_TOOL_GetPartyValue(mon, 5, 0);
-        species = MON_SNAPSHOT_GetSpeciesForSlot(giftData, entryIndex, 0x15);
+        species = MON_SNAPSHOT_GetSpeciesForSlot(giftData, entryIndex, PM_VERSION_ID);
         level = MON_SNAPSHOT_GetLevel(giftData, entryIndex);
         id = MON_SNAPSHOT_GetOtId(giftData, entryIndex);
         rnd = MON_SNAPSHOT_GetPersonalRnd(giftData, entryIndex);
@@ -637,29 +653,29 @@ int EVENT_BATTLE_ProcBattleTask(void *event, u32 *state, BattleTask *work)
         (*state)++;
         break;
     case 1:
-        ENCEFF_Start((void *)FIELDMAP_GetEncEff(fieldMap), (u32)event, (int)work->encounterEffect);
+        ENCEFF_Start((void *)FIELDMAP_GetEncEff(fieldMap), (struct GameEvent *)event, (int)work->encounterEffect);
         (*state)++;
         break;
     case 2:
-        GAME_EVENT_CallEvent(event, (void *)FIELD_STATUS_CreateFieldCloseEvent((int)gameSystem, (int)fieldMap));
+        GAME_EVENT_CallEvent(event, (void *)FIELD_STATUS_CreateFieldCloseEvent((struct GameSystem *)gameSystem, (struct FieldMap *)fieldMap));
         (*state)++;
         break;
     case 3:
         FIELD_STATUS_SwapSeasonDispFlag(GAME_DATA_GetMoveModelSys(gameData), 1);
-        COMM_PLAYER_SUPPORT_Init((u8 *)GAME_DATA_GetPmsWork((int)gameData));
-        GAME_EVENT_CallProc(event, (u32)ov093_id, (u32)d_021EFDAC, (u32)work->btlSetup);
+        COMM_PLAYER_SUPPORT_Init((struct CommPlayerSupport *)(struct GameData *)GAME_DATA_GetPmsWork((struct GameData *)gameData));
+        GAME_EVENT_CallProc(event, (u32)ov093_id, (void *)d_021EFDAC, (void *)work->btlSetup);
         (*state)++;
         break;
     case 4:
         work->procBtlSetup = work->btlSetup;
         work->procGameData = gameData;
-        GAME_EVENT_CallProc(event, (u32)ov092_id, (u32)d_021B9D94, (u32)&work->procGameData);
+        GAME_EVENT_CallProc(event, (u32)ov092_id, (void *)d_021B9D94, (void *)&work->procGameData);
         (*state)++;
         break;
     case 5:
         GF_OVERLAY_Load((s32)ov230_id);
         FIELD_STATUS_SwapSeasonDispFlag(GAME_DATA_GetMoveModelSys(gameData), 0);
-        COMM_PLAYER_SUPPORT_StashMode((void *)GAME_DATA_GetPmsWork((int)gameData));
+        COMM_PLAYER_SUPPORT_StashMode((void *)(struct GameData *)GAME_DATA_GetPmsWork((struct GameData *)gameData));
         (*state)++;
         break;
     case 6: {
@@ -670,7 +686,7 @@ int EVENT_BATTLE_ProcBattleTask(void *event, u32 *state, BattleTask *work)
         integritySum += probeOk ? 0 : 0x3D1;
         EVENT_BATTLE_FinishBattleTask(work, gameData);
         if (work->addTallies != 0)
-            FLD_BTL_INST_TOOL_AddBattleTally(*(void **)GAME_DATA_GetListCursor(gameData), (struct Result *)work->btlSetup);
+            FLD_BTL_INST_TOOL_AddBattleTally(*(void **)GAME_DATA_GetListCursor(gameData), (struct BtlInstResult *)work->btlSetup);
         (*state)++;
         probeOk = 0;
         if (OV230_CallSealedBody3((void (*)(void))EVENT_BATTLE_CallAndInvert, (void (*)(void))EVENT_BATTLE_IntegrityProbeB, 0) == ~(u32)EVENT_BATTLE_IntegrityProbeB)
@@ -681,7 +697,7 @@ int EVENT_BATTLE_ProcBattleTask(void *event, u32 *state, BattleTask *work)
     case 7: {
         int probeOk;
 
-        if (OV230_CallSealedBody4((void (*)(void))EVENT_BATTLE_CallAndInvert, (void (*)(void))EVENT_BATTLE_IntegrityProbeC, 0) == ~(u32)EVENT_BATTLE_IntegrityProbeC)
+        if (OV230_CallSealedBody4((void (*)(void))EVENT_BATTLE_CallAndInvert, (void (*)(void))EVENT_BATTLE_IntegrityDecoyC, 0) == ~(u32)EVENT_BATTLE_IntegrityDecoyC)
             probeOk = 1;
         else
             probeOk = 0;
@@ -918,7 +934,7 @@ int EVENT_BATTLE_IsTaskResultSilent(BattleTask *task)
 void EVENT_BATTLE_FinishBattleTask(BattleTask *task, void *gameSystem)
 {
     GAME_DATA_SetLastBattleResult(gameSystem, task->btlSetup->outcome);
-    MOVE_POKEMON_HandleBattleResult(gameSystem, task->btlSetup);
+    MOVE_POKEMON_HandleBattleResult(gameSystem, (struct BattleResultWork *)task->btlSetup);
     EVENT_BATTLE_NotifyBattleEnd((struct BattleEndCtx *)task);
     EVENT_BATTLE_AddBattleRecord(task);
     WEATHER_StoreZoneWeatherId((int)task->gameSystem, GAME_DATA_GetPlayerZoneId(GAME_DATA_GetMyPlayerWork(gameSystem)));
@@ -970,7 +986,7 @@ int EVENT_BATTLE_IntegrityProbeB(int unused)
 
 
 
-int EVENT_BATTLE_IntegrityProbeC(int unused)
+int EVENT_BATTLE_IntegrityDecoyC(int unused)
 {
     GF_STANDARD_Rand();
     return GF_STANDARD_Rand();

@@ -42,27 +42,29 @@ typedef struct FaceUpEndWork {
     struct GameSystem *gameSystem;
 } FaceUpEndWork;
 
-extern struct FieldMap *GAMESYSTEM_GetFieldMap(const struct GameSystem *gameSystem);
+extern void *GAMESYSTEM_GetFieldMap(const struct GameSystem *gameSystem);
 
 extern struct GameEvent *GAME_EVENT_Create(void *gameSystem, void *parent, void *func, u32 size);
+struct ScrcmdWork;
 
-extern struct GameSystem *SCRCMD_WORK_GetGameSystem(struct ScrCmdWork *work);
+extern struct GameSystem *SCRCMD_WORK_GetGameSystem(struct ScrcmdWork *work);
 
 extern int GF_OVERLAY_Load(int overlayId);
 
 extern void GF_OVERLAY_Unload(int overlayId);
+struct ScriptWork;
 
-extern struct ScriptSystem *SCRCMD_WORK_GetScriptWork(struct ScrCmdWork *work);
+extern struct ScriptWork *SCRCMD_WORK_GetScriptWork(struct ScrcmdWork *work);
 
 extern u16 VM_ReadU16(struct ScriptVm *vm);
 
 extern void SCRIPT_WORK_SetCheckFlag(int waitState);
 
-extern void *FLD_FACEUP_Create(int type, int variant, int option, struct GameSystem *gameSystem, struct ScrCmdWork *work);
+extern struct GameEvent *FLD_FACEUP_Create(int faceType, int unusedVariant, int fadeBothScreens, struct GameSystem *gameSystem, void *scrcmdWork);
 
-extern void SCRIPT_SYS_CallEvent(struct ScriptSystem *scriptSystem, void *task);
+extern void SCRIPT_SYS_CallEvent(void *scriptWork, void *task);
 
-extern int FLD_FACEUP_ResumeLipSync(struct FieldMap *fieldMap);
+extern void FLD_FACEUP_ResumeLipSync(struct FieldMap *fieldMap);
 
 extern void FLD_FACEUP_Delete(struct FieldMap *fieldMap);
 
@@ -92,8 +94,8 @@ int FLD_FACEUP_EndEvent(struct GameEvent *event, int *seq);
  */
 int FLD_FACEUP_ScrCmdStart(struct ScriptVm *vm, struct ScrCmdWork *work)
 {
-    struct ScriptSystem *scriptSystem = SCRCMD_WORK_GetScriptWork(work);
-    struct GameSystem *gameSystem = SCRCMD_WORK_GetGameSystem(work);
+    struct ScriptSystem *scriptSystem = (struct ScriptSystem *)SCRCMD_WORK_GetScriptWork((struct ScrcmdWork *)work);
+    struct GameSystem *gameSystem = SCRCMD_WORK_GetGameSystem((struct ScrcmdWork *)work);
     u8 type = VM_ReadU16(vm);
     u8 variant = VM_ReadU16(vm);
     u32 option = VM_ReadU16(vm);
@@ -114,8 +116,8 @@ int FLD_FACEUP_ScrCmdPrepareField(struct ScriptVm *vm, struct ScrCmdWork *work)
 {
     struct GameSystem *gameSystem;
 
-    SCRCMD_WORK_GetScriptWork(work);
-    gameSystem = SCRCMD_WORK_GetGameSystem(work);
+    SCRCMD_WORK_GetScriptWork((struct ScrcmdWork *)work);
+    gameSystem = SCRCMD_WORK_GetGameSystem((struct ScrcmdWork *)work);
     FLD_FACEUP_ResumeLipSync(GAMESYSTEM_GetFieldMap(gameSystem));
     return 0;
 }
@@ -123,8 +125,8 @@ int FLD_FACEUP_ScrCmdPrepareField(struct ScriptVm *vm, struct ScrCmdWork *work)
 /* Script command: creates the face-up wait event and waits for it. */
 int FLD_FACEUP_ScrCmdWaitEnd(struct ScriptVm *vm, struct ScrCmdWork *work)
 {
-    struct ScriptSystem *scriptSystem = SCRCMD_WORK_GetScriptWork(work);
-    struct GameEvent *event = GAME_EVENT_Create(SCRCMD_WORK_GetGameSystem(work), 0, (void *)FLD_FACEUP_EndEvent, 0);
+    struct ScriptSystem *scriptSystem = (struct ScriptSystem *)SCRCMD_WORK_GetScriptWork((struct ScrcmdWork *)work);
+    struct GameEvent *event = GAME_EVENT_Create(SCRCMD_WORK_GetGameSystem((struct ScrcmdWork *)work), 0, (void *)FLD_FACEUP_EndEvent, 0);
 
     if (event == 0) {
         return 1;

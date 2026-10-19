@@ -32,7 +32,7 @@ struct GTI2Buffer {
 };
 
 extern void *gsimalloc(unsigned long size);
-extern unsigned int strlen(const char *s);
+extern int strlen(unsigned char *s);
 extern void *memcpy(void *dest, const void *src, unsigned int n);
 extern void *memmove(void *dest, const void *src, unsigned int n);
 int gti2AllocateBuffer(GTI2Buffer *buffer, int size);
@@ -90,7 +90,7 @@ void gti2BufferWriteData(struct GTI2Buffer *buffer, unsigned char *data, int len
     if ((data == 0) || (len == 0))
         return;
     if (len == -1)
-        len = strlen((char *)data);
+        len = strlen((unsigned char *)data);
     memcpy(buffer->data + buffer->position, data, len);
     buffer->position += len;
 }

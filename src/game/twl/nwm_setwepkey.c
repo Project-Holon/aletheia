@@ -37,13 +37,13 @@ typedef struct TwlMsg {
     u8 data[0x50];
 } TwlMsg;
 
-extern u32 NWMi_CheckState(u32, u32);
-extern TwlWork *NWMi_GetSystemWork(void);
+extern u32 NWMi_CheckState(u32 n, ...);
+extern u32 NWMi_GetSystemWork(void);
 extern void DC_InvalidateRange(u8 *, u32);
 extern void DC_StoreRange(const void *, u32);
 extern void NWMi_SetCallbackTable(u32, u32);
 extern void MI_CpuCopy8(const void *, void *, u32);
-extern u32 NWMi_SendCommandDirect(void *, u32);
+extern u32 NWMi_SendCommandDirect(u32 command, u32 length);
 
 u32 NWM_SetWEPKey(u32 callback, u32 wepMode, u32 keyId, const u8 *wepKey, u16 flags) {
     u32 r;
@@ -56,7 +56,7 @@ u32 NWM_SetWEPKey(u32 callback, u32 wepMode, u32 keyId, const u8 *wepKey, u16 fl
     if (r != 0 && r != 2) {
         return r;
     }
-    w = NWMi_GetSystemWork();
+    w = (struct TwlWork *)NWMi_GetSystemWork();
     if (w != 0) {
         DC_InvalidateRange(w->busy + 13, 1);
         busy = (w->busy[13] == 1);
@@ -89,7 +89,7 @@ u32 NWM_SetWEPKey(u32 callback, u32 wepMode, u32 keyId, const u8 *wepKey, u16 fl
     msg.w6 = kind;
     msg.w2 = flags;
     MI_CpuCopy8(wepKey, msg.data, 0x50);
-    r = NWMi_SendCommandDirect(&msg, 0x58);
+    r = NWMi_SendCommandDirect((u32)(&msg), 0x58);
     if (r == 0 || r == 2) {
         r = 2;
     }

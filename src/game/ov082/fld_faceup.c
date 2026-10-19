@@ -106,47 +106,54 @@ typedef enum { GX_BG_SCRBASE_0x0000 = 0, GX_BG_SCRBASE_0x1000 = 2 } GXBGScrBase;
 
 typedef enum { GX_BG_CHARBASE_0x00000 = 0, GX_BG_CHARBASE_0x04000 = 1 } GXBGCharBase;
 
-extern struct FieldMap *GAMESYSTEM_GetFieldMap(const struct GameSystem *gameSystem);
+extern void *GAMESYSTEM_GetFieldMap(const struct GameSystem *gameSystem);
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 line);
-extern FaceupWork **FIELDMAP_GetFaceUpWorkPtr(struct FieldMap *fieldMap);
+extern void **FIELDMAP_GetFaceUpWorkPtr(struct FieldMap *fieldMap);
 extern struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
 extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gameData);
-extern struct Config *SYSTEM_DATA_GetConfig(struct SaveControl *saveControl);
+extern struct Config *SYSTEM_DATA_GetConfig(void *save);
 extern unsigned int CONFIG_GetTextSpeed(struct Config *config);
 extern struct GameEvent *GAME_EVENT_Create(const struct GameSystem *gameSystem, struct GameEvent *parent,
                                        int (*proc)(struct GameEvent *event, int *seq), u32 size);
-extern struct TcbSys *FIELDMAP_GetTcblSys(struct FieldMap *fieldMap);
-extern void *TCB_AddTask(struct TcbSys *tcbSys, void (*proc)(void *tcb, FaceupWork *work), FaceupWork *work, int priority);
-extern void *GFL_USE_AddMainTask(void (*proc)(void *tcb, FaceupWork *work), FaceupWork *work, int priority);
+struct TcblSys;
+extern struct TcblSys *FIELDMAP_GetTcblSys(struct FieldMap *fieldMap);
+struct TcbSystem;
+struct TcbTask;
+extern struct TcbTask *TCB_AddTask(struct TcbSystem *sys, void (*proc)(void *tcb, FaceupWork *work), void *work, u32 priority);
+struct Tcb;
+extern struct Tcb *GFL_USE_AddMainTask(void (*proc)(void *tcb, FaceupWork *work), void *work, u32 priority);
 extern struct GameSystem *GAME_EVENT_GetGameSystem(struct GameEvent *event);
 extern void FADE_Start(u32 screens, s32 start, s32 end, s32 speed);
 extern int FADE_IsActive(void);
-extern void G2x_SetBlendAlpha_(volatile void *reg, int plane1, int plane2, int ev1, int ev2);
+extern void G2x_SetBlendAlpha_(u32 *reg, u32 a, u32 b, u32 c, u32 d);
 extern struct FieldMsgBg *FIELDMAP_GetMsgBg(struct FieldMap *fieldMap);
 extern int FIELD_MSGBG_ReleaseSysFrame(struct FieldMsgBg *msgBg);
 extern void FIELD_MSGBG_RequestSysFrame(struct FieldMsgBg *msgBg);
 extern void BG_SYS_FreeLayerBuf(u32 bgId);
 extern void BG_SYS_InitBgLayer(u32 bgId, const FaceupBgTemplate *bgTemplate, u32 type);
-extern void *ARC_TOOL_LoadMember(u32 archiveId, u32 member, u32 heapId);
-extern s32 NNS_G2dGetUnpackedCharacterDataEx(void *file, UnpackedCharData **out);
-extern int NNS_G2dGetUnpackedScreenData(void *file, UnpackedScreenData **out);
-extern s32 NNS_G2dGetUnpackedPaletteData(void *file, UnpackedPaletteData **out);
+extern void *ARC_TOOL_LoadMember(u32 archiveID, u32 memberIdx, u16 heapID);
+struct NitroFileHeader;
+extern s32 NNS_G2dGetUnpackedCharacterDataEx(struct NitroFileHeader *file, void **out);
+extern int NNS_G2dGetUnpackedScreenData(void *file, void **out);
+extern s32 NNS_G2dGetUnpackedPaletteData(struct NitroFileHeader *file, void **out);
 extern void BG_SYS_LoadTileData(int bgId, const void *src, u32 size, u32 tileOffset);
 extern void BG_SYS_PushTileSource(u32 bgId, const void *src, u32 size, u32 mapOffset);
 extern void BG_SYS_LoadPltt(u32 bgId, void *src, u32 size, u32 offset);
 extern u32 GFL_HEAP_Free(void *work);
 extern void BG_SYS_SetPriority(int bgId, unsigned short priority);
 extern void BG_SYS_SetPlaneVisible(unsigned char bgId, unsigned char enable);
-extern void TCB_DeleteTask(void *tcb);
+extern void TCB_DeleteTask(struct TcbTask *task);
 extern struct FieldPlaceName *FIELDMAP_GetPlaceName(struct FieldMap *fieldMap);
-extern void BG_SYS_FreeSlot(int bgId);
+extern void BG_SYS_FreeSlot(u8 idx);
 extern void FIELD_PLACE_NAME_RestoreWindow(struct FieldPlaceName *placeName);
 extern u8 BG_SYS_GetPriority(u32 bgId);
 u32 BG_SYS_GetMainVisiblePlanes(void);
 void BG_SYS_SetMainVisiblePlanes(u32 planes);
 extern int SCRIPT_WORK_CheckFlag(int flagId);
-extern struct FieldMsgWindow *SCRCMD_WORK_GetMsgWindow(void *scrcmdWork);
-extern int FIELD_MSGBG_GetPlainWinStreamState(struct FieldMsgWindow *window);
+struct ScrcmdWork;
+extern struct FieldMsgWindow *SCRCMD_WORK_GetMsgWindow(struct ScrcmdWork *work);
+struct FieldPlainWin;
+extern int FIELD_MSGBG_GetPlainWinStreamState(struct FieldPlainWin *plainWin);
 extern u32 GFL_USE_GetRandom(u32 range);
 struct GameEvent *FLD_FACEUP_Create(int faceType, int unusedVariant, int fadeBothScreens, struct GameSystem *gameSystem, void *scrcmdWork);
 int FLD_FACEUP_OpenEventMain(struct GameEvent *event, int *seq);
@@ -201,7 +208,7 @@ struct GameEvent *FLD_FACEUP_Create(int faceType, int unusedVariant, int fadeBot
         work->mouth.delayReload = 1;
     work->blink.delayReload = 2;
     event = GAME_EVENT_Create(gameSystem, 0, FLD_FACEUP_OpenEventMain, 0);
-    work->updateTask = TCB_AddTask(FIELDMAP_GetTcblSys(fieldMap), FLD_FACEUP_UpdateTaskMain, work, 0);
+    work->updateTask = TCB_AddTask((struct TcbSystem *)FIELDMAP_GetTcblSys(fieldMap), FLD_FACEUP_UpdateTaskMain, work, 0);
     work->vblankTask = GFL_USE_AddMainTask(FLD_FACEUP_VBlankUpload, work, 1);
     work->lipSyncStopped = 0;
     work->waitingForText = 1;
@@ -282,7 +289,7 @@ void FLD_FACEUP_SetupBg(FaceupWork *work, struct FieldMap *fieldMap)
     work->savedBg3Control.raw = reg_G2_BG3CNT;
     G2_SetBG3ControlText(GX_BG_SCRSIZE_TEXT_256x256, GX_BG_COLORMODE_256,
                          GX_BG_SCRBASE_0x1000, GX_BG_CHARBASE_0x04000);
-    G2x_SetBlendAlpha_(&reg_G2_BLDCNT, 8, 4, 0, 16);
+    G2x_SetBlendAlpha_((u32 *)(&reg_G2_BLDCNT), 8, 4, 0, 16);
     msgBg = FIELDMAP_GetMsgBg(fieldMap);
     if (FIELD_MSGBG_ReleaseSysFrame(msgBg) != 0)
         FIELD_MSGBG_RequestSysFrame(msgBg);
@@ -304,23 +311,23 @@ void FLD_FACEUP_SetupBg(FaceupWork *work, struct FieldMap *fieldMap)
         facePaletteIndex = 2;
     }
     file = ARC_TOOL_LoadMember(FACEUP_ARC_ID, faceCharIndex, FACEUP_BG_HEAP_ID);
-    NNS_G2dGetUnpackedCharacterDataEx(file, &faceChar);
+    NNS_G2dGetUnpackedCharacterDataEx(file, (void **)(&faceChar));
     BG_SYS_LoadTileData(2, faceChar->data, faceChar->size, 0);
     GFL_HEAP_Free(file);
     file = ARC_TOOL_LoadMember(FACEUP_ARC_ID, faceScreenIndex, FACEUP_BG_HEAP_ID);
-    NNS_G2dGetUnpackedScreenData(file, &faceScreen);
+    NNS_G2dGetUnpackedScreenData(file, (void **)(&faceScreen));
     BG_SYS_PushTileSource(2, faceScreen->data, faceScreen->size, 0);
     GFL_HEAP_Free(file);
     file = ARC_TOOL_LoadMember(FACEUP_ARC_ID, facePaletteIndex, FACEUP_BG_HEAP_ID);
-    NNS_G2dGetUnpackedPaletteData(file, &facePalette);
+    NNS_G2dGetUnpackedPaletteData(file, (void **)(&facePalette));
     BG_SYS_LoadPltt(2, facePalette->data, 0x140, 0);
     GFL_HEAP_Free(file);
     file = ARC_TOOL_LoadMember(FACEUP_ARC_ID, 7, FACEUP_BG_HEAP_ID);
-    NNS_G2dGetUnpackedCharacterDataEx(file, &partsChar);
+    NNS_G2dGetUnpackedCharacterDataEx(file, (void **)(&partsChar));
     BG_SYS_LoadTileData(3, partsChar->data, partsChar->size, 0);
     GFL_HEAP_Free(file);
     file = ARC_TOOL_LoadMember(FACEUP_ARC_ID, 11, FACEUP_BG_HEAP_ID);
-    NNS_G2dGetUnpackedScreenData(file, &partsScreen);
+    NNS_G2dGetUnpackedScreenData(file, (void **)(&partsScreen));
     BG_SYS_PushTileSource(3, partsScreen->data, partsScreen->size, 0);
     GFL_HEAP_Free(file);
     BG_SYS_SetPriority(0, 3);
@@ -496,7 +503,7 @@ int FLD_FACEUP_StepFadeIn(FaceupWork *work)
 
     work->fadeFrame = work->fadeFrame + 1;
     blendLevel = (work->fadeFrame << 4) / 30;
-    G2x_SetBlendAlpha_(&reg_G2_BLDCNT, 8, 4, blendLevel, 16 - blendLevel);
+    G2x_SetBlendAlpha_((u32 *)(&reg_G2_BLDCNT), 8, 4, blendLevel, 16 - blendLevel);
     if (work->fadeFrame >= 30)
         return 1;
     return 0;
@@ -515,7 +522,7 @@ void FLD_FACEUP_UpdateTaskMain(void *tcb, FaceupWork *work)
     if (work->lipSyncStopped == 0 && SCRIPT_WORK_CheckFlag(3) != 0) {
         msgWindow = SCRCMD_WORK_GetMsgWindow(work->scrcmdWork);
         if (msgWindow != 0) {
-            printState = FIELD_MSGBG_GetPlainWinStreamState(msgWindow);
+            printState = FIELD_MSGBG_GetPlainWinStreamState((struct FieldPlainWin *)msgWindow);
             if (printState == 0) {
                 work->mouth.idle = 0;
                 work->waitingForText = 0;

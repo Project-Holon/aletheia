@@ -112,6 +112,7 @@
  *   WORDSET_Delete  0x0201ED04  thumb  arm9
  *   PRINTSYS_MeasureWidestLine  0x0201D304  thumb  arm9
  */
+#include "../version.h"
 #include "worldtrade_types.h"
 
 extern void MI_CpuFill8(void *p, u32 v, u32 n);
@@ -123,42 +124,51 @@ extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fi
 extern u32 GFL_HEAP_Free(void *p);
 
 extern void GF_PANIC_Fail(const char *expr, u32 line, const char *file);
+struct Strbuf;
 
-extern void *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
+extern struct Strbuf *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
 
-extern void STRBUF_Delete(struct U16Vec *vec);
+extern void STRBUF_Delete(struct Strbuf *strbuf);
+struct BmpWin;
 
-extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
+extern u8 BMP_WIN_GetBgLayer(struct BmpWin *win);
 
 struct Ctx;
-extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
+struct GameSystem;
+struct GameData;
+extern struct GameData *GAMESYSTEM_GetGameData(struct GameSystem *gameSystem);
+struct Bmp;
 
-extern void *BMP_WIN_GetBmp(struct Descriptor *p);
+extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *win);
 
-extern void BMP_WIN_TransferChars(struct Descriptor *d);
+extern void BMP_WIN_TransferChars(struct BmpWin *win);
 
-extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
+extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
 
 extern u32 KEY_GetTrg(void);
+struct Party;
 
-extern u32 POKEPARTY_GetCount(void *p);
+extern u32 POKEPARTY_GetCount(struct Party *party);
 
 extern int TOUCHPANEL_GetTrg(void);
+struct WordSet;
 
-extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
+extern void WORDSET_CopyTaggedText(struct WordSet *words, struct Strbuf *dst, struct Strbuf *src);
 
 
 extern u32 FILE_UTIL_IsMailItem(u16 v);
+struct BoxPokemon;
 
-extern struct Sub020079BCEntry *BOX_SAVEDATA_GetPokemon(void **save, u32 box, u32 slot);
+extern struct BoxPokemon *BOX_SAVEDATA_GetPokemon(struct GameData *gameData, unsigned int box, unsigned int slot);
 
-extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
+extern void MSGDATA_ReadString(struct MsgBank *bank, unsigned int index, struct Strbuf *dest);
+struct PokemonParam;
 
-extern u32 POKEPARTY_Add(struct Party *p, const struct PartyMon *src);
+extern u32 POKEPARTY_Add(struct Party *party, struct PokemonParam *member);
 
-extern int BOX_SAVEDATA_FindFreeSlot(void *save, int *pbox, int *pslot);
+extern int BOX_SAVEDATA_FindFreeSlot(struct GameData *gameData, int *pBox, int *pSlot);
 
-extern int BOX_SAVEDATA_AddPokemonToBox(void **save, u32 box, const struct Sub02007454Entry *src);
+extern int BOX_SAVEDATA_AddPokemonToBox(struct GameData *gameData, unsigned int box, struct BoxPokemon *mon);
 
 extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 
@@ -205,105 +215,114 @@ extern int WORLDTRADE_BOX_IsHoldingMail(unsigned int handle);
 
 
 
-extern u32 POKE_TOOL_GetPartyValue(void *mon, u32 id, u32 v);
+extern u32 POKE_TOOL_GetPartyValue(struct PokemonParam *pp, unsigned int paramId, unsigned int arg);
 
-extern void *POKE_TOOL_GetBoxParam(void *mon);
+extern struct BoxPokemon *POKE_TOOL_GetBoxParam(struct PokemonParam *pp);
 
 extern void BG_SYS_MarkTileDirty(u32 v);
 
-extern void BMP_WIN_ClearScreen(struct Descriptor *d);
+extern void BMP_WIN_ClearScreen(struct BmpWin *win);
 
 
 extern void MI_CpuCopy8(const void *src, void *dst, u32 n);
 
-extern u16 *STRBUF_GetChars(struct U16Vec *);
+extern u16 *STRBUF_GetChars(struct Strbuf *strbuf);
 
 struct Rec;
-extern u32 MSGDATA_Delete(struct Rec *rec);
+extern u32 MSGDATA_Delete(struct MsgBank *bank);
+struct WorldTradeData;
 
-extern u16 WORLDTRADE_GetIsDeposited(const struct Rec0200AD8C *p);
+extern u16 WORLDTRADE_GetIsDeposited(struct WorldTradeData *trade);
 
 extern void WORDSET_SetSlotMonNickname(struct WordSet *p, u32 i, void *mon);
 
-extern void WORLDTRADE_SetIsDeposited(struct Rec0200AD94 *p, u16 v);
+extern void WORLDTRADE_SetIsDeposited(struct WorldTradeData *trade, unsigned short isDeposited);
 
-extern void WORLDTRADE_SetPokemon(void *dest, const void *src, u32 boxPos);
+extern void WORLDTRADE_SetPokemon(struct WorldTradeData *trade, void *pokemon, unsigned int boxPos);
 
-extern void BOX_SAVEDATA_ClearPokemon(void *, unsigned, unsigned);
+extern void BOX_SAVEDATA_ClearPokemon(struct GameData *gameData, unsigned int box, unsigned int slot);
 
-extern void *POKEPARTY_GetMember(void *, unsigned);
+extern struct PokemonParam *POKEPARTY_GetMember(struct Party *party, unsigned int pos);
 
 extern u32 POKEPARTY_RemoveMember(struct Party *p, s32 idx);
 
-extern struct Sub02007AC8Entry *GAME_DATA_GetPerapVoiceSave(void *p);
+extern void *GAME_DATA_GetPerapVoiceSave(struct GameData *gd);
 
-extern void *GAME_DATA_GetMyParty(const struct BigObj *p);
+extern void *GAME_DATA_GetMyParty(struct GameData *gd);
+struct PokeParty;
 
-extern void PERAPVOICE_ClearIfNoChatot(struct PerapVoice *p, void *a);
+extern void PERAPVOICE_ClearIfNoChatot(struct PerapVoice *voice, struct PokeParty *party);
+struct ZukanSave;
 
-extern void ZUKAN_SAVE_RegisterCaught(struct Blk37 *p, void *m);
+extern void ZUKAN_SAVE_RegisterCaught(struct ZukanSave *pZukan, void *pMon);
 
-extern void POKE_TOOL_SetPartyValue(void *mon, u32 id, u32 v);
+extern void POKE_TOOL_SetPartyValue(struct PokemonParam *pp, unsigned int paramId, unsigned int value);
 
 extern u8 POKE_TOOL_CalcGender(u32 species, u16 form, u32 pid);
 
-extern int DWC_GetDateTime(RTCDate *date, RTCTime *time);
+extern int DWC_GetDateTime(void *date, void *time);
 
-extern void WORLDTRADE_SetLastSearchId(struct RegB *p, u32 value);
+extern void WORLDTRADE_SetLastSearchId(struct WorldTradeData *trade, unsigned int searchId);
 
-extern void WORLDTRADE_SetLastTradeId(struct RegB *p, u32 value);
+extern void WORLDTRADE_SetLastTradeId(struct WorldTradeData *trade, unsigned int tradeId);
+struct WifiHistory;
 
-extern u32 WIFI_HISTORY_GetCountryRegionState(const struct Sub02009470Obj *obj, int row, int col);
+extern u32 WIFI_HISTORY_GetCountryRegionState(struct WifiHistory *history, int country, int region);
 
-extern void WIFI_HISTORY_SetCountryRegionState(struct Sub02009470Obj *obj, int row, int col, int value);
+extern void WIFI_HISTORY_SetCountryRegionState(struct WifiHistory *history, int country, int region, int state);
 
-extern void POKE_TOOL_SetDefaultName(void *mon);
+extern void POKE_TOOL_SetDefaultName(struct PokemonParam *mon);
+struct Mail;
 
-extern void *MAIL_Create(int heapId);
+extern struct Mail *MAIL_Create(int heapId);
 
-extern void MAIL_SetWriterName(struct Sub02008F80Obj *obj, const void *src);
+extern void MAIL_SetWriterName(struct Mail *mail, void *name);
 
-extern void *POKE_TOOL_CreateFromBoxParam(struct Mon *p, u32 heap);
+extern struct PokemonParam *POKE_TOOL_CreateFromBoxParam(struct PokemonParam *src, unsigned short heapId);
 
-extern u32 PRINTSYS_MeasureWidestLine(struct StrObj *s, u32 a, u32 b);
+extern u32 PRINTSYS_MeasureWidestLine(struct Strbuf *text, struct GfFont *font, unsigned int spacing);
+struct TcblSystem;
 
-extern struct Tcbl *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
+extern struct TcblSystem *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
 
 extern struct GfFont *GF_FONT_Create(int archiveId, int fileId, int format, int isFixedWidth, u32 heapId);
+struct PrintQueue;
 
-extern u32 PRINTSYS_QUE_Create(void *p);
+extern struct PrintQueue *PRINTSYS_QUE_Create(unsigned int heap);
+struct KeyCursor;
 
-extern void *APP_KEYCURSOR_CreateDefault(u32 id, u32 isLive, u32 isFlip, u32 heap);
+extern struct KeyCursor *APP_KEYCURSOR_CreateDefault(unsigned int id, unsigned int isLive, unsigned int isFlip, unsigned short heapId);
 
-extern int APP_KEYCURSOR_Delete(void *cursor);
+extern void APP_KEYCURSOR_Delete(struct KeyCursor *cursor);
 
-extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
+extern void PRINTSYS_QUE_Delete(struct PrintQueue *queue);
 
-extern u32 GF_FONT_Delete(void *ptr);
+extern u32 GF_FONT_Delete(struct GfFont *font);
 
-extern void TCBL_Destroy(struct S02031140 *p);
+extern void TCBL_Destroy(struct TcblSystem *tcbl);
 
-extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintSys *p, void *v);
+extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintQueue *queue, struct Bmp *bmp);
+struct TextPrinter;
 
-extern void APP_KEYCURSOR_Update(Printer *ctx, void *p, void *cell);
+extern void APP_KEYCURSOR_Update(struct KeyCursor *cursor, struct TextPrinter *printStream, void *win);
 
-extern u32 PRINTSYS_PrintStreamGetState(void *p);
+extern u32 PRINTSYS_PrintStreamGetState(struct TextPrinter *printer);
 
-extern void PRINTSYS_PrintStreamShortWait(struct Rec *p, s32 v);
+extern void PRINTSYS_PrintStreamShortWait(struct TextPrinter *printer, int wait);
 
-extern void PRINTSYS_PrintStreamReleasePause(void *menu);
+extern void PRINTSYS_PrintStreamReleasePause(struct TextPrinter *printer);
 
-extern void PRINTSYS_PrintStreamDelete(struct Rec3 *p);
+extern void PRINTSYS_PrintStreamDelete(struct TextPrinter *printer);
 
-extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
+extern u32 PRINTSYS_QUE_Main(struct PrintQueue *queue);
 
-extern void TCBL_Main(struct Tcbl *p);
+extern void TCBL_Main(struct TcblSystem *tcbl);
 
 extern signed char MSG_SPEED_GetWait(void);
 
 extern void *PRINTSYS_PrintStream(void *, s16, s16, unsigned, unsigned, int, unsigned, unsigned, unsigned, unsigned);
 
-extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
+extern void PRINTSYS_PrintQueColor(struct PrintQueue *queue, struct Bmp *bmp, unsigned int x, short y, struct Strbuf *str, struct GfFont *font, unsigned short color);
 
 extern struct WordSet *WORDSET_CreateDefault(u32 heap);
 
@@ -333,7 +352,7 @@ void *WORLDTRADE_ADAPTER_AllocHeapBuf(u32 heap);
 
 void WORLDTRADE_ADAPTER_CopyMon(u32 a, u32 b);
 
-void WORLDTRADE_ADAPTER_ClearWindowScreen(u32 a, int kind);
+void WORLDTRADE_ADAPTER_ClearWindowScreen(void *a, int kind);
 
 u32 WORLDTRADE_ADAPTER_CreateString(u32 a, u32 b, u32 c, u32 d);
 
@@ -387,7 +406,7 @@ void WORLDTRADE_ADAPTER_RemovePartyMon(Work *p, int flag)
         mon = POKEPARTY_GetMember(p->ctx->party, p->slot);
         if (flag) WORLDTRADE_SetPokemon(p->ctx->sys, mon, p->box);
         POKEPARTY_RemoveMember(p->ctx->party, p->slot);
-        save = GAMESYSTEM_GetGameData((const struct Ctx *)p->ctx->gameData);
+        save = GAMESYSTEM_GetGameData((struct GameSystem *)p->ctx->gameData);
         box = GAME_DATA_GetPerapVoiceSave(save);
         PERAPVOICE_ClearIfNoChatot(box, GAME_DATA_GetMyParty(save));
     }
@@ -422,7 +441,7 @@ void WORLDTRADE_ADAPTER_RegisterReceivedMon(Work *p, void *mon, u32 box, int hat
     } else {
         pos = 0;
         BOX_SAVEDATA_FindFreeSlot((void *)p->ctx->box, (int *)(&box), (int *)(&pos));
-        BOX_SAVEDATA_AddPokemonToBox((void **)p->ctx->box, box, (const struct Sub02007454Entry *)WORLDTRADE_ADAPTER_GetBoxParam(mon));
+        BOX_SAVEDATA_AddPokemonToBox((struct GameData *)p->ctx->box, box, (struct BoxPokemon *)WORLDTRADE_ADAPTER_GetBoxParam(mon));
         p->box_u = box;
         slot = pos;
     }
@@ -444,14 +463,14 @@ void WORLDTRADE_ADAPTER_RegisterReceivedMonB(Work *p,void *mon,void *unused2,voi
     form=POKE_TOOL_GetPartyValue(mon,0x6F,0);
     POKE_TOOL_SetPartyValue(mon,0x6E,POKE_TOOL_CalcGender((u16)species,form,POKE_TOOL_GetPartyValue(mon,0,0)));
     if(index==0xFF) {
-        POKEPARTY_Add(p->ctx->party,(const struct PartyMon *)mon);
+        POKEPARTY_Add(p->ctx->party,(struct PokemonParam *)mon);
         pos=POKEPARTY_GetCount(p->ctx->party);
         p->box_u=0xFF;
         pos--;
     } else {
         u32 slot=0;
         BOX_SAVEDATA_FindFreeSlot(p->ctx->save,(int *)(&index),(int *)(&slot));
-        BOX_SAVEDATA_AddPokemonToBox(p->ctx->save,index,(const struct Sub02007454Entry *)WORLDTRADE_ADAPTER_GetBoxParam(mon));
+        BOX_SAVEDATA_AddPokemonToBox(p->ctx->save,index,(struct BoxPokemon *)WORLDTRADE_ADAPTER_GetBoxParam(mon));
         p->box_u=index;
         pos=slot;
     }
@@ -501,7 +520,7 @@ void WORLDTRADE_ADAPTER_SetPair(Work *p, u16 stateAfterSaveWait, u16 stateAfterS
  */
 u32 WORLDTRADE_ADAPTER_CanProceed(Work *p)
 {
-    if (WORLDTRADE_GetIsDeposited((const struct Rec0200AD8C *)p->ctx->sys) == 0) {
+    if (WORLDTRADE_GetIsDeposited((struct WorldTradeData *)p->ctx->sys) == 0) {
         if (p->busy != 0) {
             return 1;
         }
@@ -518,7 +537,7 @@ void WORLDTRADE_ADAPTER_CreateMail(void *mon, u32 heap)
 
     id = (heap & 0x7FFF) | 0x8000;
     bank = MSGDATA_CreateFromArchive(0, 2, 0x51, (u16)id);
-    str = MSGDATA_AllocString(bank, 0xF);
+    str = MSGDATA_AllocString(bank, MSG_PROFANITY_NOTICE);
     MSGDATA_Delete(bank);
     POKE_TOOL_SetDefaultName(mon);
     POKE_TOOL_SetPartyValue(mon, 0x8E, (u32)STRBUF_GetChars(str));
@@ -562,15 +581,15 @@ void WORLDTRADE_ADAPTER_CopyMon(u32 src, u32 dst)
 /*
  * switch on kind
  */
-void WORLDTRADE_ADAPTER_ClearWindowScreen(u32 win, int kind)
+void WORLDTRADE_ADAPTER_ClearWindowScreen(void *win, int kind)
 {
-    BMP_WIN_ClearScreen((struct Descriptor *)win);
+    BMP_WIN_ClearScreen((struct BmpWin *)win);
     switch (kind) {
     case 0:
-        BG_SYS_PushTile(BMP_WIN_GetBgLayer((struct Descriptor *)win));
+        BG_SYS_PushTile(BMP_WIN_GetBgLayer((struct BmpWin *)win));
         break;
     case 1:
-        BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer((struct Descriptor *)win));
+        BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer((struct BmpWin *)win));
         break;
     }
 }
@@ -584,7 +603,7 @@ u32 WORLDTRADE_ADAPTER_CreateString(u32 wordSet, u32 bank, u32 msgId, u32 heapId
     u32 t2 = (u32)STRBUF_Create(0x200, heapId);
 
     WORDSET_CopyTaggedText((struct WordSet *)wordSet, (void *)t2, (void *)t1);
-    STRBUF_Delete((struct U16Vec *)t1);
+    STRBUF_Delete((struct Strbuf *)t1);
     return t2;
 }
 
@@ -593,7 +612,7 @@ u32 WORLDTRADE_ADAPTER_CreateString(u32 wordSet, u32 bank, u32 msgId, u32 heapId
  */
 void WORLDTRADE_ADAPTER_CopyBoxMon(u8 *p, u32 dst)
 {
-    u32 h = (u32)POKE_TOOL_CreateFromBoxParam((struct Mon *)p, 0x48);
+    u32 h = (u32)POKE_TOOL_CreateFromBoxParam((struct PokemonParam *)p, 0x48);
 
     WORLDTRADE_ADAPTER_CopyMon(h, dst);
     GFL_HEAP_Free((void *)h);
@@ -612,7 +631,7 @@ u32 WORLDTRADE_ADAPTER_GetBoxParam(void *mon)
  */
 int WORLDTRADE_ADAPTER_StrObjThunk(u32 *p, u32 unused1, u32 str, u32 margin)
 {
-    return PRINTSYS_MeasureWidestLine((struct StrObj *)str, *p, (u16)margin);
+    return PRINTSYS_MeasureWidestLine((struct Strbuf *)str, (struct GfFont *)(*p), (u16)margin);
 }
 
 void WORLDTRADE_ADAPTER_InitPrinter(Printer *ctx, u32 arg)
@@ -624,7 +643,7 @@ void WORLDTRADE_ADAPTER_InitPrinter(Printer *ctx, u32 arg)
     ctx->tcb = TCBL_Create(0x48, 0x48, 0x20, 0x20);
     ctx->arg = arg;
     ctx->font = GF_FONT_Create(0x17, 0, 0, 0, 0x48);
-    ctx->queue = (void *)PRINTSYS_QUE_Create((void *)0x48);
+    ctx->queue = (void *)PRINTSYS_QUE_Create((unsigned int)0x48);
     ctx->cursor = APP_KEYCURSOR_CreateDefault(0xF, 1, 1, 0x48);
     for (i = 0; i < 0x18; i++) {
         s = &ctx->slots[i];
@@ -639,9 +658,9 @@ void WORLDTRADE_ADAPTER_InitPrinter(Printer *ctx, u32 arg)
 void WORLDTRADE_ADAPTER_ExitPrinter(Printer *p)
 {
     APP_KEYCURSOR_Delete(p->cursor);
-    PRINTSYS_QUE_Delete((struct PrintSys *)p->queue);
+    PRINTSYS_QUE_Delete((struct PrintQueue *)p->queue);
     GF_FONT_Delete(p->font);
-    TCBL_Destroy((struct S02031140 *)p->tcb);
+    TCBL_Destroy((struct TcblSystem *)p->tcb);
     MI_CpuFill8(p, 0, 0x13c);
 }
 
@@ -665,7 +684,7 @@ void WORLDTRADE_ADAPTER_UpdatePrinter(Printer *p)
         }
     }
     if (p->yesno != 0) {
-        APP_KEYCURSOR_Update((Printer *)p->cursor, p->yesno, p->yesnoArg);
+        APP_KEYCURSOR_Update((struct KeyCursor *)p->cursor, p->yesno, p->yesnoArg);
         switch (PRINTSYS_PrintStreamGetState(p->yesno)) {
         case 0:
             if ((KEY_GetTrg() & 3) || TOUCHPANEL_GetTrg() != 0) {
@@ -739,7 +758,7 @@ u32 WORLDTRADE_ADAPTER_PrintQueColor(void *win, u8 unused1, u32 str, u32 x, u32 
     found->win = win;
     found->busy = 0;
     print = (u32)printer->queue;
-    PRINTSYS_PrintQueColor((void *)print, (u32)BMP_WIN_GetBmp((struct Descriptor *)win), (s16)x, (s16)y, str, (u32)printer->font, color);
+    PRINTSYS_PrintQueColor((void *)print, BMP_WIN_GetBmp((struct BmpWin *)win), (s16)x, (s16)y, (struct Strbuf *)str, printer->font, color);
     found->busy = 1;
     found->used = 1;
     return 1;
@@ -769,7 +788,7 @@ MsgSys *WORLDTRADE_ADAPTER_InitMessageSystem(u32 unused1, u32 unused2, u32 unuse
     MI_CpuFill8(ctx, 0, 0x74);
     ctx->heap = heap;
     ctx->font = GF_FONT_Create(0x17, 3, 0, 0, heap);
-    ctx->queue = (void *)PRINTSYS_QUE_Create((void *)heap);
+    ctx->queue = (void *)PRINTSYS_QUE_Create((unsigned int)heap);
     ctx->bank = MSGDATA_CreateFromArchive(0, 2, 0xD0, heap);
     ctx->words = WORDSET_CreateDefault(heap);
     return ctx;
@@ -781,8 +800,8 @@ MsgSys *WORLDTRADE_ADAPTER_InitMessageSystem(u32 unused1, u32 unused2, u32 unuse
 void WORLDTRADE_ADAPTER_ExitMessageSystem(MsgSys *p)
 {
     WORDSET_Delete((struct WordSet *)p->words);
-    MSGDATA_Delete((struct Rec *)p->bank);
-    PRINTSYS_QUE_Delete((struct PrintSys *)p->queue);
+    MSGDATA_Delete((struct MsgBank *)p->bank);
+    PRINTSYS_QUE_Delete((struct PrintQueue *)p->queue);
     GF_FONT_Delete(p->font);
     GFL_HEAP_Free(p);
 }
@@ -824,7 +843,7 @@ void WORLDTRADE_ADAPTER_PrintNumber(MsgSys *ctx, u32 num, u32 digits, u32 mode, 
             ctx->slots[i].win = win;
             ctx->slots[i].busy = 0;
             print = ctx->queue;
-            PRINTSYS_PrintQueColor(print, (u32)BMP_WIN_GetBmp(ctx->slots[i].win), (s16)x, (s16)y, (u32)str, (u32)ctx->font, 0x3DC8);
+            PRINTSYS_PrintQueColor(print, BMP_WIN_GetBmp(ctx->slots[i].win), (s16)x, (s16)y, str, ctx->font, 0x3DC8);
             ctx->slots[i].busy = 1;
             ctx->used[i] = 1;
             STRBUF_Delete(fmt);
@@ -851,7 +870,7 @@ void WORLDTRADE_ADAPTER_QueueMessagePrint(MsgSys *p, int unusedArg, void *win, i
             p->slots[i].busy = 0;
             owner = p->queue;
             h = BMP_WIN_GetBmp(p->slots[i].win);
-            PRINTSYS_PrintQueColor(owner, (u32)h, (s16)x, (s16)y, (u32)buf, (u32)p->font, (int)0x3DC8);
+            PRINTSYS_PrintQueColor(owner, h, (s16)x, (s16)y, buf, p->font, (int)0x3DC8);
             p->slots[i].busy = 1;
             p->used[i] = 1;
             STRBUF_Delete(buf);

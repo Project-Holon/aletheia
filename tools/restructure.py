@@ -710,6 +710,11 @@ def verify(path, region, start, settings):
                 errs = [re.sub(r'^.*?\.c:', 'line ', l.strip()) for l in (r.log or '').splitlines()
                         if re.search(r'\.c:\d+:', l)]
                 note = ': ' + ' | '.join(errs[:3])[:300] if errs else ': ' + (r.note or '')[:160]
+            if r.status.startswith('EXACT') and r.func is not None:
+                bare = match.unattested_names(r.func, match.declared_symbols(match.read_header(path)))
+                if bare:
+                    out[lang or 'nolang'] = 'MATCH (unattested: %s: no symbols row)' % ', '.join(bare[:6])
+                    continue
             out[lang or 'nolang'] = r.status + note
         except (Exception, SystemExit) as e:
             out[lang or 'nolang'] = 'ERROR %r' % (e,)

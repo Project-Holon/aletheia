@@ -64,27 +64,27 @@ extern void *GFL_HEAP_Alloc(u32,u32,int,const char *,u16);
 
 extern void PARTICLE_InitManager(unsigned);
 
-extern int PARTICLE_CreateSystemDefault(int a, int b, int c, int d);
+extern struct ParticleSys *PARTICLE_CreateSystemDefault(unsigned int workBuf, unsigned int workSize, unsigned int withCamera, unsigned int heapId);
 
-extern int PARTICLE_ReleaseCamera(int sys);
+extern int PARTICLE_ReleaseCamera(struct ParticleSys *sys);
 
 extern void PARTICLE_InitCamera(struct ParticleSys *sys, IntroParticleCameraParams *params, u16 angle, int *pos, int *target, int *up, u32 heapId);
 
-extern int PARTICLE_LoadArchiveMember(unsigned,unsigned,unsigned);
+extern void *PARTICLE_LoadArchiveMember(unsigned,unsigned,unsigned);
 
-extern void PARTICLE_SetupSystem(void *,unsigned,unsigned,unsigned);
+extern void PARTICLE_SetupSystem(struct ParticleSys *sys, void *block, unsigned int applyNow, unsigned int taskMgr);
 
 extern void PARTICLE_ExitManager(void);
 
 extern void PARTICLE_Main(void);
 
-extern int PARTICLE_StartEffect(void *p, int b, int c);
+extern int PARTICLE_StartEffect(struct ParticleSys *sys, int resId, int arg);
 
 char *INTRO_PARTICLE_Create(void *owner,unsigned heap);
 
 void INTRO_PARTICLE_Delete(char *a);
 
-void INTRO_PARTICLE_Main(int unused);
+void INTRO_PARTICLE_Main(void *unused);
 
 void INTRO_PARTICLE_StartEffect(u32 *work, u32 x, u32 y, u32 z);
 
@@ -111,7 +111,7 @@ char *INTRO_PARTICLE_Create(void *owner,unsigned heap)
     config.nearZ=4096;
     config.farZ=4194304;
     config.projScale=4096;
-    PARTICLE_ReleaseCamera((int)p->system);
+    PARTICLE_ReleaseCamera(p->system);
     PARTICLE_InitCamera(p->system,&config,8192,d_021C0B18,d_021C0B0C,d_021C0B24,p->heapId);
     PARTICLE_SetupSystem(p->system,PARTICLE_LoadArchiveMember(6,6,p->heapId),1,0);
     return (char *)p;
@@ -123,7 +123,7 @@ void INTRO_PARTICLE_Delete(char *a)
     GFL_HEAP_Free(a);
 }
 
-void INTRO_PARTICLE_Main(int unused) { PARTICLE_Main(); }
+void INTRO_PARTICLE_Main(void *unused) { PARTICLE_Main(); }
 
 void INTRO_PARTICLE_StartEffect(u32 *work, u32 x, u32 y, u32 z)
 {

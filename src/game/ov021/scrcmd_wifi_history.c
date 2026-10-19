@@ -46,6 +46,7 @@
  *   WIFI_HISTORY_SetRatingLevel  0x020095FC  thumb
  *   WIFI_HISTORY_SetGreetingSet  0x02009618  thumb
  *   VM_ReadU16  0x02011330  thumb
+ *   _u32_div_f                   0x0209C2B0  arm
  */
 #include "enceff_shared_types.h"
 #include "scrcmd_otid_shared_types.h"
@@ -79,7 +80,7 @@ extern struct ScriptWork *SCRCMD_WORK_GetScriptWork(struct ScrcmdWork *cmdWork);
 
 extern u16 *SCRIPT_WORK_ReadWorkPointer(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
 
-extern u16 SCRIPT_WORK_ReadWorkValue(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
+extern u32 SCRIPT_WORK_ReadWorkValue(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
 
 extern u16 VM_ReadU16(struct ScriptVm *vm);
 
@@ -93,15 +94,15 @@ extern PartnerCandidates *GAME_DATA_GetSaveSyncBlock(struct GameData *gameData);
 
 extern u32 MYSTATUS_GetId(const void *myStatus);
 
-extern u8 MYSTATUS_GetNation(const void *myStatus);
+extern u8 MYSTATUS_GetNation(struct MyStatus *mystatus);
 
-extern u8 MYSTATUS_GetTrainerView(const void *myStatus);
+extern u8 MYSTATUS_GetTrainerView(struct MyStatus *mystatus);
 
-extern u8 MYSTATUS_GetSex(const void *myStatus);
+extern u8 MYSTATUS_GetSex(struct MyStatus *mystatus);
 
-extern u8 MYSTATUS_GetArea(const void *myStatus);
+extern u8 MYSTATUS_GetArea(struct MyStatus *mystatus);
 
-extern struct WordSet *SCRIPT_WORK_GetWordSet(struct ScriptWork *scriptWork);
+extern void *SCRIPT_WORK_GetWordSet(struct ScriptWork *scriptWork);
 
 extern struct WifiHistory *WIFI_HISTORY_GetBlock(struct SaveControl *saveControl);
 
@@ -111,7 +112,7 @@ extern u32 WIFI_HISTORY_GetEntryField(const struct WifiHistory *history, u32 ind
 
 extern u8 WIFI_HISTORY_GetGreetingSet(const struct WifiHistory *history);
 
-extern u8 WIFI_HISTORY_GetDisplayCount(struct WifiHistory *history, struct MyStatus *myStatus, u32 arg);
+extern u8 WIFI_HISTORY_GetDisplayCount(struct WifiHistory *history, struct MyStatus *status, int flag);
 
 extern u8 WIFI_HISTORY_GetFirstFreeEntry(const struct WifiHistory *history);
 
@@ -121,7 +122,7 @@ extern void WIFI_HISTORY_SetRatingLevel(struct WifiHistory *history, int value);
 
 extern void WIFI_HISTORY_SetGreetingSet(struct WifiHistory *history, int value);
 
-extern int SAVE_SYNC_Clear(PartnerCandidates *candidates);
+extern void SAVE_SYNC_Clear(void *dst);
 
 extern u32 CURSOR_MOVE_GetTableValue(u32 outfit);
 
@@ -199,10 +200,10 @@ void SCRCMD_CollectPartnersByLanguage(struct WifiHistory *history, PartnerCandid
         if ((u8)WIFI_HISTORY_GetEntryField(history, i, WIFI_HISTORY_FIELD_INFO) != 0) {
             struct HistoryEntry *entry = WIFI_HISTORY_GetEntry(history, i);
             u32 entryLanguage;
-            if (entry != 0 && (entryLanguage = MYSTATUS_GetNation(entry), entryLanguage == language)) {
-                u32 outfit = MYSTATUS_GetTrainerView(entry);
+            if (entry != 0 && (entryLanguage = MYSTATUS_GetNation((struct MyStatus *)entry), entryLanguage == language)) {
+                u32 outfit = MYSTATUS_GetTrainerView((struct MyStatus *)entry);
                 if (outfit > 0xf) {
-                    outfit = (MYSTATUS_GetSex(entry) != 0) ? 0xf : 0xb;
+                    outfit = (MYSTATUS_GetSex((struct MyStatus *)entry) != 0) ? 0xf : 0xb;
                 }
                 out->historyIndex[out->count] = i;
                 out->viewId[out->count] = CURSOR_MOVE_GetTableValue(outfit);
@@ -247,7 +248,7 @@ int SCRCMD_GetPartnerGreetingMessage(struct WordSet *wordSet, struct GameSystem 
     historyIndex = candidates->historyIndex[index];
     SCRCMD_SetPartnerWords(wordSet, gameData, historyIndex);
     entry = WIFI_HISTORY_GetEntry(history, historyIndex);
-    outfitVariant = MYSTATUS_GetSex(entry);
+    outfitVariant = MYSTATUS_GetSex((struct MyStatus *)entry);
     tier = WIFI_HISTORY_GetEntryField(history, historyIndex, 4);
     trainerId = MYSTATUS_GetId(entry);
     if (NATION_AREA_GetAreaCount(GAME_DATA_GetSaveSyncBlock(gameData)->language)) {
@@ -291,7 +292,7 @@ void SCRCMD_SetPartnerWords(struct WordSet *wordSet, struct GameData *gameData, 
     entry = WIFI_HISTORY_GetEntry(history, historyIndex);
     WORDSET_SetSlotFromMsgE7(wordSet, 0, language);
     if (NATION_AREA_GetAreaCount(language)) {
-        WORDSET_SetSlotFromKeyedMessage(wordSet, 1, language, MYSTATUS_GetArea(entry));
+        WORDSET_SetSlotFromKeyedMessage(wordSet, 1, language, MYSTATUS_GetArea((struct MyStatus *)entry));
     }
     WORDSET_SetSlotMyStatus(wordSet, 3, GAME_DATA_GetMyStatus(gameData));
     WORDSET_SetSlotSpeciesName(wordSet, 5, WIFI_HISTORY_GetEntryField(history, historyIndex, 0));

@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "EVENT_MAPCHANGE_EndMarker",
+   "name": "EVENT_MAPCHANGE_NopHook",
    "address": "0x0218608C",
    "kind": "game",
    "region": "ov020",

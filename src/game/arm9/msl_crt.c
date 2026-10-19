@@ -43,19 +43,20 @@
 extern int OSi_IsRunOnTwl(void);
 
 extern void OS_Terminate(void);
+struct OSMutex;
 
-extern void OS_LockMutex(void *mutex);
+extern void OS_LockMutex(struct OSMutex *mutex);
 
-extern int OS_TryLockMutex(void *mutex);
+extern int OS_TryLockMutex(struct OSMutex *mutex);
 
-extern void OS_UnlockMutex(void *mutex);
+extern void OS_UnlockMutex(struct OSMutex *mutex);
 
 extern int MSL_CONSOLE_IO_RegisterDestructor(int a);
 
 
-extern void *OS_AllocFromHeap(u32 a, u32 b, u32 heap);
+extern void *OS_AllocFromHeap(int id, int heap, int size);
 
-extern void OS_FreeToHeap(u32 a, u32 b, u32 heap);
+extern void OS_FreeToHeap(int id, int heap, void *ptr);
 
 long OS_ReferentSize(int id, void *ptr);
 
@@ -66,7 +67,7 @@ void SHA1_HMAC_Update(u32 ctx, u32 data, u32 len);
 
 void SHA1_HMAC_GetHash(u32 ctx, u32 digest);
 
-void SHA1_HMAC_Calc(u32 digest, u32 data, u32 dataLen, u32 key, u32 keyLen);
+void SHA1_HMAC_Calc(u8 *digest, void *data, u32 data_len, void *key, u32 key_len);
 
 void MSL_C_LIB_EmptyStub(void);
 
@@ -194,7 +195,7 @@ void MSL_C_LIB_TwlCall5(u32 digest, u32 data, u32 dataLen, u32 key, u32 keyLen)
     if (OSi_IsRunOnTwl() == 0) {
         OS_Terminate();
     }
-    SHA1_HMAC_Calc(digest, data, dataLen, key, keyLen);
+    SHA1_HMAC_Calc((u8 *)digest, (void *)data, dataLen, (void *)key, keyLen);
 }
 
 #pragma thumb reset
@@ -241,19 +242,19 @@ u32 MSL_C_LIB_LockRegisterDestructor(u32 arg)
 {
     u32 r;
 
-    if (OS_TryLockMutex(gMslMutexTable) == 0) {
+    if (OS_TryLockMutex((struct OSMutex *)gMslMutexTable) == 0) {
         g_02153B8C = gMslRefToken.refs[0x1b];
         g_02153BB0 = 1;
     } else if (g_02153B8C == gMslRefToken.refs[0x1b]) {
         g_02153BB0 = g_02153BB0 + 1;
     } else {
-        OS_LockMutex(gMslMutexTable);
+        OS_LockMutex((struct OSMutex *)gMslMutexTable);
         g_02153B8C = gMslRefToken.refs[0x1b];
         g_02153BB0 = 1;
     }
     r = MSL_CONSOLE_IO_RegisterDestructor(arg);
     if (--g_02153BB0 == 0) {
-        OS_UnlockMutex(gMslMutexTable);
+        OS_UnlockMutex((struct OSMutex *)gMslMutexTable);
     }
     return r;
 }
@@ -270,7 +271,7 @@ void *MSL_C_LIB_AllocAllFromHeap(u32 heap)
 
 void MSL_C_LIB_FreeToHeap(u32 heap)
 {
-    OS_FreeToHeap(0, (u32)-1, heap);
+    OS_FreeToHeap(0, (u32)-1, (void *)heap);
 }
 
 /*

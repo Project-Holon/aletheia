@@ -100,12 +100,13 @@ typedef struct FadeEffectTask {
 extern u32 GFL_HEAP_Free(void *work);
 extern struct GameData *GAMESYSTEM_GetGameData(struct GameSystem *gameSystem);
 extern struct ScriptWork *SCRCMD_WORK_GetScriptWork(struct ScrcmdWork *cmdWork);
-extern u16 SCRIPT_WORK_ReadWorkValue(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
+extern u32 SCRIPT_WORK_ReadWorkValue(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
 extern struct GameSystem *SCRCMD_WORK_GetGameSystem(struct ScrcmdWork *cmdWork);
-extern void SCRIPT_SYS_CallEvent(struct ScriptWork *scriptWork, void *event);
+extern void SCRIPT_SYS_CallEvent(void *scriptWork, void *task);
 extern u16 *SCRIPT_WORK_ReadWorkPointer(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
-extern struct FieldMap *GAMESYSTEM_GetFieldMap(struct GameSystem *gameSystem);
-extern void *EVENT_FIELDMAP_CONTROL_StartFadeIn(struct GameSystem *gameSystem, struct FieldMap *fieldMap, int mode, int skipWait, int restoreBg, u8 season, u8 seasonAgain);
+extern void *GAMESYSTEM_GetFieldMap(struct GameSystem *gameSystem);
+struct GameEvent;
+extern struct GameEvent *EVENT_FIELDMAP_CONTROL_StartFadeIn(struct GameSystem *gameSystem, struct FieldMap *fieldMap, int mode, int skipWait, int restoreBg, u8 season, u8 seasonAgain);
 extern u16 FIELDMAP_GetZoneId(struct FieldMap *fieldMap);
 extern struct FieldPlayer *FIELDMAP_GetFieldPlayer(struct FieldMap *fieldMap);
 extern u16 VM_ReadU16(struct ScriptVm *vm);
@@ -114,39 +115,47 @@ extern u8 GAME_DATA_GetSeason(struct GameData *gameData);
 extern void GFL_USE_PlaySeDefaultVolume(u32 seNo);
 extern void FADE_Start(u32 screenMask, s32 startLevel, s32 endLevel, s32 speed);
 extern int FADE_IsActive(void);
-extern u32 FIELDMAP_GetScriptEffectBusy(struct FieldMap *fieldMap);
+extern s32 FIELDMAP_GetScriptEffectBusy(struct FieldMap *fieldMap);
 extern void *SCRIPT_WORK_GetEvent(struct ScriptWork *scriptWork);
-extern void *EVENT_RECOVERY_CreatePartyEvent(struct GameSystem *gameSystem, void *event);
-extern void *EVENT_RECOVERY_CreateBallsEvent(struct GameSystem *gameSystem, void *event, u32 param);
-extern void *FIELD_DOOR_ANIME_StartOpen(void *event, struct GameSystem *gameSystem, struct FieldMap *fieldMap);
-extern void *FIELD_DOOR_ANIME_StartSetOpen(void *event, struct GameSystem *gameSystem, struct FieldMap *fieldMap);
-extern void *FIELD_DOOR_ANIME_StartClose(void *event, struct GameSystem *gameSystem, struct FieldMap *fieldMap, int doorId);
-extern void *FIELDMAP_GetG3dMapper(struct FieldMap *fieldMap);
-extern struct BuildModelMgr *FIELD_G3D_MAPPER_GetBuildModel(void *g3dMapper);
-extern struct BuildModelEntry *FIELD_BUILDMODEL_GetFirstEntryNearPos(struct BuildModelMgr *mgr, int modelId, VecFx32 *pos);
-extern void FIELD_BUILDMODEL_PlayEntryAnim(struct BuildModelMgr *mgr, struct BuildModelEntry *entry, int slot, int animId);
+extern struct GameEvent *EVENT_RECOVERY_CreatePartyEvent(struct GameSystem *gameSystem, struct GameEvent *parent);
+extern struct GameEvent *EVENT_RECOVERY_CreateBallsEvent(struct GameSystem *gameSystem, struct GameEvent *parent, u32 count);
+extern u32 FIELD_DOOR_ANIME_StartOpen(u32 prio, u32 gameSys, u32 fieldmap);
+extern u32 FIELD_DOOR_ANIME_StartSetOpen(u32 prio, u32 gameSys, u32 fieldmap);
+extern u32 FIELD_DOOR_ANIME_StartClose(u32 prio, u32 gameSys, u32 fieldmap, u32 silent);
+struct FieldG3dMapper;
+extern struct FieldG3dMapper *FIELDMAP_GetG3dMapper(struct FieldMap *fieldMap);
+struct FieldBuildModel;
+extern struct FieldBuildModel *FIELD_G3D_MAPPER_GetBuildModel(struct FieldG3dMapper *mapper);
+struct BuildModelMan;
+extern struct BuildModelEntry *FIELD_BUILDMODEL_GetFirstEntryNearPos(struct BuildModelMan *man, s32 kind, s32 *pos);
+extern void FIELD_BUILDMODEL_PlayEntryAnim(struct BuildModelMan *man, struct BuildModelEntry *entry, s32 slot, s32 mode);
 extern void FIELD_BUILDMODEL_SwapEntryModelId(struct BuildModelEntry *entry, int modelId);
-extern void FIELD_BUILDMODEL_GetModelIndexOut(struct BuildModelMgr *mgr, struct BuildModelEntry *entry, int modelIndex);
-extern struct BuildModelNode *FIELD_BUILDMODEL_CreateNodeNearPos(struct BuildModelMgr *mgr, int modelId, VecFx32 *pos);
-extern int FIELD_BUILDMODEL_GetNodeHandle(struct BuildModelMgr *mgr, struct BuildModelNode *node);
-extern struct BuildModelNode *FIELD_BUILDMODEL_GetNodeByHandle(struct BuildModelMgr *mgr, int handle);
+struct BuildModelSearchArgs;
+extern void FIELD_BUILDMODEL_GetModelIndexOut(struct BuildModelMan *man, struct BuildModelSearchArgs *args, s32 tableId);
+extern struct BuildModelNode *FIELD_BUILDMODEL_CreateNodeNearPos(struct BuildModelMan *man, s32 kind, s32 *pos);
+extern u16 FIELD_BUILDMODEL_GetNodeHandle(struct BuildModelMan *man, struct BuildModelNode *node);
+extern void *FIELD_BUILDMODEL_GetNodeByHandle(struct BuildModelMan *man, s32 handle);
 extern void FIELD_BUILDMODEL_DeleteNode(struct BuildModelNode *node);
 extern void FIELD_BUILDMODEL_PlayNodeSlot(struct BuildModelNode *node, int slot, int mode);
-extern int FIELD_BUILDMODEL_GetNodeCurrentKindTableEntry(struct BuildModelNode *node, u16 *seOut);
+extern int FIELD_BUILDMODEL_GetNodeCurrentKindTableEntry(struct BuildModelNode *node, s32 out);
 extern void FIELD_BUILDMODEL_PlayNodeCurrentSlot(struct BuildModelNode *node, int mode);
 extern int FIELD_BUILDMODEL_TryOpenNodeCurrentSlot(struct BuildModelNode *node);
 extern int FIELD_BUILDMODEL_IsNodeSeBusy(struct BuildModelNode *node);
-extern u32 FIELDMAP_GetTcblSys(struct FieldMap *fieldMap);
+struct TcblSys;
+extern struct TcblSys *FIELDMAP_GetTcblSys(struct FieldMap *fieldMap);
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int align, const char *file, u16 line);
-extern void TCB_AddTask(u32 tcbSys, void (*func)(), void *work, u32 priority);
-extern void FIELDMAP_SetScriptEffectBusy(struct FieldMap *fieldMap, u32 busy);
+struct TcbSystem;
+struct TcbTask;
+extern struct TcbTask *TCB_AddTask(struct TcbSystem *sys, void (*func)(), void *work, u32 priority);
+extern void FIELDMAP_SetScriptEffectBusy(struct FieldMap *fieldMap, s32 busy);
 extern unsigned int BG_SYS_GetMainVisiblePlanes(void);
 extern void FIELDMAP_SetBgMode(void);
 extern void BG_SYS_SetMainVisiblePlanes(unsigned int planes);
 extern void FIELDMAP_ResetBgAffineShowMsg(struct FieldMap *fieldMap);
-extern void TCB_DeleteTask(struct Tcb *tcb);
-extern void *FIELDMAP_GetPlaceName(struct FieldMap *fieldMap);
-extern void FIELD_PLACE_NAME_ForceShowForZone(void *placeName, u16 zoneId);
+extern void TCB_DeleteTask(struct TcbTask *task);
+struct FieldPlaceName;
+extern struct FieldPlaceName *FIELDMAP_GetPlaceName(struct FieldMap *fieldMap);
+extern void FIELD_PLACE_NAME_ForceShowForZone(struct FieldPlaceName *placeName, s32 zoneId);
 extern u16 gScrcmdScreeneffectsNodeHandle;
 extern u8 d_021DE14C;
 int SCRCMD_SCREENEFFECTS_StartBrightnessChange(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
@@ -384,7 +393,7 @@ int SCRCMD_SCREENEFFECTS_StartDoorOpen(struct ScriptVm *vm, struct ScrcmdWork *c
     struct ScriptWork *scriptWork = SCRCMD_WORK_GetScriptWork(cmdWork);
     struct FieldMap *fieldMap = GAMESYSTEM_GetFieldMap(gameSystem);
 
-    SCRIPT_SYS_CallEvent(scriptWork, FIELD_DOOR_ANIME_StartOpen(SCRIPT_WORK_GetEvent(scriptWork), gameSystem, fieldMap));
+    SCRIPT_SYS_CallEvent((void *)scriptWork, (void *)(FIELD_DOOR_ANIME_StartOpen((u32)(SCRIPT_WORK_GetEvent(scriptWork)), (u32)gameSystem, (u32)fieldMap)));
     return 1;
 }
 
@@ -395,7 +404,7 @@ int SCRCMD_SCREENEFFECTS_StartDoorSetOpen(struct ScriptVm *vm, struct ScrcmdWork
     struct ScriptWork *scriptWork = SCRCMD_WORK_GetScriptWork(cmdWork);
     struct FieldMap *fieldMap = GAMESYSTEM_GetFieldMap(gameSystem);
 
-    SCRIPT_SYS_CallEvent(scriptWork, FIELD_DOOR_ANIME_StartSetOpen(SCRIPT_WORK_GetEvent(scriptWork), gameSystem, fieldMap));
+    SCRIPT_SYS_CallEvent((void *)scriptWork, (void *)(FIELD_DOOR_ANIME_StartSetOpen((u32)(SCRIPT_WORK_GetEvent(scriptWork)), (u32)gameSystem, (u32)fieldMap)));
     return 1;
 }
 
@@ -407,14 +416,14 @@ int SCRCMD_SCREENEFFECTS_StartDoorClose(struct ScriptVm *vm, struct ScrcmdWork *
     struct FieldMap *fieldMap = GAMESYSTEM_GetFieldMap(gameSystem);
     int doorId = (int)SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
 
-    SCRIPT_SYS_CallEvent(scriptWork, FIELD_DOOR_ANIME_StartClose(SCRIPT_WORK_GetEvent(scriptWork), gameSystem, fieldMap, doorId));
+    SCRIPT_SYS_CallEvent((void *)scriptWork, (void *)(FIELD_DOOR_ANIME_StartClose((u32)(SCRIPT_WORK_GetEvent(scriptWork)), (u32)gameSystem, (u32)fieldMap, doorId)));
     return 1;
 }
 
 /* Returns the build model manager of the current field map. */
 struct BuildModelMgr *SCRCMD_SCREENEFFECTS_GetBuildModelMgr(struct ScrcmdWork *cmdWork)
 {
-    return FIELD_G3D_MAPPER_GetBuildModel(FIELDMAP_GetG3dMapper(GAMESYSTEM_GetFieldMap(SCRCMD_WORK_GetGameSystem(cmdWork))));
+    return (struct BuildModelMgr *)FIELD_G3D_MAPPER_GetBuildModel(FIELDMAP_GetG3dMapper(GAMESYSTEM_GetFieldMap(SCRCMD_WORK_GetGameSystem(cmdWork))));
 }
 
 /*
@@ -431,7 +440,7 @@ struct BuildModelEntry *SCRCMD_SCREENEFFECTS_FindBuildModelEntry(struct BuildMod
     pos.x = x << 16;
     pos.y = 0;
     pos.z = z << 16;
-    return FIELD_BUILDMODEL_GetFirstEntryNearPos(mgr, modelId, &pos);
+    return FIELD_BUILDMODEL_GetFirstEntryNearPos((struct BuildModelMan *)mgr, modelId, (s32 *)(&pos));
 }
 
 /* Script command: play the two animations (1 and 3) of the build model at a position. */
@@ -444,8 +453,8 @@ int SCRCMD_SCREENEFFECTS_PlayBuildModelAnimPair(struct ScriptVm *vm, struct Scrc
     struct BuildModelEntry *entry = SCRCMD_SCREENEFFECTS_FindBuildModelEntry(mgr, modelId, x, z);
 
     if (entry) {
-        FIELD_BUILDMODEL_PlayEntryAnim(mgr, entry, 0, 1);
-        FIELD_BUILDMODEL_PlayEntryAnim(mgr, entry, 0, 3);
+        FIELD_BUILDMODEL_PlayEntryAnim((struct BuildModelMan *)mgr, entry, 0, 1);
+        FIELD_BUILDMODEL_PlayEntryAnim((struct BuildModelMan *)mgr, entry, 0, 3);
     }
     return 0;
 }
@@ -460,7 +469,7 @@ int SCRCMD_SCREENEFFECTS_PlayBuildModelAnimTwo(struct ScriptVm *vm, struct Scrcm
     struct BuildModelEntry *entry = SCRCMD_SCREENEFFECTS_FindBuildModelEntry(mgr, modelId, x, z);
 
     if (entry) {
-        FIELD_BUILDMODEL_PlayEntryAnim(mgr, entry, 0, 2);
+        FIELD_BUILDMODEL_PlayEntryAnim((struct BuildModelMan *)mgr, entry, 0, 2);
     }
     return 0;
 }
@@ -491,7 +500,7 @@ int SCRCMD_SCREENEFFECTS_SetBuildModelIndex(struct ScriptVm *vm, struct ScrcmdWo
     struct BuildModelEntry *entry = SCRCMD_SCREENEFFECTS_FindBuildModelEntry(mgr, modelId, x, z);
 
     if (entry) {
-        FIELD_BUILDMODEL_GetModelIndexOut(mgr, entry, modelIndex);
+        FIELD_BUILDMODEL_GetModelIndexOut((struct BuildModelMan *)mgr, (struct BuildModelSearchArgs *)entry, modelIndex);
     }
     return 0;
 }
@@ -506,11 +515,11 @@ int SCRCMD_SCREENEFFECTS_CreateBuildModelNode(struct ScriptVm *vm, struct Scrcmd
     struct BuildModelMgr *mgr;
     VecFx32 pos;
 
-    mgr = FIELD_G3D_MAPPER_GetBuildModel(FIELDMAP_GetG3dMapper(GAMESYSTEM_GetFieldMap(SCRCMD_WORK_GetGameSystem(cmdWork))));
+    mgr = (struct BuildModelMgr *)FIELD_G3D_MAPPER_GetBuildModel(FIELDMAP_GetG3dMapper(GAMESYSTEM_GetFieldMap(SCRCMD_WORK_GetGameSystem(cmdWork))));
     pos.x = x << 16;
     pos.y = 0;
     pos.z = z << 16;
-    *handleOut = FIELD_BUILDMODEL_GetNodeHandle(mgr, FIELD_BUILDMODEL_CreateNodeNearPos(mgr, modelId, &pos));
+    *handleOut = FIELD_BUILDMODEL_GetNodeHandle((struct BuildModelMan *)mgr, FIELD_BUILDMODEL_CreateNodeNearPos((struct BuildModelMan *)mgr, modelId, (s32 *)(&pos)));
     return 0;
 }
 
@@ -518,7 +527,7 @@ int SCRCMD_SCREENEFFECTS_CreateBuildModelNode(struct ScriptVm *vm, struct Scrcmd
 int SCRCMD_SCREENEFFECTS_DeleteBuildModelNode(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
     u32 handle = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
-    struct BuildModelNode *node = FIELD_BUILDMODEL_GetNodeByHandle(SCRCMD_SCREENEFFECTS_GetBuildModelMgr(cmdWork), handle);
+    struct BuildModelNode *node = FIELD_BUILDMODEL_GetNodeByHandle((struct BuildModelMan *)(SCRCMD_SCREENEFFECTS_GetBuildModelMgr(cmdWork)), handle);
 
     if (node != 0) {
         FIELD_BUILDMODEL_DeleteNode(node);
@@ -532,11 +541,11 @@ int SCRCMD_SCREENEFFECTS_PlayBuildModelNodeSlotWithSe(struct ScriptVm *vm, struc
     unsigned short seNo;
     int handle = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
     int slot = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
-    struct BuildModelNode *node = FIELD_BUILDMODEL_GetNodeByHandle(SCRCMD_SCREENEFFECTS_GetBuildModelMgr(cmdWork), handle);
+    struct BuildModelNode *node = FIELD_BUILDMODEL_GetNodeByHandle((struct BuildModelMan *)(SCRCMD_SCREENEFFECTS_GetBuildModelMgr(cmdWork)), handle);
 
     if (node) {
         FIELD_BUILDMODEL_PlayNodeSlot(node, slot, 0);
-        if (FIELD_BUILDMODEL_GetNodeCurrentKindTableEntry(node, &seNo)) {
+        if (FIELD_BUILDMODEL_GetNodeCurrentKindTableEntry(node, (s32)(&seNo))) {
             GFL_USE_PlaySeDefaultVolume(seNo);
         }
     }
@@ -548,7 +557,7 @@ int SCRCMD_SCREENEFFECTS_PlayBuildModelNodeSlotMode2(struct ScriptVm *vm, struct
 {
     u32 handle = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
     u32 slot = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
-    struct BuildModelNode *node = FIELD_BUILDMODEL_GetNodeByHandle(SCRCMD_SCREENEFFECTS_GetBuildModelMgr(cmdWork), handle);
+    struct BuildModelNode *node = FIELD_BUILDMODEL_GetNodeByHandle((struct BuildModelMan *)(SCRCMD_SCREENEFFECTS_GetBuildModelMgr(cmdWork)), handle);
 
     if (node != 0) {
         FIELD_BUILDMODEL_PlayNodeSlot(node, slot, 2);
@@ -560,7 +569,7 @@ int SCRCMD_SCREENEFFECTS_PlayBuildModelNodeSlotMode2(struct ScriptVm *vm, struct
 int SCRCMD_SCREENEFFECTS_PlayBuildModelNodeCurrentMode3(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
     u32 handle = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
-    struct BuildModelNode *node = FIELD_BUILDMODEL_GetNodeByHandle(SCRCMD_SCREENEFFECTS_GetBuildModelMgr(cmdWork), handle);
+    struct BuildModelNode *node = FIELD_BUILDMODEL_GetNodeByHandle((struct BuildModelMan *)(SCRCMD_SCREENEFFECTS_GetBuildModelMgr(cmdWork)), handle);
 
     if (node != 0) {
         FIELD_BUILDMODEL_PlayNodeCurrentSlot(node, 3);
@@ -579,7 +588,7 @@ int SCRCMD_SCREENEFFECTS_WaitBuildModelNodeAnim(struct ScriptVm *vm, struct Scrc
 /* Wait function of the command above. */
 int SCRCMD_SCREENEFFECTS_CheckBuildModelNodeAnimDone(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
-    struct BuildModelNode *node = FIELD_BUILDMODEL_GetNodeByHandle(SCRCMD_SCREENEFFECTS_GetBuildModelMgr(cmdWork), gScrcmdScreeneffectsNodeHandle);
+    struct BuildModelNode *node = FIELD_BUILDMODEL_GetNodeByHandle((struct BuildModelMan *)(SCRCMD_SCREENEFFECTS_GetBuildModelMgr(cmdWork)), gScrcmdScreeneffectsNodeHandle);
 
     if (node == 0) {
         return 1;
@@ -596,10 +605,10 @@ int SCRCMD_SCREENEFFECTS_CheckBuildModelNodeAnimDone(struct ScriptVm *vm, struct
 /* Creates the fade task: kind 0 slow in, 1 slow out, 2 fast in, 3 fast out. */
 void SCRCMD_SCREENEFFECTS_CreateFadeTask(struct GameSystem *gameSystem, struct FieldMap *fieldMap, u32 kind, u32 screenSelect, u32 skipWait)
 {
-    int tcbSys = FIELDMAP_GetTcblSys(fieldMap);
+    int tcbSys = (s32)FIELDMAP_GetTcblSys(fieldMap);
     FadeEffectTask *task = GFL_HEAP_Alloc(4, 0x18, 1, (const char *)&d_021DE14C, 0x369);
 
-    TCB_AddTask(tcbSys, SCRCMD_SCREENEFFECTS_StepFadeTask, task, 0);
+    TCB_AddTask((struct TcbSystem *)tcbSys, SCRCMD_SCREENEFFECTS_StepFadeTask, task, 0);
     FIELDMAP_SetScriptEffectBusy(fieldMap, 1);
     task->step = 0;
     task->gameSystem = gameSystem;
@@ -655,7 +664,7 @@ void SCRCMD_SCREENEFFECTS_StepFadeTask(struct Tcb *tcb, FadeEffectTask *task)
         }
         if (done) {
             FIELDMAP_SetScriptEffectBusy(task->fieldMap, 0);
-            TCB_DeleteTask(tcb);
+            TCB_DeleteTask((struct TcbTask *)tcb);
             GFL_HEAP_Free(task);
         }
         break;

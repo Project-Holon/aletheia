@@ -117,7 +117,7 @@ extern int FADE_IsActive(void);
 
 extern void BRIGHTNESS_Set(u32 brightness, u32 plane, u32 mask);
 
-extern void BRIGHTNESS_ChangeRequest(int, int, int, int, int);
+extern void BRIGHTNESS_ChangeRequest(unsigned short steps, short from, short to, unsigned int plane, unsigned int mask);
 
 extern int BRIGHTNESS_IsFinished(int a);
 
@@ -154,18 +154,19 @@ extern void INTRO_G3D_ClearSlotAnimFinished(u8 *p, u8 index);
 extern int INTRO_G3D_MoveSlot(char *p, unsigned int i, int step, int limit);
 
 extern void INTRO_G3D_SetSlotAlpha(u8 *p, u8 index, u32 alpha);
+struct SaveControlIntr;
 
-extern void SAVE_CONTROL_INTR_Start(int);
+extern void SAVE_CONTROL_INTR_Start(struct SaveControlIntr *intr);
 
-extern void SAVE_CONTROL_INTR_Pause(unsigned char *);
+extern void SAVE_CONTROL_INTR_Pause(struct SaveControlIntr *intr);
 
-extern int SAVE_CONTROL_INTR_IsPausedOrFinished(unsigned char *);
+extern int SAVE_CONTROL_INTR_IsPausedOrFinished(struct SaveControlIntr *intr);
 
-extern void SAVE_CONTROL_INTR_Resume(unsigned char *p);
+extern void SAVE_CONTROL_INTR_Resume(struct SaveControlIntr *intr);
 
 extern void SAVE_CONTROL_INTR_NoOp(int);
 
-extern int SAVE_CONTROL_INTR_IsFinished(unsigned char *p);
+extern int SAVE_CONTROL_INTR_IsFinished(struct SaveControlIntr *intr);
 
 extern void CONFIG_SetTextLanguage(u16*,u32);
 
@@ -181,7 +182,7 @@ extern u32 PM_VOICE_IsSlotActive(u32 i);
 
 extern int INTRO_G3D_MoveSlot1(char *p, int delta, int limit);
 
-extern void G2x_SetBlendAlpha_(volatile void *, int, int, int, int);
+extern void G2x_SetBlendAlpha_(unsigned int *reg, unsigned int a, unsigned int b, unsigned int c, unsigned int d);
 
 extern void INTRO_PARTICLE_StartEffect(u32*,u32,u32,u32);
 
@@ -203,11 +204,12 @@ extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
 
 extern void BG_SYS_MarkTileDirty(u32);
 
-extern void BG_SYS_SetTileEntry(u32,int,int,int,u8,u8,u8);
+extern void BG_SYS_SetTileEntry(unsigned int layer, unsigned short value, unsigned char x0, unsigned char y0, unsigned char w, unsigned char h, unsigned char mode);
 
-extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
+extern void *ARC_TOOL_CreateHandle(unsigned int archiveID, unsigned short heapID);
+struct MyStatus;
 
-extern u8 MYSTATUS_GetSex(const struct IntroGameState *obj);
+extern u8 MYSTATUS_GetSex(struct MyStatus *mystatus);
 
 extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 vram_mode, u16 flags);
 
@@ -221,7 +223,7 @@ extern unsigned INTRO_GRAPHIC_GetClactOwner(char *p);
 
 extern struct Obj *CLACT_CreateActor(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
 
-extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
+extern void CLACT_SetActorDrawEnable(struct Actor *actor, unsigned int value);
 
 extern void CLACT_ReleaseCharacter(unsigned);
 
@@ -229,7 +231,7 @@ extern void CLACT_ReleasePalette(unsigned);
 
 extern void CLACT_ReleaseCellAnim(unsigned);
 
-extern void CLACT_DeleteActor(struct Obj *p);
+extern void CLACT_DeleteActor(struct Actor *actor);
 
 extern void CLACT_SetActorObjMode(struct Actor *actor, u32 value);
 
@@ -537,7 +539,7 @@ int INTRO_CMD_CmdPrintAndMepachi(char *p, int *state, unsigned *q)
 int INTRO_CMD_CmdSaveStart(char *a)
 {
     IntroCmdWork *work = (IntroCmdWork *)a;
-    SAVE_CONTROL_INTR_Start((int)work->saveControl);
+    SAVE_CONTROL_INTR_Start(work->saveControl);
     return 1;
 }
 
@@ -546,7 +548,7 @@ int INTRO_CMD_CmdSavePause(char *p,int *state,unsigned *q){IntroCmdWork *work=(I
 int INTRO_CMD_CmdSaveResume(char *a)
 {
     IntroCmdWork *work = (IntroCmdWork *)a;
-    SAVE_CONTROL_INTR_Resume((unsigned char *)work->saveControl);
+    SAVE_CONTROL_INTR_Resume((struct SaveControlIntr *)work->saveControl);
     return 1;
 }
 
@@ -792,7 +794,7 @@ int INTRO_CMD_CreateActors(char *p)
     u32 i;
     char *row;
     arc=ARC_TOOL_CreateHandle(170,work->heapId);
-    if(MYSTATUS_GetSex(((IntroArgs *)work->args)->gameState)==0){
+    if(MYSTATUS_GetSex((struct MyStatus *)(((IntroArgs *)work->args)->gameState))==0){
         work->charHandle[0].ptr=(void *)CLACT_RegisterCharacter(arc,6,0,0,work->heapId);
         work->palHandle[0].ptr=(void *)CLACT_RegisterPalette(arc,7,0,0,work->heapId);
         work->cellAnimHandle[0].ptr=(void *)CLACT_RegisterCellAnim(arc,5,4,work->heapId);
@@ -841,7 +843,7 @@ int INTRO_CMD_CmdActorFadeIn(char *p, unsigned *state, unsigned *q)
     unsigned i;
     switch (*state) {
     case 0:
-        G2x_SetBlendAlpha_((volatile void *)0x04000050, 0, 12, 0, 16);
+        G2x_SetBlendAlpha_((unsigned int *)0x04000050, 0, 12, 0, 16);
         CLACT_SetActorObjMode(work->actor[q[0]], 1);
         CLACT_SetActorDrawEnable(work->actor[q[0]], 1);
         ++*state;
@@ -870,7 +872,7 @@ int INTRO_CMD_CmdActorFadeOut(char *p, unsigned *state, unsigned *q)
     unsigned i;
     switch (*state) {
     case 0:
-        G2x_SetBlendAlpha_((volatile void *)0x04000050, 0, 12, 16, 0);
+        G2x_SetBlendAlpha_((unsigned int *)0x04000050, 0, 12, 16, 0);
         for (i = 0; i < 3; i++)
             CLACT_SetActorObjMode(work->actor[i], 1);
         ++*state;
@@ -890,7 +892,7 @@ int INTRO_CMD_CmdActorFadeOut(char *p, unsigned *state, unsigned *q)
     return 0;
 }
 
-int INTRO_CMD_CmdCheckConfig(u8*p){IntroCmdWork *work=(IntroCmdWork *)p;if(!MYSTATUS_GetSex(((IntroArgs *)work->args)->gameState))return 1;return 0;}
+int INTRO_CMD_CmdCheckConfig(u8*p){IntroCmdWork *work=(IntroCmdWork *)p;if(!MYSTATUS_GetSex((struct MyStatus *)(((IntroArgs *)work->args)->gameState)))return 1;return 0;}
 
 void INTRO_CMD_CmdSetWordSet(u8*p,u32 a){IntroCmdWork *work=(IntroCmdWork *)p;struct WordSet*q=(struct WordSet *)INTRO_MSG_GetWordSet(work->msg);WORDSET_SetSlotMyStatus(q,a,((IntroArgs *)work->args)->gameState);}
 

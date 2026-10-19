@@ -29,6 +29,12 @@
  *   PALANM_BlendColors 0x02021F64 thumb
  *   MI_CpuCopy8  0x02082D44  arm
  *   d_021C408C 0x021C408C data ov217 a1
+ *   _fadd                        0x0209C95C  arm
+ *   _fdiv                        0x0209CE10  arm
+ *   _ffix                        0x0209C494  arm
+ *   _fflt                        0x0209BDBC  arm
+ *   _fmul                        0x0209C77C  arm
+ *   _u32_div_f                   0x0209C2B0  arm
  */
 #include "research_types.h"
 

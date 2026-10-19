@@ -64,7 +64,7 @@ extern void  SYSTEMFONT_SetColors(u32 fgColor, u32 bgColor);
 extern struct Bmp *BMP_CreateFromBuffer(void *pixels, u32 width, u32 height, u32 depth, u16 heapId);
 extern u16   STRBUF_GetEosChar(void);  /* string terminator code */
 extern void SYSTEMFONT_GetGlyph(int glyphIndex, u8 *glyphOut);
-extern void BMP_Blit(struct Bmp *src, struct Bmp *dst, u32 srcX, u32 srcY, int dstX, int dstY, u32 w, u32 h, u32 colorKey);
+extern void BMP_Blit(struct Bmp *src, struct Bmp *dst, unsigned int srcX, unsigned int srcY, int dstX, int dstY, unsigned int w, unsigned int h, unsigned short colorKey);
 extern void BMP_Delete(struct Bmp *bmp);
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int align, const char *file, u16 line);
 extern u32 GFL_HEAP_Free(void *block);

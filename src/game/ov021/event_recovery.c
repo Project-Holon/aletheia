@@ -155,16 +155,18 @@ enum {
 extern GameEvent *GAME_EVENT_Create(GameSystem *gameSystem, GameEvent *parent, GameEventFunc handler, u32 workSize);
 
 extern void *GAME_EVENT_GetWork(GameEvent *event);
+struct GameSystem;
 
-extern FieldMap *GAMESYSTEM_GetFieldMap(GameSystem *gameSystem);
+extern void *GAMESYSTEM_GetFieldMap(GameSystem *gameSystem);
 
 extern struct GameData *GAMESYSTEM_GetGameData(GameSystem *gameSystem);
 
 extern void GAME_EVENT_CallEvent(GameEvent *parent, GameEvent *child);
 
 extern void *GAME_DATA_GetMyParty(struct GameData *gameData);
+struct Party;
 
-extern u32 POKEPARTY_GetNonEggCount(void *party);
+extern u32 POKEPARTY_GetNonEggCount(struct Party *party);
 
 extern u16 FIELDMAP_GetHeapId(FieldMap *fieldMap);
 
@@ -175,16 +177,19 @@ extern struct FieldPlayer *FIELDMAP_GetFieldPlayer(FieldMap *fieldMap);
 extern GameSystem *FIELDMAP_GetGameSystem(FieldMap *fieldMap);
 
 extern void FIELD_PLAYER_GetPos(struct FieldPlayer *player, VecFx32 *out);
+struct FieldBuildModel;
 
-extern struct BuildModelMan *FIELD_G3D_MAPPER_GetBuildModel(struct FieldG3dMapper *mapper);
+extern struct FieldBuildModel *FIELD_G3D_MAPPER_GetBuildModel(struct FieldG3dMapper *mapper);
+struct BuildModelRect;
 
-extern struct BuildModelEntry **FIELD_BUILDMODEL_CollectEntriesInRect(struct BuildModelMan *man, RecoveryRect *rect, int kind, int *count);
+extern struct BuildModelEntry **FIELD_BUILDMODEL_CollectEntriesInRect(struct BuildModelMan *man, struct BuildModelRect *rect, int kind, int *count);
 
-extern void FIELD_BUILDMODEL_GetEntryWorldPos(struct BuildModelEntry *entry, VecFx32 *out);
+extern void FIELD_BUILDMODEL_GetEntryWorldPos(struct BuildModelEntry *entry, void *out);
 
 extern struct BuildModelNode *FIELD_BUILDMODEL_CreateNodeFromEntry(struct BuildModelMan *man, struct BuildModelEntry *entry);
+struct BuildModelBlock;
 
-extern struct BuildModelNode *FIELD_BUILDMODEL_CreateNodeFromBlock(struct BuildModelMan *man, u32 tableId, RecoveryBallPlacement *placement);
+extern struct BuildModelNode *FIELD_BUILDMODEL_CreateNodeFromBlock(struct BuildModelMan *man, u32 tableId, struct BuildModelBlock *src);
 
 extern void FIELD_BUILDMODEL_PlayEntryAnim(struct BuildModelMan *man, struct BuildModelEntry *entry, int slot, int mode);
 
@@ -321,7 +326,7 @@ void EVENT_RECOVERY_InitBalls(RecoveryBallsWork *work, GameSystem *gameSystem, u
     work->ballCount = count;
     work->fieldMap = fieldMap;
     work->ballsPlaced = 0;
-    work->buildModelMan = FIELD_G3D_MAPPER_GetBuildModel(mapper);
+    work->buildModelMan = (struct BuildModelMan *)FIELD_G3D_MAPPER_GetBuildModel(mapper);
     work->machineEntry = 0;
     if (work->ballCount > RECOVERY_BALL_MAX) {
         work->ballCount = RECOVERY_BALL_MAX;
@@ -331,7 +336,7 @@ void EVENT_RECOVERY_InitBalls(RecoveryBallsWork *work, GameSystem *gameSystem, u
     rect.zMax = playerPos.z + RECOVERY_SEARCH_RADIUS;
     rect.xMin = playerPos.x - RECOVERY_SEARCH_RADIUS;
     rect.xMax = playerPos.x + RECOVERY_SEARCH_RADIUS;
-    entries = FIELD_BUILDMODEL_CollectEntriesInRect(work->buildModelMan, &rect, RECOVERY_ENTRY_KIND_BALLS, &entryCount);
+    entries = FIELD_BUILDMODEL_CollectEntriesInRect(work->buildModelMan, (struct BuildModelRect *)(&rect), RECOVERY_ENTRY_KIND_BALLS, &entryCount);
     if (entries) {
         work->machineEntry = *entries;
         FIELD_BUILDMODEL_GetEntryWorldPos(*entries, &work->machinePos);
@@ -374,7 +379,7 @@ void EVENT_RECOVERY_PlaceBall(RecoveryBallsWork *work)
         placement.scale.z = 0x1000;
         BUTTON_MAN_MakeRotMtxXYZ(0, 0, 0, &placement.rotation);
         VEC_Add(&work->machinePos, &sRecoveryBallOffsets[i], &placement.pos);
-        work->balls[i] = FIELD_BUILDMODEL_CreateNodeFromBlock(work->buildModelMan, RECOVERY_BALL_MODEL_TABLE_ID, &placement);
+        work->balls[i] = FIELD_BUILDMODEL_CreateNodeFromBlock(work->buildModelMan, RECOVERY_BALL_MODEL_TABLE_ID, (struct BuildModelBlock *)(&placement));
         work->ballsPlaced = work->ballsPlaced + 1;
         GFL_USE_PlaySeDefaultVolume(RECOVERY_SE_BALL_PLACED);
     }
@@ -489,7 +494,7 @@ void EVENT_RECOVERY_InitParty(PartyRecoveryWork *work, GameSystem *gameSystem)
     work->fieldMap = fieldMap;
     work->ballCount = EVENT_RECOVERY_GetPartyBallCount(gameSystem);
     work->ballsPlaced = 0;
-    work->buildModelMan = FIELD_G3D_MAPPER_GetBuildModel(mapper);
+    work->buildModelMan = (struct BuildModelMan *)FIELD_G3D_MAPPER_GetBuildModel(mapper);
     work->machineEntry = 0;
     if (work->ballCount > RECOVERY_BALL_MAX) {
         work->ballCount = RECOVERY_BALL_MAX;
@@ -499,7 +504,7 @@ void EVENT_RECOVERY_InitParty(PartyRecoveryWork *work, GameSystem *gameSystem)
     rect.zMax = playerPos.z + RECOVERY_SEARCH_RADIUS;
     rect.xMin = playerPos.x - RECOVERY_SEARCH_RADIUS;
     rect.xMax = playerPos.x + RECOVERY_SEARCH_RADIUS;
-    entries = FIELD_BUILDMODEL_CollectEntriesInRect(work->buildModelMan, &rect, RECOVERY_ENTRY_KIND_MACHINE, &entryCount);
+    entries = FIELD_BUILDMODEL_CollectEntriesInRect(work->buildModelMan, (struct BuildModelRect *)(&rect), RECOVERY_ENTRY_KIND_MACHINE, &entryCount);
     if (entries) {
         work->machineEntry = *entries;
         FIELD_BUILDMODEL_GetEntryWorldPos(*entries, &work->machinePos);
@@ -534,7 +539,7 @@ void EVENT_RECOVERY_PlacePartyBall(PartyRecoveryWork *work)
         placement.scale.z = 0x1000;
         BUTTON_MAN_MakeRotMtxXYZ(0, 0, 0, &placement.rotation);
         VEC_Add(&work->machinePos, &sPartyRecoveryBallOffsets[i], &placement.pos);
-        work->balls[i] = FIELD_BUILDMODEL_CreateNodeFromBlock(work->buildModelMan, RECOVERY_BALL_MODEL_TABLE_ID, &placement);
+        work->balls[i] = FIELD_BUILDMODEL_CreateNodeFromBlock(work->buildModelMan, RECOVERY_BALL_MODEL_TABLE_ID, (struct BuildModelBlock *)(&placement));
         work->ballsPlaced++;
         GFL_USE_PlaySeDefaultVolume(RECOVERY_SE_BALL_PLACED);
     }

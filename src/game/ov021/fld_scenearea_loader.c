@@ -43,6 +43,7 @@
  *   FIELD_CAMERA_SetFov  0x0218ED64  thumb
  *   FLD_SCENEAREA_GetCamera  0x021AB760  thumb  ov021
  *   FLD_SCENEAREA_GetFieldMap  0x021AB764  thumb  ov021
+ *   _u32_div_f                   0x0209C2B0  arm
  */
 #include "fld_scenearea_types.h"
 
@@ -50,23 +51,25 @@ extern void *ARC_TOOL_CreateHandle(u32 arcId, u32 heapId);
 extern void ARC_TOOL_DeleteHandle(void *arcHandle);
 extern u32 GFL_HEAP_Free(void *p);
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 line);
-extern u32 FIELDMAP_GetMoveKind(void *fieldMap);
+struct FieldMap;
+extern u32 FIELDMAP_GetMoveKind(struct FieldMap *fieldMap);
 extern void *ARC_UTIL_LoadHandleMemberWithSize(void *arcHandle, int fileId, int decompress, u32 heapId, u32 *outSize);
 extern void VEC_Subtract(const VecFx32 *a, const VecFx32 *b, VecFx32 *out);
 extern int VEC_Mag(const VecFx32 *v);
 extern void VEC_Normalize(const VecFx32 *v, VecFx32 *out);
-extern u32 FX_Atan2Idx(int x, int z);
-extern void FIELD_CAMERA_EnterMode(void *camera, u32 mode);
-extern void FIELD_CAMERA_SetTarget(void *camera, VecFx32 *target);
-extern void FIELD_CAMERA_SetEyeRaw(void *camera, VecFx32 *eye);
-extern int FX_Div(int a, int b);
-extern void FIELD_CAMERA_SetPitch(void *camera, u16 pitch);
-extern void FIELD_CAMERA_SetYaw(void *camera, u32 yaw);
-extern void FIELD_CAMERA_SetDistance(void *camera, u32 distance);
-extern void FIELD_CAMERA_StopDelay(void *camera, int delay);
-extern void FIELD_CAMERA_RestartDelay(void *camera);
-extern void FIELD_CAMERA_SetTargetShift(void *camera, VecFx32 *shift);
-extern void FIELD_CAMERA_SetFov(void *camera, u16 fov);
+extern u16 FX_Atan2Idx(int x, int z);
+struct FieldCamera;
+extern void FIELD_CAMERA_EnterMode(struct FieldCamera *camera, u32 mode);
+extern void FIELD_CAMERA_SetTarget(struct FieldCamera *camera, VecFx32 *target);
+extern void FIELD_CAMERA_SetEyeRaw(struct FieldCamera *camera, VecFx32 *eye);
+extern u32 FX_Div(u32 numer, u32 denom);
+extern void FIELD_CAMERA_SetPitch(struct FieldCamera *camera, u16 pitch);
+extern void FIELD_CAMERA_SetYaw(struct FieldCamera *camera, u32 yaw);
+extern void FIELD_CAMERA_SetDistance(struct FieldCamera *camera, u32 distance);
+extern void FIELD_CAMERA_StopDelay(struct FieldCamera *camera, s32 unused);
+extern void FIELD_CAMERA_RestartDelay(struct FieldCamera *camera);
+extern void FIELD_CAMERA_SetTargetShift(struct FieldCamera *camera, VecFx32 *shift);
+extern void FIELD_CAMERA_SetFov(struct FieldCamera *camera, u16 fov);
 extern void *FLD_SCENEAREA_GetCamera(FldSceneArea *sceneArea);
 extern void *FLD_SCENEAREA_GetFieldMap(FldSceneArea *sceneArea);
 

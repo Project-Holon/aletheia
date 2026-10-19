@@ -80,12 +80,14 @@
  *   GAME_DATA_Delete 0x02012704 thumb arm9
  *   GF_OVERLAY_Unload  0x02034A5C  arm
  *   GF_OVERLAY_Load  0x02034AC4  arm
+ *   _u32_div_f                   0x0209C2B0  arm
  */
 #include "btl_setup_types.h"
 #include "script_vm_types.h"
 #include "vm_shared_types.h"
 #include "ica_anime_shared_types.h"
 #include "ica_anime_shared_types.h"
+int GFL_NET_IRC_WIRELESS_IsActive(void);
 
 struct WirelessSave;
 
@@ -119,11 +121,11 @@ extern void GFL_HEAP_DeleteChecked(unsigned int heapId);
 
 extern int GF_OVERLAY_Load(int overlayId);
 
-extern u32   OV230_CallSealedBody0(void (*caller)(void), void (*target)(void), u32 arg);
+extern u32   OV230_CallSealedBody0(void (*hook)(void), void (*hookArg)(void), u32 unused);
 
-extern u32   OV230_CallSealedBody3(void (*caller)(void), void (*target)(void), u32 arg);
+extern u32   OV230_CallSealedBody3(void (*hook)(void), void (*hookArg)(void), u32 unused);
 
-extern u32   OV230_CallSealedBody4(void (*caller)(void), void (*target)(void), u32 arg);
+extern u32   OV230_CallSealedBody4(void (*hook)(void), void (*hookArg)(void), u32 unused);
 
 //P
 extern void  GF_OVERLAY_Unload(s32 overlayId);
@@ -131,8 +133,9 @@ extern void  GF_OVERLAY_Unload(s32 overlayId);
 extern void *PROCSYS_AllocProcWork(struct Proc *proc, u32 size, u32 heapId);
 
 extern struct GameEvent *EVENT_WIFI_PROC_CreateOv020Event(struct GameSystem *gameSystem, u32 initParam);
+struct GameData;
 
-extern struct MiscSave *GAME_DATA_GetMiscSave(struct GameData *gameData);
+extern void *GAME_DATA_GetMiscSave(struct GameData *gameData);
 
 extern u32 MISC_CountBadges(struct MiscSave *miscSave);
 
@@ -140,9 +143,10 @@ extern void GAMESYSTEM_Delete(struct GameSystem *gameSystem);
 
 extern void OS_ResetSystem(u32 mode);
 
-extern struct ProcSys *PROCSYS_Create(int heapId);
+extern void *PROCSYS_Create(int heapId);
+struct VecSet;
 
-extern struct GameComm *GAME_COMM_Create(unsigned int heapId, struct GameData *gameData);
+extern struct VecSet *GAME_COMM_Create(u32 heapId, void *gameData);
 
 extern void *ISS_SYS_Create(struct GameData *gameData, unsigned int heapId);
 
@@ -150,7 +154,7 @@ extern void ZONEDATA_Init(u32 heapId);
 
 extern void ISS_SYS_Delete(void *issSystem);
 
-extern void GAME_COMM_Delete(struct GameComm *gameComm);
+extern void GAME_COMM_Delete(struct VecSet *obj);
 
 extern void ZONEDATA_Exit(void);
 
@@ -160,7 +164,7 @@ extern void PALANM_StopTimer(void);
 
 extern u8 GAME_DATA_IsWalkCountEnabled(const struct GameData *gameData);
 
-extern void UI_SetFrameRate(int frames);
+extern void UI_SetFrameRate(u8 value);
 
 extern u8 GAME_DATA_IncWalkCount(struct GameData *gameData);
 
@@ -170,13 +174,14 @@ extern void GAME_COMM_Update(struct GameComm *gameComm);
 
 extern unsigned int PROCSYS_Main(struct ProcSys *procSys);
 
-extern struct BgmInfo *GAME_DATA_GetBgmInfo(const struct GameData *gameData);
+extern u32 GAME_DATA_GetBgmInfo(const struct GameData *gameData);
+struct FieldSoundSystem;
 
-extern void FIELD_SOUND_SYSTEM_Update(struct BgmInfo *bgmInfo);
+extern void FIELD_SOUND_SYSTEM_Update(struct FieldSoundSystem *s);
 
 extern void ISS_SYS_Update(void *issSystem);
 
-extern void PALANM_UpdateTimer(struct GameData *gameData);
+extern void PALANM_UpdateTimer(u8 *target);
 
 extern u32 GFL_NET_ERR_ShowScreen(u32 mode);
 
@@ -197,20 +202,22 @@ extern int INTRUDE_COMM_CheckEntryAllowed(struct GameSystem *gameSystem);
 extern int   DWCi_IsFold(void);
 
 extern int UI_IsPowerConnected(void);
+struct CgearSaveBlock;
 
-extern struct WirelessSave *BLOCK20_SAVEDATA_GetBlockFromSys(struct GameData *gameData);
+extern struct CgearSaveBlock *BLOCK20_SAVEDATA_GetBlockFromSys(void *p);
+struct CGearSave;
 
-extern u8 CGEAR_SAVE_GetObtained(const struct WirelessSave *wirelessSave);
+extern u8 CGEAR_SAVE_GetObtained(struct CGearSave *save);
 
 extern int GFL_NET_GetRunState(void);
 
 extern u32 GAME_COMM_GetKind(struct GameComm *gameComm);
 
-extern void GAME_COMM_Start(struct GameComm *gameComm, u32 mode, struct GameSystem *gameSystem);
+extern void GAME_COMM_Start(struct GameComm *comm, u32 kind, u32 param);
 
-extern void UI_SetWakePoweredHookGlobal(void (*callback)(struct GameSystem *), struct GameSystem *gameSystem);
+extern void UI_SetWakePoweredHookGlobal(void (*callback)(struct GameSystem *), void *arg);
 
-extern void UI_SetKeepAwakePred(int (*callback)(struct GameSystem *), struct GameSystem *gameSystem);
+extern void UI_SetKeepAwakePred(int (*callback)(struct GameSystem *), void *arg);
 
 u32 GAMESYSTEM_CallIfSet(u32 (*func)(void));
 
@@ -321,6 +328,7 @@ extern u8 ov230_id[];
 extern u8 SDK_OVERLAY_ov021_ID[];
 
 extern u8 FieldMapProcData;
+struct FieldMap;
 
 /*
  * GAMESYSTEM_CallIfSet calls its argument, if not null, purely for effect: the
@@ -606,7 +614,7 @@ void GAMESYSTEM_Init(struct GameSystem *gameSystem, u16 heapId, u32 initParam)
     gameSystem->event = 0;
     gameSystem->gameData = GAME_DATA_Create(gameSystem->heapId);
     gameSystem->fieldMap = 0;
-    gameSystem->gameComm = GAME_COMM_Create(gameSystem->heapId, gameSystem->gameData);
+    gameSystem->gameComm = (struct GameComm *)GAME_COMM_Create(gameSystem->heapId, gameSystem->gameData);
     gameSystem->reserved = 0;
     gameSystem->issSystem = ISS_SYS_Create(gameSystem->gameData, heapId);
     gameSystem->commBlocked = 0;
@@ -632,7 +640,7 @@ void GAMESYSTEM_Exit(struct GameSystem *gameSystem)
     GAMESYSTEM_ReleaseSleepCallback(gameSystem);
     ISS_SYS_Delete(gameSystem->issSystem);
     GAME_DATA_Delete(gameSystem->gameData);
-    GAME_COMM_Delete(gameSystem->gameComm);
+    GAME_COMM_Delete((struct VecSet *)gameSystem->gameComm);
     ZONEDATA_Exit();
 }
 
@@ -696,9 +704,9 @@ int GAMESYSTEM_Main(struct GameSystem *gameSystem)
         GAME_COMM_Update(gameSystem->gameComm);
     }
     gameSystem->procStatus = PROCSYS_Main(gameSystem->procSys);
-    FIELD_SOUND_SYSTEM_Update(GAME_DATA_GetBgmInfo(gameSystem->gameData));
+    FIELD_SOUND_SYSTEM_Update((struct FieldSoundSystem *)GAME_DATA_GetBgmInfo(gameSystem->gameData));
     ISS_SYS_Update(gameSystem->issSystem);
-    PALANM_UpdateTimer(gameSystem->gameData);
+    PALANM_UpdateTimer((u8 *)gameSystem->gameData);
     if (GAME_DATA_IsWalkCountEnabled(gameSystem->gameData) != 0)
         UI_SetFrameRate(0x3c);
     if (gameSystem->procStatus == 2 || gameSystem->procStatus == 0)
@@ -708,7 +716,7 @@ int GAMESYSTEM_Main(struct GameSystem *gameSystem)
     return 0;
 }
 
-extern int FIELDMAP_IsReady(void *fieldMap);   /* overlay-resident */
+extern int FIELDMAP_IsReady(struct FieldMap *fieldMap);   /* overlay-resident */
 
 /*
  * Three nested tests sharing one epilogue: the object is driven through
@@ -978,7 +986,7 @@ u32 GAMESYSTEM_CanStartAutoComm(struct GameSystem *gameSystem)
      && GAMESYSTEM_IsAlwaysNetFlagSet(gameSystem) == 1
      && INTRUDE_COMM_CheckEntryAllowed(gameSystem) == 1
      && !(DWCi_IsFold() == 1 && UI_IsPowerConnected() == 1)) {
-        if (CGEAR_SAVE_GetObtained(BLOCK20_SAVEDATA_GetBlockFromSys(gameSystem->gameData)) != 0) {
+        if (CGEAR_SAVE_GetObtained((struct CGearSave *)BLOCK20_SAVEDATA_GetBlockFromSys(gameSystem->gameData)) != 0) {
             return 1;
         }
     }
@@ -1003,7 +1011,7 @@ u32 GAMESYSTEM_TryStartAutoComm(struct GameSystem *gameSystem)
     if (GFL_NET_GetRunState() == 0) {
         if (GAME_COMM_GetKind(gameComm) == 0) {
             if (GAMESYSTEM_CanStartAutoComm(gameSystem) == 1) {
-                GAME_COMM_Start(gameComm, 1, gameSystem);
+                GAME_COMM_Start(gameComm, (u32)1, (u32)gameSystem);
                 return 1;
             }
         }

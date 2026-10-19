@@ -79,7 +79,7 @@ extern int gsXmlWriteIntElement(void *stream, char *namespaceName, char *tag, un
 extern int gsXmlMoveToChild(void *stream, char *matchtag);
 extern int gsXmlCountChildren(void *stream, char *matchtag);
 extern void *gsimalloc(unsigned long size);
-extern void MSL_C_LIB_MemsetPtr(void *dst, int val, unsigned long n);
+extern void *MSL_C_LIB_MemsetPtr(void *dst, int val, unsigned long n);
 extern int gsXmlMoveToNext(void *stream, char *matchtag);
 extern int gsXmlReadChildAsInt(void *stream, char *matchtag, int *valueOut);
 extern int gsXmlReadChildAsInt64(void *stream, char *matchtag, long long *valueOut);

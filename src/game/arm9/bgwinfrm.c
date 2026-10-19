@@ -28,6 +28,7 @@
  *   BMP_WIN_GetHeight  0x02045740  arm
  *   BMP_WIN_GetPosX  0x02045758  arm
  *   BMP_WIN_GetPosY  0x02045760  arm
+ *   _u32_div_f                   0x0209C2B0  arm
  */
 #include "iss_switch_sys_shared_types.h"
 #include "iss_switch_set_shared_types.h"
@@ -67,29 +68,29 @@ extern u32 GFL_HEAP_Free(void *p);
 
 extern void MIi_CpuCopy16(const void *src, void *dst, u32 size);
 
-extern void *ARC_UTIL_LoadPaletteDataFromArchive(u32 archiveID, u32 memberIdx, u32 heapID, u32 unpackedOut, u16 flags);
+extern void *ARC_UTIL_LoadPaletteDataFromArchive(u32 archiveID, u32 memberIdx, u32 heapID, void *unpackedOut, u16 flags);
 
 extern void *ARC_UTIL_LoadPaletteDataFromHandle(void *arc, u32 member, u32 alloc, void **out,
                            u16 heap);
 
-extern void BG_SYS_DrawTileEx(u32 index, u32 dx, u32 dy, u32 cw, u8 ch, const u16 *src,
-                          u8 sx, u8 sy, u8 sw, u8 sh);
+extern void BG_SYS_DrawTileEx(u32 index, u8 dx, u8 dy, u8 cw, u8 ch, void *src, u8 sx, u8 sy, u8 sw, u8 sh);
 
 extern void (*BgWinFrmScreenTransFuncs[])(u32);
 
-extern void BG_SYS_SetTileEntry(u32 layer, int value, int x0, int y0, u8 w, u8 h, u8 mode);
+extern void BG_SYS_SetTileEntry(u32 layer, u16 value, u8 x0, u8 y0, u8 w, u8 h, u8 mode);
+struct BmpWin;
 
-extern u16 BMP_WIN_GetCharOffset(struct Descriptor *p);
+extern u16 BMP_WIN_GetCharOffset(struct BmpWin *win);
 
-extern u8 BMP_WIN_GetPalette(struct Descriptor *p);
+extern u8 BMP_WIN_GetPalette(struct BmpWin *win);
 
-extern u8 BMP_WIN_GetWidth(struct Descriptor *p);
+extern u8 BMP_WIN_GetWidth(struct BmpWin *win);
 
-extern u8 BMP_WIN_GetHeight(struct Descriptor *p);
+extern u8 BMP_WIN_GetHeight(struct BmpWin *win);
 
-extern u8 BMP_WIN_GetPosX(struct Descriptor *p);
+extern u8 BMP_WIN_GetPosX(struct BmpWin *win);
 
-extern u8 BMP_WIN_GetPosY(struct Descriptor *p);
+extern u8 BMP_WIN_GetPosY(struct BmpWin *win);
 
 struct BgWinFrmWork *BGWINFRM_Create(u32 transMode, u32 frameMax, u32 heapId);
 
@@ -209,7 +210,7 @@ void BGWINFRM_SetFrameDataArc(struct BgWinFrmWork *wk, u32 idx, u32 arcId, u32 d
     void *data;
     void *file;
 
-    file = ARC_UTIL_LoadPaletteDataFromArchive(arcId, datId, compressed, (u32)(&data), wk->heapId);
+    file = ARC_UTIL_LoadPaletteDataFromArchive(arcId, datId, compressed, (&data), wk->heapId);
     BGWINFRM_SetFrameData(wk, idx, (char *)data + 0xc);
     GFL_HEAP_Free(file);
 }

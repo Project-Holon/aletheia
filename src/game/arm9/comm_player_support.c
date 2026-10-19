@@ -62,26 +62,31 @@ extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u
 extern u32 GFL_HEAP_Free(void *p);
 
 extern void MI_CpuFill8(void *p, u32 value, u32 size);
+struct MyStatus;
 
-extern void MYSTATUS_Init(struct PlayerRecord *record);
+extern void MYSTATUS_Init(struct MyStatus *mystatus);
+struct GameSystem;
+struct GameComm;
 
-extern u32 GAMESYSTEM_GetGameComm(const struct PlayerInfo *info);
+extern struct GameComm *GAMESYSTEM_GetGameComm(struct GameSystem *gameSystem);
 
-extern int INTRUDE_COMM_GetAreaSlotFlag(int value);
+extern int INTRUDE_COMM_GetAreaSlotFlag(struct GameComm *comm);
 
 extern void GF_STANDARD_GetCachedDate(struct RtcDate *date);
 
 extern u8 GAME_DATA_SetSeason(s32 handle, u8 value);
+struct GameData;
 
-extern int GAME_DATA_GetIntrudeCount(struct PlayerInfo *info);
+extern int GAME_DATA_GetIntrudeCount(struct GameData *gd);
 
-extern int GAME_DATA_GetSeason(struct PlayerInfo *info);
+extern u8 GAME_DATA_GetSeason(struct GameData *gd);
+struct WifiList;
 
-extern int WIFILIST_FindFriendByStatus(struct PlayerLookup *lookup, const struct PlayerRecord *record, u32 *out);
+extern int WIFILIST_FindFriendByStatus(struct WifiList *list, struct MyStatus *status, u32 *outSlot);
 
-extern u16 *MYSTATUS_GetName(const struct PlayerRecord *record);
+extern void *MYSTATUS_GetName(void *mystatus);
 
-extern u16 MYSTATUS_GetIdLow16(const struct PlayerRecord *record);
+extern u16 MYSTATUS_GetIdLow16(struct MyStatus *mystatus);
 
 struct CommPlayerSupport *COMM_PLAYER_SUPPORT_Create(u32 heapId);
 
@@ -148,8 +153,8 @@ void COMM_PLAYER_SUPPORT_Init(struct CommPlayerSupport *support)
     support->mode = 0;
     support->prevMode = 0;
     support->stashedMode = 0;
-    MYSTATUS_Init(&support->current);
-    MYSTATUS_Init(&support->previous);
+    MYSTATUS_Init((struct MyStatus *)(&support->current));
+    MYSTATUS_Init((struct MyStatus *)(&support->previous));
 }
 
 /* Sets the mode word and copies a 32-byte record into the current slot. */
@@ -207,7 +212,7 @@ struct PlayerRecord *COMM_PLAYER_SUPPORT_GetActiveRecord(struct CommPlayerSuppor
 
 int COMM_PLAYER_SUPPORT_GetInfoCode(struct PlayerInfo *info)
 {
-    return INTRUDE_COMM_GetAreaSlotFlag(GAMESYSTEM_GetGameComm(info));
+    return INTRUDE_COMM_GetAreaSlotFlag(GAMESYSTEM_GetGameComm((struct GameSystem *)info));
 }
 
 /*
@@ -221,14 +226,14 @@ int COMM_PLAYER_SUPPORT_IsSeasonChanged(struct PlayerInfo *info, u16 *outStored,
     int stored;
     int current;
 
-    isFixed = GAME_DATA_GetIntrudeCount(info);
+    isFixed = GAME_DATA_GetIntrudeCount((struct GameData *)info);
     if ((unsigned int)isFixed != 0) {
-        stored = GAME_DATA_GetSeason(info);
+        stored = GAME_DATA_GetSeason((struct GameData *)info);
         *outStored = (unsigned short)stored;
         *outCurrent = *outStored;
         return 0;
     } else {
-        stored = GAME_DATA_GetSeason(info);
+        stored = GAME_DATA_GetSeason((struct GameData *)info);
         *outStored = (unsigned short)stored;
         current = COMM_PLAYER_SUPPORT_GetSeasonFromClock();
         *outCurrent = (unsigned short)current;
@@ -319,7 +324,7 @@ int COMM_PLAYER_SUPPORT_FindPeerRecord(const struct PeerBook *book, struct Playe
             }
         }
         if (matches == 1) {
-            return WIFILIST_FindFriendByStatus(lookup, &book->record, 0);
+            return WIFILIST_FindFriendByStatus((struct WifiList *)lookup, (struct MyStatus *)(&book->record), 0);
         }
     }
     return 0;
@@ -332,11 +337,11 @@ int COMM_PLAYER_SUPPORT_FindPeerRecord(const struct PeerBook *book, struct Playe
  */
 u16 *COMM_PLAYER_SUPPORT_GetRecordFieldPtr(const struct PlayerRecord *record)
 {
-    return MYSTATUS_GetName(record);
+    return MYSTATUS_GetName((void *)record);
 }
 
 /* Forwarding leaf: pool-word tail call to MYSTATUS_GetIdLow16 (the u16 getter). */
 u16 COMM_PLAYER_SUPPORT_GetRecordField(const struct PlayerRecord *record)
 {
-    return MYSTATUS_GetIdLow16(record);
+    return MYSTATUS_GetIdLow16((struct MyStatus *)record);
 }

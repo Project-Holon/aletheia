@@ -113,18 +113,20 @@ extern void *ARC_TOOL_LoadMember(u32 archive_id, u32 member, u32 heap);
 extern u32 GFL_HEAP_Free(void *p);
 extern u32 TPOKE_DATA_FindEntryIndex(const struct Container *c, u32 key, u32 type, u32 subtype);
 extern u32   ARC_TOOL_GetMemberSize(u32 a, u32 b);
-extern void ARC_TOOL_ReadMemberRange(void *dst, u32 archive_id, u32 member, u32 mode, u32 *size_out);
+extern void ARC_TOOL_ReadMemberRange(void *dst, u32 archiveID, u32 memberIdx, u32 offset, u32 size);
 extern void *ARC_TOOL_CreateHandle(unsigned int id, unsigned int heap);
-extern void ARC_TOOL_ReadHandleMemberRange(struct ArcFile *arc, u32 member, u32 offset, u32 size, void *dst);
+struct ArcHandle;
+extern void ARC_TOOL_ReadHandleMemberRange(struct ArcHandle *arc, u32 memberIdx, u32 offset, u32 size, void *dst);
 extern void  ARC_TOOL_DeleteHandle(void *h);
 u32 TPOKE_DATA_GetEntryIndex(u8 *p, u32 key, u32 type, u32 subtype);
 int TPOKE_DATA_GetRecordPtr(struct Container *c, int recordIndex);
 u32 TPOKE_DATA_GetRecordField(void *a, u32 idx);
 u32 TPOKE_DATA_FindRecord(u32 key, u32 want, u32 heap);
 extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
-extern u32 MSGDATA_Delete(struct Rec *rec);
-extern void STRBUF_Clear(struct U16Vec *vec);
+struct Strbuf;
+extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, struct Strbuf *dest);
+extern u32 MSGDATA_Delete(struct MsgBank *bank);
+extern void STRBUF_Clear(struct Strbuf *strbuf);
 extern void ARC_TOOL_ReadMember(void *dst, u32 archive_id, u32 member);
 void TPOKE_DATA_ReadRecordString(int key, int want, void *dest, u32 heap);
 void TPOKE_DATA_ReadRecord(void *dest, void *arc);
@@ -135,7 +137,7 @@ u8 TPOKE_DATA_GetTrainerKind(u32 key);
 u32 TPOKE_DATA_GetTrainerGroup(u32 key);
 extern void  MIi_CpuCopy16(const void *src, void *dest, u32 size);
 extern void  PMSI_PARAM_ClearSentence(void *p);
-extern int   FLDMMDL_ObjCodeToTableIndex(int index);
+extern u32 FLDMMDL_ObjCodeToTableIndex(u32 x);
 Tpoke *TPOKE_DATA_Create(int heap);
 void TPOKE_Delete(Tpoke *tpoke);
 u32 TPOKE_DATA_GetRecordIndex(struct Container *c, u32 key, u32 type, u32 subtype);
@@ -326,7 +328,7 @@ u32 TPOKE_DATA_FindRecord(u32 key, u32 want, u32 heap)
     u32   found = 0;
 
     end = ARC_TOOL_GetMemberSize(0x5a, 0);
-    ARC_TOOL_ReadMemberRange(rec, 0x5b, 0, key * 2, (u32 *)2);
+    ARC_TOOL_ReadMemberRange(rec, (u32)0x5b, (u32)0, (u32)(key * 2), (u32)2);
     h = ARC_TOOL_CreateHandle(0x5a, heap);
 
     while (rec[0] != end) {
@@ -356,7 +358,7 @@ void TPOKE_DATA_ReadRecordString(int key, int want, void *dest, u32 heap)
 
     bank = MSGDATA_CreateFromArchive(0, 2, 0xbd, heap);
     end = ARC_TOOL_GetMemberSize(0x5a, 0);
-    ARC_TOOL_ReadMemberRange(rec, 0x5b, 0, key * 2, (u32 *)2);
+    ARC_TOOL_ReadMemberRange(rec, (u32)0x5b, (u32)0, (u32)(key * 2), (u32)2);
     h = ARC_TOOL_CreateHandle(0x5a, heap);
 
     while (rec[0] != end) {

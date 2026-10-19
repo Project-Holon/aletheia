@@ -111,7 +111,7 @@ typedef struct GHTTPTwlCaList {
 } GHTTPTwlCaList;
 
 extern GHIConnection *ghiRequestToConnection(int request);
-extern int strncmp(const char *a, const char *b, unsigned int n);
+extern int strncmp(u8 *s1, u8 *s2, u32 n);
 extern int ghiEncryptorSslInitFunc(GHIConnection *connection, GHIEncryptor *encryptor);
 extern int ghiEncryptorSslStartFunc(GHIConnection *connection, GHIEncryptor *encryptor);
 extern int ghiEncryptorSslCleanupFunc(GHIConnection *connection, GHIEncryptor *encryptor);
@@ -120,14 +120,16 @@ extern int ghiEncryptorSslDecryptFunc(GHIConnection *connection, void *encryptor
 extern int strcmp(const char *s1, const char *s2);
 extern int gsDebugFormat(int index, char *table, int mask, const char *fmt, ...);
 extern char *ghiGetServerAddressFromUrl(char *);
-extern int ArraySearch(void *array, void *key, GHTTPArrayCompareFunc compare, int start, int isSorted);
+struct DArrayImplementation;
+extern int ArraySearch(struct DArrayImplementation *array, void *key, GHTTPArrayCompareFunc compare, int fromIndex, int isSorted);
 extern void gsifree(void *);
-extern void *ArrayNth(void *, int);
-extern void *ArrayNew(int elementSize, int growBy, GHTTPArrayElementFreeFunc freeFunc);
-extern void ArrayInsertSorted(void *array, void *element, GHTTPArrayCompareFunc compare);
+extern void *ArrayNth(struct DArrayImplementation *array, int n);
+extern struct DArrayImplementation *ArrayNew(int elementSize, int growBy, GHTTPArrayElementFreeFunc freeFunc);
+struct DArrayImplementation;
+extern void ArrayInsertSorted(struct DArrayImplementation *array, void *newElem, GHTTPArrayCompareFunc compare);
 extern void ArrayDeleteAt(int a, int b);
 extern int ArrayLength(const int *p);
-extern void ArrayFree(void *);
+extern void ArrayFree(struct DArrayImplementation *array);
 extern void OS_GetLowEntropyData(unsigned long *);
 extern void CPS_SslAddRandomSeed(void *, unsigned long);
 extern void *gsimalloc(unsigned long);
@@ -206,7 +208,7 @@ int ghttpSetRequestEncryptionEngine(int request, int engine)
         return 0;
     if (engine == 0)
     {
-        if (strncmp(connection->URL, sGhttpHttps, 8) == 0)
+        if (strncmp((u8 *)connection->URL, (u8 *)sGhttpHttps, 8) == 0)
             return 0;
     }
     connection->encryptor.engine = engine;

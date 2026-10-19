@@ -58,6 +58,8 @@
  *   GX_SetGraphicsMode 0x0207D4B0 arm
  */
 #include "br_types.h"
+extern void BG_SYS_Delete(void);
+extern void BMP_WIN_Exit(void);
 
 struct Cfg;
 struct Node;
@@ -87,8 +89,9 @@ extern void BG_SYS_SetLcdSwap(unsigned);
 extern void BG_SYS_ResetSubDisplay(void),BG_SYS_ClearMainPlanes(void),BG_SYS_ClearSubPlanes(void),GF_FONT_InitTextColor(void);
 
 extern void *GFL_USE_AddMainTask(unsigned,unsigned,unsigned);
+struct TcbTask;
 
-extern void TCB_DeleteTask(struct Node *n);
+extern void TCB_DeleteTask(struct TcbTask *task);
 
 extern void GF_FONT_SetDefaultTextColor(void);
 
@@ -105,8 +108,10 @@ extern void BG_SYS_FreeSlot(unsigned char);
 extern void BG_SYS_SetPlaneVisible(unsigned char,unsigned char);
 
 extern void BG_SYS_Update(void);
+struct DispVramCfg;
+struct SysInit;
 
-extern void CLACT_InitSystem(const struct Cfg *cfg, unsigned int arg, unsigned int heapId);
+extern void CLACT_InitSystem(struct SysInit *cfg, struct DispVramCfg *res_cfg, unsigned int heapId);
 
 extern struct Bank *CLACT_CreateUnit(int count, u8 flag, unsigned int heapId);
 
@@ -254,7 +259,7 @@ void BR_GRAPHIC_VBlankBg(void *bgState){BG_SYS_Update();}
 void BR_GRAPHIC_InitActors(int *actorSys, int vramConfig, int heapId)
 {
     MI_CpuFill8((void *)((int)actorSys), 0, 4);
-    CLACT_InitSystem((const struct Cfg *)d_02200920, vramConfig, heapId);
+    CLACT_InitSystem((struct SysInit *)d_02200920, (struct DispVramCfg *)vramConfig, heapId);
     actorSys[0] = (int)CLACT_CreateUnit(0x80, 0, heapId);
     CLACT_SetUnitDefaultRenderer((void *)actorSys[0]);
     BG_SYS_SetMainPlaneVisible(0x10, 1);

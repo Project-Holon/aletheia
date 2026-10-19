@@ -111,12 +111,13 @@ extern int STD_CompareString(const char *s1, const char *s2);
 extern u16 MATH_CalcCRC16CCITT(struct MATHCRC16Table *table, void *data, u32 dataLength);
 
 extern void OS_GetLowEntropyData(u32 *buffer);
+struct MATHSHA1Context;
 
-extern void MATH_SHA1Init(void *p);
+extern void MATH_SHA1Init(struct MATHSHA1Context *context);
 
-extern void MATH_SHA1Update(void *ctx, void *buf, u32 n);
+extern void MATH_SHA1Update(struct MATHSHA1Context *context, void *input, u32 length);
 
-extern void MATH_SHA1GetHash(void *ctx, void *out);
+extern void MATH_SHA1GetHash(struct MATHSHA1Context *context, void *digest);
 
 extern void MI_CpuCopy8(void *in, void *out, u32 n);
 
@@ -401,10 +402,10 @@ void GF_STANDARD_SeedLcg64(struct Lcg64 *out)
     u8 d[0x60];
 
     OS_GetLowEntropyData((u32 *)c);
-    MATH_SHA1Init(d);
-    MATH_SHA1Update(d, b, 0x14);
-    MATH_SHA1Update(d, c, 0x20);
-    MATH_SHA1GetHash(d, b);
+    MATH_SHA1Init((struct MATHSHA1Context *)d);
+    MATH_SHA1Update((struct MATHSHA1Context *)d, b, 0x14);
+    MATH_SHA1Update((struct MATHSHA1Context *)d, c, 0x20);
+    MATH_SHA1GetHash((struct MATHSHA1Context *)d, b);
     MI_CpuCopy8(b, a, 8);
     out->x = *(unsigned long long *)a;
     out->mul = 0x5D588B656C078965ULL;

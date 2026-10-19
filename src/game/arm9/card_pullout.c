@@ -59,7 +59,7 @@ extern void MI_StopAllDma(void);
 extern void MI_StopAllNDma(void);
 extern u32 OS_DisableInterrupts(void);
 extern u32 OS_RestoreInterrupts(u32 state);
-extern u32  PXI_SendWordByFifo(u32, u32, u32);
+extern int PXI_SendWordByFifo(int fifotag, unsigned int data, int err);
 extern void SVC_WaitByLoop(u32);
 void CARD_InitPulledOutCallback(void);
 void CARD_SetPulledOutCallback(int (*callback)(void));

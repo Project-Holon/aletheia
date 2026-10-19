@@ -1239,9 +1239,9 @@ extern fx32 VEC_Fx16DotProduct(const VecFx16 *a, const VecFx16 *b);
 extern void VEC_Fx16CrossProduct(const VecFx16 *a, const VecFx16 *b, VecFx16 *axb);
 extern fx32 VEC_DotProduct(const VecFx32 *a, const VecFx32 *b);
 extern void VEC_Normalize(const VecFx32 *pSrc, VecFx32 *pDst);
-extern void SPLRandom_VecFx32(VecFx32 *vec);
-extern void SPLRandom_VecFx32_XY(VecFx32 *vec);
-extern void G3_MultMtx43(const MtxFx43 *m);
+extern void SPLRandom_VecFx32(VecFx32 *v);
+extern void SPLRandom_VecFx32_XY(VecFx32 *v);
+extern void G3_MultMtx43(void *m);
 extern void MI_Copy36B(const void *pSrc, void *pDst);
 extern void MTX_MultVec43(const VecFx32 *vec, const MtxFx43 *m, VecFx32 *dst);
 extern void VEC_CrossProduct(const VecFx32 *a, const VecFx32 *b, VecFx32 *axb);
@@ -2833,7 +2833,7 @@ void SPL_EMITTER_UpdateFrame(struct RigObject *obj, struct RenderNode *s)
         f.m.m[10] = f.t.y;
         f.m.m[11] = f.t.z;
         *(volatile u32 *)0x04000454 = 0;
-        G3_MultMtx43((const MtxFx43 *)(&f.m));
+        G3_MultMtx43((void *)(&f.m));
     } else {
         f.t.x = s->p1.x + s->emitterPosX - p->transX;
         f.t.y = s->p1.y + s->emitterPosY - obj->renderList->subList->desc->transY;
@@ -2860,7 +2860,7 @@ void SPL_EMITTER_UpdateFrame(struct RigObject *obj, struct RenderNode *s)
         *(volatile u32 *)0x04000470 = q4;
         *(volatile u32 *)0x04000470 = q8;
         *(volatile u32 *)0x04000470 = qc;
-        G3_MultMtx43((const MtxFx43 *)(&f.m));
+        G3_MultMtx43((void *)(&f.m));
     }
 
     v = ((c1 & 0x1f) * (c2 & 0x1f) >> 5)
@@ -2983,7 +2983,7 @@ void SPL_EMITTER_UpdateFrameEx(struct RigObject *obj, struct RenderNode *s)
         f.m.m[10] = f.t.y;
         f.m.m[11] = f.t.z;
         *(volatile u32 *)0x04000454 = 0;
-        G3_MultMtx43((const MtxFx43 *)(&f.m));
+        G3_MultMtx43((void *)(&f.m));
     } else {
         f.t.x = s->p1.x + s->emitterPosX - p->transX;
         f.t.y = s->p1.y + s->emitterPosY - obj->renderList->subList->desc->transY;
@@ -3010,7 +3010,7 @@ void SPL_EMITTER_UpdateFrameEx(struct RigObject *obj, struct RenderNode *s)
         *(volatile u32 *)0x04000470 = q4;
         *(volatile u32 *)0x04000470 = q8;
         *(volatile u32 *)0x04000470 = qc;
-        G3_MultMtx43((const MtxFx43 *)(&f.m));
+        G3_MultMtx43((void *)(&f.m));
     }
 
     c1 = s->color;
@@ -3557,7 +3557,7 @@ void SPL_EMITTER_UpdateFrameA68(struct RigObject *obj, struct RenderNode *s)
         f.m1.m[10] = s->p1.y + s->emitterPosY;
         f.m1.m[11] = s->p1.z + s->emitterPosZ;
         G3_LoadMtx43(obj->mtx);
-        G3_MultMtx43((const MtxFx43 *)(&f.m1));
+        G3_MultMtx43((void *)(&f.m1));
     } else {
         f.m1.m[9] = s->p1.x + s->emitterPosX - obj->renderList->subList->desc->transX;
         f.m1.m[10] = s->p1.y + s->emitterPosY - obj->renderList->subList->desc->transY;
@@ -3568,8 +3568,8 @@ void SPL_EMITTER_UpdateFrameA68(struct RigObject *obj, struct RenderNode *s)
         *(volatile u32 *)0x04000470 = q4;
         *(volatile u32 *)0x04000470 = q8;
         *(volatile u32 *)0x04000470 = qc;
-        G3_MultMtx43((const MtxFx43 *)(obj->mtx));
-        G3_MultMtx43((const MtxFx43 *)(&f.m1));
+        G3_MultMtx43((void *)(obj->mtx));
+        G3_MultMtx43((void *)(&f.m1));
     }
 
     c1 = s->color;
@@ -3656,7 +3656,7 @@ void SPL_EMITTER_UpdateFrameA68Ex(struct RigObject *obj, struct RenderNode *s)
         f.m1.m[10] = s->p1.y + s->emitterPosY;
         f.m1.m[11] = s->p1.z + s->emitterPosZ;
         G3_LoadMtx43(obj->mtx);
-        G3_MultMtx43((const MtxFx43 *)(&f.m1));
+        G3_MultMtx43((void *)(&f.m1));
     } else {
         f.m1.m[9] = s->p1.x + s->emitterPosX - obj->renderList->subList->desc->transX;
         f.m1.m[10] = s->p1.y + s->emitterPosY - obj->renderList->subList->desc->transY;
@@ -3667,8 +3667,8 @@ void SPL_EMITTER_UpdateFrameA68Ex(struct RigObject *obj, struct RenderNode *s)
         *(volatile u32 *)0x04000470 = q4;
         *(volatile u32 *)0x04000470 = q8;
         *(volatile u32 *)0x04000470 = qc;
-        G3_MultMtx43((const MtxFx43 *)(obj->mtx));
-        G3_MultMtx43((const MtxFx43 *)(&f.m1));
+        G3_MultMtx43((void *)(obj->mtx));
+        G3_MultMtx43((void *)(&f.m1));
     }
 
     c1 = s->color;
@@ -3792,7 +3792,7 @@ void SPL_EMITTER_UpdateFrameMain(struct RigObject *obj, struct RenderNode *s)
         f.m1.m[10] = s->p1.y + s->emitterPosY;
         f.m1.m[11] = s->p1.z + s->emitterPosZ;
         G3_LoadMtx43(obj->mtx);
-        G3_MultMtx43((const MtxFx43 *)(&f.m1));
+        G3_MultMtx43((void *)(&f.m1));
     } else {
         f.m1.m[9] = s->p1.x + s->emitterPosX - obj->renderList->subList->desc->transX;
         f.m1.m[10] = s->p1.y + s->emitterPosY - obj->renderList->subList->desc->transY;
@@ -3803,8 +3803,8 @@ void SPL_EMITTER_UpdateFrameMain(struct RigObject *obj, struct RenderNode *s)
         *(volatile u32 *)0x04000470 = q4;
         *(volatile u32 *)0x04000470 = q8;
         *(volatile u32 *)0x04000470 = qc;
-        G3_MultMtx43((const MtxFx43 *)(obj->mtx));
-        G3_MultMtx43((const MtxFx43 *)(&f.m1));
+        G3_MultMtx43((void *)(obj->mtx));
+        G3_MultMtx43((void *)(&f.m1));
     }
 
     c1 = s->color;
@@ -3955,7 +3955,7 @@ void SPL_EMITTER_UpdateFrameMainEx(struct RigObject *obj, struct RenderNode *s)
         f.m1.m[10] = s->p1.y + s->emitterPosY;
         f.m1.m[11] = s->p1.z + s->emitterPosZ;
         G3_LoadMtx43(obj->mtx);
-        G3_MultMtx43((const MtxFx43 *)(&f.m1));
+        G3_MultMtx43((void *)(&f.m1));
     } else {
         f.m1.m[9] = s->p1.x + s->emitterPosX - obj->renderList->subList->desc->transX;
         f.m1.m[10] = s->p1.y + s->emitterPosY - obj->renderList->subList->desc->transY;
@@ -3966,8 +3966,8 @@ void SPL_EMITTER_UpdateFrameMainEx(struct RigObject *obj, struct RenderNode *s)
         *(volatile u32 *)0x04000470 = q4;
         *(volatile u32 *)0x04000470 = q8;
         *(volatile u32 *)0x04000470 = qc;
-        G3_MultMtx43((const MtxFx43 *)(obj->mtx));
-        G3_MultMtx43((const MtxFx43 *)(&f.m1));
+        G3_MultMtx43((void *)(obj->mtx));
+        G3_MultMtx43((void *)(&f.m1));
     }
 
     c1 = s->color;

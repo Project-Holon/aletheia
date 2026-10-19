@@ -59,8 +59,9 @@ extern u16 MANUAL_COMMON_GetEntryValue1(char *,int);
 extern int MANUAL_COMMON_CheckUnlocked(void *,int,void *);
 
 extern void *MANUAL_COMMON_CreateListWork(char *owner, struct ManualData *data);
+struct TcbTask;
 
-extern void TCB_DeleteTask(struct Node *);
+extern void TCB_DeleteTask(struct TcbTask *task);
 
 extern void MANUAL_COMMON_DeleteListWork(char *);
 
@@ -72,7 +73,7 @@ extern u16 MANUAL_COMMON_GetEntryCount(const char *p);
 
 extern u16 MANUAL_COMMON_GetEntryValue2(char *, int);
 
-extern int MANUAL_COMMON_GetSaveValue(void *, int, int);
+extern int MANUAL_COMMON_GetSaveValue(void *unused, int id, void *save);
 
 extern u16 MANUAL_COMMON_GetEntryValue0(char *, int);
 
@@ -114,7 +115,7 @@ struct ManualMenuList *MANUAL_CATEGORY_CreateDetailList(struct ManualDetailOwner
             id2 = MANUAL_COMMON_GetEntryValue1(((struct ManualData *)q->data)->assets, id);
             if (MANUAL_COMMON_CheckUnlocked(((struct ManualData *)q->data)->assets, id2, ((struct ManualData *)q->data)->owner)) {
                 t = MANUAL_COMMON_GetEntryValue2(((struct ManualData *)q->data)->assets, id);
-                ra = MANUAL_COMMON_GetSaveValue(((struct ManualData *)q->data)->assets, t, (int)((struct ManualData *)q->data)->owner);
+                ra = MANUAL_COMMON_GetSaveValue((void *)(((struct ManualData *)q->data)->assets), t, ((struct ManualData *)q->data)->owner);
                 *(u16 *)((char *)q->entries + q->entryCount * 8) = id;
                 *(u16 *)((char *)q->entries + q->entryCount * 8 + 2) = MANUAL_COMMON_GetEntryValue0(((struct ManualData *)q->data)->assets, id);
                 *(u32 *)((char *)q->entries + q->entryCount * 8 + 4) = (ra != 0) ? FLAG_FALSE : FLAG_TRUE;
@@ -136,7 +137,7 @@ struct ManualMenuList *MANUAL_CATEGORY_CreateDetailList(struct ManualDetailOwner
             id = MANUAL_COMMON_GetEntryValue1(((struct ManualData *)q->data)->assets, i);
             if (MANUAL_COMMON_CheckUnlocked(((struct ManualData *)q->data)->assets, id, ((struct ManualData *)q->data)->owner)) {
                 t = MANUAL_COMMON_GetEntryValue2(((struct ManualData *)q->data)->assets, i);
-                rb = MANUAL_COMMON_GetSaveValue(((struct ManualData *)q->data)->assets, t, (int)((struct ManualData *)q->data)->owner);
+                rb = MANUAL_COMMON_GetSaveValue((void *)(((struct ManualData *)q->data)->assets), t, ((struct ManualData *)q->data)->owner);
                 *(u16 *)((char *)q->entries + q->entryCount * 8) = i;
                 *(u16 *)((char *)q->entries + q->entryCount * 8 + 2) = MANUAL_COMMON_GetEntryValue0(((struct ManualData *)q->data)->assets, i);
                 {
@@ -163,7 +164,7 @@ struct ManualMenuList *MANUAL_CATEGORY_CreateDetailList(struct ManualDetailOwner
  */
 void MANUAL_CATEGORY_DeleteDetailList(char *p)
 {
-    TCB_DeleteTask(*(struct Node * *)&((struct ManualMenuList *)p)->task);
+    TCB_DeleteTask((struct TcbTask *)(*(struct Node * *)&((struct ManualMenuList *)p)->task));
     ((struct ManualDetailOwner *)(*(char * *)&((struct ManualMenuList *)p)->owner))->count = ((struct ManualMenuList *)p)->savedA;
     ((struct ManualDetailOwner *)(*(char * *)&((struct ManualMenuList *)p)->owner))->selected = ((struct ManualMenuList *)p)->savedB;
     if (((struct ManualMenuList *)p)->mode == 0) ((struct ManualDetailOwner *)(*(char * *)&((struct ManualMenuList *)p)->owner))->subFlag = 0;

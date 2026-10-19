@@ -134,20 +134,24 @@ typedef int (*TrainerEyeStepFunc)(TrainerEyeWork *work);
 typedef int (*GameEventFunc)(void *eventSys, void *gameSystem, void *work);
 
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *file, u16 line);
-extern void GFL_HEAP_Free(void *memory);
+extern u32 GFL_HEAP_Free(void *memory);
 extern void FIELD_EFFECT_DeleteObject(FieldEffectObj *effect);
 extern int EVENT_TRAINER_GetBattleType(int trainerId);
-extern int EVENT_TRAINER_GetTrainerIdFromScriptId(u32 eventId);
+extern u32 EVENT_TRAINER_GetTrainerIdFromScriptId(u32 eventId);
 extern u32 EVENT_TRAINER_CheckDefeatedFlag(void *saveData, u32 trainerId);
-extern void EVENT_TRAINER_SetScriptTrainerEntry(int scriptWork, int index, TrainerEyeHit *hit);
+struct RecordHead24;
+extern void EVENT_TRAINER_SetScriptTrainerEntry(s32 scrcmdWork, s32 index, struct RecordHead24 *src);
 extern GameSystem *FIELDMAP_GetGameSystem(FieldMap *fieldMap);
-extern int FIELD_EVENT_CHECK_CountAlivePartyMembers(GameSystem *gameSystem);
-extern void *GAMESYSTEM_GetGameData(GameSystem *gameSystem);
-extern void *GAME_DATA_GetEventWork(void *gameData);
-extern int SCRIPT_SYS_CreateScriptEventSimple(GameSystem *gameSystem, u32 size, Mmdl *trainer, int flag);
+extern int FIELD_EVENT_CHECK_CountAlivePartyMembers(void *gameSystem);
+struct GameData;
+extern struct GameData *GAMESYSTEM_GetGameData(GameSystem *gameSystem);
+extern void *GAME_DATA_GetEventWork(struct GameData *gd);
+extern struct GameEvent *SCRIPT_SYS_CreateScriptEventSimple(void *fieldSys, u16 scriptId, void *target, s32 reserved);
 extern MmdlSys *FLDMMDL_GetMmdlSys(Mmdl *mmdl);
 extern Mmdl *FLDMMDL_SysSearchObjId(MmdlSys *mmdlSys, u32 objId);
-extern void FLDMMDL_GetGridNowPos(Mmdl *mmdl, GridPos *out);
+struct MmdlGridVec;
+struct Mmdl;
+extern void FLDMMDL_GetGridNowPos(struct Mmdl *mmdl, struct MmdlGridVec *out);
 extern FieldEncount *FIELDMAP_GetEncount(FieldMap *fieldMap);
 extern FieldPlayer *FIELDMAP_GetFieldPlayer(FieldMap *fieldMap);
 extern Mmdl *FIELD_PLAYER_GetMmdl(FieldPlayer *player);
@@ -155,7 +159,7 @@ extern MmdlSys *FIELDMAP_GetMmdlSys(FieldMap *fieldMap);
 extern int FLDMMDL_SysSearchUseMmdl(MmdlSys *mmdlSys, Mmdl **outMmdl, u32 *iter);
 extern int FLDMMDL_GetParam(Mmdl *mmdl, int paramIndex);
 extern u16 FLDMMDL_GetDirDisp(const Mmdl *mmdl);
-extern GameEvent *GAME_EVENT_Create(void *owner, void *a, GameEventFunc func, u32 workSize);
+extern GameEvent *GAME_EVENT_Create(struct GameSystem *gameSystem, struct GameEvent *parent, GameEventFunc func, u32 workSize);
 extern void *GAME_EVENT_GetWork(GameEvent *event);
 extern int FLDMMDL_CheckMoveBitMove(Mmdl *mmdl);
 extern void FLDMMDL_OffMoveBitMovePause(Mmdl *mmdl);
@@ -166,21 +170,23 @@ extern u16 FLDMMDL_GetMoveCode(Mmdl *mmdl);
 extern int FLDMMDL_CheckPossibleAcmd(Mmdl *mmdl);
 extern void FLDMMDL_SetAcmd(Mmdl *mmdl, u32 acmd);
 extern int FLDMMDL_ACMD_ConvertCodeByDir(int dir, int acmdBase);
-extern FieldEffectObj *FLDEFF_GYOE_SetMMdl(void *fieldEffect, Mmdl *mmdl, u32 a, u32 b);
-extern int FLDEFF_GYOE_IsFinished(FieldEffectObj *effect);
-extern void *FIELDMAP_GetEffect(FieldMap *fieldMap);
+extern void *FLDEFF_GYOE_SetMMdl(void *fieldEffect, Mmdl *mmdl, u32 a, u32 b);
+extern int FLDEFF_GYOE_IsFinished(void *task);
+struct FieldEffectCont;
+extern struct FieldEffectCont *FIELDMAP_GetEffect(FieldMap *fieldMap);
 extern int FLDMMDL_GetGridNowX(Mmdl *mmdl);
 extern int FLDMMDL_GetGridNowZ(Mmdl *mmdl);
 extern u16 FLDMMDL_MOVE_GetDirFromPoints(int x0, int z0, int x1, int z1);
-extern void FLDMMDL_EndAcmd(Mmdl *mmdl);
-extern void FLDMMDL_ChangeMoveCode(Mmdl *mmdl, int value);
-extern u32 FLDMMDL_GetEventType(Mmdl *mmdl);
-extern int FLDMMDL_NormalizeEventType(u32 movementCode);
+extern s32 FLDMMDL_EndAcmd(Mmdl *mmdl);
+extern void FLDMMDL_ChangeMoveCode(struct Mmdl *mmdl, u16 moveCode);
+extern u16 FLDMMDL_GetEventType(Mmdl *mmdl);
+extern u32 FLDMMDL_NormalizeEventType(u32 movementCode);
 extern u32 FLDMMDL_GetEventId(Mmdl *mmdl);
 extern s16 FLDMMDL_MOVE_GetDirAddGridX(u32 dir);
 extern s16 FLDMMDL_MOVE_GetDirAddGridZ(u32 dir);
 extern int FLDMMDL_MOVE_HitCheckMoveCurrent(Mmdl *mmdl, int x, int y, int z, u32 dir);
-extern int EFFECT_ENCOUNT_IsSpotAt(FieldEncount *encount, GridPos *pos);
+struct FieldEncount;
+extern int EFFECT_ENCOUNT_IsSpotAt(struct FieldEncount *encount, s16 *pos);
 
 int EVENT_TRAINER_EYE_Check(FieldMap *fieldMap);
 int EVENT_TRAINER_EYE_GetPlayerDistance(Mmdl *mmdl, u32 dir, int range, FieldEncount *encount);
@@ -246,28 +252,28 @@ int EVENT_TRAINER_EYE_Check(FieldMap *fieldMap)
             if (partyCount < 2 || EVENT_TRAINER_EYE_FindTrainer(fieldMap, hit.trainer, &partner) == 0) {
                 scriptWork = EVENT_TRAINER_EYE_CreateScriptWork(fieldMap, hit.trainer);
                 hit.hitKind = TRAINER_EYE_HIT_SINGLE;
-                EVENT_TRAINER_SetScriptTrainerEntry(scriptWork, 0, &hit);
+                EVENT_TRAINER_SetScriptTrainerEntry(scriptWork, 0, (struct RecordHead24 *)(&hit));
             } else {
                 scriptWork = EVENT_TRAINER_EYE_CreateScriptWork(fieldMap, hit.trainer);
                 hit.hitKind = TRAINER_EYE_HIT_DOUBLE_PAIR;
-                EVENT_TRAINER_SetScriptTrainerEntry(scriptWork, zero, &hit);
+                EVENT_TRAINER_SetScriptTrainerEntry(scriptWork, zero, (struct RecordHead24 *)(&hit));
                 partner.hitKind = TRAINER_EYE_HIT_DOUBLE_PAIR;
-                EVENT_TRAINER_SetScriptTrainerEntry(scriptWork, 1, &partner);
+                EVENT_TRAINER_SetScriptTrainerEntry(scriptWork, 1, (struct RecordHead24 *)(&partner));
             }
         } else if (battleType == TRAINER_EYE_BATTLE_DOUBLE) {
             if (partyCount >= 2) {
                 EVENT_TRAINER_EYE_FillHit(&partner, EVENT_TRAINER_EYE_FindPartner(hit.trainer, hit.trainerId), hit.distance, (u16)hit.direction);
                 scriptWork = EVENT_TRAINER_EYE_CreateScriptWork(fieldMap, hit.trainer);
                 hit.hitKind = TRAINER_EYE_HIT_DOUBLE_SOLO;
-                EVENT_TRAINER_SetScriptTrainerEntry(scriptWork, zero, &hit);
+                EVENT_TRAINER_SetScriptTrainerEntry(scriptWork, zero, (struct RecordHead24 *)(&hit));
                 partner.hitKind = TRAINER_EYE_HIT_DOUBLE_SOLO;
-                EVENT_TRAINER_SetScriptTrainerEntry(scriptWork, 1, &partner);
+                EVENT_TRAINER_SetScriptTrainerEntry(scriptWork, 1, (struct RecordHead24 *)(&partner));
             }
         } else if (battleType == TRAINER_EYE_BATTLE_TRIPLE || battleType == TRAINER_EYE_BATTLE_ROTATION) {
             if (partyCount >= 3) {
                 scriptWork = EVENT_TRAINER_EYE_CreateScriptWork(fieldMap, hit.trainer);
                 hit.hitKind = zero;
-                EVENT_TRAINER_SetScriptTrainerEntry(scriptWork, zero, &hit);
+                EVENT_TRAINER_SetScriptTrainerEntry(scriptWork, zero, (struct RecordHead24 *)(&hit));
             }
         }
     }
@@ -285,8 +291,8 @@ int EVENT_TRAINER_EYE_GetPlayerDistance(Mmdl *mmdl, u32 dir, int range, FieldEnc
     player = FLDMMDL_SysSearchObjId(FLDMMDL_GetMmdlSys(mmdl), TRAINER_EYE_PLAYER_OBJ_ID);
     if (player == 0)
         return -1;
-    FLDMMDL_GetGridNowPos(player, &playerPos);
-    FLDMMDL_GetGridNowPos(mmdl, &trainerPos);
+    FLDMMDL_GetGridNowPos(player, (struct MmdlGridVec *)(&playerPos));
+    FLDMMDL_GetGridNowPos(mmdl, (struct MmdlGridVec *)(&trainerPos));
     distance = EVENT_TRAINER_EYE_CheckSight(dir, (s16)range, &trainerPos, &playerPos);
     if (distance != -1) {
         if (EVENT_TRAINER_EYE_IsPathBlocked(mmdl, dir, distance, encount) == 1)
@@ -338,8 +344,8 @@ int EVENT_TRAINER_EYE_GetSightDistance(FieldEncount *encount, Mmdl *trainer, Mmd
     if ((u16)(sightType + 0xffff) <= 1) {
         scanDir = 0;
         range = (s16)FLDMMDL_GetParam(trainer, 0);
-        FLDMMDL_GetGridNowPos(trainer, &trainerPos);
-        FLDMMDL_GetGridNowPos(player, &playerPos);
+        FLDMMDL_GetGridNowPos(trainer, (struct MmdlGridVec *)(&trainerPos));
+        FLDMMDL_GetGridNowPos(player, (struct MmdlGridVec *)(&playerPos));
         if (sightType == TRAINER_EYE_SIGHT_FACING) {
             dir = FLDMMDL_GetDirDisp(trainer);
             sightType = EVENT_TRAINER_EYE_CheckSight(dir, range, &trainerPos, &playerPos);
@@ -674,7 +680,7 @@ int EVENT_TRAINER_EYE_IsPathBlocked(Mmdl *mmdl, u32 dir, int distance, FieldEnco
 
     if (distance != 0) {
         i = 0;
-        FLDMMDL_GetGridNowPos(mmdl, &pos);
+        FLDMMDL_GetGridNowPos(mmdl, (struct MmdlGridVec *)(&pos));
         dx = FLDMMDL_MOVE_GetDirAddGridX(dir);
         dz = FLDMMDL_MOVE_GetDirAddGridZ(dir);
         pos.x += dx;
@@ -682,14 +688,14 @@ int EVENT_TRAINER_EYE_IsPathBlocked(Mmdl *mmdl, u32 dir, int distance, FieldEnco
         for (; i < distance - 1; i++) {
             if ((FLDMMDL_MOVE_HitCheckMoveCurrent(mmdl, pos.x, pos.y, pos.z, dir) & ~1) != 0)
                 return 1;
-            if (encount != 0 && EFFECT_ENCOUNT_IsSpotAt(encount, &pos) != 0)
+            if (encount != 0 && EFFECT_ENCOUNT_IsSpotAt(encount, (s16 *)(&pos)) != 0)
                 return 1;
             pos.x += dx;
             pos.z += dz;
         }
         if ((FLDMMDL_MOVE_HitCheckMoveCurrent(mmdl, pos.x, pos.y, pos.z, dir) & ~1) != 4)
             return 1;
-        if (encount != 0 && EFFECT_ENCOUNT_IsSpotAt(encount, &pos) != 0)
+        if (encount != 0 && EFFECT_ENCOUNT_IsSpotAt(encount, (s16 *)(&pos)) != 0)
             return 1;
     }
     return 0;
@@ -737,5 +743,5 @@ Mmdl *EVENT_TRAINER_EYE_FindPartner(Mmdl *mmdl, u16 trainerId)
 /* Creates the script work of the trainer battle for a trainer model. */
 int EVENT_TRAINER_EYE_CreateScriptWork(FieldMap *fieldMap, Mmdl *trainer)
 {
-    return SCRIPT_SYS_CreateScriptEventSimple(FIELDMAP_GetGameSystem(fieldMap), TRAINER_EYE_SCRIPT_WORK_SIZE, trainer, 1);
+    return (s32)SCRIPT_SYS_CreateScriptEventSimple(FIELDMAP_GetGameSystem(fieldMap), TRAINER_EYE_SCRIPT_WORK_SIZE, trainer, 1);
 }

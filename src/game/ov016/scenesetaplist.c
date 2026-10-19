@@ -230,14 +230,14 @@ extern void DWCi_ARClRelease(void *file);
 extern void DWCi_BTNlDisable(void);
 extern void DWCi_BTNlEnable(void);
 extern void DWCi_BTNlEnd(void);
-extern int DWCi_BTNlGet(void);
-extern bool DWCi_BTNlIsEnd(void);
-extern void DWCi_BTNlSet(int idx);
+extern char DWCi_BTNlGet(void);
+extern int DWCi_BTNlIsEnd(void);
+extern void DWCi_BTNlSet(char v);
 extern void DWCi_CEINlSet(int lcd, int idx, GXOamAttr *obj);
 extern GXOamAttr *DWCi_CEINlSetExObj(int lcd, int idx);
 extern void DWCi_CMNlStep(int step);
-extern bool DWCi_COMMENTlDelete(void);
-extern bool DWCi_COMMENTlDispEx(int messageId, int n, int num);
+extern int DWCi_COMMENTlDelete(void);
+extern int DWCi_COMMENTlDispEx(int messageId, int n, int num);
 extern void DWCi_ChangeScene(void (*scene)());
 extern bool DWCi_EFFlCheck(int lcd);
 extern bool DWCi_EFFlFade(int kind, int lcd, int plane, int frame);
@@ -246,24 +246,24 @@ extern void DWCi_FNTlClear(void *canvas, int color);
 extern void DWCi_FNTlDeleteBg(void *canvas);
 extern void DWCi_FNTlDrawStringEx(void *canvas, int x, int y, int color, int interval, unsigned short *txt, int font);
 extern void *DWCi_FNTlFormBgEx(int lcd, int font);
-extern void DWCi_FNTlRenewBg(void *canvas);
+extern void DWCi_FNTlRenewBg(int x);
 extern void DWCi_FOCUSlDelete(void);
 extern void DWCi_FOCUSlDisp(int kind, int x0, int x1, int y);
 extern void DWCi_GXlInvisible(int lcd, int plane);
 extern void DWCi_GXlVisible(int lcd, int plane);
-extern void DWCi_GetParam2_(void **a, void **b);
+extern void DWCi_GetParam2_(unsigned int *a, unsigned int *b);
 extern void *DWCi_HEAPlAllocEx(unsigned long size, int alignment);
 extern void DWCi_HEAPlFree_(void **mem);
 extern void DWCi_HLlLoadSet(void);
-extern bool DWCi_IPTlCheckRelease(unsigned short input);
-extern bool DWCi_IPTlCheckRepeat(unsigned short input);
-extern bool DWCi_IPTlCheckTrigger(unsigned short input);
-extern void DWCi_OBJlDelete(GXOamAttr *obj);
+extern int DWCi_IPTlCheckRelease(unsigned int f);
+extern int DWCi_IPTlCheckRepeat(unsigned int f);
+extern int DWCi_IPTlCheckTrigger(unsigned int f);
+extern void DWCi_OBJlDelete(unsigned int *obj);
 extern void DWCi_SBlDisable(void);
 extern void DWCi_SBlEnable(void);
 extern void DWCi_SBlEnd(void);
-extern int DWCi_SBlGet(void);
-extern int DWCi_SBlGetState(void);
+extern unsigned char DWCi_SBlGet(void);
+extern unsigned char DWCi_SBlGetState(void);
 extern void DWCi_SBlInit(int kind, int max, int x, int y, int pos);
 extern void DWCi_SBlSet(int pos);
 extern void DWCi_SCREENlCopyPalette(void *src, int sColor, int dColor);
@@ -274,18 +274,19 @@ extern SETTINGINFO *DWCi_SETTIGNlGet(void);
 extern void DWCi_SETTINGlSetSetting(int idx);
 extern void DWCi_SETTINGlSetSsid(char *ssid);
 extern void DWCi_SNDlPlay(int no);
-extern int DWCi_STRlNLen(char *s, int maxlen);
+extern int DWCi_STRlNLen(unsigned char *s, int maxlen);
 extern void DWCi_SetParam2_(unsigned int a, unsigned int b);
 extern void DWCi_SetParam_(unsigned int a, unsigned int b);
-extern bool DWCi_TPlCheckRelease(RECT *r);
-extern bool DWCi_TPlCheckTrigger(RECT *r);
+extern int DWCi_TPlCheckRelease(unsigned short *a);
+extern int DWCi_TPlCheckTrigger(unsigned short *a);
 extern void DWCi_TSKlDelete(int kind, void *task);
 extern void DWCi_TSKlDeleteEx(int kind, void *task);
-extern void *DWCi_TSKlForm(int kind, void (*func)(void *, void *), void *work, unsigned char prio);
+struct TCB;
+extern struct TCB *DWCi_TSKlForm(int kind, void (*func)(void *, void *), void *work, unsigned char prio);
 extern void DWCi_WINlEnd(void);
-extern int DWCi_WINlGet(void);
+extern char DWCi_WINlGet(void);
 extern void DWCi_WINlInitEx(int msg, int type, bool dark, int n, int num);
-extern bool DWCi_WINlIsInit(void);
+extern int DWCi_WINlIsInit(void);
 extern long FX_DivS32(long a, long b);
 extern long FX_ModS32(long a, long b);
 extern void MI_CpuFill8(void *dstp, unsigned char data, unsigned long size);
@@ -294,8 +295,10 @@ extern void DWCi_SceneSetSearch(void);
 extern void DWCi_SceneSetSelectWay(void);
 extern void DWCi_SceneSetTestConfirm(void);
 extern void DWCi_CMNlLoadResource(int, int);
-extern int DWCi_Char(void *);
-extern int DWCi_ARClReadEx(int, int, int);
+extern unsigned char *DWCi_Char(unsigned char *name);
+extern void *DWCi_ARClReadEx(char *path, unsigned int *size, int alignment);
+extern void DWCi_SCREENlInit(void *scr);
+extern void DWCi_SCREENlRenew(void);
 extern void DWCi_CMNlButton(int kind);
 extern void DWCi_FOCUSlDisp4(int x0, int x1, int y0, int y1);
 extern void DWCi_SceneEnd(void);
@@ -366,7 +369,7 @@ void DWCi_SceneSetApList(void)
     int prm;
 
     scenesetaplist_bss.MemSsal = DWCi_HEAPlAllocEx(sizeof(MEMSSAL), 4);
-    DWCi_GetParam2_((void **)&prm, 0);
+    DWCi_GetParam2_((unsigned int *)&prm, 0);
     if (prm == 0) {
         scenesetaplist_bss.Focus = 0;
         scenesetaplist_bss.Pos = 0;
@@ -409,10 +412,10 @@ static void initGraphics(void)
     buf = sSceneSetApListPathYbBgStep31Pltt;
     DWCi_CMNlLoadResource((int)sSceneSetApListPathJb4ApListScr, (int)GX_LoadBG3Scr);
 
-    (*(int **)(gSceneSetApListWorkBytes + 4))[1] = DWCi_ARClReadEx(DWCi_Char(&buf2), 0, 4);
-    DWCi_SCREENlInit((*(int **)(gSceneSetApListWorkBytes + 4))[1]);
+    (*(int **)(gSceneSetApListWorkBytes + 4))[1] = (int)DWCi_ARClReadEx((char *)DWCi_Char((unsigned char *)(&buf2)), 0, (int)4);
+    DWCi_SCREENlInit((void *)((*(int **)(gSceneSetApListWorkBytes + 4))[1]));
     DWCi_SCREENlRenew();
-    (*(int **)(gSceneSetApListWorkBytes + 4))[2] = DWCi_ARClReadEx(DWCi_Char(&buf), 0, 4);
+    (*(int **)(gSceneSetApListWorkBytes + 4))[2] = (int)DWCi_ARClReadEx((char *)DWCi_Char((unsigned char *)(&buf)), 0, (int)4);
 
     p = (u16 *)0x04001008;
     p[0] = (p[0] & ~3) | 3;
@@ -519,10 +522,10 @@ static void input(void)
 
     if (scenesetaplist_bss.MemSsal->task != 0 || scenesetaplist_bss.MemSsal->scroll)
         return;
-    if (DWCi_TPlCheckTrigger(&DWCi_R_SCR)) {
+    if (DWCi_TPlCheckTrigger((unsigned short *)(&DWCi_R_SCR))) {
         scenesetaplist_bss.MemSsal->push = -1;
         for (i = 0; i < sizeof(scenesetaplist_rodata.R_TOUCH) / sizeof(RECT); i++) {
-            if (DWCi_TPlCheckTrigger((RECT *)&scenesetaplist_rodata.R_TOUCH[i])) {
+            if (DWCi_TPlCheckTrigger((unsigned short *)&scenesetaplist_rodata.R_TOUCH[i])) {
                 if (i < 4) {
                     scenesetaplist_bss.MemSsal->push = i;
                     break;
@@ -534,9 +537,9 @@ static void input(void)
             }
         }
     }
-    if (DWCi_TPlCheckRelease(&DWCi_R_SCR)) {
+    if (DWCi_TPlCheckRelease((unsigned short *)(&DWCi_R_SCR))) {
         for (i = 0; i < 4; i++) {
-            if (DWCi_TPlCheckRelease((RECT *)&scenesetaplist_rodata.R_TOUCH[i])) {
+            if (DWCi_TPlCheckRelease((unsigned short *)&scenesetaplist_rodata.R_TOUCH[i])) {
                 if (scenesetaplist_bss.MemSsal->push != i)
                     break;
                 if (i >= scenesetaplist_bss.MemSsal->apNum) {
@@ -734,9 +737,9 @@ static void endScene2(void)
     DWCi_TSKlDeleteEx(1, scenesetaplist_bss.MemSsal->taskV);
     for (i = 0; i < 5; i++) {
         if (scenesetaplist_bss.MemSsal->objWep[i])
-            DWCi_OBJlDelete(scenesetaplist_bss.MemSsal->objWep[i]);
+            DWCi_OBJlDelete((unsigned int *)scenesetaplist_bss.MemSsal->objWep[i]);
         if (scenesetaplist_bss.MemSsal->objLevel[i])
-            DWCi_OBJlDelete(scenesetaplist_bss.MemSsal->objLevel[i]);
+            DWCi_OBJlDelete((unsigned int *)scenesetaplist_bss.MemSsal->objLevel[i]);
     }
     DWCi_FNTlDeleteBg(scenesetaplist_bss.MemSsal->canv);
     DWCi_SBlEnd();
@@ -791,7 +794,7 @@ static void drawApInfo(void)
         drawAp(n, i);
     for (i = 0; i < num; i++, idx++)
         drapApObj(idx, i);
-    DWCi_FNTlRenewBg(scenesetaplist_bss.MemSsal->canv);
+    DWCi_FNTlRenewBg((int)scenesetaplist_bss.MemSsal->canv);
     setOffset();
 }
 
@@ -804,7 +807,7 @@ static void drawAp(int ap, int column)
     int n;
     unsigned short buf[17];
 
-    len = DWCi_STRlNLen((char *)scenesetaplist_bss.MemSsal->info[ap].ssid, 32);
+    len = DWCi_STRlNLen((unsigned char *)scenesetaplist_bss.MemSsal->info[ap].ssid, 32);
     y = column * 28;
     if (ap >= scenesetaplist_bss.MemSsal->apNum)
         return;

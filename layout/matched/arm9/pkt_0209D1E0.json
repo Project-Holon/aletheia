@@ -20,6 +20,9 @@
    "functions": [
     "__ddiv"
    ],
+   "addresses": [
+    "0x0209D1E0"
+   ],
    "covers": [
     "0x0209D1E0"
    ]

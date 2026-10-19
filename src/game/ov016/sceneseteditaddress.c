@@ -119,10 +119,10 @@ typedef struct AddressLimit {
 
 extern void *DWCi_HEAPlAllocEx(u32 size, int alignment);
 extern void DWCi_GetParam2_(void **a, void **b);
-extern int memcmp(const void *a, const void *b, u32 n);
+extern int memcmp(unsigned char *s1, unsigned char *s2, unsigned int n);
 extern void MI_CpuFill8(void *dstp, u8 data, u32 size);
 extern void DWCi_HLlLoad(int idx);
-extern bool DWCi_COMMENTlDispEx(int messageId, int n, int num);
+extern int DWCi_COMMENTlDispEx(int messageId, int n, int num);
 extern void DWCi_CMNlStep(int step);
 extern void *DWCi_FNTlFormBgEx(int lcd, int font);
 extern GXOamAttr *DWCi_CEINlSetExObj(int lcd, int idx);
@@ -136,32 +136,32 @@ extern bool DWCi_EFFlFade(int kind, int lcd, int plane, int frame);
 extern void DWCi_GXlVisible(int lcd, int plane);
 extern void DWCi_KB10lInit(void);
 extern int DWCi_KB10lGet(void);
-extern void DWCi_KB10lSetErase(int);
-extern void DWCi_KB10lSetInput(int);
+extern void DWCi_KB10lSetErase(unsigned char v);
+extern void DWCi_KB10lSetInput(unsigned char v);
 extern void DWCi_KB10lSetShift(int);
 extern void DWCi_SNDlPlay(int no);
 extern bool DWCi_EFFlCheck(int lcd);
 extern void MI_CpuCopy8(const void *srcp, void *dstp, u32 size);
-extern int atoi(const char *s);
+extern int atoi(u32 s);
 extern void DWCi_KB10lEnd(void);
 extern bool DWCi_EFFlWait(int frame);
 extern void DWCi_HEAPlFree_(void **mem);
 extern void DWCi_SetParam_(unsigned int a, unsigned int b);
 extern void DWCi_SetParam2_(unsigned int a, unsigned int b);
-extern bool DWCi_COMMENTlDelete(void);
+extern int DWCi_COMMENTlDelete(void);
 extern void DWCi_FNTlDeleteBgLcd(int lcd);
 extern void DWCi_FNTlClear(void *canvas, int color);
 extern void DWCi_FNTlDrawRect(void *canvas, int x, int y, int w, int h, int color, u32 flag, u16 *txt);
-extern void DWCi_FNTlRenewBg(void *canvas);
-extern void DWCi_OBJlDelete(GXOamAttr *obj);
+extern void DWCi_FNTlRenewBg(int x);
+extern void DWCi_OBJlDelete(unsigned int *obj);
 extern int DWCi_KB10lIsInit(void);
 extern void DWCi_WINlInitEx(int msg, int type, bool dark, int n, int num);
-extern int DWCi_WINlGet(void);
+extern char DWCi_WINlGet(void);
 extern void DWCi_WINlEnd(void);
-extern bool DWCi_WINlIsInit(void);
+extern int DWCi_WINlIsInit(void);
 extern void DWCi_GXlInvisible(int lcd, int plane);
 extern void DWCi_SceneSetList(void);
-extern void DWCi_SETTINGlConvAddress(u8 *adr, u8 *buf);
+extern void DWCi_SETTINGlConvAddress(char *adr, unsigned char *buf);
 extern int DWC_BACKUPlCheckAddress(u8 *address);
 void DWCi_SceneSetEditAddress(void);
 void DWCi_SceneSetEditAddress_procScene(void);
@@ -219,7 +219,7 @@ void DWCi_SceneSetEditAddress(void)
     DWCi_GetParam2_((void **)&kind, 0);
     getters.f[kind](gMemSsea->digits);
     p = gMemSsea;
-    if (memcmp(p->digits, sSceneSetEditAddressBlankDigits, 3) != 0) {
+    if (memcmp((unsigned char *)p->digits, (unsigned char *)sSceneSetEditAddressBlankDigits, 3) != 0) {
         p->cursor = 3;
     } else {
         MI_CpuFill8(p->digits, 0, 12);
@@ -411,7 +411,7 @@ static int isOver(int limit)
             break;
         buf[i] = ' ';
     }
-    v = atoi((char *)buf);
+    v = atoi((u32)buf);
     return v >= limit;
 }
 
@@ -468,7 +468,7 @@ static void DWCi_SceneSetEditAddressEndScene3(void)
     int kind;
 
     DWCi_COMMENTlDelete();
-    DWCi_OBJlDelete(gMemSsea->caret);
+    DWCi_OBJlDelete((unsigned int *)gMemSsea->caret);
     DWCi_FNTlDeleteBgLcd(0);
     DWCi_CMNlLoadResource(sSceneSetEditAddressPathYbObjMainPltt, GX_LoadOBJPltt);
     DWCi_GXlInvisible(1, 1);
@@ -512,7 +512,7 @@ static void DWCi_SceneSetEditAddressDrawAddress(void)
         a.x = sSceneSetEditAddressDigitX[i];
         DWCi_FNTlDrawRect(gMemSsea->bg, a.x, a.y, a.w, a.h, 2, 0x480, buf);
     }
-    DWCi_FNTlRenewBg(gMemSsea->bg);
+    DWCi_FNTlRenewBg((int)gMemSsea->bg);
 }
 
 
@@ -606,7 +606,7 @@ static int isCorrect(void)
                 break;
         }
     }
-    DWCi_SETTINGlConvAddress(gMemSsea->digits, buf);
+    DWCi_SETTINGlConvAddress((char *)gMemSsea->digits, buf);
     b = 0;
     DWCi_GetParam2_((void **)&kind, 0);
     if (kind == 1) {

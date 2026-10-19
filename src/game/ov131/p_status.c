@@ -232,6 +232,11 @@
  *   POKE_TOOL_DecodeBoxParam  0x02017DBC  thumb  arm9
  *   POKE_TOOL_EncodeBoxParam  0x02017DE4  thumb  arm9
  *   PRINTSYS_MeasureWidestLine  0x0201D304  thumb  arm9
+ *   _fadd                        0x0209C95C  arm
+ *   _fdiv                        0x0209CE10  arm
+ *   _ffix                        0x0209C494  arm
+ *   _fflt                        0x0209BDBC  arm
+ *   _fmul                        0x0209C77C  arm
  */
 
 #include "p_status_types.h"
@@ -310,51 +315,59 @@ typedef struct { u16 move[5]; } DebugMoves;
 static inline u32 OS_GetVBlankCount(void) { return *(volatile u32 *)HW_VBLANK_COUNT_BUF; }
 
 extern u8 UI_GetInputMode(void);
-extern void *POKE_TOOL_CreateFromBoxParam(struct Mon *p, u32 heap);
+struct PokemonParam;
+extern struct PokemonParam *POKE_TOOL_CreateFromBoxParam(struct PokemonParam *src, unsigned short heapId);
 extern void *GFL_USE_AddMainTask(u32,u32,u32);
 extern void MIi_CpuCopy16(const void *,void *,u32);
 extern int GAME_DATA_ContainsRecentId(int gd, int id);
 extern void GFL_NET_RefreshWmIconAtTopRight(u32,u32);
-extern void TCB_DeleteTask(struct Tcb *n);
-extern void GAME_DATA_SetRecentId(void *p, u32 a, u32 b);
+struct TcbTask;
+extern void TCB_DeleteTask(struct TcbTask *task);
+struct GameData;
+extern void GAME_DATA_SetRecentId(struct GameData *gd, unsigned int id, unsigned int on);
 extern void UI_SetInputMode(u8);
 extern u32 GFL_HEAP_Free(void *p);
 extern u32 TOUCHPANEL_GetPointCont(u32 *,u32 *);
-extern void WIPE_SYS_Start(void *,u32,u32,u32,u32,u32,u32);
+extern void WIPE_SYS_Start(void *divisionMode, unsigned int mainPattern, unsigned int subPattern, unsigned short color, unsigned int frames, unsigned int wait, unsigned int heapId);
 extern u32 WIPE_SYS_EndCheck(void);
-extern u32 CLACT_IsActorAnimActive(struct ClactObj *a);
-extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
+struct Actor;
+extern u32 CLACT_IsActorAnimActive(struct Actor *actor);
+struct PrintQueue;
+extern u32 PRINTSYS_QUE_Main(struct PrintQueue *queue);
 extern void CLACT_DrawSystem(void);
-extern void MCSS_Main(char *);
+extern void MCSS_Main(struct McssSys *sys);
 extern void G3D_SYSTEM_DrawStart(void);
 extern void G3D_SYSTEM_ApplyLookAt(void);
 extern void MCSS_Draw(struct McssSys *sys);
 extern void G3D_SYSTEM_DrawEnd(void);
 extern void BG_SYS_ChangeScroll(u32,u32,u32);
-extern void CLACT_SetActorAnimSeq(struct ClactObj *p, u16 value);
+extern void CLACT_SetActorAnimSeq(struct Actor *actor, unsigned short value);
 extern void CLACT_VBlankSystem(void);
 extern void BG_SYS_ClearMainPlanes(void),BG_SYS_ClearSubPlanes(void);
 extern void WIPE_SetBrightnessFadeOut(u32,u32);
-extern u32 WIPE_ResetWndMask(void *);
+extern void WIPE_ResetWndMask(void *);
 extern void BG_SYS_SetVramBanks(const struct DispVram *);
 extern void BG_SYS_Create(u16),BMP_WIN_Init(u16);
 extern void BG_SYS_SetGraphicsMode(struct DispConfig *);
 extern void BG_SYS_SetPlaneVisible(unsigned int which, unsigned char enable);
 extern void G2x_SetBlendAlpha_(u32 *,u32,u32,u32,u32);
-extern void CLACT_InitSystem(const struct ClactSysSetup *cfg, u32 arg, u32 heapId);
+struct DispVramCfg;
+struct SysInit;
+extern void CLACT_InitSystem(struct SysInit *cfg, struct DispVramCfg *res_cfg, unsigned int heapId);
 extern struct ClactUnit *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 extern void CLACT_SetUnitDefaultRenderer(struct ClactUnit *bank);
 extern void BG_SYS_SetMainPlaneVisible(u32,u32),BG_SYS_SetSubPlaneVisible(u32,u32);
 extern void G3D_SYSTEM_Init(u32,u32,u32,u32,u16,u16,void (*)(void));
 extern u32 *G3D_CAMERA_Create(u32,u32,u32,u32,u32,u32,u32,u32,struct Vec3 *,struct Vec3 *,struct Vec3 *,u16);
-extern void G3D_CAMERA_Reset(struct Camera *l);
+struct G3dCamera;
+extern void G3D_CAMERA_Reset(struct G3dCamera *camera);
 extern void G3X_SetEdgeColorTable(const void *);
 extern void G3D_SYSTEM_SetSwapBuffersMode(u32,u32),BG_SYS_EnableBg0WithPriority(u32);
-extern void *MCSS_Init(u32,void *);
-extern void MCSS_SetTextureTransAdrs(void *,u32);
-extern void MCSS_SetGlobalScale(char *p, unsigned int v);
+extern struct McssSys *MCSS_Init(unsigned int maxCount, unsigned int heapId);
+extern void MCSS_SetTextureTransAdrs(struct McssSys *sys, unsigned int adrs);
+extern void MCSS_SetGlobalScale(struct McssSys *sys, unsigned int scale);
 extern void NNS_GfdResetVramTransferTaskQueue(void);
-extern void MCSS_Exit(u8 *sys);
+extern void MCSS_Exit(struct McssSys *sys);
 extern unsigned int G3D_CAMERA_Delete(void *ptr);
 extern void G3D_SYSTEM_Exit(void);
 extern u32 CLACT_DeleteUnit(struct ClactUnit *bank);
@@ -365,7 +378,7 @@ extern void BG_SYS_Delete(void);
 extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void BG_SYS_FreeSlot(u32);
 extern void BG_SYS_PushTile(u32);
-extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
+extern void *ARC_TOOL_CreateHandle(unsigned int archiveID, unsigned short heapID);
 extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *,u32,u32,u32,u32,u16);
 extern u32 ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void ARC_UTIL_UploadBgPaletteFromHandle(void *,u32,u32,u32,u32,u32,u16);
@@ -405,60 +418,65 @@ extern void CLACT_ReleasePalette(u32 i);
 extern void CLACT_ReleaseCharacter(u32 i);
 extern void CLACT_ReleaseCellAnim(u32 i);
 extern struct ClactObj *CLACT_CreateActor(void *,unsigned int,unsigned int,unsigned int,const void *,u16,u16);
-extern void CLACT_SetActorAutoAnim(struct ClactObj *p, u32 v);
-extern void CLACT_SetActorDrawEnable(struct ClactObj *p, u32 v);
-extern void CLACT_DeleteActor(struct ClactObj *p);
+extern void CLACT_SetActorAutoAnim(struct Actor *actor, unsigned int enable);
+extern void CLACT_SetActorDrawEnable(struct Actor *actor, unsigned int value);
+extern void CLACT_DeleteActor(struct Actor *actor);
 extern struct GfFont *GF_FONT_Create(int archiveId, int fileId, int format, int isFixedWidth, u32 heapId);
 extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void ARC_UTIL_UploadPaletteFromArchiveWhole(u32,u32,u32,u32,u32,u16);
-extern void *PRINTSYS_QUE_CreateEx(u16,u32);
-extern void PRINTSYS_QUE_Clear(struct PrintSys *p);
-extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
+extern struct PrintQueue *PRINTSYS_QUE_CreateEx(u16,u32);
+extern void PRINTSYS_QUE_Clear(struct PrintQueue *queue);
+extern void PRINTSYS_QUE_Delete(struct PrintQueue *queue);
 extern unsigned int MSGDATA_Delete(struct MsgBank *rec);
-extern u32 GF_FONT_Delete(void *ptr);
+extern u32 GF_FONT_Delete(struct GfFont *font);
 extern int TOUCHPANEL_HitTrg(const void *key);
-extern u32 PRINTSYS_QUE_IsFinished(const struct PrintSys *p);
+extern u32 PRINTSYS_QUE_IsFinished(struct PrintQueue *queue);
 extern unsigned int KEY_GetRepeat(void);
 extern u32 KEY_GetTrg(void);
 extern void GFL_USE_PlaySeDefaultVolume(u32);
 extern s32 NNS_GfdRegisterNewVramTransferTask(void *p, u32 a, u32 b, s32 size);
-extern void POKE_TOOL_ClearPartyParam(struct PokePara *p);
-extern u32 POKE_TOOL_GetBoxValue(void *p, int id, void *v);
-extern u32 POKE_TOOL_GetPartyValue(void *p, u32 id, u32 v);
+extern void POKE_TOOL_ClearPartyParam(struct PokemonParam *pp);
+struct BoxPokemon;
+extern u32 POKE_TOOL_GetBoxValue(struct BoxPokemon *box, unsigned int paramId, unsigned int arg);
+extern u32 POKE_TOOL_GetPartyValue(struct PokemonParam *pp, unsigned int paramId, unsigned int arg);
 extern void PM_VOICE_StopSlot(u32);
-extern void PM_VOICE_GetPerapVoiceSave(void **);
-extern u32 PM_VOICE_Play(u32,u32,u32,u32,u32,u32,u32,u32);
-extern void *POKE_TOOL_CastToBoxParam(void *);
-extern void *POKEPARTY_GetMember(void *p, u32 idx);
+struct SaveBlock;
+extern void PM_VOICE_GetPerapVoiceSave(struct SaveBlock **out);
+extern u32 PM_VOICE_Play(unsigned int species, unsigned int form, unsigned int pan, unsigned int dual, unsigned int volumeBiasB, unsigned int frequencyOffsetB, unsigned int reverse, void **recordedVoice);
+extern struct PokemonParam *POKE_TOOL_CastToBoxParam(struct PokemonParam *mon);
+extern struct PokemonParam *POKEPARTY_GetMember(struct Party *party, unsigned int pos);
 extern u32 POKE_TOOL_GetBoxParamSize(void);
-extern u32 POKE_TOOL_DecodePartyParam(struct PokePara *p);
-extern u32 POKE_TOOL_EncodePartyParam(struct PokePara *p, u32 f);
-extern u32 POKE_TOOL_DecodeBoxParam(struct PokePara *p);
-extern u32 POKE_TOOL_EncodeBoxParam(struct PokePara *p, u32 f);
-extern void *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
-extern void STRBUF_Delete(struct StrBuf *vec);
-extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
-extern void *BMP_WIN_GetBmp(struct BmpWin *p);
-extern struct StrBuf *STRBUF_Create(u32 capacity, u32 heapId);
-extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
-extern u32 PRINTSYS_MeasureWidestLine(struct StrObj *s, u32 a, u32 b);
+extern u32 POKE_TOOL_DecodePartyParam(struct PokemonParam *pp);
+extern u32 POKE_TOOL_EncodePartyParam(struct PokemonParam *pp, unsigned int didDecode);
+extern u32 POKE_TOOL_DecodeBoxParam(struct BoxPokemon *box);
+extern u32 POKE_TOOL_EncodeBoxParam(struct BoxPokemon *box, unsigned int didDecode);
+struct Strbuf;
+extern struct Strbuf *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
+extern void STRBUF_Delete(struct Strbuf *strbuf);
+struct Bmp;
+extern void PRINTSYS_PrintQueColor(struct PrintQueue *queue, struct Bmp *bmp, unsigned int x, short y, struct Strbuf *str, struct GfFont *font, unsigned short color);
+extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *p);
+extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
+extern void WORDSET_CopyTaggedText(struct WordSet *words, struct Strbuf *dst, struct Strbuf *src);
+extern u32 PRINTSYS_MeasureWidestLine(struct Strbuf *text, struct GfFont *font, unsigned int spacing);
 extern void GFL_HEAP_CreateChildHeap(unsigned int,unsigned int,unsigned int);
-extern void *PROCSYS_AllocProcWork(struct HeapSys *obj, u32 size, u32 heap);
+struct Proc;
+extern void *PROCSYS_AllocProcWork(struct Proc *proc, unsigned int size, unsigned int heapId);
 extern void MI_CpuFill8(void *,int,int);
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32 KEY_GetCont(void);
 extern struct Party *POKEPARTY_Create(u32 heap);
 extern void POKEPARTY_InitEx(struct Party *p, s32 capacity);
 extern void *POKE_TOOL_Create(u16,u16,u32,u32,u32);
-extern void POKE_TOOL_SetPartyValue(void *p, u32 id, u32 v);
-extern u32 POKEPARTY_Add(struct Party *p, const struct PartyMon *src);
-extern void POKE_TOOL_ClearBoxParam(struct PokePara *p);
+extern void POKE_TOOL_SetPartyValue(struct PokemonParam *pp, unsigned int paramId, unsigned int value);
+extern u32 POKEPARTY_Add(struct Party *party, struct PokemonParam *member);
+extern void POKE_TOOL_ClearBoxParam(struct BoxPokemon *box);
 extern u32 GFL_USE_GetRandomBelow(u32 range);
-extern void POKE_TOOL_SetupBoxParam(void *obj,u16 species,u16 level,u64 id);
-extern void POKE_TOOL_SetBoxValue(void *p, u32 id, u32 v);
-extern void *GAME_DATA_Create(u16);
-extern void GAME_DATA_Delete(u8 *p);
-extern void PROCSYS_FreeProcWork(struct SaveData *p);
+extern void POKE_TOOL_SetupBoxParam(struct BoxPokemon *box, unsigned short species, unsigned short level, unsigned long long otId);
+extern void POKE_TOOL_SetBoxValue(struct BoxPokemon *box, unsigned int paramId, unsigned int value);
+extern struct GameData *GAME_DATA_Create(u16);
+extern void GAME_DATA_Delete(struct GameData *gameData);
+extern void PROCSYS_FreeProcWork(struct Proc *proc);
 extern void GFL_HEAP_DeleteChecked(unsigned int heap);
 int P_STATUS_InitWork(PStatusWork *wk);
 int P_STATUS_ExitWork(PStatusWork *wk);
@@ -488,20 +506,22 @@ void *P_STATUS_GetPokePara(PStatusWork *wk);
 int P_STATUS_GetPokeParaSource(PStatusWork *wk);
 void P_STATUS_SetParamDecoded(PStatusWork *wk,int fastMode);
 void P_STATUS_PrintMsg(PStatusWork *wk,int bmpWin,int msgId,int x,unsigned short y,unsigned short color);
-void P_STATUS_PrintMsgToWin(PStatusWork *wk,unsigned int bmpWinData,int msgId,int x,unsigned short y,unsigned short color);
+void P_STATUS_PrintMsgToWin(PStatusWork *wk, struct BmpWin *bmpWinData, int msgId, int x, unsigned short y, unsigned short color);
 void P_STATUS_PrintWordSetMsg(PStatusWork *wk,int bmpWin,void *wordSet,int msgId,unsigned short x,unsigned short y,unsigned short color);
-void P_STATUS_PrintWordSetMsgToWin(PStatusWork *wk,unsigned int bmpWinData,void *wordSet,int msgId,unsigned short x,unsigned short y,unsigned short color);
+void P_STATUS_PrintWordSetMsgToWin(PStatusWork *wk, struct BmpWin *bmpWinData, void *wordSet, int msgId, unsigned short x, unsigned short y, unsigned short color);
 void P_STATUS_PrintWordSetMsgRight(PStatusWork *wk,int bmpWin,void *wordSet,int msgId,unsigned short x,unsigned short y,unsigned short color);
-void P_STATUS_PrintWordSetMsgRightToWin(PStatusWork *wk,unsigned int bmpWinData,void *wordSet,int msgId,unsigned short x,unsigned short y,unsigned short color);
+void P_STATUS_PrintWordSetMsgRightToWin(PStatusWork *wk, struct BmpWin *bmpWinData, void *wordSet, int msgId, unsigned short x, unsigned short y, unsigned short color);
 int P_STATUS_CanUseButtons(PStatusWork *wk);
 int P_STATUS_HasRibbon(PStatusWork *wk, void *pp);
 int P_STATUS_ProcInit(void *proc,int *seq,PStatusParam *pwk,PStatusWork *mywk);
 int P_STATUS_ProcExit(void *proc, int *seq, PStatusParam *pwk, PStatusWork *mywk);
 int P_STATUS_ProcMain(void *proc, int *seq, PStatusParam *pwk, PStatusWork *mywk);
-PStaSubWork *P_STA_SUB_Create(PStatusWork *wk);
+struct PStatusWork;
+void *P_STA_SUB_Create(PStatusWork *wk);
 void P_STA_SUB_Delete(PStatusWork *wk, PStaSubWork *pageWork);
 void P_STA_SUB_Main(PStatusWork *wk, PStaSubWork *pageWork);
-void P_STA_SUB_LoadArcGraphics(PStatusWork *wk, PStaSubWork *pageWork, void *arc);
+struct PStaSubWork;
+void P_STA_SUB_LoadArcGraphics(struct PStatusWork *wk, struct PStaSubWork *unused, void *arc);
 void P_STA_SUB_Exit(PStatusWork *wk, PStaSubWork *pageWork);
 void P_STA_SUB_CreateObjects(PStatusWork *wk, PStaSubWork *pageWork);
 void P_STA_SUB_DeleteObjects(PStatusWork *wk, PStaSubWork *pageWork);
@@ -518,7 +538,7 @@ void P_STA_INFO_Setup(PStatusWork *wk, PStaInfoWork *pageWork);
 void P_STA_INFO_ShowPage(PStatusWork *wk, PStaInfoWork *pageWork);
 void P_STA_INFO_DeleteWindows(PStatusWork *wk, PStaInfoWork *pageWork);
 void P_STA_INFO_HidePage(PStatusWork *wk, PStaInfoWork *pageWork);
-PStaRibbonWork *P_STA_RIBBON_Create(PStatusWork *wk);
+void *P_STA_RIBBON_Create(PStatusWork *wk);
 void P_STA_RIBBON_Delete(PStatusWork *wk, PStaRibbonWork *pageWork);
 void P_STA_RIBBON_Main(PStatusWork *wk, PStaRibbonWork *pageWork);
 void P_STA_RIBBON_LoadArcGraphics(PStatusWork *wk, PStaRibbonWork *pageWork, void *arc);
@@ -745,7 +765,7 @@ int P_STATUS_MainSeq(PStatusWork *wk)
     }
     PRINTSYS_QUE_Main(wk->printQue);
     CLACT_DrawSystem();
-    MCSS_Main((char *)wk->mcssSys);
+    MCSS_Main((struct McssSys *)wk->mcssSys);
     G3D_SYSTEM_DrawStart();
     G3D_SYSTEM_ApplyLookAt();
     MCSS_Draw(wk->mcssSys);
@@ -870,7 +890,7 @@ void P_STATUS_InitGraphics(PStatusWork *wk)
     G2x_SetBlendAlpha_((u32 *)HW_REG_BLDCNT,4,30,13,16);
     G2x_SetBlendAlpha_((u32 *)HW_REG_BLDCNT_SUB,4,8,13,16);
     setup=ClactSysDefaultSetup;setup.limits[0]=110;
-    CLACT_InitSystem(&setup,(u32)(&_VramBankConfig),wk->heapId);
+    CLACT_InitSystem((struct SysInit *)(&setup),(struct DispVramCfg *)((&_VramBankConfig)),wk->heapId);
     wk->clunit=CLACT_CreateUnit(96,0,wk->heapId);
     CLACT_SetUnitDefaultRenderer(wk->clunit);
     BG_SYS_SetMainPlaneVisible(16,1);BG_SYS_SetSubPlaneVisible(16,1);
@@ -880,7 +900,7 @@ void P_STATUS_InitGraphics(PStatusWork *wk)
     G3X_SetEdgeColorTable(_EdgeColorTable);
     *(volatile u16 *)HW_REG_DISP3DCNT &= ~0x3020;
     G3D_SYSTEM_SetSwapBuffersMode(0,0);BG_SYS_EnableBg0WithPriority(0);
-    wk->mcssSys=MCSS_Init(2,(void *)wk->heapId);
+    wk->mcssSys=MCSS_Init((unsigned int)2,(unsigned int)wk->heapId);
     MCSS_SetTextureTransAdrs(wk->mcssSys,0);
     MCSS_SetGlobalScale(wk->mcssSys,0x10000);
 }
@@ -1831,8 +1851,8 @@ void P_STATUS_UpdateRefresh(PStatusWork *wk)
                 ppSrc=(void *)P_STATUS_GetPokeParaSource(wk);
                 species=POKE_TOOL_GetPartyValue(ppSrc,5,0);
                 form=POKE_TOOL_GetPartyValue(ppSrc,111,0);
-                PM_VOICE_GetPerapVoiceSave(&voicePlayer);
-                PM_VOICE_Play(species,form,64,0,0,0,0,(u32)&voicePlayer);
+                PM_VOICE_GetPerapVoiceSave((struct SaveBlock **)(&voicePlayer));
+                PM_VOICE_Play(species,form,64,0,0,0,0,&voicePlayer);
             }
         }
         if (wk->mosaicSeq==2) {
@@ -1944,7 +1964,7 @@ void P_STATUS_SetParamDecoded(PStatusWork *wk,int fastMode)
 void P_STATUS_PrintMsg(PStatusWork *wk,int bmpWin,int msgId,int x,unsigned short y,unsigned short color)
 {
  void *text=MSGDATA_AllocString(wk->msgData,msgId);
- PRINTSYS_PrintQueColor(wk->printQue,bmpWin,(short)x,(short)y,(u32)text,(int)wk->font,color);
+ PRINTSYS_PrintQueColor(wk->printQue,(struct Bmp *)bmpWin,(short)x,(short)y,text,wk->font,color);
  STRBUF_Delete(text);
 }
 
@@ -1958,7 +1978,7 @@ void P_STATUS_PrintMsg(PStatusWork *wk,int bmpWin,int msgId,int x,unsigned short
 
 
 
-void P_STATUS_PrintMsgToWin(PStatusWork *wk,unsigned int bmpWinData,int msgId,int x,unsigned short y,unsigned short color)
+void P_STATUS_PrintMsgToWin(PStatusWork *wk, struct BmpWin *bmpWinData, int msgId, int x, unsigned short y, unsigned short color)
 {
  P_STATUS_PrintMsg(wk,(int)BMP_WIN_GetBmp((struct BmpWin *)bmpWinData),msgId,x,y,color);
 }
@@ -1978,7 +1998,7 @@ void P_STATUS_PrintWordSetMsg(PStatusWork *wk,int bmpWin,void *wordSet,int msgId
  void *str=STRBUF_Create(16,wk->heapId);
  void *fmt=MSGDATA_AllocString(wk->msgData,msgId);
  WORDSET_CopyTaggedText(wordSet,str,fmt);
- PRINTSYS_PrintQueColor(wk->printQue,bmpWin,(short)x,(short)y,(u32)str,(int)wk->font,color);
+ PRINTSYS_PrintQueColor(wk->printQue,(struct Bmp *)bmpWin,(short)x,(short)y,str,wk->font,color);
  STRBUF_Delete(fmt);
  STRBUF_Delete(str);
 }
@@ -1992,7 +2012,7 @@ void P_STATUS_PrintWordSetMsg(PStatusWork *wk,int bmpWin,void *wordSet,int msgId
 
 
 
-void P_STATUS_PrintWordSetMsgToWin(PStatusWork *wk,unsigned int bmpWinData,void *wordSet,int msgId,unsigned short x,unsigned short y,unsigned short color)
+void P_STATUS_PrintWordSetMsgToWin(PStatusWork *wk, struct BmpWin *bmpWinData, void *wordSet, int msgId, unsigned short x, unsigned short y, unsigned short color)
 {
  P_STATUS_PrintWordSetMsg(wk,(int)BMP_WIN_GetBmp((struct BmpWin *)bmpWinData),wordSet,msgId,x,y,color);
 }
@@ -2012,8 +2032,8 @@ void P_STATUS_PrintWordSetMsgRight(PStatusWork *wk,int bmpWin,void *wordSet,int 
  void *fmt=MSGDATA_AllocString(wk->msgData,msgId);
  int width;
  WORDSET_CopyTaggedText(wordSet,str,fmt);
- width=PRINTSYS_MeasureWidestLine(str,(int)wk->font,0);
- PRINTSYS_PrintQueColor(wk->printQue,bmpWin,(short)(x-width),(short)y,(u32)str,(int)wk->font,color);
+ width=PRINTSYS_MeasureWidestLine(str,wk->font,0);
+ PRINTSYS_PrintQueColor(wk->printQue,(struct Bmp *)bmpWin,(short)(x-width),(short)y,str,wk->font,color);
  STRBUF_Delete(fmt);
  STRBUF_Delete(str);
 }
@@ -2031,7 +2051,7 @@ void P_STATUS_PrintWordSetMsgRight(PStatusWork *wk,int bmpWin,void *wordSet,int 
 
 
 
-void P_STATUS_PrintWordSetMsgRightToWin(PStatusWork *wk,unsigned int bmpWinData,void *wordSet,int msgId,unsigned short x,unsigned short y,unsigned short color)
+void P_STATUS_PrintWordSetMsgRightToWin(PStatusWork *wk, struct BmpWin *bmpWinData, void *wordSet, int msgId, unsigned short x, unsigned short y, unsigned short color)
 {
  P_STATUS_PrintWordSetMsgRight(wk,(int)BMP_WIN_GetBmp((struct BmpWin *)bmpWinData),wordSet,msgId,x,y,color);
 }
@@ -2165,11 +2185,11 @@ int P_STATUS_ProcInit(void *proc,int *seq,PStatusParam *pwk,PStatusWork *mywk)
                     monSize=POKE_TOOL_GetBoxParamSize();
                     monArray=(u8 *)param->ppd;
                     byteOffset=i*monSize;
-                    POKE_TOOL_ClearBoxParam((struct PokePara *)(monArray+byteOffset));
+                    POKE_TOOL_ClearBoxParam((struct BoxPokemon *)(monArray+byteOffset));
                     if(GFL_USE_GetRandomBelow(3)!=0) {
-                        POKE_TOOL_SetupBoxParam(monArray+byteOffset,i+1,0x32,(u64)-1);
+                        POKE_TOOL_SetupBoxParam((struct BoxPokemon *)(monArray+byteOffset),i+1,0x32,(u64)-1);
                         SetArrayMoves(monArray+byteOffset,_DebugMovesArray);
-                        POKE_TOOL_SetBoxValue(monArray+byteOffset,0x9a,0);
+                        POKE_TOOL_SetBoxValue((struct BoxPokemon *)(monArray+byteOffset),0x9a,0);
                         if(param->pos==0xff) param->pos=i;
                     }
                 }

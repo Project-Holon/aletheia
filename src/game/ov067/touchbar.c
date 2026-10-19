@@ -118,7 +118,7 @@ extern u32 APP_ICON_GetMoveKindAnimFileId(void);
 extern u32 APP_ICON_GetStatusCellFileId(u32 iconSet);
 extern u32 APP_ICON_GetStatusPaletteFileId(u32 iconSet);
 extern void BG_SYS_FreeTileRun(u32 layer, u32 offset, u32 size);
-extern void *ARC_UTIL_LoadHandleMember(void *arc, u32 fileId, u32 loadMode, u32 heapFlags);
+extern void *ARC_UTIL_LoadHandleMember(void *narc, u32 fileID, u32 decompress, u16 heapID);
 extern int NNS_G2dGetUnpackedScreenData(void *file, void **out);
 extern u8 BG_SYS_GetColorMode(int bgLayer);
 extern u32 BG_SYS_GetBuf(int bgLayer);
@@ -133,21 +133,27 @@ extern void UI_SetInputMode(u8 usedTouch);
 extern u32 KEY_GetTrg(void);
 extern u32 CLACT_IsActorAnimActive(struct Actor *actor);
 extern void GFL_USE_PlaySeDefaultVolume(u32 soundId);
-extern void *BMP_WIN_GetBmp(struct BmpData *bitmap);
-extern void PRINTSYS_PrintQueColor(void *textCtx, u32 bitmapBuffer, u32 x, u32 y, u32 str, u32 fontId, u16 color);
+struct BmpWin;
+struct Bmp;
+extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *win);
+struct GfFont;
+struct Strbuf;
+struct PrintQueue;
+extern void PRINTSYS_PrintQueColor(struct PrintQueue *queue, struct Bmp *bmp, unsigned int x, short y, struct Strbuf *str, struct GfFont *font, unsigned short color);
 extern void CLACT_SetActorDrawEnable(struct Actor *actor, u32 enable);
 extern void CLACT_SetActorDrawPriority(struct Actor *actor, u32 priority);
 extern void CLACT_SetActorBgPriority(struct Actor *actor, unsigned int bgPriority);
 extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern void *WORDSET_CreateDefault(u16 heapId);
+extern struct WordSet *WORDSET_CreateDefault(u16 heapId);
 extern void *STRBUF_Create(u32 size, u16 heapId);
-extern void *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
-extern u32 PRINTSYS_MeasureWidestLine(struct StrObj *str, u32 fontId, u32 spacing);
-extern void STRBUF_Delete(struct U16Vec *vec);
+extern struct Strbuf *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
+extern u32 PRINTSYS_MeasureWidestLine(struct Strbuf *text, struct GfFont *font, unsigned int spacing);
+struct Strbuf;
+extern void STRBUF_Delete(struct Strbuf *strbuf);
 extern void WORDSET_SetSlotNumber(struct WordSet *wordSet, u32 slot, u32 value, u32 digits, u32 padMode, u32 flags);
-extern void WORDSET_CopyTaggedText(struct WordSet *wordSet, void *dst, void *src);
+extern void WORDSET_CopyTaggedText(struct WordSet *words, struct Strbuf *dst, struct Strbuf *src);
 extern u32 WORDSET_Delete(struct WordSet *wordSet);
-extern u32 MSGDATA_Delete(struct Rec *msgBank);
+extern u32 MSGDATA_Delete(struct MsgBank *bank);
 TouchBar *TOUCHBAR_Create(TouchBarParams *params, u16 heapId);
 void TOUCHBAR_Delete(TouchBar *bar);
 void TOUCHBAR_Update(TouchBar *bar);
@@ -722,7 +728,7 @@ void TOUCHBAR_SetEnabledToggle(TouchBarButton *button, u32 enabled)
 void TOUCHBAR_PrintAligned(TouchBarWindow *window, void *textCtx, u16 x, u16 y, u32 str, u32 fontId, u16 color, u32 alignMode)
 {
     x = x - TOUCHBAR_GetStringAlignOffset((struct StrObj *)str, fontId, alignMode);
-    PRINTSYS_PrintQueColor(textCtx, (u32)BMP_WIN_GetBmp(window->bitmap), (short)x, (short)y, str, fontId, color);
+    PRINTSYS_PrintQueColor(textCtx, BMP_WIN_GetBmp((struct BmpWin *)window->bitmap), (short)x, (short)y, (struct Strbuf *)str, (struct GfFont *)fontId, color);
     window->redraw = 1;
 }
 
@@ -745,7 +751,7 @@ void TOUCHBAR_PrintYesNoCancelLabels(TouchBarWindow *window, void *textCtx, u32 
     wordSet = WORDSET_CreateDefault(heapId);
     buf = STRBUF_Create(0xa, heapId);
     str = MSGDATA_AllocString(msgBank, 0);
-    strWidth = PRINTSYS_MeasureWidestLine(str, fontId, 0);
+    strWidth = PRINTSYS_MeasureWidestLine(str, (struct GfFont *)fontId, 0);
     TOUCHBAR_PrintAligned(window, textCtx, x, y, (u32)str, fontId, color, 2);
     x = x - TOUCHBAR_GetStringAlignOffset(str, fontId, 2);
     STRBUF_Delete(str);
@@ -767,7 +773,7 @@ void TOUCHBAR_PrintYesNoCancelLabels(TouchBarWindow *window, void *textCtx, u32 
 
 u16 TOUCHBAR_GetStringAlignOffset(struct StrObj *str, u32 fontId, u32 alignMode)
 {
-    if (alignMode == 1) return PRINTSYS_MeasureWidestLine(str, fontId, 0);
-    if (alignMode == 2) return PRINTSYS_MeasureWidestLine(str, fontId, 0) >> 1;
+    if (alignMode == 1) return PRINTSYS_MeasureWidestLine((struct Strbuf *)str, (struct GfFont *)fontId, 0);
+    if (alignMode == 2) return PRINTSYS_MeasureWidestLine((struct Strbuf *)str, (struct GfFont *)fontId, 0) >> 1;
     return 0;
 }

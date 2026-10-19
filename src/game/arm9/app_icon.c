@@ -43,13 +43,13 @@ typedef struct BarScreen {
 
 extern u32 GFL_HEAP_Free(void *memory);
 
-extern void *BG_SYS_GetBuf(int bgFrame);
+extern u32 BG_SYS_GetBuf(int bgFrame);
 
 extern void *ARC_UTIL_LoadPaletteDataFromHandle(struct ArcHandle *arc, u32 datId, u32 compressed, void **file, u32 heapId);
 
 extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
 
-extern u32 POKE_TOOL_GetPartyValue(const struct PokemonParam *pp, int paramId, void *buf);
+extern u32 POKE_TOOL_GetPartyValue(struct PokemonParam *pp, u32 paramId, u32 arg);
 
 u32 APP_ICON_GetArchiveId(void);
 
@@ -334,10 +334,10 @@ int APP_ICON_GetStatusIconAnim(const struct PokemonParam *pp)
 {
     u32 sick;
 
-    if (POKE_TOOL_GetPartyValue(pp, 0xa0, 0) == 0) {
+    if (POKE_TOOL_GetPartyValue((struct PokemonParam *)pp, 0xa0, 0) == 0) {
         return 6;
     }
-    sick = POKE_TOOL_GetPartyValue(pp, 0x9d, 0);
+    sick = POKE_TOOL_GetPartyValue((struct PokemonParam *)pp, 0x9d, 0);
     if (sick == 1) {
         return 1;
     } else if (sick == 2) {

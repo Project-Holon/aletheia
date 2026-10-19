@@ -198,20 +198,27 @@ typedef struct {
 
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void GFL_NET_RefreshWmIconAtTopRight(u32 a, u32 b);
-extern struct Task *GFL_USE_AddMainTask(void (*proc)(struct Task *, ReportWork *), ReportWork *work, int priority);
-extern void TCB_DeleteTask(struct Task *task);
+struct Tcb;
+extern struct Tcb *GFL_USE_AddMainTask(void (*proc)(struct Task *, ReportWork *), void *work, u32 priority);
+struct TcbTask;
+extern void TCB_DeleteTask(struct TcbTask *task);
 extern u32 GFL_HEAP_Free(void *p);
-extern u32 PRINTSYS_QUE_IsFinished(const struct PrintQue *printQue);
-extern struct GameData *GAMESYSTEM_GetGameData(const void *gameSystem);
-extern struct PartyHolder *GAME_DATA_GetMyParty(const struct GameData *gameData);
-extern unsigned int POKEPARTY_GetCount(struct PartyHolder *party);
-extern void CLACT_SetActorDrawEnable(struct ClactActor *actor, unsigned int visible);
+struct PrintQueue;
+extern u32 PRINTSYS_QUE_IsFinished(struct PrintQueue *queue);
+struct GameSystem;
+extern struct GameData *GAMESYSTEM_GetGameData(struct GameSystem *gameSystem);
+extern void *GAME_DATA_GetMyParty(const struct GameData *gameData);
+struct Party;
+extern unsigned int POKEPARTY_GetCount(struct Party *party);
+struct Actor;
+extern void CLACT_SetActorDrawEnable(struct Actor *actor, u32 value);
 extern void BG_SYS_SetPlaneVisible(unsigned char layer, unsigned char enable);
 extern void BMP_WIN_MakeScreen(struct BmpWin *bmpWin);
 extern void BG_SYS_MarkTileDirty(u32 bit);
-extern u32 PRINTSYS_QUE_Main(struct PrintQue *printQue);
-extern void *BMP_WIN_GetBmp(struct BmpWin *bmpWin);
-extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintQue *printQue, void *bitmap);
+extern u32 PRINTSYS_QUE_Main(struct PrintQueue *queue);
+struct Bmp;
+extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *bmpWin);
+extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintQueue *queue, struct Bmp *bmp);
 extern void BMP_WIN_TransferChars(struct BmpWin *bmpWin);
 extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gameData);
 extern void SAVE_CONTROL_GetDiffSize(struct SaveControl *saveControl, u32 *current, u32 *max);
@@ -227,39 +234,44 @@ extern void ARC_UTIL_UploadPaletteFromHandleWhole(struct ArcHandle *, int, int, 
 extern void BG_SYS_LoadPlttEntry(u32 bgId, u32 color);
 extern void ARC_UTIL_UploadBgCharFromHandle(struct ArcHandle *, int, int, int, int, int, int);
 extern void ARC_UTIL_UploadBgPaletteFromHandle(struct ArcHandle *, int, int, int, int, int, int);
-extern void ARC_TOOL_DeleteHandle(struct ArcHandle *);
-extern struct PrintQue *PRINTSYS_QUE_Create(u32 heapId);
-extern struct BmpWin *BMP_WIN_Create(u32, u32, u32, u32, u8, u8, u8);
-extern void BMP_Clear(struct CharBuf *buf, u8 value);
+extern void ARC_TOOL_DeleteHandle(void *handle);
+extern struct PrintQueue *PRINTSYS_QUE_Create(u32 heapId);
+extern struct BmpWin *BMP_WIN_Create(u32 bgLayer, u32 posX, u32 posY, u8 width, u8 height, u8 palette, u8 allocDir);
+extern void BMP_Clear(struct Bmp *bmp, u8 value);
 extern struct GfFont *GF_FONT_Create(int archiveId, int fileId, int format, int isFixedWidth, u32 heapId);
 extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern struct WordSet *WORDSET_CreateDefault(u32 heap);
+extern struct WordSet *WORDSET_CreateDefault(u16 heapId);
 extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
 extern struct Strbuf *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
-extern void *GAME_DATA_GetMyStatus(struct GameData *gameData);
+struct MyStatus;
+extern struct MyStatus *GAME_DATA_GetMyStatus(struct GameData *gameData);
 extern void WORDSET_SetSlotMyStatus(struct WordSet *wordSet, u32 i, void *playerName);
 extern void WORDSET_CopyTaggedText(struct WordSet *wordSet, struct Strbuf *dst, struct Strbuf *src);
-extern void PRINTSYS_PrintQueColor(struct PrintQue *printQue, void *bitmap, u32 x, u32 y, struct Strbuf *text, struct GfFont *font, u16 color);
+extern void PRINTSYS_PrintQueColor(struct PrintQueue *queue, struct Bmp *bmp, u32 x, s16 y, struct Strbuf *str, struct GfFont *font, u16 color);
 extern void STRBUF_Delete(struct Strbuf *text);
 extern int RTC_GetDate(struct RTCDate *date);
 extern int RTC_GetTime(struct RTCTime *time);
 extern void WORDSET_SetSlotNumber(struct WordSet *wordSet, u32 i, u32 value, u32 digits, u32 padding, u32 numberType);
-extern u8 *GAMESYSTEM_GetMyPlayerWork(const void *gameSystem);
-extern u16 GAME_DATA_GetPlayerZoneId(const u8 *playerState);
+struct PlayerWork;
+extern struct PlayerWork *GAMESYSTEM_GetMyPlayerWork(struct GameSystem *gameSystem);
+extern u16 GAME_DATA_GetPlayerZoneId(struct PlayerWork *player);
 extern u32 ZONEDATA_GetPlaceNameId(u32 zoneId);
 extern void WORDSET_SetSlotFromMsg59(struct WordSet *wordSet, u32 i, u32 msgId);
 extern void *GAME_DATA_GetMiscSave(struct GameData *gameData);
-extern u32 MISC_CountBadges(void *badgeData);
+struct MiscSave;
+extern u32 MISC_CountBadges(struct MiscSave *beacon);
 extern void *GAME_DATA_GetEventWork(const struct GameData *gameData);
-extern u32 ZONEDATA_CheckEventFlag(void *eventWork, int flagId);
-extern void *ZUKAN_SAVE_GetFromGameData(struct GameData *gameData);
-extern u32 ZUKAN_SAVE_CountSeen(void *pokedex, u32 heap);
+struct EventWork;
+extern u32 ZONEDATA_CheckEventFlag(struct EventWork *ev, s32 flagId);
+extern void *ZUKAN_SAVE_GetFromGameData(void *gameData);
+struct ZukanSave;
+extern u32 ZUKAN_SAVE_CountSeen(struct ZukanSave *pZukan, u32 heap);
 extern struct PlayTime *GAME_DATA_GetPlayTime(struct GameData *gameData);
 extern u16 PLAYTIME_GetHours(const struct PlayTime *playTime);
 extern u8 PLAYTIME_GetMinutes(const struct PlayTime *playTime);
 extern int SAVE_CONTROL_WouldOverwriteSave(struct SaveControl *saveControl);
 extern u8 SAVE_CONTROL_HasFlashSave(const struct SaveControl *saveControl);
-extern struct PlayTime *SYSTEM_DATA_GetPlayTime(struct SaveControl *saveControl);
+extern struct PlayTime *SYSTEM_DATA_GetPlayTime(void *save);
 extern u32 PLAYTIME_GetStampYear(const struct PlayTime *playTime);
 extern u32 PLAYTIME_GetStampMonth(const struct PlayTime *playTime);
 extern u32 PLAYTIME_GetStampDay(const struct PlayTime *playTime);
@@ -269,31 +281,33 @@ extern u32 WORDSET_Delete(struct WordSet *wordSet);
 extern u32 MSGDATA_Delete(struct MsgBank *bank);
 extern u32 GF_FONT_Delete(struct GfFont *font);
 extern u32 BMP_WIN_Delete(struct BmpWin *bmpWin);
-extern void PRINTSYS_QUE_Delete(struct PrintQue *printQue);
+extern void PRINTSYS_QUE_Delete(struct PrintQueue *queue);
 extern struct ClactUnit *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
-extern struct PartyMon *POKEPARTY_GetMember(struct PartyHolder *party, u32 i);
-extern void *POKE_TOOL_GetBoxParam(struct PartyMon *mon);
-extern u32 POKE_TOOL_GetGraphicIndex(void *boxParam);
-extern struct CharRes *CLACT_RegisterCharacter(struct ArcHandle *arc, u32 fileId, u32 compressed, u32 vramType, u16 heapId);
+struct PokemonParam;
+extern struct PokemonParam *POKEPARTY_GetMember(struct Party *party, u32 pos);
+struct BoxPokemon;
+extern struct BoxPokemon *POKE_TOOL_GetBoxParam(struct PokemonParam *pp);
+extern u32 POKE_TOOL_GetGraphicIndex(struct BoxPokemon *box);
+extern s32 CLACT_RegisterCharacter(void *archive, u32 file_idx, u32 compressed, u32 vram_mode, u16 heap_id);
 extern int POKE_TOOL_GetIconPaletteArcId(void);
-extern struct PalRes *CLACT_RegisterPaletteCompressed(struct ArcHandle *arc, u32 fileId, u32 vramType, u32 palOffset, u16 heapId);
+extern s32 CLACT_RegisterPaletteCompressed(void *archive, u32 file_idx, u32 vram_mode, u32 vram_offset, u16 heap_id);
 extern int POKE_TOOL_GetIconCellArcId(void);
 extern int POKE_TOOL_GetIconCellEntryId(void);
-extern struct CellRes *CLACT_RegisterCellAnim(struct ArcHandle *arc, u32 cellFileId, u32 animFileId, u32 heapId);
-extern struct PalRes *CLACT_RegisterPaletteEx(struct ArcHandle *arc, u32 fileId, u32 vramType, u32 count, u16 palOffset, u16 pad, u16 heapId);
+extern s32 CLACT_RegisterCellAnim(void *archive, u32 cell_file_idx, u32 anim_file_idx, u32 heap_id);
+extern s32 CLACT_RegisterPaletteEx(void *archive, u32 file_idx, u32 vram_mode, u32 vram_offset, u16 first_color, u16 color_count, u16 heap_id);
 extern struct ClactActor *CLACT_CreateActor(struct ClactUnit *unit, struct CharRes *charRes, struct PalRes *palRes, struct CellRes *cellRes, const Rect *position, unsigned short space, unsigned short heapId);
-extern int POKE_TOOL_GetIconPalette(void *boxParam);
-extern void CLACT_SetActorPaletteOffset(struct ClactActor *actor, u32 paletteIndex, u32 flag);
+extern u32 POKE_TOOL_GetIconPalette(struct BoxPokemon *box);
+extern void CLACT_SetActorPaletteOffset(struct Actor *actor, u32 offset, u32 pltt_op);
 extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
-extern void CLACT_DeleteActor(struct ClactActor *actor);
-extern void CLACT_ReleaseCharacter(struct CharRes *charRes);
-extern void CLACT_ReleasePalette(struct PalRes *palRes);
-extern void CLACT_ReleaseCellAnim(struct CellRes *cellRes);
+extern void CLACT_DeleteActor(struct Actor *actor);
+extern void CLACT_ReleaseCharacter(u32 idx);
+extern void CLACT_ReleasePalette(u32 idx);
+extern void CLACT_ReleaseCellAnim(u32 idx);
 extern u32 CLACT_DeleteUnit(struct ClactUnit *unit);
-extern u32 SAVE_CONTROL_GetWrittenSize(void *saveControl);
-extern void CLACT_SetActorAnimFrame(struct ClactActor *actor, u32 value);
-extern void CLACT_SetActorAnimSeq(struct ClactActor *actor, u16 value);
-extern void CLACT_SetActorAutoAnim(struct ClactActor *actor, u32 v);
+extern u32 SAVE_CONTROL_GetWrittenSize(struct SaveControl *saveControl);
+extern void CLACT_SetActorAnimFrame(struct Actor *actor, u32 frame);
+extern void CLACT_SetActorAnimSeq(struct Actor *actor, u16 value);
+extern void CLACT_SetActorAutoAnim(struct Actor *actor, u32 enable);
 extern void CLACT_DrawSystem(void);
 extern void CLACT_VBlankSystem(void);
 ReportWork *REPORT_Create(void *gameSystem, int heapId);
@@ -358,7 +372,7 @@ void REPORT_ShowPartyIcons(ReportWork *work)
 
     if (!(work->shownFlags & REPORT_SHOWN_ICONS) && PRINTSYS_QUE_IsFinished(work->printQue) == 1) {
         party = GAME_DATA_GetMyParty(GAMESYSTEM_GetGameData(work->gameSystem));
-        for (i = 0; i < POKEPARTY_GetCount(party); i++)
+        for (i = 0; i < POKEPARTY_GetCount((struct Party *)party); i++)
             CLACT_SetActorDrawEnable(work->actors[i], 1);
         work->shownFlags |= REPORT_SHOWN_ICONS;
     }
@@ -390,7 +404,7 @@ void REPORT_UpdateWindows(ReportWork *work)
     for (i = 0; i < REPORT_WINDOW_COUNT; i++) {
         printQue = work->printQue;
         if (work->windows[i].printPending) {
-            if (PRINTSYS_QUE_IsExistTarget(printQue, BMP_WIN_GetBmp(work->windows[i].bmpWin)) == 0) {
+            if (PRINTSYS_QUE_IsExistTarget((struct PrintQueue *)printQue, BMP_WIN_GetBmp(work->windows[i].bmpWin)) == 0) {
                 BMP_WIN_TransferChars(work->windows[i].bmpWin);
                 work->windows[i].printPending = 0;
             }
@@ -541,7 +555,7 @@ void REPORT_LoadBgGraphics(int heapId)
 static inline void printRecordLine(ReportWork *work, u32 index, struct Strbuf *buf, struct Strbuf *msg, u32 y, u16 color, u32 pending)
 {
     struct PrintQue *printQue = work->printQue;
-    PRINTSYS_PrintQueColor(printQue, BMP_WIN_GetBmp(work->windows[index].bmpWin), 0, y, buf, work->font, color);
+    PRINTSYS_PrintQueColor((struct PrintQueue *)printQue, BMP_WIN_GetBmp(work->windows[index].bmpWin), 0, y, buf, work->font, color);
     work->windows[index].printPending = pending;
     STRBUF_Delete(msg);
 }
@@ -652,29 +666,29 @@ void REPORT_InitActors(ReportWork *work)
     Rect position;
 
     party = GAME_DATA_GetMyParty(GAMESYSTEM_GetGameData(work->gameSystem));
-    partyCount = POKEPARTY_GetCount(party);
+    partyCount = POKEPARTY_GetCount((struct Party *)party);
     work->unit = CLACT_CreateUnit(0x10, 0, work->heapId);
     arc = ARC_TOOL_CreateHandle(7, work->heapId);
     for (i = 0; i < partyCount; i++)
-        work->partyCharRes[i] = CLACT_RegisterCharacter(arc, POKE_TOOL_GetGraphicIndex(POKE_TOOL_GetBoxParam(POKEPARTY_GetMember(party, i))), 0, 1,
+        work->partyCharRes[i] = (void *)CLACT_RegisterCharacter(arc, POKE_TOOL_GetGraphicIndex(POKE_TOOL_GetBoxParam(POKEPARTY_GetMember((struct Party *)party, i))), 0, 1,
                                     work->heapId);
-    work->partyPalRes = CLACT_RegisterPaletteCompressed(arc, POKE_TOOL_GetIconPaletteArcId(), 1, 0, work->heapId);
+    work->partyPalRes = (void *)CLACT_RegisterPaletteCompressed(arc, POKE_TOOL_GetIconPaletteArcId(), 1, 0, work->heapId);
     cellFileId = POKE_TOOL_GetIconCellArcId();
-    work->partyCellRes = CLACT_RegisterCellAnim(arc, cellFileId, POKE_TOOL_GetIconCellEntryId(), work->heapId);
+    work->partyCellRes = (void *)CLACT_RegisterCellAnim(arc, cellFileId, POKE_TOOL_GetIconCellEntryId(), work->heapId);
     ARC_TOOL_DeleteHandle(arc);
     arc = ARC_TOOL_CreateHandle(0xC4, work->heapId);
-    work->barCharRes = CLACT_RegisterCharacter(arc, 3, 1, 1, work->heapId);
-    work->barPalRes = CLACT_RegisterPaletteEx(arc, 4, 1, 0x60, 0, 1, work->heapId);
-    work->barCellRes = CLACT_RegisterCellAnim(arc, 5, 6, work->heapId);
+    work->barCharRes = (void *)CLACT_RegisterCharacter(arc, 3, 1, 1, work->heapId);
+    work->barPalRes = (void *)CLACT_RegisterPaletteEx(arc, 4, 1, 0x60, 0, 1, work->heapId);
+    work->barCellRes = (void *)CLACT_RegisterCellAnim(arc, 5, 6, work->heapId);
     ARC_TOOL_DeleteHandle(arc);
     position = sReportActorPositions[0];
     for (i = 0; i < partyCount; i++) {
-        mon = POKEPARTY_GetMember(party, i);
+        mon = (struct PartyMon *)POKEPARTY_GetMember((struct Party *)party, i);
         work->actors[i] = CLACT_CreateActor(work->unit, work->partyCharRes[i], work->partyPalRes, work->partyCellRes, &position, 1,
                                     work->heapId);
         CLACT_SetActorDrawEnable(work->actors[i], 0);
         position.x += 0x20;
-        CLACT_SetActorPaletteOffset(work->actors[i], POKE_TOOL_GetIconPalette(POKE_TOOL_GetBoxParam(mon)), 1);
+        CLACT_SetActorPaletteOffset(work->actors[i], POKE_TOOL_GetIconPalette(POKE_TOOL_GetBoxParam((struct PokemonParam *)mon)), 1);
     }
     position = sReportActorPositions[1];
     for (i = 6; i <= 15; i++) {
@@ -694,17 +708,17 @@ void REPORT_ExitActors(ReportWork *work)
     struct PartyHolder *party;
 
     party = GAME_DATA_GetMyParty(GAMESYSTEM_GetGameData(work->gameSystem));
-    for (i = 0; i < POKEPARTY_GetCount(party); i++) {
+    for (i = 0; i < POKEPARTY_GetCount((struct Party *)party); i++) {
         CLACT_DeleteActor(work->actors[i]);
-        CLACT_ReleaseCharacter(work->partyCharRes[i]);
+        CLACT_ReleaseCharacter((u32)work->partyCharRes[i]);
     }
     for (i = 6; i <= 15; i++)
         CLACT_DeleteActor(work->actors[i]);
-    CLACT_ReleaseCharacter(work->barCharRes);
-    CLACT_ReleasePalette(work->partyPalRes);
-    CLACT_ReleasePalette(work->barPalRes);
-    CLACT_ReleaseCellAnim(work->partyCellRes);
-    CLACT_ReleaseCellAnim(work->barCellRes);
+    CLACT_ReleaseCharacter((u32)work->barCharRes);
+    CLACT_ReleasePalette((u32)work->partyPalRes);
+    CLACT_ReleasePalette((u32)work->barPalRes);
+    CLACT_ReleaseCellAnim((u32)work->partyCellRes);
+    CLACT_ReleaseCellAnim((u32)work->barCellRes);
     CLACT_DeleteUnit(work->unit);
     BG_SYS_SetSubPlaneVisible(0x10, 0);
 }

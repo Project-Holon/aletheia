@@ -64,6 +64,7 @@
  *   NNSi_SndWaveOutUnlockChannel  0x02072A88  arm
  *   NNS_SndWaveOutStart  0x02072AA0  arm
  *   NNS_SndWaveOutStop 0x02072BDC arm
+ *   _u32_div_f                   0x0209C2B0  arm
  */
 #include "ctvt_types.h"
 
@@ -108,8 +109,9 @@ extern void GFL_USE_ClearVBlankHook(void);
 extern void CTVT_MIC_FreeChannel(CtvtMic *mic);
 
 extern void *MIC_GetLastSamplingAddress(void);
+struct NNSSndWaveOutHandle;
 
-extern int NNS_SndWaveOutIsPlaying(struct NnsWaveOutSlot *);
+extern int NNS_SndWaveOutIsPlaying(struct NNSSndWaveOutHandle *handle);
 
 extern void CTVT_MIC_PostUpdate(CtvtMic *mic);
 
@@ -119,13 +121,14 @@ extern int MIC_StopLimitedSampling(void);
 
 CtvtMic *CTVT_MIC_Create(u32 heap);
 
-void SNDEXi_SetIirFilter(int, void *);
+unsigned int SNDEXi_SetIirFilter(unsigned int target, unsigned short *coefficients);
 
 void CTVT_MIC_Delete(CtvtMic *mic);
 
 void CTVT_MIC_Update(CtvtMic *mic);
+struct CtvtMic;
 
-void CTVT_MIC_SetMode(int mode);
+void CTVT_MIC_SetMode(struct CtvtMic *mode);
 
 void CTVT_MIC_OnVBlank(void);
 
@@ -186,12 +189,12 @@ void CTVT_MIC_Update(CtvtMic *mic)
         }
     }
     if (mic->playing == 1) {
-        if (NNS_SndWaveOutIsPlaying(mic->channel) == 0) mic->playing = 0;
+        if (NNS_SndWaveOutIsPlaying((struct NNSSndWaveOutHandle *)mic->channel) == 0) mic->playing = 0;
     }
     CTVT_MIC_PostUpdate(mic);
 }
 
-void CTVT_MIC_SetMode(int mode)
+void CTVT_MIC_SetMode(struct CtvtMic *mode)
 {
 }
 
@@ -262,19 +265,19 @@ extern int CTVT_ADPCM_Encode(void *pcm, unsigned pcmBytes, void *out);
 
 extern int CTVT_ADPCM_Decode(int a, int b, int c);
 
-extern int  NNS_SndWaveOutAllocChannel(int size);
+extern struct NNSSndWaveOutHandle *NNS_SndWaveOutAllocChannel(unsigned int slotNo);
 
 extern void GF_PANIC_Fail(const char *expr, u32 line, const char *file);
 
-extern void NNSi_SndWaveOutUnlockChannel(struct NnsWaveOutSlot *slot);
+extern void NNSi_SndWaveOutUnlockChannel(unsigned int *channelNoPtr);
 
-extern int NNS_SndWaveOutStart(void *s, int fmt, void *data, int loop,
-                         int start, int end, int rate, int vol, int freq, int e);
+extern int NNS_SndWaveOutStart(struct NNSSndWaveOutHandle *handle, int format, void *waveData, int loopFlag, int loopStart, int loopEnd, int sampleRate, int volume, int playFreq, int pan);
 
-extern void NNS_SndWaveOutStop(struct NnsWaveOutSlot *slot);
+extern void NNS_SndWaveOutStop(struct NNSSndWaveOutHandle *handle);
+struct CtvtMic;
 
 
-int CTVT_MIC_EncodeAdpcm(int unused, void *a, void *buf, unsigned n);
+int CTVT_MIC_EncodeAdpcm(struct CtvtMic *unused, void *a, void *buf, unsigned n);
 
 int CTVT_MIC_DecodeAdpcm(int unused, int a, void *buf, unsigned n);
 
@@ -300,7 +303,7 @@ int CTVT_MIC_IsCaptureDone(CtvtMic *mic);
  *
  * Addresses are Black-image addresses.
  */
-int CTVT_MIC_EncodeAdpcm(int unused, void *a, void *buf, unsigned n)
+int CTVT_MIC_EncodeAdpcm(struct CtvtMic *unused, void *a, void *buf, unsigned n)
 {
     MI_CpuFill8(buf, 0, n);
     return CTVT_ADPCM_Encode(a, n, buf);
@@ -325,7 +328,7 @@ void CTVT_MIC_InitChannel(CtvtMic *mic, u32 heap)
 
 void CTVT_MIC_FreeChannel(CtvtMic *mic)
 {
-    NNSi_SndWaveOutUnlockChannel(mic->channel);
+    NNSi_SndWaveOutUnlockChannel((unsigned int *)mic->channel);
 }
 
 void CTVT_MIC_PostUpdate(CtvtMic *mic)
@@ -340,7 +343,7 @@ void CTVT_MIC_PostUpdate(CtvtMic *mic)
 int CTVT_MIC_PlayVoice(CtvtMic *mic, char *buf, unsigned n, int vol, int freq)
 {
     if (n > 0x20) {
-        int r = NNS_SndWaveOutStart(mic->channel, 1, buf + 0x800, 0, 0, (int)(n >> 1), 0x1FF4, vol, freq, 0x40);
+        int r = NNS_SndWaveOutStart((struct NNSSndWaveOutHandle *)mic->channel, 1, buf + 0x800, 0, 0, (int)(n >> 1), 0x1FF4, vol, freq, 0x40);
         mic->playing = r;
         mic->playPos = 0;
         mic->length = (int)n;
@@ -353,7 +356,7 @@ int CTVT_MIC_PlayVoice(CtvtMic *mic, char *buf, unsigned n, int vol, int freq)
 void CTVT_MIC_StopVoice(CtvtMic *mic)
 {
     mic->playing = 0;
-    NNS_SndWaveOutStop(mic->channel);
+    NNS_SndWaveOutStop((struct NNSSndWaveOutHandle *)mic->channel);
 }
 
 u32 CTVT_MIC_GetPlayState(CtvtMic *mic)

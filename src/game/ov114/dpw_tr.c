@@ -117,12 +117,12 @@ typedef struct DpwTrWork {
 
 extern int DWCi_EncSessionProcess(void);
 extern void DWCi_EncSessionShutdown(void);
-extern const void *DWCi_EncSessionGetResponse(u32 *len);
+extern u32 DWCi_EncSessionGetResponse(u32 *len);
 extern int DWC_GetLastErrorEx(int *code, int *type);
 extern void DWCi_EncSessionInitialize(int server, char *initdata);
 extern int DWCi_EncSessionGetAsync(void *, unsigned int, void *, unsigned int, unsigned int);
 extern void DWCi_EncSessionCancel(void);
-extern void OS_GetMacAddress(void *);
+extern void OS_GetMacAddress(u8 *macAddress);
 extern int DWC_UpdateConnection(void);
 extern void DWC_ClearError(void);
 
@@ -185,7 +185,7 @@ void DPW_TR_Main(void)
             return;
         case DWC_ENC_PROCESS_DONE:
             gDpwTrWork.state = DPW_TR_STATE_DONE;
-            memcpy(&gDpwTrWork.response, DWCi_EncSessionGetResponse(&len), 2);
+            memcpy(&gDpwTrWork.response, (void *)DWCi_EncSessionGetResponse(&len), 2);
             switch (gDpwTrWork.response.code) {
             case 1: gDpwTrWork.result = 0; break;
             case 2: gDpwTrWork.result = -5; break;
@@ -214,7 +214,7 @@ void DPW_TR_Main(void)
             return;
         case DWC_ENC_PROCESS_DONE:
             gDpwTrWork.state = DPW_TR_STATE_DONE;
-            memcpy(&gDpwTrWork.response, DWCi_EncSessionGetResponse(&len), 2);
+            memcpy(&gDpwTrWork.response, (void *)DWCi_EncSessionGetResponse(&len), 2);
             switch (gDpwTrWork.response.code) {
             case 1: gDpwTrWork.result = 0; break;
             case 2: gDpwTrWork.result = -5; break;
@@ -290,7 +290,7 @@ void DPW_TR_Main(void)
             return;
         case DWC_ENC_PROCESS_DONE:
             gDpwTrWork.state = DPW_TR_STATE_DONE;
-            memcpy(&gDpwTrWork.response, DWCi_EncSessionGetResponse(&len), 2);
+            memcpy(&gDpwTrWork.response, (void *)DWCi_EncSessionGetResponse(&len), 2);
             switch (gDpwTrWork.response.code) {
             case 1: gDpwTrWork.result = 0; break;
             case 5: gDpwTrWork.result = -3; break;
@@ -312,7 +312,7 @@ void DPW_TR_Main(void)
             return;
         case DWC_ENC_PROCESS_DONE:
             gDpwTrWork.state = DPW_TR_STATE_DONE;
-            memcpy(&gDpwTrWork.response, DWCi_EncSessionGetResponse(&len), 2);
+            memcpy(&gDpwTrWork.response, (void *)DWCi_EncSessionGetResponse(&len), 2);
             switch (gDpwTrWork.response.code) {
             case 1: gDpwTrWork.result = 0; break;
             case 5: gDpwTrWork.result = -3; break;
@@ -394,7 +394,7 @@ void DPW_TR_Main(void)
             return;
         case DWC_ENC_PROCESS_DONE:
             gDpwTrWork.state = DPW_TR_STATE_DONE;
-            memcpy(&gDpwTrWork.response, DWCi_EncSessionGetResponse(&len), 2);
+            memcpy(&gDpwTrWork.response, (void *)DWCi_EncSessionGetResponse(&len), 2);
             switch (gDpwTrWork.response.code) {
             case 1: gDpwTrWork.result = 0; break;
             case 2: gDpwTrWork.result = -5; break;
@@ -414,7 +414,7 @@ void DPW_TR_Main(void)
             return;
         case DWC_ENC_PROCESS_DONE:
             gDpwTrWork.state = DPW_TR_STATE_DONE;
-            memcpy(&gDpwTrWork.response, DWCi_EncSessionGetResponse(&len), 2);
+            memcpy(&gDpwTrWork.response, (void *)DWCi_EncSessionGetResponse(&len), 2);
             switch (gDpwTrWork.response.code) {
             case 1: gDpwTrWork.result = 0; break;
             case 6: gDpwTrWork.result = 1; break;

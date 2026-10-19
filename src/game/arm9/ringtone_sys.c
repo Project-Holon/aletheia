@@ -47,7 +47,7 @@ extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u
 
 extern u32 GFL_HEAP_Free(void *p);
 
-extern void UI_SetResumeAndSuspendHooks(void (*onSleep)(void), void (*onWake)(void), Ringtone *arg);
+extern void UI_SetResumeAndSuspendHooks(void (*onSleep)(void), void (*onWake)(void), void *c);
 
 extern int GFL_USE_IsSeSlotBusy(u32 slot);
 
@@ -57,7 +57,7 @@ extern void GFL_USE_PlaySeInSlot(u32 seqNo, int slot);
 
 extern void NNS_SndSetMasterVolume(int volume);
 
-extern void NNS_SndPlayerSetPlayerVolume(int playerNo, int volume);
+extern void NNS_SndPlayerSetPlayerVolume(u32 playerNo, u32 volume);
 
 extern void PLAYER_VOLUME_FADER_SetMute(struct Fader *fader, int mute);
 

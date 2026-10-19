@@ -1,7 +1,7 @@
 /*
  * file:     event_mapchange.c
  * unit:     yes
- * function: EVENT_MAPCHANGE_StartMarker, EVENT_MAPCHANGE_CreateByMode, EVENT_MAPCHANGE_FirstStartEvent, EVENT_MAPCHANGE_CreateFirstStartEvent, EVENT_MAPCHANGE_InitUnionInfo, EVENT_MAPCHANGE_NewGameStartEvent, EVENT_MAPCHANGE_CreateNewGameStartEvent, EVENT_MAPCHANGE_RefreshUnionInfo, EVENT_MAPCHANGE_ContinueEvent, EVENT_MAPCHANGE_CreateContinueEvent, EVENT_MAPCHANGE_CheckSeasonChange, EVENT_MAPCHANGE_SetupExitEntranceParam, EVENT_MAPCHANGE_SetupEnterEntranceParam, EVENT_MAPCHANGE_ChangeFieldEvent, EVENT_MAPCHANGE_CreateChangeFieldEvent, EVENT_MAPCHANGE_EntranceEvent, EVENT_MAPCHANGE_EntranceCommEvent, EVENT_MAPCHANGE_DetachedTailEvent, EVENT_MAPCHANGE_FadeEvent, EVENT_MAPCHANGE_FadeDelayedEvent, EVENT_MAPCHANGE_TargetPositionEvent, EVENT_MAPCHANGE_SeasonEffectAEvent, EVENT_MAPCHANGE_SeasonEffectBEvent, EVENT_MAPCHANGE_ResetPlayerFormEvent, EVENT_MAPCHANGE_FadeWaitEvent, EVENT_MAPCHANGE_FadeDetachEvent, EVENT_MAPCHANGE_EffectCEvent, EVENT_MAPCHANGE_SwapCommOverlayEvent, EVENT_MAPCHANGE_RunFixedZoneEvent, EVENT_MAPCHANGE_InitWork, EVENT_MAPCHANGE_CreateWarpEvent, EVENT_MAPCHANGE_CreateRailWarpEvent, EVENT_MAPCHANGE_CreateRailWarpEventWithTransition, EVENT_MAPCHANGE_CreateWarpEventWithTargetPos, EVENT_MAPCHANGE_CreateDigEscapeEvent, EVENT_MAPCHANGE_CreateEscapeRopeEvent, EVENT_MAPCHANGE_CreateSituationWarpEvent, EVENT_MAPCHANGE_CreateSpecialLocationWarpEvent, EVENT_MAPCHANGE_CreateZoneStartWarpEvent, EVENT_MAPCHANGE_CreateFixedExitTypeWarpEvent, EVENT_MAPCHANGE_CreateFixedZoneEvent, EVENT_MAPCHANGE_CreateSpecialLocationEvent, EVENT_MAPCHANGE_CreateIntrudeWarpEvent, EVENT_MAPCHANGE_CreateIntrudeReturnEvent, EVENT_MAPCHANGE_GetCurrentLocation, EVENT_MAPCHANGE_CreateExitWarpEvent, EVENT_MAPCHANGE_CreateExitWarpEventNoEntranceUpdate, EVENT_MAPCHANGE_CreateWarpEventWithTransition, EVENT_MAPCHANGE_CreateWarpEventDefaultTransition, EVENT_MAPCHANGE_CreateWarpEventToLocation, EVENT_MAPCHANGE_CreateWarpEventPlain, EVENT_MAPCHANGE_CreateWarpEventWithIntrudeOffset, EVENT_MAPCHANGE_InitFieldFromSituationWarp, EVENT_MAPCHANGE_RunSituationWarpArrivalEvent, EVENT_MAPCHANGE_CreateSituationWarpArrivalEvent, EVENT_MAPCHANGE_DirToAngle, EVENT_MAPCHANGE_ResolveLocation, EVENT_MAPCHANGE_ApplyLocation, EVENT_MAPCHANGE_AddEventDataMmdl, EVENT_MAPCHANGE_AddWfbcMmdl, EVENT_MAPCHANGE_DeleteAllMmdl, EVENT_MAPCHANGE_ReloadMmdl, EVENT_MAPCHANGE_SetMapEffectMask, EVENT_MAPCHANGE_UpdateFieldStateForZone, EVENT_MAPCHANGE_DeleteAllMmdlOfSystem, EVENT_MAPCHANGE_SetPlayerVanish, EVENT_MAPCHANGE_ApplyZoneTableEntry, EVENT_MAPCHANGE_CreateIntrudeSessionEvent, EVENT_MAPCHANGE_CreateIntrudeArriveEvent, EVENT_MAPCHANGE_RunIntrudeArriveEvent, EVENT_MAPCHANGE_RunIntrudeSessionEvent, EVENT_MAPCHANGE_UpdateEscapeLocation, EVENT_MAPCHANGE_CopySpecialLocation, EVENT_MAPCHANGE_ResetPlayerObjectCode, EVENT_MAPCHANGE_AddPresetMail, EVENT_MAPCHANGE_StartSeasonEffect, EVENT_MAPCHANGE_AllocWorkBufferA, EVENT_MAPCHANGE_AllocWorkBufferB, EVENT_MAPCHANGE_EndMarker
+ * function: EVENT_MAPCHANGE_CallHookAndInvert, EVENT_MAPCHANGE_CreateByMode, EVENT_MAPCHANGE_FirstStartEvent, EVENT_MAPCHANGE_CreateFirstStartEvent, EVENT_MAPCHANGE_InitUnionInfo, EVENT_MAPCHANGE_NewGameStartEvent, EVENT_MAPCHANGE_CreateNewGameStartEvent, EVENT_MAPCHANGE_RefreshUnionInfo, EVENT_MAPCHANGE_ContinueEvent, EVENT_MAPCHANGE_CreateContinueEvent, EVENT_MAPCHANGE_CheckSeasonChange, EVENT_MAPCHANGE_SetupExitEntranceParam, EVENT_MAPCHANGE_SetupEnterEntranceParam, EVENT_MAPCHANGE_ChangeFieldEvent, EVENT_MAPCHANGE_CreateChangeFieldEvent, EVENT_MAPCHANGE_EntranceEvent, EVENT_MAPCHANGE_EntranceCommEvent, EVENT_MAPCHANGE_DetachedTailEvent, EVENT_MAPCHANGE_FadeEvent, EVENT_MAPCHANGE_FadeDelayedEvent, EVENT_MAPCHANGE_TargetPositionEvent, EVENT_MAPCHANGE_SeasonEffectAEvent, EVENT_MAPCHANGE_SeasonEffectBEvent, EVENT_MAPCHANGE_ResetPlayerFormEvent, EVENT_MAPCHANGE_FadeWaitEvent, EVENT_MAPCHANGE_FadeDetachEvent, EVENT_MAPCHANGE_EffectCEvent, EVENT_MAPCHANGE_SwapCommOverlayEvent, EVENT_MAPCHANGE_RunFixedZoneEvent, EVENT_MAPCHANGE_InitWork, EVENT_MAPCHANGE_CreateWarpEvent, EVENT_MAPCHANGE_CreateRailWarpEvent, EVENT_MAPCHANGE_CreateRailWarpEventWithTransition, EVENT_MAPCHANGE_CreateWarpEventWithTargetPos, EVENT_MAPCHANGE_CreateDigEscapeEvent, EVENT_MAPCHANGE_CreateEscapeRopeEvent, EVENT_MAPCHANGE_CreateSituationWarpEvent, EVENT_MAPCHANGE_CreateSpecialLocationWarpEvent, EVENT_MAPCHANGE_CreateZoneStartWarpEvent, EVENT_MAPCHANGE_CreateFixedExitTypeWarpEvent, EVENT_MAPCHANGE_CreateFixedZoneEvent, EVENT_MAPCHANGE_CreateSpecialLocationEvent, EVENT_MAPCHANGE_CreateIntrudeWarpEvent, EVENT_MAPCHANGE_CreateIntrudeReturnEvent, EVENT_MAPCHANGE_GetCurrentLocation, EVENT_MAPCHANGE_CreateExitWarpEvent, EVENT_MAPCHANGE_CreateExitWarpEventNoEntranceUpdate, EVENT_MAPCHANGE_CreateWarpEventWithTransition, EVENT_MAPCHANGE_CreateWarpEventDefaultTransition, EVENT_MAPCHANGE_CreateWarpEventToLocation, EVENT_MAPCHANGE_CreateWarpEventPlain, EVENT_MAPCHANGE_CreateWarpEventWithIntrudeOffset, EVENT_MAPCHANGE_InitFieldFromSituationWarp, EVENT_MAPCHANGE_RunSituationWarpArrivalEvent, EVENT_MAPCHANGE_CreateSituationWarpArrivalEvent, EVENT_MAPCHANGE_DirToAngle, EVENT_MAPCHANGE_ResolveLocation, EVENT_MAPCHANGE_ApplyLocation, EVENT_MAPCHANGE_AddEventDataMmdl, EVENT_MAPCHANGE_AddWfbcMmdl, EVENT_MAPCHANGE_DeleteAllMmdl, EVENT_MAPCHANGE_ReloadMmdl, EVENT_MAPCHANGE_SetMapEffectMask, EVENT_MAPCHANGE_UpdateFieldStateForZone, EVENT_MAPCHANGE_DeleteAllMmdlOfSystem, EVENT_MAPCHANGE_SetPlayerVanish, EVENT_MAPCHANGE_ApplyZoneTableEntry, EVENT_MAPCHANGE_CreateIntrudeSessionEvent, EVENT_MAPCHANGE_CreateIntrudeArriveEvent, EVENT_MAPCHANGE_RunIntrudeArriveEvent, EVENT_MAPCHANGE_RunIntrudeSessionEvent, EVENT_MAPCHANGE_UpdateEscapeLocation, EVENT_MAPCHANGE_CopySpecialLocation, EVENT_MAPCHANGE_ResetPlayerObjectCode, EVENT_MAPCHANGE_AddPresetMail, EVENT_MAPCHANGE_StartSeasonEffect, EVENT_MAPCHANGE_TamperLeakA, EVENT_MAPCHANGE_TamperLeakB, EVENT_MAPCHANGE_NopHook
  * address:  0x02183B60
  * region:   ov020
  * compiler: dsi/1.1p1
@@ -287,6 +287,7 @@ typedef short          s16;
 typedef signed int     s32;
 typedef unsigned long long u64;
 
+#include "../version.h"
 #include "event_mapchange_types.h"
 
 
@@ -363,7 +364,7 @@ extern void GX_SetBankForLCDC(int a);
 extern void MIi_CpuClearFast(int v, u32 a, u32 b);
 extern void GX_DisableBankForLCDC(void);
 extern int COMM_PLAYER_SUPPORT_GetSeasonFromClock(void);
-extern u8 COMM_PLAYER_SUPPORT_SetSeason(struct GameData *gameData, s32 season);
+extern u8 COMM_PLAYER_SUPPORT_SetSeason(s32 handle, s32 value);
 extern u8 GAME_DATA_GetSeason(struct GameData *gameData);
 extern struct GameEvent *EL_SCOREBOARD_StartStandalone(struct GameSystem *gameSystem, int fromSeason, int toSeason);
 extern void GAME_EVENT_CallEvent(struct GameEvent *parent, struct GameEvent *child);
@@ -371,57 +372,67 @@ extern struct GameEvent *EVENT_FIELD_PROCLINK_CreateCommExitEvent(struct GameSys
 extern void GAME_EVENT_ChangeEvent(struct GameEvent *event, struct GameEvent *newEvent);
 extern struct GameEvent *GAME_EVENT_Create(struct GameSystem *gameSystem, struct GameEvent *parent, void *callback, u32 workSize);
 extern void *GAME_EVENT_GetWork(struct GameEvent *event);
-u16 *GAME_DATA_GetSecondUnionInfo(GameData *gameData);
-extern void *GAME_DATA_GetMyStatus(struct GameData *gameData);
-extern void FIELD_WFBC_DATA_LOCAL_Init(void *unionInfo, void *myStatus, int flag);
-extern int EVENT_FIELD_PROCLINK_ApplyZoneChangeEnable(void *unionInfo);
-extern void *GAME_DATA_GetMusicalShotExtraData(struct GameData *gameData);
-extern void EVENT_FIELD_PROCLINK_GetReturnInfo(void *out, void *unionInfo, int flag);
-extern struct EventWork *GAME_DATA_GetEventWork(struct GameData *gameData);
-extern void SCRIPT_SYS_RunInitScript(struct GameSystem *gameSystem, int scriptKind);
+struct UnionInfo;
+struct UnionInfo *GAME_DATA_GetSecondUnionInfo(GameData *gameData);
+struct MyStatus;
+extern struct MyStatus *GAME_DATA_GetMyStatus(struct GameData *gameData);
+struct WfbcData;
+extern void FIELD_WFBC_DATA_LOCAL_Init(struct WfbcData *data, struct MyStatus *myStatus, s32 heapSeed);
+struct ZoneFlagSetting;
+extern int EVENT_FIELD_PROCLINK_ApplyZoneChangeEnable(struct ZoneFlagSetting *setting);
+extern u8 *GAME_DATA_GetMusicalShotExtraData(struct GameData *gameData);
+struct ProcLinkRequest;
+extern void EVENT_FIELD_PROCLINK_GetReturnInfo(u16 *result, struct ProcLinkRequest *request, s32 variant);
+extern void *GAME_DATA_GetEventWork(struct GameData *gameData);
+extern void SCRIPT_SYS_RunInitScript(void *fieldSys, s32 reserved);
 void EVENT_MAPCHANGE_UpdateFieldStateForZone(GameSystem *gameSystem, int zoneId);
 void EVENT_MAPCHANGE_ApplyLocation(GameSystem *gameSystem, Location *warpLocation);
 extern unsigned int FIELD_SOUND_SYSTEM_GetFieldBgmForZoneEx(struct GameData *gameData, unsigned int zoneId, unsigned int season);
 extern struct GameEvent *FIELD_SOUND_SYSTEM_StartChangeTask(struct GameSystem *gameSystem, u32 bgmId, u32 b, u32 frames);
 extern struct GameEvent *FIELD_STATUS_CreateFieldOpenNoNotifyEvent(struct GameSystem *gameSystem);
-extern struct FieldMap *GAMESYSTEM_GetFieldMap(struct GameSystem *gameSystem);
+extern void *GAMESYSTEM_GetFieldMap(struct GameSystem *gameSystem);
 extern struct GameEvent *EVENT_FIELDMAP_CONTROL_StartFadeIn(struct GameSystem *gameSystem, struct FieldMap *fieldMap, int effect, int d, int e, u8 fromSeason, u8 toSeason);
-extern struct PlaceNameSys *FIELDMAP_GetPlaceName(struct FieldMap *fieldMap);
-extern void FIELD_PLACE_NAME_ShowForZone(struct PlaceNameSys *placeName, int zoneId);
+struct FieldPlaceName;
+extern struct FieldPlaceName *FIELDMAP_GetPlaceName(struct FieldMap *fieldMap);
+extern void FIELD_PLACE_NAME_ShowForZone(struct FieldPlaceName *placeName, s32 zoneId);
 extern void ZONEDATA_SetGameStartLocation(Location *location);
 extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gameData);
-extern struct ConsoleInfo *CONSOLE_STAMP_GetFromSave(struct SaveControl *saveControl);
-extern void CONSOLE_STAMP_SetIdentity(struct ConsoleInfo *consoleInfo);
+struct ConsoleStamp;
+extern struct ConsoleStamp *CONSOLE_STAMP_GetFromSave(struct SaveControl *saveControl);
+extern void CONSOLE_STAMP_SetIdentity(struct ConsoleStamp *stamp);
 extern void PALANM_StartTimer(void);
 void EVENT_MAPCHANGE_AddPresetMail(GameData *gameData);
-extern FieldStatus *GAME_DATA_GetMoveModelSys(GameData *gameData);
-extern void FIELD_STATUS_SetContinueFlag(void *fieldStatus, u8 v);
+extern void *GAME_DATA_GetMoveModelSys(GameData *gameData);
+struct FieldStatus;
+extern void FIELD_STATUS_SetContinueFlag(struct FieldStatus *fs, u8 continueFlag);
 extern Location *GAME_DATA_GetSpecialLocation(struct GameData *gameData);
 void EVENT_MAPCHANGE_DeleteAllMmdlOfSystem(GameSystem *gameSystem);
 void EVENT_MAPCHANGE_StartSeasonEffect(GameData *gameData);
-extern void GAME_BEACON_SetZone(u32 zoneId, struct GameData *gameData);
+extern void GAME_BEACON_SetZone(u32 zoneId, u32 zoneSource);
 extern void FIELD_CLOCK_Update(struct GameData *gameData);
-extern void FIELD_MAP_CHANGE_MoveActiveEntries(struct GameData *gameData, int zoneId);
-extern void WEATHER_RefreshStoredWeatherId(struct GameData *gameData, int zoneId);
+extern void FIELD_MAP_CHANGE_MoveActiveEntries(void *object, s32 unused);
+extern void WEATHER_RefreshStoredWeatherId(u8 *gameData, s32 zoneId);
 extern u8 ZONEDATA_GetMapSubType(u32 zoneId);
-extern MmdlSys *GAME_DATA_GetOccupyInfo(GameData *gameData);
+extern void *GAME_DATA_GetOccupyInfo(GameData *gameData);
 extern void FLDMMDL_SysLoadObjCodeParamCache(MmdlSys *mmdlSys, int objCodeSet);
 extern void FLDMMDL_ClearObjCodeParamCache(MmdlSys *mmdlSys);
 extern u16 *ZONEDATA_GetEventWorkAddress(struct EventWork *eventWork, u32 workId);
-extern int SCRIPT_SYS_CallScriptEvent(struct GameEvent *event, u16 scriptId, int c, int d, u16 e);
+extern void *SCRIPT_SYS_CallScriptEvent(void *parentEvent, u16 scriptId, void *target, void *parentWork, u16 reserved);
 extern u32 ZONEDATA_CheckEventFlag(struct EventWork *eventWork, s32 flagId);
 extern void ZONEDATA_ResetEventFlag(struct EventWork *eventWork, int flagId);
-extern void *POKEPARTY_GetSaveData(struct SaveControl *saveControl);
-extern struct MiscSave *GAME_DATA_GetMiscSave(struct GameData *gameData);
-extern int CONSOLE_STAMP_IsThisConsole(struct ConsoleInfo *consoleInfo);
-extern int CONSOLE_STAMP_IsRtcOffsetCurrent(struct ConsoleInfo *consoleInfo);
+struct Party;
+extern struct Party *POKEPARTY_GetSaveData(struct SaveControl *saveControl);
+extern void *GAME_DATA_GetMiscSave(struct GameData *gameData);
+extern int CONSOLE_STAMP_IsThisConsole(struct ConsoleStamp *stamp);
+extern int CONSOLE_STAMP_IsRtcOffsetCurrent(struct ConsoleStamp *stamp);
 extern struct ConsoleInfoSession *CONSOLE_STAMP_GetDailyClock(struct SaveControl *saveControl);
 extern void DAILY_CLOCK_Refill(struct ConsoleInfoSession *session);
 extern void FORMCHANGE_RevertShayminAndRegister(struct GameData *gameData, void *party);
 extern u64 GF_STANDARD_GetRtcTimestamp();
 extern void MISC_SetLastTime(struct MiscSave *miscSave, u32 lo, u32 hi);
-extern void FORMCHANGE_UpdateSeasonForms(struct GameData *gameData, void *party, int season);
-extern int COMM_PLAYER_SUPPORT_IsSeasonChanged(struct GameData *gameData, u16 *outA, u16 *outB);
+extern void FORMCHANGE_UpdateSeasonForms(struct GameData *gameData, struct Party *party, s32 season);
+struct PlayerInfo;
+extern int COMM_PLAYER_SUPPORT_IsSeasonChanged(struct PlayerInfo *info, u16 *outStored, u16 *outCurrent);
 extern u32 ZONEDATA_GetAreaId(u32 zoneId);
 u16 FIELDMAP_GetHeapId(FieldMap *fieldMap);
 extern struct AreaData *ZONEDATA_CreateAreaData(int heapId, int areaId, int c);
@@ -430,9 +441,10 @@ extern u32 ZONEDATA_DeleteAreaData(struct AreaData *areaData);
 extern int EVENT_FIELDMAP_CONTROL_GetExitEffect(int fromZone, u32 toZone);
 extern int EVENT_FIELDMAP_CONTROL_GetEntranceEffect(int fromZone, int toZone);
 extern u8 COMM_PLAYER_SUPPORT_NextSeason(u8 a);
-extern EventData *GAME_DATA_GetEventData(GameData *gameData);
+extern void *GAME_DATA_GetEventData(GameData *gameData);
 extern void *EVENTDATA_SYSTEM_GetConnectData(EventData *eventData, u16 exitId);
-extern u8 EVENTDATA_SYSTEM_GetConnectExitType(void *connectData);
+struct ConnectData;
+extern u8 EVENTDATA_SYSTEM_GetConnectExitType(struct ConnectData *connect);
 extern struct GameComm *GAMESYSTEM_GetGameComm(struct GameSystem *gameSystem);
 extern u8 FIELD_STATUS_SwapSeasonDispFlag(FieldStatus *fieldStatus, u8 value);
 extern struct GameEvent *FIELD_STATUS_CreateFieldCloseNoSoundWaitEvent(struct GameSystem *gameSystem, struct FieldMap *fieldMap);
@@ -441,48 +453,51 @@ extern void GF_OVERLAY_Unload(int handle);
 extern u32 ZONEDATA_IsNoGameEventZone(u32 zoneId);
 extern u32 GAME_COMM_GetKind(struct GameComm *gameComm);
 extern void GAME_COMM_RequestExitNoCallback(struct GameComm *gameComm);
-void *EVENT_MAPCHANGE_AllocWorkBufferA(void);
-void *EVENT_MAPCHANGE_AllocWorkBufferB(void);
-void EVENT_MAPCHANGE_EndMarker(void);
-extern u32 OV230_CallSealedBody0(void (*a)(void), void (*b)(void), u32 c);
-extern u32 OV230_CallSealedBody2(void (*a)(void), void (*b)(void), u32 c);
-extern u32 OV230_CallSealedBody5(void (*a)(void), void (*b)(void), u32 c);
+void *EVENT_MAPCHANGE_TamperLeakA(void);
+void *EVENT_MAPCHANGE_TamperLeakB(void);
+void EVENT_MAPCHANGE_NopHook(void);
+extern u32 OV230_CallSealedBody0(void (*hook)(void), void (*hookArg)(void), u32 unused);
+extern u32 OV230_CallSealedBody2(void (*hook)(void), void (*hookArg)(void), u32 unused);
+extern u32 OV230_CallSealedBody5(void (*hook)(void), void (*hookArg)(void), u32 unused);
 extern void *GAME_DATA_GetMyParty(struct GameData *gameData);
-extern int FORMCHANGE_RevertShayminAtNight(struct GameData *gameData, void *party, u32 *p, int season);
-extern int FIELD_MAP_CHANGE_ResetGimmickStateCase1(struct GameData *gameData, int zoneId);
-extern int FIELD_MAP_CHANGE_ResetGimmickStateCase3(struct GameData *gameData, int zoneId);
-extern int FIELD_MAP_CHANGE_ResetGimmickStateCase2(struct GameData *gameData, int zoneId);
+extern int FORMCHANGE_RevertShayminAtNight(struct GameData *gameData, struct Party *party, u32 *hour, s32 season);
+extern int FIELD_MAP_CHANGE_ResetGimmickStateCase1(s32 object, s32 unused);
+extern int FIELD_MAP_CHANGE_ResetGimmickStateCase3(s32 object, s32 unused);
+extern int FIELD_MAP_CHANGE_ResetGimmickStateCase2(s32 object, s32 unused);
 extern void INTRUDE_COMM_ClearHoldMode(struct GameComm *gameComm);
 extern struct GameEvent *FIELD_SOUND_SYSTEM_StartWaitSettledTask(struct GameSystem *gameSystem);
-extern void *FIELDMAP_GetMmdlSys(struct FieldMap *fieldMap);
-extern void FLDMMDL_SysPauseMove(void *mmdlSys);
+struct MmdlSys;
+extern struct MmdlSys *FIELDMAP_GetMmdlSys(struct FieldMap *fieldMap);
+extern void FLDMMDL_SysPauseMove(struct MmdlSys *sys);
 extern struct GameEvent *EVENT_ENTRANCE_IN_Create(EntranceParam *param);
 extern struct GameEvent *EVENT_ENTRANCE_OUT_Create(EntranceParam *param);
 extern IntrudeComm *INTRUDE_COMM_GetWorkIfRunning(GameComm *gameComm);
-extern unsigned int *FLDMMDL_SysResumeMove(void *mmdlSys);
+extern void FLDMMDL_SysResumeMove(struct MmdlSys *sys);
 extern int ZONEDATA_IsZoneInTableDFC0(int zoneId);
 extern u8 GAME_DATA_GetIntrudeIdByte(struct GameData *gameData);
-extern int INTRUDE_COMM_SendUnionInfoRequest(void *commHandle, int a);
-extern u8 INTRUDE_COMM_GetUnionInfoReceived(void *commHandle);
-extern struct FieldSoundSystem *GAME_DATA_GetBgmInfo(struct GameData *gameData);
-extern struct GameEvent *EVENT_FIELD_PROCLINK_CreateAnimEvent(struct GameSystem *gameSystem, struct FieldMap *fieldMap);
+struct IntrudeCommSys;
+extern int INTRUDE_COMM_SendUnionInfoRequest(struct IntrudeCommSys *work, u8 netId);
+extern u8 INTRUDE_COMM_GetUnionInfoReceived(struct IntrudeCommSys *work);
+extern u32 GAME_DATA_GetBgmInfo(struct GameData *gameData);
+extern struct GameEvent *EVENT_FIELD_PROCLINK_CreateAnimEvent(struct GameSystem *gameSystem, void *fieldMap);
 extern void FIELD_SOUND_SYSTEM_PostZoneBgmReplace(struct FieldSoundSystem *fieldSound, struct GameData *gameData, u16 zoneId, u8 season);
 extern void FIELD_SOUND_SYSTEM_PostFadeIn(struct FieldSoundSystem *fieldSound, struct GameData *gameData);
 extern struct GameEvent *EVENT_FIELDMAP_CONTROL_StartFadeOut(struct GameSystem *gameSystem, struct FieldMap *fieldMap, int effect, int d);
-extern void FIELD_PLACE_NAME_OnZoneChange(struct PlaceNameSys *placeName, int zoneId);
+extern void FIELD_PLACE_NAME_OnZoneChange(struct FieldPlaceName *placeName, s32 zoneId);
 extern struct GameEvent *EVENT_APPEAR_CreatePlayerDrop(struct GameEvent *event, struct GameSystem *gameSystem, struct FieldMap *fieldMap);
 extern struct GameEvent *EVENT_DISAPPEAR_CreateWalkFall(struct GameEvent *event, struct GameSystem *gameSystem, struct FieldMap *fieldMap, const VecFx32 *targetPos);
 void EVENT_MAPCHANGE_ResetPlayerObjectCode(GameData *gameData);
 extern struct GameEvent *EVENT_APPEAR_CreateSpinZoom(struct GameEvent *event, struct GameSystem *gameSystem, struct FieldMap *fieldMap, int seasonChanged, int fromSeason, int toSeason);
 extern struct GameEvent *EVENT_DISAPPEAR_CreateSpinZoom(struct GameEvent *event, struct GameSystem *gameSystem, struct FieldMap *fieldMap, int seasonChanged);
-extern struct GameEvent *EVENT_APPEAR_CreateSpinZoomAlt(struct GameEvent *event, struct GameSystem *gameSystem, struct FieldMap *fieldMap, u32 seasonChanged, u32 fromSeason, u32 toSeason);
+extern struct GameEvent *EVENT_APPEAR_CreateSpinZoomAlt(struct GameEvent *parent, struct GameSystem *gameSystem, struct FieldMap *fieldMap, s32 showSeasonScoreboard, s32 seasonShown, s32 seasonTarget);
 extern struct GameEvent *EVENT_DISAPPEAR_CreateSpinZoomEffect(struct GameEvent *event, struct GameSystem *gameSystem, struct FieldMap *fieldMap, int seasonChanged);
 extern void *GAME_DATA_GetMyPlayerWork(struct GameData *gameData);
 extern void GAME_DATA_SetPlayerObjectCode(void *playerWork, u32 objectCode);
 extern struct GameEvent *EVENT_APPEAR_CreateSpinZoomSmoke(struct GameEvent *event, struct GameSystem *gameSystem, struct FieldMap *fieldMap);
 extern struct GameEvent *EVENT_DISAPPEAR_CreateSpinFade(struct GameEvent *event, struct GameSystem *gameSystem, struct FieldMap *fieldMap, int arg);
-extern u32 FIELDMAP_GetTaskManager(struct FieldMap *fieldMap);
-extern int FIELD_TASK_MANAGER_IsEmpty(int a);
+struct FieldTaskManager;
+extern struct FieldTaskManager *FIELDMAP_GetTaskManager(struct FieldMap *fieldMap);
+extern int FIELD_TASK_MANAGER_IsEmpty(struct FieldTaskManager *manager);
 extern struct GameEvent *EVENT_DISAPPEAR_CreateRisingSpin(struct GameEvent *event, struct GameSystem *gameSystem, struct FieldMap *fieldMap);
 extern struct GameEvent *EVENT_APPEAR_CreateDescendingSpin(struct GameEvent *event, struct GameSystem *gameSystem, struct FieldMap *fieldMap);
 
@@ -493,8 +508,9 @@ struct GameEvent *EVENT_MAPCHANGE_CreateChangeFieldEvent(MapChangeWork *work, in
 void UNION_MAIN_StartComm(GameSystem *gameSystem);
 GameEvent *EVENT_APPEAR_CreateMoveAnime(GameEvent *parent, GameSystem *gameSystem, FieldMap *fieldMap);
 u16 FIELDMAP_GetZoneId(FieldMap *fieldMap);
-u32 FIELDMAP_GetEncount(FieldMap *fieldMap);
-void EFFECT_ENCOUNT_SetEffectPaused(int value, int flag);
+struct FieldEncount;
+struct FieldEncount *FIELDMAP_GetEncount(FieldMap *fieldMap);
+void EFFECT_ENCOUNT_SetEffectPaused(struct FieldEncount *encount, s32 paused);
 u32 ZONEDATA_DirToExitDir(u32 dir);
 void ZONEDATA_SetDirectLocation(Location *location, int zoneId, s16 dir, int x, int y, int z);
 void ZONEDATA_SetDirectRailLocation(Location *location, int zoneId, int dir, u16 railIndex, u16 lineGrid, s16 widthGrid);
@@ -513,7 +529,8 @@ void *GAME_DATA_GetPlayTime(GameData *gameData);
 u64 INTRUDE_UpdatePlaySeconds(u16 *record, void *playTime, u32 mode);
 u8 GAME_DATA_GetOwnNetId(const GameData *gameData);
 int INTRUDE_COMM_HasUnlockFlags(GameData *gameData);
-u8 INTRUDE_COMM_GetRequesterNetId(IntrudeComm *comm, u8 *requestInfo);
+struct IntrudeSession;
+u8 INTRUDE_COMM_GetRequesterNetId(struct IntrudeCommSys *w, struct IntrudeSession *session);
 Location *GAME_DATA_GetWarpLocation(GameData *gameData);
 u32 GAME_COMM_GetCounter(GameComm *gameComm);
 void GAME_COMM_ClearCounter(GameComm *gameComm);
@@ -521,55 +538,61 @@ GameData *GAME_DATA_SetIntrudeCount(GameData *gameData, u8 value);
 void GAME_DATA_SetOwnNetId(GameData *gameData, int value);
 void GAME_DATA_SetIntrudeId(GameData *gameData, u32 value);
 void GAME_DATA_SetEnterMode(GameData *gameData, u8 value);
-void *FIELDMAP_GetFieldPlayer(FieldMap *fieldMap);
-int FIELD_PLAYER_CheckFormModel(void *fieldPlayer);
-void INTRUDE_FIELD_ChangePlayerLook(u8 *a, void *b, int c, u8 d, u8 e);
+struct FieldPlayer;
+struct FieldPlayer *FIELDMAP_GetFieldPlayer(FieldMap *fieldMap);
+int FIELD_PLAYER_CheckFormModel(struct FieldPlayer *player);
+void INTRUDE_FIELD_ChangePlayerLook(struct IntrudeCommSys *work, struct GameSystem *gameSystem, s32 objCode, u8 kind, u8 flag);
 u32 FIELDMAP_GetMoveKind(FieldMap *fieldMap);
 void *FIELD_PLAYER_GetMmdl(void *fieldPlayer);
-void FIELD_PLAYER_GetNogridNextRailLocation(void *fieldPlayer, RailLocation *rail);
+void FIELD_PLAYER_GetNogridNextRailLocation(struct FieldPlayer *player, void *a);
 VecFx32 *FLDMMDL_GetPosPtr(void *mmdl);
 Location *GAME_DATA_GetEntranceLocation(const GameData *gameData);
 u32 ZONEDATA_IsFieldMatrix(u32 zoneId);
 void GAME_DATA_SetEscapeLocation(GameData *gameData, const Location *location);
-int EVENTDATA_SYSTEM_IsSpecialExitConnect(void *connectData);
-int EVENTDATA_SYSTEM_SetConnectExitLocationIdOnly(void *connectData, Location *location, int exitDir);
+int EVENTDATA_SYSTEM_IsSpecialExitConnect(struct ConnectData *connect);
+void EVENTDATA_SYSTEM_SetConnectExitLocationIdOnly(struct ConnectData *connect, s32 exitInfo, s32 exitOffset);
 void EVENT_MAPCHANGE_UpdateEscapeLocation(GameData *gameData, const Location *destination);
 extern u32 ZONEDATA_IsEntralink(u32 zoneId);
-void MAP_REPLACE_ApplyWarpLocation(int warpId, Location *location);
-int FIELD_MAP_CHANGE_ResetGimmickStateCase4(GameData *gameData, int zoneId);
+void MAP_REPLACE_ApplyWarpLocation(s32 warpId, s32 location);
+int FIELD_MAP_CHANGE_ResetGimmickStateCase4(s32 object, s32 unused);
 void *GAMESYSTEM_GetIssSystem(const GameSystem *gameSystem);
 void *ISS_SYS_GetSwitchSys(void *issSystem);
 void ISS_SWITCH_SYS_ResetSwitch(void *issSwitchSys);
-extern int EVENTDATA_SYSTEM_SetConnectExitLocation(const EventData *eventData, Location *location, int exitId, int exitOffset);
+struct EventDataSystem;
+extern int EVENTDATA_SYSTEM_SetConnectExitLocation(struct EventDataSystem *system, s32 *exitInfo, s32 connectIndex, s32 exitOffset);
 void FIELD_STATUS_SetFieldInitFlag(FieldStatus *fieldStatus, u8 value);
 PlayerWork *GAME_DATA_SetPlayerZoneId(PlayerWork *playerWork, u16 zoneId);
 void GAME_DATA_SetPlayerDirection(PlayerWork *playerWork, int dir);
 int ZONEDATA_GetLocationPosType(const Location *location);
-void GAME_DATA_SetPlayerPosition(PlayerWork *playerWork, const VecFx32 *pos);
-void GAME_DATA_SetPlayerRail(PlayerWork *playerWork, const RailLocation *rail);
+struct PlayerPosition;
+struct PlayerWork;
+void GAME_DATA_SetPlayerPosition(struct PlayerWork *player, struct PlayerPosition *pos);
+struct RailLocationWords;
+void GAME_DATA_SetPlayerRail(struct PlayerWork *player, struct RailLocationWords *rail);
 void GAME_DATA_SetPlayerMoveForm(PlayerWork *playerWork, u8 isRail);
 void ISS_SYS_ChangeZone(void *issSystem, u16 zoneId);
 void GAME_DATA_SetStartLocation(GameData *gameData, const Location *location);
 void GAME_DATA_SetWarpId(const GameData *gameData, u16 warpId);
 int WEATHER_StoreZoneWeatherId(int gameSystem, int zoneId);
 int MAP_REPLACE_FindFlyTargetIndex(int zoneId);
-void FIELD_MAP_CHANGE_SetupZone(GameData *gameData, u16 zoneId);
-void MAP_REPLACE_SetArriveFlag(GameData *gameData, int zoneId);
-void SCRIPT_SYS_RunZoneChangeScript(GameSystem *gameSystem, void *flags);
-u16 EVENTDATA_SYSTEM_GetNpcCount(EventData *eventData);
-u32 EVENTDATA_SYSTEM_GetNpcHeaders(EventData *eventData);
-void FLDMMDL_AddMmdlHeaderList(MmdlSys *mmdlSys, u8 *headers, u32 zoneId, u32 count, u32 eventWork);
+void FIELD_MAP_CHANGE_SetupZone(struct GameData *gameData, u32 zoneId);
+void MAP_REPLACE_SetArriveFlag(void *gameData, s32 zoneId);
+void SCRIPT_SYS_RunZoneChangeScript(void *fieldSys, s32 reserved);
+u16 EVENTDATA_SYSTEM_GetNpcCount(struct EventDataSystem *system);
+u32 EVENTDATA_SYSTEM_GetNpcHeaders(struct EventDataSystem *system);
+struct MmdlHeader;
+void FLDMMDL_AddMmdlHeaderList(struct MmdlSys *sys, struct MmdlHeader *header, s32 zoneId, u32 count, void *evWork);
 u32 FIELD_STATUS_GetMapMode(FieldStatus *fieldStatus);
-u16 *GAME_DATA_GetUnionInfo(GameData *gameData, u32 index);
+u8 *GAME_DATA_GetUnionInfo(GameData *gameData, u32 index);
 u16 *GAME_DATA_GetMusicalShotTitle(GameData *gameData);
 u32 GFL_HEAP_Free(void *memory);
-int FIELD_WFBC_DATA_LOCAL_CreateMmdlHeaders(unsigned short *wfbcData, int mapMode, int flag);
-int FIELD_WFBC_DATA_LOCAL_CountPeople(char *wfbcData, int mapMode);
+struct MmdlHeader *FIELD_WFBC_DATA_LOCAL_CreateMmdlHeaders(struct WfbcData *data, s32 which, s32 heapSeed);
+int FIELD_WFBC_DATA_LOCAL_CountPeople(struct WfbcData *data, s32 which);
 int FIELD_WFBC_DATA_LOCAL_CountItemSlots(u16 *itemSlots);
-int FIELD_WFBC_DATA_LOCAL_CreateItemMmdlHeaders(u16 *itemSlots, int mapMode, int index, int flag);
+struct MmdlHeader *FIELD_WFBC_DATA_LOCAL_CreateItemMmdlHeaders(u16 *itemSlots, int mapMode, int index, int flag);
 void FLDMMDL_DeleteAllMmdl(MmdlSys *mmdlSys);
 extern void FIELD_WFBC_DATA_LOCAL_MoveBoredPeopleToBackList(GameData *gameData);
-extern void FIELD_WFBC_DATA_LOCAL_ApplyTalkedMoodBonus(u16 *wfbcData);
+extern void FIELD_WFBC_DATA_LOCAL_ApplyTalkedMoodBonus(u8 *data);
 extern unsigned int ZONEDATA_GetFieldSkillMapEffect(unsigned int zoneId);
 extern u8 FIELD_STATUS_IsFlashActive(FieldStatus *fieldStatus);
 extern void FIELD_STATUS_SetMapEffectMask(FieldStatus *fieldStatus, unsigned int mask);
@@ -585,24 +608,30 @@ u32 GAME_DATA_GetFieldWork(const GameData *gameData);
 u32 ZONEDATA_GetMatrixId(u32 zoneId);
 int EVENTDATA_SYSTEM_Load(int eventData, int zoneId, int season);
 int MAP_MATRIX_Load(int fieldWork, int matrixId, int zoneId, int heapId);
-void MAP_MATRIX_ApplyReplace(u32 *fieldWork, int gameSystem, int heapId);
-extern void FLDMMDL_SetStatusBitVanish(unsigned int *mmdl, unsigned int vanish);
+struct MapMatrix;
+void MAP_MATRIX_ApplyReplace(struct MapMatrix *matrix, s32 gameSystem, s32 heapId);
+struct Mmdl;
+extern void FLDMMDL_SetStatusBitVanish(struct Mmdl *mmdl, s32 flag);
 u8 *GAME_DATA_GetFieldSave(GameData *gameData);
-void GIMMICK_WORK_Reset(void *fieldSave);
-s32 *GIMMICK_WORK_InitWithId(void *fieldSave, s32 value);
-void *ARC_TOOL_CreateHandle(unsigned int arcId, unsigned int heapId);
-void *ARC_TOOL_LoadHandleMember(void *arcHandle, u32 member, u32 heapId);
-u32 ARC_TOOL_GetHandleMemberSize(void *arcHandle, u32 member);
+struct GimmickWork;
+void GIMMICK_WORK_Reset(struct GimmickWork *gimmick);
+s32 *GIMMICK_WORK_InitWithId(struct GimmickWork *gimmick, s32 id);
+void *ARC_TOOL_CreateHandle(u32 archiveID, u16 heapID);
+struct ArcHandle;
+void *ARC_TOOL_LoadHandleMember(struct ArcHandle *arc, u32 memberIdx, u16 heapID);
+u32 ARC_TOOL_GetHandleMemberSize(struct ArcHandle *arc, u32 memberIdx);
 void ARC_TOOL_DeleteHandle(void *arcHandle);
 void GFL_USE_PlaySeDefaultVolume(u32 seId);
-void *FIELDMAP_GetEncEff(FieldMap *fieldMap);
-void ENCEFF_Start(void *playerObj, GameEvent *event, int frames);
-void *EVENT_FIELDMAP_CONTROL_CreateFadeInEventWithBgRestore(GameSystem *gameSystem, FieldMap *fieldMap, int a, int b, int c);
-extern int INTRUDE_FIELD_IsStartRequested(IntrudeComm *comm);
+struct EncEff;
+struct EncEff *FIELDMAP_GetEncEff(FieldMap *fieldMap);
+struct EncEffWork;
+void ENCEFF_Start(struct EncEffWork *eff, struct GameEvent *parentEvent, s32 kind);
+struct GameEvent *EVENT_FIELDMAP_CONTROL_CreateFadeInEventWithBgRestore(GameSystem *gameSystem, FieldMap *fieldMap, int a, int b, int c);
+extern int INTRUDE_FIELD_IsStartRequested(struct IntrudeCommSys *work);
 extern int INTRUDE_COMM_GetRequestState(GameComm *gameComm);
 extern int FIELD_CheckPlayerPositionFree(GameSystem *gameSystem);
-extern void INTRUDE_COMM_SetSuspended(IntrudeComm *comm, u32 suspended);
-extern void INTRUDE_COMM_SetIntrudeId(IntrudeComm *comm, u32 intrudeId);
+extern void INTRUDE_COMM_SetSuspended(struct IntrudeCommSys *work, u32 value);
+extern void INTRUDE_COMM_SetIntrudeId(struct IntrudeCommSys *work, u32 intrudeId);
 extern void INTRUDE_COMM_AcceptSession(IntrudeComm *comm, u8 *requestInfo);
 extern int GFL_NET_SYSTEM_GetCurrentAid(int aidSource);
 int EVENT_MAPCHANGE_EntranceEvent(struct GameEvent *event, int *seq, MapChangeWork *work);
@@ -661,25 +690,27 @@ int EVENT_MAPCHANGE_RunIntrudeArriveEvent(GameEvent *event, int *state, MapChang
 int EVENT_MAPCHANGE_RunIntrudeSessionEvent(GameEvent *event, int *state, MapChangeIntrudeWork *work);
 
 u32 ZONEDATA_IsParentZoneD6(u16 zoneId);
-u32 ZONEDATA_IsWeatherEnabled(u16 zoneId);
-u32 ZONEDATA_IsZoneInTableDFDC(u16 zoneId);
+u32 ZONEDATA_IsWeatherEnabled(u32 id);
+u32 ZONEDATA_IsZoneInTableDFDC(u32 id);
 Location *GAME_DATA_GetStartLocation(const GameData *gameData);
 u32 GAME_DATA_GetPlayerObjectCode(const PlayerWork *playerWork);
-struct MsgData *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-struct Strbuf *MSGDATA_AllocString(struct MsgData *msgData, u32 index);
+struct MsgBank;
+struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+struct Strbuf *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
 void STRBUF_ToChars(struct Strbuf *strbuf, u16 *dest, u32 length);
 struct Mail *MAIL_Create(int heapId);
-void MAIL_SetWriterName(struct Mail *mail, const u16 *writerName);
+void MAIL_SetWriterName(struct Mail *mail, void *name);
 void MAIL_SetGender(struct Mail *mail, u8 gender);
 void MAIL_SetDesign(struct Mail *mail, u32 design);
 void MAIL_SetLanguage(struct Mail *mail, u8 language);
 void MAIL_SetVersion(struct Mail *mail, u8 version);
 void MAIL_SetMessage(struct Mail *mail, const void *message, u32 index);
 void MAIL_SetMessageId(struct Mail *mail, u16 messageId);
-struct Mail *MAIL_GetBox(void *saveControl);
+struct MailBox;
+struct MailBox *MAIL_GetBox(struct GameData *gameData);
 void MAIL_SetSlot(struct Mail *box, u32 unused, int slot, const struct Mail *src);
 void STRBUF_Delete(struct Strbuf *strbuf);
-u32 MSGDATA_Delete(struct MsgData *msgData);
+u32 MSGDATA_Delete(struct MsgBank *bank);
 void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *file, u16 line);
 extern u8 ov230_id[];
 extern char ov011_id[];
@@ -690,7 +721,7 @@ extern char d_02187DB4[];
 extern char d_02187EA0[];
 
 /* Overlay entry hook: runs the callback when one is set. */
-int EVENT_MAPCHANGE_StartMarker(void (*hook)(void))
+int EVENT_MAPCHANGE_CallHookAndInvert(void (*hook)(void))
 {
     if (hook)
         hook();
@@ -729,7 +760,7 @@ int EVENT_MAPCHANGE_FirstStartEvent(struct GameEvent *event, int *seq, FirstStar
         (*seq)++;
         break;
     case 1:
-        COMM_PLAYER_SUPPORT_SetSeason(gameData, (u16)COMM_PLAYER_SUPPORT_GetSeasonFromClock());
+        COMM_PLAYER_SUPPORT_SetSeason((s32)gameData, (u16)COMM_PLAYER_SUPPORT_GetSeasonFromClock());
         season = GAME_DATA_GetSeason(gameData);
         child = EL_SCOREBOARD_StartStandalone(gameSystem, season, season);
         GAME_EVENT_CallEvent(event, child);
@@ -767,9 +798,9 @@ void EVENT_MAPCHANGE_InitUnionInfo(struct GameSystem *gameSystem)
     void *recvInfo;
 
     FIELD_WFBC_DATA_LOCAL_Init(unionInfo, GAME_DATA_GetMyStatus(gameData), 1);
-    EVENT_FIELD_PROCLINK_ApplyZoneChangeEnable(GAME_DATA_GetSecondUnionInfo(gameData));
+    EVENT_FIELD_PROCLINK_ApplyZoneChangeEnable((struct ZoneFlagSetting *)GAME_DATA_GetSecondUnionInfo(gameData));
     recvInfo = GAME_DATA_GetMusicalShotExtraData(gameData);
-    EVENT_FIELD_PROCLINK_GetReturnInfo(recvInfo, GAME_DATA_GetSecondUnionInfo(gameData), 1);
+    EVENT_FIELD_PROCLINK_GetReturnInfo(recvInfo, (struct ProcLinkRequest *)GAME_DATA_GetSecondUnionInfo(gameData), 1);
 }
 
 /* New game start event: plays the start BGM, fades in and shows the place name. */
@@ -829,7 +860,7 @@ struct GameEvent *EVENT_MAPCHANGE_CreateNewGameStartEvent(struct GameSystem *gam
 /* interface: 020127C4 forwards 020127D0's returned pointer in r0. */
 void EVENT_MAPCHANGE_RefreshUnionInfo(struct GameSystem *gameSystem)
 {
-    EVENT_FIELD_PROCLINK_ApplyZoneChangeEnable(GAME_DATA_GetSecondUnionInfo(GAMESYSTEM_GetGameData(gameSystem)));
+    EVENT_FIELD_PROCLINK_ApplyZoneChangeEnable((struct ZoneFlagSetting *)GAME_DATA_GetSecondUnionInfo(GAMESYSTEM_GetGameData(gameSystem)));
 }
 
 /* Continue event: restores the field state from the save and enters the saved map. */
@@ -857,13 +888,13 @@ int EVENT_MAPCHANGE_ContinueEvent(struct GameEvent *event, int *seq, ContinueWor
             EVENT_MAPCHANGE_UpdateFieldStateForZone(gameSystem, work->zoneId);
             EVENT_MAPCHANGE_StartSeasonEffect(gameData);
             EVENT_MAPCHANGE_ApplyLocation(gameSystem, specialLocation);
-            GAME_BEACON_SetZone(specialLocation->zoneId, gameData);
+            GAME_BEACON_SetZone((u32)specialLocation->zoneId, (u32)gameData);
         } else {
             EVENT_MAPCHANGE_UpdateFieldStateForZone(gameSystem, work->zoneId);
             EVENT_MAPCHANGE_StartSeasonEffect(gameData);
             FIELD_CLOCK_Update(gameData);
             FIELD_MAP_CHANGE_MoveActiveEntries(gameData, work->zoneId);
-            WEATHER_RefreshStoredWeatherId(gameData, work->zoneId);
+            WEATHER_RefreshStoredWeatherId((u8 *)gameData, work->zoneId);
             mapSubType = ZONEDATA_GetMapSubType(work->zoneId);
             mmdlSys = GAME_DATA_GetOccupyInfo(gameData);
             if (mapSubType < 16) {
@@ -921,17 +952,17 @@ struct GameEvent *EVENT_MAPCHANGE_CreateContinueEvent(struct GameSystem *gameSys
     work->useSpecialLocation = ZONEDATA_CheckEventFlag(eventWork, 0x966);
     ZONEDATA_ResetEventFlag(eventWork, 0x966);
     saveControl = GAME_DATA_GetSaveControl(work->gameData);
-    consoleInfo = CONSOLE_STAMP_GetFromSave(saveControl);
+    consoleInfo = (struct ConsoleInfo *)CONSOLE_STAMP_GetFromSave(saveControl);
     partySave = POKEPARTY_GetSaveData(saveControl);
     miscSave = GAME_DATA_GetMiscSave(work->gameData);
     /* the save was written on another console or with another clock offset */
-    if (!CONSOLE_STAMP_IsThisConsole(consoleInfo) || !CONSOLE_STAMP_IsRtcOffsetCurrent(consoleInfo)) {
+    if (!CONSOLE_STAMP_IsThisConsole((struct ConsoleStamp *)consoleInfo) || !CONSOLE_STAMP_IsRtcOffsetCurrent((struct ConsoleStamp *)consoleInfo)) {
         DAILY_CLOCK_Refill(CONSOLE_STAMP_GetDailyClock(saveControl));
         FORMCHANGE_RevertShayminAndRegister(work->gameData, partySave);
         nowSeconds = GF_STANDARD_GetRtcTimestamp();
         MISC_SetLastTime(miscSave, (u32)nowSeconds, (u32)(nowSeconds >> 32));
     }
-    CONSOLE_STAMP_SetIdentity(consoleInfo);
+    CONSOLE_STAMP_SetIdentity((struct ConsoleStamp *)consoleInfo);
     FORMCHANGE_UpdateSeasonForms(work->gameData, partySave, GAME_DATA_GetSeason(work->gameData));
     EVENT_MAPCHANGE_RefreshUnionInfo(gameSystem);
     PALANM_StartTimer();
@@ -950,7 +981,7 @@ void EVENT_MAPCHANGE_CheckSeasonChange(MapChangeWork *work)
     int outdoors;
     u16 fromSeason;
 
-    COMM_PLAYER_SUPPORT_IsSeasonChanged(work->gameData, &seasons[1], &seasons[0]);
+    COMM_PLAYER_SUPPORT_IsSeasonChanged((struct PlayerInfo *)work->gameData, &seasons[1], &seasons[0]);
     areaData = ZONEDATA_CreateAreaData(FIELDMAP_GetHeapId(work->fieldMap), ZONEDATA_GetAreaId(work->destination.zoneId), 0);
     outdoors = 0;
     if (ZONEDATA_GetAreaInnerOuter(areaData) != 0)
@@ -1017,8 +1048,8 @@ void EVENT_MAPCHANGE_SetupEnterEntranceParam(MapChangeWork *work, struct GameEve
  * only `(u8)(v + 0xff) <= 1` gives the add.  The dead `str r2, [sp, #0xc]`
  * after `adds r2, #0x14` is `a += 0x14;` on the spilled local before the
  * FORMCHANGE_RevertShayminAtNight call.  OV230_CallSealedBody0, 2 and 5 are slots of ov230's decrypted
- * dispatcher (ov230d token); each gets the range EVENT_MAPCHANGE_StartMarker to one of this
- * overlay's end markers. */
+ * dispatcher (ov230d token); each gets EVENT_MAPCHANGE_CallHookAndInvert as the hook and
+ * one of this overlay's functions (TamperLeakA, TamperLeakB, NopHook) as the hook argument. */
 int EVENT_MAPCHANGE_ChangeFieldEvent(struct GameEvent *event, int *seq, ChangeFieldWork *changeField)
 {
     MapChangeWork *work;
@@ -1057,10 +1088,10 @@ int EVENT_MAPCHANGE_ChangeFieldEvent(struct GameEvent *event, int *seq, ChangeFi
         }
         break;
     case 3:
-        OV230_CallSealedBody0((void (*)(void))EVENT_MAPCHANGE_StartMarker, (void (*)(void))EVENT_MAPCHANGE_AllocWorkBufferA, 0);
+        OV230_CallSealedBody0((void (*)(void))EVENT_MAPCHANGE_CallHookAndInvert, (void (*)(void))EVENT_MAPCHANGE_TamperLeakA, 0);
         EVENT_MAPCHANGE_DeleteAllMmdlOfSystem(gameSystem);
         if (work->seasonFadeAllowed != 0 && work->seasonChanged != 0) {
-            COMM_PLAYER_SUPPORT_SetSeason(gameData, work->toSeason);
+            COMM_PLAYER_SUPPORT_SetSeason((s32)gameData, work->toSeason);
             sessionPtr = (int)CONSOLE_STAMP_GetDailyClock(GAME_DATA_GetSaveControl(gameData));
             season = GAME_DATA_GetSeason(gameData);
             party = GAME_DATA_GetMyParty(gameData);
@@ -1068,22 +1099,22 @@ int EVENT_MAPCHANGE_ChangeFieldEvent(struct GameEvent *event, int *seq, ChangeFi
             sessionPtr += 0x14;
             FORMCHANGE_RevertShayminAtNight(gameData, party, (u32 *)sessionPtr, season);
         }
-        OV230_CallSealedBody2((void (*)(void))EVENT_MAPCHANGE_StartMarker, (void (*)(void))EVENT_MAPCHANGE_AllocWorkBufferB, 0);
+        OV230_CallSealedBody2((void (*)(void))EVENT_MAPCHANGE_CallHookAndInvert, (void (*)(void))EVENT_MAPCHANGE_TamperLeakB, 0);
         EVENT_MAPCHANGE_UpdateFieldStateForZone(gameSystem, work->destination.zoneId);
         EVENT_MAPCHANGE_ApplyLocation(gameSystem, &work->destination);
         if (work->changeKind != 4) {
-            GAME_BEACON_SetZone(work->destination.zoneId, gameData);
+            GAME_BEACON_SetZone((u32)work->destination.zoneId, (u32)gameData);
         }
-        OV230_CallSealedBody5((void (*)(void))EVENT_MAPCHANGE_StartMarker, EVENT_MAPCHANGE_EndMarker, 0);
+        OV230_CallSealedBody5((void (*)(void))EVENT_MAPCHANGE_CallHookAndInvert, EVENT_MAPCHANGE_NopHook, 0);
         switch (work->changeKind) {
         case 1:
-            FIELD_MAP_CHANGE_ResetGimmickStateCase1(gameData, work->destination.zoneId);
+            FIELD_MAP_CHANGE_ResetGimmickStateCase1((s32)gameData, work->destination.zoneId);
             break;
         case 2:
-            FIELD_MAP_CHANGE_ResetGimmickStateCase2(gameData, work->destination.zoneId);
+            FIELD_MAP_CHANGE_ResetGimmickStateCase2((s32)gameData, work->destination.zoneId);
             break;
         case 3:
-            FIELD_MAP_CHANGE_ResetGimmickStateCase3(gameData, work->destination.zoneId);
+            FIELD_MAP_CHANGE_ResetGimmickStateCase3((s32)gameData, work->destination.zoneId);
             break;
         }
         GF_OVERLAY_Unload((int)ov230_id);
@@ -1220,7 +1251,7 @@ int EVENT_MAPCHANGE_DetachedTailEvent(struct GameEvent *event, int *seq, MapChan
     gameSystem = work->gameSystem;
     fieldMap = work->fieldMap;
     gameData = work->gameData;
-    fieldSound = GAME_DATA_GetBgmInfo(gameData);
+    fieldSound = (struct FieldSoundSystem *)GAME_DATA_GetBgmInfo(gameData);
 
     switch (*seq) {
     case 0:
@@ -1296,7 +1327,7 @@ int EVENT_MAPCHANGE_FadeDelayedEvent(struct GameEvent *event, int *seq, MapChang
     gameSystem = work->gameSystem;
     gameData = work->gameData;
     fieldMap = work->fieldMap;
-    fieldSound = GAME_DATA_GetBgmInfo(gameData);
+    fieldSound = (struct FieldSoundSystem *)GAME_DATA_GetBgmInfo(gameData);
 
     switch (*seq) {
     case 0:
@@ -1341,7 +1372,7 @@ int EVENT_MAPCHANGE_TargetPositionEvent(struct GameEvent *event, int *seq, MapCh
     gameSystem = work->gameSystem;
     gameData = work->gameData;
     fieldMap = work->fieldMap;
-    fieldSound = GAME_DATA_GetBgmInfo(gameData);
+    fieldSound = (struct FieldSoundSystem *)GAME_DATA_GetBgmInfo(gameData);
 
     switch (*seq) {
     case 0:
@@ -1382,7 +1413,7 @@ int EVENT_MAPCHANGE_SeasonEffectAEvent(struct GameEvent *event, int *seq, MapCha
     gameSystem = work->gameSystem;
     gameData = work->gameData;
     fieldMap = work->fieldMap;
-    fieldSound = GAME_DATA_GetBgmInfo(gameData);
+    fieldSound = (struct FieldSoundSystem *)GAME_DATA_GetBgmInfo(gameData);
 
     switch (*seq) {
     case 0:
@@ -1422,7 +1453,7 @@ int EVENT_MAPCHANGE_SeasonEffectBEvent(struct GameEvent *event, int *seq, MapCha
     struct GameSystem *gameSystem = work->gameSystem;
     struct GameData *gameData = work->gameData;
     struct FieldMap *fieldMap = work->fieldMap;
-    struct FieldSoundSystem *fieldSound = GAME_DATA_GetBgmInfo(gameData);
+    struct FieldSoundSystem *fieldSound = (struct FieldSoundSystem *)GAME_DATA_GetBgmInfo(gameData);
 
     switch (*seq) {
     case 0:
@@ -1466,7 +1497,7 @@ int EVENT_MAPCHANGE_ResetPlayerFormEvent(struct GameEvent *event, int *seq, MapC
     gameSystem = work->gameSystem;
     gameData = work->gameData;
     fieldMap = work->fieldMap;
-    fieldSound = GAME_DATA_GetBgmInfo(gameData);
+    fieldSound = (struct FieldSoundSystem *)GAME_DATA_GetBgmInfo(gameData);
 
     switch (*seq) {
     case 0:
@@ -1503,7 +1534,7 @@ int EVENT_MAPCHANGE_FadeWaitEvent(struct GameEvent *event, int *seq, MapChangeWo
 {
     struct GameSystem *gameSystem = work->gameSystem;
     struct FieldMap *fieldMap = work->fieldMap;
-    int transition = FIELDMAP_GetTaskManager(fieldMap);
+    int transition = (s32)FIELDMAP_GetTaskManager(fieldMap);
 
     switch (*seq) {
     case 0:
@@ -1511,7 +1542,7 @@ int EVENT_MAPCHANGE_FadeWaitEvent(struct GameEvent *event, int *seq, MapChangeWo
         (*seq)++;
         break;
     case 1:
-        if (FIELD_TASK_MANAGER_IsEmpty(transition)) {
+        if ((struct FieldTaskManager *)FIELD_TASK_MANAGER_IsEmpty((struct FieldTaskManager *)transition)) {
             GAME_EVENT_CallEvent(event, EVENT_FIELD_PROCLINK_CreateAnimEvent(gameSystem, fieldMap));
             (*seq)++;
         }
@@ -1577,7 +1608,7 @@ int EVENT_MAPCHANGE_EffectCEvent(struct GameEvent *event, int *seq, MapChangeWor
     gameSystem = work->gameSystem;
     gameData = work->gameData;
     fieldMap = work->fieldMap;
-    fieldSound = GAME_DATA_GetBgmInfo(gameData);
+    fieldSound = (struct FieldSoundSystem *)GAME_DATA_GetBgmInfo(gameData);
 
     switch (*seq) {
     case 0:
@@ -1909,7 +1940,7 @@ GameEvent *EVENT_MAPCHANGE_CreateIntrudeWarpEvent(GameSystem *gameSystem, int zo
         intrudeId = 0;
         slotOffset = 0;
     } else {
-        intrudeId = INTRUDE_COMM_GetRequesterNetId(comm, comm->requestInfo);
+        intrudeId = INTRUDE_COMM_GetRequesterNetId((struct IntrudeCommSys *)comm, (struct IntrudeSession *)comm->requestInfo);
         slotOffset = intrudeId - GAME_DATA_GetOwnNetId(gameData);
         if (slotOffset < 0)
             slotOffset += comm->slotCount;
@@ -2000,7 +2031,7 @@ GameEvent *EVENT_MAPCHANGE_CreateExitWarpEvent(GameSystem *gameSystem, int unuse
     if (EVENTDATA_SYSTEM_IsSpecialExitConnect(connectData) != 0) {
         work->destination = *GAME_DATA_GetSpecialLocation(gameData);
     } else {
-        EVENTDATA_SYSTEM_SetConnectExitLocationIdOnly(connectData, &work->destination, exitDir);
+        EVENTDATA_SYSTEM_SetConnectExitLocationIdOnly(connectData, (s32)(&work->destination), exitDir);
     }
     work->exitType = EVENTDATA_SYSTEM_GetConnectExitType(connectData);
     entranceLocation = GAME_DATA_GetEntranceLocation(gameData);
@@ -2022,7 +2053,7 @@ GameEvent *EVENT_MAPCHANGE_CreateExitWarpEventNoEntranceUpdate(GameSystem *gameS
     work = GAME_EVENT_GetWork(event);
     EVENT_MAPCHANGE_InitWork(work, gameSystem);
     work->seasonFadeAllowed = 1;
-    EVENTDATA_SYSTEM_SetConnectExitLocationIdOnly(connectData, &work->destination, exitDir);
+    EVENTDATA_SYSTEM_SetConnectExitLocationIdOnly(connectData, (s32)(&work->destination), exitDir);
     work->exitType = EVENTDATA_SYSTEM_GetConnectExitType(connectData);
     return event;
 }
@@ -2121,15 +2152,15 @@ void EVENT_MAPCHANGE_InitFieldFromSituationWarp(GameSystem *gameSystem)
         Location arrivalLocation;
     } locations;
 
-    MAP_REPLACE_ApplyWarpLocation(GAME_DATA_GetSituationWarpId(gameData), &locations.arrivalLocation);
+    MAP_REPLACE_ApplyWarpLocation((s32)(GAME_DATA_GetSituationWarpId(gameData)), (s32)(&locations.arrivalLocation));
     ZONEDATA_SetZoneStartLocation(&locations.startLocation, MAP_REPLACE_GetWarpFlagId(GAME_DATA_GetSituationWarpId(gameData)));
     GAME_DATA_SetEscapeLocation(gameData, &locations.startLocation);
     EVENT_MAPCHANGE_DeleteAllMmdlOfSystem(gameSystem);
     EVENT_MAPCHANGE_UpdateFieldStateForZone(gameSystem, locations.arrivalLocation.zoneId);
     EVENT_MAPCHANGE_ApplyLocation(gameSystem, &locations.arrivalLocation);
-    GAME_BEACON_SetZone(locations.arrivalLocation.zoneId, gameData);
+    GAME_BEACON_SetZone((u32)locations.arrivalLocation.zoneId, (u32)gameData);
     FIELD_CLOCK_Update(gameData);
-    FIELD_MAP_CHANGE_ResetGimmickStateCase4(gameData, locations.arrivalLocation.zoneId);
+    FIELD_MAP_CHANGE_ResetGimmickStateCase4((s32)gameData, locations.arrivalLocation.zoneId);
 }
 
 /*
@@ -2176,7 +2207,7 @@ GameEvent *EVENT_MAPCHANGE_CreateSituationWarpArrivalEvent(GameSystem *gameSyste
     work = GAME_EVENT_GetWork(event);
     work->gameSystem = gameSystem;
     work->gameData = GAMESYSTEM_GetGameData(gameSystem);
-    MAP_REPLACE_ApplyWarpLocation(GAME_DATA_GetSituationWarpId(work->gameData), &work->location);
+    MAP_REPLACE_ApplyWarpLocation((s32)(GAME_DATA_GetSituationWarpId(work->gameData)), (s32)(&work->location));
     return event;
 }
 
@@ -2199,7 +2230,7 @@ void EVENT_MAPCHANGE_ResolveLocation(EventData *eventData, Location *source, Loc
     if (source->type == 1) {
         *dest = *source;
     } else {
-        if (EVENTDATA_SYSTEM_SetConnectExitLocation(eventData, dest, (u16)source->exitId, source->exitOffset) == 0) {
+        if (EVENTDATA_SYSTEM_SetConnectExitLocation((struct EventDataSystem *)eventData, (s32 *)dest, (u16)source->exitId, source->exitOffset) == 0) {
             ZONEDATA_SetZoneStartLocation(dest, source->zoneId);
         }
     }
@@ -2226,10 +2257,10 @@ void EVENT_MAPCHANGE_ApplyLocation(GameSystem *gameSystem, Location *warpLocatio
     GAME_DATA_SetPlayerZoneId(playerWork, location.zoneId);
     GAME_DATA_SetPlayerDirection(playerWork, EVENT_MAPCHANGE_DirToAngle(location.dir));
     if (ZONEDATA_GetLocationPosType(&location) == 0) {
-        GAME_DATA_SetPlayerPosition(playerWork, &location.pos.vec);
+        GAME_DATA_SetPlayerPosition(playerWork, (struct PlayerPosition *)(&location.pos.vec));
         GAME_DATA_SetPlayerMoveForm(playerWork, 0);
     } else {
-        GAME_DATA_SetPlayerRail(playerWork, &location.pos.rail);
+        GAME_DATA_SetPlayerRail(playerWork, (struct RailLocationWords *)(&location.pos.rail));
         GAME_DATA_SetPlayerMoveForm(playerWork, 1);
     }
     ISS_SYS_ChangeZone(GAMESYSTEM_GetIssSystem(gameSystem), location.zoneId);
@@ -2241,7 +2272,7 @@ void EVENT_MAPCHANGE_ApplyLocation(GameSystem *gameSystem, Location *warpLocatio
     FIELD_CLOCK_Update(gameData);
     FIELD_MAP_CHANGE_SetupZone(gameData, location.zoneId);
     MAP_REPLACE_SetArriveFlag(gameData, (s16)location.zoneId);
-    SCRIPT_SYS_RunZoneChangeScript(gameSystem, (void *)4);
+    SCRIPT_SYS_RunZoneChangeScript(gameSystem, (s32)4);
     EVENT_MAPCHANGE_AddEventDataMmdl(gameData, warpLocation);
     EVENT_MAPCHANGE_SetMapEffectMask(gameData, location.zoneId);
     EVENT_MAPCHANGE_ReloadMmdl(gameData, &location);
@@ -2258,14 +2289,14 @@ void EVENT_MAPCHANGE_ApplyLocation(GameSystem *gameSystem, Location *warpLocatio
 void EVENT_MAPCHANGE_AddEventDataMmdl(GameData *gameData, const Location *location)
 {
     EventData *eventData = (EventData *)GAME_DATA_GetEventData(gameData);
-    int npcCount = EVENTDATA_SYSTEM_GetNpcCount(eventData);
+    int npcCount = EVENTDATA_SYSTEM_GetNpcCount((struct EventDataSystem *)eventData);
 
     if (npcCount != 0) {
         int eventWork = (int)GAME_DATA_GetEventWork(gameData);
         MmdlSys *mmdlSys = GAME_DATA_GetOccupyInfo(gameData);
-        int npcHeaders = EVENTDATA_SYSTEM_GetNpcHeaders(eventData);
+        int npcHeaders = EVENTDATA_SYSTEM_GetNpcHeaders((struct EventDataSystem *)eventData);
         int zoneId = (s16)location->zoneId;
-        FLDMMDL_AddMmdlHeaderList(mmdlSys, (u8 *)npcHeaders, zoneId, npcCount, eventWork);
+        FLDMMDL_AddMmdlHeaderList(mmdlSys, (struct MmdlHeader *)npcHeaders, zoneId, npcCount, (void *)eventWork);
     }
 }
 
@@ -2293,22 +2324,22 @@ void EVENT_MAPCHANGE_AddWfbcMmdl(GameData *gameData, const Location *location)
     mmdlSys = (int)GAME_DATA_GetOccupyInfo(gameData);
     eventWork = (int)GAME_DATA_GetEventWork(gameData);
     if (mapMode == 0)
-        wfbcData = GAME_DATA_GetSecondUnionInfo(gameData);
+        wfbcData = (u16 *)GAME_DATA_GetSecondUnionInfo(gameData);
     else
-        wfbcData = GAME_DATA_GetUnionInfo(gameData, (int)0);
+        wfbcData = (u16 *)GAME_DATA_GetUnionInfo(gameData, (int)0);
 
-    headers = FIELD_WFBC_DATA_LOCAL_CreateMmdlHeaders(wfbcData, mapMode, 1);
-    headerCount = FIELD_WFBC_DATA_LOCAL_CountPeople((char *)wfbcData, mapMode);
+    headers = (s32)FIELD_WFBC_DATA_LOCAL_CreateMmdlHeaders((struct WfbcData *)wfbcData, mapMode, 1);
+    headerCount = FIELD_WFBC_DATA_LOCAL_CountPeople((struct WfbcData *)wfbcData, mapMode);
     if (headers != 0 && headerCount != 0)
-        FLDMMDL_AddMmdlHeaderList((MmdlSys *)mmdlSys, (u8 *)headers, (s16)location->zoneId, (int)headerCount, (int)eventWork);
+        FLDMMDL_AddMmdlHeaderList((MmdlSys *)mmdlSys, (struct MmdlHeader *)headers, (s16)location->zoneId, (int)headerCount, (void *)eventWork);
     if (headers != 0)
         GFL_HEAP_Free((void *)headers);
 
     itemSlots = (int)GAME_DATA_GetMusicalShotTitle(gameData);
     itemCount = FIELD_WFBC_DATA_LOCAL_CountItemSlots((u16 *)itemSlots);
-    headers = FIELD_WFBC_DATA_LOCAL_CreateItemMmdlHeaders((u16 *)itemSlots, mapMode, wfbcData[1], 1);
+    headers = (s32)FIELD_WFBC_DATA_LOCAL_CreateItemMmdlHeaders((u16 *)itemSlots, mapMode, wfbcData[1], 1);
     if (headers != 0 && itemCount != 0)
-        FLDMMDL_AddMmdlHeaderList((MmdlSys *)mmdlSys, (u8 *)headers, (s16)location->zoneId, (int)itemCount, (int)eventWork);
+        FLDMMDL_AddMmdlHeaderList((MmdlSys *)mmdlSys, (struct MmdlHeader *)headers, (s16)location->zoneId, (int)itemCount, (void *)eventWork);
     if (headers != 0)
         GFL_HEAP_Free((void *)headers);
 }
@@ -2325,7 +2356,7 @@ void EVENT_MAPCHANGE_ReloadMmdl(GameData *gameData, const Location *location)
     if (ZONEDATA_IsZoneInTableDFC0(location->zoneId) != 0) {
         EVENT_MAPCHANGE_AddWfbcMmdl(gameData, location);
         if (FIELD_STATUS_GetMapMode(GAME_DATA_GetMoveModelSys(gameData)) == 0) {
-            FIELD_WFBC_DATA_LOCAL_ApplyTalkedMoodBonus(GAME_DATA_GetSecondUnionInfo(gameData));
+            FIELD_WFBC_DATA_LOCAL_ApplyTalkedMoodBonus((u8 *)GAME_DATA_GetSecondUnionInfo(gameData));
         }
     }
 }
@@ -2461,7 +2492,7 @@ int EVENT_MAPCHANGE_RunIntrudeArriveEvent(GameEvent *event, int *state, MapChang
     switch (state[0]) {
     case 0:
         GFL_USE_PlaySeDefaultVolume(0x773);
-        ENCEFF_Start(FIELDMAP_GetEncEff(fieldMap), event, 0x24);
+        ENCEFF_Start((struct EncEffWork *)FIELDMAP_GetEncEff(fieldMap), event, 0x24);
         state[0]++;
         break;
     case 1:
@@ -2500,7 +2531,7 @@ int EVENT_MAPCHANGE_RunIntrudeSessionEvent(GameEvent *event, int *state, MapChan
         isHost = 0;
         busy = 0;
         if (comm != 0) {
-            busy = INTRUDE_FIELD_IsStartRequested(comm);
+            busy = INTRUDE_FIELD_IsStartRequested((struct IntrudeCommSys *)comm);
             if (INTRUDE_COMM_GetRequestState(gameComm) == 3)
                 isHost = 1;
         }
@@ -2529,8 +2560,8 @@ int EVENT_MAPCHANGE_RunIntrudeSessionEvent(GameEvent *event, int *state, MapChan
         }
         comm = INTRUDE_COMM_GetWorkIfRunning(gameComm);
         if (comm != 0) {
-            INTRUDE_COMM_SetSuspended(comm, 1);
-            INTRUDE_COMM_SetIntrudeId(comm, work->intrudeId);
+            INTRUDE_COMM_SetSuspended((struct IntrudeCommSys *)comm, 1);
+            INTRUDE_COMM_SetIntrudeId((struct IntrudeCommSys *)comm, work->intrudeId);
             if (work->requestSession == 1)
                 INTRUDE_COMM_AcceptSession(comm, comm->requestInfo);
         }
@@ -2541,7 +2572,7 @@ int EVENT_MAPCHANGE_RunIntrudeSessionEvent(GameEvent *event, int *state, MapChan
     case 2:
         comm = INTRUDE_COMM_GetWorkIfRunning(gameComm);
         if (comm != 0)
-            INTRUDE_COMM_SetSuspended(comm, 0);
+            INTRUDE_COMM_SetSuspended((struct IntrudeCommSys *)comm, 0);
         *state = 3;
         break;
     case 3:
@@ -2592,8 +2623,8 @@ void EVENT_MAPCHANGE_ResetPlayerObjectCode(GameData *gameData)
 /* Puts the preset mail (writer name from message 0x3b of file 0xbe) into mail box slot 0. */
 void EVENT_MAPCHANGE_AddPresetMail(GameData *gameData)
 {
-    struct MsgData *msgData = MSGDATA_CreateFromArchive(0, 2, 0xbe, 1);
-    struct Strbuf *writerName = MSGDATA_AllocString(msgData, 0x3b);
+    struct MsgData *msgData = (struct MsgData *)MSGDATA_CreateFromArchive(0, 2, 0xbe, 1);
+    struct Strbuf *writerName = MSGDATA_AllocString((struct MsgBank *)msgData, 0x3b);
     struct Mail *mail;
     u16 writerChars[0x10];
 
@@ -2603,15 +2634,15 @@ void EVENT_MAPCHANGE_AddPresetMail(GameData *gameData)
     MAIL_SetGender(mail, 1);
     MAIL_SetDesign(mail, 3);
     MAIL_SetLanguage(mail, 2);
-    MAIL_SetVersion(mail, 0x15);
+    MAIL_SetVersion(mail, PM_VERSION_ID);
     MAIL_SetMessage(mail, d_02187DA4, 0);
     MAIL_SetMessage(mail, d_02187DAC, 1);
     MAIL_SetMessage(mail, d_02187DB4, 2);
     MAIL_SetMessageId(mail, 0x58F);
-    MAIL_SetSlot(MAIL_GetBox(gameData), 0, 0, mail);
+    MAIL_SetSlot((struct Mail *)MAIL_GetBox(gameData), 0, 0, mail);
     GFL_HEAP_Free(mail);
     STRBUF_Delete(writerName);
-    MSGDATA_Delete(msgData);
+    MSGDATA_Delete((struct MsgBank *)msgData);
 }
 
 void EVENT_MAPCHANGE_StartSeasonEffect(GameData *gameData)
@@ -2623,22 +2654,22 @@ void EVENT_MAPCHANGE_StartSeasonEffect(GameData *gameData)
     FORMCHANGE_RevertShayminAtNight(gameData, partySave, (u32 *)((u8 *)CONSOLE_STAMP_GetDailyClock(saveControl) + 0x14), season);
 }
 
-void *EVENT_MAPCHANGE_AllocWorkBufferA(void)
+void *EVENT_MAPCHANGE_TamperLeakA(void)
 {
     return GFL_HEAP_Alloc(0x8004, 0x1000, 0, d_02187EA0, 0xe35);
 }
 
-void *EVENT_MAPCHANGE_AllocWorkBufferB(void)
+void *EVENT_MAPCHANGE_TamperLeakB(void)
 {
     return GFL_HEAP_Alloc(0x8004, 0x1000, 0, d_02187EA0, 0xe3a);
 }
 
 /*
  * An empty function (`bx lr` plus two bytes of padding) at the end of the
- * file.  EVENT_MAPCHANGE_ChangeFieldEvent passes its address as the end of the range handed to
- * the ov230 routine OV230_CallSealedBody5, the same way it passes EVENT_MAPCHANGE_AllocWorkBufferA and
- * EVENT_MAPCHANGE_AllocWorkBufferB to OV230_CallSealedBody0 and OV230_CallSealedBody2.
+ * file.  EVENT_MAPCHANGE_ChangeFieldEvent passes its address as the hook argument of
+ * the ov230 routine OV230_CallSealedBody5, the same way it passes EVENT_MAPCHANGE_TamperLeakA and
+ * EVENT_MAPCHANGE_TamperLeakB to OV230_CallSealedBody0 and OV230_CallSealedBody2.
  */
-void EVENT_MAPCHANGE_EndMarker(void)
+void EVENT_MAPCHANGE_NopHook(void)
 {
 }

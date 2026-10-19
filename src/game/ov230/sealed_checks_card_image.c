@@ -35,7 +35,7 @@ typedef int s32;
 
 extern s32 OS_GetLockID(void);
 extern void CARD_LockRom(u16 lockId);
-extern void CARD_UnlockRom(u16 lockId);
+extern void CARD_UnlockRom(u32 id);
 extern void OS_ReleaseLockID(u16 lockId);
 extern void CARDi_ReadRom(u32 dma, const void *src, void *dst, u32 len, void *callback, void *arg, int isAsync);
 extern void OV230_CallSealedBody12(u8 *dst, u32 offset, u32 size);

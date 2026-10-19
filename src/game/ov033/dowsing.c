@@ -139,26 +139,39 @@ typedef struct Vec3Fx {
 
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int align, const char *file, u16 line);
 extern u32 GFL_HEAP_Free(void *mem);
-extern u32 ZONEDATA_CheckEventFlag(void *flagBitmap, s32 flagId);
-extern int INTRUDE_FindOfferSlotAt(void *eventData, int zoneId, int x, int y, int z);
-extern const DowsingHiddenItem *HIDDEN_ITEM_GetTable(u16 *count);
-extern const DowsingMapEvent *INTRUDE_GetNextOfferSpot(void *eventData, unsigned *index);
-extern void *ARC_UTIL_LoadMemberWithSize(u32 arcId, u32 fileId, int compressed, u32 heapId, u32 *outSize);
-extern struct Task *GFL_USE_AddMainTask(void (*proc)(int, DowsingWork *), DowsingWork *work, u32 priority);
-extern struct FieldSystem *FIELDMAP_GetGameSystem(void *fieldMap);
-extern struct GameData *GAMESYSTEM_GetGameData(const struct FieldSystem *fieldSystem);
+struct EventWork;
+extern u32 ZONEDATA_CheckEventFlag(struct EventWork *ev, s32 flagId);
+struct IntrudeOfferLog;
+extern int INTRUDE_FindOfferSlotAt(struct IntrudeOfferLog *log, s32 zoneId, s32 x, s32 y, s32 z);
+struct HiddenItemEntry;
+extern struct HiddenItemEntry *HIDDEN_ITEM_GetTable(u16 *count);
+struct IntrudeOfferSpot;
+extern struct IntrudeOfferSpot *INTRUDE_GetNextOfferSpot(struct IntrudeOfferLog *log, s32 *index);
+extern s32 ARC_UTIL_LoadMemberWithSize(s32 archiveID, s32 memberIdx, s32 decompress, u16 heapID, u32 *out);
+struct Tcb;
+extern struct Tcb *GFL_USE_AddMainTask(void (*proc)(int, DowsingWork *), void *work, u32 priority);
+struct FieldMap;
+struct GameSystem;
+extern struct GameSystem *FIELDMAP_GetGameSystem(struct FieldMap *fieldMap);
+extern struct GameData *GAMESYSTEM_GetGameData(struct GameSystem *gameSystem);
 extern void *GAME_DATA_GetEventWork(const struct GameData *gameData);
-extern void *GAME_DATA_GetSaveControl(struct GameData *gameData);
-extern void *INTRUDE_GetFromSave(void *sys);
-extern void G2x_SetBlendAlpha_(u32 reg, int plane1, int plane2, int ev1, int ev2);
+struct SaveControl;
+extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gameData);
+struct IntrudeSave;
+extern struct IntrudeSave *INTRUDE_GetFromSave(struct SaveControl *save);
+extern void G2x_SetBlendAlpha_(u32 *reg, u32 a, u32 b, u32 c, u32 d);
 extern void GFL_NET_RefreshWmIconAtTopRight(u32, u32);
-extern void TCB_DeleteTask(struct Task *task);
+struct TcbTask;
+extern void TCB_DeleteTask(struct TcbTask *task);
 extern void INFOWIN_Update(void);
-extern struct PlayerAvatar *GAMESYSTEM_GetMyPlayerWork(const struct FieldSystem *fieldSystem);
-extern const Vec3Fx *GAME_DATA_GetPlayerPosition(const struct PlayerAvatar *player);
+struct PlayerWork;
+extern struct PlayerWork *GAMESYSTEM_GetMyPlayerWork(struct GameSystem *gameSystem);
+struct PlayerPosition;
+extern struct PlayerPosition *GAME_DATA_GetPlayerPosition(struct PlayerWork *player);
 extern u32 GAME_DATA_GetFieldWork(const struct GameData *gameData);
-extern int MAP_MATRIX_IsInRangeByPos(int mapId, int x, int z);
-extern int MAP_MATRIX_GetZoneIdByPos(int mapId, int x, int z);
+struct MapMatrix;
+extern int MAP_MATRIX_IsInRangeByPos(struct MapMatrix *matrix, int posX, int posZ);
+extern int MAP_MATRIX_GetZoneIdByPos(struct MapMatrix *matrix, int posX, int posZ);
 extern u32 ZONEDATA_IsFieldMatrix(u32 zoneId);
 extern int ZONEDATA_IsZoneGroup118To13C(u32 zoneId);
 extern int GFL_USE_GetSeSlot(u32 se);
@@ -167,16 +180,18 @@ extern void GFL_USE_SetSeSlotParams(int handle, u32 volume, u32 pitch, u32 pan);
 extern int GFL_USE_IsSeSlotBusy(u32 handle);
 extern void GFL_USE_PlaySeDefaultVolume(u32 se);
 extern void DOWSING_UpdateFade(DowsingWork *work);
-extern void TCB_Main(struct TaskSys *taskSys);
+struct TcbSystem;
+extern void TCB_Main(struct TcbSystem *sys);
 extern u32 PALANM_GetFadeRequestBits(const struct PalAnmSlot *palAnm);
 extern int PALANM_RequestFade(struct PalAnmSlot *palAnm, u16 slotMask, u16 paletteMask, s16 wait, u8 startLevel, u8 endLevel, u16 color, struct TaskSys *taskSys);
-extern void CLACT_StartActorAnim(struct ClactActor *actor);
-extern void CLACT_StopActorAnim(struct ClactActor *actor);
-extern void CLACT_SetActorDrawEnable(struct ClactActor *actor, u32 visible);
+struct Actor;
+extern void CLACT_StartActorAnim(struct Actor *actor);
+extern void CLACT_StopActorAnim(struct Actor *actor);
+extern void CLACT_SetActorDrawEnable(struct Actor *actor, u32 value);
 extern void CLACT_AddActorSurfacePos(struct ClactActor *actor, const ScreenPos *pos, u32 which);
-extern void CLACT_SetActorAnimSeq(struct ClactActor *actor, u16 anim);
-extern void CLACT_SetActorAutoAnim(struct ClactActor *actor, u32 enable);
-extern void CLACT_SetActorAnimFrame(struct ClactActor *actor, u32 frame);
+extern void CLACT_SetActorAnimSeq(struct Actor *actor, u16 value);
+extern void CLACT_SetActorAutoAnim(struct Actor *actor, u32 enable);
+extern void CLACT_SetActorAnimFrame(struct Actor *actor, u32 frame);
 extern void PALANM_TransferPalettes(struct PalAnmSlot *palAnm);
 extern void BG_SYS_SetPlaneVisible(unsigned char bgId, unsigned char visible);
 extern void BG_SYS_InitBgLayer(unsigned int bgId, const struct BgTemplate *bgTemplate, unsigned int bgType);
@@ -187,7 +202,7 @@ extern void CLACT_SetUnitDefaultRenderer(struct ClactUnit *unit);
 extern void BG_SYS_SetSubPlaneVisible(unsigned, unsigned);
 extern unsigned int CLACT_DeleteUnit(struct ClactUnit *unit);
 extern void BG_SYS_FreeLayerBuf(u32 bgId);
-extern void *ARC_TOOL_CreateHandle(unsigned int arcId, unsigned int heapId);
+extern void *ARC_TOOL_CreateHandle(u32 archiveID, u16 heapID);
 extern void ARC_UTIL_UploadPaletteFromHandle(void *archive, u32 fileId, u32 bgId, u32 offset, u32 size, u32 palSize, u16 heapId);
 extern u32 ARC_UTIL_RegisterObjCharFromHandle(void *archive, u32 fileId, u32 bgId, u32 offset, u32 size, u16 heapId);
 extern u32 ARC_UTIL_UploadBgPaletteAddFromHandle(void *archive, u32 fileId, u32 bgId, u32 offset, u32 charRegion, u32 x, u32 y, u16 heapId);
@@ -199,12 +214,12 @@ extern s32 CLACT_RegisterPaletteEx(void *archive, u32 fileId, u32 slotCount, u32
 extern s32 CLACT_RegisterCharacter(void *archive, u32 fileId, u32 compressed, u32 mode, u16 heapId);
 extern s32 CLACT_RegisterCellAnim(void *archive, u32 cellFileId, u32 animFileId, u32 heapId);
 extern struct ClactActor *CLACT_CreateActor(struct ClactUnit *unit, s32 charRes, s32 palRes, s32 cellRes, const ClactSetup *setup, unsigned short mode, unsigned short heapId);
-extern void CLACT_SetActorObjMode(struct ClactActor *actor, u32 value);
-extern void CLACT_DeleteActor(struct ClactActor *actor);
-extern void CLACT_ReleaseCellAnim(s32 cellRes);
-extern void CLACT_ReleaseCharacter(s32 charRes);
-extern void CLACT_ReleasePalette(s32 palRes);
-extern void INFOWIN_Init(u8 bgFrame, u8 palette, struct GameData *gameData, u16 heapId);
+extern void CLACT_SetActorObjMode(struct Actor *actor, u32 value);
+extern void CLACT_DeleteActor(struct Actor *actor);
+extern void CLACT_ReleaseCellAnim(u32 idx);
+extern void CLACT_ReleaseCharacter(u32 idx);
+extern void CLACT_ReleasePalette(u32 idx);
+extern void INFOWIN_Init(u8 bgFrame, u8 palette, void *gameData, u16 heap);
 extern u32 APP_ICON_GetArchiveId(void);
 extern u32 APP_ICON_GetStatusAnimFileId(void);
 extern u32 APP_ICON_GetStatusFrameFileId(void);
@@ -215,17 +230,17 @@ extern u32 APP_ICON_GetStatusCellFileId(u32);
 extern u32 APP_ICON_GetStatusPaletteFileId(u32);
 extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *archive, u32 fileId, u32 bgId, u32 offset, u32 size, u16 heapId);
 extern void *ARC_UTIL_LoadPaletteDataFromHandle(void *archive, u32 fileId, u32 compressed, void **outData, u16 heapId);
-extern void BG_SYS_DrawTileEx(u32 index, u32 dx, u32 dy, u32 cw, u8 ch, u32 src, u8 sx, u8 sy, u8 sw, u8 sh);
-extern void CLACT_SetActorAutoAnimSpeed(struct ClactActor *actor, u32 value);
+extern void BG_SYS_DrawTileEx(u32 index, u8 dx, u8 dy, u8 cw, u8 ch, void *src, u8 sx, u8 sy, u8 sw, u8 sh);
+extern void CLACT_SetActorAutoAnimSpeed(struct Actor *actor, u32 speed);
 extern int INFOWIN_Exit(void);
 extern u32 TOUCHPANEL_GetPointTrg(u32 *outX, u32 *outY);
 extern void UI_SetInputMode(u8 touchMode);
 extern u32 KEY_GetTrg(void);
-extern u32 CLACT_IsActorAnimActive(struct ClactActor *actor);
+extern u32 CLACT_IsActorAnimActive(struct Actor *actor);
 extern int FIELD_SUBSCREEN_RequestMode(FieldSubscreen *subscreen, u32 mode);
 extern unsigned TCB_GetTaskOffset(unsigned);
-extern struct TaskSys *TCB_Init(u32 capacity, void *mem);
-extern struct PalAnmSlot *PALANM_Create(u32 heapId);
+extern struct TcbSystem *TCB_Init(u32 capacity, struct TcbSystem *sys);
+extern void *PALANM_Create(u32 heapId);
 extern void PALANM_SetAutoTransfer(struct PalAnmSlot *palAnm, int enable);
 extern void PALANM_AllocSlotBuffers(struct PalAnmSlot *palAnm, u32 slot, u32 size, u32 heapId);
 extern void PALANM_CopyHwPaletteToSlot(struct PalAnmSlot *palAnm, u32 slot, u32 offset, u32 size);
@@ -314,7 +329,7 @@ int DOWSING_FindNextTarget(DowsingSearch *search, DowsingTarget *out, int mode)
     int found;
 
     found = 0;
-    items = HIDDEN_ITEM_GetTable(&itemCount);
+    items = (struct DowsingHiddenItem *)HIDDEN_ITEM_GetTable(&itemCount);
     eventIndex = search->eventIndex;
     if (mode == 0 || mode == 1) {
         while (search->itemIndex < itemCount) {
@@ -331,7 +346,7 @@ int DOWSING_FindNextTarget(DowsingSearch *search, DowsingTarget *out, int mode)
         }
     }
     if (mode == 0 || mode == 2) {
-        event = INTRUDE_GetNextOfferSpot(search->eventData, &eventIndex);
+        event = (struct DowsingMapEvent *)INTRUDE_GetNextOfferSpot(search->eventData, (s32 *)(&eventIndex));
         search->eventIndex = eventIndex;
         while (event != 0) {
             candidate.event = event;
@@ -343,7 +358,7 @@ int DOWSING_FindNextTarget(DowsingSearch *search, DowsingTarget *out, int mode)
             }
             if (found)
                 return 1;
-            event = INTRUDE_GetNextOfferSpot(search->eventData, &eventIndex);
+            event = (struct DowsingMapEvent *)INTRUDE_GetNextOfferSpot(search->eventData, (s32 *)(&eventIndex));
             search->eventIndex = eventIndex;
         }
     }
@@ -367,8 +382,8 @@ DowsingWork *DOWSING_Create(u32 heapId, u32 ownerHeapId, FieldSubscreen *subscre
     DOWSING_LoadBackground(work);
     DOWSING_CreateParts(work);
     DOWSING_CreateCloseButton(work);
-    work->levelGrid = ARC_UTIL_LoadMemberWithSize(DOWSING_ARC_ID, 0xD, 0, work->heapId, &size);
-    work->task = GFL_USE_AddMainTask(DOWSING_TaskTransferPalettes, work, 1);
+    work->levelGrid = (u8 *)ARC_UTIL_LoadMemberWithSize(DOWSING_ARC_ID, 0xD, 0, work->heapId, &size);
+    work->task = (struct Task *)GFL_USE_AddMainTask(DOWSING_TaskTransferPalettes, work, 1);
     work->tick = 0;
     work->isOn = 1;
     DOWSING_InitFade(work);
@@ -389,7 +404,7 @@ DowsingWork *DOWSING_Create(u32 heapId, u32 ownerHeapId, FieldSubscreen *subscre
     gameData = GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(work->fieldMap));
     eventFlags = GAME_DATA_GetEventWork(gameData);
     work->search = DOWSING_CreateSearch(work->heapId, eventFlags, INTRUDE_GetFromSave(GAME_DATA_GetSaveControl(gameData)));
-    G2x_SetBlendAlpha_((u32)&reg_GXS_DB_BLDCNT, 0x10, 0x18, 1, 7);
+    G2x_SetBlendAlpha_((u32 *)&reg_GXS_DB_BLDCNT, 0x10, 0x18, 1, 7);
     GFL_NET_RefreshWmIconAtTopRight(0, work->heapId);
     return work;
 }
@@ -399,7 +414,7 @@ void DOWSING_Delete(DowsingWork *work)
     reg_GXS_DB_BLDCNT = 0;
     DOWSING_DeleteSearch(work->search);
     DOWSING_ExitFade(work);
-    TCB_DeleteTask(work->task);
+    TCB_DeleteTask((struct TcbTask *)work->task);
     GFL_HEAP_Free(work->levelGrid);
     DOWSING_DeleteCloseButton(work);
     DOWSING_DeleteParts(work);
@@ -458,16 +473,16 @@ void DOWSING_Update(DowsingWork *work, int isOn)
         work->prevTarget.item = work->target.item;
     else if (work->prevTarget.kind == DOWSING_TARGET_MAP_EVENT)
         work->prevTarget.event = work->target.event;
-    fieldSystem = FIELDMAP_GetGameSystem(work->fieldMap);
-    pos = GAME_DATA_GetPlayerPosition(GAMESYSTEM_GetMyPlayerWork(fieldSystem));
+    fieldSystem = (struct FieldSystem *)FIELDMAP_GetGameSystem(work->fieldMap);
+    pos = (struct Vec3Fx *)GAME_DATA_GetPlayerPosition(GAMESYSTEM_GetMyPlayerWork((struct GameSystem *)fieldSystem));
     gridX = (pos->x >> 4) / 4096;
     gridY = (pos->y >> 4) / 4096;
     gridZ = (pos->z >> 4) / 4096;
-    mapId = GAME_DATA_GetFieldWork(GAMESYSTEM_GetGameData(fieldSystem));
+    mapId = GAME_DATA_GetFieldWork(GAMESYSTEM_GetGameData((struct GameSystem *)fieldSystem));
     zoneId = DOWSING_ZONE_NONE;
     zoneFlag = 0;
-    if (MAP_MATRIX_IsInRangeByPos((int)mapId, pos->x, pos->z) == 1) {
-        zoneId = MAP_MATRIX_GetZoneIdByPos((int)mapId, pos->x, pos->z);
+    if (MAP_MATRIX_IsInRangeByPos((struct MapMatrix *)mapId, pos->x, pos->z) == 1) {
+        zoneId = MAP_MATRIX_GetZoneIdByPos((struct MapMatrix *)mapId, pos->x, pos->z);
         zoneFlag = (int)ZONEDATA_IsFieldMatrix((u16)zoneId);
     }
     /* Both branches scan; the flag only records that a scan happened. */
@@ -646,21 +661,21 @@ void DOWSING_UpdateDisplay(DowsingWork *work, int draw)
     if (draw == 0)
         return;
     if (work->shownLevel != work->level) {
-        CLACT_SetActorDrawEnable(work->parts[DOWSING_PART_DIRECTION].actor,
+        CLACT_SetActorDrawEnable((struct Actor *)work->parts[DOWSING_PART_DIRECTION].actor,
                       (work->level == DOWSING_LEVEL_ON_TARGET || work->level == DOWSING_LEVEL_NONE) ? 0 : 1);
-        CLACT_SetActorDrawEnable(work->parts[DOWSING_PART_FOUND_MARK].actor, work->level == DOWSING_LEVEL_ON_TARGET);
+        CLACT_SetActorDrawEnable((struct Actor *)work->parts[DOWSING_PART_FOUND_MARK].actor, work->level == DOWSING_LEVEL_ON_TARGET);
         pos.x = sDowsingLevelTable[work->level].directionX;
         pos.y = sDowsingLevelTable[work->level].directionY;
         CLACT_AddActorSurfacePos(work->parts[DOWSING_PART_DIRECTION].actor, &pos, 1);
-        CLACT_SetActorAnimSeq(work->parts[DOWSING_PART_LEFT_GAUGE].actor, sDowsingLevelTable[work->level].leftAnim);
-        CLACT_SetActorAnimSeq(work->parts[DOWSING_PART_RIGHT_GAUGE].actor, sDowsingLevelTable[work->level].rightAnim);
-        CLACT_SetActorAnimSeq(work->parts[DOWSING_PART_DIRECTION].actor, sDowsingLevelTable[work->level].directionAnim);
+        CLACT_SetActorAnimSeq((struct Actor *)work->parts[DOWSING_PART_LEFT_GAUGE].actor, sDowsingLevelTable[work->level].leftAnim);
+        CLACT_SetActorAnimSeq((struct Actor *)work->parts[DOWSING_PART_RIGHT_GAUGE].actor, sDowsingLevelTable[work->level].rightAnim);
+        CLACT_SetActorAnimSeq((struct Actor *)work->parts[DOWSING_PART_DIRECTION].actor, sDowsingLevelTable[work->level].directionAnim);
         work->shownLevel = work->level;
     }
     if (work->level == DOWSING_LEVEL_ON_TARGET && work->restartFoundAnim != 0) {
-        CLACT_SetActorAnimSeq(work->parts[DOWSING_PART_FOUND_MARK].actor, 0);
-        CLACT_SetActorAutoAnim(work->parts[DOWSING_PART_FOUND_MARK].actor, 1);
-        CLACT_SetActorAnimFrame(work->parts[DOWSING_PART_FOUND_MARK].actor, 0);
+        CLACT_SetActorAnimSeq((struct Actor *)work->parts[DOWSING_PART_FOUND_MARK].actor, 0);
+        CLACT_SetActorAutoAnim((struct Actor *)work->parts[DOWSING_PART_FOUND_MARK].actor, 1);
+        CLACT_SetActorAnimFrame((struct Actor *)work->parts[DOWSING_PART_FOUND_MARK].actor, 0);
         work->restartFoundAnim = 0;
     }
 }
@@ -755,8 +770,8 @@ void DOWSING_CreateParts(DowsingWork *work)
         }
         setup.priority = i;
         work->parts[i].actor = CLACT_CreateActor(work->clactUnit, work->parts[i].charRes, work->partsPalRes, work->parts[i].cellRes, &setup, 1, work->heapId);
-        CLACT_SetActorAutoAnim(work->parts[i].actor, 1);
-        CLACT_SetActorObjMode(work->parts[i].actor, 1);
+        CLACT_SetActorAutoAnim((struct Actor *)work->parts[i].actor, 1);
+        CLACT_SetActorObjMode((struct Actor *)work->parts[i].actor, 1);
     }
     ARC_TOOL_DeleteHandle(archive);
     {
@@ -778,7 +793,7 @@ void DOWSING_DeleteParts(DowsingWork *work)
 {
     unsigned char i;
     for (i = 0; i < DOWSING_PART_COUNT; i++) {
-        CLACT_DeleteActor(work->parts[i].actor);
+        CLACT_DeleteActor((struct Actor *)work->parts[i].actor);
         if (i != DOWSING_PART_RIGHT_GAUGE) {
             CLACT_ReleaseCellAnim(work->parts[i].cellRes);
             CLACT_ReleaseCharacter(work->parts[i].charRes);
@@ -819,7 +834,7 @@ void DOWSING_CreateCloseButton(DowsingWork *work)
             tiles[i] &= 0xFFF;
             tiles[i] = (base + tiles[i]) | 0x2000;
         }
-        BG_SYS_DrawTileEx(4, 0, 0x15, 0x20, 3, (u32)screen->tiles, 0, 0x15, 0x20, 0x18);
+        BG_SYS_DrawTileEx(4, 0, 0x15, 0x20, 3, (void *)screen->tiles, 0, 0x15, 0x20, 0x18);
         BG_SYS_MarkTileDirty(4);
         GFL_HEAP_Free(screenFile);
         work->buttonPalRes = CLACT_RegisterPaletteEx(archive, APP_ICON_GetMoveKindPaletteFileId(), 1, 0x20, 0, 3, work->heapId);
@@ -828,9 +843,9 @@ void DOWSING_CreateCloseButton(DowsingWork *work)
         setup.x = 0xE8;
         setup.y = 0xA8;
         work->buttonActor = CLACT_CreateActor(work->clactUnit, work->buttonCharRes, work->buttonPalRes, work->buttonCellRes, &setup, 1, work->heapId);
-        CLACT_SetActorAutoAnim(work->buttonActor, 1);
-        CLACT_SetActorAutoAnimSpeed(work->buttonActor, 0x2000);
-        CLACT_SetActorAnimSeq(work->buttonActor, 0);
+        CLACT_SetActorAutoAnim((struct Actor *)work->buttonActor, 1);
+        CLACT_SetActorAutoAnimSpeed((struct Actor *)work->buttonActor, 0x2000);
+        CLACT_SetActorAnimSeq((struct Actor *)work->buttonActor, 0);
         ARC_TOOL_DeleteHandle(archive);
         work->buttonState = DOWSING_BUTTON_IDLE;
     }
@@ -839,7 +854,7 @@ void DOWSING_CreateCloseButton(DowsingWork *work)
 void DOWSING_DeleteCloseButton(DowsingWork *work)
 {
     unsigned region;
-    CLACT_DeleteActor(work->buttonActor);
+    CLACT_DeleteActor((struct Actor *)work->buttonActor);
     CLACT_ReleaseCellAnim(work->buttonCellRes);
     CLACT_ReleaseCharacter(work->buttonCharRes);
     CLACT_ReleasePalette(work->buttonPalRes);
@@ -872,15 +887,15 @@ void DOWSING_UpdateCloseButton(DowsingWork *work)
         }
         if (pressed != 0) {
             work->buttonState = DOWSING_BUTTON_PRESSED;
-            CLACT_SetActorAnimSeq(work->buttonActor, 8);
+            CLACT_SetActorAnimSeq((struct Actor *)work->buttonActor, 8);
             GFL_USE_PlaySeDefaultVolume(DOWSING_SE_CLOSE);
             return;
         }
         break;
     case DOWSING_BUTTON_PRESSED:
-        if (CLACT_IsActorAnimActive(work->buttonActor) == 0) {
+        if (CLACT_IsActorAnimActive((struct Actor *)work->buttonActor) == 0) {
             work->buttonState = DOWSING_BUTTON_RELEASED;
-            CLACT_SetActorAnimSeq(work->buttonActor, 0);
+            CLACT_SetActorAnimSeq((struct Actor *)work->buttonActor, 0);
             return;
         }
         break;
@@ -900,7 +915,7 @@ void DOWSING_UpdateCloseButton(DowsingWork *work)
 void DOWSING_InitFade(DowsingWork *work)
 {
     work->fadeTaskMem = GFL_HEAP_Alloc(work->heapId, TCB_GetTaskOffset(2), 1, sDowsingFileName, 0x6DF);
-    work->fadeTaskSys = TCB_Init(2, work->fadeTaskMem);
+    work->fadeTaskSys = (struct TaskSys *)TCB_Init(2, work->fadeTaskMem);
     work->palAnm = PALANM_Create(work->heapId);
     PALANM_SetAutoTransfer(work->palAnm, 1);
     PALANM_AllocSlotBuffers(work->palAnm, 1, 0x60, work->heapId);
@@ -930,7 +945,7 @@ void DOWSING_UpdateFade(DowsingWork *work)
     u16 paletteMask;
     u8 i;
 
-    TCB_Main(work->fadeTaskSys);
+    TCB_Main((struct TcbSystem *)work->fadeTaskSys);
     if (work->fadeRequest == DOWSING_FADE_NONE || PALANM_GetFadeRequestBits(work->palAnm) != 0)
         return;
     switch (work->fadeRequest) {
@@ -946,7 +961,7 @@ void DOWSING_UpdateFade(DowsingWork *work)
             PALANM_RequestFade(work->palAnm, 8, paletteMask, 0, 0, 0, 0, work->fadeTaskSys);
             work->fadeState = 0;
             for (i = 0; i < DOWSING_PART_COUNT; i++)
-                CLACT_StartActorAnim(work->parts[i].actor);
+                CLACT_StartActorAnim((struct Actor *)work->parts[i].actor);
         }
         break;
     case DOWSING_FADE_OUT:
@@ -961,7 +976,7 @@ void DOWSING_UpdateFade(DowsingWork *work)
             PALANM_RequestFade(work->palAnm, 8, paletteMask, 0, 8, 8, 0, work->fadeTaskSys);
             work->fadeState = 1;
             for (i = 0; i < DOWSING_PART_COUNT; i++)
-                CLACT_StopActorAnim(work->parts[i].actor);
+                CLACT_StopActorAnim((struct Actor *)work->parts[i].actor);
         }
         break;
     }

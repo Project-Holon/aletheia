@@ -62,7 +62,7 @@ extern void SAVE_CONTROL_DeleteExtraSave(struct SaveControl *save, u32 id);
 
 extern u32 SAVE_CONTROL_LoadExtraSaveWithBuffer(struct SaveControl *save, u32 id, u32 heap, void *buf, u32 size);
 
-extern void SAVE_CONTROL_CreateExtraSaveWithBuffer(struct SaveControl *save, u32 id, u32 heap, void *buf, u32 size);
+extern void SAVE_CONTROL_CreateExtraSaveWithBuffer(struct SaveControl *saveControl, u32 slot, u32 heapId, u32 work, u32 workSize);
 
 extern void SAVE_CONTROL_DeleteExtraSaveBuffered(struct SaveControl *save, u32 id);
 
@@ -76,7 +76,7 @@ extern u32 GF_STANDARD_Checksum(const u8 *data, u32 size);
 
 extern u16 GF_STANDARD_CalcCrc16(const u8 *data, u32 size);
 
-extern void GF_STANDARD_XorCrypt(void *data, u32 size, u32 code);
+extern void GF_STANDARD_XorCrypt(u16 *p, u32 size, u32 seed);
 
 extern void GF_STANDARD_XorCryptEx(void *data, u32 size, u32 code);
 
@@ -86,9 +86,9 @@ extern void GAME_DATA_PartSaveStart(struct GameData *gameData, u32 id);
 
 extern int GAME_DATA_PartSaveMain(struct GameData *gameData, int id);
 
-extern int GF_OVERLAY_Load(u32 overlayId);
+extern int GF_OVERLAY_Load(s32 handle);
 
-extern void GF_OVERLAY_Unload(u32 overlayId);
+extern void GF_OVERLAY_Unload(s32 handle);
 
 struct BattleRecSave *BATTLE_REC_Create(u32 heap);
 
@@ -464,7 +464,7 @@ u32 BATTLE_REC_SaveSeq(struct GameData *gameData, struct BattleRecSave *rec, u32
 
     switch (*seq) {
     case 0:
-        SAVE_CONTROL_CreateExtraSaveWithBuffer(save, id, heap, pBattleRec, 0x2000);
+        SAVE_CONTROL_CreateExtraSaveWithBuffer(save, (u32)id, (u32)heap, (u32)pBattleRec, 0x2000);
         GAME_DATA_PartSaveStart(gameData, id);
         (*seq)++;
         break;

@@ -103,24 +103,26 @@ struct RecordDate {
 };
 
 extern void MI_CpuFill8(void *dst, unsigned char val, unsigned long size);
+struct PokemonParam;
 
-extern u32  POKE_TOOL_GetPartyValue(void *mon, u32 id, u32 buf);
+extern u32  POKE_TOOL_GetPartyValue(struct PokemonParam *pp, u32 paramId, u32 arg);
+struct Party;
 
-extern u32 POKEPARTY_GetCount(void *p);
+extern u32 POKEPARTY_GetCount(struct Party *party);
 
-extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
+extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
 
-extern void *POKEPARTY_GetMember(void *p, u32 idx);
+extern struct PokemonParam *POKEPARTY_GetMember(struct Party *party, u32 pos);
 
-extern u32 POKE_TOOL_DecodePartyParam(struct Sav *p);
+extern u32 POKE_TOOL_DecodePartyParam(struct PokemonParam *pp);
 
-extern void STRBUF_ToChars(struct U16Vec *vec, u16 *out, u32 n);
+extern void STRBUF_ToChars(struct Strbuf *strbuf, u16 *out, u32 maxChars);
 
 extern u16   STRBUF_GetEosChar(void);
 
-extern u32 POKE_TOOL_EncodePartyParam(struct Sav *p, u32 f);
+extern u32 POKE_TOOL_EncodePartyParam(struct PokemonParam *pp, u32 didDecode);
 
-extern void STRBUF_Delete(struct U16Vec *vec);
+extern void STRBUF_Delete(struct Strbuf *strbuf);
 
 extern void STRBUF_SetStringN(struct Strbuf *o, const u16 *src, u32 len);
 

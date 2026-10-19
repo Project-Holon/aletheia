@@ -55,16 +55,18 @@ extern void CLACT_AddActorSurfacePos(struct ClActor *actor, const BtlvGaugePoint
 extern void CLACT_GetActorSurfacePos(struct ClActor *actor, BtlvGaugePoint *out, u16 space);
 
 extern void GFL_USE_PlaySeDefaultVolume(u32 seNo);
+struct Actor;
 
-extern void CLACT_SetActorAnimSeq(struct ClActor *actor, u16 animSeq);
+extern void CLACT_SetActorAnimSeq(struct Actor *actor, u16 value);
+struct PalAnmSlot;
 
-extern int BTLV_EFFECT_GetPalanm(void);
+extern struct PalAnmSlot *BTLV_EFFECT_GetPalanm(void);
 
 extern void *BTLV_EFFECT_GetOwner(void);
 
 extern void *GFL_HEAP_Alloc(u16 heapId, u32 size, int clear, const char *file, u16 line);
 
-extern void *ARC_TOOL_CreateHandle(u32 id, u32 heapId);
+extern void *ARC_TOOL_CreateHandle(u32 archiveID, u16 heapID);
 
 extern struct ClUnit *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 
@@ -80,15 +82,17 @@ extern void PALANM_CopyHwPaletteToSlot(struct PalAnmSlot *slots, u32 bank, u32 o
 
 extern struct ClActor *CLACT_CreateActor(struct ClUnit *unit, u32 charRes, u32 palRes, u32 cellRes, const BtlvGaugeActorInit *init, u16 space, u16 heapId);
 
-extern void CLACT_SetActorAutoAnim(struct ClActor *actor, u32 enable);
+extern void CLACT_SetActorAutoAnim(struct Actor *actor, u32 enable);
+struct TcbSystem;
+struct TcbTask;
 
-extern void *TCB_AddTask(void *taskSys, void (*func)(void *, void *), void *work, u32 priority);
+extern struct TcbTask *TCB_AddTask(struct TcbSystem *sys, void (*func)(void *, void *), void *work, u32 priority);
 
 extern void BTLV_EFFECT_RegisterTask(void *task, void (*onDelete)(void *), int arg);
 
 extern void ARC_TOOL_DeleteHandle(void *handle);
 
-extern void CLACT_DeleteActor(struct ClActor *actor);
+extern void CLACT_DeleteActor(struct Actor *actor);
 
 extern void CLACT_ReleaseCharacter(u32 res);
 
@@ -156,8 +160,8 @@ BtlvPartyBallBar *BTLV_B_GAUGE_CreatePartyBallBar(const BtlvPartyBallBarParam *p
     for (i = 0; i < 6; i++) {
         bar->entries[i].actor = CLACT_CreateActor(bar->unit, bar->charRes, bar->palRes, bar->cellRes, &actorInit, 0, bar->heapId);
         CLACT_GetActorSurfacePos(bar->entries[i].actor, &bar->entries[i].pos, 0);
-        CLACT_SetActorAutoAnim(bar->entries[i].actor, 1);
-        CLACT_SetActorAnimSeq(bar->entries[i].actor, sPartyBallBarAnimSeq[param->side][param->ballKind[i]]);
+        CLACT_SetActorAutoAnim((struct Actor *)bar->entries[i].actor, 1);
+        CLACT_SetActorAnimSeq((struct Actor *)bar->entries[i].actor, sPartyBallBarAnimSeq[param->side][param->ballKind[i]]);
         bar->entries[i].finalAnim = sPartyBallBarAnimSeq[2][param->ballKind[i]];
         bar->entries[i].wait = (i + 1) * 6;
         bar->entries[i].homeX = baseX;
@@ -169,8 +173,8 @@ BtlvPartyBallBar *BTLV_B_GAUGE_CreatePartyBallBar(const BtlvPartyBallBarParam *p
     actorInit.y = sPartyBallBarOrigins[param->side].frameY;
     bar->entries[i].actor = CLACT_CreateActor(bar->unit, bar->charRes, bar->palRes, bar->cellRes, &actorInit, 0, bar->heapId);
     CLACT_GetActorSurfacePos(bar->entries[i].actor, &bar->entries[i].pos, 0);
-    CLACT_SetActorAutoAnim(bar->entries[i].actor, 1);
-    CLACT_SetActorAnimSeq(bar->entries[i].actor, sPartyBallBarAnimSeq[param->side][4]);
+    CLACT_SetActorAutoAnim((struct Actor *)bar->entries[i].actor, 1);
+    CLACT_SetActorAnimSeq((struct Actor *)bar->entries[i].actor, sPartyBallBarAnimSeq[param->side][4]);
     bar->entries[i].finalAnim = sPartyBallBarAnimSeq[param->side][4];
     bar->entries[i].wait = 0;
     bar->entries[i].homeX = bar->entries[i].goalX = sPartyBallBarOrigins[param->side].frameX;
@@ -191,7 +195,7 @@ void BTLV_B_GAUGE_DeletePartyBallBar(BtlvPartyBallBar *bar)
     int i;
 
     for (i = 0; i < 7; i++)
-        CLACT_DeleteActor(bar->entries[i].actor);
+        CLACT_DeleteActor((struct Actor *)bar->entries[i].actor);
     CLACT_ReleaseCharacter(bar->charRes);
     CLACT_ReleasePalette(bar->palRes);
     CLACT_ReleaseCellAnim(bar->cellRes);
@@ -241,7 +245,7 @@ void BTLV_B_GAUGE_TaskPartyBallBar(void *task, void *arg)
                 }
                 CLACT_AddActorSurfacePos(taskArg->bar->entries[i].actor, &taskArg->bar->entries[i].pos, 0);
                 if (taskArg->bar->entries[i].stepX == 0) {
-                    CLACT_SetActorAnimSeq(taskArg->bar->entries[i].actor, taskArg->bar->entries[i].finalAnim);
+                    CLACT_SetActorAnimSeq((struct Actor *)taskArg->bar->entries[i].actor, taskArg->bar->entries[i].finalAnim);
                     switch (taskArg->bar->entries[i].finalAnim) {
                     case 9: sound = BTLV_GAUGE_SE_BALL_ALT; break;
                     case 10:

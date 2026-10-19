@@ -76,13 +76,13 @@ extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
 
 extern void BG_SYS_Init(u32, u32, u32, u32);
 
-extern void BG_SYS_SetTileEntry(u32, u32, u32, u32, u8, u8, u8);
+extern void BG_SYS_SetTileEntry(u32 layer, u16 value, u8 x0, u8 y0, u8 w, u8 h, u8 mode);
 
-extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
+extern void *ARC_TOOL_CreateHandle(u32 archiveID, u16 heapID);
 
 extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *, u32, u32, u32, u32, u16);
 
-extern void *ARC_UTIL_LoadPaletteBlockFromHandle(void *arc, u32 memberIdx, u32 unpackedOut, u32 flags);
+extern void *ARC_UTIL_LoadPaletteBlockFromHandle(void *arc, u32 memberIdx, void *unpackedOut, u16 flags);
 
 extern void MI_CpuCopy8(const void *, void *, u32);
 
@@ -96,7 +96,7 @@ extern void BG_SYS_FreeLayerBuf(u32 i);
 
 extern void DC_FlushRange(void *, int);
 
-extern void GXS_LoadBGPltt(void *, int, int);
+extern void GXS_LoadBGPltt(void *pSrc, u32 offset, u32 szByte);
 
 extern void CLACT_VBlankSystem(void);
 
@@ -107,16 +107,19 @@ extern void BG_SYS_SetLcdSwap(u32 swap);
 extern void GX_DispOn(void);
 
 extern void BG_SYS_Create(u16 heapId);
+struct DispVram;
 
-extern void BG_SYS_SetVramBanks(const void *c);
+extern void BG_SYS_SetVramBanks(struct DispVram *banks);
 
 extern void BG_SYS_SetGraphicsMode(const void *cfg);
 
 extern void BG_SYS_SetMainVisiblePlanes(u32);
 
 extern void BG_SYS_SetSubVisiblePlanes(u32);
+struct DispVramCfg;
+struct SysInit;
 
-extern void CLACT_InitSystem(const void *cfg, u32 arg, u32 heapId);
+extern void CLACT_InitSystem(struct SysInit *cfg, struct DispVramCfg *res_cfg, u32 heapId);
 
 extern void *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 
@@ -124,21 +127,23 @@ extern void *GFL_USE_AddMainTask(void *,void *,int);
 
 extern void *GFL_HEAP_Alloc(u32,u32,int,const char *,u16);
 
-extern void G2x_SetBlendAlpha_(void *,int,int,int,int);
+extern void G2x_SetBlendAlpha_(u32 *reg, u32 a, u32 b, u32 c, u32 d);
 
 extern void BG_SYS_ChangeScrollImmediate(u32 layer, u32 a, u32 b);
 
 extern void CLACT_DrawSystem(void);
+struct Actor;
 
-extern void CLACT_DeleteActor(struct ClActor *p);
+extern void CLACT_DeleteActor(struct Actor *actor);
 
 extern void CLACT_ReleasePalette(u32 i);
 
 extern void CLACT_ReleaseCharacter(u32 i);
 
 extern void CLACT_ReleaseCellAnim(u32 i);
+struct TcbTask;
 
-extern void TCB_DeleteTask(void *n);
+extern void TCB_DeleteTask(struct TcbTask *task);
 
 extern u32 CLACT_DeleteUnit(void *bank);
 
@@ -150,7 +155,7 @@ extern int GF_OVERLAY_Load(int);
 
 extern void GF_OVERLAY_Unload(int);
 
-extern void GX_LoadBGPltt(const void *, int, int);
+extern void GX_LoadBGPltt(void *pSrc, u32 offset, u32 szByte);
 
 extern u32 ARC_UTIL_UploadBgCharFromHandle(void *, u32, u32, u32, u32, u32, u16);
 
@@ -204,9 +209,9 @@ PdwaccDispWork *PDWACC_DISP_Init(int heap)
     *(volatile u32 *)0x04001000|=0x10000;
     GX_DispOn();
     BG_SYS_Create(disp->heap);
-    CLACT_InitSystem(gGsyncClactConfig,(u32)d_021DABCC,disp->heap);
+    CLACT_InitSystem((struct SysInit *)gGsyncClactConfig,(struct DispVramCfg *)d_021DABCC,disp->heap);
     disp->clactUnit=CLACT_CreateUnit(40,0,disp->heap);
-    BG_SYS_SetVramBanks(d_021DABCC);
+    BG_SYS_SetVramBanks((struct DispVram *)d_021DABCC);
     BG_SYS_SetGraphicsMode(d_021DABBC);
     PDWACC_DISP_InitBgLayers(disp);
     PDWACC_DISP_LoadResources(disp);
@@ -349,7 +354,7 @@ void PDWACC_DISP_LoadResources(PdwaccDispWork *disp)
     ARC_UTIL_UploadBgPaletteFromHandle(archiveHandle, 7, 3, 0, blendRow, blendRow, disp->heap);
     heap = disp->heap;
     MI_CpuFill8(&disp->palette, 0, sizeof(disp->palette));
-    allocated = ARC_UTIL_LoadPaletteBlockFromHandle(archiveHandle, 2, (u32)&record, heap);
+    allocated = ARC_UTIL_LoadPaletteBlockFromHandle((void *)archiveHandle, 2, &record, heap);
     MI_CpuCopy8(record->data, disp->palette.basePalettes, 0x1e0);
     MI_CpuCopy8(record->data, disp->palette.blendedPalettes, 0x1e0);
     GFL_HEAP_Free(allocated);
@@ -400,4 +405,4 @@ void PDWACC_DISP_PaletteTask(void *unused, PdwaccPaletteAnim *palette)
 /*
  * lever: A named unsigned cursor q preserves counter r4 and cursor r5.
  */
-void PDWACC_DISP_DeleteActors(PdwaccDispWork *disp) { int slotIndex; unsigned int actorCursor; for(slotIndex=0;slotIndex<PDWACC_ACTOR_COUNT;slotIndex++) { actorCursor=(unsigned int)disp+(unsigned)slotIndex*4; if(((PdwaccDispWork *)actorCursor)->actors[0]) { CLACT_DeleteActor(((PdwaccDispWork *)actorCursor)->actors[0]); ((PdwaccDispWork *)actorCursor)->actors[0]=0; } } }
+void PDWACC_DISP_DeleteActors(PdwaccDispWork *disp) { int slotIndex; unsigned int actorCursor; for(slotIndex=0;slotIndex<PDWACC_ACTOR_COUNT;slotIndex++) { actorCursor=(unsigned int)disp+(unsigned)slotIndex*4; if(((PdwaccDispWork *)actorCursor)->actors[0]) { CLACT_DeleteActor((struct Actor *)(((PdwaccDispWork *)actorCursor)->actors[0])); ((PdwaccDispWork *)actorCursor)->actors[0]=0; } } }

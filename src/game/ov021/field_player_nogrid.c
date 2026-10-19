@@ -94,16 +94,18 @@ extern u16 FLDMMDL_GetDirDisp(Mmdl *mmdl);
 u16 FLDMMDL_GetObjCode(Mmdl *mmdl);
 extern u16 FLDMMDL_GetDirMove(Mmdl *mmdl);
 extern int FLDMMDL_CheckPossibleAcmd(Mmdl *mmdl);
-extern void *FLDMMDL_FreeAcmd(Mmdl *mmdl);
+struct Mmdl;
+extern void FLDMMDL_FreeAcmd(Mmdl *mmdl);
 void FLDMMDL_SetAcmd(Mmdl *mmdl, int acmdCode);
 void FLDMMDL_SetDrawStatus(Mmdl *mmdl, u16 value);
 u32 FLDMMDL_GetNowAttr(Mmdl *mmdl);
-u32 *FLDMMDL_ClearStatusBit(Mmdl *mmdl, u32 bits);
-extern u32 *FLDMMDL_SetStatusBit(Mmdl *mmdl, u32 bits); /* its third parameter is a scratch it never reads */
+void FLDMMDL_ClearStatusBit(Mmdl *mmdl, u32 bits);
+extern void FLDMMDL_SetStatusBit(Mmdl *mmdl, u32 bits); /* its third parameter is a scratch it never reads */
 extern u16 FLDMMDL_GetMoveCode(Mmdl *mmdl);
-extern void FLDMMDL_ChangeHeader(Mmdl *mmdl, void *header);
+struct MmdlHeader;
+extern void FLDMMDL_ChangeHeader(struct Mmdl *mmdl, struct MmdlHeader *header);
 extern u16 FLDMMDL_MOVE_GetDirTableValue(int dir);
-extern int FLDMMDL_SetDirAll(Mmdl *mmdl, int dir);
+extern void FLDMMDL_SetDirAll(Mmdl *mmdl, int dir);
 extern void FLDMMDL_SetDirDisp(Mmdl *mmdl, int dir);
 int FLDMMDL_ACMD_ConvertCodeByDir(int dir, int baseCode);
 
@@ -112,7 +114,7 @@ extern void FLDMMDL_RAIL_GetNextLocation(Mmdl *mmdl, RailLocation *outLocation);
 extern int FLDMMDL_RAIL_GetLocationByDir(Mmdl *mmdl, u32 dir, RailLocation *outLocation);
 extern struct RailWork *FLDMMDL_RAIL_GetRailWork(Mmdl *mmdl);
 extern void FLDMMDL_RAIL_SetLocation(Mmdl *mmdl, RailLocation *location);
-extern int FLDMMDL_RAIL_GetHitBitsDir(Mmdl *mmdl, u32 dir, int *outAttr);
+extern int FLDMMDL_RAIL_GetHitBitsDir(struct Mmdl *mmdl, u32 dir, u32 *outAttr);
 extern int FLDMMDL_RAIL_MOVE_GetLocationAttr(Mmdl *mmdl, RailLocation *location);
 extern void FIELD_RAIL_WORK_GetPos(struct RailWork *railWork, void *outPos);
 
@@ -130,12 +132,16 @@ extern int RAIL_ATTR_IsForceMoveLeft(int attr);
 extern int RAIL_ATTR_IsForceMoveRight(int attr);
 extern int RAIL_ATTR_IsForceMoveStop(int attr);
 extern int RAIL_ATTR_IsSlipDown(int attr);
+struct GameSystem;
+struct GameData;
 
-/* Game system and event data. */
-void *GAMESYSTEM_GetGameData(void *gameSystem);
-extern void *FIELDMAP_GetGameSystem(struct FieldMap *fieldMap);
-extern void *GAME_DATA_GetEventData(void *gameData);
-extern int EVENTDATA_SYSTEM_SearchConnectIdByRailLocation(void *eventData, RailLocation *location);
+                                 
+struct GameData *GAMESYSTEM_GetGameData(struct GameSystem *gameSystem);
+struct FieldMap;
+extern struct GameSystem *FIELDMAP_GetGameSystem(struct FieldMap *fieldMap);
+extern void *GAME_DATA_GetEventData(struct GameData *gameData);
+struct EventDataSystem;
+extern int EVENTDATA_SYSTEM_SearchConnectIdByRailLocation(struct EventDataSystem *system, RailLocation *location);
 
 /* Player core (field_player_core.c). */
 struct FieldMap *FIELD_PLAYER_CORE_GetFieldMap(struct FieldPlayerCore *core);
@@ -144,7 +150,7 @@ void FIELD_PLAYER_CORE_SetStepKind(struct FieldPlayerCore *core, u32 state);
 u32 FIELD_PLAYER_CORE_GetFormCode(struct FieldPlayerCore *core);
 u16 FIELD_PLAYER_CORE_ChooseMoveDirFromKeys(struct FieldPlayerCore *core, u32 keyCont);
 void FIELD_PLAYER_CORE_RememberKeyDirs(struct FieldPlayerCore *core, u32 keyCont);
-int FIELD_PLAYER_CORE_StartFormChange(struct FieldPlayerCore *core, u32 flags);
+struct FieldPlayerCore *FIELD_PLAYER_CORE_StartFormChange(struct FieldPlayerCore *core, u32 flags);
 int FIELD_PLAYER_CORE_StepFormChange(struct FieldPlayerCore *core);
 void FIELD_PLAYER_CORE_FinishFormChange(struct FieldPlayerCore *core);
 
@@ -258,7 +264,7 @@ FieldPlayerNogrid *FIELD_PLAYER_NOGRID_Create(struct FieldPlayerCore *core, int 
     player->mmdl = FIELD_PLAYER_CORE_GetMmdl(player->core);
     if (FLDMMDL_GetMoveCode(player->mmdl) != 0x45) {
         gFieldPlayerNogridMmdlHeader[1] = FLDMMDL_GetObjCode(player->mmdl);
-        FLDMMDL_ChangeHeader(player->mmdl, d_021DDEE0b);
+        FLDMMDL_ChangeHeader(player->mmdl, (struct MmdlHeader *)d_021DDEE0b);
     }
     player->railWork = FLDMMDL_RAIL_GetRailWork(player->mmdl);
     {
@@ -294,7 +300,7 @@ void FIELD_PLAYER_NOGRID_AttachMmdl(FieldPlayerNogrid *player, RailLocation *loc
 {
     if (FLDMMDL_GetMoveCode(player->mmdl) != 0x45) {
         gFieldPlayerNogridMmdlHeader[1] = FLDMMDL_GetObjCode(player->mmdl);
-        FLDMMDL_ChangeHeader(player->mmdl, d_021DDEE0b);
+        FLDMMDL_ChangeHeader(player->mmdl, (struct MmdlHeader *)d_021DDEE0b);
     }
     player->railWork = FLDMMDL_RAIL_GetRailWork(player->mmdl);
     FLDMMDL_RAIL_SetLocation(player->mmdl, location);
@@ -443,7 +449,7 @@ void FIELD_PLAYER_NOGRID_UpdateFlagsAfterCheck(FieldPlayerNogrid *player, u32 ke
 /* Returns the hit bits of the tile next to the model in a direction. */
 int FIELD_PLAYER_NOGRID_GetHitBits(FieldPlayerNogrid *player, Mmdl *mmdl, u32 dir, int *outAttr)
 {
-    return FLDMMDL_RAIL_GetHitBitsDir(mmdl, dir, outAttr);
+    return FLDMMDL_RAIL_GetHitBitsDir(mmdl, dir, (u32 *)outAttr);
 }
 
 

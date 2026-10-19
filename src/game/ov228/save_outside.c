@@ -69,13 +69,14 @@ extern int BACKUP_SYSTEM_ReadFlash(u32 a, u32 b, u32 c);
 extern u16 GF_STANDARD_CalcCrc16(const u8 *src, u32 len);
 extern void MI_CpuCopy8(const void *src,void *dest,u32 size);
 extern u32 GFL_HEAP_Free(void *p);
-extern u16 BACKUP_SYSTEM_WriteFlashAsync(u32, void *, u32);
-extern int BACKUP_SYSTEM_CheckFlashAsync(u16, u16 *);
-extern void *SAVE_CONTROL_GetBlock(struct HeapManager *ctrl, u32 id);
-extern void MYSTERY_DATA_DecryptBuffer(void *base, u32 kind);
-extern void MYSTERY_DATA_EncryptBuffer(void *base, u32 kind);
+extern u16 BACKUP_SYSTEM_WriteFlashAsync(u32 flash_addr, u32 src, u32 size);
+extern int BACKUP_SYSTEM_CheckFlashAsync(u16 lock_id, u32 *success);
+struct SaveControl;
+extern void *SAVE_CONTROL_GetBlock(struct SaveControl *saveControl, u32 blockId);
+extern void MYSTERY_DATA_DecryptBuffer(u8 *buffer, u32 saveType);
+extern void MYSTERY_DATA_EncryptBuffer(u8 *buffer, u32 saveType);
 extern void MIi_CpuClear32(u32 data,void *dest,u32 size);
-extern void BACKUP_SYSTEM_WriteFlash(int a,int b,int c);
+extern void BACKUP_SYSTEM_WriteFlash(u32 flash_addr, u32 src, u32 size);
 void *SAVE_OUTSIDE_Load(u32 heap);
 void SAVE_OUTSIDE_Free(void *p);
 void SAVE_OUTSIDE_Prepare(SaveOutsideWork *work);
@@ -201,12 +202,12 @@ int SAVE_OUTSIDE_WriteAsync(SaveOutsideWork *work)
     case 0:
     case 2:
         work->token =
-            BACKUP_SYSTEM_WriteFlashAsync(work->copyIndex == 0 ? 0x7F800 : 0x7FC00, work, 0x374);
+            BACKUP_SYSTEM_WriteFlashAsync((u32)(work->copyIndex == 0 ? 0x7F800 : 0x7FC00), (u32)work, 0x374);
         work->phase = work->phase + 1;
         break;
     case 1:
     case 3:
-        if (BACKUP_SYSTEM_CheckFlashAsync(work->token, &v) == 1) {
+        if (BACKUP_SYSTEM_CheckFlashAsync(work->token, (u32 *)(&v)) == 1) {
             work->copyIndex = work->copyIndex ^ 1;
             work->phase = work->phase + 1;
         }

@@ -34,20 +34,19 @@ typedef unsigned short u16;
 
 typedef unsigned int   u32;
 
-extern int OS_DisableInterrupts(void);
-extern void OS_RestoreInterrupts(int x);
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern u32 GFL_HEAP_Free(void *p);
-extern int OS_IsRunOnTwl(void);
-extern int DWC_StartUtility(void *work, int language, int param);
-extern void GFL_HEAP_CreateChildHeap(u32, u32, u32);
-extern int NET_DEVICE_TABLE_Select(u32);
-extern int GF_OVERLAY_Load(int);
-extern void OS_ResetSystem(unsigned int);
-extern void NET_DEVICE_TABLE_Reset(u32);
-extern void GF_OVERLAY_Unload(int);
-extern void GFL_HEAP_DeleteChecked(unsigned int);
-extern void WIH_DWC_ResetFilterState(void);
+typedef int BOOL;
+typedef unsigned int OSIntrMode;
+#include "../arm9/os_system.h"
+typedef int s32;
+typedef unsigned char u8;
+#include "../arm9/gfl_heap_wrap.h"
+#include "../arm9/os_emulator.h"
+#include "dwcutil_main.h"
+#include "../arm9/gfl_heap.h"
+#include "../arm9/net_device_table.h"
+#include "../arm9/gf_overlay.h"
+#include "../arm9/os_reset.h"
+#include "../arm9/wih_dwc.h"
 void DWC_RAPUTIL_RunUtility(int heapId);
 int DWC_RAPUTIL_Init(void);
 int DWC_RAPUTIL_Main(void);

@@ -20,6 +20,9 @@
    "functions": [
     "__fmul"
    ],
+   "addresses": [
+    "0x0209C77C"
+   ],
    "covers": [
     "0x0209C77C"
    ]

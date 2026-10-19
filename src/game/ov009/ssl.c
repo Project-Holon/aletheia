@@ -138,14 +138,16 @@ static unsigned long parse_time(unsigned char *s, int type);
 extern void CPSi_big_from_char(unsigned short *d, unsigned char *s, int numbytes, int digits);
 extern void CPSi_big_power(unsigned short *c, unsigned short *a, unsigned short *b, int digits,
                           unsigned short *n);
-extern void exit_computebound(unsigned long old_priority);
+static void exit_computebound(unsigned long old_priority);
 extern void CPSi_char_from_big(unsigned char *d, unsigned short *s, int numbytes, int digits);
-extern void CPSi_md5_init(void *ctx);
-extern void CPSi_md5_calc(void *ctx, void *data0, int datalen);
-extern void CPSi_md5_result(void *ctx, unsigned char *digest);
-extern void CPSi_sha1_init(void *ctx);
-extern void CPSi_sha1_calc(void *ctx, void *data0, int datalen);
-extern void CPSi_sha1_result(void *ctx, unsigned char *digest);
+struct CPSMd5Ctx;
+extern void CPSi_md5_init(struct CPSMd5Ctx *ctx);
+extern void CPSi_md5_calc(struct CPSMd5Ctx *ctx, void *data0, int datalen);
+extern void CPSi_md5_result(struct CPSMd5Ctx *ctx, unsigned char *digest);
+struct CPSSha1Ctx;
+extern void CPSi_sha1_init(struct CPSSha1Ctx *ctx);
+extern void CPSi_sha1_calc(struct CPSSha1Ctx *ctx, void *data0, int datalen);
+extern void CPSi_sha1_result(struct CPSSha1Ctx *ctx, unsigned char *digest);
 static int auth_cert(CPSSslConnection *con);
 static int compare_fqdn(char *name, char *pat);
 static int validate_signature(CPSSslConnection *con, SOCLCaInfo *ca);
@@ -159,16 +161,17 @@ extern int CPSi_big_sign(unsigned short *a, int digits);
 extern void CPSi_big_negate(unsigned short *a, int digits);
 extern void CPSi_big_div(unsigned short *c, unsigned short *a, unsigned short *b, unsigned short *r, int digits, unsigned short *work);
 extern void CPSi_char_from_big(unsigned char *d, unsigned short *s, int numbytes, int digits);
-extern void CPSi_sha1_init(void *ctx);
-extern void CPSi_sha1_calc(void *ctx, void *data0, int datalen);
-extern void CPSi_sha1_result(void *ctx, unsigned char *digest);
-extern void CPSi_md5_init(void *ctx);
-extern void CPSi_md5_calc(void *ctx, void *data0, int datalen);
-extern void CPSi_md5_result(void *ctx, unsigned char *digest);
+extern void CPSi_sha1_init(struct CPSSha1Ctx *ctx);
+extern void CPSi_sha1_calc(struct CPSSha1Ctx *ctx, void *data0, int datalen);
+extern void CPSi_sha1_result(struct CPSSha1Ctx *ctx, unsigned char *digest);
+extern void CPSi_md5_init(struct CPSMd5Ctx *ctx);
+extern void CPSi_md5_calc(struct CPSMd5Ctx *ctx, void *data0, int datalen);
+extern void CPSi_md5_result(struct CPSMd5Ctx *ctx, unsigned char *digest);
 extern void CPSi_rc4_init(CPSCipherCtx *ctx, unsigned char *key, int len);
 extern void CPSi_rc4_crypt(CPSCipherCtx *ctx, unsigned char *data, int len);
-extern unsigned char *CPSi_TcpReadRaw(unsigned long *len, CPSSoc *soc);
-extern void CPSi_SocConsumeRaw(unsigned long len, CPSSoc *soc);
+extern unsigned char *CPSi_TcpReadRaw(unsigned int *len, char *soc);
+struct _CPSSoc;
+extern void CPSi_SocConsumeRaw(u32 len, struct _CPSSoc *soc);
 static void client_hello(CPSSslConnection *con, unsigned char *s);
 static void rcv_server_hello(CPSSslConnection *con, unsigned char *s);
 static void rcv_certificate(CPSSslConnection *con, unsigned char *s);
@@ -177,26 +180,27 @@ static int tcp_read_raw_nbytes(unsigned char *d, int len, CPSSoc *soc);
 static void client_hello_v2(CPSSslConnection *con, unsigned char *s);
 extern void CPS_SslAddRandomSeed(void *random_seed, unsigned long len);
 extern void CPSi_sha1_result_prng(void *ctx, unsigned char *digest);
-extern void update_digest(CPSSslConnection *con, unsigned char *s, unsigned long len);
+static void update_digest(CPSSslConnection *con, unsigned char *s, unsigned long len);
 extern int make_ciphertext(CPSSslConnection *con, unsigned char *s);
-extern u32 CPSi_TcpWrite2Raw(u8 *buf, u32 len, u8 *buf2, u32 len2, CPSSoc *soc);
+extern u32 CPSi_TcpWrite2Raw(u8 *buf, u32 len, u8 *buf2, u32 len2, struct _CPSSoc *soc);
 static void set_random(unsigned char *d, int len);
 extern unsigned long enter_computebound(void);
 extern void CPSi_big_power(unsigned short *c, unsigned short *a, unsigned short *b, int digits, unsigned short *n);
-extern int parse_record(CPSSoc *soc);
-extern void create_key_block(CPSSslConnection *con);
-extern int mustget_change_cipher_spec_and_finished(CPSSoc *soc);
-extern void send_client_key_exchange(CPSSoc *soc);
-extern void create_master_secret(CPSSslConnection *con);
-extern void cache_session(CPSSslConnection *con, unsigned long ip, unsigned short port);
-extern unsigned long CPSi_TcpConnectRaw(CPSSoc *soc);
-extern void parse_record_in_buf(CPSSslConnection *con, unsigned char *buf);
-extern void OSi_ReferSymbol(const char *symbol);
+static int parse_record(CPSSoc *soc);
+static void create_key_block(CPSSslConnection *con);
+static int mustget_change_cipher_spec_and_finished(CPSSoc *soc);
+static void send_client_key_exchange(CPSSoc *soc);
+static void create_master_secret(CPSSslConnection *con);
+static void cache_session(CPSSslConnection *con, unsigned long ip, unsigned short port);
+extern unsigned long CPSi_TcpConnectRaw(struct _CPSSoc *soc);
+static void parse_record_in_buf(CPSSslConnection *con, unsigned char *buf);
+extern void OSi_ReferSymbol(void *symbol);
 extern void OS_WakeupThreadDirect(OSThread *thread);
 unsigned long date2sec(void);
 unsigned long CPS_GetSslHandshakePriority(void);
 void CPS_SetSslHandshakePriority(int len);
-void CPS_SetRootCa(int rootCa, int num);
+struct SOCLCaInfo;
+void CPS_SetRootCa(struct SOCLCaInfo **rootCa, int num);
 SOCLCaInfo *get_rootCA(CPSSslConnection *con, char *dn);
 int chars_till_end(const char *str);
 int select_method(int methods, int num, int size);
@@ -414,7 +418,7 @@ static void exit_computebound(unsigned long old_priority)
  * Hands a and b to the +0xc child of the object at +0xa4 as its +0x814 and
  * +0x818 words.
  */
-void CPS_SetRootCa(int rootCa, int num)
+void CPS_SetRootCa(struct SOCLCaInfo **rootCa, int num)
 {
     CPSSoc *soc = (CPSSoc *)OSi_ThreadInfo.current->specific[0];
     CPSSslConnection *con;
@@ -1419,13 +1423,13 @@ static int tcp_read_raw_nbytes(unsigned char *d, int len, CPSSoc *soc)
     unsigned char *s;
 
     do {
-        s = CPSi_TcpReadRaw(&thislen, soc);
+        s = CPSi_TcpReadRaw((u32 *)(&thislen), (char *)soc);
         if (thislen == 0)
             return -1;
         if (thislen > len)
             thislen = len;
         MI_CpuCopy8(s, d, thislen);
-        CPSi_SocConsumeRaw(thislen, soc);
+        CPSi_SocConsumeRaw(thislen, (struct _CPSSoc *)soc);
         len -= thislen;
         d += thislen;
     } while (len > 0);
@@ -1574,7 +1578,7 @@ static int parse_record(CPSSoc *soc)
     CPSSslConnection *con = soc->con;
 
     for (;;) {
-        buf = CPSi_TcpReadRaw(&len, soc);
+        buf = CPSi_TcpReadRaw((u32 *)(&len), (char *)soc);
         if (len >= 5)
             break;
         if (len == 0 || soc->state == 0) {
@@ -1586,7 +1590,7 @@ static int parse_record(CPSSoc *soc)
     if (buf[0] == 0x80) {
         if (con->server != 0 && con->state == 0) {
             len = buf[1];
-            CPSi_SocConsumeRaw(2, soc);
+            CPSi_SocConsumeRaw(2, (struct _CPSSoc *)soc);
             s = (unsigned char *)CPSiAlloc(len);
             if (s == 0) {
                 con->state = 9;
@@ -1720,7 +1724,7 @@ void send_change_cipher_spec_and_finished(CPSSoc *soc)
     finished_sha1(con, buf + 31, 0);
     MI_CpuCopy8(&con->sha1_hash_tmp, &con->sha1_hash, 0x5C);
     update_digest(con, buf + 11, 40);
-    CPSi_TcpWrite2Raw(buf, make_ciphertext(con, buf + 6) + 6, 0, 0, soc);
+    CPSi_TcpWrite2Raw(buf, make_ciphertext(con, buf + 6) + 6, 0, 0, (struct _CPSSoc *)soc);
     CPSiFree(buf);
 }
 
@@ -1780,7 +1784,7 @@ static void send_client_hello(CPSSoc *soc)
     buf[6] = (i - 4) >> 16;
     buf[7] = (i - 4) >> 8;
     buf[8] = i - 4;
-    CPSi_TcpWrite2Raw(buf, i + 5, 0, 0, soc);
+    CPSi_TcpWrite2Raw(buf, i + 5, 0, 0, (struct _CPSSoc *)soc);
     update_digest(con, buf + 5, i);
     CPSiFree(buf);
 }
@@ -1803,7 +1807,7 @@ static void send_client_key_exchange(CPSSoc *soc)
 
     con = soc->con;
     if (con->subjectPhase != 0)
-        CPSi_TcpWrite2Raw(alert_nocert, 7, 0, 0, soc);
+        CPSi_TcpWrite2Raw(alert_nocert, 7, 0, 0, (struct _CPSSoc *)soc);
 
     con->master_secret[0] = 3;
     con->master_secret[1] = 0;
@@ -1863,7 +1867,7 @@ static void send_client_key_exchange(CPSSoc *soc)
         *d++ = a[i] >> 8;
         *d++ = a[i];
     }
-    CPSi_TcpWrite2Raw(tmp, modlen + 9, 0, 0, soc);
+    CPSi_TcpWrite2Raw(tmp, modlen + 9, 0, 0, (struct _CPSSoc *)soc);
     update_digest(con, &tmp[5], modlen + 4);
     CPSiFree(tmp);
     CPSiFree(a);
@@ -1927,7 +1931,7 @@ unsigned long CPSi_SslConnect(CPSSoc *soc)
 
     con = soc->con;
     if (soc->state != 4) {
-        if (CPSi_TcpConnectRaw(soc) != 0)
+        if (CPSi_TcpConnectRaw((struct _CPSSoc *)soc) != 0)
             return 1;
     }
     con->state = 0;
@@ -1997,7 +2001,7 @@ void try_fill_record(CPSSoc *soc)
 
     if (con->buf == 0) {
         if (soc->rcvbufp < 5) return;
-        s = CPSi_TcpReadRaw(&len, soc);
+        s = CPSi_TcpReadRaw((u32 *)(&len), (char *)soc);
         len = (s[3] << 8) + s[4] + 5;
         if (len > 0x4805) {
             con->state = 9;
@@ -2014,7 +2018,7 @@ void try_fill_record(CPSSoc *soc)
     } else if (soc->rcvbufp == 0) {
         return;
     }
-    s = CPSi_TcpReadRaw(&len, soc);
+    s = CPSi_TcpReadRaw((u32 *)(&len), (char *)soc);
     if (len >= (con->end - con->pos)) {
         len = con->end - con->pos;
         got_all = 1;
@@ -2022,7 +2026,7 @@ void try_fill_record(CPSSoc *soc)
         got_all = 0;
     }
     MI_CpuCopy8(s, con->buf + con->pos, len);
-    CPSi_SocConsumeRaw(len, soc);
+    CPSi_SocConsumeRaw(len, (struct _CPSSoc *)soc);
     if (got_all) {
         parse_record_in_buf(con, con->buf);
         if (con->have_record == 0) con->buf = 0;
@@ -2086,7 +2090,7 @@ unsigned long CPSi_SslWrite2(unsigned char *buf, unsigned long len, unsigned cha
         buf2 += part2_len;
         tmp[4] = this_len;
         this_sent_len = make_ciphertext(con, tmp);
-        if (CPSi_TcpWrite2Raw(tmp, this_sent_len, 0, 0, soc) < (unsigned long)this_sent_len) this_len = 0;
+        if (CPSi_TcpWrite2Raw(tmp, this_sent_len, 0, 0, (struct _CPSSoc *)soc) < (unsigned long)this_sent_len) this_len = 0;
         CPSiFree(tmp);
         total_sent_len += this_len;
         total_len -= this_len;
@@ -2117,7 +2121,7 @@ void CPSi_SslShutdown(CPSSoc *p)
         buf[4] = 2;
         buf[5] = 1;
         buf[6] = 0;
-        CPSi_TcpWrite2Raw(buf, make_ciphertext(q, buf), 0, 0, p);
+        CPSi_TcpWrite2Raw(buf, make_ciphertext(q, buf), 0, 0, (struct _CPSSoc *)p);
     }
     q->state = 0;
 }

@@ -67,8 +67,8 @@ typedef struct {
 
 extern void MI_CpuFill8(void *dst, int value, int size);
 extern void BTL_EVENT_SetFactorWork(struct BtlEventFactor *factor, int index, u32 value);
-extern int BTL_EVENT_GetFactorKey(struct BtlEventFactor *factor);
-extern int BTL_SERVER_FLOW_GetRule(struct BtlServerFlow *flow);
+extern u16 BTL_EVENT_GetFactorKey(struct BtlEventFactor *factor);
+extern int BTL_SERVER_FLOW_GetRule(s32 *flow);
 void HAND_SIDE_InitTable(void);
 struct BtlEventFactor *HAND_SIDE_AddFactor(u8 side, int effectId, BtlEffectCont cont);
 u32 HAND_SIDE_GetStackCount(u32 side, u32 effectId);
@@ -300,7 +300,7 @@ void HAND_SIDE_ScreenReduceDamage(struct BtlServerFlow *flow, int side, int dama
     u8 defenderId = BTL_EVENT_GetVar(BTL_EVAR_DEFENDER_ID);
 
     if (side == BTL_MAIN_IsPokeIdInSecondPair(defenderId) && damageType == BTL_EVENT_GetVar(BTL_EVAR_DAMAGE_TYPE) && BTL_EVENT_GetVar(BTL_EVAR_CRITICAL_FLAG) == 0) {
-        int rule = BTL_SERVER_FLOW_GetRule(flow);
+        int rule = BTL_SERVER_FLOW_GetRule((s32 *)flow);
 
         BTL_EVENT_MultiplyVar(BTL_EVAR_RATIO, (rule == BTL_RULE_SINGLE || rule == BTL_RULE_ROTATION) ? HAND_RATIO_SCREEN_SINGLES : HAND_RATIO_SCREEN_DOUBLES);
     }

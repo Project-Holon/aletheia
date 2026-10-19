@@ -33,7 +33,7 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 
 extern int LOADER_DECRYPT_ClassifyOpcode(u32 instr);
-extern void LOADER_DECRYPT_DecodeBlocks(void);
+extern void LOADER_DECRYPT_DecodeBlocks(u32 *desc);
 
 /* State of the stream cipher: a running key word, two indices and a 256-byte permutation. */
 typedef struct OvStream {

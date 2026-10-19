@@ -104,8 +104,9 @@ typedef struct { u8 id[4]; u8 ref[4]; void *obj[4]; } TrAiScriptCache;
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void *ARC_TOOL_CreateHandle(u32 id, u16 heap);
 extern void *FILE_UTIL_CreateItemArcHandle(u16 heap);
-extern u32 BTL_MAIN_GetRule(void **p);
-extern void *BTL_MAIN_GetCompetitor(void ***p);
+struct BtlMain;
+extern u32 BTL_MAIN_GetRule(struct BtlMain *main);
+extern u32 BTL_MAIN_GetCompetitor(struct BtlMain *main);
 extern ScriptVm *VM_Create(u32 heapId, const struct ScriptVmParams *params);
 extern void VM_Init(ScriptVm *vm, void *user);
 extern u32 WAZA_TOOL_IsCacheCreated(void);
@@ -115,14 +116,15 @@ extern int BTL_POKEPARAM_IsFainted(struct BtlPokeParam *m);
 extern u32 GF_STANDARD_Rand(void);
 extern void ARC_TOOL_DeleteHandle(void *);
 extern u32 GFL_HEAP_Free(void *p);
-extern void VM_Delete(void *);
+struct ScriptVm;
+extern void VM_Delete(struct ScriptVm *vm);
 extern void WAZA_TOOL_DeleteCache(void);
 extern u8 BTL_POKEPARAM_GetMoveCount(struct BtlPokeParam *p);
 extern u64 OS_GetTick(void);
 extern u16 BTL_POKEPARAM_GetMoveId(struct BtlPokeParam *p, int i);
 extern int BTL_MAIN_IsPosInTable(int, u32);
-extern u8 BTL_MAIN_GetSlotClientIdThunk(void *p, int i);
-extern int BTL_MAIN_IsOpposingPos(void *, int, int);
+extern u8 BTL_MAIN_GetSlotClientIdThunk(struct BtlMain *main, int slot);
+extern int BTL_MAIN_IsOpposingPos(void *unusedWork, s32 posA, s32 posB);
 extern u8 BTL_POKEPARAM_GetMovePPChecked(struct BtlPokeParam *p, u32 i);
 extern void TR_AI_ReleaseScript(TrAiWork *);
 extern void VM_Start(ScriptVm *vm, u8 *pc);
@@ -134,20 +136,25 @@ extern int BTL_POKEPARAM_GetMajorStatusIndex(struct BtlPokeParam *p);
 extern int BTL_POKEPARAM_HasSick(struct BtlPokeParam *p, int i);
 extern int BTL_SICKCONT_IsKind1Index15(SickCont);
 extern int BTL_POKEPARAM_TestContFlag(struct BtlPokeParam *p, u32 n);
-extern int BTL_SERVER_FLOW_GetSideEffectEntry(void *unused, unsigned int v, int k);
-extern void VM_Jump(ScriptVm *c, u32 v);
-extern unsigned short BTL_SERVER_FLOW_GetTurnCount(void *);
+extern int BTL_SERVER_FLOW_GetSideEffectEntry(void *unused, u32 v, s32 k);
+extern void VM_Jump(struct ScriptVm *vm, u8 *pc);
+struct BtlServerFlowTurnCount;
+extern unsigned short BTL_SERVER_FLOW_GetTurnCount(struct BtlServerFlowTurnCount *p);
 extern u16 BTL_POKEPARAM_GetTypePair(struct BtlPokeParam *p);
 extern u8 BTL_TYPEPAIR_GetHigh(int v);
 extern int BTL_TYPEPAIR_GetLow(int x);
-extern u16 WAZA_TOOL_GetPower(void *p);
+extern u16 WAZA_TOOL_GetPower(u16 move);
 extern u8 BTL_POKEPARAM_GetPokeId(struct BtlPokeParam *);
 extern u16 BTL_SERVER_FLOW_CalcPredictedMoveDamage(u8 *p, u8 a, u8 b, u32 c, int e0, int e1);
 extern u16 BTL_POKEPARAM_GetLastUsedMoveId(struct BtlPokeParam *p);
-extern u16 BTL_SERVER_FLOW_CalcPokeSpeedWrapper(void *, struct BtlPokeParam *, int);
-extern char *BTL_SIDE_GetSlotOfClientThunk(void *p, int i);
-extern int BTL_MAIN_GetPositionsPerClientThunk(void *pp, unsigned int b);
-extern u8 BTL_SLOT_GetCount(void *p);
+struct BtlServerFlow;
+extern u16 BTL_SERVER_FLOW_CalcPokeSpeedWrapper(struct BtlServerFlow *flow, u8 *poke, s32 useItem);
+struct BtlSide;
+struct BtlSideSlot;
+extern struct BtlSideSlot *BTL_SIDE_GetSlotOfClientThunk(struct BtlSide *side, int clientId);
+extern int BTL_MAIN_GetPositionsPerClientThunk(struct BtlMain *main, unsigned int clientId);
+struct BtlSideSlot;
+extern u8 BTL_SLOT_GetCount(struct BtlSideSlot *slot);
 extern int BTL_POKEPARAM_IsAbleToBattle(struct BtlPokeParam *);
 extern int BTL_SERVER_FLOW_CalcMoveTypeEffectiveness(u8 *p, int a, int b, int c);
 extern int BTL_FIELD_GetCountdownValue(void);
@@ -159,23 +166,26 @@ extern u16 BTL_POKEPARAM_GetMoveStreak(struct BtlPokeParam *p);
 extern int BTL_FIELD_IsStaticSlotInUse(int);
 extern u8 BTL_POKEPARAM_GetMovePPLost(struct BtlPokeParam *p, u8 i);
 extern u8 BTL_POKEPARAM_CountUsedMoves(struct BtlPokeParam *p);
-extern u16 BTL_SERVER_FLOW_CountFasterPokes(void *p, struct BtlPokeParam *a, u32 y);
+extern u16 BTL_SERVER_FLOW_CountFasterPokes(struct BtlServerFlow *flow, u8 *poke, u32 useItem);
 extern unsigned short BTL_POKEPARAM_GetTurnCount(struct BtlPokeParam *p);
-extern int BTL_SLOT_FindPoke(u8 *p, u32 v);
+extern int BTL_SLOT_FindPoke(struct BtlSideSlot *slot, struct BtlPokeParam *poke);
 extern u32 BTL_POKEPARAM_HasSubstitute(struct BtlPokeParam *p);
 extern u16 BTL_POKEPARAM_GetSpecies(struct BtlPokeParam *p);
-extern int BTL_SERVER_FLOW_CheckFieldEffectActive(void *, int, int);
+extern int BTL_SERVER_FLOW_CheckFieldEffectActive(void *flow, s32 unused, s32 factorKey);
 extern u8 BTL_MAIN_GetOwnLanePos(u32 flags, u32 v);
 extern int BTLV_EFFECT_GetPokeEffectValue(int);
 extern u32 POKE_TOOL_GetPersonalParam(u16, u16, u32);
-extern struct BtlPokeParam *BTL_SIDE_GetPokeAtPos(void *q, u8 b);
-extern struct BtlPokeParam *BTL_SLOT_GetPokeParam(void *p, u32 i);
+extern u8 *BTL_SIDE_GetPokeAtPos(struct BtlMain **side, u8 position);
+extern struct BtlPokeParam *BTL_SLOT_GetPokeParam(struct BtlSideSlot *slot, u32 index);
 extern int WAZA_TOOL_GetParam(int, int);
 extern int WAZA_TOOL_GetFlag(int, int);
-extern void *FILE_UTIL_LoadArcMember(void *, int, u16);
-extern u32 FILE_UTIL_GetItemRecordParam(void *p, u32 sel);
-extern void *ARC_TOOL_LoadHandleMember(void *arc, u32 member, u32 heap);
-ScriptVm *TR_AI_Create(void **battleMain, u32 serverFlow, u32 sideTable, u32 scriptMask, u16 heapId);
+struct ArcFile;
+extern void *FILE_UTIL_LoadArcMember(struct ArcFile *arc, u32 item, u32 heap);
+struct ItemRecord;
+extern u32 FILE_UTIL_GetItemRecordParam(struct ItemRecord *record, u32 prop);
+struct ArcHandle;
+extern void *ARC_TOOL_LoadHandleMember(struct ArcHandle *arc, u32 memberIdx, u16 heapID);
+ScriptVm *TR_AI_Create(void **battleMain, u32 serverFlow, void *sideTable, u32 scriptMask, u16 heapId);
 int TR_AI_Think(ScriptVm *vm);
 void TR_AI_Delete(ScriptVm *vm);
 void TR_AI_Start(ScriptVm *vm, u8 *movePp, int selfPos);
@@ -340,7 +350,7 @@ extern const ScriptVmParams gTrAiVmParams;
 extern TrAiScriptCache *gTrAiScriptCache;
 
 
-ScriptVm *TR_AI_Create(void **battleMain, u32 serverFlow, u32 sideTable, u32 scriptMask, u16 heapId)
+ScriptVm *TR_AI_Create(void **battleMain, u32 serverFlow, void *sideTable, u32 scriptMask, u16 heapId)
 {
     TrAiWork *ai;
     ScriptVm *vm;
@@ -353,8 +363,8 @@ ScriptVm *TR_AI_Create(void **battleMain, u32 serverFlow, u32 sideTable, u32 scr
     ai->battleMain = battleMain;
     ai->serverFlow = (void *)serverFlow;
     ai->sideTable = (void *)sideTable;
-    ai->rule = BTL_MAIN_GetRule(battleMain);
-    ai->competitor = BTL_MAIN_GetCompetitor((void ***)battleMain);
+    ai->rule = BTL_MAIN_GetRule((struct BtlMain *)battleMain);
+    ai->competitor = (void *)BTL_MAIN_GetCompetitor((struct BtlMain *)battleMain);
     vm = VM_Create(heapId, &gTrAiVmParams);
     VM_Init(vm, ai);
     if (WAZA_TOOL_IsCacheCreated() == 0)
@@ -956,7 +966,7 @@ int TR_AI_CmdIfValueInList(ScriptVm *vm, TrAiWork *ai) {
     do {
         entry = list[index] | (list[index + 1] << 16);
         if (ai->workValue == entry) {
-            VM_Jump(vm, (int)vm->pc + jumpOffset);
+            VM_Jump(vm, (u8 *)vm->pc + jumpOffset);
             break;
         }
         index += 2;
@@ -979,7 +989,7 @@ int TR_AI_CmdIfValueNotInList(ScriptVm *vm, TrAiWork *ai) {
             return ai->cmdReturn;
         index += 2;
     } while (entry != -1);
-    VM_Jump(vm, (int)vm->pc + jumpOffset);
+    VM_Jump(vm, (u8 *)vm->pc + jumpOffset);
     return ai->cmdReturn;
 }
 
@@ -1003,7 +1013,7 @@ int TR_AI_CmdIfHasMoveWithPower(ScriptVm *vm, TrAiWork *ai) {
             break;
     }
     if (moveSlot < BTL_POKEPARAM_GetMoveCount(ai->selfPoke))
-        VM_Jump(vm, (int)vm->pc + jumpOffset);
+        VM_Jump(vm, (u8 *)vm->pc + jumpOffset);
     return ai->cmdReturn;
 }
 
@@ -1023,7 +1033,7 @@ int TR_AI_CmdIfNoMoveWithPower(ScriptVm *vm, TrAiWork *ai) {
             break;
     }
     if (moveSlot == BTL_POKEPARAM_GetMoveCount(ai->selfPoke))
-        VM_Jump(vm, (int)vm->pc + jumpOffset);
+        VM_Jump(vm, (u8 *)vm->pc + jumpOffset);
     return ai->cmdReturn;
 }
 
@@ -1074,7 +1084,7 @@ int TR_AI_CmdLoadType(ScriptVm *vm, TrAiWork *ai) {
     return ai->cmdReturn;
 }
 
-int TR_AI_CmdLoadMovePower(ScriptVm *vm, TrAiWork *ai) { ai->workValue=WAZA_TOOL_GetPower((void *)(ai->moveId)); return ai->cmdReturn; }
+int TR_AI_CmdLoadMovePower(ScriptVm *vm, TrAiWork *ai) { ai->workValue=WAZA_TOOL_GetPower((u16)(ai->moveId)); return ai->cmdReturn; }
 
 int TR_AI_CmdLoadMoveDamageRank(ScriptVm *vm, TrAiWork *ai) {
     int calcFlags = VM_GetU32(vm);
@@ -1123,8 +1133,8 @@ int TR_AI_CmdCompareSpeed(ScriptVm *vm, TrAiWork *ai) {
 
     compareOp = VM_GetU32(vm);
     jumpOffset = VM_GetU32(vm);
-    selfSpeed = BTL_SERVER_FLOW_CalcPokeSpeedWrapper(ai->serverFlow, ai->selfPoke, 1);
-    targetSpeed = BTL_SERVER_FLOW_CalcPokeSpeedWrapper(ai->serverFlow, ai->targetPoke, 1);
+    selfSpeed = BTL_SERVER_FLOW_CalcPokeSpeedWrapper(ai->serverFlow, (u8 *)ai->selfPoke, 1);
+    targetSpeed = BTL_SERVER_FLOW_CalcPokeSpeedWrapper(ai->serverFlow, (u8 *)ai->targetPoke, 1);
     switch (compareOp) {
     case 0:
         compareOp = 1;
@@ -1150,10 +1160,10 @@ int TR_AI_CmdLoadAbleBackupCount(ScriptVm *vm, TrAiWork *ai) {
     int slotIndex;
 
     clientId = BTL_MAIN_GetSlotClientIdThunk(ai->battleMain, TR_AI_GetPosition(ai, VM_GetU32(vm)));
-    slots = BTL_SIDE_GetSlotOfClientThunk(ai->sideTable, clientId);
+    slots = (char *)BTL_SIDE_GetSlotOfClientThunk(ai->sideTable, clientId);
     slotIndex = BTL_MAIN_GetPositionsPerClientThunk(ai->battleMain, clientId);
     ai->workValue = 0;
-    for (; slotIndex < BTL_SLOT_GetCount(slots); slotIndex++) {
+    for (; slotIndex < BTL_SLOT_GetCount((struct BtlSideSlot *)slots); slotIndex++) {
         if (BTL_POKEPARAM_IsAbleToBattle(TR_AI_GetSlotPoke(slots, (u8)slotIndex)) != 0)
             ai->workValue++;
     }
@@ -1200,10 +1210,10 @@ void TR_AI_ComparePartyMajorStatus(ScriptVm *vm, TrAiWork *ai, int op) {
 
     side = VM_GetU32(vm);
     jumpOffset = VM_GetU32(vm);
-    clientId = BTL_MAIN_GetSlotClientIdThunk((char *)(ai->battleMain), TR_AI_GetPosition(ai, side));
-    slots = BTL_SIDE_GetSlotOfClientThunk(ai->sideTable, clientId);
+    clientId = BTL_MAIN_GetSlotClientIdThunk((struct BtlMain *)(ai->battleMain), TR_AI_GetPosition(ai, side));
+    slots = (char *)BTL_SIDE_GetSlotOfClientThunk(ai->sideTable, clientId);
     for (slotIndex = BTL_MAIN_GetPositionsPerClientThunk((void *)(ai->battleMain), clientId);
-         slotIndex < BTL_SLOT_GetCount(slots); slotIndex++) {
+         slotIndex < BTL_SLOT_GetCount((struct BtlSideSlot *)slots); slotIndex++) {
         struct BtlPokeParam *poke = TR_AI_GetSlotPoke(slots, (unsigned char)slotIndex);
 
         if (BTL_POKEPARAM_IsFainted(poke) == 0) {
@@ -1531,7 +1541,7 @@ int TR_AI_CmdLoadMoveStreak(ScriptVm *vm, TrAiWork *ai) {
 }
 
 int TR_AI_CmdJump(ScriptVm *vm, TrAiWork *ai) {
-    u32 jumpOffset; jumpOffset = VM_GetU32(vm); VM_Jump(vm, (u32)vm->pc + jumpOffset); return ai->cmdReturn;
+    u32 jumpOffset; jumpOffset = VM_GetU32(vm); VM_Jump(vm, (u8 *)vm->pc + jumpOffset); return ai->cmdReturn;
 }
 
 int TR_AI_CmdEnd(ScriptVm *vm, TrAiWork *ai) {
@@ -1624,7 +1634,7 @@ int TR_AI_CmdJumpIfFlashFireActive(ScriptVm *vm, TrAiWork *ai) {
     pos = TR_AI_GetPosition(ai, side);
     poke = TR_AI_GetPoke(ai, pos);
     if (BTL_POKEPARAM_TestContFlag(poke, 13)) {
-        VM_Jump(vm, (int)vm->pc + jumpOffset);
+        VM_Jump(vm, (u8 *)vm->pc + jumpOffset);
     }
     return ai->cmdReturn;
 }
@@ -1641,7 +1651,7 @@ int TR_AI_CmdJumpIfItemEquals(ScriptVm *vm, TrAiWork *ai) {
     pos = TR_AI_GetPosition(ai, side);
     poke = TR_AI_GetPoke(ai, pos);
     if (itemId == BTL_POKEPARAM_GetItem(poke)) {
-        VM_Jump(vm, (int)vm->pc + jumpOffset);
+        VM_Jump(vm, (u8 *)vm->pc + jumpOffset);
     }
     return ai->cmdReturn;
 }
@@ -1680,9 +1690,9 @@ int TR_AI_CmdIfAnyPartyHpRatio(ScriptVm *vm, TrAiWork *ai) {
     jumpOffset = VM_GetU32(vm);
     pos = TR_AI_GetPosition(ai, side);
     index = BTL_MAIN_GetSlotClientIdThunk(ai->battleMain, pos);
-    slots = BTL_SIDE_GetSlotOfClientThunk(ai->sideTable, index);
+    slots = (char *)BTL_SIDE_GetSlotOfClientThunk(ai->sideTable, index);
     index = BTL_MAIN_GetPositionsPerClientThunk(ai->battleMain, index);
-    for (; index < BTL_SLOT_GetCount(slots); index++) {
+    for (; index < BTL_SLOT_GetCount((struct BtlSideSlot *)slots); index++) {
         if (BTL_POKEPARAM_IsFainted(TR_AI_GetSlotPoke(slots, (u8)index)) == 0) {
             hpRatio = BTL_POKEPARAM_GetHpRatioFixed(TR_AI_GetPoke(ai, pos));
             if (TR_AI_Compare(vm, 0, hpRatio, 100, jumpOffset) != 0) {
@@ -1704,10 +1714,10 @@ int TR_AI_CmdIfAnyPartyMovePpLost(ScriptVm *vm, TrAiWork *ai) {
     side = VM_GetU32(vm);
     jumpOffset = VM_GetU32(vm);
     pos = TR_AI_GetPosition(ai, side);
-    clientId = BTL_MAIN_GetSlotClientIdThunk((char *)(ai->battleMain), pos);
-    slots = BTL_SIDE_GetSlotOfClientThunk(ai->sideTable, clientId);
+    clientId = BTL_MAIN_GetSlotClientIdThunk((struct BtlMain *)(ai->battleMain), pos);
+    slots = (char *)BTL_SIDE_GetSlotOfClientThunk(ai->sideTable, clientId);
     slotIndex = BTL_MAIN_GetPositionsPerClientThunk((void *)(ai->battleMain), clientId);
-    for (; slotIndex < BTL_SLOT_GetCount(slots); slotIndex++) {
+    for (; slotIndex < BTL_SLOT_GetCount((struct BtlSideSlot *)slots); slotIndex++) {
         if (BTL_POKEPARAM_IsFainted(TR_AI_GetSlotPoke(slots, (u8)slotIndex)) == 0) {
             for (moveSlot = 0; moveSlot < BTL_POKEPARAM_GetMoveCount(TR_AI_GetPoke(ai, pos)); moveSlot++) {
                 if (TR_AI_Compare(vm, 3, BTL_POKEPARAM_GetMovePPLost(TR_AI_GetPoke(ai, pos), moveSlot), 0, jumpOffset) != 0)
@@ -1748,7 +1758,7 @@ int TR_AI_CmdJumpIfAllMovesUsed(ScriptVm *vm, TrAiWork *ai) {
     pos = TR_AI_GetPosition(ai, side);
     poke = TR_AI_GetPoke(ai, pos);
     if (BTL_POKEPARAM_CountUsedMoves(poke) >= BTL_POKEPARAM_GetMoveCount(poke) && BTL_POKEPARAM_GetMoveCount(poke) > 1) {
-        VM_Jump(vm, (int)vm->pc + jumpOffset);
+        VM_Jump(vm, (u8 *)vm->pc + jumpOffset);
     }
     return ai->cmdReturn;
 }
@@ -1774,7 +1784,7 @@ int TR_AI_CmdLoadFasterCount(ScriptVm *vm, TrAiWork *ai) {
     u8 pos;
     selector = VM_GetU32(vm);
     pos = TR_AI_GetPosition(ai, selector);
-    selector = BTL_SERVER_FLOW_CountFasterPokes(ai->serverFlow, TR_AI_GetPoke(ai, pos), 1);
+    selector = BTL_SERVER_FLOW_CountFasterPokes(ai->serverFlow, (u8 *)(TR_AI_GetPoke(ai, pos)), 1);
     ai->workValue = selector;
     return ai->cmdReturn;
 }
@@ -1807,15 +1817,15 @@ int TR_AI_CmdJumpIfPartyDamage(ScriptVm *vm, TrAiWork *ai) {
     calcFlags = VM_GetU32(vm);
     jumpOffset = VM_GetU32(vm);
     index = BTL_MAIN_GetSlotClientIdThunk(ai->battleMain, ai->selfPos);
-    slots = BTL_SIDE_GetSlotOfClientThunk(ai->sideTable, index);
+    slots = (char *)BTL_SIDE_GetSlotOfClientThunk(ai->sideTable, index);
     index = BTL_MAIN_GetPositionsPerClientThunk(ai->battleMain, index);
     baseDamage = TR_AI_GetBestDamage(ai, ai->selfPoke, ai->targetPoke, calcFlags);
-    for (; index < BTL_SLOT_GetCount(slots); index++) {
+    for (; index < BTL_SLOT_GetCount((struct BtlSideSlot *)slots); index++) {
         poke = TR_AI_GetSlotPoke(slots, (u8)index);
         BTL_POKEPARAM_GetPokeId(poke);
         if (BTL_POKEPARAM_IsFainted(poke) == 0) {
             if (TR_AI_GetBestDamage(ai, poke, ai->targetPoke, calcFlags) > baseDamage) {
-                VM_Jump(vm, (int)vm->pc + jumpOffset);
+                VM_Jump(vm, (u8 *)vm->pc + jumpOffset);
                 break;
             }
         }
@@ -1839,7 +1849,7 @@ int TR_AI_CmdJumpIfSuperEffective(ScriptVm *vm, TrAiWork *ai) {
         attackerId = BTL_POKEPARAM_GetPokeId(ai->selfPoke);
         defenderId = BTL_POKEPARAM_GetPokeId(ai->targetPoke);
         if ((u32)(BTL_SERVER_FLOW_CalcMoveTypeEffectiveness(ai->serverFlow, attackerId, defenderId, moveId) - 4) <= 1) {
-            VM_Jump(vm, (int)vm->pc + jumpOffset);
+            VM_Jump(vm, (u8 *)vm->pc + jumpOffset);
             break;
         }
     }
@@ -1867,7 +1877,7 @@ int TR_AI_CmdJumpIfPredictedDamage(ScriptVm *vm, TrAiWork *ai) {
     defenderId = BTL_POKEPARAM_GetPokeId(ai->targetPoke);
     predictedDamage = BTL_SERVER_FLOW_CalcPredictedMoveDamage(ai->serverFlow, attackerId, defenderId, lastMoveId, 1, calcFlags);
     if (ownDamage < predictedDamage)
-        VM_Jump(vm, (int)vm->pc + jumpOffset);
+        VM_Jump(vm, (u8 *)vm->pc + jumpOffset);
     return ai->cmdReturn;
 }
 
@@ -1941,10 +1951,10 @@ int TR_AI_CmdLoadBestDamagePoke(ScriptVm *vm, TrAiWork *ai) {
     u32 best;
     int firstSlot;
     calcFlags = VM_GetU32(vm);
-    clientId = BTL_MAIN_GetSlotClientIdThunk((char *)(ai->battleMain), ai->selfPos);
+    clientId = BTL_MAIN_GetSlotClientIdThunk((struct BtlMain *)(ai->battleMain), ai->selfPos);
     slots = (u8 *)BTL_SIDE_GetSlotOfClientThunk(ai->sideTable, clientId);
     firstSlot = BTL_MAIN_GetPositionsPerClientThunk(ai->battleMain, clientId);
-    selfSlot = BTL_SLOT_FindPoke(slots, (u32)(ai->selfPoke));
+    selfSlot = BTL_SLOT_FindPoke((struct BtlSideSlot *)slots, (struct BtlPokeParam *)(ai->selfPoke));
     selfId = BTL_POKEPARAM_GetPokeId(ai->selfPoke);
     targetId = BTL_POKEPARAM_GetPokeId(ai->targetPoke);
     best = BTL_SERVER_FLOW_CalcPredictedMoveDamage(ai->serverFlow, selfId, targetId, ai->moveId, 1, calcFlags);
@@ -1994,7 +2004,7 @@ int TR_AI_CmdLoadCurrentAbility(ScriptVm *vm, TrAiWork *ai) {
 }
 
 int TR_AI_CmdJumpIfSubstitute(ScriptVm *vm, TrAiWork *ai) {
-    int side; u32 jumpOffset; u8 pos; side = VM_GetU32(vm); jumpOffset = VM_GetU32(vm); pos = TR_AI_GetPosition(ai,side); if (BTL_POKEPARAM_HasSubstitute(TR_AI_GetPoke(ai,pos))) VM_Jump(vm, (u32)vm->pc + jumpOffset); return ai->cmdReturn;
+    int side; u32 jumpOffset; u8 pos; side = VM_GetU32(vm); jumpOffset = VM_GetU32(vm); pos = TR_AI_GetPosition(ai,side); if (BTL_POKEPARAM_HasSubstitute(TR_AI_GetPoke(ai,pos))) VM_Jump(vm, (u8 *)vm->pc + jumpOffset); return ai->cmdReturn;
 }
 
 int TR_AI_CmdLoadSpecies(ScriptVm *vm, TrAiWork *ai) {
@@ -2037,7 +2047,7 @@ int TR_AI_CmdSwitchOnMoveEffectSequence(ScriptVm *vm, TrAiWork *ai) {
     }
     if (flag == 1)
         return TR_AI_CmdEnd(vm, ai);
-    VM_Jump(vm, (u32)((u8 *)table + (table[index] | (table[index + 1] << 16))));
+    VM_Jump(vm, (u8 *)((u8 *)table + (table[index] | (table[index + 1] << 16))));
     return ai->cmdReturn;
 }
 
@@ -2047,7 +2057,7 @@ int TR_AI_CmdJumpIfFieldEffect(ScriptVm *vm, TrAiWork *ai) {
     side = VM_GetU32(vm);
     jumpOffset = VM_GetU32(vm);
     if (BTL_SERVER_FLOW_CheckFieldEffectActive(ai->serverFlow, TR_AI_GetPosition(ai, side), 3) != 0)
-        VM_Jump(vm, (u32)(vm->pc + jumpOffset));
+        VM_Jump(vm, (u8 *)(vm->pc + jumpOffset));
     return ai->cmdReturn;
 }
 
@@ -2105,7 +2115,7 @@ int TR_AI_Compare(ScriptVm *vm, int op, int left, int right, int jumpOffset) {
         break;
     }
     if (result == 1)
-        VM_Jump(vm, (u32)(vm->pc + jumpOffset));
+        VM_Jump(vm, (u8 *)(vm->pc + jumpOffset));
     return result;
 }
 
@@ -2191,7 +2201,7 @@ int TR_AI_GetAbility(TrAiWork *ai, int kind, u8 pos) {
 /*
  * Resolved by the BTL_SIDE_GetPokeAtPos label in ov069 (thumb); cross-overlay target.
  */
-struct BtlPokeParam *TR_AI_GetPoke(TrAiWork *ai, u8 pos) { return BTL_SIDE_GetPokeAtPos(ai->sideTable, pos); }
+struct BtlPokeParam *TR_AI_GetPoke(TrAiWork *ai, u8 pos) { return (struct BtlPokeParam *)BTL_SIDE_GetPokeAtPos(ai->sideTable, pos); }
 
 /*
  * Resolved by the matched BTL_SLOT_GetPokeParam in ov093 (thumb); cross-overlay target.

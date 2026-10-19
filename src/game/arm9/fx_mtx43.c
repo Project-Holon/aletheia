@@ -136,22 +136,22 @@ asm void MTX_RotY43_(void)
 
 #pragma thumb reset
 
-extern void MTX_RotAxis33(void *m, void *v);
+extern void MTX_RotAxis33(void *m, void *v, fx32 sinVal, fx32 cosVal);
 void FX_InvAsync(fx32 denom);
-fx32 FX_GetDivResult(void);
+unsigned int FX_GetDivResult(void);
 void MI_Copy48B(const void *pSrc, void *pDest);
 extern void VEC_Normalize(const VecFx32 *pSrc, VecFx32 *pDst);
 extern void VEC_CrossProduct(const VecFx32 *a, const VecFx32 *b, VecFx32 *axb);
 extern fx32 VEC_DotProduct(const VecFx32 *a, const VecFx32 *b);
-void MTX_RotAxis43(void *m, void *v);
+void MTX_RotAxis43(void *m, void *v, fx32 sinVal, fx32 cosVal);
 int MTX_Inverse43(const MtxFx43 *pSrc, MtxFx43 *pDst);
 void MTX_Concat43(const MtxFx43 *a, const MtxFx43 *b, MtxFx43 *ab);
 void MTX_MultVec43(const VecFx32 *vec, const MtxFx43 *m, VecFx32 *dst);
 void MTX_LookAt(const VecFx32 *camPos, const VecFx32 *camUp, const VecFx32 *target, MtxFx43 *mtx);
 
-void MTX_RotAxis43(void *m, void *v)
+void MTX_RotAxis43(void *m, void *v, fx32 sinVal, fx32 cosVal)
 {
-    MTX_RotAxis33(m, v);
+    MTX_RotAxis33(m, v, sinVal, cosVal);
     *(unsigned int *)((char *)m + 0x24) = 0;
     *(unsigned int *)((char *)m + 0x28) = 0;
     *(unsigned int *)((char *)m + 0x2c) = 0;

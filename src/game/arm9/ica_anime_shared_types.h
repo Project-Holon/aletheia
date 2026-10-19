@@ -1,9 +1,9 @@
 #ifndef ICA_ANIME_SHARED_TYPES_H
 #define ICA_ANIME_SHARED_TYPES_H
 
-#include "btl_setup_types.h"
-#include "script_vm_types.h"
-#include "vm_shared_types.h"
+#include "../arm9/btl_setup_types.h"
+#include "../arm9/script_vm_types.h"
+#include "../arm9/vm_shared_types.h"
 
 struct MiscSave;
 

@@ -65,22 +65,25 @@ extern struct FieldPlayer *FIELDMAP_GetFieldPlayer(FieldMap *fieldMap);
 extern void FIELDMAP_SetCtrlWork(FieldMap *fieldMap, void *ctrlWork);
 extern void *FIELDMAP_GetCtrlWork(FieldMap *fieldMap);
 extern void FIELDMAP_SetTargetPos(FieldMap *fieldMap, VecFx32 *targetPos);
-extern void *FIELDMAP_GetCamera(FieldMap *fieldMap);
+struct FieldMap;
+struct FieldCamera;
+extern struct FieldCamera *FIELDMAP_GetCamera(FieldMap *fieldMap);
 extern struct FieldNogridMapper *FIELDMAP_GetNogridMapper(FieldMap *fieldMap);
 extern void *FIELDMAP_GetGameSystem(FieldMap *fieldMap);
 extern VecFx32 *FLDMMDL_GetPosPtr(struct Mmdl *mmdl);
 extern void *GAMESYSTEM_GetGameData(void *gameSystem);
 extern void *GAME_DATA_GetMyPlayerWork(void *gameData);
 extern RailLocation *GAME_DATA_GetPlayerRail(void *saveRecord);
-extern void FIELD_NOGRID_MAPPER_BindCameraWork(struct FieldNogridMapper *mapper, u32 railWork);
+struct RailWork;
+extern void FIELD_NOGRID_MAPPER_BindCameraWork(struct FieldNogridMapper *mapper, struct RailWork *work);
 extern struct Mmdl *FIELD_PLAYER_GetMmdl(struct FieldPlayer *player);
 extern void FIELD_PLAYER_SetPos(struct FieldPlayer *player, VecFx32 *pos);
-extern void FIELD_PLAYER_SetDirDisp(struct FieldPlayer *player, u32 dir);
+extern void FIELD_PLAYER_SetDirDisp(struct FieldPlayer *player, int dir);
 extern void FIELD_PLAYER_CreateNogrid(struct FieldPlayer *player, u32 heapId);
 extern void FIELD_PLAYER_UpdateNogrid(struct FieldPlayer *player, u32 keyTrg, u32 keyCont);
 extern u32 FIELD_PLAYER_GetNogridRailWork(struct FieldPlayer *player);
 extern void FIELD_PLAYER_SetNogridRailLocation(struct FieldPlayer *player, RailLocation *location);
-extern void FIELD_PLAYER_GetNogridRailPos(struct FieldPlayer *player, VecFx32 *pos);
+extern void FIELD_PLAYER_GetNogridRailPos(struct FieldPlayer *player, void *outPos);
 extern const char gFieldMapCtrlNogridWorkFileName[];
 
 void FIELDMAP_CTRL_NOGRID_WORK_Create(FieldMap *fieldMap, VecFx32 *pos, u32 dir);
@@ -137,7 +140,7 @@ FieldMapCtrlNogridWork *FIELDMAP_CTRL_NOGRID_WORK_CreateWork(FieldMap *fieldMap,
 
     work->player = player;
     FIELD_PLAYER_CreateNogrid(player, heapId);
-    FIELD_NOGRID_MAPPER_BindCameraWork(nogridMapper, FIELD_PLAYER_GetNogridRailWork(player));
+    FIELD_NOGRID_MAPPER_BindCameraWork(nogridMapper, (struct RailWork *)(FIELD_PLAYER_GetNogridRailWork(player)));
     return work;
 }
 

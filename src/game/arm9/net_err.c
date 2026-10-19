@@ -287,8 +287,9 @@ struct NitroPlttData {
 };
 
 typedef signed int     s32;
+struct Strbuf;
 
-extern void STRBUF_Delete(struct U16String *string);
+extern void STRBUF_Delete(struct Strbuf *strbuf);
 
 extern u32  GFL_NET_IsNetTypeWifi(void);
 
@@ -336,7 +337,7 @@ extern void GFL_NET_WM_ICON_EasyObjWindowOff(void);
 
 extern void GXS_SetGraphicsMode(u32 bgMode);
 
-extern int UI_ClearSoftResetInhibitGlobal(u32 mode);
+extern void UI_ClearSoftResetInhibitGlobal(u32 mode);
 
 extern void GFL_USE_PollPowerExit(void);
 
@@ -352,11 +353,11 @@ extern int GFL_NET_Exit(int arg);
 
 extern void GFL_NET_IRC_WIRELESS_Exit(void);
 
-extern u32  WIH_GetSysState(void);
+extern s32 WIH_GetSysState(void);
 
 extern void GFL_NET_RequestDisconnect(void);
 
-extern u32  GX_HBlankIntr(BOOL on);
+extern s32 GX_HBlankIntr(BOOL on);
 
 extern void GFL_NET_ERR_DrawWindow(u32 screenIndex, u32 isWifiLink);
 
@@ -368,9 +369,9 @@ extern int GX_ResetBankForBG(void);
 
 extern int GX_ResetBankForSubBG(void);
 
-extern void GX_SetBankForBG(u32 bank);
+extern void GX_SetBankForBG(s32 bg);
 
-extern void GX_SetGraphicsMode(u32 dispMode, u32 bgMode, u32 bg0_2d3d);
+extern void GX_SetGraphicsMode(s32 dispMode, s32 bgMode, s32 bg0_2d3d);
 
 extern void *G2_GetBG1CharPtr(void);
 
@@ -384,21 +385,22 @@ extern void BG_SYS_SetSubVisiblePlanes(u32 visiblePlane);
 
 extern void GFL_NET_GetIrcParams(u32 *x, u32 *y);
 
-extern void GX_SetBankForSubBG(u32 bank);
+extern void GX_SetBankForSubBG(s32 sub_bg);
 
 extern void MIi_CpuClear32(u32 value, void *dst, u32 size);
 
-extern int ARC_UTIL_LoadMember(int arcId, int fileId, int heapId, int flag);
+extern int ARC_UTIL_LoadMember(s32 archiveID, s32 memberIdx, s32 decompress, u16 heapID);
+struct NitroFileHeader;
 
-extern s32 NNS_G2dGetUnpackedCharacterDataEx(struct NitroResFile *file, void **out);
+extern s32 NNS_G2dGetUnpackedCharacterDataEx(struct NitroFileHeader *file, void **out);
 
 extern void DC_FlushRange(void *p, u32 size);
 
 extern int NNS_G2dGetUnpackedScreenData(void *file, void **out);
 
-extern s32 NNS_G2dGetUnpackedPaletteCompressInfo(struct NitroResFile *file, void **out);
+extern s32 NNS_G2dGetUnpackedPaletteCompressInfo(struct NitroFileHeader *file, void **out);
 
-extern s32 NNS_G2dGetUnpackedPaletteData(struct NitroResFile *file, void **out);
+extern s32 NNS_G2dGetUnpackedPaletteData(struct NitroFileHeader *file, void **out);
 
 void GFL_NET_SetBgmTrackVolumeUnlessVoiceChat(void *eventMask, void *eventValue);
 
@@ -474,7 +476,7 @@ extern void MIi_CpuClear16(u16 data, void *dst, u32 size);
 
 extern struct Bmp *BMP_CreateFromVram(void *pixels, u32 width, u32 height, u32 depth, u16 heap);
 
-extern struct WordSet *WORDSET_CreateDefault(u32 heap);
+extern struct WordSet *WORDSET_CreateDefault(u16 heapId);
 
 extern struct GfFont *GF_FONT_Create(int archiveId, int fileId, int format, int isFixedWidth, u32 heapId);
 
@@ -482,17 +484,17 @@ extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fi
 
 extern void WORDSET_SetSlotNumber(struct WordSet *wordSet, u32 index, u32 number, u32 digits, u32 padding, u32 flag);
 
-extern void *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
+extern struct Strbuf *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
 
-extern struct U16String *STRBUF_Create(u32 capacity, u32 heapId);
+extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
 
-extern void WORDSET_CopyTaggedText(struct WordSet *wordSet, void *dst, void *src);
+extern void WORDSET_CopyTaggedText(struct WordSet *words, struct Strbuf *dst, struct Strbuf *src);
 
-extern void PRINTSYS_PrintColor(void *bmp, s16 x, s16 y, void *text, void *font, u16 color);
+extern void PRINTSYS_PrintColor(struct Bmp *bmp, s16 x, s16 y, struct Strbuf *str, struct GfFont *font, u16 color);
 
 extern u32 MSGDATA_Delete(struct MsgBank *bank);
 
-extern u32 GF_FONT_Delete(void *ptr);
+extern u32 GF_FONT_Delete(struct GfFont *font);
 
 extern u32 WORDSET_Delete(struct WordSet *wordSet);
 
@@ -1303,10 +1305,10 @@ void GFL_NET_ERR_DrawWindow(u32 messageVariant, u32 useGenericMessage)
     }
 
     message = MSGDATA_AllocString(msgBank, messageIndex);
-    textBuf = STRBUF_Create(0x189, 1);
-    WORDSET_CopyTaggedText(wordSet, textBuf, message);
-    PRINTSYS_PrintColor(bmp, 0, 0, textBuf, font, 0x1167);
-    STRBUF_Delete(textBuf);
+    textBuf = (struct U16String *)STRBUF_Create(0x189, 1);
+    WORDSET_CopyTaggedText(wordSet, (struct Strbuf *)textBuf, message);
+    PRINTSYS_PrintColor(bmp, 0, 0, (struct Strbuf *)textBuf, font, 0x1167);
+    STRBUF_Delete((struct Strbuf *)textBuf);
     STRBUF_Delete(message);
     MSGDATA_Delete(msgBank);
     GF_FONT_Delete(font);

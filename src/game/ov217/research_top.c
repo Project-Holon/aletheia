@@ -144,6 +144,7 @@
  *   BG_SYS_FreeLayerBuf  0x020403F4  arm  arm9
  *   PROCSYS_FreeProcWork  0x020315D4  arm  arm9
  *   GFL_USE_ClearVBlankHook  0x0200566C  thumb  arm9
+ *   _u32_div_f                   0x0209C2B0  arm
  */
 #include "research_shared_types.h"
 
@@ -221,30 +222,35 @@ extern void BG_SYS_SetVramBanks(const struct DispVram *c);
 extern void BG_SYS_SetLcdSwap(u32 swap);
 
 extern void PROCSYS_FreeProcWork(struct Proc *);
+struct GameSystem;
 
-extern u32 GAMESYSTEM_IsNetOffBySleep(const struct Ctx *);
+extern u32 GAMESYSTEM_IsNetOffBySleep(struct GameSystem *gameSystem);
+struct ResearchCommon;
 
-extern void RESEARCH_COMMON_SetInputFlag(void *);
+extern void RESEARCH_COMMON_SetInputFlag(struct ResearchCommon *common);
 
 extern u32 WIH_DWC_PollStatus(void *key);
+struct GameData;
 
-extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
+extern struct GameData *GAMESYSTEM_GetGameData(struct GameSystem *gameSystem);
 
-extern u32 GAMESYSTEM_TryStartAutoComm(struct IcaAnime *p);
+extern u32 GAMESYSTEM_TryStartAutoComm(struct GameSystem *gameSystem);
+struct FieldState;
 
-extern u32 GAME_DATA_GetWifiList(const struct BigObj *p);
+extern struct FieldState *GAME_DATA_GetWifiList(struct GameData *gameData);
 
 extern void GFL_NET_RefreshWmIconAtTopRight(u32 a, u32 b);
 
-extern void RESEARCH_COMMON_SetScreen(void *p, u32 v);
+extern void RESEARCH_COMMON_SetScreen(struct ResearchCommon *common, unsigned int screen);
 
 extern int RESEARCH_COMMON_Create(int heapId, int ctx);
 
-extern u32 RESEARCH_COMMON_Destroy(void *common);
+extern u32 RESEARCH_COMMON_Destroy(struct ResearchCommon *common);
 
 extern u32 ListViewState_Create(u32 heapId);
+struct ListViewState;
 
-extern void ListViewState_Reset(void *p);
+extern void ListViewState_Reset(struct ListViewState *state);
 
 extern void ListViewState_Destroy(void *state);
 
@@ -276,7 +282,7 @@ extern void BG_SYS_LoadTileData(int index, const void *src, u32 size, u32 tile);
 
 extern int NNS_G2dGetUnpackedScreenData(void *, void **);
 
-extern void BG_SYS_DrawTile(u32, u32, u32, u32, u8, u8);
+extern void BG_SYS_DrawTile(unsigned int index, void *src, unsigned char dx, unsigned char dy, unsigned char cw, unsigned char ch);
 
 
 extern void ARC_TOOL_DeleteHandle(void *);
@@ -289,7 +295,7 @@ extern u32 GFL_HEAP_Free(void *p);
 
 extern void BG_SYS_PushTile(u32);
 
-extern u32 RESEARCH_COMMON_GetHeapId(void *);
+extern u32 RESEARCH_COMMON_GetHeapId(struct ResearchCommon *common);
 
 extern void RESEARCH_COMMON_UpdatePaletteAnime(unsigned);
 
@@ -299,35 +305,38 @@ extern u32 KEY_GetTrg(void);
 
 extern int TOUCHPANEL_HitTrg(const void *);
 
-extern void * RESEARCH_COMMON_GetTouchRects(void *);
+extern void * RESEARCH_COMMON_GetTouchRects(struct ResearchCommon *common);
 
-extern u32 GFL_USE_PlaySeDefaultVolume(u32 a);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 
 extern int FADE_IsActive(void);
 
 extern void RESEARCH_COMMON_StopPaletteAnime(u32 common);
 
 extern void RESEARCH_COMMON_RestorePaletteAnime(u32 common);
+struct RingQueue;
 
-extern void RingQueue_Push(u32, u32);
+extern void RingQueue_Push(struct RingQueue *queue, int value);
 
-extern u32 RingQueue_Pop(struct Ring *r);
+extern u32 RingQueue_Pop(struct RingQueue *queue);
 
-extern u32 RingQueue_IsEmpty();
+extern int RingQueue_IsEmpty(struct RingQueue *queue);
 
-extern u32 RESEARCH_COMMON_GetPreviousScreen(void *p);
+extern u32 RESEARCH_COMMON_GetPreviousScreen(struct ResearchCommon *common);
 
-extern u32 RESEARCH_COMMON_GetEntryHandled(void *p);
+extern u32 RESEARCH_COMMON_GetEntryHandled(struct ResearchCommon *common);
 
-extern void RESEARCH_COMMON_SetEntryHandled(u8 *p, u32 v);
+extern void RESEARCH_COMMON_SetEntryHandled(struct ResearchCommon *common, unsigned int value);
 
 extern u8 GAME_BEACON_PopQuestionnaireUpdated(void);
+struct BgTextLabel;
 
-extern void BgTextLabel_SetPalette(u8 *p, u8 palette);
+extern void BgTextLabel_SetPalette(struct BgTextLabel *label, unsigned char palette);
 
-extern void RESEARCH_COMMON_StartPaletteAnime(u8 *p, u32 i);
+extern void RESEARCH_COMMON_StartPaletteAnime(struct ResearchCommon *common, unsigned int index);
+struct Actor;
 
-extern void CLACT_SetActorDrawEnable(struct Obj *, unsigned int);
+extern void CLACT_SetActorDrawEnable(struct Actor *actor, unsigned int value);
 
 extern u32 CLACT_SetActorAnimFrame();
 
@@ -336,34 +345,36 @@ extern void CLACT_SetActorAutoAnim(struct Obj *p, unsigned int v);
 extern void CLACT_SetActorAutoAnimSpeed(struct Actor *a, u32 v);
 
 extern void FADE_Start(u32 a, s32 b, s32 c, s32 d);
+struct PaletteAnime;
 
-extern void PALETTE_ANIME_Start(u8 *p, u32 b, u16 c);
+extern void PALETTE_ANIME_Start(struct PaletteAnime *anime, unsigned int mode, unsigned short color);
 
-extern void PALETTE_ANIME_Stop(u32 anime);
+extern void PALETTE_ANIME_Stop(struct PaletteAnime *anime);
 
-extern void PALETTE_ANIME_Update(int);
+extern void PALETTE_ANIME_Update(struct PaletteAnime *anime);
 
-extern unsigned RESEARCH_COMMON_GetAppResource(void *);
+extern unsigned RESEARCH_COMMON_GetAppResource(struct ResearchCommon *common);
 
-extern u32 GAME_DATA_GetEventWork(const struct BigObj *p);
+extern void *GAME_DATA_GetEventWork(struct GameData *gd);
+struct EventWork;
 
-extern unsigned ZONEDATA_CheckEventFlag(void *,int);
+extern unsigned ZONEDATA_CheckEventFlag(struct EventWork *ev, int flagId);
 
-extern u32 RESEARCH_COMMON_GetInputFlag(void *p);
+extern u32 RESEARCH_COMMON_GetInputFlag(struct ResearchCommon *common);
 
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
 extern struct GfFont *GF_FONT_Create(int archiveId, int fileId, int format, int isFixedWidth, u32 heapId);
 
-extern u32 GF_FONT_Delete(void *ptr);
+extern u32 GF_FONT_Delete(struct GfFont *font);
 
 extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 
-extern u32 MSGDATA_Delete(struct Rec *rec);
+extern u32 MSGDATA_Delete(struct MsgBank *bank);
 
 extern int RingQueue_Create(int capacity, int heapId);
 
-extern void RingQueue_Destroy(void *p);
+extern void RingQueue_Destroy(struct RingQueue *queue);
 
 extern void G2x_SetBlendAlpha_(volatile unsigned *,unsigned,unsigned,unsigned,unsigned);
 
@@ -376,12 +387,13 @@ extern void BG_SYS_Init(u32 layer, u32 value, u32 count, u32 index);
 extern u32 BG_SYS_ClearSlot();
 
 extern void BG_SYS_FreeTiles(u32, u32, u32);
+struct BgTextLabelConfig;
 
-extern struct Record *BgTextLabel_Create(const struct Config *config, u32 a, u32 b, u32 heap);
+extern struct BgTextLabel *BgTextLabel_Create(struct BgTextLabelConfig *config, unsigned int font, unsigned int msgBank, unsigned int heapId);
 
-u32 BgTextLabel_PrintMessage(u32 label, u32 msgIndex);
+u32 BgTextLabel_PrintMessage(struct BgTextLabel *label, unsigned int msgIndex);
 
-extern void BgTextLabel_Destroy(u8 *p);
+extern void BgTextLabel_Destroy(struct BgTextLabel *label);
 
 extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 vram_mode, u16 flags);
 
@@ -403,15 +415,15 @@ extern u32 CLACT_DeleteUnit(struct Bank *bank);
 
 extern struct Obj *CLACT_CreateActor(void *,unsigned int,unsigned int,unsigned int,const void *,u16,u16);
 
-extern void CLACT_DeleteActor(struct Obj *p);
+extern void CLACT_DeleteActor(struct Actor *actor);
 
 extern u32 PALETTE_ANIME_Create(u32 heapId);
 
-extern u32 PALETTE_ANIME_Destroy(void *anime);
+extern u32 PALETTE_ANIME_Destroy(struct PaletteAnime *anime);
 
-extern void PALETTE_ANIME_Bind(void *p, u32 b, u32 c, u32 d);
+extern void PALETTE_ANIME_Bind(struct PaletteAnime *anime, unsigned short *palette, unsigned short *original, int colorCount);
 
-extern int PALETTE_ANIME_Restore(char *p);
+extern int PALETTE_ANIME_Restore(struct PaletteAnime *anime);
 
 extern void CLACT_VBlankSystem(void);
 
@@ -748,7 +760,7 @@ int RESEARCH_TOP_MainProc(void *unused, u32 *state, u32 unused2, u32 *proc)
 {
     u32 next;
     RESEARCH_TOP_UpdateNetwork((u32)proc);
-    if (GAMESYSTEM_IsNetOffBySleep((const struct Ctx *)proc[1]) != 0)
+    if (GAMESYSTEM_IsNetOffBySleep((struct GameSystem *)proc[1]) != 0)
         RESEARCH_COMMON_SetInputFlag((void *)proc[3]);
     switch (*state) {
     case 0: next = RESEARCH_TOP_StateIdle(proc); break;
@@ -773,7 +785,7 @@ int RESEARCH_TOP_MainProc(void *unused, u32 *state, u32 unused2, u32 *proc)
 void RESEARCH_TOP_UpdateNetwork(u32 proc)
 {
     WIH_DWC_PollStatus((void *)GAME_DATA_GetWifiList(GAMESYSTEM_GetGameData(((struct ResearchProc *)proc)->appResource)));
-    if (GAMESYSTEM_TryStartAutoComm((struct IcaAnime *)(*(u32 *)&((struct ResearchProc *)proc)->appResource)) != 0) {
+    if (GAMESYSTEM_TryStartAutoComm((struct GameSystem *)(*(u32 *)&((struct ResearchProc *)proc)->appResource)) != 0) {
     GFL_NET_RefreshWmIconAtTopRight(1, ((struct ResearchProc *)proc)->heapId);
     }
 }
@@ -979,12 +991,12 @@ void RESEARCH_TOP_LoadSubAssets(u32 heap)
     GFL_HEAP_Free(buffer);
     buffer = ARC_TOOL_LoadHandleMember(arc, 11, heap);
     NNS_G2dGetUnpackedScreenData(buffer, &screen);
-    BG_SYS_DrawTile(4, (u32)((char *)screen + 12), 0, 0, 32, 24);
+    BG_SYS_DrawTile(4, ((char *)screen + 12), 0, 0, 32, 24);
     BG_SYS_PushTile(4);
     GFL_HEAP_Free(buffer);
     buffer = ARC_TOOL_LoadHandleMember(arc, 12, heap);
     NNS_G2dGetUnpackedScreenData(buffer, &screen2);
-    BG_SYS_DrawTile(5, (u32)((char *)screen2 + 12), 0, 0, 32, 24);
+    BG_SYS_DrawTile(5, ((char *)screen2 + 12), 0, 0, 32, 24);
     BG_SYS_PushTile(5);
     GFL_HEAP_Free(buffer);
     ARC_TOOL_DeleteHandle(arc);
@@ -1016,7 +1028,7 @@ void RESEARCH_TOP_LoadTopAssets(u32 heap)
     GFL_HEAP_Free(buffer);
     buffer = ARC_TOOL_LoadHandleMember(arc, 2, heap);
     NNS_G2dGetUnpackedScreenData(buffer, &screen);
-    BG_SYS_DrawTile(1, (u32)((char *)screen + 12), 0, 0, 32, 24);
+    BG_SYS_DrawTile(1, ((char *)screen + 12), 0, 0, 32, 24);
     BG_SYS_PushTile(1);
     GFL_HEAP_Free(buffer);
     ARC_TOOL_DeleteHandle(arc);
@@ -1211,7 +1223,7 @@ void RESEARCH_TOP_CleanupListObject(u32 obj)
  */
 void RESEARCH_TOP_PushCommand(u8 *obj, u32 command)
 {
-    RingQueue_Push((u32)(((struct ResearchObjC *)obj)->commandQueue), command);
+    RingQueue_Push((struct RingQueue *)((((struct ResearchObjC *)obj)->commandQueue)), command);
 }
 
 void RESEARCH_TOP_SetCommandReady(void *obj)
@@ -1222,8 +1234,8 @@ void RESEARCH_TOP_SetCommandReady(void *obj)
 void RESEARCH_TOP_ProcessCommand(u32 obj)
 {
     if (((struct ResearchObjC *)obj)->commandReady != 0) {
-    if (RingQueue_IsEmpty(((struct ResearchObjC *)obj)->commandQueue) == 0) {
-    RESEARCH_TOP_StartCommand((void *)obj, RingQueue_Pop((struct Ring *)(((struct ResearchObjC *)obj)->commandQueue)));
+    if (RingQueue_IsEmpty((struct RingQueue *)(((struct ResearchObjC *)obj)->commandQueue)) == 0) {
+    RESEARCH_TOP_StartCommand((void *)obj, RingQueue_Pop((struct RingQueue *)(((struct ResearchObjC *)obj)->commandQueue)));
     }
     }
 }
@@ -1265,7 +1277,7 @@ u32 RESEARCH_TOP_GetTransitionKind(u8 *obj)
 
 void RESEARCH_TOP_SetEntryHandled(u8 *obj, u32 handled)
 {
-    RESEARCH_COMMON_SetEntryHandled(*(u8 * *)&((struct ResearchObjC *)obj)->owner, handled);
+    RESEARCH_COMMON_SetEntryHandled((struct ResearchCommon *)(*(u8 * *)&((struct ResearchObjC *)obj)->owner), handled);
 }
 
 void RESEARCH_TOP_SetMode(void *obj, u32 mode)
@@ -1351,20 +1363,20 @@ void RESEARCH_TOP_DrawSelectorIdle(int selection)
 
 void RESEARCH_TOP_SetupTextLabel(u32 obj)
 {
-    BgTextLabel_SetPalette((u8 *)(((struct ResearchObjC *)obj)->labels[2]), 15);
+    BgTextLabel_SetPalette((struct BgTextLabel *)(((struct ResearchObjC *)obj)->labels[2]), 15);
     RESEARCH_TOP_StartEntryPaletteAnime((char *)obj, 3);
     RESEARCH_TOP_StartEntryPaletteAnime((char *)obj, 4);
 }
 
 void RESEARCH_TOP_StartPaletteAnime(u8 *obj)
 {
-    RESEARCH_COMMON_StartPaletteAnime((u8 *)(((struct ResearchObjC *)obj)->ownerHandle), 0);
+    RESEARCH_COMMON_StartPaletteAnime((struct ResearchCommon *)(((struct ResearchObjC *)obj)->ownerHandle), 0);
 }
 
 u32 RESEARCH_TOP_ShowEntryActor(u32 obj)
 {
     u32 actor = RESEARCH_TOP_GetEntryIconSource((void *)obj, 0);
-    CLACT_SetActorDrawEnable((struct Obj *)actor, 1);
+    CLACT_SetActorDrawEnable((struct Actor *)actor, 1);
     CLACT_SetActorAutoAnim((struct Obj *)actor, 1);
     CLACT_SetActorAutoAnimSpeed((struct Actor *)actor, 4096);
     return CLACT_SetActorAnimFrame(actor, 0);
@@ -1480,14 +1492,14 @@ void RESEARCH_TOP_StartEntryPaletteAnime(char *obj, int slot)
  */
 void RESEARCH_TOP_StopEntryPaletteAnime(u8 *obj, u32 slot)
 {
-    PALETTE_ANIME_Stop((u32)(*(u32*)(obj + (slot)*4 + 56)));
+    PALETTE_ANIME_Stop((struct PaletteAnime *)((*(u32*)(obj + (slot)*4 + 56))));
 }
 
 void RESEARCH_TOP_UpdateEntryPaletteAnime(int *obj)
 {
     int i;
     for (i = 0; i < 5; i++)
-        PALETTE_ANIME_Update(obj[i + 0x0E]);
+        PALETTE_ANIME_Update((struct PaletteAnime *)(obj[i + 0x0E]));
 }
 
 /*
@@ -1495,7 +1507,7 @@ void RESEARCH_TOP_UpdateEntryPaletteAnime(int *obj)
  */
 unsigned char RESEARCH_TOP_CountUnlockedEntries(char *obj)
 {
-    void *bitmap=(void *)GAME_DATA_GetEventWork((const struct BigObj *)RESEARCH_COMMON_GetAppResource(((struct ResearchObjC *)obj)->owner));
+    void *bitmap=(void *)GAME_DATA_GetEventWork((struct GameData *)RESEARCH_COMMON_GetAppResource(((struct ResearchObjC *)obj)->owner));
     int count=1;
     if(ZONEDATA_CheckEventFlag(bitmap,240)==1)count++;
     if(ZONEDATA_CheckEventFlag(bitmap,241)==1)count++;
@@ -1612,7 +1624,7 @@ void RESEARCH_TOP_DeleteMessages(int *obj)
 {
     int i;
     for (i = 0; i < 2; i++)
-        MSGDATA_Delete((struct Rec *)obj[i + 3]);
+        MSGDATA_Delete((struct MsgBank *)obj[i + 3]);
 }
 
 void RESEARCH_TOP_InitPaletteRows(u8 *obj)
@@ -1671,7 +1683,7 @@ void RESEARCH_TOP_LoadBackground6(char *obj)
     void *file=ARC_TOOL_LoadHandleMember(arc,13,((struct ResearchObjC *)obj)->heapId);
     void *data;
     NNS_G2dGetUnpackedScreenData(file,&data);
-    BG_SYS_DrawTile(6,(unsigned)((char *)data+12),0,0,32,24);
+    BG_SYS_DrawTile(6,((char *)data+12),0,0,32,24);
     BG_SYS_PushTile(6);GFL_HEAP_Free(file);ARC_TOOL_DeleteHandle(arc);
 }
 
@@ -1696,7 +1708,7 @@ void RESEARCH_TOP_LoadBackground2(char *obj)
     void *file=ARC_TOOL_LoadHandleMember(arc,4,((struct ResearchObjC *)obj)->heapId);
     void *data;
     NNS_G2dGetUnpackedScreenData(file,&data);
-    BG_SYS_DrawTile(2,(unsigned)((char *)data+12),0,0,32,24);
+    BG_SYS_DrawTile(2,((char *)data+12),0,0,32,24);
     BG_SYS_PushTile(2);GFL_HEAP_Free(file);ARC_TOOL_DeleteHandle(arc);
 }
 
@@ -1731,8 +1743,8 @@ void RESEARCH_TOP_CreateLabels(char *obj)
         tmpl.params[0]=entry->template.params[0];tmpl.params[1]=entry->template.params[1];tmpl.params[2]=entry->template.params[2];tmpl.params[3]=entry->template.params[3];
         tmpl.params[4]=entry->template.params[4];tmpl.params[5]=entry->template.params[5];tmpl.params[6]=entry->template.params[6];tmpl.params[7]=entry->template.params[7];
         tmpl.params[8]=entry->template.params[8];tmpl.params[9]=entry->template.params[9];tmpl.params[10]=entry->template.params[10];tmpl.messageIndex=entry->extraId;
-        *(unsigned *)(obj+i*4+0x4c)=(unsigned int)BgTextLabel_Create((const struct Config *)(&tmpl),((struct ResearchObjC *)obj)->font,*(unsigned *)(obj+entry->template.messageIndex*4+0xc),((struct ResearchObjC *)obj)->heapId);
-        BgTextLabel_PrintMessage(*(unsigned *)(obj+i*4+0x4c),entry->messageId);
+        *(unsigned *)(obj+i*4+0x4c)=(unsigned int)BgTextLabel_Create((struct BgTextLabelConfig *)(&tmpl),((struct ResearchObjC *)obj)->font,*(unsigned *)(obj+entry->template.messageIndex*4+0xc),((struct ResearchObjC *)obj)->heapId);
+        BgTextLabel_PrintMessage((struct BgTextLabel *)(*(unsigned *)(obj+i*4+0x4c)),entry->messageId);
     }
 }
 
@@ -1740,7 +1752,7 @@ void RESEARCH_TOP_DestroyLabels(int *obj)
 {
     int i;
     for (i = 0; i < 4; i++) {
-        BgTextLabel_Destroy((u8 *)obj[i + 0x13]);
+        BgTextLabel_Destroy((struct BgTextLabel *)obj[i + 0x13]);
         obj[i + 0x13] = 0;
     }
 }
@@ -1848,12 +1860,12 @@ void RESEARCH_TOP_CreateActor(char *obj)
     actorSourceB=RESEARCH_TOP_GetEntryActorSource(obj,d_021C2EFC.thirdSource);
     actorSourceC=RESEARCH_TOP_GetEntryActorSource(obj,d_021C2EFC.fourthSource);
     *(unsigned *)&((struct ResearchObjC *)obj)->actor=(unsigned)CLACT_CreateActor((void *)labelSource,actorSourceA,actorSourceB,actorSourceC,&pos,d_021C2EFC.arg,((struct ResearchObjC *)obj)->heapId);
-    CLACT_SetActorDrawEnable(*(struct Obj * *)&((struct ResearchObjC *)obj)->actor,0);
+    CLACT_SetActorDrawEnable((struct Actor *)(*(struct Obj * *)&((struct ResearchObjC *)obj)->actor),0);
 }
 
 void RESEARCH_TOP_DeleteActor(u8 *obj)
 {
-    CLACT_DeleteActor((struct Obj *)((u32)(((struct ResearchObjC *)obj)->actor)));
+    CLACT_DeleteActor((struct Actor *)((u32)(((struct ResearchObjC *)obj)->actor)));
 }
 
 /*
@@ -1886,7 +1898,7 @@ void RESEARCH_TOP_BindPaletteAnime(char *obj)
 {
     int i;
     for (i = 0; i < 5; i++) {
-        PALETTE_ANIME_Bind((void *)(*(int *)(obj + i * 4 + 0x38)), d_021C2FF8[i].palette, d_021C2FF8[i].source, d_021C2FF8[i].mode);
+        PALETTE_ANIME_Bind((void *)(*(int *)(obj + i * 4 + 0x38)), (unsigned short *)d_021C2FF8[i].palette, (unsigned short *)d_021C2FF8[i].source, d_021C2FF8[i].mode);
     }
 }
 
@@ -1894,7 +1906,7 @@ void RESEARCH_TOP_RestorePaletteAnime(char *obj)
 {
     int i;
     for (i = 0; i < 5; i++) {
-        PALETTE_ANIME_Restore((char *)(*(int *)(obj + i * 4 + 0x38)));
+        PALETTE_ANIME_Restore((struct PaletteAnime *)(*(int *)(obj + i * 4 + 0x38)));
     }
 }
 

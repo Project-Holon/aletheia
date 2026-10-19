@@ -15,7 +15,7 @@
  * modulus (241 or 251). A sum that fails the test makes the check call the function it was given and return that
  * function's result; otherwise the sum is the result. A table address is a stub address plus the parameter-block bias
  * 0x1600 and the obfuscation offset 0x320, undone at call time. The bodies run through OV230_CallDispatcher, so the
- * caller of a stub passes (onFail, arg).
+ * caller of a stub passes (hook, hookArg).
  *
  * symbols:
  *   OV230_IntegrityChain0  0x02187F00  arm  ov230d
@@ -49,7 +49,7 @@ extern u8 OV230_CallSealedBody15[];
 extern u8 OV230_CallSealedBody16[];
 extern u8 OV230_CallSealedBody17[];
 
-u32 OV230_IntegrityChain0(u32 (*onFail)(u32), u32 arg)
+u32 OV230_IntegrityChain0(u32 (*hook)(u32), u32 hookArg)
 {
     u32 table[32];
     u32 *p;
@@ -64,12 +64,12 @@ u32 OV230_IntegrityChain0(u32 (*onFail)(u32), u32 arg)
         sum += ((u32 (*)(void))(*p - 0x1920))();
     } while (*++p != 0);
     if (sum % 241 != 0) {
-        sum = onFail(arg);
+        sum = hook(hookArg);
     }
     return sum;
 }
 
-u32 OV230_IntegrityChain1(u32 (*onFail)(u32), u32 arg)
+u32 OV230_IntegrityChain1(u32 (*hook)(u32), u32 hookArg)
 {
     u32 table[32];
     u32 *p;
@@ -84,12 +84,12 @@ u32 OV230_IntegrityChain1(u32 (*onFail)(u32), u32 arg)
         sum += ((u32 (*)(void))(*p - 0x1920))();
     } while (*++p != 0);
     if (sum % 251 == 0) {
-        sum = onFail(arg);
+        sum = hook(hookArg);
     }
     return sum;
 }
 
-u32 OV230_IntegrityChain2(u32 (*onFail)(u32), u32 arg)
+u32 OV230_IntegrityChain2(u32 (*hook)(u32), u32 hookArg)
 {
     u32 table[32];
     u32 *p;
@@ -104,12 +104,12 @@ u32 OV230_IntegrityChain2(u32 (*onFail)(u32), u32 arg)
         sum += ((u32 (*)(void))(*p - 0x1920))();
     } while (*++p != 0);
     if (sum % 241 != 0) {
-        sum = onFail(arg);
+        sum = hook(hookArg);
     }
     return sum;
 }
 
-u32 OV230_IntegrityChain3(u32 (*onFail)(u32), u32 arg)
+u32 OV230_IntegrityChain3(u32 (*hook)(u32), u32 hookArg)
 {
     u32 table[32];
     u32 *p;
@@ -124,12 +124,12 @@ u32 OV230_IntegrityChain3(u32 (*onFail)(u32), u32 arg)
         sum += ((u32 (*)(void))(*p - 0x1920))();
     } while (*++p != 0);
     if (sum % 251 == 0) {
-        sum = onFail(arg);
+        sum = hook(hookArg);
     }
     return sum;
 }
 
-u32 OV230_IntegrityChain4(u32 (*onFail)(u32), u32 arg)
+u32 OV230_IntegrityChain4(u32 (*hook)(u32), u32 hookArg)
 {
     u32 table[32];
     u32 *p;
@@ -143,12 +143,12 @@ u32 OV230_IntegrityChain4(u32 (*onFail)(u32), u32 arg)
         sum += ((u32 (*)(void))(*p - 0x1920))();
     } while (*++p != 0);
     if (sum % 241 != 0) {
-        sum = onFail(arg);
+        sum = hook(hookArg);
     }
     return sum;
 }
 
-u32 OV230_IntegrityChain5(u32 (*onFail)(u32), u32 arg)
+u32 OV230_IntegrityChain5(u32 (*hook)(u32), u32 hookArg)
 {
     u32 table[32];
     u32 *p;
@@ -162,7 +162,7 @@ u32 OV230_IntegrityChain5(u32 (*onFail)(u32), u32 arg)
         sum += ((u32 (*)(void))(*p - 0x1920))();
     } while (*++p != 0);
     if (sum % 251 == 0) {
-        sum = onFail(arg);
+        sum = hook(hookArg);
     }
     return sum;
 }

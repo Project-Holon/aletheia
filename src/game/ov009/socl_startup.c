@@ -121,7 +121,8 @@ extern void OSi_ReferSymbol(const void *symbol);
 extern void SOCLi_InitResource(void);
 extern void SOCLi_CleanupCPS(void);
 extern int SOCLi_StartupCommandPacketQueue(long cp_max_count);
-extern void *SOCL_CreateSocket(void *param);
+struct SOCLSocketParam;
+extern int SOCL_CreateSocket(struct SOCLSocketParam *param);
 extern unsigned char *WCM_GetApMacAddress(void);
 extern char gSoclStartupSdkRef[42];
 extern int gSoclUdpSendSocketParam;
@@ -167,7 +168,7 @@ int SOCLi_StartupSOCL(void)
 
 	r = SOCLi_StartupCommandPacketQueue(SOCLiConfigPtr->cmd_packet_max);
 	if (r >= 0) {
-		SOCLiUDPSendSocket = SOCL_CreateSocket(&gSoclUdpSendSocketParam);
+		SOCLiUDPSendSocket = (void *)SOCL_CreateSocket((struct SOCLSocketParam *)(&gSoclUdpSendSocketParam));
 	}
 	return r;
 }

@@ -106,7 +106,7 @@ typedef struct FieldMenuWork {
 } FieldMenuWork;
 
 /* game system, game event, game data */
-extern struct GameEvent *GAME_EVENT_Create(struct GameSystem *gameSystem, void *parent, EventTaskFn taskFn, u32 workSize);
+extern struct GameEvent *GAME_EVENT_Create(struct GameSystem *gameSystem, struct GameEvent *parent, EventTaskFn taskFn, unsigned int workSize);
 
 extern void *GAME_EVENT_GetWork(struct GameEvent *event);
 
@@ -118,56 +118,60 @@ extern void GAME_EVENT_ChangeEvent(struct GameEvent *event, struct GameEvent *ne
 
 extern struct GameData *GAMESYSTEM_GetGameData(struct GameSystem *gameSystem);
 
-extern struct FieldMap *GAMESYSTEM_GetFieldMap(struct GameSystem *gameSystem);
+extern void *GAMESYSTEM_GetFieldMap(struct GameSystem *gameSystem);
 
 extern void GAME_DATA_SetSubscreenType(struct GameData *gameData, u32 subscreenType);
 
 extern void GAME_DATA_SetFieldMenuCursor(struct GameData *gameData, u8 cursor);
 
 extern void MI_CpuFill8(void *dst, int value, int size);
+struct FieldSubscreen;
 
-/* field map link and moving models */
-extern struct FieldCommLink *FIELDMAP_GetSubscreen(struct FieldMap *fieldMap);
+                                      
+extern struct FieldSubscreen *FIELDMAP_GetSubscreen(struct FieldMap *fieldMap);
+struct MmdlSys;
 
-extern struct MoveModelSys *FIELDMAP_GetMmdlSys(struct FieldMap *fieldMap);
+extern struct MmdlSys *FIELDMAP_GetMmdlSys(struct FieldMap *fieldMap);
 
 extern u16 FIELDMAP_GetZoneId(struct FieldMap *fieldMap);
 
 extern u32 ZONEDATA_IsZone96Pair(u32 zoneId);
 
-extern u32 FIELD_SUBSCREEN_GetMode(struct FieldCommLink *link);
+extern u32 FIELD_SUBSCREEN_GetMode(struct FieldSubscreen *work);
 
-extern int FIELD_SUBSCREEN_ResolveMode(struct FieldCommLink *link, int a);
+extern u32 FIELD_SUBSCREEN_ResolveMode(struct FieldSubscreen *work, u32 mode);
 
 extern void UI_SetInputMode(u8 value);
 
-extern int FIELD_SUBSCREEN_IsIdle(struct FieldCommLink *link);
+extern int FIELD_SUBSCREEN_IsIdle(struct FieldSubscreen *work);
 
-extern int FIELD_SUBSCREEN_RequestMode(struct FieldCommLink *link, u32 a);
+extern int FIELD_SUBSCREEN_RequestMode(struct FieldSubscreen *work, u32 mode);
 
-extern int FIELD_SUBSCREEN_GetPanelResult(struct FieldCommLink *link);
+extern int FIELD_SUBSCREEN_GetPanelResult(struct FieldSubscreen *work);
 
-extern void FIELD_SUBSCREEN_ClearPanelResult(struct FieldCommLink *link);
+extern void FIELD_SUBSCREEN_ClearPanelResult(struct FieldSubscreen *work);
 
-extern u32 FIELD_SUBSCREEN_GetMenuSelectedButton(struct FieldCommLink *link);
+extern u32 FIELD_SUBSCREEN_GetMenuSelectedButton(struct FieldSubscreen *work);
 
-extern void FIELD_SUBSCREEN_SetMenuSelectedButton(struct FieldCommLink *link, int button);
+extern void FIELD_SUBSCREEN_SetMenuSelectedButton(struct FieldSubscreen *work, u32 buttonId);
 
 extern struct GameEvent *FIELD_COMM_ACTOR_CreateSubscreenChangeEvent(struct GameSystem *gameSystem, struct FieldMap *fieldMap, u32 linkMode);
 
-extern void FLDMMDL_SysPauseMove(struct MoveModelSys *moveModelSys);
+extern void FLDMMDL_SysPauseMove(struct MmdlSys *sys);
 
-extern u32 *FLDMMDL_SysResumeMove(struct MoveModelSys *moveModelSys);
+extern void FLDMMDL_SysResumeMove(struct MmdlSys *sys);
 
 extern void MOVE_POKEMON_InitSkillInfo(struct FieldMap *fieldMap, FieldSkillInfo *info);
+struct SkillTarget;
 
-extern void MOVE_POKEMON_InitSkillTarget(FieldSkillTarget *target, u16 partySlot, u16 skillIndex, u32 targetParam);
+extern void MOVE_POKEMON_InitSkillTarget(struct SkillTarget *target, u16 id, u16 variant, u32 targetObj);
 
-extern struct GameEvent *MOVE_POKEMON_CreateSkillEvent(int skillIndex, FieldSkillTarget *target, FieldSkillInfo *info);
+extern struct GameEvent *MOVE_POKEMON_CreateSkillEvent(s32 skillIndex, struct SkillTarget *target, struct FieldSkillInfo *info);
 
 extern struct GameEvent *FIELD_LINK_EVENT_Create(int index, struct GameSystem *gameSystem, struct FieldMap *fieldMap);
+struct ShortcutLink;
 
-extern struct GameEvent *EVENT_SHORTCUT_MENU_CreateProcEvent(ShortcutRequest *request, u16 id);
+extern struct GameEvent *EVENT_SHORTCUT_MENU_CreateProcEvent(struct ShortcutLink *link, u16 id);
 
 extern const u32 SCRCMD_NETWORK_sProcKindOfButton[];
 
@@ -193,7 +197,7 @@ struct GameEvent *EVENT_FIELD_MENU_Create(struct GameSystem *gameSystem, struct 
     FieldMenuWork *work;
     int linkMode;
 
-    link = FIELDMAP_GetSubscreen(fieldMap);
+    link = (struct FieldCommLink *)FIELDMAP_GetSubscreen(fieldMap);
     event = GAME_EVENT_Create(gameSystem, 0, EVENT_FIELD_MENU_Main, workSize);
     work = GAME_EVENT_GetWork(event);
     MI_CpuFill8(work, 0, workSize);
@@ -210,7 +214,7 @@ struct GameEvent *EVENT_FIELD_MENU_Create(struct GameSystem *gameSystem, struct 
     work->request.onFinish = EVENT_FIELD_MENU_OnFinish;
     work->request.work = work;
     work->request.detail = workSize - 0x5d;
-    linkMode = FIELD_SUBSCREEN_GetMode(link);
+    linkMode = FIELD_SUBSCREEN_GetMode((struct FieldSubscreen *)link);
     switch (linkMode) {
     case 3:
         linkMode = 3;
@@ -258,9 +262,9 @@ int EVENT_FIELD_MENU_Main(struct GameEvent *event, u32 *seq, void *workArg)
     switch (work->state) {
     case 0:
         if (FIELD_SUBSCREEN_IsIdle(FIELDMAP_GetSubscreen(work->fieldMap)) == 1) {
-            moveModelSys = FIELDMAP_GetMmdlSys(work->fieldMap);
+            moveModelSys = (struct MoveModelSys *)FIELDMAP_GetMmdlSys(work->fieldMap);
             gameData = GAMESYSTEM_GetGameData(GAME_EVENT_GetGameSystem(event));
-            FLDMMDL_SysPauseMove(moveModelSys);
+            FLDMMDL_SysPauseMove((struct MmdlSys *)moveModelSys);
             GAME_DATA_SetFieldMenuCursor(gameData, 1);
             FIELD_SUBSCREEN_RequestMode(FIELDMAP_GetSubscreen(work->fieldMap), 1);
             work->state = 1;
@@ -294,14 +298,14 @@ int EVENT_FIELD_MENU_Main(struct GameEvent *event, u32 *seq, void *workArg)
     case 4:
         FLDMMDL_SysResumeMove(FIELDMAP_GetMmdlSys(work->fieldMap));
         MOVE_POKEMON_InitSkillInfo(GAMESYSTEM_GetFieldMap(work->gameSystem), &info);
-        MOVE_POKEMON_InitSkillTarget(&target, work->request.partySlot, work->request.next, work->request.targetParam);
-        skillEvent = MOVE_POKEMON_CreateSkillEvent(work->request.next, &target, &info);
+        MOVE_POKEMON_InitSkillTarget((struct SkillTarget *)(&target), work->request.partySlot, work->request.next, work->request.targetParam);
+        skillEvent = MOVE_POKEMON_CreateSkillEvent(work->request.next, (struct SkillTarget *)(&target), &info);
         if (skillEvent == 0)
             return 1;
         GAME_EVENT_ChangeEvent(work->event, skillEvent);
         break;
     case 5:
-        GAME_EVENT_CallEvent(event, EVENT_SHORTCUT_MENU_CreateProcEvent(&work->request, work->id));
+        GAME_EVENT_CallEvent(event, EVENT_SHORTCUT_MENU_CreateProcEvent((struct ShortcutLink *)(&work->request), work->id));
         work->state = 6;
         break;
     case 6:
@@ -342,10 +346,10 @@ u32 EVENT_FIELD_MENU_GetProcKindOfButton(u32 button)
  */
 int EVENT_FIELD_MENU_OnUpdate(ShortcutRequest *request, FieldMenuWork *work)
 {
-    struct FieldCommLink *link = FIELDMAP_GetSubscreen(work->fieldMap);
+    struct FieldCommLink *link = (struct FieldCommLink *)FIELDMAP_GetSubscreen(work->fieldMap);
 
     if (request->result == 0)
-        FIELD_SUBSCREEN_SetMenuSelectedButton(link, work->selectedButton);
+        FIELD_SUBSCREEN_SetMenuSelectedButton((struct FieldSubscreen *)link, work->selectedButton);
 
     return 1;
 }

@@ -33,14 +33,15 @@ typedef unsigned int u32;
 
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void MI_CpuFill8(void *p, u32 v, u32 n);
-extern struct StrBuf *STRBUF_Create(u32 capacity, u16 heapId);
-extern void STRBUF_Delete(struct StrBuf *str);
+struct Strbuf;
+extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
+extern void STRBUF_Delete(struct Strbuf *strbuf);
 extern u32 GFL_HEAP_Free(void *block);
-extern u16 STRBUF_GetLength(struct StrBuf *str);
+extern u16 STRBUF_GetLength(struct Strbuf *strbuf);
 extern void MIi_CpuClear32(u32 value, void *dest, u32 size);
 extern u16 MSGDATA_GetMessageCount(const struct MsgBank *bank);
-extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, struct StrBuf *dest);
-extern u16 *STRBUF_GetChars(struct StrBuf *str);
+extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, struct Strbuf *dest);
+extern u16 *STRBUF_GetChars(struct Strbuf *strbuf);
 MsgSearch *MSGSEARCH_Create(struct MsgBank **banks, u32 bankCount, u16 heapId);
 void MSGSEARCH_Delete(MsgSearch *search);
 u32 MSGSEARCH_Search(MsgSearch *search, u32 bankIndex, u32 unused, struct StrBuf *prefix, MsgSearchHit *hits, u32 maxHits);
@@ -62,14 +63,14 @@ MsgSearch *MSGSEARCH_Create(struct MsgBank **banks, u32 bankCount, u16 heapId)
     for (i = 0; i < bankCount; i++) {
         search->bank[i] = banks[i];
     }
-    search->scratch = STRBUF_Create(0x80, heapId);
+    search->scratch = (struct StrBuf *)STRBUF_Create(0x80, heapId);
     return search;
 }
 
 
 void MSGSEARCH_Delete(MsgSearch *search)
 {
-    STRBUF_Delete(search->scratch);
+    STRBUF_Delete((struct Strbuf *)search->scratch);
     GFL_HEAP_Free(search);
 }
 
@@ -87,7 +88,7 @@ u32 MSGSEARCH_Search(MsgSearch *search, u32 bankIndex, u32 unused, struct StrBuf
     u32 messageIndex, hitCount, prefixLength;
 
     matchCount = 0;
-    prefixLength = STRBUF_GetLength(prefix);
+    prefixLength = STRBUF_GetLength((struct Strbuf *)prefix);
     MIi_CpuClear32(-1, hits, maxHits * sizeof(MsgSearchHit));
     if (prefixLength) {
         messageCount = MSGDATA_GetMessageCount(search->bank[bankIndex]);
@@ -97,8 +98,8 @@ u32 MSGSEARCH_Search(MsgSearch *search, u32 bankIndex, u32 unused, struct StrBuf
         for (;; messageIndex++) {
             if (messageIndex >= messageCount) break;
             if (hitCount >= maxHits) break;
-            MSGDATA_ReadString(bank, messageIndex, search->scratch);
-            if (MSGSEARCH_PrefixMatches(prefix, search->scratch, STRBUF_GetLength(prefix))) {
+            MSGDATA_ReadString(bank, messageIndex, (struct Strbuf *)search->scratch);
+            if (MSGSEARCH_PrefixMatches(prefix, search->scratch, STRBUF_GetLength((struct Strbuf *)prefix))) {
                 if (hitCount < maxHits) {
                     hits[hitCount].bankIndex = bankIndex;
                     hits[hitCount].messageIndex = messageIndex;
@@ -119,14 +120,14 @@ int MSGSEARCH_PrefixMatches(struct StrBuf *prefix, struct StrBuf *text, u32 leng
     u16 *textChars;
     u32 i;
 
-    if (STRBUF_GetLength(prefix) < length) {
+    if (STRBUF_GetLength((struct Strbuf *)prefix) < length) {
         return 0;
     }
-    if (STRBUF_GetLength(text) < length) {
+    if (STRBUF_GetLength((struct Strbuf *)text) < length) {
         return 0;
     }
-    prefixChars = STRBUF_GetChars(prefix);
-    textChars = STRBUF_GetChars(text);
+    prefixChars = STRBUF_GetChars((struct Strbuf *)prefix);
+    textChars = STRBUF_GetChars((struct Strbuf *)text);
     for (i = 0; i < length; i++) {
         if (*prefixChars++ != *textChars++) {
             return 0;

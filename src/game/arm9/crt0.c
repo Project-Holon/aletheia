@@ -15,8 +15,10 @@
  *           parameters and the microcode tables first (DWARF lines 88-182), then
  *           the functions (lines 212-1084).  mwccarm puts the tables in one
  *           .rodata that the link places right after the crt0 text
- *           (0x02004F7C..0x02005030).  _start_BuildParams (line 103) and the
- *           middleware .version strings follow at 0x02005030..0x02005124.
+ *           (0x02004F7C..0x02005030).  The build record _start_BuildParams (line 103)
+ *           and the middleware .version strings that follow it at
+ *           0x02005030..0x02005124 are units of their own: crt0_build.c and
+ *           sdk_version_*.c.
  *           Most functions are inline asm in the original too
  *           (no C runtime yet when they run).  The microcode words come from
  *           the user's ROM: tools/gendata.py writes build/gen/microcode_*.inc
@@ -24,7 +26,6 @@
  *
  * symbols:
  *   _start_LtdModuleParams          0x02004F7C  data
- *   _start_BuildParams              0x02005030  data
  *   microcode_WaitAgreement         0x02004F94  data
  *   _start_ModuleParams             0x02004FB0  data
  *   microcode_ShakeHand             0x02004FD4  data
@@ -77,24 +78,8 @@ void *const _start_LtdModuleParams[6] = {
     (void *)0xDEC01463, (void *)0x6314C0DE,
 };
 
-/* The build record the SDK linker writes (8 words), then the .version strings of
-   the middleware libraries (six NUL padded strings, 212 bytes).  The original has
-   them in a .rodata of their own; mwccarm merges every const object of a TU into one
-   .rodata sorted by size, so one object keeps them behind the tables in address
-   order.  Values from the user's ROM (tools/gendata.py). */
-const struct {
-    unsigned long params[8];
-    unsigned char version[212];
-} _start_BuildParams = {
-    {
-#include "../../../build/gen/words_buildparams_02005030.inc"
-    },
-    {
-#include "../../../build/gen/bytes_version_02005050.inc"
-    },
-};
-
 static const unsigned long microcode_ShakeHand[10] = {
+#include "../version.h"
 #include "../../../build/gen/microcode_02004FD4.inc"
 };
 

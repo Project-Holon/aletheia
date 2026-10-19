@@ -39,10 +39,12 @@ struct BoxMonSlot {
 };
 
 extern void MI_CpuFill8(void *dst, unsigned char val, unsigned long size);
+struct PokemonParam;
 
-extern u32  POKE_TOOL_GetPartyValue(void *mon, u32 id, u32 buf);
+extern u32  POKE_TOOL_GetPartyValue(struct PokemonParam *pp, u32 paramId, u32 arg);
+struct MsgBank;
 
-extern void MSGDATA_ReadUnits(struct MsgData *msg, u32 msgIndex, u16 *str, u32 maxLen);
+extern void MSGDATA_ReadUnits(struct MsgBank *bank, u32 msgIndex, u16 *str, u32 maxLen);
 
 extern void WORDSET_CopyString(const u16 *src, u16 *dst, u32 n);
 

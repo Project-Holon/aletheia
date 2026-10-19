@@ -48,6 +48,7 @@
  *   BOX_SAVEDATA_GetBoxName  0x0200785C  thumb
  *   MSGDATA_GetMessageCount  0x02045F50  arm
  *   MSGDATA_ReadString  0x02045CAC  arm
+ *   _u32_div_f                   0x0209C2B0  arm
  */
 #include "gf_font_shared_types.h"
 
@@ -74,10 +75,12 @@ extern u32 GFL_HEAP_Free(void *block);
 extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
 
 extern void  MI_CpuFill8(void *dest, u8 data, u32 size);
+struct PokemonParam;
 
-extern u32 POKE_TOOL_GetPartyValue(void *mon, u32 paramId, u32 arg);
+extern u32 POKE_TOOL_GetPartyValue(struct PokemonParam *pp, u32 paramId, u32 arg);
+struct BoxPokemon;
 
-extern u32 POKE_TOOL_GetBoxValue(void *mon, u32 paramId, u32 arg);
+extern u32 POKE_TOOL_GetBoxValue(struct BoxPokemon *box, u32 paramId, u32 arg);
 
 extern void STRBUF_Delete(struct Strbuf *text);
 
@@ -93,17 +96,18 @@ extern u32 PMSI_PARAM_ValidateWord(u16 *value, u32 mode, u32 flag);
 
 extern u32 PMSI_PARAM_ValidateDecoValue(u32 *value, u32 mode);
 
-extern void PMS_WORD_LoadString(u32 messageId, struct Strbuf *dest, u32 heapId);
+extern void PMS_WORD_LoadString(u32 id, void *dest, u16 heap);
 
 extern u16 MSGDATA_GetMessageCount(const struct MsgBank *bank);
 
-extern void MYSTATUS_NameToStrbuf(void *source, struct Strbuf *dest);
+extern void MYSTATUS_NameToStrbuf(u16 *name, struct Strbuf *buf);
 
 extern u32 NATION_AREA_GetAreaMsgBank(u32 value);
 
 extern u32 TPOKE_DATA_GetRecordField(void *source, u32 index);
+struct GameData;
 
-extern void BOX_SAVEDATA_GetBoxName(void *save, u32 box, struct Strbuf *dest);
+extern void BOX_SAVEDATA_GetBoxName(struct GameData *gameData, u32 box, struct Strbuf *dest);
 
 extern u16  STRBUF_GetEosChar(void);
 

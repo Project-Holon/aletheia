@@ -75,7 +75,7 @@ extern void ghiDoWaiting(GHIConnection *connection);
 extern void ghiDoReceivingStatus(GHIConnection *connection);
 extern void ghiDoReceivingHeaders(GHIConnection *connection);
 extern void ghiDoReceivingFile(GHIConnection *connection);
-extern int gsDebugFormat(int index, char *table, int mask, const char *fmt, ...);
+extern void gsDebugFormat(int cat, int type, int level, char *fmt, ...);
 extern void ghiRedirectConnection(GHIConnection *connection);
 extern int CanReceiveOnSocket(int sock);
 extern int ghiCloseConnection(GHIConnection *connection);
@@ -192,7 +192,7 @@ int ghiProcessConnection(GHIConnection *connection)
     if (connection->state == 10)
         ghiDoReceivingFile(connection);
     if (connection->state == 11)
-        gsDebugFormat(8, (char *)3, 0x10, sGhttpConnectionClosing);
+        gsDebugFormat((int)8, (int)3, 0x10, sGhttpConnectionClosing);
 
     if (connection->redirectURL)
         ghiRedirectConnection(connection);

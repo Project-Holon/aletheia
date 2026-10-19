@@ -84,6 +84,7 @@
  */
 #include "../../matched/arm9_sdk/libc/string.h"
 #include "auth_types.h"
+extern int wsLoginCertReadXML(GSLoginCertificate *cert, void *reader);
 
 extern int OS_SNPrintf(char *dst, unsigned long len, const char *fmt, ...);
 extern void gsDebugFormat(int theCategory, int theType, int theLevel, const char *theTokenStr, ...);
@@ -95,7 +96,7 @@ extern int gsXmlReadChildAsInt(void *stream, char *matchtag, int *valueOut);
 extern int gsXmlReadChildAsStringNT(void *stream, char *matchtag, char *valueOut, int maxLen);
 extern int gsXmlReadChildAsHexBinary(void *stream, char *matchtag, unsigned char *valueOut, int maxLen,
                                      int *lenOut);
-extern int gsXmlReadChildAsLargeInt(void *stream, char *matchtag, gsLargeInt_t *valueOut);
+extern int gsXmlReadChildAsLargeInt(void *stream, char *matchtag, int *lintData);
 extern void GSMD5Init(GSMD5_CTX *context);
 extern void gsLargeIntAddToMD5(gsLargeInt_t *lint, GSMD5_CTX *md5);
 extern void GSMD5Update(GSMD5_CTX *context, unsigned char *input, unsigned int inputLen);
@@ -112,7 +113,7 @@ extern int gsXmlWriteLargeIntElement(void *stream, char *namespaceName, char *ta
 extern int gsXmlWriteHexBinaryElement(void *stream, char *namespaceName, char *tag, unsigned char *data,
                                       int len);
 extern int gsXmlCloseWriter(void *stream);
-extern void gsXmlFreeWriter(void *stream);
+extern void gsXmlFreeWriter(void **writerRef);
 extern void *gsiExecuteSoap(char *theURL, char *theService, void *theRequestSoap, GSSoapCallback theCallbackFunc,
                             void *theUserData);
 extern int gsLargeIntSetFromHexString(gsLargeInt_t *lint, char *hexstream);
@@ -216,7 +217,7 @@ void wsLoginRemoteAuthCallback(int theResult, void *theRequestXml, void *theResp
         else if (!gsXmlMoveToChild(theResponseXml, sWsTagCertificate)
             || !wsLoginCertReadXML(cert, theResponseXml)
             || !gsXmlMoveToParent(theResponseXml)
-            || !gsXmlReadChildAsLargeInt(theResponseXml, sWsTagPeerKeyPrivate, &response.mPrivateData.mPeerPrivateKey.exponent))
+            || !gsXmlReadChildAsLargeInt(theResponseXml, sWsTagPeerKeyPrivate, (int *)(&response.mPrivateData.mPeerPrivateKey.exponent)))
             response.mLoginResult = WSLoginResult_PARSE_ERROR;
         else {
             memcpy(&response.mPrivateData.mPeerPrivateKey.modulus, &cert->mPeerPublicKey.modulus, sizeof(gsLargeInt_t));

@@ -20,6 +20,7 @@
  *   POKE_TOOL_GetBoxValue  0x02017E88  thumb
  *   POKEPARTY_GetCount 0x0201AA18 thumb arm9
  *   POKEPARTY_GetMember 0x0201AB28 thumb arm9
+ *   _ull_mul                     0x0209C054  arm
  */
 #include "pokeparty_shared_types.h"
 

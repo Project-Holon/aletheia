@@ -159,7 +159,7 @@ typedef unsigned int u32;
 
 typedef int s32;
 typedef s32 fx32;
-typedef struct VecFx32 {
+typedef struct G3dObjectStatus {
     fx32 x;
     fx32 y;
     fx32 z;
@@ -324,124 +324,153 @@ typedef struct SceneEventWork {
     TransitionInfo *transitionInfo; /* 0x08 */
     void *extra;                /* 0x0C */
 } SceneEventWork;
-extern void *GAME_DATA_GetSaveControl(GameData *gameData);
+struct SaveControl;
+extern struct SaveControl *GAME_DATA_GetSaveControl(GameData *gameData);
 extern void *GFL_HEAP_Alloc(u32, u32, int, const char *, u16);
 extern Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
 extern void STRBUF_Copy(Strbuf *dst, Strbuf *src);
-extern u32 POKE_TOOL_GetPartyValue(void *mon, u32 id, u32 v);
+struct PokemonParam;
+extern u32 POKE_TOOL_GetPartyValue(struct PokemonParam *pp, u32 paramId, u32 arg);
 extern void STRBUF_Delete(Strbuf *s);
-extern void GFL_HEAP_Free(void *);
-extern void FIELD_CAMERA_ANIME_Setup(void *playerObj);
-extern void FIELD_CAMERA_ANIME_GetCurrentParam(void *camera, int *startArgs);
-extern int FIELD_CAMERA_ANIME_Start(u32 a);
-extern int FIELD_TASK_MANAGER_IsEmpty(void *cameraStatus);
-extern void FIELD_CAMERA_ANIME_Delete(void *playerObj);
+extern u32 GFL_HEAP_Free(void *);
+struct FieldCameraAnime;
+extern s32 FIELD_CAMERA_ANIME_Setup(struct FieldCameraAnime *anime);
+struct FieldCameraParam;
+struct FieldCamera;
+extern void FIELD_CAMERA_ANIME_GetCurrentParam(struct FieldCamera *camera, struct FieldCameraParam *param);
+extern void FIELD_CAMERA_ANIME_Start(struct FieldCameraAnime *anime);
+struct FieldTaskManager;
+extern int FIELD_TASK_MANAGER_IsEmpty(struct FieldTaskManager *manager);
+extern void FIELD_CAMERA_ANIME_Delete(struct FieldCameraAnime *anime);
 extern u16 FIELDMAP_GetHeapId(FieldMap *fieldMap);
-extern void *ICA_ANIME_CreateFull(u32 heap, u32 arcId, u32 dataId);
+extern struct IcaAnime *ICA_ANIME_CreateFull(u32 heap, u32 arcId, u32 dataId);
 extern int GFL_USE_GetSeSlot(u32 seqNo);
-extern void GFL_USE_PlaySeInSlot(void *arg, int i);
+extern void GFL_USE_PlaySeInSlot(u32 seqNo, s32 slot);
 extern u32 ICA_ANIME_GetTranslate(struct IcaAnime *anim, VecFx32 *out);
-extern void *FIELDMAP_GetExpObj(FieldMap *fieldMap);
-extern VecFx32 *FLD_EXP_OBJ_GetModelStatus(void *p, int a, int b);
-extern void *FIELDMAP_GetFieldPlayer(FieldMap *fieldMap);
-extern void FIELD_PLAYER_GetPos(void *playerObj, VecFx32 *out);
-extern void FIELD_PLAYER_SetPos(void *playerObj, void *pos);
+struct FldExpObjCnt;
+extern struct FldExpObjCnt *FIELDMAP_GetExpObj(FieldMap *fieldMap);
+struct G3dObjectStatus;
+extern struct G3dObjectStatus *FLD_EXP_OBJ_GetModelStatus(struct FldExpObjCnt *cnt, u32 unitIdx, s32 modelIdx);
+struct FieldPlayer;
+extern struct FieldPlayer *FIELDMAP_GetFieldPlayer(FieldMap *fieldMap);
+extern void FIELD_PLAYER_GetPos(struct FieldPlayer *player, VecFx32 *out);
+extern void FIELD_PLAYER_SetPos(struct FieldPlayer *player, VecFx32 *pos);
 extern u32 ICA_ANIME_IncFrameLoop(struct IcaAnime *p, s32 v);
 extern void ICA_ANIME_Delete(struct IcaAnime *p);
-extern void *EVENT_FIELDMAP_CONTROL_StartFadeOut(GameSystem *, FieldMap *, u32, u32);
+extern struct GameEvent *EVENT_FIELDMAP_CONTROL_StartFadeOut(struct GameSystem *gameSystem, struct FieldMap *fieldMap, s32 effect, s32 skipWait);
 extern void *EVENT_MAPCHANGE_CreateWarpEventDefaultTransition(GameSystem *gameSystem, FieldMap *fieldMap, u32 id, Pos *pos, u32 flag);
 extern void GAME_EVENT_CallEvent(GameEvent *event, GameEvent *next);
 extern void GAME_EVENT_ChangeEvent(GameEvent *event, GameEvent *next);
 extern GameEvent *GAME_EVENT_Create(GameSystem *gameSystem, GameEvent *parent, void *func, u32 size);
 extern void *GAME_EVENT_GetWork(GameEvent *event);
-extern void *FIELDMAP_GetCamera(FieldMap *fieldMap);
-extern void *FIELDMAP_GetTaskManager(FieldMap *fieldMap);
-extern void *FIELD_CAMERA_ANIME_Create(FieldMap *fieldMap);
-extern void FIELD_CAMERA_ANIME_SetData(void *playerObj, CameraMoveParam *param);
-extern void FLDMMDL_MOVE_GetMapHeight(void *mapObj, VecFx32 *pos, fx32 *groundY);
-extern void FIELD_CAMERA_EndDelay(void *camera);
-extern u32 FIELD_CAMERA_IsDelayEnabled(void *camera);
+extern struct FieldCamera *FIELDMAP_GetCamera(FieldMap *fieldMap);
+extern struct FieldTaskManager *FIELDMAP_GetTaskManager(FieldMap *fieldMap);
+extern struct FieldCameraAnime *FIELD_CAMERA_ANIME_Create(FieldMap *fieldMap);
+struct FieldCameraAnimeData;
+extern void FIELD_CAMERA_ANIME_SetData(struct FieldCameraAnime *anime, struct FieldCameraAnimeData *data);
+extern s32 FLDMMDL_MOVE_GetMapHeight(struct Mmdl *mmdl, VecFx32 *pos, s32 *outHeight);
+extern void FIELD_CAMERA_EndDelay(struct FieldCamera *camera);
+extern u32 FIELD_CAMERA_IsDelayEnabled(struct FieldCamera *camera);
 extern void FIELD_GIMMICK_MODELS_B_StartModel0Anime(FieldMap *fieldMap);
 extern void FIELD_GIMMICK_MODELS_B_ShowModel1(FieldMap *fieldMap);
 extern int FIELD_GIMMICK_MODELS_B_IsModel0AnimeDone(FieldMap *fieldMap);
 extern int FIELD_GIMMICK_MODELS_B_IsModel1AnimeDone(FieldMap *fieldMap);
 extern void FIELD_GIMMICK_MODELS_B_StopModel0Anime(FieldMap *fieldMap);
 extern void FIELD_GIMMICK_MODELS_B_HideModel1(FieldMap *fieldMap);
-extern void *EVENT_FIELDMAP_CONTROL_StartFadeIn(GameSystem *, FieldMap *, u32, u32, u32, u32, u32);
-extern void *FIELD_CAMERA_CreateShakeTask(GameSystem *gameSystem, ScreenChangeParam *param);
-extern void *FIELD_PLAYER_GetMmdl(void *playerObj);
+extern struct GameEvent *EVENT_FIELDMAP_CONTROL_StartFadeIn(struct GameSystem *gameSystem, struct FieldMap *fieldMap, s32 effect, s32 skipWait, s32 restoreBg, u8 seasonShown, u8 seasonTarget);
+struct CameraShakeParams;
+extern struct GameEvent *FIELD_CAMERA_CreateShakeTask(struct GameSystem *gameSystem, struct CameraShakeParams *params);
+struct FieldPlayer;
+extern struct Mmdl *FIELD_PLAYER_GetMmdl(struct FieldPlayer *player);
 extern void GFL_USE_StopSeSlot(int i);
 extern void GFL_USE_PlaySeDefaultVolume(u32 se);
 extern GameEvent *FIELD_STATUS_CreateFieldCloseEvent(GameSystem *gameSystem, FieldMap *fieldMap);
-extern GameEvent *FIELD_STATUS_CreateSubProcListEvent(GameSystem *gameSystem, FieldMap *fieldMap, PartyScreenArgs *partyScreen, SummaryArgs *summary);
+extern void *FIELD_STATUS_CreateSubProcListEvent(void *anime, s32 slot, s32 config, s32 target);
 extern GameEvent *FIELD_STATUS_CreateFieldOpenEvent(GameSystem *gameSystem);
 extern void MI_CpuCopy8(const void *src, void *dst, int size);
 extern GameData *GAMESYSTEM_GetGameData(GameSystem *gameSystem);
-extern FieldMap *GAMESYSTEM_GetFieldMap(GameSystem *gameSystem);
+extern void *GAMESYSTEM_GetFieldMap(GameSystem *gameSystem);
 extern void *GAME_DATA_GetMyParty(GameData *gameData);
 extern void MI_CpuFill8(void *dst, u8 val, u32 size);
 extern void *POKE_REGULATION_Load(int a, int b);
-extern void *ZUKAN_SAVE_GetFromGameData(GameData *gameData);
-extern u32 POKEPARTY_GetCount(void *party);
-extern u32 ZUKAN_SAVE_IsNationalDexEnabled(void *p);
+extern void *ZUKAN_SAVE_GetFromGameData(void *gameData);
+struct Party;
+extern u32 POKEPARTY_GetCount(struct Party *party);
+struct ZukanSave;
+extern u32 ZUKAN_SAVE_IsNationalDexEnabled(struct ZukanSave *pZukan);
 extern void BATTLE_REC_AllocWork(u32 heap);
-extern u32 BSUBWAY_SCR_CreateBtlSetup(EncounterContext *ctx, GameSystem *gameSystem);
-extern int EVENT_BATTLE_CreateResultOnlyTask(GameSystem *, FieldMap *, int);
-extern int FIELD_MSGBG_TalkWinMain();
-extern void FIELD_MSGBG_TalkWinDrawCursor(void *balloon);
+struct BsubwayScrWork;
+extern u32 BSUBWAY_SCR_CreateBtlSetup(struct BsubwayScrWork *work, struct GameSystem *gameSystem);
+extern int EVENT_BATTLE_CreateResultOnlyTask(s32 gameSystem, s32 battleSrc, s32 btlSetup);
+struct FieldTalkWin;
+extern u32 FIELD_MSGBG_TalkWinMain(struct FieldTalkWin *talkWin);
+extern void FIELD_MSGBG_TalkWinDrawCursor(struct FieldTalkWin *talkWin);
 extern u32 KEY_GetTrg(void);
-extern int FIELD_MSGBG_DeleteTalkWin(void *balloon);
+extern int FIELD_MSGBG_DeleteTalkWin(struct FieldTalkWin *talkWin);
 extern int FIELD_MSGBG_WaitTalkWinClose();
-extern void *FIELDMAP_GetMsgBg(FieldMap *fieldMap);
+struct FieldMsgBg;
+extern struct FieldMsgBg *FIELDMAP_GetMsgBg(FieldMap *fieldMap);
 extern MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void MSGDATA_ReadString(MsgBank *bank, u32 index, Strbuf *dest);
 extern u32 MSGDATA_Delete(MsgBank *bank);
 extern Strbuf *PMSI_PARAM_ToString(const u16 *chars, unsigned int heap);
 extern void *GAME_DATA_GetOccupyInfo(GameData *gameData);
-extern u32 FIELD_CAMERA_GetG3dCamera(void *camera);
+struct G3dCamera;
+extern struct G3dCamera *FIELD_CAMERA_GetG3dCamera(struct FieldCamera *camera);
 extern void SCRCMD_MSGWIN_GetBalloonOffset(VecFx32 *pos, VecFx32 *offset, u32 mapKind, void *camera, void *dir);
 extern void SCRCMD_MSGWIN_GetBalloonTailParams(int dir, int *kind, int *flags);
-extern void *FIELD_MSGBG_AddTalkWin(void *manager, int kind, VecFx32 *pos, Strbuf *name, u32 c, u32 flags);
+extern struct FieldTalkWin *FIELD_MSGBG_AddTalkWin(struct FieldMsgBg *msgBg, s32 index, VecFx32 *pos, struct Strbuf *str, u32 winType, u32 tailType);
 extern void *GAME_DATA_GetSaveBlock3B(GameData *gameData);
-extern int BSUBWAY_SAVEDATA_GetHistoryTagA(void *history);
-extern u8 BSUBWAY_SAVEDATA_GetHistoryTagB(void *history);
-extern GameEvent *FIELD_STATUS_CreateSubProcEvent(GameSystem *gameSystem, FieldMap *fieldMap, int procId, void *procData, void *param);
+struct BsubwaySave;
+extern int BSUBWAY_SAVEDATA_GetHistoryTagA(struct BsubwaySave *save);
+extern u8 BSUBWAY_SAVEDATA_GetHistoryTagB(struct BsubwaySave *save);
+extern GameEvent *FIELD_STATUS_CreateSubProcEvent(struct GameSystem *gameSystem, struct FieldMap *fieldMap, u32 overlayId, void *procData, void *procWork);
 extern void GFL_HEAP_CreateChildHeap(unsigned int src, unsigned int dst, unsigned int size);
-extern void **PROCSYS_AllocProcWork(void *proc, int size, int heapId);
+struct Proc;
+extern void *PROCSYS_AllocProcWork(struct Proc *proc, u32 size, u32 heapId);
 extern void *PROCSYS_Create(int heapId);
 extern void PROCSYS_Delete(void *w);
-extern void PROCSYS_FreeProcWork(void *proc);
+extern void PROCSYS_FreeProcWork(struct Proc *proc);
 extern void GFL_HEAP_DeleteChecked(unsigned int);
 extern unsigned int PROCSYS_Main(void *p);
 extern int GF_OVERLAY_Load(s32 handle);
 extern void GFL_NET_COMMAND_AddCommandTable(u32 a, u32 b, u32 c, u32 d);
-extern void *GFL_NET_HANDLE_GetCurrentHandle(void);
-extern void GFL_NET_StartTimingSync(int, int);
+struct GFLNetHandle;
+extern struct GFLNetHandle *GFL_NET_HANDLE_GetCurrentHandle(void);
+extern void GFL_NET_StartTimingSync(struct GFLNetHandle *handle, u16 tag);
 extern u32 GFL_NET_ERR_GetErrorLevel(void);
-extern int GFL_NET_CheckTimingSync(int, int);
+extern u32 GFL_NET_CheckTimingSync(struct GFLNetHandle *handle, u32 timingNo);
 extern void PROCSYS_Push(int, int, char *, int);
 extern void GFL_NET_COMMAND_DeleteCommandTable(u32 key);
 extern void GF_OVERLAY_Unload(s32 handle);
 extern void GAMESYSTEM_CallProc(GameSystem *gameSystem, u32 id, const void *procData, void *param);
 extern u32 GAMESYSTEM_GetProcStatus(GameSystem *gameSystem);
-extern GameEvent *EVENT_FIELD_PROCLINK_CreateAnimEvent(GameSystem *gameSystem, FieldMap *fieldMap);
+extern GameEvent *EVENT_FIELD_PROCLINK_CreateAnimEvent(struct GameSystem *gameSystem, void *fieldMap);
 extern GameEvent *FIELD_SOUND_SYSTEM_StartPushOrFadeOutAndPlayTask(GameSystem *gameSystem, u32 b);
-extern u32 FIELDMAP_GetEncount(FieldMap *fieldMap);
-extern void EFFECT_ENCOUNT_ConsumeSpot(int);
-extern void *FIELDMAP_GetEncEff(FieldMap *fieldMap);
-extern void ENCEFF_Start(void *p, GameEvent *event, int mode);
+struct FieldEncount;
+extern struct FieldEncount *FIELDMAP_GetEncount(FieldMap *fieldMap);
+extern void EFFECT_ENCOUNT_ConsumeSpot(struct FieldEncount *encount);
+struct EncEff;
+extern struct EncEff *FIELDMAP_GetEncEff(FieldMap *fieldMap);
+struct EncEffWork;
+extern void ENCEFF_Start(struct EncEffWork *eff, struct GameEvent *parentEvent, s32 kind);
 extern GameEvent *FIELD_SOUND_SYSTEM_StartPopDefaultFadeTask(GameSystem *gameSystem);
 extern GameEvent *FIELD_SOUND_SYSTEM_StartWaitAcceptRequestTask(GameSystem *gameSystem);
-extern void *BSUBWAY_SCR_GetNameinEncounterWork(EncounterContext *ctx);
-extern int SCRCMD_MSGWIN_GetBalloonSide(void *m2, VecFx32 *pos);
-extern void *SAVE_CONTROL_GetBlock(void *saveControl, u32 id);
-extern void *BSUBWAY_SAVEDATA_AllocHistoryCopy(void *bsubwaySave, u32 heap);
-extern GameSystem *SCRCMD_WORK_GetGameSystem(void *scriptWork);
-extern void *GAME_DATA_GetFieldSave(GameData *gameData);
-extern s32 *GIMMICK_WORK_GetWork(void *fieldSave, u32 b);
-extern void FLDMMDL_GetPos(const Mmdl *mmdl, VecFx32 *out);
-extern Mmdl *FLDMMDL_SysSearchObjId(void *occupyInfo, u32 id);
-extern void *FLDMMDL_SysSearchPlayer(void *occupyInfo);
+extern void *BSUBWAY_SCR_GetNameinEncounterWork(void *work);
+extern int SCRCMD_MSGWIN_GetBalloonSide(struct Mmdl *playerMmdl, VecFx32 *targetPos);
+extern void *SAVE_CONTROL_GetBlock(struct SaveControl *saveControl, u32 blockId);
+struct HistoryBuf;
+extern struct HistoryBuf *BSUBWAY_SAVEDATA_AllocHistoryCopy(struct BsubwaySave *save, u32 heapId);
+struct ScrcmdWork;
+extern GameSystem *SCRCMD_WORK_GetGameSystem(struct ScrcmdWork *work);
+extern u8 *GAME_DATA_GetFieldSave(GameData *gameData);
+struct GimmickWork;
+extern s32 *GIMMICK_WORK_GetWork(struct GimmickWork *gimmick, u32 id);
+struct MmdlVec;
+extern void FLDMMDL_GetPos(struct Mmdl *mmdl, struct MmdlVec *out);
+struct MmdlSys;
+extern Mmdl *FLDMMDL_SysSearchObjId(struct MmdlSys *sys, u32 objId);
+extern struct Mmdl *FLDMMDL_SysSearchPlayer(struct MmdlSys *sys);
 NameInArgs *NAMEIN_SETUP_CreateArgs(unsigned short heapId, int kind, short species, short traits, int maxLen, Strbuf *initialName, void *pokedex);
 NameInArgs *NAMEIN_SETUP_CreateMonArgs(unsigned short heapId, void *mon, int maxLen, Strbuf *initialName, void *pokedex);
 NameInArgs *NAMEIN_SETUP_CreateCaptureArgs(unsigned short heapId, void *mon, int maxLen, Strbuf *initialName, Strbuf *boxName, void *boxManager, int boxIndex, void *pokedex);
@@ -599,8 +628,8 @@ int NAMEIN_SETUP_RunFallEvent(GameEvent *event, u32 *state, FallEventWork *work)
     switch (*state) {
     case 0:
         FIELD_CAMERA_ANIME_Setup(work->playerObj);
-        FIELD_CAMERA_ANIME_GetCurrentParam(work->camera, work->cameraMove.startArgs);
-        FIELD_CAMERA_ANIME_Start((u32)work->playerObj);
+        FIELD_CAMERA_ANIME_GetCurrentParam(work->camera, (struct FieldCameraParam *)work->cameraMove.startArgs);
+        FIELD_CAMERA_ANIME_Start((struct FieldCameraAnime *)work->playerObj);
         (*state)++;
         break;
     case 1:
@@ -611,7 +640,7 @@ int NAMEIN_SETUP_RunFallEvent(GameEvent *event, u32 *state, FallEventWork *work)
         break;
     case 2:
         work->anim = ICA_ANIME_CreateFull(FIELDMAP_GetHeapId(fieldMap), 0x9D, 0x18);
-        GFL_USE_PlaySeInSlot((void *)1953, GFL_USE_GetSeSlot(1953));
+        GFL_USE_PlaySeInSlot((u32)1953, GFL_USE_GetSeSlot(1953));
         (*state)++;
         break;
     case 3:
@@ -666,7 +695,7 @@ GameEvent *NAMEIN_SETUP_StartFallEvent(GameSystem *gameSystem, FieldMap *fieldMa
     work->cameraMove.easeIn = 1;
     work->cameraMove.easeOut = 1;
     work->playerObj = FIELD_CAMERA_ANIME_Create(fieldMap);
-    FIELD_CAMERA_ANIME_SetData(work->playerObj, &work->cameraMove);
+    FIELD_CAMERA_ANIME_SetData(work->playerObj, (struct FieldCameraAnimeData *)(&work->cameraMove));
     return event;
 }
 
@@ -806,7 +835,7 @@ int NAMEIN_SETUP_RunLandEvent(GameEvent *event, u32 *state, LandEventWork *work)
             param.colorLow = 0;
             param.colorHigh = 0;
             param.screenMask = 2;
-            GAME_EVENT_CallEvent(event, FIELD_CAMERA_CreateShakeTask(work->gameSystem, &param));
+            GAME_EVENT_CallEvent(event, FIELD_CAMERA_CreateShakeTask(work->gameSystem, (struct CameraShakeParams *)(&param)));
             (*state)++;
         }
         break;
@@ -873,7 +902,7 @@ int NAMEIN_SETUP_RunPartyPickEvent(GameEvent *event, int *state, PartyTaskWork *
         (*state)++;
         break;
     case 2:
-        GAME_EVENT_CallEvent(event, FIELD_STATUS_CreateSubProcListEvent(gameSystem, work->fieldMap, &work->partyScreen, &work->summary));
+        GAME_EVENT_CallEvent(event, FIELD_STATUS_CreateSubProcListEvent(gameSystem, (s32)work->fieldMap, (s32)(&work->partyScreen), (s32)(&work->summary)));
         (*state)++;
         break;
     case 3:
@@ -992,13 +1021,13 @@ void NAMEIN_SETUP_StartEncounterScene(EncounterContext *ctx, GameSystem *gameSys
 {
     int transitionInfo;
     BATTLE_REC_AllocWork(4);
-    transitionInfo = BSUBWAY_SCR_CreateBtlSetup(ctx, gameSystem);
+    transitionInfo = BSUBWAY_SCR_CreateBtlSetup((struct BsubwayScrWork *)ctx, gameSystem);
     ctx->transitionInfo = transitionInfo;
     if (ctx->kind == 3 || ctx->kind == 8) {
         NAMEIN_SETUP_StartEncounterTransition(ctx, gameSystem, fieldMap);
         return;
     }
-    EVENT_BATTLE_CreateResultOnlyTask(gameSystem, fieldMap, transitionInfo);
+    EVENT_BATTLE_CreateResultOnlyTask((s32)gameSystem, (s32)fieldMap, transitionInfo);
 }
 
 
@@ -1139,9 +1168,9 @@ GameEvent *NAMEIN_SETUP_StartNameBalloonFromRecord(NameBalloonRecord *records, G
     } else {
         work->name = PMSI_PARAM_ToString((u16 *)((u32)records + 0xA0 + recordIndex * 0x120), 4);
     }
-    FLDMMDL_GetPos(FLDMMDL_SysSearchObjId(GAME_DATA_GetOccupyInfo(gameData), work->npcId), &work->pos);
+    FLDMMDL_GetPos(FLDMMDL_SysSearchObjId(GAME_DATA_GetOccupyInfo(gameData), work->npcId), (struct MmdlVec *)(&work->pos));
     camera = FIELDMAP_GetCamera(fieldMap);
-    SCRCMD_MSGWIN_GetBalloonOffset(&work->pos, &offset, FIELD_CAMERA_GetG3dCamera(camera), camera, (void *)dir);
+    SCRCMD_MSGWIN_GetBalloonOffset(&work->pos, &offset, (u32)FIELD_CAMERA_GetG3dCamera(camera), camera, (void *)dir);
     work->pos.x += offset.x;
     work->pos.y += offset.y;
     work->pos.z += offset.z;
@@ -1254,7 +1283,7 @@ int NAMEIN_SETUP_MainHostProc(void *proc, int *seq, int *pwk, int *mywk)
     case 0:
         GF_OVERLAY_Load((s32)id_0000005D);
         GFL_NET_COMMAND_AddCommandTable(0x100, (u32)d_021F03C4, 9, 0);
-        GFL_NET_StartTimingSync((int)GFL_NET_HANDLE_GetCurrentHandle(), 0xc8);
+        GFL_NET_StartTimingSync((struct GFLNetHandle *)GFL_NET_HANDLE_GetCurrentHandle(), 0xc8);
         *seq = 1;
         break;
     case 1:
@@ -1262,7 +1291,7 @@ int NAMEIN_SETUP_MainHostProc(void *proc, int *seq, int *pwk, int *mywk)
             *seq = 4;
             break;
         }
-        if (GFL_NET_CheckTimingSync((int)GFL_NET_HANDLE_GetCurrentHandle(), 0xc8) == 0)
+        if (GFL_NET_CheckTimingSync((struct GFLNetHandle *)GFL_NET_HANDLE_GetCurrentHandle(), 0xc8) == 0)
             break;
         *seq = 2;
         break;
@@ -1348,7 +1377,7 @@ int NAMEIN_SETUP_RunSceneEvent(GameEvent *event, int *state, SceneEventWork *wor
         break;
     case 2:
         EFFECT_ENCOUNT_ConsumeSpot(FIELDMAP_GetEncount(fieldMap));
-        ENCEFF_Start(FIELDMAP_GetEncEff(work->fieldMap), event, 9);
+        ENCEFF_Start((struct EncEffWork *)FIELDMAP_GetEncEff(work->fieldMap), event, 9);
         (*state)++;
         break;
     case 3:
@@ -1488,14 +1517,14 @@ GameEvent *NAMEIN_SETUP_StartNameBalloonFromHistory(GameSystem *gameSystem, int 
     work->gameSystem = gameSystem;
     occupyInfo = GAME_DATA_GetOccupyInfo(gameData);
     mmdlSys = FLDMMDL_SysSearchPlayer(occupyInfo);
-    FLDMMDL_GetPos(FLDMMDL_SysSearchObjId(occupyInfo, npcId), &work->pos);
+    FLDMMDL_GetPos(FLDMMDL_SysSearchObjId(occupyInfo, npcId), (struct MmdlVec *)(&work->pos));
     dir = SCRCMD_MSGWIN_GetBalloonSide(mmdlSys, &work->pos);
     camera = FIELDMAP_GetCamera(fieldMap);
-    SCRCMD_MSGWIN_GetBalloonOffset(&work->pos, &offset, FIELD_CAMERA_GetG3dCamera(camera), camera, (void *)dir);
+    SCRCMD_MSGWIN_GetBalloonOffset(&work->pos, &offset, (u32)FIELD_CAMERA_GetG3dCamera(camera), camera, (void *)dir);
     work->pos.x += offset.x;
     work->pos.y += offset.y;
     work->pos.z += offset.z;
-    entries = BSUBWAY_SAVEDATA_AllocHistoryCopy(SAVE_CONTROL_GetBlock(GAME_DATA_GetSaveControl(gameData), 0x3b), 4);
+    entries = (struct HistoryEntry *)BSUBWAY_SAVEDATA_AllocHistoryCopy(SAVE_CONTROL_GetBlock(GAME_DATA_GetSaveControl(gameData), 0x3b), 4);
     work->name = PMSI_PARAM_ToString(entries[recordIndex].nameChars, 4);
     GFL_HEAP_Free(entries);
     SCRCMD_MSGWIN_GetBalloonTailParams(dir, &balloonKind, &balloonFlags);
@@ -1528,5 +1557,5 @@ int NAMEIN_SETUP_ScrCmdSetFieldSaveFlag(void *scriptCtx, void *scriptWork)
  */
 void NAMEIN_SETUP_SetFieldSaveFlag(GameSystem *gameSystem)
 {
-    *GIMMICK_WORK_GetWork(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(gameSystem)), 0x34) = 1;
+    *GIMMICK_WORK_GetWork((struct GimmickWork *)GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(gameSystem)), 0x34) = 1;
 }

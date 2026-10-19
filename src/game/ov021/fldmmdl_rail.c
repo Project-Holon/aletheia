@@ -96,7 +96,7 @@ typedef struct { s32 x, y, z; } VecFx32;
 /* Opaque types owned by other files. */
 typedef struct Mmdl Mmdl;             /* a field model (fldmmdl.c) */
 typedef struct MmdlSys MmdlSys;       /* the field model system */
-typedef struct FieldSys FieldSys;
+typedef struct FieldNogridMapper FieldSys;
 typedef struct RailManager RailManager;
 typedef struct RailWork RailWork;     /* the rail walker of one field model */
 
@@ -164,7 +164,8 @@ typedef struct {
 extern void *FLDMMDL_GetMmdlSys(Mmdl *mmdl);
 extern void MI_CpuFill8(void *dst, u32 value, u32 size);
 extern FieldSys *FLDMMDL_SysGetNogridMapper(MmdlSys *mmdlSys);
-extern u32 FIELD_NOGRID_MAPPER_GetAttribute(FieldSys *fieldSys, RailLocation *loc);
+struct FieldNogridMapper;
+extern u32 FIELD_NOGRID_MAPPER_GetAttribute(struct FieldNogridMapper *mapper, RailLocation *location);
 extern u16 FLDMMDL_GetDirDisp(Mmdl *mmdl);
 extern int FLDMMDL_CheckStatusBitAttrGetOff(Mmdl *mmdl);
 extern u16 MAP_ATTR_GetFlags(u32 attr);
@@ -173,15 +174,17 @@ extern void FLDMMDL_SetDrawStatus(Mmdl *mmdl, u16 value);
 extern void FLDMMDL_SetDirAll(Mmdl *mmdl, u16 dir);
 extern void FIELD_RAIL_WORK_GetPos(RailWork *railWork, VecFx32 *outPos);
 extern u8 FIELD_RAIL_WORK_IsMoving(RailWork *railWork);
-extern void FLDMMDL_SetPos(Mmdl *mmdl, VecFx32 *pos);
+struct MmdlVec;
+extern void FLDMMDL_SetPos(struct Mmdl *mmdl, struct MmdlVec *pos);
 extern void *FLDMMDL_GetMoveProcWork(Mmdl *mmdl);
 extern void FIELD_RAIL_WORK_SetLocation(RailWork *railWork, RailLocation *loc);
-extern RailManager *FIELD_NOGRID_MAPPER_GetRailMan(FieldSys *fieldSys);
+struct FieldNogridMapper;
+extern RailManager *FIELD_NOGRID_MAPPER_GetRailMan(struct FieldNogridMapper *mapper);
 extern u8 FIELD_RAIL_WORK_GetLastKey(RailWork *railWork);
 extern int FIELD_RAIL_WORK_QueryStep(RailWork *railWork, u32 key, RailLocation *outLoc, VecFx32 *outPos);
 extern u32 FIELD_RAIL_WORK_GetLocation(RailWork *railWork, RailLocation *outLoc);
 extern void FIELD_RAIL_WORK_UpdateStep(RailWork *railWork);
-extern void FIELD_RAIL_WORK_StartStep(RailWork *railWork, u32 dir, u32 key);
+extern s32 FIELD_RAIL_WORK_StartStep(RailWork *railWork, u32 dir, u32 key);
 extern int FIELD_RAIL_WORK_IsLocationValid(RailWork *railWork, RailLocation *loc);
 extern int FIELD_RAIL_TryStepLocation(RailManager *mgr, RailLocation *loc, u32 key, RailLocation *outLoc);
 extern void FIELD_RAIL_GetLocationPos(RailManager *mgr, RailLocation *loc, VecFx32 *outPos);
@@ -190,9 +193,9 @@ extern u32 FX_Div(u32 a, u32 b);
 extern int FLDMMDL_SysSearchUseMmdl(MmdlSys *mmdlSys, Mmdl **outMmdl, u32 *iter);
 extern int FLDMMDL_CheckStatusBit(Mmdl *mmdl, int bits);
 extern void FIELD_RAIL_WORK_GetPrevPos(RailWork *railWork, VecFx32 *outPos);
-extern int FIELD_RAIL_IsPosNear(const VecFx32 *a, const VecFx32 *b, s32 radius);
+extern int FIELD_RAIL_IsPosNear(s32 *a, s32 *b, s32 r);
 extern u8 ZONEDATA_DirToRailKey(int dir);
-extern int FIELD_RAIL_StepLocation(RailManager *mgr, RailLocation *loc, u32 key, VecFx32 *outPos);
+extern int FIELD_RAIL_StepLocation(struct RailManager *manager, RailLocation *location, u16 key, VecFx32 *outPos);
 extern int FLDMMDL_GetGridNowX(Mmdl *mmdl);
 extern void FLDMMDL_SetGridOldX(Mmdl *mmdl, int gridX);
 extern int FLDMMDL_GetGridNowY(Mmdl *mmdl);
@@ -207,8 +210,8 @@ extern u32 FIELD_RAIL_WORK_GetLineKey(RailWork *railWork);
 extern void MTX_RotY33_(s32 *outMtx, s32 sin, s32 cos);
 extern void MTX_MultVec33(VecFx32 *vec, s32 *mtx, VecFx32 *outVec);
 extern void VEC_Normalize(VecFx32 *vec, VecFx32 *outVec);
-extern int FLDMMDL_MOVE_GetRailMoveRequest(Mmdl *mmdl, RailLocation *outLoc);
-extern void *FLDMMDL_InitMoveProcWork(Mmdl *mmdl, u32 size);
+extern int FLDMMDL_MOVE_GetRailMoveRequest(struct Mmdl *mmdl, u16 *outWords);
+extern void *FLDMMDL_InitMoveProcWork(struct Mmdl *mmdl, s32 size);
 extern int FLDMMDL_GetMoveLimitX(Mmdl *mmdl);
 extern int FLDMMDL_GetMoveLimitZ(Mmdl *mmdl);
 extern u32 GFL_USE_GetRandom(u32 range);
@@ -303,7 +306,7 @@ void FLDMMDL_RAIL_SetLocation(Mmdl *mmdl, RailLocation *loc)
     FIELD_RAIL_WORK_SetLocation(work->railWork, loc);
     FLDMMDL_RAIL_StoreLocation(work, loc);
     FIELD_RAIL_WORK_GetPos(work->railWork, &pos);
-    FLDMMDL_SetPos(mmdl, &pos);
+    FLDMMDL_SetPos(mmdl, (struct MmdlVec *)(&pos));
 }
 
 /* Read where the model goes: the target while it moves, else the place it is. */
@@ -311,7 +314,7 @@ void FLDMMDL_RAIL_GetNextLocation(Mmdl *mmdl, RailLocation *outLoc)
 {
     RailMoveWork *work;
 
-    FIELD_NOGRID_MAPPER_GetRailMan(FLDMMDL_SysGetNogridMapper(FLDMMDL_GetMmdlSys(mmdl)));
+    FIELD_NOGRID_MAPPER_GetRailMan((struct FieldNogridMapper *)(FLDMMDL_SysGetNogridMapper(FLDMMDL_GetMmdlSys(mmdl))));
     work = FLDMMDL_GetMoveProcWork(mmdl);
     if (FIELD_RAIL_WORK_IsMoving(work->railWork))
         FIELD_RAIL_WORK_QueryStep(work->railWork, FIELD_RAIL_WORK_GetLastKey(work->railWork), outLoc, 0);
@@ -395,7 +398,7 @@ int FLDMMDL_RAIL_GetHitBitsDir(Mmdl *mmdl, u32 dir, u32 *outAttr)
     int found;
     u32 curDir;
 
-    railMgr = FIELD_NOGRID_MAPPER_GetRailMan(FLDMMDL_SysGetNogridMapper(FLDMMDL_GetMmdlSys(mmdl)));
+    railMgr = FIELD_NOGRID_MAPPER_GetRailMan((struct FieldNogridMapper *)(FLDMMDL_SysGetNogridMapper(FLDMMDL_GetMmdlSys(mmdl))));
     work = FLDMMDL_GetMoveProcWork(mmdl);
     FIELD_RAIL_WORK_GetLocation(work->railWork, &nowLoc);
     curDir = FLDMMDL_GetDirDisp(mmdl);
@@ -425,7 +428,7 @@ int FLDMMDL_RAIL_CheckHitMmdl(Mmdl *mmdl, RailLocation *loc)
     int notCounted;
 
     mmdlSys = FLDMMDL_GetMmdlSys(mmdl);
-    railMgr = FIELD_NOGRID_MAPPER_GetRailMan(FLDMMDL_SysGetNogridMapper(mmdlSys));
+    railMgr = FIELD_NOGRID_MAPPER_GetRailMan((struct FieldNogridMapper *)(FLDMMDL_SysGetNogridMapper(mmdlSys)));
     iter = 0;
     FIELD_RAIL_GetLocationPos(railMgr, loc, &targetPos);
     reach = FX_Div(FIELD_RAIL_GetUnitScale(railMgr), 0x4000);
@@ -442,12 +445,12 @@ int FLDMMDL_RAIL_CheckHitMmdl(Mmdl *mmdl, RailLocation *loc)
             otherWork = FLDMMDL_RAIL_GetRailWork(other);
             if (FIELD_RAIL_WORK_IsMoving(otherWork)) {
                 FIELD_RAIL_WORK_QueryStep(otherWork, FIELD_RAIL_WORK_GetLastKey(otherWork), 0, &otherPos);
-                if (FIELD_RAIL_IsPosNear(&targetPos, &otherPos, reach)) {
+                if (FIELD_RAIL_IsPosNear((s32 *)(&targetPos), (s32 *)(&otherPos), reach)) {
                     return 1;
                 }
             }
             FIELD_RAIL_WORK_GetPrevPos(otherWork, &otherPos);
-            if (FIELD_RAIL_IsPosNear(&targetPos, &otherPos, reach)) {
+            if (FIELD_RAIL_IsPosNear((s32 *)(&targetPos), (s32 *)(&otherPos), reach)) {
                 return 1;
             }
         }
@@ -470,7 +473,7 @@ Mmdl *FLDMMDL_RAIL_SearchMmdlByLocation(MmdlSys *mmdlSys, RailLocation *loc, u32
     int notCounted;
 
     iter = 0;
-    railMgr = FIELD_NOGRID_MAPPER_GetRailMan(FLDMMDL_SysGetNogridMapper(mmdlSys));
+    railMgr = FIELD_NOGRID_MAPPER_GetRailMan((struct FieldNogridMapper *)(FLDMMDL_SysGetNogridMapper(mmdlSys)));
     FIELD_RAIL_GetLocationPos(railMgr, loc, &targetPos);
     reach = FX_Div(FIELD_RAIL_GetUnitScale(railMgr), 0x4000);
     while (FLDMMDL_SysSearchUseMmdl(mmdlSys, &other, &iter) == 1) {
@@ -480,13 +483,13 @@ Mmdl *FLDMMDL_RAIL_SearchMmdlByLocation(MmdlSys *mmdlSys, RailLocation *loc, u32
             if (includeNow) {
                 FLDMMDL_RAIL_GetNowLocation(other, &otherLoc);
                 FIELD_RAIL_GetLocationPos(railMgr, &otherLoc, &otherPos);
-                if (FIELD_RAIL_IsPosNear(&targetPos, &otherPos, reach)) {
+                if (FIELD_RAIL_IsPosNear((s32 *)(&targetPos), (s32 *)(&otherPos), reach)) {
                     return other;
                 }
             }
             FLDMMDL_RAIL_GetNextLocation(other, &otherNextLoc);
             FIELD_RAIL_GetLocationPos(railMgr, &otherNextLoc, &otherPos);
-            if (FIELD_RAIL_IsPosNear(&targetPos, &otherPos, reach)) {
+            if (FIELD_RAIL_IsPosNear((s32 *)(&targetPos), (s32 *)(&otherPos), reach)) {
                 return other;
             }
         }
@@ -511,7 +514,7 @@ int FLDMMDL_RAIL_GetLocationByDir(Mmdl *mmdl, u32 dir, RailLocation *outLoc)
     u32 curDir;
     RailMoveWork *work;
 
-    railMgr = FIELD_NOGRID_MAPPER_GetRailMan(FLDMMDL_SysGetNogridMapper(FLDMMDL_GetMmdlSys(mmdl)));
+    railMgr = FIELD_NOGRID_MAPPER_GetRailMan((struct FieldNogridMapper *)(FLDMMDL_SysGetNogridMapper(FLDMMDL_GetMmdlSys(mmdl))));
     curDir = FLDMMDL_GetDirDisp(mmdl);
     work = FLDMMDL_GetMoveProcWork(mmdl);
     if (curDir != dir) {
@@ -528,7 +531,7 @@ void FLDMMDL_RAIL_SetGridPosByDir(Mmdl *mmdl, u16 dir)
     VecFx32 pos;
     RailLocation nowLoc;
 
-    railMgr = FIELD_NOGRID_MAPPER_GetRailMan(FLDMMDL_SysGetNogridMapper(FLDMMDL_GetMmdlSys(mmdl)));
+    railMgr = FIELD_NOGRID_MAPPER_GetRailMan((struct FieldNogridMapper *)(FLDMMDL_SysGetNogridMapper(FLDMMDL_GetMmdlSys(mmdl))));
     FLDMMDL_RAIL_GetNextLocation(mmdl, &nowLoc);
     FIELD_RAIL_StepLocation(railMgr, &nowLoc, ZONEDATA_DirToRailKey(dir), &pos);
     FLDMMDL_SetGridOldX(mmdl, FLDMMDL_GetGridNowX(mmdl));
@@ -658,7 +661,7 @@ u32 FLDMMDL_RAIL_RailKeyToDir(int key)
 RailMoveWork *FLDMMDL_RAIL_InitMoveWork(Mmdl *mmdl, u32 size)
 {
     RailLocation startLoc;
-    int hasStartLoc = FLDMMDL_MOVE_GetRailMoveRequest(mmdl, &startLoc);
+    int hasStartLoc = FLDMMDL_MOVE_GetRailMoveRequest(mmdl, (u16 *)(&startLoc));
     RailMoveWork *work = FLDMMDL_InitMoveProcWork(mmdl, size);
     FLDMMDL_RAIL_InitRailWork(work, mmdl);
     if (hasStartLoc) {
@@ -780,7 +783,7 @@ void FLDMMDL_RAIL_ApplyStoredLocation(RailMoveWork *work, Mmdl *mmdl)
     if (work->location.type != _LOCATION_NOT_SET) {
         FIELD_RAIL_WORK_SetLocation(work->railWork, &work->location);
         FIELD_RAIL_WORK_GetPos(work->railWork, &pos);
-        FLDMMDL_SetPos(mmdl, &pos);
+        FLDMMDL_SetPos(mmdl, (struct MmdlVec *)(&pos));
     }
 }
 

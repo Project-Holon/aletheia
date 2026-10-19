@@ -64,7 +64,7 @@ struct SOCInAddr {
     unsigned int addr;
 };
 
-extern int SOC_Socket(void);
+extern int SOC_Socket(int pf, int type);
 extern int SOC_Close(int s);
 extern int SOCL_IsReleased(int s);
 extern int CheckRcode(int rcode, int errCode);
@@ -77,15 +77,15 @@ struct SOCSockAddr {
 } __attribute__((packed));
 extern int SOC_Bind(int s, void * sockAddr);
 extern int SOC_Connect(int s, void * sockAddr);
-extern int SOC_Recv(void);
-extern int SOC_RecvFrom(int s, void * buf, int len, int flags, void * sockFrom);
-extern int SOC_Send(void);
+extern int SOC_Recv(int s, void *buf, int len, int flags);
+extern int SOC_RecvFrom(int s, int buf, int len, int flags, unsigned char *sockFrom);
+extern int SOC_Send(int s, void *buf, int len, int flags);
 extern int SOC_SendTo(int s, void *buf, int len, int flags, void *sockTo);
 extern int SOC_Accept(int s, void * sockAddr);
 extern int SOC_InetAtoN(char *cp, unsigned long *inp);
 extern int SOC_Poll(GSPollFd *fds, int nfds, int timeout, int flags);
 extern int SOC_Fcntl(int sock, int cmd, int arg);
-extern int gsDebugFormat(int index, char *table, int mask, const char *fmt, ...);
+extern void gsDebugFormat(int cat, int type, int level, char *fmt, ...);
 extern int setsockopt(int s, int level, int optname, void * optval, int optlen);
 extern int GSISocketSelect(int theSocket, int * theReadFlag, int * theWriteFlag, int * theExceptFlag);
 extern unsigned long SOCL_GetHostID(void);
@@ -113,7 +113,7 @@ int getsockname(int sock, struct SOCSockAddr * addr, int * len);
 /*
  * The word the call fills in, or -1.
  */
-int inet_addr(int a);
+int inet_addr(char *a);
 /*
  * The word at +4 of the module state block.
  */
@@ -154,7 +154,7 @@ int CheckRcode(int rcode, int fallback)
 
 int socket(int pf, int type, int protocol)
 {
-    return CheckRcode(SOC_Socket(), -1);
+    return CheckRcode(SOC_Socket(pf, type), -1);
 }
 
 
@@ -226,7 +226,7 @@ int connect(int sock, const struct SOCSockAddr * addr, int len)
 
 int recv(int sock, char *buffer, int len, int flags)
 {
-    return CheckRcode(SOC_Recv(), -1);
+    return CheckRcode(SOC_Recv(sock, buffer, len, flags), -1);
 }
 
 
@@ -238,7 +238,7 @@ int recvfrom(int sock, char * buf, int len, int flags, struct SOCSockAddr * addr
     int rcode;
 
     addr->len = (unsigned char)*fromlen;
-    rcode = SOC_RecvFrom(sock, buf, len, flags, addr);
+    rcode = SOC_RecvFrom((int)sock, (int)buf, len, flags, (unsigned char *)addr);
     *fromlen = addr->len;
     return CheckRcode(rcode, -1);
 }
@@ -247,7 +247,7 @@ int recvfrom(int sock, char * buf, int len, int flags, struct SOCSockAddr * addr
 
 int send(int sock, char *buffer, int bufferLen, int flags)
 {
-    return CheckRcode(SOC_Send(), -1);
+    return CheckRcode(SOC_Send(sock, buffer, bufferLen, flags), -1);
 }
 
 
@@ -293,7 +293,7 @@ int getsockname(int sock, struct SOCSockAddr * addr, int * len)
 
 
 
-int inet_addr(int addrString)
+int inet_addr(char *addrString)
 {
     int v;
 

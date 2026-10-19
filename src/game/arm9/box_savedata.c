@@ -83,12 +83,13 @@ extern u32 POKE_TOOL_GetBoxValue(struct BoxPokemon *mon, u32 field, u32 arg);
 extern void POKE_TOOL_ClearBoxParam(struct BoxPokemon *mon);
 
 extern void POKE_TOOL_RecoverBoxAllPP(struct BoxPokemon *mon);
+struct MsgBank;
 
-extern struct MsgData *MSGDATA_CreateFromArchive(u32 resident, u32 archiveId, u32 fileId, u32 heapId);
+extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 archiveId, u32 fileId, u32 heapId);
 
-extern void MSGDATA_Delete(struct MsgData *msg);
+extern u32 MSGDATA_Delete(struct MsgBank *bank);
 
-extern void MSGDATA_ReadUnits(struct MsgData *msg, u32 index, u16 *dest, u32 maxLen);
+extern void MSGDATA_ReadUnits(struct MsgBank *bank, u32 msgIndex, u16 *str, u32 maxLen);
 
 extern void STRBUF_SetString(struct Strbuf *dest, const u16 *src);
 
@@ -178,12 +179,12 @@ void BOX_SAVEDATA_InitHeader(struct BoxSaveHeader *header)
         }
     }
     header->flags = 0;
-    boxNames = MSGDATA_CreateFromArchive(0, 2, 9, 1);
+    boxNames = (struct MsgData *)MSGDATA_CreateFromArchive(0, 2, 9, 1);
     if (boxNames != 0) {
         for (box = 0; box < MAX_BOXES; box++) {
-            MSGDATA_ReadUnits(boxNames, box + 6, header->names[box].chars, 0x14);
+            MSGDATA_ReadUnits((struct MsgBank *)boxNames, box + 6, header->names[box].chars, 0x14);
         }
-        MSGDATA_Delete(boxNames);
+        MSGDATA_Delete((struct MsgBank *)boxNames);
     }
     header->currentBox = 0;
     header->usableBoxCount = 8;

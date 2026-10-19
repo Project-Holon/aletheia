@@ -181,6 +181,7 @@ typedef struct RTCTime {
     u32 second;
 } RTCTime;
 
+#include "../version.h"
 #include "field_event_types.h"
 
 typedef struct SaveClock {
@@ -208,19 +209,21 @@ typedef struct EditWork {
 } EditWork;
 
 extern void *ZUKAN_SAVE_GetFromGameData(void *a);
-extern void *GAMESYSTEM_GetGameData(const struct GameSystem *p);
+struct GameData;
+extern struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *p);
 extern void *GAMESYSTEM_GetFieldMap(const struct GameSystem *p);
 extern void *GFL_HEAP_Alloc(u32 heap, u32 size, int clear, const char *site, u16 tag);
 extern u32 GFL_HEAP_Free(void *p);
 extern unsigned int PROCSYS_Main(void *p);
 extern int PROCSYS_Delete();
 extern void GFL_HEAP_CreateChildHeap(unsigned int a, unsigned int b, unsigned int c);
-extern void *PROCSYS_AllocProcWork(struct ProcSys *obj, u32 size, u32 heapId);
+struct Proc;
+extern void *PROCSYS_AllocProcWork(struct Proc *proc, u32 size, u32 heapId);
 extern void MI_CpuFill8(void *p, int v, int n);
-extern u8 *GAME_DATA_GetMyStatus(void *p);
+extern struct MyStatus *GAME_DATA_GetMyStatus(struct GameData *gd);
 extern u8 MYSTATUS_GetTrainerView(const struct MyStatus *obj);
 extern int GAME_BEACON_SetTrainerView();
-extern void PROCSYS_FreeProcWork(struct ProcSys *p);
+extern void PROCSYS_FreeProcWork(struct Proc *proc);
 extern void GFL_HEAP_DeleteChecked(unsigned int heapId);
 extern void *PROCSYS_Create(int heapId);
 extern void PROCSYS_Push(void *,u32,const void *,void *);
@@ -233,64 +236,80 @@ int TRCARD_SYS_ExitMinimal(void *proc, int state, int param, MinimalWork *work);
 int TRCARD_SYS_StateChooseScreen(TrainerCardWork *work, TrainerCardParam *param);
 int TRCARD_SYS_StateStartCardProc(TrainerCardWork *work);
 int TRCARD_SYS_StateWaitCardProc(TrainerCardWork *work);
-extern void *GAME_DATA_GetSaveControl(struct PlayerSave *p);
-extern int GREETING_SAVEDATA_GetFromSave(void);
-extern void GREETING_SAVEDATA_SetSentence(struct BeaconRecord *dst, int idx, struct BeaconRecord *src);
-extern void GAME_BEACON_SetPms(u32 pms);
+struct SaveControl;
+extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gd);
+extern void *GREETING_SAVEDATA_GetFromSave(u32 saveData);
+struct QuadRecord;
+extern void GREETING_SAVEDATA_SetSentence(struct QuadRecord *dst, s32 idx, struct QuadRecord *src);
+struct GameBeaconPms;
+extern void GAME_BEACON_SetPms(struct GameBeaconPms *pms);
 extern u32 RECORD_GetCounterClamped(struct RecordBlock *obj, int i);
-extern struct TrainerCardSignature *TRCARD_SIGN_GetFromSave(void *gameSystem);
-extern void *GAME_DATA_GetMiscSave(int *p);
-extern struct SaveClockOwner *CONSOLE_STAMP_GetDailyClock(void *gameSystem);
+extern struct TrainerCardSignature *TRCARD_SIGN_GetFromSave(struct SaveControl *control);
+extern void *GAME_DATA_GetMiscSave(struct GameData *gd);
+struct DailyClock;
+extern struct DailyClock *CONSOLE_STAMP_GetDailyClock(struct SaveControl *control);
 extern struct RecordBlock *RECORD_GetFromSave(void *gameSystem);
 extern void *GREETING_SAVEDATA_GetFromSaveThunk(u32 a);
-extern int MYSTATUS_IsNameEmpty(const u16 *values);
+extern int MYSTATUS_IsNameEmpty(struct MyStatus *mystatus);
 extern const void *MYSTATUS_GetName(const void *p);
 extern u8 MYSTATUS_GetSex(const struct MyStatus *obj);
 extern u32 MYSTATUS_GetId(const struct MyStatus *obj);
-extern u32 MISC_GetMoney(struct BadgeSave *p);
-extern u32 MISC_GetBadge(struct BadgeSave *p, u32 bit);
-extern int GAME_DATA_GetPlayTime(int gd);
+struct MiscSave;
+extern u32 MISC_GetMoney(struct MiscSave *beacon);
+extern u32 MISC_GetBadge(struct MiscSave *beacon, u32 bit);
+extern struct PlayTime *GAME_DATA_GetPlayTime(struct GameData *gd);
 extern u16 PLAYTIME_GetHours(const struct PlayTime *p);
 extern u8 PLAYTIME_GetMinutes(const struct PlayTime *p);
 extern u16 TRCARD_SIGN_GetColor(const struct TrainerCardSignature *obj);
 extern u8 TRCARD_SIGN_GetStyle(const struct TrainerCardSignature *obj);
-extern void GREETING_SAVEDATA_GetSentence(struct BeaconRecord *src, int idx, struct BeaconRecord *dst);
-extern u32 MISC_GetThanksCount(struct BadgeSave *p);
-extern u16 *INTRUDE_GetFromSave(void *gameSystem);
-extern void *GPOWER_LoadPowerTable(u32 heapId);
-extern void INTRUDE_GetObtainedFlags(struct BattleRecSave *p, u8 *dest, u32 n);
-extern void *GAME_DATA_GetLastBattleRecSlot(void *save);
-extern void GPOWER_FreePowerTable(void *p);
-extern u32 MISC_GetBestScore(struct BadgeSave *p);
+extern void GREETING_SAVEDATA_GetSentence(struct QuadRecord *src, s32 idx, struct QuadRecord *dst);
+extern u32 MISC_GetThanksCount(struct MiscSave *beacon);
+struct IntrudeSave;
+extern struct IntrudeSave *INTRUDE_GetFromSave(struct SaveControl *save);
+struct GPowerData;
+extern struct GPowerData *GPOWER_LoadPowerTable(u32 heapId);
+extern void INTRUDE_GetObtainedFlags(struct IntrudeSave *intrude, u8 *dest, u32 size);
+extern void *GAME_DATA_GetLastBattleRecSlot(struct GameData *gameData);
+extern void GPOWER_FreePowerTable(struct GPowerData *table);
+extern u32 MISC_GetBestScore(struct MiscSave *beacon);
 extern u32 RECORD_GetTrialScore(struct RecordBlock *obj);
 extern u8 RECORD_GetTrialRank(struct RecordBlock *obj);
-extern struct GameClearSave *BLOCK20_SAVEDATA_GetBlockFromSys(void *p);
-extern u8 CGEAR_SAVE_GetObtained(const struct GameClearSave *obj);
-extern unsigned long long INTRUDE_GetPlaySeconds(struct BattleRecSave *p);
-extern u32 GAME_DATA_GetEventWork(const struct BtlSetup *p);
-extern u32 ZONEDATA_CheckEventFlag(void *bitmap, int id);
+struct CgearSaveBlock;
+extern struct CgearSaveBlock *BLOCK20_SAVEDATA_GetBlockFromSys(void *p);
+struct CGearSave;
+extern u8 CGEAR_SAVE_GetObtained(struct CGearSave *save);
+extern unsigned long long INTRUDE_GetPlaySeconds(struct IntrudeSave *intrude);
+extern void *GAME_DATA_GetEventWork(struct GameData *gd);
+struct EventWork;
+extern u32 ZONEDATA_CheckEventFlag(struct EventWork *ev, s32 flagId);
 extern u32 ZUKAN_SAVE_CountSeen(struct ZukanSave *p, u32 heapId);
 extern int TRCARD_SIGN_HasAnySignature(const struct TrainerCardSignature *obj);
-extern void *TRCARD_SIGN_GetBitmap(void *p);
+extern u32 *TRCARD_SIGN_GetBitmap(struct TrainerCardSignature *card);
 extern int TOWN_MAP_SPOT_CountVisited(void *tbl, void *pos, u8 *flags);
 extern void MIi_CpuCopy16(const void *src, void *dst, u32 size);
 extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
 extern void RTC_ConvertSecondToDateTime(RTCDate *date, RTCTime *time, s64 sec);
 extern u16 STRBUF_GetEosChar(void);
-extern void *GAME_DATA_GetSaveBlock3A(void **p);
-extern void *GAME_DATA_GetSaveBlock2A(void *save);
-extern int ZUKAN_SAVE_IsNationalCaughtComplete(void *p);
-extern u32 BSUBWAY_SCOREDATA_AccessFlag(struct FlagSave *p, s32 i, u32 op);
-extern u32 MUSICAL_SAVE_HasAllProps(struct PlayerSave *p);
-extern u16 INTRUDE_GetMissionScore(struct BattleRecSave *p);
-extern u16 INTRUDE_GetMissionBonusScore(struct BattleRecSave *p);
-extern void *SCRCMD_WORK_GetGameSystem(void *work);
-extern void SP_POKE_GIMMICK_UpdatePairB(void *);
-extern void *SCRCMD_WORK_GetScriptWork(void *p);
-extern void *FIELD_GIMMICK_TIME_EFFECT_CallWaitEvent();
-extern int SCRIPT_SYS_CallEvent();
-extern u8 *GAME_DATA_GetFieldSave(struct PlayerSave *p);
-extern s32 *GIMMICK_WORK_GetWork(struct RecordFlags *p, u32 b);
+extern void *GAME_DATA_GetSaveBlock3A(struct GameData *gd);
+extern void *GAME_DATA_GetSaveBlock2A(struct GameData *gd);
+extern int ZUKAN_SAVE_IsNationalCaughtComplete(struct ZukanSave *pZukan);
+struct BsubwayScoreData;
+extern u32 BSUBWAY_SCOREDATA_AccessFlag(struct BsubwayScoreData *p, s32 i, u32 op);
+struct MusicalSave;
+extern u32 MUSICAL_SAVE_HasAllProps(struct MusicalSave *musical);
+extern u16 INTRUDE_GetMissionScore(struct IntrudeSave *intrude);
+extern u16 INTRUDE_GetMissionBonusScore(struct IntrudeSave *intrude);
+struct ScrcmdWork;
+extern struct GameSystem *SCRCMD_WORK_GetGameSystem(struct ScrcmdWork *work);
+struct FieldMap;
+extern void SP_POKE_GIMMICK_UpdatePairB(struct FieldMap *fieldMap);
+struct ScriptWork;
+extern struct ScriptWork *SCRCMD_WORK_GetScriptWork(struct ScrcmdWork *work);
+extern void *FIELD_GIMMICK_TIME_EFFECT_CallWaitEvent(void *gameSystem);
+extern void SCRIPT_SYS_CallEvent(void *scriptWork, void *task);
+extern u8 *GAME_DATA_GetFieldSave(struct GameData *gd);
+struct GimmickWork;
+extern s32 *GIMMICK_WORK_GetWork(struct GimmickWork *gimmick, u32 id);
 int TRCARD_SYS_StateStartEditProc(TrainerCardWork *work);
 int TRCARD_SYS_StateWaitEditProc(TrainerCardWork *work);
 int TRCARD_SYS_StateStartBadgeProc(TrainerCardWork *work);
@@ -401,7 +420,7 @@ int TRCARD_SYS_Exit(int proc, int state, TrainerCardParam *param, TrainerCardWor
     int outfit;
 
     if (param->linkFlag != 0) {
-        myStatus = GAME_DATA_GetMyStatus(param->saveData);
+        myStatus = (u8 *)GAME_DATA_GetMyStatus(param->saveData);
         outfit = MYSTATUS_GetTrainerView((const struct MyStatus *)myStatus);
         if (work->outfit != outfit)
             outfit = GAME_BEACON_SetTrainerView(outfit);
@@ -409,7 +428,7 @@ int TRCARD_SYS_Exit(int proc, int state, TrainerCardParam *param, TrainerCardWor
     param->result = work->param->result;
     GFL_HEAP_Free(work->param->profile);
     GFL_HEAP_Free(work->param);
-    PROCSYS_FreeProcWork((struct ProcSys *)proc);
+    PROCSYS_FreeProcWork((struct Proc *)proc);
     GFL_HEAP_DeleteChecked(0x26);
     return 1;
 }
@@ -520,16 +539,15 @@ int TRCARD_SYS_StateWaitEditProc(TrainerCardWork *work)
     if (TRCARD_SYS_RunChildProc(&work->childProc) == 0)
         return 4;
     if (work->editedBeacon != 0) {
-        GAME_DATA_GetSaveControl(work->param->saveData);
-        beaconSave = GREETING_SAVEDATA_GetFromSave();
+        beaconSave = (s32)GREETING_SAVEDATA_GetFromSave((u32)GAME_DATA_GetSaveControl(work->param->saveData));
         profile = work->param->profile;
         beacon = work->editedBeacon;
         profile->beaconRecord[0] = beacon[0];
         profile->beaconRecord[1] = beacon[1];
         profile->beaconRecord[2] = beacon[2];
         profile->beaconRecord[3] = beacon[3];
-        GREETING_SAVEDATA_SetSentence((struct BeaconRecord *)beaconSave, 0, (struct BeaconRecord *)work->editedBeacon);
-        GAME_BEACON_SetPms((u32)work->editedBeacon);
+        GREETING_SAVEDATA_SetSentence((struct QuadRecord *)beaconSave, 0, (struct QuadRecord *)work->editedBeacon);
+        GAME_BEACON_SetPms((struct GameBeaconPms *)work->editedBeacon);
     }
     return 1;
 }
@@ -663,7 +681,7 @@ void TRCARD_SYS_BuildProfile(TrainerCardProfile *out, void *save, int mode, int 
     out->trainerId = MYSTATUS_GetId(myStatus);
     out->money = MISC_GetMoney(badges);
     out->badgeMask = 0;
-    out->formatVersion = 0x15;
+    out->formatVersion = PM_VERSION_ID;
     for (badgeIndex = 0, badgeBit = 1; badgeIndex < 8; badgeIndex++) {
         if (MISC_GetBadge(badges, badgeIndex) == 1)
             out->badgeMask |= badgeBit;
@@ -671,7 +689,7 @@ void TRCARD_SYS_BuildProfile(TrainerCardProfile *out, void *save, int mode, int 
     }
 
     if (mode == 1) {
-        scratch = (void *)GAME_DATA_GetPlayTime((int)save);
+        scratch = (void *)GAME_DATA_GetPlayTime((struct GameData *)save);
         out->outfit = (u32)MYSTATUS_GetTrainerView(myStatus);
         out->isLinkMode = 0;
         out->playTimeSource = 0;
@@ -680,11 +698,11 @@ void TRCARD_SYS_BuildProfile(TrainerCardProfile *out, void *save, int mode, int 
     } else {
         out->outfit = (u32)MYSTATUS_GetTrainerView(myStatus);
         out->isLinkMode = 1;
-        out->playTimeSource = (u32)GAME_DATA_GetPlayTime((int)save);
+        out->playTimeSource = (u32)GAME_DATA_GetPlayTime((struct GameData *)save);
     }
     out->signatureColor = (u32)TRCARD_SIGN_GetColor(signature);
     out->signatureStyle = (u32)TRCARD_SIGN_GetStyle(signature);
-    GREETING_SAVEDATA_GetSentence(beaconData, (u32)0, (struct BeaconRecord *)out->beaconRecord);
+    GREETING_SAVEDATA_GetSentence((struct QuadRecord *)beaconData, (u32)0, (struct QuadRecord *)out->beaconRecord);
 
     RTC_ConvertSecondToDateTime(&date, &time, saveClock->firstPlaySec);
     out->startYear = date.year;
@@ -725,8 +743,8 @@ void TRCARD_SYS_BuildProfile(TrainerCardProfile *out, void *save, int mode, int 
     out->badgeExtraCount = MISC_GetBestScore(badges);
     out->recordTopValue = RECORD_GetTrialScore(records);
     out->recordTopFlag = (u32)RECORD_GetTrialRank(records);
-    out->isGameCleared = (u32)CGEAR_SAVE_GetObtained((const struct GameClearSave *)BLOCK20_SAVEDATA_GetBlockFromSys(save));
-    if (INTRUDE_GetPlaySeconds((struct BattleRecSave *)INTRUDE_GetFromSave(playerSave)) != 0)
+    out->isGameCleared = (u32)CGEAR_SAVE_GetObtained((struct CGearSave *)BLOCK20_SAVEDATA_GetBlockFromSys(save));
+    if (INTRUDE_GetPlaySeconds((struct IntrudeSave *)INTRUDE_GetFromSave(playerSave)) != 0)
         out->hasBattleRecord = 1;
     if (out->recordSum8 != 0)
         out->hasRecordSum8 = 1;
@@ -866,5 +884,5 @@ int TRCARD_SYS_ScrCmdRunScriptTask(void *unused, void *scriptCtx)
  */
 void TRCARD_SYS_SetRecordFlag36(void *gameSystem)
 {
-    *GIMMICK_WORK_GetWork((struct RecordFlags *)GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(gameSystem)), 0x36) = 1;
+    *GIMMICK_WORK_GetWork((struct GimmickWork *)GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(gameSystem)), 0x36) = 1;
 }

@@ -85,21 +85,27 @@
 #include "btl_server_types.h"
 
 extern u8 BTL_POKEPARAM_GetPokeId(u8 *p);
-extern int BTL_MAIN_GetCompetitor(struct BtlMain *main);
-extern void *BTL_POKEPARAM_GetMon(void *m);
-extern u32 POKE_TOOL_GetPartyValue(void *p, u32 id, void *dst);
+struct BtlMain;
+extern u32 BTL_MAIN_GetCompetitor(struct BtlMain *main);
+struct BtlPokeParam;
+struct PokemonParam;
+extern struct PokemonParam *BTL_POKEPARAM_GetMon(struct BtlPokeParam *pp);
+extern u32 POKE_TOOL_GetPartyValue(struct PokemonParam *pp, u32 paramId, u32 arg);
 extern u32 BTL_MAIN_GetRule(struct BtlMain *main);
 extern u32 GFL_HEAP_Free(void *p);
-extern void *STRBUF_Create(u32 capacity, u32 heapId);
+struct Strbuf;
+extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
 extern void BTL_CALC_SetRngState(void *);
 extern void *GFL_HEAP_Alloc(u16, unsigned int, int, const char *, u16);
-extern void *BTL_ADAPTER_Create(u32, int, u32, u32);
-extern void STRBUF_Delete(void *strBuf);
-extern void BTL_ADAPTER_Delete(void *p);
+struct BtlAdapter;
+extern struct BtlAdapter *BTL_ADAPTER_Create(u32, int, u32, u32);
+extern void STRBUF_Delete(struct Strbuf *strbuf);
+extern void BTL_ADAPTER_Delete(struct BtlAdapter *adapter);
 extern u8 BTL_MAIN_GetCommPos(struct BtlMain *main);
 extern void *BTL_ADAPTER_GetSendBuffer(void *adapter, u32 *out);
 extern int BTL_MAIN_CheckShiftModePrompt(struct BtlMain *main);
-extern u32 BTL_ACTION_GetKind(Action *);
+union BtlAction;
+extern u32 BTL_ACTION_GetKind(union BtlAction *action);
 extern u8 *BTL_REC_MakeResetPacket(u8 *p, unsigned int *out);
 extern u16 BTL_MAIN_GetWinBgm(struct BtlMain *main);
 extern void GFL_USE_CancelChangeAndPlayBgm(u32, u32);
@@ -115,9 +121,9 @@ extern void *BTL_REC_FinishPacket(u8 *recorder, int stage, unsigned int *outSize
 extern void BTL_ADAPTER_NotifyNet(void);
 extern void BTL_ADAPTER_SetSendData(void *adapter, int command, const void *data, int size);
 extern void BTL_ADAPTER_Idle(void);
-extern void BTL_ADAPTER_Cancel(void *adapter);
-extern int BTL_ADAPTER_Update(void *adapter);
-extern void BTL_ADAPTER_ResetCommand(void *adapter);
+extern void BTL_ADAPTER_Cancel(struct BtlAdapter *adapter);
+extern int BTL_ADAPTER_Update(struct BtlAdapter *adapter);
+extern void BTL_ADAPTER_ResetCommand(struct BtlAdapter *adapter);
 extern void GAME_BEACON_SetPokeLevelUp(void *strBuf);
 extern void GAME_BEACON_SetPokeCapture(u16);
 u8 BTL_MAIN_GetSlotClientIdThunk(struct BtlMain *main, int clientId);
@@ -128,10 +134,12 @@ void BTL_MAIN_SetOutcomeIfUnset(struct BtlMain *main,u32 x);
 int BTL_MAIN_JudgeResultThunk(struct BtlMain *main);
 void BTL_MAIN_AddBonusMoney(struct BtlMain *main, int add);
 void BTL_MAIN_SetDoubleMoney(struct BtlMain *main);
-u8 *BTL_SIDE_GetClientPoke(void *p, u32 i, u8 j);
-void *BTL_SIDE_GetSlotOfClient(void *partyTable, int clientId);
-u8 BTL_SLOT_GetCount(void *party);
-u8 BTL_SLOT_CountLiving(void *party);
+struct BtlSide;
+struct BtlPokeParam *BTL_SIDE_GetClientPoke(struct BtlSide *side, u32 clientId, u8 nth);
+struct BtlSideSlot;
+struct BtlSideSlot *BTL_SIDE_GetSlotOfClient(struct BtlSide *side, s32 clientId);
+u8 BTL_SLOT_GetCount(struct BtlSideSlot *slot);
+u8 BTL_SLOT_CountLiving(struct BtlSideSlot *slot);
 void BTL_MAIN_TrainerRecordAdd(struct BtlMain *main, int i);
 int BTL_MAIN_IsOwnWindowWaiting(struct BtlMain *main);
 int BTL_MAIN_CheckOwnWindowDone(struct BtlMain *main);
@@ -190,21 +198,22 @@ void BTL_SERVER_FinishMainCounter(BtlServer *server);
 void BTL_SERVER_ClearPokeChangeRequests(BtlServer *server);
 void BTL_SERVER_AddPokeChangeRequest(BtlServer *server, u32 clientId);
 void *BTL_SERVER_GetFlow(BtlServer *server);
-void *BTL_SERVER_FLOW_Create(BtlServer *server, struct BtlMain *main, void *partyTable, void *sendBuf, int flowParam, u16 heapId);
-void BTL_SERVER_FLOW_Reset(void *flow);
-void BTL_SERVER_FLOW_Destroy(void *flow);
-int BTL_SERVER_FLOW_RunBattleStart(void *flow);
-void BTL_SERVER_FLOW_ResetInitState(void *flow);
-int BTL_SERVER_FLOW_StartTurn(void *flow, void *reply);
-void BTL_SERVER_FLOW_ResetInitStateAfterSelect(void *flow);
-int BTL_SERVER_FLOW_StartAfterPokeSelect(void *flow, void *reply);
-void BTL_SERVER_FLOW_ResetInitStateAfterChange(void *flow);
-int BTL_SERVER_FLOW_StartAfterPokeChange(void *flow, void *reply);
-int BTL_SERVER_FLOW_RunEscapeFromLead(void *flow);
-int BTL_SERVER_FLOW_RunBagModeSetup(void *flow);
+struct BtlServerFlow;
+struct BtlServerFlow *BTL_SERVER_FLOW_Create(void *server, void *mainModule, void *pokeCon, void *cmdQueue, s32 bagMode, u16 heap);
+void BTL_SERVER_FLOW_Reset(struct BtlServerFlow *flow);
+void BTL_SERVER_FLOW_Destroy(u8 *flow);
+int BTL_SERVER_FLOW_RunBattleStart(struct BtlServerFlow *flow);
+void BTL_SERVER_FLOW_ResetInitState(u8 *work);
+int BTL_SERVER_FLOW_StartTurn(struct BtlServerFlow *flow, s32 actionTable);
+void BTL_SERVER_FLOW_ResetInitStateAfterSelect(u8 *work);
+int BTL_SERVER_FLOW_StartAfterPokeSelect(struct BtlServerFlow *flow, s32 actionTable);
+void BTL_SERVER_FLOW_ResetInitStateAfterChange(u8 *work);
+int BTL_SERVER_FLOW_StartAfterPokeChange(struct BtlServerFlow *flow, s32 actionTable);
+int BTL_SERVER_FLOW_RunEscapeFromLead(struct BtlServerFlow *flow);
+int BTL_SERVER_FLOW_RunBagModeSetup(struct BtlServerFlow *flow);
 BtlWordPair *BTL_SERVER_FLOW_GetSlotTable(void *flow);
-u8 BTL_SERVER_FLOW_GetChosenSlot(void *flow);
-int BTL_SERVER_FLOW_GetBattleResult(void *flow);
+u8 BTL_SERVER_FLOW_GetChosenSlot(struct BtlServerFlow *flow);
+int BTL_SERVER_FLOW_GetBattleResult(u8 *flow);
 extern u8 gBtlServerFileName[];
 
 
@@ -411,7 +420,7 @@ int BTL_SERVER_StepSelectCommands(BtlServer *server, int *step)
         BTL_SERVER_ClearReplies(server);
         (*step)++;
     case 6:
-        server->flowResult = BTL_SERVER_FLOW_StartTurn(server->flow, server->reply);
+        server->flowResult = BTL_SERVER_FLOW_StartTurn(server->flow, (s32)server->reply);
         if (BTL_MAIN_GetCommPos(server->main))
             BTL_SERVER_NoOp(server->reply);
         {
@@ -545,7 +554,7 @@ int BTL_SERVER_StepRequestPokeChange(BtlServer *server, int *step)
         BTL_SERVER_FLOW_ResetInitStateAfterChange(server->flow);
         (*step)++;
     case 5:
-        server->flowResult = BTL_SERVER_FLOW_StartAfterPokeChange(server->flow, server->reply);
+        server->flowResult = BTL_SERVER_FLOW_StartAfterPokeChange(server->flow, (s32)server->reply);
         {
             int *buf = server->sendBuf;
             BTL_SERVER_SendCommandData(server, 8, buf + 2, *buf);
@@ -599,8 +608,8 @@ u32 BTL_SERVER_GetShiftPromptMon(BtlServer *server)
     Action *action;
     if (BTL_SERVER_IsClientSlotUsed(client) != 0) {
         action = BTL_ADAPTER_GetSendBuffer(client->adapter, 0);
-        if (BTL_ACTION_GetKind(action) == 3) {
-            u8 *party = BTL_SIDE_GetClientPoke(server->partyTable, 1, action->small.move);
+        if (BTL_ACTION_GetKind((union BtlAction *)action) == 3) {
+            u8 *party = (u8 *)BTL_SIDE_GetClientPoke(server->partyTable, 1, action->small.move);
             return BTL_POKEPARAM_GetPokeId(party);
         }
     }
@@ -641,7 +650,7 @@ int BTL_SERVER_StepRequestPokeReplace(BtlServer *server, int *step)
         buf = server->sendBuf;
         buf[0] = 0;
         buf[1] = 0;
-        server->flowResult = BTL_SERVER_FLOW_StartAfterPokeSelect(server->flow, server->reply);
+        server->flowResult = BTL_SERVER_FLOW_StartAfterPokeSelect(server->flow, (s32)server->reply);
         buf = server->sendBuf;
         BTL_SERVER_SendCommandData(server, 8, buf + 2, buf[0]);
         (*step)++;
@@ -888,15 +897,15 @@ int BTL_SERVER_CompareFlowOutput(BtlServer *server, int stage, void *expected, u
         break;
     case 1:
         BTL_SERVER_FLOW_ResetInitState(server->flow);
-        BTL_SERVER_FLOW_StartTurn(server->flow, server->reply);
+        BTL_SERVER_FLOW_StartTurn(server->flow, (s32)server->reply);
         break;
     case 2:
         BTL_SERVER_FLOW_ResetInitStateAfterChange(server->flow);
-        BTL_SERVER_FLOW_StartAfterPokeChange(server->flow, server->reply);
+        BTL_SERVER_FLOW_StartAfterPokeChange(server->flow, (s32)server->reply);
         break;
     case 3:
         BTL_SERVER_FLOW_ResetInitStateAfterSelect(server->flow);
-        BTL_SERVER_FLOW_StartAfterPokeSelect(server->flow, server->reply);
+        BTL_SERVER_FLOW_StartAfterPokeSelect(server->flow, (s32)server->reply);
         break;
     }
     buf = server->sendBuf;
@@ -1077,7 +1086,7 @@ Action BTL_SERVER_GetActionTableEntry(BtlServerActionTable *table, u8 row, u8 co
 }
 
 void BTL_SERVER_NotifyLevelUp(BtlServer *server, u32 *pokeParam) {
-    POKE_TOOL_GetPartyValue(BTL_POKEPARAM_GetMon(pokeParam),0x73,server->nameBuf);
+    POKE_TOOL_GetPartyValue(BTL_POKEPARAM_GetMon((struct BtlPokeParam *)pokeParam),(u32)0x73,(u32)server->nameBuf);
     GAME_BEACON_SetPokeLevelUp(server->nameBuf);
 }
 
@@ -1085,7 +1094,7 @@ void BTL_SERVER_NotifyLevelUp(BtlServer *server, u32 *pokeParam) {
  * evidence: caller narrows POKE_TOOL_GetPartyValue result to u16 before 020271DC.
  */
 void BTL_SERVER_NotifyCapture(BtlServer *server, u32 *pokeParam) {
-    GAME_BEACON_SetPokeCapture(POKE_TOOL_GetPartyValue(BTL_POKEPARAM_GetMon(pokeParam),5,0));
+    GAME_BEACON_SetPokeCapture(POKE_TOOL_GetPartyValue(BTL_POKEPARAM_GetMon((struct BtlPokeParam *)pokeParam),5,0));
     BTL_MAIN_TrainerRecordAdd(server->main,7);
     BTL_MAIN_TrainerRecordAdd(server->main,0x54);
 }

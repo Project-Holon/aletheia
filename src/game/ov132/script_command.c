@@ -94,6 +94,9 @@
  *   STA_ACT_SCRIPT_StepTaskVec 0x021FAE4C thumb ov132
  *   STA_ACT_SCRIPT_StepTaskActor 0x021FAEA8 thumb ov132
  *   STA_ACT_SCRIPT_TickSlot 0x021FAEE8 thumb ov132
+ *   _fdiv                        0x0209CE10  arm
+ *   _fflt                        0x0209BDBC  arm
+ *   _u32_div_f                   0x0209C2B0  arm
  */
 #include "ov132_types.h"
 #include "sta_acting_shared_types.h"
@@ -145,8 +148,9 @@ extern void *STA_ACTING_GetCharSlot(void *,u8);
 extern void STA_ACT_LIGHT_GetElemPos(void *,char *,Vec *);
 
 extern void VEC_Add(const Vec *, const Vec *, Vec *);
+struct ScriptVm;
 
-extern u32 VM_GetU32(struct Cursor *p);
+extern u32 VM_GetU32(struct ScriptVm *vm);
 
 extern void STA_ACTING_PlayRankSe(char *p);
 
@@ -174,7 +178,7 @@ extern void STA_ACT_LIGHT_SetRenderAnim(int, void *, u8);
 
 extern void STA_ACT_LIGHT_SetActorVisible(int a, u8 *p, int b);
 
-extern int STA_ACT_LIGHT_SetElemValue(int unused, int *elem, int value);
+extern int STA_ACT_LIGHT_SetElemValue(void *unused, int *elem, int value);
 
 extern void STA_ACTING_PositionAnim(char *p, unsigned i);
 
@@ -189,9 +193,9 @@ extern void STA_ACT_LIGHT_SetActorOffset(void *unused, u32 *p, const u32 *q);
 
 extern void STA_ACT_LIGHT_SetActorAngle(int self, char *p, u16 v);
 
-extern u16 STA_ACTING_GetRecordScore(char *p, u32 i);
+extern unsigned char STA_ACTING_GetRecordScore(char *p, u32 i);
 
-extern u16 STA_ACTING_GetBonus(char *p, u32 i);
+extern unsigned char STA_ACTING_GetBonus(char *p, u32 i);
 
 extern void STA_ACTING_SetCameraHoldScore(char *p, u32 v);
 
@@ -525,7 +529,7 @@ void SCRIPT_COMMAND_TaskCameraTarget(void *unused, char *p)
     }
 }
 
-int SCRIPT_COMMAND_CmdSkipArg(void *unused,char *p) { VM_GetU32(*(struct Cursor * *)&((struct ScriptCtx *)p)->vm); return 0; }
+int SCRIPT_COMMAND_CmdSkipArg(void *unused,char *p) { VM_GetU32(*(struct ScriptVm * *)&((struct ScriptCtx *)p)->vm); return 0; }
 
 int SCRIPT_COMMAND_CmdShowButton(int unused, char **ctx)
 {
@@ -797,7 +801,7 @@ int SCRIPT_COMMAND_CmdSetActorLight(int unused, char *p)
     ctx = STA_ACTING_GetActorSystem(((struct ScriptOwner *)obj)->scene);
     for (i = 0; i < 4; i++) {
         if ((1 << i) & mask) {
-            STA_ACT_LIGHT_SetElemValue((int)ctx, STA_ACTING_GetActor(((struct ScriptOwner *)obj)->scene, i), value != 0);
+            STA_ACT_LIGHT_SetElemValue(ctx, STA_ACTING_GetActor(((struct ScriptOwner *)obj)->scene, i), value != 0);
         }
     }
     return 0;
@@ -824,7 +828,7 @@ int SCRIPT_COMMAND_CmdPositionAnim(int unused, char *p)
 /*
  * extent: Two bytes of zero alignment padding follow the 58-byte body.
  */
-int SCRIPT_COMMAND_CmdSetSelection(int unused,char *p) { char *obj; int mask; unsigned char i; obj=*(char * *)&((struct ScriptCtx *)p)->system; mask=SCRIPT_COMMAND_GetActorMask(p,VM_GetU32(*(struct Cursor * *)&((struct ScriptCtx *)p)->vm)); for(i=0;i<4;i++)if((1<<i)&mask)STA_ACTING_SetSelection(*(char * *)&((struct ScriptOwner *)obj)->scene,i,1); return 0; }
+int SCRIPT_COMMAND_CmdSetSelection(int unused,char *p) { char *obj; int mask; unsigned char i; obj=*(char * *)&((struct ScriptCtx *)p)->system; mask=SCRIPT_COMMAND_GetActorMask(p,VM_GetU32(*(struct ScriptVm * *)&((struct ScriptCtx *)p)->vm)); for(i=0;i<4;i++)if((1<<i)&mask)STA_ACTING_SetSelection(*(char * *)&((struct ScriptOwner *)obj)->scene,i,1); return 0; }
 
 int SCRIPT_COMMAND_CmdClearSelection(int unused,char *p) { char *obj; obj=*(char * *)&((struct ScriptCtx *)p)->system; STA_ACTING_SetSelection(*(char * *)&((struct ScriptOwner *)obj)->scene,0,0);STA_ACTING_SetSelection(*(char * *)&((struct ScriptOwner *)obj)->scene,1,0);STA_ACTING_SetSelection(*(char * *)&((struct ScriptOwner *)obj)->scene,2,0);STA_ACTING_SetSelection(*(char * *)&((struct ScriptOwner *)obj)->scene,3,0);return 0; }
 
@@ -832,9 +836,9 @@ int SCRIPT_COMMAND_CmdClearSelection(int unused,char *p) { char *obj; obj=*(char
  * prototype: Original caller narrows both 021F9140 arguments to bytes,
  * overriding its own source's wider parameters; 021F9AD8 index is byte too.
  */
-int SCRIPT_COMMAND_CmdLoadRankAnim(int unused,char *p) { char *obj; unsigned int index,n; obj=*(char * *)&((struct ScriptCtx *)p)->system;index=VM_GetU32(*(struct Cursor * *)&((struct ScriptCtx *)p)->vm);n=VM_GetU32(*(struct Cursor * *)&((struct ScriptCtx *)p)->vm);STA_ACTING_LoadRankAnim(*(unsigned char * *)&((struct ScriptOwner *)obj)->scene,n,index);STA_ACTING_ScheduleActions(*(char * *)&((struct ScriptOwner *)obj)->scene,1,index);return 0; }
+int SCRIPT_COMMAND_CmdLoadRankAnim(int unused,char *p) { char *obj; unsigned int index,n; obj=*(char * *)&((struct ScriptCtx *)p)->system;index=VM_GetU32(*(struct ScriptVm * *)&((struct ScriptCtx *)p)->vm);n=VM_GetU32(*(struct ScriptVm * *)&((struct ScriptCtx *)p)->vm);STA_ACTING_LoadRankAnim(*(unsigned char * *)&((struct ScriptOwner *)obj)->scene,n,index);STA_ACTING_ScheduleActions(*(char * *)&((struct ScriptOwner *)obj)->scene,1,index);return 0; }
 
-int SCRIPT_COMMAND_CmdLoadAnimMember(int unused,char *p) { char *obj; int mask; unsigned int n; obj=*(char * *)&((struct ScriptCtx *)p)->system;mask=SCRIPT_COMMAND_GetActorMask(p,VM_GetU32(*(struct Cursor * *)&((struct ScriptCtx *)p)->vm));n=VM_GetU32(*(struct Cursor * *)&((struct ScriptCtx *)p)->vm);STA_ACTING_LoadAnimMember((char *)(*(unsigned char * *)&((struct ScriptOwner *)obj)->scene),n,mask);return 0; }
+int SCRIPT_COMMAND_CmdLoadAnimMember(int unused,char *p) { char *obj; int mask; unsigned int n; obj=*(char * *)&((struct ScriptCtx *)p)->system;mask=SCRIPT_COMMAND_GetActorMask(p,VM_GetU32(*(struct ScriptVm * *)&((struct ScriptCtx *)p)->vm));n=VM_GetU32(*(struct ScriptVm * *)&((struct ScriptCtx *)p)->vm);STA_ACTING_LoadAnimMember((char *)(*(unsigned char * *)&((struct ScriptOwner *)obj)->scene),n,mask);return 0; }
 
 /*
  * note: task allocation is 32 bytes; the product local reproduces count-first multiply scheduling.
@@ -1071,16 +1075,16 @@ int SCRIPT_COMMAND_CmdSetFlags(int unused, char *p)
  * prototype: 021F6B18's own source reads r0 only; this caller additionally
  * supplies r1 as a narrowed halfword, retained as an unused second input.
  */
-int SCRIPT_COMMAND_CmdAddEntry(int unused,char *p) { char *obj; unsigned int a,b; struct Entry *entry;obj=*(char * *)&((struct ScriptCtx *)p)->system;a=VM_GetU32(*(struct Cursor * *)&((struct ScriptCtx *)p)->vm);b=VM_GetU32(*(struct Cursor * *)&((struct ScriptCtx *)p)->vm);entry=STA_ACT_OBJ_AddEntry(STA_ACTING_GetActObj(((struct ScriptOwner *)obj)->scene),b);STA_ACTING_SetSlot(((struct ScriptOwner *)obj)->scene,entry,(unsigned char)a);return 0; }
+int SCRIPT_COMMAND_CmdAddEntry(int unused,char *p) { char *obj; unsigned int a,b; struct Entry *entry;obj=*(char * *)&((struct ScriptCtx *)p)->system;a=VM_GetU32(*(struct ScriptVm * *)&((struct ScriptCtx *)p)->vm);b=VM_GetU32(*(struct ScriptVm * *)&((struct ScriptCtx *)p)->vm);entry=STA_ACT_OBJ_AddEntry(STA_ACTING_GetActObj(((struct ScriptOwner *)obj)->scene),b);STA_ACTING_SetSlot(((struct ScriptOwner *)obj)->scene,entry,(unsigned char)a);return 0; }
 
 /*
  * extent: Two bytes of zero alignment padding follow the 54-byte body.
  */
-int SCRIPT_COMMAND_CmdFreeEntry(int unused,char *p) { char *obj; unsigned int n; void *ctx; obj=*(char * *)&((struct ScriptCtx *)p)->system;n=VM_GetU32(*(struct Cursor * *)&((struct ScriptCtx *)p)->vm);ctx=STA_ACTING_GetActObj(((struct ScriptOwner *)obj)->scene);STA_ACT_OBJ_FreeEntry(ctx,STA_ACTING_GetSlot(((struct ScriptOwner *)obj)->scene,n));STA_ACTING_SetSlot(((struct ScriptOwner *)obj)->scene,0,(unsigned char)n);return 0; }
+int SCRIPT_COMMAND_CmdFreeEntry(int unused,char *p) { char *obj; unsigned int n; void *ctx; obj=*(char * *)&((struct ScriptCtx *)p)->system;n=VM_GetU32(*(struct ScriptVm * *)&((struct ScriptCtx *)p)->vm);ctx=STA_ACTING_GetActObj(((struct ScriptOwner *)obj)->scene);STA_ACT_OBJ_FreeEntry(ctx,STA_ACTING_GetSlot(((struct ScriptOwner *)obj)->scene,n));STA_ACTING_SetSlot(((struct ScriptOwner *)obj)->scene,0,(unsigned char)n);return 0; }
 
-int SCRIPT_COMMAND_CmdShowEntry(int unused,char *p) { char *obj; unsigned int n; void *ctx; obj=*(char * *)&((struct ScriptCtx *)p)->system;n=VM_GetU32(*(struct Cursor * *)&((struct ScriptCtx *)p)->vm);ctx=STA_ACTING_GetActObj(((struct ScriptOwner *)obj)->scene);STA_ACT_LIGHT_SetElemVisible(ctx,STA_ACTING_GetSlot(((struct ScriptOwner *)obj)->scene,n),1);return 0; }
+int SCRIPT_COMMAND_CmdShowEntry(int unused,char *p) { char *obj; unsigned int n; void *ctx; obj=*(char * *)&((struct ScriptCtx *)p)->system;n=VM_GetU32(*(struct ScriptVm * *)&((struct ScriptCtx *)p)->vm);ctx=STA_ACTING_GetActObj(((struct ScriptOwner *)obj)->scene);STA_ACT_LIGHT_SetElemVisible(ctx,STA_ACTING_GetSlot(((struct ScriptOwner *)obj)->scene,n),1);return 0; }
 
-int SCRIPT_COMMAND_CmdHideEntry(int unused,char *p) { char *obj; unsigned int n; void *ctx; obj=*(char * *)&((struct ScriptCtx *)p)->system;n=VM_GetU32(*(struct Cursor * *)&((struct ScriptCtx *)p)->vm);ctx=STA_ACTING_GetActObj(((struct ScriptOwner *)obj)->scene);STA_ACT_LIGHT_SetElemVisible(ctx,STA_ACTING_GetSlot(((struct ScriptOwner *)obj)->scene,n),0);return 0; }
+int SCRIPT_COMMAND_CmdHideEntry(int unused,char *p) { char *obj; unsigned int n; void *ctx; obj=*(char * *)&((struct ScriptCtx *)p)->system;n=VM_GetU32(*(struct ScriptVm * *)&((struct ScriptCtx *)p)->vm);ctx=STA_ACTING_GetActObj(((struct ScriptOwner *)obj)->scene);STA_ACT_LIGHT_SetElemVisible(ctx,STA_ACTING_GetSlot(((struct ScriptOwner *)obj)->scene,n),0);return 0; }
 
 int SCRIPT_COMMAND_CmdSetEntryTarget(int unused,char *p)
 {
@@ -1125,9 +1129,9 @@ void SCRIPT_COMMAND_TaskEntryTarget(int unused,char *p) { int pos[3]; void *ctx;
  * prototype: Own 021F9EDC source takes u16; original caller passes the
  * full word b+0x33 without truncation, so the extern parameter is widened.
  */
-int SCRIPT_COMMAND_CmdSetAnimSlot(int unused,char *p) { char *obj; unsigned int a,b; char *entry;obj=*(char * *)&((struct ScriptCtx *)p)->system;a=VM_GetU32(*(struct Cursor * *)&((struct ScriptCtx *)p)->vm);b=VM_GetU32(*(struct Cursor * *)&((struct ScriptCtx *)p)->vm);entry=STA_ACT_EFFECT_StartSystem(STA_ACTING_GetEffectSystem(((struct ScriptOwner *)obj)->scene),b+0x33);STA_ACTING_SetAnimSlot(((struct ScriptOwner *)obj)->scene,entry,(unsigned char)a);return 0; }
+int SCRIPT_COMMAND_CmdSetAnimSlot(int unused,char *p) { char *obj; unsigned int a,b; char *entry;obj=*(char * *)&((struct ScriptCtx *)p)->system;a=VM_GetU32(*(struct ScriptVm * *)&((struct ScriptCtx *)p)->vm);b=VM_GetU32(*(struct ScriptVm * *)&((struct ScriptCtx *)p)->vm);entry=STA_ACT_EFFECT_StartSystem(STA_ACTING_GetEffectSystem(((struct ScriptOwner *)obj)->scene),b+0x33);STA_ACTING_SetAnimSlot(((struct ScriptOwner *)obj)->scene,entry,(unsigned char)a);return 0; }
 
-int SCRIPT_COMMAND_CmdFreeAnimSlot(int unused,char *p) { char *o; u32 a; void *ctx; o=*(char * *)&((struct ScriptCtx *)p)->system; a=VM_GetU32(*(struct Cursor * *)&((struct ScriptCtx *)p)->vm); ctx=STA_ACTING_GetEffectSystem(((struct ScriptOwner *)o)->scene); STA_ACT_EFFECT_KillSystem(ctx,STA_ACTING_GetAnimSlot(((struct ScriptOwner *)o)->scene,a)); STA_ACTING_SetAnimSlot(((struct ScriptOwner *)o)->scene,0,(u8)a); return 0; }
+int SCRIPT_COMMAND_CmdFreeAnimSlot(int unused,char *p) { char *o; u32 a; void *ctx; o=*(char * *)&((struct ScriptCtx *)p)->system; a=VM_GetU32(*(struct ScriptVm * *)&((struct ScriptCtx *)p)->vm); ctx=STA_ACTING_GetEffectSystem(((struct ScriptOwner *)o)->scene); STA_ACT_EFFECT_KillSystem(ctx,STA_ACTING_GetAnimSlot(((struct ScriptOwner *)o)->scene,a)); STA_ACTING_SetAnimSlot(((struct ScriptOwner *)o)->scene,0,(u8)a); return 0; }
 
 int SCRIPT_COMMAND_CmdStartEffect(int unused, char *p)
 {
@@ -1149,7 +1153,7 @@ int SCRIPT_COMMAND_CmdStartEffect(int unused, char *p)
     return 0;
 }
 
-int SCRIPT_COMMAND_CmdKillEffect(int unused,char *p) { char *o; u32 a,b; o=*(char * *)&((struct ScriptCtx *)p)->system; a=VM_GetU32(*(struct Cursor * *)&((struct ScriptCtx *)p)->vm); b=VM_GetU32(*(struct Cursor * *)&((struct ScriptCtx *)p)->vm); STA_ACT_EFFECT_KillEffect(STA_ACTING_GetAnimSlot(((struct ScriptOwner *)o)->scene,a),(u16)b); return 0; }
+int SCRIPT_COMMAND_CmdKillEffect(int unused,char *p) { char *o; u32 a,b; o=*(char * *)&((struct ScriptCtx *)p)->system; a=VM_GetU32(*(struct ScriptVm * *)&((struct ScriptCtx *)p)->vm); b=VM_GetU32(*(struct ScriptVm * *)&((struct ScriptCtx *)p)->vm); STA_ACT_EFFECT_KillEffect(STA_ACTING_GetAnimSlot(((struct ScriptOwner *)o)->scene,a),(u16)b); return 0; }
 
 int SCRIPT_COMMAND_CmdMoveEffect(int unused,char *p)
 {
@@ -1209,8 +1213,8 @@ int SCRIPT_COMMAND_CmdSetChar(int unused,char **p)
     u32 x,y;
     void *r,*s;
     q=p[0];
-    x=VM_GetU32((struct Cursor *)p[1]);
-    y=VM_GetU32((struct Cursor *)p[1]);
+    x=VM_GetU32((struct ScriptVm *)p[1]);
+    y=VM_GetU32((struct ScriptVm *)p[1]);
     r=STA_ACTING_GetCharSystem(((struct ScriptOwner *)q)->scene);
     s=STA_ACT_LIGHT_CreateActor(r,1);
     STA_ACT_LIGHT_SetElemA(r,s,0x3ff,0x10);
@@ -1220,7 +1224,7 @@ int SCRIPT_COMMAND_CmdSetChar(int unused,char **p)
     return 0;
 }
 
-int SCRIPT_COMMAND_CmdFreeChar(int unused,char *p) { char *o; u32 a; void *ctx; o=*(char * *)&((struct ScriptCtx *)p)->system; a=VM_GetU32(*(struct Cursor * *)&((struct ScriptCtx *)p)->vm); ctx=STA_ACTING_GetCharSystem(((struct ScriptOwner *)o)->scene); STA_ACT_LIGHT_DeleteActor(ctx,STA_ACTING_GetCharSlot(((struct ScriptOwner *)o)->scene,a)); STA_ACTING_SetCharSlot(((struct ScriptOwner *)o)->scene,0,a); STA_ACTING_MarkDirty(((struct ScriptOwner *)o)->scene); return 0; }
+int SCRIPT_COMMAND_CmdFreeChar(int unused,char *p) { char *o; u32 a; void *ctx; o=*(char * *)&((struct ScriptCtx *)p)->system; a=VM_GetU32(*(struct ScriptVm * *)&((struct ScriptCtx *)p)->vm); ctx=STA_ACTING_GetCharSystem(((struct ScriptOwner *)o)->scene); STA_ACT_LIGHT_DeleteActor(ctx,STA_ACTING_GetCharSlot(((struct ScriptOwner *)o)->scene,a)); STA_ACTING_SetCharSlot(((struct ScriptOwner *)o)->scene,0,a); STA_ACTING_MarkDirty(((struct ScriptOwner *)o)->scene); return 0; }
 
 int SCRIPT_COMMAND_CmdSetCharPos(int unused,char *p)
 {
@@ -1317,18 +1321,18 @@ int SCRIPT_COMMAND_CmdSetCharColor(int unused,char **p)
     u32 v,w,x,y,z;
     void *r,*s;
     q=p[0];
-    v=VM_GetU32((struct Cursor *)p[1]);
-    w=VM_GetU32((struct Cursor *)p[1]);
-    x=VM_GetU32((struct Cursor *)p[1]);
-    y=VM_GetU32((struct Cursor *)p[1]);
-    z=VM_GetU32((struct Cursor *)p[1]);
+    v=VM_GetU32((struct ScriptVm *)p[1]);
+    w=VM_GetU32((struct ScriptVm *)p[1]);
+    x=VM_GetU32((struct ScriptVm *)p[1]);
+    y=VM_GetU32((struct ScriptVm *)p[1]);
+    z=VM_GetU32((struct ScriptVm *)p[1]);
     r=STA_ACTING_GetCharSystem(((struct ScriptOwner *)q)->scene);
     s=STA_ACTING_GetCharSlot(((struct ScriptOwner *)q)->scene,v);
     STA_ACT_LIGHT_SetElemA(r,s,(u8)w|((u8)x<<5)|((u8)y<<10),z);
     return 0;
 }
 
-int SCRIPT_COMMAND_CmdPrintText(int unused,char *p) { char *o; u32 a,b; o=*(char * *)&((struct ScriptCtx *)p)->system; a=VM_GetU32(*(struct Cursor * *)&((struct ScriptCtx *)p)->vm); b=VM_GetU32(*(struct Cursor * *)&((struct ScriptCtx *)p)->vm); STA_ACTING_PrintText(*(u8 * *)&((struct ScriptOwner *)o)->scene,a,b); return 0; }
+int SCRIPT_COMMAND_CmdPrintText(int unused,char *p) { char *o; u32 a,b; o=*(char * *)&((struct ScriptCtx *)p)->system; a=VM_GetU32(*(struct ScriptVm * *)&((struct ScriptCtx *)p)->vm); b=VM_GetU32(*(struct ScriptVm * *)&((struct ScriptCtx *)p)->vm); STA_ACTING_PrintText(*(u8 * *)&((struct ScriptOwner *)o)->scene,a,b); return 0; }
 
 int SCRIPT_COMMAND_CmdClearText(void *unused, void **ctx)
 {
@@ -1336,12 +1340,12 @@ int SCRIPT_COMMAND_CmdClearText(void *unused, void **ctx)
     return 0;
 }
 
-int SCRIPT_COMMAND_CmdSetTextColor(int unused,char *p) { u32 a,b,c; a=VM_GetU32(*(struct Cursor * *)&((struct ScriptCtx *)p)->vm); b=VM_GetU32(*(struct Cursor * *)&((struct ScriptCtx *)p)->vm); c=VM_GetU32(*(struct Cursor * *)&((struct ScriptCtx *)p)->vm); GF_FONT_SetTextColor((u8)a,(u8)b,(u8)c); return 0; }
+int SCRIPT_COMMAND_CmdSetTextColor(int unused,char *p) { u32 a,b,c; a=VM_GetU32(*(struct ScriptVm * *)&((struct ScriptCtx *)p)->vm); b=VM_GetU32(*(struct ScriptVm * *)&((struct ScriptCtx *)p)->vm); c=VM_GetU32(*(struct ScriptVm * *)&((struct ScriptCtx *)p)->vm); GF_FONT_SetTextColor((u8)a,(u8)b,(u8)c); return 0; }
 
 int SCRIPT_COMMAND_CmdInstallBgm(int unused, char **ctx)
 {
     char *p = *ctx;
-    int x = VM_GetU32((struct Cursor *)(((struct ScriptCtx *)ctx)->vm.s));
+    int x = VM_GetU32((struct ScriptVm *)(((struct ScriptCtx *)ctx)->vm.s));
 
     STA_ACTING_InstallBgm(((struct ScriptOwner *)p)->scene, (unsigned short)x);
     return 0;
@@ -1350,7 +1354,7 @@ int SCRIPT_COMMAND_CmdInstallBgm(int unused, char **ctx)
 int SCRIPT_COMMAND_CmdStartSeq(int unused, char **ctx)
 {
     char *p = *ctx;
-    int x = VM_GetU32((struct Cursor *)(((struct ScriptCtx *)ctx)->vm.s));
+    int x = VM_GetU32((struct ScriptVm *)(((struct ScriptCtx *)ctx)->vm.s));
 
     STA_ACTING_StartSeq(((struct ScriptOwner *)p)->scene, (unsigned short)x);
     return 0;
@@ -1362,12 +1366,12 @@ int SCRIPT_COMMAND_CmdStopSeq(int unused, char **ctx)
     return 0;
 }
 
-int SCRIPT_COMMAND_CmdReplaceWave(int unused,char *p) { char *o; u32 a,b,c; o=*(char * *)&((struct ScriptCtx *)p)->system; a=VM_GetU32(*(struct Cursor * *)&((struct ScriptCtx *)p)->vm); b=VM_GetU32(*(struct Cursor * *)&((struct ScriptCtx *)p)->vm); c=VM_GetU32(*(struct Cursor * *)&((struct ScriptCtx *)p)->vm); STA_ACTING_ReplaceWaveData(*(char * *)&((struct ScriptOwner *)o)->scene,(u16)a,(u16)b,(u16)c); return 0; }
+int SCRIPT_COMMAND_CmdReplaceWave(int unused,char *p) { char *o; u32 a,b,c; o=*(char * *)&((struct ScriptCtx *)p)->system; a=VM_GetU32(*(struct ScriptVm * *)&((struct ScriptCtx *)p)->vm); b=VM_GetU32(*(struct ScriptVm * *)&((struct ScriptCtx *)p)->vm); c=VM_GetU32(*(struct ScriptVm * *)&((struct ScriptCtx *)p)->vm); STA_ACTING_ReplaceWaveData(*(char * *)&((struct ScriptOwner *)o)->scene,(u16)a,(u16)b,(u16)c); return 0; }
 
 int SCRIPT_COMMAND_CmdPlayBgm(int unused, char **ctx)
 {
     char *p = *ctx;
-    int x = VM_GetU32((struct Cursor *)(((struct ScriptCtx *)ctx)->vm.s));
+    int x = VM_GetU32((struct ScriptVm *)(((struct ScriptCtx *)ctx)->vm.s));
 
     STA_ACTING_PlayBgm(((struct ScriptOwner *)p)->scene, x);
     return 0;

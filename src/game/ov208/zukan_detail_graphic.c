@@ -69,6 +69,7 @@
  *   CLACT_ExitSystem  0x0204A5AC  arm  arm9
  *   CLACT_VBlankSystem  0x0204A648  arm  arm9
  *   G3D_CAMERA_Reset  0x02048AD0  arm  arm9
+ *   G3D_SYSTEM_DrawStart         0x02047964  arm
  */
 #include "zukan_detail_shared_types.h"
 
@@ -77,16 +78,18 @@
 typedef enum {ShadeToon=0,ShadeHighlight=1} GXShading;
 
 extern u32 GFL_HEAP_Free(void *p);
+struct TcbTask;
 
-extern void TCB_DeleteTask(struct Node *n);
+extern void TCB_DeleteTask(struct TcbTask *task);
 
 extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
 
 extern void G3X_SetFog(int,int,int,int);
 
 extern void G3X_SetClearColor(u16,int,int,int,int);
+struct G3dLight;
 
-extern void G3D_SYSTEM_SetLight(u32 idx, const u16 *src);
+extern void G3D_SYSTEM_SetLight(unsigned int lightIdx, struct G3dLight *light);
 
 extern void G3D_SYSTEM_SetSwapBuffersMode(unsigned,unsigned);
 
@@ -121,7 +124,7 @@ void ZUKAN_DETAIL_GRAPHIC_Init3dSettings(void)
     G3X_SetFog(0,0,0,0);
     G3X_SetClearColor(0,0,0x7fff,0x3f,0);
     *(volatile unsigned *)0x04000580=0xbfff0000;
-    for(i=0;i<4;i++)G3D_SYSTEM_SetLight((unsigned char)i,d_021C8164[i]);
+    for(i=0;i<4;i++)G3D_SYSTEM_SetLight((unsigned char)i,(struct G3dLight *)d_021C8164[i]);
     G3D_SYSTEM_SetSwapBuffersMode(0,0);
 }
 
@@ -172,8 +175,10 @@ extern void BMP_WIN_Exit(void);
 extern void BG_SYS_Delete(void);
 
 extern void BG_SYS_Update(void);
+struct DispVramCfg;
+struct SysInit;
 
-extern void CLACT_InitSystem(const struct Cfg *cfg, unsigned int arg, unsigned int heapId);
+extern void CLACT_InitSystem(struct SysInit *cfg, struct DispVramCfg *res_cfg, unsigned int heapId);
 
 extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 
@@ -198,8 +203,9 @@ extern u32 G3D_CAMERA_Delete(void *ptr);
 extern void G3D_SYSTEM_Exit(void);
 
 extern void G3D_SYSTEM_DrawStart(void);
+struct G3dCamera;
 
-extern void G3D_CAMERA_Reset(struct Light *l);
+extern void G3D_CAMERA_Reset(struct G3dCamera *camera);
 
 extern void G3D_SYSTEM_ApplyLookAt(void);
 
@@ -407,7 +413,7 @@ void ZUKAN_DETAIL_GRAPHIC_TransferOam(char *unused)
 void ZUKAN_DETAIL_GRAPHIC_InitActorSystem(unsigned char *p, int resCfg, int heapId)
 {
     MI_CpuFill8(p, 0, 4);
-    CLACT_InitSystem((const struct Cfg *)0x021C8148, resCfg, heapId);
+    CLACT_InitSystem((struct SysInit *)0x021C8148, (struct DispVramCfg *)resCfg, heapId);
     ((struct Ov208ActorSystem *)p)->unit = CLACT_CreateUnit(0x50, 0, heapId);
     CLACT_SetUnitDefaultRenderer(((struct Ov208ActorSystem *)p)->unit);
     BG_SYS_SetMainPlaneVisible(0x10, 1);
@@ -457,7 +463,7 @@ void ZUKAN_DETAIL_GRAPHIC_DeleteCameraAndSystem(int *p)
 void ZUKAN_DETAIL_GRAPHIC_ApplyCameraLookAt(int *p)
 {
     G3D_SYSTEM_DrawStart();
-    G3D_CAMERA_Reset((struct Light *)(*p));
+    G3D_CAMERA_Reset((struct G3dCamera *)(*p));
     G3D_SYSTEM_ApplyLookAt();
 }
 

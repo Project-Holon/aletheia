@@ -30,6 +30,7 @@
  */
 #include "../../matched/arm9_sdk/libc/string.h"
 #include "sc_types.h"
+extern void *MSL_C_LIB_MemsetPtr(void *dest, int c, unsigned long n);
 
 extern int OS_SNPrintf(char *dst, unsigned long len, const char *fmt, ...);
 extern void *gsimalloc(unsigned long size);

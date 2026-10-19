@@ -84,11 +84,18 @@ struct EventSlots {
 
 extern u16 STRBUF_GetEosChar(void);
 extern int FIELD_WFBC_DATA_LOCAL_OpenNpcData(int, int);
-extern u16 *FIELD_WFBC_DATA_LOCAL_GetNpcRecord(int h);
-extern void FIELD_WFBC_DATA_LOCAL_CloseNpcData(int);
+struct WfbcNpcData;
+struct WfbcNpcRecord;
+extern struct WfbcNpcRecord *FIELD_WFBC_DATA_LOCAL_GetNpcRecord(struct WfbcNpcData *npcData);
+struct WfbcNpcData;
+extern void FIELD_WFBC_DATA_LOCAL_CloseNpcData(struct WfbcNpcData *npcData);
 extern u16 GFL_NET_SYSTEM_GetCurrentAid(void);
-extern ProcLinkEntry *EVENT_FIELD_PROCLINK_GetEventdataEntry(ProcLinkSys *procLink, int linkId, unsigned mode);
-extern void FIELD_WFBC_DATA_LOCAL_InsertPersonForCity(ProcLinkRequest *request, int arg, ProcLinkEntry *entry);
+struct ProcLinkReturnList;
+extern ProcLinkEntry *EVENT_FIELD_PROCLINK_GetEventdataEntry(struct ProcLinkReturnList *list, int id, unsigned int mode);
+struct WfbcPerson;
+struct MyStatus;
+struct WfbcData;
+extern void FIELD_WFBC_DATA_LOCAL_InsertPersonForCity(struct WfbcData *data, struct MyStatus *myStatus, struct WfbcPerson *person);
 extern void MI_CpuCopy8(const void *src, void *dest, u32 size);
 extern u32 GFL_NET_ERR_GetErrorLevel(void);
 extern void MI_CpuFill8(void *dst, u8 val, u32 size);
@@ -209,10 +216,10 @@ void EVENT_FIELD_PROCLINK_GetReturnInfo(u16 *result, ProcLinkRequest *request, i
     u16 *record;
     if (request->mode == 1) {
         handle = FIELD_WFBC_DATA_LOCAL_OpenNpcData(request->linkId, (u16)((variant & 0x7FFF) | 0x8000));
-        record = FIELD_WFBC_DATA_LOCAL_GetNpcRecord(handle);
+        record = (unsigned short *)FIELD_WFBC_DATA_LOCAL_GetNpcRecord((struct WfbcNpcData *)handle);
         result[0] = record[0x24 / 2];
         result[1] = record[8 / 2];
-        FIELD_WFBC_DATA_LOCAL_CloseNpcData(handle);
+        FIELD_WFBC_DATA_LOCAL_CloseNpcData((struct WfbcNpcData *)handle);
     } else {
         result[0] = 0;
         result[1] = 10;
@@ -242,16 +249,16 @@ void EVENT_FIELD_PROCLINK_ApplyReturnEntry(int unused, ProcLinkRequest *request,
     int handle;
     u16 *record;
 
-    entry = EVENT_FIELD_PROCLINK_GetEventdataEntry(procLink, linkId, 1);
+    entry = EVENT_FIELD_PROCLINK_GetEventdataEntry((struct ProcLinkReturnList *)procLink, linkId, 1);
     handle = (int)FIELD_WFBC_DATA_LOCAL_OpenNpcData(linkId, variant);
-    record = FIELD_WFBC_DATA_LOCAL_GetNpcRecord(handle);
+    record = (unsigned short *)FIELD_WFBC_DATA_LOCAL_GetNpcRecord((struct WfbcNpcData *)handle);
     if (request->mode == 0)
         entry->value = record[3];
     else
         entry->value = record[2];
     entry->kind = 7;
-    FIELD_WFBC_DATA_LOCAL_CloseNpcData(handle);
-    FIELD_WFBC_DATA_LOCAL_InsertPersonForCity(request, arg, entry);
+    FIELD_WFBC_DATA_LOCAL_CloseNpcData((struct WfbcNpcData *)handle);
+    FIELD_WFBC_DATA_LOCAL_InsertPersonForCity((struct WfbcData *)request, (struct MyStatus *)arg, (struct WfbcPerson *)entry);
     EVENT_FIELD_PROCLINK_ClearReturnEntry(entry);
     EVENT_FIELD_PROCLINK_CompactReturnList(procLink, 1);
 }
@@ -408,7 +415,7 @@ int EVENT_FIELD_PROCLINK_HandlerCheckEntryGrid(EventSlots *slots, ProcLinkSys *p
 {
     result->key = slot->key;
     result->entryId = slot->entryId;
-    if (EVENT_FIELD_PROCLINK_GetEventdataEntry(procLink, slot->entryId, 1) != 0) result->handlerType = 0;
+    if (EVENT_FIELD_PROCLINK_GetEventdataEntry((struct ProcLinkReturnList *)procLink, slot->entryId, 1) != 0) result->handlerType = 0;
     else result->handlerType = 1;
     return 1;
 }
@@ -417,7 +424,7 @@ int EVENT_FIELD_PROCLINK_HandlerCheckEntryRail(EventSlots *slots, ProcLinkSys *p
 {
     result->key = slot->key;
     result->entryId = slot->entryId;
-    if (EVENT_FIELD_PROCLINK_GetEventdataEntry(procLink, slot->entryId, 1) != 0) result->handlerType = 2;
+    if (EVENT_FIELD_PROCLINK_GetEventdataEntry((struct ProcLinkReturnList *)procLink, slot->entryId, 1) != 0) result->handlerType = 2;
     else result->handlerType = 3;
     return 1;
 }
@@ -426,7 +433,7 @@ int EVENT_FIELD_PROCLINK_HandlerRemoveEntry(EventSlots *slots, ProcLinkSys *proc
 {
     ProcLinkEntry *entry;
 
-    entry = EVENT_FIELD_PROCLINK_GetEventdataEntry(procLink, slot->entryId, 1);
+    entry = EVENT_FIELD_PROCLINK_GetEventdataEntry((struct ProcLinkReturnList *)procLink, slot->entryId, 1);
     if (entry != 0) {
         EVENT_FIELD_PROCLINK_ClearReturnEntry(entry);
         EVENT_FIELD_PROCLINK_CompactReturnList(procLink, 1);

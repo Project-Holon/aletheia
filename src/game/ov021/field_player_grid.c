@@ -156,26 +156,33 @@ extern u32 GFL_HEAP_Free(void *memory);
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void GFL_USE_PlaySeDefaultVolume(u32 soundId);
 extern void FLDMMDL_SetDirDispCheckPause(Mmdl *mmdl, int dir);
-extern void FLDMMDL_GetPos(Mmdl *mmdl, VecFx32 *out);
+struct MmdlVec;
+struct Mmdl;
+extern void FLDMMDL_GetPos(struct Mmdl *mmdl, struct MmdlVec *out);
 extern u16 FLDMMDL_GetDirDisp(Mmdl *mmdl);
-extern u16 FLDMMDL_GetGridNowX(Mmdl *mmdl);
-extern u16 FLDMMDL_GetGridNowY(Mmdl *mmdl);
-extern u16 FLDMMDL_GetGridNowZ(Mmdl *mmdl);
+extern s32 FLDMMDL_GetGridNowX(Mmdl *mmdl);
+extern s32 FLDMMDL_GetGridNowY(Mmdl *mmdl);
+extern s32 FLDMMDL_GetGridNowZ(Mmdl *mmdl);
 extern int FLDMMDL_MOVE_GetDirAddGridX(int dir);
 extern int FLDMMDL_MOVE_GetDirAddGridZ(int dir);
 extern int MAP_ATTR_IsBlocked(u32 attr);
 extern u16 MAP_ATTR_GetTerrainId(u32 attr);
-extern void *GAMESYSTEM_GetGameData(void *gameSystem);
-extern void *FIELDMAP_GetGameSystem(FieldMap *fieldMap);
+struct GameSystem;
+struct GameData;
+extern struct GameData *GAMESYSTEM_GetGameData(struct GameSystem *gameSystem);
+struct FieldMap;
+extern struct GameSystem *FIELDMAP_GetGameSystem(FieldMap *fieldMap);
 extern void FLDMMDL_SetGridNowY(Mmdl *mmdl, int y);
-extern void FLDMMDL_SetPos(Mmdl *mmdl, const VecFx32 *pos);
+extern void FLDMMDL_SetPos(struct Mmdl *mmdl, struct MmdlVec *pos);
 extern int FLDMMDL_CheckPossibleAcmd(Mmdl *mmdl);
 extern MmdlSys *FLDMMDL_GetMmdlSys(Mmdl *mmdl);
 extern u16 FLDMMDL_GetDirMove(Mmdl *mmdl);
-extern void *FIELDMAP_GetEffect(FieldMap *fieldMap);
-extern int FLDMMDL_MOVE_GetMapAttr(Mmdl *mmdl, VecFx32 *pos, int *outAttr);
+struct FieldEffectCont;
+extern struct FieldEffectCont *FIELDMAP_GetEffect(FieldMap *fieldMap);
+extern int FLDMMDL_MOVE_GetMapAttr(struct Mmdl *mmdl, VecFx32 *pos, u32 *outAttr);
 extern u16 MAP_ATTR_GetFlags(u32 attr);
-extern int COMM_PLAYER_SUPPORT_GetInfoCode(void *gameSystem);
+struct PlayerInfo;
+extern int COMM_PLAYER_SUPPORT_GetInfoCode(struct PlayerInfo *info);
 extern void FLDMMDL_MOVE_AddDirVector(int dir, VecFx32 *pos, int amount);
 extern int MAP_ATTR_IsLedgeNorth(u16 attrKind);
 extern int MAP_ATTR_IsLedgeSouth(u16 attrKind);
@@ -190,28 +197,31 @@ extern int MAP_ATTR_IsDeepSnow(int attrKind);
 extern int FLDMMDL_ACMD_ConvertCodeByDir(int dir, int acmdBase);
 extern void FLDMMDL_SetAcmd(Mmdl *mmdl, int acmd);
 extern int MAP_ATTR_IsNoDash(u16 attrKind);
-extern int FLDMMDL_SetStatusBitHeightGetOff(Mmdl *mmdl, int flag);
-extern int FLDMMDL_SetMoveBitShadowVanish(Mmdl *mmdl, int flag);
+extern void FLDMMDL_SetStatusBitHeightGetOff(Mmdl *mmdl, int flag);
+extern void FLDMMDL_SetMoveBitShadowVanish(Mmdl *mmdl, int flag);
 extern void FLDMMDL_SetMoveBit(Mmdl *mmdl, u32 bits);
 extern int FLDMMDL_MOVE_GetMapHeight(Mmdl *mmdl, VecFx32 *pos, int *outHeight);
 extern void FLDMMDL_ClearMoveBit(Mmdl *mmdl, u32 bits);
 extern int MAP_ATTR_IsSand(u16 attrKind);
-extern void FLDEFF_KEMURI_Start(Mmdl *mmdl, void *effectCtrl);
+struct FieldEffectSys;
+extern void FLDEFF_KEMURI_Start(struct Mmdl *mmdl, struct FieldEffectSys *sys);
 extern int FLDMMDL_MOVE_HitCheckMoveCurrent(Mmdl *mmdl, int gridX, int gridY, int gridZ, u32 dir);
 extern int MAP_ATTR_IsHole(u16 attrKind);
-extern int FLDMMDL_CheckMovedPosAtMapPos(MmdlSys *mmdlSys, const VecFx32 *pos);
+extern int FLDMMDL_CheckMovedPosAtMapPos(void *map, VecFx32 *pos);
 extern void FLDMMDL_SetDrawStatus(Mmdl *mmdl, u16 drawStatus);
 extern u32 FLDMMDL_GetNowAttr(Mmdl *mmdl);
 extern int MAP_ATTR_IsForcedSlide(u32 attrKind);
 extern int FLDMMDL_MOVE_UpdateHeight(Mmdl *mmdl);
 extern int FLDMMDL_MOVE_UpdateMapAttr(Mmdl *mmdl);
-extern int FLDMMDL_MOVE_UpdateOldGridPos(Mmdl *mmdl);
+extern void FLDMMDL_MOVE_UpdateOldGridPos(Mmdl *mmdl);
 extern void FLDMMDL_ClearStatusBit(Mmdl *mmdl, u32 bits);
 extern void FLDMMDL_SetStatusBit(Mmdl *mmdl, u32 bits);
-extern void *GAME_DATA_GetEventData(void *gameData);
-extern int EVENTDATA_SYSTEM_SearchConnectIdByGridPos(void *eventData, const VecFx32 *pos);
-extern void *EVENTDATA_SYSTEM_GetConnectData(void *eventData, unsigned index);
-extern int EVENTDATA_SYSTEM_IsConnectExitDir(void *connect, int dir);
+extern void *GAME_DATA_GetEventData(struct GameData *gameData);
+struct EventDataSystem;
+extern int EVENTDATA_SYSTEM_SearchConnectIdByGridPos(struct EventDataSystem *system, s32 *pos);
+struct ConnectData;
+extern struct ConnectData *EVENTDATA_SYSTEM_GetConnectData(struct EventDataSystem *system, u32 index);
+extern int EVENTDATA_SYSTEM_IsConnectExitDir(struct ConnectData *connect, s32 dir);
 extern void FIELD_PLAYER_CORE_GetPos(FieldPlayerCore *core, VecFx32 *out);
 extern u16 FIELD_PLAYER_CORE_GetDirDisp(FieldPlayerCore *core);
 extern FieldMap *FIELD_PLAYER_CORE_GetFieldMap(FieldPlayerCore *core);
@@ -224,7 +234,8 @@ extern int FIELD_PLAYER_CORE_CheckFormModel(FieldPlayerCore *core);
 extern int FIELD_PLAYER_CORE_CheckAcmdPossible(FieldPlayerCore *core);
 extern u16 FIELD_PLAYER_CORE_ChooseMoveDirFromKeys(FieldPlayerCore *core, u32 keys);
 extern void FIELD_PLAYER_CORE_RememberKeyDirs(FieldPlayerCore *core, u32 keys);
-extern int FIELD_PLAYER_CORE_StartFormChange(FieldPlayerCore *core, u32 mask);
+struct FieldPlayerCore;
+extern struct FieldPlayerCore *FIELD_PLAYER_CORE_StartFormChange(FieldPlayerCore *core, u32 mask);
 extern int FIELD_PLAYER_CORE_StepFormChange(FieldPlayerCore *core);
 extern void FIELD_PLAYER_CORE_FinishFormChange(FieldPlayerCore *core);
 
@@ -441,7 +452,7 @@ int FIELD_PLAYER_GRID_PlayTileSound(FieldPlayerGrid *grid, int unused, VecFx32 *
         grid->soundId = FIELD_PLAYER_GRID_SOUND_NONE;
         grid->soundRepeat = 0;
     }
-    if (FLDMMDL_MOVE_GetMapAttr(FIELD_PLAYER_CORE_GetMmdl(grid->core), pos, &attr) == 1) {
+    if (FLDMMDL_MOVE_GetMapAttr(FIELD_PLAYER_CORE_GetMmdl(grid->core), pos, (u32 *)(&attr)) == 1) {
         attrBits = MAP_ATTR_GetFlags(attr);
         if (lookAhead == 0) {
             attrSound = gFieldPlayerGridAttrSounds;
@@ -514,8 +525,8 @@ void FIELD_PLAYER_GRID_PlayStepSound(FieldPlayerGrid *grid, int result, int dir)
         return;
     }
     mmdl = FIELD_PLAYER_CORE_GetMmdl(grid->core);
-    season = COMM_PLAYER_SUPPORT_GetInfoCode(FIELDMAP_GetGameSystem(grid->fieldMap));
-    FLDMMDL_GetPos(mmdl, &pos);
+    season = COMM_PLAYER_SUPPORT_GetInfoCode((struct PlayerInfo *)FIELDMAP_GetGameSystem(grid->fieldMap));
+    FLDMMDL_GetPos(mmdl, (struct MmdlVec *)(&pos));
     if (FIELD_PLAYER_GRID_PlayTileSound(grid, result, &pos, 0, season) == 0) {
         FLDMMDL_MOVE_AddDirVector(dir, &pos, 0x10000);
         FIELD_PLAYER_GRID_PlayTileSound(grid, result, &pos, 1, season);
@@ -1110,7 +1121,7 @@ void FIELD_PLAYER_GRID_StartWalkOnFoot(FieldPlayerGrid *grid, Mmdl *mmdl, FieldP
             acmdBase = FIELD_PLAYER_GRID_ACMD_RUN_SPECIAL;
             FIELD_PLAYER_GRID_SetFlag(grid, FIELD_PLAYER_GRID_FLAG_SPECIAL_WALK);
             FIELD_PLAYER_CORE_GetPos(grid->core, &pos);
-            if (FLDMMDL_MOVE_GetMapAttr(mmdl, &pos, &attr) != 0) {
+            if (FLDMMDL_MOVE_GetMapAttr(mmdl, &pos, (u32 *)(&attr)) != 0) {
                 if (MAP_ATTR_IsNoDash(MAP_ATTR_GetTerrainId(attr)) != 0) {
                     acmdBase = FIELD_PLAYER_GRID_ACMD_WALK;
                     checkSlope = 0;
@@ -1206,7 +1217,7 @@ int FIELD_PLAYER_GRID_StartHopFallOnFoot(FieldPlayerGrid *grid, Mmdl *mmdl, Fiel
     VecFx32 pos;
     int groundHeight;
 
-    FLDMMDL_GetPos(playerMmdl, &pos);
+    FLDMMDL_GetPos(playerMmdl, (struct MmdlVec *)(&pos));
     FLDMMDL_MOVE_GetMapHeight(playerMmdl, &pos, &groundHeight);
     if (pos.y > groundHeight) {
         pos.y -= 0x8000;
@@ -1215,7 +1226,7 @@ int FIELD_PLAYER_GRID_StartHopFallOnFoot(FieldPlayerGrid *grid, Mmdl *mmdl, Fiel
             FLDMMDL_ClearMoveBit(playerMmdl, MMDL_MOVEBIT_SHOAL_SET);
             grid->hopLanded = 1;
         }
-        FLDMMDL_SetPos(playerMmdl, &pos);
+        FLDMMDL_SetPos(playerMmdl, (struct MmdlVec *)(&pos));
         grid->state = FIELD_PLAYER_GRID_STATE_HOP_FALL;
         return 7;
     }
@@ -1269,7 +1280,7 @@ void FIELD_PLAYER_GRID_StartWalkOnCycle(FieldPlayerGrid *grid, Mmdl *mmdl, Field
         if (FIELD_PLAYER_GRID_GetAttrAtDir(grid, FIELD_PLAYER_GRID_DIR_NONE, &attr) == 1) {
             if (MAP_ATTR_IsSand(MAP_ATTR_GetTerrainId(attr)) == 1) {
                 acmdBase = FIELD_PLAYER_GRID_ACMD_CYCLE_SPECIAL;
-                FLDEFF_KEMURI_Start(mmdl, FIELDMAP_GetEffect(grid->fieldMap));
+                FLDEFF_KEMURI_Start(mmdl, (struct FieldEffectSys *)FIELDMAP_GetEffect(grid->fieldMap));
             }
         }
     }
@@ -1385,9 +1396,9 @@ int FIELD_PLAYER_GRID_GetStepHitFlags(FieldPlayerGrid *grid, Mmdl *mmdl, u32 dir
     stepX = (short)(stepX + FLDMMDL_MOVE_GetDirAddGridX(dir));
     hitFlags = (short)(gridZ + FLDMMDL_MOVE_GetDirAddGridZ(dir));
     stepX = FLDMMDL_MOVE_HitCheckMoveCurrent(mmdl, stepX, gridY, hitFlags, dir);
-    FLDMMDL_GetPos(mmdl, &pos);
+    FLDMMDL_GetPos(mmdl, (struct MmdlVec *)(&pos));
     FLDMMDL_MOVE_AddDirVector(dir, &pos, 0x10000);
-    if (FLDMMDL_MOVE_GetMapAttr(mmdl, &pos, outAttr) == 0) {
+    if (FLDMMDL_MOVE_GetMapAttr(mmdl, &pos, (u32 *)outAttr) == 0) {
         *outAttr = -1;
     }
     if (stepX & 2) {
@@ -1574,7 +1585,7 @@ void FIELD_PLAYER_GRID_FinishHop(FieldPlayerGrid *grid)
     FLDMMDL_SetMoveBitShadowVanish(mmdl, 0);
     FLDMMDL_SetMoveBit(mmdl, FIELD_PLAYER_GRID_MMDL_STEP_END_BITS);
     FLDMMDL_MOVE_UpdateHeight(mmdl);
-    FLDMMDL_GetPos(mmdl, &pos);
+    FLDMMDL_GetPos(mmdl, (struct MmdlVec *)(&pos));
     FLDMMDL_SetGridNowY(mmdl, (s16)((pos.y >> 4) / 4096));
     FLDMMDL_MOVE_UpdateMapAttr(mmdl);
     FLDMMDL_MOVE_UpdateOldGridPos(mmdl);
@@ -1703,7 +1714,7 @@ u32 FIELD_PLAYER_GRID_IsAtGroundHeight(FieldPlayerGrid *grid, u32 unused1, u32 u
     VecFx32 pos;
     int groundHeight;
 
-    FLDMMDL_GetPos(mmdl, &pos);
+    FLDMMDL_GetPos(mmdl, (struct MmdlVec *)(&pos));
     FLDMMDL_MOVE_GetMapHeight(mmdl, &pos, &groundHeight);
     if (pos.y <= groundHeight)
         return 1;
@@ -1796,7 +1807,7 @@ int FIELD_PLAYER_GRID_GetAttrAtDir(FieldPlayerGrid *grid, int dir, int *outAttr)
     FIELD_PLAYER_CORE_GetPos(grid->core, &pos);
     if (dir != FIELD_PLAYER_GRID_DIR_NONE)
         FLDMMDL_MOVE_AddDirVector(dir, &pos, 0x10000);
-    return FLDMMDL_MOVE_GetMapAttr(FIELD_PLAYER_CORE_GetMmdl(grid->core), &pos, outAttr);
+    return FLDMMDL_MOVE_GetMapAttr(FIELD_PLAYER_CORE_GetMmdl(grid->core), &pos, (u32 *)outAttr);
 }
 
 
@@ -1808,7 +1819,7 @@ int FIELD_PLAYER_GRID_GetHeightStep(FieldPlayerGrid *grid, int dir)
     int destHeight;
 
     mmdl = FIELD_PLAYER_CORE_GetMmdl(grid->core);
-    FLDMMDL_GetPos(mmdl, &pos);
+    FLDMMDL_GetPos(mmdl, (struct MmdlVec *)(&pos));
     curHeight = pos.y;
     FLDMMDL_MOVE_AddDirVector(dir, &pos, 0x10000);
     if (FLDMMDL_MOVE_GetMapHeight(mmdl, &pos, &destHeight) == 1) {
@@ -1832,9 +1843,9 @@ int FIELD_PLAYER_GRID_CheckMapConnectAhead(FieldPlayerGrid *grid, int dir)
 
     mmdl = FIELD_PLAYER_CORE_GetMmdl(grid->core);
     eventData = GAME_DATA_GetEventData(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(grid->fieldMap)));
-    FLDMMDL_GetPos(mmdl, &pos);
+    FLDMMDL_GetPos(mmdl, (struct MmdlVec *)(&pos));
     FLDMMDL_MOVE_AddDirVector(dir, &pos, 0x10000);
-    connectIndex = EVENTDATA_SYSTEM_SearchConnectIdByGridPos(eventData, &pos);
+    connectIndex = EVENTDATA_SYSTEM_SearchConnectIdByGridPos(eventData, (s32 *)(&pos));
     if (connectIndex == 0xffff) {
         return 0;
     }

@@ -30,18 +30,19 @@ typedef struct TimeOfDay {
     int minute;
 } TimeOfDay;
 
-extern struct PokedexSave *ZUKAN_SAVE_GetFromGameData(struct GameData *gameData);
+extern void *ZUKAN_SAVE_GetFromGameData(void *gameData);
+struct ZukanSave;
 
-extern void ZUKAN_SAVE_RegisterSeen(struct PokedexSave *pokedex, struct PokemonParam *mon);
+extern void ZUKAN_SAVE_RegisterSeen(struct ZukanSave *pZukan, void *pMon);
 
 /* Party and Pokemon. */
 extern u32 POKEPARTY_GetCount(struct Party *party);
 
 extern struct PokemonParam *POKEPARTY_GetMember(struct Party *party, u32 index);
 
-extern u32 POKE_TOOL_GetPartyValue(struct PokemonParam *mon, u32 paramId, void *buffer);
+extern u32 POKE_TOOL_GetPartyValue(struct PokemonParam *pp, u32 paramId, u32 arg);
 
-extern void POKE_TOOL_ChangeForm(struct PokemonParam *mon, u16 form);
+extern u32 POKE_TOOL_ChangeForm(struct PokemonParam *pp, u32 form);
 
 extern u8 TIMEZONE_GetLight(int season, int timeZone);
 
@@ -157,7 +158,7 @@ void FORMCHANGE_RevertShayminAndRegister(struct GameData *gameData, struct Party
         if (species == SPECIES_SHAYMIN && form == SHAYMIN_FORM_SKY) {
             POKE_TOOL_ChangeForm(mon, SHAYMIN_FORM_LAND);
             if (registered == 0) {
-                ZUKAN_SAVE_RegisterSeen(pokedex, mon);
+                ZUKAN_SAVE_RegisterSeen((struct ZukanSave *)pokedex, mon);
                 registered = 1;
             }
         }

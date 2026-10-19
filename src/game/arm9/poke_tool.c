@@ -70,6 +70,8 @@
  *   POKE_TOOL_SetBoxValue  0x02017E64  thumb
  *   POKE_TOOL_CastToBoxParam  0x020185F0  thumb
  *   POKE_TOOL_GetBoxValue  0x02017E88  thumb
+ *   _ll_shl                      0x0209C074  arm
+ *   _u32_div_f                   0x0209C2B0  arm
  */
 #include "poke_tool_types.h"
 #include "poke_tool_shared_types.h"
@@ -331,8 +333,9 @@ struct PersonalData *POKE_TOOL_GetPersonalData(u32 species, u16 form);
 extern u32   GFL_USE_GetRandom(u32 range);
 
 extern u32   GF_STANDARD_Rand(void);
+struct MsgBank;
 
-extern void MSGDATA_ReadUnits(struct MsgData *msgData, u32 msgIndex, u16 *dest, u32 maxLen);
+extern void MSGDATA_ReadUnits(struct MsgBank *bank, u32 msgIndex, u16 *str, u32 maxLen);
 
 extern u32 POKE_PERSONAL_GetParam(const struct PersonalData *personal, u32 field);
 
@@ -344,7 +347,7 @@ extern u32  POKE_PERSONAL_IsFixedGender(u32 genderRatio);
 
 u16 POKE_CRYPTO_Checksum(const u16 *data, u32 size);
 
-extern void POKE_PERSONAL_LoadDataDirect(u32 species, int form, struct LevelUpMove *dest);
+extern void POKE_PERSONAL_LoadDataDirect(u32 species, s32 form, void *dst);
 
 extern u32 WAZA_TOOL_GetParam(u16 move, u32 field);
 
@@ -354,7 +357,7 @@ extern u32 MYSTATUS_GetId(const struct MyStatus *status);
 
 extern u8 MYSTATUS_GetSex(const struct MyStatus *status);
 
-extern u32 MYSTATUS_CopyNameChars(struct MyStatus *status, u32 dest, u32 maxLen);
+extern void MYSTATUS_CopyNameChars(u16 *src, u16 *dest, u32 n);
 
 extern u32 WORDSET_IsStringEqual(const u16 *a, const u16 *b);
 
@@ -376,7 +379,7 @@ extern void WORDSET_CopyString(const u16 *src, u16 *dest, u32 count);
 
 extern void STRBUF_SetString(struct Strbuf *dest, const u16 *src);
 
-extern void MSGDATA_ReadString(struct MsgData *bank, u32 index, struct Strbuf *dest);
+extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, struct Strbuf *dest);
 
 u32 POKE_TOOL_HasNickname(struct BoxPokemon *box);
 
@@ -865,7 +868,7 @@ void POKE_TOOL_SetupBoxParamEx(struct BoxPokemon *box, u16 species, u16 level, u
     POKE_TOOL_SetBoxValue(box, POKE_TOOL_PARAM_OT_ID, (u32)otId);
     POKE_TOOL_SetBoxValue(box, POKE_TOOL_PARAM_LANGUAGE, gDefaultLanguage);
     POKE_TOOL_SetBoxValue(box, POKE_TOOL_PARAM_SPECIES, species);
-    MSGDATA_ReadUnits(gSpeciesNameBank, species, gNameBuf, 0x20);
+    MSGDATA_ReadUnits((struct MsgBank *)gSpeciesNameBank, species, gNameBuf, 0x20);
     POKE_TOOL_SetBoxValue(box, POKE_TOOL_PARAM_NICKNAME, (u32)gNameBuf);
     POKE_TOOL_SetBoxValue(box, POKE_TOOL_PARAM_EXP, POKE_TOOL_GetExpForLevel(species, 0, level));
     POKE_TOOL_SetBoxValue(box, POKE_TOOL_PARAM_FRIENDSHIP, POKE_PERSONAL_GetParam(personal, 0x16));
@@ -980,7 +983,7 @@ u32 POKE_TOOL_ChangeBoxSpecies(struct BoxPokemon *box, u32 newSpecies)
         POKE_TOOL_UpdateAbilityForSpecies(box, newSpecies, oldSpecies);
         POKE_TOOL_UpdateGenderForSpecies(box, newSpecies, oldSpecies);
         if (hasNickname == 0) {
-            MSGDATA_ReadUnits(gSpeciesNameBank, newSpecies, gNameBuf, 0x20);
+            MSGDATA_ReadUnits((struct MsgBank *)gSpeciesNameBank, newSpecies, gNameBuf, 0x20);
             POKE_TOOL_SetBoxValue(box, POKE_TOOL_PARAM_NICKNAME, (u32)gNameBuf);
         }
     }
@@ -1178,7 +1181,7 @@ u32 POKE_TOOL_HatchBoxEgg(struct BoxPokemon *box, u32 trainer, u32 location, u32
     POKE_TOOL_GetBoxValue(box, POKE_TOOL_PARAM_FORM, 0);
     POKE_TOOL_SetBoxValue(box, POKE_TOOL_PARAM_IS_EGG, 0);
     POKE_TOOL_SetBoxValue(box, POKE_TOOL_PARAM_FRIENDSHIP, 0x78);
-    MSGDATA_ReadUnits(gSpeciesNameBank, species, gNameBuf, 0x20);
+    MSGDATA_ReadUnits((struct MsgBank *)gSpeciesNameBank, species, gNameBuf, 0x20);
     POKE_TOOL_SetBoxValue(box, POKE_TOOL_PARAM_NICKNAME, (u32)gNameBuf);
     SAVE_EVENT_WriteMode((u32)box, 2, trainer, location, arg);
     return POKE_TOOL_EncodeBoxParam(box, didDecode);
@@ -2054,7 +2057,7 @@ u32 POKE_TOOL_IsBoxOwnedByPlayer(struct BoxPokemon *box, struct MyStatus *myStat
     monOtId = POKE_TOOL_GetBoxValue(box, POKE_TOOL_PARAM_OT_ID, 0);
     playerGender = MYSTATUS_GetSex(myStatus);
     monOtGender = POKE_TOOL_GetBoxValue(box, POKE_TOOL_PARAM_OT_GENDER, 0);
-    MYSTATUS_CopyNameChars(myStatus, (u32)gNameBuf, 0x20);
+    MYSTATUS_CopyNameChars((u16 *)myStatus, (u16 *)gNameBuf, 0x20);
     POKE_TOOL_GetBoxValue(box, POKE_TOOL_PARAM_OT_NAME, (u32)gNameCompareBuf);
     if (playerOtId == monOtId && playerGender == monOtGender && WORDSET_IsStringEqual(gNameBuf, gNameCompareBuf) != 0) {
         isOwned = 1;
@@ -3216,14 +3219,14 @@ u32 POKE_TOOL_GetBoxValueRaw(struct BoxPokemon *box, u32 paramId, u32 arg)
     case POKE_TOOL_PARAM_SPARE_WORD: result = blockB->spareWord; break;
     case POKE_TOOL_PARAM_NICKNAME_STRBUF:
         if (box->checksumFailed != 0) {
-            MSGDATA_ReadString(gSpeciesNameBank, 651, (struct Strbuf *)arg);
+            MSGDATA_ReadString((struct MsgBank *)gSpeciesNameBank, 651, (struct Strbuf *)arg);
         } else {
             STRBUF_SetString((struct Strbuf *)arg, blockC->nickname);
         }
         break;
     case POKE_TOOL_PARAM_NICKNAME:
         if (box->checksumFailed != 0) {
-            MSGDATA_ReadUnits(gSpeciesNameBank, 651, (u16 *)arg, 11);
+            MSGDATA_ReadUnits((struct MsgBank *)gSpeciesNameBank, 651, (u16 *)arg, 11);
         } else {
             WORDSET_CopyString(blockC->nickname, (u16 *)arg, 11);
         }
@@ -3793,7 +3796,7 @@ u32 POKE_TOOL_HasNickname(struct BoxPokemon *box)
     struct BoxPokemonBlockA *blockA = (struct BoxPokemonBlockA *)POKE_TOOL_GetBoxSubstruct(box, box->personality, 0);
     void *blockC = POKE_TOOL_GetBoxSubstruct(box, box->personality, 2);
 
-    MSGDATA_ReadUnits(gSpeciesNameBank, blockA->species, gNameBuf, 0x20);
+    MSGDATA_ReadUnits((struct MsgBank *)gSpeciesNameBank, blockA->species, gNameBuf, 0x20);
     if (WORDSET_IsStringEqual(gNameBuf, blockC) == 0) {
         isDefault = 1;
     }
@@ -3902,7 +3905,7 @@ void POKE_TOOL_SetNameFromSpecies(struct PokemonParam *mon)
 {
     u32 species = POKE_TOOL_GetBoxValue(&mon->box, 5, 0);
 
-    MSGDATA_ReadUnits(gSpeciesNameBank, species, gNameBuf, 0x20);
+    MSGDATA_ReadUnits((struct MsgBank *)gSpeciesNameBank, species, gNameBuf, 0x20);
     POKE_TOOL_SetBoxValue(&mon->box, 0x74, (u32)gNameBuf);
 }
 

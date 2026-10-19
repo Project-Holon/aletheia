@@ -44,6 +44,7 @@
  *   MYSTATUS_NameToStrbuf  0x02008500  thumb
  *   GFL_NET_IsSessionNull  0x0203CDBC  arm
  */
+#include "../version.h"
 #include "delivery_irc_shared_types.h"
 #include "mystery_gift_mon_shared_types.h"
 typedef signed char s8;
@@ -75,7 +76,7 @@ extern int GAME_DATA_GetIntrudeCount(const struct GameData *gameData);
 
 extern u32 GAME_COMM_GetCounter(GameComm *comm);
 
-extern IntrudeCommSys *GAME_COMM_GetWork(GameComm *comm);
+extern void *GAME_COMM_GetWork(GameComm *comm);
 
 extern u32 GFL_NET_ERR_GetErrorLevel(void);
 
@@ -87,9 +88,9 @@ extern struct GameData *GAME_COMM_GetGameData(GameComm *comm);
 
 extern u8 GAME_DATA_GetOwnNetId(const struct GameData *gameData);
 
-extern struct BattleRecSlot *GAME_DATA_GetLastBattleRecSlot(struct GameData *gameData);
+extern void *GAME_DATA_GetLastBattleRecSlot(struct GameData *gameData);
 
-extern struct BattleRecSlot *GAME_DATA_GetBattleRecSlot(struct GameData *gameData, u32 netId);
+extern void *GAME_DATA_GetBattleRecSlot(struct GameData *gameData, u32 netId);
 
 extern struct MyStatus *GAME_DATA_GetMyStatusPlayer(struct GameData *gameData, u32 netId);
 
@@ -102,20 +103,24 @@ extern u8 GAME_DATA_GetSeason(const struct GameData *gameData);
 extern u8 GAME_DATA_GetSlotFlag(const struct GameData *gameData, u32 slot);
 
 extern void *GAME_DATA_GetMoveModelSys(const struct GameData *gameData);
+struct FieldStatus;
 
-extern u32 FIELD_STATUS_GetMapMode(void *fieldStatus);
+extern u32 FIELD_STATUS_GetMapMode(struct FieldStatus *fs);
 
-extern struct EventWork *GAME_DATA_GetEventWork(const struct GameData *gameData);
+extern void *GAME_DATA_GetEventWork(const struct GameData *gameData);
 
 extern u32 ZONEDATA_CheckEventFlag(struct EventWork *eventWork, int flag);
 
 extern int INTRUDE_COMM_IsSessionActive(IntrudeSession *session);
 
 extern int INTRUDE_COMM_IsRequestFromSelf(IntrudeCommSys *work);
+struct IntrudeSession;
+struct IntrudeCommSys;
 
-extern int INTRUDE_COMM_GetRequesterNetId(IntrudeCommSys *work, IntrudeSession *session);
+extern unsigned char INTRUDE_COMM_GetRequesterNetId(IntrudeCommSys *work, IntrudeSession *session);
+struct Strbuf;
 
-extern void MYSTATUS_NameToStrbuf(const struct MyStatus *src, struct MyStatus *dst);
+extern void MYSTATUS_NameToStrbuf(unsigned short *name, struct Strbuf *buf);
 
 extern int GFL_NET_IsSessionNull(void);
 
@@ -297,7 +302,7 @@ int INTRUDE_COMM_GetAreaOwnerVersion(GameComm *comm)
     u8 areaOwnerId;
 
     if (GAME_DATA_GetIntrudeCount(gameData) == 0)
-        return 21;
+        return PM_VERSION_ID;
     areaOwnerId = (int)GAME_DATA_GetIntrudeId(gameData);
     return MYSTATUS_GetRomCode(GAME_DATA_GetMyStatusByNetId(gameData, areaOwnerId));
 }
@@ -522,7 +527,7 @@ int INTRUDE_COMM_GetRequesterStatus(GameComm *comm, struct MyStatus *out)
 
     if (work == 0 || INTRUDE_COMM_IsSessionActive(&work->session) == 0)
         return 0;
-    MYSTATUS_NameToStrbuf(GAME_DATA_GetMyStatusPlayer(gameData, INTRUDE_COMM_GetRequesterNetId(work, &work->session)), out);
+    MYSTATUS_NameToStrbuf((unsigned short *)(GAME_DATA_GetMyStatusPlayer(gameData, INTRUDE_COMM_GetRequesterNetId(work, &work->session))), (struct Strbuf *)out);
     return 1;
 }
 

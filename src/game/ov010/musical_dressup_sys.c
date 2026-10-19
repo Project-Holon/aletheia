@@ -51,23 +51,28 @@ extern u32 GFL_HEAP_Free(void *ptr);
 
 extern void GFL_HEAP_CreateChildHeap(u32 a, u32 b, u32 c);
 
-extern int STA_NET_GetRole(void *session);
+extern int STA_NET_GetRole(s32 *p);
 
 extern void GFL_HEAP_DeleteChecked(u32 heapId);
+struct SaveControl;
+struct MusicalSave;
 
-extern void *MUSICAL_SAVE_GetFromSave(void *saveControl);
+extern struct MusicalSave *MUSICAL_SAVE_GetFromSave(struct SaveControl *save);
+struct Proc;
 
-extern void *PROCSYS_AllocProcWork(void *proc, u32 size, u32 heapId);
+extern void *PROCSYS_AllocProcWork(struct Proc *proc, u32 size, u32 heapId);
 
-extern void PROCSYS_FreeProcWork(void *proc);
+extern void PROCSYS_FreeProcWork(struct Proc *proc);
 
-extern void *DUP_FITTING_Create(void *param, int heapId);
+extern u8 *DUP_FITTING_Create(u8 *parent, s32 heap);
+struct DupFittingWork;
 
-extern int DUP_FITTING_Main(void *ui);
+extern int DUP_FITTING_Main(struct DupFittingWork *work);
 
-extern void DUP_FITTING_Delete(void *ui);
+extern void DUP_FITTING_Delete(char *work);
+struct StaNetWork;
 
-extern void STA_NET_BeginTransfer(void *session);
+extern void STA_NET_BeginTransfer(struct StaNetWork *work);
 
 extern char ov133_id[];
 
@@ -123,7 +128,7 @@ int MUSICAL_DRESSUP_SYS_Main(void *proc, int *state, int unused, MusicalDressupW
 {
     switch (*state) {
     case 0:
-        work->ui = DUP_FITTING_Create(work->paramCopy, 0x2d);
+        work->ui = DUP_FITTING_Create((u8 *)work->paramCopy, 0x2d);
         *state = 1;
         if (work->param->session != 0) {
             if (STA_NET_GetRole(work->param->session) == 1)

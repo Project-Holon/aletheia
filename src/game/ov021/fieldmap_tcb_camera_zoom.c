@@ -25,6 +25,14 @@
  *   FIELD_CAMERA_SetDistance  0x0218ED58  thumb  ov021
  *   _ffix          0x0209C494  arm
  *   _dsqrt         0x0209C5E0  arm
+ *   _f2d                         0x0209BD38  arm
+ *   _fadd                        0x0209C95C  arm
+ *   _fdiv                        0x0209CE10  arm
+ *   _fflt                        0x0209BDBC  arm
+ *   _ffltu                       0x0209BE04  arm
+ *   _fgr                         0x0209BBB0  arm
+ *   _fmul                        0x0209C77C  arm
+ *   _fsub                        0x0209CB8C  arm
  */
 #include "field_g3dobj_shared_types.h"
 
@@ -38,20 +46,24 @@ typedef struct CameraZoomWork {
     fx32 startZoom;
     fx32 endZoom;
 } CameraZoomWork;
+struct FieldMap;
 
-extern u16 FIELDMAP_GetHeapId(void *fieldMap);
+extern u16 FIELDMAP_GetHeapId(struct FieldMap *fieldMap);
+struct FieldCamera;
 
-extern void *FIELDMAP_GetCamera(void *fieldMap);
+extern struct FieldCamera *FIELDMAP_GetCamera(struct FieldMap *fieldMap);
+struct TcblSys;
 
-extern u32 FIELDMAP_GetTcblSys(void *fieldMap);
+extern struct TcblSys *FIELDMAP_GetTcblSys(struct FieldMap *fieldMap);
 
-extern fx32 FIELD_CAMERA_GetDistance(void *camera);
+extern u32 FIELD_CAMERA_GetDistance(struct FieldCamera *camera);
 
-extern void FIELD_CAMERA_SetDistance(void *camera, fx32 v);
+extern void FIELD_CAMERA_SetDistance(struct FieldCamera *camera, u32 distance);
 
 extern void TCB_AddTask(u32 priority, void *cb, void *arg, int z);
+struct TcbTask;
 
-extern void TCB_DeleteTask(void *task);
+extern void TCB_DeleteTask(struct TcbTask *task);
 
 extern char gFieldmapTcbCameraZoomFileName[];   /* source file name used as allocation site */
 
@@ -71,7 +83,7 @@ void FIELDMAP_TCB_CAMERA_ZOOM_Create(void *fieldMap, u16 frames, fx32 zoomDelta)
 {
     u32 heapId = FIELDMAP_GetHeapId(fieldMap);
     void *camera = FIELDMAP_GetCamera(fieldMap);
-    u32 priority = FIELDMAP_GetTcblSys(fieldMap);
+    u32 priority = (u32)FIELDMAP_GetTcblSys(fieldMap);
     CameraZoomWork *w;
 
     w = GFL_HEAP_Alloc((u16)((heapId & 0x7FFF) | 0x8000), sizeof(CameraZoomWork), 0, gFieldmapTcbCameraZoomFileName, 0x5F);

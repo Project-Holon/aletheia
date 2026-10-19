@@ -63,12 +63,15 @@
 extern u32 GFL_HEAP_Free(void *p);
 
 extern u32 FX_Div(u32 a, u32 b);
+struct TcbSystem;
+struct TcbTask;
 
-extern void *TCB_AddTask(void *owner, void (*fn)(void *, void *), void *work, u32 priority);
+extern struct TcbTask *TCB_AddTask(struct TcbSystem *sys, void (*fn)(void *, void *), void *work, u32 priority);
 
 extern int PALANM_RequestFade(struct PalAnmSlot *palanm, u16 mask, u16 col, s16 step, u8 b, u8 c, u16 d, void *owner);
+struct TcblSystem;
 
-extern u32 TCBL_IsDeletePending(void *task);
+extern u32 TCBL_IsDeletePending(struct TcblSystem *tcbl);
 
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
@@ -78,7 +81,7 @@ extern unsigned int CLACT_DeleteUnit(struct Unit *unit);
 
 void CLACT_DrawSystem(void);
 
-extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
+extern void *ARC_TOOL_CreateHandle(u32 archiveID, u16 heapID);
 
 extern s32 CLACT_RegisterCharacter(void *archive, u32 fileIdx, u32 compressed, u32 vramMode, u16 heap);
 
@@ -113,8 +116,9 @@ extern u32 CLACT_SetActorAnimSeq(struct Actor *actor, u16 seq);
 extern void CLACT_AddActorSurfacePos(struct Actor *actor, const s16 *delta, u32 which);
 
 extern void CLACT_SetActorAffineMode(struct Actor *actor, u32 value);
+struct Pair32;
 
-extern void CLACT_SetActorScale(struct Actor *actor, const int *scale);
+extern void CLACT_SetActorScale(struct Actor *actor, struct Pair32 *src);
 
 void *BTLV_EFFECT_GetOwner(void);
 
@@ -359,7 +363,7 @@ void BTLV_CLACT_MoveTaskMainWide(void *task, void *work)
     scale[0] = job->pos.x;
     scale[1] = job->pos.y;
     CLACT_SetActorAffineMode(clact->slot[job->slot].actor, 1);
-    CLACT_SetActorScale(clact->slot[job->slot].actor, scale);
+    CLACT_SetActorScale(clact->slot[job->slot].actor, (struct Pair32 *)scale);
     if (done == 1)
         BTLV_EFFECT_DeleteTask(task);
 }

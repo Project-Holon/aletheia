@@ -140,6 +140,9 @@
  *   MYSTATUS_GetId  0x02008530  thumb  arm9
  *   MYSTATUS_GetSex  0x02008550  thumb  arm9
  *   RECORD_AddOne  0x02008DF0  thumb  arm9
+ *   GAMESYSTEM_GetGameData       0x020120F4  thumb
+ *   GAME_DATA_GetMyItem          0x0201292C  thumb
+ *   GAME_DATA_GetSaveControl     0x02012EBC  thumb
  */
 #include "irc_result_types.h"
 
@@ -213,8 +216,11 @@ typedef struct IrcRankFadeRow {
 extern void GFL_HEAP_CreateChildHeap(u32,u32,u32);
 extern void *PROCSYS_AllocProcWork(struct Proc *proc, u32 size, u32 heapId);
 extern void MI_CpuFill8(void *,int,int);
-extern u32 GAMESYSTEM_GetGameComm(const void *gameSystem);
-extern void BMP_MENUWORK_DrawWindow(void *window, int commitMode, int tileBase, int palette);
+struct GameSystem;
+struct GameComm;
+extern struct GameComm *GAMESYSTEM_GetGameComm(struct GameSystem *gameSystem);
+struct BmpWin;
+extern void BMP_MENUWORK_DrawWindow(struct BmpWin *win, s32 commitMode, u16 tileBase, u32 palette);
 extern void BG_SYS_ChangeScale(u32 which, u32 op, u32 value);
 extern void BG_SYS_ChangeCenter(u32,u32,u16);
 extern void COMPATIBLE_IRC_SYS_BuildProfile(void *gameSystem,IrcCompatibleProfile *out);
@@ -224,12 +230,15 @@ extern void FADE_Start(u32,int,int,int);
 extern int FADE_IsActive(void);
 extern int COMPATIBLE_IRC_SYS_UpdateValueSync(IrcSys *sys);
 extern void BG_SYS_ClearGraphicsMemory(u32 keep);
-extern void BG_SYS_SetVramBanks(const void *banks);
+struct DispVram;
+extern void BG_SYS_SetVramBanks(struct DispVram *banks);
 extern void BG_SYS_SetLcdSwap(u32 swap);
 extern void BG_SYS_ResetSubDisplay(void);
 extern void BG_SYS_ClearMainPlanes(void);
-extern void *GFL_USE_AddMainTask(IrcTaskProc proc,void *work,int priority);
-extern void TCB_DeleteTask(void *task);
+struct Tcb;
+extern struct Tcb *GFL_USE_AddMainTask(IrcTaskProc proc, void *work, u32 priority);
+struct TcbTask;
+extern void TCB_DeleteTask(struct TcbTask *task);
 extern void BG_SYS_Create(int);
 extern void BMP_WIN_Init(int);
 extern void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
@@ -249,7 +258,9 @@ extern void BG_SYS_FreeLayerBuf(u32 i);
 extern void BMP_WIN_Exit(void);
 extern void BG_SYS_Delete(void);
 extern void BG_SYS_Update(void);
-extern void CLACT_InitSystem(const struct Cfg *cfg, const void *config, unsigned int heapId);
+struct DispVramCfg;
+struct SysInit;
+extern void CLACT_InitSystem(struct SysInit *cfg, struct DispVramCfg *res_cfg, u32 heapId);
 extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 extern void CLACT_SetUnitDefaultRenderer(struct Bank *bank);
 extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
@@ -258,12 +269,13 @@ extern int CLACT_RegisterPalette(void *,int,int,int,int);
 extern int CLACT_RegisterCharacter(void *,int,int,int,int);
 extern int CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 extern struct Obj *CLACT_CreateActor(struct Bank *unit,int character,int palette,int cellAnim,const IrcActorPlacement *placement,int,int heapId);
-extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
-extern void CLACT_SetActorBgPriority(struct Obj *,int);
-extern void CLACT_SetActorDrawPriority(struct Obj *actor, u32 val);
-extern void CLACT_SetActorAutoAnim(struct Obj *p, u32 v);
-extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
-extern void CLACT_DeleteActor(struct Obj *p);
+struct Actor;
+extern void CLACT_SetActorDrawEnable(struct Actor *actor, u32 value);
+extern void CLACT_SetActorBgPriority(struct Actor *actor, u32 priority);
+extern void CLACT_SetActorDrawPriority(struct Actor *actor, u32 priority);
+extern void CLACT_SetActorAutoAnim(struct Actor *actor, u32 enable);
+extern void CLACT_SetActorAnimSeq(struct Actor *actor, u16 value);
+extern void CLACT_DeleteActor(struct Actor *actor);
 extern void CLACT_ReleasePalette(u32 i);
 extern void CLACT_ReleaseCharacter(u32 i);
 extern void CLACT_ReleaseCellAnim(u32 i);
@@ -273,59 +285,67 @@ extern void CLACT_DrawSystem(void);
 extern void CLACT_VBlankSystem(void);
 extern void GF_FONT_InitTextColor(void);
 extern struct GfFont *GF_FONT_Create(int archiveId, int fileId, int format, int isFixedWidth, u32 heapId);
-extern void *PRINTSYS_QUE_Create(u32 heapId);
+struct PrintQueue;
+extern struct PrintQueue *PRINTSYS_QUE_Create(u32 heapId);
 extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern struct WordSet *WORDSET_CreateDefault(u32 heap);
-extern void WORDSET_Delete(struct WordSet *);
-extern void MSGDATA_Delete(struct MsgBank *);
-extern void PRINTSYS_QUE_Delete(struct PrintSys *);
-extern void GF_FONT_Delete(void *);
-extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
-extern void *BMP_WIN_Create(u32, u32, u32, u32, u8, u8, u8);
-extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
-extern void *BMP_WIN_GetBmp(void *window);
-extern void BMP_Clear(void *bitmap, u8 value);
-extern void BMP_WIN_TransferChars(void *window);
-extern void BMP_WIN_MakeScreen(void *window);
-extern u8 BMP_WIN_GetBgLayer(void *window);
+extern u32 WORDSET_Delete(struct WordSet *);
+extern u32 MSGDATA_Delete(struct MsgBank *);
+extern void PRINTSYS_QUE_Delete(struct PrintQueue *queue);
+extern u32 GF_FONT_Delete(struct GfFont *font);
+extern u32 PRINTSYS_QUE_Main(struct PrintQueue *queue);
+extern struct BmpWin *BMP_WIN_Create(u32 bgLayer, u32 posX, u32 posY, u8 width, u8 height, u8 palette, u8 allocDir);
+struct Strbuf;
+extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
+struct Bmp;
+extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *win);
+extern void BMP_Clear(struct Bmp *bmp, u8 value);
+extern void BMP_WIN_TransferChars(struct BmpWin *win);
+extern void BMP_WIN_MakeScreen(struct BmpWin *win);
+extern u8 BMP_WIN_GetBgLayer(struct BmpWin *win);
 extern void BG_SYS_PushTile(u32 index);
-extern void STRBUF_Delete(void *);
-extern void BMP_WIN_Delete(void *window);
-extern unsigned int PRINTSYS_QUE_IsExistTarget(void *queue,void *bitmap);
-extern void MSGDATA_ReadString(void *messages, u32 index, void *dest);
-extern void PRINTSYS_PrintQue(void *queue, void *bitmap, u32 x, u32 y, void *string, void *font);
-extern u8 BMP_WIN_GetWidth(void *window);
-extern u8 BMP_WIN_GetHeight(void *window);
-extern u32 PRINTSYS_MeasureWidestLine(void *string, void *font, u32 b);
-extern unsigned PRINTSYS_CountLines(void *string,void *font);
-extern void PRINTSYS_PrintQueColor(void *queue, void *bitmap, u32 x, u32 y, void *string, void *font, u16 color);
-extern void *MSGDATA_AllocString(void *messages, u32 index);
-extern void WORDSET_CopyTaggedText(void *wordSet, void *dst, void *src);
-extern void WORDSET_SetSlotNumber(void *wordSet, u32 i, u32 value, u32 digits, u32 c, u32 d);
-extern void WORDSET_SetSlotMyStatus(void *wordSet, u32 i, void *a);
-extern void WORDSET_SetSlotFromBank(void *wordSet, u32 i, u32 v, u32 a, u32 b);
+extern void STRBUF_Delete(struct Strbuf *strbuf);
+extern u32 BMP_WIN_Delete(struct BmpWin *win);
+extern unsigned int PRINTSYS_QUE_IsExistTarget(struct PrintQueue *queue, struct Bmp *bmp);
+extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, struct Strbuf *dest);
+extern void PRINTSYS_PrintQue(struct PrintQueue *queue, struct Bmp *bmp, u32 x, s16 y, struct Strbuf *str, struct GfFont *font);
+extern u8 BMP_WIN_GetWidth(struct BmpWin *win);
+extern u8 BMP_WIN_GetHeight(struct BmpWin *win);
+extern u32 PRINTSYS_MeasureWidestLine(struct Strbuf *text, struct GfFont *font, u32 spacing);
+extern unsigned PRINTSYS_CountLines(struct Strbuf *text, struct GfFont *font);
+extern void PRINTSYS_PrintQueColor(struct PrintQueue *queue, struct Bmp *bmp, u32 x, s16 y, struct Strbuf *str, struct GfFont *font, u16 color);
+extern struct Strbuf *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
+extern void WORDSET_CopyTaggedText(struct WordSet *words, struct Strbuf *dst, struct Strbuf *src);
+extern void WORDSET_SetSlotNumber(struct WordSet *words, u32 slot, u32 number, u32 topDigitIndex, u32 padMode, u32 isHalfWidth);
+extern void WORDSET_SetSlotMyStatus(struct WordSet *words, u32 slot, void *source);
+extern void WORDSET_SetSlotFromBank(struct WordSet *words, u32 slot, u32 entryIndex, u32 useFirstBank, u32 useSecondBank);
 extern int TOUCHPANEL_GetTrg(void);
 extern void GFL_USE_PlaySeDefaultVolume(u32);
-extern void GFL_USE_CancelChangeAndPlayBgm(int,int);
+extern void GFL_USE_CancelChangeAndPlayBgm(u32 bgmNo, u32 trackMask);
 extern int GFL_USE_IsBgmPlaying(void);
 extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
 extern void *ARC_UTIL_LoadPaletteBlockFromArchive(u32 archiveId, u32 fileId, IrcPaletteFile **out, u32 heapId);
 extern void MI_CpuCopy8(const void *,void *,int);
 extern u32 GFL_HEAP_Free(void *p);
-extern int NNS_GfdRegisterNewVramTransferTask(u32 target, u32 offset, const void *src, int size);
+extern int NNS_GfdRegisterNewVramTransferTask(void *pTaskFunc, u32 dstOffset, u32 srcAddr, s32 szByte);
+struct GameData;
 
-extern void *GAMESYSTEM_GetGameData(const void *gameSystem);
-extern struct SaveControl *GAME_DATA_GetSaveControl(void *gameData);
-extern void *IRC_RANKING_GetFromSave(struct SaveControl *);
-extern u32 MYSTATUS_GetId(const u8 *key);
-extern int IRC_RANKING_IsEntryNew(void *record, u32 v);
-extern struct ItemBag *GAME_DATA_GetMyItem(void *gameData);
-extern u32 MYITEM_SAVEDATA_GetItemQuantity(struct ItemBag *,u16,u16);
-extern u32 MYITEM_SAVEDATA_AddItem(struct ItemBag *,u16,u16,u16);
-extern void *MYSTATUS_GetName(const u8 *key);
-extern u8 MYSTATUS_GetSex(const u8 *key);
-extern u8 IRC_RANKING_AddEntry(void *,const void *,u16,u32,u8,u8,u32,u16,u8,u8,u8);
-extern struct TrainerRecord *GAME_DATA_GetTrainerRecord(void *gameData);
+extern struct GameData *GAMESYSTEM_GetGameData(struct GameSystem *gameSystem);
+extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gd);
+struct IrcRankSave;
+extern struct IrcRankSave *IRC_RANKING_GetFromSave(struct SaveControl *);
+struct MyStatus;
+extern u32 MYSTATUS_GetId(struct MyStatus *mystatus);
+struct IrcRankEntry;
+extern int IRC_RANKING_IsEntryNew(struct IrcRankEntry *entries, u32 trainerId);
+extern void *GAME_DATA_GetMyItem(struct GameData *gd);
+struct MyItem;
+extern u32 MYITEM_SAVEDATA_GetItemQuantity(struct MyItem *bag, u16 itemId, u16 heapId);
+extern u32 MYITEM_SAVEDATA_AddItem(struct MyItem *bag, u16 itemId, u16 quantity, u16 heapId);
+extern void *MYSTATUS_GetName(void *mystatus);
+extern u8 MYSTATUS_GetSex(struct MyStatus *mystatus);
+extern u8 IRC_RANKING_AddEntry(struct IrcRankSave *rank, void *name, u16 score, u8 gender, u8 language, u8 version, u32 trainerId, u16 profileWord, u8 profileByte, u8 profileBits, u8 profileFlag);
+extern void *GAME_DATA_GetTrainerRecord(struct GameData *gd);
 extern u32 RECORD_AddOne(struct TrainerRecord *record, int i);
 
 int IRC_RESULT_Init(struct Proc *proc,void *state,IrcResultContext *context);
@@ -476,7 +496,7 @@ int IRC_RESULT_Main(void *proc,u32 *state,void *unused,IrcResult *work)
 /* ---- screen: backgrounds, sprites and the vblank task ---- */
 
 void IRC_RESULT_InitScreen(IrcResultScreen *screen,int heapId) {
- MI_CpuFill8(screen,0,0xb0); BG_SYS_ClearGraphicsMemory(0); BG_SYS_SetVramBanks(sResultVramBankConfig);
+ MI_CpuFill8(screen,0,0xb0); BG_SYS_ClearGraphicsMemory(0); BG_SYS_SetVramBanks((struct DispVram *)sResultVramBankConfig);
  BG_SYS_SetLcdSwap(0); BG_SYS_ResetSubDisplay(); BG_SYS_ClearMainPlanes();
  IRC_RESULT_InitActorSystem(&screen->actorSystem,sResultVramBankConfig,heapId); IRC_RESULT_InitBackgrounds(screen,heapId);
  screen->vblankTask=GFL_USE_AddMainTask(IRC_RESULT_ScreenVBlankTask,screen,0);
@@ -550,7 +570,7 @@ void IRC_RESULT_InitActorSystem(IrcResultActorSystem *sys,const void *config,int
     void *archive;
     int i;
     MI_CpuFill8(sys,0,0xa8);
-    CLACT_InitSystem((const struct Cfg *)gClActorInitParam,config,heapId);
+    CLACT_InitSystem((struct SysInit *)gClActorInitParam,(struct DispVramCfg *)config,heapId);
     sys->unit=CLACT_CreateUnit(128,0,heapId);
     CLACT_SetUnitDefaultRenderer(sys->unit);
     BG_SYS_SetMainPlaneVisible(16,1); BG_SYS_SetSubPlaneVisible(16,1);
@@ -564,16 +584,16 @@ void IRC_RESULT_InitActorSystem(IrcResultActorSystem *sys,const void *config,int
     MI_CpuFill8(&placementB,0,8);
     placementB.x=128; placementB.y=96;
     sys->actors[IRC_RESULT_ACTOR_EFFECT]=CLACT_CreateActor(sys->unit,sys->characterId,sys->paletteId,sys->cellAnimId,&placementB,0,heapId);
-    CLACT_SetActorDrawEnable(sys->actors[IRC_RESULT_ACTOR_EFFECT],0); CLACT_SetActorBgPriority(sys->actors[IRC_RESULT_ACTOR_EFFECT],0); CLACT_SetActorDrawPriority(sys->actors[IRC_RESULT_ACTOR_EFFECT],0);
-    CLACT_SetActorAutoAnim(sys->actors[IRC_RESULT_ACTOR_EFFECT],1); CLACT_SetActorAnimSeq(sys->actors[IRC_RESULT_ACTOR_EFFECT],11);
+    CLACT_SetActorDrawEnable((struct Actor *)sys->actors[IRC_RESULT_ACTOR_EFFECT],0); CLACT_SetActorBgPriority((struct Actor *)sys->actors[IRC_RESULT_ACTOR_EFFECT],0); CLACT_SetActorDrawPriority((struct Actor *)sys->actors[IRC_RESULT_ACTOR_EFFECT],0);
+    CLACT_SetActorAutoAnim((struct Actor *)sys->actors[IRC_RESULT_ACTOR_EFFECT],1); CLACT_SetActorAnimSeq((struct Actor *)sys->actors[IRC_RESULT_ACTOR_EFFECT],11);
     for(i=0;i<3;++i) {
-        CLACT_SetActorDrawEnable(sys->actors[IRC_RESULT_ACTOR_DIGIT+i],0); CLACT_SetActorBgPriority(sys->actors[IRC_RESULT_ACTOR_DIGIT+i],0); CLACT_SetActorDrawPriority(sys->actors[IRC_RESULT_ACTOR_DIGIT+i],0);
+        CLACT_SetActorDrawEnable((struct Actor *)(sys->actors[IRC_RESULT_ACTOR_DIGIT+i]),0); CLACT_SetActorBgPriority((struct Actor *)(sys->actors[IRC_RESULT_ACTOR_DIGIT+i]),0); CLACT_SetActorDrawPriority((struct Actor *)(sys->actors[IRC_RESULT_ACTOR_DIGIT+i]),0);
     }
 }
 
 void IRC_RESULT_ExitActorSystem(IrcResultActorSystem *sys) {
  int i;
- for(i=0;i<38;i++) if(sys->actors[i]) CLACT_DeleteActor(sys->actors[i]);
+ for(i=0;i<38;i++) if(sys->actors[i]) CLACT_DeleteActor((struct Actor *)sys->actors[i]);
  CLACT_ReleasePalette(sys->paletteId); CLACT_ReleaseCharacter(sys->characterId); CLACT_ReleaseCellAnim(sys->cellAnimId);
  CLACT_DeleteUnit(sys->unit); CLACT_ExitSystem(); MI_CpuFill8(sys,0,0xa8);
 }
@@ -809,7 +829,7 @@ void IRC_RESULT_InitScoreDisplay(IrcResultScoreDisplay *display,IrcResultScreen 
   else pos.x=92+i*36;
   pos.y=84;
   CLACT_AddActorSurfacePos(display->digitActors[i],&pos,0);
-  CLACT_SetActorDrawEnable(display->digitActors[i],0);
+  CLACT_SetActorDrawEnable((struct Actor *)display->digitActors[i],0);
   display->animFrame[i]=0;display->animLength[i]=60;
   display->animStep[i]=4079/display->animLength[i];
  }
@@ -828,7 +848,7 @@ void IRC_RESULT_ShowDigit(IrcResultScoreDisplay *display, int i)
             return;
         }
         display->digitState[i] = 1;
-        CLACT_SetActorDrawEnable(display->digitActors[i], 1);
+        CLACT_SetActorDrawEnable((struct Actor *)display->digitActors[i], 1);
     }
 }
 
@@ -845,10 +865,10 @@ void IRC_RESULT_SetScoreDigits(IrcResultScoreDisplay *display, unsigned score)
     int i, j;
     t = score;
     if (t) { for (;;) { if (!t) break; t = t / 10; } }
-    for (i = 0; i < 3; i++) CLACT_SetActorAnimSeq(display->digitActors[i],0);
+    for (i = 0; i < 3; i++) CLACT_SetActorAnimSeq((struct Actor *)display->digitActors[i],0);
     for (j = 0; j < 3; j++) {
         display->digits[j] = score % sResultPowersOfTen[j+1] / sResultPowersOfTen[j];
-        CLACT_SetActorAnimSeq(display->digitActors[2-j],display->digits[j]+1);
+        CLACT_SetActorAnimSeq((struct Actor *)display->digitActors[2-j],display->digits[j]+1);
     }
 }
 
@@ -875,7 +895,7 @@ void IRC_RESULT_InitRankFade(IrcResultRankFade *fade,int id,int score,int heapId
     GFL_HEAP_Free(data);
     MI_CpuCopy8(fade->targetColors,fade->workColors,32);
     for(i=0;i<13;++i) fade->workColors[i]=0x7fff;
-    for(i=0;i<16;++i) NNS_GfdRegisterNewVramTransferTask(IRC_PALETTE_TARGET,0x100+i*2,&fade->workColors[i],2);
+    for(i=0;i<16;++i) (void *)NNS_GfdRegisterNewVramTransferTask((void *)IRC_PALETTE_TARGET,(u32)(0x100+i*2),(u32)(&fade->workColors[i]),2);
 }
 
 void IRC_RESULT_ExitRankFade(IrcResultRankFade *fade) { MI_CpuFill8(fade, 0, 0x60); }
@@ -940,7 +960,7 @@ void IRC_RESULT_BlendPaletteEntry(u16 *color,int n,u8 div,u8 paletteBank,u8 colo
  dr=((u8)(to&31)-r)*n/div;
  dg=((u8)((to&0x3E0)>>5)-g)*n/div;
  *color=(u8)(r+dr)|((u8)(g+dg)<<5)|((u8)(blue+db)<<10);
- NNS_GfdRegisterNewVramTransferTask(IRC_PALETTE_TARGET,paletteBank*32+colorIndex*2,color,2);
+ (void *)NNS_GfdRegisterNewVramTransferTask((void *)IRC_PALETTE_TARGET,(u32)(paletteBank*32+colorIndex*2),(u32)color,2);
 }
 
 /* ---- score rank and reward ---- */
@@ -982,22 +1002,22 @@ int IRC_RESULT_GiveReward(IrcResult *work)
     record=IRC_RANKING_GetFromSave(GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData(work->context->gameSystem)));
     partner=work->context->partner;
     key=partner->myStatus;
-    if(!IRC_RANKING_IsEntryNew(record,MYSTATUS_GetId(key)) && work->context->gameSystem) {
+    if(!IRC_RANKING_IsEntryNew(record,MYSTATUS_GetId((struct MyStatus *)key)) && work->context->gameSystem) {
         bag=GAME_DATA_GetMyItem(GAMESYSTEM_GetGameData(work->context->gameSystem));
-        quantity=MYITEM_SAVEDATA_GetItemQuantity(bag,IRC_RESULT_REWARD_ITEM,60);
+        quantity=MYITEM_SAVEDATA_GetItemQuantity((struct MyItem *)bag,IRC_RESULT_REWARD_ITEM,60);
         switch(quantity) {
         case IRC_RESULT_REWARD_MAX: result=IRC_RESULT_REWARD_BAG_FULL; break;
         default:
             request=work->rewardQuantity;
             if(IRC_RESULT_REWARD_MAX-quantity<request) request=IRC_RESULT_REWARD_MAX-quantity;
-            result=MYITEM_SAVEDATA_AddItem(bag,IRC_RESULT_REWARD_ITEM,(u16)request,60)?IRC_RESULT_REWARD_GIVEN:IRC_RESULT_REWARD_BAG_FULL;
+            result=MYITEM_SAVEDATA_AddItem((struct MyItem *)bag,IRC_RESULT_REWARD_ITEM,(u16)request,60)?IRC_RESULT_REWARD_GIVEN:IRC_RESULT_REWARD_BAG_FULL;
             break;
         }
     }
     if(work->context->partner) {
         src=MYSTATUS_GetName(key);
-        flag=MYSTATUS_GetSex(key)?0:1;
-        IRC_RANKING_AddEntry(record,src,work->context->score,(u8)flag,partner->birthMonth,partner->birthDay,MYSTATUS_GetId(key),partner->leadSpecies,partner->leadType2,partner->leadType1,partner->leadNature);
+        flag=MYSTATUS_GetSex((struct MyStatus *)key)?0:1;
+        IRC_RANKING_AddEntry(record,src,work->context->score,(u8)flag,partner->birthMonth,partner->birthDay,MYSTATUS_GetId((struct MyStatus *)key),partner->leadSpecies,partner->leadType2,partner->leadType1,partner->leadNature);
     }
     if(work->context->gameSystem) RECORD_AddOne(GAME_DATA_GetTrainerRecord(GAMESYSTEM_GetGameData(work->context->gameSystem)),IRC_RESULT_TRAINER_RECORD);
     return result;

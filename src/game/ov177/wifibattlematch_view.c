@@ -120,6 +120,7 @@
  *   MYSTATUS_GetTrainerView  0x02008554  thumb  arm9
  *   MYSTATUS_GetNation  0x0200856C  thumb  arm9
  *   MYSTATUS_GetArea  0x02008570  thumb  arm9
+ *   _u32_div_f                   0x0209C2B0  arm
  */
 #include "wifibattlematch_graphic_shared_types.h"
 #include "wifibattlematch_view_shared_types.h"
@@ -307,28 +308,32 @@ extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fi
 extern struct WordSet *WORDSET_CreateDefault(u16 heap);
 
 extern struct U16Vec *STRBUF_Create(u32 capacity, u16 heapId);
+struct BmpWin;
 
-extern u8 BMP_WIN_GetWidth(struct Descriptor *p);
+extern u8 BMP_WIN_GetWidth(struct BmpWin *win);
 
-extern void *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
+extern struct Strbuf *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
 
 extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 
-extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
+extern void WORDSET_CopyTaggedText(struct WordSet *words, struct Strbuf *dst, struct Strbuf *src);
+struct GfFont;
 
-extern u32 PRINTSYS_MeasureWidestLine(struct StrObj *s, u32 a, u32 b);
+extern u32 PRINTSYS_MeasureWidestLine(struct Strbuf *text, struct GfFont *font, unsigned int spacing);
+struct Bmp;
 
-extern void *BMP_WIN_GetBmp(struct Descriptor *p);
+extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *win);
+struct PrintQueue;
 
-extern void PRINTSYS_PrintQue(struct PrintSys *p, u32 a, u32 b, u32 c, void *s, u32 e);
+extern void PRINTSYS_PrintQue(struct PrintQueue *queue, struct Bmp *bmp, unsigned int x, short y, struct Strbuf *str, struct GfFont *font);
 
-extern void STRBUF_Delete(struct U16Vec *vec);
+extern void STRBUF_Delete(struct Strbuf *strbuf);
 
 extern u32 WORDSET_Delete(struct WordSet *p);
 
-extern u32 MSGDATA_Delete(struct Rec *rec);
+extern u32 MSGDATA_Delete(struct MsgBank *bank);
 
-extern void G2x_SetBlendAlpha_(void *, int, int, int, int);
+extern void G2x_SetBlendAlpha_(unsigned int *reg, unsigned int a, unsigned int b, unsigned int c, unsigned int d);
 
 extern void CLACT_AddActorSurfacePos(void *, const Pt *, u16);
 
@@ -336,13 +341,13 @@ extern void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 
 extern void BG_SYS_PushTile(u32);
 
-extern void BMP_Clear(struct CharBuf *buf, u8 value);
+extern void BMP_Clear(struct Bmp *bmp, unsigned char value);
 
 extern u32 BG_SYS_GetScrollX(u32 layer);
 
-extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
+extern void CLACT_SetActorDrawEnable(struct Actor *actor, unsigned int value);
 
-extern void PRINTSYS_PrintQueColor(struct PrintSys *p, void *a, u32 b, s16 c, struct U16Vec *s, u32 e, u16 f);
+extern void PRINTSYS_PrintQueColor(struct PrintQueue *queue, struct Bmp *bmp, unsigned int x, short y, struct Strbuf *str, struct GfFont *font, unsigned short color);
 
 extern void CLACT_GetActorSurfacePos(struct Actor *actor, struct PtS *out, u16 space);
 
@@ -351,27 +356,27 @@ extern void GFL_USE_PlaySeDefaultVolume(unsigned);
 
 extern void BG_SYS_ChangeScroll(u32 index, u32 a, u32 b);
 
-extern unsigned int BMP_WIN_Create(unsigned int layer, unsigned int a, unsigned int b, unsigned int tiles, u8 c, u8 d, u8 slot);
+extern struct BmpWin *BMP_WIN_Create(unsigned int bgLayer, unsigned int posX, unsigned int posY, unsigned char width, unsigned char height, unsigned char palette, unsigned char allocDir);
 
-extern void BMP_WIN_TransferChars(struct Descriptor *d);
+extern void BMP_WIN_TransferChars(struct BmpWin *win);
 
-extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
+extern void BMP_WIN_MakeScreen(struct BmpWin *win);
 
-extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
+extern u8 BMP_WIN_GetBgLayer(struct BmpWin *win);
 
-extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
+extern void MSGDATA_ReadString(struct MsgBank *bank, unsigned int index, struct Strbuf *dest);
 
 extern void WORDSET_SetSlotMyStatus(struct WordSet *p, u32 i, void *a);
 
 extern void STRBUF_SetString(struct Strbuf *o, const u16 *src);
 
-extern void MYSTATUS_NameToStrbuf(void *, void *);
+extern void MYSTATUS_NameToStrbuf(unsigned short *name, struct Strbuf *buf);
 
 extern void WORDSET_SetSlotMonth(struct WordSet *p, u32 i, u32 v);
 
-extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintSys *p, void *v);
+extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintQueue *queue, struct Bmp *bmp);
 
-extern u32 BMP_WIN_Delete(struct Descriptor *d);
+extern u32 BMP_WIN_Delete(struct BmpWin *win);
 
 extern int POKE_TOOL_GetIconPaletteArcId(void);
 
@@ -380,8 +385,9 @@ extern int POKE_TOOL_GetIconCellArcId(void);
 extern int POKE_TOOL_GetIconCellEntryId(void);
 
 extern int CLACT_RegisterPaletteCompressed(void *archive, u32 file_idx, u32 vram_mode, u32 vram_offset, u16 heap_id);
+struct RegulationParty;
 
-extern s32 REGULATION_Party_GetValue(struct Rec1E *p, u32 id, u8 n);
+extern s32 REGULATION_Party_GetValue(struct RegulationParty *party, unsigned int id, unsigned char member);
 
 extern u32 POKE_TOOL_CalcGraphicIndex(u32 species, u32 form, u32 gender, u32 isEgg);
 
@@ -401,9 +407,9 @@ extern struct Obj *CLACT_CreateActor(void *, unsigned int, unsigned int, unsigne
 
 extern u32 POKE_TOOL_CalcIconPalette(u32, u32, u32, u32);
 
-extern void CLACT_SetActorPaletteOffset(struct Obj *o, u32 v, u32 flag);
+extern void CLACT_SetActorPaletteOffset(struct Actor *actor, unsigned int offset, unsigned int pltt_op);
 
-extern void CLACT_DeleteActor(struct Obj *p);
+extern void CLACT_DeleteActor(struct Actor *actor);
 
 extern struct PmsDraw *PMS_DRAW_Create(u32 a, u32 b, u32 c, u32 d, u8 e0, u8 e1, u16 heap);
 
@@ -417,9 +423,9 @@ extern void ARC_UTIL_UploadBgPaletteFromArchive(u32 archiveID, u32 memberIdx, u3
 
 extern u32 BG_SYS_GetBuf(int);
 
-extern void BG_SYS_DrawTileEx(u32, u32, u32, u32, u8, u32, u8, u8, u8, u8);
+extern void BG_SYS_DrawTileEx(unsigned int index, unsigned char dx, unsigned char dy, unsigned char cw, unsigned char ch, void *src, unsigned char sx, unsigned char sy, unsigned char sw, unsigned char sh);
 
-extern void PMS_DRAW_Delete(struct Obj *p);
+extern void PMS_DRAW_Delete(struct PmsDraw *wk);
 
 extern const void *MYSTATUS_GetName(const void *p);
 
@@ -432,32 +438,37 @@ extern void WORDSET_SetSlotFromMsgE7(struct WordSet *p, u32 i, u32 n);
 extern void WORDSET_SetSlotFromKeyedMessage(struct WordSet *p, u32 i, u32 a, u32 n);
 
 extern void PMS_DRAW_SetPrintColor(struct PmsDraw *p, u16 v);
+struct BeaconDetailGraQuad;
 
-extern void PMS_DRAW_Print(void *, void *, const void *, unsigned);
+extern void PMS_DRAW_Print(u32 wk, u32 bmpWin, struct BeaconDetailGraQuad *pms, u32 id);
 
-extern void PMS_DRAW_Main(u8 *p);
+extern void PMS_DRAW_Main(struct PmsDraw *wk);
 
 extern u32 PMS_DRAW_IsPrintEnd(struct PmsDraw *o);
 
-extern void BMP_WIN_ClearScreen(struct Descriptor *d);
+extern void BMP_WIN_ClearScreen(struct BmpWin *win);
 
-extern void CLACT_SetActorAutoAnim(struct Obj *p, u32 v);
+extern void CLACT_SetActorAutoAnim(struct Actor *actor, unsigned int enable);
 
 extern void GFL_USE_StopSeSlot(int i);
+struct BoxMonGroup;
+struct Party;
 
-extern void *BATTLE_BOX_CreateParty(int box, int heap);
+extern struct Party *BATTLE_BOX_CreateParty(struct BoxMonGroup *box, int heap);
 
-extern unsigned POKEPARTY_GetCount(void *party);
+extern unsigned POKEPARTY_GetCount(struct Party *party);
+struct PokemonParam;
 
-extern void *POKEPARTY_GetMember(void *p, u32 idx);
+extern struct PokemonParam *POKEPARTY_GetMember(struct Party *party, unsigned int pos);
 
-extern unsigned POKE_TOOL_GetPartyValue(void *p, unsigned id, unsigned v);
+extern unsigned POKE_TOOL_GetPartyValue(struct PokemonParam *pp, unsigned int paramId, unsigned int arg);
+struct BoxPokemon;
 
-extern void *POKE_TOOL_GetBoxParam(void *);
+extern struct BoxPokemon *POKE_TOOL_GetBoxParam(struct PokemonParam *pp);
 
-extern unsigned POKE_TOOL_GetGraphicIndex(void *);
+extern unsigned POKE_TOOL_GetGraphicIndex(struct BoxPokemon *box);
 
-extern int POKE_TOOL_GetIconPalette(void *box);
+extern unsigned int POKE_TOOL_GetIconPalette(struct BoxPokemon *box);
 
 u32 *WIFIBATTLEMATCH_VIEW_Create(int unused, int mode, int heap);
 
@@ -763,30 +774,30 @@ void WIFIBATTLEMATCH_VIEW_DrawTaggedText(u32 *p, struct PrintSys *win, u32 str, 
 
     e = MSGDATA_AllocString(msg, 2);
     WORDSET_SetSlotNumber(ws, 0, c1, 8, 0, 1);
-    WORDSET_CopyTaggedText(ws, buf, e);
-    w = PRINTSYS_MeasureWidestLine((struct StrObj *)buf, str, 0);
+    WORDSET_CopyTaggedText(ws, (struct Strbuf *)buf, e);
+    w = PRINTSYS_MeasureWidestLine((struct Strbuf *)buf, (struct GfFont *)str, 0);
     x1 = x - w;
-    PRINTSYS_PrintQue(win, (u32)BMP_WIN_GetBmp((struct Descriptor *)p[0]), (s16)x1, 0, buf, str);
+    PRINTSYS_PrintQue((struct PrintQueue *)win, BMP_WIN_GetBmp((struct BmpWin *)p[0]), (s16)x1, 0, (struct Strbuf *)buf, (struct GfFont *)str);
     ((u8 *)p)[4] = 1;
-    STRBUF_Delete((struct U16Vec *)e);
+    STRBUF_Delete((struct Strbuf *)e);
 
     e = MSGDATA_AllocString(msg, 0);
-    w = PRINTSYS_MeasureWidestLine(e, str, 0);
+    w = PRINTSYS_MeasureWidestLine(e, (struct GfFont *)str, 0);
     x2 = x1 - w;
-    PRINTSYS_PrintQue(win, (u32)BMP_WIN_GetBmp((struct Descriptor *)p[0]), (s16)x2, 0, e, str);
+    PRINTSYS_PrintQue((struct PrintQueue *)win, BMP_WIN_GetBmp((struct BmpWin *)p[0]), (s16)x2, 0, e, (struct GfFont *)str);
     ((u8 *)p)[4] = 1;
-    STRBUF_Delete((struct U16Vec *)e);
+    STRBUF_Delete((struct Strbuf *)e);
 
     e = MSGDATA_AllocString(msg, 1);
     WORDSET_SetSlotNumber(ws, 0, c2, 8, 0, 1);
-    WORDSET_CopyTaggedText(ws, buf, e);
-    w = PRINTSYS_MeasureWidestLine((struct StrObj *)buf, str, 0);
-    PRINTSYS_PrintQue(win, (u32)BMP_WIN_GetBmp((struct Descriptor *)p[0]), (s16)(x2 - w), 0, buf, str);
+    WORDSET_CopyTaggedText(ws, (struct Strbuf *)buf, e);
+    w = PRINTSYS_MeasureWidestLine((struct Strbuf *)buf, (struct GfFont *)str, 0);
+    PRINTSYS_PrintQue((struct PrintQueue *)win, BMP_WIN_GetBmp((struct BmpWin *)p[0]), (s16)(x2 - w), 0, (struct Strbuf *)buf, (struct GfFont *)str);
     ((u8 *)p)[4] = 1;
-    STRBUF_Delete((struct U16Vec *)e);
-    STRBUF_Delete(buf);
+    STRBUF_Delete((struct Strbuf *)e);
+    STRBUF_Delete((struct Strbuf *)buf);
     WORDSET_Delete(ws);
-    MSGDATA_Delete((struct Rec *)msg);
+    MSGDATA_Delete((struct MsgBank *)msg);
 }
 
 /*
@@ -954,7 +965,7 @@ void WIFIBATTLEMATCH_VIEW_DrawStatusWindow(char *p, int mode, void *mgr, void *p
         }
         CLACT_SetActorDrawEnable(((Work *)p)->objs[8],1);
         s=MSGDATA_AllocString(mgr,17);
-        PRINTSYS_PrintQueColor(print,BMP_WIN_GetBmp(((Work *)p)->slots[7].win),0,0,s,font,0x3c40);
+        PRINTSYS_PrintQueColor(print,BMP_WIN_GetBmp(((Work *)p)->slots[7].win),0,0,s,(struct GfFont *)font,0x3c40);
         ((Work *)p)->slots[7].shown=1;
         break;
     case 1:
@@ -969,7 +980,7 @@ void WIFIBATTLEMATCH_VIEW_DrawStatusWindow(char *p, int mode, void *mgr, void *p
         }
         CLACT_SetActorDrawEnable(((Work *)p)->objs[8],0);
         s=MSGDATA_AllocString(mgr,18);
-        PRINTSYS_PrintQueColor(print,BMP_WIN_GetBmp(((Work *)p)->slots[7].win),0,0,s,font,0x3c40);
+        PRINTSYS_PrintQueColor(print,BMP_WIN_GetBmp(((Work *)p)->slots[7].win),0,0,s,(struct GfFont *)font,0x3c40);
         ((Work *)p)->slots[7].shown=1;
         break;
     case 2:
@@ -984,7 +995,7 @@ void WIFIBATTLEMATCH_VIEW_DrawStatusWindow(char *p, int mode, void *mgr, void *p
         }
         CLACT_SetActorDrawEnable(((Work *)p)->objs[8],0);
         s=MSGDATA_AllocString(mgr,19);
-        PRINTSYS_PrintQueColor(print,BMP_WIN_GetBmp(((Work *)p)->slots[7].win),0,0,s,font,0x3c40);
+        PRINTSYS_PrintQueColor(print,BMP_WIN_GetBmp(((Work *)p)->slots[7].win),0,0,s,(struct GfFont *)font,0x3c40);
         ((Work *)p)->slots[7].shown=1;
         break;
     }
@@ -1103,7 +1114,7 @@ void WIFIBATTLEMATCH_VIEW_DrawDateWindow(char *p, int mode, void *mgr, void *pri
         }
         CLACT_SetActorDrawEnable(((Work *)p)->objs[8],1);
         s=MSGDATA_AllocString(mgr,17);
-        PRINTSYS_PrintQueColor(print,BMP_WIN_GetBmp(((Work *)p)->slots[9].win),0,0,s,font,0x3c40);
+        PRINTSYS_PrintQueColor(print,BMP_WIN_GetBmp(((Work *)p)->slots[9].win),0,0,s,(struct GfFont *)font,0x3c40);
         ((Work *)p)->slots[9].shown=1;
         break;
     case 1:
@@ -1118,7 +1129,7 @@ void WIFIBATTLEMATCH_VIEW_DrawDateWindow(char *p, int mode, void *mgr, void *pri
         }
         CLACT_SetActorDrawEnable(((Work *)p)->objs[8],0);
         s=MSGDATA_AllocString(mgr,18);
-        PRINTSYS_PrintQueColor(print,BMP_WIN_GetBmp(((Work *)p)->slots[9].win),0,0,s,font,0x3c40);
+        PRINTSYS_PrintQueColor(print,BMP_WIN_GetBmp(((Work *)p)->slots[9].win),0,0,s,(struct GfFont *)font,0x3c40);
         ((Work *)p)->slots[9].shown=1;
         break;
     case 2:
@@ -1133,7 +1144,7 @@ void WIFIBATTLEMATCH_VIEW_DrawDateWindow(char *p, int mode, void *mgr, void *pri
         }
         CLACT_SetActorDrawEnable(((Work *)p)->objs[8],0);
         s=MSGDATA_AllocString(mgr,19);
-        PRINTSYS_PrintQueColor(print,BMP_WIN_GetBmp(((Work *)p)->slots[9].win),0,0,s,font,0x3c40);
+        PRINTSYS_PrintQueColor(print,BMP_WIN_GetBmp(((Work *)p)->slots[9].win),0,0,s,(struct GfFont *)font,0x3c40);
         ((Work *)p)->slots[9].shown=1;
         break;
     }
@@ -1301,7 +1312,7 @@ void WIFIBATTLEMATCH_VIEW_SetupMainWindow(Work *w, unsigned headerMsgId, const W
             break;
         }
         if (draw) {
-            PRINTSYS_PrintQueColor(printQue, BMP_WIN_GetBmp(w->slots[j].win), 0, 0, s2, font, color);
+            PRINTSYS_PrintQueColor(printQue, BMP_WIN_GetBmp(w->slots[j].win), 0, 0, s2, (struct GfFont *)font, color);
             w->slots[j].shown = 1;
         }
     }
@@ -1385,7 +1396,7 @@ void WIFIBATTLEMATCH_VIEW_SetupDateWindow(Work *w, unsigned drawTotal, const Wif
             break;
         }
         if (draw) {
-            PRINTSYS_PrintQueColor(printQue, BMP_WIN_GetBmp(w->slots[j].win), 0, 0, s2, font, color);
+            PRINTSYS_PrintQueColor(printQue, BMP_WIN_GetBmp(w->slots[j].win), 0, 0, s2, (struct GfFont *)font, color);
             w->slots[j].shown = 1;
         }
     }
@@ -1471,7 +1482,7 @@ void WIFIBATTLEMATCH_VIEW_SetupTimeWindow(Work *w, const WifiBattleMatchViewTime
             break;
         }
         if (draw) {
-            PRINTSYS_PrintQueColor(printQue, BMP_WIN_GetBmp(w->slots[j].win), 0, 0, s2, font, color);
+            PRINTSYS_PrintQueColor(printQue, BMP_WIN_GetBmp(w->slots[j].win), 0, 0, s2, (struct GfFont *)font, color);
             w->slots[j].shown = 1;
         }
     }
@@ -1633,7 +1644,7 @@ void WIFIBATTLEMATCH_VIEW_CreateActorFromTable(char *p, void *owner, void *table
 
 void WIFIBATTLEMATCH_VIEW_DeleteActorFromTable(int *p)
 {
-    CLACT_DeleteActor((struct Obj *)(((Work *)p)->objs[8]));
+    CLACT_DeleteActor((struct Actor *)(((Work *)p)->objs[8]));
 }
 
 void WIFIBATTLEMATCH_VIEW_CreateActorFromInfo(char *p, const WifiBattleMatchViewMainInfo *desc, void *owner, void *table, u16 heap)
@@ -1695,7 +1706,7 @@ WifiBattleMatchViewRecordWork *WIFIBATTLEMATCH_VIEW_CreateRecordWindow(const Wif
         break;
     case 0:
     case 1:
-        BG_SYS_DrawTileEx(2, 0, 0, 0x20, 2, BG_SYS_GetBuf(2), 0, 0x18, 0x20, 0x20);
+        BG_SYS_DrawTileEx(2, 0, 0, 0x20, 2, (void *)(BG_SYS_GetBuf(2)), 0, 0x18, 0x20, 0x20);
         switch (style) {
         case 0:
             BG_SYS_FillTileMap(2, 0, 0, 0x20, 2, 1);
@@ -1862,12 +1873,12 @@ void WIFIBATTLEMATCH_VIEW_SetupRecordWindow(WifiBattleMatchViewRecordWork *p, co
             break;
         case 7:
             PMS_DRAW_SetPrintColor(p->menu, color);
-            PMS_DRAW_Print(p->menu, p->win[j], data->name, 0);
+            PMS_DRAW_Print((u32)p->menu, (u32)p->win[j], (struct BeaconDetailGraQuad *)data->name, 0);
             draw = 0;
             break;
         }
         if (draw) {
-            PRINTSYS_PrintQueColor(print, BMP_WIN_GetBmp(p->ent[j].win), 0, 0, str, font, color);
+            PRINTSYS_PrintQueColor(print, BMP_WIN_GetBmp(p->ent[j].win), 0, 0, str, (struct GfFont *)font, color);
             p->ent[j].shown = 1;
         }
     }
@@ -2010,8 +2021,8 @@ void **WIFIBATTLEMATCH_VIEW_CreateActorArray(void *owner, void *src, u16 heap)
 
 void WIFIBATTLEMATCH_VIEW_DeleteActorArray(int *p)
 {
-    CLACT_DeleteActor((struct Obj *)(*(int *)((char *)p + 4)));
-    CLACT_DeleteActor((struct Obj *)(*(int *)p));
+    CLACT_DeleteActor((struct Actor *)(*(int *)((char *)p + 4)));
+    CLACT_DeleteActor((struct Actor *)(*(int *)p));
     GFL_HEAP_Free(p);
 }
 
@@ -2067,7 +2078,7 @@ WifiBattleMatchViewPartyWork *WIFIBATTLEMATCH_VIEW_CreatePartyWindow(void *src, 
     work = GFL_HEAP_Alloc(heap, sizeof(WifiBattleMatchViewPartyWork), 0, d_021E8DBC, 0xC8A);
     MI_CpuFill8(work, 0, sizeof(WifiBattleMatchViewPartyWork));
     h = HeapTemp(heap);
-    party = BATTLE_BOX_CreateParty((int)src, (u16)h);
+    party = BATTLE_BOX_CreateParty(src, (u16)h);
     ARC_UTIL_UploadBgPaletteFromArchive((int)0x85, (int)7, (int)2, (int)0, (int)0, (int)0, h);
     handle = ARC_TOOL_CreateHandle(7, (unsigned)heap);
     work->pal = (void *)CLACT_RegisterPaletteCompressed(handle, POKE_TOOL_GetIconPaletteArcId(), 0, 0xA0, h);
@@ -2121,17 +2132,17 @@ WifiBattleMatchViewPartyWork *WIFIBATTLEMATCH_VIEW_CreatePartyWindow(void *src, 
             work->ent[i].win = work->win[i];
             work->ent[i].shown = 0;
             if (POKE_TOOL_GetPartyValue(mon, 0x6E, 0) == 0) {
-                PRINTSYS_PrintQueColor(print, BMP_WIN_GetBmp(work->ent[i].win), 0x20, 0, sMale, font, 0x14C0);
+                PRINTSYS_PrintQueColor(print, BMP_WIN_GetBmp(work->ent[i].win), 0x20, 0, sMale, (struct GfFont *)font, 0x14C0);
                 work->ent[i].shown = 1;
             } else if (POKE_TOOL_GetPartyValue(mon, 0x6E, 0) == 1) {
-                PRINTSYS_PrintQueColor(print, BMP_WIN_GetBmp(work->ent[i].win), 0x20, 0, sFemale, font, 0xC80);
+                PRINTSYS_PrintQueColor(print, BMP_WIN_GetBmp(work->ent[i].win), 0x20, 0, sFemale, (struct GfFont *)font, 0xC80);
                 work->ent[i].shown = 1;
             }
             level = POKE_TOOL_GetPartyValue(mon, 0x9E, 0);
             WORDSET_SetSlotNumber(fmt, 0, level, 3, 1, 1);
             WORDSET_CopyTaggedText(fmt, buf, sLevel);
-            x = 20 - PRINTSYS_MeasureWidestLine(buf, font, 0) / 2;
-            PRINTSYS_PrintQueColor(print, BMP_WIN_GetBmp(work->ent[i].win), x, 0x24, buf, font, 0x440);
+            x = 20 - PRINTSYS_MeasureWidestLine(buf, (struct GfFont *)font, 0) / 2;
+            PRINTSYS_PrintQueColor(print, BMP_WIN_GetBmp(work->ent[i].win), x, 0x24, buf, (struct GfFont *)font, 0x440);
             work->ent[i].shown = 1;
         }
     }

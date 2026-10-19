@@ -52,23 +52,22 @@
 #include "dwc_rap_types.h"
 #include "net_devwifi_shared_types.h"
 
-void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+typedef int s32;
+#include "../arm9/gfl_heap_wrap.h"
 
 extern u32 GFL_NET_GetWifiUserData(void);
 
 extern u32 GFL_NET_GetFriendList(void);
 
-u32 GFL_HEAP_Free(void *block);
 
 extern int DWC_GetAIDBitmap(void);
 
 extern int DWC_GetLinkLevel(void);
 
-int DWC_GetLastErrorEx(int *errorCode, int *errorType);
+#include "../arm9/dwc_error.h"
 
-void GFL_NET_STATE_SetError(int errorCode, u32 errorType, u32 dwcError, u32 gameCode);
+#include "../arm9/net_state.h"
 
-u32 GFL_NET_STATE_GetError(void);
 
 void GFL_NET_DEVWIFI_InitDwc(int heapId);
 
@@ -122,49 +121,29 @@ int GFL_NET_DEVWIFI_IsInSession(void);
 
 void *GFL_NET_DEVWIFI_GetDeviceTable(void);
 
-int DWC_RAP_IsWorkAllocated(void);
+#include "dwc_rap.h"
 
-int DWC_RAP_CreateWork(int userData, int friendList);
 
-void DWC_RAP_SetRecvCallbacks(int serverFunc, int clientFunc);
 
-int DWC_RAP_StartMatchWithKey(void *matchValue, int maxPlayers, int useFilter, int unused);
 
-int DWC_RAP_RunStateMachine(int cancelRequest);
 
-int DWC_RAP_SendMessage(int data, int size);
 
-int DWC_RAP_GetMyAidIfConnected(void);
 
-int DWC_RAP_ProgressDisconnect(int pollOnly);
 
-int DWC_RAP_ResetToIdle(void);
 
-void DWC_RAP_Shutdown(void);
 
-unsigned char DWC_RAP_GetFriendStatus(int friendIndex);
 
-int DWC_RAP_StartFriendMatch(int friendIndex, int maxPlayers, int limitToTwo);
 
-s16 DWC_RAP_GetVchatEnabled(void);
 
-int DWC_RAP_GetNewClientAid(void);
 
-int DWC_RAP_IsStateIdle(void);
 
-int DWC_RAP_IsStateInSession(void);
 
-void DWC_RAP_StoreAllowConnect(u32 allowed);
 
-int DWC_RAP_IsDisconnected(void);
 
-void DWC_RAP_StoreErrorOnDisconnect(u32 enabled);
 
-void DWC_RAPCOMMON_InitDwcWithNotice(int heapId);
+#include "dwc_rapcommon.h"
 
-void DWC_RAPCOMMON_CreateHeap(u32 heapId, u32 size);
 
-void DWC_RAPCOMMON_DestroyHeap(void);
 
 extern int *_pSetupParam;
 

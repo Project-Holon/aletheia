@@ -32,11 +32,11 @@
 #include "g3d_light_shared_types.h"
 #include "arc_tool_shared_types.h"
 
-void ARC_TOOL_SetTable(u32 a, u32 b);
+void ARC_TOOL_SetTable(void **a, u32 b);
 
 extern struct ArcTableInfo ARC_TOOL_gArchiveTable;
 
-void ARC_TOOL_SetTable(u32 entries, u32 count)
+void ARC_TOOL_SetTable(void **entries, u32 count)
 {
     ARC_TOOL_gArchiveTable.entries = (u32 *)entries;
     ARC_TOOL_gArchiveTable.count = count;
@@ -72,7 +72,7 @@ struct ArcHandleRaw {
     u8 raw[0x50];
 };
 
-extern void *GFL_HEAP_Alloc(u16 heapID, u32 size, int clear, const char *file, int line);
+extern void *GFL_HEAP_Alloc(unsigned int heapId, unsigned int size, int clear, char *site, unsigned short tag);
 
 extern u32 GFL_HEAP_Free(void *p);
 
@@ -227,7 +227,7 @@ void *ARC_TOOL_LoadMemberRangeImpl(u32 archiveID, u32 memberIdx, u16 heapID, u32
 
     ARC_TOOL_OpenArchive(&h, archiveID);
     memberSize = ARC_TOOL_SeekMember((struct ArcHandle *)&h, memberIdx, offset, size);
-    buf = GFL_HEAP_Alloc(heapID, memberSize, 0, arc_tool_file, 0xbb);
+    buf = GFL_HEAP_Alloc(heapID, memberSize, 0, (char *)arc_tool_file, 0xbb);
     ((s32 (*)(struct FSFile *file, void *buffer, s32 length))FS_ReadFile)((struct FSFile *)(&h), buf, memberSize);
     FS_CloseFile(&h);
     return buf;
@@ -485,7 +485,7 @@ void *ARC_TOOL_LoadMemberFromPath(const char *path, u32 memberIdx, u16 heapID)
     FS_InitFile(&file);
     ((void (*)(struct ArcFile *f, const char *path))FS_OpenFile)(&file, path);
     size = ARC_TOOL_SeekMember((struct ArcHandle *)(&file), memberIdx, 0, 0);
-    p = GFL_HEAP_Alloc(heapID, size, 0, arc_tool_file, 0x182);
+    p = GFL_HEAP_Alloc(heapID, size, 0, (char *)arc_tool_file, 0x182);
     ((s32 (*)(struct FSFile *file, void *buffer, s32 length))FS_ReadFile)((struct FSFile *)(&file), p, size);
     FS_CloseFile(&file);
     return p;
@@ -527,7 +527,7 @@ u32 ARC_TOOL_GetMemberSize(u32 archiveID, u32 memberIdx)
  */
 void *ARC_TOOL_CreateHandle(u32 archiveID, u16 heapID)
 {
-    void *rec = GFL_HEAP_Alloc(heapID, 0x50, 0, arc_tool_file, 0x209);
+    void *rec = GFL_HEAP_Alloc(heapID, 0x50, 0, (char *)arc_tool_file, 0x209);
 
     ARC_TOOL_OpenArchive(rec, archiveID);
     ARC_TOOL_ReadHandleHeader(rec);
@@ -553,7 +553,7 @@ void *ARC_TOOL_CreateHandle(u32 archiveID, u16 heapID)
  */
 void *ARC_TOOL_CreateHandleFromMemory(void *buf, u32 size, u16 heapID)
 {
-    void *handle = GFL_HEAP_Alloc(heapID, 0x50, 0, arc_tool_file, 0x21f);
+    void *handle = GFL_HEAP_Alloc(heapID, 0x50, 0, (char *)arc_tool_file, 0x21f);
 
     FS_InitFile(handle);
     FS_CreateFileFromMemory(handle, buf, size);
@@ -639,7 +639,7 @@ void *ARC_TOOL_LoadHandleMember(struct ArcHandle *arc, u32 memberIdx, u16 heapID
     ((s32 (*)(struct FSFile *file, void *buffer, s32 length))FS_ReadFile)((struct FSFile *)arc, range, 8);
     FS_SeekFile((struct ArcHandle *)arc, arc->imageBase + 8 + range[0], 0);
 
-    buf = GFL_HEAP_Alloc(heapID, range[1] - range[0], 0, arc_tool_file, 619);
+    buf = GFL_HEAP_Alloc(heapID, range[1] - range[0], 0, (char *)arc_tool_file, 619);
     if (buf != 0) {
         ((s32 (*)(struct FSFile *file, void *buffer, s32 length))FS_ReadFile)((struct FSFile *)arc, buf, range[1] - range[0]);
     }

@@ -111,24 +111,30 @@ typedef struct FldeffGrassParam {
 } FldeffGrassParam;
 
 extern u32 GFL_HEAP_Free(void *p);
-extern void *FIELDMAP_GetGameSystem(struct FieldMap *fieldmap);
+struct FieldMap;
+struct GameSystem;
+extern struct GameSystem *FIELDMAP_GetGameSystem(struct FieldMap *fieldmap);
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *file, u16 line);
 extern int FLDMMDL_GetGridNowX(const Mmdl *mmdl);
 extern int FLDMMDL_GetGridNowZ(const Mmdl *mmdl);
-extern void *G3D_SYSTEM_CreateResourceArcHandle(u32 arcHandle, u32 fileId);
+struct ArcHandle;
+struct G3dResource;
+extern struct G3dResource *G3D_SYSTEM_CreateResourceArcHandle(struct ArcHandle *arc, u32 dataId);
 extern u16 BILLBOARD_ACT_CreateSlots(struct BbActSys *act, const struct BbActRec *recs, u32 count);
 extern void BILLBOARD_ACT_DeleteSlots(struct BbActSys *act, u32 first, u32 count);
 extern struct BbActSys *FIELDMAP_GetGroundBbdAct(struct FieldMap *fieldmap);
 extern u16 FLDMMDL_GetObjId(const Mmdl *mmdl);
 extern u16 FLDMMDL_GetZoneId(const Mmdl *mmdl);
 extern void FLDMMDL_MOVE_GridToVectorPos(int gridX, int gridZ, VecFx32 *out);
-extern u32 FLDMMDL_GetPosY(const Mmdl *mmdl);
-extern int FLDMMDL_CheckStatusBit(const Mmdl *mmdl, int bit);
-extern void FLDMMDL_MOVE_GetMapHeight(const Mmdl *mmdl, VecFx32 *pos, int *outHeight);
-struct FieldMap *FIELD_EFFECT_GetFieldMap(FieldEffectSys *sys);
+struct Mmdl;
+extern s32 FLDMMDL_GetPosY(const Mmdl *mmdl);
+extern u32 FLDMMDL_CheckStatusBit(struct Mmdl *mmdl, u32 bit);
+extern s32 FLDMMDL_MOVE_GetMapHeight(const Mmdl *mmdl, VecFx32 *pos, int *outHeight);
+struct FieldEffectSys;
+u32 FIELD_EFFECT_GetFieldMap(FieldEffectSys *sys);
 u32 FIELD_EFFECT_GetArcHandle(FieldEffectSys *sys);
 u8 FIELD_EFFECT_GetModelBaseOffset(FieldEffectSys *sys);
-void *FIELD_EFFECT_GetResource(FieldEffectSys *sys, int id);
+s32 FIELD_EFFECT_GetResource(FieldEffectSys *sys, int id);
 void FIELD_EFFECT_AddObject(FieldEffectSys *sys, const FieldEffectObjFuncs *funcs, const VecFx32 *pos, u32 mode, void *param, u32 priority);
 void FIELD_EFFECT_ApplyPaletteTable(FieldEffectSys *sys, void *model);
 FldeffGrass *FLDEFF_GRASS_Create(FieldEffectSys *sys, int heapId);
@@ -160,7 +166,8 @@ extern int FLDMMDL_GetGridOldX(Mmdl *mmdl);
 extern int FLDMMDL_GetGridOldZ(Mmdl *mmdl);
 extern u16 BILLBOARD_ACT_CreateEntries(struct BbActSys *billboards, u16 baseSlot, const struct BbActDesc *desc, u32 count, u32 mode);
 extern void BILLBOARD_ACT_DeleteEntries(struct BbActSys *billboards, u16 first, u32 count);
-extern void BILLBOARD_ACT_SetEntryCommands(struct BbActSys *billboards, int entry, u32 commands, u16 loop);
+struct BbActCmd;
+extern void BILLBOARD_ACT_SetEntryCommands(struct BbActSys *sys, s32 entryIndex, struct BbActCmd **cmdLists, u16 listCount);
 extern void BILLBOARD_ACT_SetEntryList(struct BbActSys *billboards, int entry, u32 cursor);
 extern void BILLBOARD_ACT_SetEntryEnabled(struct BbActSys *billboards, int entry, u32 enabled);
 extern u32 BILLBOARD_ACT_GetEntryLastCommand(struct BbActSys *billboards, int entry, u16 *lastCommand);
@@ -186,7 +193,7 @@ FldeffGrass *FLDEFF_GRASS_Create(FieldEffectSys *sys, int heapId)
 
     grass = GFL_HEAP_Alloc(heapId, sizeof(FldeffGrass), 1, d_021DE070, 0x6c);
     grass->fieldEffect = sys;
-    grass->billboardAct = FIELDMAP_GetGroundBbdAct(FIELD_EFFECT_GetFieldMap(sys));
+    grass->billboardAct = FIELDMAP_GetGroundBbdAct((struct FieldMap *)FIELD_EFFECT_GetFieldMap(sys));
     FLDEFF_GRASS_CreateSlots(grass);
     return grass;
 }
@@ -222,7 +229,7 @@ void FLDEFF_GRASS_CreateSlots(FldeffGrass *grass)
     u32 arcHandle = FIELD_EFFECT_GetArcHandle(grass->fieldEffect);
     u16 *fileTable;
     u32 modelBase;
-    FIELDMAP_GetGameSystem(FIELD_EFFECT_GetFieldMap(grass->fieldEffect));
+    FIELDMAP_GetGameSystem((struct FieldMap *)(FIELD_EFFECT_GetFieldMap(grass->fieldEffect)));
     modelBase = FIELD_EFFECT_GetModelBaseOffset(grass->fieldEffect);
     rec.format = 0;
     rec.sizeS = FLDEFF_GRASS_IMAGE_SIZE_S;
@@ -231,7 +238,7 @@ void FLDEFF_GRASS_CreateSlots(FldeffGrass *grass)
     rec.kind = 1;
     fileTable = gFldeffGrassImageFiles + modelBase;
     for (i = 0; i < FLDEFF_GRASS_IMAGE_COUNT; i++) {
-        rec.resource = (u32)G3D_SYSTEM_CreateResourceArcHandle(arcHandle, fileTable[i * FLDEFF_GRASS_FILE_COLUMNS]);
+        rec.resource = (u32)G3D_SYSTEM_CreateResourceArcHandle((struct ArcHandle *)arcHandle, fileTable[i * FLDEFF_GRASS_FILE_COLUMNS]);
         FIELD_EFFECT_ApplyPaletteTable(grass->fieldEffect, (void *)rec.resource);
         grass->slotId[i] = BILLBOARD_ACT_CreateSlots(grass->billboardAct, &rec, 1);
     }
@@ -268,7 +275,7 @@ void FLDEFF_GRASS_Start(FieldEffectSys *sys, Mmdl *mmdl, u32 mode, int index)
 
     if (index >= FLDEFF_GRASS_IMAGE_COUNT)
         return;
-    param.grass = FIELD_EFFECT_GetResource(sys, FLDEFF_ID_GRASS);
+    param.grass = (struct FldeffGrass *)FIELD_EFFECT_GetResource(sys, FLDEFF_ID_GRASS);
     param.mmdl = mmdl;
     param.index = index;
     param.objId = FLDMMDL_GetObjId(mmdl);
@@ -317,7 +324,7 @@ void FLDEFF_GRASS_Init(FieldEffectObj *effect, GrassWork *work)
         FIELD_EFFECT_DeleteObject(effect);
         return;
     }
-    BILLBOARD_ACT_SetEntryCommands((struct BbActSys *)billboards, work->entry, sGrassAnimeCommands[kind], 1);
+    BILLBOARD_ACT_SetEntryCommands((struct BbActSys *)billboards, work->entry, (struct BbActCmd **)sGrassAnimeCommands[kind], 1);
     entry = work->entry;
     BILLBOARD_ACT_SetEntryList((struct BbActSys *)billboards, entry, 0);
     BILLBOARD_ACT_SetEntryEnabled((struct BbActSys *)billboards, entry, 1);

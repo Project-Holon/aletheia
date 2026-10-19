@@ -57,24 +57,29 @@ typedef struct { int x,y,z; } VecFx32;
 #endif
 
 extern int  GFL_NET_GetNegotiationNum(void);
-extern void *GFL_NET_HANDLE_GetCurrentHandle(void);
-extern unsigned int MATH_CountPopulation(int a);
-extern u32 GFL_NET_GetHandleNetID(void *p);
-extern u8 MYSTATUS_GetSex(const void *obj);
-extern void *FIELDMAP_GetFieldPlayer(void *p);
-extern void *FIELD_PLAYER_GetMmdl(void *p);
+struct GFLNetHandle;
+extern struct GFLNetHandle *GFL_NET_HANDLE_GetCurrentHandle(void);
+extern u8 MATH_CountPopulation(u32 x);
+extern u32 GFL_NET_GetHandleNetID(struct GFLNetHandle *handle);
+struct MyStatus;
+extern u8 MYSTATUS_GetSex(struct MyStatus *mystatus);
+struct FieldMap;
+struct FieldPlayer;
+extern struct FieldPlayer *FIELDMAP_GetFieldPlayer(struct FieldMap *fieldMap);
+struct Mmdl;
+extern struct Mmdl *FIELD_PLAYER_GetMmdl(struct FieldPlayer *player);
 extern void FIELD_PLAYER_GetPos(void *a, void *v);
-extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
+extern void *ARC_TOOL_CreateHandle(u32 archiveID, u16 heapID);
 extern void GF_PANIC_Fail(const char *expr, u32 line, const char *file);
 extern void MTX_Identity33_(void *m);
-extern int FLDMMDL_GetGridNowX(void *);
-extern int FLDMMDL_GetGridNowZ(void *);
-extern u16 FIELDMAP_GetZoneId(void *p);
+extern int FLDMMDL_GetGridNowX(struct Mmdl *mmdl);
+extern int FLDMMDL_GetGridNowZ(struct Mmdl *mmdl);
+extern u16 FIELDMAP_GetZoneId(struct FieldMap *fieldMap);
 int COLOSSEUM_CheckAllEntered(ColosseumWork *colosseum);
 int COLOSSEUM_CheckAllTrainerCardsReceived(ColosseumWork *colosseum);
 int COLOSSEUM_IsPositionsReceived(ColosseumWork *colosseum);
 void COLOSSEUM_ClearPositionsReceived(ColosseumWork *colosseum);
-int COLOSSEUM_IsOnStandPos(int a, int mode, unsigned *out);
+int COLOSSEUM_IsOnStandPos(void *a, int mode, unsigned *out);
 int COLOSSEUM_CheckAllFinished(ColosseumWork *colosseum);
 int COLOSSEUM_IsAnyFinished(ColosseumWork *colosseum);
 int COLOSSEUM_IsOnCounterPos(void *a);
@@ -88,9 +93,11 @@ extern s16 d_021807C0[][2];
 struct CommPlayer;
 struct MyStatus;
 extern int COLOSSEUM_TakePackage(ColosseumWork *work, int netId, CommPlayerPackage *out);
-extern int COMM_PLAYER_CheckOccupy(struct CommPlayer *commPlayer, int netId);
-extern void COMM_PLAYER_Add(struct CommPlayer *commPlayer, int netId, int mode, CommPlayerPackage *package);
-extern void COMM_PLAYER_SetPackage(struct CommPlayer *commPlayer, int netId, CommPlayerPackage *package);
+struct CommPlayerWork;
+extern int COMM_PLAYER_CheckOccupy(struct CommPlayerWork *work, s32 index);
+struct CommPlayerPackage;
+extern void COMM_PLAYER_Add(struct CommPlayerWork *work, s32 index, s32 objCode, struct CommPlayerPackage *package);
+extern void COMM_PLAYER_SetPackage(struct CommPlayerWork *work, s32 index, struct CommPlayerPackage *package);
 
 
 
@@ -161,7 +168,7 @@ void COLOSSEUM_ClearPositionsReceived(ColosseumWork *colosseum)
 
 
 
-int COLOSSEUM_IsOnStandPos(int a, int mode, unsigned *out)
+int COLOSSEUM_IsOnStandPos(void *a, int mode, unsigned *out)
 {
     unsigned i;
     int x;
@@ -272,7 +279,7 @@ void COLOSSEUM_UpdateCommPlayers(ColosseumWork *work)
     for (netId = 0; netId < COLOSSEUM_PLAYER_MAX; netId++) {
         if (ownNetId != netId && COLOSSEUM_TakePackage(work, netId, &package) == 1) {
             if (COMM_PLAYER_CheckOccupy(work->commPlayer, netId) == 0) {
-                int outfitVariant = MYSTATUS_GetSex((const struct MyStatus *)&work->player[netId]);
+                int outfitVariant = MYSTATUS_GetSex((struct MyStatus *)&work->player[netId]);
                 int addMode = 1;
 
                 if (outfitVariant)

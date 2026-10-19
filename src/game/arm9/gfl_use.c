@@ -164,6 +164,21 @@
  *   NNS_SndArcLoadGroup  0x02074A54  arm
  *   SAVE_CONTROL_Get  0x020070A4  thumb
  *   SYSTEM_DATA_GetConfig  0x0200873C  thumb
+ *   NNS_SndArcGetBankInfo        0x020743EC  arm
+ *   NNS_SndArcGetSeqInfo         0x02074324  arm
+ *   NNS_SndArcGetSeqParam        0x0207430C  arm
+ *   NNS_SndArcGetWaveArcInfo     0x02074450  arm
+ *   NNS_SndHandleSetTrackModDepth 0x02073058  arm
+ *   NNS_SndHandleSetTrackModSpeed 0x02073078  arm
+ *   NNS_SndHandleSetTrackMute    0x02072FC8  arm
+ *   NNS_SndHandleSetTrackPan     0x02073038  arm
+ *   NNS_SndHandleSetTrackPause   0x02072FA8  arm
+ *   NNS_SndHandleSetTrackPitch   0x02073018  arm
+ *   NNS_SndHandleSetTrackVolume  0x02072FE8  arm
+ *   NNS_SndHandleSetVolume       0x02072F34  arm
+ *   NNS_SndHandleStop            0x02073098  arm
+ *   _SeSlots                     0x020AA294  data
+ *   _SndTrackInfo                0x020AA414  data
  */
 #define reg_EXMEMCNT (*(volatile u16 *)0x04000204)
 #define reg_IME      (*(volatile u16 *)0x04000208)
@@ -313,8 +328,8 @@ struct SndWaveSetHeader {
 
 extern void OS_SetIrqFunction(u32 mask, void (*fn)(void));
 extern u32  OS_EnableIrqMask(u32 mask);
-extern void GX_HBlankIntr(BOOL enable);
-extern void GX_VBlankIntr(BOOL enable);
+extern s32 GX_HBlankIntr(BOOL enable);
+extern s32 GX_VBlankIntr(BOOL enable);
 extern u32  OS_EnableInterrupts(void);
 extern void G3D_SYSTEM_SwapBuffersMain(void);
 extern BOOL OS_IsThreadTerminated(struct OSThread *thread);
@@ -326,16 +341,17 @@ extern u32 GFL_NET_IsNetTypeBeacon(void);
 extern u32 GFL_NET_IsNetTypeWifi(void);
 extern void MI_WaitDma(u32 mode);
 extern int GF_OVERLAY_Load(int overlayId);
-extern void PRINTSYS_Init(void *arg);
+extern void PRINTSYS_Init(u32 heap);
 extern void GFL_NET_SetupHeaps(u32 netType, u32 flagB, u32 flagC, u32 heapId);
 extern void WIH_DWC_CreateFilterBuffer(u32 heapId);
 extern void WIH_DWC_ResetFilterState(void);
 extern void PROCSYS_PushGlobal(int mode, u32 table, u32 option);
-extern struct SaveCtrl *SAVE_CONTROL_Create(int heapId);
-extern struct SaveData *SAVE_CONTROL_Get(void);
-extern struct Config *SYSTEM_DATA_GetConfig(struct SaveData *save);
+struct SaveControl;
+extern struct SaveControl *SAVE_CONTROL_Create(int heapId);
+extern struct SaveControl *SAVE_CONTROL_Get(void);
+extern struct Config *SYSTEM_DATA_GetConfig(void *save);
 extern u8 CONFIG_ApplyTextLanguage(const struct Config *config);
-extern void MSG_SPEED_SetSaveControl(struct SaveData *save);
+extern void MSG_SPEED_SetSaveControl(struct SaveControl *save);
 extern void GFL_NET_ERR_CreateHeap(void);
 extern void GFL_NET_ERR_Init(u32 kind);
 extern void GF_PANIC_SetFailHook(u32 handler);
@@ -347,7 +363,7 @@ extern void GAME_BEACON_Create(u32 heapId);
 extern void GPOWER_Init(void);
 extern void GFL_NET_ERR_ExitAndHalt(void);
 extern void PM_VOICE_GetCryIndex(u32 species, u32 form, u32 *out);
-extern u32 PM_VOICE_PrepareCry(u32 species, u32 form, void **rec, void **owner, u32 *rate1, u32 *rate2, u32 *addr, u8 *cryPitch);
+extern u32 PM_VOICE_PrepareCry(u32 species, u32 form, void **recordedVoice, u8 **data, u32 *dataSize, u32 *sampleRate, u32 *frequency, char *volume);
 extern void BRIGHTNESS_ChangeMain(void);
 extern void WIPE_SYS_Main(void);
 extern void GFL_NET_ERR_DetectNetError(void);
@@ -370,37 +386,39 @@ extern void *FS_TryLoadTable(int a, void *b);
 extern void *OS_AllocFromArenaLo(int id, void *size, int align);
 extern void NNS_GfdInitVramTransferTaskQueue(void *buf, u32 capacity);
 extern u32 APP_ENV_IsRunOnTwl(void);
-extern void PM_AppendPreExitCallback(void *info);
-extern void PM_GetAmp(u32 *out);
-extern void PM_SetAmp(int on);
-extern int UI_TestSoftResetInhibitGlobal(u32 mode);
-extern int PM_GetAutoExit(void);
-extern int PM_ReadyToExit(void);
+struct PMiGenCallbackInfo;
+extern void PM_AppendPreExitCallback(struct PMiGenCallbackInfo *info);
+extern u32 PM_GetAmp(s32 *swBuf);
+extern u32 PM_SetAmp(u32 status);
+extern u32 UI_TestSoftResetInhibitGlobal(u32 mode);
+extern u32 PM_GetAutoExit(void);
+extern void PM_ReadyToExit(void);
 /* ARM, and attested by a branch to it from an overlay. */
 extern void NNS_GfdDoVramTransfer(void);
 extern void CTRDG_DummyInit(void);
-extern void PM_SetAutoExit(int v);
-extern u32   OS_IsRunOnTwl(void);
-extern void *OS_GetArenaHi(u32 id);
-extern void *OS_GetArenaLo(u32 id);
-extern void *OS_InitAlloc(u32 id, void *lo, void *hi, u32 n);
-extern void  OS_SetArenaLo(u32 id, void *lo);
-extern u32   OS_CreateExtraHeap(u32 id);
-extern void *OS_AllocFromHeap(u32 id, u32 heap, u32 size);
-extern void GFL_HEAP_Init(u32 arenaTable, u32 arenaCount, u32 heapCount, u32 flags);
+extern void PM_SetAutoExit(u32 enable);
+extern s32 OS_IsRunOnTwl(void);
+extern u32 OS_GetArenaHi(u32 id);
+extern u32 OS_GetArenaLo(u32 id);
+extern void *OS_InitAlloc(s32 id, void *arenaStart, void *arenaEnd, s32 maxHeaps);
+extern void  OS_SetArenaLo(u32 arenaId, u32 newLo);
+extern s32 OS_CreateExtraHeap(s32 id);
+extern void *OS_AllocFromHeap(s32 id, s32 heap, s32 size);
+extern void GFL_HEAP_Init(u8 *specs, u32 staticCount, u32 heapIdCount, u32 extraSize);
 extern void  GFL_HEAP_InitSystemHeapChecked(u32 size);
 extern void  GFL_HEAP_CreateChildHeap(u32 arenaId, u32 heapId, u32 size);
 extern void  GFL_HEAP_RegisterBlockHeap(void *block, u32 size, u32 heapId);
 extern void  GF_STANDARD_Init(u32 mode);
-extern void ARC_TOOL_SetTable(u32 table, u32 count);
+extern void ARC_TOOL_SetTable(void **entries, u32 count);
 extern void UI_Create(u32 heapId, u8 mode);
 extern void  GF_PANIC_RegisterDefaultHandlers(void);
 extern void GF_PANIC_SetHandlers(u32 mode, u32 flags, u32 waitCallback);
 extern void GF_OVERLAY_Init(u32 heapId, int n0, int n1, int n2);
-extern void  PROCSYS_CreateGlobal(u32 heapId);
+extern void  PROCSYS_CreateGlobal(s32 heapId);
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *file, unsigned short line);
 extern u32   TCB_GetTaskOffset(u32 capacity);
-extern struct TcbList *TCB_Init(u32 capacity, void *buf);
+struct TcbSystem;
+extern struct TcbSystem *TCB_Init(u32 capacity, struct TcbSystem *sys);
 extern void  FADE_Create(u32 heapId);
 extern void BACKUP_SYSTEM_Init(u32 kind, u32 callbackA, u32 callbackB);
 extern void  TEXTPRINT_Init(u32 heapId);
@@ -413,38 +431,42 @@ extern int GFL_NET_ERR_PollNetState(void);
 extern int PROCSYS_MainGlobal(void);
 extern void GF_STANDARD_UpdateRtc(void);
 extern int TCB_Main(struct TcbList *list);
-extern struct Tcb *TCB_AddTask(struct TcbList *list, void (*callback)(struct Tcb *, void *), void *work, u32 priority);
+struct TcbTask;
+extern struct TcbTask *TCB_AddTask(struct TcbSystem *sys, void (*callback)(struct Tcb *, void *), void *work, unsigned int priority);
 extern int BG_SYS_Update(int);
 extern int DMA_UpdateChannels(int);
 extern int FADE_Update(int);
 extern void  GF_STANDARD_RandSeed(u32 seed);
-extern void GF_STANDARD_SeedLcg64(struct GflRandom *out);
+struct Lcg64;
+extern void GF_STANDARD_SeedLcg64(struct Lcg64 *out);
 extern unsigned int KEY_GetCont(void);
 /* The linker veneer in front of SND_SetMasterVolume; ARM. */
-extern void NNS_SndSetMasterVolume(u32 volume);
+extern void NNS_SndSetMasterVolume(s32 volume);
 /* Registers a pair of callbacks.  ARM, and in another packet's territory. */
 extern void UI_SetResumeAndSuspendHooks(u32 onCallback, u32 offCallback, u32 arg);
 extern u32  UI_GetSuspendHookGlobal(void);
 extern void NNS_SndPlayerSetPlayableSeqCount(int playerNo, int count);
 extern void NNS_SndHandleInit(struct SndHandle *handle);
 extern void NNS_SndHandleReleaseSeq(struct SndHandle *handle);
-extern int   NNS_SndHeapSaveState(struct SndHeap *heap);
-extern void  NNS_SndHeapLoadState(struct SndHeap *heap, u32 state);
-extern u32 NNS_SndArcLoadSeqEx(u32 seqNo, u32 loadFlags, struct SndHeap *heap);
+struct NNSSndHeap;
+extern int   NNS_SndHeapSaveState(struct NNSSndHeap *heap);
+extern void  NNS_SndHeapLoadState(struct NNSSndHeap *heap, s32 level);
+extern u32 NNS_SndArcLoadSeqEx(u32 seqNo, u32 loadFlag, struct NNSSndHeap *heap);
 extern struct SndWaveSetHeader *NNS_SndHeapAlloc(struct SndHeap *heap, u32 size, u32 flagA, u32 flagB, u32 flagC);
-extern u32   NNS_SndArcLoadSeq(u32 waveArcNo, struct SndHeap *heap);
+extern u32   NNS_SndArcLoadSeq(u32 seqNo, struct NNSSndHeap *heap);
 extern void NNS_SndInit(void);
-extern struct SndHeap *NNS_SndHeapCreate(char *buf, u32 size);
-extern void NNS_SndArcInit(char *arc, char *path, struct SndHeap *heap, u32 riskCheck);
+extern struct NNSSndHeap *NNS_SndHeapCreate(unsigned int start, unsigned int size);
+struct NNSSndArc;
+extern unsigned int NNS_SndArcInit(struct NNSSndArc *arc, char *path, unsigned int *heap, unsigned int loadSymbols);
 extern void SNDEXi_Init(void);
-extern u32 NNS_SndArcPlayerSetup(struct SndHeap *heap);
+extern u32 NNS_SndArcPlayerSetup(struct NNSSndHeap *heap);
 extern void *NNS_SndArcGetGroupInfo(int index);
-extern void NNS_SndArcLoadGroup(int index, struct SndHeap *heap);
+extern s32 NNS_SndArcLoadGroup(u32 groupNo, struct NNSSndHeap *heap);
 /* Sound manager calls carried over from pm_voice.c. */
 extern void  NNS_SndBoot(void);
 extern u32   NNS_SndReadDriverInfo(void);
 extern int   NNS_SndHandleReadTrackInfo(struct SndHandle *handle, int trackNo, struct SNDTrackInfo *trackInfo);
-extern void  NNS_SndHeapDestroy(struct SndHeap *heap);
+extern void  NNS_SndHeapDestroy(struct NNSSndHeap *heap);
 extern void  NNS_SndSetMasterPan(u32 monoFlag);
 extern void  NNS_SndPlayerSetPlayerVolume(u32 playerNo, u32 volume);
 extern void  NNS_SndHandleStopSeq(struct SndHandle *handle, int fadeFrames);
@@ -465,15 +487,17 @@ extern void  NNS_SndArcSetReadChunkSize(int loadFlags);
 extern void  OS_Sleep(u32 msec);
 extern struct SndArcSeqEntry  *NNS_SndArcGetSeqInfo(int seqNo);
 extern struct SndArcBankEntry *NNS_SndArcGetBankInfo(int bankNo);
-extern struct SndArcWaveArcEntry *NNS_SndArcGetWaveArcInfo(int waveArcNo);
+extern void *NNS_SndArcGetWaveArcInfo(int waveArcNo);
 extern u8   *NNS_SndArcGetSeqParam(int seqNo);
-extern u32   NNS_SndArcPlayerStartSeq(struct SndHandle *handle, u32 seqNo);
-extern u32   NNS_SndArcPlayerStartSeqEx(struct SndHandle *handle, int playerNo, int bankNo, int priority, u32 seqNo);
-extern u32   NNS_SndArcLoadWaveArc(u32 waveArcNo, struct SndHeap *heap);
+extern u32   NNS_SndArcPlayerStartSeq(u32 handle, u32 seqNo);
+extern u32   NNS_SndArcPlayerStartSeqEx(u32 handle, s32 playerNo, s32 bankNo, s32 priority, u32 seqNo);
+extern u32   NNS_SndArcLoadWaveArc(u32 waveArcNo, struct NNSSndHeap *heap);
 extern void  NNS_SndArcSetFileAddress(u32 fileId, u32 address);
 extern u32   NNS_SndArcGetFileAddress(u32 fileId);
-extern void  SND_SetWaveDataAddress(u32 *waveArc, u32 waveIndex, u32 address);
-extern u32   SND_GetWaveDataAddress(u32 waveArc, u32 waveIndex);
+struct SNDWaveData;
+struct SNDWaveArc;
+extern void  SND_SetWaveDataAddress(struct SNDWaveArc *waveArc, s32 index, struct SNDWaveData *address);
+extern struct SNDWaveData *SND_GetWaveDataAddress(struct SNDWaveArc *waveArc, s32 index);
 extern void  OS_CreateThread(struct OSThread *thread, void (*entry)(void *), void *arg,
                            void *stack, u32 size, u32 prio);
 extern void  OS_DestroyThread(struct OSThread *thread);
@@ -697,7 +721,7 @@ void GFL_USE_InitGameSystems(void)
     WIH_DWC_ResetFilterState();
     PROCSYS_PushGlobal(netHeapId - 0xD, (u32)(void *)0x020A0480, 0);
     SAVE_CONTROL_Create(7);
-    CONFIG_ApplyTextLanguage(SYSTEM_DATA_GetConfig(SAVE_CONTROL_Get()));
+    CONFIG_ApplyTextLanguage(SYSTEM_DATA_GetConfig((struct SaveData *)SAVE_CONTROL_Get()));
     MSG_SPEED_SetSaveControl(SAVE_CONTROL_Get());
     GFL_NET_ERR_CreateHeap();
     GFL_NET_ERR_Init(8);
@@ -706,7 +730,7 @@ void GFL_USE_InitGameSystems(void)
     POKE_TOOL_InitSystem(0);
     GFL_USE_InitSound();
     PM_VOICE_Init(1, (u32)&PM_VOICE_GetCryIndex, (u32)&PM_VOICE_PrepareCry);
-    GFL_USE_ApplySoundModeFromConfig(SYSTEM_DATA_GetConfig(SAVE_CONTROL_Get()));
+    GFL_USE_ApplySoundModeFromConfig(SYSTEM_DATA_GetConfig((struct SaveData *)SAVE_CONTROL_Get()));
     CONFIG_InitKeyControlTable();
     GAME_BEACON_Create(1);
     GPOWER_Init();
@@ -821,9 +845,9 @@ void GFL_USE_InitSdk(void)
         _PreExitState[0] = 0;
         _PreExitState[1] = (u32)GFL_USE_OnPreExit;
         _PreExitState[2] = 0;
-        PM_AppendPreExitCallback(_PreExitCallbackInfo);
+        PM_AppendPreExitCallback((struct PMiGenCallbackInfo *)_PreExitCallbackInfo);
     }
-    PM_GetAmp(&amp);
+    PM_GetAmp((s32 *)(&amp));
     if (amp == 1)
         PM_SetAmp(0);
 }
@@ -923,16 +947,16 @@ void GFL_USE_OnPreExit(void)
 void GFL_USE_InitSystem(void)
 {
     if (OS_IsRunOnTwl() == 0) {
-        void *hi = OS_GetArenaHi(0);
-        OS_SetArenaLo(0, OS_InitAlloc(0, OS_GetArenaLo(0), hi, 1));
+        void *hi = (void *)OS_GetArenaHi(0);
+        OS_SetArenaLo(0, (u32)OS_InitAlloc(0, (void *)OS_GetArenaLo((u32)0), hi, 1));
         _GflUse.extraHeap = OS_CreateExtraHeap(0);
         _GflUse.extraHeapBlock = OS_AllocFromHeap(0, _GflUse.extraHeap, 0x3F00);
     }
 
     if (OS_IsRunOnTwl() != 0) {
-        GFL_HEAP_Init((u32)_ArenaTableTwl, 2, 0xAD, 0);
+        GFL_HEAP_Init(_ArenaTableTwl, 2, 0xAD, 0);
     } else {
-        GFL_HEAP_Init((u32)_ArenaTableDs, 2, 0xAD, 0);
+        GFL_HEAP_Init(_ArenaTableDs, 2, 0xAD, 0);
     }
 
     GFL_HEAP_InitSystemHeapChecked(0x2000);
@@ -945,7 +969,7 @@ void GFL_USE_InitSystem(void)
     }
 
     GF_STANDARD_Init(0);
-    ARC_TOOL_SetTable((u32)_ArcPathTable, 0xEB);
+    ARC_TOOL_SetTable(_ArcPathTable, 0xEB);
     UI_Create(0, 0);
 
     if (OS_GetConsoleType() & 0x81000000) {
@@ -959,9 +983,9 @@ void GFL_USE_InitSystem(void)
 
     _GflUse.runtime = GFL_HEAP_Alloc(0, 0x28, 0, (const char *)s_gfl_use_c, 0x117);
     _GflUse.runtime->hblankTaskBuf = GFL_HEAP_Alloc(0, TCB_GetTaskOffset(4), 0, (const char *)s_gfl_use_c, 0x119);
-    _GflUse.runtime->hblankTasks = TCB_Init(4, _GflUse.runtime->hblankTaskBuf);
+    _GflUse.runtime->hblankTasks = (struct TcbList *)TCB_Init(4, _GflUse.runtime->hblankTaskBuf);
     _GflUse.runtime->mainTaskBuf = GFL_HEAP_Alloc(0, TCB_GetTaskOffset(0x10), 0, (const char *)s_gfl_use_c, 0x11C);
-    _GflUse.runtime->mainTasks = TCB_Init(0x10, _GflUse.runtime->mainTaskBuf);
+    _GflUse.runtime->mainTasks = (struct TcbList *)TCB_Init(0x10, _GflUse.runtime->mainTaskBuf);
 
     GFL_USE_InitRandom();
     FADE_Create(0);
@@ -1026,7 +1050,7 @@ void GFL_USE_RunHBlankTasks(void)
 
 struct Tcb *GFL_USE_AddHBlankTask(void (*callback)(struct Tcb *, void *), void *work, u32 priority)
 {
-    return TCB_AddTask(_GflUse.runtime->hblankTasks, callback, work, priority);
+    return (struct Tcb *)TCB_AddTask((struct TcbSystem *)_GflUse.runtime->hblankTasks, callback, work, priority);
 }
 
 
@@ -1178,7 +1202,7 @@ void GFL_USE_RunMainTasks(void)
  */
 struct Tcb *GFL_USE_AddMainTask(void (*callback)(struct Tcb *, void *), void *work, u32 priority)
 {
-    return TCB_AddTask(_GflUse.runtime->mainTasks, callback, work, priority);
+    return (struct Tcb *)TCB_AddTask((struct TcbSystem *)_GflUse.runtime->mainTasks, callback, work, priority);
 }
 
 
@@ -1190,7 +1214,7 @@ struct TcbList *GFL_USE_GetMainTaskList(void)
 
 void GFL_USE_InitRandomState(struct GflRandom *rand)
 {
-    GF_STANDARD_SeedLcg64(rand);
+    GF_STANDARD_SeedLcg64((struct Lcg64 *)rand);
 }
 
 
@@ -1435,7 +1459,7 @@ void GFL_USE_EndSndSlot(void)
         &_SndSlots[_SndStack.top];
 
     NNS_SndHandleReleaseSeq(&slot->handle);
-    NNS_SndHeapLoadState(*_SndStack.heapPtr, slot->baseState);
+    NNS_SndHeapLoadState((struct NNSSndHeap *)(*_SndStack.heapPtr), slot->baseState);
     GFL_USE_InitSndSlot(_SndStack.top);
 }
 
@@ -1451,7 +1475,7 @@ void GFL_USE_InitSndStack(u16 playerNo)
         NNS_SndHandleInit(&_SndSlots[i].handle);
     }
     NNS_SndPlayerSetPlayableSeqCount(_SndStack.playerNo, 6);
-    GFL_USE_BeginSndSlot(NNS_SndHeapSaveState(*_SndStack.heapPtr));
+    GFL_USE_BeginSndSlot(NNS_SndHeapSaveState((struct NNSSndHeap *)(*_SndStack.heapPtr)));
 }
 
 
@@ -1490,15 +1514,15 @@ int GFL_USE_LoadBgmData(u32 bgmId)
         &_SndSlots[_SndStack.top];
     int result;
 
-    if (NNS_SndArcLoadSeqEx(bgmId, 3, *_SndStack.heapPtr) == 0) {
+    if (NNS_SndArcLoadSeqEx(bgmId, 3, (struct NNSSndHeap *)(*_SndStack.heapPtr)) == 0) {
         return 0;
     }
-    slot->seqBankState = NNS_SndHeapSaveState(*_SndStack.heapPtr);
-    result = NNS_SndArcLoadSeqEx(bgmId, 4, *_SndStack.heapPtr);
+    slot->seqBankState = NNS_SndHeapSaveState((struct NNSSndHeap *)(*_SndStack.heapPtr));
+    result = NNS_SndArcLoadSeqEx(bgmId, 4, (struct NNSSndHeap *)(*_SndStack.heapPtr));
     if (result == 0) {
         return 0;
     }
-    slot->waveState = NNS_SndHeapSaveState(*_SndStack.heapPtr);
+    slot->waveState = NNS_SndHeapSaveState((struct NNSSndHeap *)(*_SndStack.heapPtr));
     slot->bgmId = bgmId;
     return result;
 }
@@ -1509,7 +1533,7 @@ void GFL_USE_SaveSeqBankState(void)
     struct SndSlot *slot =
         &_SndSlots[_SndStack.top];
 
-    slot->seqBankState = NNS_SndHeapSaveState(*_SndStack.heapPtr);
+    slot->seqBankState = NNS_SndHeapSaveState((struct NNSSndHeap *)(*_SndStack.heapPtr));
 }
 
 
@@ -1518,7 +1542,7 @@ int GFL_USE_FinishBgmLoad(u32 bgmId)
     struct SndSlot *slot =
         &_SndSlots[_SndStack.top];
 
-    slot->waveState = NNS_SndHeapSaveState(*_SndStack.heapPtr);
+    slot->waveState = NNS_SndHeapSaveState((struct NNSSndHeap *)(*_SndStack.heapPtr));
     slot->bgmId = bgmId;
     return 1;
 }
@@ -1533,7 +1557,7 @@ void GFL_USE_UnloadBgmData(void)
         return;
     }
     slot->bgmId = 0xFFFF;
-    NNS_SndHeapLoadState(*_SndStack.heapPtr, slot->preBgmState);
+    NNS_SndHeapLoadState((struct NNSSndHeap *)(*_SndStack.heapPtr), slot->preBgmState);
     slot->seqBankState = slot->preBgmState;
     slot->waveState = slot->preBgmState;
 }
@@ -1549,7 +1573,7 @@ int GFL_USE_PushSndSlot(void)
         return 0;
     }
     if (slot->seqBankState != -1) {
-        NNS_SndHeapLoadState(*_SndStack.heapPtr, slot->seqBankState);
+        NNS_SndHeapLoadState((struct NNSSndHeap *)(*_SndStack.heapPtr), slot->seqBankState);
         slot->waveState = -1;
         state = slot->seqBankState;
     } else {
@@ -1592,8 +1616,8 @@ int GFL_USE_PopSndSlot(void)
     bgmId = slot->bgmId;
     _SndStack.top = level;
     if (bgmId != 0xFFFF) {
-        NNS_SndArcLoadSeqEx(bgmId, 6, *_SndStack.heapPtr);
-        slot->waveState = NNS_SndHeapSaveState(*_SndStack.heapPtr);
+        NNS_SndArcLoadSeqEx(bgmId, 6, (struct NNSSndHeap *)(*_SndStack.heapPtr));
+        slot->waveState = NNS_SndHeapSaveState((struct NNSSndHeap *)(*_SndStack.heapPtr));
     }
     return 1;
 }
@@ -1632,11 +1656,11 @@ struct SndWaveSetHeader *GFL_USE_LoadWaveArcSet(const u32 *waveArcIds, u32 count
     i = 0;
     header = NNS_SndHeapAlloc(*_SndStack.heapPtr, 8, 0, 0, 0);
     for (i = 0; i < count; i++) {
-        NNS_SndArcLoadSeq(waveArcIds[i], *_SndStack.heapPtr);
+        NNS_SndArcLoadSeq(waveArcIds[i], (struct NNSSndHeap *)(*_SndStack.heapPtr));
     }
     header->count = count;
     header->savedState = savedState;
-    GFL_USE_BeginSndSlot(NNS_SndHeapSaveState(*_SndStack.heapPtr));
+    GFL_USE_BeginSndSlot(NNS_SndHeapSaveState((struct NNSSndHeap *)(*_SndStack.heapPtr)));
     return header;
 }
 
@@ -1655,7 +1679,7 @@ void GFL_USE_ReleaseWaveArcSet(const struct SndWaveSetHeader *header)
     u32 savedState = header->savedState;
 
     GFL_USE_EndSndSlot();
-    NNS_SndHeapLoadState(*_SndStack.heapPtr, savedState);
+    NNS_SndHeapLoadState((struct NNSSndHeap *)(*_SndStack.heapPtr), savedState);
     GFL_USE_BeginSndSlot(savedState);
 }
 
@@ -1683,9 +1707,9 @@ void GFL_USE_InitSound(void)
     struct SndHeap *heap;
 
     NNS_SndInit();
-    heap = NNS_SndHeapCreate(_SndHeapBuf, 0x95AD0);
+    heap = (struct SndHeap *)NNS_SndHeapCreate((unsigned int)_SndHeapBuf, 0x95AD0);
     _SndState.heap = heap;
-    NNS_SndArcInit(_SndArc, _SndArcPath, heap, 0);
+    NNS_SndArcInit((struct NNSSndArc *)_SndArc, _SndArcPath, (unsigned int *)heap, 0);
     GFL_USE_ResetSound(1);
     if (OS_IsRunOnTwl() == 1) {
         SNDEXi_Init();
@@ -1695,11 +1719,11 @@ void GFL_USE_InitSound(void)
 
 void GFL_USE_ResetSound(int clearHeap)
 {
-    NNS_SndArcPlayerSetup(_SndState.heap);
+    NNS_SndArcPlayerSetup((struct NNSSndHeap *)_SndState.heap);
     GFL_USE_SetSndStackHeap(&_SndState.heap);
     if (clearHeap != 0) {
         NNS_SndArcGetGroupInfo(0);
-        NNS_SndArcLoadGroup(0, _SndState.heap);
+        NNS_SndArcLoadGroup(0, (struct NNSSndHeap *)_SndState.heap);
         _SndState.currentBgm = 0;
     }
     GFL_USE_InitSeSlots();
@@ -1813,7 +1837,7 @@ void GFL_USE_UpdateSound(void)
  */
 void GFL_USE_ClearSndHeap(void)
 {
-    NNS_SndHeapDestroy(_SndState.heap);
+    NNS_SndHeapDestroy((struct NNSSndHeap *)_SndState.heap);
 }
 
 /*
@@ -1948,7 +1972,7 @@ u32 GFL_USE_PlayBgm(u32 bgmNo, u32 trackMask)
     if (GFL_USE_LoadBgmData(bgmNo) == 0) {
         return 0;
     }
-    started = NNS_SndArcPlayerStartSeqEx(GFL_USE_GetCurrentSndHandle(), SND_PLAYER_BGM, -1, -1, bgmNo);
+    started = NNS_SndArcPlayerStartSeqEx((u32)(GFL_USE_GetCurrentSndHandle()), SND_PLAYER_BGM, -1, -1, bgmNo);
     if (started == 0) {
         return zero;
     }
@@ -1988,7 +2012,7 @@ void GFL_USE_PlayFanfare(u32 seqNo)
     if (GFL_USE_LoadBgmData(seqNo) == 0) {
         return;
     }
-    NNS_SndArcPlayerStartSeqEx(GFL_USE_GetCurrentSndHandle(), SND_PLAYER_FANFARE, -1, -1, seqNo);
+    NNS_SndArcPlayerStartSeqEx((u32)(GFL_USE_GetCurrentSndHandle()), SND_PLAYER_FANFARE, -1, -1, seqNo);
 }
 
 void GFL_USE_SetBgmPaused(u32 value)
@@ -2238,7 +2262,7 @@ void GFL_USE_UpdateBgmChange(void)
         if (GFL_USE_IsLoaderDone() == 1) {
             NNS_SndArcSetReadChunkSize(0);
             GFL_USE_FinishBgmLoad(_SndState.changeBgm);
-            NNS_SndArcPlayerStartSeqEx(GFL_USE_GetCurrentSndHandle(), SND_PLAYER_BGM, -1, -1, _SndState.changeBgm);
+            NNS_SndArcPlayerStartSeqEx((u32)(GFL_USE_GetCurrentSndHandle()), SND_PLAYER_BGM, -1, -1, _SndState.changeBgm);
             NNS_SndHandleSetVolume(handle, 0);
             _SndState.changePhase = BGM_CHANGE_FADE;
             return;
@@ -2297,7 +2321,7 @@ void GFL_USE_PlaySeInSlot(u32 seqNo, int slot)
         return;
     }
     _SeSlots[slot].seqNo = 0;
-    if (NNS_SndArcPlayerStartSeqEx(&_SeSlots[slot].handle, slot + 1, -1, -1, seqNo) == 1) {
+    if (NNS_SndArcPlayerStartSeqEx((u32)(&_SeSlots[slot].handle), slot + 1, -1, -1, seqNo) == 1) {
         _SeSlots[slot].seqNo = seqNo;
     }
 }
@@ -2312,7 +2336,7 @@ void GFL_USE_PlaySe(u32 seqNo, u32 volume)
     }
     slot = GFL_USE_GetSeSlot(seqNo);
     _SeSlots[slot].seqNo = 0;
-    if (NNS_SndArcPlayerStartSeq(&_SeSlots[slot].handle, seqNo) != 1) {
+    if (NNS_SndArcPlayerStartSeq((u32)(&_SeSlots[slot].handle), seqNo) != 1) {
         return;
     }
     _SeSlots[slot].seqNo = seqNo;
@@ -2410,12 +2434,12 @@ void GFL_USE_SetSeSlotVolume(int slot, u32 volume)
  */
 void GFL_USE_LoaderThreadSeqBank(void *arg)
 {
-    NNS_SndArcLoadSeqEx(*(u32 *)arg, 3, _SndState.heap);
+    NNS_SndArcLoadSeqEx(*(u32 *)arg, 3, (struct NNSSndHeap *)_SndState.heap);
 }
 
 void GFL_USE_LoaderThreadWaves(void *arg)
 {
-    NNS_SndArcLoadSeqEx(*(u32 *)arg, 4, _SndState.heap);
+    NNS_SndArcLoadSeqEx(*(u32 *)arg, 4, (struct NNSSndHeap *)_SndState.heap);
 }
 
 /*
@@ -2506,7 +2530,7 @@ u32 GFL_USE_StepBgmLoad(u32 bgmNo, u32 *step, u32 abort)
 
                 NNS_SndArcSetReadChunkSize(0);
                 GFL_USE_FinishBgmLoad(bgmNo);
-                NNS_SndArcPlayerStartSeqEx(GFL_USE_GetCurrentSndHandle(), 0, zero - 1, zero - 1, bgmNo);
+                NNS_SndArcPlayerStartSeqEx((u32)(GFL_USE_GetCurrentSndHandle()), 0, zero - 1, zero - 1, bgmNo);
                 (*step)++;
                 return 1;
             }
@@ -2548,7 +2572,7 @@ int GFL_USE_InstallBgmBuffers(u32 seqAddr, u32 bankAddr, u32 bgmNo)
     GFL_USE_SaveSeqBankState();
     for (i = 0; i < 4; i++) {
         if (bank->waveArc[i] != 0xFFFF) {
-            if (NNS_SndArcLoadWaveArc(bank->waveArc[i], _SndState.heap) == 0) {
+            if (NNS_SndArcLoadWaveArc(bank->waveArc[i], (struct NNSSndHeap *)_SndState.heap) == 0) {
                 return 0;
             }
         }
@@ -2577,14 +2601,14 @@ int GFL_USE_ReplaceWaveData(u32 waveArcNo, u32 waveIndex, u32 srcWaveArc, u32 sr
     if (waveArcData == 0) {
         return 0;
     }
-    SND_SetWaveDataAddress(waveArcData, waveIndex, SND_GetWaveDataAddress(srcWaveArc, srcWaveIndex));
+    SND_SetWaveDataAddress((struct SNDWaveArc *)waveArcData, waveIndex, SND_GetWaveDataAddress((struct SNDWaveArc *)srcWaveArc, srcWaveIndex));
     return 1;
 }
 
 /* Start a sequence on the current handle. */
 void GFL_USE_StartSeq(u32 seqNo)
 {
-    NNS_SndArcPlayerStartSeq(GFL_USE_GetCurrentSndHandle(), seqNo);
+    NNS_SndArcPlayerStartSeq((u32)(GFL_USE_GetCurrentSndHandle()), seqNo);
 }
 
 /* Same body as GFL_USE_StopBgm: stop the current sequence and drop its data. */

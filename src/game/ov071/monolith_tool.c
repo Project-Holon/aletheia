@@ -12,10 +12,6 @@
  *
  * Merged by tools/restructure.py from the src/matched files of these functions.
  *
- * Second declaration kept on purpose: the case 4 branch of the state function calls UI_SetInputMode
- * (0x020355D8) as func_020355D8x. Measured 2026-10-19: under the one name the unit differs from
- * the original (gameverify DIFF). Cause not found.
- *
  * symbols:
  *   GXx_SetMasterBrightness_  0x0207D534  arm
  *   BG_SYS_SetMainVisiblePlanes  0x02043534  arm
@@ -165,7 +161,6 @@
  *   KEY_GetTrg 0x020362DC arm
  *   TOUCHPANEL_HitTrg 0x02035C08 arm
  *   UI_SetInputMode 0x020355D8 arm
- *   func_020355D8x 0x020355D8 arm
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   INTRUDE_COMM_IsSessionActive 0x02175B14 thumb ov011
  *   INTRUDE_COMM_AcceptSession 0x02175B4C thumb ov011
@@ -402,35 +397,44 @@ typedef enum { FALSE, TRUE } BoolFlag;
 extern void GXx_SetMasterBrightness_(volatile u16 *reg, int brightness);
 extern void BG_SYS_SetMainVisiblePlanes(u32 planes);
 extern void BG_SYS_SetSubVisiblePlanes(u32 planes);
-extern void G2x_SetBlendAlpha_(u32, u32, u32, u32, u32);
+extern void G2x_SetBlendAlpha_(unsigned int *reg, unsigned int a, unsigned int b, unsigned int c, unsigned int d);
 extern void BG_SYS_SetLcdSwap(u32 a);
 extern void GFL_HEAP_CreateChildHeap(u32 a, u32 b, u32 c);
 extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
 extern void MI_CpuFill8(void *p, int v, int n);
-extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
-extern void *GPOWER_LoadPowerTable(u32 heap);
+extern void *ARC_TOOL_CreateHandle(unsigned int archiveID, unsigned short heapID);
+struct GPowerData;
+extern struct GPowerData *GPOWER_LoadPowerTable(u32 heap);
 extern void *PROCSYS_Create(int heapId);
-extern void PRINTSYS_CTRL_Init(u8 *p, u32 v);
-extern u32 GFL_USE_AddMainTask(void (*cb)(void), void *arg, int pri);
+struct PrintStreamCtrl;
+extern void PRINTSYS_CTRL_Init(struct PrintStreamCtrl *ctrl, unsigned int inputType);
+struct Tcb;
+extern struct Tcb *GFL_USE_AddMainTask(void (*cb)(void), void *work, unsigned int priority);
 extern void GFL_NET_RefreshWmIconAtTopRight(u32 a, u32 b);
-extern u32 GAMESYSTEM_GetGameComm(const struct Ctx *p);
-extern int INTRUDE_COMM_GetWorkIfRunning(int comm);
-extern void WIPE_SYS_Start(void *divisionMode, u32 mainPattern, u32 subPattern, u32 color, u32 frames, u32 wait, u32 heapId);
+struct GameSystem;
+struct GameComm;
+extern struct GameComm *GAMESYSTEM_GetGameComm(struct GameSystem *gameSystem);
+struct IntrudeCommSys;
+extern struct IntrudeCommSys *INTRUDE_COMM_GetWorkIfRunning(struct GameComm *comm);
+extern void WIPE_SYS_Start(void *divisionMode, unsigned int mainPattern, unsigned int subPattern, unsigned short color, unsigned int frames, unsigned int wait, unsigned int heapId);
 extern u32 GFL_NET_ERR_GetErrorLevel(void);
 extern u32 INTRUDE_COMM_SendBusyBegin(void);
 extern u32 INTRUDE_COMM_SendBusyEnd(void);
 extern u32 WIPE_SYS_EndCheck(void);
-extern u32 GAME_COMM_GetCounter(void *obj);
-extern u32 GAME_COMM_GetKind(void *obj);
+extern u32 GAME_COMM_GetCounter(struct GameComm *comm);
+extern u32 GAME_COMM_GetKind(struct GameComm *comm);
 extern void PROCSYS_Push(int h, int id, int a, void *b);
 extern void GF_FONT_SetTextColor(u32, u32, u32);
 extern u32 PROCSYS_Main(void *h);
-extern void TCBL_Main(struct Tcbl *p);
-extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
+struct TcblSystem;
+extern void TCBL_Main(struct TcblSystem *tcbl);
+struct PrintQueue;
+extern u32 PRINTSYS_QUE_Main(struct PrintQueue *queue);
 extern void CLACT_DrawSystem(void);
 extern void PROCSYS_Delete(struct S020314B8 *p);
-extern void TCB_DeleteTask(struct Node *n);
-extern void GPOWER_FreePowerTable(void *p);
+struct TcbTask;
+extern void TCB_DeleteTask(struct TcbTask *task);
+extern void GPOWER_FreePowerTable(struct GPowerData *table);
 extern void ARC_TOOL_DeleteHandle(void *a);
 extern void PROCSYS_FreeProcWork(struct Proc *p);
 extern void GFL_HEAP_DeleteChecked(u32 heap);
@@ -448,58 +452,69 @@ extern void PALANM_LoadHandlePaletteToSlot(struct PalAnmSlot *slots, void *arc, 
 extern void ARC_UTIL_UploadBgPaletteFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern u32 ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern u32 BG_SYS_CreateRun(u32 layer, u32 size, u32 top);
-extern void APP_ICON_LoadTouchBar(void *arc, int id, u32 heap, int base, u32 pal);
+struct ArcHandle;
+extern void APP_ICON_LoadTouchBar(struct ArcHandle *arc, int bgFrame, unsigned int heapId, int charOffset, unsigned int palNo);
 extern void BG_SYS_PushTile(u32 a);
 extern void BG_SYS_FreeTileRun(u32, u32, u32);
 extern unsigned int MSGDATA_Delete(struct MsgBank *bank);
 extern unsigned int WORDSET_Delete(struct WordSet *p);
-extern void PRINTSYS_QUE_Clear(struct PrintSys *);
-extern void PRINTSYS_QUE_Delete(struct PrintSys *);
-extern u32 GF_FONT_Delete(void *ptr);
-extern void TCBL_Destroy(struct Tcbl *);
+extern void PRINTSYS_QUE_Clear(struct PrintQueue *queue);
+extern void PRINTSYS_QUE_Delete(struct PrintQueue *queue);
+extern u32 GF_FONT_Delete(struct GfFont *font);
+extern void TCBL_Destroy(struct TcblSystem *tcbl);
 extern void BG_SYS_SetMainPlaneVisible(u32, u32);
 extern void BG_SYS_SetSubPlaneVisible(u32, u32);
-extern void BMP_OAM_DeleteSys(void *);
+struct BmpOamSys;
+extern void BMP_OAM_DeleteSys(struct BmpOamSys *sys);
 extern u32 CLACT_DeleteUnit(struct Bank *bank);
 extern void CLACT_ExitSystem(void);
-extern void ACTOR_TOOL_Delete(void *);
-extern void ACTOR_TOOL_FreeChar(u32, u32, u32);
+struct ActorTool;
+extern void ACTOR_TOOL_Delete(struct ActorTool *tool);
+extern void ACTOR_TOOL_FreeChar(struct ActorTool *tool, unsigned int charOffset, unsigned int bank);
 extern void CLACT_ReleaseCharacter(u32);
 extern void CLACT_ReleaseCellAnim(u32);
 extern void CLACT_VBlankSystem(void);
 extern void PALANM_TransferPalettes(struct PalAnmSlot *);
-extern void *ARC_TOOL_LoadMember(u32 archive_id, u32 member, u32 heap);
+extern void *ARC_TOOL_LoadMember(unsigned int archiveID, unsigned int memberIdx, unsigned short heapID);
 extern u32 ARC_TOOL_GetMemberSize(u32 a, u32 b);
 extern u32 GFL_HEAP_Free(void *p);
-extern struct Bitmap *BMP_Create(u32 width, u32 height, u32 depth, u16 heap);
+struct Bmp;
+extern struct Bmp *BMP_Create(u32 width, u32 height, u32 depth, u16 heap);
 extern struct Actor *CLACT_CreateActor(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
 extern struct BmpOamGrid *BMP_OAM_Create(struct Sys *sys, const struct MonolithToolGridParam *param);
 extern void *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
 extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
 extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
-extern void PRINTSYS_PrintQue(struct PrintSys *printSys, struct Bitmap *bitmap, u32 x, u32 y, struct Strbuf *text, u32 font);
+extern void PRINTSYS_PrintQue(struct PrintQueue *queue, struct Bmp *bmp, unsigned int x, short y, struct Strbuf *str, struct GfFont *font);
 extern void STRBUF_Delete(struct Strbuf *vec);
 extern void CLACT_DeleteActor(struct Actor *);
-extern void BMP_OAM_Delete(struct BmpOamGrid *);
-extern void BMP_Delete(struct Bitmap *);
+struct BmpOam;
+extern void BMP_OAM_Delete(struct BmpOam *bmpOam);
+extern void BMP_Delete(struct Bmp *bmp);
 extern void CLACT_SetActorDrawEnable(struct Actor *, u32);
-extern void BMP_OAM_SetEnabled(u8 *, u32);
-extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintSys *, void *);
-extern void BMP_OAM_UploadChars(struct BmpOamGrid *);
+extern void BMP_OAM_SetEnabled(struct BmpOam *bmpOam, unsigned int enabled);
+extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintQueue *queue, struct Bmp *bmp);
+extern void BMP_OAM_UploadChars(struct BmpOam *bmpOam);
 extern void GF_PANIC_Fail(const char *expr, u32 line, const char *file);
 extern u16 PALANM_GetColor(int base, int idx, int which, u16 pos);
 extern void PALANM_BlendChannel(struct Chan02021FD8 *p, u32 idx, u32 c, u32 count, u8 weight, u16 color);
 extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
-extern int GAME_DATA_GetMyStatusByNetId(void *gameData, int netId);
-extern int GAME_DATA_GetBattleRecSlotByNetId(void *gameData, int netId);
+struct GameData;
+struct MyStatus;
+extern struct MyStatus *GAME_DATA_GetMyStatusByNetId(struct GameData *gameData, unsigned int netId);
+struct BattleRecSlot;
+extern struct BattleRecSlot *GAME_DATA_GetBattleRecSlotByNetId(struct GameData *gameData, unsigned int netId);
 extern void CLACT_SetActorAutoAnim(struct Actor *, unsigned int);
 extern void CLACT_ChangeActorAnimSeq(struct Actor *p, u16 v);
 extern void CLACT_SetActorPaletteOffset(struct Actor *o, u32 v, u32 flag);
-extern struct TaskMenuRes *APP_TASKMENU_RES_Create(u16 bgFrame, u16 palNo, u32 font, u32 printQue, u16 heap);
-extern struct TaskMenu *APP_TASKMENU_OpenMenu(struct TaskMenuTmpl *tmpl, void *res);
-extern void APP_TASKMENU_UpdateMenu(void *);
-extern u32 APP_TASKMENU_IsFinish(struct TaskMenu *m);
-extern u8 APP_TASKMENU_GetCursorPos(const u8 *p);
+struct GFont;
+extern struct TaskMenuRes *APP_TASKMENU_RES_Create(unsigned short bgFrame, unsigned short palNo, struct GFont *font, struct PrintQueue *printQue, unsigned short heapId);
+struct TaskMenuInitWork;
+struct TaskMenuWork;
+extern struct TaskMenuWork *APP_TASKMENU_OpenMenu(struct TaskMenuInitWork *init, struct TaskMenuRes *res);
+extern void APP_TASKMENU_UpdateMenu(struct TaskMenuWork *menu);
+extern u32 APP_TASKMENU_IsFinish(struct TaskMenuWork *menu);
+extern u8 APP_TASKMENU_GetCursorPos(struct TaskMenuWork *menu);
 extern void BG_SYS_Delete(void);
 extern void BMP_WIN_Init(u16 heapId);
 extern void BMP_WIN_Exit(void);
@@ -507,91 +522,99 @@ extern void *PALANM_Create(u32 heap);
 extern void PALANM_AllocSlotBuffers(struct PalAnmSlot *slots, u32 idx, u32 size, u32 heap);
 extern unsigned int PALANM_SetAutoTransfer(struct PalAnmSlot *slots, int v);
 extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
-extern void BG_SYS_SetTileEntry(u32 a, u32 b, u32 c, u32 d, u8 e, u8 f, u8 g);
-extern struct Tcbl *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
+extern void BG_SYS_SetTileEntry(unsigned int layer, unsigned short value, unsigned char x0, unsigned char y0, unsigned char w, unsigned char h, unsigned char mode);
+extern struct TcblSystem *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
 extern struct GfFont *GF_FONT_Create(int archiveId, int fileId, int format, int isFixedWidth, u32 heapId);
-extern u32 PRINTSYS_QUE_Create(void *p);
-extern struct WordSet *WORDSET_CreateDefault(u32 heap);
+extern struct PrintQueue *PRINTSYS_QUE_Create(unsigned int heap);
+extern struct WordSet *WORDSET_CreateDefault(unsigned short heapId);
 extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern void CLACT_InitSystem(const struct Cfg *cfg, u32 arg, u32 heapId);
+struct DispVramCfg;
+extern void CLACT_InitSystem(struct SysInit *cfg, struct DispVramCfg *res_cfg, unsigned int heapId);
 extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 extern void CLACT_SetUnitDefaultRenderer(struct Bank *bank);
-extern u8 *ACTOR_TOOL_Create(u32 heapId, u8 bank0Count, u8 bank1Count);
-extern void *BMP_OAM_CreateSys(unsigned int heapId, void *clact);
-extern u32 ACTOR_TOOL_LoadCharPalAnm(u32 palSlots, u32 tool, u32 src, u32 resId, u32 bank, u32 len, u32 flags);
+extern struct ActorTool *ACTOR_TOOL_Create(u32 heapId, u8 bank0Count, u8 bank1Count);
+extern struct BmpOamSys *BMP_OAM_CreateSys(unsigned int heapId, void *clact);
+extern u32 ACTOR_TOOL_LoadCharPalAnm(void *palSlots, struct ActorTool *tool, void *src, unsigned int resId, unsigned int bank, unsigned int len, unsigned int flags);
 extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 vram_mode, u16 flags);
 extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
-extern u32 ACTOR_TOOL_LoadCharSimplePalAnm(u32 palSlots, u32 tool, u32 src, u32 resId, u32 bank, u32 len, u32 flags);
-extern u32 APP_TASKMENU_RES_Delete(struct TaskMenuState *s);
-extern void APP_TASKMENU_CloseMenu(struct TaskMenu *m);
+extern u32 ACTOR_TOOL_LoadCharSimplePalAnm(void *palSlots, struct ActorTool *tool, void *src, unsigned int resId, unsigned int bank, unsigned int len, unsigned int flags);
+extern void APP_TASKMENU_RES_Delete(struct TaskMenuRes *res);
+extern void APP_TASKMENU_CloseMenu(struct TaskMenuWork *menu);
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void BG_SYS_DrawTile(u32 index, u32 src, u32 dx, u32 dy, u8 cw, u8 ch);
-extern int INTRUDE_COMM_HasUnlockFlags(void *);
+extern void BG_SYS_DrawTile(unsigned int index, void *src, unsigned char dx, unsigned char dy, unsigned char cw, unsigned char ch);
+extern int INTRUDE_COMM_HasUnlockFlags(struct GameData *gameData);
 extern int TOUCHPANEL_GetTrg(void);
 extern u32 KEY_GetTrg(void);
 extern int TOUCHPANEL_HitTrg(const void *);
 extern void UI_SetInputMode(int);
-extern void func_020355D8x(int);
 extern void GFL_USE_PlaySeDefaultVolume(u32);
-extern int INTRUDE_COMM_IsSessionActive(u8 *);
-extern void INTRUDE_COMM_AcceptSession(u8 *,u8 *);
-extern u8 INTRUDE_COMM_TakeJoinReply(char *p);
-extern int INTRUDE_CMD_SendJoinRequest(char *a, int b);
-extern u32 PRINTSYS_QUE_IsFinished(const struct PrintSys *p);
-extern void PRINTSYS_PrintStreamDelete(struct Rec3 *p);
+struct IntrudeSession;
+extern int INTRUDE_COMM_IsSessionActive(struct IntrudeSession *session);
+extern void INTRUDE_COMM_AcceptSession(struct IntrudeCommSys *work, struct IntrudeSession *session);
+extern u8 INTRUDE_COMM_TakeJoinReply(struct IntrudeSession *session);
+extern int INTRUDE_CMD_SendJoinRequest(struct IntrudeCommSys *w, void *request);
+extern u32 PRINTSYS_QUE_IsFinished(struct PrintQueue *queue);
+struct TextPrinter;
+extern void PRINTSYS_PrintStreamDelete(struct TextPrinter *printer);
 extern void BMP_MENUWORK_LoadChar(u32 a, u32 b, u32 c, u32 d);
 extern u8 BMP_MENUWORK_GetPlttFileId(int i);
-extern struct BmpWin *BMP_WIN_Create(u32 layer, u32 x, u32 y, u32 width, u8 height, u8 palette, u8 slot);
-extern void *BMP_WIN_GetBmp(struct BmpWin *p);
-extern void BMP_Clear(struct Bitmap *buf, u8 value);
+extern struct BmpWin *BMP_WIN_Create(unsigned int bgLayer, unsigned int posX, unsigned int posY, unsigned char width, unsigned char height, unsigned char palette, unsigned char allocDir);
+extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *p);
+extern void BMP_Clear(struct Bmp *bmp, unsigned char value);
 extern void BMP_WIN_MakeScreen(struct BmpWin *window);
-extern void BMP_MENUWORK_DrawWindow(void *win, int commitMode, int tileBase, int palette);
+extern void BMP_MENUWORK_DrawWindow(struct BmpWin *win, int commitMode, unsigned short tileBase, unsigned int palette);
 extern signed char MSG_SPEED_GetWait(void);
 extern void *PRINTSYS_PrintStream(void *win, u32 x, u32 y, void *str, u32 font, u32 wait, void *tcbl, u32 priority, u32 heap, u32 fillColor);
-extern s32 PRINTSYS_CTRL_Update(struct Blk *blk, void *h);
+extern s32 PRINTSYS_CTRL_Update(struct PrintStreamCtrl *ctrl, struct TextPrinter *stream);
 extern void BMP_WIN_TransferChars(struct BmpWin *d);
 extern u32 BMP_WIN_Delete(struct BmpWin *d);
 extern void CLACT_AddActorSurfacePos(struct Actor *p, const struct Vec2 *delta, u32 which);
 extern u8 UI_GetInputMode(void);
 extern const void *MYSTATUS_GetName(const void *p);
 extern void STRBUF_SetStringN(struct Strbuf *o, const u16 *src, u32 len);
-extern u8 MYSTATUS_GetSex(const struct Sub0200852CObj *obj);
-extern void WORDSET_SetSlotTag(struct WordSet *p, u32 i, const void *src, u32 n, u32 f, u32 c);
+extern u8 MYSTATUS_GetSex(struct MyStatus *mystatus);
+extern void WORDSET_SetSlotTag(struct WordSet *words, unsigned int slot, struct Strbuf *src, unsigned int grammarCase, unsigned int isPlural, unsigned int gender);
 extern unsigned int KEY_GetRepeat(void);
-extern u32 GAME_DATA_GetEventWork(const struct BigObj *p);
-extern u32 ZONEDATA_CheckEventFlag(void *bitmap, s32 id);
-extern u8 *INTRUDE_COMM_GetActiveSessionRequest(u8 *p);
-extern void INTRUDE_COMM_SetWordSetRequest(MonolithToolSlotInfo *, void *, void *, int);
-extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
+extern void *GAME_DATA_GetEventWork(struct GameData *gd);
+struct EventWork;
+extern u32 ZONEDATA_CheckEventFlag(struct EventWork *ev, int flagId);
+struct IntrudeMemberRecord;
+extern struct IntrudeMemberRecord *INTRUDE_COMM_GetActiveSessionRequest(struct IntrudeSession *session);
+struct IntrudeMemberName;
+struct IntrudeRequestHead;
+extern void INTRUDE_COMM_SetWordSetRequest(struct IntrudeRequestHead *head, struct IntrudeMemberName *name, struct WordSet *wordSet, unsigned short heapId);
+extern void MSGDATA_ReadString(struct MsgBank *bank, unsigned int index, struct Strbuf *dest);
 extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
-extern int TOWN_MAP_SPOT_CountVisited(MonolithEntry *table, MonolithCounts *counts, u8 *rankData);
+extern int TOWN_MAP_SPOT_CountVisited(void *spots, void *position, unsigned char *unlockMask);
 extern int TOUCHPANEL_GetCont(void);
 extern u32 KEY_GetCont(void);
 extern void WORDSET_SetSlotFromMsgA0(struct WordSet *p, u32 i, s32 v);
 extern int INTRUDE_COMM_SendPairMessage(int,...);
 extern void GFL_USE_FadeOutBgm(u32 a);
 extern int GFL_USE_IsBgmFading(void);
-extern void GFL_USE_SetBgmPaused(void *p);
+extern void GFL_USE_SetBgmPaused(unsigned int value);
 extern int GFL_USE_PushBgm(void);
-extern void GFL_USE_CancelChangeAndPlayBgm(int,int);
+extern void GFL_USE_CancelChangeAndPlayBgm(unsigned int bgmNo, unsigned int trackMask);
 extern int GFL_USE_IsBgmPlaying(void);
 extern int GFL_USE_PopBgm(void);
 extern void GFL_USE_FadeInBgmFull(u32 a);
-extern void *GAME_DATA_GetSaveControl(struct Big *p);
-extern u16 *INTRUDE_GetFromSave(void *sys);
-extern void INTRUDE_SetMonolithLevel(struct Rec1B0 *p, u32 v);
-extern u8 GAME_DATA_GetOwnNetId(const struct BigObj *p);
-extern void GAME_COMM_PushPairMessage(u32,u32,u32);
-extern void BMP_MENUWORK_DrawWindowBorder(void *desc, u32 kind);
+struct SaveControl;
+extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gd);
+struct IntrudeSave;
+extern struct IntrudeSave *INTRUDE_GetFromSave(struct SaveControl *save);
+extern void INTRUDE_SetMonolithLevel(struct IntrudeSave *intrude, unsigned int level);
+extern u8 GAME_DATA_GetOwnNetId(struct GameData *gd);
+extern void GAME_COMM_PushPairMessage(struct GameComm *comm, unsigned int netId0, unsigned int netId1);
+extern void BMP_MENUWORK_DrawWindowBorder(struct BmpWin *desc, unsigned int commitMode);
 extern int TOWN_MAP_SPOT_Classify(MonolithEntry *table, int index, MonolithCounts *counts, u8 *rankData);
-extern void PRINTSYS_PrintColor(void *x, s16 y, s16 z, void *s, void *w, u16 v);
+extern void PRINTSYS_PrintColor(struct Bmp *bmp, short x, short y, struct Strbuf *str, struct GfFont *font, unsigned short color);
 extern u32 TOUCHPANEL_GetPointCont(u32 *outX, u32 *outY);
 extern void BG_SYS_FillTileMap(u8 layer, u8 x, u8 y, u8 width, u8 height, u8 palette);
 extern void BG_SYS_MarkTileDirty(u32 layerBit);
 extern void BG_SYS_ChangeScroll(unsigned layer, unsigned axis, unsigned offset);
-extern void BMP_OAM_SetPos(struct BmpOamGrid *grid, s16 x, s16 y);
-extern void BMP_CopyPixels(struct Bitmap *dst, const struct Bitmap *src);
-extern u8 INTRUDE_GetMonolithLevel(void *saveBlock);
+extern void BMP_OAM_SetPos(struct BmpOam *bmpOam, short x, short y);
+extern void BMP_CopyPixels(struct Bmp *src, struct Bmp *dst);
+extern u8 INTRUDE_GetMonolithLevel(struct IntrudeSave *intrude);
 extern const struct MonolithToolGridParam gMonolithRowGridParam;
 extern const struct BgTemplate gMonolithInfoBgTemplate0;
 extern const struct BgTemplate gMonolithInfoBgTemplate2;
@@ -834,8 +857,8 @@ int MONOLITH_TOOL_Init(struct Proc *ctx, int unused, MonolithToolSetup *setup)
     *(volatile u32 *)0x04001000 &= 0xFFFFE0FF;
     *(volatile u32 *)0x04000000 &= 0xFFFF1FFF;
     *(volatile u32 *)0x04001000 &= 0xFFFF1FFF;
-    G2x_SetBlendAlpha_(0x04000050, 4, 8, 0xF, 0xF);
-    G2x_SetBlendAlpha_(0x04001050, 4, 8, 0xF, 0xF);
+    G2x_SetBlendAlpha_((unsigned int *)0x04000050, 4, 8, 0xF, 0xF);
+    G2x_SetBlendAlpha_((unsigned int *)0x04001050, 4, 8, 0xF, 0xF);
     BG_SYS_SetLcdSwap(1);
     GFL_HEAP_CreateChildHeap(1, 0x61, 0x70000);
     work = PROCSYS_AllocProcWork(ctx, sizeof(MonolithToolWork), 0x61);
@@ -851,11 +874,11 @@ int MONOLITH_TOOL_Init(struct Proc *ctx, int unused, MonolithToolSetup *setup)
     MONOLITH_TOOL_InitText(work);
     MONOLITH_TOOL_InitActors(work);
     MONOLITH_TOOL_LoadActorResources(work);
-    work->entryTable = GPOWER_LoadPowerTable(0x61);
+    work->entryTable = (struct MonolithEntry *)GPOWER_LoadPowerTable(0x61);
     work->topProcSys = (int)PROCSYS_Create(0x61);
     work->subProcSys = (int)PROCSYS_Create(0x61);
-    PRINTSYS_CTRL_Init(work->scratchList, 6);
-    work->vblankTask = GFL_USE_AddMainTask((void (*)(void))MONOLITH_TOOL_VBlankTask, work, 0xA);
+    PRINTSYS_CTRL_Init((struct PrintStreamCtrl *)work->scratchList, 6);
+    work->vblankTask = (unsigned int)GFL_USE_AddMainTask((void (*)(void))MONOLITH_TOOL_VBlankTask, work, (unsigned int)0xA);
     GFL_NET_RefreshWmIconAtTopRight(0, 0x61);
     work->procArgs.setup = setup;
     work->procArgs.work = work;
@@ -874,7 +897,7 @@ int MONOLITH_TOOL_Main(int a, int *seq, void **pwk, MonolithToolWork *work)
     u8 k;
 
     h = (void *)GAMESYSTEM_GetGameComm(*pwk);
-    r = (u8 *)INTRUDE_COMM_GetWorkIfRunning((int)h);
+    r = (u8 *)INTRUDE_COMM_GetWorkIfRunning(h);
     switch (*seq) {
     case 0:
         WIPE_SYS_Start(0, 1, 1, 0, 6, 1, 0x8061);
@@ -944,8 +967,8 @@ int MONOLITH_TOOL_Main(int a, int *seq, void **pwk, MonolithToolWork *work)
     case 7:
         return 1;
     }
-    TCBL_Main(work->taskList);
-    PRINTSYS_QUE_Main(work->printSys);
+    TCBL_Main((struct TcblSystem *)work->taskList);
+    PRINTSYS_QUE_Main((struct PrintQueue *)work->printSys);
     CLACT_DrawSystem();
     return 0;
 }
@@ -961,8 +984,8 @@ int MONOLITH_TOOL_Exit(int a, int b, int c, MonolithToolWork *work)
 
     PROCSYS_Delete((struct S020314B8 *)work->topProcSys);
     PROCSYS_Delete((struct S020314B8 *)work->subProcSys);
-    TCB_DeleteTask((struct Node *)work->vblankTask);
-    GPOWER_FreePowerTable(work->entryTable);
+    TCB_DeleteTask((struct TcbTask *)work->vblankTask);
+    GPOWER_FreePowerTable((struct GPowerData *)work->entryTable);
     MONOLITH_TOOL_FreeActorResources(work);
     MONOLITH_TOOL_FreeActors(work);
     MONOLITH_TOOL_FreeText(work);
@@ -1119,9 +1142,9 @@ void MONOLITH_TOOL_FreeSubBgChar(MonolithToolWork *work)
 void MONOLITH_TOOL_InitText(MonolithToolWork *work)
 {
     GF_FONT_SetTextColor(0xf, 2, 0);
-    work->taskList = TCBL_Create(0x61, 0x61, 4, 0x20);
+    work->taskList = (struct Tcbl *)TCBL_Create(0x61, 0x61, 4, 0x20);
     work->font = GF_FONT_Create(0x17, 0, 0, 0, 0x61);
-    work->printSys = (struct PrintSys *)PRINTSYS_QUE_Create((void *)0x61);
+    work->printSys = (struct PrintSys *)PRINTSYS_QUE_Create((unsigned int)0x61);
     work->wordSet = WORDSET_CreateDefault(0x61);
     work->msgBank[0] = MSGDATA_CreateFromArchive(0, 2, 0x43, 0x61);
     work->msgBank[1] = MSGDATA_CreateFromArchive(0, 2, 0xa0, 0x61);
@@ -1142,10 +1165,10 @@ void MONOLITH_TOOL_FreeText(MonolithToolWork *work)
     MSGDATA_Delete(work->msgBank[2]);
     MSGDATA_Delete(work->msgBank[3]);
     WORDSET_Delete(work->wordSet);
-    PRINTSYS_QUE_Clear(work->printSys);
-    PRINTSYS_QUE_Delete(work->printSys);
+    PRINTSYS_QUE_Clear((struct PrintQueue *)work->printSys);
+    PRINTSYS_QUE_Delete((struct PrintQueue *)work->printSys);
     GF_FONT_Delete(work->font);
-    TCBL_Destroy(work->taskList);
+    TCBL_Destroy((struct TcblSystem *)work->taskList);
 }
 
 
@@ -1161,10 +1184,10 @@ void MONOLITH_TOOL_InitActors(MonolithToolWork *work)
     s.oam_sub_count = 0x7c;
     s.n_chars = 0x60;
     s.n_cells = 0x40;
-    CLACT_InitSystem((const struct Cfg *)(&s), (u32)(&d_021BA7D4), 0x61);
+    CLACT_InitSystem((struct SysInit *)(&s), (struct DispVramCfg *)((&d_021BA7D4)), 0x61);
     work->unitBank = CLACT_CreateUnit(0x60, 0, 0x61);
     CLACT_SetUnitDefaultRenderer(work->unitBank);
-    work->actorTool = ACTOR_TOOL_Create(0x61, 0x10, 0x10);
+    work->actorTool = (unsigned char *)ACTOR_TOOL_Create(0x61, 0x10, 0x10);
     work->actorToolUnit = BMP_OAM_CreateSys(0x61, work->unitBank);
 }
 
@@ -1185,7 +1208,7 @@ void MONOLITH_TOOL_FreeActors(MonolithToolWork *work)
     BMP_OAM_DeleteSys(work->actorToolUnit);
     CLACT_DeleteUnit(work->unitBank);
     CLACT_ExitSystem();
-    ACTOR_TOOL_Delete(work->actorTool);
+    ACTOR_TOOL_Delete((struct ActorTool *)work->actorTool);
 }
 
 
@@ -1202,10 +1225,10 @@ void MONOLITH_TOOL_LoadActorResources(MonolithToolWork *work)
         if (i != 0) {
             flag = 1;
         }
-        work->actorRes[i].charPalAnm = ACTOR_TOOL_LoadCharPalAnm((u32)work->palAnm, (u32)work->actorTool, (u32)work->archive, 3, flag, 3, 0x61);
+        work->actorRes[i].charPalAnm = ACTOR_TOOL_LoadCharPalAnm((void *)work->palAnm, (struct ActorTool *)work->actorTool, work->archive, 3, flag, 3, 0x61);
         work->actorRes[i].cellRes = CLACT_RegisterCharacter(work->archive, 0, 1, flag, 0x61);
         work->actorRes[i].animRes = CLACT_RegisterCellAnim(work->archive, 1, 2, 0x61);
-        work->actorRes[i].simplePalAnm = ACTOR_TOOL_LoadCharSimplePalAnm((u32)work->palAnm, (u32)work->actorTool, (u32)tmp, 5, flag, 1, 0x61);
+        work->actorRes[i].simplePalAnm = ACTOR_TOOL_LoadCharSimplePalAnm((void *)work->palAnm, (struct ActorTool *)work->actorTool, tmp, 5, flag, 1, 0x61);
     }
     ARC_TOOL_DeleteHandle(tmp);
 }
@@ -1231,10 +1254,10 @@ void MONOLITH_TOOL_FreeActorResources(MonolithToolWork *work)
         if (i != 0) {
             flag = 1;
         }
-        ACTOR_TOOL_FreeChar((u32)work->actorTool, work->actorRes[i].charPalAnm, flag);
+        ACTOR_TOOL_FreeChar((struct ActorTool *)work->actorTool, work->actorRes[i].charPalAnm, flag);
         CLACT_ReleaseCharacter(work->actorRes[i].cellRes);
         CLACT_ReleaseCellAnim(work->actorRes[i].animRes);
-        ACTOR_TOOL_FreeChar((u32)work->actorTool, work->actorRes[i].simplePalAnm, flag);
+        ACTOR_TOOL_FreeChar((struct ActorTool *)work->actorTool, work->actorRes[i].simplePalAnm, flag);
         i++;
     } while (i < SLOT_COUNT);
 }
@@ -1332,10 +1355,10 @@ void MONOLITH_TOOL_CreateButton(MonolithToolWork *work, MonolithToolButton *butt
     if (wordSet) {
         expanded = STRBUF_Create(0x80, 0x61);
         WORDSET_CopyTaggedText(wordSet, expanded, text);
-        PRINTSYS_PrintQue(work->printSys, button->bitmap, 0, 0, expanded, (u32)work->font);
+        PRINTSYS_PrintQue((struct PrintQueue *)work->printSys, button->bitmap, 0, 0, expanded, work->font);
         STRBUF_Delete(expanded);
     } else {
-        PRINTSYS_PrintQue(work->printSys, button->bitmap, 0, 0, text, (u32)work->font);
+        PRINTSYS_PrintQue((struct PrintQueue *)work->printSys, button->bitmap, 0, 0, text, work->font);
     }
     STRBUF_Delete(text);
     button->on = 1;
@@ -1378,7 +1401,7 @@ void MONOLITH_TOOL_SetButtonVisible(MonolithToolButton *button, int visible)
 int MONOLITH_TOOL_IsButtonUploaded(MonolithToolWork *work, MonolithToolButton *button)
 {
     if (button->on == 1) {
-        if (PRINTSYS_QUE_IsExistTarget(work->printSys, button->bitmap) == 0) {
+        if (PRINTSYS_QUE_IsExistTarget((struct PrintQueue *)work->printSys, button->bitmap) == 0) {
             BMP_OAM_UploadChars(button->grid);
             button->on = 0;
             return 1;
@@ -1627,10 +1650,10 @@ void MONOLITH_TOOL_CreateLabel(MonolithToolWork *work, MonolithToolLabel *label,
     if (wordSet) {
         expanded = STRBUF_Create(0x80, 0x61);
         WORDSET_CopyTaggedText(wordSet, expanded, text);
-        PRINTSYS_PrintQue(work->printSys, label->bitmap, 0, 0, expanded, (u32)work->font);
+        PRINTSYS_PrintQue((struct PrintQueue *)work->printSys, label->bitmap, 0, 0, expanded, work->font);
         STRBUF_Delete(expanded);
     } else {
-        PRINTSYS_PrintQue(work->printSys, label->bitmap, 0, 0, text, (u32)work->font);
+        PRINTSYS_PrintQue((struct PrintQueue *)work->printSys, label->bitmap, 0, 0, text, work->font);
     }
     STRBUF_Delete(text);
     label->on = 1;
@@ -1648,7 +1671,7 @@ void MONOLITH_TOOL_FreeLabel(MonolithToolLabel *label) { BMP_OAM_Delete(label->g
 
 
 
-int MONOLITH_TOOL_UpdateLabel(MonolithToolWork *work, MonolithToolLabel *label) { if(label->on==1) { if(PRINTSYS_QUE_IsExistTarget(work->printSys, label->bitmap)==0) { BMP_OAM_UploadChars(label->grid); label->on=0; return 1; } } return 0; }
+int MONOLITH_TOOL_UpdateLabel(MonolithToolWork *work, MonolithToolLabel *label) { if(label->on==1) { if(PRINTSYS_QUE_IsExistTarget((struct PrintQueue *)work->printSys, label->bitmap)==0) { BMP_OAM_UploadChars(label->grid); label->on=0; return 1; } } return 0; }
 
 
 
@@ -1858,7 +1881,7 @@ void MONOLITH_TOOL_Noop(void *a)
 
 struct TaskMenuRes *MONOLITH_TOOL_CreateTaskMenuRes(u32 *p, int a, u16 heap)
 {
-    return APP_TASKMENU_RES_Create((u8)a, 14, p[3], p[2], heap);
+    return APP_TASKMENU_RES_Create((u8)a, 14, (struct GFont *)p[3], (struct PrintQueue *)p[2], heap);
 }
 
 
@@ -1896,7 +1919,7 @@ void *MONOLITH_TOOL_OpenTaskMenu(int *work, void *res, u32 heap)
     t.charPosY = 0xc;
     t.width = 8;
     t.height = 3;
-    menu = APP_TASKMENU_OpenMenu((struct TaskMenuTmpl *)(&t), res);
+    menu = APP_TASKMENU_OpenMenu((struct TaskMenuInitWork *)(&t), res);
     STRBUF_Delete(it[0].text);
     STRBUF_Delete(it[1].text);
     return menu;
@@ -1972,7 +1995,7 @@ void MONOLITH_TOOL_DrawSlotCounts(void *a, int flag, int bg)
     for (i = 0; i < 30; i++) {
         buf[i] |= 0x1000;
     }
-    BG_SYS_DrawTile((u8)bg, (u32)buf, (u8)1, (u8)y, 30, 1);
+    BG_SYS_DrawTile((u8)bg, buf, (u8)1, (u8)y, 30, 1);
     GFL_HEAP_Free(buf);
 }
 
@@ -2032,12 +2055,12 @@ int MONOLITH_TOOL_SLOT_SELECT_Main(int unused, int *state, MonolithToolProcArgs 
  u32 slot;
  u8 nextSlot;
  const u8 *neighbors;
- intrude=(u8 *)INTRUDE_COMM_GetWorkIfRunning(GAMESYSTEM_GetGameComm(args->setup->gameCtx));
+ intrude=(u8 *)INTRUDE_COMM_GetWorkIfRunning(GAMESYSTEM_GetGameComm((struct GameSystem *)args->setup->gameCtx));
  MONOLITH_TOOL_SLOT_SELECT_UpdateSlotIcons(screen,args); MONOLITH_TOOL_SLOT_SELECT_MoveCursor(screen,args->param->slot);MONOLITH_TOOL_SLOT_SELECT_UpdateButtons(args,screen);MONOLITH_TOOL_SLOT_SELECT_UpdateCursor(screen);
  if(args->abortRequested==1 && *state==3) return 1;
  switch(*state) {
  case 0:
-  if(intrude!=0 && INTRUDE_COMM_IsSessionActive(intrude+0x1ac)==1) MONOLITH_TOOL_SLOT_SELECT_SetMode(args,screen,1);
+  if(intrude!=0 && INTRUDE_COMM_IsSessionActive((struct IntrudeSession *)(intrude+0x1ac))==1) MONOLITH_TOOL_SLOT_SELECT_SetMode(args,screen,1);
   *state=1;break;
  case 1:
   if(INTRUDE_COMM_HasUnlockFlags(GAMESYSTEM_GetGameData(args->setup->gameCtx))==0) MONOLITH_TOOL_SLOT_SELECT_ShowMessage(screen,args->work,0x16);
@@ -2053,7 +2076,7 @@ int MONOLITH_TOOL_SLOT_SELECT_Main(int unused, int *state, MonolithToolProcArgs 
   break;
  case 3:
   keyState=KEY_GetTrg();touchResult=TOUCHPANEL_HitTrg(d_021BA87C);
-  if(intrude!=0 && INTRUDE_COMM_IsSessionActive(intrude+0x1ac)==1) {MONOLITH_TOOL_SLOT_SELECT_SetMode(args,screen,1);screen->linkLost=1;*state=4;break;}
+  if(intrude!=0 && INTRUDE_COMM_IsSessionActive((struct IntrudeSession *)(intrude+0x1ac))==1) {MONOLITH_TOOL_SLOT_SELECT_SetMode(args,screen,1);screen->linkLost=1;*state=4;break;}
   if(keyState>0 && screen->buttonHighlight==1) {screen->buttonHighlight=0;MONOLITH_TOOL_HighlightButtonPulse(args,&screen->button[0],1,0,3);GFL_USE_PlaySeDefaultVolume(0x548);break;}
   if(keyState&0xf0) {
    nextSlot=0xff;
@@ -2081,7 +2104,7 @@ int MONOLITH_TOOL_SLOT_SELECT_Main(int unused, int *state, MonolithToolProcArgs 
  case 4: {
   int keyState4,touchResult4;
   keyState4=KEY_GetTrg();touchResult4=TOUCHPANEL_HitTrg(d_021BA87C);
-  if(touchResult4==7 || (keyState4&2)) {func_020355D8x(touchResult4==7);GFL_USE_PlaySeDefaultVolume(0x551);*state=11;}
+  if(touchResult4==7 || (keyState4&2)) {if(touchResult4==7) UI_SetInputMode(1); else UI_SetInputMode(0);GFL_USE_PlaySeDefaultVolume(0x551);*state=11;}
   break;}
 
  case 5:
@@ -2090,11 +2113,11 @@ int MONOLITH_TOOL_SLOT_SELECT_Main(int unused, int *state, MonolithToolProcArgs 
   nameDst=screen->playerName;
   nameSrc=args->setup->playerName;
   for(slot=10;slot!=0;slot--) {*nameDst=*nameSrc;nameDst++;nameSrc++;}
-  if(intrude!=0 && INTRUDE_CMD_SendJoinRequest((char *)intrude,(int)&screen->joinRecord)!=1) break;
+  if(intrude!=0 && INTRUDE_CMD_SendJoinRequest((struct IntrudeCommSys *)intrude,&screen->joinRecord)!=1) break;
   *state=6;break;
  case 6:
   if(intrude==0) {*state=3;break;}
-  result=INTRUDE_COMM_TakeJoinReply((char *)(intrude+0x1ac));
+  result=INTRUDE_COMM_TakeJoinReply((struct IntrudeSession *)(intrude+0x1ac));
   if(result==1) {MONOLITH_TOOL_SLOT_SELECT_ShowMessage(screen,args->work,0x10);*state=7;}
   else if(result==2) {MONOLITH_TOOL_SLOT_SELECT_ShowMessage(screen,args->work,0x11);*state=8;}
   else if(result==3) {MONOLITH_TOOL_SLOT_SELECT_ShowMessage(screen,args->work,0x15);*state=8;}
@@ -2106,9 +2129,9 @@ int MONOLITH_TOOL_SLOT_SELECT_Main(int unused, int *state, MonolithToolProcArgs 
   } else if(*state==8) {
    if(TOUCHPANEL_GetTrg()==0 && !(KEY_GetTrg()&3)) break;
   } else break;
-  if(*state==7 && intrude!=0 && INTRUDE_COMM_IsSessionActive(intrude+0x1ac)==0) break;
+  if(*state==7 && intrude!=0 && INTRUDE_COMM_IsSessionActive((struct IntrudeSession *)(intrude+0x1ac))==0) break;
   MONOLITH_TOOL_SLOT_SELECT_HideMessage(screen);GFL_USE_PlaySeDefaultVolume(0x547);
-  if(*state==7) {if(intrude!=0) INTRUDE_COMM_AcceptSession(intrude,intrude+0x1ac);screen->joined=1;*state=11;}
+  if(*state==7) {if(intrude!=0) INTRUDE_COMM_AcceptSession((struct IntrudeCommSys *)intrude,(struct IntrudeSession *)(intrude+0x1ac));screen->joined=1;*state=11;}
   else *state=11;
   break;
  case 9:MONOLITH_TOOL_SLOT_SELECT_ShowMessage(screen,args->work,0x17);++*state;break;
@@ -2143,7 +2166,7 @@ int MONOLITH_TOOL_SLOT_SELECT_Main(int unused, int *state, MonolithToolProcArgs 
 
 int MONOLITH_TOOL_SLOT_SELECT_Exit(void *proc, void *unused, MonolithToolProcArgs *args, MonolithToolSlotSelect *screen)
 {
-    if (PRINTSYS_QUE_IsFinished(args->work->printSys) == 0)
+    if (PRINTSYS_QUE_IsFinished((struct PrintQueue *)args->work->printSys) == 0)
         return 0;
     BG_SYS_SetSubVisiblePlanes(8);
     if (screen->msgPrinter != 0)
@@ -2227,7 +2250,7 @@ void MONOLITH_TOOL_SLOT_SELECT_ShowMessage(MonolithToolSlotSelect *screen, Monol
 
 
 
-int MONOLITH_TOOL_SLOT_SELECT_IsMessageDone(MonolithToolWork *work, MonolithToolSlotSelect *screen) { return PRINTSYS_CTRL_Update((struct Blk *)work->scratchList, screen->msgPrinter); }
+int MONOLITH_TOOL_SLOT_SELECT_IsMessageDone(MonolithToolWork *work, MonolithToolSlotSelect *screen) { return PRINTSYS_CTRL_Update((struct PrintStreamCtrl *)work->scratchList, screen->msgPrinter); }
 
 
 
@@ -2436,7 +2459,7 @@ int MONOLITH_TOOL_TITLE_Init(void *ctx, int *state, MonolithToolProcArgs *args)
         species = (int)MONOLITH_TOOL_GetTitleSpecies(args);
         name = STRBUF_Create(8, 0x61);
         STRBUF_SetStringN(name, MYSTATUS_GetName((const void *)species), 8);
-        WORDSET_SetSlotTag((struct WordSet *)args->work->wordSet, 0, name, MYSTATUS_GetSex((const struct Sub0200852CObj *)species), 1, 2);
+        WORDSET_SetSlotTag((struct WordSet *)args->work->wordSet, 0, name, MYSTATUS_GetSex((struct MyStatus *)species), 1, 2);
         STRBUF_Delete(name);
         MONOLITH_TOOL_CreateLabel(args->work, &screen->nameLabel, 0, 0x80, 0xc, 0x1e, 2, 0, (void *)args->work->wordSet);
         MONOLITH_TOOL_TITLE_CreateSlotIcons(screen, args);
@@ -2470,7 +2493,7 @@ int MONOLITH_TOOL_TITLE_Main(int unused,int *state,MonolithToolProcArgs *args,Mo
 
 
 
-int MONOLITH_TOOL_TITLE_Exit(void *proc,int unused,MonolithToolProcArgs *args,MonolithToolTitle *screen) { if(PRINTSYS_QUE_IsFinished(args->work->printSys)==0) return 0; BG_SYS_SetMainVisiblePlanes(8); MONOLITH_TOOL_TITLE_FreeSlotIcons(screen); MONOLITH_TOOL_FreeLabel(&screen->nameLabel); MONOLITH_TOOL_TITLE_FreeBackgrounds(); PROCSYS_FreeProcWork(proc); return 1; }
+int MONOLITH_TOOL_TITLE_Exit(void *proc,int unused,MonolithToolProcArgs *args,MonolithToolTitle *screen) { if(PRINTSYS_QUE_IsFinished((struct PrintQueue *)args->work->printSys)==0) return 0; BG_SYS_SetMainVisiblePlanes(8); MONOLITH_TOOL_TITLE_FreeSlotIcons(screen); MONOLITH_TOOL_FreeLabel(&screen->nameLabel); MONOLITH_TOOL_TITLE_FreeBackgrounds(); PROCSYS_FreeProcWork(proc); return 1; }
 
 
 
@@ -2585,7 +2608,7 @@ int MONOLITH_TOOL_MENU_Update(int unused, int *state, MonolithToolProcArgs *args
     u32 keys;
     int touch;
 
-    saveData = (u8 *)INTRUDE_COMM_GetWorkIfRunning(GAMESYSTEM_GetGameComm(args->setup->gameCtx));
+    saveData = (u8 *)INTRUDE_COMM_GetWorkIfRunning(GAMESYSTEM_GetGameComm((struct GameSystem *)args->setup->gameCtx));
     MONOLITH_TOOL_MENU_UpdateButtons(args, screen);
     MONOLITH_TOOL_MENU_UpdateCursor(screen);
     if (args->abortRequested == 1) {
@@ -2639,7 +2662,7 @@ int MONOLITH_TOOL_MENU_Update(int unused, int *state, MonolithToolProcArgs *args
                 (*state)--;
                 break;
             }
-            if (saveData != 0 && INTRUDE_COMM_IsSessionActive(saveData + 0x1ac) == 1) {
+            if (saveData != 0 && INTRUDE_COMM_IsSessionActive((struct IntrudeSession *)(saveData + 0x1ac)) == 1) {
                 GFL_USE_PlaySeDefaultVolume(0x54c);
                 MONOLITH_TOOL_MENU_ShowMessage(screen, args->work, 4);
                 *state = 3;
@@ -2691,7 +2714,7 @@ int MONOLITH_TOOL_MENU_Update(int unused, int *state, MonolithToolProcArgs *args
 int MONOLITH_TOOL_MENU_Destroy(void *proc, int unused, MonolithToolProcArgs *args, MonolithToolMenu *screen)
 {
 
-    if (PRINTSYS_QUE_IsFinished(args->work->printSys) == 0) {
+    if (PRINTSYS_QUE_IsFinished((struct PrintQueue *)args->work->printSys) == 0) {
         return 0;
     }
     BG_SYS_SetSubVisiblePlanes(8);
@@ -2832,7 +2855,7 @@ void MONOLITH_TOOL_MENU_CreateWindow(MonolithToolMenu *screen, MonolithToolWork 
     BMP_MENUWORK_LoadChar(5, 1, 0, 0x61);
     PALANM_LoadArcPaletteToSlotAt(work->palAnm, 5, BMP_MENUWORK_GetPlttFileId(0), 0x61, 1, 0x20, 0xb0, 0);
     screen->window = (void *)BMP_WIN_Create(5, 1, 0x13, 0x1e, 4, 0xd, 1);
-    BMP_Clear((struct Bitmap *)((int)BMP_WIN_GetBmp((struct BmpWin *)screen->window)), 0xff);
+    BMP_Clear((struct Bmp *)((int)BMP_WIN_GetBmp((struct BmpWin *)screen->window)), 0xff);
     BMP_WIN_MakeScreen(screen->window);
     BMP_MENUWORK_DrawWindow(screen->window, 0, 1, 0xb);
 }
@@ -2876,7 +2899,7 @@ void MONOLITH_TOOL_MENU_ShowMessage(MonolithToolMenu *screen, MonolithToolWork *
 
 int MONOLITH_TOOL_MENU_IsMessageDone(MonolithToolWork *work, MonolithToolMenu *screen)
 {
-    return PRINTSYS_CTRL_Update((struct Blk *)work->scratchList, screen->messageBox);
+    return PRINTSYS_CTRL_Update((struct PrintStreamCtrl *)work->scratchList, screen->messageBox);
 }
 
 
@@ -2896,7 +2919,7 @@ void MONOLITH_TOOL_MENU_HideMessage(MonolithToolMenu *screen)
     STRBUF_Delete(screen->messageText);
     screen->messageText = 0;
     BG_SYS_SetPlaneVisible(5, 0);
-    BMP_Clear((struct Bitmap *)r, 0xff);
+    BMP_Clear((struct Bmp *)r, 0xff);
     BMP_WIN_TransferChars(screen->window);
     GF_FONT_SetTextColor(0xf, 2, 0);
 }
@@ -2963,7 +2986,7 @@ int MONOLITH_TOOL_SUMMARY_Update(int unused, int *state, MonolithToolProcArgs *a
     int idleCount;
     int i;
 
-    saveData = INTRUDE_COMM_GetWorkIfRunning(GAMESYSTEM_GetGameComm(args->setup->gameCtx));
+    saveData = (int)INTRUDE_COMM_GetWorkIfRunning(GAMESYSTEM_GetGameComm((struct GameSystem *)args->setup->gameCtx));
     idleCount = 0;
     if (args->topProcDone == 1) {
         return 1;
@@ -3004,7 +3027,7 @@ int MONOLITH_TOOL_SUMMARY_Update(int unused, int *state, MonolithToolProcArgs *a
 
 int MONOLITH_TOOL_SUMMARY_Destroy(void *proc, int unused, MonolithToolProcArgs *args, MonolithToolSummary *screen)
 {
-    if (PRINTSYS_QUE_IsFinished(args->work->printSys) == 0) return 0;
+    if (PRINTSYS_QUE_IsFinished((struct PrintQueue *)args->work->printSys) == 0) return 0;
     BG_SYS_SetMainVisiblePlanes(8);
     MONOLITH_TOOL_SUMMARY_DeleteWindows(screen);
     MONOLITH_TOOL_SUMMARY_FreeBackgrounds();
@@ -3112,8 +3135,8 @@ void MONOLITH_TOOL_SUMMARY_Draw(MonolithToolProcArgs *args, MonolithToolWork *wo
     numberText = STRBUF_Create(0x100, 0x61);
     BMP_Clear(BMP_WIN_GetBmp(screen->window[0]), 0);
     BMP_Clear(BMP_WIN_GetBmp(screen->window[1]), 0);
-    if (slot == 6 && saveData != 0 && INTRUDE_COMM_IsSessionActive(saveData + 0x1AC) == 1) {
-        info = (MonolithToolSlotInfo *)INTRUDE_COMM_GetActiveSessionRequest(saveData + 0x1AC);
+    if (slot == 6 && saveData != 0 && INTRUDE_COMM_IsSessionActive((struct IntrudeSession *)(saveData + 0x1AC)) == 1) {
+        info = (MonolithToolSlotInfo *)INTRUDE_COMM_GetActiveSessionRequest((struct IntrudeSession *)(saveData + 0x1AC));
         src = (u8 *)info + 0x18;
     } else {
         if (slot > 6) {
@@ -3125,13 +3148,13 @@ void MONOLITH_TOOL_SUMMARY_Draw(MonolithToolProcArgs *args, MonolithToolWork *wo
     detailId = info->detailId;
     labelText = MSGDATA_AllocString(work->msgBank[0], info->labelId);
     detailText = MSGDATA_AllocString(work->msgBank[0], detailId);
-    INTRUDE_COMM_SetWordSetRequest(info, src, work->wordSet, 0x61);
+    INTRUDE_COMM_SetWordSetRequest((struct IntrudeRequestHead *)info, (struct IntrudeMemberName *)src, work->wordSet, 0x61);
     WORDSET_CopyTaggedText(work->wordSet, numberText, detailText);
     printSys = work->printSys;
-    PRINTSYS_PrintQue(printSys, BMP_WIN_GetBmp(screen->text[0].window), 0, 4, labelText, (u32)work->font);
+    PRINTSYS_PrintQue(printSys, BMP_WIN_GetBmp(screen->text[0].window), 0, 4, labelText, work->font);
     screen->text[0].on = 1;
     printSys = work->printSys;
-    PRINTSYS_PrintQue(printSys, BMP_WIN_GetBmp(screen->text[1].window), 0, 0, numberText, (u32)work->font);
+    PRINTSYS_PrintQue(printSys, BMP_WIN_GetBmp(screen->text[1].window), 0, 0, numberText, work->font);
     screen->text[1].on = 1;
     STRBUF_Delete(labelText);
     STRBUF_Delete(detailText);
@@ -3246,7 +3269,7 @@ int MONOLITH_TOOL_STATS_Update(int unused, int *state, MonolithToolProcArgs *arg
 
 int MONOLITH_TOOL_STATS_Destroy(void *proc, int unused, MonolithToolProcArgs *args, MonolithToolStats *screen)
 {
-    if (PRINTSYS_QUE_IsFinished(args->work->printSys) == 0) return 0;
+    if (PRINTSYS_QUE_IsFinished((struct PrintQueue *)args->work->printSys) == 0) return 0;
     BG_SYS_SetSubVisiblePlanes(8);
     MONOLITH_TOOL_STATS_FreeCursor(screen);
     MONOLITH_TOOL_STATS_DeleteWindows(screen);
@@ -3334,7 +3357,7 @@ void MONOLITH_TOOL_STATS_DeleteWindows(MonolithToolStats *screen) { int i; for (
 static inline void drawText(MonolithToolWork *work, void *window, u32 x, u32 y, void *text)
 {
     void *printSys = work->printSys;
-    PRINTSYS_PrintQue(printSys, BMP_WIN_GetBmp(window), x, y, text, (u32)work->font);
+    PRINTSYS_PrintQue(printSys, BMP_WIN_GetBmp(window), x, y, text, work->font);
 }
 
 
@@ -3476,7 +3499,7 @@ int MONOLITH_TOOL_LIST_Init(struct Proc *proc, int *state, MonolithToolProcArgs 
         MONOLITH_TOOL_LIST_DrawTitle(args, work);
         work->taskMenuUnit = MONOLITH_TOOL_CreateTaskMenuRes((u32 *)args->work, 4, 0x61);
         args->param->selected = MONOLITH_ENTRY_NONE;
-        work->task = GFL_USE_AddMainTask((void (*)(void))MONOLITH_TOOL_TaskUploadRows, work, 3);
+        work->task = (unsigned int)GFL_USE_AddMainTask((void (*)(void))MONOLITH_TOOL_TaskUploadRows, work, (unsigned int)3);
         MONOLITH_TOOL_LIST_BuildEntryList(args, work, args->work);
         MONOLITH_TOOL_LIST_FitBackground(work);
         *state = *state + 1;
@@ -3497,7 +3520,7 @@ int MONOLITH_TOOL_LIST_Init(struct Proc *proc, int *state, MonolithToolProcArgs 
         busy = 0;
         printSys = args->work->printSys;
         if (work->statusPending != 0) {
-            if (PRINTSYS_QUE_IsExistTarget(printSys, BMP_WIN_GetBmp(work->statusWindow)) == 0) {
+            if (PRINTSYS_QUE_IsExistTarget((struct PrintQueue *)printSys, BMP_WIN_GetBmp(work->statusWindow)) == 0) {
                 BMP_WIN_TransferChars(work->statusWindow);
                 work->statusPending = 0;
             }
@@ -3533,13 +3556,13 @@ int MONOLITH_TOOL_LIST_Main(int unused, int *state, MonolithToolProcArgs *args, 
     int active, result;
     struct PrintSys *printSys;
 
-    initial = INTRUDE_COMM_GetWorkIfRunning(GAMESYSTEM_GetGameComm(args->setup->gameCtx));
+    initial = (unsigned int)INTRUDE_COMM_GetWorkIfRunning(GAMESYSTEM_GetGameComm((struct GameSystem *)args->setup->gameCtx));
     MONOLITH_TOOL_UpdateHighlight(args, 1);
     MONOLITH_TOOL_UpdateHighlight(args, 3);
     MONOLITH_TOOL_UpdateMarker(work);
     MONOLITH_TOOL_LIST_UpdateBackButton(args->work, work);
     printSys = args->work->printSys;
-    if (work->statusPending != 0 && PRINTSYS_QUE_IsExistTarget(printSys, BMP_WIN_GetBmp(work->statusWindow)) == 0) {
+    if (work->statusPending != 0 && PRINTSYS_QUE_IsExistTarget((struct PrintQueue *)printSys, BMP_WIN_GetBmp(work->statusWindow)) == 0) {
         BMP_WIN_TransferChars(work->statusWindow);
         work->statusPending = 0;
     }
@@ -3652,7 +3675,7 @@ write10:
         break;
     case 11:
         if (GFL_USE_IsBgmFading() == 0) {
-            GFL_USE_SetBgmPaused((void *)1);
+            GFL_USE_SetBgmPaused((unsigned int)1);
             GFL_USE_PushBgm();
             ++*state;
         }
@@ -3675,9 +3698,9 @@ write10:
     case 15:
         if (TOUCHPANEL_GetTrg() != 0 || (KEY_GetTrg() & 3)) {
             MONOLITH_TOOL_LIST_HideMessage(work);
-            INTRUDE_SetMonolithLevel((struct Rec1B0 *)INTRUDE_GetFromSave(GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData(args->setup->gameCtx))), work->entryIds[work->chosenEntry]);
-            save = GAMESYSTEM_GetGameComm(args->setup->gameCtx);
-            GAME_COMM_PushPairMessage(save, GAME_DATA_GetOwnNetId(GAMESYSTEM_GetGameData(args->setup->gameCtx)), args->setup->areaId);
+            INTRUDE_SetMonolithLevel((struct IntrudeSave *)INTRUDE_GetFromSave(GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData(args->setup->gameCtx))), work->entryIds[work->chosenEntry]);
+            save = (unsigned int)GAMESYSTEM_GetGameComm((struct GameSystem *)args->setup->gameCtx);
+            GAME_COMM_PushPairMessage((struct GameComm *)save, GAME_DATA_GetOwnNetId(GAMESYSTEM_GetGameData(args->setup->gameCtx)), args->setup->areaId);
             work->chosenEntry = MONOLITH_CURSOR_NONE;
             MONOLITH_TOOL_SetButtonPulse(args, 1, 1);
             MONOLITH_TOOL_HighlightButtonPulse(args, &work->backButton, 1, 0xff, 3);
@@ -3707,10 +3730,10 @@ write10:
 
 int MONOLITH_TOOL_LIST_Exit(void *proc, void *unused, MonolithToolProcArgs *args, MonolithListWork *work)
 {
-    if (PRINTSYS_QUE_IsFinished(args->work->printSys) == 0)
+    if (PRINTSYS_QUE_IsFinished((struct PrintQueue *)args->work->printSys) == 0)
         return 0;
     BG_SYS_SetSubVisiblePlanes(8);
-    TCB_DeleteTask((struct Node *)work->task);
+    TCB_DeleteTask((struct TcbTask *)work->task);
     if (work->messagePrinter != 0)
         PRINTSYS_PrintStreamDelete(work->messagePrinter);
     if (work->messageText != 0)
@@ -3822,7 +3845,7 @@ void MONOLITH_TOOL_LIST_DrawTitle(MonolithToolProcArgs *args, MonolithListWork *
     text = MSGDATA_AllocString(args->work->msgBank[3], 0x22);
     toolWork = args->work;
     printSys = toolWork->printSys;
-    PRINTSYS_PrintQue(printSys, BMP_WIN_GetBmp(work->statusWindow), 0x18, 4, text, (u32)toolWork->font);
+    PRINTSYS_PrintQue((struct PrintQueue *)printSys, BMP_WIN_GetBmp(work->statusWindow), 0x18, 4, text, toolWork->font);
     work->statusPending = 1;
     STRBUF_Delete(text);
 }
@@ -3870,7 +3893,7 @@ void MONOLITH_TOOL_LIST_ShowFormattedMessage(MonolithListWork *work, MonolithToo
  */
 int MONOLITH_TOOL_LIST_IsMessageDone(MonolithToolWork *toolWork, MonolithListWork *work)
 {
-    return PRINTSYS_CTRL_Update((struct Blk *)toolWork->scratchList, work->messagePrinter);
+    return PRINTSYS_CTRL_Update((struct PrintStreamCtrl *)toolWork->scratchList, work->messagePrinter);
 }
 
 
@@ -3881,7 +3904,7 @@ void MONOLITH_TOOL_LIST_HideMessage(MonolithListWork *work)
 {
     struct Bitmap *bitmap;
 
-    bitmap = BMP_WIN_GetBmp(work->messageWindow);
+    bitmap = (struct Bitmap *)BMP_WIN_GetBmp(work->messageWindow);
     if (work->messagePrinter == 0)
         GF_PANIC_Fail(d_021BABFC, 0, d_021BABFC);
     PRINTSYS_PrintStreamDelete(work->messagePrinter);
@@ -3889,7 +3912,7 @@ void MONOLITH_TOOL_LIST_HideMessage(MonolithListWork *work)
     STRBUF_Delete(work->messageText);
     work->messageText = 0;
     BMP_MENUWORK_DrawWindowBorder(work->messageWindow, 0);
-    BMP_Clear(bitmap, 0xff);
+    BMP_Clear((struct Bmp *)bitmap, 0xff);
     BMP_WIN_TransferChars(work->messageWindow);
     GF_FONT_SetTextColor(0xf, 2, 0);
 }
@@ -3926,27 +3949,27 @@ void MONOLITH_TOOL_LIST_BuildEntryList(MonolithToolProcArgs *args, MonolithListW
     counts = MONOLITH_TOOL_GetSlotIconStates(args);
     work->entryIds[0] = i;
     work->entryDisabled[0] = 1;
-    work->entryBitmaps[0] = BMP_Create(0x17, 2, 0x20, 0x61);
+    work->entryBitmaps[0] = (struct Bitmap *)BMP_Create(0x17, 2, 0x20, 0x61);
     n = i + 1;
     for (; i < MONOLITH_ENTRY_NONE; i++) {
         kind = TOWN_MAP_SPOT_Classify(toolWork->entryTable, i, counts, args->setup->rankData);
         if (kind != 2) {
             work->entryIds[n] = i;
             work->entryDisabled[n] = kind;
-            work->entryBitmaps[n] = BMP_Create(0x17, 2, 0x20, 0x61);
+            work->entryBitmaps[n] = (struct Bitmap *)BMP_Create(0x17, 2, 0x20, 0x61);
             n++;
         }
     }
     work->entryIds[n] = 0;
     work->entryDisabled[n] = 1;
-    work->entryBitmaps[n] = BMP_Create(0x17, 2, 0x20, 0x61);
+    work->entryBitmaps[n] = (struct Bitmap *)BMP_Create(0x17, 2, 0x20, 0x61);
     work->entryCount = n + 1;
 }
 
 
 
 
-void MONOLITH_TOOL_LIST_FreeEntryBitmaps(MonolithListWork *work) { int i; for (i = 0; i < work->entryCount; i++) BMP_Delete(work->entryBitmaps[i]); }
+void MONOLITH_TOOL_LIST_FreeEntryBitmaps(MonolithListWork *work) { int i; for (i = 0; i < work->entryCount; i++) BMP_Delete((struct Bmp *)work->entryBitmaps[i]); }
 
 
 
@@ -3965,7 +3988,7 @@ int MONOLITH_TOOL_LIST_DrawEntryNames(MonolithListWork *work, MonolithToolWork *
         do {
             if (i >= 1 && i < work->entryCount - 1) {
                 MSGDATA_ReadString(work->entryNameBank, work->entryIds[i], text);
-                PRINTSYS_PrintColor(work->entryBitmaps[i], 0, 0, text, (void *)toolWork->font,
+                PRINTSYS_PrintColor((struct Bmp *)work->entryBitmaps[i], 0, 0, text, (void *)toolWork->font,
                               d_021BAAF8[work->entryDisabled[i]]);
             }
             count++;
@@ -3988,7 +4011,7 @@ void MONOLITH_TOOL_CreateRowGrids(MonolithListWork *work, MonolithToolWork *tool
     param = gMonolithRowGridParam;
     param.palette = toolWork->actorRes[1].simplePalAnm;
     for (i = 0; i < MONOLITH_ROW_GRIDS; i++) {
-        work->rowBitmaps[i] = BMP_Create(0x17, 2, 0x20, 0x61);
+        work->rowBitmaps[i] = (struct Bitmap *)BMP_Create(0x17, 2, 0x20, 0x61);
         param.bitmap = work->rowBitmaps[i];
         work->rowGrids[i] = BMP_OAM_Create(toolWork->actorToolUnit, &param);
     }
@@ -3999,8 +4022,8 @@ void MONOLITH_TOOL_DeleteRowGrids(MonolithListWork *work)
     int i;
 
     for (i = 0; i < MONOLITH_ROW_GRIDS; i++) {
-        BMP_OAM_Delete(work->rowGrids[i]);
-        BMP_Delete(work->rowBitmaps[i]);
+        BMP_OAM_Delete((struct BmpOam *)work->rowGrids[i]);
+        BMP_Delete((struct Bmp *)work->rowBitmaps[i]);
     }
 }
 
@@ -4332,9 +4355,9 @@ void MONOLITH_TOOL_UpdateRows(MonolithListWork *work)
     int i;
 
     for (i = 0; i < MONOLITH_ROW_GRIDS; i++) {
-        BMP_OAM_SetPos(work->rowGrids[i], 0x20, gridY + i * MONOLITH_ROW_HEIGHT);
+        BMP_OAM_SetPos((struct BmpOam *)work->rowGrids[i], 0x20, gridY + i * MONOLITH_ROW_HEIGHT);
         if (work->entryBitmaps[firstRow + i] != 0) {
-            BMP_CopyPixels(work->entryBitmaps[firstRow + i], work->rowBitmaps[i]);
+            BMP_CopyPixels((struct Bmp *)(work->entryBitmaps[firstRow + i]), (struct Bmp *)work->rowBitmaps[i]);
         }
     }
 }
@@ -4345,7 +4368,7 @@ void MONOLITH_TOOL_TaskUploadRows(void *task, MonolithListWork *work)
 
     if (work->uploadPending == 1) {
         for (i = 0; i < MONOLITH_ROW_GRIDS; i++)
-            BMP_OAM_UploadChars(work->rowGrids[i]);
+            BMP_OAM_UploadChars((struct BmpOam *)work->rowGrids[i]);
         work->uploadPending = 0;
     }
 }
@@ -4384,7 +4407,7 @@ int MONOLITH_TOOL_InitInfoScreen(struct Proc *proc, int *state, MonolithToolProc
         for (i = 0; i < 3; i++) {
             printSys = args->work->printSys;
             if (work->slots[i].pending != 0) {
-                if (PRINTSYS_QUE_IsExistTarget(printSys, BMP_WIN_GetBmp(work->slots[i].window)) == 0) {
+                if (PRINTSYS_QUE_IsExistTarget((struct PrintQueue *)printSys, BMP_WIN_GetBmp(work->slots[i].window)) == 0) {
                     BMP_WIN_TransferChars(work->slots[i].window);
                     work->slots[i].pending = 0;
                 }
@@ -4417,7 +4440,7 @@ int MONOLITH_TOOL_MainInfoScreen(struct Proc *proc, int *state, MonolithToolProc
     for (i = 0; i < 3; i++) {
         printSys = args->work->printSys;
         if (work->slots[i].pending != 0) {
-            if (PRINTSYS_QUE_IsExistTarget(printSys, BMP_WIN_GetBmp(work->slots[i].window)) == 0) {
+            if (PRINTSYS_QUE_IsExistTarget((struct PrintQueue *)printSys, BMP_WIN_GetBmp(work->slots[i].window)) == 0) {
                 BMP_WIN_TransferChars(work->slots[i].window);
                 work->slots[i].pending = 0;
             }
@@ -4440,7 +4463,7 @@ int MONOLITH_TOOL_MainInfoScreen(struct Proc *proc, int *state, MonolithToolProc
 
 int MONOLITH_TOOL_ExitInfoScreen(struct Proc *proc, int *state, MonolithToolProcArgs *args, MonolithInfoWork *work)
 {
-    if (PRINTSYS_QUE_IsFinished(args->work->printSys) == 0)
+    if (PRINTSYS_QUE_IsFinished((struct PrintQueue *)args->work->printSys) == 0)
         return 0;
     BG_SYS_SetMainVisiblePlanes(8);
     MONOLITH_TOOL_DeleteInfoWindows(work);
@@ -4510,7 +4533,7 @@ void MONOLITH_TOOL_DrawInfoHeader(MonolithToolWork *toolWork, MonolithInfoWork *
 
     text = MSGDATA_AllocString(toolWork->msgBank[3], 38);
     printSys = toolWork->printSys;
-    PRINTSYS_PrintQue(printSys, BMP_WIN_GetBmp(work->slots[0].window), 0, 4, text, (u32)toolWork->font);
+    PRINTSYS_PrintQue((struct PrintQueue *)printSys, BMP_WIN_GetBmp(work->slots[0].window), 0, 4, text, toolWork->font);
     work->slots[0].pending = 1;
     STRBUF_Delete(text);
 }
@@ -4530,12 +4553,12 @@ void MONOLITH_TOOL_DrawActiveEntry(MonolithToolProcArgs *args, MonolithToolWork 
         name = MSGDATA_AllocString(toolWork->msgBank[1], toolWork->entryTable[activeEntry].nameMsgId);
         desc = MSGDATA_AllocString(toolWork->msgBank[2], toolWork->entryTable[activeEntry].descMsgId);
         printSys = toolWork->printSys;
-        PRINTSYS_PrintQue(printSys, BMP_WIN_GetBmp(work->slots[1].window), 0, 0x10, desc, (u32)toolWork->font);
+        PRINTSYS_PrintQue((struct PrintQueue *)printSys, BMP_WIN_GetBmp(work->slots[1].window), 0, 0x10, desc, toolWork->font);
         work->slots[1].pending = 1;
         STRBUF_Delete(desc);
     }
     printSys = toolWork->printSys;
-    PRINTSYS_PrintQue(printSys, BMP_WIN_GetBmp(work->slots[1].window), 0, 0, name, (u32)toolWork->font);
+    PRINTSYS_PrintQue((struct PrintQueue *)printSys, BMP_WIN_GetBmp(work->slots[1].window), 0, 0, name, toolWork->font);
     work->slots[1].pending = 1;
     STRBUF_Delete(name);
 }
@@ -4549,7 +4572,7 @@ void MONOLITH_TOOL_DrawActiveEntry(MonolithToolProcArgs *args, MonolithToolWork 
 static inline void PrintText(MonolithToolWork *toolWork, struct BmpWin *window, u32 x, u32 y, struct Strbuf *text)
 {
     struct PrintSys *queue = toolWork->printSys;
-    PRINTSYS_PrintQue(queue, BMP_WIN_GetBmp(window), x, y, text, (u32)toolWork->font);
+    PRINTSYS_PrintQue((struct PrintQueue *)queue, BMP_WIN_GetBmp(window), x, y, text, toolWork->font);
 }
 
 void MONOLITH_TOOL_DrawSelectedEntry(MonolithToolProcArgs *args, MonolithToolWork *toolWork, MonolithInfoWork *work)

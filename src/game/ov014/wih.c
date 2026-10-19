@@ -291,8 +291,7 @@ void GFL_NET_HANDLE_RemoveHandle(u32 aid);
 void GFL_NET_HANDLE_RequestNegotiation(int aid);
 extern int WM_GetMPSendBufferSize(void);
 extern int WM_GetMPReceiveBufferSize(void);
-extern int WM_StartMP(void (*cb)(void *), void *recvBuf, u16 recvSize,
-                      void *sendBuf, u16 sendSize, u16 mpFreq);
+extern int WM_StartMP(void (*cb)(void *), unsigned short *recvBuf, unsigned short recvBufSize, unsigned short *sendBuf, unsigned short sendBufSize, unsigned short mpFreq);
 extern void GFL_NET_FreeAligned(void *p);
 extern void *GFL_NET_AllocAligned(u32 heapId, u32 size, const char *file, u16 line);
 extern u32 GFL_NET_GetGameKind(void);
@@ -304,7 +303,8 @@ extern int WM_EndParent(void *callback);
 void MI_CpuFill8(void *p, u32 value, u32 n);
 extern u16 WM_GetAllowedChannel(void);
 extern u16 WM_GetDispersionScanPeriod(void);
-extern int WM_StartScanEx(void (*cb)(void *), void *scanParam);
+struct WMScanExParam;
+extern int WM_StartScanEx(void (*cb)(void *), struct WMScanExParam *param);
 extern void WIH_DWC_RequestAlertLevel(u32 linkLevel);
 extern void WIH_DWC_Dummy(void);
 extern void DC_InvalidateRange(void *p, u32 size);
@@ -315,18 +315,18 @@ extern int WM_EndScan(void *callback);
 int WM_StartConnectEx(void *callback, void *bssDesc, void *ssid, int powerSave, int authMode);
 extern int WM_Reset(void *callback);
 int WM_SetMPDataToPortEx(void *callback, u32 userCallback, u32 data, u32 size, u32 destBitmap, u32 port, u32 priority);
-void OS_GetMacAddress(u16 *p);
+void OS_GetMacAddress(u8 *macAddress);
 extern int WM_MeasureChannel(void *callback, unsigned short ccaMode, unsigned short edThreshold, unsigned short channel, unsigned short measureTime);
-extern int WM_Initialize(void *wmWork, void (*callback)(void *), int dmaNo);
-extern int WM_InitializeForListening(void *wmWork, void (*callback)(void *), int dmaNo, int x);
+extern int WM_Initialize(void *wmSysBuf, void (*callback)(void *), unsigned short dmaNo);
+extern int WM_InitializeForListening(void *wmSysBuf, void (*callback)(void *), unsigned short dmaNo, int blink);
 extern int WM_SetIndCallback(void (*callback)(void));
-extern void WM_SetLifeTime(void (*callback)(void), int tmptt, int camp, int frame, int ccaWait);
+extern int WM_SetLifeTime(void (*callback)(void), unsigned short tableNumber, unsigned short camLifeTime, unsigned short frameLifeTime, unsigned short mpLifeTime);
 extern u16 WM_GetDispersionBeaconPeriod(void);
 extern u32 GFL_NET_GetParentSendSize(void);
 extern int WM_SetPortCallback(int port, void *callback, void *arg);
-extern int WM_GetSharedDataAddress(void *info, void *dataSet, u16 aid);
+extern unsigned short *WM_GetSharedDataAddress(struct WMDataSharingInfo *dsInfo, struct WMDataSet *receiveData, unsigned short aid);
 extern int WM_StepDataSharing(struct WMDataSharingInfo *dsInfo, const u16 *sendData, struct WMDataSet *receiveData);
-extern int WM_EndDataSharing(void *dataSharingInfo);
+extern int WM_EndDataSharing(struct WMDataSharingInfo *dsInfo);
 extern int WM_End(void *callback);
 extern void WM_SetGameInfo(int callback, int userGameInfo, u16 size, int ggid, u16 tgid, int attr);
 
@@ -794,7 +794,7 @@ BOOL DWCi_MOV_WH_StateInStartScan(void)
     gWihWork->scanParam.scanBufSize = 0x400;
     gWihWork->scanParam.scanType = 1;
     gWihWork->scanParam.ssidLength = 0;
-    result = WM_StartScanEx(DWCi_MOV_WH_StateOutStartScan, &gWihWork->scanParam);
+    result = WM_StartScanEx(DWCi_MOV_WH_StateOutStartScan, (struct WMScanExParam *)(&gWihWork->scanParam));
     if (result != 2) {
         WIH_SetError(result);
         return 0;
@@ -1233,7 +1233,7 @@ int WIH_StartMeasureChannel(void)
     int ok;
     u32 vblankCount;
 
-    OS_GetMacAddress(dateTime);
+    OS_GetMacAddress((u8 *)dateTime);
     /* the VBlank counter in the shared main memory area */
     vblankCount = *(volatile u32 *)0x02FFFC3C;
     gWihWork->randomSeed = dateTime[2] + (dateTime[1] + (dateTime[0] + vblankCount));
@@ -1489,7 +1489,7 @@ BOOL DWCi_MOV_WH_SendData(int data, u16 size, int userCallback)
 
 int WIH_GetSharedDataAdr(u16 aid)
 {
-    return WM_GetSharedDataAddress(gWihWork->dataSharingInfo, gWihWork->dataSet, aid);
+    return (int)WM_GetSharedDataAddress((struct WMDataSharingInfo *)gWihWork->dataSharingInfo, (struct WMDataSet *)gWihWork->dataSet, aid);
 }
 
 BOOL WIH_StepDS(int sendData)
@@ -1527,7 +1527,7 @@ void DWCi_MOV_WH_StateInEndKeyShare(void)
 {
     int error;
     if (gWihWork->sysState == 5) {
-        error = WM_EndDataSharing(gWihWork->dataSharingInfo);
+        error = WM_EndDataSharing((struct WMDataSharingInfo *)gWihWork->dataSharingInfo);
         if (error != 0)
             WIH_SetError(error);
     }
@@ -1561,7 +1561,7 @@ BOOL WIH_Finalize(void)
     WIH_ChangeSysState(3);
     switch (gWihWork->connectMode) {
     case 5:
-        if (WM_EndDataSharing(gWihWork->dataSharingInfo) != 0) {
+        if (WM_EndDataSharing((struct WMDataSharingInfo *)gWihWork->dataSharingInfo) != 0) {
             DWCi_MOV_WH_StateInEndKeyShare();
             break;
         }
@@ -1573,7 +1573,7 @@ BOOL WIH_Finalize(void)
     case 3:
         break;
     case 4:
-        if (WM_EndDataSharing(gWihWork->dataSharingInfo) != 0) {
+        if (WM_EndDataSharing((struct WMDataSharingInfo *)gWihWork->dataSharingInfo) != 0) {
             DWCi_MOV_WH_StateInEndKeyShare();
             break;
         }

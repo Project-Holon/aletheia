@@ -53,24 +53,27 @@ extern void *GFL_HEAP_Alloc(u16,u32,int,const char *,u16);
 extern u32 GFL_HEAP_Free(void *p);
 
 extern void GFL_NET_COMMAND_AddCommandTable(u32,u32,u32,u32);
+struct GFLNetHandle;
 
-extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
+extern struct GFLNetHandle *GFL_NET_HANDLE_GetCurrentHandle(void);
 
 extern void MI_CpuCopy8(const void *,void *,u32);
 
-extern int GFL_NET_SendToHandle(struct Entry *a, u32 b, u32 c, u32 d);
+extern int GFL_NET_SendToHandle(struct GFLNetHandle *handle, unsigned int command, unsigned int size, void *data);
 
 extern u16 GFL_NET_SYSTEM_GetCurrentAid(void);
 
 extern void GURU2_RECEIPT_SetStateFromParent(char *p, int state, int player);
+struct UnionAppWork;
 
-extern int UNION_APP_GetMemberCount(unsigned char *p);
+extern int UNION_APP_GetMemberCount(struct UnionAppWork *app);
 
-extern unsigned char UNION_APP_GetJoinedBits(unsigned char *p);
+extern unsigned char UNION_APP_GetJoinedBits(struct UnionAppWork *app);
 
-extern u32 MATH_CountPopulation(int);
+extern unsigned char MATH_CountPopulation(unsigned int x);
+struct Guru2Lobby;
 
-extern void GURU2_RECEIPT_SetStateFromChild(char *p, int command, int player);
+extern void GURU2_RECEIPT_SetStateFromChild(struct Guru2Lobby *p, int command, int player);
 
 extern void GURU2_MAIN_StoreSlotAssignment(struct Guru2Game *p, unsigned short *q);
 
@@ -164,7 +167,7 @@ void GURU2_COMM_Exit(struct Guru2Comm *p) { }
  * lever: separate q=(u8 *)((u32)p+4) keeps the updated buffer base;
  *   assigning p+=4 or retaining an integer parameter gave 50 bytes/DIFF.
  */
-int GURU2_COMM_SendWithHeader(struct Guru2Comm *p,u32 id,const void *data,u32 size) {u8 *q;void *v;v=GFL_NET_HANDLE_GetCurrentHandle();q=(u8 *)((u32)p+4);MI_CpuCopy8(data,q+4,size);return GFL_NET_SendToHandle(v,(u16)id,(u16)(size+4),(u32)q+4);}
+int GURU2_COMM_SendWithHeader(struct Guru2Comm *p,u32 id,const void *data,u32 size) {u8 *q;void *v;v=GFL_NET_HANDLE_GetCurrentHandle();q=(u8 *)((u32)p+4);MI_CpuCopy8(data,q+4,size);return GFL_NET_SendToHandle(v,(u16)id,(u16)(size+4),q+4);}
 
 int GURU2_COMM_Send(struct Guru2Comm *p,u32 id,const void *data,u32 size) {return GURU2_COMM_SendWithHeader(p,id,data,size);}
 

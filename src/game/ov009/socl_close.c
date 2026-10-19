@@ -85,12 +85,14 @@ typedef struct {
 	Socket *socket;
 } Cmd;
 
-extern int SOCL_SocketIsInTrash(int b);
+extern int SOCL_SocketIsInTrash(void *b);
 extern unsigned long OS_DisableInterrupts(void);
 extern unsigned long OS_RestoreInterrupts(unsigned long state);
-extern int SOCL_SocketIsInvalid(Socket * socket);
-extern int SOCLi_SendCommandPacket(int queue, char *packet);
-extern struct SOCLCommand *SOCLi_CreateCommandPacket(int (*handler)(void *), Socket *socket, long flag);
+struct SOCLSocket;
+extern int SOCL_SocketIsInvalid(struct SOCLSocket *socket);
+struct SOCLiCommandPacket;
+extern int SOCLi_SendCommandPacket(int queue, struct SOCLiCommandPacket *packet);
+extern struct SOCLiCommandPacket *SOCLi_CreateCommandPacket(int (*handler)(void *), struct SOCLSocket *socket, int flag);
 extern void SOCLi_SendCommandPacketToCtrlPipe(int a, int b);
 extern void OS_JoinThread(void *thread);
 extern void CPS_TcpShutdown(void);
@@ -114,8 +116,9 @@ extern void SOCLi_FreeCommandPipe(unsigned char *pipe);
 extern void OS_WakeupThread(void *queue);
 extern void SOCLi_SocketUnregisterTrash(int a);
 extern unsigned long OS_DisableScheduler(void);
-extern int OS_ReceiveMessage(void *mq, void **msg, long flags);
-extern int OS_SendMessage(void *mq, void *msg, long flags);
+struct OSMessageQueue;
+extern int OS_ReceiveMessage(struct OSMessageQueue *mq, void **msg, int flags);
+extern int OS_SendMessage(struct OSMessageQueue *mq, void *msg, int flags);
 extern void SOCLi_FreeCommandPacket(void *ptr);
 extern unsigned long OS_EnableScheduler(void);
 extern void OS_RescheduleThread(void);
@@ -133,7 +136,7 @@ int SOCL_IsClosed(int s)
 
 	if (s >= 0) {
 		socket = (void *)s;
-		if (SOCL_SocketIsInvalid(socket) != 0 && SOCL_SocketIsInTrash((int)socket) == 0)
+		if (SOCL_SocketIsInvalid(socket) != 0 && SOCL_SocketIsInTrash(socket) == 0)
 			return 1;
 	}
 	return 0;
@@ -150,11 +153,11 @@ int SOCL_IsReleased(int s)
         return 0;
     enable = OS_DisableInterrupts();
     socket = (Socket *)s;
-    if (SOCL_SocketIsInTrash((int)socket)) {
+    if (SOCL_SocketIsInTrash(socket)) {
         OS_RestoreInterrupts(enable);
         return 0;
     }
-    if (SOCL_SocketIsInvalid(socket)) {
+    if (SOCL_SocketIsInvalid((struct SOCLSocket *)socket)) {
         OS_RestoreInterrupts(enable);
         return 1;
     }
@@ -181,11 +184,11 @@ int SOCL_Close(int s)
 	if (s <= 0)
 		return -0x1c;
 	enable = OS_DisableInterrupts();
-	if (SOCL_SocketIsInTrash((int)socket) != 0) {
+	if (SOCL_SocketIsInTrash(socket) != 0) {
 		OS_RestoreInterrupts(enable);
 		return -0x1a;
 	}
-	if (SOCL_SocketIsInvalid(socket) != 0) {
+	if (SOCL_SocketIsInvalid((struct SOCLSocket *)socket) != 0) {
 		OS_RestoreInterrupts(enable);
 		return result;
 	}
@@ -217,7 +220,7 @@ int SOCL_Close(int s)
 			SOCLi_Resource.streamCount--;
 		}
 	}
-	command = SOCLi_CreateCommandPacket(SOCLi_CloseCallBack, socket, 1);
+	command = (struct SOCLCommand *)SOCLi_CreateCommandPacket(SOCLi_CloseCallBack, (struct SOCLSocket *)socket, 1);
 	command->response_queue = result;
 	SOCLi_SendCommandPacketToCtrlPipe((int)socket, (int)command);
 	return result;
@@ -314,7 +317,7 @@ void SOCLi_FreeCommandPipe(unsigned char *pipe)
 	OS_JoinThread(pipe + 0x20);
 	enable = OS_DisableInterrupts();
 	OS_DisableScheduler();
-	while (OS_ReceiveMessage(pipe, (void **)&command, 0)) {
+	while (OS_ReceiveMessage((struct OSMessageQueue *)pipe, (void **)&command, 0)) {
 		if (command != 0) {
 			if (command->reply != 0) {
 				OS_SendMessage(command->reply, (void *)-11, 0);

@@ -86,7 +86,7 @@ typedef struct DeliveryBeacon {
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void MI_CpuCopy8(void *src, void *dst, u32 size);
 extern void GF_PANIC_Fail(const char *expr, u32 line, const char *file);
-extern DeliveryBeaconSlot *NET_WHPIPE_GetEntryBeaconData(int index);
+extern u8 *NET_WHPIPE_GetEntryBeaconData(int index);
 extern void NET_WHPIPE_ReleaseEntrySlot(u32 index);
 extern u16 GF_STANDARD_CalcCrc16(const u8 *src, u32 len);
 extern void NET_WHPIPE_SelectEntry(u32 index);
@@ -229,7 +229,7 @@ void DELIVERY_BEACON_StepCollectPieces(DeliveryBeacon *work)
     u32 crc;
 
     for (i = 0; i < 16; i++) {
-        entry = NET_WHPIPE_GetEntryBeaconData(i);
+        entry = (struct DeliveryBeaconSlot *)NET_WHPIPE_GetEntryBeaconData(i);
         if (entry == 0)
             continue;
         if (entry->gameVersion != work->param.gameVersion) {

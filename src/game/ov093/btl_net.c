@@ -163,26 +163,31 @@ struct BtlNetTrainerPacket {
 };
 
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 line);
-extern u32 GFL_NET_GetHandleNetID(struct NetHandle *handle);
+struct GFLNetHandle;
+extern u32 GFL_NET_GetHandleNetID(struct GFLNetHandle *handle);
 extern int GFL_NET_GetNegotiationNum(void);
 extern u32 GFL_HEAP_Free(void *p);
 extern u32 GFL_NET_ERR_GetErrorLevel(void);
-extern int GFL_NET_SendToHandle(struct NetHandle *handle, u32 cmd, u32 size, u32 data);
-extern u32 GFL_NET_SendData(u32 handle, u32 sendId, u32 cmd, u32 size, u32 data, u32 flag0, u32 flag1, u32 flag2);
+extern int GFL_NET_SendToHandle(struct GFLNetHandle *handle, unsigned int command, unsigned int size, void *data);
+extern u32 GFL_NET_SendData(struct GFLNetHandle *handle, unsigned int sendId, unsigned int command, unsigned int size, void *data, unsigned int sendFlags, unsigned int skipIfQueued, unsigned int queueMode);
 extern int POKE_REGULATION_GetDataSize(void);
-extern void *PERAPVOICE_IsRecorded(void **p);
+struct PerapVoice;
+extern unsigned int PERAPVOICE_IsRecorded(struct PerapVoice *voice);
 extern u32 PERAPVOICE_GetSize(void);
 extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
-extern u32 POKEPARTY_GetCount(void *party);
-extern void *POKEPARTY_GetMember(void *party, u32 index);
+struct Party;
+extern u32 POKEPARTY_GetCount(struct Party *party);
+struct PokemonParam;
+extern struct PokemonParam *POKEPARTY_GetMember(struct Party *party, unsigned int pos);
 extern int MYSTATUS_GetSize(void);
 extern u16 STRBUF_GetEosChar(void);
 extern void MIi_CpuClear16(u16 data, void *dst, u32 size);
-extern u16 STRBUF_GetLength(struct StrBuf *buf);
-extern u16 *STRBUF_GetChars(struct StrBuf *buf);
+struct Strbuf;
+extern u16 STRBUF_GetLength(struct Strbuf *strbuf);
+extern u16 *STRBUF_GetChars(struct Strbuf *strbuf);
 extern void WORDSET_CopyString(const u16 *src, u16 *dst, u32 n);
-extern void GFL_NET_HANDLE_SetUserInfo(char *handle, int stage, int flag, int memberMask);
-extern unsigned int GFL_NET_HANDLE_IsTimingSyncRange(struct NetHandle *handle, unsigned int stage, unsigned int flag);
+extern void GFL_NET_HANDLE_SetUserInfo(struct GFLNetHandle *handle, int timingLow, int timingHigh, int netID);
+extern unsigned int GFL_NET_HANDLE_IsTimingSyncRange(struct GFLNetHandle *handle, unsigned int timingLow, unsigned int timingHigh);
 
 void BTL_NET_Init(void *netHandle, u16 memberMask, u16 heapId);
 int BTL_NET_IsInitialSyncDone(void);
@@ -195,10 +200,11 @@ int BTL_NET_IsLeaderKnown(void);
 int BTL_NET_IsLeader(void);
 u8 BTL_NET_GetLeaderValue(void);
 u8 BTL_NET_FindNetIdByClient(u32 clientId);
-u32 BTL_NET_SendSetup(u32 setup);
+struct BtlRuleExchange;
+u32 BTL_NET_SendSetup(struct BtlRuleExchange *setup);
 void BTL_NET_RecvSetup(int unused0, int unused1, BtlNetSetup *src);
 int BTL_NET_GetSetup(BtlNetSetup *dst);
-u8 BTL_NET_SendParty(u32 party);
+u8 BTL_NET_SendParty(struct Party *party);
 void *BTL_NET_AllocPartyBuf(int netId, int unused, u32 size);
 void BTL_NET_RecvPartyDone(int netId, void *buf);
 int BTL_NET_IsPartyReceived(void);
@@ -215,7 +221,7 @@ void BTL_NET_RecvRelayedParty(u32 unused0, u32 unused1, const BtlNetPacketHeader
 int BTL_NET_IsRelayedPartyReceived(u32 clientId);
 void *BTL_NET_GetParty(u8 clientId);
 void BTL_NET_FreeAfterPartyUse(void);
-int BTL_NET_SendPlayerInfo(u32 myStatus);
+int BTL_NET_SendPlayerInfo(void *myStatus);
 void *BTL_NET_AllocPlayerInfoBuf(int netId, int unused, u32 size);
 void BTL_NET_RecvPlayerInfoDone(int netId, void *buf);
 int BTL_NET_IsPlayerInfoReceived(void);
@@ -327,7 +333,7 @@ int BTL_NET_SendEntry(u16 clientId)
     u16 *message = gBtlNet->sendScratch.halves;
     message[0] = BTL_NET_ENTRY_VALUE;
     message[1] = clientId;
-    return GFL_NET_SendToHandle(gBtlNet->netHandle, BTL_NET_CMD_ENTRY, 4, (u32)message);
+    return GFL_NET_SendToHandle(gBtlNet->netHandle, BTL_NET_CMD_ENTRY, 4, message);
 }
 
 /*
@@ -407,9 +413,9 @@ u8 BTL_NET_FindNetIdByClient(u32 clientId)
 }
 
 /* Broadcast the 32-byte battle setup (SETUP). */
-u32 BTL_NET_SendSetup(u32 setup)
+u32 BTL_NET_SendSetup(struct BtlRuleExchange *setup)
 {
-    return GFL_NET_SendData((u32)gBtlNet->netHandle, BTL_NET_SEND_ALL, BTL_NET_CMD_SETUP, sizeof(BtlNetSetup), setup, 0, 0, 0);
+    return GFL_NET_SendData(gBtlNet->netHandle, BTL_NET_SEND_ALL, BTL_NET_CMD_SETUP, sizeof(BtlNetSetup), (void *)setup, 0, 0, 0);
 }
 
 /* Receive the SETUP block. Only the first one is kept. */
@@ -432,11 +438,11 @@ int BTL_NET_GetSetup(BtlNetSetup *dst)
 }
 
 /* Send this player's party to everyone (PARTY). */
-u8 BTL_NET_SendParty(u32 party)
+u8 BTL_NET_SendParty(struct Party *party)
 {
     u32 size;
     size = POKE_REGULATION_GetDataSize();
-    return GFL_NET_SendData((u32)gBtlNet->netHandle, BTL_NET_SEND_ALL, BTL_NET_CMD_PARTY, size, party, 0, 1, 1);
+    return GFL_NET_SendData(gBtlNet->netHandle, BTL_NET_SEND_ALL, BTL_NET_CMD_PARTY, size, (void *)party, 0, 1, 1);
 }
 
 /* Give the link a buffer for the party of net id netId. */
@@ -476,14 +482,14 @@ u32 BTL_NET_SendPerapVoice(u32 *voice)
 {
     u32 size;
 
-    if (PERAPVOICE_IsRecorded((void **)voice) != 0) {
+    if (PERAPVOICE_IsRecorded((struct PerapVoice *)voice) != 0) {
         size = PERAPVOICE_GetSize();
     } else {
         size = 4;
         voice = &gBtlNet->sendScratch.word;
         *voice = 0;
     }
-    return GFL_NET_SendData((u32)gBtlNet->netHandle, BTL_NET_SEND_ALL, BTL_NET_CMD_PERAP_VOICE, size, (u32)voice, 0, 1, 1);
+    return GFL_NET_SendData(gBtlNet->netHandle, BTL_NET_SEND_ALL, BTL_NET_CMD_PERAP_VOICE, size, voice, 0, 1, 1);
 }
 
 /*
@@ -550,7 +556,7 @@ void BTL_NET_ResetAfterPerapVoice(void)
 /* Forward a party packet to everyone (RELAY_PARTY); the byte count is in the header. */
 u32 BTL_NET_SendRelayedParty(u32 *packet)
 {
-    return GFL_NET_SendData((u32)gBtlNet->netHandle, BTL_NET_SEND_ALL, BTL_NET_CMD_RELAY_PARTY, (*packet >> 8) + 4, (u32)packet, 0, 1, 1);
+    return GFL_NET_SendData(gBtlNet->netHandle, BTL_NET_SEND_ALL, BTL_NET_CMD_RELAY_PARTY, (*packet >> 8) + 4, packet, 0, 1, 1);
 }
 
 /* Give the link a buffer for a forwarded party. One is in transit at a time. */
@@ -618,10 +624,10 @@ void BTL_NET_FreeAfterPartyUse(void)
 }
 
 /* Send this player's trainer record to everyone (PLAYER_INFO). */
-int BTL_NET_SendPlayerInfo(u32 myStatus)
+int BTL_NET_SendPlayerInfo(void *myStatus)
 {
     u32 size = MYSTATUS_GetSize();
-    return GFL_NET_SendData((u32)gBtlNet->netHandle, BTL_NET_SEND_ALL, BTL_NET_CMD_PLAYER_INFO, size, myStatus, 0, 1, 1);
+    return GFL_NET_SendData(gBtlNet->netHandle, BTL_NET_SEND_ALL, BTL_NET_CMD_PLAYER_INFO, size, (void *)myStatus, 0, 1, 1);
 }
 
 /* Give the link a buffer for the trainer record of net id netId. */
@@ -669,7 +675,7 @@ u32 BTL_NET_SendRelayedPlayerInfo(void *trainerData)
     u32 result;
 
     packet = (void *)BTL_NET_BuildPlayerInfoPacket((struct BtlNetTrainerData *)trainerData, BTL_NET_TAIL_HEAP(gBtlNet->heapId));
-    result = GFL_NET_SendData((u32)gBtlNet->netHandle, BTL_NET_SEND_ALL, BTL_NET_CMD_RELAY_PLAYER_INFO, sizeof(struct BtlNetTrainerPacket), (u32)packet, 0, 1, 0);
+    result = GFL_NET_SendData(gBtlNet->netHandle, BTL_NET_SEND_ALL, BTL_NET_CMD_RELAY_PLAYER_INFO, sizeof(struct BtlNetTrainerPacket), packet, 0, 1, 0);
     BTL_NET_FreePlayerInfoPacket(packet);
     return result;
 }
@@ -730,8 +736,8 @@ struct BtlNetTrainerPacket *BTL_NET_BuildPlayerInfoPacket(struct BtlNetTrainerDa
     MI_CpuCopy8(trainerData, packet, sizeof(struct BtlNetTrainerData));
     MIi_CpuClear16(STRBUF_GetEosChar(), packet->nameChars, sizeof(packet->nameChars));
     if (trainerData->name != 0) {
-        packet->nameLength = STRBUF_GetLength(trainerData->name);
-        WORDSET_CopyString(STRBUF_GetChars(trainerData->name), packet->nameChars, 0x20);
+        packet->nameLength = STRBUF_GetLength((struct Strbuf *)trainerData->name);
+        WORDSET_CopyString(STRBUF_GetChars((struct Strbuf *)trainerData->name), packet->nameChars, 0x20);
     }
     return packet;
 }
@@ -789,7 +795,7 @@ int BTL_NET_PollSync(int stage)
 
     if (net != 0) {
         if (net->syncPending != 0) {
-            reached = GFL_NET_HANDLE_IsTimingSyncRange((struct NetHandle *)net->netHandle, net->syncStage, 1);
+            reached = GFL_NET_HANDLE_IsTimingSyncRange((struct GFLNetHandle *)net->netHandle, net->syncStage, 1);
             if (reached != 0) {
                 gBtlNet->syncStage = 0;
                 gBtlNet->syncPending = 0;
@@ -809,7 +815,7 @@ u32 BTL_NET_SendServerCmd(u32 clientId, u32 data, u32 size)
     u32 netId = BTL_NET_FindNetIdByClient(clientId);
 
     if (netId != BTL_NET_NO_NETID) {
-        return GFL_NET_SendData((u32)gBtlNet->netHandle, netId, BTL_NET_CMD_SERVER_CMD, size, data, 0, 0, 1);
+        return GFL_NET_SendData(gBtlNet->netHandle, netId, BTL_NET_CMD_SERVER_CMD, size, (void *)data, 0, 0, 1);
     }
     return 1;
 }
@@ -882,7 +888,7 @@ u32 BTL_NET_SendClientReply(u32 data, u32 size)
     struct BtlNet *net = gBtlNet;
     u32 result;
 
-    result = GFL_NET_SendData((u32)net->netHandle, net->leaderNetId, BTL_NET_CMD_CLIENT_REPLY, size, data, 0, 1, 1);
+    result = GFL_NET_SendData(net->netHandle, net->leaderNetId, BTL_NET_CMD_CLIENT_REPLY, size, (void *)data, 0, 1, 1);
     if (result != 0) {
         net = gBtlNet;
         net->serverCmdPending = 0;

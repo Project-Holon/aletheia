@@ -43,25 +43,27 @@ extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *sitePat
 
 extern u32 GFL_HEAP_Free(void *p);
 
-extern void *MCSS_Init(u32 id, void *heap);
+extern struct McssSys *MCSS_Init(unsigned int maxCount, unsigned int heapId);
 
-extern void MCSS_SetTextureTransAdrs(void *, unsigned int);
+extern void MCSS_SetTextureTransAdrs(struct McssSys *sys, unsigned int adrs);
 
-extern void MCSS_SetPaletteTransAdrs(char *p, unsigned int v);
+extern void MCSS_SetPaletteTransAdrs(struct McssSys *sys, unsigned int adrs);
 
-extern void MCSS_SetOrthoMode(void *);
+extern void MCSS_SetOrthoMode(struct McssSys *sys);
+struct McssWork;
 
-extern void MCSS_Del(void *,void *);
+extern void MCSS_Del(struct McssSys *sys, struct McssWork *work);
 
-extern void MCSS_Exit(u8 *);
+extern void MCSS_Exit(struct McssSys *sys);
 
-extern void MCSS_Main(char *);
+extern void MCSS_Main(struct McssSys *sys);
 
 extern void MCSS_Draw(struct McssSys *);
+struct McssAddWork;
 
-extern struct Rec *MCSS_Add(struct Obj *obj, u32 x, u32 y, u32 z, const struct Sub150 *src);
+extern struct McssWork *MCSS_Add(struct McssSys *sys, int x, int y, int z, struct McssAddWork *addWork);
 
-extern void MCSS_SetScale(void *p, u32 *src);
+extern void MCSS_SetScale(struct McssWork *work, unsigned int *src);
 
 extern void INTRO_G3D_OnAnimEnd(u8 *p);
 
@@ -82,7 +84,7 @@ extern const IntroVec defaultPos;
 void *INTRO_MCSS_Create(unsigned int heap, int kind)
 {
     IntroMcssWork *work = GFL_HEAP_Alloc(heap, 108, 1, gIntroMcssSite, 98);
-    work->sys = MCSS_Init(8, (void *)heap);
+    work->sys = MCSS_Init((unsigned int)8, (unsigned int)heap);
     work->heapId = heap;
     if (kind != 7)
         MCSS_SetTextureTransAdrs(work->sys, 7 << 16);

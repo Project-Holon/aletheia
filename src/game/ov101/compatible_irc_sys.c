@@ -71,29 +71,35 @@ extern u32 GFL_HEAP_Free(void *p);
 extern int GFL_NET_GetRunState(void);
 extern void GFL_NET_StartSession(struct Req *req, u32 transportArg, u32 userArg);
 extern int GFL_NET_Exit(int exitCallback);
-extern int GFL_NET_StartChangeoverChild(int);
-extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
-extern void GFL_NET_HANDLE_SetTimingSyncRange(struct Link *,unsigned int,unsigned int);
-extern unsigned int GFL_NET_HANDLE_IsTimingSyncRange(struct Link *,unsigned int,unsigned int);
+extern void GFL_NET_StartChangeoverChild(unsigned int changeoverParam);
+struct GFLNetHandle;
+extern struct GFLNetHandle *GFL_NET_HANDLE_GetCurrentHandle(void);
+extern void GFL_NET_HANDLE_SetTimingSyncRange(struct GFLNetHandle *handle, unsigned int timingLow, unsigned int timingHigh);
+extern unsigned int GFL_NET_HANDLE_IsTimingSyncRange(struct GFLNetHandle *handle, unsigned int timingLow, unsigned int timingHigh);
 extern u32 GFL_NET_IsParentAid(void);
-extern u32 GFL_NET_GetHandleNetID(struct Link *p);
+extern u32 GFL_NET_GetHandleNetID(struct GFLNetHandle *handle);
 extern int GFL_NET_SYSTEM_IsSendQueueEntry(u32,u32);
-extern int GFL_NET_SendToHandle(struct Entry *a, u32 b, u32 c, u32 d);
-extern u32 GFL_NET_SendData(u32,u32,u32,u32,u32,u32,u32,u32);
+extern int GFL_NET_SendToHandle(struct GFLNetHandle *handle, unsigned int command, unsigned int size, void *data);
+extern u32 GFL_NET_SendData(struct GFLNetHandle *handle, unsigned int sendId, unsigned int command, unsigned int size, void *data, unsigned int sendFlags, unsigned int skipIfQueued, unsigned int queueMode);
 extern void GFL_NET_COMMAND_AddCommandTable(u32,u32,u32,u32);
 extern void GFL_NET_COMMAND_DeleteCommandTable(u32);
 extern void OS_GetOwnerInfo(struct OSOwnerInfo *info);
-extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
-extern u8 *GAME_DATA_GetMyStatus(void *p);
-extern void MYSTATUS_Copy(void *,void *);
-extern void *GAME_DATA_GetMyParty(const struct BigObj *p);
-extern void *POKEPARTY_GetMember(void *p, u32 idx);
-extern u32 POKE_TOOL_GetPartyValue(void *p, u32 id, u32 v);
+struct GameSystem;
+struct GameData;
+extern struct GameData *GAMESYSTEM_GetGameData(struct GameSystem *gameSystem);
+struct MyStatus;
+extern struct MyStatus *GAME_DATA_GetMyStatus(struct GameData *gd);
+extern void MYSTATUS_Copy(struct MyStatus *src, struct MyStatus *dest);
+extern void *GAME_DATA_GetMyParty(struct GameData *gd);
+struct Party;
+struct PokemonParam;
+extern struct PokemonParam *POKEPARTY_GetMember(struct Party *party, unsigned int pos);
+extern u32 POKE_TOOL_GetPartyValue(struct PokemonParam *pp, unsigned int paramId, unsigned int arg);
 extern void GF_STANDARD_GetCachedDate(struct RtcDate *date);
-extern u32 MATH_CountPopulation(u32);
+extern unsigned char MATH_CountPopulation(u32);
 extern void MI_CpuCopy8(void *,const void *,unsigned);
 extern unsigned short GFL_NET_SYSTEM_GetCurrentAid(void);
-extern struct Rec44 *GAME_DATA_GetMyStatusPlayer(struct Sub24 *p, u32 i);
+extern struct MyStatus *GAME_DATA_GetMyStatusPlayer(struct GameData *gd, unsigned int playerId);
 extern int MYSTATUS_GetSize(void);
 void *COMPATIBLE_IRC_SYS_Create(int context,int playerRecords,int heapId,int offline);
 void COMPATIBLE_IRC_SYS_Delete(void *sys);
@@ -249,11 +255,11 @@ int COMPATIBLE_IRC_SYS_StepSyncTiming(IrcSys *sys)
     if(sys->offline) return 1;
     switch(sys->step) {
     case 0:
-        GFL_NET_HANDLE_SetTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),14,13);
+        GFL_NET_HANDLE_SetTimingSyncRange((struct GFLNetHandle *)GFL_NET_HANDLE_GetCurrentHandle(),14,13);
         sys->step=1;
         break;
     case 1:
-        if(GFL_NET_HANDLE_IsTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),14,13)) sys->step=2;
+        if(GFL_NET_HANDLE_IsTimingSyncRange((struct GFLNetHandle *)GFL_NET_HANDLE_GetCurrentHandle(),14,13)) sys->step=2;
         break;
     case 2:
         sys->step=0;
@@ -334,12 +340,12 @@ int COMPATIBLE_IRC_SYS_GetValueDifference(IrcSys *sys) { if(sys->offline) return
  */
 int COMPATIBLE_IRC_SYS_SendToHandle(IrcSys *sys,u32 commandId,u32 size,u32 data) {
     if(sys->offline!=0) return 1;
-    return GFL_NET_SendToHandle((struct Entry *)GFL_NET_HANDLE_GetCurrentHandle(),commandId,size,data);
+    return GFL_NET_SendToHandle((struct GFLNetHandle *)GFL_NET_HANDLE_GetCurrentHandle(),commandId,size,(void *)data);
 }
 
 u32 COMPATIBLE_IRC_SYS_SendData(IrcSys *sys,u32 commandId,u32 size,u32 data,u8 target,u32 e,u32 f,u32 g) {
     if(sys->offline!=0) return 1;
-    return GFL_NET_SendData((u32)GFL_NET_HANDLE_GetCurrentHandle(),target,commandId,size,data,e,f,g);
+    return GFL_NET_SendData(GFL_NET_HANDLE_GetCurrentHandle(),target,commandId,size,(void *)data,e,f,g);
 }
 
 /*
@@ -390,7 +396,7 @@ void COMPATIBLE_IRC_SYS_BuildProfile(void *playerData,IrcCompatibleProfile *out)
     playerData=GAME_DATA_GetMyStatus(sub);
     out->birthMonth=ownerInfo[2];
     out->birthDay=ownerInfo[3];
-    MYSTATUS_Copy(playerData,out->myStatus);
+    MYSTATUS_Copy((struct MyStatus *)playerData,(struct MyStatus *)out->myStatus);
     record=POKEPARTY_GetMember(GAME_DATA_GetMyParty(sub),0);
     flag=0;
     out->leadSpecies=POKE_TOOL_GetPartyValue(record,5,0);

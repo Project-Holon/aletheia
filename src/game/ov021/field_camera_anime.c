@@ -113,21 +113,27 @@ FieldCameraAnimeData *FIELD_CAMERA_ANIME_GetData(FieldCameraAnime *anime);
 extern u32 FIELDMAP_GetMoveKind(FieldMap *fieldMap);
 extern void MI_CpuFill8(void *dst, int value, u32 size);
 extern u16 FIELDMAP_GetHeapId(FieldMap *fieldMap);
-extern void *GFL_HEAP_Alloc(u16 heapId, u32 size, u32 flag, const char *file, u32 line);
+extern void *GFL_HEAP_Alloc(unsigned int heapId, unsigned int size, int clear, char *site, unsigned short tag);
 extern u32 GFL_HEAP_Free(void *mem);
 extern void VEC_Subtract(const VecFx32 *a, const VecFx32 *b, VecFx32 *out);
 extern FieldCamera *FIELDMAP_GetCamera(FieldMap *fieldMap);
-extern u32 FIELDMAP_GetNogridMapper(FieldMap *fieldMap);
-extern void FIELD_NOGRID_MAPPER_SetActive(u32 obj, u32 enable);
-extern u32 FIELDMAP_GetSceneArea(FieldMap *fieldMap);
-extern void FLD_SCENEAREA_SetEnabled(u8 *player, u32 enable);
+struct FieldMap;
+struct FieldNogridMapper;
+extern struct FieldNogridMapper *FIELDMAP_GetNogridMapper(FieldMap *fieldMap);
+extern void FIELD_NOGRID_MAPPER_SetActive(struct FieldNogridMapper *mapper, int active);
+struct FieldMap;
+struct FldSceneArea;
+extern struct FldSceneArea *FIELDMAP_GetSceneArea(FieldMap *fieldMap);
+extern void FLD_SCENEAREA_SetEnabled(struct FldSceneArea *sceneArea, u32 enabled);
 extern u32 FIELD_TASK_CreateCameraPitchTween(FieldMap *fieldMap, u32 frames, u32 pitch);
 extern u32 FIELD_TASK_CreateCameraYawTween(FieldMap *fieldMap, u32 frames, u32 yaw);
-extern u32 FIELD_TASK_CreateCameraDistanceTween(FieldMap *fieldMap, u16 frames, fx32 distance);
+struct FieldTask;
+extern struct FieldTask *FIELD_TASK_CreateCameraDistanceTween(FieldMap *fieldMap, u16 frames, fx32 distance);
 extern u32 FIELD_TASK_CreateCameraLerp(FieldMap *fieldMap, u16 frames, const VecFx32 *start, const VecFx32 *end);
-extern u32 FIELD_TASK_CreateCameraTargetTween(FieldMap *fieldMap, u32 frames, const VecFx32 *shift);
-extern u32 FIELDMAP_GetTaskManager(FieldMap *fieldMap);
-extern void FIELD_TASK_MANAGER_AddTask(u8 *taskMan, u32 *task, u32 arg);
+extern struct FieldTask *FIELD_TASK_CreateCameraTargetTween(FieldMap *fieldMap, u32 frames, const VecFx32 *shift);
+struct FieldTaskManager;
+extern struct FieldTaskManager *FIELDMAP_GetTaskManager(FieldMap *fieldMap);
+extern void FIELD_TASK_MANAGER_AddTask(struct FieldTaskManager *manager, struct FieldTask *task, struct FieldTask *prerequisite);
 extern const char d_021DDA38[];
 
 void FIELD_CAMERA_ANIME_GetCurrentParam(FieldCamera *camera, FieldCameraParam *param)
@@ -188,7 +194,7 @@ void FIELD_CAMERA_ANIME_Restore(FieldCameraAnime *anime)
 
 FieldCameraAnime *FIELD_CAMERA_ANIME_Alloc(u16 heapId)
 {
-    return GFL_HEAP_Alloc(heapId, sizeof(FieldCameraAnime), 0, d_021DDA38, 0xee);
+    return GFL_HEAP_Alloc(heapId, sizeof(FieldCameraAnime), 0, (char *)d_021DDA38, 0xee);
 }
 
 void FIELD_CAMERA_ANIME_Free(FieldCameraAnime *anime)
@@ -226,7 +232,7 @@ u32 FIELD_CAMERA_ANIME_SaveCameraState(FieldCameraAnime *anime)
         anime->savedTrace = FIELD_CAMERA_GetAreasEnabled(camera);
         FIELD_CAMERA_SetAreasEnabled(camera, 0);
     }
-    FLD_SCENEAREA_SetEnabled((u8 *)FIELDMAP_GetSceneArea(fieldMap), 0);
+    FLD_SCENEAREA_SetEnabled((struct FldSceneArea *)FIELDMAP_GetSceneArea(fieldMap), 0);
     anime->isSetUp = 1;
     return anime->isSetUp;
 }
@@ -243,7 +249,7 @@ void FIELD_CAMERA_ANIME_RestoreCameraState(FieldCameraAnime *anime)
     FieldMap *fieldMap = anime->fieldMap;
     FieldCamera *camera = anime->camera;
     FieldCameraAnimeData *data = FIELD_CAMERA_ANIME_GetData(anime);
-    FLD_SCENEAREA_SetEnabled((u8 *)FIELDMAP_GetSceneArea(fieldMap), 1);
+    FLD_SCENEAREA_SetEnabled((struct FldSceneArea *)FIELDMAP_GetSceneArea(fieldMap), 1);
     if (data->stopTrace != 0)
         FIELD_CAMERA_SetAreasEnabled(camera, anime->savedTrace);
     if (anime->targetDetached != 0)
@@ -311,16 +317,16 @@ void FIELD_CAMERA_ANIME_StartMoveTasks(FieldCameraAnime *anime)
     u32 shiftTask;
     pitchTask = FIELD_TASK_CreateCameraPitchTween(fieldMap, frames, end->pitch);
     yawTask = FIELD_TASK_CreateCameraYawTween(fieldMap, frames, end->yaw);
-    distanceTask = FIELD_TASK_CreateCameraDistanceTween(fieldMap, frames, end->distance);
+    distanceTask = (u32)FIELD_TASK_CreateCameraDistanceTween(fieldMap, frames, end->distance);
     targetTask = FIELD_TASK_CreateCameraLerp(fieldMap, frames, &data->start.target, &end->target);
-    shiftTask = FIELD_TASK_CreateCameraTargetTween(fieldMap, frames, &end->shift);
+    shiftTask = (u32)FIELD_TASK_CreateCameraTargetTween(fieldMap, (u32)frames, &end->shift);
     /* the original reuses the field map variable for the task manager */
     fieldMap = (FieldMap *)FIELDMAP_GetTaskManager(fieldMap);
-    FIELD_TASK_MANAGER_AddTask((u8 *)fieldMap, (u32 *)pitchTask, 0);
-    FIELD_TASK_MANAGER_AddTask((u8 *)fieldMap, (u32 *)yawTask, 0);
-    FIELD_TASK_MANAGER_AddTask((u8 *)fieldMap, (u32 *)distanceTask, 0);
-    FIELD_TASK_MANAGER_AddTask((u8 *)fieldMap, (u32 *)targetTask, 0);
-    FIELD_TASK_MANAGER_AddTask((u8 *)fieldMap, (u32 *)shiftTask, 0);
+    FIELD_TASK_MANAGER_AddTask((struct FieldTaskManager *)fieldMap, (struct FieldTask *)pitchTask, 0);
+    FIELD_TASK_MANAGER_AddTask((struct FieldTaskManager *)fieldMap, (struct FieldTask *)yawTask, 0);
+    FIELD_TASK_MANAGER_AddTask((struct FieldTaskManager *)fieldMap, (struct FieldTask *)distanceTask, 0);
+    FIELD_TASK_MANAGER_AddTask((struct FieldTaskManager *)fieldMap, (struct FieldTask *)targetTask, 0);
+    FIELD_TASK_MANAGER_AddTask((struct FieldTaskManager *)fieldMap, (struct FieldTask *)shiftTask, 0);
 }
 
 FieldCamera *FIELD_CAMERA_ANIME_GetCamera(FieldCameraAnime *anime)

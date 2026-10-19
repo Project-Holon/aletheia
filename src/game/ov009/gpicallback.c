@@ -105,7 +105,7 @@ typedef struct GPGetProfileBuddyListArg {
 } GPGetProfileBuddyListArg;
 
 extern void *gsimalloc(int size);
-extern void gpiSetErrorString(void **connection, void *string);
+extern void gpiSetErrorString(int *p, int b);
 extern void gsifree(void *ptr);
 extern int gpiDeleteBuddy(void **connection, int profile, int sendServerRequest);
 int gpiCallErrorCallback(void **connection, int result, int fatal);
@@ -168,7 +168,7 @@ int gpiAddCallback(void **connection, GPICallback callback, void *arg, int *oper
 
     data = (GPICallbackData *)gsimalloc(0x18);
     if (data == 0) {
-        gpiSetErrorString(connection, gGpiCallbackErrorOutOfMemory);
+        gpiSetErrorString((int *)connection, (int)gGpiCallbackErrorOutOfMemory);
         return 1;
     }
     data->callback = callback;

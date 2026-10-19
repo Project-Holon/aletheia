@@ -36,14 +36,20 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 typedef signed int     s32;
+struct ScrcmdWork;
+struct GameData;
 
-extern void *SCRCMD_WORK_GetGameData(void *scriptCtx);
-extern void *GAME_DATA_GetSaveControl(struct ScriptWorkRef *p);
+extern struct GameData *SCRCMD_WORK_GetGameData(struct ScrcmdWork *work);
+struct SaveControl;
+extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gd);
 extern void *MOVE_POKEMON_SAVE_GetBlock(void *saveSys);
-extern unsigned int SCRIPT_WORK_ReadWorkValue(void *, void *);
-extern unsigned short *SCRIPT_WORK_ReadWorkPointer(void *vm, void *cmdWork);
-extern u8 MOVE_POKEMON_SAVE_GetEntryState(struct ScriptSaveBlock *p, u32 i);
-extern u32 MYSTATUS_GetId(const struct TrainerRec *obj);
+struct ScriptVm;
+extern unsigned int SCRIPT_WORK_ReadWorkValue(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
+extern unsigned short *SCRIPT_WORK_ReadWorkPointer(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
+struct MovePokemonSave;
+extern u8 MOVE_POKEMON_SAVE_GetEntryState(struct MovePokemonSave *pSave, u32 slot);
+struct MyStatus;
+extern u32 MYSTATUS_GetId(struct MyStatus *mystatus);
 extern void MISC_SetHashedId(struct MiscSave *p, s32 i, u32 v);
 extern u32 MISC_GetHashedId(struct MiscSave *p, s32 i);
 int FIELD_G3D_MAP_ScrCmdReadSaveByte(int cmdState, int scriptCtx);
@@ -65,7 +71,7 @@ int FIELD_G3D_MAP_ScrCmdReadSaveByte(int cmdState, int scriptCtx)
     cmdStateCopy = cmdState;
     cmdState = scriptCtxCopy;
     chain = SCRCMD_WORK_GetGameData((void *)cmdState);
-    chain = GAME_DATA_GetSaveControl((struct ScriptWorkRef *)chain);
+    chain = GAME_DATA_GetSaveControl((struct GameData *)chain);
     saveBlock = MOVE_POKEMON_SAVE_GetBlock(chain);
     cmdState = cmdStateCopy;
     scriptCtx = scriptCtxCopy;

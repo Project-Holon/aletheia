@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "EVENT_MAPCHANGE_AllocWorkBufferA",
+   "name": "EVENT_MAPCHANGE_TamperLeakA",
    "address": "0x0218604C",
    "kind": "game",
    "region": "ov020",

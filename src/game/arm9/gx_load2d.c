@@ -58,7 +58,7 @@ typedef int BOOL;
 
 extern u32 GXi_DmaId;
 
-extern void MI_NDmaCopy(u32 ndmaNo, const void *src, void *dest, u32 size);
+extern void MI_NDmaCopy(int ch, int src, int dst, int size);
 
 extern void MIi_DmaCopy16(u32 dmaNo, const void *src, void *dest, u32 size, BOOL dmaEnable);
 
@@ -72,7 +72,7 @@ static inline void MI_DmaCopy16(u32 dmaNo, const void *src, void *dest, u32 size
 {
     if (dmaNo > 3) {
         if ((((u32)src | (u32)dest | size) & 3) == 0) {
-            MI_NDmaCopy(dmaNo - 4, src, dest, size);
+            MI_NDmaCopy((int)(dmaNo - 4), (int)src, (int)dest, size);
         } else {
             MIi_CpuCopy16(src, dest, size);
         }
@@ -113,7 +113,7 @@ void GXS_LoadOBJPltt(const void *pSrc, u32 offset, u32 szByte)
 static inline void MI_DmaCopy32(u32 dmaNo, const void *src, void *dest, u32 size)
 {
     if (dmaNo > 3) {
-        MI_NDmaCopy(dmaNo - 4, src, dest, size);
+        MI_NDmaCopy((int)(dmaNo - 4), (int)src, (int)dest, size);
     } else {
         MIi_DmaCopy32(dmaNo, src, dest, size, 1);
     }
@@ -165,11 +165,11 @@ void GX_LoadBG0Scr(const void *pSrc, u32 offset, u32 szByte)
     GXi_DmaCopy16(GXi_DmaId, pSrc, (void *)((u32)ptr + offset), szByte);
 }
 
-extern void *G2S_GetBG0ScrPtr(void);
+extern u32 G2S_GetBG0ScrPtr(void);
 
 void GXS_LoadBG0Scr(const void *pSrc, u32 offset, u32 szByte)
 {
-    void *ptr = G2S_GetBG0ScrPtr();
+    void *ptr = (void *)G2S_GetBG0ScrPtr();
 
     GXi_DmaCopy16(GXi_DmaId, pSrc, (void *)((u32)ptr + offset), szByte);
 }
@@ -183,11 +183,11 @@ void GX_LoadBG1Scr(const void *pSrc, u32 offset, u32 szByte)
     GXi_DmaCopy16(GXi_DmaId, pSrc, (void *)((u32)ptr + offset), szByte);
 }
 
-extern void *G2S_GetBG1ScrPtr(void);
+extern u32 G2S_GetBG1ScrPtr(void);
 
 void GXS_LoadBG1Scr(const void *pSrc, u32 offset, u32 szByte)
 {
-    void *ptr = G2S_GetBG1ScrPtr();
+    void *ptr = (void *)G2S_GetBG1ScrPtr();
 
     GXi_DmaCopy16(GXi_DmaId, pSrc, (void *)((u32)ptr + offset), szByte);
 }
@@ -237,11 +237,11 @@ void GX_LoadBG0Char(const void *pSrc, u32 offset, u32 szByte)
     GXi_DmaCopy32(GXi_DmaId, pSrc, (void *)((u32)ptr + offset), szByte);
 }
 
-extern void *G2S_GetBG0CharPtr(void);
+extern u32 G2S_GetBG0CharPtr(void);
 
 void GXS_LoadBG0Char(const void *pSrc, u32 offset, u32 szByte)
 {
-    void *ptr = G2S_GetBG0CharPtr();
+    void *ptr = (void *)G2S_GetBG0CharPtr();
 
     GXi_DmaCopy32(GXi_DmaId, pSrc, (void *)((u32)ptr + offset), szByte);
 }
@@ -255,11 +255,11 @@ void GX_LoadBG1Char(const void *pSrc, u32 offset, u32 szByte)
     GXi_DmaCopy32(GXi_DmaId, pSrc, (void *)((u32)ptr + offset), szByte);
 }
 
-extern void *G2S_GetBG1CharPtr(void);
+extern u32 G2S_GetBG1CharPtr(void);
 
 void GXS_LoadBG1Char(const void *pSrc, u32 offset, u32 szByte)
 {
-    void *ptr = G2S_GetBG1CharPtr();
+    void *ptr = (void *)G2S_GetBG1CharPtr();
 
     GXi_DmaCopy32(GXi_DmaId, pSrc, (void *)((u32)ptr + offset), szByte);
 }
@@ -314,11 +314,11 @@ typedef struct {
     int subOBJExtPltt;
 } GXLoad2DState;
 
-extern void MI_NDmaCopyAsync(u32 ndmaNo, const void *src, void *dest, u32 size, MIDmaCallback callback, void *arg);
+extern void MI_NDmaCopyAsync(int ch, unsigned int src, unsigned int dst, unsigned int size, MIDmaCallback callback, unsigned int arg);
 
 extern void MIi_DmaCopy32Async(u32 dmaNo, const void *src, void *dest, u32 size, MIDmaCallback callback, void *arg, BOOL dmaEnable);
 
-extern void MI_WaitNDma(u32 ndmaNo);
+extern void MI_WaitNDma(int ch);
 
 extern void MI_WaitDma(u32 dmaNo);
 
@@ -362,7 +362,7 @@ void GX_BeginLoadBGExtPltt(void)
 static inline void MI_DmaCopy32Async(u32 dmaNo, const void *src, void *dest, u32 size, MIDmaCallback callback, void *arg)
 {
     if (dmaNo > 3) {
-        MI_NDmaCopyAsync(dmaNo - 4, src, dest, size, callback, arg);
+        MI_NDmaCopyAsync(dmaNo - 4, (unsigned int)src, (unsigned int)dest, (unsigned int)size, callback, (unsigned int)arg);
     } else {
         MIi_DmaCopy32Async(dmaNo, src, dest, size, callback, arg, 1);
     }

@@ -54,25 +54,26 @@ extern Slot data_02735A9C;
    so the original referenced two distinct symbols there. */
 extern u32 data_02735A9C_msg[1];
 extern u32 data_02735AAC[];
-extern void OS_SendMessage(u32 *q, u32 msg, u32 flags);
-extern u32 OS_ReceiveMessage(u32 *q, u32 *msg, u32 flags);
-extern void OS_InitMessageQueue(u32 *q, u32 *buf, u32 count);
-extern void PXI_SetFifoRecvCallback(u32 tag, void (*cb)(u32, u32, u32));
-extern u32 PXI_IsCallbackReady(u32 tag, u32 arg);
+struct OSMessageQueue;
+extern int OS_SendMessage(struct OSMessageQueue *mq, void *msg, int flags);
+extern int OS_ReceiveMessage(struct OSMessageQueue *mq, void **msg, int flags);
+extern void OS_InitMessageQueue(struct OSMessageQueue *mq, void **msgArray, int msgCount);
+extern void PXI_SetFifoRecvCallback(int fifotag, void (*cb)(u32, u32, u32));
+extern int PXI_IsCallbackReady(int fifotag, int proc);
 extern void PXI_Init(void);
 extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
-extern void AESi_PxiSendCmd(u32 cmd, void *data, u32 size);
+extern void AESi_PxiSendCmd(unsigned int command, unsigned char *buf, unsigned int len);
 extern void AESi_PxiSendResult(u32 a, u32 b);
 extern void AESi_InitLock(void);
-extern u32 AESi_TryLock(void);
+extern int AESi_TryLock(void);
 extern void AESi_Unlock(void);
-extern void AESi_FlushRange(u32 a, u32 b);
-extern void AESi_InvalidateRange(u32 addr, u32 size);
+extern void AESi_FlushRange(void *addr, unsigned int size);
+extern void AESi_InvalidateRange(void *addr, unsigned int size);
 
 void PxiCallback(u32 tag, u32 data, u32 err);
 u32 WaitResult(void);
 void AESi_Init(void);
-u32 AESi_SeedRand(u32 a);
+u32 AESi_SeedRand(u32 *a);
 u32 AESi_RandUnit(u32 buf, ...);
 u32 AESi_CalcMac(u32 src, u32 data, u32 length, u32 mac, void (*callback)(u32, OSEvent *), OSEvent *arg);
 
@@ -91,7 +92,7 @@ void PxiCallback(u32 tag, u32 data, u32 err) {
         AESi_Unlock();
         break;
     case 7:
-        OS_SendMessage(data_02735AAC, data, 0);
+        OS_SendMessage((struct OSMessageQueue *)data_02735AAC, (void *)data, 0);
         break;
     default:
         AESi_PxiSendResult(7, 6);
@@ -101,7 +102,7 @@ void PxiCallback(u32 tag, u32 data, u32 err) {
 
 u32 WaitResult(void) {
     u32 msg;
-    OS_ReceiveMessage(data_02735AAC, &msg, 1);
+    OS_ReceiveMessage((struct OSMessageQueue *)data_02735AAC, (void **)(&msg), 1);
     return msg;
 }
 
@@ -109,7 +110,7 @@ void AESi_Init(void) {
     if (data_02735A9C.ready != 0) {
         return;
     }
-    OS_InitMessageQueue(data_02735AAC, data_02735A9C_msg, 1);
+    OS_InitMessageQueue((struct OSMessageQueue *)data_02735AAC, (void **)data_02735A9C_msg, 1);
     AESi_InitLock();
     PXI_Init();
     PXI_SetFifoRecvCallback(0x13, PxiCallback);
@@ -118,7 +119,7 @@ void AESi_Init(void) {
     data_02735A9C.ready = 1;
 }
 
-u32 AESi_SeedRand(u32 seed) {
+u32 AESi_SeedRand(u32 *seed) {
     u32 result;
     if (AESi_TryLock() == 0) {
         return 4;
@@ -134,8 +135,8 @@ u32 AESi_RandUnit(u32 buf, ...) {
     if (AESi_TryLock() == 0) {
         return 4;
     }
-    AESi_InvalidateRange(buf, 0x10);
-    AESi_PxiSendCmd(2, &buf, 4);
+    AESi_InvalidateRange((void *)buf, 0x10);
+    AESi_PxiSendCmd(2, (unsigned char *)(&buf), 4);
     result = WaitResult();
     AESi_Unlock();
     return result;
@@ -154,8 +155,8 @@ u32 AESi_CalcMac(u32 src, u32 data, u32 length, u32 mac, void (*callback)(u32, O
     req.zero = 0;
     req.kind = 7;
     req.mac = mac;
-    AESi_FlushRange(data, length);
-    AESi_InvalidateRange(mac, 0x10);
-    AESi_PxiSendCmd(9, &req, 0x24);
+    AESi_FlushRange((void *)data, length);
+    AESi_InvalidateRange((void *)mac, 0x10);
+    AESi_PxiSendCmd(9, (unsigned char *)(&req), 0x24);
     return 1;
 }

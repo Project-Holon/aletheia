@@ -100,21 +100,21 @@ typedef _Bool bool;
 
 extern void DWCi_ChangeScene(void (*scene)(void));
 void DWCi_CMNlLoadResource(char *file, void (*func)(void *, unsigned long, unsigned long));
-extern void DWCi_GetParam2_(void *a, void *b);
-extern int DWCi_Language(void);
+extern void DWCi_GetParam2_(unsigned int *a, unsigned int *b);
+extern unsigned char DWCi_Language(void);
 extern void *DWCi_FNTlFormBgEx(int lcd, int font);
-extern u16 *DWCi_MSGlGet(void *msg, int id);
+extern unsigned int DWCi_MSGlGet(unsigned int *p, unsigned int idx);
 extern int OS_SNPrintf(char *dst, unsigned long len, char *fmt, ...);
-extern int DWCi_STRlConvertStringAsciiToUnicode(u16 *dst, char *src, int len);
+extern int DWCi_STRlConvertStringAsciiToUnicode(unsigned short *dst, unsigned char *src, int len);
 extern void DWCi_FNTlDrawStringEx(void *canvas, int x, int y, int color, int interval,
                                   u16 *txt, int font);
-extern unsigned long DWCi_CMNlFontFlag(void);
+extern int DWCi_CMNlFontFlag(void);
 extern void DWCi_FNTlDrawRect(void *canvas, int x, int y, int w, int h, int color,
                               unsigned long flag, u16 *txt);
-extern void DWCi_FNTlRenewBg(void *canvas);
+extern void DWCi_FNTlRenewBg(int x);
 extern bool DWCi_EFFlCheck(int lcd);
 extern void DWCi_CMNlButton(int kind);
-extern int DWCi_BTNlGet(void);
+extern char DWCi_BTNlGet(void);
 extern void DWCi_BTNlEnable(void);
 extern int DWCi_IPTlCheckTrigger(unsigned int f);
 extern void DWCi_BTNlSet(signed char v);
@@ -126,9 +126,9 @@ extern void DWCi_GXlVisible(int lcd, int plane);
 extern void DWCi_BTNlDisable(void);
 extern void DWCi_SNDlPlay(int no);
 void DWCi_BTNlEnd(void);
-extern bool DWCi_BTNlIsEnd(void);
+extern int DWCi_BTNlIsEnd(void);
 extern void DWCi_FNTlDeleteBgLcd(int lcd);
-extern bool DWCi_COMMENTlDelete(void);
+extern int DWCi_COMMENTlDelete(void);
 extern void DWCi_GXlInvisible(int lcd, int plane);
 extern void DWCi_SetParam_(unsigned int a, unsigned int b);
 extern void DWCi_SetParam2_(unsigned int a, unsigned int b);
@@ -208,7 +208,7 @@ static void drawMessage(void)
     char tmpbuf[8];
 
     id = 0;
-    DWCi_GetParam2_(0, &prm);
+    DWCi_GetParam2_((unsigned int *)0, (unsigned int *)(&prm));
     if (-20099 <= ErrorCode)
         id = 0;
     else if (-20100 <= ErrorCode)
@@ -287,12 +287,12 @@ static void drawMessage(void)
         id = 2;
 
     canv = DWCi_FNTlFormBgEx(0, FONT_TBL[DWCi_Language()]);
-    msg = DWCi_MSGlGet((void *)DWCiMsgCmn, id);
+    msg = (unsigned short *)DWCi_MSGlGet((void *)DWCiMsgCmn, id);
     OS_SNPrintf(tmpbuf, 8, "%d", -ErrorCode);
-    DWCi_STRlConvertStringAsciiToUnicode(buf, tmpbuf, 8);
+    DWCi_STRlConvertStringAsciiToUnicode(buf, (unsigned char *)tmpbuf, 8);
     drawStr(canv, C_CODE[DWCi_Language()].x, C_CODE[DWCi_Language()].y, 2, 10, buf, 0);
     DWCi_FNTlDrawRect(canv, 0xd, 0x3c, 0xe6, 0x5e, 2, DWCi_CMNlFontFlag(), msg);
-    DWCi_FNTlRenewBg(canv);
+    DWCi_FNTlRenewBg((int)canv);
 }
 
 
@@ -390,7 +390,7 @@ static void endScene2(void)
     DWCi_COMMENTlDelete();
     DWCi_GXlInvisible(1, 1);
     DWCi_GXlInvisible(0, 0x15);
-    DWCi_GetParam2_(0, &prm);
+    DWCi_GetParam2_((unsigned int *)0, (unsigned int *)(&prm));
     if (prm != 0) {
         DWCi_SetParam_(2, 1);
         DWCi_ChangeScene((void (*)())&DWCi_SceneSetSelectAp);

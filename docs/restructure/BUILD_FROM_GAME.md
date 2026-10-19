@@ -329,13 +329,16 @@ data byte) as `DATA-ONLY ... (checked by gamelink)`, not as not exact.
 user's own extract, and the data-mode link places them as three segments. Result: arm9_main
 PASS, byte-identical, with no gap bytes left to the image (the secure area is generated data, see below).
 
-- `_start_BuildParams` (8 words) with the `.version` strings (0x02005030) lives in
-  `src/game/arm9/crt0.c` and the four SHA-1 round constants (0x02081E6C) in
-  `src/game/arm9/sha1.c`; the values come from the user's ROM through
-  `build/gen/words_*.inc` and `bytes_*.inc` (`tools/gendata.py`). Both sections are placed
-  by their header symbols, in plain and data mode; `arm9data.py` writes no `.zfix`
-  companions. mwccarm merges the const objects of crt0.c into one `.rodata` sorted by
-  size, so BuildParams and the strings are one object there.
+- `_start_BuildParams` (8 words, 0x02005030) is `src/game/arm9/crt0_build.c` and the six
+  `.version` strings (0x02005050..0x02005124: DWC, BACKUP, CPS, WiFi, SSL, libVCT) are
+  `src/game/arm9/sdk_version_*.c`, one unit and one object each, as every SDK library carries its
+  own `.version` section that the linker script collects after crt0's data. The values are
+  literals (the strings are the SDK's public version text, the record is flags and a magic
+  pair). The four SHA-1 round constants (0x02081E6C) stay in `src/game/arm9/sha1.c` with values
+  from the user's ROM through `build/gen/words_*.inc` (`tools/gendata.py`). All are placed by
+  their header symbols, in plain and data mode; `arm9data.py` writes no `.zfix` companions.
+  mwccarm merges the const objects of one unit into one `.rodata` sorted by size, which is why
+  the record and the strings could not stay in crt0.c as separate objects.
 - The 2-byte zero pads after Thumb files come from the linker (`ALIGN(4)`).
 - mwccarm gives every initialised object its own section and orders them by size and type,
   not by definition order. `arm9data.py` compiles each companion, reads the order back, and

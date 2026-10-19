@@ -62,7 +62,7 @@ extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u
 
 extern void BTL_NET_ExpectReplies(u32 netId);
 
-extern u32 BTL_NET_SendServerCmd(u32 channel, struct BtlAdapterPacket *packet, u32 size);
+extern u32 BTL_NET_SendServerCmd(u32 clientId, u32 data, u32 size);
 
 extern int BTL_NET_AreAllRepliesReceived(void);
 
@@ -70,9 +70,9 @@ extern u16 BTL_NET_GetClientReply(int channel, const u8 **outData);
 
 extern u8 BTL_NET_HasServerCmd(void);
 
-extern u16 BTL_NET_GetServerCmd(struct BtlAdapterPacket **outPacket);
+extern u16 BTL_NET_GetServerCmd(u8 **data);
 
-extern u32 BTL_NET_SendClientReply(const u8 *data, u32 size);
+extern u32 BTL_NET_SendClientReply(u32 data, u32 size);
 
 extern BtlAdapter *gBtlAdapterSlots[];
 
@@ -222,7 +222,7 @@ u32 BTL_ADAPTER_StartSend(BtlAdapter *adapter)
 
     if (adapter->netId != 0) {
         packet = &adapter->packet;
-        return BTL_NET_SendServerCmd(adapter->channel, packet, packet->size + 4);
+        return BTL_NET_SendServerCmd((u32)adapter->channel, (u32)packet, packet->size + 4);
     }
     return 1;
 }
@@ -252,7 +252,7 @@ u8 BTL_ADAPTER_GetRecvCommand(BtlAdapter *adapter)
 
     if (adapter->netId != 0) {
         if (BTL_NET_HasServerCmd() != 0) {
-            BTL_NET_GetServerCmd(&packet);
+            BTL_NET_GetServerCmd((u8 **)(&packet));
             return packet->command;
         }
         return 0;
@@ -268,7 +268,7 @@ u16 BTL_ADAPTER_GetRecvData(BtlAdapter *adapter, u8 **outData)
     struct BtlAdapterPacket *received; /* second local keeps the register allocation */
 
     if (adapter->netId != 0) {
-        BTL_NET_GetServerCmd(&packet);
+        BTL_NET_GetServerCmd((u8 **)(&packet));
         received = packet;
         *outData = received->data;
         return received->size;
@@ -280,7 +280,7 @@ u16 BTL_ADAPTER_GetRecvData(BtlAdapter *adapter, u8 **outData)
 u32 BTL_ADAPTER_SetRecvTarget(BtlAdapter *adapter, const u8 *data, u32 size)
 {
     if (adapter->netId != 0)
-        return BTL_NET_SendClientReply(data, size);
+        return BTL_NET_SendClientReply((u32)data, size);
     if (adapter->peerReady == 0) {
         adapter->peerData = data;
         adapter->peerSize = size;

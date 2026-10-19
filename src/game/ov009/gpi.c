@@ -85,38 +85,38 @@ extern int   gpiInitProfiles(void **pp);
 extern void  gsifree(void *p);
 extern void  SocketStartUp(void);
 extern unsigned int current_time(void);
-extern void  srand(void);
+extern void  srand(unsigned int seed);
 extern void gpiDisconnect(void **connection, int tellServer);
 extern void gpiStatusInfoKeysDestroy(void **connection);
-extern void TableFree(void *table);
+struct HashImplementation;
+extern void TableFree(struct HashImplementation *table);
 extern int gpiStatusInfoKeysInit(GPConnection *connection);
 extern void gpiRemoveOperation(void **connection, GPIOperation_s *operation);
 extern int gpiProfileMap(GPConnection *connection, int (*func)(GPConnection *, GPIProfile *, void *), void *data);
-extern int gpiAddLocalInfo(void **connection, GPIBuffer *buffer);
-extern int gpiSendFromBuffer(void **connection, int sock, GPIBuffer *outputBuffer,
-                             int *connClosed, int clipSentData, char *id);
-extern int gpiRecvToBuffer(void **connection, int sock, GPIBuffer *inputBuffer,
-                           int *bytesRead, int *connClosed, char *id);
-extern void gpiSetError(void **connection, int errorCode, char *errorString);
-extern void gpiCallErrorCallback(void **connection, int result, int fatal);
+extern int gpiAddLocalInfo(void **connection, void *buffer);
+struct GPIBuffer;
+extern int gpiSendFromBuffer(int *connection, int sock, struct GPIBuffer *outputBuffer, int *connClosed, int clipSentData, char *id);
+extern int gpiRecvToBuffer(int *connection, int sock, struct GPIBuffer *inputBuffer, int *bytesRead, int *connClosed, char *id);
+extern void gpiSetError(int *connection, int result, int errorString);
+extern int gpiCallErrorCallback(void **connection, int result, int fatal);
 extern void gsDebugFormat(int cat, int type, int level, char *token, ...);
 extern void *gsirealloc(void *ptr, unsigned long size);
-extern void gpiSetErrorString(void **connection, char *errorString);
+extern void gpiSetErrorString(int *p, int b);
 extern int gpiFindOperationByID(void **connection, GPIOperation_s **operation, int id);
 extern int gpiProcessOperation(void **connection, void *operation, char *input);
-extern int gpiCheckForError(void **connection, char *input, int callErrorCallback);
+extern int gpiCheckForError(int *connection, char *input, int fatal);
 extern int gpiProcessRecvBuddyMessage(void **connection, char *input);
 extern int gpiValueForKey(char *command, char *key, char *value, int len);
 extern int gpiProcessRecvBuddyStatusInfo(void **connection, char *input);
 extern int gpiProcessRecvBuddyList(void **connection, char *input);
 extern int gpiProcessRecvBlockedList(void **connection, char *input);
 extern int gpiProcessRemoteAuthResponse(void **connection, char *input);
-extern int gpiOperationsAreBlocking(void **connection);
-extern void msleep(int ms);
-extern int gpiAppendStringToBuffer(void **connection, GPIBuffer *outputBuffer, char *buffer);
-extern char *strstr(char *s, char *t);
+extern int gpiOperationsAreBlocking(char *p);
+extern void msleep(unsigned int msec);
+extern int gpiAppendStringToBuffer(int *connection, int *buffer, char *string);
+extern unsigned char *strstr(unsigned char *s1, unsigned char *s2);
 extern void *memmove(void *dst, void *src, unsigned long n);
-extern int atoi(char *s);
+extern int atoi(unsigned int s);
 /*
  * gpiInitialize (gpi_engine?): allocate the 0x638-byte GP connection block, * clear it, seed the state words, hand its address to gpiInitProfiles, clear * nine 8-byte pairs, run the two sub-initialisers, then publish the block * through *out. p lives on the stack because &p is taken.
  */
@@ -192,8 +192,7 @@ int gpiInitialize(void **connection, int productID, int namespaceID, int partner
     }
 
     SocketStartUp();
-    current_time();
-    srand();
+    srand(current_time());
     *connection = p;
     return 0;
 }
@@ -330,22 +329,22 @@ int gpiProcessConnectionManager(void **connection)
         gpiAddLocalInfo(connection, (GPIBuffer *)&ic->outputBuffer);
         if (ic->outputBuffer.len > 0)
             ic->kaTransmit = now;
-        result = gpiSendFromBuffer(connection, ic->cmSocket, (GPIBuffer *)&ic->outputBuffer,
+        result = gpiSendFromBuffer((int *)connection, ic->cmSocket, (GPIBuffer *)&ic->outputBuffer,
                                    &connClosed, 1, d_021A412C);
         if (result)
             return result;
-        result = gpiRecvToBuffer(connection, ic->cmSocket, (GPIBuffer *)&ic->socketBuffer,
+        result = gpiRecvToBuffer((int *)connection, ic->cmSocket, (GPIBuffer *)&ic->socketBuffer,
                                  &len, &connClosed, d_021A412C);
         if (result) {
             if (result != 3)
                 return result;
-            gpiSetError(connection, 5, d_021A4130);
+            gpiSetError((int *)connection, (int)5, (int)d_021A4130);
             result = 3;
             gpiCallErrorCallback(connection, result, 1);
             return result;
         }
 
-        while ((str = strstr(ic->socketBuffer.buffer, d_021A415C)) != 0) {
+        while ((str = (char *)strstr((unsigned char *)ic->socketBuffer.buffer, (unsigned char *)d_021A415C)) != 0) {
             ic->kaTransmit = now;
             *str = 0;
             gsDebugFormat(1, 0, 0x20, d_021A4164, ic->socketBuffer.buffer);
@@ -354,7 +353,7 @@ int gpiProcessConnectionManager(void **connection)
                 ic->inputBufferSize = ic->inputBufferSize + (len < 0x4000 ? 0x4000 : len);
                 tempPtr = (char *)gsirealloc(ic->inputBuffer, ic->inputBufferSize + 1);
                 if (tempPtr == 0) {
-                    gpiSetErrorString(connection, d_021A4170);
+                    gpiSetErrorString((int *)connection, (int)d_021A4170);
                     return 1;
                 }
                 ic->inputBuffer = tempPtr;
@@ -363,9 +362,9 @@ int gpiProcessConnectionManager(void **connection)
             ic->socketBuffer.len = ic->socketBuffer.len - ((str + 7) - ic->socketBuffer.buffer);
             memmove(ic->socketBuffer.buffer, str + 7, ic->socketBuffer.len + 1);
             str = ic->inputBuffer;
-            next = strstr(str, d_021A4180);
+            next = (char *)strstr((unsigned char *)str, (unsigned char *)d_021A4180);
             if (next) {
-                id = atoi(next + 4);
+                id = atoi((unsigned int)(next + 4));
                 if (!gpiFindOperationByID(connection, &operation, id)) {
                     gsDebugFormat(1, 0, 1, d_021A4188, id);
                 } else {
@@ -374,7 +373,7 @@ int gpiProcessConnectionManager(void **connection)
                         return result;
                 }
             } else {
-                if (gpiCheckForError(connection, str, 1))
+                if (gpiCheckForError((int *)connection, str, 1))
                     return 4;
                 str = ic->inputBuffer;
                 if (strncmp(str, d_021A41B0, 4) == 0) {
@@ -407,17 +406,17 @@ int gpiProcessConnectionManager(void **connection)
         }
 
         if (connClosed != 0 && ic->connectState != 5) {
-            gpiSetError(connection, 7, d_021A420C);
+            gpiSetError((int *)connection, (int)7, (int)d_021A420C);
             gpiCallErrorCallback(connection, 3, 1);
             return 0;
         }
-        loop = gpiOperationsAreBlocking(connection);
+        loop = gpiOperationsAreBlocking((char *)connection);
         if (loop)
             msleep(10);
     } while (loop);
 
     if ((now - ic->kaTransmit) > 120000) {
-        gpiAppendStringToBuffer(connection, (GPIBuffer *)&ic->outputBuffer, d_021A4234);
+        gpiAppendStringToBuffer((int *)connection, (int *)&ic->outputBuffer, d_021A4234);
         ic->kaTransmit = now;
     }
     return 0;

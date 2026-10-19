@@ -164,7 +164,7 @@ typedef struct { unsigned char v[4]; } PLT4;
 
 extern void *DWCi_HEAPlAllocEx(unsigned long size, int alignment);
 extern void DWCi_HLlLoad(int idx);
-extern bool DWCi_COMMENTlDispEx(int messageId, int n, int num);
+extern int DWCi_COMMENTlDispEx(int messageId, int n, int num);
 extern void DWCi_CMNlStep(int step);
 extern void DWCi_ChangeScene(void (*scene)(void));
 extern void DWCi_CMNlLoadResource(char *file, void (*func)(void *, unsigned long, unsigned long));
@@ -179,19 +179,19 @@ extern bool DWCi_EFFlCheck(int lcd);
 extern bool DWCi_EFFlFade(int kind, int lcd, int plane, int frame);
 extern void DWCi_GXlVisible(int lcd, int plane);
 extern void DWCi_CMNlButton(int kind);
-extern int DWCi_BTNlGet(void);
+extern s8 DWCi_BTNlGet(void);
 extern int DWCi_STEPlGet(void);
 extern void DWCi_BTNlEnable(void);
-extern bool DWCi_TPlCheckTrigger(Rect *r);
-extern void DWCi_BTNlSet(int idx);
-extern bool DWCi_IPTlCheckTrigger(unsigned short input);
-extern bool DWCi_IPTlCheckRepeat(unsigned short input);
-extern int DWCi_Entry(void);
-extern void DWCi_SNDlPlay(int no);
+extern int DWCi_TPlCheckTrigger(unsigned short *a);
+extern void DWCi_BTNlSet(s8 v);
+extern int DWCi_IPTlCheckTrigger(unsigned int f);
+extern int DWCi_IPTlCheckRepeat(unsigned int f);
+extern unsigned int DWCi_Entry(void);
+extern void DWCi_SNDlPlay(u32 v);
 extern void DWCi_BTNlDisable(void);
-extern int DWCi_SETTINGlGetSetType(int idx);
+extern u8 DWCi_SETTINGlGetSetType(u32 i);
 extern void DWCi_BTNlSetForce(int idx);
-extern int DWCi_Language(void);
+extern u8 DWCi_Language(void);
 extern void DWCi_WINlInitEx(int msg, int type, bool dark, int n, int num);
 extern void DWCi_SETTINGlSetSetting(int idx);
 extern void DWCi_SceneEnd(void);
@@ -219,13 +219,13 @@ extern GXOamAttr *DWCi_CELLlGetObj(void *cell, int idx);
 extern void DWCi_CEINlSet(int lcd, int idx, GXOamAttr *obj);
 extern void DWCi_CELLlSetPosition(void *cell, int idx, int x, int y);
 extern void DWCi_CELLlSetPriority(void *cell, int idx, int priority);
-extern int DWCi_WINlGet(void);
+extern s8 DWCi_WINlGet(void);
 extern void DWCi_SETTINGlErasePage(int page);
 extern void DWCi_CELLlDelete(void *cell);
 extern void DWCi_WINlEnd(void);
-extern bool DWCi_WINlIsInit(void);
+extern int DWCi_WINlIsInit(void);
 extern void DWCi_SCREENlCopyPalette(void *src, int sColor, int dColor);
-extern void DWCi_CELLlSetPalette(void *cell, int idx, int mode, int plt);
+extern void DWCi_CELLlSetPalette(unsigned char *obj, int idx, unsigned int v, unsigned int w);
 void DWCi_SceneSetSelectAp(void);
 extern SCENESETSELECTAP_BSS scenesetselectap_bss;
 extern T22 sSceneSetSelectApPathYbBgStep11Pltt;
@@ -398,7 +398,7 @@ static void input(void)
     int i;
 
     for (i = 0; (unsigned int)i < 7; i++) {
-        if (DWCi_TPlCheckTrigger((Rect *)&R_TOUCH[i])) {
+        if (DWCi_TPlCheckTrigger((unsigned short *)&R_TOUCH[i])) {
             DWCi_BTNlSet(1);
             scenesetselectap_bss.FocusPos = i;
             dispFocus();

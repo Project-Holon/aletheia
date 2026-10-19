@@ -95,7 +95,7 @@ extern void NET_WHPIPE_SetEventCallback(u32 callback);
 extern int NET_WHPIPE_IsConnected(void);
 
 /* WH layer (wih.c) and the beacon-sent check (net_whpipe.c) */
-extern int NET_WHPIPE_HasBeaconBeenSent(void);
+extern int NET_WHPIPE_HasBeaconBeenSent(void *unused);
 
 extern void WIH_SetConnectCallback(unsigned connectCallback);
 
@@ -135,7 +135,7 @@ int GFL_NET_DEVWIRELESS_UnusedSlot12(void);
 
 int GFL_NET_DEVWIRELESS_UnusedSlot13(void);
 
-int GFL_NET_DEVWIRELESS_HasBeaconBeenSent(void);
+int GFL_NET_DEVWIRELESS_HasBeaconBeenSent(void *unused);
 
 int GFL_NET_DEVWIRELESS_SetConnectCallback(int connectCallback);
 
@@ -268,7 +268,7 @@ int GFL_NET_DEVWIRELESS_UnusedSlot12(void) { return 1; }
 int GFL_NET_DEVWIRELESS_UnusedSlot13(void) { return 1; }
 
 /* Slot 14: nonzero once the WH layer has counted a sent beacon. */
-int GFL_NET_DEVWIRELESS_HasBeaconBeenSent(void) { return NET_WHPIPE_HasBeaconBeenSent(); }
+int GFL_NET_DEVWIRELESS_HasBeaconBeenSent(void *unused) { return NET_WHPIPE_HasBeaconBeenSent(unused); }
 
 /* Slot 15: stores the callback the WH layer calls when a child connects. */
 int GFL_NET_DEVWIRELESS_SetConnectCallback(int connectCallback) { WIH_SetConnectCallback(connectCallback); return 1; }

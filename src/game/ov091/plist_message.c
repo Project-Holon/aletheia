@@ -88,49 +88,62 @@ extern void BG_SYS_MarkTileDirty(u32 bit);
 extern u32 GFL_HEAP_Free(void *p);
 extern unsigned KEY_GetTrg(void);
 extern int TOUCHPANEL_GetTrg(void);
-extern struct Strbuf *MSGDATA_AllocString(struct MsgData *bank, u32 index);
-extern void *BMP_WIN_GetBmp(struct BmpWin *win);
-extern void PRINTSYS_PrintQueColor(struct PrintSys *printSys, void *bitmap, short x, short y, struct Strbuf *text, void *font, u16 flags);
+struct MsgBank;
+struct Strbuf;
+extern struct Strbuf *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
+struct BmpWin;
+extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *win);
+struct GfFont;
+struct PrintQueue;
+extern void PRINTSYS_PrintQueColor(struct PrintQueue *queue, struct Bmp *bmp, unsigned int x, short y, struct Strbuf *str, struct GfFont *font, unsigned short color);
 extern void STRBUF_Delete(struct Strbuf *text);
 extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
 extern void WORDSET_CopyTaggedText(struct WordSet *wordSet, struct Strbuf *dst, struct Strbuf *src);
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern struct BmpWin *BMP_WIN_Create(int,u8,u8,int,u8,u8,u8);
+extern struct BmpWin *BMP_WIN_Create(u32 bgLayer, u32 posX, u32 posY, u8 width, u8 height, u8 palette, u8 allocDir);
 extern u32 BMP_WIN_Delete(struct BmpWin *win);
-extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintSys *printSys, void *bitmap);
+struct PrintQueue;
+extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintQueue *queue, struct Bmp *bmp);
 extern void BMP_WIN_TransferChars(struct BmpWin *win);
 extern void BMP_WIN_MakeScreen(struct BmpWin *win);
 extern u8 BMP_WIN_GetBgLayer(struct BmpWin *win);
-extern struct WordSet *WORDSET_CreateDefault(u32 heap);
+extern struct WordSet *WORDSET_CreateDefault(u16 heapId);
 extern void WORDSET_SetSlotMonNickname(struct WordSet *wordSet, u32 index, void *mon);
 extern void WORDSET_SetSlotNumber(struct WordSet *wordSet, u32 index, u32 number, u32 digits, u32 c, u32 d);
 extern u32 WORDSET_Delete(struct WordSet *wordSet);
-extern void WORDSET_SetSlotTag(struct WordSet *wordSet, u32 index, const void *src, u32 n, u32 f, u32 c);
-extern void BMP_Clear(void *bitmap, u8 value);
+extern void WORDSET_SetSlotTag(struct WordSet *words, u32 slot, struct Strbuf *src, u32 grammarCase, u32 isPlural, u32 gender);
+extern void BMP_Clear(struct Bmp *bmp, u8 value);
 extern void BMP_MENUWORK_LoadCharAndPltt(u32 a, u32 b, u32 c, u32 d, u16 heapId);
-extern struct Tcbl *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
-extern struct KeyCursor *APP_KEYCURSOR_CreateDefault(int a, int b, int c, u16 heapId);
-extern struct PrintSys *PRINTSYS_QUE_Create(u32 heapId);
-extern void TIME_ICON_Delete(u8 *prompt);
-extern void PRINTSYS_PrintStreamDelete(struct TextStream *stream);
-extern void PRINTSYS_QUE_Clear(struct PrintSys *printSys);
-extern void PRINTSYS_QUE_Delete(struct PrintSys *printSys);
-extern int APP_KEYCURSOR_Delete(struct KeyCursor *keyCursor);
-extern void TCBL_Destroy(struct Tcbl *taskList);
-extern void TCBL_Main(struct Tcbl *taskList);
-extern void APP_KEYCURSOR_Update(struct KeyCursor *keyCursor, struct TextStream *stream, struct BmpWin *win);
-extern s32 PRINTSYS_CTRL_Update(u8 *wait, struct TextStream *stream);
+struct TcblSystem;
+extern struct TcblSystem *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
+struct KeyCursor;
+extern struct KeyCursor *APP_KEYCURSOR_CreateDefault(u32 id, u32 isLive, u32 isFlip, u16 heapId);
+extern struct PrintQueue *PRINTSYS_QUE_Create(u32 heapId);
+struct TimeIcon;
+extern void TIME_ICON_Delete(struct TimeIcon *icon);
+struct TextPrinter;
+extern void PRINTSYS_PrintStreamDelete(struct TextPrinter *printer);
+extern void PRINTSYS_QUE_Clear(struct PrintQueue *queue);
+extern void PRINTSYS_QUE_Delete(struct PrintQueue *queue);
+extern void APP_KEYCURSOR_Delete(struct KeyCursor *keyCursor);
+extern void TCBL_Destroy(struct TcblSystem *tcbl);
+extern void TCBL_Main(struct TcblSystem *tcbl);
+extern void APP_KEYCURSOR_Update(struct KeyCursor *cursor, struct TextPrinter *printStream, void *win);
+struct PrintStreamCtrl;
+extern s32 PRINTSYS_CTRL_Update(struct PrintStreamCtrl *ctrl, struct TextPrinter *stream);
 extern void APP_KEYCURSOR_Animate(struct KeyCursor *keyCursor, const struct Bmp *bmp, u32 color);
-extern u8 *TIME_ICON_CreateNode(struct Tcbl *taskList, struct BmpWin *win, u8 c, u8 d, u16 heapId);
-extern u32 PRINTSYS_QUE_Main(struct PrintSys *printSys);
-extern void BMP_MENUWORK_DrawWindow(struct BmpWin *win, int commitMode, int tileBase, int palette);
+struct TcblList;
+extern struct TimeIcon *TIME_ICON_CreateNode(struct TcblList *nodeList, struct BmpWin *refWin, u8 fillColor, u8 waitInterval, u16 heapId);
+extern u32 PRINTSYS_QUE_Main(struct PrintQueue *queue);
+extern void BMP_MENUWORK_DrawWindow(struct BmpWin *win, s32 commitMode, u16 tileBase, u32 palette);
 extern void BMP_MENUWORK_DrawWindowBorder(struct BmpWin *win, u32 kind);
-extern void PRINTSYS_CTRL_Init(u8 *wait, u32 v);
+extern void PRINTSYS_CTRL_Init(struct PrintStreamCtrl *ctrl, unsigned int inputType);
 extern signed char MSG_SPEED_GetWait(void);
-extern struct TextStream *PRINTSYS_PrintStreamCallBack(struct BmpWin *win, short x, short y, struct Strbuf *text, void *font, s32 wait, struct Tcbl *taskList, u32 priority, u32 heapId, u16 fillColor, int (*callback)(int));
-extern void GFL_USE_SetBgmPaused(int param);
+struct Tcbl;
+extern struct TextPrinter *PRINTSYS_PrintStreamCallBack(struct BmpWin *win, short x, short y, struct Strbuf *str, struct GfFont *font, int wait, struct Tcbl *tcbl, unsigned int priority, unsigned int heap, unsigned short fillColor, int (*callback)(int));
+extern void GFL_USE_SetBgmPaused(unsigned int value);
 extern int GFL_USE_PushBgm(void);
-extern void GFL_USE_CancelChangeAndPlayBgm(int a, int b);
+extern void GFL_USE_CancelChangeAndPlayBgm(u32 bgmNo, u32 trackMask);
 extern int GFL_USE_IsBgmPlaying(void);
 extern int GFL_USE_PopBgm(void);
 extern int GFL_USE_IsAnySeBusy(void);
@@ -153,17 +166,20 @@ int PLIST_MESSAGE_IsIdle(PokelistWork *work, PlistMessage *msg);
 int PLIST_MESSAGE_StreamCallback(int command);
 void PLIST_MESSAGE_CreateWordSet(PokelistWork *work, PlistMessage *msg);
 void PLIST_MESSAGE_DestroyWordSet(PokelistWork *work, PlistMessage *msg);
-void PLIST_MESSAGE_SetWordSetPokemon(int unused, PlistMessage *msg, u32 index, void *mon);
-void PLIST_MESSAGE_SetWordSetItem(int unused, PlistMessage *msg, u32 index, u32 itemId);
-void PLIST_MESSAGE_SetWordSetItemAlt(int unused, PlistMessage *msg, u32 index, u32 itemId);
-void PLIST_MESSAGE_SetWordSetMove(int unused, PlistMessage *msg, u32 index, u32 moveId);
-void PLIST_MESSAGE_SetWordSetValue(int unused, PlistMessage *msg, u32 index, u32 value);
-void PLIST_MESSAGE_SetWordSetNumber(int unused, PlistMessage *msg, u32 index, int number, unsigned char digits);
-void PLIST_MESSAGE_SetWordSetString(int unused, PlistMessage *msg, u32 index, const void *src, int n);
+struct PokelistWork;
+void PLIST_MESSAGE_SetWordSetPokemon(struct PokelistWork *unused, PlistMessage *msg, u32 index, void *mon);
+struct PokelistWork;
+void PLIST_MESSAGE_SetWordSetItem(struct PokelistWork *unused, PlistMessage *msg, u32 index, u32 itemId);
+void PLIST_MESSAGE_SetWordSetItemAlt(struct PokelistWork *unused, PlistMessage *msg, u32 index, u32 itemId);
+void PLIST_MESSAGE_SetWordSetMove(struct PokelistWork *unused, PlistMessage *msg, u32 index, u32 moveId);
+void PLIST_MESSAGE_SetWordSetValue(struct PokelistWork *unused, PlistMessage *msg, u32 index, u32 value);
+void PLIST_MESSAGE_SetWordSetNumber(struct PokelistWork *unused, PlistMessage *msg, u32 index, int number, unsigned char digits);
+void PLIST_MESSAGE_SetWordSetString(struct PokelistWork *unused, PlistMessage *msg, u32 index, const void *src, int n);
 void PLIST_MESSAGE_RedrawWindow(PokelistWork *work, PlistMessage *msg);
 void PLIST_MESSAGE_LoadWindowFrame(PokelistWork *work, u32 unused);
 void PLIST_MESSAGE_RequestPrompt(PokelistWork *work, PlistMessage *msg);
-void PLIST_MESSAGE_DrawKeyCursorMark(int unused, PlistMessage *msg);
+struct PokelistWork;
+void PLIST_MESSAGE_DrawKeyCursorMark(struct PokelistWork *unused, PlistMessage *msg);
 
 PlistMessage *PLIST_MESSAGE_Create(PokelistWork *work)
 {
@@ -171,7 +187,7 @@ PlistMessage *PLIST_MESSAGE_Create(PokelistWork *work)
 
     msg = GFL_HEAP_Alloc(work->heapId, sizeof(PlistMessage), 0, sPlistMessageAllocSite, 0x64);
     BMP_MENUWORK_LoadCharAndPltt(0, 1, 0xc, 0, work->heapId);
-    msg->taskList = TCBL_Create(work->heapId, work->heapId, 1, 0);
+    msg->taskList = (struct Tcbl *)TCBL_Create(work->heapId, work->heapId, 1, 0);
     msg->stream = 0;
     msg->windowKind = PLIST_MESSAGE_KIND_CLOSED;
     msg->printing = 0;
@@ -180,7 +196,7 @@ PlistMessage *PLIST_MESSAGE_Create(PokelistWork *work)
     msg->prompt = 0;
     msg->promptRequested = 0;
     msg->keyCursor = APP_KEYCURSOR_CreateDefault(0xf, 1, 1, work->heapId);
-    msg->printSys = PRINTSYS_QUE_Create(work->heapId);
+    msg->printSys = (struct PrintSys *)PRINTSYS_QUE_Create(work->heapId);
     return msg;
 }
 
@@ -190,28 +206,28 @@ void PLIST_MESSAGE_Destroy(PokelistWork *work, PlistMessage *msg)
         PLIST_MESSAGE_CloseWindow(work, msg);
     }
     if (msg->prompt != 0) {
-        TIME_ICON_Delete(msg->prompt);
+        TIME_ICON_Delete((struct TimeIcon *)msg->prompt);
     }
     if (msg->stream != 0) {
-        PRINTSYS_PrintStreamDelete(msg->stream);
+        PRINTSYS_PrintStreamDelete((struct TextPrinter *)msg->stream);
         STRBUF_Delete(msg->streamText);
     }
-    PRINTSYS_QUE_Clear(msg->printSys);
-    PRINTSYS_QUE_Delete(msg->printSys);
+    PRINTSYS_QUE_Clear((struct PrintQueue *)msg->printSys);
+    PRINTSYS_QUE_Delete((struct PrintQueue *)msg->printSys);
     APP_KEYCURSOR_Delete(msg->keyCursor);
-    TCBL_Destroy(msg->taskList);
+    TCBL_Destroy((struct TcblSystem *)msg->taskList);
     GFL_HEAP_Free(msg);
 }
 
 void PLIST_MESSAGE_Update(PokelistWork *work, PlistMessage *msg)
 {
-    TCBL_Main(msg->taskList);
+    TCBL_Main((struct TcblSystem *)msg->taskList);
     if (msg->stream != 0) {
-        APP_KEYCURSOR_Update(msg->keyCursor, msg->stream, msg->window);
-        if (PRINTSYS_CTRL_Update(msg->streamWait, msg->stream) == 1) {
+        APP_KEYCURSOR_Update(msg->keyCursor, (struct TextPrinter *)msg->stream, msg->window);
+        if (PRINTSYS_CTRL_Update((struct PrintStreamCtrl *)msg->streamWait, (struct TextPrinter *)msg->stream) == 1) {
             if (msg->waitForKey == 0 || (KEY_GetTrg() & 3) != 0 || TOUCHPANEL_GetTrg() == 1) {
                 if (msg->waitForKey == 1) GFL_USE_PlaySeDefaultVolume(0x547);
-                PRINTSYS_PrintStreamDelete(msg->stream);
+                PRINTSYS_PrintStreamDelete((struct TextPrinter *)msg->stream);
                 msg->stream = 0;
                 STRBUF_Delete(msg->streamText);
             } else {
@@ -220,7 +236,7 @@ void PLIST_MESSAGE_Update(PokelistWork *work, PlistMessage *msg)
             }
         }
     }
-    if (msg->printing == 1 && PRINTSYS_QUE_IsExistTarget(msg->printSys, BMP_WIN_GetBmp(msg->window)) == 0) {
+    if (msg->printing == 1 && PRINTSYS_QUE_IsExistTarget((struct PrintQueue *)msg->printSys, BMP_WIN_GetBmp(msg->window)) == 0) {
         struct BmpWin *window = msg->window;
         msg->printing = 0;
         BMP_WIN_TransferChars(window);
@@ -228,10 +244,10 @@ void PLIST_MESSAGE_Update(PokelistWork *work, PlistMessage *msg)
         BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer(window));
         if (msg->promptRequested == 1) {
             msg->promptRequested = 0;
-            msg->prompt = TIME_ICON_CreateNode(msg->taskList, msg->window, 15, 16, work->heapId);
+            msg->prompt = (u8 *)TIME_ICON_CreateNode((struct TcblList *)msg->taskList, msg->window, 15, 16, work->heapId);
         }
     }
-    PRINTSYS_QUE_Main(msg->printSys);
+    PRINTSYS_QUE_Main((struct PrintQueue *)msg->printSys);
 }
 
 void PLIST_MESSAGE_OpenWindow(PokelistWork *work, PlistMessage *msg, u32 kind)
@@ -259,12 +275,12 @@ void PLIST_MESSAGE_CloseWindow(PokelistWork *work, PlistMessage *msg)
 {
     if (msg->windowKind != PLIST_MESSAGE_KIND_CLOSED) {
         if (msg->prompt != 0) {
-            TIME_ICON_Delete(msg->prompt);
+            TIME_ICON_Delete((struct TimeIcon *)msg->prompt);
             msg->prompt = 0;
         }
         BMP_MENUWORK_DrawWindowBorder(msg->window, 1);
         BMP_WIN_Delete(msg->window);
-        PRINTSYS_QUE_Clear(msg->printSys);
+        PRINTSYS_QUE_Clear((struct PrintQueue *)msg->printSys);
         msg->windowKind = PLIST_MESSAGE_KIND_CLOSED;
     }
 }
@@ -288,8 +304,8 @@ void PLIST_MESSAGE_PrintText(PokelistWork *work, PlistMessage *msg, u32 messageI
         text = expanded;
     }
     PLIST_MESSAGE_RedrawWindow(work, msg);
-    PRINTSYS_QUE_Clear(msg->printSys);
-    PRINTSYS_PrintQueColor(msg->printSys, BMP_WIN_GetBmp(msg->window), 1, 1, text, work->fontMain, 0x440);
+    PRINTSYS_QUE_Clear((struct PrintQueue *)msg->printSys);
+    PRINTSYS_PrintQueColor((struct PrintQueue *)msg->printSys, BMP_WIN_GetBmp(msg->window), 1, 1, text, work->fontMain, 0x440);
     msg->printing = 1;
     STRBUF_Delete(text);
 }
@@ -308,13 +324,13 @@ void PLIST_MESSAGE_StartStream(PokelistWork *work, PlistMessage *msg, u32 messag
     }
     PLIST_MESSAGE_RedrawWindow(work, msg);
     if (msg->stream != 0) {
-        PRINTSYS_PrintStreamDelete(msg->stream);
+        PRINTSYS_PrintStreamDelete((struct TextPrinter *)msg->stream);
         STRBUF_Delete(msg->streamText);
     }
     msg->waitForKey = waitForKey;
     msg->streamText = text;
-    PRINTSYS_CTRL_Init(msg->streamWait, 6);
-    msg->stream = PRINTSYS_PrintStreamCallBack(msg->window, 0, 0, msg->streamText, work->fontMain, MSG_SPEED_GetWait(), msg->taskList, 0,
+    PRINTSYS_CTRL_Init((struct PrintStreamCtrl *)msg->streamWait, 6);
+    msg->stream = (struct TextStream *)PRINTSYS_PrintStreamCallBack(msg->window, 0, 0, msg->streamText, work->fontMain, MSG_SPEED_GetWait(), msg->taskList, 0,
                                 work->heapId, 0xf, PLIST_MESSAGE_StreamCallback);
 }
 
@@ -352,19 +368,19 @@ void PLIST_MESSAGE_CreateWordSet(PokelistWork *work, PlistMessage *msg) { msg->w
 
 void PLIST_MESSAGE_DestroyWordSet(PokelistWork *work, PlistMessage *msg) { WORDSET_Delete(msg->wordSet); msg->wordSet = 0; }
 
-void PLIST_MESSAGE_SetWordSetPokemon(int unused, PlistMessage *msg, u32 index, void *mon) { WORDSET_SetSlotMonNickname(msg->wordSet, index, mon); }
+void PLIST_MESSAGE_SetWordSetPokemon(struct PokelistWork *unused, PlistMessage *msg, u32 index, void *mon) { WORDSET_SetSlotMonNickname(msg->wordSet, index, mon); }
 
-void PLIST_MESSAGE_SetWordSetItem(int unused, PlistMessage *msg, u32 index, u32 itemId) { WORDSET_SetSlotFromMsg36(msg->wordSet, index, itemId); }
+void PLIST_MESSAGE_SetWordSetItem(struct PokelistWork *unused, PlistMessage *msg, u32 index, u32 itemId) { WORDSET_SetSlotFromMsg36(msg->wordSet, index, itemId); }
 
-void PLIST_MESSAGE_SetWordSetItemAlt(int unused, PlistMessage *msg, u32 index, u32 itemId) { WORDSET_SetSlotFromMsg117(msg->wordSet, index, itemId); }
+void PLIST_MESSAGE_SetWordSetItemAlt(struct PokelistWork *unused, PlistMessage *msg, u32 index, u32 itemId) { WORDSET_SetSlotFromMsg117(msg->wordSet, index, itemId); }
 
-void PLIST_MESSAGE_SetWordSetMove(int unused, PlistMessage *msg, u32 index, u32 moveId) { WORDSET_SetSlotFromMsgCB(msg->wordSet, index, moveId); }
+void PLIST_MESSAGE_SetWordSetMove(struct PokelistWork *unused, PlistMessage *msg, u32 index, u32 moveId) { WORDSET_SetSlotFromMsgCB(msg->wordSet, index, moveId); }
 
-void PLIST_MESSAGE_SetWordSetValue(int unused, PlistMessage *msg, u32 index, u32 value) { WORDSET_SetSlotFromMsgB4(msg->wordSet, index, (unsigned char)value); }
+void PLIST_MESSAGE_SetWordSetValue(struct PokelistWork *unused, PlistMessage *msg, u32 index, u32 value) { WORDSET_SetSlotFromMsgB4(msg->wordSet, index, (unsigned char)value); }
 
-void PLIST_MESSAGE_SetWordSetNumber(int unused, PlistMessage *msg, u32 index, int number, unsigned char digits) { WORDSET_SetSlotNumber(msg->wordSet, index, number, digits, 0, 1); }
+void PLIST_MESSAGE_SetWordSetNumber(struct PokelistWork *unused, PlistMessage *msg, u32 index, int number, unsigned char digits) { WORDSET_SetSlotNumber(msg->wordSet, index, number, digits, 0, 1); }
 
-void PLIST_MESSAGE_SetWordSetString(int unused, PlistMessage *msg, u32 index, const void *src, int n) { WORDSET_SetSlotTag(msg->wordSet, index, src, n, 1, 2); }
+void PLIST_MESSAGE_SetWordSetString(struct PokelistWork *unused, PlistMessage *msg, u32 index, const void *src, int n) { WORDSET_SetSlotTag(msg->wordSet, index, (struct Strbuf *)src, n, 1, 2); }
 
 void PLIST_MESSAGE_RedrawWindow(PokelistWork *work, PlistMessage *msg)
 {
@@ -388,7 +404,7 @@ void PLIST_MESSAGE_RequestPrompt(PokelistWork *work, PlistMessage *msg)
     msg->promptRequested = 1;
 }
 
-void PLIST_MESSAGE_DrawKeyCursorMark(int unused, PlistMessage *msg)
+void PLIST_MESSAGE_DrawKeyCursorMark(struct PokelistWork *unused, PlistMessage *msg)
 {
     APP_KEYCURSOR_DrawMark(msg->keyCursor, BMP_WIN_GetBmp(msg->window), 15);
     BMP_WIN_TransferChars(msg->window);

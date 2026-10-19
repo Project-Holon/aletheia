@@ -75,25 +75,29 @@ extern void BG_SYS_FillTileMap(u8 layer, u8 x, u8 y, u8 width, u8 height, u8 plt
 extern void UI_SetInputMode(u8 value);
 extern u32 KEY_GetTrg(void);
 extern void GFL_USE_PlaySeDefaultVolume(u32 seId);
-extern struct Bitmap *BMP_WIN_GetBmp(struct BmpWin *win);
-extern struct BmpWin *BMP_WIN_Create(u32 layer, u32 x, u32 y, u32 width, u8 height, u8 pltt, u8 slot);
+struct BmpWin;
+struct Bmp;
+extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *win);
+extern struct BmpWin *BMP_WIN_Create(u32 bgLayer, u32 posX, u32 posY, u8 width, u8 height, u8 palette, u8 allocDir);
 extern u32 BMP_WIN_Delete(struct BmpWin *win);
-extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintSys *printer, struct Bitmap *bitmap);
+struct PrintQueue;
+extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintQueue *queue, struct Bmp *bmp);
 extern void BMP_WIN_TransferChars(struct BmpWin *win);
 extern void BG_SYS_MarkTileDirty(u32 layer);
 extern u8 UI_GetInputMode(void);
-extern struct PrintSys *PRINTSYS_QUE_CreateEx(u16 size, u32 heapId);
+extern struct PrintQueue *PRINTSYS_QUE_CreateEx(u16 size, u32 heapId);
 extern struct BlinkPalAnm *BLINK_PALANM_Create(u16 firstColor, u16 colorCount, u32 bgLayer, u16 heapId);
-extern struct BgWinFrm *BGWINFRM_Create(u32 kind, u32 frameCount, u32 heapId);
-extern void BGWINFRM_AddFrame(struct BgWinFrm *mgr, u32 index, u32 bgLayer, u32 width, u32 height);
+struct BgWinFrmWork;
+extern struct BgWinFrmWork *BGWINFRM_Create(u32 kind, u32 frameCount, u32 heapId);
+extern void BGWINFRM_AddFrame(struct BgWinFrmWork *wk, u32 idx, u32 bgFrame, u32 sizeX, u32 sizeY);
 extern void MIi_CpuCopy32(const void *src, void *dst, u32 size);
-extern void BGWINFRM_Delete(struct BgWinFrm *mgr);
+extern void BGWINFRM_Delete(struct BgWinFrmWork *wk);
 extern u32 BLINK_PALANM_Delete(struct BlinkPalAnm *anim);
-extern void PRINTSYS_QUE_Delete(struct PrintSys *printer);
+extern void PRINTSYS_QUE_Delete(struct PrintQueue *queue);
 extern void *ARC_UTIL_LoadPaletteDataFromHandle(void *source, u32 fileIndex, u32 memberIndex, void **outData, u16 heapId);
 extern void MIi_CpuCopy16(const void *src, void *dst, int size);
-extern void BLINK_PALANM_LoadPalettes(struct BlinkPalAnm *anim, u8 *src, u32 firstColor, u32 srcOffset, u32 byteSize);
-extern u32 PRINTSYS_QUE_IsFinished(const struct PrintSys *printer);
+extern void BLINK_PALANM_LoadPalettes(struct BlinkPalAnm *anm, void *archive, u32 fileId, u32 srcStart, u32 dstStart);
+extern u32 PRINTSYS_QUE_IsFinished(struct PrintQueue *queue);
 extern u32 TOUCHPANEL_GetPointCont(u32 *outX, u32 *outY);
 extern s32 BLINK_PALANM_Update(struct BlinkPalAnm *anim);
 extern void BG_SYS_ChangeScroll(u32 layer, u32 axis, u32 offset);
@@ -102,19 +106,19 @@ extern unsigned int KEY_GetCont(void);
 extern int TOUCHPANEL_HitCont(const void *hitRects);
 extern u32 SCROLLBAR_GetValueFromPos(u32 scrollMax, u32 touchY, u32 barX, u32 barY, u32 barPad);
 extern u32 SCROLLBAR_GetPosFromValue(u32 scrollMax, u32 index, u32 barX, u32 barY, u32 barPad);
-extern u8 BGWINFRM_GetBgFrame(struct BgWinFrm *mgr, u32 index);
-extern u8 *G2_GetBGCharPtrById(int id);
-extern void BGWINFRM_SetFrameData(struct BgWinFrm *mgr, u32 index, const void *src);
-extern void BGWINFRM_PutBmpWin(struct BgWinFrm *mgr, u32 index, struct BmpWin *win);
+extern u8 BGWINFRM_GetBgFrame(struct BgWinFrmWork *wk, u32 idx);
+extern s32 G2_GetBGCharPtrById(int id);
+extern void BGWINFRM_SetFrameData(struct BgWinFrmWork *wk, u32 idx, void *src);
+extern void BGWINFRM_PutBmpWin(struct BgWinFrmWork *wk, u32 idx, void *bmpWin);
 extern u8 BMP_WIN_GetDispWidth(struct BmpWin *win);
 extern u8 BMP_WIN_GetDispHeight(struct BmpWin *win);
 extern u8 BMP_WIN_GetPosX(struct BmpWin *win);
 extern u8 BMP_WIN_GetPosY(struct BmpWin *win);
-extern void *BMP_GetPixels(const struct Bitmap *bitmap);
-extern u32 BGWINFRM_GetFrameBuffer(struct BgWinFrm *mgr, u32 index);
-extern void BG_SYS_SetTileEntry(u32 layer, int value, int x, int y, u8 width, u8 height, u8 mode);
+extern void *BMP_GetPixels(struct Bmp *bmp);
+extern u16 *BGWINFRM_GetFrameBuffer(struct BgWinFrmWork *wk, u32 idx);
+extern void BG_SYS_SetTileEntry(u32 layer, u16 value, u8 x0, u8 y0, u8 w, u8 h, u8 mode);
 extern void BLINK_PALANM_ResetPhase(struct BlinkPalAnm *anim);
-extern u32 PRINTSYS_QUE_Main(struct PrintSys *printer);
+extern u32 PRINTSYS_QUE_Main(struct PrintQueue *queue);
 FrameList *FRAME_LIST_Create(const FrameListParams *params, u32 heapId);
 void FRAME_LIST_Delete(FrameList *list);
 void FRAME_LIST_AddItem(FrameList *list, unsigned mapIndex, unsigned value);
@@ -185,7 +189,7 @@ FrameList *FRAME_LIST_Create(const FrameListParams *params, u32 heapId)
     list->heapId = heapId;
     list->touchY = -1;
     list->prevTouchY = -1;
-    list->printer = PRINTSYS_QUE_CreateEx(0x800, heapId);
+    list->printer = (struct PrintSys *)PRINTSYS_QUE_CreateEx(0x800, heapId);
     list->cursorAnim = BLINK_PALANM_Create(list->params.cursorPltt << 4, 0x10, list->params.bgLayer, list->heapId);
     list->items = GFL_HEAP_Alloc(list->heapId, list->params.itemCount * 8, 1, gFrameListSourceFile, 0x104);
     if (list->params.mapCount != 0) {
@@ -197,14 +201,14 @@ FrameList *FRAME_LIST_Create(const FrameListParams *params, u32 heapId)
     list->windowCountHalf = list->windowCount;
     if (list->params.bgLayerB != 0xff)
         list->windowCount = list->windowCount * 2;
-    list->frameMgr = BGWINFRM_Create(2, list->windowCount, list->heapId);
+    list->frameMgr = (struct BgWinFrm *)BGWINFRM_Create(2, list->windowCount, list->heapId);
     list->windows = GFL_HEAP_Alloc(list->heapId, list->windowCount * 8, 0, gFrameListSourceFile, 0x117);
     for (index = 0; index < list->windowCount; index++) {
         if (list->params.bgLayerB != 0xff && list->windowCountHalf <= index) {
-            BGWINFRM_AddFrame(list->frameMgr, index, list->params.bgLayerB, list->params.tileWidth, list->params.rowHeight);
+            BGWINFRM_AddFrame((struct BgWinFrmWork *)list->frameMgr, index, list->params.bgLayerB, list->params.tileWidth, list->params.rowHeight);
             list->windows[index].window = BMP_WIN_Create(list->params.bgLayerB, list->params.winX, list->params.winY, list->params.winW, list->params.winH, list->params.winPltt, 1);
         } else {
-            BGWINFRM_AddFrame(list->frameMgr, index, list->params.bgLayer, list->params.tileWidth, list->params.rowHeight);
+            BGWINFRM_AddFrame((struct BgWinFrmWork *)list->frameMgr, index, list->params.bgLayer, list->params.tileWidth, list->params.rowHeight);
             list->windows[index].window = BMP_WIN_Create(list->params.bgLayer, list->params.winX, list->params.winY, list->params.winW, list->params.winH, list->params.winPltt, 1);
         }
     }
@@ -235,7 +239,7 @@ void FRAME_LIST_Delete(FrameList *list)
     for (index = 0; index < list->windowCount; index++)
         BMP_WIN_Delete(list->windows[index].window);
     GFL_HEAP_Free(list->windows);
-    BGWINFRM_Delete(list->frameMgr);
+    BGWINFRM_Delete((struct BgWinFrmWork *)list->frameMgr);
     if (list->params.mapCount != 0) {
         for (index = 0; index < list->params.mapCount; index++)
             GFL_HEAP_Free(list->maps[index]);
@@ -243,7 +247,7 @@ void FRAME_LIST_Delete(FrameList *list)
     }
     GFL_HEAP_Free(list->items);
     BLINK_PALANM_Delete(list->cursorAnim);
-    PRINTSYS_QUE_Delete(list->printer);
+    PRINTSYS_QUE_Delete((struct PrintQueue *)list->printer);
     GFL_HEAP_Free(list);
 }
 
@@ -285,7 +289,7 @@ int FRAME_LIST_UpdateInit(FrameList *list)
         list->state = list->state + 1;
         break;
     case 1:
-        if (PRINTSYS_QUE_IsFinished(list->printer) == 1) {
+        if (PRINTSYS_QUE_IsFinished((struct PrintQueue *)list->printer) == 1) {
             list->state = 0;
             return 0;
         }
@@ -600,7 +604,7 @@ int FRAME_LIST_HandleInput(FrameList *list)
     int event;
     s16 steps;
 
-    if (PRINTSYS_QUE_IsFinished(list->printer) == 0)
+    if (PRINTSYS_QUE_IsFinished((struct PrintQueue *)list->printer) == 0)
         return -1;
     event = FRAME_LIST_ReadTouch(list);
     if (event == FRAME_LIST_EVENT_NONE)
@@ -766,7 +770,7 @@ int FRAME_LIST_StepScroll(FrameList *list)
     const u8 *hitBase;
     int hitOffset;
 
-    if (PRINTSYS_QUE_IsFinished(list->printer) == 0) return 1;
+    if (PRINTSYS_QUE_IsFinished((struct PrintQueue *)list->printer) == 0) return 1;
     if (list->returnState == 3 && list->flicking == 1) {
         hitRow = TOUCHPANEL_HitCont(list->hitRects);
         if (list->drag == 1) {
@@ -1008,7 +1012,7 @@ int FRAME_LIST_StepScrollBarDrag(FrameList *list)
     u32 targetPos;
     u32 dist;
 
-    if (PRINTSYS_QUE_IsFinished(list->printer) == 0)
+    if (PRINTSYS_QUE_IsFinished((struct PrintQueue *)list->printer) == 0)
         return 1;
     if (TOUCHPANEL_HitCont(&list->scrollBarRect) == -1 && list->scrollBarTouchY == -1) {
         list->scrollBarDrag = 0;
@@ -1051,7 +1055,7 @@ int FRAME_LIST_StepRowDrag(FrameList *list)
 {
     int hitRow;
 
-    if (PRINTSYS_QUE_IsFinished(list->printer) == 0)
+    if (PRINTSYS_QUE_IsFinished((struct PrintQueue *)list->printer) == 0)
         return 1;
     hitRow = TOUCHPANEL_HitCont(list->hitRects);
     switch (list->dragPhase) {
@@ -1233,9 +1237,9 @@ void FRAME_LIST_UploadRowTiles(FrameList *list, u32 item, u32 windowIndex)
 
     window = list->windows[windowIndex].window;
     tileMap = list->maps[list->items[item].mapIndex];
-    vramBase = G2_GetBGCharPtrById(FRAME_LIST_ClampBgFrameId(BGWINFRM_GetBgFrame(list->frameMgr, windowIndex)));
-    BGWINFRM_SetFrameData(list->frameMgr, windowIndex, tileMap);
-    BGWINFRM_PutBmpWin(list->frameMgr, windowIndex, window);
+    vramBase = (u8 *)G2_GetBGCharPtrById(FRAME_LIST_ClampBgFrameId(BGWINFRM_GetBgFrame((struct BgWinFrmWork *)list->frameMgr, windowIndex)));
+    BGWINFRM_SetFrameData((struct BgWinFrmWork *)list->frameMgr, windowIndex, tileMap);
+    BGWINFRM_PutBmpWin((struct BgWinFrmWork *)list->frameMgr, windowIndex, window);
     mapStride = list->params.tileWidth;
     winW = BMP_WIN_GetDispWidth(window);
     winH = BMP_WIN_GetDispHeight(window);
@@ -1257,8 +1261,8 @@ void FRAME_LIST_ScrollBgRows(FrameList *list, int windowIndex, s8 y)
     u32 bgFrame;
     u16 tileRow;
 
-    frameBuffer = BGWINFRM_GetFrameBuffer(list->frameMgr, windowIndex);
-    bgFrame = BGWINFRM_GetBgFrame(list->frameMgr, windowIndex);
+    frameBuffer = (u32)BGWINFRM_GetFrameBuffer((struct BgWinFrmWork *)list->frameMgr, windowIndex);
+    bgFrame = BGWINFRM_GetBgFrame((struct BgWinFrmWork *)list->frameMgr, windowIndex);
     for (tileRow = 0; tileRow < list->params.rowHeight; tileRow++) {
         if (y < 0)
             y += 0x20;
@@ -1364,13 +1368,13 @@ void FRAME_LIST_UpdateWindows(FrameList *list)
 {
     u32 windowIndex;
 
-    PRINTSYS_QUE_Main(list->printer);
+    PRINTSYS_QUE_Main((struct PrintQueue *)list->printer);
     for (windowIndex = 0; windowIndex < list->windowCount; windowIndex++) {
         struct FrameListWindow *entry = &list->windows[windowIndex];
         struct PrintSys *printer = list->printer;
 
         if (entry->busy != 0) {
-            if (PRINTSYS_QUE_IsExistTarget(printer, BMP_WIN_GetBmp(entry->window)) == 0) {
+            if (PRINTSYS_QUE_IsExistTarget((struct PrintQueue *)printer, BMP_WIN_GetBmp(entry->window)) == 0) {
                 BMP_WIN_TransferChars(entry->window);
                 entry->busy = 0;
             }

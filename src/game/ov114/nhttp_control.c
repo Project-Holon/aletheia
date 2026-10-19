@@ -26,7 +26,7 @@ int NHTTPi_compareToken(char *p1_p, char *p2_p);
 void *NHTTPi_alloc(unsigned long size, int align);
 void NHTTPi_SetError(NHTTPBgnEndInfo *bgnEndInfo_p, int error);
 extern int NHTTPi_memfind(signed char *hay, int len1, signed char *needle, int len2);
-extern unsigned long NHTTPi_strlen(char *s);
+extern int NHTTPi_strlen(char *s);
 int addHdrList(NHTTPi_DATALIST **head_pp, NHTTPBgnEndInfo *bgnEndInfo_p, char *label_p, char *value_p);
 char incAscii(u8 c);
 int checkTagPost(NHTTPReq *req_p, char *value_p, unsigned long length);

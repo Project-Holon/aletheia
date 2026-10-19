@@ -58,10 +58,11 @@ extern struct FieldMap *GAMESYSTEM_GetFieldMap(const struct GameSystem *gameSyst
 extern struct EncEff *FIELDMAP_GetEncEff(struct FieldMap *fieldMap);
 extern struct Fld3dCi *FIELDMAP_GetFld3dCi(struct FieldMap *fieldMap);
 extern void *ENCEFF_AllocWork(struct EncEff *eff, u32 size, u32 heapId);
-extern EncEffNameCutInWork *ENCEFF_GetWork(struct EncEff *eff);
-extern struct GameEvent *GAME_EVENT_Create(void *owner, void *arg, GameEventMainFunc main, u32 workSize);
+struct EncEffWork;
+extern void *ENCEFF_GetWork(struct EncEffWork *eff);
+extern struct GameEvent *GAME_EVENT_Create(struct GameSystem *gameSystem, struct GameEvent *parent, GameEventMainFunc main, u32 workSize);
 extern void GAME_EVENT_CallEvent(struct GameEvent *parent, struct GameEvent *child);
-extern struct GameEvent *FLD3D_CI_StartNameSequence(struct GameSystem *gameSystem, struct Fld3dCi *ci, int tableIndex, int fadeVariant);
+extern void *FLD3D_CI_StartNameSequence(void *gameSystem, struct Fld3dCi *ci, s32 tableIndex, s32 fadeVariant);
 extern void FADE_Start(u32 flags, s32 start, s32 end, s32 step);
 extern int FADE_IsActive(void);
 struct GameEvent *ENCEFF_BuildNameCutInKind10(struct GameSystem *gameSystem, struct FieldMap *fieldMap, int fadeVariant);
@@ -330,7 +331,7 @@ int ENCEFF_NameCutInEventMain(struct GameEvent *event, int *state)
 
     gameSystem = GAME_EVENT_GetGameSystem(event);
     fieldMap = GAMESYSTEM_GetFieldMap(gameSystem);
-    work = ENCEFF_GetWork(FIELDMAP_GetEncEff(fieldMap));
+    work = ENCEFF_GetWork((struct EncEffWork *)(FIELDMAP_GetEncEff(fieldMap)));
     switch (*state) {
     case 0:
         FADE_Start(4, 0, 0x10, 0);

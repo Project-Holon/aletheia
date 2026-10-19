@@ -32,6 +32,7 @@
  *   GAME_DATA_GetEventWork 0x0201296C thumb
  *   ZONEDATA_CheckEventFlag 0x020142E8 thumb
  *   sPalaceZoneFlags    0x021DD944 data
+ *   _u32_div_f                   0x0209C2B0  arm
  */
 struct GameSystem;
 struct GameData;
@@ -71,7 +72,7 @@ typedef struct PalaceZoneFlag {
 extern const char d_021DE6D4[];  /* "field_palace_sys.c" */
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32 GFL_HEAP_Free(void *p);
-extern void *ARC_TOOL_CreateHandle(unsigned int id, unsigned int heap);
+extern void *ARC_TOOL_CreateHandle(u32 archiveID, u16 heapID);
 extern struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
 extern void ARC_TOOL_DeleteHandle(void *h);
 extern struct GameComm *GAMESYSTEM_GetGameComm(const struct GameSystem *gameSystem);
@@ -87,7 +88,7 @@ void FIELD_PALACE_SYS_Delete(FieldPalaceSys *sys);
 u8 *FIELD_PALACE_SYS_GetPalTable(FieldPalaceSys *sys);
 void FIELD_PALACE_SYS_SetupPalTable(FieldPalaceSys *sys, u16 zoneId, u16 heapId);
 void FIELD_PALACE_SYS_LoadPalTable(FieldPalaceSys *sys, u32 fileId, int zoneId, int season, u16 heapId);
-extern struct EventWork *GAME_DATA_GetEventWork(const struct GameData *gameData);
+extern void *GAME_DATA_GetEventWork(const struct GameData *gameData);
 extern u32 ZONEDATA_CheckEventFlag(struct EventWork *eventWork, s32 flagId);
 extern PalaceZoneFlag sPalaceZoneFlags[];
 

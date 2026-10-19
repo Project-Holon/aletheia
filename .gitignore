@@ -85,3 +85,4 @@ __pycache__/
 
 # White ROM extraction (lane WHITE)
 /extract_white/
+/extract_white_retail/

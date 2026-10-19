@@ -294,7 +294,6 @@ struct Struct36;
 struct Sub0204A9D0;
 struct Sub0200852CObj;
 struct Object;
-struct Coordinates;
 struct Vec2;
 struct PtS;
 struct Grid;
@@ -403,7 +402,6 @@ struct Object { int capacity; int entries[4]; int unused; void *vector; void *ac
 
 struct PosParams {s16 x,y,a,b,z;u8 mode,flag;};
 
-struct Coordinates { u8 pad[0x298]; u8 rect[32][4]; };
 
 typedef struct {s16 a,b,x,y;} Coords;
 
@@ -460,6 +458,7 @@ typedef union CodeinProfileConfig {u64 wide;Point pair;} CodeinProfileConfig;
 
 typedef struct Table {int head[4];SOCLResource pair;} Table;
 
+extern void BR_BTN_Delete(u8 *p);
 extern unsigned BR_PROC_SYS_GetSlotId(struct BrProcQuery *p);
 extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
 extern void * MI_CpuFill8(void *,int,unsigned);
@@ -657,84 +656,84 @@ extern void GDS_RAP_StartVideoSave(int,int,int);
 extern int GDS_RAP_StepVideoSave(char *p, int id);
 extern void BR_CODEIN_SOCL_InitDefault(SOCLResource *resource);
 extern void BR_CODEIN_GetMenuCallbacks(Point *);
-extern int BR_CODEIN_HitTestOptionLeft(char *,int,int),BR_CODEIN_HitTestOptionRight(char *,int,int);
+extern int BR_CODEIN_HitTestOptionLeft(struct CodeinSoclWork *,int,int),BR_CODEIN_HitTestOptionRight(struct CodeinSoclWork *,int,int);
 extern int GDS_RAP_SaveVideoSeq(void *a, int x, int mode, u16 *state, u16 *b, u16 c);
-int BR_CODEIN_SidebarCreate(int *task, int unused, char *p);
-int BR_CODEIN_SidebarDestroy(struct Proc *task,int b,int c,struct CodeinWorkB *p);
-int BR_CODEIN_SidebarMain(int a,int b,int c,struct CodeinWorkB *p);
-void BR_CODEIN_SidebarStepIntro(int *task,int *state,struct CodeinWorkE *p);
-void BR_CODEIN_SidebarStepSlideIn(int *task, int *state, struct CodeinWorkA *p);
-void BR_CODEIN_SidebarStepSlideOut(int *task, int *state, struct CodeinWorkA *p);
+int BR_CODEIN_SidebarCreate(int *task, int unused, char *work);
+int BR_CODEIN_SidebarDestroy(struct Proc *task,int seq,int arg,struct CodeinSidebarWork *work);
+int BR_CODEIN_SidebarMain(int proc,int seq,int arg,struct CodeinSidebarWork *work);
+void BR_CODEIN_SidebarStepIntro(int *task,int *state,struct CodeinSidebarWork *work);
+void BR_CODEIN_SidebarStepSlideIn(int *task, int *state, struct CodeinSidebarWork *work);
+void BR_CODEIN_SidebarStepSlideOut(int *task, int *state, struct CodeinSidebarWork *work);
 void BR_CODEIN_SidebarClearStep(int *task);
-int BR_CODEIN_ButtonCreate(int *task,int b,char *p);
-int BR_CODEIN_ButtonDestroy(struct Proc *task,int b,struct CodeinArgB *q,struct CodeinWorkA *p);
-int BR_CODEIN_ButtonMain(int *task,int *state,struct CodeinWorkB *p,struct CodeinArgA *q);
+int BR_CODEIN_ButtonCreate(int *task,int seq,struct CodeinButtonArg *work);
+int BR_CODEIN_ButtonDestroy(struct Proc *task,int seq,struct CodeinArgB *arg,struct CodeinButtonWork *work);
+int BR_CODEIN_ButtonMain(int *task,int *state,struct CodeinButtonArg *work,struct CodeinArgA *arg);
 void BR_CODEIN_ButtonLoadFadePalettes(int unused, struct CodeinWorkF *p);
-int BR_CODEIN_RecordCreate(int *task,int *state,char *q);
-int BR_CODEIN_RecordDestroy(int task,int b,char *q,char *p);
-int BR_CODEIN_RecordMain(int a,int b,int c,struct CodeinWorkB *p);
-void BR_CODEIN_RecordStepCreateProfile(int a, int b, char *p);
-void BR_CODEIN_RecordStepFadeIn(int *task, int *state, struct CodeinWorkA *p);
-void BR_CODEIN_RecordStepFadeOut(int *task, int *state, struct CodeinWorkA *p);
-void BR_CODEIN_RecordStepDeleteProfile(int *task,int b,char *p);
-void BR_CODEIN_RecordStepMenu(int *task,int *state,char *p);
-void BR_CODEIN_RecordStepProfileText(int *task,int *state,char *p);
-void BR_CODEIN_RecordStepRequest(int *a,int *state,char *p);
-void BR_CODEIN_RecordStepReceive(int *a,int *state,char *p);
-void BR_CODEIN_RecordStepSave(int *a,int *state,char *p);
-void BR_CODEIN_RecordStepConfirm(int *a,int *state,char *p);
-void BR_CODEIN_RecordSetupProfile(char *p,char *q);
-void BR_CODEIN_RecordSetupActors(char *p,void *manager,void *party,u16 heap);
-void BR_CODEIN_RecordCreateProfileScreen(char *p, char *q);
-void BR_CODEIN_RecordDeleteProfileScreen(char *p,char *unused);
-void BR_CODEIN_RecordDeleteActors(char *p,char *q);
-void BR_CODEIN_RecordSetupButtons(char *p,char *q);
-void BR_CODEIN_RecordDeleteButtons(char *p, char *q);
-void BR_CODEIN_RecordCreateTextWin(char *p, char *unused);
-void BR_CODEIN_RecordDeleteTextWin(char *p, char *unused);
-void BR_CODEIN_RecordSetupTextWin(char *p, char *q);
-void BR_CODEIN_RecordTeardownTextWin(char *p, char *q);
+int BR_CODEIN_RecordCreate(int *task,int *state,char *arg);
+int BR_CODEIN_RecordDestroy(int task,int seq,char *arg,struct CodeinRecordWork *work);
+int BR_CODEIN_RecordMain(int proc,int seq,int arg,struct CodeinRecordWork *work);
+void BR_CODEIN_RecordStepCreateProfile(int task, int b, struct CodeinRecordWork *work);
+void BR_CODEIN_RecordStepFadeIn(int *task, int *state, struct CodeinRecordWork *work);
+void BR_CODEIN_RecordStepFadeOut(int *task, int *state, struct CodeinRecordWork *work);
+void BR_CODEIN_RecordStepDeleteProfile(int *task,int b,struct CodeinRecordWork *work);
+void BR_CODEIN_RecordStepMenu(int *task,int *state,struct CodeinRecordWork *work);
+void BR_CODEIN_RecordStepProfileText(int *task,int *state,struct CodeinRecordWork *work);
+void BR_CODEIN_RecordStepRequest(int *task,int *state,struct CodeinRecordWork *work);
+void BR_CODEIN_RecordStepReceive(int *task,int *state,struct CodeinRecordWork *work);
+void BR_CODEIN_RecordStepSave(int *task,int *state,struct CodeinRecordWork *work);
+void BR_CODEIN_RecordStepConfirm(int *task,int *state,struct CodeinRecordWork *work);
+void BR_CODEIN_RecordSetupProfile(struct CodeinRecordWork *work,char *arg);
+void BR_CODEIN_RecordSetupActors(struct CodeinRecordWork *work,void *manager,void *party,u16 heap);
+void BR_CODEIN_RecordCreateProfileScreen(struct CodeinRecordWork *work, char *arg);
+void BR_CODEIN_RecordDeleteProfileScreen(struct CodeinRecordWork *work,char *unused);
+void BR_CODEIN_RecordDeleteActors(struct CodeinRecordWork *work,char *arg);
+void BR_CODEIN_RecordSetupButtons(struct CodeinRecordWork *work,char *arg);
+void BR_CODEIN_RecordDeleteButtons(struct CodeinRecordWork *work, char *arg);
+void BR_CODEIN_RecordCreateTextWin(struct CodeinRecordWork *work, char *unused);
+void BR_CODEIN_RecordDeleteTextWin(struct CodeinRecordWork *work, char *unused);
+void BR_CODEIN_RecordSetupTextWin(struct CodeinRecordWork *work, char *arg);
+void BR_CODEIN_RecordTeardownTextWin(struct CodeinRecordWork *work, char *arg);
 int BR_CODEIN_RecordIsMultiBattle(void *p);
 int BR_CODEIN_RecordIsType2(void *p);
-int BR_CODEIN_RecordHitProfileToggle(char *p, int a, int b);
-int BR_CODEIN_RecordHitRecordPanel(char *p, int a, int b);
-int BR_CODEIN_RecordHitOptionLeft(char *p, int a, int b);
-int BR_CODEIN_RecordHitOptionRight(char *p, int a, int b);
-int BR_CODEIN_ListCreate(void *a, int unused, char *q);
-int BR_CODEIN_ListDestroy(struct Proc *a, int unused, char *q, char *p);
-int BR_CODEIN_ListMain(void *unused,u32 *state,char *q,char *p);
-void BR_CODEIN_ListSetupText(struct CodeinWorkA *p, char *q);
-void BR_CODEIN_ListSetupRowA(char *p,char *q);
-void BR_CODEIN_ListSetupRowB(char *p,char *q);
-void BR_CODEIN_ListSetupRowC(char *p, char *q);
-void BR_CODEIN_ListSetupRowD(char *p,char *q);
-void BR_CODEIN_ListTeardown(char *p, char *q);
-void BR_CODEIN_ListSetupButtons(struct CodeinWorkA *p,char *q);
-void BR_CODEIN_ListDeleteButtons(char *p, char *q);
-int BR_CODEIN_ListHitButton(char *p, int x, int y);
+int BR_CODEIN_RecordHitProfileToggle(struct CodeinRecordWork *work, int x, int y);
+int BR_CODEIN_RecordHitRecordPanel(struct CodeinRecordWork *work, int x, int y);
+int BR_CODEIN_RecordHitOptionLeft(struct CodeinRecordWork *work, int x, int y);
+int BR_CODEIN_RecordHitOptionRight(struct CodeinRecordWork *work, int x, int y);
+int BR_CODEIN_ListCreate(void *proc, int unused, char *arg);
+int BR_CODEIN_ListDestroy(struct Proc *proc, int unused, char *arg, struct CodeinListWork *work);
+int BR_CODEIN_ListMain(void *unused,u32 *state,char *arg,struct CodeinListWork *work);
+void BR_CODEIN_ListSetupText(struct CodeinListWork *work, char *arg);
+void BR_CODEIN_ListSetupRowA(struct CodeinListWork *work,char *arg);
+void BR_CODEIN_ListSetupRowB(struct CodeinListWork *work,char *arg);
+void BR_CODEIN_ListSetupRowC(struct CodeinListWork *work, char *arg);
+void BR_CODEIN_ListSetupRowD(struct CodeinListWork *work,char *arg);
+void BR_CODEIN_ListTeardown(struct CodeinListWork *work, char *arg);
+void BR_CODEIN_ListSetupButtons(struct CodeinListWork *work,char *arg);
+void BR_CODEIN_ListDeleteButtons(struct CodeinListWork *work, char *arg);
+int BR_CODEIN_ListHitButton(struct CodeinListWork *work, int x, int y);
 int BR_CODEIN_ListIsEventA(void *p,char *q);
 int BR_CODEIN_ListIsEventB(void *p, void *q);
 int BR_CODEIN_ListIsEventC(void *p, void *q);
-void BR_CODEIN_ListCreateActor(char *p, void *manager, const char *q, unsigned int value, s16 x, s16 y, u16 heap);
-void BR_CODEIN_ListDeleteActor(char *p);
-void BR_CODEIN_ListSetActorAnim(char *p, u32 value);
+void BR_CODEIN_ListCreateActor(struct CodeinPointActors *work, void *manager, const char *arg, unsigned int value, s16 x, s16 y, u16 heap);
+void BR_CODEIN_ListDeleteActor(struct CodeinPointActors *work);
+void BR_CODEIN_ListSetActorAnim(struct CodeinPointActors *work, u32 value);
 int BR_CODEIN_ResultCreate(void *a, int b, char *q);
-int BR_CODEIN_ResultDestroy(void *a, int b, char *q, struct CodeinWorkA *p);
-int BR_CODEIN_ResultMain(void *unused,u32 *state,char *q,struct CodeinWorkA *p);
-void BR_CODEIN_ResultSetupTextWin(char *p, char *q);
-void BR_CODEIN_ResultSetupRowA(struct CodeinWorkA *p,char *q);
-void BR_CODEIN_ResultSetupRowB(struct CodeinWorkA *p,char *q);
-void BR_CODEIN_ResultSetupRowC(struct CodeinWorkA *p,char *q);
-void BR_CODEIN_ResultTeardown(struct CodeinWorkA *p, char *q);
-void BR_CODEIN_ResultSetupButtons(char *p,char *q);
-void BR_CODEIN_ResultDeleteButtons(struct CodeinWorkA *p, char *q);
-int BR_CODEIN_ResultHitButton(struct CodeinWorkA *p, int x, int y);
+int BR_CODEIN_ResultDestroy(void *a, int b, char *q, struct CodeinResultWork *p);
+int BR_CODEIN_ResultMain(void *unused,u32 *state,char *q,struct CodeinResultWork *p);
+void BR_CODEIN_ResultSetupTextWin(struct CodeinResultWork *p, char *q);
+void BR_CODEIN_ResultSetupRowA(struct CodeinResultWork *p,char *q);
+void BR_CODEIN_ResultSetupRowB(struct CodeinResultWork *p,char *q);
+void BR_CODEIN_ResultSetupRowC(struct CodeinResultWork *p,char *q);
+void BR_CODEIN_ResultTeardown(struct CodeinResultWork *p, char *q);
+void BR_CODEIN_ResultSetupButtons(struct CodeinResultWork *p,char *q);
+void BR_CODEIN_ResultDeleteButtons(struct CodeinResultWork *p, char *q);
+int BR_CODEIN_ResultHitButton(struct CodeinResultWork *p, int x, int y);
 int BR_CODEIN_StatCreate(void *a, int b, char *q);
-int BR_CODEIN_StatDestroy(void *a, int b, struct CodeinArgA *q, struct CodeinWorkD *p);
-int BR_CODEIN_StatMain(int a, int b, int c, struct CodeinWorkD *p);
-void BR_CODEIN_StatSetup(int *task,int *state,struct CodeinWorkD *p);
-void BR_CODEIN_StatTeardown(void *a, int b, struct CodeinWorkD *p);
-void BR_CODEIN_StatStepFadeIn(int *a, int *state, struct CodeinWorkD *p);
+int BR_CODEIN_StatDestroy(void *a, int b, struct CodeinArgA *q, struct CodeinStatWork *p);
+int BR_CODEIN_StatMain(int a, int b, int c, struct CodeinStatWork *p);
+void BR_CODEIN_StatSetup(int *task,int *state,struct CodeinStatWork *p);
+void BR_CODEIN_StatTeardown(void *a, int b, struct CodeinStatWork *p);
+void BR_CODEIN_StatStepFadeIn(int *a, int *state, struct CodeinStatWork *p);
 void BR_CODEIN_StatStepFadeOut(int *p, int *state, struct CodeinArgA *q);
 void BR_CODEIN_StatStepMenu(int *task, int *state, char *p);
 void BR_CODEIN_SearchStep(int *task,u32 *state,char *p);
@@ -749,99 +748,99 @@ void BR_CODEIN_SearchDeleteActor(char *p);
 void BR_CODEIN_SearchUpdateActor(struct CodeinSearchState *p,int first,short step,u16 heap);
 void BR_CODEIN_SearchBuildHeader(int p, char *out);
 int BR_CODEIN_SearchHitBox(int x, int y);
-int BR_CODEIN_CodeCreate(void *obj, int unused, struct CodeinArgB *q);
-int BR_CODEIN_CodeDestroy(void *p, int unused, struct CodeinArgA *q, char *data);
-int BR_CODEIN_CodeMain(void *unused,u32 *state,int *q,char *p);
-int BR_CODEIN_CodeSetupButtons(struct CodeinWorkA *p,struct CodeinArgA *q);
-int BR_CODEIN_CodeDeleteButtons(char *p, struct CodeinArgA *q);
-int BR_CODEIN_CodeStepInput(struct CodeinWorkB *p,struct CodeinArgB *q);
-int BR_CODEIN_CodeSetupMenu(struct CodeinWorkB *p,struct CodeinArgA *q);
-int BR_CODEIN_CodeDeleteMenu(struct CodeinWorkB *p, struct CodeinArgA *q);
-int BR_CODEIN_CodeStepMenu(struct CodeinWorkB *p, struct CodeinArgB *q);
-void BR_CODEIN_CodeOpenPokeSearch(struct CodeinWorkA *p, struct CodeinArgA *q);
-int BR_CODEIN_CodeClosePokeSearch(struct CodeinWorkA *p);
-int BR_CODEIN_CodeStepPokeSearch(struct CodeinWorkB *p, struct CodeinArgB *q);
-int BR_CODEIN_CodeSetupPokeList(struct CodeinWorkB *p,struct CodeinArgA *q);
-int BR_CODEIN_CodeDeletePokeList(struct CodeinWorkB *p, struct CodeinArgA *q);
-int BR_CODEIN_CodeStepPokeList(struct CodeinWorkB *p, struct CodeinArgB *q);
-void BR_CODEIN_CodeSetupText(struct CodeinWorkA *p, int *q);
-void BR_CODEIN_CodeDeleteText(char *p,struct CodeinArgA *q);
-void BR_CODEIN_CodeSetMenuText(struct CodeinWorkB *p,struct CodeinArgB *q,int mode);
+int BR_CODEIN_CodeCreate(void *obj, int unused, struct CodeinArgB *arg);
+int BR_CODEIN_CodeDestroy(void *work, int unused, struct CodeinArgA *arg, struct CodeinCodeWork *data);
+int BR_CODEIN_CodeMain(void *unused,u32 *state,int *arg,struct CodeinCodeWork *work);
+int BR_CODEIN_CodeSetupButtons(struct CodeinCodeWork *work,struct CodeinArgA *arg);
+int BR_CODEIN_CodeDeleteButtons(struct CodeinCodeWork *work, struct CodeinArgA *arg);
+int BR_CODEIN_CodeStepInput(struct CodeinCodeWork *work,struct CodeinArgB *arg);
+int BR_CODEIN_CodeSetupMenu(struct CodeinCodeWork *work,struct CodeinArgA *arg);
+int BR_CODEIN_CodeDeleteMenu(struct CodeinCodeWork *work, struct CodeinArgA *arg);
+int BR_CODEIN_CodeStepMenu(struct CodeinCodeWork *work, struct CodeinArgB *arg);
+void BR_CODEIN_CodeOpenPokeSearch(struct CodeinCodeWork *work, struct CodeinArgA *arg);
+int BR_CODEIN_CodeClosePokeSearch(struct CodeinCodeWork *work);
+int BR_CODEIN_CodeStepPokeSearch(struct CodeinCodeWork *work, struct CodeinArgB *arg);
+int BR_CODEIN_CodeSetupPokeList(struct CodeinCodeWork *work,struct CodeinArgA *arg);
+int BR_CODEIN_CodeDeletePokeList(struct CodeinCodeWork *work, struct CodeinArgA *arg);
+int BR_CODEIN_CodeStepPokeList(struct CodeinCodeWork *work, struct CodeinArgB *arg);
+void BR_CODEIN_CodeSetupText(struct CodeinCodeWork *work, int *arg);
+void BR_CODEIN_CodeDeleteText(struct CodeinCodeWork *work,struct CodeinArgA *arg);
+void BR_CODEIN_CodeSetMenuText(struct CodeinCodeWork *work,struct CodeinArgB *arg,int mode);
 int BR_CODEIN_CodeHitTestOptions(void);
 int BR_CODEIN_ProfileScreenCreate(void *task, int unused, struct CodeinArgA *q);
 int BR_CODEIN_ProfileScreenDestroy(void *a, int unused, int *q, void **p);
 int BR_CODEIN_ProfileScreenMain(int unused, int *state, int *q, int *p);
-char *BR_CODEIN_ProfileCreate(const CfgTpl *src, u16 heap);
-void BR_CODEIN_ProfileUpdate(char *p);
-int BR_CODEIN_ProfileGetState(char *p);
-u64 BR_CODEIN_ProfileGetValue(char *p);
-void BR_CODEIN_ProfileDestroy(struct CodeinWorkA *p);
+struct CodeinProfileWork *BR_CODEIN_ProfileCreate(const CfgTpl *src, u16 heap);
+void BR_CODEIN_ProfileUpdate(struct CodeinProfileWork *work);
+int BR_CODEIN_ProfileGetState(struct CodeinProfileWork *work);
+u64 BR_CODEIN_ProfileGetValue(struct CodeinProfileWork *work);
+void BR_CODEIN_ProfileDestroy(struct CodeinProfileWork *work);
 struct Object *BR_CODEIN_ProfileCreateObject(int heap, int n, void *actorSys, void *res, void *handles, int *entries);
 void BR_CODEIN_ProfileDestroyObject(struct Object *p);
 void BR_CODEIN_ProfileNoop(void);
-void BR_CODEIN_ProfileSetupSprite(char *p);
-void BR_CODEIN_ProfileDeleteActor(struct CodeinWorkA *p);
-void BR_CODEIN_ProfileCreateRecordActors(char *p);
-void BR_CODEIN_ProfileCreateMarkerActors(char *p);
-void BR_CODEIN_ProfileCreateArrowActors(char *p);
-void BR_CODEIN_ProfileSetActorVisible(char *p, int index, int visible);
-void BR_CODEIN_ProfileSetActorPos(char *p,int i);
-void BR_CODEIN_ProfileAddActorSurfacePos(struct Coordinates *p, int index);
-void BR_CODEIN_ProfileUpdateActorAnims(char *p);
-int BR_CODEIN_ProfileGetActorIndex(int a, int b);
-void BR_CODEIN_ProfileUpdateActorVisible(char *p);
-void BR_CODEIN_ProfileSetActorAnimFrame(char *p,int animated);
-void BR_CODEIN_ProfileUpdateActorPos(char *p);
-void BR_CODEIN_ProfileCreateOam(char *p);
-void BR_CODEIN_ProfileDeleteOam(struct CodeinWorkA *p);
-void BR_CODEIN_ProfileDeleteBgHandle(char *p);
-void BR_CODEIN_ProfileCreateOamObjects(char *p);
+void BR_CODEIN_ProfileSetupSprite(struct CodeinProfileWork *work);
+void BR_CODEIN_ProfileDeleteActor(struct CodeinProfileWork *work);
+void BR_CODEIN_ProfileCreateRecordActors(struct CodeinProfileWork *work);
+void BR_CODEIN_ProfileCreateMarkerActors(struct CodeinProfileWork *work);
+void BR_CODEIN_ProfileCreateArrowActors(struct CodeinProfileWork *work);
+void BR_CODEIN_ProfileSetActorVisible(struct CodeinProfileWork *work, int index, int visible);
+void BR_CODEIN_ProfileSetActorPos(struct CodeinProfileWork *work,int i);
+void BR_CODEIN_ProfileAddActorSurfacePos(struct CodeinProfileWork *coords, int index);
+void BR_CODEIN_ProfileUpdateActorAnims(struct CodeinProfileWork *work);
+int BR_CODEIN_ProfileGetActorIndex(int tag, int mode);
+void BR_CODEIN_ProfileUpdateActorVisible(struct CodeinProfileWork *work);
+void BR_CODEIN_ProfileSetActorAnimFrame(struct CodeinProfileWork *work,int animated);
+void BR_CODEIN_ProfileUpdateActorPos(struct CodeinProfileWork *work);
+void BR_CODEIN_ProfileCreateOam(struct CodeinProfileWork *work);
+void BR_CODEIN_ProfileDeleteOam(struct CodeinProfileWork *work);
+void BR_CODEIN_ProfileDeleteBgHandle(struct CodeinProfileWork *work);
+void BR_CODEIN_ProfileCreateOamObjects(struct CodeinProfileWork *work);
 void BR_CODEIN_ProfilePrintOamObject(const Object *object,Index index,int x,int y,int unused);
-void BR_CODEIN_ProfileSetActorAnim(char *p,int state);
+void BR_CODEIN_ProfileSetActorAnim(struct CodeinProfileWork *work,int state);
 void BR_CODEIN_ProfileInitRecordLayout(CodeinProfileState *p);
-void BR_CODEIN_ProfileSetAnimSeq(char *p, int v);
-int BR_CODEIN_ProfileCreateAllActors(char *p);
+void BR_CODEIN_ProfileSetAnimSeq(struct CodeinProfileWork *work, int v);
+int BR_CODEIN_ProfileCreateAllActors(struct CodeinProfileWork *work);
 int BR_CODEIN_ProfileReturnTrue(void);
-s32 BR_CODEIN_ProfileUpdatePendingAndButtons(char *p);
-int BR_CODEIN_ProfileUpdateScrollAnim(char *p);
-int BR_CODEIN_ProfileUpdateActorAnim(char *p);
-void BR_CODEIN_ProfileBuildAnimName(char *p);
+s32 BR_CODEIN_ProfileUpdatePendingAndButtons(struct CodeinProfileWork *work);
+int BR_CODEIN_ProfileUpdateScrollAnim(struct CodeinProfileWork *work);
+int BR_CODEIN_ProfileUpdateActorAnim(struct CodeinProfileWork *work);
+void BR_CODEIN_ProfileBuildAnimName(struct CodeinProfileWork *work);
 void BR_CODEIN_ProfileApplyRecords(const CodeinProfileRecord *records);
-void BR_CODEIN_ProfileCreateButtons(char *p);
-void BR_CODEIN_ProfileHandleInput(u32 idx, int arg, char *p);
-void BR_CODEIN_ProfileApplyPendingStep(char *p);
-void BR_CODEIN_ProfileClear(char *p);
-int BR_CODEIN_ProfileFindActorIndex(char *p,int a);
-int BR_CODEIN_ProfileFindRecord(const char *p, int a);
+void BR_CODEIN_ProfileCreateButtons(struct CodeinProfileWork *work);
+void BR_CODEIN_ProfileHandleInput(u32 idx, int arg, struct CodeinProfileWork *work);
+void BR_CODEIN_ProfileApplyPendingStep(struct CodeinProfileWork *work);
+void BR_CODEIN_ProfileClear(struct CodeinProfileWork *work);
+int BR_CODEIN_ProfileFindActorIndex(struct CodeinProfileWork *work,int value);
+int BR_CODEIN_ProfileFindRecord(const struct CodeinProfileWork *work, int value);
 int BR_CODEIN_UploadCreate(struct Proc *obj,int unused,char *arg);
-int BR_CODEIN_UploadDestroy(struct Proc *a,int b,struct CodeinArgA *q,struct CodeinWorkA *p);
-int BR_CODEIN_UploadMain(int a,int b,int c,struct CodeinWorkB *p);
-void BR_CODEIN_UploadStepFadeIn(int a,int *state,struct CodeinWorkB *p);
-void BR_CODEIN_UploadStepFadeOut(int *a,int *state,struct CodeinWorkB *p);
-void BR_CODEIN_UploadStep(int *task,int *state,struct CodeinWorkB *p);
+int BR_CODEIN_UploadDestroy(struct Proc *proc,int seq,struct CodeinArgA *arg,struct CodeinUploadWork *work);
+int BR_CODEIN_UploadMain(int proc,int seq,int arg,struct CodeinUploadWork *work);
+void BR_CODEIN_UploadStepFadeIn(int task,int *state,struct CodeinUploadWork *work);
+void BR_CODEIN_UploadStepFadeOut(int *task,int *state,struct CodeinUploadWork *work);
+void BR_CODEIN_UploadStep(int *task,int *state,struct CodeinUploadWork *work);
 int BR_CODEIN_SaveCreate(struct Proc *obj,int unused,char *arg);
 int BR_CODEIN_SaveDestroy(int obj,int b,char *arg,char *p);
-int BR_CODEIN_SaveMain(int a,int b,int c,struct CodeinWorkC *p);
-void BR_CODEIN_SaveStepFadeIn(int *task,int *state,struct CodeinWorkC *p);
-void BR_CODEIN_SaveStepFadeOut(int *task,int *state,struct CodeinWorkC *p);
+int BR_CODEIN_SaveMain(int a,int b,int c,struct CodeinSaveWork *p);
+void BR_CODEIN_SaveStepFadeIn(int *task,int *state,struct CodeinSaveWork *p);
+void BR_CODEIN_SaveStepFadeOut(int *task,int *state,struct CodeinSaveWork *p);
 void BR_CODEIN_SaveStepVideo(int task,int *state,char *p);
 void BR_CODEIN_SaveSetupText(char *p,const Input *q);
 void BR_CODEIN_SaveDeleteTextWin(char *p, char *res);
 void BR_CODEIN_SaveTeardown(char *p,char *q);
 int BR_CODEIN_SaveHitOptionLeft(char *p, int a, int b);
 int BR_CODEIN_SaveHitOptionRight(char *p, int a, int b);
-int BR_CODEIN_SoclCreate(void *obj,int b,char *q);
-int BR_CODEIN_SoclDestroy(int obj,int b,int c,char *p);
-int BR_CODEIN_SoclMain(int a,int b,int c,struct CodeinWorkD *p);
-void BR_CODEIN_SoclStep(int *task,CodeinSoclState *state,char *p);
-void BR_CODEIN_MenuStep(int *task,int *state,char *p);
-void BR_CODEIN_MenuStepInput(int *task,unsigned *state,char *p);
-void BR_CODEIN_MenuStepSave(int *task,unsigned *state,char *p);
+int BR_CODEIN_SoclCreate(void *obj,int seq,char *arg);
+int BR_CODEIN_SoclDestroy(int obj,int seq,int arg,struct CodeinSoclWork *work);
+int BR_CODEIN_SoclMain(int proc,int seq,int arg,struct CodeinSoclWork *work);
+void BR_CODEIN_SoclStep(int *task,CodeinSoclState *state,struct CodeinSoclWork *work);
+void BR_CODEIN_MenuStep(int *task,int *state,struct CodeinSoclWork *work);
+void BR_CODEIN_MenuStepInput(int *task,unsigned *state,struct CodeinSoclWork *work);
+void BR_CODEIN_MenuStepSave(int *task,unsigned *state,struct CodeinSoclWork *work);
 void BR_CODEIN_CallAndClearStepFn(char *p, int work, int ctx);
 void BR_CODEIN_CallAndClearDestroyFn(char *p,int a,int b);
 void BR_CODEIN_CopySoclResource(SOCLResource *p);
-void BR_CODEIN_SoclSetupText(char *p, const char *q);
-void BR_CODEIN_SoclTeardown(struct CodeinWorkD *p,struct CodeinArgA *q);
+void BR_CODEIN_SoclSetupText(struct CodeinSoclWork *work, const char *arg);
+void BR_CODEIN_SoclTeardown(struct CodeinSoclWork *work,struct CodeinArgA *arg);
 extern int d_021E3280[];
 extern char d_021E3960[];
 extern const CodeinMenuItem d_021E32C8[];
@@ -901,7 +900,7 @@ extern const unsigned char d_021E3928[];
 
 int BR_CODEIN_SidebarCreate(int *task, int unused, char *work)
 {
-    struct CodeinStateA *s;
+    struct CodeinSidebarWork *s;
     void *callback;
     s=PROCSYS_AllocProcWork((struct Proc *)task,0x20,BR_PROC_SYS_GetSlotId(((struct CodeinSidebarArg *)work)->procQuery));
     MI_CpuFill8(s,0,0x20);
@@ -933,7 +932,7 @@ int BR_CODEIN_SidebarCreate(int *task, int unused, char *work)
 
 
 
-int BR_CODEIN_SidebarDestroy(struct Proc *task,int seq,int arg,struct CodeinWorkB *work) { BR_UTIL_DeleteHandles(*(char * *)&work->menuWork); BR_UTIL_DeleteHandles(*(char * *)&work->textWin); PRINTSYS_QUE_Delete((*(void * *)&work->button)); BR_UTIL_DeleteTask((void *)(work->task)); PROCSYS_FreeProcWork(task); return 1; }
+int BR_CODEIN_SidebarDestroy(struct Proc *task,int seq,int arg,struct CodeinSidebarWork *work) { BR_UTIL_DeleteHandles(*(char * *)&work->handlesMain); BR_UTIL_DeleteHandles(*(char * *)&work->handlesSub); PRINTSYS_QUE_Delete((*(void * *)&work->printQue)); BR_UTIL_DeleteTask((void *)(work->task)); PROCSYS_FreeProcWork(task); return 1; }
 
 
 
@@ -949,7 +948,7 @@ int BR_CODEIN_SidebarDestroy(struct Proc *task,int seq,int arg,struct CodeinWork
 
 
 
-int BR_CODEIN_SidebarMain(int proc,int seq,int arg,struct CodeinWorkB *work) { BR_UTIL_RunTask((u8 *)(work->task)); PRINTSYS_QUE_Main(*(struct PrintSys * *)&work->button); BR_UTIL_RunHandles(*(char * *)&work->menuWork); BR_UTIL_RunHandles(*(char * *)&work->textWin); if(BR_UTIL_IsTaskIdle(*(int * *)&work->task)) return 1; return 0; }
+int BR_CODEIN_SidebarMain(int proc,int seq,int arg,struct CodeinSidebarWork *work) { BR_UTIL_RunTask((u8 *)(work->task)); PRINTSYS_QUE_Main(*(struct PrintSys * *)&work->printQue); BR_UTIL_RunHandles(*(char * *)&work->handlesMain); BR_UTIL_RunHandles(*(char * *)&work->handlesSub); if(BR_UTIL_IsTaskIdle(*(int * *)&work->task)) return 1; return 0; }
 
 
 
@@ -969,29 +968,29 @@ int BR_CODEIN_SidebarMain(int proc,int seq,int arg,struct CodeinWorkB *work) { B
  * lever: enum-valued one-bit mask preserves the original call/mask scheduling, as in sibling 021DB594.
  * abi: 02035C60 returns a full word consumed by the original caller's comparison.
  */
-void BR_CODEIN_SidebarStepIntro(int *task,int *state,struct CodeinWorkE *work)
+void BR_CODEIN_SidebarStepIntro(int *task,int *state,struct CodeinSidebarWork *work)
 {
     int a,b;
     switch(*state) {
-    case 0: {Point args;args.x=128;args.y=96;BR_UTIL_StartEffect((void *)(work->fxCenter), 2, &args);GFL_USE_PlaySeDefaultVolume(0x700);*state=1;break;}
-    case 1: if(BR_UTIL_IsEffectDone(*(char * *)&work->fxCenter))*state=2;break;
-    case 2: {Point args;args.x=128;args.y=-8;BR_UTIL_StartEffect((void *)(work->fxTop), 3, &args);*state=3;break;}
-    case 3: if(BR_UTIL_IsEffectDone(*(char * *)&work->fxTop))*state=4;break;
+    case 0: {Point args;args.x=128;args.y=96;BR_UTIL_StartEffect((void *)(work->handlesMain), 2, &args);GFL_USE_PlaySeDefaultVolume(0x700);*state=1;break;}
+    case 1: if(BR_UTIL_IsEffectDone(*(char * *)&work->handlesMain))*state=2;break;
+    case 2: {Point args;args.x=128;args.y=-8;BR_UTIL_StartEffect((void *)(work->handlesSub), 3, &args);*state=3;break;}
+    case 3: if(BR_UTIL_IsEffectDone(*(char * *)&work->handlesSub))*state=4;break;
     case 4:
         work->noticeText=BR_UTIL_Create(4,8,16,16,2,14,work->printQue,work->heapId);
-        a=BR_RES_GetFont(*(char * *)&((struct CodeinSubA *)(work->ctx))->subFade);
-        b=BR_RES_GetMsgData(*(char * *)&((struct CodeinSubA *)(work->ctx))->subFade);
+        a=BR_RES_GetFont(*(char * *)&((struct CodeinSubA *)(work->work))->subFade);
+        b=BR_RES_GetMsgData(*(char * *)&((struct CodeinSubA *)(work->work))->subFade);
         BR_UTIL_SetTextFromMessage(*(char * *)&work->noticeText,(void *)b,(void *)228,(void *)a,0x440);
-        BR_FADE_StartTimed((char *)((*(int *)&((struct CodeinSubA *)(work->ctx))->screenFade)),3,15,1,4);*state=5;break;
-    case 5: if(BR_FADE_GetResult(((struct CodeinSubA *)(work->ctx))->screenFade))*state=6;break;
-    case 6: BR_FADE_StartTimed((char *)((*(int *)&((struct CodeinSubA *)(work->ctx))->screenFade)),3,15,0,4);*state=7;break;
-    case 7: if(BR_FADE_GetResult(((struct CodeinSubA *)(work->ctx))->screenFade))*state=8;break;
+        BR_FADE_StartTimed((char *)((*(int *)&((struct CodeinSubA *)(work->work))->screenFade)),3,15,1,4);*state=5;break;
+    case 5: if(BR_FADE_GetResult(((struct CodeinSubA *)(work->work))->screenFade))*state=6;break;
+    case 6: BR_FADE_StartTimed((char *)((*(int *)&((struct CodeinSubA *)(work->work))->screenFade)),3,15,0,4);*state=7;break;
+    case 7: if(BR_FADE_GetResult(((struct CodeinSubA *)(work->work))->screenFade))*state=8;break;
     case 8: if(TOUCHPANEL_GetTrg()) {GFL_USE_PlaySeDefaultVolume(0x6ff);BR_UTIL_Delete(work->noticeText);*(int *)&work->noticeText=0;BG_SYS_PushTile(4);*state=9;}break;
-    case 9: BR_FADE_StartTimed((char *)((*(int *)&((struct CodeinSubA *)(work->ctx))->screenFade)),3,3,0,48);BR_SIDEBAR_StartBounce((char *)(((struct CodeinSubA *)(work->ctx))->procQuery));*state=10;break;
-    case 10: {enum {ONE=1} mask=ONE;if(BR_FADE_GetResult((int *)(((struct CodeinSubA *)(work->ctx))->screenFade))&mask) {BR_UTIL_StartEffect((void *)(work->fxTop), 8, 0);*state=11;}break;}
-    case 11: BR_FADE_StartTimed((char *)((*(int *)&((struct CodeinSubA *)(work->ctx))->screenFade)),2,3,1,1);*state=12;break;
-    case 12: if(BR_FADE_GetResult(((struct CodeinSubA *)(work->ctx))->screenFade))*state=13;break;
-    case 13: if(BR_UTIL_IsEffectDone(*(char * *)&work->fxTop)) {BR_PROC_SYS_PushEntry(*(unsigned * *)&((struct CodeinSubA *)(work->ctx))->res,1);BR_UTIL_SetTaskStep(task,(int)BR_CODEIN_SidebarClearStep);}break;
+    case 9: BR_FADE_StartTimed((char *)((*(int *)&((struct CodeinSubA *)(work->work))->screenFade)),3,3,0,48);BR_SIDEBAR_StartBounce((char *)(((struct CodeinSubA *)(work->work))->procQuery));*state=10;break;
+    case 10: {enum {ONE=1} mask=ONE;if(BR_FADE_GetResult((int *)(((struct CodeinSubA *)(work->work))->screenFade))&mask) {BR_UTIL_StartEffect((void *)(work->handlesSub), 8, 0);*state=11;}break;}
+    case 11: BR_FADE_StartTimed((char *)((*(int *)&((struct CodeinSubA *)(work->work))->screenFade)),2,3,1,1);*state=12;break;
+    case 12: if(BR_FADE_GetResult(((struct CodeinSubA *)(work->work))->screenFade))*state=13;break;
+    case 13: if(BR_UTIL_IsEffectDone(*(char * *)&work->handlesSub)) {BR_PROC_SYS_PushEntry(*(unsigned * *)&((struct CodeinSubA *)(work->work))->res,1);BR_UTIL_SetTaskStep(task,(int)BR_CODEIN_SidebarClearStep);}break;
     }
     if(work->noticeText)BR_UTIL_FlushText(work->noticeText);
 }
@@ -1013,29 +1012,29 @@ void BR_CODEIN_SidebarStepIntro(int *task,int *state,struct CodeinWorkE *work)
 /*
  * lever: enum mask local materializes one before the call; int mask left nine bytes different
  */
-void BR_CODEIN_SidebarStepSlideIn(int *task, int *state, struct CodeinWorkA *work)
+void BR_CODEIN_SidebarStepSlideIn(int *task, int *state, struct CodeinSidebarWork *work)
 {
     switch(*state) {
     case 0: *state=1; break;
     case 1:
-        BR_SIDEBAR_StartSlide((char *)(((struct CodeinSubA *)(work->ctx))->procQuery));
+        BR_SIDEBAR_StartSlide((char *)(((struct CodeinSubA *)(work->work))->procQuery));
         *state=2;
         break;
     case 2:
-        if(((*(int *)&work->recordTapFx))++ !=0) {
-            (*(int *)&work->recordTapFx)=0;
-            BR_FADE_StartTimed((char *)((*(int *)&((struct CodeinSubA *)(work->ctx))->screenFade)),3,3,1,26);
+        if(((*(int *)&work->slideTimer))++ !=0) {
+            (*(int *)&work->slideTimer)=0;
+            BR_FADE_StartTimed((char *)((*(int *)&((struct CodeinSubA *)(work->work))->screenFade)),3,3,1,26);
             *state=3;
         }
         break;
     case 3:
     {
         enum { MASK=1 } mask=MASK;
-        if(BR_FADE_GetResult(((struct CodeinSubA *)(work->ctx))->screenFade)&mask) *state=4;
+        if(BR_FADE_GetResult(((struct CodeinSubA *)(work->work))->screenFade)&mask) *state=4;
         break;
     }
     case 4:
-        BR_PROC_SYS_PopEntry((*(void * *)&((struct CodeinSubA *)(work->ctx))->res));
+        BR_PROC_SYS_PopEntry((*(void * *)&((struct CodeinSubA *)(work->work))->res));
         BR_UTIL_SetTaskStep(task,(int)BR_CODEIN_SidebarClearStep);
         break;
     }
@@ -1055,20 +1054,20 @@ void BR_CODEIN_SidebarStepSlideIn(int *task, int *state, struct CodeinWorkA *wor
 
 
 
-void BR_CODEIN_SidebarStepSlideOut(int *task, int *state, struct CodeinWorkA *work)
+void BR_CODEIN_SidebarStepSlideOut(int *task, int *state, struct CodeinSidebarWork *work)
 {
     switch(*state) {
     case 0:
-        BR_FADE_StartTimed((char *)((*(int *)&((struct CodeinSubA *)(work->ctx))->screenFade)),2,3,1,1);
+        BR_FADE_StartTimed((char *)((*(int *)&((struct CodeinSubA *)(work->work))->screenFade)),2,3,1,1);
         *state=1;
         break;
     case 1:
-        if(BR_FADE_GetResult(((struct CodeinSubA *)(work->ctx))->screenFade)) *state=2;
+        if(BR_FADE_GetResult(((struct CodeinSubA *)(work->work))->screenFade)) *state=2;
         break;
     case 2:
-        BR_SIDEBAR_ResetPositions((char *)(((struct CodeinSubA *)(work->ctx))->procQuery));
-        BR_SIDEBAR_StartWobble((char *)(((struct CodeinSubA *)(work->ctx))->procQuery));
-        BR_PROC_SYS_PushEntry((unsigned int *)(((struct CodeinSubA *)(work->ctx))->res),1);
+        BR_SIDEBAR_ResetPositions((char *)(((struct CodeinSubA *)(work->work))->procQuery));
+        BR_SIDEBAR_StartWobble((char *)(((struct CodeinSubA *)(work->work))->procQuery));
+        BR_PROC_SYS_PushEntry((unsigned int *)(((struct CodeinSubA *)(work->work))->res),1);
         BR_UTIL_SetTaskStep(task,(int)BR_CODEIN_SidebarClearStep);
         break;
     }
@@ -1110,23 +1109,23 @@ void BR_CODEIN_SidebarClearStep(int *task)
 /*
  * extent: two bytes of zero alignment padding at 0x021DB73E
  */
-int BR_CODEIN_ButtonCreate(int *task,int seq,char *work)
+int BR_CODEIN_ButtonCreate(int *task,int seq,struct CodeinButtonArg *work)
 {
-    struct CodeinStateB *s;
-    s=PROCSYS_AllocProcWork((struct Proc *)task,24,BR_PROC_SYS_GetSlotId((struct BrProcQuery *)(*(char * *)&((struct CodeinWorkB *)work)->procQuery)));
+    struct CodeinButtonWork *s;
+    s=PROCSYS_AllocProcWork((struct Proc *)task,24,BR_PROC_SYS_GetSlotId((struct BrProcQuery *)(*(char * *)&work->procQuery)));
     MI_CpuFill8(s,0,24);
     s->work=work;
-    s->heapId=BR_PROC_SYS_GetSlotId((struct BrProcQuery *)(*(char * *)&((struct CodeinWorkB *)work)->procQuery));
-    BR_RES_ReleaseUiPalette(*(int * *)&((struct CodeinWorkB *)work)->textWin,0);
-    BR_RES_ReleaseUiPalette(*(int * *)&((struct CodeinWorkB *)work)->textWin,1);
-    BR_RES_LoadUiPalette((char *)(*(int * *)&((struct CodeinWorkB *)work)->textWin),0,s->heapId);
-    BR_RES_LoadUiPalette((char *)(*(int * *)&((struct CodeinWorkB *)work)->textWin),1,s->heapId);
-    if(((struct CodeinWorkB *)work)->task<5) BR_RES_LoadBgGraphics(*(int * *)&((struct CodeinWorkB *)work)->textWin,3,s->heapId);
-    else BR_RES_LoadBgGraphics(*(int * *)&((struct CodeinWorkB *)work)->textWin,4,s->heapId);
-    s->handles=(int)BR_UTIL_CreateHandles((*(int *)&((struct CodeinWorkB *)work)->menuWork),(char *)(*(int *)&((struct CodeinWorkB *)work)->textWin),1,s->heapId);
-    s->button=(int)BR_BTN_Create(((struct CodeinWorkB *)work)->task,(*(int *)&((struct CodeinWorkB *)work)->menuWork),*(int *)&((struct CodeinWorkB *)work)->textWin,((struct CodeinWorkB *)work)->buttonDataId,(*(int *)&((struct CodeinWorkB *)work)->categoryText),s->handles,s->heapId);
-    if(((struct CodeinWorkB *)work)->button==4) BR_FADE_SetBlendLevel(((struct CodeinWorkB *)work)->screenFade,2,0);
-    else BR_FADE_SetBlendLevel(((struct CodeinWorkB *)work)->screenFade,3,0);
+    s->heapId=BR_PROC_SYS_GetSlotId((struct BrProcQuery *)(*(char * *)&work->procQuery));
+    BR_RES_ReleaseUiPalette(*(int * *)&work->res,0);
+    BR_RES_ReleaseUiPalette(*(int * *)&work->res,1);
+    BR_RES_LoadUiPalette((char *)(*(int * *)&work->res),0,s->heapId);
+    BR_RES_LoadUiPalette((char *)(*(int * *)&work->res),1,s->heapId);
+    if(work->kind<5) BR_RES_LoadBgGraphics(*(int * *)&work->res,3,s->heapId);
+    else BR_RES_LoadBgGraphics(*(int * *)&work->res,4,s->heapId);
+    s->handles=(int)BR_UTIL_CreateHandles((*(int *)&work->actorSys),(char *)(*(int *)&work->res),1,s->heapId);
+    s->button=(int)BR_BTN_Create(work->kind,(*(int *)&work->actorSys),*(int *)&work->res,work->dataId,(*(int *)&work->uiRes),s->handles,s->heapId);
+    if(work->fadeMode==4) BR_FADE_SetBlendLevel(work->screenFade,2,0);
+    else BR_FADE_SetBlendLevel(work->screenFade,3,0);
     return 1;
 }
 
@@ -1147,7 +1146,7 @@ int BR_CODEIN_ButtonCreate(int *task,int seq,char *work)
 /*
  * lever: Explicit call arms preserve the original conditional argument branch.
  */
-int BR_CODEIN_ButtonDestroy(struct Proc *task,int seq,struct CodeinArgB *arg,struct CodeinWorkA *work) { if(arg->screenFade<5) BR_RES_ApplyBgSet(arg->category,3); else BR_RES_ApplyBgSet(arg->category,4); BR_BTN_Delete(*(u8 * *)&work->oamSys); BR_UTIL_DeleteHandles(*(char * *)&work->printQue); PROCSYS_FreeProcWork(task); return 1; }
+int BR_CODEIN_ButtonDestroy(struct Proc *task,int seq,struct CodeinArgB *arg,struct CodeinButtonWork *work) { if(arg->screenFade<5) BR_RES_ApplyBgSet(arg->category,3); else BR_RES_ApplyBgSet(arg->category,4); BR_BTN_Delete(*(u8 * *)&work->button); BR_UTIL_DeleteHandles(*(char * *)&work->handles); PROCSYS_FreeProcWork(task); return 1; }
 
 
 
@@ -1166,35 +1165,35 @@ int BR_CODEIN_ButtonDestroy(struct Proc *task,int seq,struct CodeinArgB *arg,str
 /*
  * lever: explicit case-3 call arms preserve the original block shape; ARM9 division helper uses the proven _u32_div_f ABI.
  */
-int BR_CODEIN_ButtonMain(int *task,int *state,struct CodeinWorkB *work,struct CodeinArgA *arg)
+int BR_CODEIN_ButtonMain(int *task,int *state,struct CodeinButtonArg *work,struct CodeinArgA *arg)
 {
     u32 x,y;
     switch(*state) {
-    case 0: BR_FADE_Start(work->screenFade,work->button,3,0);*state=1;break;
+    case 0: BR_FADE_Start(work->screenFade,work->fadeMode,3,0);*state=1;break;
     case 1: if(BR_FADE_GetResult(*(int * *)&work->screenFade))*state=2;break;
     case 2:
-        if(work->task<=4 && !BR_BTN_GetPressed(*(char * *)&arg->screenFade) && TOUCHPANEL_GetPointTrg(&x,&y)) {
+        if(work->kind<=4 && !BR_BTN_GetPressed(*(char * *)&arg->screenFade) && TOUCHPANEL_GetPointTrg(&x,&y)) {
             if(x<8 || x>248) {GFL_USE_PlaySeDefaultVolume(0x703);*state=6;break;}
         }
         BR_BTN_UpdatePrint(*(char * *)&arg->screenFade);
         if(BR_BTN_GetPlacement(*(char * *)&arg->screenFade,(int *)((char *)work+4),(int *)((char *)work+8))) *state=3;
         break;
     case 3:
-        if(work->printQue==12)BR_FADE_Start(work->screenFade,4,3,1);
+        if(work->placement==12)BR_FADE_Start(work->screenFade,4,3,1);
         else BR_FADE_Start(work->screenFade,2,3,1);
         *state=4;break;
     case 4: if(BR_FADE_GetResult(*(int * *)&work->screenFade))*state=5;break;
     case 5:
         switch(BR_BTN_GetPlacement(*(char * *)&arg->screenFade,(int *)((char *)work+4),(int *)((char *)work+8))) {
-        case 1: BR_PROC_SYS_PushEntry(*(unsigned * *)&work->procQuery,(unsigned short)work->printQue);return 1;
-        case 2: BR_PROC_SYS_PopEntry((*(void * *)&work->procQuery));**(int * *)&work->noticeText=BR_BTN_GetResultValue(*(char * *)&arg->screenFade);return 1;
+        case 1: BR_PROC_SYS_PushEntry(*(unsigned * *)&work->procQuery,(unsigned short)work->placement);return 1;
+        case 2: BR_PROC_SYS_PopEntry((*(void * *)&work->procQuery));**(int * *)&work->resultOut=BR_BTN_GetResultValue(*(char * *)&arg->screenFade);return 1;
         }
         break;
     case 6: {
-        int v=BR_RES_GetPalSet(*(char * *)&work->textWin);u32 i;
+        int v=BR_RES_GetPalSet(*(char * *)&work->res);u32 i;
         for(i=0;i<7;i++) {if(v==d_021E3280[i]) {v=d_021E3280[(i+1)%7];break;}}
-        BR_RES_SetPalSet(*(char * *)&work->textWin,v);
-        BR_FADE_SetBlendColor(*(int * *)&work->screenFade,BR_RES_GetCurrentSetParam(*(char * *)&work->textWin));
+        BR_RES_SetPalSet(*(char * *)&work->res,v);
+        BR_FADE_SetBlendColor(*(int * *)&work->screenFade,BR_RES_GetCurrentSetParam(*(char * *)&work->res));
         BR_FADE_Start(work->screenFade,3,3,1);*state=7;break;
     }
     case 7: if(BR_FADE_GetResult(*(int * *)&work->screenFade))*state=8;break;
@@ -1272,55 +1271,56 @@ void BR_CODEIN_ButtonLoadFadePalettes(int unused, struct CodeinWorkF *work)
  */
 int BR_CODEIN_RecordCreate(int *task,int *state,char *arg)
 {
-    char *p,*s;
+    struct CodeinRecordWork *p;
+    char *s;
     int i;
     p=PROCSYS_AllocProcWork((struct Proc *)task,0xe8,BR_PROC_SYS_GetSlotId((struct BrProcQuery *)(*(char **)(arg+0x14))));
     MI_CpuFill8(p,0,0xe8);
-    *(unsigned short *)(p+0xb4)=BR_PROC_SYS_GetSlotId((struct BrProcQuery *)(*(char **)(arg+0x14)));
-    *(int *)(p+0xb0)=0;
-    *(char **)(p+0xd0)=arg;
-    *(void **)p=BMP_OAM_CreateSys(*(unsigned short *)(p+0xb4),*(void **)(arg+0x18));
-    *(void **)(p+4)=(void *)PRINTSYS_QUE_Create((void *)(*(unsigned short *)(p+0xb4)));
-    *(void **)(p+8)=BR_UTIL_CreateTask((int)p,0,*(unsigned short *)(p+0xb4));
-    for(i=0;i<2;i++) *(char **)(p+i*4+0xc)=BR_UTIL_CreateHandles(*(unsigned *)(arg+0x18),*(char **)(arg+0x10),i,*(unsigned short *)(p+0xb4));
-    switch(*(int *)(*(char **)(p+0xd0)+8)) {
+    p->heapId=BR_PROC_SYS_GetSlotId((struct BrProcQuery *)(*(char **)(arg+0x14)));
+    p->profileScreenShown=0;
+    p->ctx=arg;
+    *(void **)p=BMP_OAM_CreateSys(p->heapId,*(void **)(arg+0x18));
+    p->printQue=(void *)PRINTSYS_QUE_Create((void *)(p->heapId));
+    p->task=BR_UTIL_CreateTask((int)p,0,p->heapId);
+    for(i=0;i<2;i++) *(char **)((char *)p+i*4+0xc)=BR_UTIL_CreateHandles(*(unsigned *)(arg+0x18),*(char **)(arg+0x10),i,p->heapId);
+    switch(*(int *)(p->ctx+8)) {
     case 4:
-        s=*(char **)(*(char **)(p+0xd0)+0x30);
-        *(char **)(p+0xc4)=s+*(int *)(s+0x171c)*0xc4+0x80;
-        s=*(char **)(*(char **)(p+0xd0)+0x30);
-        *(char **)(p+0xc0)=s+*(int *)(s+0x171c)*0xc4;
-        *(int *)(p+0xcc)=1;
-        if(**(int **)(*(char **)(p+0xd0)+0x3c) && *(int *)(*(char **)(p+0xd0)+0x34)) {
-            s=*(char **)(*(char **)(p+0xd0)+0x30);
+        s=*(char **)(p->ctx+0x30);
+        p->header=s+*(int *)(s+0x171c)*0xc4+0x80;
+        s=*(char **)(p->ctx+0x30);
+        p->recData=s+*(int *)(s+0x171c)*0xc4;
+        p->hasSecondButton=1;
+        if(**(int **)(p->ctx+0x3c) && *(int *)(p->ctx+0x34)) {
+            s=*(char **)(p->ctx+0x30);
             *(s+*(int *)(s+0x171c)+0x16f8)=1;
         }
-        s=*(char **)(*(char **)(p+0xd0)+0x30);
-        *(int *)(p+0xc8)=*(unsigned char *)(s+*(int *)(s+0x171c)+0x16f8);
+        s=*(char **)(p->ctx+0x30);
+        p->savedActorSys=*(unsigned char *)(s+*(int *)(s+0x171c)+0x16f8);
         break;
     case 0:
-        *(char **)(p+0xc4)=BATTLE_REC_GetHeader();*(char **)(p+0xc0)=(char *)BATTLE_REC_GetWork();
-        *(int *)(p+0xc8)=1;i=0;goto set_cc;
+        p->header=BATTLE_REC_GetHeader();p->recData=(char *)BATTLE_REC_GetWork();
+        p->savedActorSys=1;i=0;goto set_cc;
     case 1: case 2: case 3:
-        *(char **)(p+0xc4)=BATTLE_REC_GetHeader();*(char **)(p+0xc0)=(char *)BATTLE_REC_GetWork();
-        *(int *)(p+0xc8)=BATTLE_REC_GetHeaderParam(*(void **)(p+0xc4),5,0);*(int *)(p+0xcc)=0;break;
+        p->header=BATTLE_REC_GetHeader();p->recData=(char *)BATTLE_REC_GetWork();
+        p->savedActorSys=BATTLE_REC_GetHeaderParam(*(void * *)&p->header,5,0);p->hasSecondButton=0;break;
     case 5:
-        if(*(int *)(*(char **)(p+0xd0)+0x34)==0) {
-            *(int *)(p+0xc4)=0;*(int *)(p+0xc0)=0;
+        if(*(int *)(p->ctx+0x34)==0) {
+            *(int *)&p->header=0;*(int *)&p->recData=0;
         }else {
-            *(char **)(p+0xc4)=BATTLE_REC_GetHeader();*(char **)(p+0xc0)=(char *)BATTLE_REC_GetWork();
-            *(int *)(p+0xc8)=**(int **)(*(char **)(p+0xd0)+0x3c);
+            p->header=BATTLE_REC_GetHeader();p->recData=(char *)BATTLE_REC_GetWork();
+            p->savedActorSys=**(int **)(p->ctx+0x3c);
         }
         i=1;
     set_cc:
-        *(int *)(p+0xcc)=i;
+        p->hasSecondButton=i;
         break;
     }
-    if(*(int *)(*(char **)(p+0xd0)+8)==5) {
-        if(*(int *)(*(char **)(p+0xd0)+0x34)==0)BR_UTIL_SetTaskStep(*(int **)(p+8),(int)BR_CODEIN_RecordStepRequest);
-        else BR_UTIL_SetTaskStep(*(int **)(p+8),(int)BR_CODEIN_RecordStepCreateProfile);
-    }else if((u32)(*(int *)(*(char **)(p+0xd0)+8)-1)<=2 && *(int *)(*(char **)(p+0xd0)+0x34) && **(int **)(*(char **)(p+0xd0)+0x3c) && *(int *)(p+0xc8)==0) {
-        BR_UTIL_SetTaskStep(*(int **)(p+8),(int)BR_CODEIN_RecordStepSave);
-    }else BR_UTIL_SetTaskStep(*(int **)(p+8),(int)BR_CODEIN_RecordStepCreateProfile);
+    if(*(int *)(p->ctx+8)==5) {
+        if(*(int *)(p->ctx+0x34)==0)BR_UTIL_SetTaskStep(*(int * *)&p->task,(int)BR_CODEIN_RecordStepRequest);
+        else BR_UTIL_SetTaskStep(*(int * *)&p->task,(int)BR_CODEIN_RecordStepCreateProfile);
+    }else if((u32)(*(int *)(p->ctx+8)-1)<=2 && *(int *)(p->ctx+0x34) && **(int **)(p->ctx+0x3c) && p->savedActorSys==0) {
+        BR_UTIL_SetTaskStep(*(int * *)&p->task,(int)BR_CODEIN_RecordStepSave);
+    }else BR_UTIL_SetTaskStep(*(int * *)&p->task,(int)BR_CODEIN_RecordStepCreateProfile);
     return 1;
 }
 
@@ -1338,7 +1338,7 @@ int BR_CODEIN_RecordCreate(int *task,int *state,char *arg)
 
 
 
-int BR_CODEIN_RecordDestroy(int task,int seq,char *arg,char *work)
+int BR_CODEIN_RecordDestroy(int task,int seq,char *arg,struct CodeinRecordWork *work)
 {
     int i;
     BR_CODEIN_RecordDeleteProfileScreen(work,arg);
@@ -1346,17 +1346,17 @@ int BR_CODEIN_RecordDestroy(int task,int seq,char *arg,char *work)
     BR_CODEIN_RecordDeleteButtons(work,arg);
     BR_CODEIN_RecordDeleteTextWin(work,arg);
     BR_CODEIN_RecordTeardownTextWin(work,arg);
-    ((struct CodeinArgA *)arg)->actorSys=((struct CodeinWorkB *)work)->savedActorSys;
+    ((struct CodeinArgA *)arg)->actorSys=work->savedActorSys;
     BG_SYS_PushTile(4);
     BG_SYS_PushTile(1);
-    if(((struct CodeinWorkB *)work)->textWin) {
-        BR_UTIL_DeleteTextWin(((struct CodeinWorkB *)work)->textWin,((struct CodeinSubA *)(((struct CodeinWorkB *)work)->recordCtx))->res);
-        ((struct CodeinWorkB *)work)->textWin=0;
+    if(work->textWin) {
+        BR_UTIL_DeleteTextWin(work->textWin,((struct CodeinSubA *)(work->ctx))->res);
+        work->textWin=0;
     }
-    for(i=0;i<2;i++) BR_UTIL_DeleteHandles(*(char **)(work+i*4+0xc));
-    BR_UTIL_DeleteTask((void *)((*(int *)&((struct CodeinWorkB *)work)->recordTask)));
-    PRINTSYS_QUE_Delete((*(void * *)&((struct CodeinWorkB *)work)->printQue));
-    BMP_OAM_DeleteSys((void *)(((struct CodeinWorkB *)work)->task));
+    for(i=0;i<2;i++) BR_UTIL_DeleteHandles(*(char **)((char *)work+i*4+0xc));
+    BR_UTIL_DeleteTask((void *)((*(int *)&work->task)));
+    PRINTSYS_QUE_Delete((*(void * *)&work->printQue));
+    BMP_OAM_DeleteSys((void *)(work->oamSys));
     PROCSYS_FreeProcWork((struct Proc *)task);
     return 1;
 }
@@ -1378,19 +1378,19 @@ int BR_CODEIN_RecordDestroy(int task,int seq,char *arg,char *work)
 /*
  * extent: two bytes of zero alignment padding at 0x021DBC66
  */
-int BR_CODEIN_RecordMain(int proc,int seq,int arg,struct CodeinWorkB *work)
+int BR_CODEIN_RecordMain(int proc,int seq,int arg,struct CodeinRecordWork *work)
 {
     int i;
-    if(GAME_DATA_IsSaving(((struct CodeinSubA *)(work->recordCtx))->gameData)==0 && BR_NET_HandleNetError(((struct CodeinSubA *)(work->recordCtx))->recordNet)==2) {
-        BR_PROC_SYS_FlushWindows((*(void * *)&((struct CodeinSubA *)(work->recordCtx))->procQuery));
+    if(GAME_DATA_IsSaving(((struct CodeinSubA *)(work->ctx))->gameData)==0 && BR_NET_HandleNetError(((struct CodeinSubA *)(work->ctx))->recordNet)==2) {
+        BR_PROC_SYS_FlushWindows((*(void * *)&((struct CodeinSubA *)(work->ctx))->procQuery));
         return 1;
     }
-    BR_UTIL_RunTask(work->recordTask);
-    if(BR_UTIL_IsTaskIdle(work->recordTask)) return 1;
+    BR_UTIL_RunTask(work->task);
+    if(BR_UTIL_IsTaskIdle(work->task)) return 1;
     for(i=0;i<2;i++) BR_UTIL_RunHandles(*(void **)((char *)work+i*4+0xc));
     PRINTSYS_QUE_Main((*(void * *)&work->printQue));
-    for(i=0;i<2;i++) if(*(void **)((char *)work+i*4+0x28)) BR_UTIL_FlushText(*(void **)((char *)work+i*4+0x28));
-    for(i=0;i<5;i++) if(*(void **)((char *)work+i*4+0x30)) BR_UTIL_FlushText(*(void **)((char *)work+i*4+0x30));
+    for(i=0;i<2;i++) if(work->captionText[i]) BR_UTIL_FlushText(work->captionText[i]);
+    for(i=0;i<5;i++) if(work->profileText[i]) BR_UTIL_FlushText(work->profileText[i]);
     if((*(void * *)&work->profileScreen)) BR_UTIL_MainProfileScreen((*(void * *)&work->profileScreen));
     if(work->textWin) BR_UTIL_FlushWindow(work->textWin);
     return 0;
@@ -1412,13 +1412,13 @@ int BR_CODEIN_RecordMain(int proc,int seq,int arg,struct CodeinWorkB *work)
 /*
  * Flush the object, dispatch on the p+0xB0 flag, then chain to 0x21FD73C.
  */
-void BR_CODEIN_RecordStepCreateProfile(int task, int b, char *work)
+void BR_CODEIN_RecordStepCreateProfile(int task, int b, struct CodeinRecordWork *work)
 {
-    BR_CODEIN_RecordSetupButtons(work, (char *)((*(int *)&((struct CodeinWorkA *)work)->recordCtx)));
-    if (((struct CodeinWorkA *)work)->profileScreenShown != 0)
-        BR_CODEIN_RecordCreateProfileScreen(work, (char *)((*(int *)&((struct CodeinWorkA *)work)->recordCtx)));
+    BR_CODEIN_RecordSetupButtons(work, (char *)((*(int *)&work->ctx)));
+    if (work->profileScreenShown != 0)
+        BR_CODEIN_RecordCreateProfileScreen(work, (char *)((*(int *)&work->ctx)));
     else
-        BR_CODEIN_RecordSetupProfile(work, (char *)((*(int *)&((struct CodeinWorkA *)work)->recordCtx)));
+        BR_CODEIN_RecordSetupProfile(work, (char *)((*(int *)&work->ctx)));
     BR_UTIL_SetTaskStep((int *)task, (int)BR_CODEIN_RecordStepFadeIn);
 }
 
@@ -1434,15 +1434,15 @@ void BR_CODEIN_RecordStepCreateProfile(int task, int b, char *work)
 
 
 
-void BR_CODEIN_RecordStepFadeIn(int *task, int *state, struct CodeinWorkA *work)
+void BR_CODEIN_RecordStepFadeIn(int *task, int *state, struct CodeinRecordWork *work)
 {
     switch(*state) {
     case 0:
-        BR_FADE_Start((*(int *)&((struct CodeinSubA *)(work->recordCtx))->subFade),2,3,0);
+        BR_FADE_Start((*(int *)&((struct CodeinSubA *)(work->ctx))->subFade),2,3,0);
         *state=1;
         break;
     case 1:
-        if(BR_FADE_GetResult(((struct CodeinSubA *)(work->recordCtx))->subFade)) *state=2;
+        if(BR_FADE_GetResult(((struct CodeinSubA *)(work->ctx))->subFade)) *state=2;
         break;
     case 2:
         BR_UTIL_SetTaskStep(task,(int)BR_CODEIN_RecordStepMenu);
@@ -1462,15 +1462,15 @@ void BR_CODEIN_RecordStepFadeIn(int *task, int *state, struct CodeinWorkA *work)
 
 
 
-void BR_CODEIN_RecordStepFadeOut(int *task, int *state, struct CodeinWorkA *work)
+void BR_CODEIN_RecordStepFadeOut(int *task, int *state, struct CodeinRecordWork *work)
 {
     switch(*state) {
     case 0:
-        BR_FADE_Start((*(int *)&((struct CodeinSubA *)(work->recordCtx))->subFade),2,3,1);
+        BR_FADE_Start((*(int *)&((struct CodeinSubA *)(work->ctx))->subFade),2,3,1);
         *state=1;
         break;
     case 1:
-        if(BR_FADE_GetResult(((struct CodeinSubA *)(work->recordCtx))->subFade)) *state=2;
+        if(BR_FADE_GetResult(((struct CodeinSubA *)(work->ctx))->subFade)) *state=2;
         break;
     case 2:
         BR_UTIL_SetTaskStep(task,(int)BR_CODEIN_RecordStepDeleteProfile);
@@ -1489,7 +1489,7 @@ void BR_CODEIN_RecordStepFadeOut(int *task, int *state, struct CodeinWorkA *work
 
 
 
-void BR_CODEIN_RecordStepDeleteProfile(int *task,int b,char *work) { if(((struct CodeinWorkB *)work)->profileScreenShown) BR_CODEIN_RecordDeleteProfileScreen(work,((struct CodeinWorkB *)work)->recordCtx); else BR_CODEIN_RecordDeleteActors(work,((struct CodeinWorkB *)work)->recordCtx); BR_CODEIN_RecordDeleteButtons(work,((struct CodeinWorkB *)work)->recordCtx); BR_UTIL_ClearTaskStep(task); }
+void BR_CODEIN_RecordStepDeleteProfile(int *task,int b,struct CodeinRecordWork *work) { if(work->profileScreenShown) BR_CODEIN_RecordDeleteProfileScreen(work,work->ctx); else BR_CODEIN_RecordDeleteActors(work,work->ctx); BR_CODEIN_RecordDeleteButtons(work,work->ctx); BR_UTIL_ClearTaskStep(task); }
 
 
 
@@ -1525,36 +1525,36 @@ void BR_CODEIN_RecordStepDeleteProfile(int *task,int b,char *work) { if(((struct
  *   }
  * }
  */
-void BR_CODEIN_RecordStepMenu(int *task,int *state,char *work)
+void BR_CODEIN_RecordStepMenu(int *task,int *state,struct CodeinRecordWork *work)
 {
     u32 x,y;
     if(TOUCHPANEL_GetPointTrg(&x,&y)) {
         if(BR_CODEIN_RecordHitProfileToggle(work,x,y)) {
-            *(int *)(work+0xb0)^=1;
+            work->profileScreenShown^=1;
             BR_UTIL_SetTaskStep(task,(int)BR_CODEIN_RecordStepProfileText);
         }
-        if(BR_BTN_HitTestWithSound((unsigned int *)(*(int *)(work+0x1c)),x,y)) {
+        if(BR_BTN_HitTestWithSound((unsigned int *)(*(int *)&work->button[0]),x,y)) {
             Point args;
             args.x=x;args.y=y;
-            BR_UTIL_StartEffect((void *)(*(int *)(work+0x10)), 1, &args);
-            **(int **)(work+0xd0)=0;
-            BR_PROC_SYS_PopEntry(*(void **)(*(char **)(work+0xd0)+0x14));
+            BR_UTIL_StartEffect((void *)(work->tapFx), 1, &args);
+            **(int * *)&work->ctx=0;
+            BR_PROC_SYS_PopEntry(*(void **)(work->ctx+0x14));
             BR_UTIL_SetTaskStep(task,(int)BR_CODEIN_RecordStepFadeOut);
         }
-        if(*(int *)(work+0x20) && BR_BTN_HitTestWithSound((unsigned int *)(*(int *)(work+0x20)),x,y)) {
+        if(*(int *)&work->button[1] && BR_BTN_HitTestWithSound((unsigned int *)(*(int *)&work->button[1]),x,y)) {
             Point args;
             args.x=x;args.y=y;
-            BR_UTIL_StartEffect((void *)(*(int *)(work+0x10)), 1, &args);
-            BR_PROC_SYS_PushEntry(*(unsigned **)(*(char **)(work+0xd0)+0x14),10);
-            *(u64 *)(*(char **)(work+0xd0)+0x1c)=BATTLE_REC_GetHeaderParam(*(void **)(work+0xc4),4,0);
+            BR_UTIL_StartEffect((void *)(work->tapFx), 1, &args);
+            BR_PROC_SYS_PushEntry(*(unsigned **)(work->ctx+0x14),10);
+            *(u64 *)(work->ctx+0x1c)=BATTLE_REC_GetHeaderParam(*(void * *)&work->header,4,0);
             BR_UTIL_SetTaskStep(task,(int)BR_CODEIN_RecordStepFadeOut);
         }
         if(BR_CODEIN_RecordHitRecordPanel(work,x,y)) {
-            if((u32)(*(u32 *)(*(char **)(work+0xd0)+8)-4)<=1)BR_UTIL_SetTaskStep(task,(int)BR_CODEIN_RecordStepReceive);
-            else if(*(int *)(work+0xc8)==0)BR_UTIL_SetTaskStep(task,(int)BR_CODEIN_RecordStepConfirm);
+            if((u32)(*(u32 *)(*(char **)((char *)work+0xd0)+8)-4)<=1)BR_UTIL_SetTaskStep(task,(int)BR_CODEIN_RecordStepReceive);
+            else if(work->savedActorSys==0)BR_UTIL_SetTaskStep(task,(int)BR_CODEIN_RecordStepConfirm);
             else {
-                **(int **)(work+0xd0)=1;
-                BR_PROC_SYS_SetupWindow((CodeinWindowState *)(*(CodeinWindowState **)(*(char **)(work+0xd0)+0x14)));
+                **(int **)((char *)work+0xd0)=1;
+                BR_PROC_SYS_SetupWindow((CodeinWindowState *)(*(CodeinWindowState **)(work->ctx+0x14)));
                 BR_UTIL_SetTaskStep(task,(int)BR_CODEIN_RecordStepFadeOut);
             }
         }
@@ -1572,32 +1572,32 @@ void BR_CODEIN_RecordStepMenu(int *task,int *state,char *work)
 
 
 
-void BR_CODEIN_RecordStepProfileText(int *task,int *state,char *work)
+void BR_CODEIN_RecordStepProfileText(int *task,int *state,struct CodeinRecordWork *work)
 {
     int a,b;
     switch(*state) {
     case 0:
-        BR_FADE_Start((*(int *)&((struct CodeinSubA *)(((struct CodeinWorkB *)work)->recordCtx))->subFade),2,1,1);
+        BR_FADE_Start((*(int *)&((struct CodeinSubA *)(work->ctx))->subFade),2,1,1);
         (*state)++;break;
     case 1:
-        if(BR_FADE_GetResult(((struct CodeinSubA *)(((struct CodeinWorkB *)work)->recordCtx))->subFade))(*state)++;
+        if(BR_FADE_GetResult(((struct CodeinSubA *)(work->ctx))->subFade))(*state)++;
         break;
     case 2:
-        a=BR_RES_GetFont(*(char * *)&((struct CodeinSubA *)(((struct CodeinWorkB *)work)->recordCtx))->res);
-        b=BR_RES_GetMsgData(*(char * *)&((struct CodeinSubA *)(((struct CodeinWorkB *)work)->recordCtx))->res);
-        if(((struct CodeinWorkB *)work)->profileScreenShown) {
-            BR_CODEIN_RecordDeleteActors(work,((struct CodeinWorkB *)work)->recordCtx);
-            BR_UTIL_SetTextFromMessage(*(char * *)&((struct CodeinWorkB *)work)->noticeText,(void *)b,(void *)0x72,(void *)a,0x3da0);
-            BR_CODEIN_RecordCreateProfileScreen(work,((struct CodeinWorkB *)work)->recordCtx);
+        a=BR_RES_GetFont(*(char * *)&((struct CodeinSubA *)(work->ctx))->res);
+        b=BR_RES_GetMsgData(*(char * *)&((struct CodeinSubA *)(work->ctx))->res);
+        if(work->profileScreenShown) {
+            BR_CODEIN_RecordDeleteActors(work,work->ctx);
+            BR_UTIL_SetTextFromMessage(*(char * *)&work->captionText[0],(void *)b,(void *)0x72,(void *)a,0x3da0);
+            BR_CODEIN_RecordCreateProfileScreen(work,work->ctx);
         }else{
-            BR_CODEIN_RecordDeleteProfileScreen(work,((struct CodeinWorkB *)work)->recordCtx);
-            BR_UTIL_SetTextFromMessage(*(char * *)&((struct CodeinWorkB *)work)->noticeText,(void *)b,(void *)0x71,(void *)a,0x3da0);
-            BR_CODEIN_RecordSetupProfile(work,(char *)(*(int *)&((struct CodeinWorkB *)work)->recordCtx));
+            BR_CODEIN_RecordDeleteProfileScreen(work,work->ctx);
+            BR_UTIL_SetTextFromMessage(*(char * *)&work->captionText[0],(void *)b,(void *)0x71,(void *)a,0x3da0);
+            BR_CODEIN_RecordSetupProfile(work,(char *)(*(int *)&work->ctx));
         }
-        BR_FADE_Start((*(int *)&((struct CodeinSubA *)(((struct CodeinWorkB *)work)->recordCtx))->subFade),2,1,0);
+        BR_FADE_Start((*(int *)&((struct CodeinSubA *)(work->ctx))->subFade),2,1,0);
         (*state)++;break;
     case 3:
-        if(BR_FADE_GetResult(((struct CodeinSubA *)(((struct CodeinWorkB *)work)->recordCtx))->subFade))BR_UTIL_SetTaskStep(task,(int)BR_CODEIN_RecordStepMenu);
+        if(BR_FADE_GetResult(((struct CodeinSubA *)(work->ctx))->subFade))BR_UTIL_SetTaskStep(task,(int)BR_CODEIN_RecordStepMenu);
         break;
     }
 }
@@ -1615,7 +1615,7 @@ void BR_CODEIN_RecordStepProfileText(int *task,int *state,char *work)
 /*
  * note 2026-10-05: shape copied from matched twin BR_CODEIN_RecordStepReceive.c (same state machine, same callees). v1 was 4 bytes off (stack slots of source and index swapped); declaring source before index fixed it. Older draft docs/notes/pkt_ov183_021DBFB0.c.txt (167 B off) superseded.
  */
-void BR_CODEIN_RecordStepRequest(int *task,int *state,char *work)
+void BR_CODEIN_RecordStepRequest(int *task,int *state,struct CodeinRecordWork *work)
 {
     u64 t;
     int message;
@@ -1625,54 +1625,54 @@ void BR_CODEIN_RecordStepRequest(int *task,int *state,char *work)
     Point args;
     switch(*state) {
     case 0:
-        BR_CODEIN_RecordCreateTextWin(work,*(char **)(work+0xd0));
-        BR_UTIL_SetWindowText(*(void **)(work+0x18),(char *)(*(int *)(*(char **)(work+0xd0)+0x10)),(void *)0x14b);*state=1;break;
-    case 1: BR_FADE_Start((int)(*(int **)(*(char **)(work+0xd0)+12)),2,3,0);*state=2;break;
-    case 2: if(BR_FADE_GetResult(*(int **)(*(char **)(work+0xd0)+12))) *state=3;break;
+        BR_CODEIN_RecordCreateTextWin(work,work->ctx);
+        BR_UTIL_SetWindowText(work->textWin,(char *)(*(int *)(work->ctx+0x10)),(void *)0x14b);*state=1;break;
+    case 1: BR_FADE_Start((int)(*(int **)(work->ctx+12)),2,3,0);*state=2;break;
+    case 2: if(BR_FADE_GetResult(*(int **)(work->ctx+12))) *state=3;break;
     case 3:
         MI_CpuFill8(&t,0,8);
-        t=*(u64 *)(*(char **)(work+0xd0)+0x1c);
-        BR_NET_StartRequest(*(void **)(*(char **)(work+0xd0)+0x24),3,(const int *)(&t));
-        *(int *)(work+0xbc)=0;*state=4;break;
+        t=*(u64 *)(work->ctx+0x1c);
+        BR_NET_StartRequest(*(void **)(work->ctx+0x24),3,(const int *)(&t));
+        *(int *)((char *)work+0xbc)=0;*state=4;break;
     case 4:
-        ++*(int *)(work+0xbc);
-        if(BR_NET_IsIdle(*(void **)(*(char **)(work+0xd0)+0x24)) && *(u32 *)(work+0xbc)>96) {
-            BR_UTIL_StartEffect((void *)(*(int *)(work+12)), 0, 0);*state=5;
+        ++*(int *)((char *)work+0xbc);
+        if(BR_NET_IsIdle(*(void **)(work->ctx+0x24)) && *(u32 *)((char *)work+0xbc)>96) {
+            BR_UTIL_StartEffect((void *)(work->introFx), 0, 0);*state=5;
         }
         break;
     case 5:
-        if(!BR_NET_PollErrorMessage(*(void **)(*(char **)(work+0xd0)+0x24),&message)) {
-            if(BR_NET_GetVideoReply(*(char **)(*(char **)(work+0xd0)+0x24),(int)&source,&index)) {
-                *(char **)(work+0xc0)=source;
-                *(char **)(work+0xc4)=source+0x80;*state=6;
+        if(!BR_NET_PollErrorMessage(*(void **)(work->ctx+0x24),&message)) {
+            if(BR_NET_GetVideoReply(*(char **)(work->ctx+0x24),(int)&source,&index)) {
+                work->recData=source;
+                work->header=source+0x80;*state=6;
             } else {
-                BR_UTIL_SetWindowText(*(void **)(work+0x18),(char *)(*(int *)(*(char **)(work+0xd0)+0x10)),(void *)0x114);*state=11;
+                BR_UTIL_SetWindowText(work->textWin,(char *)(*(int *)(work->ctx+0x10)),(void *)0x114);*state=11;
             }
         } else {
-            BR_UTIL_SetWindowText(*(void **)(work+0x18),(char *)(*(int *)(*(char **)(work+0xd0)+0x10)),(void *)message);*state=11;
+            BR_UTIL_SetWindowText(work->textWin,(char *)(*(int *)(work->ctx+0x10)),(void *)message);*state=11;
         }
         break;
     case 11:
         if(TOUCHPANEL_GetTrg()) {
             TOUCHPANEL_GetPointTrg(&x,&y);args.x=x;args.y=y;
-            BR_UTIL_StartEffect((void *)(*(int *)(work+0x10)), 1, &args);GFL_USE_PlaySeDefaultVolume(0x703);
-            BR_PROC_SYS_PopEntry((unsigned int *)(*(CodeinProcEntry **)(*(char **)(work+0xd0)+0x14)));*state=12;
+            BR_UTIL_StartEffect((void *)(work->tapFx), 1, &args);GFL_USE_PlaySeDefaultVolume(0x703);
+            BR_PROC_SYS_PopEntry((unsigned int *)(*(CodeinProcEntry **)(work->ctx+0x14)));*state=12;
         }
         break;
-    case 6: BR_FADE_Start((int)(*(int **)(*(char **)(work+0xd0)+12)),2,3,1);*state=7;break;
+    case 6: BR_FADE_Start((int)(*(int **)(work->ctx+12)),2,3,1);*state=7;break;
     case 7:
-        if(BR_FADE_GetResult(*(int **)(*(char **)(work+0xd0)+12))) {
-            BR_CODEIN_RecordDeleteTextWin(work,*(char **)(work+0xd0));
-            BR_CODEIN_RecordSetupButtons(work,*(char **)(work+0xd0));
-            BR_CODEIN_RecordSetupProfile(work,*(char **)(work+0xd0));*state=8;
+        if(BR_FADE_GetResult(*(int **)(work->ctx+12))) {
+            BR_CODEIN_RecordDeleteTextWin(work,work->ctx);
+            BR_CODEIN_RecordSetupButtons(work,work->ctx);
+            BR_CODEIN_RecordSetupProfile(work,work->ctx);*state=8;
         }
         break;
-    case 8: BR_FADE_Start((int)(*(int **)(*(char **)(work+0xd0)+12)),2,3,0);*state=9;break;
-    case 9: if(BR_FADE_GetResult(*(int **)(*(char **)(work+0xd0)+12))) *state=10;break;
+    case 8: BR_FADE_Start((int)(*(int **)(work->ctx+12)),2,3,0);*state=9;break;
+    case 9: if(BR_FADE_GetResult(*(int **)(work->ctx+12))) *state=10;break;
     case 10: BR_UTIL_SetTaskStep(task,(int)BR_CODEIN_RecordStepMenu);break;
-    case 12: BR_FADE_Start((int)(*(int **)(*(char **)(work+0xd0)+12)),2,3,1);*state=13;break;
-    case 13: if(BR_FADE_GetResult(*(int **)(*(char **)(work+0xd0)+12))) *state=14;break;
-    case 14: BR_CODEIN_RecordDeleteTextWin(work,*(char **)(work+0xd0));BR_UTIL_ClearTaskStep((int *)task);break;
+    case 12: BR_FADE_Start((int)(*(int **)(work->ctx+12)),2,3,1);*state=13;break;
+    case 13: if(BR_FADE_GetResult(*(int **)(work->ctx+12))) *state=14;break;
+    case 14: BR_CODEIN_RecordDeleteTextWin(work,work->ctx);BR_UTIL_ClearTaskStep((int *)task);break;
     }
 }
 
@@ -1710,7 +1710,7 @@ void BR_CODEIN_RecordStepRequest(int *task,int *state,char *work)
  * }
  * abi: B938 retains caller-loaded r3; DD0AC/DD0F4 retain caller-loaded r1; 35C60 return is consumed.
  */
-void BR_CODEIN_RecordStepReceive(int *task,int *state,char *work)
+void BR_CODEIN_RecordStepReceive(int *task,int *state,struct CodeinRecordWork *work)
 {
     u64 t;
     int message;
@@ -1719,56 +1719,56 @@ void BR_CODEIN_RecordStepReceive(int *task,int *state,char *work)
     u32 x,y;
     Point args;
     switch(*state) {
-    case 0: BR_FADE_Start((int)(*(int **)(*(char **)(work+0xd0)+12)),2,3,1);*state=1;break;
-    case 1: if(BR_FADE_GetResult(*(int **)(*(char **)(work+0xd0)+12))) *state=2;break;
+    case 0: BR_FADE_Start((int)(*(int **)(work->ctx+12)),2,3,1);*state=1;break;
+    case 1: if(BR_FADE_GetResult(*(int **)(work->ctx+12))) *state=2;break;
     case 2:
-        if(*(int *)(work+0xb0)) BR_CODEIN_RecordDeleteProfileScreen(work,*(char **)(work+0xd0));
-        else BR_CODEIN_RecordDeleteActors(work,*(char **)(work+0xd0));
-        BR_CODEIN_RecordDeleteButtons(work,*(char **)(work+0xd0));
-        BR_CODEIN_RecordCreateTextWin(work,*(char **)(work+0xd0));
-        BR_UTIL_SetWindowText(*(void **)(work+0x18),(char *)(*(int *)(*(char **)(work+0xd0)+0x10)),(void *)0x14b);
+        if(work->profileScreenShown) BR_CODEIN_RecordDeleteProfileScreen(work,work->ctx);
+        else BR_CODEIN_RecordDeleteActors(work,work->ctx);
+        BR_CODEIN_RecordDeleteButtons(work,work->ctx);
+        BR_CODEIN_RecordCreateTextWin(work,work->ctx);
+        BR_UTIL_SetWindowText(work->textWin,(char *)(*(int *)(work->ctx+0x10)),(void *)0x14b);
         *state=3;break;
-    case 3: BR_FADE_Start((int)(*(int **)(*(char **)(work+0xd0)+12)),2,3,0);*state=4;break;
-    case 4: if(BR_FADE_GetResult(*(int **)(*(char **)(work+0xd0)+12))) *state=5;break;
+    case 3: BR_FADE_Start((int)(*(int **)(work->ctx+12)),2,3,0);*state=4;break;
+    case 4: if(BR_FADE_GetResult(*(int **)(work->ctx+12))) *state=5;break;
     case 5:
         MI_CpuFill8(&t,0,8);
-        t=BATTLE_REC_GetHeaderParam(*(void **)(work+0xc4),4,0);
-        BR_NET_StartRequest(*(void **)(*(char **)(work+0xd0)+0x24),3,(const int *)(&t));
-        *(int *)(work+0xbc)=0;*state=6;break;
+        t=BATTLE_REC_GetHeaderParam(*(void * *)&work->header,4,0);
+        BR_NET_StartRequest(*(void **)(work->ctx+0x24),3,(const int *)(&t));
+        *(int *)((char *)work+0xbc)=0;*state=6;break;
     case 6:
-        ++*(int *)(work+0xbc);
-        if(BR_NET_IsIdle(*(void **)(*(char **)(work+0xd0)+0x24)) && *(u32 *)(work+0xbc)>96) {
-            BR_UTIL_StartEffect((void *)(*(int *)(work+12)), 0, 0);*state=7;
+        ++*(int *)((char *)work+0xbc);
+        if(BR_NET_IsIdle(*(void **)(work->ctx+0x24)) && *(u32 *)((char *)work+0xbc)>96) {
+            BR_UTIL_StartEffect((void *)(work->introFx), 0, 0);*state=7;
         }
         break;
     case 7:
-        if(!BR_NET_PollErrorMessage(*(void **)(*(char **)(work+0xd0)+0x24),&message)) {
-            if(BR_NET_GetVideoReply(*(char **)(*(char **)(work+0xd0)+0x24),(int)&source,&index)) {
-                BATTLE_REC_SetData(source,source+0x80,source+0xc4,(unsigned int)GAME_DATA_GetSaveControl(*(void **)(*(char **)(work+0xd0)+0x28)));
-                **(long long **)(*(char **)(work+0xd0)+0x2c)=index;
-                **(int **)(work+0xd0)=1;
-                BR_PROC_SYS_SetupWindow((CodeinWindowState *)(*(CodeinProcEntry **)(*(char **)(work+0xd0)+0x14)));*state=8;
+        if(!BR_NET_PollErrorMessage(*(void **)(work->ctx+0x24),&message)) {
+            if(BR_NET_GetVideoReply(*(char **)(work->ctx+0x24),(int)&source,&index)) {
+                BATTLE_REC_SetData(source,source+0x80,source+0xc4,(unsigned int)GAME_DATA_GetSaveControl(*(void **)(work->ctx+0x28)));
+                **(long long **)(work->ctx+0x2c)=index;
+                **(int * *)&work->ctx=1;
+                BR_PROC_SYS_SetupWindow((CodeinWindowState *)(*(CodeinProcEntry **)(work->ctx+0x14)));*state=8;
             } else {
-                BR_UTIL_SetWindowText(*(void **)(work+0x18),(char *)(*(int *)(*(char **)(work+0xd0)+0x10)),(void *)0x114);*state=11;
+                BR_UTIL_SetWindowText(work->textWin,(char *)(*(int *)(work->ctx+0x10)),(void *)0x114);*state=11;
             }
         } else {
-            BR_UTIL_SetWindowText(*(void **)(work+0x18),(char *)(*(int *)(*(char **)(work+0xd0)+0x10)),(void *)message);*state=11;
+            BR_UTIL_SetWindowText(work->textWin,(char *)(*(int *)(work->ctx+0x10)),(void *)message);*state=11;
         }
         break;
     case 11:
         if(TOUCHPANEL_GetTrg()) {
             TOUCHPANEL_GetPointTrg(&x,&y);args.x=x;args.y=y;
-            BR_UTIL_StartEffect((void *)(*(int *)(work+0x10)), 1, &args);GFL_USE_PlaySeDefaultVolume(0x703);*state=12;
+            BR_UTIL_StartEffect((void *)(work->tapFx), 1, &args);GFL_USE_PlaySeDefaultVolume(0x703);*state=12;
         }
         break;
-    case 8: BR_FADE_Start((int)(*(int **)(*(char **)(work+0xd0)+12)),2,3,1);*state=9;break;
-    case 9: if(BR_FADE_GetResult(*(int **)(*(char **)(work+0xd0)+12))) *state=10;break;
+    case 8: BR_FADE_Start((int)(*(int **)(work->ctx+12)),2,3,1);*state=9;break;
+    case 9: if(BR_FADE_GetResult(*(int **)(work->ctx+12))) *state=10;break;
     case 10:
-        if(!GFL_USE_IsSeqPlaying(0x701)) {BR_CODEIN_RecordDeleteTextWin(work,*(char **)(work+0xd0));BR_UTIL_ClearTaskStep((int *)(*(int *)(work+8)));}
+        if(!GFL_USE_IsSeqPlaying(0x701)) {BR_CODEIN_RecordDeleteTextWin(work,work->ctx);BR_UTIL_ClearTaskStep((int *)(*(int *)&work->task));}
         break;
-    case 12: BR_FADE_Start((int)(*(int **)(*(char **)(work+0xd0)+12)),2,3,1);*state=13;break;
-    case 13: if(BR_FADE_GetResult(*(int **)(*(char **)(work+0xd0)+12))) *state=14;break;
-    case 14: BR_CODEIN_RecordDeleteTextWin(work,*(char **)(work+0xd0));BR_UTIL_SetTaskStep(task,(int)BR_CODEIN_RecordStepCreateProfile);break;
+    case 12: BR_FADE_Start((int)(*(int **)(work->ctx+12)),2,3,1);*state=13;break;
+    case 13: if(BR_FADE_GetResult(*(int **)(work->ctx+12))) *state=14;break;
+    case 14: BR_CODEIN_RecordDeleteTextWin(work,work->ctx);BR_UTIL_SetTaskStep(task,(int)BR_CODEIN_RecordStepCreateProfile);break;
     }
 }
 
@@ -1805,28 +1805,28 @@ void BR_CODEIN_RecordStepReceive(int *task,int *state,char *work)
  * }
  * abi: DD0AC/DD0F4 keep the visibly loaded second descriptor argument despite body using only the first.
  */
-void BR_CODEIN_RecordStepSave(int *task,int *state,char *work)
+void BR_CODEIN_RecordStepSave(int *task,int *state,struct CodeinRecordWork *work)
 {
     switch(*state) {
     case 0:
-        BR_CODEIN_RecordCreateTextWin(work,*(char **)(work+0xd0));
-        BR_UTIL_SetWindowText(*(void **)(work+0x18),(char *)(*(int *)(*(char **)(work+0xd0)+0x10)),(void *)0x152);
-        BR_FADE_Start((int)(*(int **)(*(char **)(work+0xd0)+12)),2,3,0);
+        BR_CODEIN_RecordCreateTextWin(work,work->ctx);
+        BR_UTIL_SetWindowText(work->textWin,(char *)(*(int *)(work->ctx+0x10)),(void *)0x152);
+        BR_FADE_Start((int)(*(int **)(work->ctx+12)),2,3,0);
         *state=1;break;
-    case 1: if(BR_FADE_GetResult(*(int **)(*(char **)(work+0xd0)+12))) *state=2;break;
+    case 1: if(BR_FADE_GetResult(*(int **)(work->ctx+12))) *state=2;break;
     case 2: *state=3;break;
-    case 3: *(u16 *)(work+0xb6)=0;*(u16 *)(work+0xb8)=0;*state=4;break;
+    case 3: *(u16 *)((char *)work+0xb6)=0;*(u16 *)((char *)work+0xb8)=0;*state=4;break;
     case 4:
-        if(*(int *)(*(char **)(work+0xd0)+8)>3) GF_PANIC_Fail(d_021E3960,0,d_021E3960);
-        if(GDS_RAP_SaveVideoSecured((void *)(*(int *)(*(char **)(work+0xd0)+0x28)),*(int *)(*(char **)(work+0xd0)+8),(u16 *)(work+0xb6),(u16 *)(work+0xb8),*(u16 *)(work+0xb4))==2) {
+        if(*(int *)(work->ctx+8)>3) GF_PANIC_Fail(d_021E3960,0,d_021E3960);
+        if(GDS_RAP_SaveVideoSecured((void *)(*(int *)(work->ctx+0x28)),*(int *)(work->ctx+8),(u16 *)((char *)work+0xb6),(u16 *)((char *)work+0xb8),work->heapId)==2) {
             BATTLE_REC_DecodeWork();
-            *(int *)(work+0xc8)=(int)BATTLE_REC_GetHeaderParam(*(void **)(work+0xc4),5,0);
+            work->savedActorSys=(int)BATTLE_REC_GetHeaderParam(*(void * *)&work->header,5,0);
             *state=5;
         }
         break;
-    case 5: BR_FADE_Start((int)(*(int **)(*(char **)(work+0xd0)+12)),2,3,1);*state=6;break;
-    case 6: if(BR_FADE_GetResult(*(int **)(*(char **)(work+0xd0)+12))) *state=7;break;
-    case 7: BR_CODEIN_RecordDeleteTextWin(work,*(char **)(work+0xd0));BR_UTIL_SetTaskStep(task,(int)BR_CODEIN_RecordStepCreateProfile);break;
+    case 5: BR_FADE_Start((int)(*(int **)(work->ctx+12)),2,3,1);*state=6;break;
+    case 6: if(BR_FADE_GetResult(*(int **)(work->ctx+12))) *state=7;break;
+    case 7: BR_CODEIN_RecordDeleteTextWin(work,work->ctx);BR_UTIL_SetTaskStep(task,(int)BR_CODEIN_RecordStepCreateProfile);break;
     }
 }
 
@@ -1842,18 +1842,18 @@ void BR_CODEIN_RecordStepSave(int *task,int *state,char *work)
 /*
  * abi: DD0AC/DD0F4 retain caller-loaded r1.
  */
-void BR_CODEIN_RecordStepConfirm(int *task,int *state,char *work)
+void BR_CODEIN_RecordStepConfirm(int *task,int *state,struct CodeinRecordWork *work)
 {
     u32 x,y;
     switch(*state) {
-    case 0: BR_FADE_Start((int)(((struct CodeinSubA *)(((struct CodeinWorkB *)work)->recordCtx))->subFade),2,3,1);*state=1;break;
-    case 1: if(BR_FADE_GetResult(((struct CodeinSubA *)(((struct CodeinWorkB *)work)->recordCtx))->subFade)) *state=2;break;
+    case 0: BR_FADE_Start((int)(((struct CodeinSubA *)(work->ctx))->subFade),2,3,1);*state=1;break;
+    case 1: if(BR_FADE_GetResult(((struct CodeinSubA *)(work->ctx))->subFade)) *state=2;break;
     case 2:
-        if(((struct CodeinWorkB *)work)->profileScreenShown) BR_CODEIN_RecordDeleteProfileScreen(work,((struct CodeinWorkB *)work)->recordCtx);
-        else BR_CODEIN_RecordDeleteActors(work,((struct CodeinWorkB *)work)->recordCtx);
-        BR_CODEIN_RecordDeleteButtons(work,((struct CodeinWorkB *)work)->recordCtx);BR_CODEIN_RecordSetupTextWin(work,((struct CodeinWorkB *)work)->recordCtx);*state=3;break;
-    case 3: BR_FADE_Start((int)(((struct CodeinSubA *)(((struct CodeinWorkB *)work)->recordCtx))->subFade),2,3,0);++*state;break;
-    case 4: if(BR_FADE_GetResult(((struct CodeinSubA *)(((struct CodeinWorkB *)work)->recordCtx))->subFade)) ++*state;break;
+        if(work->profileScreenShown) BR_CODEIN_RecordDeleteProfileScreen(work,work->ctx);
+        else BR_CODEIN_RecordDeleteActors(work,work->ctx);
+        BR_CODEIN_RecordDeleteButtons(work,work->ctx);BR_CODEIN_RecordSetupTextWin(work,work->ctx);*state=3;break;
+    case 3: BR_FADE_Start((int)(((struct CodeinSubA *)(work->ctx))->subFade),2,3,0);++*state;break;
+    case 4: if(BR_FADE_GetResult(((struct CodeinSubA *)(work->ctx))->subFade)) ++*state;break;
     case 5: ++*state;break;
     case 6:
         if(TOUCHPANEL_GetPointTrg(&x,&y)) {
@@ -1861,29 +1861,29 @@ void BR_CODEIN_RecordStepConfirm(int *task,int *state,char *work)
             else if(BR_CODEIN_RecordHitOptionRight(work,x,y)) *state=10;
         }
         break;
-    case 7: BR_FADE_Start((int)(((struct CodeinSubA *)(((struct CodeinWorkB *)work)->recordCtx))->subFade),2,3,1);++*state;break;
-    case 8: if(BR_FADE_GetResult(((struct CodeinSubA *)(((struct CodeinWorkB *)work)->recordCtx))->subFade)) ++*state;break;
-    case 9: BR_CODEIN_RecordTeardownTextWin(work,((struct CodeinWorkB *)work)->recordCtx);*state=13;break;
-    case 10: BR_FADE_Start((int)(((struct CodeinSubA *)(((struct CodeinWorkB *)work)->recordCtx))->subFade),2,3,1);++*state;break;
-    case 11: if(BR_FADE_GetResult(((struct CodeinSubA *)(((struct CodeinWorkB *)work)->recordCtx))->subFade)) ++*state;break;
-    case 12: BR_CODEIN_RecordTeardownTextWin(work,((struct CodeinWorkB *)work)->recordCtx);BR_UTIL_SetTaskStep(task,(int)BR_CODEIN_RecordStepCreateProfile);break;
-    case 13: BR_CODEIN_RecordCreateTextWin(work,((struct CodeinWorkB *)work)->recordCtx);*state=14;break;
+    case 7: BR_FADE_Start((int)(((struct CodeinSubA *)(work->ctx))->subFade),2,3,1);++*state;break;
+    case 8: if(BR_FADE_GetResult(((struct CodeinSubA *)(work->ctx))->subFade)) ++*state;break;
+    case 9: BR_CODEIN_RecordTeardownTextWin(work,work->ctx);*state=13;break;
+    case 10: BR_FADE_Start((int)(((struct CodeinSubA *)(work->ctx))->subFade),2,3,1);++*state;break;
+    case 11: if(BR_FADE_GetResult(((struct CodeinSubA *)(work->ctx))->subFade)) ++*state;break;
+    case 12: BR_CODEIN_RecordTeardownTextWin(work,work->ctx);BR_UTIL_SetTaskStep(task,(int)BR_CODEIN_RecordStepCreateProfile);break;
+    case 13: BR_CODEIN_RecordCreateTextWin(work,work->ctx);*state=14;break;
     case 14:
-        BR_UTIL_SetWindowText(((struct CodeinWorkB *)work)->textWin,(char *)(((struct CodeinSubA *)(((struct CodeinWorkB *)work)->recordCtx))->res),(void *)0x152);
-        BR_FADE_Start((int)(((struct CodeinSubA *)(((struct CodeinWorkB *)work)->recordCtx))->subFade),2,3,0);*state=15;break;
-    case 15: if(BR_FADE_GetResult(((struct CodeinSubA *)(((struct CodeinWorkB *)work)->recordCtx))->subFade)) *state=16;break;
+        BR_UTIL_SetWindowText(work->textWin,(char *)(((struct CodeinSubA *)(work->ctx))->res),(void *)0x152);
+        BR_FADE_Start((int)(((struct CodeinSubA *)(work->ctx))->subFade),2,3,0);*state=15;break;
+    case 15: if(BR_FADE_GetResult(((struct CodeinSubA *)(work->ctx))->subFade)) *state=16;break;
     case 16: *state=17;break;
-    case 17: GAME_DATA_SaveStart((*(int *)&((struct CodeinSubA *)(((struct CodeinWorkB *)work)->recordCtx))->gameData));*state=18;break;
+    case 17: GAME_DATA_SaveStart((*(int *)&((struct CodeinSubA *)(work->ctx))->gameData));*state=18;break;
     case 18:
-        if(GAME_DATA_SaveMain(*(u8 * *)&((struct CodeinSubA *)(((struct CodeinWorkB *)work)->recordCtx))->gameData)==2) {BR_UTIL_StartEffect((void *)(((struct CodeinWorkB *)work)->button), 0, 0);*state=19;}
+        if(GAME_DATA_SaveMain(*(u8 * *)&((struct CodeinSubA *)(work->ctx))->gameData)==2) {BR_UTIL_StartEffect((void *)(work->introFx), 0, 0);*state=19;}
         break;
-    case 19: BR_FADE_Start((int)(((struct CodeinSubA *)(((struct CodeinWorkB *)work)->recordCtx))->subFade),2,3,1);*state=20;break;
-    case 20: if(BR_FADE_GetResult(((struct CodeinSubA *)(((struct CodeinWorkB *)work)->recordCtx))->subFade)) *state=21;break;
+    case 19: BR_FADE_Start((int)(((struct CodeinSubA *)(work->ctx))->subFade),2,3,1);*state=20;break;
+    case 20: if(BR_FADE_GetResult(((struct CodeinSubA *)(work->ctx))->subFade)) *state=21;break;
     case 21:
         if(!GFL_USE_IsSeqPlaying(0x701)) {
-            BR_CODEIN_RecordDeleteTextWin(work,((struct CodeinWorkB *)work)->recordCtx);
-            **(int * *)&((struct CodeinWorkB *)work)->recordCtx=1;
-            BR_PROC_SYS_SetupWindow((CodeinWindowState *)(*(CodeinWindowState * *)&((struct CodeinSubA *)(((struct CodeinWorkB *)work)->recordCtx))->procQuery));
+            BR_CODEIN_RecordDeleteTextWin(work,work->ctx);
+            **(int * *)&work->ctx=1;
+            BR_PROC_SYS_SetupWindow((CodeinWindowState *)(*(CodeinWindowState * *)&((struct CodeinSubA *)(work->ctx))->procQuery));
             BR_UTIL_ClearTaskStep((int *)task);
         }
         break;
@@ -1923,7 +1923,7 @@ void BR_CODEIN_RecordStepConfirm(int *task,int *state,char *work)
  * lever: counter declared before context locals restores stack homes; named selector fixes call-result addition operand order (existing idioms).
  * abi: EE0C retains caller's sixth outgoing word (2), beyond callee's five used arguments.
  */
-void BR_CODEIN_RecordSetupProfile(char *work,char *arg)
+void BR_CODEIN_RecordSetupProfile(struct CodeinRecordWork *work,char *arg)
 {
     u16 record[4];
     int i;
@@ -1934,26 +1934,26 @@ void BR_CODEIN_RecordSetupProfile(char *work,char *arg)
     const CodeinMenuItem *d;
     char *slot;
     U16Vec *text;
-    if(!*(int *)(work+0xd4)) {
-        *(int *)(work+0xd4)=1;
-        if(BR_CODEIN_RecordIsMultiBattle(*(void **)(work+0xc4))) BR_RES_LoadBgGraphics((void *)(*(int *)(arg+0x10)),7,*(u16 *)(work+0xb4));
-        else BR_RES_LoadBgGraphics((void *)(*(int *)(arg+0x10)),6,*(u16 *)(work+0xb4));
+    if(!work->actorsLoaded) {
+        work->actorsLoaded=1;
+        if(BR_CODEIN_RecordIsMultiBattle(*(void * *)&work->header)) BR_RES_LoadBgGraphics((void *)(*(int *)(arg+0x10)),7,work->heapId);
+        else BR_RES_LoadBgGraphics((void *)(*(int *)(arg+0x10)),6,work->heapId);
         font=(void *)BR_RES_GetFont(*(char **)(arg+0x10));
         bank=(MsgBank *)BR_RES_GetMsgData(*(char **)(arg+0x10));
         words=(WordSet *)BR_RES_GetWordSet(*(char **)(arg+0x10));
         for(i=0;i<5;i++) {
             d=&d_021E32C8[i];
-            slot=work+i*4;
-            *(void **)(slot+0x30)=BR_UTIL_Create(1,d->x,d->y,d->w,d->h,14,*(void **)(work+4),*(u16 *)(work+0xb4));
+            slot=(char *)work+i*4;
+            *(void **)(slot+0x30)=BR_UTIL_Create(1,d->x,d->y,d->w,d->h,14,work->printQue,work->heapId);
             switch(i) {
             case 0:
                 {
                 void *name;
                 void *message;
-                text=STRBUF_Create(128,*(u16 *)(work+0xb4));
-                name=GDS_PROFILE_CreateNameStr(*(void **)(work+0xc0),*(u16 *)(work+0xb4));
+                text=STRBUF_Create(128,work->heapId);
+                name=GDS_PROFILE_CreateNameStr(*(void * *)&work->recData,work->heapId);
                 message=MSGDATA_AllocString(bank,d->message);
-                WORDSET_SetSlotTag(words,0,name,GDS_PROFILE_GetEggFlag(*(RecGet **)(work+0xc0)),1,2);
+                WORDSET_SetSlotTag(words,0,name,GDS_PROFILE_GetEggFlag(*(RecGet * *)&work->recData),1,2);
                 WORDSET_CopyTaggedText(words,text,message);
                 STRBUF_Delete((U16Vec *)name);STRBUF_Delete((U16Vec *)message);
                 BR_UTIL_SetTextLayout(*(void **)(slot+0x30),0,1,0);
@@ -1962,7 +1962,7 @@ void BR_CODEIN_RecordSetupProfile(char *work,char *arg)
             case 1:
                 {
                 u32 selector;
-                selector=BATTLE_REC_GetHeaderParam(*(void **)(work+0xc4),3,0);
+                selector=BATTLE_REC_GetHeaderParam(*(void * *)&work->header,3,0);
                 text=MSGDATA_AllocString(bank,selector+d->message);
                 BR_UTIL_SetTextLayout(*(void **)(slot+0x30),0,1,0);ready=1;break;
                 }
@@ -1973,34 +1973,34 @@ void BR_CODEIN_RecordSetupProfile(char *work,char *arg)
                 u32 low,middle,high;
                 void *message;
                 void *temporary;
-                value=BATTLE_REC_GetHeaderParam(*(void **)(work+0xc4),4,0);
+                value=BATTLE_REC_GetHeaderParam(*(void * *)&work->header,4,0);
                 low=value%100000ULL;
                 quotient=value/100000ULL;
                 middle=quotient%100000ULL;
                 high=quotient/100000ULL;
-                temporary=GDS_PROFILE_ExportRecord(*(GdsProfile **)(work+0xc0),(GdsRecord *)record,*(u16 *)(work+0xb4));
+                temporary=GDS_PROFILE_ExportRecord(*(GdsProfile * *)&work->recData,(GdsRecord *)record,work->heapId);
                 if(temporary) {
                     message=MSGDATA_AllocString(bank,13);STRBUF_Delete((U16Vec *)temporary);
                 } else message=MSGDATA_AllocString(bank,d->message);
-                text=STRBUF_Create(128,*(u16 *)(work+0xb4));
+                text=STRBUF_Create(128,work->heapId);
                 WORDSET_SetSlotNumber(words,2,low,5,2,1);WORDSET_SetSlotNumber(words,1,middle,5,2,1);WORDSET_SetSlotNumber(words,0,high,2,2,1);
                 WORDSET_CopyTaggedText(words,text,message);
                 BR_UTIL_SetTextLayout(*(void **)(slot+0x30),0,1,0);STRBUF_Delete((U16Vec *)message);
                 ready=1;break;
                 }
             case 3:
-                if(BR_CODEIN_RecordIsType2(*(void **)(work+0xc4))) {
+                if(BR_CODEIN_RecordIsType2(*(void * *)&work->header)) {
                     u32 count;
                     void *message;
-                    count=BATTLE_REC_GetHeaderParam(*(void **)(work+0xc4),2,0);
-                    text=STRBUF_Create(128,*(u16 *)(work+0xb4));
+                    count=BATTLE_REC_GetHeaderParam(*(void * *)&work->header,2,0);
+                    text=STRBUF_Create(128,work->heapId);
                     message=MSGDATA_AllocString(bank,d->message);
                     WORDSET_SetSlotNumber(words,0,count,4,0,1);WORDSET_CopyTaggedText(words,text,message);STRBUF_Delete((U16Vec *)message);
                     BR_UTIL_SetTextLayout(*(void **)(slot+0x30),0,1,1);ready=1;
                 } else ready=0;
                 break;
             case 4:
-                if(BR_CODEIN_RecordIsType2(*(void **)(work+0xc4))) {
+                if(BR_CODEIN_RecordIsType2(*(void * *)&work->header)) {
                     text=MSGDATA_AllocString(bank,d->message);
                     BR_UTIL_SetTextLayout(*(void **)(slot+0x30),0,1,1);ready=1;
                 } else ready=0;
@@ -2010,7 +2010,7 @@ void BR_CODEIN_RecordSetupProfile(char *work,char *arg)
                 BR_UTIL_SetTextFromBuffer(*(char **)(slot+0x30),text,font,0x3da0);STRBUF_Delete(text);
             }
         }
-        BR_CODEIN_RecordSetupActors(work,*(void **)(arg+0x18),*(void **)(work+0xc4),*(u16 *)(work+0xb4));
+        BR_CODEIN_RecordSetupActors(work,*(void **)(arg+0x18),*(void * *)&work->header,work->heapId);
     }
 }
 
@@ -2066,7 +2066,7 @@ void BR_CODEIN_RecordSetupProfile(char *work,char *arg)
  * checks: 1 own ARM9 and matched caller arities re-derived; B98C original shown, 3 args/u64, DD228 shown 1 arg; 2 F838 and F620/DE084 twins reread; 3 codegen became MATCH in3 runs, further type probes unnecessary; 4 counter-before-base/declared-struct idioms read; 5 fresh directory/neighbors reread before handoff; prior permuter300 not repeated.
  * TU: cbd8-tu.log terminal exit0, MATCH, three B98C wildcards at +009A/+00A6/+00B2, no viable split.
  */
-void BR_CODEIN_RecordSetupActors(char *work,void *manager,void *party,u16 heap)
+void BR_CODEIN_RecordSetupActors(struct CodeinRecordWork *work,void *manager,void *party,u16 heap)
 {
     u32 species[12],forms[12],half[12];
     Position pos;
@@ -2083,9 +2083,9 @@ void BR_CODEIN_RecordSetupActors(char *work,void *manager,void *party,u16 heap)
     char *slot;
     int mapping;
     archive=ARC_TOOL_CreateHandle(7,(u16)((heap&0x7fff)|0x8000));
-    *(void **)(work+0x48)=(void *)CLACT_RegisterPaletteCompressed(archive,POKE_TOOL_GetIconPaletteArcId(),0,128,heap);
+    *(void * *)&work->paletteRes=(void *)CLACT_RegisterPaletteCompressed(archive,POKE_TOOL_GetIconPaletteArcId(),0,128,heap);
     mapping=POKE_TOOL_GetIconCellArcId();
-    *(void **)(work+0x4c)=(void *)CLACT_RegisterCellAnim(archive,mapping,POKE_TOOL_GetIconCellEntryId(),heap);
+    *(void * *)&work->cellAnimRes=(void *)CLACT_RegisterCellAnim(archive,mapping,POKE_TOOL_GetIconCellEntryId(),heap);
     n=0;
     step=6;start=0;end=6;mode=0;
     if(BR_CODEIN_RecordIsMultiBattle(party)==1) {step=3;end=3;mode=1;}
@@ -2106,7 +2106,7 @@ void BR_CODEIN_RecordSetupActors(char *work,void *manager,void *party,u16 heap)
     j=0;
     coords=(const Point16 *)((u32)d_021E32F0+(int)mode*48);
     for(;j<12;j++) {
-        slot=work+j*4;
+        slot=(char *)work+j*4;
         *(void **)(slot+0x80)=0;
         *(u32 *)(slot+0x50)=-1;
         v2=species[j];
@@ -2115,9 +2115,9 @@ void BR_CODEIN_RecordSetupActors(char *work,void *manager,void *party,u16 heap)
             *(u32 *)(slot+0x50)=CLACT_RegisterCharacter(archive,POKE_TOOL_CalcGraphicIndex(v2,f2,h2,0),0,0,heap);
             MI_CpuFill8(&pos,0,8);
             pos.x=coords[j].x+8;pos.y=coords[j].y-12;pos.z=1;pos.a=12-count;
-            *(void **)(work+count*4+0x80)=CLACT_CreateActor(manager,(u32)(*(void **)(slot+0x50)),(u32)(*(void **)(work+0x48)),(u32)(*(void **)(work+0x4c)),&pos,0,heap);
-            CLACT_SetActorObjMode(*(void **)(count*4+work+0x80),1);
-            CLACT_SetActorPaletteOffset(*(void **)(work+count*4+0x80),POKE_TOOL_CalcIconPalette(v2,f2,h2,0),0);
+            *(void **)((char *)work+count*4+0x80)=CLACT_CreateActor(manager,(u32)(*(void **)(slot+0x50)),(u32)(*(void * *)&work->paletteRes),(u32)(*(void * *)&work->cellAnimRes),&pos,0,heap);
+            CLACT_SetActorObjMode(*(void **)(count*4+(char *)work+0x80),1);
+            CLACT_SetActorPaletteOffset(*(void **)((char *)work+count*4+0x80),POKE_TOOL_CalcIconPalette(v2,f2,h2,0),0);
             count++;
         }
     }
@@ -2134,14 +2134,14 @@ void BR_CODEIN_RecordSetupActors(char *work,void *manager,void *party,u16 heap)
 
 
 
-void BR_CODEIN_RecordCreateProfileScreen(char *work, char *arg)
+void BR_CODEIN_RecordCreateProfileScreen(struct CodeinRecordWork *work, char *arg)
 {
     int flag;
-    if(*(int *)(work+0x44)==0 && *(int *)(work+0xdc)==0) {
-        *(int *)(work+0xdc)=1;
+    if(*(int *)&work->profileScreen==0 && work->profileScreenLoaded==0) {
+        work->profileScreenLoaded=1;
         flag=1;
-        if(*(int *)(*(char **)(work+0xd0)+8)==0) flag=0;
-        *(void **)(work+0x44)=BR_UTIL_CreateProfileScreen((void *)(*(int *)(work+0xc0)),(char *)(*(int *)(arg+0x10)),(void *)(*(int *)(arg+0x18)),(void *)(*(int *)(work+4)),flag,*(unsigned short *)(work+0xb4));
+        if(*(int *)(work->ctx+8)==0) flag=0;
+        work->profileScreen=BR_UTIL_CreateProfileScreen((void *)(*(int *)&work->recData),(char *)(*(int *)(arg+0x10)),(void *)(*(int *)(arg+0x18)),(void *)(*(int *)&work->printQue),flag,work->heapId);
     }
 }
 
@@ -2154,7 +2154,7 @@ void BR_CODEIN_RecordCreateProfileScreen(char *work, char *arg)
 
 
 
-void BR_CODEIN_RecordDeleteProfileScreen(char *work,char *unused) { if(((struct CodeinWorkB *)work)->profileScreenLoaded && *(int * *)&((struct CodeinWorkB *)work)->profileScreen) { BR_UTIL_DeleteProfileScreen(*(int * *)&((struct CodeinWorkB *)work)->profileScreen); ((struct CodeinWorkB *)work)->profileScreen=0; ((struct CodeinWorkB *)work)->profileScreenLoaded=0; } }
+void BR_CODEIN_RecordDeleteProfileScreen(struct CodeinRecordWork *work,char *unused) { if(work->profileScreenLoaded && *(int * *)&work->profileScreen) { BR_UTIL_DeleteProfileScreen(*(int * *)&work->profileScreen); work->profileScreen=0; work->profileScreenLoaded=0; } }
 
 
 
@@ -2164,29 +2164,28 @@ void BR_CODEIN_RecordDeleteProfileScreen(char *work,char *unused) { if(((struct 
 
 
 
-void BR_CODEIN_RecordDeleteActors(char *work,char *arg)
+void BR_CODEIN_RecordDeleteActors(struct CodeinRecordWork *work,char *arg)
 {
     int i;
-    char *slot;
-    if(((struct CodeinWorkB *)work)->actorsLoaded) {
+    if(work->actorsLoaded) {
         for(i=0;i<12;i++) {
-            slot=work+i*4;
-            if(((struct CodeinWorkC *)slot)->actor) {
-                CLACT_SetActorDrawEnable(((struct CodeinWorkC *)slot)->actor,0);
-                CLACT_DeleteActor(((struct CodeinWorkC *)slot)->actor);
-                *(int *)&((struct CodeinWorkC *)slot)->actor=0;
+
+            if(work->actor[i]) {
+                CLACT_SetActorDrawEnable(work->actor[i],0);
+                CLACT_DeleteActor(work->actor[i]);
+                work->actor[i]=0;
             }
-            if(((struct CodeinWorkC *)slot)->charRes!=-1) { CLACT_ReleaseCharacter(((struct CodeinWorkC *)slot)->charRes); ((struct CodeinWorkC *)slot)->charRes=-1; }
+            if(work->charRes[i]!=-1) { CLACT_ReleaseCharacter(work->charRes[i]); work->charRes[i]=-1; }
         }
-        if(((struct CodeinWorkB *)work)->paletteRes!=-1) { CLACT_ReleasePalette(((struct CodeinWorkB *)work)->paletteRes); ((struct CodeinWorkB *)work)->paletteRes=-1; }
-        if(((struct CodeinWorkB *)work)->cellAnimRes!=-1) { CLACT_ReleaseCellAnim(((struct CodeinWorkB *)work)->cellAnimRes); ((struct CodeinWorkB *)work)->cellAnimRes=-1; }
+        if(work->paletteRes!=-1) { CLACT_ReleasePalette(work->paletteRes); work->paletteRes=-1; }
+        if(work->cellAnimRes!=-1) { CLACT_ReleaseCellAnim(work->cellAnimRes); work->cellAnimRes=-1; }
         for(i=0;i<5;i++) {
-            slot=work+i*4;
-            if(((struct CodeinWorkC *)slot)->profileText) { BR_UTIL_Delete(((struct CodeinWorkC *)slot)->profileText); *(int *)&((struct CodeinWorkC *)slot)->profileText=0; }
+
+            if(work->profileText[i]) { BR_UTIL_Delete(work->profileText[i]); work->profileText[i]=0; }
         }
         BR_RES_ApplyBgSet(((struct CodeinArgA *)arg)->uiRes,6);
         BG_SYS_PushTile(1);
-        ((struct CodeinWorkB *)work)->actorsLoaded=0;
+        work->actorsLoaded=0;
     }
 }
 
@@ -2198,35 +2197,35 @@ void BR_CODEIN_RecordDeleteActors(char *work,char *arg)
 
 
 
-void BR_CODEIN_RecordSetupButtons(char *work,char *arg)
+void BR_CODEIN_RecordSetupButtons(struct CodeinRecordWork *work,char *arg)
 {
     int a,b;
-    if(!((struct CodeinWorkA *)work)->buttonsLoaded) {
-        ((struct CodeinWorkA *)work)->buttonsLoaded=1;
-        BR_RES_LoadBgGraphics((void *)(*(int *)&((struct CodeinArgB *)arg)->gameData),5,((struct CodeinWorkA *)work)->recordHeapId);
-        BR_RES_LoadSprite(*(char * *)&((struct CodeinArgB *)arg)->gameData,6,((struct CodeinWorkA *)work)->recordHeapId);
+    if(!work->buttonsLoaded) {
+        work->buttonsLoaded=1;
+        BR_RES_LoadBgGraphics((void *)(*(int *)&((struct CodeinArgB *)arg)->gameData),5,work->heapId);
+        BR_RES_LoadSprite(*(char * *)&((struct CodeinArgB *)arg)->gameData,6,work->heapId);
         a=BR_RES_GetFont(*(char * *)&((struct CodeinArgB *)arg)->gameData);
         b=BR_RES_GetMsgData(*(char * *)&((struct CodeinArgB *)arg)->gameData);
-        if(((struct CodeinWorkA *)work)->hasSecondButton) {
+        if(work->hasSecondButton) {
             Params d;
             Triple t;
             MI_CpuFill8(&d,0,8);
             d.a=24;d.b=168;d.c=0;d.flag=1;
             BR_RES_GetSprite(((struct CodeinArgB *)arg)->gameData,6,&t);
-            (*(void * *)&((struct CodeinWorkA *)work)->ctx)=BR_BTN_CreateFromMessage(&d,4,96,1,((struct CodeinArgB *)arg)->category,(*(int *)&((struct CodeinWorkA *)work)->oamSys),a,b,&t,((struct CodeinWorkA *)work)->recordHeapId);
+            (*(void * *)&work->button[0])=BR_BTN_CreateFromMessage(&d,4,96,1,((struct CodeinArgB *)arg)->category,(*(int *)&work->oamSys),a,b,&t,work->heapId);
             d.a=136;d.c=3;
-            (*(void * *)&((struct CodeinWorkA *)work)->saveCtx)=BR_BTN_CreateFromMessage(&d,84,96,1,((struct CodeinArgB *)arg)->category,(*(int *)&((struct CodeinWorkA *)work)->oamSys),a,b,&t,((struct CodeinWorkA *)work)->recordHeapId);
+            (*(void * *)&work->button[1])=BR_BTN_CreateFromMessage(&d,84,96,1,((struct CodeinArgB *)arg)->category,(*(int *)&work->oamSys),a,b,&t,work->heapId);
         } else {
             Params d;
             Triple t;
             MI_CpuFill8(&d,0,8);
             d.a=80;d.b=168;d.c=0;d.flag=1;
             BR_RES_GetSprite(((struct CodeinArgB *)arg)->gameData,6,&t);
-            (*(void * *)&((struct CodeinWorkA *)work)->ctx)=BR_BTN_CreateFromMessage(&d,4,96,1,((struct CodeinArgB *)arg)->category,(*(int *)&((struct CodeinWorkA *)work)->oamSys),a,b,&t,((struct CodeinWorkA *)work)->recordHeapId);
+            (*(void * *)&work->button[0])=BR_BTN_CreateFromMessage(&d,4,96,1,((struct CodeinArgB *)arg)->category,(*(int *)&work->oamSys),a,b,&t,work->heapId);
         }
-        (*(void * *)&((struct CodeinWorkA *)work)->noticeText)=BR_UTIL_Create(4,8,3,16,2,14,((struct CodeinWorkA *)work)->printQue,((struct CodeinWorkA *)work)->recordHeapId);
-        if(((struct CodeinWorkA *)work)->profileScreenShown) BR_UTIL_SetTextFromMessage(((struct CodeinWorkA *)work)->noticeText,(void *)b,(void *)0x72,(void *)a,0x3da0);
-        else BR_UTIL_SetTextFromMessage(((struct CodeinWorkA *)work)->noticeText,(void *)b,(void *)0x71,(void *)a,0x3da0);
+        (*(void * *)&work->captionText[0])=BR_UTIL_Create(4,8,3,16,2,14,work->printQue,work->heapId);
+        if(work->profileScreenShown) BR_UTIL_SetTextFromMessage(work->captionText[0],(void *)b,(void *)0x72,(void *)a,0x3da0);
+        else BR_UTIL_SetTextFromMessage(work->captionText[0],(void *)b,(void *)0x71,(void *)a,0x3da0);
     }
 }
 
@@ -2238,20 +2237,19 @@ void BR_CODEIN_RecordSetupButtons(char *work,char *arg)
 
 
 
-void BR_CODEIN_RecordDeleteButtons(char *work, char *arg)
+void BR_CODEIN_RecordDeleteButtons(struct CodeinRecordWork *work, char *arg)
 {
     int i;
-    char *slot;
-    if(((struct CodeinWorkB *)work)->buttonsLoaded) {
-        if(((struct CodeinWorkB *)work)->noticeText) { BR_UTIL_Delete(((struct CodeinWorkB *)work)->noticeText); *(int *)&((struct CodeinWorkB *)work)->noticeText=0; }
+    if(work->buttonsLoaded) {
+        if(work->captionText[0]) { BR_UTIL_Delete(work->captionText[0]); *(int *)&work->captionText[0]=0; }
         for(i=0;i<2;i++) {
-            slot=work+i*4;
-            if(((struct CodeinSlotA *)slot)->rowText) { BR_BTN_DeleteObject(((struct CodeinSlotA *)slot)->rowText); *(int *)&((struct CodeinSlotA *)slot)->rowText=0; }
+
+            if(work->button[i]) { BR_BTN_DeleteObject(work->button[i]); work->button[i]=0; }
         }
         BG_SYS_PushTile(4);
         BR_RES_ReleaseSprite((char *)(((struct CodeinArgA *)arg)->uiRes),6);
         BR_RES_ApplyBgSet(((struct CodeinArgA *)arg)->uiRes,5);
-        ((struct CodeinWorkB *)work)->buttonsLoaded=0;
+        work->buttonsLoaded=0;
     }
 }
 
@@ -2261,16 +2259,16 @@ void BR_CODEIN_RecordDeleteButtons(char *work, char *arg)
 
 
 
-void BR_CODEIN_RecordCreateTextWin(char *work, char *unused)
+void BR_CODEIN_RecordCreateTextWin(struct CodeinRecordWork *work, char *unused)
 {
-    if (!((struct CodeinWorkB *)work)->textWinCreated) {
+    if (!work->textWinCreated) {
         Point args;
-        ((struct CodeinWorkB *)work)->textWinCreated = 1;
-        if (!((struct CodeinWorkB *)work)->textWin)
-            ((struct CodeinWorkB *)work)->textWin = BR_UTIL_CreateTextWin(((struct CodeinSubA *)(((struct CodeinWorkB *)work)->recordCtx))->res, (void *)(((struct CodeinWorkB *)work)->printQue), ((struct CodeinWorkB *)work)->recordHeapId);
+        work->textWinCreated = 1;
+        if (!work->textWin)
+            work->textWin = BR_UTIL_CreateTextWin(((struct CodeinSubA *)(work->ctx))->res, (void *)(work->printQue), work->heapId);
         args.x = 0x80;
         args.y = 0x60;
-        BR_UTIL_StartEffect((void *)(((struct CodeinWorkB *)work)->button), 4, &args);
+        BR_UTIL_StartEffect((void *)(work->introFx), 4, &args);
     }
 }
 
@@ -2280,7 +2278,7 @@ void BR_CODEIN_RecordCreateTextWin(char *work, char *unused)
 
 
 
-void BR_CODEIN_RecordDeleteTextWin(char *work, char *unused) { if(((struct CodeinWorkB *)work)->textWinCreated) { BR_UTIL_StartEffect(*(char * *)&((struct CodeinWorkB *)work)->button,0,0); if(((struct CodeinWorkB *)work)->textWin) { BR_UTIL_DeleteTextWin(((struct CodeinWorkB *)work)->textWin,((struct CodeinSubA *)(((struct CodeinWorkB *)work)->recordCtx))->res); *(int *)&((struct CodeinWorkB *)work)->textWin=0; } ((struct CodeinWorkB *)work)->textWinCreated=0; } }
+void BR_CODEIN_RecordDeleteTextWin(struct CodeinRecordWork *work, char *unused) { if(work->textWinCreated) { BR_UTIL_StartEffect(*(char * *)&work->introFx,0,0); if(work->textWin) { BR_UTIL_DeleteTextWin(work->textWin,((struct CodeinSubA *)(work->ctx))->res); *(int *)&work->textWin=0; } work->textWinCreated=0; } }
 
 
 
@@ -2288,24 +2286,23 @@ void BR_CODEIN_RecordDeleteTextWin(char *work, char *unused) { if(((struct Codei
 
 
 
-void BR_CODEIN_RecordSetupTextWin(char *work, char *arg)
+void BR_CODEIN_RecordSetupTextWin(struct CodeinRecordWork *work, char *arg)
 {
-    if (!((struct CodeinWorkB *)work)->textWinSetup) {
+    if (!work->textWinSetup) {
         int first, second, i;
         const Record *rec;
-        char *slot;
-        ((struct CodeinWorkB *)work)->textWinSetup = 1;
-        if (!((struct CodeinWorkB *)work)->textWin)
-            ((struct CodeinWorkB *)work)->textWin = BR_UTIL_CreateTextWin(((struct CodeinArgA *)arg)->uiRes, (void *)(((struct CodeinWorkB *)work)->printQue), ((struct CodeinWorkB *)work)->recordHeapId);
-        BR_UTIL_SetWindowText(((struct CodeinWorkB *)work)->textWin, (char *)(((struct CodeinArgA *)arg)->uiRes), (void *)0x14f);
-        BR_RES_LoadBgGraphics((void *)(((struct CodeinArgA *)arg)->uiRes), 30, ((struct CodeinWorkB *)work)->recordHeapId);
+        work->textWinSetup = 1;
+        if (!work->textWin)
+            work->textWin = BR_UTIL_CreateTextWin(((struct CodeinArgA *)arg)->uiRes, (void *)(work->printQue), work->heapId);
+        BR_UTIL_SetWindowText(work->textWin, (char *)(((struct CodeinArgA *)arg)->uiRes), (void *)0x14f);
+        BR_RES_LoadBgGraphics((void *)(((struct CodeinArgA *)arg)->uiRes), 30, work->heapId);
         first = BR_RES_GetFont(*(char * *)&((struct CodeinArgA *)arg)->uiRes);
         second = BR_RES_GetMsgData(*(char * *)&((struct CodeinArgA *)arg)->uiRes);
         for (i = 0; i < 2; i++) {
             rec = &d_021E32A8[i];
-            slot = work + i * 4;
-            ((struct CodeinWorkC *)slot)->captionText = BR_UTIL_Create(4, rec->a, rec->b, rec->c, rec->d, 14, (void *)(((struct CodeinWorkB *)work)->printQue), ((struct CodeinWorkB *)work)->recordHeapId);
-            BR_UTIL_SetTextFromMessage(((struct CodeinWorkC *)slot)->captionText, (void *)second, (void *)rec->value, (void *)first, 0x3da0);
+
+            work->captionText[i] = BR_UTIL_Create(4, rec->a, rec->b, rec->c, rec->d, 14, (void *)(work->printQue), work->heapId);
+            BR_UTIL_SetTextFromMessage(work->captionText[i], (void *)second, (void *)rec->value, (void *)first, 0x3da0);
         }
     }
 }
@@ -2324,25 +2321,24 @@ void BR_CODEIN_RecordSetupTextWin(char *work, char *arg)
 /*
  * trailing: 2 zero alignment bytes at 0x021DD226
  */
-void BR_CODEIN_RecordTeardownTextWin(char *work, char *arg)
+void BR_CODEIN_RecordTeardownTextWin(struct CodeinRecordWork *work, char *arg)
 {
     int i;
-    char *slot;
-    if (((struct CodeinWorkB *)work)->textWinSetup) {
+    if (work->textWinSetup) {
         for (i = 0; i < 2; i++) {
-            slot = work + i * 4;
-            if (((struct CodeinWorkC *)slot)->captionText) {
-                BR_UTIL_Delete(((struct CodeinWorkC *)slot)->captionText);
-                *(int *)&((struct CodeinWorkC *)slot)->captionText = 0;
+
+            if (work->captionText[i]) {
+                BR_UTIL_Delete(work->captionText[i]);
+                work->captionText[i] = 0;
             }
         }
         BG_SYS_PushTile(4);
         BR_RES_ApplyBgSet(((struct CodeinArgA *)arg)->uiRes, 30);
-        if (((struct CodeinWorkB *)work)->textWin) {
-            BR_UTIL_DeleteTextWin(((struct CodeinWorkB *)work)->textWin, ((struct CodeinArgA *)arg)->uiRes);
-            *(int *)&((struct CodeinWorkB *)work)->textWin = 0;
+        if (work->textWin) {
+            BR_UTIL_DeleteTextWin(work->textWin, ((struct CodeinArgA *)arg)->uiRes);
+            *(int *)&work->textWin = 0;
         }
-        ((struct CodeinWorkB *)work)->textWinSetup = 0;
+        work->textWinSetup = 0;
     }
 }
 
@@ -2383,7 +2379,7 @@ void BR_CODEIN_RecordTeardownTextWin(char *work, char *arg)
  *               if (*(u16 *)(p + 0x26) == BattleRecModeTable[i]) return i;
  *           }
  *           return 0;
- *       case 4: return *(u64 *)(p + 0x38);
+ *       case 4: return *(u64 *)&p->profileText[2];
  *       case 5: return *(u8 *)(p + 0x2A);
  *       case 6: return (*(u8 *)(p + index + 0x18) & 0x80) >> 7;
  *       case 7: return *(u8 *)(p + 0x2B);
@@ -2417,7 +2413,7 @@ int BR_CODEIN_RecordIsType2(void *work) { int result; int v; result=0; v=(int)BA
 
 
 
-int BR_CODEIN_RecordHitProfileToggle(char *work, int x, int y)
+int BR_CODEIN_RecordHitProfileToggle(struct CodeinRecordWork *work, int x, int y)
 {
     int ok = ((unsigned int)(x - 0x40) <= 0x88) &
              ((unsigned int)(y - 0x10) <= 0x20);
@@ -2425,7 +2421,7 @@ int BR_CODEIN_RecordHitProfileToggle(char *work, int x, int y)
         Point args;
         args.x = x;
         args.y = y;
-        BR_UTIL_StartEffect((void *)((*(int *)&((struct CodeinWorkA *)work)->recordTapFx)), 1, &args);
+        BR_UTIL_StartEffect((void *)((*(int *)&work->tapFx)), 1, &args);
         GFL_USE_PlaySeDefaultVolume(0x703);
     }
     return ok;
@@ -2442,7 +2438,7 @@ int BR_CODEIN_RecordHitProfileToggle(char *work, int x, int y)
 
 
 
-int BR_CODEIN_RecordHitRecordPanel(char *work, int x, int y)
+int BR_CODEIN_RecordHitRecordPanel(struct CodeinRecordWork *work, int x, int y)
 {
     int ok = ((unsigned int)(x - 0x50) <= 0x60) &
              ((unsigned int)(y - 0x38) <= 0x40);
@@ -2450,7 +2446,7 @@ int BR_CODEIN_RecordHitRecordPanel(char *work, int x, int y)
         Point args;
         args.x = x;
         args.y = y;
-        BR_UTIL_StartEffect((void *)((*(int *)&((struct CodeinWorkA *)work)->recordTapFx)), 1, &args);
+        BR_UTIL_StartEffect((void *)((*(int *)&work->tapFx)), 1, &args);
         GFL_USE_PlaySeDefaultVolume(0x703);
     }
     return ok;
@@ -2467,7 +2463,7 @@ int BR_CODEIN_RecordHitRecordPanel(char *work, int x, int y)
 
 
 
-int BR_CODEIN_RecordHitOptionLeft(char *work, int x, int y)
+int BR_CODEIN_RecordHitOptionLeft(struct CodeinRecordWork *work, int x, int y)
 {
     int ok = ((unsigned int)(x - 0x20) <= 0x48) &
              ((unsigned int)(y - 0x30) <= 0x10);
@@ -2475,7 +2471,7 @@ int BR_CODEIN_RecordHitOptionLeft(char *work, int x, int y)
         Point args;
         args.x = x;
         args.y = y;
-        BR_UTIL_StartEffect((void *)(((struct CodeinWorkB *)work)->screenFade), 1, &args);
+        BR_UTIL_StartEffect((void *)(work->tapFx), 1, &args);
         GFL_USE_PlaySeDefaultVolume(0x703);
     }
     return ok;
@@ -2492,7 +2488,7 @@ int BR_CODEIN_RecordHitOptionLeft(char *work, int x, int y)
 
 
 
-int BR_CODEIN_RecordHitOptionRight(char *work, int x, int y)
+int BR_CODEIN_RecordHitOptionRight(struct CodeinRecordWork *work, int x, int y)
 {
     int ok = ((unsigned int)(x - 0x90) <= 0x48) &
              ((unsigned int)(y - 0x30) <= 0x10);
@@ -2500,7 +2496,7 @@ int BR_CODEIN_RecordHitOptionRight(char *work, int x, int y)
         Point args;
         args.x = x;
         args.y = y;
-        BR_UTIL_StartEffect((void *)(((struct CodeinWorkB *)work)->screenFade), 1, &args);
+        BR_UTIL_StartEffect((void *)(work->tapFx), 1, &args);
         GFL_USE_PlaySeDefaultVolume(0x703);
     }
     return ok;
@@ -2522,13 +2518,13 @@ int BR_CODEIN_RecordHitOptionRight(char *work, int x, int y)
  */
 int BR_CODEIN_ListCreate(void *proc, int unused, char *arg)
 {
-    struct CodeinWorkA *p = PROCSYS_AllocProcWork(proc, 0x80, BR_PROC_SYS_GetSlotId((struct BrProcQuery *)(*(char * *)&((struct CodeinArgA *)arg)->procQuery)));
+    struct CodeinListWork *p = PROCSYS_AllocProcWork(proc, 0x80, BR_PROC_SYS_GetSlotId((struct BrProcQuery *)(*(char * *)&((struct CodeinArgA *)arg)->procQuery)));
     MI_CpuFill8(p, 0, 0x80);
-    p->listHeapId = BR_PROC_SYS_GetSlotId((struct BrProcQuery *)(*(char * *)&((struct CodeinArgA *)arg)->procQuery));
-    p->oamSys = BMP_OAM_CreateSys(p->listHeapId, (*(void * *)&((struct CodeinArgA *)arg)->actorSys));
-    p->printQue = (void *)PRINTSYS_QUE_Create((void *)(p->listHeapId));
-    p->listFx = BR_UTIL_CreateHandles((unsigned int)((*(void * *)&((struct CodeinArgA *)arg)->actorSys)), (char *)(((struct CodeinArgA *)arg)->res), 1, p->listHeapId);
-    BR_RES_LoadSprite(*(char * *)&((struct CodeinArgA *)arg)->res, 13, p->listHeapId);
+    p->heapId = BR_PROC_SYS_GetSlotId((struct BrProcQuery *)(*(char * *)&((struct CodeinArgA *)arg)->procQuery));
+    p->oamSys = BMP_OAM_CreateSys(p->heapId, (*(void * *)&((struct CodeinArgA *)arg)->actorSys));
+    p->printQue = (void *)PRINTSYS_QUE_Create((void *)(p->heapId));
+    p->listFx = BR_UTIL_CreateHandles((unsigned int)((*(void * *)&((struct CodeinArgA *)arg)->actorSys)), (char *)(((struct CodeinArgA *)arg)->res), 1, p->heapId);
+    BR_RES_LoadSprite(*(char * *)&((struct CodeinArgA *)arg)->res, 13, p->heapId);
     BR_CODEIN_ListSetupButtons(p, arg);
     BR_CODEIN_ListSetupText(p, arg);
     return 1;
@@ -2544,16 +2540,16 @@ int BR_CODEIN_ListCreate(void *proc, int unused, char *arg)
 
 
 
-int BR_CODEIN_ListDestroy(struct Proc *proc, int unused, char *arg, char *work)
+int BR_CODEIN_ListDestroy(struct Proc *proc, int unused, char *arg, struct CodeinListWork *work)
 {
     BR_CODEIN_ListDeleteButtons(work, arg);
     BR_CODEIN_ListTeardown(work, arg);
     BG_SYS_PushTile(4);
     BG_SYS_PushTile(1);
     BR_RES_ReleaseSprite((char *)(((struct CodeinArgA *)arg)->res), 13);
-    BR_UTIL_DeleteHandles(*(char * *)&((struct CodeinWorkA *)work)->listFx);
-    PRINTSYS_QUE_Delete(((struct CodeinWorkA *)work)->printQue);
-    BMP_OAM_DeleteSys(((struct CodeinWorkA *)work)->oamSys);
+    BR_UTIL_DeleteHandles(*(char * *)&work->listFx);
+    PRINTSYS_QUE_Delete(work->printQue);
+    BMP_OAM_DeleteSys(work->oamSys);
     PROCSYS_FreeProcWork(proc);
     return 1;
 }
@@ -2571,7 +2567,7 @@ int BR_CODEIN_ListDestroy(struct Proc *proc, int unused, char *arg, char *work)
 /*
  * tail: 021DD5C6..021DD5C8 is two zero alignment bytes.
  */
-int BR_CODEIN_ListMain(void *unused,u32 *state,char *arg,char *work)
+int BR_CODEIN_ListMain(void *unused,u32 *state,char *arg,struct CodeinListWork *work)
 {
  int x,y,i;
  Point pair;
@@ -2580,11 +2576,11 @@ int BR_CODEIN_ListMain(void *unused,u32 *state,char *arg,char *work)
  case 1:if(BR_FADE_GetResult(*(int * *)&((struct CodeinArgA *)arg)->screenFade)) *state=2;break;
  case 2:
   if(TOUCHPANEL_GetPointTrg((u32 *)(&x),(u32 *)(&y))){
-   ((struct CodeinWorkA *)work)->listChoice=BR_CODEIN_ListHitButton(work,x,y);
-   if(((struct CodeinWorkA *)work)->listChoice) *state=3;
-   if(BR_BTN_HitTestWithSound((unsigned int *)((*(int *)&((struct CodeinWorkA *)work)->saveCtx)),x,y)){
+   work->listChoice=BR_CODEIN_ListHitButton(work,x,y);
+   if(work->listChoice) *state=3;
+   if(BR_BTN_HitTestWithSound((unsigned int *)((*(int *)&work->backButton)),x,y)){
     pair.x=x;pair.y=y;
-    BR_UTIL_StartEffect((void *)(*(int *)&((struct CodeinWorkA *)work)->listFx), 1, &pair);
+    BR_UTIL_StartEffect((void *)(*(int *)&work->listFx), 1, &pair);
     *state=7;
    }
   }break;
@@ -2592,7 +2588,7 @@ int BR_CODEIN_ListMain(void *unused,u32 *state,char *arg,char *work)
  case 4:if(BR_FADE_GetResult(*(int * *)&((struct CodeinArgA *)arg)->screenFade)) ++*state;break;
  case 5:
   BR_CODEIN_ListTeardown(work,arg);
-  switch(*(u32 *)&((struct CodeinWorkA *)work)->listChoice){
+  switch(*(u32 *)&work->listChoice){
   case 1:BR_CODEIN_ListSetupRowA(work,arg);break;
   case 2:BR_CODEIN_ListSetupRowB(work,arg);break;
   case 3:BR_CODEIN_ListSetupRowC(work,arg);break;
@@ -2604,11 +2600,11 @@ int BR_CODEIN_ListMain(void *unused,u32 *state,char *arg,char *work)
  case 8:if(BR_FADE_GetResult(*(int * *)&((struct CodeinArgA *)arg)->screenFade)) *state=9;break;
  case 9:BR_PROC_SYS_PopEntry(((struct CodeinArgA *)arg)->procQuery);return 1;
  }
- for(i=0;i<4;i++) if(*(void **)(work+i*4+0x24)) BR_UTIL_FlushText(*(void **)(work+i*4+0x24));
- for(i=0;i<16;i++) if(*(void **)(work+i*4+0x34)) BR_UTIL_FlushText(*(void **)(work+i*4+0x34));
- PRINTSYS_QUE_Main(((struct CodeinWorkA *)work)->printQue);
- if((*(void * *)&((struct CodeinWorkA *)work)->ctx))BR_UTIL_FlushWindow((*(void * *)&((struct CodeinWorkA *)work)->ctx));
- BR_UTIL_RunHandles(((struct CodeinWorkA *)work)->listFx);
+ for(i=0;i<4;i++) if(*(void **)((char *)work+i*4+0x24)) BR_UTIL_FlushText(*(void **)((char *)work+i*4+0x24));
+ for(i=0;i<16;i++) if(*(void **)((char *)work+i*4+0x34)) BR_UTIL_FlushText(*(void **)((char *)work+i*4+0x34));
+ PRINTSYS_QUE_Main(work->printQue);
+ if((*(void * *)&work->textWin))BR_UTIL_FlushWindow((*(void * *)&work->textWin));
+ BR_UTIL_RunHandles(work->listFx);
  return 0;
 }
 
@@ -2626,7 +2622,7 @@ int BR_CODEIN_ListMain(void *unused,u32 *state,char *arg,char *work)
  * lever: const record array at the table address restores early argument loads;
  *        a scalar record and const pointer local remained 22 bytes DIFF.
  */
-void BR_CODEIN_ListSetupText(struct CodeinWorkA *work, char *arg)
+void BR_CODEIN_ListSetupText(struct CodeinListWork *work, char *arg)
 {
     int first, second, v;
     Triple triple;
@@ -2634,20 +2630,20 @@ void BR_CODEIN_ListSetupText(struct CodeinWorkA *work, char *arg)
     u8 a, b, c, d;
     first = BR_RES_GetFont(*(char * *)&((struct CodeinArgA *)arg)->res);
     second = BR_RES_GetMsgData(*(char * *)&((struct CodeinArgA *)arg)->res);
-    BR_RES_LoadBgGraphics((void *)(((struct CodeinArgA *)arg)->res), 14, work->listHeapId);
+    BR_RES_LoadBgGraphics((void *)(((struct CodeinArgA *)arg)->res), 14, work->heapId);
     rec = &d_021E3350[0];
     d = rec->d;
     a = rec->a;
     b = rec->b;
     c = rec->c;
-    work->listText = BR_UTIL_Create(1, a, b, c, d, 14, work->printQue, work->listHeapId);
-    BR_UTIL_SetTextLayout(work->listText, 0, 1, 0);
-    BR_UTIL_SetTextFromMessage(work->listText, (void *)second, (void *)rec->value, (void *)first, 0x3da0);
-    (*(void * *)&work->ctx) = BR_UTIL_CreateTextWin(((struct CodeinArgA *)arg)->res, (void *)(*(int *)&work->printQue), work->listHeapId);
-    BR_UTIL_SetWindowText((*(void * *)&work->ctx), (char *)(((struct CodeinArgA *)arg)->res), (void *)0x86);
+    work->rowText[0] = BR_UTIL_Create(1, a, b, c, d, 14, work->printQue, work->heapId);
+    BR_UTIL_SetTextLayout(work->rowText[0], 0, 1, 0);
+    BR_UTIL_SetTextFromMessage(work->rowText[0], (void *)second, (void *)rec->value, (void *)first, 0x3da0);
+    (*(void * *)&work->textWin) = BR_UTIL_CreateTextWin(((struct CodeinArgA *)arg)->res, (void *)(*(int *)&work->printQue), work->heapId);
+    BR_UTIL_SetWindowText((*(void * *)&work->textWin), (char *)(((struct CodeinArgA *)arg)->res), (void *)0x86);
     v = BSUBWAY_SCOREDATA_GetBattlePoints((struct Blk1AC *)(((struct CodeinArgA *)arg)->uiRes));
     BR_RES_GetSprite((void *)(((struct CodeinArgA *)arg)->res), 13, (Triple *)((Triple *)&triple));
-    BR_CODEIN_ListCreateActor((void *)((char *)work + 8), (void *)(((struct CodeinArgA *)arg)->actorSys), (const char *)(&triple), v, 0x68, 0x58, work->listHeapId);
+    BR_CODEIN_ListCreateActor((void *)(&work->pointActors), (void *)(((struct CodeinArgA *)arg)->actorSys), (const char *)(&triple), v, 0x68, 0x58, work->heapId);
 }
 
 
@@ -2659,7 +2655,7 @@ void BR_CODEIN_ListSetupText(struct CodeinWorkA *work, char *arg)
 
 
 
-void BR_CODEIN_ListSetupRowA(char *work,char *arg)
+void BR_CODEIN_ListSetupRowA(struct CodeinListWork *work,char *arg)
 {
  int first,second,third,index,v;
  const Record *rec;
@@ -2671,11 +2667,11 @@ void BR_CODEIN_ListSetupRowA(char *work,char *arg)
  first=BR_RES_GetFont(*(char **)(arg+8));
  second=BR_RES_GetMsgData(*(char **)(arg+8));
  third=BR_RES_GetWordSet(*(char **)(arg+8));
- BR_RES_LoadBgGraphics((void *)(*(int *)(arg+8)),10,*(u16 *)(work+0x7c));
+ BR_RES_LoadBgGraphics((void *)(*(int *)(arg+8)),10,work->heapId);
  select=BR_CODEIN_ListIsEventA((void *)(*(int *)(arg+0x10)),(char *)(*(int *)(arg+0x14)))?5:0;
  for(index=0;index<8;index++){
-  rec=&d_021E33C0[index];slot=work+index*4;
-  *(void **)(slot+0x34)=BR_UTIL_Create(1,rec->a,rec->b,rec->c,rec->d,14,*(void **)(work+4),*(u16 *)(work+0x7c));
+  rec=&d_021E33C0[index];slot=(char *)work+index*4;
+  *(void **)(slot+0x34)=BR_UTIL_Create(1,rec->a,rec->b,rec->c,rec->d,14,work->printQue,work->heapId);
   BR_UTIL_SetTextLayout(*(void **)(slot+0x34),0,1,0);
   switch(index){
    case 1:
@@ -2687,7 +2683,7 @@ void BR_CODEIN_ListSetupRowA(char *work,char *arg)
     number1=BSUBWAY_SCOREDATA_GetWinCount(*(void **)(arg+0x10),select);
     number1=(number1>9999)?9999:number1;
     base=MSGDATA_AllocString((struct MsgBank *)second,rec->value);
-    obj=STRBUF_Create(0x80,*(u16 *)(work+0x7c));
+    obj=STRBUF_Create(0x80,work->heapId);
     WORDSET_SetSlotNumber((void *)third,0,number1,4,1,1);
     WORDSET_CopyTaggedText((void *)third,obj,base);
     STRBUF_Delete(base);break;
@@ -2697,7 +2693,7 @@ void BR_CODEIN_ListSetupRowA(char *work,char *arg)
     number2=BSUBWAY_SCOREDATA_GetMaxWinCount(*(void **)(arg+0x10),select);
     number2=(number2>9999)?9999:number2;
     base=MSGDATA_AllocString((struct MsgBank *)second,rec->value);
-    obj=STRBUF_Create(0x80,*(u16 *)(work+0x7c));
+    obj=STRBUF_Create(0x80,work->heapId);
     WORDSET_SetSlotNumber((void *)third,0,number2,4,1,1);
     WORDSET_CopyTaggedText((void *)third,obj,base);
     STRBUF_Delete(base);break;
@@ -2709,7 +2705,7 @@ void BR_CODEIN_ListSetupRowA(char *work,char *arg)
  }
  v=BSUBWAY_SCOREDATA_GetBattlePoints(*(void **)(arg+0x10));
  BR_RES_GetSprite((void *)(*(int *)(arg+8)), 13, (Triple *)((Triple *)&triple));
- BR_CODEIN_ListCreateActor(work+8,*(void **)(arg+4),(const char *)&triple,v,0xa0,0x20,*(u16 *)(work+0x7c));
+ BR_CODEIN_ListCreateActor(&work->pointActors,*(void **)(arg+4),(const char *)&triple,v,0xa0,0x20,work->heapId);
 }
 
 
@@ -2724,7 +2720,7 @@ void BR_CODEIN_ListSetupRowA(char *work,char *arg)
 /*
  * note: 2026-10-05 wave P10 lane Y1. Twin of BR_CODEIN_ListSetupRowA (same body: other table d_021E3400, getter BR_CODEIN_ListIsEventB, selector 6/1, argument 11, strings 0x84/0x7f). 468 B; the 1140 B listing extent also holds BR_CODEIN_ListSetupRowC, filed separately. The clamps are n = (n > 9999) ? 9999 : n; as in the twin.
  */
-void BR_CODEIN_ListSetupRowB(char *work,char *arg)
+void BR_CODEIN_ListSetupRowB(struct CodeinListWork *work,char *arg)
 {
  int first,second,third,index,v;
  const Record *rec;
@@ -2736,11 +2732,11 @@ void BR_CODEIN_ListSetupRowB(char *work,char *arg)
  first=BR_RES_GetFont(*(char **)(arg+8));
  second=BR_RES_GetMsgData(*(char **)(arg+8));
  third=BR_RES_GetWordSet(*(char **)(arg+8));
- BR_RES_LoadBgGraphics((void *)(*(int *)(arg+8)),11,*(u16 *)(work+0x7c));
+ BR_RES_LoadBgGraphics((void *)(*(int *)(arg+8)),11,work->heapId);
  select=BR_CODEIN_ListIsEventB((void *)(*(int *)(arg+0x10)),(void *)(*(int *)(arg+0x14)))?6:1;
  for(index=0;index<8;index++){
-  rec=&d_021E3400[index];slot=work+index*4;
-  *(void **)(slot+0x34)=BR_UTIL_Create(1,rec->a,rec->b,rec->c,rec->d,14,*(void **)(work+4),*(u16 *)(work+0x7c));
+  rec=&d_021E3400[index];slot=(char *)work+index*4;
+  *(void **)(slot+0x34)=BR_UTIL_Create(1,rec->a,rec->b,rec->c,rec->d,14,work->printQue,work->heapId);
   BR_UTIL_SetTextLayout(*(void **)(slot+0x34),0,1,0);
   switch(index){
    case 1:
@@ -2752,7 +2748,7 @@ void BR_CODEIN_ListSetupRowB(char *work,char *arg)
     number1=BSUBWAY_SCOREDATA_GetWinCount(*(void **)(arg+0x10),select);
     number1=(number1>9999)?9999:number1;
     base=MSGDATA_AllocString((struct MsgBank *)second,rec->value);
-    obj=STRBUF_Create(0x80,*(u16 *)(work+0x7c));
+    obj=STRBUF_Create(0x80,work->heapId);
     WORDSET_SetSlotNumber((void *)third,0,number1,4,1,1);
     WORDSET_CopyTaggedText((void *)third,obj,base);
     STRBUF_Delete(base);break;
@@ -2762,7 +2758,7 @@ void BR_CODEIN_ListSetupRowB(char *work,char *arg)
     number2=BSUBWAY_SCOREDATA_GetMaxWinCount(*(void **)(arg+0x10),select);
     number2=(number2>9999)?9999:number2;
     base=MSGDATA_AllocString((struct MsgBank *)second,rec->value);
-    obj=STRBUF_Create(0x80,*(u16 *)(work+0x7c));
+    obj=STRBUF_Create(0x80,work->heapId);
     WORDSET_SetSlotNumber((void *)third,0,number2,4,1,1);
     WORDSET_CopyTaggedText((void *)third,obj,base);
     STRBUF_Delete(base);break;
@@ -2774,7 +2770,7 @@ void BR_CODEIN_ListSetupRowB(char *work,char *arg)
  }
  v=BSUBWAY_SCOREDATA_GetBattlePoints(*(void **)(arg+0x10));
  BR_RES_GetSprite((void *)(*(int *)(arg+8)), 13, (Triple *)((Triple *)&triple));
- BR_CODEIN_ListCreateActor(work+8,*(void **)(arg+4),(const char *)&triple,v,0xa0,0x20,*(u16 *)(work+0x7c));
+ BR_CODEIN_ListCreateActor(&work->pointActors,*(void **)(arg+4),(const char *)&triple,v,0xa0,0x20,work->heapId);
 }
 
 
@@ -2788,7 +2784,7 @@ void BR_CODEIN_ListSetupRowB(char *work,char *arg)
  * lever: bounded permuter rec/index declaration order, selector use and
  *        field-base expansion restore the three selector/index spill homes.
  */
-void BR_CODEIN_ListSetupRowC(char *work, char *arg)
+void BR_CODEIN_ListSetupRowC(struct CodeinListWork *work, char *arg)
 {
   int first;
   int second;
@@ -2810,7 +2806,7 @@ void BR_CODEIN_ListSetupRowC(char *work, char *arg)
   first = BR_RES_GetFont(*((char **) (arg + 8)));
   second = BR_RES_GetMsgData(*((char **) (arg + 8)));
   third = BR_RES_GetWordSet(*((char **) (arg + 8)));
-  heapId = *((u16 *) (work + 0x7c));
+  heapId = work->heapId;
   BR_RES_LoadBgGraphics((void *)(*((int *) (arg + 8))), 12, heapId);
   if (BR_CODEIN_ListIsEventC((void *)(*((int *) (arg + 0x10))), (void *)(*((int *) (arg + 0x14)))))
   {
@@ -2826,8 +2822,8 @@ void BR_CODEIN_ListSetupRowC(char *work, char *arg)
   for (index = 0; index < 16; index++)
   {
     rec = &d_021E3490[index];
-    slot = work + (index * 4);
-    *((void **) (slot + 0x34)) = BR_UTIL_Create(1, (&d_021E3490[index])->a, (&d_021E3490[index])->b, (&d_021E3490[index])->c, (&d_021E3490[index])->d, 14, *((void **) (work + 4)), *((u16 *) (work + 0x7c)));
+    slot = (char *)work+(index * 4);
+    *((void **) (slot + 0x34)) = BR_UTIL_Create(1, (&d_021E3490[index])->a, (&d_021E3490[index])->b, (&d_021E3490[index])->c, (&d_021E3490[index])->d, 14, *((void **) ((char *)work+4)), work->heapId);
     BR_UTIL_SetTextLayout(*((void **) (slot + 0x34)), 0, 1, 0);
     switch (index)
     {
@@ -2849,7 +2845,7 @@ void BR_CODEIN_ListSetupRowC(char *work, char *arg)
         if (number1 > 9999)
           number1 = 9999;
         base = MSGDATA_AllocString((struct MsgBank *)second, rec->value);
-        obj = STRBUF_Create(0x80, *((u16 *) (work + 0x7c)));
+        obj = STRBUF_Create(0x80, work->heapId);
         WORDSET_SetSlotNumber((void *) third, 0, number1, 4, 1, 1);
         WORDSET_CopyTaggedText((void *) third, obj, base);
         STRBUF_Delete(base);
@@ -2863,7 +2859,7 @@ void BR_CODEIN_ListSetupRowC(char *work, char *arg)
         if (number2 > 9999)
           number2 = 9999;
         base = MSGDATA_AllocString((struct MsgBank *)second, rec->value);
-        obj = STRBUF_Create(0x80, *((u16 *) (work + 0x7c)));
+        obj = STRBUF_Create(0x80, work->heapId);
         WORDSET_SetSlotNumber((void *) third, 0, number2, 4, 1, 1);
         WORDSET_CopyTaggedText((void *) third, obj, base);
         STRBUF_Delete(base);
@@ -2881,7 +2877,7 @@ void BR_CODEIN_ListSetupRowC(char *work, char *arg)
         if (number3 > 9999)
           number3 = 9999;
         base = MSGDATA_AllocString((struct MsgBank *)second, rec->value);
-        obj = STRBUF_Create(0x80, *((u16 *) (work + 0x7c)));
+        obj = STRBUF_Create(0x80, work->heapId);
         WORDSET_SetSlotNumber((void *) third, 0, number3, 4, 1, 1);
         WORDSET_CopyTaggedText((void *) third, obj, base);
         STRBUF_Delete(base);
@@ -2895,7 +2891,7 @@ void BR_CODEIN_ListSetupRowC(char *work, char *arg)
         if (number4 > 9999)
           number4 = 9999;
         base = MSGDATA_AllocString((struct MsgBank *)second, rec->value);
-        obj = STRBUF_Create(0x80, *((u16 *) (work + 0x7c)));
+        obj = STRBUF_Create(0x80, work->heapId);
         WORDSET_SetSlotNumber((void *) third, 0, number4, 4, 1, 1);
         WORDSET_CopyTaggedText((void *) third, obj, base);
         STRBUF_Delete(base);
@@ -2915,7 +2911,7 @@ void BR_CODEIN_ListSetupRowC(char *work, char *arg)
 
   v = BSUBWAY_SCOREDATA_GetBattlePoints((struct Blk1AC *)(*((int *) (arg + 0x10))));
   BR_RES_GetSprite((void *)(*((int *) (arg + 8))), 13, (Triple *)((Triple *)&triple));
-  BR_CODEIN_ListCreateActor(work + 8, *((void **) (arg + 4)), (const char *) (&triple), v, 0xa0, 0x20, *((u16 *) (work + 0x7c)));
+  BR_CODEIN_ListCreateActor(&work->pointActors, *((void **) (arg + 4)), (const char *) (&triple), v, 0xa0, 0x20, work->heapId);
 }
 
 
@@ -2928,7 +2924,7 @@ void BR_CODEIN_ListSetupRowC(char *work, char *arg)
 /*
  * lever: declaring the text object before the loop index fixes r4/r5.
  */
-void BR_CODEIN_ListSetupRowD(char *work,char *arg)
+void BR_CODEIN_ListSetupRowD(struct CodeinListWork *work,char *arg)
 {
  int first,second,third,v,text;
  void *obj;
@@ -2939,24 +2935,24 @@ void BR_CODEIN_ListSetupRowD(char *work,char *arg)
  first=BR_RES_GetFont(*(char * *)&((struct CodeinArgA *)arg)->res);
  second=BR_RES_GetMsgData(*(char * *)&((struct CodeinArgA *)arg)->res);
  third=BR_RES_GetWordSet(*(char * *)&((struct CodeinArgA *)arg)->res);
- BR_RES_LoadBgGraphics((void *)(((struct CodeinArgA *)arg)->res),13,((struct CodeinWorkA *)work)->listHeapId);
+ BR_RES_LoadBgGraphics((void *)(((struct CodeinArgA *)arg)->res),13,work->heapId);
  for(i=0;i<5;i++){
-  rec=&d_021E338C[i]; slot=work+i*4;
-  ((struct CodeinWorkC *)slot)->rowText=BR_UTIL_Create(1,rec->a,rec->b,rec->c,rec->d,14,((struct CodeinWorkA *)work)->printQue,((struct CodeinWorkA *)work)->listHeapId);
+  rec=&d_021E338C[i]; slot=(char *)work+i*4;
+  ((struct CodeinListRowSlot *)slot)->rowText=BR_UTIL_Create(1,rec->a,rec->b,rec->c,rec->d,14,work->printQue,work->heapId);
   if(i==4){
    v=BSUBWAY_SCOREDATA_GetLevel((struct Blk1AC *)(((struct CodeinArgA *)arg)->uiRes));
    text=(int)MSGDATA_AllocString((struct MsgBank *)second,rec->value);
-   obj=STRBUF_Create(0x80,((struct CodeinWorkA *)work)->listHeapId);
+   obj=STRBUF_Create(0x80,work->heapId);
    WORDSET_SetSlotNumber((void *)third,0,v,2,1,1);
    WORDSET_CopyTaggedText((void *)third,obj,(void *)text);
    STRBUF_Delete((struct U16Vec *)text);
   }else obj=(void *)MSGDATA_AllocString((struct MsgBank *)second,rec->value);
-  BR_UTIL_SetTextFromBuffer(*(char * *)&((struct CodeinWorkC *)slot)->rowText,obj,(void *)first,0x3da0);
+  BR_UTIL_SetTextFromBuffer(*(char * *)&((struct CodeinListRowSlot *)slot)->rowText,obj,(void *)first,0x3da0);
   STRBUF_Delete((struct U16Vec *)((int)obj));
  }
  v=BSUBWAY_SCOREDATA_GetBattlePoints((struct Blk1AC *)(((struct CodeinArgA *)arg)->uiRes));
  BR_RES_GetSprite((void *)(((struct CodeinArgA *)arg)->res), 13, (Triple *)((Triple *)&triple));
- BR_CODEIN_ListCreateActor(work+8,(*(void * *)&((struct CodeinArgA *)arg)->actorSys),(const char *)&triple,v,0xa0,0x20,((struct CodeinWorkA *)work)->listHeapId);
+ BR_CODEIN_ListCreateActor(&work->pointActors,(*(void * *)&((struct CodeinArgA *)arg)->actorSys),(const char *)&triple,v,0xa0,0x20,work->heapId);
 }
 
 
@@ -2966,22 +2962,21 @@ void BR_CODEIN_ListSetupRowD(char *work,char *arg)
 
 
 
-void BR_CODEIN_ListTeardown(char *work, char *arg)
+void BR_CODEIN_ListTeardown(struct CodeinListWork *work, char *arg)
 {
     int i;
-    char *slot;
-    BR_CODEIN_ListDeleteActor(work + 8);
+    BR_CODEIN_ListDeleteActor(&work->pointActors);
     for (i = 0; i < 16; i++) {
-        slot = work + i * 4;
-        if (((struct CodeinWorkC *)slot)->rowText) {
-            BR_UTIL_Delete(((struct CodeinWorkC *)slot)->rowText);
-            *(int *)&((struct CodeinWorkC *)slot)->rowText = 0;
+
+        if (work->rowText[i]) {
+            BR_UTIL_Delete(work->rowText[i]);
+            work->rowText[i] = 0;
         }
     }
     BR_RES_ApplyBgSet(((struct CodeinArgA *)arg)->res, 10);
-    if ((*(void * *)&((struct CodeinWorkA *)work)->ctx)) {
-        BR_UTIL_DeleteTextWin((*(void * *)&((struct CodeinWorkA *)work)->ctx), ((struct CodeinArgA *)arg)->res);
-        *(int *)&((struct CodeinWorkA *)work)->ctx = 0;
+    if ((*(void * *)&work->textWin)) {
+        BR_UTIL_DeleteTextWin((*(void * *)&work->textWin), ((struct CodeinArgA *)arg)->res);
+        *(int *)&work->textWin = 0;
     }
 }
 
@@ -2991,31 +2986,31 @@ void BR_CODEIN_ListTeardown(char *work, char *arg)
 
 
 
-void BR_CODEIN_ListSetupButtons(struct CodeinWorkA *work,char *arg)
+void BR_CODEIN_ListSetupButtons(struct CodeinListWork *work,char *arg)
 {
  int first,second,i,id;
  Triple triple;
  Position pos;
  const Record *rec;
  char *slot;
- BR_RES_LoadSprite(*(char * *)&((struct CodeinArgA *)arg)->res,6,work->listHeapId);
- BR_RES_LoadBgGraphics((void *)(((struct CodeinArgA *)arg)->res),9,work->listHeapId);
+ BR_RES_LoadSprite(*(char * *)&((struct CodeinArgA *)arg)->res,6,work->heapId);
+ BR_RES_LoadBgGraphics((void *)(((struct CodeinArgA *)arg)->res),9,work->heapId);
  first=BR_RES_GetFont(*(char * *)&((struct CodeinArgA *)arg)->res);
  second=BR_RES_GetMsgData(*(char * *)&((struct CodeinArgA *)arg)->res);
  MI_CpuFill8(&pos,0,8);
  pos.x=0x50;pos.y=0xa8;pos.z=0;pos.a=1;
  BR_RES_GetSprite((void *)(((struct CodeinArgA *)arg)->res), 6, (Triple *)((Triple *)&triple));
- (*(void * *)&work->saveCtx)=BR_BTN_CreateFromMessage(&pos,4,0x60,1,((struct CodeinArgA *)arg)->actorSys,*(int *)&work->oamSys,first,second,&triple,work->listHeapId);
+ (*(void * *)&work->backButton)=BR_BTN_CreateFromMessage(&pos,4,0x60,1,((struct CodeinArgA *)arg)->actorSys,*(int *)&work->oamSys,first,second,&triple,work->heapId);
  for(i=0;i<4;i++){
   rec=&d_021E336C[i];slot=(char *)work+i*4;
-  (*(void * *)&((struct CodeinWorkC *)slot)->buttonText)=BR_UTIL_Create(4,rec->a,rec->b,rec->c,rec->d,14,work->printQue,work->listHeapId);
+  (*(void * *)&((struct CodeinListButtonSlot *)slot)->buttonText)=BR_UTIL_Create(4,rec->a,rec->b,rec->c,rec->d,14,work->printQue,work->heapId);
   switch(i){
    case 0: if(BR_CODEIN_ListIsEventA((void *)(((struct CodeinArgA *)arg)->uiRes),(char *)(((struct CodeinArgA *)arg)->bsubwaySave))) id=0x83;else id=0x7e;break;
    case 1: if(BR_CODEIN_ListIsEventB((void *)(((struct CodeinArgA *)arg)->uiRes),(void *)(((struct CodeinArgA *)arg)->bsubwaySave))) id=0x84;else id=0x7f;break;
    case 2: if(BR_CODEIN_ListIsEventC((void *)(((struct CodeinArgA *)arg)->uiRes),(void *)(((struct CodeinArgA *)arg)->bsubwaySave))) id=0x85;else id=0x80;break;
    case 3: id=0x81;break;
   }
-  BR_UTIL_SetTextFromMessage((*(void * *)&((struct CodeinWorkC *)slot)->buttonText),(void *)second,(void *)id,(void *)first,0x3da0);
+  BR_UTIL_SetTextFromMessage((*(void * *)&((struct CodeinListButtonSlot *)slot)->buttonText),(void *)second,(void *)id,(void *)first,0x3da0);
  }
 }
 
@@ -3025,20 +3020,20 @@ void BR_CODEIN_ListSetupButtons(struct CodeinWorkA *work,char *arg)
 
 
 
-void BR_CODEIN_ListDeleteButtons(char *work, char *arg)
+void BR_CODEIN_ListDeleteButtons(struct CodeinListWork *work, char *arg)
 {
     int i;
     char *slot;
     for (i = 0; i < 4; i++) {
-        slot = work + i * 4;
-        if ((*(void * *)&((struct CodeinWorkC *)slot)->buttonText)) {
-            BR_UTIL_Delete((*(void * *)&((struct CodeinWorkC *)slot)->buttonText));
-            *(int *)&((struct CodeinWorkC *)slot)->buttonText = 0;
+        slot=(char *)work+i * 4;
+        if ((*(void * *)&((struct CodeinListButtonSlot *)slot)->buttonText)) {
+            BR_UTIL_Delete((*(void * *)&((struct CodeinListButtonSlot *)slot)->buttonText));
+            *(int *)&((struct CodeinListButtonSlot *)slot)->buttonText = 0;
         }
     }
-    if ((*(void * *)&((struct CodeinWorkA *)work)->saveCtx)) {
-        BR_BTN_DeleteObject((*(void * *)&((struct CodeinWorkA *)work)->saveCtx));
-        *(int *)&((struct CodeinWorkA *)work)->saveCtx = 0;
+    if ((*(void * *)&work->backButton)) {
+        BR_BTN_DeleteObject((*(void * *)&work->backButton));
+        *(int *)&work->backButton = 0;
     }
     BR_RES_ReleaseSprite((char *)(((struct CodeinArgA *)arg)->res), 6);
     BR_RES_ApplyBgSet(((struct CodeinArgA *)arg)->res, 9);
@@ -3050,9 +3045,9 @@ void BR_CODEIN_ListDeleteButtons(char *work, char *arg)
 
 
 
-int BR_CODEIN_ListHitButton(char *work, int x, int y)
+int BR_CODEIN_ListHitButton(struct CodeinListWork *work, int x, int y)
 {
-    int skip = ((struct CodeinWorkA *)work)->listChoice;
+    int skip = work->listChoice;
     int i;
     for (i = 0; i < 5; i++) {
         if (i != skip && (u32)(x - d_021E3440[i].x0) <= d_021E3440[i].x1 - d_021E3440[i].x0 &&
@@ -3060,7 +3055,7 @@ int BR_CODEIN_ListHitButton(char *work, int x, int y)
             Point args;
             args.x = x;
             args.y = y;
-            BR_UTIL_StartEffect((void *)(*(int *)&((struct CodeinWorkA *)work)->listFx), 1, &args);
+            BR_UTIL_StartEffect((void *)(*(int *)&work->listFx), 1, &args);
             GFL_USE_PlaySeDefaultVolume(0x703);
             return i;
         }
@@ -3120,7 +3115,7 @@ int BR_CODEIN_ListIsEventC(void *work, void *arg)
  * c99 and --lang c: the output bytes do not change. Older text in this
  * header that asks for the double assignment is superseded.
  */
-void BR_CODEIN_ListCreateActor(char *work, void *manager, const char *arg, unsigned int value, s16 x, s16 y, u16 heap)
+void BR_CODEIN_ListCreateActor(struct CodeinPointActors *work, void *manager, const char *arg, unsigned int value, s16 x, s16 y, u16 heap)
 {
     Position pos;
     int base;
@@ -3130,17 +3125,16 @@ void BR_CODEIN_ListCreateActor(char *work, void *manager, const char *arg, unsig
     pos.x = x;
     pos.y = y;
     pos.z = 10;
-    ((struct CodeinWorkA *)work)->oamSys = CLACT_CreateActor(manager, (unsigned int)(*(void * *)&((struct CodeinArgA *)arg)->actorSys), (unsigned int)(*(void * *)&((struct CodeinArgA *)arg)->res), (unsigned int)(*(void * *)&((struct CodeinArgA *)arg)->screenFade), &pos, 0, heap);
-    CLACT_SetActorObjMode(((struct CodeinWorkA *)work)->oamSys, 1);
+    work->frame = CLACT_CreateActor(manager, (unsigned int)(*(void * *)&((struct CodeinArgA *)arg)->actorSys), (unsigned int)(*(void * *)&((struct CodeinArgA *)arg)->res), (unsigned int)(*(void * *)&((struct CodeinArgA *)arg)->screenFade), &pos, 0, heap);
+    CLACT_SetActorObjMode(work->frame, 1);
     pos.z = 0;
     base = x + 20;
     for (i = 0; i < 4; i++) {
-        char *slot;
         pos.x = base + i * 16;
         pos.y = y;
-        slot = work + i * 4;
-        ((struct CodeinWorkC *)slot)->textWin = CLACT_CreateActor(manager, (unsigned int)(*(void * *)&((struct CodeinArgA *)arg)->actorSys), (unsigned int)(*(void * *)&((struct CodeinArgA *)arg)->res), (unsigned int)(*(void * *)&((struct CodeinArgA *)arg)->screenFade), &pos, 0, heap);
-        CLACT_SetActorObjMode(((struct CodeinWorkC *)slot)->textWin, 1);
+
+        work->digit[i] = CLACT_CreateActor(manager, (unsigned int)(*(void * *)&((struct CodeinArgA *)arg)->actorSys), (unsigned int)(*(void * *)&((struct CodeinArgA *)arg)->res), (unsigned int)(*(void * *)&((struct CodeinArgA *)arg)->screenFade), &pos, 0, heap);
+        CLACT_SetActorObjMode(work->digit[i], 1);
     }
     BR_CODEIN_ListSetActorAnim(work, value);
 }
@@ -3153,17 +3147,16 @@ void BR_CODEIN_ListCreateActor(char *work, void *manager, const char *arg, unsig
 
 
 
-void BR_CODEIN_ListDeleteActor(char *work)
+void BR_CODEIN_ListDeleteActor(struct CodeinPointActors *work)
 {
     int i;
     for (i = 0; i < 4; i++) {
-        char *slot = work + i * 4;
-        if (((struct CodeinWorkC *)slot)->textWin) {
-            CLACT_DeleteActor(((struct CodeinWorkC *)slot)->textWin);
-            ((struct CodeinWorkC *)slot)->textWin = 0;
+        if (work->digit[i]) {
+            CLACT_DeleteActor(work->digit[i]);
+            work->digit[i] = 0;
         }
     }
-    CLACT_DeleteActor(((struct CodeinWorkA *)work)->oamSys);
+    CLACT_DeleteActor(work->frame);
     MI_CpuFill8(work, 0, 20);
 }
 
@@ -3175,7 +3168,7 @@ void BR_CODEIN_ListDeleteActor(char *work)
 
 
 
-void BR_CODEIN_ListSetActorAnim(char *work, u32 value)
+void BR_CODEIN_ListSetActorAnim(struct CodeinPointActors *work, u32 value)
 {
     u8 temp = value;
     int i;
@@ -3186,9 +3179,9 @@ void BR_CODEIN_ListSetActorAnim(char *work, u32 value)
             temp /= 10;
         }
     }
-    for (i = 0; i < 4; i++) CLACT_SetActorAnimSeq(*(void **)(work + i * 4 + 4), 0);
+    for (i = 0; i < 4; i++) CLACT_SetActorAnimSeq(*(void **)((char *)work+i * 4 + 4), 0);
     for (j = 0; j < 4; j++)
-        CLACT_SetActorAnimSeq(*(void **)(work + (3 - j) * 4 + 4), value % d_021E3358[j + 1] / d_021E3358[j]);
+        CLACT_SetActorAnimSeq(*(void **)((char *)work+(3 - j) * 4 + 4), value % d_021E3358[j + 1] / d_021E3358[j]);
 }
 
 
@@ -3201,12 +3194,12 @@ void BR_CODEIN_ListSetActorAnim(char *work, u32 value)
 
 int BR_CODEIN_ResultCreate(void *proc, int seq, char *arg)
 {
-    char *p = PROCSYS_AllocProcWork(proc, 0x70, BR_PROC_SYS_GetSlotId(((struct CodeinArgA *)arg)->procQuery));
+    struct CodeinResultWork *p = PROCSYS_AllocProcWork(proc, 0x70, BR_PROC_SYS_GetSlotId(((struct CodeinArgA *)arg)->procQuery));
     MI_CpuFill8(p, 0, 0x70);
-    ((struct CodeinWorkA *)p)->resultHeapId = BR_PROC_SYS_GetSlotId(((struct CodeinArgA *)arg)->procQuery);
-    ((struct CodeinWorkA *)p)->oamSys = BMP_OAM_CreateSys(((struct CodeinWorkA *)p)->resultHeapId, (*(void * *)&((struct CodeinArgA *)arg)->screenFade));
-    ((struct CodeinWorkA *)p)->printQue = (void *)PRINTSYS_QUE_Create((void *)(((struct CodeinWorkA *)p)->resultHeapId));
-    ((struct CodeinWorkA *)p)->resultFx = BR_UTIL_CreateHandles((unsigned int)((*(void * *)&((struct CodeinArgA *)arg)->screenFade)), (char *)(((struct CodeinArgA *)arg)->res), 1, ((struct CodeinWorkA *)p)->resultHeapId);
+    p->heapId = BR_PROC_SYS_GetSlotId(((struct CodeinArgA *)arg)->procQuery);
+    p->oamSys = BMP_OAM_CreateSys(p->heapId, (*(void * *)&((struct CodeinArgA *)arg)->screenFade));
+    p->printQue = (void *)PRINTSYS_QUE_Create((void *)(p->heapId));
+    p->resultFx = BR_UTIL_CreateHandles((unsigned int)((*(void * *)&((struct CodeinArgA *)arg)->screenFade)), (char *)(((struct CodeinArgA *)arg)->res), 1, p->heapId);
     BR_CODEIN_ResultSetupTextWin(p, arg);
     BR_CODEIN_ResultSetupButtons(p, arg);
     return 1;
@@ -3220,7 +3213,7 @@ int BR_CODEIN_ResultCreate(void *proc, int seq, char *arg)
 
 
 
-int BR_CODEIN_ResultDestroy(void *proc, int seq, char *arg, struct CodeinWorkA *work)
+int BR_CODEIN_ResultDestroy(void *proc, int seq, char *arg, struct CodeinResultWork *work)
 {
     BR_CODEIN_ResultTeardown(work, arg);
     BR_CODEIN_ResultDeleteButtons(work, arg);
@@ -3241,7 +3234,7 @@ int BR_CODEIN_ResultDestroy(void *proc, int seq, char *arg, struct CodeinWorkA *
 
 
 
-int BR_CODEIN_ResultMain(void *unused,u32 *state,char *arg,struct CodeinWorkA *work)
+int BR_CODEIN_ResultMain(void *unused,u32 *state,char *arg,struct CodeinResultWork *work)
 {
  int x,y,i;
  Point pair;
@@ -3289,10 +3282,10 @@ int BR_CODEIN_ResultMain(void *unused,u32 *state,char *arg,struct CodeinWorkA *w
 
 
 
-void BR_CODEIN_ResultSetupTextWin(char *work, char *arg)
+void BR_CODEIN_ResultSetupTextWin(struct CodeinResultWork *work, char *arg)
 {
-    ((struct CodeinWorkA *)work)->textWin = BR_UTIL_CreateTextWin(((struct CodeinArgA *)arg)->res, (void *)(*(int *)&((struct CodeinWorkA *)work)->printQue), ((struct CodeinWorkA *)work)->resultHeapId);
-    BR_UTIL_SetWindowText(((struct CodeinWorkA *)work)->textWin, (char *)(((struct CodeinArgA *)arg)->res), (void *)0x86);
+    work->textWin = BR_UTIL_CreateTextWin(((struct CodeinArgA *)arg)->res, (void *)(*(int *)&work->printQue), work->heapId);
+    BR_UTIL_SetWindowText(work->textWin, (char *)(((struct CodeinArgA *)arg)->res), (void *)0x86);
 }
 
 
@@ -3306,7 +3299,7 @@ void BR_CODEIN_ResultSetupTextWin(char *work, char *arg)
 /*
  * lever: declaring text before i/flag restores the original stack slots.
  */
-void BR_CODEIN_ResultSetupRowA(struct CodeinWorkA *work,char *arg)
+void BR_CODEIN_ResultSetupRowA(struct CodeinResultWork *work,char *arg)
 {
     int font, bank, words;
     struct U16Vec *text;
@@ -3317,13 +3310,13 @@ void BR_CODEIN_ResultSetupRowA(struct CodeinWorkA *work,char *arg)
     font=BR_RES_GetFont(*(char * *)&((struct CodeinArgA *)arg)->res);
     bank=BR_RES_GetMsgData(*(char * *)&((struct CodeinArgA *)arg)->res);
     words=BR_RES_GetWordSet(*(char * *)&((struct CodeinArgA *)arg)->res);
-    BR_RES_LoadBgGraphics((void *)(((struct CodeinArgA *)arg)->res),16,work->resultHeapId);
+    BR_RES_LoadBgGraphics((void *)(((struct CodeinArgA *)arg)->res),16,work->heapId);
     for(i=0;i<12;i++) {
         flag=1;
         rec=&d_021E3574[i];
         slot=(char *)work+i*4;
-        ((struct CodeinSlotA *)slot)->rowText=BR_UTIL_Create(1,rec->a,rec->b,rec->c,rec->d,14,work->printQue,work->resultHeapId);
-        BR_UTIL_SetTextLayout(((struct CodeinSlotA *)slot)->rowText,0,1,0);
+        ((struct CodeinResultRowSlot *)slot)->rowText=BR_UTIL_Create(1,rec->a,rec->b,rec->c,rec->d,14,work->printQue,work->heapId);
+        BR_UTIL_SetTextLayout(((struct CodeinResultRowSlot *)slot)->rowText,0,1,0);
         switch(i) {
         case 0: WORDSET_SetSlotMyStatus((struct WordSet *)words,0,GAME_DATA_GetMyStatus((*(void * *)&((struct CodeinArgA *)arg)->uiRes))); break;
         case 7: WORDSET_SetSlotNumber((struct WordSet *)words,0,BSUBWAY_SAVEDATA_GetStat(*(Row * *)&((struct CodeinArgA *)arg)->bsubwaySave,5,0),4,1,1); break;
@@ -3335,11 +3328,11 @@ void BR_CODEIN_ResultSetupRowA(struct CodeinWorkA *work,char *arg)
         }
         if(flag) {
             base=MSGDATA_AllocString((struct MsgBank *)bank,rec->value);
-            text=STRBUF_Create(128,work->resultHeapId);
+            text=STRBUF_Create(128,work->heapId);
             WORDSET_CopyTaggedText((struct WordSet *)words,text,base);
             STRBUF_Delete(base);
         }
-        BR_UTIL_SetTextFromBuffer(*(char * *)&((struct CodeinSlotA *)slot)->rowText,text,(void *)font,0x3da0);
+        BR_UTIL_SetTextFromBuffer(*(char * *)&((struct CodeinResultRowSlot *)slot)->rowText,text,(void *)font,0x3da0);
         STRBUF_Delete(text);
     }
 }
@@ -3352,7 +3345,7 @@ void BR_CODEIN_ResultSetupRowA(struct CodeinWorkA *work,char *arg)
 
 
 
-void BR_CODEIN_ResultSetupRowB(struct CodeinWorkA *work,char *arg)
+void BR_CODEIN_ResultSetupRowB(struct CodeinResultWork *work,char *arg)
 {
     int font, bank, words, i, flag, value;
     const Record *rec;
@@ -3362,23 +3355,23 @@ void BR_CODEIN_ResultSetupRowB(struct CodeinWorkA *work,char *arg)
     font=BR_RES_GetFont(*(char * *)&((struct CodeinArgA *)arg)->res);
     bank=BR_RES_GetMsgData(*(char * *)&((struct CodeinArgA *)arg)->res);
     words=BR_RES_GetWordSet(*(char * *)&((struct CodeinArgA *)arg)->res);
-    BR_RES_LoadBgGraphics((void *)(((struct CodeinArgA *)arg)->res),17,work->resultHeapId);
+    BR_RES_LoadBgGraphics((void *)(((struct CodeinArgA *)arg)->res),17,work->heapId);
     for(i=0;i<18;i++) {
         rec=&d_021E3664[i];
         slot=(char *)work+i*4;
-        ((struct CodeinSlotA *)slot)->rowText=BR_UTIL_Create(1,rec->a,rec->b,rec->c,rec->d,14,work->printQue,work->resultHeapId);
-        BR_UTIL_SetTextLayout(((struct CodeinSlotA *)slot)->rowText,0,1,0);
+        ((struct CodeinResultRowSlot *)slot)->rowText=BR_UTIL_Create(1,rec->a,rec->b,rec->c,rec->d,14,work->printQue,work->heapId);
+        BR_UTIL_SetTextLayout(((struct CodeinResultRowSlot *)slot)->rowText,0,1,0);
         if(i>=8 && i<=12) {value=BSUBWAY_SAVEDATA_GetStat(*(Row * *)&((struct CodeinArgA *)arg)->bsubwaySave,i-3,1);flag=1;}
         else if(i>=13 && i<=17) {value=BSUBWAY_SAVEDATA_GetStat(*(Row * *)&((struct CodeinArgA *)arg)->bsubwaySave,i-8,2);flag=1;}
         else {text=MSGDATA_AllocString((struct MsgBank *)bank,rec->value);flag=0;}
         if(flag) {
             base=MSGDATA_AllocString((struct MsgBank *)bank,rec->value);
-            text=STRBUF_Create(128,work->resultHeapId);
+            text=STRBUF_Create(128,work->heapId);
             WORDSET_SetSlotNumber((struct WordSet *)words,0,value,5,1,1);
             WORDSET_CopyTaggedText((struct WordSet *)words,text,base);
             STRBUF_Delete(base);
         }
-        BR_UTIL_SetTextFromBuffer(*(char * *)&((struct CodeinSlotA *)slot)->rowText,text,(void *)font,0x3da0);
+        BR_UTIL_SetTextFromBuffer(*(char * *)&((struct CodeinResultRowSlot *)slot)->rowText,text,(void *)font,0x3da0);
         STRBUF_Delete(text);
     }
 }
@@ -3391,7 +3384,7 @@ void BR_CODEIN_ResultSetupRowB(struct CodeinWorkA *work,char *arg)
 
 
 
-void BR_CODEIN_ResultSetupRowC(struct CodeinWorkA *work,char *arg)
+void BR_CODEIN_ResultSetupRowC(struct CodeinResultWork *work,char *arg)
 {
     int font, bank, words, i, flag, value;
     const Record *rec;
@@ -3401,23 +3394,23 @@ void BR_CODEIN_ResultSetupRowC(struct CodeinWorkA *work,char *arg)
     font=BR_RES_GetFont(*(char * *)&((struct CodeinArgA *)arg)->res);
     bank=BR_RES_GetMsgData(*(char * *)&((struct CodeinArgA *)arg)->res);
     words=BR_RES_GetWordSet(*(char * *)&((struct CodeinArgA *)arg)->res);
-    BR_RES_LoadBgGraphics((void *)(((struct CodeinArgA *)arg)->res),17,work->resultHeapId);
+    BR_RES_LoadBgGraphics((void *)(((struct CodeinArgA *)arg)->res),17,work->heapId);
     for(i=0;i<18;i++) {
         rec=&d_021E35D4[i];
         slot=(char *)work+i*4;
-        ((struct CodeinSlotA *)slot)->rowText=BR_UTIL_Create(1,rec->a,rec->b,rec->c,rec->d,14,work->printQue,work->resultHeapId);
-        BR_UTIL_SetTextLayout(((struct CodeinSlotA *)slot)->rowText,0,1,0);
+        ((struct CodeinResultRowSlot *)slot)->rowText=BR_UTIL_Create(1,rec->a,rec->b,rec->c,rec->d,14,work->printQue,work->heapId);
+        BR_UTIL_SetTextLayout(((struct CodeinResultRowSlot *)slot)->rowText,0,1,0);
         if(i>=8 && i<=12) {value=BSUBWAY_SAVEDATA_GetStat(*(Row * *)&((struct CodeinArgA *)arg)->bsubwaySave,i-8,1);flag=1;}
         else if(i>=13 && i<=17) {value=BSUBWAY_SAVEDATA_GetStat(*(Row * *)&((struct CodeinArgA *)arg)->bsubwaySave,i-13,2);flag=1;}
         else {text=MSGDATA_AllocString((struct MsgBank *)bank,rec->value);flag=0;}
         if(flag) {
             base=MSGDATA_AllocString((struct MsgBank *)bank,rec->value);
-            text=STRBUF_Create(128,work->resultHeapId);
+            text=STRBUF_Create(128,work->heapId);
             WORDSET_SetSlotNumber((struct WordSet *)words,0,value,5,1,1);
             WORDSET_CopyTaggedText((struct WordSet *)words,text,base);
             STRBUF_Delete(base);
         }
-        BR_UTIL_SetTextFromBuffer(*(char * *)&((struct CodeinSlotA *)slot)->rowText,text,(void *)font,0x3da0);
+        BR_UTIL_SetTextFromBuffer(*(char * *)&((struct CodeinResultRowSlot *)slot)->rowText,text,(void *)font,0x3da0);
         STRBUF_Delete(text);
     }
 }
@@ -3433,14 +3426,13 @@ void BR_CODEIN_ResultSetupRowC(struct CodeinWorkA *work,char *arg)
 /*
  * extent: two trailing zero bytes are alignment padding before the next labelled function.
  */
-void BR_CODEIN_ResultTeardown(struct CodeinWorkA *work, char *arg)
+void BR_CODEIN_ResultTeardown(struct CodeinResultWork *work, char *arg)
 {
     int i;
     for (i = 0; i < 18; i++) {
-        char *slot = (char *)work + i * 4;
-        if (((struct CodeinSlotA *)slot)->rowText != 0) {
-            BR_UTIL_Delete(((struct CodeinSlotA *)slot)->rowText);
-            ((struct CodeinSlotA *)slot)->rowText = 0;
+        if (work->rowText[i] != 0) {
+            BR_UTIL_Delete(work->rowText[i]);
+            work->rowText[i] = 0;
         }
     }
     BR_RES_ApplyBgSet(((struct CodeinArgA *)arg)->res, 17);
@@ -3547,7 +3539,7 @@ void BR_CODEIN_ResultTeardown(struct CodeinWorkA *work, char *arg)
  *     MSGDATA_DecryptStrbuf(dest, index);
  * }
  */
-void BR_CODEIN_ResultSetupButtons(char *work,char *arg)
+void BR_CODEIN_ResultSetupButtons(struct CodeinResultWork *work,char *arg)
 {
     int font,words,bank,i;
     Params config;
@@ -3556,22 +3548,22 @@ void BR_CODEIN_ResultSetupButtons(char *work,char *arg)
     void *value;
     const Record *rec;
     char *slot;
-    BR_RES_LoadSprite(*(char **)(arg+8),6,*(u16 *)(work+0x6c));
-    BR_RES_LoadBgGraphics((void *)(*(int *)(arg+8)),15,*(u16 *)(work+0x6c));
+    BR_RES_LoadSprite(*(char **)(arg+8),6,work->heapId);
+    BR_RES_LoadBgGraphics((void *)(*(int *)(arg+8)),15,work->heapId);
     font=BR_RES_GetFont(*(char **)(arg+8));
     bank=BR_RES_GetMsgData(*(char **)(arg+8));
     words=BR_RES_GetWordSet(*(char **)(arg+8));
     MI_CpuFill8(&config,0,8);
     config.a=80; config.b=168; config.c=0; config.flag=1;
     BR_RES_GetSprite((void *)(*(void **)(arg+8)), 6, (Triple *)&triple);
-    *(void **)(work+0xc)=BR_BTN_CreateFromMessage(&config,4,96,1,*(int *)arg,*(int *)work,font,bank,&triple,*(u16 *)(work+0x6c));
-    base=STRBUF_Create(128,*(u16 *)(work+0x6c));
-    text=STRBUF_Create(128,*(u16 *)(work+0x6c));
+    work->backButton=BR_BTN_CreateFromMessage(&config,4,96,1,*(int *)arg,*(int *)work,font,bank,&triple,work->heapId);
+    base=STRBUF_Create(128,work->heapId);
+    text=STRBUF_Create(128,work->heapId);
     value=GAME_DATA_GetMyStatus(*(void **)(arg+0x10));
     for(i=0;i<3;i++) {
         rec=&d_021E351C[i];
-        slot=work+i*4;
-        *(void **)(slot+0x10)=BR_UTIL_Create(4,rec->a,rec->b,rec->c,rec->d,14,*(void **)(work+4),*(u16 *)(work+0x6c));
+        slot=(char *)work+i*4;
+        *(void **)(slot+0x10)=BR_UTIL_Create(4,rec->a,rec->b,rec->c,rec->d,14,work->printQue,work->heapId);
         if(i==0) {
             MSGDATA_ReadString((struct MsgBank *)bank,rec->value,base);
             WORDSET_SetSlotMyStatus((struct WordSet *)words,0,value);
@@ -3591,14 +3583,13 @@ void BR_CODEIN_ResultSetupButtons(char *work,char *arg)
 
 
 
-void BR_CODEIN_ResultDeleteButtons(struct CodeinWorkA *work, char *arg)
+void BR_CODEIN_ResultDeleteButtons(struct CodeinResultWork *work, char *arg)
 {
     int i;
     for (i = 0; i < 3; i++) {
-        char *slot = (char *)work + i * 4;
-        if (((struct CodeinWorkC *)slot)->resultText) {
-            BR_UTIL_Delete(((struct CodeinWorkC *)slot)->resultText);
-            ((struct CodeinWorkC *)slot)->resultText = 0;
+        if (work->buttonText[i]) {
+            BR_UTIL_Delete(work->buttonText[i]);
+            work->buttonText[i] = 0;
         }
     }
     if (work->backButton) {
@@ -3617,7 +3608,7 @@ void BR_CODEIN_ResultDeleteButtons(struct CodeinWorkA *work, char *arg)
 
 
 
-int BR_CODEIN_ResultHitButton(struct CodeinWorkA *work, int x, int y)
+int BR_CODEIN_ResultHitButton(struct CodeinResultWork *work, int x, int y)
 {
     int skip = work->resultChoice;
     int i;
@@ -3645,7 +3636,7 @@ int BR_CODEIN_ResultHitButton(struct CodeinWorkA *work, int x, int y)
 
 int BR_CODEIN_StatCreate(void *proc, int seq, char *arg)
 {
-    struct CodeinWorkD *p = PROCSYS_AllocProcWork(proc, 0x10C, BR_PROC_SYS_GetSlotId((*(void * *)&((struct CodeinArgA *)arg)->bsubwaySave)));
+    struct CodeinStatWork *p = PROCSYS_AllocProcWork(proc, 0x10C, BR_PROC_SYS_GetSlotId((*(void * *)&((struct CodeinArgA *)arg)->bsubwaySave)));
     int i;
     MI_CpuFill8(p, 0, 0x10C);
     p->statCtx = arg;
@@ -3670,11 +3661,11 @@ int BR_CODEIN_StatCreate(void *proc, int seq, char *arg)
 
 
 
-int BR_CODEIN_StatDestroy(void *proc, int seq, struct CodeinArgA *arg, struct CodeinWorkD *work)
+int BR_CODEIN_StatDestroy(void *proc, int seq, struct CodeinArgA *arg, struct CodeinStatWork *work)
 {
     int i;
     if (work->listCreated != 0) {
-        BR_CODEIN_SearchDeleteList((char *)work + 0x28);
+        BR_CODEIN_SearchDeleteList((char *)work->list);
         work->listCreated = 0;
     }
     if (work->titleText != 0) {
@@ -3714,7 +3705,7 @@ int BR_CODEIN_StatDestroy(void *proc, int seq, struct CodeinArgA *arg, struct Co
 
 
 
-int BR_CODEIN_StatMain(int proc, int seq, int arg, struct CodeinWorkD *work)
+int BR_CODEIN_StatMain(int proc, int seq, int arg, struct CodeinStatWork *work)
 {
     int i;
     if (BR_NET_HandleNetError(((struct CodeinSubA *)(work->statCtx))->net) == 2) {
@@ -3739,7 +3730,7 @@ int BR_CODEIN_StatMain(int proc, int seq, int arg, struct CodeinWorkD *work)
 
 
 
-void BR_CODEIN_StatSetup(int *task,int *state,struct CodeinWorkD *work)
+void BR_CODEIN_StatSetup(int *task,int *state,struct CodeinStatWork *work)
 {
     int font,bank;
     Params config;
@@ -3763,7 +3754,7 @@ void BR_CODEIN_StatSetup(int *task,int *state,struct CodeinWorkD *work)
     work->titleText=BR_UTIL_Create(1,3,3,26,4,14,work->printQue,work->heapId);
     BR_UTIL_SetTextLayout(work->titleText,0,1,0);
     BR_UTIL_SetTextFromMessage(*(char * *)&work->titleText,(void *)bank,(void *)(**(int * *)&work->statCtx+0x57),(void *)font,0x3da0);
-    BR_CODEIN_SearchCreateList((Menu *)((char *)work+0x28), ((struct CodeinSubA *)(work->statCtx))->menuState, *(char * *)&((struct CodeinSubA *)(work->statCtx))->res, (*(int *)&((struct CodeinSubA *)(work->statCtx))->subFade), (u32)(work->listParam), (u32)((*(void * *)&work->tapFx)), *(u16 * *)&((struct CodeinSubA *)(work->statCtx))->gameData, work->heapId);
+    BR_CODEIN_SearchCreateList((Menu *)work->list, ((struct CodeinSubA *)(work->statCtx))->menuState, *(char * *)&((struct CodeinSubA *)(work->statCtx))->res, (*(int *)&((struct CodeinSubA *)(work->statCtx))->subFade), (u32)(work->listFx), (u32)((*(void * *)&work->tapFx)), *(u16 * *)&((struct CodeinSubA *)(work->statCtx))->gameData, work->heapId);
     work->listCreated=1;
     BR_UTIL_SetTaskStep(task,(int)BR_CODEIN_StatStepFadeIn);
 }
@@ -3776,9 +3767,9 @@ void BR_CODEIN_StatSetup(int *task,int *state,struct CodeinWorkD *work)
 
 
 
-void BR_CODEIN_StatTeardown(void *proc, int seq, struct CodeinWorkD *work)
+void BR_CODEIN_StatTeardown(void *proc, int seq, struct CodeinStatWork *work)
 {
-    BR_CODEIN_SearchDeleteList((char *)work + 0x28);
+    BR_CODEIN_SearchDeleteList((char *)work->list);
     work->listCreated = 0;
     BR_UTIL_Delete(work->titleText);
     work->titleText = 0;
@@ -3802,7 +3793,7 @@ void BR_CODEIN_StatTeardown(void *proc, int seq, struct CodeinWorkD *work)
 
 
 
-void BR_CODEIN_StatStepFadeIn(int *task, int *state, struct CodeinWorkD *work)
+void BR_CODEIN_StatStepFadeIn(int *task, int *state, struct CodeinStatWork *work)
 {
     switch (*state) {
     case 0:
@@ -3853,26 +3844,26 @@ void BR_CODEIN_StatStepFadeOut(int *work, int *state, struct CodeinArgA *arg)
 void BR_CODEIN_StatStepMenu(int *task, int *state, char *work)
 {
     u32 x,y;
-    BR_CODEIN_SearchMainList(work+0x28,((struct CodeinWorkD *)work)->heapId);
+    BR_CODEIN_SearchMainList(work+0x28,((struct CodeinStatWork *)work)->heapId);
     if (TOUCHPANEL_GetPointTrg(&x,&y)) {
-        if (BR_BTN_HitTestWithSound((unsigned int *)((*(int *)&((struct CodeinWorkD *)work)->backButton)),x,y)) {
+        if (BR_BTN_HitTestWithSound((unsigned int *)((*(int *)&((struct CodeinStatWork *)work)->backButton)),x,y)) {
             Point args;
             args.x=x; args.y=y;
-            BR_UTIL_StartEffect((void *)(((struct CodeinWorkD *)work)->tapFx), 1, &args);
-            BR_PROC_SYS_PopEntry((*(void * *)&((struct CodeinSubA *)(((struct CodeinWorkD *)work)->statCtx))->procQuery));
+            BR_UTIL_StartEffect((void *)(((struct CodeinStatWork *)work)->tapFx), 1, &args);
+            BR_PROC_SYS_PopEntry((*(void * *)&((struct CodeinSubA *)(((struct CodeinStatWork *)work)->statCtx))->procQuery));
             BR_UTIL_SetTaskStep(task,(int)BR_CODEIN_StatStepFadeOut);
         }
         if (BR_CODEIN_SearchHitBox(x,y)) {
             u32 selection;
             Point args;
             selection=BR_CODEIN_SearchGetHitId(work+0x28);
-            if (selection>=((struct CodeinSubA *)(((struct CodeinSubA *)(((struct CodeinWorkD *)work)->statCtx))->menuState))->itemCount)
+            if (selection>=((struct CodeinSubA *)(((struct CodeinSubA *)(((struct CodeinStatWork *)work)->statCtx))->menuState))->itemCount)
                 GF_PANIC_Fail(d_021E3964,0,d_021E3964);
-            ((struct CodeinSubA *)(((struct CodeinSubA *)(((struct CodeinWorkD *)work)->statCtx))->menuState))->selection=selection;
-            BR_PROC_SYS_PushEntry(*(unsigned * *)&((struct CodeinSubA *)(((struct CodeinWorkD *)work)->statCtx))->procQuery,2);
+            ((struct CodeinSubA *)(((struct CodeinSubA *)(((struct CodeinStatWork *)work)->statCtx))->menuState))->selection=selection;
+            BR_PROC_SYS_PushEntry(*(unsigned * *)&((struct CodeinSubA *)(((struct CodeinStatWork *)work)->statCtx))->procQuery,2);
             BR_UTIL_SetTaskStep(task,(int)BR_CODEIN_StatStepFadeOut);
             args.x=x; args.y=y;
-            BR_UTIL_StartEffect((void *)(((struct CodeinWorkD *)work)->tapFx), 1, &args);
+            BR_UTIL_StartEffect((void *)(((struct CodeinStatWork *)work)->tapFx), 1, &args);
         }
     }
 }
@@ -4096,10 +4087,10 @@ void BR_CODEIN_SearchMainList(char *work, u16 heapId)
 {
     unsigned int old, current;
     s8 direction;
-    old = BR_UTIL_GetListMenuField(((struct CodeinWorkD *)work)->backButton, 1);
-    BR_UTIL_MainListMenu(((struct CodeinWorkD *)work)->backButton);
-    current = BR_UTIL_GetListMenuField(((struct CodeinWorkD *)work)->backButton, 1);
-    direction = BR_UTIL_GetListMenuField(((struct CodeinWorkD *)work)->backButton, 2);
+    old = BR_UTIL_GetListMenuField(((struct CodeinWorkG *)work)->listMenu, 1);
+    BR_UTIL_MainListMenu(((struct CodeinWorkG *)work)->listMenu);
+    current = BR_UTIL_GetListMenuField(((struct CodeinWorkG *)work)->listMenu, 1);
+    direction = BR_UTIL_GetListMenuField(((struct CodeinWorkG *)work)->listMenu, 2);
     if (direction != 0 && old != current) BR_CODEIN_SearchUpdateActor((struct CodeinSearchState *)work, current, direction, heapId);
 }
 
@@ -4112,7 +4103,7 @@ void BR_CODEIN_SearchMainList(char *work, u16 heapId)
 
 int BR_CODEIN_SearchGetHitId(char *work)
 {
-    return BR_UTIL_GetListMenuHitId(*(char * *)&((struct CodeinWorkA *)work)->printQue);
+    return BR_UTIL_GetListMenuHitId(*(char * *)&((struct CodeinWorkG *)work)->listMenu);
 }
 
 
@@ -4365,14 +4356,14 @@ int BR_CODEIN_SearchHitBox(int x, int y)
 
 int BR_CODEIN_CodeCreate(void *obj, int unused, struct CodeinArgB *arg)
 {
-    struct CodeinWorkA *p;
+    struct CodeinCodeWork *p;
     int i;
     p = PROCSYS_AllocProcWork(obj, 0x58, BR_PROC_SYS_GetSlotId((struct BrProcQuery *)(arg->procQuery)));
     MI_CpuFill8(p, 0, 0x58);
     p->heapId = BR_PROC_SYS_GetSlotId((struct BrProcQuery *)(arg->procQuery));
-    p->codePrintQue = (void *)PRINTSYS_QUE_Create((void *)(p->heapId));
-    (*(void * *)&p->codeOamSys) = BMP_OAM_CreateSys(p->heapId, arg->actorSys);
-    (*(int *)&p->codeWin) = (int)BR_UTIL_CreateTextWin(arg->res, (void *)(*(int *)&p->codePrintQue), p->heapId);
+    p->printQue = (void *)PRINTSYS_QUE_Create((void *)(p->heapId));
+    (*(void * *)&p->oamSys) = BMP_OAM_CreateSys(p->heapId, arg->actorSys);
+    (*(int *)&p->codeWin) = (int)BR_UTIL_CreateTextWin(arg->res, (void *)(*(int *)&p->printQue), p->heapId);
     BR_UTIL_SetWindowText((char *)((*(int *)&p->codeWin)), (char *)(arg->res), (void *)0x6B);
     for (i = 0; i < 2; i++) {
         *(int *)((char *)p + i * 4 + 0x3C) = (int)BR_UTIL_CreateHandles(*(int *)&arg->actorSys, (char *)(arg->res), i, p->heapId);
@@ -4393,15 +4384,15 @@ int BR_CODEIN_CodeCreate(void *obj, int unused, struct CodeinArgB *arg)
 
 
 
-int BR_CODEIN_CodeDestroy(void *work, int unused, struct CodeinArgA *arg, char *data)
+int BR_CODEIN_CodeDestroy(void *work, int unused, struct CodeinArgA *arg, struct CodeinCodeWork *data)
 {
     int i;
     BR_CODEIN_CodeDeleteText(data, arg);
     BR_RES_ReleaseSprite((char *)(arg->res), 6);
-    for (i = 0; i < 2; i++) BR_UTIL_DeleteHandles(*(char **)(data + i * 4 + 0x3c));
-    BR_UTIL_DeleteTextWin(((struct CodeinDataA *)data)->codeWin, arg->res);
-    BMP_OAM_DeleteSys(((struct CodeinDataA *)data)->codeOamSys);
-    PRINTSYS_QUE_Delete(((struct CodeinDataA *)data)->codePrintQue);
+    for (i = 0; i < 2; i++) BR_UTIL_DeleteHandles(*(char **)((char *)data+i * 4 + 0x3c));
+    BR_UTIL_DeleteTextWin(data->codeWin, arg->res);
+    BMP_OAM_DeleteSys((void *)data->oamSys);
+    PRINTSYS_QUE_Delete(data->printQue);
     PROCSYS_FreeProcWork(work);
     return 1;
 }
@@ -4413,33 +4404,33 @@ int BR_CODEIN_CodeDestroy(void *work, int unused, struct CodeinArgA *arg, char *
 
 
 
-int BR_CODEIN_CodeMain(void *unused,u32 *state,int *arg,char *work)
+int BR_CODEIN_CodeMain(void *unused,u32 *state,int *arg,struct CodeinCodeWork *work)
 {
     int i;
     switch(*state) {
-    case 0: if(d_021E37A8[*(int *)(work+0x4c)].init(work,arg)) ++*state; break;
+    case 0: if(d_021E37A8[work->stage].init((char *)work,(int *)arg)) ++*state; break;
     case 1: BR_FADE_Start(arg[0],2,3,0); ++*state; break;
     case 2: if(BR_FADE_GetResult((int *)arg[0])) *state=3; break;
-    case 3: if(d_021E37A8[*(int *)(work+0x4c)].update(work,arg)) {
-        if(((struct CodeinWorkA *)work)->nextStage==-1) *state=10; else *state=4;
+    case 3: if(d_021E37A8[work->stage].update((char *)work,(int *)arg)) {
+        if(work->nextStage==-1) *state=10; else *state=4;
     } break;
     case 4: BR_FADE_Start(arg[0],2,2,1); ++*state; break;
     case 5: if(BR_FADE_GetResult((int *)arg[0])) ++*state; break;
-    case 6: if(d_021E37A8[*(int *)(work+0x4c)].finish(work,arg)) {
-        ((struct CodeinWorkA *)work)->stage=((struct CodeinWorkA *)work)->nextStage; ++*state;
+    case 6: if(d_021E37A8[work->stage].finish((char *)work,(int *)arg)) {
+        work->stage=work->nextStage; ++*state;
     } break;
-    case 7: if(d_021E37A8[*(int *)(work+0x4c)].init(work,arg)) ++*state; break;
+    case 7: if(d_021E37A8[work->stage].init((char *)work,(int *)arg)) ++*state; break;
     case 8: BR_FADE_Start(arg[0],2,2,0); ++*state; break;
     case 9: if(BR_FADE_GetResult((int *)arg[0])) *state=3; break;
     case 10: BR_FADE_Start(arg[0],2,3,1); ++*state; break;
     case 11: if(BR_FADE_GetResult((int *)arg[0])) *state=12; break;
-    case 12: if(d_021E37A8[*(int *)(work+0x4c)].finish(work,arg)) return 1; break;
+    case 12: if(d_021E37A8[work->stage].finish((char *)work,(int *)arg)) return 1; break;
     }
-    for(i=0;i<3;i++) if(*(void **)(work+i*4)) BR_UTIL_FlushText(*(void **)(work+i*4));
-    for(i=0;i<6;i++) if(*(void **)(work+0x20+i*4)) BR_UTIL_FlushText(*(void **)(work+0x20+i*4));
-    if(((struct CodeinWorkA *)work)->codeWin) BR_UTIL_FlushWindow(((struct CodeinWorkA *)work)->codeWin);
-    PRINTSYS_QUE_Main(((struct CodeinWorkA *)work)->codePrintQue);
-    for(i=0;i<2;i++) BR_UTIL_RunHandles(*(char **)(work+0x3c+i*4));
+    for(i=0;i<3;i++) if(work->buttonText[i]) BR_UTIL_FlushText(work->buttonText[i]);
+    for(i=0;i<6;i++) if(work->text[i]) BR_UTIL_FlushText(work->text[i]);
+    if(work->codeWin) BR_UTIL_FlushWindow(work->codeWin);
+    PRINTSYS_QUE_Main(work->printQue);
+    for(i=0;i<2;i++) BR_UTIL_RunHandles(*(char **)((char *)work+0x3c+i*4));
     return 0;
 }
 
@@ -4450,7 +4441,7 @@ int BR_CODEIN_CodeMain(void *unused,u32 *state,int *arg,char *work)
 
 
 
-int BR_CODEIN_CodeSetupButtons(struct CodeinWorkA *work,struct CodeinArgA *arg)
+int BR_CODEIN_CodeSetupButtons(struct CodeinCodeWork *work,struct CodeinArgA *arg)
 {
     int first,second,i;
     Params req;
@@ -4465,12 +4456,12 @@ int BR_CODEIN_CodeSetupButtons(struct CodeinWorkA *work,struct CodeinArgA *arg)
     for(i=0;i<2;i++) {
         r=&d_021E3734[i];
         req.a=r->x; req.b=r->y; req.c=r->id; req.flag=1;
-        *(void **)((char *)work+0xc+i*4)=BR_BTN_CreateFromMessage(&req,r->file,0x60,1,arg->actorSys,work->codeOamSys,first,second,&triple,work->heapId);
+        work->button[i]=BR_BTN_CreateFromMessage(&req,r->file,0x60,1,arg->actorSys,work->oamSys,first,second,&triple,work->heapId);
     }
     for(i=0;i<3;i++) {
         s=&d_021E3740[i];
-        *(void **)((char *)work+i*4)=BR_UTIL_Create(4,s->a,s->b,s->c,s->d,14,work->codePrintQue,work->heapId);
-        BR_UTIL_SetTextFromMessage(*(char **)((char *)work+i*4),(void *)second,s->value,(void *)first,0x3da0);
+        work->buttonText[i]=BR_UTIL_Create(4,s->a,s->b,s->c,s->d,14,work->printQue,work->heapId);
+        BR_UTIL_SetTextFromMessage(*(char * *)&work->buttonText[i],(void *)second,s->value,(void *)first,0x3da0);
     }
     BR_UTIL_SetWindowText(work->codeWin,(char *)(arg->res),(void *)107);
     return 1;
@@ -4483,19 +4474,19 @@ int BR_CODEIN_CodeSetupButtons(struct CodeinWorkA *work,struct CodeinArgA *arg)
 
 
 
-int BR_CODEIN_CodeDeleteButtons(char *work, struct CodeinArgA *arg)
+int BR_CODEIN_CodeDeleteButtons(struct CodeinCodeWork *work, struct CodeinArgA *arg)
 {
     int i;
     for (i = 0; i < 3; i++) {
-        if (*(void **)(work + i * 4) != 0) {
-            BR_UTIL_Delete(*(void **)(work + i * 4));
-            *(void **)(work + i * 4) = 0;
+        if (work->buttonText[i] != 0) {
+            BR_UTIL_Delete(work->buttonText[i]);
+            work->buttonText[i] = 0;
         }
     }
     for (i = 0; i < 2; i++) {
-        if (*(void **)(work + i * 4 + 12) != 0) {
-            BR_BTN_DeleteObject(*(void **)(work + i * 4 + 12));
-            *(void **)(work + i * 4 + 12) = 0;
+        if (work->button[i] != 0) {
+            BR_BTN_DeleteObject(work->button[i]);
+            work->button[i] = 0;
         }
     }
     BG_SYS_PushTile(4);
@@ -4512,7 +4503,7 @@ int BR_CODEIN_CodeDeleteButtons(char *work, struct CodeinArgA *arg)
 /*
  * lever: A separate result!=3 guard around the three-case switch removes the extra 8-byte dense dispatch (460 to 452 B).
  */
-int BR_CODEIN_CodeStepInput(struct CodeinWorkB *work,struct CodeinArgB *arg)
+int BR_CODEIN_CodeStepInput(struct CodeinCodeWork *work,struct CodeinArgB *arg)
 {
     int result=BR_CODEIN_CodeHitTestOptions();
     if(result!=3) {
@@ -4566,7 +4557,7 @@ int BR_CODEIN_CodeStepInput(struct CodeinWorkB *work,struct CodeinArgB *arg)
     {
         u32 x,y;
         if(TOUCHPANEL_GetPointTrg(&x,&y)) {
-            if(BR_BTN_HitTestWithSound((unsigned int *)(work->button),x,y)) {
+            if(BR_BTN_HitTestWithSound((unsigned int *)(work->button[0]),x,y)) {
                 Point args;
                 args.x=x;args.y=y;
                 BR_UTIL_StartEffect((void *)work->tapFx,1,&args);
@@ -4574,7 +4565,7 @@ int BR_CODEIN_CodeStepInput(struct CodeinWorkB *work,struct CodeinArgB *arg)
                 BR_PROC_SYS_PopEntry((*(void * *)&arg->procQuery));
                 return 1;
             }
-            if(BR_BTN_TestHitBox((u32 *)(work->screenFade),x,y)) {
+            if(BR_BTN_TestHitBox((u32 *)(work->button[1]),x,y)) {
                 if(arg->species!=0xffff || arg->version!=255 || arg->category!=19) {
                     Point args;
                     args.x=x;args.y=y;
@@ -4598,7 +4589,7 @@ int BR_CODEIN_CodeStepInput(struct CodeinWorkB *work,struct CodeinArgB *arg)
 
 
 
-int BR_CODEIN_CodeSetupMenu(struct CodeinWorkB *work,struct CodeinArgA *arg)
+int BR_CODEIN_CodeSetupMenu(struct CodeinCodeWork *work,struct CodeinArgA *arg)
 {
     int first,second,i;
     CfgTpl cfg;
@@ -4612,11 +4603,11 @@ int BR_CODEIN_CodeSetupMenu(struct CodeinWorkB *work,struct CodeinArgA *arg)
     cfg=d_021E3758;
     cfg.words[0]=*(u32 *)&work->menuWork;cfg.words[1]=19;
     cfg.words[5]=*(u32 *)&arg->res;cfg.words[6]=(*(unsigned int *)&arg->actorSys);
-    work->textWin=BR_UTIL_CreateListMenu((const CodeinListMenuConfig *)&cfg,work->heapId);
+    work->listMenu=BR_UTIL_CreateListMenu((const CodeinListMenuConfig *)&cfg,work->heapId);
     MI_CpuFill8(&params,0,8);
     BR_RES_GetSprite((void *)arg->res, 6, (Triple *)&triple);
     params.a=d_021E3728[0].x;params.b=d_021E3728[0].y;params.c=d_021E3728[0].id;params.flag=1;
-    (*(void * *)&work->button)=BR_BTN_CreateFromMessage(&params,d_021E3728[0].file,96,1,arg->actorSys,work->profileScreen,first,second,&triple,work->heapId);
+    (*(void * *)&work->button[0])=BR_BTN_CreateFromMessage(&params,d_021E3728[0].file,96,1,arg->actorSys,work->oamSys,first,second,&triple,work->heapId);
     return 1;
 }
 
@@ -4626,14 +4617,14 @@ int BR_CODEIN_CodeSetupMenu(struct CodeinWorkB *work,struct CodeinArgA *arg)
 
 
 
-int BR_CODEIN_CodeDeleteMenu(struct CodeinWorkB *work, struct CodeinArgA *arg)
+int BR_CODEIN_CodeDeleteMenu(struct CodeinCodeWork *work, struct CodeinArgA *arg)
 {
-    if ((*(void * *)&work->button)) {
-        BR_BTN_DeleteObject((*(void * *)&work->button));
-        (*(void * *)&work->button) = 0;
+    if ((*(void * *)&work->button[0])) {
+        BR_BTN_DeleteObject((*(void * *)&work->button[0]));
+        (*(void * *)&work->button[0]) = 0;
     }
-    BR_UTIL_DeleteListMenu(work->textWin);
-    work->textWin = 0;
+    BR_UTIL_DeleteListMenu(work->listMenu);
+    work->listMenu = 0;
     BMP_MENUWORK_Delete(work->menuWork);
     work->menuWork = 0;
     BR_RES_ApplyBgSet(arg->res, 27);
@@ -4647,14 +4638,14 @@ int BR_CODEIN_CodeDeleteMenu(struct CodeinWorkB *work, struct CodeinArgA *arg)
 
 
 
-int BR_CODEIN_CodeStepMenu(struct CodeinWorkB *work, struct CodeinArgB *arg)
+int BR_CODEIN_CodeStepMenu(struct CodeinCodeWork *work, struct CodeinArgB *arg)
 {
     int selected, pressed;
     unsigned int x, y;
-    BR_UTIL_MainListMenu(work->textWin);
-    selected = BR_UTIL_GetListMenuHitId(work->textWin);
+    BR_UTIL_MainListMenu(work->listMenu);
+    selected = BR_UTIL_GetListMenuHitId(work->listMenu);
     pressed = TOUCHPANEL_GetPointTrg(&x, &y);
-    pressed &= BR_BTN_HitTestWithSound((unsigned int *)(work->button), x, y);
+    pressed &= BR_BTN_HitTestWithSound((unsigned int *)(work->button[0]), x, y);
     if (selected != -1) {
         unsigned int x1, y1;
         Point args;
@@ -4685,11 +4676,11 @@ int BR_CODEIN_CodeStepMenu(struct CodeinWorkB *work, struct CodeinArgB *arg)
 
 
 
-void BR_CODEIN_CodeOpenPokeSearch(struct CodeinWorkA *work, struct CodeinArgA *arg)
+void BR_CODEIN_CodeOpenPokeSearch(struct CodeinCodeWork *work, struct CodeinArgA *arg)
 {
-    work->ctx = BR_POKESEARCH_Create(ZUKAN_SAVE_GetFromGameData((*(void * *)&arg->uiRes)), (*(void * *)&arg->res), arg->actorSys, work->codeOamSys, arg->screenFade, (*(int *)&work->menuCtx), work->tapFx, work->heapId);
-    BR_POKESEARCH_Open(work->ctx);
-    BR_POKESEARCH_UpdatePrint(work->ctx);
+    work->pokeSearch = BR_POKESEARCH_Create(ZUKAN_SAVE_GetFromGameData((*(void * *)&arg->uiRes)), (*(void * *)&arg->res), arg->actorSys, work->oamSys, arg->screenFade, (*(int *)&work->fx), work->tapFx, work->heapId);
+    BR_POKESEARCH_Open(work->pokeSearch);
+    BR_POKESEARCH_UpdatePrint(work->pokeSearch);
 }
 
 
@@ -4698,10 +4689,10 @@ void BR_CODEIN_CodeOpenPokeSearch(struct CodeinWorkA *work, struct CodeinArgA *a
 
 
 
-int BR_CODEIN_CodeClosePokeSearch(struct CodeinWorkA *work)
+int BR_CODEIN_CodeClosePokeSearch(struct CodeinCodeWork *work)
 {
-    BR_POKESEARCH_Close((*(void * *)&work->ctx));
-    BR_POKESEARCH_Destroy((*(void * *)&work->ctx));
+    BR_POKESEARCH_Close((*(void * *)&work->pokeSearch));
+    BR_POKESEARCH_Destroy((*(void * *)&work->pokeSearch));
     BG_SYS_PushTile(4);
     return 1;
 }
@@ -4714,12 +4705,12 @@ int BR_CODEIN_CodeClosePokeSearch(struct CodeinWorkA *work)
 /*
  * lever: Repeat the reset store in both result arms, with return 1 shared after them; hoisting the store removes the branch at 0x021E00C8.
  */
-int BR_CODEIN_CodeStepPokeSearch(struct CodeinWorkB *work, struct CodeinArgB *arg)
+int BR_CODEIN_CodeStepPokeSearch(struct CodeinCodeWork *work, struct CodeinArgB *arg)
 {
     u16 out;
     int result;
-    BR_POKESEARCH_Main(*(char * *)&work->procQuery);
-    result = BR_POKESEARCH_GetResult(*(int * *)&work->procQuery, &out);
+    BR_POKESEARCH_Main(*(char * *)&work->pokeSearch);
+    result = BR_POKESEARCH_GetResult(*(int * *)&work->pokeSearch, &out);
     if (result) {
         if (result == 2) {
             arg->species = out;
@@ -4738,7 +4729,7 @@ int BR_CODEIN_CodeStepPokeSearch(struct CodeinWorkB *work, struct CodeinArgB *ar
 
 
 
-int BR_CODEIN_CodeSetupPokeList(struct CodeinWorkB *work,struct CodeinArgA *arg)
+int BR_CODEIN_CodeSetupPokeList(struct CodeinCodeWork *work,struct CodeinArgA *arg)
 {
     int first,second,a,b;
     void *v,*text,*data;
@@ -4764,11 +4755,11 @@ int BR_CODEIN_CodeSetupPokeList(struct CodeinWorkB *work,struct CodeinArgA *arg)
     cfg=d_021E3780;
     cfg.words[0]=*(u32 *)&work->menuWork;cfg.words[1]=1;
     cfg.words[5]=*(u32 *)&arg->res;cfg.words[6]=(*(unsigned int *)&arg->actorSys);
-    work->textWin=BR_UTIL_CreateListMenu((const CodeinListMenuConfig *)&cfg,work->heapId);
+    work->listMenu=BR_UTIL_CreateListMenu((const CodeinListMenuConfig *)&cfg,work->heapId);
     MI_CpuFill8(&params,0,8);
     BR_RES_GetSprite((void *)arg->res, 6, (Triple *)&triple);
     params.a=d_021E372E[0].x;params.b=d_021E372E[0].y;params.c=d_021E372E[0].id;params.flag=1;
-    (*(void * *)&work->button)=BR_BTN_CreateFromMessage(&params,d_021E372E[0].file,96,1,arg->actorSys,work->profileScreen,first,second,&triple,work->heapId);
+    (*(void * *)&work->button[0])=BR_BTN_CreateFromMessage(&params,d_021E372E[0].file,96,1,arg->actorSys,work->oamSys,first,second,&triple,work->heapId);
     return 1;
 }
 
@@ -4777,14 +4768,14 @@ int BR_CODEIN_CodeSetupPokeList(struct CodeinWorkB *work,struct CodeinArgA *arg)
 
 
 
-int BR_CODEIN_CodeDeletePokeList(struct CodeinWorkB *work, struct CodeinArgA *arg)
+int BR_CODEIN_CodeDeletePokeList(struct CodeinCodeWork *work, struct CodeinArgA *arg)
 {
-    if ((*(void * *)&work->button)) {
-        BR_BTN_DeleteObject((*(void * *)&work->button));
-        (*(void * *)&work->button) = 0;
+    if ((*(void * *)&work->button[0])) {
+        BR_BTN_DeleteObject((*(void * *)&work->button[0]));
+        (*(void * *)&work->button[0]) = 0;
     }
-    BR_UTIL_DeleteListMenu(work->textWin);
-    work->textWin = 0;
+    BR_UTIL_DeleteListMenu(work->listMenu);
+    work->listMenu = 0;
     BMP_MENUWORK_Delete(work->menuWork);
     work->menuWork = 0;
     BR_RES_ApplyBgSet(arg->res, 28);
@@ -4800,14 +4791,14 @@ int BR_CODEIN_CodeDeletePokeList(struct CodeinWorkB *work, struct CodeinArgA *ar
 /*
  * trailing: two zero alignment bytes at 0x021E02F6
  */
-int BR_CODEIN_CodeStepPokeList(struct CodeinWorkB *work, struct CodeinArgB *arg)
+int BR_CODEIN_CodeStepPokeList(struct CodeinCodeWork *work, struct CodeinArgB *arg)
 {
     int selected, pressed;
     unsigned int x, y;
-    BR_UTIL_MainListMenu(work->textWin);
-    selected = BR_UTIL_GetListMenuHitId(work->textWin);
+    BR_UTIL_MainListMenu(work->listMenu);
+    selected = BR_UTIL_GetListMenuHitId(work->listMenu);
     pressed = TOUCHPANEL_GetPointTrg(&x, &y);
-    pressed &= BR_BTN_HitTestWithSound((unsigned int *)(work->button), x, y);
+    pressed &= BR_BTN_HitTestWithSound((unsigned int *)(work->button[0]), x, y);
     if (selected != -1) {
         unsigned int x1, y1;
         Point args;
@@ -4842,7 +4833,7 @@ int BR_CODEIN_CodeStepPokeList(struct CodeinWorkB *work, struct CodeinArgB *arg)
 
 
 
-void BR_CODEIN_CodeSetupText(struct CodeinWorkA *work, int *arg)
+void BR_CODEIN_CodeSetupText(struct CodeinCodeWork *work, int *arg)
 {
     int first, second, i;
     const Record *r;
@@ -4851,9 +4842,9 @@ void BR_CODEIN_CodeSetupText(struct CodeinWorkA *work, int *arg)
     BR_RES_LoadBgGraphics((void *)arg[2], 25, work->heapId);
     for (i = 0; i < 6; i++) {
         r = &d_021E37D8[i];
-        *(void **)((char *)work + i * 4 + 0x20) = BR_UTIL_Create(1, r->a, r->b, r->c, r->d, 14, work->codePrintQue, work->heapId);
-        BR_UTIL_SetTextLayout(*(void **)((char *)work + i * 4 + 0x20), 0, 1, 0);
-        BR_UTIL_SetTextFromMessage(*(void **)((char *)work + i * 4 + 0x20), (void *)second, (void *)r->value, (void *)first, 15776);
+        work->text[i] = BR_UTIL_Create(1, r->a, r->b, r->c, r->d, 14, work->printQue, work->heapId);
+        BR_UTIL_SetTextLayout(work->text[i], 0, 1, 0);
+        BR_UTIL_SetTextFromMessage(work->text[i], (void *)second, (void *)r->value, (void *)first, 15776);
     }
 }
 
@@ -4865,14 +4856,14 @@ void BR_CODEIN_CodeSetupText(struct CodeinWorkA *work, int *arg)
 /*
  * extent: final two bytes are alignment padding.
  */
-void BR_CODEIN_CodeDeleteText(char *work,struct CodeinArgA *arg){int i;for(i=0;i<6;i++){if(*(void **)(work+i*4+0x20)){BR_UTIL_Delete(*(void **)(work+i*4+0x20));*(void **)(work+i*4+0x20)=0;}}BR_RES_ApplyBgSet(arg->res,25);BG_SYS_PushTile(1);}
+void BR_CODEIN_CodeDeleteText(struct CodeinCodeWork *work,struct CodeinArgA *arg){int i;for(i=0;i<6;i++){if(work->text[i]){BR_UTIL_Delete(work->text[i]);work->text[i]=0;}}BR_RES_ApplyBgSet(arg->res,25);BG_SYS_PushTile(1);}
 
 
 
 
 
 
-void BR_CODEIN_CodeSetMenuText(struct CodeinWorkB *work,struct CodeinArgB *arg,int mode)
+void BR_CODEIN_CodeSetMenuText(struct CodeinCodeWork *work,struct CodeinArgB *arg,int mode)
 {
     int first,second,ws;
     void *data,*text;
@@ -4880,16 +4871,16 @@ void BR_CODEIN_CodeSetMenuText(struct CodeinWorkB *work,struct CodeinArgB *arg,i
     second=BR_RES_GetMsgData(*(char * *)&arg->res);
     switch(mode) {
     case 0:
-        if(arg->category!=19)BR_UTIL_SetTextFromMessage(work->categoryText,(void *)second,(void *)(arg->category+205),(void *)first,0x3da0);
-        else BR_UTIL_SetTextFromMessage(work->categoryText,(void *)second,(void *)117,(void *)first,0x3da0);
+        if(arg->category!=19)BR_UTIL_SetTextFromMessage(work->text[1],(void *)second,(void *)(arg->category+205),(void *)first,0x3da0);
+        else BR_UTIL_SetTextFromMessage(work->text[1],(void *)second,(void *)117,(void *)first,0x3da0);
         return;
     case 1:
-        if(arg->species!=0xffff)BR_UTIL_SetTextFromMessage(work->speciesText,(void *)gSpeciesNameBank,(void *)(u32)arg->species,(void *)first,0x3da0);
-        else BR_UTIL_SetTextFromMessage(work->speciesText,(void *)second,(void *)117,(void *)first,0x3da0);
+        if(arg->species!=0xffff)BR_UTIL_SetTextFromMessage(work->text[3],(void *)gSpeciesNameBank,(void *)(u32)arg->species,(void *)first,0x3da0);
+        else BR_UTIL_SetTextFromMessage(work->text[3],(void *)second,(void *)117,(void *)first,0x3da0);
         return;
     case 2:
         if(arg->language==255 && arg->version==255) {
-            BR_UTIL_SetTextFromMessage(work->versionText,(void *)second,(void *)117,(void *)first,0x3da0);
+            BR_UTIL_SetTextFromMessage(work->text[5],(void *)second,(void *)117,(void *)first,0x3da0);
             return;
         }
         ws=BR_RES_GetWordSet(*(char * *)&arg->res);
@@ -4898,7 +4889,7 @@ void BR_CODEIN_CodeSetMenuText(struct CodeinWorkB *work,struct CodeinArgB *arg,i
         if(!NATION_AREA_GetAreaCount(arg->language))WORDSET_SetSlotFromMsgE7((void *)ws,0,arg->language);
         else WORDSET_SetSlotFromKeyedMessage((void *)ws,0,arg->language,arg->version);
         WORDSET_CopyTaggedText((void *)ws,text,data);
-        BR_UTIL_SetTextFromBuffer(work->versionText,text,(void *)first,0x3da0);
+        BR_UTIL_SetTextFromBuffer(work->text[5],text,(void *)first,0x3da0);
         STRBUF_Delete(data);STRBUF_Delete(text);
         break;
     }
@@ -5005,10 +4996,10 @@ int BR_CODEIN_ProfileScreenMain(int unused, int *state, int *arg, int *work)
         if (BR_FADE_GetResult((int *)arg[0])) *state = 2;
         break;
     case 2:
-        BR_CODEIN_ProfileUpdate((char *)work[1]);
-        switch (BR_CODEIN_ProfileGetState((char *)work[1])) {
+        BR_CODEIN_ProfileUpdate((struct CodeinProfileWork *)work[1]);
+        switch (BR_CODEIN_ProfileGetState((struct CodeinProfileWork *)work[1])) {
         case 1: BR_PROC_SYS_PopEntry((unsigned int *)arg[3]); *state = 3; break;
-        case 2: ((struct CodeinArgD *)arg)->result = BR_CODEIN_ProfileGetValue((char *)work[1]); BR_PROC_SYS_PushEntry((unsigned int *)arg[3], 2); *state = 3; break;
+        case 2: ((struct CodeinArgD *)arg)->result = BR_CODEIN_ProfileGetValue((struct CodeinProfileWork *)work[1]); BR_PROC_SYS_PushEntry((unsigned int *)arg[3], 2); *state = 3; break;
         }
         break;
     case 3:
@@ -5031,46 +5022,46 @@ int BR_CODEIN_ProfileScreenMain(int unused, int *state, int *arg, int *work)
 /*
  * extent: 0754 tail-call stub; 075C state getter; 0764 64-bit getter; 0772 padding.
  */
-char *BR_CODEIN_ProfileCreate(const CfgTpl *src, u16 heap)
+struct CodeinProfileWork *BR_CODEIN_ProfileCreate(const CfgTpl *src, u16 heap)
 {
-    char *p;
+    struct CodeinProfileWork *p;
     p = GFL_HEAP_Alloc(heap, 0x368, 0, d_021E3968, 56);
     MI_CpuFill8(p, 0, 0x368);
-    *(CfgTpl *)(p + 0x324) = *src;
-    ((struct CodeinWorkA *)p)->profileHeapId = heap;
-    (*(int *)&((struct CodeinWorkA *)p)->actorSys) = src->words[7];
-    ((struct CodeinWorkA *)p)->font = BR_RES_GetFont((char *)src->words[8]);
-    ((struct CodeinWorkA *)p)->arcHandle = ARC_TOOL_CreateHandle(59, ((struct CodeinWorkA *)p)->profileHeapId);
+    *(CfgTpl *)((char *)p+0x324) = *src;
+    p->profileHeapId = heap;
+    (*(int *)&p->actorSys) = src->words[7];
+    p->font = BR_RES_GetFont((char *)src->words[8]);
+    p->arcHandle = ARC_TOOL_CreateHandle(59, p->profileHeapId);
     BR_CODEIN_ProfileInitRecordLayout((CodeinProfileState *)p);
     BR_CODEIN_ProfileCreateButtons(p);
-    ((struct CodeinWorkA *)p)->task = GFL_USE_AddMainTask(BR_CODEIN_ProfileNoop, p, 16);
+    p->task = GFL_USE_AddMainTask(BR_CODEIN_ProfileNoop, p, 16);
     return p;
 }
 
 
 
-void BR_CODEIN_ProfileUpdate(char *work)
+void BR_CODEIN_ProfileUpdate(struct CodeinProfileWork *work)
 {
     BR_CODEIN_ProfileUpdateActorAnim(work);
 }
 
 
 
-int BR_CODEIN_ProfileGetState(char *work)
+int BR_CODEIN_ProfileGetState(struct CodeinProfileWork *work)
 {
-    return ((struct CodeinWorkA *)work)->state;
+    return work->state;
 }
 
 
 
-u64 BR_CODEIN_ProfileGetValue(char *work)
+u64 BR_CODEIN_ProfileGetValue(struct CodeinProfileWork *work)
 {
-    return ((struct CodeinWorkA *)work)->result;
+    return work->result;
 }
 
 
 
-void BR_CODEIN_ProfileDestroy(struct CodeinWorkA *work){TCB_DeleteTask(work->task);BR_CODEIN_ProfileDeleteActor(work);ARC_TOOL_DeleteHandle(work->arcHandle);BUTTON_MAN_Delete(work->buttonMan);GFL_HEAP_Free(work);}
+void BR_CODEIN_ProfileDestroy(struct CodeinProfileWork *work){TCB_DeleteTask(work->task);BR_CODEIN_ProfileDeleteActor(work);ARC_TOOL_DeleteHandle(work->arcHandle);BUTTON_MAN_Delete(work->buttonMan);GFL_HEAP_Free(work);}
 
 
 
@@ -5108,21 +5099,21 @@ void BR_CODEIN_ProfileNoop(void)
 
 
 
-void BR_CODEIN_ProfileSetupSprite(char *work)
+void BR_CODEIN_ProfileSetupSprite(struct CodeinProfileWork *work)
 {
     struct Triple t;
-    if (!BR_RES_GetSprite(((struct CodeinWorkA *)work)->res, 11, &t)) GF_PANIC_Fail(d_021E3978, 0, d_021E3978);
-    ((struct CodeinWorkA *)work)->sprite11PaletteId = t.c;
-    ((struct CodeinWorkA *)work)->sprite11CharId = t.b;
-    ((struct CodeinWorkA *)work)->sprite11CellAnimId = t.a;
-    if (!BR_RES_GetSprite(((struct CodeinWorkA *)work)->res, 12, &t)) GF_PANIC_Fail(d_021E3978, 0, d_021E3978);
-    ((struct CodeinWorkA *)work)->sprite12PaletteId = t.c;
-    ((struct CodeinWorkA *)work)->sprite12CharId = t.b;
-    ((struct CodeinWorkA *)work)->sprite12CellAnimId = t.a;
-    if (!BR_RES_GetSprite(((struct CodeinWorkA *)work)->res, 6, &t)) GF_PANIC_Fail(d_021E3978, 0, d_021E3978);
-    *(int *)&((struct CodeinWorkA *)work)->sprite6PaletteId = t.c;
-    *(int *)&((struct CodeinWorkA *)work)->sprite6CharId = t.b;
-    *(int *)&((struct CodeinWorkA *)work)->sprite6CellAnimId = t.a;
+    if (!BR_RES_GetSprite(work->res, 11, &t)) GF_PANIC_Fail(d_021E3978, 0, d_021E3978);
+    work->sprite11PaletteId = t.c;
+    work->sprite11CharId = t.b;
+    work->sprite11CellAnimId = t.a;
+    if (!BR_RES_GetSprite(work->res, 12, &t)) GF_PANIC_Fail(d_021E3978, 0, d_021E3978);
+    work->sprite12PaletteId = t.c;
+    work->sprite12CharId = t.b;
+    work->sprite12CellAnimId = t.a;
+    if (!BR_RES_GetSprite(work->res, 6, &t)) GF_PANIC_Fail(d_021E3978, 0, d_021E3978);
+    *(int *)&work->sprite6PaletteId = t.c;
+    *(int *)&work->sprite6CharId = t.b;
+    *(int *)&work->sprite6CellAnimId = t.a;
 }
 
 
@@ -5130,15 +5121,15 @@ void BR_CODEIN_ProfileSetupSprite(char *work)
 /*
  * extent: 021E0952 alignment padding.
  */
-void BR_CODEIN_ProfileDeleteActor(struct CodeinWorkA *work)
+void BR_CODEIN_ProfileDeleteActor(struct CodeinProfileWork *work)
 {
     int i;
-    for (i = 0; i < work->recordCount; i++) CLACT_DeleteActor(*(void **)((char *)work + i * 28 + 12));
+    for (i = 0; i < work->recordCount; i++) CLACT_DeleteActor(*(void **)((char *)work+i * 28 + 12));
     for (i = 0; i < 2; i++) {
-        CLACT_DeleteActor(*(void **)((char *)work + i * 28 + 0x15c));
-        CLACT_DeleteActor(*(void **)((char *)work + i * 28 + 0x1e8));
+        CLACT_DeleteActor(*(void **)((char *)work+i * 28 + 0x15c));
+        CLACT_DeleteActor(*(void **)((char *)work+i * 28 + 0x1e8));
     }
-    for (i = 0; i < 3; i++) CLACT_DeleteActor(*(void **)((char *)work + i * 28 + 0x194));
+    for (i = 0; i < 3; i++) CLACT_DeleteActor(*(void **)((char *)work+i * 28 + 0x194));
     BR_CODEIN_ProfileDeleteOam(work);
 }
 
@@ -5155,7 +5146,7 @@ void BR_CODEIN_ProfileDeleteActor(struct CodeinWorkA *work)
  * bytes do not change. Older text in this header that asks for the double
  * assignment is superseded.
  */
-void BR_CODEIN_ProfileCreateRecordActors(char *work)
+void BR_CODEIN_ProfileCreateRecordActors(struct CodeinProfileWork *work)
 {
     int i,special,normal,base;
     u32 owner;
@@ -5163,10 +5154,10 @@ void BR_CODEIN_ProfileCreateRecordActors(char *work)
     Params params;
     normal=0;
     base=0x25c;
-    owner=*(u32 *)(work+base);
+    owner=*(u32 *)((char *)work+base);
     params.a=normal;params.b=normal;params.c=normal;params.flag=10;params.pad=normal;
     special=0;i=0;
-    if(*(int *)(work+base-0x20)+2>0) {
+    if(*(int *)((char *)work+base-0x20)+2>0) {
         heapA=0x34c;
         aA=0x26c;
         bA=0x260;
@@ -5179,24 +5170,24 @@ void BR_CODEIN_ProfileCreateRecordActors(char *work)
         recordOffset=0x150;
         do {
             char *q;
-            q=work+special*28;
+            q=(char *)work+special*28;
             if(i==*(int *)(q+recordOffset)+special+1) {
                 void *obj;
                 params.a=i*8+76;params.b=24;params.c=22;
-                obj=CLACT_CreateActor((void *)owner,*(u32 *)(work+aB),*(u32 *)(work+bB),*(u32 *)(work+cB),&params,1,*(u16 *)(work+heapB));
+                obj=CLACT_CreateActor((void *)owner,*(u32 *)((char *)work+aB),*(u32 *)((char *)work+bB),*(u32 *)((char *)work+cB),&params,1,*(u16 *)((char *)work+heapB));
                 ((struct CodeinArgA *)q)->slideActor=obj;CLACT_SetActorObjMode(obj,1);
                 special++;
             } else {
                 void *obj;
                 params.a=i*8+76;params.b=24;
-                q=work+normal*28;
+                q=(char *)work+normal*28;
                 params.c=BR_CODEIN_ProfileGetActorIndex(((struct CodeinArgA *)q)->screenFade,((struct CodeinArgA *)q)->res);
-                obj=CLACT_CreateActor((void *)owner,*(u32 *)(work+aA),*(u32 *)(work+bA),*(u32 *)(work+cA),&params,1,*(u16 *)(work+heapA));
+                obj=CLACT_CreateActor((void *)owner,*(u32 *)((char *)work+aA),*(u32 *)((char *)work+bA),*(u32 *)((char *)work+cA),&params,1,*(u16 *)((char *)work+heapA));
                 ((struct CodeinArgA *)q)->procQuery=obj;CLACT_SetActorObjMode(obj,1);
                 normal++;
             }
             i++;
-        } while(i<*(int *)(work+countOffset)+2);
+        } while(i<*(int *)((char *)work+countOffset)+2);
     }
 }
 
@@ -5205,29 +5196,29 @@ void BR_CODEIN_ProfileCreateRecordActors(char *work)
 /*
  * abi: 0204B294 r0 consumed after call; pointer request passed as the unchanged u32 fifth payload.
  */
-void BR_CODEIN_ProfileCreateMarkerActors(char *work)
+void BR_CODEIN_ProfileCreateMarkerActors(struct CodeinProfileWork *work)
 {
     int base,zero;
     u32 owner;
     Params params;
-    base=0x25c;owner=*(u32 *)(work+base);zero=0;
+    base=0x25c;owner=*(u32 *)((char *)work+base);zero=0;
     params.a=zero;params.b=zero;params.c=zero;params.flag=zero;params.pad=zero;
-    *(u32 *)(work+base-0xc8)=(u32)CLACT_CreateActor((void *)owner,*(u32 *)(work+base+0x18),*(u32 *)(work+base+0xc),*(u32 *)(work+base+0x30),&params,1,*(u16 *)(work+base+0xf0));
-    CLACT_SetActorObjMode(*(void **)(work+base-0xc8),1);
-    *(u32 *)(work+base-0xac)=(u32)CLACT_CreateActor((void *)owner,*(u32 *)(work+base+0x18),*(u32 *)(work+base+0xc),*(u32 *)(work+base+0x30),&params,1,*(u16 *)(work+base+0xf0));
-    CLACT_SetActorObjMode(*(void **)(work+base-0xac),1);
-    *(u32 *)(work+base-0x90)=(u32)CLACT_CreateActor((void *)owner,*(u32 *)(work+base+0x18),*(u32 *)(work+base+0xc),*(u32 *)(work+base+0x30),&params,1,*(u16 *)(work+base+0xf0));
-    CLACT_SetActorObjMode(*(void **)(work+base-0x90),1);
+    *(u32 *)((char *)work+base-0xc8)=(u32)CLACT_CreateActor((void *)owner,*(u32 *)((char *)work+base+0x18),*(u32 *)((char *)work+base+0xc),*(u32 *)((char *)work+base+0x30),&params,1,*(u16 *)((char *)work+base+0xf0));
+    CLACT_SetActorObjMode(*(void **)((char *)work+base-0xc8),1);
+    *(u32 *)((char *)work+base-0xac)=(u32)CLACT_CreateActor((void *)owner,*(u32 *)((char *)work+base+0x18),*(u32 *)((char *)work+base+0xc),*(u32 *)((char *)work+base+0x30),&params,1,*(u16 *)((char *)work+base+0xf0));
+    CLACT_SetActorObjMode(*(void **)((char *)work+base-0xac),1);
+    *(u32 *)((char *)work+base-0x90)=(u32)CLACT_CreateActor((void *)owner,*(u32 *)((char *)work+base+0x18),*(u32 *)((char *)work+base+0xc),*(u32 *)((char *)work+base+0x30),&params,1,*(u16 *)((char *)work+base+0xf0));
+    CLACT_SetActorObjMode(*(void **)((char *)work+base-0x90),1);
     BR_CODEIN_ProfileSetActorPos(work,0);
-    CLACT_SetActorAnimSeq(*(void **)(work+base-0xc8),0);CLACT_SetActorAutoAnim(*(void **)(work+base-0xc8),1);
-    *(u16 *)(work+base-0xa4)=zero;*(u16 *)(work+base-0xa2)=zero;*(u32 *)(work+base-0xb8)=1;
-    BR_CODEIN_ProfileAddActorSurfacePos((struct Coordinates *)work,0);
-    CLACT_SetActorAnimSeq(*(void **)(work+base-0xac),*(u32 *)(work+base-0xb8));
-    CLACT_SetActorAutoAnim(*(void **)(work+base-0xac),1);CLACT_SetActorObjMode(*(void **)(work+base-0xac),1);
-    *(u16 *)(work+base-0x88)=zero;*(u16 *)(work+base-0x86)=zero;*(u32 *)(work+base-0x9c)=1;
-    BR_CODEIN_ProfileAddActorSurfacePos((struct Coordinates *)work,zero);
-    CLACT_SetActorAnimSeq(*(void **)(work+base-0x90),*(u32 *)(work+base-0x9c));
-    CLACT_SetActorObjMode(*(void **)(work+base-0x90),1);CLACT_SetActorAutoAnim(*(void **)(work+base-0x90),1);
+    CLACT_SetActorAnimSeq(*(void **)((char *)work+base-0xc8),0);CLACT_SetActorAutoAnim(*(void **)((char *)work+base-0xc8),1);
+    *(u16 *)((char *)work+base-0xa4)=zero;*(u16 *)((char *)work+base-0xa2)=zero;*(u32 *)((char *)work+base-0xb8)=1;
+    BR_CODEIN_ProfileAddActorSurfacePos(work,0);
+    CLACT_SetActorAnimSeq(*(void **)((char *)work+base-0xac),*(u32 *)((char *)work+base-0xb8));
+    CLACT_SetActorAutoAnim(*(void **)((char *)work+base-0xac),1);CLACT_SetActorObjMode(*(void **)((char *)work+base-0xac),1);
+    *(u16 *)((char *)work+base-0x88)=zero;*(u16 *)((char *)work+base-0x86)=zero;*(u32 *)((char *)work+base-0x9c)=1;
+    BR_CODEIN_ProfileAddActorSurfacePos(work,zero);
+    CLACT_SetActorAnimSeq(*(void **)((char *)work+base-0x90),*(u32 *)((char *)work+base-0x9c));
+    CLACT_SetActorObjMode(*(void **)((char *)work+base-0x90),1);CLACT_SetActorAutoAnim(*(void **)((char *)work+base-0x90),1);
     BR_CODEIN_ProfileSetActorVisible(work,1,zero);BR_CODEIN_ProfileSetActorVisible(work,2,zero);
 }
 
@@ -5236,49 +5227,49 @@ void BR_CODEIN_ProfileCreateMarkerActors(char *work)
 /*
  * Caller evidence: 0204B294 leaves its forwarded return word live in r0; consumed by store and 0204B688 here.
  */
-void BR_CODEIN_ProfileCreateArrowActors(char *work) {
+void BR_CODEIN_ProfileCreateArrowActors(struct CodeinProfileWork *work) {
     struct PosParams pos;
-    u32 manager=*(u32 *)&((struct CodeinWorkA *)work)->actorSys;
+    u32 manager=*(u32 *)&work->actorSys;
     pos.a=0;pos.b=0;pos.z=0;pos.mode=10;pos.flag=0;
-    *(u32 *)&((struct CodeinWorkA *)work)->prevArrowActor=(u32)CLACT_CreateActor((void *)manager,((struct CodeinWorkA *)work)->sprite6CharId,((struct CodeinWorkA *)work)->sprite6PaletteId,((struct CodeinWorkA *)work)->sprite6CellAnimId,&pos.a,1,((struct CodeinWorkA *)work)->profileHeapId);
-    CLACT_SetActorObjMode(((struct CodeinWorkA *)work)->prevArrowActor,1);
+    *(u32 *)&work->prevArrowActor=(u32)CLACT_CreateActor((void *)manager,work->sprite6CharId,work->sprite6PaletteId,work->sprite6CellAnimId,&pos.a,1,work->profileHeapId);
+    CLACT_SetActorObjMode(work->prevArrowActor,1);
     pos.z=1;
-    *(u32 *)&((struct CodeinWorkA *)work)->nextArrowActor=(u32)CLACT_CreateActor((void *)manager,((struct CodeinWorkA *)work)->sprite6CharId,((struct CodeinWorkA *)work)->sprite6PaletteId,((struct CodeinWorkA *)work)->sprite6CellAnimId,&pos.a,1,((struct CodeinWorkA *)work)->profileHeapId);
-    CLACT_SetActorObjMode(((struct CodeinWorkA *)work)->nextArrowActor,1);
-    pos.x=((struct CodeinWorkA *)work)->prevArrowX;pos.y=((struct CodeinWorkA *)work)->prevArrowY+16;
-    CLACT_AddActorSurfacePos(((struct CodeinWorkA *)work)->prevArrowActor,(const struct Vec2 *)(&pos.x),1);
-    CLACT_SetActorAnimSeq(((struct CodeinWorkA *)work)->prevArrowActor,0);
-    pos.x=((struct CodeinWorkA *)work)->nextArrowX;pos.y=((struct CodeinWorkA *)work)->nextArrowY+16;
-    CLACT_AddActorSurfacePos(((struct CodeinWorkA *)work)->nextArrowActor,(const struct Vec2 *)(&pos.x),1);
-    CLACT_SetActorAnimSeq(((struct CodeinWorkA *)work)->nextArrowActor,1);
+    *(u32 *)&work->nextArrowActor=(u32)CLACT_CreateActor((void *)manager,work->sprite6CharId,work->sprite6PaletteId,work->sprite6CellAnimId,&pos.a,1,work->profileHeapId);
+    CLACT_SetActorObjMode(work->nextArrowActor,1);
+    pos.x=work->prevArrowX;pos.y=work->prevArrowY+16;
+    CLACT_AddActorSurfacePos(work->prevArrowActor,(const struct Vec2 *)(&pos.x),1);
+    CLACT_SetActorAnimSeq(work->prevArrowActor,0);
+    pos.x=work->nextArrowX;pos.y=work->nextArrowY+16;
+    CLACT_AddActorSurfacePos(work->nextArrowActor,(const struct Vec2 *)(&pos.x),1);
+    CLACT_SetActorAnimSeq(work->nextArrowActor,1);
 }
 
 
 
 
-void BR_CODEIN_ProfileSetActorVisible(char *work, int index, int visible)
+void BR_CODEIN_ProfileSetActorVisible(struct CodeinProfileWork *work, int index, int visible)
 {
-    CLACT_SetActorDrawEnable((struct Obj *)*(int *)(work + index * 0x1c + 0x194), (unsigned int)visible);
+    CLACT_SetActorDrawEnable((struct Obj *)*(int *)((char *)work+index * 0x1c + 0x194), (unsigned int)visible);
 }
 
 
 
-void BR_CODEIN_ProfileSetActorPos(char *work,int i){short pos[2];void *obj;obj=*(void **)(work+i*28+12);((struct CodeinWorkA *)work)->selectedIndex=i;CLACT_GetActorSurfacePos(obj,(struct PtS *)pos,1);pos[1]+=16;CLACT_AddActorSurfacePos(((struct CodeinWorkA *)work)->cursorActor,(const struct Vec2 *)pos,1);}
+void BR_CODEIN_ProfileSetActorPos(struct CodeinProfileWork *work,int i){short pos[2];void *obj;obj=*(void **)((char *)work+i*28+12);work->selectedIndex=i;CLACT_GetActorSurfacePos(obj,(struct PtS *)pos,1);pos[1]+=16;CLACT_AddActorSurfacePos(work->cursorActor,(const struct Vec2 *)pos,1);}
 
 
 
 /*
  * extent: 021E0D8E alignment padding.
  */
-void BR_CODEIN_ProfileAddActorSurfacePos(struct Coordinates *coords, int index)
+void BR_CODEIN_ProfileAddActorSurfacePos(struct CodeinProfileWork *coords, int index)
 {
     int width = coords->rect[index + 12][1] - coords->rect[index + 12][0];
     int height = coords->rect[index + 12][3] - coords->rect[index + 12][2];
     s16 pos[2];
     pos[0] = height / 2 + coords->rect[index + 12][2];
     pos[1] = width / 2 + coords->rect[index + 12][0];
-    CLACT_AddActorSurfacePos(((struct CodeinWorkA *)coords)->markerActor, (const struct Vec2 *)pos, 1);
-    CLACT_SetActorAnimFrame(((struct CodeinWorkA *)coords)->markerActor, 0);
+    CLACT_AddActorSurfacePos(coords->markerActor, (const struct Vec2 *)pos, 1);
+    CLACT_SetActorAnimFrame(coords->markerActor, 0);
 }
 
 
@@ -5286,22 +5277,22 @@ void BR_CODEIN_ProfileAddActorSurfacePos(struct Coordinates *coords, int index)
 /*
  * extent: 021E0E3E alignment padding.
  */
-void BR_CODEIN_ProfileUpdateActorAnims(char *work)
+void BR_CODEIN_ProfileUpdateActorAnims(struct CodeinProfileWork *work)
 {
     int i, state;
     for (i = 1; i < 3; i++) {
-        state = CLACT_GetActorAnimSeq(*(void **)(work + i * 28 + 0x194));
+        state = CLACT_GetActorAnimSeq(*(void **)((char *)work+i * 28 + 0x194));
         if (state == 3) {
-            if (!CLACT_IsActorAnimActive(*(void **)(work + i * 28 + 0x194))) {
-                CLACT_SetActorAnimSeq(*(void **)(work + i * 28 + 0x194), *(int *)(work + i * 28 + 0x188));
-                if (((struct CodeinWorkA *)work)->markerHidden == 1) BR_CODEIN_ProfileSetActorVisible(work, 1, 0);
+            if (!CLACT_IsActorAnimActive(*(void **)((char *)work+i * 28 + 0x194))) {
+                CLACT_SetActorAnimSeq(*(void **)((char *)work+i * 28 + 0x194), *(int *)((char *)work+i * 28 + 0x188));
+                if (work->markerHidden == 1) BR_CODEIN_ProfileSetActorVisible(work, 1, 0);
                 else BR_CODEIN_ProfileSetActorVisible(work, 1, 1);
                 BR_CODEIN_ProfileSetActorVisible(work, 2, 0);
             }
         } else {
-            if (state != *(int *)(work + i * 28 + 0x188)) CLACT_SetActorAnimSeq(*(void **)(work + i * 28 + 0x194), *(int *)(work + i * 28 + 0x188));
-            if (CLACT_GetActorAnimSeq(*(void **)(work + i * 28 + 0x194)) != 3) {
-                if (((struct CodeinWorkA *)work)->markerHidden == 1) BR_CODEIN_ProfileSetActorVisible(work, 1, 0);
+            if (state != *(int *)((char *)work+i * 28 + 0x188)) CLACT_SetActorAnimSeq(*(void **)((char *)work+i * 28 + 0x194), *(int *)((char *)work+i * 28 + 0x188));
+            if (CLACT_GetActorAnimSeq(*(void **)((char *)work+i * 28 + 0x194)) != 3) {
+                if (work->markerHidden == 1) BR_CODEIN_ProfileSetActorVisible(work, 1, 0);
                 else BR_CODEIN_ProfileSetActorVisible(work, 1, 1);
             }
         }
@@ -5314,33 +5305,33 @@ int BR_CODEIN_ProfileGetActorIndex(int tag, int mode) { int n=0; if(mode==0)n=11
 
 
 
-void BR_CODEIN_ProfileUpdateActorVisible(char *work)
+void BR_CODEIN_ProfileUpdateActorVisible(struct CodeinProfileWork *work)
 {
     int i;
-    for (i = 0; i < ((struct CodeinWorkA *)work)->recordCount; i++) {
-        if (i >= ((struct CodeinWorkA *)work)->rangeAFirst && i < ((struct CodeinWorkA *)work)->rangeAEnd)
-            *(int *)(work + i * 28 + 8) = 1;
+    for (i = 0; i < work->recordCount; i++) {
+        if (i >= work->rangeAFirst && i < work->rangeAEnd)
+            *(int *)((char *)work+i * 28 + 8) = 1;
         else
-            *(int *)(work + i * 28 + 8) = 0;
+            *(int *)((char *)work+i * 28 + 8) = 0;
     }
 }
 
 
 
-void BR_CODEIN_ProfileSetActorAnimFrame(char *work,int animated) {
+void BR_CODEIN_ProfileSetActorAnimFrame(struct CodeinProfileWork *work,int animated) {
     int i,group;
     s16 pos;
     char *record,*special;
     Coords coords;
-    pos=*(s16 *)((u32)work+((struct CodeinWorkA *)work)->animState*2+0x214);
+    pos=*(s16 *)((u32)(char *)work+work->animState*2+0x214);
     group=0;
-    for(i=0;i<((struct CodeinWorkA *)work)->recordCount;i++){
-        if(i>=((struct CodeinWorkA *)work)->rangeAFirst&&i<((struct CodeinWorkA *)work)->rangeAEnd){
-            if(i==((struct CodeinWorkA *)work)->rangeAFirst)pos+=20;else pos+=32;
+    for(i=0;i<work->recordCount;i++){
+        if(i>=work->rangeAFirst&&i<work->rangeAEnd){
+            if(i==work->rangeAFirst)pos+=20;else pos+=32;
         }else{
             if(i==0)pos+=20;else pos+=8;
         }
-        record=(char *)((u32)work+i*28);
+        record=(char *)((u32)(char *)work+i*28);
         CLACT_GetActorSurfacePos(((struct CodeinRecordA *)record)->actor,(struct PtS *)&coords.x,1);
         if(animated==0){
             coords.x=pos;
@@ -5351,12 +5342,12 @@ void BR_CODEIN_ProfileSetActorAnimFrame(char *work,int animated) {
             ((struct CodeinRecordA *)record)->moveFrames=4;
             ((struct CodeinRecordA *)record)->scaleStep=0;
         }
-        special=(char *)((u32)work+group*28);
+        special=(char *)((u32)(char *)work+group*28);
         if(i==((struct CodeinSpecialA *)special)->tag&&group!=2){
             CLACT_GetActorSurfacePos(((struct CodeinSpecialA *)special)->slideActor,(struct PtS *)&coords.a,1);
-            if(((struct CodeinWorkA *)work)->rangeAFirst==((struct CodeinWorkA *)work)->rangeAEnd)pos+=8;
+            if(work->rangeAFirst==work->rangeAEnd)pos+=8;
             else {
-                if(i>((struct CodeinWorkA *)work)->rangeAFirst&&i<((struct CodeinWorkA *)work)->rangeAEnd)pos+=20;
+                if(i>work->rangeAFirst&&i<work->rangeAEnd)pos+=20;
                 else pos+=8;
             }
             if(animated==0){
@@ -5374,50 +5365,50 @@ void BR_CODEIN_ProfileSetActorAnimFrame(char *work,int animated) {
 
 
 
-void BR_CODEIN_ProfileUpdateActorPos(char *work)
+void BR_CODEIN_ProfileUpdateActorPos(struct CodeinProfileWork *work)
 {
     int i, x, y;
     s16 pos[2];
-    for (i = 0; i < ((struct CodeinWorkA *)work)->recordCount; i++) {
-        if (i >= ((struct CodeinWorkA *)work)->rangeAFirst && i < ((struct CodeinWorkA *)work)->rangeAEnd) {
+    for (i = 0; i < work->recordCount; i++) {
+        if (i >= work->rangeAFirst && i < work->rangeAEnd) {
             x = 16;
             y = 16;
         } else {
             x = 4;
             y = 8;
         }
-        CLACT_GetActorSurfacePos(*(void **)(work + i * 28 + 12), (struct PtS *)pos, 1);
-        (*(u8 **)(work + i * 28 + 16))[0] = pos[1] - y;
-        (*(u8 **)(work + i * 28 + 16))[2] = pos[0] - x;
-        (*(u8 **)(work + i * 28 + 16))[1] = pos[1] + y;
-        (*(u8 **)(work + i * 28 + 16))[3] = pos[0] + x;
+        CLACT_GetActorSurfacePos(*(void **)((char *)work+i * 28 + 12), (struct PtS *)pos, 1);
+        (*(u8 **)((char *)work+i * 28 + 16))[0] = pos[1] - y;
+        (*(u8 **)((char *)work+i * 28 + 16))[2] = pos[0] - x;
+        (*(u8 **)((char *)work+i * 28 + 16))[1] = pos[1] + y;
+        (*(u8 **)((char *)work+i * 28 + 16))[3] = pos[0] + x;
     }
 }
 
 
 
 
-void BR_CODEIN_ProfileCreateOam(char *work)
+void BR_CODEIN_ProfileCreateOam(struct CodeinProfileWork *work)
 {
-    ((struct CodeinWorkA *)work)->profileOamSys =
-        BMP_OAM_CreateSys(((struct CodeinWorkA *)work)->profileHeapId, ((struct CodeinWorkA *)work)->actorSys);
+    work->profileOamSys =
+        BMP_OAM_CreateSys(work->profileHeapId, work->actorSys);
 }
 
 
 
-void BR_CODEIN_ProfileDeleteOam(struct CodeinWorkA *work){ BMP_OAM_Delete(*(struct Grid * *)&work->nameGrid); BMP_OAM_Delete(*(struct Grid * *)&work->valueGrid); BMP_OAM_DeleteSys(work->profileOamSys); }
+void BR_CODEIN_ProfileDeleteOam(struct CodeinProfileWork *work){ BMP_OAM_Delete(*(struct Grid * *)&work->nameGrid); BMP_OAM_Delete(*(struct Grid * *)&work->valueGrid); BMP_OAM_DeleteSys(work->profileOamSys); }
 
 
 
 
-void BR_CODEIN_ProfileDeleteBgHandle(char *work)
+void BR_CODEIN_ProfileDeleteBgHandle(struct CodeinProfileWork *work)
 {
-    ARC_TOOL_DeleteHandle(ARC_TOOL_CreateHandle(0x17, ((struct CodeinWorkA *)work)->profileHeapId));
+    ARC_TOOL_DeleteHandle(ARC_TOOL_CreateHandle(0x17, work->profileHeapId));
 }
 
 
 
-void BR_CODEIN_ProfileCreateOamObjects(char *work){ BR_CODEIN_ProfileDeleteBgHandle(work);BR_CODEIN_ProfilePrintOamObject((const Object *)work,0,32,8,0);BR_CODEIN_ProfilePrintOamObject((const Object *)work,1,32,8,0); }
+void BR_CODEIN_ProfileCreateOamObjects(struct CodeinProfileWork *work){ BR_CODEIN_ProfileDeleteBgHandle(work);BR_CODEIN_ProfilePrintOamObject((const Object *)work,0,32,8,0);BR_CODEIN_ProfilePrintOamObject((const Object *)work,1,32,8,0); }
 
 
 
@@ -5430,21 +5421,21 @@ void BR_CODEIN_ProfileCreateOamObjects(char *work){ BR_CODEIN_ProfileDeleteBgHan
  */
 void BR_CODEIN_ProfilePrintOamObject(const Object *object,Index index,int x,int y,int unused)
 {
-    char *p=(char *)object;
+    struct CodeinProfileWork *p=(struct CodeinProfileWork *)object;
     int source,handle,obj;
     u8 xx,yy;
     struct Grid **slots;
     CodeinProfileDescriptor desc;
-    source=BR_RES_GetMsgData(*(char * *)&((struct CodeinWorkA *)p)->res);
+    source=BR_RES_GetMsgData(*(char * *)&p->res);
     source=(int)MSGDATA_AllocString((struct MsgBank *)source,d_021E3850[index]);
-    handle=(int)BMP_Create(10,2,32,((struct CodeinWorkA *)p)->profileHeapId);
-    PRINTSYS_Print((void *)handle,1,0,(void *)source,(void *)(((struct CodeinWorkA *)p)->font));
-    xx=((u8 *)(p+0x29a))[(index+22)*4];
-    yy=((u8 *)(p+0x298))[(index+22)*4];
+    handle=(int)BMP_Create(10,2,32,p->profileHeapId);
+    PRINTSYS_Print((void *)handle,1,0,(void *)source,(void *)(p->font));
+    xx=((u8 *)((char *)p+0x29a))[(index+22)*4];
+    yy=((u8 *)((char *)p+0x298))[(index+22)*4];
     desc.handle=(void *)handle;
     desc.x=xx+x;
     desc.y=yy+y;
-    desc.data=(*(int *)&((struct CodeinWorkA *)p)->sprite6PaletteId);
+    desc.data=(*(int *)&p->sprite6PaletteId);
     desc.zero=0;
     desc.a=0;
     desc.b=0;
@@ -5473,21 +5464,21 @@ void BR_CODEIN_ProfilePrintOamObject(const Object *object,Index index,int x,int 
 /*
  * Extent remainder: zero alignment halfword at 021E1242.
  */
-void BR_CODEIN_ProfileSetActorAnim(char *work,int state)
+void BR_CODEIN_ProfileSetActorAnim(struct CodeinProfileWork *work,int state)
 {
-    ((struct CodeinWorkA *)work)->prevAnimState=((struct CodeinWorkA *)work)->animState;
-    ((struct CodeinWorkA *)work)->animState=state;
-    ((struct CodeinWorkA *)work)->rangeAFirst=0;
-    ((struct CodeinWorkA *)work)->rangeAEnd=0;
-    ((struct CodeinWorkA *)work)->rangeBFirst=0;
-    ((struct CodeinWorkA *)work)->rangeBEnd=0;
+    work->prevAnimState=work->animState;
+    work->animState=state;
+    work->rangeAFirst=0;
+    work->rangeAEnd=0;
+    work->rangeBFirst=0;
+    work->rangeBEnd=0;
     if (state) {
-        ((struct CodeinWorkA *)work)->rangeAFirst=*(u16 *)(work+(state-1)*4+0x21c);
-        ((struct CodeinWorkA *)work)->rangeAEnd=*(u16 *)(work+(state-1)*4+0x21e);
+        work->rangeAFirst=*(u16 *)((char *)work+(state-1)*4+0x21c);
+        work->rangeAEnd=*(u16 *)((char *)work+(state-1)*4+0x21e);
     }
-    if (((struct CodeinWorkA *)work)->prevAnimState) {
-        ((struct CodeinWorkA *)work)->rangeBFirst=*(u16 *)(work+(((struct CodeinWorkA *)work)->prevAnimState-1)*4+0x21c);
-        ((struct CodeinWorkA *)work)->rangeBEnd=*(u16 *)(work+(((struct CodeinWorkA *)work)->prevAnimState-1)*4+0x21e);
+    if (work->prevAnimState) {
+        work->rangeBFirst=*(u16 *)((char *)work+(work->prevAnimState-1)*4+0x21c);
+        work->rangeBEnd=*(u16 *)((char *)work+(work->prevAnimState-1)*4+0x21e);
     }
 }
 
@@ -5529,7 +5520,7 @@ void BR_CODEIN_ProfileInitRecordLayout(CodeinProfileState *profile)
   *((u16 *) (((char *) profile) + 0x224)) = truncated;
   sum = (*((int *) (((char *) profile) + 0x330))) + ((int) sum);
   *((u16 *) (((char *) profile) + 0x226)) = sum;
-  BR_CODEIN_ProfileSetActorAnim((char *) profile, 1);
+  BR_CODEIN_ProfileSetActorAnim((struct CodeinProfileWork *)profile, 1);
   for (i = 0; i < 3; i++)
     *((int *) (((char *) profile) + 0x23C)) += *((int *) ((((u32) profile) + (i * 4)) + 0x328));
 
@@ -5573,12 +5564,12 @@ void BR_CODEIN_ProfileInitRecordLayout(CodeinProfileState *profile)
 
 
 
-void BR_CODEIN_ProfileSetAnimSeq(char *work, int v)
+void BR_CODEIN_ProfileSetAnimSeq(struct CodeinProfileWork *work, int v)
 {
-    ((struct CodeinWorkA *)work)->animSeq = v;
-    ((struct CodeinWorkA *)work)->reserved230 = 0;
-    ((struct CodeinWorkA *)work)->phase = 0;
-    ((struct CodeinWorkA *)work)->phaseTimer = 0;
+    work->animSeq = v;
+    work->reserved230 = 0;
+    work->phase = 0;
+    work->phaseTimer = 0;
 }
 
 
@@ -5590,7 +5581,7 @@ void BR_CODEIN_ProfileSetAnimSeq(char *work, int v)
 /*
  * Follower: 021E13D4 return-one stub, after 021E13D2 alignment.
  */
-int BR_CODEIN_ProfileCreateAllActors(char *work)
+int BR_CODEIN_ProfileCreateAllActors(struct CodeinProfileWork *work)
 {
     BR_CODEIN_ProfileSetupSprite(work);
     BR_CODEIN_ProfileUpdateActorVisible(work);
@@ -5622,13 +5613,13 @@ int BR_CODEIN_ProfileReturnTrue(void)
 
 
 
-s32 BR_CODEIN_ProfileUpdatePendingAndButtons(char *work)
+s32 BR_CODEIN_ProfileUpdatePendingAndButtons(struct CodeinProfileWork *work)
 {
-    if (*(s32 *)(work + 0x234) == 0) {
-        (*(s32 *)(work + 0x234))++;
+    if (*(s32 *)&work->phase == 0) {
+        (*(s32 *)&work->phase)++;
     } else {
         BR_CODEIN_ProfileApplyPendingStep(work);
-        BUTTON_MAN_UpdateSlots(*(void **)(work + 0x294));
+        BUTTON_MAN_UpdateSlots(work->buttonMan);
     }
     return 0;
 }
@@ -5639,29 +5630,29 @@ s32 BR_CODEIN_ProfileUpdatePendingAndButtons(char *work)
 
 
 
-int BR_CODEIN_ProfileUpdateScrollAnim(char *work) {
+int BR_CODEIN_ProfileUpdateScrollAnim(struct CodeinProfileWork *work) {
     int i,factor,selected;
     char *record;
     Point scale;
     Coords coords;
-    switch(((struct CodeinWorkA *)work)->phase){
+    switch(work->phase){
     case 0:
         BR_CODEIN_ProfileSetActorVisible(work,0,0);
-        for(i=0;i<((struct CodeinWorkA *)work)->recordCount;i++){
-            record=(char *)((u32)work+i*28);
+        for(i=0;i<work->recordCount;i++){
+            record=(char *)((u32)(char *)work+i*28);
             if(((struct CodeinRecordA *)record)->moveFrames!=0){
                 CLACT_GetActorSurfacePos(((struct CodeinRecordA *)record)->actor,(struct PtS *)&coords.x,1);
                 coords.x+=((struct CodeinRecordA *)record)->moveDx;
                 coords.y+=((struct CodeinRecordA *)record)->moveDy;
                 CLACT_AddActorSurfacePos(((struct CodeinRecordA *)record)->actor,(const struct Vec2 *)(&coords.x),1);
                 --((struct CodeinRecordA *)record)->moveFrames;
-                if(i>=((struct CodeinWorkA *)work)->rangeAFirst&&i<((struct CodeinWorkA *)work)->rangeAEnd){
+                if(i>=work->rangeAFirst&&i<work->rangeAEnd){
                     factor=*(int *)((u32)d_021E3998+((struct CodeinRecordA *)record)->scaleStep*4);
                     scale.x=factor;scale.y=factor;
                     CLACT_SetActorScale(((struct CodeinRecordA *)record)->actor,&scale);
                     ++((struct CodeinRecordA *)record)->scaleStep;
                 }
-                if(i>=((struct CodeinWorkA *)work)->rangeBFirst&&i<((struct CodeinWorkA *)work)->rangeBEnd){
+                if(i>=work->rangeBFirst&&i<work->rangeBEnd){
                     factor=*(int *)((u32)d_021E397C+((struct CodeinRecordA *)record)->scaleStep*4);
                     scale.x=factor;scale.y=factor;
                     CLACT_SetActorScale(((struct CodeinRecordA *)record)->actor,&scale);
@@ -5670,7 +5661,7 @@ int BR_CODEIN_ProfileUpdateScrollAnim(char *work) {
             }
         }
         for(i=0;i<2;i++){
-            record=(char *)((u32)work+i*28);
+            record=(char *)((u32)(char *)work+i*28);
             if(((struct CodeinRecordA *)record)->slideFrames!=0){
                 CLACT_GetActorSurfacePos(((struct CodeinRecordA *)record)->slideActor,(struct PtS *)&coords.a,1);
                 coords.a+=((struct CodeinRecordA *)record)->slideDx;
@@ -5679,22 +5670,22 @@ int BR_CODEIN_ProfileUpdateScrollAnim(char *work) {
                 --((struct CodeinRecordA *)record)->slideFrames;
             }
         }
-        if(((struct CodeinWorkA *)work)->moveFrames==0){
-            for(i=((struct CodeinWorkA *)work)->rangeAFirst;i<((struct CodeinWorkA *)work)->rangeAEnd;i++){
-                record=(char *)((u32)work+i*28);
+        if(work->moveFrames==0){
+            for(i=work->rangeAFirst;i<work->rangeAEnd;i++){
+                record=(char *)((u32)(char *)work+i*28);
                 CLACT_SetActorAnimSeq(((struct CodeinRecordA *)record)->actor,BR_CODEIN_ProfileGetActorIndex(((struct CodeinRecordA *)record)->tag,((struct CodeinRecordA *)record)->mode));
             }
-            for(i=((struct CodeinWorkA *)work)->rangeBFirst;i<((struct CodeinWorkA *)work)->rangeBEnd;i++){
-                record=(char *)((u32)work+i*28);
+            for(i=work->rangeBFirst;i<work->rangeBEnd;i++){
+                record=(char *)((u32)(char *)work+i*28);
                 CLACT_SetActorAnimSeq(((struct CodeinRecordA *)record)->actor,BR_CODEIN_ProfileGetActorIndex(((struct CodeinRecordA *)record)->tag,((struct CodeinRecordA *)record)->mode));
             }
-            ++((struct CodeinWorkA *)work)->phase;
+            ++work->phase;
         }
-        ++((struct CodeinWorkA *)work)->phaseTimer;
+        ++work->phaseTimer;
         break;
     case 1:
-        for(i=((struct CodeinWorkA *)work)->rangeAFirst;i<((struct CodeinWorkA *)work)->rangeAEnd;i++){
-            record=(char *)((u32)work+i*28);
+        for(i=work->rangeAFirst;i<work->rangeAEnd;i++){
+            record=(char *)((u32)(char *)work+i*28);
             if(((struct CodeinRecordA *)record)->scaleStep!=6){
                 factor=*(int *)((u32)d_021E3998+((struct CodeinRecordA *)record)->scaleStep*4);
                 scale.x=factor;scale.y=factor;
@@ -5702,8 +5693,8 @@ int BR_CODEIN_ProfileUpdateScrollAnim(char *work) {
                 ++((struct CodeinRecordA *)record)->scaleStep;
             }
         }
-        for(i=((struct CodeinWorkA *)work)->rangeBFirst;i<((struct CodeinWorkA *)work)->rangeBEnd;i++){
-            record=(char *)((u32)work+i*28);
+        for(i=work->rangeBFirst;i<work->rangeBEnd;i++){
+            record=(char *)((u32)(char *)work+i*28);
             if(((struct CodeinRecordA *)record)->scaleStep!=6){
                 factor=*(int *)((u32)d_021E397C+((struct CodeinRecordA *)record)->scaleStep*4);
                 scale.x=factor;scale.y=factor;
@@ -5711,14 +5702,14 @@ int BR_CODEIN_ProfileUpdateScrollAnim(char *work) {
                 ++((struct CodeinRecordA *)record)->scaleStep;
             }
         }
-        if(++((struct CodeinWorkA *)work)->phaseTimer==6)++((struct CodeinWorkA *)work)->phase;
+        if(++work->phaseTimer==6)++work->phase;
         break;
     default:
         BR_CODEIN_ProfileUpdateActorPos(work);
-        if(((struct CodeinWorkA *)work)->pendingKeyIsRecord==0)selected=BR_CODEIN_ProfileFindActorIndex(work,((struct CodeinWorkA *)work)->pendingKey);
-        else selected=BR_CODEIN_ProfileFindRecord(work,((struct CodeinWorkA *)work)->pendingKey);
+        if(work->pendingKeyIsRecord==0)selected=BR_CODEIN_ProfileFindActorIndex(work,work->pendingKey);
+        else selected=BR_CODEIN_ProfileFindRecord(work,work->pendingKey);
         BR_CODEIN_ProfileSetActorPos(work,selected);
-        if(((struct CodeinWorkA *)work)->animState!=0)BR_CODEIN_ProfileSetActorVisible(work,0,1);
+        if(work->animState!=0)BR_CODEIN_ProfileSetActorVisible(work,0,1);
         BR_CODEIN_ProfileClear(work);
         BR_CODEIN_ProfileSetAnimSeq(work,1);
         break;
@@ -5740,7 +5731,7 @@ extern int (*const d_021E3858[])(char *);
 
 
 
-int BR_CODEIN_ProfileUpdateActorAnim(char *work){ int r=d_021E3858[*(int *)(work+0x22c)](work); BR_CODEIN_ProfileUpdateActorAnims(work); return r; }
+int BR_CODEIN_ProfileUpdateActorAnim(struct CodeinProfileWork *work){ int r=d_021E3858[work->animSeq]((char *)work); BR_CODEIN_ProfileUpdateActorAnims(work); return r; }
 
 
 
@@ -5751,7 +5742,7 @@ int BR_CODEIN_ProfileUpdateActorAnim(char *work){ int r=d_021E3858[*(int *)(work
 /*
  * Matching: named digit load and byte-field address, with group before used in declaration order, preserve the original loop registers.
  */
-void BR_CODEIN_ProfileBuildAnimName(char *work)
+void BR_CODEIN_ProfileBuildAnimName(struct CodeinProfileWork *work)
 {
   u32 group = 0;
   u32 i;
@@ -5763,19 +5754,19 @@ void BR_CODEIN_ProfileBuildAnimName(char *work)
   u64 product;
   u32 tag;
   char *statusByte;
-  text = STRBUF_Create(100, *((u16 *) (work + 0x34C)));
-  statusByte = work + 0x210;
-  *((int *) (work + 0x1F8)) = 1;
+  text = STRBUF_Create(100, *((u16 *) ((char *)work+0x34C)));
+  statusByte = (char *)work+0x210;
+  *((int *) ((char *)work+0x1F8)) = 1;
   *((u8 *) statusByte) = 0;
-  *((int *) (work + 0x354)) = 0;
-  *((int *) (work + 0x358)) = 0;
-  *((int *) (work + 0x35C)) = 0;
-  *((u32 *) (work + 0x360)) = 0;
-  *((u32 *) (work + 0x364)) = 0;
+  *((int *) ((char *)work+0x354)) = 0;
+  *((int *) ((char *)work+0x358)) = 0;
+  *((int *) ((char *)work+0x35C)) = 0;
+  *((u32 *) ((char *)work+0x360)) = 0;
+  *((u32 *) ((char *)work+0x364)) = 0;
   i = 0;
-  if (((int) i) < (*((int *) (work + 0x23C))))
+  if (((int) i) < (*((int *) ((char *)work+0x23C))))
   {
-    acc = (u64 *) (work + 0x360);
+    acc = (u64 *) ((char *)work+0x360);
     do
     {
       record = (char *) (((u32) work) + (i * 28));
@@ -5787,7 +5778,7 @@ void BR_CODEIN_ProfileBuildAnimName(char *work)
       tag = *((u32 *) record);
       digit = tag - 1;
       WORDSET_FormatNumber(text, digit, 1, 1, 1);
-      STRBUF_Append(*((void **) (work + 0x33C)), text);
+      STRBUF_Append(*((void **) ((char *)work+0x33C)), text);
       *((int *) ((((u32) work) + (group * 4)) + 0x354)) *= 10;
       *((int *) ((((u32) work) + (group * 4)) + 0x354)) += digit;
       used++;
@@ -5800,11 +5791,11 @@ void BR_CODEIN_ProfileBuildAnimName(char *work)
       *acc = product + ((u32) digit);
       i++;
     }
-    while (((int) i) < (*((int *) (work + 0x23C))));
+    while (((int) i) < (*((int *) ((char *)work+0x23C))));
   }
   STRBUF_Delete(text);
   BR_CODEIN_ProfileSetAnimSeq(work, 3);
-  *((int *) (work + 0x350)) = 2;
+  *((int *) ((char *)work+0x350)) = 2;
 }
 
 
@@ -5815,33 +5806,33 @@ void BR_CODEIN_ProfileBuildAnimName(char *work)
 
 void BR_CODEIN_ProfileApplyRecords(const CodeinProfileRecord *records)
 {
-    char *p=(char *)records;
+    struct CodeinProfileWork *p=(struct CodeinProfileWork *)records;
     int i,old,value,offset;
-    ((struct CodeinWorkA *)p)->recordsApplied=1;
-    p[0x1f4]=0;
-    if (((struct CodeinWorkA *)p)->animState==0) {
-        i=((struct CodeinWorkA *)p)->recordCount-1;
-        ((struct CodeinWorkA *)p)->selectedIndex=i;
+    p->recordsApplied=1;
+    ((char *)p)[0x1f4]=0;
+    if (p->animState==0) {
+        i=p->recordCount-1;
+        p->selectedIndex=i;
         value=records[i].value;
-        ((struct CodeinWorkA *)p)->pendingStep=1;
-        ((struct CodeinWorkA *)p)->pendingKey=value;
-        ((struct CodeinWorkA *)p)->pendingKeyIsRecord=1;
+        p->pendingStep=1;
+        p->pendingKey=value;
+        p->pendingKeyIsRecord=1;
     } else {
-        i=((struct CodeinWorkA *)p)->selectedIndex;
+        i=p->selectedIndex;
         CLACT_SetActorAnimSeq((struct Obj *)records[i].handle,BR_CODEIN_ProfileGetActorIndex(((CodeinProfileRecord *)records)[i].tag=0,records[i].mode));
         old=records[i].value;
         if (i>0) {
             CLACT_SetActorAnimSeq((struct Obj *)records[i-1].handle,BR_CODEIN_ProfileGetActorIndex(records[i-1].tag,records[i-1].mode));
             value=records[i-1].value;
             if (old!=value) {
-                ((struct CodeinWorkA *)p)->pendingStep=1;
-                ((struct CodeinWorkA *)p)->pendingKey=value;
-                ((struct CodeinWorkA *)p)->pendingKeyIsRecord=1;
+                p->pendingStep=1;
+                p->pendingKey=value;
+                p->pendingKeyIsRecord=1;
             } else {
-                ((struct CodeinWorkA *)p)->pendingStep=2;
-                ((struct CodeinWorkA *)p)->pendingKey=i-1;
+                p->pendingStep=2;
+                p->pendingKey=i-1;
             }
-        } else ((struct CodeinWorkA *)p)->state=1;
+        } else p->state=1;
     }
 }
 
@@ -5851,19 +5842,19 @@ void BR_CODEIN_ProfileApplyRecords(const CodeinProfileRecord *records)
 
 
 
-void BR_CODEIN_ProfileCreateButtons(char *work) {
+void BR_CODEIN_ProfileCreateButtons(struct CodeinProfileWork *work) {
     int i;
     CodeinTable table;
-    for(i=0;i<12;i++)*(char **)(work+i*28+16)=(work+0x298)+i*4;
+    for(i=0;i<12;i++)*(char **)((char *)work+i*28+16)=((char *)work+0x298)+i*4;
     table=d_021E3880;
     for(;i<24;i++){
-        *(u8 *)(work+i*4+0x298)=table.row[i-12].b-table.row[i-12].d;
-        *(u8 *)(work+i*4+0x29A)=table.row[i-12].a-table.row[i-12].c;
-        *(u8 *)(work+i*4+0x299)=table.row[i-12].b+table.row[i-12].d;
-        *(u8 *)(work+i*4+0x29B)=table.row[i-12].a+table.row[i-12].c;
+        *(u8 *)((char *)work+i*4+0x298)=table.row[i-12].b-table.row[i-12].d;
+        *(u8 *)((char *)work+i*4+0x29A)=table.row[i-12].a-table.row[i-12].c;
+        *(u8 *)((char *)work+i*4+0x299)=table.row[i-12].b+table.row[i-12].d;
+        *(u8 *)((char *)work+i*4+0x29B)=table.row[i-12].a+table.row[i-12].c;
     }
-    ((struct CodeinWorkA *)work)->pressedButton=255;
-    ((struct CodeinWorkA *)work)->buttonMan=BUTTON_MAN_Create((u8 *)(work+0x298),(int)BR_CODEIN_ProfileHandleInput,(int)work,((struct CodeinWorkA *)work)->profileHeapId);
+    work->pressedButton=255;
+    work->buttonMan=BUTTON_MAN_Create((u8 *)((char *)work+0x298),(int)BR_CODEIN_ProfileHandleInput,(int)work,work->profileHeapId);
 }
 
 
@@ -5878,20 +5869,20 @@ void BR_CODEIN_ProfileCreateButtons(char *work) {
  *   `if (*(int *)(p + 0x22C) != 1) return;` then `if (arg == 0) {`, non-const CodeinProfileRecord pointer. One compile.
  *   Callbacks: BR_CODEIN_ProfileCreateButtons passes this as BUTTON_MAN_Create's callback (idx, arg, obj).
  */
-void BR_CODEIN_ProfileHandleInput(u32 idx, int arg, char *work)
+void BR_CODEIN_ProfileHandleInput(u32 idx, int arg, struct CodeinProfileWork *work)
 {
     CodeinProfileRecord *rec = (CodeinProfileRecord *)work;
     u32 i, j, v;
     int old, val;
-    if (*(int *)(work + 0x22C) != 1) return;
+    if (work->animSeq != 1) return;
     if (arg == 0) {
     if (idx <= 11) {
         if (rec[idx].mode == 1) {
-            *(int *)(work + 0x318) = 2;
-            *(int *)(work + 0x31C) = idx;
+            work->pendingStep = 2;
+            work->pendingKey = idx;
         } else {
-            *(int *)(work + 0x318) = 1;
-            *(int *)(work + 0x31C) = rec[idx].value;
+            work->pendingStep = 1;
+            work->pendingKey = rec[idx].value;
         }
         GFL_USE_PlaySeDefaultVolume(0x703);
         return;
@@ -5899,54 +5890,54 @@ void BR_CODEIN_ProfileHandleInput(u32 idx, int arg, char *work)
     if (idx == 0x16) {
         u32 x, y;
         Point args;
-        *(u16 *)(work + 0x1B8) = 0;
-        *(u16 *)(work + 0x1BA) = 2;
+        *(u16 *)((char *)work+0x1B8) = 0;
+        *(u16 *)((char *)work+0x1BA) = 2;
         GFL_USE_PlaySeDefaultVolume(0x703);
         TOUCHPANEL_GetPointTrg(&x, &y);
         args.x = x;
         args.y = y;
-        BR_UTIL_StartEffect((void *)(*(int *)(work + 0x348)), 1, &args);
+        BR_UTIL_StartEffect((void *)(*(int *)((char *)work+0x348)), 1, &args);
     } else if (idx == 0x17) {
         u32 x, y;
         Point args;
-        *(u16 *)(work + 0x1B8) = 3;
-        *(u16 *)(work + 0x1BA) = 2;
+        *(u16 *)((char *)work+0x1B8) = 3;
+        *(u16 *)((char *)work+0x1BA) = 2;
         GFL_USE_PlaySeDefaultVolume(0x703);
         TOUCHPANEL_GetPointTrg(&x, &y);
         args.x = x;
         args.y = y;
-        BR_UTIL_StartEffect((void *)(*(int *)(work + 0x348)), 1, &args);
+        BR_UTIL_StartEffect((void *)(*(int *)((char *)work+0x348)), 1, &args);
     } else {
-        *(u16 *)(work + 0x1B8) = (idx - 12) % 5;
-        *(u16 *)(work + 0x1BA) = (idx - 12) / 5;
+        *(u16 *)((char *)work+0x1B8) = (idx - 12) % 5;
+        *(u16 *)((char *)work+0x1BA) = (idx - 12) / 5;
         GFL_USE_PlaySeDefaultVolume(0x703);
     }
     if (idx >= 12 && idx <= 21) {
         u32 x, y;
         Point args;
-        if (*(int *)(work + 0x240) != 0) {
+        if (work->animState != 0) {
         TOUCHPANEL_GetPointTrg(&x, &y);
         args.x = x;
         args.y = y;
-        BR_UTIL_StartEffect((void *)(*(int *)(work + 0x348)), 1, &args);
-        i = *(int *)(work + 0x188);
+        BR_UTIL_StartEffect((void *)(*(int *)((char *)work+0x348)), 1, &args);
+        i = work->selectedIndex;
         v = idx - 11;
         CLACT_SetActorAnimSeq((struct Obj *)rec[i].handle, (u16)BR_CODEIN_ProfileGetActorIndex(rec[i].tag = v, rec[i].mode));
         old = rec[i].value;
         j = i + 1;
-        if (j == *(u32 *)(work + 0x23C)) {
-            *(int *)(work + 0x318) = 1;
-            *(int *)(work + 0x31C) = 0;
-            *(int *)(work + 0x320) = 0;
+        if (j == *(u32 *)&work->recordCount) {
+            work->pendingStep = 1;
+            work->pendingKey = 0;
+            work->pendingKeyIsRecord = 0;
         } else {
             val = rec[j].value;
             if (old != val) {
-                *(int *)(work + 0x318) = 1;
-                *(int *)(work + 0x31C) = val;
-                *(int *)(work + 0x320) = 0;
+                work->pendingStep = 1;
+                work->pendingKey = val;
+                work->pendingKeyIsRecord = 0;
             } else {
-                *(int *)(work + 0x318) = 2;
-                *(int *)(work + 0x31C) = j;
+                work->pendingStep = 2;
+                work->pendingKey = j;
             }
         }
         }
@@ -5967,19 +5958,19 @@ void BR_CODEIN_ProfileHandleInput(u32 idx, int arg, char *work)
 /*
  * Extent remainder: zero alignment halfword at 021E1BFE.
  */
-void BR_CODEIN_ProfileApplyPendingStep(char *work)
+void BR_CODEIN_ProfileApplyPendingStep(struct CodeinProfileWork *work)
 {
-    switch (((struct CodeinWorkA *)work)->pendingStep) {
+    switch (work->pendingStep) {
     case 0: break;
     case 1:
-        BR_CODEIN_ProfileSetActorAnim(work,((struct CodeinWorkA *)work)->pendingKey);
+        BR_CODEIN_ProfileSetActorAnim(work,work->pendingKey);
         BR_CODEIN_ProfileUpdateActorVisible(work);
         BR_CODEIN_ProfileSetActorAnimFrame(work,1);
         BR_CODEIN_ProfileSetAnimSeq(work,2);
-        ((struct CodeinWorkA *)work)->pendingStep=255;
+        work->pendingStep=255;
         break;
     case 2:
-        BR_CODEIN_ProfileSetActorPos(work,((struct CodeinWorkA *)work)->pendingKey);
+        BR_CODEIN_ProfileSetActorPos(work,work->pendingKey);
         BR_CODEIN_ProfileClear(work);
         break;
     case 255: break;
@@ -5993,11 +5984,11 @@ void BR_CODEIN_ProfileApplyPendingStep(char *work)
 
 
 
-void BR_CODEIN_ProfileClear(char *work)
+void BR_CODEIN_ProfileClear(struct CodeinProfileWork *work)
 {
-    ((struct CodeinWorkA *)work)->pendingStep = 0;
-    ((struct CodeinWorkA *)work)->pendingKey = 0;
-    ((struct CodeinWorkA *)work)->pendingKeyIsRecord = 0;
+    work->pendingStep = 0;
+    work->pendingKey = 0;
+    work->pendingKeyIsRecord = 0;
 }
 
 
@@ -6010,7 +6001,7 @@ void BR_CODEIN_ProfileClear(char *work)
 /*
  * extent: final two bytes are alignment padding.
  */
-int BR_CODEIN_ProfileFindActorIndex(char *work,int value){int i,n; n=((struct CodeinWorkA *)work)->recordCount;for(i=0;i<n;i++){if(value==*(int *)(work+i*28+4))return i;}return 0;}
+int BR_CODEIN_ProfileFindActorIndex(struct CodeinProfileWork *work,int value){int i,n; n=work->recordCount;for(i=0;i<n;i++){if(value==*(int *)((char *)work+i*28+4))return i;}return 0;}
 
 
 
@@ -6024,23 +6015,23 @@ int BR_CODEIN_ProfileFindActorIndex(char *work,int value){int i,n; n=((struct Co
  * extent: 58 code bytes, alignment padding at021E1C7E..021E1C80; next function starts1C80.
  * retry: 5 one runs, once-only permuter budget300 found expand(n x2) after9 candidates; emitted DIFF4 baseline agrees; winner validated by run6.
  */
-int BR_CODEIN_ProfileFindRecord(const char *work, int value)
+int BR_CODEIN_ProfileFindRecord(const struct CodeinProfileWork *work, int value)
 {
   int i;
   int found;
   unsigned n;
-  n = *((const unsigned *) (work + 0x23c));
+  n = *((const unsigned *) ((char *)work+0x23c));
   found = 0;
-  for (i = 0; i < ((int) (*((const unsigned *) (work + 0x23c)))); i++)
+  for (i = 0; i < ((int) (*((const unsigned *) ((char *)work+0x23c)))); i++)
   {
-    if (value == (*((const int *) ((work + (i * 28)) + 4))))
+    if (value == (*((const int *) (((char *)work+(i * 28)) + 4))))
       found = 1;
     else
       if (found == 1)
       return i - 1;
   }
 
-  return (*((const unsigned *) (work + 0x23c))) - 1;
+  return (*((const unsigned *) ((char *)work+0x23c))) - 1;
 }
 
 
@@ -6050,7 +6041,7 @@ int BR_CODEIN_ProfileFindRecord(const char *work, int value)
 
 int BR_CODEIN_UploadCreate(struct Proc *obj,int unused,char *arg)
 {
-    struct CodeinWorkF *p;
+    struct CodeinUploadWork *p;
     int i;
     Point pair;
     p=PROCSYS_AllocProcWork(obj,32,BR_PROC_SYS_GetSlotId((struct BrProcQuery *)(((struct CodeinArgC *)arg)->procQuery)));
@@ -6063,7 +6054,7 @@ int BR_CODEIN_UploadCreate(struct Proc *obj,int unused,char *arg)
     BR_UTIL_SetWindowText((char *)(p->textWin),(char *)(((struct CodeinArgC *)arg)->res),(void *)111);
     for (i=0;i<2;i++) *(int *)((char *)p+i*4+0x10)=(int)BR_UTIL_CreateHandles(((struct CodeinArgC *)arg)->actorSys,(char *)(((struct CodeinArgC *)arg)->res),i,p->heapId);
     pair=d_021E38E0;
-    BR_UTIL_StartEffect((void *)(p->tapFx), 4, &pair);
+    BR_UTIL_StartEffect((void *)(p->introFx), 4, &pair);
     return 1;
 }
 
@@ -6072,25 +6063,25 @@ int BR_CODEIN_UploadCreate(struct Proc *obj,int unused,char *arg)
 
 
 
-int BR_CODEIN_UploadDestroy(struct Proc *proc,int seq,struct CodeinArgA *arg,struct CodeinWorkA *work){int i;for(i=0;i<2;i++)BR_UTIL_DeleteHandles(*(char **)((char *)work+i*4+16));BR_UTIL_DeleteTextWin(work->backButton,arg->res);PRINTSYS_QUE_Delete(work->oamSys);BR_UTIL_DeleteTask((void *)((*(int *)&work->printQue)));PROCSYS_FreeProcWork(proc);return 1;}
+int BR_CODEIN_UploadDestroy(struct Proc *proc,int seq,struct CodeinArgA *arg,struct CodeinUploadWork *work){int i;for(i=0;i<2;i++)BR_UTIL_DeleteHandles(*(char **)((char *)work+i*4+16));BR_UTIL_DeleteTextWin((void *)work->textWin,arg->res);PRINTSYS_QUE_Delete((void *)work->printQue);BR_UTIL_DeleteTask((void *)((*(int *)&work->task)));PROCSYS_FreeProcWork(proc);return 1;}
 
 
 
 
 
 
-int BR_CODEIN_UploadMain(int proc,int seq,int arg,struct CodeinWorkB *work)
+int BR_CODEIN_UploadMain(int proc,int seq,int arg,struct CodeinUploadWork *work)
 {
     int i;
-    if (!GAME_DATA_IsSaving((const u8 *)(((struct CodeinSubA *)(*(char * *)&work->textWin))->procQuery)) && BR_NET_HandleNetError((char *)(((struct CodeinSubA *)(*(char * *)&work->textWin))->res))==2) {
-        BR_PROC_SYS_FlushWindows((void *)((*(int *)&((struct CodeinSubA *)(*(char * *)&work->textWin))->subFade)));
+    if (!GAME_DATA_IsSaving((const u8 *)(((struct CodeinSubA *)(*(char * *)&work->ctx))->procQuery)) && BR_NET_HandleNetError((char *)(((struct CodeinSubA *)(*(char * *)&work->ctx))->res))==2) {
+        BR_PROC_SYS_FlushWindows((void *)((*(int *)&((struct CodeinSubA *)(*(char * *)&work->ctx))->subFade)));
         return 1;
     }
-    BR_UTIL_RunTask((u8 *)(work->printQue));
-    if (BR_UTIL_IsTaskIdle((int *)(work->printQue))) return 1;
+    BR_UTIL_RunTask((u8 *)(work->task));
+    if (BR_UTIL_IsTaskIdle((int *)(work->task))) return 1;
     for (i=0;i<2;i++) BR_UTIL_RunHandles((char *)(*(int *)((char *)work+i*4+0x10)));
-    PRINTSYS_QUE_Main((struct PrintSys *)(work->task));
-    BR_UTIL_FlushWindow((void *)(work->button));
+    PRINTSYS_QUE_Main((struct PrintSys *)(work->printQue));
+    BR_UTIL_FlushWindow((void *)(work->textWin));
     return 0;
 }
 
@@ -6098,11 +6089,11 @@ int BR_CODEIN_UploadMain(int proc,int seq,int arg,struct CodeinWorkB *work)
 
 
 
-void BR_CODEIN_UploadStepFadeIn(int task,int *state,struct CodeinWorkB *work)
+void BR_CODEIN_UploadStepFadeIn(int task,int *state,struct CodeinUploadWork *work)
 {
     switch (*state) {
-    case 0: BR_FADE_Start(**(int * *)&work->textWin,2,3,0); *state=1; break;
-    case 1: if (BR_FADE_GetResult((int *)(**(int * *)&work->textWin))) *state=2; break;
+    case 0: BR_FADE_Start(**(int * *)&work->ctx,2,3,0); *state=1; break;
+    case 1: if (BR_FADE_GetResult((int *)(**(int * *)&work->ctx))) *state=2; break;
     case 2: BR_UTIL_SetTaskStep((int *)task,(int)BR_CODEIN_UploadStep); break;
     }
 }
@@ -6111,12 +6102,12 @@ void BR_CODEIN_UploadStepFadeIn(int task,int *state,struct CodeinWorkB *work)
 
 
 
-void BR_CODEIN_UploadStepFadeOut(int *task,int *state,struct CodeinWorkB *work)
+void BR_CODEIN_UploadStepFadeOut(int *task,int *state,struct CodeinUploadWork *work)
 {
     switch (*state) {
-    case 0: BR_FADE_Start(**(int * *)&work->textWin,2,3,1); *state=1; break;
-    case 1: if (BR_FADE_GetResult((int *)(**(int * *)&work->textWin))) *state=2; break;
-    case 2: BR_PROC_SYS_PopEntry((unsigned int *)((*(int *)&((struct CodeinSubA *)(*(char * *)&work->textWin))->subFade))); BR_UTIL_ClearTaskStep(task); break;
+    case 0: BR_FADE_Start(**(int * *)&work->ctx,2,3,1); *state=1; break;
+    case 1: if (BR_FADE_GetResult((int *)(**(int * *)&work->ctx))) *state=2; break;
+    case 2: BR_PROC_SYS_PopEntry((unsigned int *)((*(int *)&((struct CodeinSubA *)(*(char * *)&work->ctx))->subFade))); BR_UTIL_ClearTaskStep(task); break;
     }
 }
 
@@ -6127,7 +6118,7 @@ void BR_CODEIN_UploadStepFadeOut(int *task,int *state,struct CodeinWorkB *work)
 /*
  * lever: keep the copied u64 and quotient distinct; use the emitted _ull_mod runtime symbol.
  */
-void BR_CODEIN_UploadStep(int *task,int *state,struct CodeinWorkB *work) {
+void BR_CODEIN_UploadStep(int *task,int *state,struct CodeinUploadWork *work) {
     u32 out;
     u64 total;
     u32 msg,x,y; Point pair;
@@ -6136,39 +6127,39 @@ void BR_CODEIN_UploadStep(int *task,int *state,struct CodeinWorkB *work) {
     int result;
     switch(*state) {
     case 0:
-        BATTLE_REC_Load(GAME_DATA_GetSaveControl((*(void * *)&((struct CodeinSubA *)(*(char * *)&work->textWin))->procQuery)),89,&out,0);
+        BATTLE_REC_Load(GAME_DATA_GetSaveControl((*(void * *)&((struct CodeinSubA *)(*(char * *)&work->ctx))->procQuery)),89,&out,0);
         if(out==1)*state=1;else BR_UTIL_SetTaskStep((int *)task,(int)BR_CODEIN_UploadStepFadeOut);break;
     case 1:
-        work->procQuery=0;BR_NET_StartRequest((*(void * *)&((struct CodeinSubA *)(*(char * *)&work->textWin))->res),2,0);*state=2;break;
+        work->frames=0;BR_NET_StartRequest((*(void * *)&((struct CodeinSubA *)(*(char * *)&work->ctx))->res),2,0);*state=2;break;
     case 2:
-        ++work->procQuery;
-        if(BR_NET_IsIdle((*(void * *)&((struct CodeinSubA *)(*(char * *)&work->textWin))->res))) {
+        ++work->frames;
+        if(BR_NET_IsIdle((*(void * *)&((struct CodeinSubA *)(*(char * *)&work->ctx))->res))) {
             total=0;
-            if(work->procQuery>=96) {
-                result=BR_NET_PollErrorMessage((*(void * *)&((struct CodeinSubA *)(*(char * *)&work->textWin))->res),(int *)(&msg));
+            if(work->frames>=96) {
+                result=BR_NET_PollErrorMessage((*(void * *)&((struct CodeinSubA *)(*(char * *)&work->ctx))->res),(int *)(&msg));
                 if(result==0) {
-                    if(BR_NET_GetUploadedDataNumber((*(void * *)&((struct CodeinSubA *)(*(char * *)&work->textWin))->res),&total)) {
-                        bank=(void *)BR_RES_GetMsgData(*(char * *)&((struct CodeinSubA *)(*(char * *)&work->textWin))->screenFade);
-                        ws=(void *)BR_RES_GetWordSet(*(char * *)&((struct CodeinSubA *)(*(char * *)&work->textWin))->screenFade);
+                    if(BR_NET_GetUploadedDataNumber((*(void * *)&((struct CodeinSubA *)(*(char * *)&work->ctx))->res),&total)) {
+                        bank=(void *)BR_RES_GetMsgData(*(char * *)&((struct CodeinSubA *)(*(char * *)&work->ctx))->screenFade);
+                        ws=(void *)BR_RES_GetWordSet(*(char * *)&((struct CodeinSubA *)(*(char * *)&work->ctx))->screenFade);
                         str=MSGDATA_AllocString(bank,334);expanded=STRBUF_Create(128,0x8059);
                         copy=total;quotient=copy/100000;
                         WORDSET_SetSlotNumber(ws,2,(u32)(copy%100000),5,2,1);
                         WORDSET_SetSlotNumber(ws,1,(u32)(quotient%100000),5,2,1);
                         WORDSET_SetSlotNumber(ws,0,(u32)(quotient/100000),2,2,1);
                         WORDSET_CopyTaggedText(ws,expanded,str);
-                        BR_UTIL_SetWindowTextBuf((char *)(work->button),(void *)((*(int *)&((struct CodeinSubA *)(*(char * *)&work->textWin))->screenFade)),expanded);
+                        BR_UTIL_SetWindowTextBuf((char *)(work->textWin),(void *)((*(int *)&((struct CodeinSubA *)(*(char * *)&work->ctx))->screenFade)),expanded);
                         STRBUF_Delete(expanded);STRBUF_Delete(str);
                     }
                 } else if(result==3) {
-                    BR_PROC_SYS_FlushWindows((void *)((*(void * *)&((struct CodeinSubA *)(*(char * *)&work->textWin))->subFade)));BR_UTIL_ClearTaskStep(task);break;
-                } else BR_UTIL_SetWindowText((char *)(work->button),(char *)((*(int *)&((struct CodeinSubA *)(*(char * *)&work->textWin))->screenFade)),(void *)msg);
-                BR_UTIL_StartEffect((void *)(work->screenFade), 0, 0);*state=4;
+                    BR_PROC_SYS_FlushWindows((void *)((*(void * *)&((struct CodeinSubA *)(*(char * *)&work->ctx))->subFade)));BR_UTIL_ClearTaskStep(task);break;
+                } else BR_UTIL_SetWindowText((char *)(work->textWin),(char *)((*(int *)&((struct CodeinSubA *)(*(char * *)&work->ctx))->screenFade)),(void *)msg);
+                BR_UTIL_StartEffect((void *)(work->introFx), 0, 0);*state=4;
             }
         }break;
     case 3:BR_UTIL_SetTaskStep((int *)task,(int)BR_CODEIN_UploadStepFadeOut);break;
     case 4:
         if(TOUCHPANEL_GetTrg()) {
-            TOUCHPANEL_GetPointTrg(&x,&y);pair.x=x;pair.y=y;BR_UTIL_StartEffect((void *)((*(int *)&work->menuWork)), 1, &pair);
+            TOUCHPANEL_GetPointTrg(&x,&y);pair.x=x;pair.y=y;BR_UTIL_StartEffect((void *)((*(int *)&work->tapFx)), 1, &pair);
             GFL_USE_PlaySeDefaultVolume(0x703);*state=3;
         }break;
     }
@@ -6184,12 +6175,12 @@ int BR_CODEIN_SaveCreate(struct Proc *obj,int unused,char *arg)
     if (((struct CodeinArgC *)arg)->kind>=4) GF_PANIC_Fail(d_021E39B4,0,d_021E39B4);
     p=PROCSYS_AllocProcWork(obj,40,BR_PROC_SYS_GetSlotId((struct BrProcQuery *)(((struct CodeinArgC *)arg)->saveProcQuery)));
     MI_CpuFill8(p,0,40);
-    ((struct CodeinWorkC *)p)->saveCtx=arg;
-    ((struct CodeinWorkC *)p)->heapId=BR_PROC_SYS_GetSlotId((struct BrProcQuery *)(((struct CodeinArgC *)arg)->saveProcQuery));
-    ((struct CodeinWorkC *)p)->task=(int)BR_UTIL_CreateTask((int)p,(int)BR_CODEIN_SaveStepFadeIn,((struct CodeinWorkC *)p)->heapId);
-    ((struct CodeinWorkC *)p)->printQue=PRINTSYS_QUE_Create((void *)(((struct CodeinWorkC *)p)->heapId));
+    ((struct CodeinSaveWork *)p)->saveCtx=arg;
+    ((struct CodeinSaveWork *)p)->heapId=BR_PROC_SYS_GetSlotId((struct BrProcQuery *)(((struct CodeinArgC *)arg)->saveProcQuery));
+    ((struct CodeinSaveWork *)p)->task=(int)BR_UTIL_CreateTask((int)p,(int)BR_CODEIN_SaveStepFadeIn,((struct CodeinSaveWork *)p)->heapId);
+    ((struct CodeinSaveWork *)p)->printQue=PRINTSYS_QUE_Create((void *)(((struct CodeinSaveWork *)p)->heapId));
     BR_CODEIN_SaveSetupText(p,(const Input *)arg);
-    for (i=0;i<2;i++) *(int *)(p+i*4+0x14)=(int)BR_UTIL_CreateHandles(((struct CodeinArgC *)arg)->res,(char *)(((struct CodeinArgC *)arg)->procQuery),i,((struct CodeinWorkC *)p)->heapId);
+    for (i=0;i<2;i++) *(int *)(p+i*4+0x14)=(int)BR_UTIL_CreateHandles(((struct CodeinArgC *)arg)->res,(char *)(((struct CodeinArgC *)arg)->procQuery),i,((struct CodeinSaveWork *)p)->heapId);
     return 1;
 }
 
@@ -6203,10 +6194,10 @@ int BR_CODEIN_SaveDestroy(int obj,int seq,char *arg,char *work)
 {
     int i;
     for (i=0;i<2;i++) BR_UTIL_DeleteHandles((char *)(*(int *)(work+i*4+0x14)));
-    if ((*(int *)&((struct CodeinSubA *)(((struct CodeinWorkC *)work)->saveCtx))->menuState)) BR_CODEIN_SaveDeleteTextWin(work,arg);
+    if ((*(int *)&((struct CodeinSubA *)(((struct CodeinSaveWork *)work)->saveCtx))->menuState)) BR_CODEIN_SaveDeleteTextWin(work,arg);
     else { BR_CODEIN_SaveDeleteTextWin(work,arg); BR_CODEIN_SaveTeardown(work,arg); }
-    PRINTSYS_QUE_Delete((struct PrintSys *)((*(int *)&((struct CodeinWorkC *)work)->printQue)));
-    BR_UTIL_DeleteTask((void *)((*(int *)&((struct CodeinWorkC *)work)->task)));
+    PRINTSYS_QUE_Delete((struct PrintSys *)((*(int *)&((struct CodeinSaveWork *)work)->printQue)));
+    BR_UTIL_DeleteTask((void *)((*(int *)&((struct CodeinSaveWork *)work)->task)));
     PROCSYS_FreeProcWork((struct Proc *)obj);
     return 1;
 }
@@ -6214,7 +6205,7 @@ int BR_CODEIN_SaveDestroy(int obj,int seq,char *arg,char *work)
 
 
 
-int BR_CODEIN_SaveMain(int proc,int seq,int arg,struct CodeinWorkC *work)
+int BR_CODEIN_SaveMain(int proc,int seq,int arg,struct CodeinSaveWork *work)
 {
     int i;
     BR_UTIL_RunTask((u8 *)((*(int *)&work->task)));
@@ -6229,7 +6220,7 @@ int BR_CODEIN_SaveMain(int proc,int seq,int arg,struct CodeinWorkC *work)
 
 
 
-void BR_CODEIN_SaveStepFadeIn(int *task,int *state,struct CodeinWorkC *work)
+void BR_CODEIN_SaveStepFadeIn(int *task,int *state,struct CodeinSaveWork *work)
 {
     switch (*state) {
     case 0: BR_FADE_Start(((struct CodeinSubA *)(work->saveCtx))->saveFade,2,3,0); *state=1; break;
@@ -6241,7 +6232,7 @@ void BR_CODEIN_SaveStepFadeIn(int *task,int *state,struct CodeinWorkC *work)
 
 
 
-void BR_CODEIN_SaveStepFadeOut(int *task,int *state,struct CodeinWorkC *work)
+void BR_CODEIN_SaveStepFadeOut(int *task,int *state,struct CodeinSaveWork *work)
 {
     switch (*state) {
     case 0: BR_FADE_Start(((struct CodeinSubA *)(work->saveCtx))->saveFade,2,3,1); *state=1; break;
@@ -6262,7 +6253,7 @@ void BR_CODEIN_SaveStepVideo(int task,int *state,char *work) {
     switch(*state) {
     case 0:
         if(TOUCHPANEL_GetPointTrg(&x0,&y0)) {
-            if(BR_CODEIN_SaveHitOptionLeft(work,x0,y0)) {BR_UTIL_SetWindowText((char *)((*(int *)&((struct CodeinWorkC *)work)->textWin)),(char *)((*(int *)&((struct CodeinSubA *)(((struct CodeinWorkC *)work)->saveCtx))->subFade)),(void *)322);*state=1;}
+            if(BR_CODEIN_SaveHitOptionLeft(work,x0,y0)) {BR_UTIL_SetWindowText((char *)((*(int *)&((struct CodeinSaveWork *)work)->textWin)),(char *)((*(int *)&((struct CodeinSubA *)(((struct CodeinSaveWork *)work)->saveCtx))->subFade)),(void *)322);*state=1;}
             else if(BR_CODEIN_SaveHitOptionRight(work,x0,y0))*state=10;
         } break;
     case 1:
@@ -6270,30 +6261,30 @@ void BR_CODEIN_SaveStepVideo(int task,int *state,char *work) {
             if(BR_CODEIN_SaveHitOptionLeft(work,x1,y1))*state=2;
             else if(BR_CODEIN_SaveHitOptionRight(work,x1,y1))*state=10;
         } break;
-    case 2:BR_FADE_Start(((struct CodeinSubA *)(((struct CodeinWorkC *)work)->saveCtx))->saveFade,2,2,1);++*state;break;
+    case 2:BR_FADE_Start(((struct CodeinSubA *)(((struct CodeinSaveWork *)work)->saveCtx))->saveFade,2,2,1);++*state;break;
     case 3:
-        if(BR_FADE_GetResult(*(int * *)&((struct CodeinSubA *)(((struct CodeinWorkC *)work)->saveCtx))->saveFade)) {
-            BR_CODEIN_SaveTeardown(work,((struct CodeinWorkC *)work)->saveCtx);
-            BR_UTIL_SetWindowText((char *)((*(int *)&((struct CodeinWorkC *)work)->textWin)),(char *)((*(int *)&((struct CodeinSubA *)(((struct CodeinWorkC *)work)->saveCtx))->subFade)),(void *)323);
-            first.x=128;first.y=96;BR_UTIL_StartEffect((void *)(((struct CodeinWorkC *)work)->introFx), 4,&first);
-            ((struct CodeinWorkC *)work)->buttonText=0;++*state;
+        if(BR_FADE_GetResult(*(int * *)&((struct CodeinSubA *)(((struct CodeinSaveWork *)work)->saveCtx))->saveFade)) {
+            BR_CODEIN_SaveTeardown(work,((struct CodeinSaveWork *)work)->saveCtx);
+            BR_UTIL_SetWindowText((char *)((*(int *)&((struct CodeinSaveWork *)work)->textWin)),(char *)((*(int *)&((struct CodeinSubA *)(((struct CodeinSaveWork *)work)->saveCtx))->subFade)),(void *)323);
+            first.x=128;first.y=96;BR_UTIL_StartEffect((void *)(((struct CodeinSaveWork *)work)->introFx), 4,&first);
+            ((struct CodeinSaveWork *)work)->videoFrames=0;++*state;
         } break;
-    case 4:BR_FADE_Start(((struct CodeinSubA *)(((struct CodeinWorkC *)work)->saveCtx))->saveFade,2,2,0);++*state;break;
-    case 5:if(BR_FADE_GetResult(*(int * *)&((struct CodeinSubA *)(((struct CodeinWorkC *)work)->saveCtx))->saveFade))++*state;break;
+    case 4:BR_FADE_Start(((struct CodeinSubA *)(((struct CodeinSaveWork *)work)->saveCtx))->saveFade,2,2,0);++*state;break;
+    case 5:if(BR_FADE_GetResult(*(int * *)&((struct CodeinSubA *)(((struct CodeinSaveWork *)work)->saveCtx))->saveFade))++*state;break;
     case 6:
-        GDS_RAP_StartVideoSave(((struct CodeinSubA *)(((struct CodeinWorkC *)work)->saveCtx))->procQuery,((struct CodeinWorkC *)work)->heapId,**(int * *)&((struct CodeinWorkC *)work)->saveCtx);
-        ++((struct CodeinWorkC *)work)->buttonText;++*state;break;
+        GDS_RAP_StartVideoSave(((struct CodeinSubA *)(((struct CodeinSaveWork *)work)->saveCtx))->procQuery,((struct CodeinSaveWork *)work)->heapId,**(int * *)&((struct CodeinSaveWork *)work)->saveCtx);
+        ++((struct CodeinSaveWork *)work)->videoFrames;++*state;break;
     case 7:
-        result=GDS_RAP_StepVideoSave((char *)(((struct CodeinSubA *)(((struct CodeinWorkC *)work)->saveCtx))->procQuery),**(int * *)&((struct CodeinWorkC *)work)->saveCtx);
-        ++((struct CodeinWorkC *)work)->buttonText;
-        if((u32)(result-2)<=1) {(*(int *)&((struct CodeinSubA *)(((struct CodeinWorkC *)work)->saveCtx))->menuState)=1;*state=8;}break;
+        result=GDS_RAP_StepVideoSave((char *)(((struct CodeinSubA *)(((struct CodeinSaveWork *)work)->saveCtx))->procQuery),**(int * *)&((struct CodeinSaveWork *)work)->saveCtx);
+        ++((struct CodeinSaveWork *)work)->videoFrames;
+        if((u32)(result-2)<=1) {(*(int *)&((struct CodeinSubA *)(((struct CodeinSaveWork *)work)->saveCtx))->menuState)=1;*state=8;}break;
     case 8:
-        old=((struct CodeinWorkC *)work)->buttonText;((struct CodeinWorkC *)work)->buttonText=old+1;
-        if(old>96) {BR_UTIL_StartEffect((void *)(((struct CodeinWorkC *)work)->introFx), 0,0);BR_UTIL_SetWindowText((char *)((*(int *)&((struct CodeinWorkC *)work)->textWin)),(char *)((*(int *)&((struct CodeinSubA *)(((struct CodeinWorkC *)work)->saveCtx))->subFade)),(void *)324);*state=9;}break;
+        old=((struct CodeinSaveWork *)work)->videoFrames;((struct CodeinSaveWork *)work)->videoFrames=old+1;
+        if(old>96) {BR_UTIL_StartEffect((void *)(((struct CodeinSaveWork *)work)->introFx), 0,0);BR_UTIL_SetWindowText((char *)((*(int *)&((struct CodeinSaveWork *)work)->textWin)),(char *)((*(int *)&((struct CodeinSubA *)(((struct CodeinSaveWork *)work)->saveCtx))->subFade)),(void *)324);*state=9;}break;
     case 9:
         if(TOUCHPANEL_GetTrg()) {
             TOUCHPANEL_GetPointTrg(&x9,&y9);second.x=x9;second.y=y9;
-            BR_UTIL_StartEffect((void *)(((struct CodeinWorkC *)work)->tapFx), 1,&second);GFL_USE_PlaySeDefaultVolume(0x703);*state=10;
+            BR_UTIL_StartEffect((void *)(((struct CodeinSaveWork *)work)->tapFx), 1,&second);GFL_USE_PlaySeDefaultVolume(0x703);*state=10;
         }break;
     case 10:BR_UTIL_SetTaskStep((int *)task,(int)BR_CODEIN_SaveStepFadeOut);break;
     }
@@ -6317,7 +6308,7 @@ void BR_CODEIN_SaveSetupText(char *work,const Input *input) {
     char *slot;
     u32 base,index;
     u16 *heapIdPtr;
-    if(!((struct CodeinWorkC *)work)->textWin) ((struct CodeinWorkC *)work)->textWin=BR_UTIL_CreateTextWin((int)input->owner,(void *)(((struct CodeinWorkC *)work)->printQue),((struct CodeinWorkC *)work)->heapId);
+    if(!((struct CodeinSaveWork *)work)->textWin) ((struct CodeinSaveWork *)work)->textWin=BR_UTIL_CreateTextWin((int)input->owner,(void *)(((struct CodeinSaveWork *)work)->printQue),((struct CodeinSaveWork *)work)->heapId);
     ws=(struct WordSet *)BR_RES_GetWordSet(input->owner);
     str=MSGDATA_AllocString((struct MsgBank *)BR_RES_GetMsgData(input->owner),321);
     heapIdPtr=(u16 *)(work+28);
@@ -6327,15 +6318,15 @@ void BR_CODEIN_SaveSetupText(char *work,const Input *input) {
     WORDSET_SetSlotTag(ws,0,*(void **)(input->base+index*4+16),
         *(u32 *)(base+index*4+32),1,2);
     WORDSET_CopyTaggedText(ws,expanded,str);
-    BR_UTIL_SetWindowTextBuf(((struct CodeinWorkC *)work)->textWin,input->owner,expanded);
+    BR_UTIL_SetWindowTextBuf(((struct CodeinSaveWork *)work)->textWin,input->owner,expanded);
     STRBUF_Delete(expanded); STRBUF_Delete(str);
-    BR_RES_LoadBgGraphics((void *)((int)input->owner),30,((struct CodeinWorkC *)work)->heapId);
+    BR_RES_LoadBgGraphics((void *)((int)input->owner),30,((struct CodeinSaveWork *)work)->heapId);
     font=BR_RES_GetFont(input->owner);
     bank=BR_RES_GetMsgData(input->owner);
     for(i=0;i<2;i++) {
         r=&d_021E3900[i]; slot=work; slot=slot+i*4;
-        ((struct CodeinWorkC *)slot)->bodyText=BR_UTIL_Create(4,r->a,r->b,r->c,r->d,14,(*(void * *)&((struct CodeinWorkC *)work)->printQue),((struct CodeinWorkC *)work)->heapId);
-        BR_UTIL_SetTextFromMessage(*(char * *)&((struct CodeinWorkC *)slot)->bodyText,(void *)bank,r->value,(void *)font,0x3da0);
+        ((struct CodeinSaveSlot *)slot)->bodyText=BR_UTIL_Create(4,r->a,r->b,r->c,r->d,14,(*(void * *)&((struct CodeinSaveWork *)work)->printQue),((struct CodeinSaveWork *)work)->heapId);
+        BR_UTIL_SetTextFromMessage(*(char * *)&((struct CodeinSaveSlot *)slot)->bodyText,(void *)bank,r->value,(void *)font,0x3da0);
     }
 }
 
@@ -6345,9 +6336,9 @@ void BR_CODEIN_SaveSetupText(char *work,const Input *input) {
 
 void BR_CODEIN_SaveDeleteTextWin(char *work, char *res)
 {
-    if ((*(int *)&((struct CodeinWorkC *)work)->textWin) != 0) {
-        BR_UTIL_DeleteTextWin((void *)((*(int *)&((struct CodeinWorkC *)work)->textWin)), ((struct CodeinA1A *)res)->res);
-        (*(int *)&((struct CodeinWorkC *)work)->textWin) = 0;
+    if ((*(int *)&((struct CodeinSaveWork *)work)->textWin) != 0) {
+        BR_UTIL_DeleteTextWin((void *)((*(int *)&((struct CodeinSaveWork *)work)->textWin)), ((struct CodeinA1A *)res)->res);
+        (*(int *)&((struct CodeinSaveWork *)work)->textWin) = 0;
     }
 }
 
@@ -6379,7 +6370,7 @@ int BR_CODEIN_SaveHitOptionLeft(char *work, int x, int y)
         Point args;
         args.x = x;
         args.y = y;
-        BR_UTIL_StartEffect((void *)(((struct CodeinWorkC *)work)->tapFx), 1, &args);
+        BR_UTIL_StartEffect((void *)(((struct CodeinSaveWork *)work)->tapFx), 1, &args);
         GFL_USE_PlaySeDefaultVolume(0x703);
     }
     return ok;
@@ -6401,7 +6392,7 @@ int BR_CODEIN_SaveHitOptionRight(char *work, int x, int y)
         Point args;
         args.x = x;
         args.y = y;
-        BR_UTIL_StartEffect((void *)(((struct CodeinWorkC *)work)->tapFx), 1, &args);
+        BR_UTIL_StartEffect((void *)(((struct CodeinSaveWork *)work)->tapFx), 1, &args);
         GFL_USE_PlaySeDefaultVolume(0x703);
     }
     return ok;
@@ -6416,16 +6407,16 @@ int BR_CODEIN_SaveHitOptionRight(char *work, int x, int y)
 
 int BR_CODEIN_SoclCreate(void *obj,int seq,char *arg)
 {
-    struct CodeinWorkD *p;
+    struct CodeinSoclWork *p;
     int i;
     p=PROCSYS_AllocProcWork(obj,0x54,BR_PROC_SYS_GetSlotId((*(void * *)&((struct CodeinArgA *)arg)->uiRes)));
     MI_CpuFill8(p,0,0x54);
     p->arg=arg;
-    p->soclHeapId=BR_PROC_SYS_GetSlotId((*(void * *)&((struct CodeinArgA *)arg)->uiRes));
-    p->oamSys=BMP_OAM_CreateSys(p->soclHeapId,(*(void * *)&((struct CodeinArgA *)arg)->actorSys));
-    p->titleText=BR_UTIL_CreateTask((int)p,(int)BR_CODEIN_SoclStep,p->soclHeapId);
-    (*(unsigned int *)&p->backButton)=PRINTSYS_QUE_Create((void *)(unsigned int)p->soclHeapId);
-    for (i=0;i<2;i++) *(void **)((char *)p+i*4+0x30)=BR_UTIL_CreateHandles((unsigned int)((*(void * *)&((struct CodeinArgA *)arg)->actorSys)),(char *)(((struct CodeinArgA *)arg)->res),i,p->soclHeapId);
+    p->heapId=BR_PROC_SYS_GetSlotId((*(void * *)&((struct CodeinArgA *)arg)->uiRes));
+    p->oamSys=BMP_OAM_CreateSys(p->heapId,(*(void * *)&((struct CodeinArgA *)arg)->actorSys));
+    p->task=BR_UTIL_CreateTask((int)p,(int)BR_CODEIN_SoclStep,p->heapId);
+    (*(unsigned int *)&p->printQue)=PRINTSYS_QUE_Create((void *)(unsigned int)p->heapId);
+    for (i=0;i<2;i++) *(void **)((char *)p+i*4+0x30)=BR_UTIL_CreateHandles((unsigned int)((*(void * *)&((struct CodeinArgA *)arg)->actorSys)),(char *)(((struct CodeinArgA *)arg)->res),i,p->heapId);
     return 1;
 }
 
@@ -6439,19 +6430,19 @@ int BR_CODEIN_SoclCreate(void *obj,int seq,char *arg)
 /*
  * Extent remainder: zero alignment halfword at 021E263E.
  */
-int BR_CODEIN_SoclDestroy(int obj,int seq,int arg,char *work)
+int BR_CODEIN_SoclDestroy(int obj,int seq,int arg,struct CodeinSoclWork *work)
 {
     int i;
-    BR_CODEIN_CallAndClearDestroyFn(work+0x4c,(int)work,(int)(((struct CodeinWorkD *)work)->arg));
-    for (i=0;i<2;i++) BR_UTIL_DeleteHandles(*(char **)(work+i*4+0x30));
-    if (((struct CodeinWorkD *)work)->headerText) {
-        BR_UTIL_DeleteTextWin(((struct CodeinWorkD *)work)->headerText,(*(int *)&((struct CodeinSubA *)(((struct CodeinWorkD *)work)->arg))->screenFade));
-        *(int *)&((struct CodeinWorkD *)work)->headerText=0;
+    BR_CODEIN_CallAndClearDestroyFn((char *)work+0x4c,(int)work,(int)(work->arg));
+    for (i=0;i<2;i++) BR_UTIL_DeleteHandles(*(char **)((char *)work+i*4+0x30));
+    if (work->textWin) {
+        BR_UTIL_DeleteTextWin(work->textWin,(*(int *)&((struct CodeinSubA *)(work->arg))->screenFade));
+        *(int *)&work->textWin=0;
     }
-    PRINTSYS_QUE_Delete((struct PrintSys *)((*(int *)&((struct CodeinWorkD *)work)->backButton)));
-    BR_UTIL_DeleteTask((void *)((*(int *)&((struct CodeinWorkD *)work)->titleText)));
-    BMP_OAM_DeleteSys((void *)((*(int *)&((struct CodeinWorkD *)work)->oamSys)));
-    BR_PROC_SYS_PopEntry((unsigned int *)(((struct CodeinSubA *)(((struct CodeinWorkD *)work)->arg))->res));
+    PRINTSYS_QUE_Delete((struct PrintSys *)((*(int *)&work->printQue)));
+    BR_UTIL_DeleteTask((void *)((*(int *)&work->task)));
+    BMP_OAM_DeleteSys((void *)((*(int *)&work->oamSys)));
+    BR_PROC_SYS_PopEntry((unsigned int *)(((struct CodeinSubA *)(work->arg))->res));
     PROCSYS_FreeProcWork((struct Proc *)obj);
     return 1;
 }
@@ -6463,19 +6454,19 @@ int BR_CODEIN_SoclDestroy(int obj,int seq,int arg,char *work)
 
 
 
-int BR_CODEIN_SoclMain(int proc,int seq,int arg,struct CodeinWorkD *work)
+int BR_CODEIN_SoclMain(int proc,int seq,int arg,struct CodeinSoclWork *work)
 {
     int i;
     if (!GAME_DATA_IsSaving((const u8 *)(((struct CodeinSubA *)(work->arg))->procQuery)) && BR_NET_HandleNetError((char *)((*(int *)&((struct CodeinSubA *)(work->arg))->subFade)))==2) {
         BR_PROC_SYS_FlushWindows((void *)(((struct CodeinSubA *)(work->arg))->res));
         return 1;
     }
-    BR_UTIL_RunTask((u8 *)((*(int *)&work->titleText)));
-    if (BR_UTIL_IsTaskIdle((int *)((*(int *)&work->titleText)))) return 1;
+    BR_UTIL_RunTask((u8 *)((*(int *)&work->task)));
+    if (BR_UTIL_IsTaskIdle((int *)((*(int *)&work->task)))) return 1;
     for (i=0;i<2;i++) BR_UTIL_RunHandles((char *)(*(int *)((char *)work+i*4+0x30)));
-    PRINTSYS_QUE_Main((struct PrintSys *)((*(int *)&work->backButton)));
-    if ((*(int *)&work->headerText)) BR_UTIL_FlushWindow((void *)((*(int *)&work->headerText)));
-    for (i=0;i<2;i++) if (*(int *)((char *)work+i*4+0x28)) BR_UTIL_FlushText((u8 *)(*(int *)((char *)work+i*4+0x28)));
+    PRINTSYS_QUE_Main((struct PrintSys *)((*(int *)&work->printQue)));
+    if ((*(int *)&work->textWin)) BR_UTIL_FlushWindow((void *)((*(int *)&work->textWin)));
+    for (i=0;i<2;i++) if (*(int *)&work->text[i]) BR_UTIL_FlushText((u8 *)(*(int *)&work->text[i]));
     return 0;
 }
 
@@ -6484,7 +6475,7 @@ int BR_CODEIN_SoclMain(int proc,int seq,int arg,struct CodeinWorkD *work)
 
 
 
-void BR_CODEIN_SoclStep(int *task,CodeinSoclState *state,char *work) {
+void BR_CODEIN_SoclStep(int *task,CodeinSoclState *state,struct CodeinSoclWork *work) {
     u32 req[2];
     u32 msg;
     int extra;char *rec;
@@ -6493,45 +6484,45 @@ void BR_CODEIN_SoclStep(int *task,CodeinSoclState *state,char *work) {
     u64 value;char *arg;
     switch(*state) {
     case 0:
-        BR_CODEIN_SOCL_InitDefault(&cb);arg=*(char **)(work+0x3c);*(SOCLResource *)(work+0x4c)=cb;
+        BR_CODEIN_SOCL_InitDefault(&cb);arg=work->arg;*(SOCLResource *)&work->fns=cb;
         BR_CODEIN_CallAndClearStepFn((char *)work+0x4c,(int)work,(int)arg);*state=1;break;
-    case 1:BR_FADE_Start(**(int **)(work+0x3c),2,3,0);*state=2;break;
-    case 2:if(BR_FADE_GetResult((int *)**(int **)(work+0x3c)))*state=3;break;
+    case 1:BR_FADE_Start(**(int * *)&work->arg,2,3,0);*state=2;break;
+    case 2:if(BR_FADE_GetResult((int *)**(int * *)&work->arg))*state=3;break;
     case 3:
-        MI_CpuFill8(req,0,8);*(u64 *)req=*(u64 *)(*(char **)(work+0x3c)+0x1c);
-        BR_NET_StartRequest(*(void **)(*(char **)(work+0x3c)+12),3,(const int *)req);
-        *(u32 *)(work+0x44)=0;*state=4;break;
+        MI_CpuFill8(req,0,8);*(u64 *)req=*(u64 *)(work->arg+0x1c);
+        BR_NET_StartRequest(*(void **)(work->arg+12),3,(const int *)req);
+        work->frames=0;*state=4;break;
     case 4:
-        ++*(u32 *)(work+0x44);
-        if(BR_NET_IsIdle(*(void **)(*(char **)(work+0x3c)+12)) && *(u32 *)(work+0x44)>96) {
-            BR_UTIL_StartEffect((void *)(*(int *)(work+0x30)), 0, 0);*state=5;
+        ++work->frames;
+        if(BR_NET_IsIdle(*(void **)(work->arg+12)) && work->frames>96) {
+            BR_UTIL_StartEffect((void *)(work->introFx), 0, 0);*state=5;
         }break;
     case 5:
-        result=BR_NET_PollErrorMessage(*(void **)(*(char **)(work+0x3c)+12),(int *)(&msg));
+        result=BR_NET_PollErrorMessage(*(void **)(work->arg+12),(int *)(&msg));
         if(result==0) {
-            if(BR_NET_GetVideoReply(*(void **)(*(char **)(work+0x3c)+12),(int)(&rec),&extra)) {
-                BATTLE_REC_SetData(rec,rec+0x80,rec+0xc4,(unsigned int)GAME_DATA_GetSaveControl(*(void **)(*(char **)(work+0x3c)+0x14)));
+            if(BR_NET_GetVideoReply(*(void **)(work->arg+12),(int)(&rec),&extra)) {
+                BATTLE_REC_SetData(rec,rec+0x80,rec+0xc4,(unsigned int)GAME_DATA_GetSaveControl(*(void **)(work->arg+0x14)));
                 found=0;value=BATTLE_REC_GetHeaderParam((u8 *)BATTLE_REC_GetHeader(),4,0);
-                i=1;arg=*(char **)(work+0x3c);
+                i=1;arg=work->arg;
                 for(;i<=3;i++) {
                     if(*(u64 *)(*(char **)(arg+0x18)+i*8+0x30)==value) {found=1;break;}
                 }
-                if(found==1) {BR_UTIL_SetWindowText((char *)(*(int *)(work+8)),(char *)(*(int *)(arg+8)),(void *)316);*state=9;}
+                if(found==1) {BR_UTIL_SetWindowText((char *)(*(int *)&work->textWin),(char *)(*(int *)(arg+8)),(void *)316);*state=9;}
                 else *state=6;
-            } else {BR_UTIL_SetWindowText((char *)(*(int *)(work+8)),(char *)(*(int *)(*(char **)(work+0x3c)+8)),(void *)339);*state=9;}
-        } else {BR_UTIL_SetWindowText((char *)(*(int *)(work+8)),(char *)(*(int *)(*(char **)(work+0x3c)+8)),(void *)msg);*state=9;}
+            } else {BR_UTIL_SetWindowText((char *)(*(int *)&work->textWin),(char *)(*(int *)(work->arg+8)),(void *)339);*state=9;}
+        } else {BR_UTIL_SetWindowText((char *)(*(int *)&work->textWin),(char *)(*(int *)(work->arg+8)),(void *)msg);*state=9;}
         break;
     case 9:
         if(TOUCHPANEL_GetTrg()) {
-            TOUCHPANEL_GetPointTrg(&x,&y);click.x=x;click.y=y;BR_UTIL_StartEffect((void *)(*(int *)(work+0x34)), 1, &click);
+            TOUCHPANEL_GetPointTrg(&x,&y);click.x=x;click.y=y;BR_UTIL_StartEffect((void *)(work->tapFx), 1, &click);
             GFL_USE_PlaySeDefaultVolume(0x703);*state=10;
         }break;
-    case 6:BR_FADE_Start(**(int **)(work+0x3c),2,3,1);*state=7;break;
-    case 7:if(BR_FADE_GetResult((int *)**(int **)(work+0x3c)))*state=8;break;
-    case 8:BR_CODEIN_CallAndClearDestroyFn((char *)work+0x4c,(int)((char *)work),(int)(*(char **)(work+0x3c)));BR_UTIL_SetTaskStep((int *)task,(int)BR_CODEIN_MenuStep);break;
-    case 10:BR_FADE_Start(**(int **)(work+0x3c),2,3,1);*state=11;break;
-    case 11:if(BR_FADE_GetResult((int *)**(int **)(work+0x3c)))*state=12;break;
-    case 12:BR_CODEIN_CallAndClearDestroyFn((char *)work+0x4c,(int)((char *)work),(int)(*(char **)(work+0x3c)));BR_UTIL_ClearTaskStep(task);break;
+    case 6:BR_FADE_Start(**(int * *)&work->arg,2,3,1);*state=7;break;
+    case 7:if(BR_FADE_GetResult((int *)**(int * *)&work->arg))*state=8;break;
+    case 8:BR_CODEIN_CallAndClearDestroyFn((char *)work+0x4c,(int)((char *)work),(int)(work->arg));BR_UTIL_SetTaskStep((int *)task,(int)BR_CODEIN_MenuStep);break;
+    case 10:BR_FADE_Start(**(int * *)&work->arg,2,3,1);*state=11;break;
+    case 11:if(BR_FADE_GetResult((int *)**(int * *)&work->arg))*state=12;break;
+    case 12:BR_CODEIN_CallAndClearDestroyFn((char *)work+0x4c,(int)((char *)work),(int)(work->arg));BR_UTIL_ClearTaskStep(task);break;
     }
 }
 
@@ -6543,46 +6534,46 @@ void BR_CODEIN_SoclStep(int *task,CodeinSoclState *state,char *work) {
 /*
  * lever: function-scope pair locals preserve stack-slot order across switch cases.
  */
-void BR_CODEIN_MenuStep(int *task,int *state,char *work) {
+void BR_CODEIN_MenuStep(int *task,int *state,struct CodeinSoclWork *work) {
     u32 x,y;
     Point first,second,cb;
     int i;
     switch(*state) {
     case 0: {
         BR_CODEIN_GetMenuCallbacks(&cb);
-        *(Point *)(work+0x4c)=cb;
-        BR_CODEIN_CallAndClearStepFn(work+0x4c,(int)work,*(int *)&((struct CodeinWorkA *)work)->menuCtx);
+        *(Point *)&work->fns=cb;
+        BR_CODEIN_CallAndClearStepFn((char *)work+0x4c,(int)work,*(int *)&work->arg);
         *state=1; break;
     }
-    case 1: BR_FADE_Start(**(int * *)&((struct CodeinWorkA *)work)->menuCtx,2,3,0); *state=2; break;
-    case 2: if(BR_FADE_GetResult((int *)**(int * *)&((struct CodeinWorkA *)work)->menuCtx)) *state=3; break;
+    case 1: BR_FADE_Start(**(int * *)&work->arg,2,3,0); *state=2; break;
+    case 2: if(BR_FADE_GetResult((int *)**(int * *)&work->arg)) *state=3; break;
     case 3: {
         if(TOUCHPANEL_GetPointTrg(&x,&y)) {
             for(i=0;i<=2;i++) {
-                if(BR_BTN_HitTestWithSound((unsigned int *)(*(int *)(work+i*4+0x14)),x,y)) {
+                if(BR_BTN_HitTestWithSound((unsigned int *)(*(int *)&work->button[i]),x,y)) {
                     first.x=x; first.y=y;
-                    BR_UTIL_StartEffect((void *)((*(int *)&((struct CodeinWorkA *)work)->listText)), 1, &first);
-                    (*(int *)&((struct CodeinWorkA *)work)->recordTapFx)=i;
-                    if(*(int *)((u32)*(char * *)&((struct CodeinSubA *)(((struct CodeinWorkA *)work)->menuCtx))->net+(u32)i*4+4)) *state=7;
+                    BR_UTIL_StartEffect((void *)((*(int *)&work->tapFx)), 1, &first);
+                    (*(int *)&work->selectedIndex)=i;
+                    if(*(int *)((u32)*(char * *)&((struct CodeinSubA *)(work->arg))->net+(u32)i*4+4)) *state=7;
                     else *state=4;
                 }
             }
-            if(BR_BTN_HitTestWithSound((unsigned int *)((*(int *)&((struct CodeinWorkA *)work)->saveCtx)),x,y)) {
+            if(BR_BTN_HitTestWithSound((unsigned int *)((*(int *)&work->button[3])),x,y)) {
                 second.x=x; second.y=y;
-                BR_UTIL_StartEffect((void *)((*(int *)&((struct CodeinWorkA *)work)->listText)), 1, &second); *state=10;
+                BR_UTIL_StartEffect((void *)((*(int *)&work->tapFx)), 1, &second); *state=10;
             }
         }
         break;
     }
-    case 4: BR_FADE_Start(**(int * *)&((struct CodeinWorkA *)work)->menuCtx,2,3,1); *state=5; break;
-    case 5: if(BR_FADE_GetResult((int *)**(int * *)&((struct CodeinWorkA *)work)->menuCtx)) *state=6; break;
-    case 6: BR_CODEIN_CallAndClearDestroyFn(work+0x4c,(int)work,(int)(((struct CodeinWorkA *)work)->menuCtx)); BR_UTIL_SetTaskStep(*(int * *)&((struct CodeinWorkA *)work)->backButton,(int)BR_CODEIN_MenuStepSave); break;
-    case 7: BR_FADE_Start(**(int * *)&((struct CodeinWorkA *)work)->menuCtx,2,3,1); ++*state; break;
-    case 8: if(BR_FADE_GetResult((int *)**(int * *)&((struct CodeinWorkA *)work)->menuCtx)) ++*state; break;
-    case 9: BR_CODEIN_CallAndClearDestroyFn(work+0x4c,(int)work,(int)(((struct CodeinWorkA *)work)->menuCtx)); BR_UTIL_SetTaskStep(*(int * *)&((struct CodeinWorkA *)work)->backButton,(int)BR_CODEIN_MenuStepInput); break;
-    case 10: BR_FADE_Start(**(int * *)&((struct CodeinWorkA *)work)->menuCtx,2,3,1); *state=11; break;
-    case 11: if(BR_FADE_GetResult((int *)**(int * *)&((struct CodeinWorkA *)work)->menuCtx)) *state=12; break;
-    case 12: BR_CODEIN_CallAndClearDestroyFn(work+0x4c,(int)work,(int)(((struct CodeinWorkA *)work)->menuCtx)); BR_UTIL_ClearTaskStep(task); break;
+    case 4: BR_FADE_Start(**(int * *)&work->arg,2,3,1); *state=5; break;
+    case 5: if(BR_FADE_GetResult((int *)**(int * *)&work->arg)) *state=6; break;
+    case 6: BR_CODEIN_CallAndClearDestroyFn((char *)work+0x4c,(int)work,(int)(work->arg)); BR_UTIL_SetTaskStep(*(int * *)&work->task,(int)BR_CODEIN_MenuStepSave); break;
+    case 7: BR_FADE_Start(**(int * *)&work->arg,2,3,1); ++*state; break;
+    case 8: if(BR_FADE_GetResult((int *)**(int * *)&work->arg)) ++*state; break;
+    case 9: BR_CODEIN_CallAndClearDestroyFn((char *)work+0x4c,(int)work,(int)(work->arg)); BR_UTIL_SetTaskStep(*(int * *)&work->task,(int)BR_CODEIN_MenuStepInput); break;
+    case 10: BR_FADE_Start(**(int * *)&work->arg,2,3,1); *state=11; break;
+    case 11: if(BR_FADE_GetResult((int *)**(int * *)&work->arg)) *state=12; break;
+    case 12: BR_CODEIN_CallAndClearDestroyFn((char *)work+0x4c,(int)work,(int)(work->arg)); BR_UTIL_ClearTaskStep(task); break;
     }
 }
 
@@ -6594,21 +6585,21 @@ void BR_CODEIN_MenuStep(int *task,int *state,char *work) {
 /*
  * lever: Declare scalar locals before Point; assign the returned Point as a whole to p+0x4C. Separate word stores produced the wrong stack/copy schedule.
  */
-void BR_CODEIN_MenuStepInput(int *task,unsigned *state,char *work)
+void BR_CODEIN_MenuStepInput(int *task,unsigned *state,struct CodeinSoclWork *work)
 {
     unsigned x,y;
     SOCLResource a;
     switch(*state) {
     case 0:
         BR_CODEIN_CopySoclResource(&a);
-        *(SOCLResource *)(work+0x4c)=a;
-        BR_CODEIN_CallAndClearStepFn(work+0x4c,(int)work,*(int *)&((struct CodeinWorkA *)work)->menuCtx);
+        *(SOCLResource *)&work->fns=a;
+        BR_CODEIN_CallAndClearStepFn((char *)work+0x4c,(int)work,*(int *)&work->arg);
         ++*state; break;
     case 1:
-        BR_FADE_Start(**(int * *)&((struct CodeinWorkA *)work)->menuCtx,2,3,0);
+        BR_FADE_Start(**(int * *)&work->arg,2,3,0);
         ++*state; break;
     case 2:
-        if(BR_FADE_GetResult(**(int ** *)&((struct CodeinWorkA *)work)->menuCtx)) ++*state;
+        if(BR_FADE_GetResult(**(int ** *)&work->arg)) ++*state;
         break;
     case 3:
         if(TOUCHPANEL_GetPointTrg(&x,&y)) {
@@ -6617,22 +6608,22 @@ void BR_CODEIN_MenuStepInput(int *task,unsigned *state,char *work)
         }
         break;
     case 4:
-        BR_FADE_Start(**(int * *)&((struct CodeinWorkA *)work)->menuCtx,2,3,1);
+        BR_FADE_Start(**(int * *)&work->arg,2,3,1);
         ++*state; break;
     case 5:
-        if(BR_FADE_GetResult(**(int ** *)&((struct CodeinWorkA *)work)->menuCtx)) ++*state;
+        if(BR_FADE_GetResult(**(int ** *)&work->arg)) ++*state;
         break;
     case 6:
-        BR_CODEIN_CallAndClearDestroyFn(work+0x4c,(int)work,(int)(((struct CodeinWorkA *)work)->menuCtx));
+        BR_CODEIN_CallAndClearDestroyFn((char *)work+0x4c,(int)work,(int)(work->arg));
         BR_UTIL_SetTaskStep(task,(int)BR_CODEIN_MenuStepSave); break;
     case 7:
-        BR_FADE_Start(**(int * *)&((struct CodeinWorkA *)work)->menuCtx,2,3,1);
+        BR_FADE_Start(**(int * *)&work->arg,2,3,1);
         ++*state; break;
     case 8:
-        if(BR_FADE_GetResult(**(int ** *)&((struct CodeinWorkA *)work)->menuCtx)) ++*state;
+        if(BR_FADE_GetResult(**(int ** *)&work->arg)) ++*state;
         break;
     case 9:
-        BR_CODEIN_CallAndClearDestroyFn(work+0x4c,(int)work,(int)(((struct CodeinWorkA *)work)->menuCtx));
+        BR_CODEIN_CallAndClearDestroyFn((char *)work+0x4c,(int)work,(int)(work->arg));
         BR_UTIL_SetTaskStep(task,(int)BR_CODEIN_MenuStep); break;
     }
 }
@@ -6665,7 +6656,7 @@ void BR_CODEIN_MenuStepInput(int *task,unsigned *state,char *work)
  *     }
  * }
  */
-void BR_CODEIN_MenuStepSave(int *task,unsigned *state,char *work)
+void BR_CODEIN_MenuStepSave(int *task,unsigned *state,struct CodeinSoclWork *work)
 {
     Point initial;
     CodeinProfileConfig cfg;
@@ -6674,47 +6665,47 @@ void BR_CODEIN_MenuStepSave(int *task,unsigned *state,char *work)
     int r;
     switch(*state) {
     case 0:
-        if(!*(void **)(work+8)) *(void **)(work+8)=BR_UTIL_CreateTextWin(*(int *)(*(char **)(work+0x3c)+8),(void *)(*(int *)(work+4)),*(u16 *)(work+0x38));
-        BR_UTIL_SetWindowText(*(void **)(work+8),(char *)(*(int *)(*(char **)(work+0x3c)+8)),(void *)0x13d);
+        if(!work->textWin) work->textWin=BR_UTIL_CreateTextWin(*(int *)(work->arg+8),(void *)(*(int *)&work->printQue),work->heapId);
+        BR_UTIL_SetWindowText(work->textWin,(char *)(*(int *)(work->arg+8)),(void *)0x13d);
         initial.x=0x80;initial.y=0x60;
-        BR_UTIL_StartEffect((void *)(*(int *)(work+0x30)), 4, &initial);
-        BR_FADE_Start(**(int **)(work+0x3c),2,3,0);++*state;break;
-    case 1:if(BR_FADE_GetResult(**(int ***)(work+0x3c))) ++*state;break;
+        BR_UTIL_StartEffect((void *)(work->introFx), 4, &initial);
+        BR_FADE_Start(**(int * *)&work->arg,2,3,0);++*state;break;
+    case 1:if(BR_FADE_GetResult(**(int ** *)&work->arg)) ++*state;break;
     case 2:
-        *(int *)(work+0x44)=0;
-        *(u16 *)(work+0x40)=0;*(u16 *)(work+0x42)=0;
+        *(int *)&work->frames=0;
+        work->saveStatus[0]=0;work->saveStatus[1]=0;
         ++*state;break;
     case 3:
-        r=GDS_RAP_SaveVideoSeq((void *)(*(int *)(*(char **)(work+0x3c)+0x14)),*(int *)(work+0x10)+1,(unsigned char)(*(int *)(*(char **)(work+0x3c)+0x24)),(u16 *)(work+0x40),(u16 *)(work+0x42),*(u16 *)(work+0x38));
+        r=GDS_RAP_SaveVideoSeq((void *)(*(int *)(work->arg+0x14)),*(int *)&work->selectedIndex+1,(unsigned char)(*(int *)(work->arg+0x24)),(u16 *)((char *)work+0x40),(u16 *)((char *)work+0x42),work->heapId);
         if((unsigned)(r-2)<=1) {
-            *(int *)(*(char **)(work+0x3c)+0x28)=1;
-            *(int *)(*(char **)(work+0x3c)+0x2c)=*(int *)(work+0x10)+1;
+            *(int *)(work->arg+0x28)=1;
+            *(int *)(work->arg+0x2c)=*(int *)&work->selectedIndex+1;
             ++*state;
         }
-        ++*(int *)(work+0x44);break;
+        ++*(int *)&work->frames;break;
     case 4:
         MI_CpuFill8(&cfg,0,8);
         cfg.wide=BATTLE_REC_GetHeaderParam((u8 *)BATTLE_REC_GetHeader(),4,0);
-        BR_NET_StartRequest(*(char **)(*(char **)(work+0x3c)+12),8,(const int *)(&cfg));
-        BR_UTIL_SetWindowText(*(void **)(work+8),(char *)(*(int *)(*(char **)(work+0x3c)+8)),(void *)0x13f);
-        *(int *)(work+0x48)=0;++*(int *)(work+0x44);++*state;break;
+        BR_NET_StartRequest(*(char **)(work->arg+12),8,(const int *)(&cfg));
+        BR_UTIL_SetWindowText(work->textWin,(char *)(*(int *)(work->arg+8)),(void *)0x13f);
+        *(int *)&work->textFrames=0;++*(int *)&work->frames;++*state;break;
     case 5:
-        ++*(unsigned *)(work+0x44);++*(unsigned *)(work+0x48);
-        if(BR_NET_IsIdle(*(char **)(*(char **)(work+0x3c)+12)) && *(unsigned *)(work+0x44)>0x60 && *(unsigned *)(work+0x48)>0x3c) {
-            BR_UTIL_StartEffect((void *)(*(int *)(work+0x30)), 0, 0);
-            BR_UTIL_SetWindowText(*(void **)(work+8),(char *)(*(int *)(*(char **)(work+0x3c)+8)),(void *)0x140);
+        ++work->frames;++work->textFrames;
+        if(BR_NET_IsIdle(*(char **)(work->arg+12)) && work->frames>0x60 && work->textFrames>0x3c) {
+            BR_UTIL_StartEffect((void *)(work->introFx), 0, 0);
+            BR_UTIL_SetWindowText(work->textWin,(char *)(*(int *)(work->arg+8)),(void *)0x140);
             ++*state;
         }break;
     case 6:
         if(TOUCHPANEL_GetTrg()) {
             TOUCHPANEL_GetPointTrg((u32 *)(&x),(u32 *)(&y));pair.x=x;pair.y=y;
-            BR_UTIL_StartEffect((void *)(*(int *)(work+0x34)), 1, &pair);
+            BR_UTIL_StartEffect((void *)(work->tapFx), 1, &pair);
             GFL_USE_PlaySeDefaultVolume((int)0x703);++*state;
         }break;
-    case 7:BR_FADE_Start(**(int **)(work+0x3c),2,3,1);++*state;break;
-    case 8:if(BR_FADE_GetResult(**(int ***)(work+0x3c))) ++*state;break;
+    case 7:BR_FADE_Start(**(int * *)&work->arg,2,3,1);++*state;break;
+    case 8:if(BR_FADE_GetResult(**(int ** *)&work->arg)) ++*state;break;
     case 9:
-        if(*(void **)(work+8)) {BR_UTIL_DeleteTextWin(*(void **)(work+8),*(int *)(*(char **)(work+0x3c)+8));*(int *)(work+8)=0;}
+        if(work->textWin) {BR_UTIL_DeleteTextWin(work->textWin,*(int *)(work->arg+8));*(int *)&work->textWin=0;}
         BR_UTIL_ClearTaskStep(task);break;
     }
 }
@@ -6755,7 +6746,7 @@ void BR_CODEIN_CopySoclResource(SOCLResource *resource)
 /*
  * lever: Bounded permuter split the scaled index and delayed the base load, then introduced store-address temporaries after the constructor. Fixed one validated its behavior-preserving winning C.
  */
-void BR_CODEIN_SoclSetupText(char *work, const char *arg)
+void BR_CODEIN_SoclSetupText(struct CodeinSoclWork *work, const char *arg)
 {
   void *a;
   void *s;
@@ -6769,29 +6760,29 @@ void BR_CODEIN_SoclSetupText(char *work, const char *arg)
   void **textRef;
   void **textPtr;
   char *printQuePtr;
-  if (!(*((void **) (work + 8))))
-    *((void **) (work + 8)) = BR_UTIL_CreateTextWin(*((int *) (arg + 8)), (void *)(*((int *) (work + 4))), *((u16 *) (work + 0x38)));
+  if (!(*((void **) ((char *)work+8))))
+    *((void **) ((char *)work+8)) = BR_UTIL_CreateTextWin(*((int *) (arg + 8)), (void *)(*((int *) ((char *)work+4))), *((u16 *) ((char *)work+0x38)));
   a = (void *) BR_RES_GetWordSet(*((char **) (arg + 8)));
   s = MSGDATA_AllocString((struct MsgBank *)BR_RES_GetMsgData(*((char **) (arg + 8))), 0x141);
-  b = STRBUF_Create(0x80, *((u16 *) (work + 0x38)));
-  index = *((unsigned *) (work + 0x10));
+  b = STRBUF_Create(0x80, *((u16 *) ((char *)work+0x38)));
+  index = *((unsigned *) ((char *)work+0x10));
   index = index * 4;
   base = *((unsigned *) (arg + 0x18));
   WORDSET_SetSlotTag(a, 0, (const void *)(*((unsigned *) ((base + index) + 0x14))), *((unsigned *) ((((unsigned) base) + index) + 0x24)), 1, 2);
   WORDSET_CopyTaggedText(a, b, s);
-  BR_UTIL_SetWindowTextBuf(*((void **) (work + 8)), (void *)(*((int *) (arg + 8))), b);
+  BR_UTIL_SetWindowTextBuf(*((void **) ((char *)work+8)), (void *)(*((int *) (arg + 8))), b);
   STRBUF_Delete(b);
   STRBUF_Delete(s);
-  BR_RES_LoadBgGraphics((void *)(*((int *) (arg + 8))), 0x1e, *((u16 *) (work + 0x38)));
+  BR_RES_LoadBgGraphics((void *)(*((int *) (arg + 8))), 0x1e, *((u16 *) ((char *)work+0x38)));
   h = BR_RES_GetFont(*((char **) (arg + 8)));
   c = BR_RES_GetMsgData(*((char **) (arg + 8)));
   for (i = 0; i < 2; i++)
   {
     r = d_021E3928;
     r = r + (i * 8);
-    printQuePtr = work + 4;
-    *((void **) ((work + (i * 4)) + 0x28)) = BR_UTIL_Create(4, r[0], r[1], r[2], r[3], 14, *((void **) printQuePtr), *((u16 *) (work + 0x38)));
-    textPtr = (void **) (0x28 + (work + (i * 4)));
+    printQuePtr = (char *)work+4;
+    *((void **) (((char *)work+(i * 4)) + 0x28)) = BR_UTIL_Create(4, r[0], r[1], r[2], r[3], 14, *((void **) printQuePtr), *((u16 *) ((char *)work+0x38)));
+    textPtr = (void **) (0x28 + ((char *)work+(i * 4)));
     textRef = textPtr;
     BR_UTIL_SetTextFromMessage(*textRef, (void *)c, (void *)(*((int *) (r + 4))), (void *)h, 0x3da0);
   }
@@ -6802,19 +6793,19 @@ void BR_CODEIN_SoclSetupText(char *work, const char *arg)
 
 
 
-void BR_CODEIN_SoclTeardown(struct CodeinWorkD *work,struct CodeinArgA *arg)
+void BR_CODEIN_SoclTeardown(struct CodeinSoclWork *work,struct CodeinArgA *arg)
 {
     int i;
     for (i=0;i<2;i++) {
         if (*(void **)((char *)work+i*4+0x28)) {
-            BR_UTIL_Delete(*(void **)((char *)work+i*4+0x28));
+            BR_UTIL_Delete(work->text[i]);
             *(int *)((char *)work+i*4+0x28)=0;
         }
     }
     BG_SYS_PushTile(4);
     BR_RES_ApplyBgSet(arg->res,0x1e);
-    if (work->headerText) {
-        BR_UTIL_DeleteTextWin(work->headerText,arg->res);
-        *(int *)&work->headerText=0;
+    if (work->textWin) {
+        BR_UTIL_DeleteTextWin(work->textWin,arg->res);
+        *(int *)&work->textWin=0;
     }
 }

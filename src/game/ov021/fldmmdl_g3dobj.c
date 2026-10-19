@@ -51,28 +51,32 @@ typedef struct {
     u16 resMax;
     MmdlG3dObjRes *resTable;
 } MmdlG3dObjCont;
-extern u32 FLDMMDL_SysGetHeapId(u8 *p);
+struct MmdlSys;
+extern u32 FLDMMDL_SysGetHeapId(struct MmdlSys *sys);
 extern u32 GFL_HEAP_Free(void *p);
-extern void *FLDMMDL_GetMmdlSys(void *mmdl);
+struct Mmdl;
+extern struct MmdlSys *FLDMMDL_GetMmdlSys(struct Mmdl *mmdl);
 extern void *FLDMMDL_GetObjCodeParam(void *p);
-extern int FLDMMDL_CheckSameObjCodeOther(void *a, u32 id);
-extern u16 FLDMMDL_GetObjCode(void *p);
+extern int FLDMMDL_CheckSameObjCodeOther(struct Mmdl *mmdl, u32 objCode);
+extern u16 FLDMMDL_GetObjCode(struct Mmdl *mmdl);
 extern void *GFL_HEAP_Alloc(unsigned int heapId, unsigned int size, int clear, const char *site, unsigned short tag);
-extern u32 FLDMMDL_SysGetResArcHandle(u8 *p);
-extern u16 FLDMMDL_SysGetMmdlMax(void *p);
-extern void FLDMMDL_SysSetG3dObjCont(void *p, void *v);
-extern u32 FLDMMDL_SysGetG3dObjCont(u8 *p);
-extern void FIELD_G3DOBJ_DeleteResource(u8 *p, int i);
-extern void FIELD_G3DOBJ_InitResDesc(u32 a);
-extern void FIELD_G3DOBJ_SetResDescModel(u32 *, u32, u16);
-extern void FIELD_G3DOBJ_SetResDescAnimeArc(u32 *p, u32 v);
-extern void FIELD_G3DOBJ_AddResDescAnimeFile(u32 *, u16);
-extern u32 FIELD_G3DOBJ_AddResourceDefaultPal(u32, u32 *, u32);
+extern void *FLDMMDL_SysGetResArcHandle(struct MmdlSys *sys);
+extern u16 FLDMMDL_SysGetMmdlMax(struct MmdlSys *sys);
+extern void FLDMMDL_SysSetG3dObjCont(struct MmdlSys *sys, void *g3dObjCont);
+extern void *FLDMMDL_SysGetG3dObjCont(struct MmdlSys *sys);
+struct FieldG3dObjCtrl;
+extern void FIELD_G3DOBJ_DeleteResource(struct FieldG3dObjCtrl *ctrl, int resIdx);
+struct FieldG3dObjResDesc;
+extern void FIELD_G3DOBJ_InitResDesc(struct FieldG3dObjResDesc *desc);
+extern void FIELD_G3DOBJ_SetResDescModel(struct FieldG3dObjResDesc *desc, u32 arc, u32 file);
+extern void FIELD_G3DOBJ_SetResDescAnimeArc(struct FieldG3dObjResDesc *desc, unsigned int arc);
+extern void FIELD_G3DOBJ_AddResDescAnimeFile(struct FieldG3dObjResDesc *desc, unsigned short file);
+extern int FIELD_G3DOBJ_AddResourceDefaultPal(struct FieldG3dObjCtrl *ctrl, struct FieldG3dObjResDesc *desc, int mode);
 extern u8 *FLDMMDL_GetObjCodeParamMdlRes(u8 *p);
 extern u32 FIELD_G3DOBJ_AddObject(u32, u32, u32, u32);
-extern void FIELD_G3DOBJ_DeleteObject(u32, u32);
+extern void FIELD_G3DOBJ_DeleteObject(struct FieldG3dObjCtrl *ctrl, int objIdx);
 void FLDMMDL_G3DOBJ_Create(int a, int b);
-void FLDMMDL_G3DOBJ_Delete(u32 a);
+void FLDMMDL_G3DOBJ_Delete(struct MmdlSys *a);
 u32 FLDMMDL_G3DOBJ_GetObjCtrl(u32 a);
 void FLDMMDL_G3DOBJ_InitResTable(MmdlG3dObjCont *cont, int heapId);
 void FLDMMDL_G3DOBJ_DeleteResTable(MmdlG3dObjCont *cont);
@@ -80,7 +84,7 @@ u16 FLDMMDL_G3DOBJ_AddResEntry(MmdlG3dObjCont *cont, u32 code, u32 resIdx);
 u16 FLDMMDL_G3DOBJ_FindResIdx(MmdlG3dObjCont *cont, u16 code);
 u32 FLDMMDL_G3DOBJ_LoadRes(u32 mmdlSys, MmdlG3dObjCont *cont, u32 code, u16 *resParam);
 void FLDMMDL_G3DOBJ_DeleteResByCode(MmdlG3dObjCont *cont, u16 code);
-u32 FLDMMDL_G3DOBJ_AddObj(u32 a);
+u32 FLDMMDL_G3DOBJ_AddObj(struct Mmdl *a);
 void FLDMMDL_G3DOBJ_DelObj(u32 a, u32 b);
 extern unsigned char d_021DDD80[];
 
@@ -106,7 +110,7 @@ void FLDMMDL_G3DOBJ_Create(int mmdlSys, int objCtrl)
 {
     int heapId;
     MmdlG3dObjCont *cont;
-    heapId = FLDMMDL_SysGetHeapId((u8 *)mmdlSys);
+    heapId = FLDMMDL_SysGetHeapId((struct MmdlSys *)mmdlSys);
     cont = (MmdlG3dObjCont *)GFL_HEAP_Alloc(heapId, sizeof(MmdlG3dObjCont), 1, (const char *)d_021DDD80, 0x48);
     cont->mmdlSys = mmdlSys;
     cont->objCtrl = objCtrl;
@@ -114,15 +118,15 @@ void FLDMMDL_G3DOBJ_Create(int mmdlSys, int objCtrl)
     FLDMMDL_G3DOBJ_InitResTable(cont, heapId);
     FLDMMDL_SysSetG3dObjCont((void *)mmdlSys, cont);
 }
-void FLDMMDL_G3DOBJ_Delete(u32 mmdlSys)
+void FLDMMDL_G3DOBJ_Delete(struct MmdlSys *mmdlSys)
 {
-    MmdlG3dObjCont *cont = (MmdlG3dObjCont *)FLDMMDL_SysGetG3dObjCont((u8 *)mmdlSys);
+    MmdlG3dObjCont *cont = (MmdlG3dObjCont *)FLDMMDL_SysGetG3dObjCont((struct MmdlSys *)mmdlSys);
     FLDMMDL_G3DOBJ_DeleteResTable(cont);
     GFL_HEAP_Free(cont);
 }
 u32 FLDMMDL_G3DOBJ_GetObjCtrl(u32 mmdl)
 {
-    return ((MmdlG3dObjCont *)FLDMMDL_SysGetG3dObjCont((u8 *)((u32)FLDMMDL_GetMmdlSys((void *)mmdl))))->objCtrl;
+    return ((MmdlG3dObjCont *)FLDMMDL_SysGetG3dObjCont((struct MmdlSys *)((u32)FLDMMDL_GetMmdlSys((void *)mmdl))))->objCtrl;
 }
 /* Allocates resMax entries and marks every entry free (code 0xFFFF). */
 void FLDMMDL_G3DOBJ_InitResTable(MmdlG3dObjCont *cont, int heapId)
@@ -140,7 +144,7 @@ void FLDMMDL_G3DOBJ_DeleteResTable(MmdlG3dObjCont *cont)
     if (i < cont->resMax) {
         for (; i < cont->resMax; i++, res++) {
             if (res->code != 0xFFFF) {
-                FIELD_G3DOBJ_DeleteResource((u8 *)cont->objCtrl, res->resIdx);
+                FIELD_G3DOBJ_DeleteResource((struct FieldG3dObjCtrl *)cont->objCtrl, res->resIdx);
             }
         }
     }
@@ -181,21 +185,21 @@ u32 FLDMMDL_G3DOBJ_LoadRes(u32 mmdlSys, MmdlG3dObjCont *cont, u32 code, u16 *res
     u32 heapId;
     u32 resIdx;
     int i;
-    heapId = FLDMMDL_SysGetResArcHandle((u8 *)mmdlSys);
-    FIELD_G3DOBJ_InitResDesc((u32)resDesc);
+    heapId = (u32)FLDMMDL_SysGetResArcHandle((struct MmdlSys *)mmdlSys);
+    FIELD_G3DOBJ_InitResDesc((struct FieldG3dObjResDesc *)resDesc);
     if (resParam[0] != 0xFFFF) {
-        FIELD_G3DOBJ_SetResDescModel(resDesc, heapId, resParam[0]);
+        FIELD_G3DOBJ_SetResDescModel((struct FieldG3dObjResDesc *)resDesc, heapId, resParam[0]);
     }
     if (resParam[1] != 0xFFFF) {
-        FIELD_G3DOBJ_SetResDescModel(resDesc, heapId, resParam[1]);
+        FIELD_G3DOBJ_SetResDescModel((struct FieldG3dObjResDesc *)resDesc, heapId, resParam[1]);
     }
-    FIELD_G3DOBJ_SetResDescAnimeArc((u32 *)resDesc, heapId);
+    FIELD_G3DOBJ_SetResDescAnimeArc((struct FieldG3dObjResDesc *)resDesc, heapId);
     for (i = 0; i < 3; i++) {
         if (resParam[i + 2] != 0xFFFF) {
-            FIELD_G3DOBJ_AddResDescAnimeFile(resDesc, resParam[i + 2]);
+            FIELD_G3DOBJ_AddResDescAnimeFile((struct FieldG3dObjResDesc *)resDesc, resParam[i + 2]);
         }
     }
-    resIdx = FIELD_G3DOBJ_AddResourceDefaultPal(cont->objCtrl, resDesc, 0);
+    resIdx = FIELD_G3DOBJ_AddResourceDefaultPal((struct FieldG3dObjCtrl *)cont->objCtrl, (struct FieldG3dObjResDesc *)resDesc, 0);
     FLDMMDL_G3DOBJ_AddResEntry(cont, code, resIdx);
     return resIdx;
 }
@@ -206,13 +210,13 @@ void FLDMMDL_G3DOBJ_DeleteResByCode(MmdlG3dObjCont *cont, u16 code)
     MmdlG3dObjRes *res = cont->resTable;
     for (i = 0; i < max; i++, res++) {
         if (res->code == code) {
-            FIELD_G3DOBJ_DeleteResource((u8 *)cont->objCtrl, res->resIdx);
+            FIELD_G3DOBJ_DeleteResource((struct FieldG3dObjCtrl *)cont->objCtrl, res->resIdx);
             res->code = 0xFFFF;
             return;
         }
     }
 }
-u32 FLDMMDL_G3DOBJ_AddObj(u32 mmdl)
+u32 FLDMMDL_G3DOBJ_AddObj(struct Mmdl *mmdl)
 {
     u16 *objCode;
     u32 mmdlSys;
@@ -220,7 +224,7 @@ u32 FLDMMDL_G3DOBJ_AddObj(u32 mmdl)
     u32 resIdx;
     objCode = FLDMMDL_GetObjCodeParam((void *)mmdl);
     mmdlSys = (u32)FLDMMDL_GetMmdlSys((void *)mmdl);
-    cont = (MmdlG3dObjCont *)FLDMMDL_SysGetG3dObjCont((u8 *)mmdlSys);
+    cont = (MmdlG3dObjCont *)FLDMMDL_SysGetG3dObjCont((struct MmdlSys *)mmdlSys);
     resIdx = FLDMMDL_G3DOBJ_FindResIdx(cont, *objCode);
     if (resIdx == 0xFFFF) {
         resIdx = FLDMMDL_G3DOBJ_LoadRes(mmdlSys, cont, *objCode, (u16 *)FLDMMDL_GetObjCodeParamMdlRes((u8 *)objCode));
@@ -229,9 +233,9 @@ u32 FLDMMDL_G3DOBJ_AddObj(u32 mmdl)
 }
 void FLDMMDL_G3DOBJ_DelObj(u32 mmdl, u32 objIdx)
 {
-    MmdlG3dObjCont *cont = (MmdlG3dObjCont *)FLDMMDL_SysGetG3dObjCont(FLDMMDL_GetMmdlSys((void *)mmdl));
+    MmdlG3dObjCont *cont = (MmdlG3dObjCont *)FLDMMDL_SysGetG3dObjCont((struct MmdlSys *)FLDMMDL_GetMmdlSys((void *)mmdl));
     u16 code = FLDMMDL_GetObjCode((void *)mmdl);
-    FIELD_G3DOBJ_DeleteObject(cont->objCtrl, objIdx);
+    FIELD_G3DOBJ_DeleteObject((struct FieldG3dObjCtrl *)cont->objCtrl, objIdx);
     if (FLDMMDL_CheckSameObjCodeOther((void *)mmdl, code) == 0) {
         FLDMMDL_G3DOBJ_DeleteResByCode(cont, code);
     }

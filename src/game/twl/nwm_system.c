@@ -21,6 +21,10 @@
  *   PM_DeletePreSleepCallback  0x0208C86C  arm  arm9
  *   DC_InvalidateRange  0x020862B8  arm  arm9
  *   DC_StoreRange  0x020862D4  arm  arm9
+ *   NWMi_SysWorkPtr  0x027341A4  data
+ *   NWMi_PostExitInfo  0x027341A8  data
+ *   NWMi_PreSleepInfo  0x027341B8  data
+ *   OSi_SystemWorkVblankCount  0x02FFFC3C  data
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -41,16 +45,17 @@ typedef struct Msg {
 
 extern void DC_InvalidateRange(u32, u32);
 extern void DC_StoreRange(u32, u32);
-extern void PM_DeletePostExitCallback(u32);
+struct PMiGenCallbackInfo;
+extern void PM_DeletePostExitCallback(struct PMiGenCallbackInfo *info);
 extern void MI_CpuFill8(u32, u32, u32);
 extern void OS_GetMacAddress(u8 *);
-extern void PMi_InsertPreSleepCallbackEx(u32 *, u32);
-extern void PM_DeletePreSleepCallback(u32 *);
+extern void PMi_InsertPreSleepCallbackEx(struct PMiGenCallbackInfo *info, int priority);
+extern void PM_DeletePreSleepCallback(struct PMiGenCallbackInfo *info);
 extern void OS_Terminate(void);
-extern u32 data_027341A4[];
-extern u32 DAT_027341a8[];
-extern u32 data_027341B8[];
-extern u32 data_02FFFC3C[];
+extern u32 NWMi_SysWorkPtr[];
+extern u32 NWMi_PostExitInfo[];
+extern u32 NWMi_PreSleepInfo[];
+extern u32 OSi_SystemWorkVblankCount[];
 
 u32 NWMi_GetSystemWork(void);
 void NWMi_ClearFifoRecvFlag(void);
@@ -65,14 +70,14 @@ void NwmSleepCallback(void);
 extern u32 NWMi_CheckInitialized(void);
 
 u32 NWMi_GetSystemWork(void) {
-    return data_027341A4[0];
+    return NWMi_SysWorkPtr[0];
 }
 
 void NWMi_ClearFifoRecvFlag(void) {
     u8 val;
     u8 *r5;
     u32 r4;
-    u32 base = data_027341A4[0];
+    u32 base = NWMi_SysWorkPtr[0];
     if (base != 0) {
         r5 = (u8 *)*(u32 *)(base + 0x2274);
         r4 = 1;
@@ -86,7 +91,7 @@ void NWMi_ClearFifoRecvFlag(void) {
 }
 
 void NWMi_ReceiveFifo9(u32 tag, Msg *msg, u32 err) {
-    u32 base = data_027341A4[0];
+    u32 base = NWMi_SysWorkPtr[0];
     void (*handler)(Msg *);
     u32 type;
     if (base == 0) {
@@ -116,7 +121,7 @@ void NWMi_ReceiveFifo9(u32 tag, Msg *msg, u32 err) {
     type = msg->type;
     if (type != 0xB) {
         if (type == 4 || type == 0x13 || (type == 3 && msg->sub != 0)) {
-            PM_DeletePostExitCallback((u32)DAT_027341a8);
+            PM_DeletePostExitCallback((struct PMiGenCallbackInfo *)NWMi_PostExitInfo);
         }
         type = msg->type;
         handler = *(void (**)(Msg *))(base + type * 4 + 0x2284);
@@ -186,7 +191,7 @@ u16 NWM_GetDispersionScanPeriod(u32 type) {
     for (sum = i = 0; i < 6; i++) {
         sum += mac[i];
     }
-    sum += (u16)data_02FFFC3C[0];
+    sum += (u16)OSi_SystemWorkVblankCount[0];
     v = sum * 13;
     if (type == 1) {
         return v % 10 + 0x1E;
@@ -195,14 +200,14 @@ u16 NWM_GetDispersionScanPeriod(u32 type) {
 }
 
 void NWMi_RegisterSleepCallback(void) {
-    data_027341A4[5] = (u32)NwmSleepCallback;
-    data_027341A4[6] = 0;
-    PMi_InsertPreSleepCallbackEx(data_027341B8, 0xFFFF);
+    NWMi_SysWorkPtr[5] = (u32)NwmSleepCallback;
+    NWMi_SysWorkPtr[6] = 0;
+    PMi_InsertPreSleepCallbackEx((struct PMiGenCallbackInfo *)NWMi_PreSleepInfo, 0xFFFF);
 }
 
 void NWMi_DeleteSleepCallback(void)
 {
-    PM_DeletePreSleepCallback(data_027341B8);
+    PM_DeletePreSleepCallback((struct PMiGenCallbackInfo *)NWMi_PreSleepInfo);
 }
 
 /* Tail stub: forwards to OS_Terminate. */

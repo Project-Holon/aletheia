@@ -343,23 +343,22 @@ typedef struct GTI2Socket GTI2Socket;
 enum E { E_OK, E_A, E_B, E_C, E_D, E_E, E_NET };
 
 /* callees */
-extern int DWCi_IsError(void);
+#include "../arm9/dwc_error.h"
 extern int DWC_GetState(void);
-extern void DWC_Free(int name, void *ptr, u32 size);
-extern void *DWC_Alloc(int name, u32 size);
+#include "../arm9/dwc_memfunc.h"
 extern char *strcpy(char *dst, const char *src);
-extern void qr2_register_keyA(int keyid, char *key);
+#include "qr2regkeys.h"
 extern int DWC_GetAIDBitmap(void);
 extern unsigned char DWC_GetMyAID(void);
 extern int gt2GetSocketSOCKET(void *socket);
-extern unsigned short gt2GetLocalPort(void *socket);
+extern unsigned short gt2GetLocalPort(struct GTI2Socket *socket);
 extern void qr2_register_publicaddress_callback(void *qrec, void *cb);
 extern void qr2_register_natneg_callback(void *qrec, void *cb);
 extern void qr2_register_clientmessage_callback(void *qrec, void *cb);
-extern void DWC_Free(int name, void *ptr, unsigned int size);
-extern void *DWC_Alloc(int name, unsigned int size);
 extern void MI_CpuFill8(void *dstp, unsigned char data, unsigned int size);
-extern unsigned long long OS_GetTick(void);
+typedef int BOOL;
+typedef unsigned long long OSTick;
+#include "../arm9/os_tick.h"
 extern void DWCi_StopMatch(int error, int errorCode);
 extern int DWCi_RetryReserving(int resendPid);
 extern int DWCi_StopMeshMaking(void);
@@ -394,7 +393,7 @@ extern void NNFreeNegotiateList(void);
 extern int DWCi_RequestSuspendMatchProcess(void);
 extern int DWCi_SendServerPolling(int immediate);
 extern void MIi_CpuClear32(unsigned int data, void *destp, unsigned int size);
-extern int memcmp(const u8 *a, const u8 *b, int n);
+#include "../arm9/msl_string_mem.h"
 extern void gt2Reject(void * connection, void * message, int code);
 extern unsigned int strtoul(const char * s, char ** end, int base);
 extern int DWCi_GT2GetConnectionListIdx(void);
@@ -403,23 +402,22 @@ extern void ** DWCi_GetGT2ConnectionByIdx(int index);
 extern struct DWCstConnectionInfo * DWCi_GetConnectionInfoByIdx(int index);
 extern void DWCi_ResetLastSomeDataRecvTimeByAid(u8 aid);
 extern void gt2SetConnectionData(void * connection, void * data);
-extern int OS_SNPrintf(char *dst, unsigned int len, const char *fmt, ...);
-extern char *gt2AddressToString(unsigned int ip, unsigned short port, char *string);
+#include "../arm9/os_printf.h"
+#include "gt2utility.h"
 extern int gt2Connect(void *socket, void **connection, char *remoteAddress, unsigned char *message, int len, int timeout, void *callbacks, int blocking);
 static int DWCi_HandleGT2Error(int result);
 extern int DWC_Base64Decode(const char *src, int srclen, void *dst, int dstlen);
-extern void DWCi_SetError(int error, int errorCode);
-extern int DWCi_GetFriendListIndex(int pid);
+#include "dwc_friend.h"
 extern int DWCi_IsFullMesh(void);
 extern void DWCi_ProcessMatchSynPacketSub_FullMesh(unsigned char aid, unsigned short type, unsigned char *data);
 extern void DWCi_ProcessMatchSynPacketSub_Hybrid(unsigned char aid, unsigned short type, unsigned char *data);
-extern unsigned int DWCi_GetMathRand32(unsigned int max);
+#include "dwc_common.h"
 extern void DWCi_SendTypeMatchAck(void);
 extern void *ServerBrowserNewA(char *queryForGamename, char *queryFromGamename, char *queryFromKey, int queryFromVersion, int maxConcUpdates, int queryVersion, int lanBrowse, void *callback, void *instance);
 extern void qr2_think(qr2_implementation_s *qr2Obj);
 extern void MI_CpuCopy8(const void *srcp, void *dstp, unsigned int size);
 extern struct SBServer *ServerBrowserGetServer(struct SBServer *sb, int index);
-extern int SBServerGetIntValueA(struct SBServer *server, char *key, int idefault);
+#include "sb_server.h"
 extern void qr2_shutdown(qr2_implementation_s *qrec);
 extern void qr2_parse_queryA(qr2_implementation_s *qr2, unsigned char *message, int len, SOCSockAddrIn *saddr);
 extern void NNProcessData(char *data, int len, SOCSockAddrIn *fromaddr);
@@ -429,16 +427,13 @@ extern int qr2_init_socketA(qr2_implementation_s **qrec, int s, int boundport, c
 extern int DWC_IsServerMyself(void);
 extern void NNCancel(int cookie);
 extern void gt2CloseAllConnectionsHard(int *p);
-extern int DWC_SetCommonKeyValueString(const char *key, const char *value, char *string, char sep);
-extern int DWC_AddCommonKeyValueString(const char *key, const char *value, char *string, char sep);
-extern int DWCi_SetGPStatus(int status, const char *statusString, const char *locString);
 void DWCi_SetMatchCnt(DWCstMatchControl *a);
 extern void DWCi_ClearGameMatchKeys(void);
 extern void DWCi_NodeInfoList_Clear(void);
 extern void ServerBrowserClear(void *p);
 extern int ServerBrowserLimitUpdateA(struct ServerBrowser *sb, int async, int disconnectOnComplete, unsigned char *basicFields, int numBasicFields, char *serverFilter, int maxServers);
 extern u32 ServerBrowserGetMyPublicIPAddr(void * sb);
-extern long SOC_GetHostID(void);
+#include "soc.h"
 extern int IsPrivateAddr(u32 addr);
 int DWCi_DoNatNegotiationAsync(DWCstNNInfo *nnInfo);
 extern int ServerBrowserSendNatNegotiateCookieToServerA(struct ServerBrowser *sb, char *ip, unsigned short port, int cookie);
@@ -466,8 +461,7 @@ extern int DWCi_IsFriendByIdxList(int profileID);
 extern int DWCi_GetNumEntry(void);
 extern int DWC_GetSuspendMatch(void);
 extern void * DWCi_GetUserData(void);
-extern int DWC_GetGsProfileId(void * userdata, void * frienddata);
-extern int DWCi_Acc_IsValidFriendDataThunk(void * frienddata);
+#include "../arm9/dwc_account.h"
 extern int gpGetBuddyIndex(void * connection, int profile, int * index);
 extern int gpGetBuddyStatus(void * connection, int index, struct GPBuddyStatus * status);
 unsigned char DWCi_IsLockedBuddyStatus(char *buddyStatus);
@@ -486,21 +480,14 @@ extern void gt2CloseConnectionHard(int a);
 extern int DWCi_SendReliable(u16 type, u8 aid, void * buffer, int size);
 int DWCi_ServerSynTimeoutExec(void);
 extern int DWCi_SendCancelMatchSynCommand(int profileID, u8 command);
-extern int DWCi_GetProfileIDFromList(int idx);
 extern void DWCi_StopLogin(int dwcError, int errorCode);
 extern int ServerBrowserCount(void *sb);
 extern void ServerBrowserRemoveServer(void *sb, void *server);
-extern u32 SBServerGetPublicInetAddress(void *server);
-extern unsigned short SBServerGetPublicQueryPort(void *server);
-extern u32 SBServerGetPrivateInetAddress(void *server);
-extern unsigned short SBServerGetPrivateQueryPort(void *server);
-extern int SBServerHasPrivateAddress(void *server);
 extern int DWCi_StartMatch(void);
 extern unsigned char DWCi_NodeInfoList_GetFreeAID(void);
 extern void DWCi_RandomizeServers(void);
 void DWCi_ConnectToGameServerAsync_InterChange(void);
 extern int DWCi_CancelReservation(int pid);
-extern void SBServerAddIntKeyValue(void *server, char *keyname, int value);
 extern void ServerBrowserSortA(struct ServerBrowser *sb, int ascending, char *sortkey, int comparemode);
 extern int qr2_buffer_add_int(void *outbuf, int value);
 extern int qr2_buffer_addA(void *outbuf, char *value);
@@ -510,7 +497,6 @@ extern int DWCi_ProcessRecvMatchCommand(unsigned char command, int srcPid,
 extern int DWCi_HandleNNResult(int result);
 extern int DWCi_ProcessNNFailure(int ignoreError);
 extern void DWC_GetNumConnectionHost(void);
-extern int DWC_GetCommonValueString(char *key, char *value, char *string, char separator);
 int DWC_CancelMatch(void);
 int DWC_IsValidCancelMatch(void);
 u8 DWC_AddMatchKeyInt(u8 keyID, char *keyString, int *valueSrc);
@@ -6385,7 +6371,7 @@ unsigned char DWCi_IsLockedBuddyStatus(char *buddyStatus)
     char buf[4] = {0};
     unsigned char r = 0;
 
-    if (DWC_GetCommonValueString((char *)0x021A208Cu, buf, buddyStatus + 8, 0x2F) > 0)
+    if (DWC_GetCommonValueString(d_021A208C, buf, buddyStatus + 8, 0x2F) > 0)
         r = (unsigned char)(u32)(strtoul((const char *)((u32)buf), (char **)(0), (int)(10)));
     return r;
 }

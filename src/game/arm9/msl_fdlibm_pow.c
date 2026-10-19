@@ -26,6 +26,16 @@
  *   __kernel_rem_pio2  0x0209953C  arm
  *   npio2_hw  0x020A6320  data
  *   two_over_pi  0x020A63A0  data
+ *   _dadd                        0x0209AC04  arm
+ *   _ddiv                        0x0209D1E0  arm
+ *   _deq                         0x0209BA3C  arm
+ *   _dfix                        0x0209C508  arm
+ *   _dflt                        0x0209B750  arm
+ *   _dgr                         0x0209B864  arm
+ *   _dleq                        0x0209B8FC  arm
+ *   _dmul                        0x0209B2E8  arm
+ *   _dsub                        0x0209AF34  arm
+ *   _f2d                         0x0209BD38  arm
  */
 #include "msl_crt_shared_types.h"
 

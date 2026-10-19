@@ -25,28 +25,33 @@
  *   PARTICLE_LoadArchiveMember  0x0205121C  arm  arm9
  *   PARTICLE_GetEffectCount  0x02051614  arm  arm9
  *   PARTICLE_EMITTER_GetBlock  0x02051788  arm  arm9
+ *   G3D_CAMERA_SetFar            0x02048B6C  arm
+ *   G3D_CAMERA_SetNear           0x02048B60  arm
  */
 #include "fld3d_ci_types.h"
 
 extern void *GFL_HEAP_Alloc(u32, u32, int, const char *, u16);
 
 extern void PARTICLE_InitManager(u32);
+struct ParticleSys;
 
-extern void *PARTICLE_CreateSystemDefault(int a, int b, int c, int d);
+extern struct ParticleSys *PARTICLE_CreateSystemDefault(u32 workBuf, u32 workSize, u32 withCamera, u32 heapId);
+struct Obj3D;
 
-extern void *PARTICLE_EMITTER_GetBlock(void *effect);
+extern s32 PARTICLE_EMITTER_GetBlock(struct Obj3D *p);
+struct G3dCamera;
 
-extern void G3D_CAMERA_SetNear(void *effect, const u32 *in);
+extern void G3D_CAMERA_SetNear(struct G3dCamera *camera, u32 *in);
 
-extern void G3D_CAMERA_SetFar(void *effect, const u32 *in);
+extern void G3D_CAMERA_SetFar(struct G3dCamera *camera, u32 *in);
 
-extern void PARTICLE_DeleteSystem(void *effect);
+extern void PARTICLE_DeleteSystem(struct ParticleSys *sys);
 
-extern int PARTICLE_LoadArchiveMember(u32 a, u32 b, u32 c);
+extern void *PARTICLE_LoadArchiveMember(u32 a, u32 b, u32 c);
 
 extern u32 PARTICLE_SetupSystem(u32, u32, u32, u32);
 
-extern int PARTICLE_GetEffectCount(int **p);
+extern int PARTICLE_GetEffectCount(struct ParticleSys *sys);
 
 extern u32 GFL_HEAP_Free(void *p);
 
@@ -93,7 +98,7 @@ void *FLD_PARTICLE_CreateEffect(FldParticle *particle)
     void *effect;
 
     particle->effect = PARTICLE_CreateSystemDefault((int)particle->workBuffer, 0x4800, 1, particle->heapId);
-    effect = PARTICLE_EMITTER_GetBlock(particle->effect);
+    effect = (void *)PARTICLE_EMITTER_GetBlock(particle->effect);
     effectScale = 1 << 12;
     effectRange = 0x384000;
     G3D_CAMERA_SetNear(effect, &effectScale);
@@ -128,7 +133,7 @@ int FLD_PARTICLE_IsEffectFinished(FldParticle *particle)
 {
     if (particle->effect == 0)
         return 1;
-    if (PARTICLE_GetEffectCount((int **)particle->effect) == 0)
+    if (PARTICLE_GetEffectCount((struct ParticleSys *)particle->effect) == 0)
         return 1;
     return 0;
 }

@@ -74,18 +74,20 @@ typedef struct Demo3dCruiserGfx {
 
 typedef unsigned char u8;
 
-extern void *ARC_TOOL_CreateHandle(unsigned int id, unsigned int heap);
+extern void *ARC_TOOL_CreateHandle(unsigned int archiveID, unsigned short heapID);
 extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *, unsigned, unsigned, unsigned, unsigned, unsigned short);
 extern u32 ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void ARC_UTIL_UploadBgPaletteFromHandle(void *, unsigned, unsigned, unsigned, unsigned, unsigned, unsigned short);
 extern void ARC_TOOL_DeleteHandle(void *);
 extern void *GFL_HEAP_Alloc(unsigned, unsigned, int, const char *, unsigned short);
 extern int DEMO3D_ENGINE_GetFrame(char *p);
-extern int DEMO3D_GRAPHIC_GetUnit(char *p);
+struct Demo3dGraphic;
+extern int DEMO3D_GRAPHIC_GetUnit(struct Demo3dGraphic *p);
 extern void UI_SCENE_LoadActorGfx(Demo3dCruiserActorGfx *, Demo3dCruiserActorConfig *, int, unsigned short);
 extern int UI_SCENE_CreateActor(Demo3dCruiserActorGfx *, int, unsigned char, unsigned char, unsigned char, unsigned short);
-extern void CLACT_SetActorDrawEnable(struct Obj *, unsigned);
-extern void CLACT_SetActorAutoAnim(struct Obj *, unsigned);
+struct Actor;
+extern void CLACT_SetActorDrawEnable(struct Actor *actor, unsigned int value);
+extern void CLACT_SetActorAutoAnim(struct Actor *actor, unsigned int enable);
 extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
 extern void BG_SYS_SetSubPlaneVisible(unsigned, unsigned);
 extern void CLACT_AddActorSurfacePos(struct Obj *, const struct Vec2 *, unsigned);
@@ -135,8 +137,8 @@ void DEMO3D_EXP_C_CRUISER_Create(Demo3dCruiserWork *p)
     config.visible = 1;
     UI_SCENE_LoadActorGfx(&a->actorGfx, &config, resource, p->heapId);
     a->actor = (struct Obj *)UI_SCENE_CreateActor(&a->actorGfx, resource, d_021C3BD0[a->step].x, d_021C3BD0[a->step].y, 0, p->heapId);
-    CLACT_SetActorDrawEnable(a->actor, 1);
-    CLACT_SetActorAutoAnim(a->actor, 1);
+    CLACT_SetActorDrawEnable((struct Actor *)a->actor, 1);
+    CLACT_SetActorAutoAnim((struct Actor *)a->actor, 1);
     BG_SYS_SetPlaneVisible(6, 1);
     BG_SYS_SetSubPlaneVisible(16, 1);
 }
@@ -150,7 +152,7 @@ void DEMO3D_EXP_C_CRUISER_Update(Demo3dCruiserWork *p)
         CLACT_AddActorSurfacePos(a->actor, d_021C3BD0 + a->step, 1);
         ++a->step;
         if (*(volatile unsigned char *)&a->step == 54)
-            CLACT_SetActorDrawEnable(a->actor, 0);
+            CLACT_SetActorDrawEnable((struct Actor *)a->actor, 0);
     }
 }
 

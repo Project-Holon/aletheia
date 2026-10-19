@@ -165,7 +165,7 @@ extern void rtcWork(void);
 extern RTCWeek RTC_GetDayOfWeek(RTCDate *date);
 extern int RTCi_WriteRawStatus2Async(void);
 extern int OS_IsRunOnTwl(void);
-extern RTCResult RTCEXi_CommonCallback(void);
+extern u32 RTCEXi_CommonCallback(void);
 extern void g_0215142C(void);
 void RTC_Init(void);
 RTCResult RTC_GetDate(RTCDate *date);

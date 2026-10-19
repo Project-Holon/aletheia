@@ -182,25 +182,30 @@ extern void NNS_GfdLoadVramManager(u32 *table);
 
 extern u32 NNS_GfdFreeTexVram(u32 handle);
 
-extern void NNSi_GfdSetVramManagerWork(u32 *table);
+extern void NNSi_GfdSetVramManagerWork(void *pWork);
 
 extern int NNS_GfdFreePlttVram(u32 handle);
 
-extern u32 G3D_CAMERA_Delete(struct ParticleCamera *camera);
+extern u32 G3D_CAMERA_Delete(void *camera);
 
-extern struct ParticleCamera *ARC_TOOL_LoadMember(u32 archiveId, u32 member, u32 heapId);
+extern void *ARC_TOOL_LoadMember(u32 archiveID, u32 memberIdx, u16 heapID);
 
-extern int G3D_SYSTEM_GetTexManagerMode(void);
+extern u32 G3D_SYSTEM_GetTexManagerMode(void);
 
-extern int G3D_SYSTEM_GetPlttManagerMode(void);
+extern u32 G3D_SYSTEM_GetPlttManagerMode(void);
 
 extern void NNS_GfdSaveVramManager(u32 *table);
+struct Arena02146B74;
 
-extern void NNSi_GfdGetVramManagerWork(u32 *table);
+extern void NNSi_GfdGetVramManagerWork(struct Arena02146B74 *dst);
+struct VramHeapHeader;
+struct VramTexHeap;
 
-extern void SPL_EMITTER_FreeNodeToHeap(struct ParticleEngine *engine, void *block);
+extern void SPL_EMITTER_FreeNodeToHeap(struct VramTexHeap *h, struct VramHeapHeader *d);
+struct TcbSystem;
+struct TcbTask;
 
-extern void TCB_AddTask(u32 taskMgr, void (*proc)(struct TaskNode *task, struct ParticleSys *sys), struct ParticleSys *work, u32 priority);
+extern struct TcbTask *TCB_AddTask(struct TcbSystem *sys, void (*proc)(struct TaskNode *task, struct ParticleSys *sys), void *work, unsigned int priority);
 
 unsigned int PARTICLE_AllocTexVramOffset(int szByte, int is4x4comp, int unused2, int unused3);
 
@@ -210,29 +215,36 @@ int PARTICLE_AllocVramOffset(int a, int b);
 
 u32 PARTICLE_AllocPlttVramTracked(u32 a, u32 b);
 
-extern void SPL_EMITTER_AllocPlttVramDefault(struct ParticleEngine *engine);
+extern void SPL_EMITTER_AllocPlttVramDefault(u32 rigObject);
 
-extern void SPL_EMITTER_AllocTexVramDefault(struct ParticleEngine *engine);
+extern void SPL_EMITTER_AllocTexVramDefault(u32 rigObject);
+struct RigObject;
 
-extern int  SPL_EMITTER_AllocPlttVramList(struct ParticleEngine *engine, ParticleLoadFn fn);
+extern int  SPL_EMITTER_AllocPlttVramList(struct RigObject *o, ParticleLoadFn fn);
 
-extern int  SPL_EMITTER_AllocTexVramList(struct ParticleEngine *engine, ParticleLoadFn fn);
+extern int  SPL_EMITTER_AllocTexVramList(struct RigObject *o, ParticleLoadFn fn);
+struct TcbTask;
 
-extern void TCB_DeleteTask(struct TaskNode *task);
+extern void TCB_DeleteTask(struct TcbTask *task);
+struct G3dProjection;
 
-extern void G3D_SYSTEM_GetProjection(SavedGxState *dst);
+extern void G3D_SYSTEM_GetProjection(struct G3dProjection *proj);
 
-extern void G3D_SYSTEM_SetProjection(const SavedGxState *src);
+extern void G3D_SYSTEM_SetProjection(struct G3dProjection *proj);
+struct G3dLookAt;
 
-extern void G3D_SYSTEM_GetLookAt(Mtx33 *dst);
+extern void G3D_SYSTEM_GetLookAt(struct G3dLookAt *lookAt);
+struct G3dLookAt;
 
-extern void G3D_SYSTEM_SetLookAt(Mtx33 *src);
+extern void G3D_SYSTEM_SetLookAt(struct G3dLookAt *lookAt);
 
 extern void G3D_SYSTEM_ApplyLookAt(void);
+struct G3dCamera;
 
-extern void G3D_CAMERA_Reset(struct ParticleCamera *camera);
+extern void G3D_CAMERA_Reset(struct G3dCamera *camera);
+struct VramHeapHead;
 
-extern void SPL_EMITTER_FreeNodeHeap(struct ParticleEngine *engine, const u32 *drawParams);
+extern void SPL_EMITTER_FreeNodeHeap(struct VramHeapHead *h, unsigned int a);
 
 extern void NNS_G3dGlbBaseTrans(Vec3 *p);
 
@@ -246,17 +258,15 @@ extern void MTX_Identity33_(Mtx33 *p);
 
 extern int SPL_EMITTER_FreeTexNode(struct ParticleEngine *engine);
 
-extern int SPL_EMITTER_AllocResource(struct ParticleEngine *engine, int resId, int arg);
+extern int SPL_EMITTER_AllocResource(char *p, int b, int c);
 
-extern int SPL_EMITTER_AllocResourceEx(struct ParticleEngine *engine, int resId, void (*callback)(void *));
+extern int SPL_EMITTER_AllocResourceEx(char *p, int b, void (*callback)(void *));
 
-extern void SPL_EMITTER_FreeResourceList(struct ParticleEngine *engine);
+extern void SPL_EMITTER_FreeResourceList(void *p);
 
-extern void SPL_EMITTER_FreeResource(struct ParticleEngine *engine, void *effect);
+extern void SPL_EMITTER_FreeResource(char *p, char *q);
 
-extern struct ParticleCamera *G3D_CAMERA_Create(u32 projType, u32 fovSin, u32 fovCos, u32 aspect,
-                                            u32 orthoExtent, u32 nearZ, u32 farZ, u32 projScale,
-                                            Vec3 *pos, Vec3 *target, Vec3 *up, int heapId);
+extern u32 *G3D_CAMERA_Create(u32 mode, u32 nearClip, u32 farClip, u32 fieldOfView, u32 aspectRatio, u32 scale, u32 roll, u32 flags, Vec3 *eye, Vec3 *target, Vec3 *up, u16 heapID);
 
 void PARTICLE_InitManager(u32 heapId);
 
@@ -829,7 +839,7 @@ void PARTICLE_SetupSystem(struct ParticleSys *sys, void *block, u32 applyNow, u3
         sys->texCount = z;
     }
     if (mode & PARTICLE_LOAD_PAL_BULK) {
-        NNSi_GfdGetVramManagerWork(sys->palHandles);
+        NNSi_GfdGetVramManagerWork((struct Arena02146B74 *)sys->palHandles);
         sys->palLoadFn = (ParticleLoadFn)PARTICLE_AllocVramOffset;
     } else if (mode & PARTICLE_LOAD_PAL_ENTRY) {
         for (i = 0; i < 0x40; i++)
@@ -839,14 +849,14 @@ void PARTICLE_SetupSystem(struct ParticleSys *sys, void *block, u32 applyNow, u3
     }
     engine = sys->engine;
     sys->resourceBlock = block;
-    SPL_EMITTER_FreeNodeToHeap(engine, block);
+    SPL_EMITTER_FreeNodeToHeap((struct VramTexHeap *)engine, block);
     if (applyNow == 1) {
         PARTICLE_ApplyLoadHandlers(sys);
         return;
     }
     if (taskMgr == 0)
         return;
-    TCB_AddTask(taskMgr, PARTICLE_ApplyLoadHandlersTask, sys, 0);
+    TCB_AddTask((struct TcbSystem *)taskMgr, PARTICLE_ApplyLoadHandlersTask, sys, 0);
 }
 
 /*
@@ -906,16 +916,16 @@ void PARTICLE_ApplyLoadHandlers(struct ParticleSys *sys)
     fn = sys->texLoadFn;
     engine = sys->engine;
     if (fn == 0)
-        SPL_EMITTER_AllocTexVramDefault(engine);
+        SPL_EMITTER_AllocTexVramDefault((u32)engine);
     else
-        SPL_EMITTER_AllocTexVramList(engine, fn);
+        SPL_EMITTER_AllocTexVramList((struct RigObject *)engine, fn);
 
     fn = sys->palLoadFn;
     engine = sys->engine;
     if (fn == 0)
-        SPL_EMITTER_AllocPlttVramDefault(engine);
+        SPL_EMITTER_AllocPlttVramDefault((u32)engine);
     else
-        SPL_EMITTER_AllocPlttVramList(engine, fn);
+        SPL_EMITTER_AllocPlttVramList((struct RigObject *)engine, fn);
 
     g_pParticleMan->current = 0;
 }
@@ -928,7 +938,7 @@ void PARTICLE_ApplyLoadHandlers(struct ParticleSys *sys)
 void PARTICLE_ApplyLoadHandlersTask(struct TaskNode *task, struct ParticleSys *sys)
 {
     PARTICLE_ApplyLoadHandlers(sys);
-    TCB_DeleteTask(task);
+    TCB_DeleteTask((struct TcbTask *)task);
 }
 
 /*
@@ -959,8 +969,8 @@ void PARTICLE_DrawSystem(struct ParticleSys *sys)
     Mtx33    savedMtx;
 
     if (sys->camera != 0) {
-        G3D_SYSTEM_GetProjection(&savedState);
-        G3D_SYSTEM_GetLookAt(&savedMtx);
+        G3D_SYSTEM_GetProjection((struct G3dProjection *)(&savedState));
+        G3D_SYSTEM_GetLookAt((struct G3dLookAt *)(&savedMtx));
         {
             Vec3  viewVec = sDefaultViewVec;
             Mtx33 identity;
@@ -971,15 +981,15 @@ void PARTICLE_DrawSystem(struct ParticleSys *sys)
             g_renderState[63] = g_renderState[63] & ~0xa4u;
             NNS_G3dGlbBaseScale(&viewVec);
         }
-        G3D_CAMERA_Reset(sys->camera);
+        G3D_CAMERA_Reset((struct G3dCamera *)sys->camera);
         G3D_SYSTEM_ApplyLookAt();
         NNS_G3dGeFlushBuffer();
     }
-    SPL_EMITTER_FreeNodeHeap(sys->engine, g_renderStateDrawParams);
+    SPL_EMITTER_FreeNodeHeap((struct VramHeapHead *)sys->engine, (unsigned int)g_renderStateDrawParams);
     if (sys->camera == 0)
         return;
-    G3D_SYSTEM_SetProjection(&savedState);
-    G3D_SYSTEM_SetLookAt(&savedMtx);
+    G3D_SYSTEM_SetProjection((struct G3dProjection *)(&savedState));
+    G3D_SYSTEM_SetLookAt((struct G3dLookAt *)(&savedMtx));
     G3D_SYSTEM_ApplyLookAt();
     NNS_G3dGeFlushBuffer();
 }
@@ -1079,7 +1089,7 @@ int PARTICLE_UpdateAllSystems(void)
  */
 int PARTICLE_StartEffect(struct ParticleSys *sys, int resId, int arg)
 {
-    int effect = SPL_EMITTER_AllocResource(sys->engine, resId, arg);
+    int effect = SPL_EMITTER_AllocResource((char *)sys->engine, resId, arg);
     sys->activeEffect = effect;
     return effect;
 }
@@ -1103,7 +1113,7 @@ int PARTICLE_StartEffectWithCallback(struct ParticleSys *sys, int resId, void (*
     if (sys->engine->effectCount >= 0x18)
         return -1;
     g_pParticleMan->callbackArg = userArg;
-    effect = SPL_EMITTER_AllocResourceEx(sys->engine, resId, callback);
+    effect = SPL_EMITTER_AllocResourceEx((char *)sys->engine, resId, callback);
     g_pParticleMan->callbackArg = 0;
     sys->activeEffect = effect;
     return effect;
@@ -1129,7 +1139,7 @@ void PARTICLE_KillAllEffects(struct ParticleSys *sys)
  */
 void PARTICLE_KillEffect(struct ParticleSys *sys, void *effect)
 {
-    SPL_EMITTER_FreeResource(sys->engine, effect);
+    SPL_EMITTER_FreeResource((char *)sys->engine, effect);
 }
 
 /*
@@ -1195,12 +1205,12 @@ void PARTICLE_InitCamera(struct ParticleSys *sys, struct ParticleCameraParams *p
 
     if (params != 0) {
         sys->projType = (u8)params->projType;
-        sys->camera = G3D_CAMERA_Create(params->projType, params->fovSin, params->fovCos, params->aspect,
+        sys->camera = (struct ParticleCamera *)G3D_CAMERA_Create(params->projType, params->fovSin, params->fovCos, params->aspect,
                                     params->orthoExtent, params->nearZ, params->farZ, params->projScale,
                                     pos, target, up, (u16)heapId);
     } else {
         sys->projType = 0;
-        sys->camera = G3D_CAMERA_Create(0, 0xb50, 0xb50, 0x1555,
+        sys->camera = (struct ParticleCamera *)G3D_CAMERA_Create(0, 0xb50, 0xb50, 0x1555,
                                     0, 0x1000, 0x384000, 0,
                                     pos, target, up, (u16)heapId);
     }
@@ -1259,18 +1269,28 @@ struct Obj3D {
 };
 
 extern u32 d_02146A88;
+struct LerpDest;
+struct LerpSource;
 
-extern void SPL_EMITTER_LerpVec(void *a, void *b);
+extern void SPL_EMITTER_LerpVec(struct LerpSource *a, struct LerpDest *b);
+struct InterpState;
+struct InterpTrack;
+struct InterpTargetParam;
 
-extern void SPL_EMITTER_InterpTarget(void *a, void *s, int unused, void *c);
+extern void SPL_EMITTER_InterpTarget(struct InterpTargetParam *a, struct InterpTrack *s, s32 unused, struct InterpState *c);
+struct AxisAngleKey;
 
-extern void SPL_EMITTER_BuildFrame(void *o, u8 *dst);
+extern void SPL_EMITTER_BuildFrame(struct AxisAngleKey *o, u8 *dst);
+struct RigOffsetPair;
+struct ScaledVecSource;
 
-extern void SPL_EMITTER_AddScaledVec(void *a, void *b, int *c);
+extern void SPL_EMITTER_AddScaledVec(struct ScaledVecSource *a, struct RigOffsetPair *b, s32 *c);
+struct RandomVecSource;
+struct RandomVecRange;
 
-extern void SPL_EMITTER_UpdateNode(void *o, void *s, int *dst);
+extern void SPL_EMITTER_UpdateNode(struct RandomVecRange *o, struct RandomVecSource *s, s32 *dst);
 
-extern void SPL_EMITTER_AddVec(void *o, void *s, int *dst);
+extern void SPL_EMITTER_AddVec(struct RandomVecRange *o, void *s, s32 *dst);
 
 extern u32 NNS_GfdAllocVram(u32 size, u32 flag, u32 dir);
 
@@ -1284,9 +1304,9 @@ extern void *G2_GetBG2CharPtr(void);
 
 extern void *G2_GetBG3CharPtr(void);
 
-extern int G2S_GetBG0CharPtr(void);
+extern u32 G2S_GetBG0CharPtr(void);
 
-extern int G2S_GetBG1CharPtr(void);
+extern u32 G2S_GetBG1CharPtr(void);
 
 extern void *G2S_GetBG2CharPtr(void);
 

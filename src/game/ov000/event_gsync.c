@@ -153,11 +153,11 @@ typedef struct GsyncEventWorkInit {
     u32 loginMessageId;
 } GsyncEventWorkInit;
 
-extern struct FieldMap *GAMESYSTEM_GetFieldMap(const struct GameSystem *gameSystem);
-extern int EVENT_FIELDMAP_CONTROL_StartFadeOut(void *gameSystem, int fieldMap, int sel, int d);
-extern int EVENT_FIELDMAP_CONTROL_StartFadeIn(void *gameSystem, int fieldMap, int sel, int d, int e, u8 f, u8 g);
-extern void GAME_EVENT_CallEvent(struct GameEvent *event, struct GameEvent **newEvent);
-extern int FIELD_STATUS_CreateFieldCloseEvent(int gameSystem, int fieldMap);
+extern void *GAMESYSTEM_GetFieldMap(const struct GameSystem *gameSystem);
+extern struct GameEvent *EVENT_FIELDMAP_CONTROL_StartFadeOut(struct GameSystem *gameSystem, struct FieldMap *fieldMap, int effect, int skipWait);
+extern struct GameEvent *EVENT_FIELDMAP_CONTROL_StartFadeIn(struct GameSystem *gameSystem, struct FieldMap *fieldMap, int effect, int skipWait, int restoreBg, unsigned char seasonShown, unsigned char seasonTarget);
+extern void GAME_EVENT_CallEvent(struct GameEvent *parent, struct GameEvent *child);
+extern struct GameEvent *FIELD_STATUS_CreateFieldCloseEvent(struct GameSystem *gameSystem, struct FieldMap *fieldMap);
 extern void  MI_CpuFill8(void *dst, int value, int size);
 extern void GAMESYSTEM_CallProc(struct GameSystem *gameSystem, u32 overlayId, void *procData, void *param);
 extern u32 GAMESYSTEM_GetProcStatus(const struct GameSystem *gameSystem);
@@ -166,21 +166,23 @@ extern void  GFL_USE_ClearSndHeap(void);
 extern void  GFL_USE_InitSound(void);
 extern void  GFL_USE_CancelChangeAndPlayBgm(u32 bgmNo, u32 fadeTarget);
 extern void GFL_USE_FadeInBgmFull(u32 frames);
-extern void *FIELD_STATUS_CreateFieldOpenEvent(void *gameSystem);
+extern struct GameEvent *FIELD_STATUS_CreateFieldOpenEvent(struct GameSystem *gameSystem);
 extern int GFL_USE_PopBgm(void);
-extern void GFL_USE_SetBgmPaused(void *param);
+extern void GFL_USE_SetBgmPaused(u32 value);
 extern int GFL_USE_PushBgm(void);
 extern struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
 extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gameData);
-extern struct WifiList *GAME_SYNC_GetBlock(void *saveControl);
-extern u8 BLOCK20_SAVEDATA_GetActive(const struct WifiList *wifiList);
-extern struct BoxManager *GAME_DATA_GetBoxManager(const struct GameData *gameData);
-extern struct Party *GAME_DATA_GetMyParty(const struct GameData *gameData);
-extern struct MyItem *GAME_DATA_GetMyItem(const struct GameData *gameData);
-extern u8 *GAME_DATA_GetMyStatus(void *gameData);
-extern int BOX_SAVEDATA_CountNonEggPokemon(void *boxManager);
+struct GameSyncData;
+extern struct GameSyncData *GAME_SYNC_GetBlock(struct SaveControl *saveControl);
+struct CgearSaveBlock;
+extern u8 BLOCK20_SAVEDATA_GetActive(struct CgearSaveBlock *block);
+extern u32 GAME_DATA_GetBoxManager(const struct GameData *gameData);
+extern void *GAME_DATA_GetMyParty(const struct GameData *gameData);
+extern void *GAME_DATA_GetMyItem(const struct GameData *gameData);
+extern struct MyStatus *GAME_DATA_GetMyStatus(struct GameData *gd);
+extern int BOX_SAVEDATA_CountNonEggPokemon(struct GameData *gameData);
 extern struct Config *SYSTEM_DATA_GetConfig(void *saveControl);
-extern void GAME_EVENT_CallProc(struct GameEvent *event, u32 overlayId, u32 procData, u32 param);
+extern void GAME_EVENT_CallProc(struct GameEvent *parent, u32 overlayId, void *procData, void *param);
 extern u32 GFL_NET_ERR_GetErrorLevel(void);
 extern void  GFL_NET_ERR_RequestScreen(void);
 extern u32 GFL_NET_ERR_ShowScreen(u32 isFatal);
@@ -211,11 +213,11 @@ u32 EVENT_GSYNC_Main(struct GameEvent *event, u32 *seq, GsyncEventWork *work)
 
     switch (*seq) {
     case 0:
-        GAME_EVENT_CallEvent(event, (struct GameEvent **)EVENT_FIELDMAP_CONTROL_StartFadeOut(gameSystem, fieldMap, 0, 0));
+        GAME_EVENT_CallEvent((struct GameEvent *)event, (struct GameEvent *)EVENT_FIELDMAP_CONTROL_StartFadeOut(gameSystem, (struct FieldMap *)fieldMap, 0, 0));
         (*seq)++;
         break;
     case 1:
-        GAME_EVENT_CallEvent(event, (struct GameEvent **)FIELD_STATUS_CreateFieldCloseEvent((int)gameSystem, fieldMap));
+        GAME_EVENT_CallEvent((struct GameEvent *)event, (struct GameEvent *)FIELD_STATUS_CreateFieldCloseEvent((struct GameSystem *)gameSystem, (struct FieldMap *)fieldMap));
         work->returnToMenu = 0;
         *seq = 2;
         break;
@@ -265,11 +267,11 @@ u32 EVENT_GSYNC_Main(struct GameEvent *event, u32 *seq, GsyncEventWork *work)
         *seq = 2;
         break;
     case 10:
-        GAME_EVENT_CallEvent(event, FIELD_STATUS_CreateFieldOpenEvent(gameSystem));
+        GAME_EVENT_CallEvent((struct GameEvent *)event, (struct GameEvent *)FIELD_STATUS_CreateFieldOpenEvent(gameSystem));
         (*seq)++;
         break;
     case 11:
-        GAME_EVENT_CallEvent(event, (struct GameEvent **)EVENT_FIELDMAP_CONTROL_StartFadeIn(gameSystem, fieldMap, 0, 0, 1, 0, 0));
+        GAME_EVENT_CallEvent((struct GameEvent *)event, (struct GameEvent *)EVENT_FIELDMAP_CONTROL_StartFadeIn(gameSystem, (struct FieldMap *)fieldMap, 0, 0, 1, 0, 0));
         (*seq)++;
         break;
     case 12:
@@ -284,13 +286,13 @@ u32 EVENT_GSYNC_Main(struct GameEvent *event, u32 *seq, GsyncEventWork *work)
     case 13:
         return 1;
     case 16:
-        wifiFlag = BLOCK20_SAVEDATA_GetActive(GAME_SYNC_GetBlock(GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData(gameSystem))));
-        if (BOX_SAVEDATA_CountNonEggPokemon(GAME_DATA_GetBoxManager(GAMESYSTEM_GetGameData(gameSystem))) == 0 && wifiFlag == 0) {
+        wifiFlag = BLOCK20_SAVEDATA_GetActive((struct CgearSaveBlock *)GAME_SYNC_GetBlock(GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData(gameSystem))));
+        if (BOX_SAVEDATA_CountNonEggPokemon((struct GameData *)GAME_DATA_GetBoxManager(GAMESYSTEM_GetGameData(gameSystem))) == 0 && wifiFlag == 0) {
             work->menuResult = 4;
             *seq = 19;
         } else {
             work->login.useSaveData = 0;
-            GFL_USE_SetBgmPaused((void *)1);
+            GFL_USE_SetBgmPaused((u32)1);
             GFL_USE_PushBgm();
             work->bgmPushed = 1;
             (*seq)++;
@@ -306,7 +308,7 @@ u32 EVENT_GSYNC_Main(struct GameEvent *event, u32 *seq, GsyncEventWork *work)
             if (work->login.result == 1) {
                 *seq = 10;
             } else {
-                if (BLOCK20_SAVEDATA_GetActive(GAME_SYNC_GetBlock(work->saveControl)) == 0) {
+                if (BLOCK20_SAVEDATA_GetActive((struct CgearSaveBlock *)GAME_SYNC_GetBlock(work->saveControl)) == 0) {
                     work->menuResult = 3;
                     *seq = 19;
                 } else {
@@ -339,15 +341,15 @@ u32 EVENT_GSYNC_Main(struct GameEvent *event, u32 *seq, GsyncEventWork *work)
         break;
     case 21:
         work->box.gameData = GAMESYSTEM_GetGameData(gameSystem);
-        work->box.boxManager = GAME_DATA_GetBoxManager(work->box.gameData);
+        work->box.boxManager = (struct BoxManager *)GAME_DATA_GetBoxManager(work->box.gameData);
         work->box.party = GAME_DATA_GetMyParty(work->box.gameData);
         work->box.myItem = GAME_DATA_GetMyItem(work->box.gameData);
-        work->box.myStatus = GAME_DATA_GetMyStatus(work->box.gameData);
+        work->box.myStatus = (u8 *)GAME_DATA_GetMyStatus(work->box.gameData);
         work->box.config = SYSTEM_DATA_GetConfig(GAME_DATA_GetSaveControl(work->box.gameData));
         work->box.pickerBuffer = work->pickerBuffer;
         work->box.result = 0;
         work->box.mode = 5;
-        GAME_EVENT_CallProc(event, (u32)ov170_id, (u32)d_021EF78C, (u32)&work->box);
+        GAME_EVENT_CallProc(event, (u32)ov170_id, (void *)d_021EF78C, (void *)&work->box);
         (*seq)++;
         break;
     case 22:

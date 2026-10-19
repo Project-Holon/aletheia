@@ -34,10 +34,14 @@
  *   strlen 0x0209477C arm arm9
  *   strchr 0x02094A28 arm arm9
  *   __dtoa 0x020972F0 arm arm9
+ *   _dls                         0x0209B9A0  arm
+ *   _dneq                        0x0209BAC8  arm
+ *   _u32_div_f                   0x0209C2B0  arm
  */
 #include "msl_crt_shared_types.h"
 #include "msl_stdio_shared_types.h"
 #include "msl_printf_shared_types.h"
+extern void *__memcpy(void *dest, const void *src, unsigned long n);
 
 #define __va_size(t) ((sizeof(t) + 3) & ~3)
 
@@ -101,7 +105,7 @@ u32 MSL_C_LIB_SprintfWriteProc(u8 *sb, const void *src, u32 n);
 
 u32 vsnprintf(u8 *dst, u32 n, const u8 *format, u8 *ap);
 
-u32 sprintf(char *dst, u32 fmt, ...);
+u32 sprintf(char *dst, char *fmt, ...);
 
 void MSL_C_LIB_CallExitHook(u32 a, u32 b, u32 c);
 
@@ -1329,7 +1333,7 @@ u32 vsnprintf(u8 *dst, u32 n, const u8 *format, u8 *ap)
  *           attested), so the single call site here stays wildcarded.  The C
  *           itself is byte-correct: 36 bytes, home push included.
  */
-u32 sprintf(char *dst, u32 fmt, ...)
+u32 sprintf(char *dst, char *fmt, ...)
 {
     u32 *p = (u32 *)((u32)&fmt & ~3u);
 

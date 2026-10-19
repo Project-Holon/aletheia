@@ -133,11 +133,11 @@ extern int gti2ClosedCallback(GTI2Connection *connection, int reason);
 extern int gti2SendClosed(int *connection);
 extern int gti2ConnectAttemptCallback(GTI2Socket *sock, GTI2Connection *c, unsigned int ip, unsigned short port, int latency, unsigned char *msg, int len);
 extern u32 current_time(void);
-extern int ArrayLength(struct DArrayImplementation *array);
+extern int ArrayLength(int *array);
 extern void *ArrayNth(struct DArrayImplementation *array, int n);
 extern void ArrayInsertSorted(struct DArrayImplementation *array, void *newElem, int (*comparator)(void *, void *));
-extern void ArrayDeleteAt(struct DArrayImplementation *array, int n);
-extern int gti2GetBufferFreeSpace(struct GTI2Buffer *buffer);
+extern void ArrayDeleteAt(int a, int b);
+extern int gti2GetBufferFreeSpace(int *p);
 extern void gti2BufferShorten(struct GTI2Buffer *buffer, int start, int shortenBy);
 extern unsigned char *gti2GetResponse(unsigned char *buffer, unsigned char *challenge);
 extern unsigned char *gti2GetChallenge(unsigned char *buffer);
@@ -146,18 +146,20 @@ extern int gti2ReceiveFilterCallback(GTI2Connection *c, int filterID, unsigned c
 extern int gti2ReceivedCallback(GTI2Connection *c, unsigned char *msg, int len, int reliable);
 extern int gti2ResendMessage(GTI2Connection *c, GTI2OutgoingBufferMessage *message);
 extern void gsifree(void *ptr);
-extern int memcmp(const u8 *a, const u8 *b, int n);
+extern int memcmp(unsigned char *s1, unsigned char *s2, unsigned int n);
 extern int gti2PingCallback(GTI2Connection *c, int latency);
-extern int gti2HandleClosed(GTI2Connection *c);
+static int gti2HandleClosed(GTI2Connection *c);
 extern int gti2DumpCallback(GTI2Socket *socket, GTI2Connection *connection, unsigned int ip,
                          unsigned short port, int reset, unsigned char *message, int len, int outgoing);
 extern int gti2UnrecognizedMessageCallback(char *p, int ip, int port, int message, int len, int *handled);
 extern int gti2NewIncomingConnection(GTI2Socket *socket, GTI2Connection **connection,
                          unsigned int ip, unsigned short port);
-extern GTI2Connection *gti2SocketFindConnection();
+struct GTI2Socket;
+struct GTI2Connection;
+extern GTI2Connection *gti2SocketFindConnection(struct GTI2Socket *socket, unsigned int ip, unsigned short port);
 extern int CanReceiveOnSocket(int sock);
-extern int recvfrom(int sock, char *buf, int len, int flags,
-                    struct SOCSockAddrIn *addr, int *fromlen);
+struct SOCSockAddr;
+extern int recvfrom(int sock, char *buf, int len, int flags, struct SOCSockAddr *addr, int *fromlen);
 extern int GOAGetLastError(int sock);
 extern int gti2HandleConnectionReset(GTI2Socket *socket,
                                      unsigned int ip, unsigned short port);
@@ -168,17 +170,17 @@ extern void gti2SocketError(GTI2Socket *socket);
 extern int gti2HandleMessage(GTI2Socket *socket,
                              unsigned char *message, int len,
                              unsigned int ip, unsigned short port);
-extern int ArrayLength(struct DArrayImplementation *array);
-extern void ArrayAppend(struct DArrayImplementation *array, void *newElem);
-extern int gti2GetBufferFreeSpace(GTI2Buffer *buffer);
+extern int ArrayLength(int *array);
+extern void ArrayAppend(void *p, void *a);
+extern int gti2GetBufferFreeSpace(int *p);
 extern void gti2BufferWriteData(GTI2Buffer *buffer,
                                 unsigned char *data, int len);
-extern void gti2BufferWriteByte(GTI2Buffer *buffer, unsigned char b);
-extern void gti2BufferWriteUShort(GTI2Buffer *buffer, unsigned short s);
+extern void gti2BufferWriteByte(int *p, int v);
+extern void gti2BufferWriteUShort(int *p, int v);
 extern void *ArrayNth(struct DArrayImplementation *array, int n);
 extern int gti2ConnectionSendData(GTI2Connection *connection,
                                   unsigned char *message, int len);
-extern void gti2BufferShorten();
+extern void gti2BufferShorten(GTI2Buffer *buffer, int start, int shortenBy);
 extern void gti2UShortToBuffer(char *buffer, int pos, int s);
 extern int gti2SocketSend(GTI2Socket *sock, unsigned int ip, unsigned short port, unsigned char *message, int len);
 unsigned short gti2UShortFromBuffer(unsigned char *buffer, int pos);
@@ -226,7 +228,7 @@ extern unsigned char gGti2TimeKey[];
 extern unsigned char gGti2PacketMagic[];
 
 
-extern int memcmp();
+extern int memcmp(unsigned char *s1, unsigned char *s2, unsigned int n);
 unsigned short gti2UShortFromBuffer(unsigned char *buffer, int pos)
 {
     unsigned short s;
@@ -317,7 +319,7 @@ int gti2HandleESN(GTI2Connection *connection, unsigned short ESN)
 	GTI2OutgoingBufferMessage *message;
 	int shortenBy;
 
-	len = ArrayLength(connection->outgoingBufferMessages);
+	len = ArrayLength((int *)connection->outgoingBufferMessages);
 	if (len == 0)
 		return 1;
 	for (i = 0; i < len; i++) {
@@ -328,8 +330,8 @@ int gti2HandleESN(GTI2Connection *connection, unsigned short ESN)
 	if (i == 0)
 		return 1;
 	while (i-- != 0)
-		ArrayDeleteAt(connection->outgoingBufferMessages, i);
-	len = ArrayLength(connection->outgoingBufferMessages);
+		ArrayDeleteAt((int)connection->outgoingBufferMessages, i);
+	len = ArrayLength((int *)connection->outgoingBufferMessages);
 	if (len == 0) {
 		connection->outgoingBuffer.len = 0;
 		return 1;
@@ -357,7 +359,7 @@ int gti2HandleAppUnreliable(GTI2Connection *c, unsigned char *msg, int len)
 
 	if (c->state != 5 && c->state != 6)
 		return 1;
-	if (ArrayLength(c->receiveFilters)) {
+	if (ArrayLength((int *)c->receiveFilters)) {
 		ret = 0;
 		if (gti2ReceiveFilterCallback(c, 0, msg, len, 0))
 			ret = 1;
@@ -383,7 +385,7 @@ int gti2HandleAppReliable(GTI2Connection *c, unsigned char *message, int len)
 	if (c->state != 5 && c->state != 6) {
 		if (!gti2ConnectionCommunicationError(c))
 			return 0;
-	} else if (ArrayLength(c->receiveFilters)) {
+	} else if (ArrayLength((int *)c->receiveFilters)) {
 		ret = 1;
 		if (!gti2ReceiveFilterCallback(c, 0, message, len, 1))
 			ret = 0;
@@ -593,7 +595,7 @@ int gti2BufferIncomingMessage(GTI2Connection *connection, int type, unsigned sho
     struct GTI2IncomingBufferMessage *prev;
     unsigned short diff;
 
-    num = ArrayLength(connection->incomingBufferMessages);
+    num = ArrayLength((int *)connection->incomingBufferMessages);
     for (i = 0; i < num; i++) {
         bufferedMessage = (struct GTI2IncomingBufferMessage *)ArrayNth(connection->incomingBufferMessages, i);
         if (bufferedMessage->serialNumber == SN) {
@@ -604,7 +606,7 @@ int gti2BufferIncomingMessage(GTI2Connection *connection, int type, unsigned sho
             break;
     }
 
-    if (gti2GetBufferFreeSpace(&connection->incomingBuffer) < len) {
+    if (gti2GetBufferFreeSpace((int *)(&connection->incomingBuffer)) < len) {
         *overflow = 1;
         return 1;
     }
@@ -615,7 +617,7 @@ int gti2BufferIncomingMessage(GTI2Connection *connection, int type, unsigned sho
     messageInfo.serialNumber = SN;
     ArrayInsertSorted(connection->incomingBufferMessages, &messageInfo, gti2IncomingBufferMessageCompare);
 
-    if (ArrayLength(connection->incomingBufferMessages) != num + 1) {
+    if (ArrayLength((int *)connection->incomingBufferMessages) != num + 1) {
         *overflow = 1;
         return 1;
     }
@@ -661,8 +663,8 @@ void gti2RemoveHoldMessage(GTI2Connection *c, struct GTI2IncomingBufferMessage *
 	moveAfter = message->start;
 	shortenBy = message->len;
 	moveEnd = 0;
-	ArrayDeleteAt(c->incomingBufferMessages, index);
-	num = ArrayLength(c->incomingBufferMessages);
+	ArrayDeleteAt((int)c->incomingBufferMessages, index);
+	num = ArrayLength((int *)c->incomingBufferMessages);
 	for (i = 0; i < num; i++) {
 		m = (struct GTI2IncomingBufferMessage *)ArrayNth(c->incomingBufferMessages, i);
 		if (m->start > moveAfter) {
@@ -688,7 +690,7 @@ int gti2DeliverHoldMessages(GTI2Connection *c)
 	struct GTI2IncomingBufferMessage *m;
 
 again:
-	for (i = ArrayLength(c->incomingBufferMessages) - 1; i >= 0; i--) {
+	for (i = ArrayLength((int *)c->incomingBufferMessages) - 1; i >= 0; i--) {
 		m = (struct GTI2IncomingBufferMessage *)ArrayNth(c->incomingBufferMessages, i);
 		if (m->serialNumber == c->expectedSerialNumber) {
 			if (!gti2DeliverReliableMessage(c, m->type, c->incomingBuffer.buffer + m->start, m->len))
@@ -806,7 +808,7 @@ int gti2HandleNack(GTI2Connection *connection, unsigned char *message, int len)
 			return 1;
 		return 0;
 	}
-	num = ArrayLength(connection->outgoingBufferMessages);
+	num = ArrayLength((int *)connection->outgoingBufferMessages);
 	for (i = 0; i < num; i++) {
 		messageInfo = ArrayNth(connection->outgoingBufferMessages, i);
 		if (gti2SNDiff(messageInfo->SN, SNMin) < 0)
@@ -962,7 +964,7 @@ int gti2HandleMessage(GTI2Socket *socket, unsigned char *message, int len, unsig
             return 0;
     }
 
-    magicString = (actualLength > 2) && !memcmp(actualMessage, (const u8 *)gGti2PacketMagic, 2);
+    magicString = (actualLength > 2) && !memcmp((unsigned char *)actualMessage, (unsigned char *)gGti2PacketMagic, 2);
 
     if (!connection) {
         if (!gti2UnrecognizedMessageCallback((char *)socket, ip, port, (int)message, len, &handled))
@@ -997,7 +999,7 @@ int gti2HandleMessage(GTI2Socket *socket, unsigned char *message, int len, unsig
         return 1;
     }
 
-    if (magicString && actualLength >= 4 && !memcmp(actualMessage + 2, (const u8 *)gGti2PacketMagic, 2)) {
+    if (magicString && actualLength >= 4 && !memcmp((unsigned char *)(actualMessage + 2), (unsigned char *)gGti2PacketMagic, 2)) {
         message[3] = message[1];
         message[2] = message[0];
         message += 2;
@@ -1117,7 +1119,7 @@ int gti2ReceiveMessages(GTI2Socket *socket)
     if (CanReceiveOnSocket(socket->socket) != 0) {
         do {
             addressLen = 8;
-            rcode = recvfrom(socket->socket, buffer, 1500, 0, &address,
+            rcode = recvfrom(socket->socket, buffer, 1500, 0, (struct SOCSockAddr *)(&address),
                              &addressLen);
             if (rcode == -1) {
                 int err = GOAGetLastError(socket->socket);
@@ -1168,9 +1170,9 @@ static int gti2StoreOutgoingReliableMessageInfo(GTI2Connection *connection,
     messageInfo.len = len;
     messageInfo.SN = SN;
     messageInfo.sendTime = current_time();
-    num = ArrayLength(connection->outgoingBufferMessages);
+    num = ArrayLength((int *)connection->outgoingBufferMessages);
     ArrayAppend(connection->outgoingBufferMessages, &messageInfo);
-    if (ArrayLength(connection->outgoingBufferMessages) == (num + 1))
+    if (ArrayLength((int *)connection->outgoingBufferMessages) == (num + 1))
         result = 1;
     return result;
 }
@@ -1191,7 +1193,7 @@ static int gti2BeginReliableMessage(GTI2Connection *connection,
     int freeSpace;
 
     vdpDataLength = (unsigned short)(len - connection->socket->protocolOffset);
-    freeSpace = gti2GetBufferFreeSpace(&connection->outgoingBuffer);
+    freeSpace = gti2GetBufferFreeSpace((int *)(&connection->outgoingBuffer));
     if (freeSpace < len)
         return (gti2ConnectionMemoryError(connection) == 0) ? 0 : (*overflow = 1);
     if (!gti2StoreOutgoingReliableMessageInfo(connection, connection->serialNumber,
@@ -1202,9 +1204,9 @@ static int gti2BeginReliableMessage(GTI2Connection *connection,
                             (unsigned char *)&vdpDataLength,
                             connection->socket->protocolOffset);
     gti2BufferWriteData(&connection->outgoingBuffer, gGti2PacketMagic, 2);
-    gti2BufferWriteByte(&connection->outgoingBuffer, (unsigned char)type);
-    gti2BufferWriteUShort(&connection->outgoingBuffer, connection->serialNumber++);
-    gti2BufferWriteUShort(&connection->outgoingBuffer, connection->expectedSerialNumber);
+    gti2BufferWriteByte((int *)(&connection->outgoingBuffer), (unsigned char)type);
+    gti2BufferWriteUShort((int *)(&connection->outgoingBuffer), connection->serialNumber++);
+    gti2BufferWriteUShort((int *)(&connection->outgoingBuffer), connection->expectedSerialNumber);
     *overflow = 0;
     return 1;
 }
@@ -1223,7 +1225,7 @@ static int gti2EndReliableMessage(GTI2Connection *connection)
     GTI2OutgoingBufferMessage *message;
     int len;
 
-    len = ArrayLength(connection->outgoingBufferMessages);
+    len = ArrayLength((int *)connection->outgoingBufferMessages);
     message = ArrayNth(connection->outgoingBufferMessages, len - 1);
     if (gti2ConnectionSendData(connection, connection->outgoingBuffer.buffer + message->offset,
                                message->len))
@@ -1418,7 +1420,7 @@ int gti2SendAppUnreliable(GTI2Connection *connection, u8 *message, int len)
         return 1;
     }
     totalLen = len + 2;
-    freeSpace = gti2GetBufferFreeSpace(&connection->outgoingBuffer);
+    freeSpace = gti2GetBufferFreeSpace((int *)(&connection->outgoingBuffer));
     if (freeSpace < totalLen)
         return 1;
     start = connection->outgoingBuffer.buffer + connection->outgoingBuffer.len;

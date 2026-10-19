@@ -31,8 +31,10 @@
 typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
+struct ProcLinkReturnList;
+struct ProcLinkEntry;
 
-extern char *EVENT_FIELD_PROCLINK_GetEventdataEntry(char *entryTable, int entryId, unsigned listSelect);
+extern struct ProcLinkEntry *EVENT_FIELD_PROCLINK_GetEventdataEntry(struct ProcLinkReturnList *list, int id, unsigned int mode);
 
 /*
  * Returns 1 when the entry with this id exists in the selected list(s) of

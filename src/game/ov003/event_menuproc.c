@@ -60,17 +60,18 @@ typedef struct MenuProcEventWork {
 typedef struct { unsigned fieldMap; unsigned procKind; } LaunchRequest;
 
 extern struct GameComm *GAMESYSTEM_GetGameComm(const struct GameSystem *gameSystem);
-extern u32 GAME_COMM_GetKind(void *gameComm);
+extern u32 GAME_COMM_GetKind(struct GameComm *comm);
 extern u16 GFL_USE_GetBgmNo(void);
 extern void GFL_USE_FadeOutBgm(u32 frames);
-extern int FIELD_STATUS_CreateFieldCloseEvent(int gameSystem, int fieldMap);
-extern void GAME_EVENT_CallEvent(struct GameEvent *event, struct GameEvent **newEvent);
+struct FieldMap;
+extern struct GameEvent *FIELD_STATUS_CreateFieldCloseEvent(struct GameSystem *gameSystem, struct FieldMap *fieldMap);
+extern void GAME_EVENT_CallEvent(struct GameEvent *parent, struct GameEvent *child);
 extern struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
 extern void GAMESYSTEM_CallProc(struct GameSystem *gameSystem, u32 overlayId, void *procData, void *param);
 extern u32 GAMESYSTEM_GetProcStatus(const struct GameSystem *gameSystem);
 extern void  GFL_USE_CancelChangeAndPlayBgm(u32 bgmNo, u32 fadeTarget);
 extern void GFL_USE_FadeInBgmFull(u32 frames);
-extern void *FIELD_STATUS_CreateFieldOpenEvent(void *gameSystem);
+extern struct GameEvent *FIELD_STATUS_CreateFieldOpenEvent(struct GameSystem *gameSystem);
 void *GAME_EVENT_Create(void *gameSystem, void *a, void *callback, u32 workSize);
 void GAME_COMM_RequestExitNoCallback(struct GameComm *gameComm);
 void *GAME_EVENT_GetWork(struct GameEvent *event);
@@ -93,7 +94,7 @@ u32 EVENT_MENUPROC_Main(struct GameEvent *event, u32 *seq, MenuProcEventWork *wo
         }
         break;
     case 1:
-        GAME_EVENT_CallEvent(event, (struct GameEvent **)FIELD_STATUS_CreateFieldCloseEvent((int)gameSystem, work->fieldMap));
+        GAME_EVENT_CallEvent((struct GameEvent *)event, (struct GameEvent *)FIELD_STATUS_CreateFieldCloseEvent((struct GameSystem *)gameSystem, (struct FieldMap *)work->fieldMap));
         *seq = 2;
         break;
     case 2:

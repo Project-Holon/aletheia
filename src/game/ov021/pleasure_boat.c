@@ -48,12 +48,14 @@ extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u
 extern int GF_OVERLAY_Load(s32 overlayId);
 
 extern void GF_OVERLAY_Unload(int overlayId);
+struct DailyLayoutWork;
 
-extern void DAILY_LAYOUT_Generate(PleasureBoatWork *work);
+extern void DAILY_LAYOUT_Generate(struct DailyLayoutWork *work);
 
 extern int PLEASURE_BOAT_GetTimeEvent(PleasureBoatWork *work);
+struct GameEvent;
 
-extern GameEvent *SCRIPT_SYS_CreateScriptEventSimple(GameSystem *gameSystem, int a, int b, int scriptId);
+extern GameEvent *SCRIPT_SYS_CreateScriptEventSimple(void *fieldSys, u16 scriptId, void *target, s32 reserved);
 
 extern char gPleasureBoatFileName;
 
@@ -81,7 +83,7 @@ PleasureBoatWork *PLEASURE_BOAT_Create(void)
     work->groupCount[3] = 0;
     work->locked = 0;
     GF_OVERLAY_Load((int)ov036_id); /* stand-in: overlay id passed as a raw address constant; a plain 0x24 changes the literal pool */
-    DAILY_LAYOUT_Generate(work);
+    DAILY_LAYOUT_Generate((struct DailyLayoutWork *)work);
     GF_OVERLAY_Unload((int)ov036_id);
     return work;
 }
@@ -200,16 +202,19 @@ extern GameSystem *FIELDMAP_GetGameSystem(FieldMap *fieldMap);
 extern GameData *GAMESYSTEM_GetGameData(GameSystem *gameSystem);
 
 extern PleasureBoatHolder *GAME_DATA_GetEventState(GameData *gameData);
+struct SymbolMapOwner;
 
-extern void SYMBOL_MAP_DeleteLinkRecord(PleasureBoatHolder *holder);
+extern void SYMBOL_MAP_DeleteLinkRecord(struct SymbolMapOwner *owner);
 
 extern void *SCRCMD_WORK_GetScriptWork(ScrCmdWork *scrCmdWork);
 
 extern u16 VM_ReadU16(ScriptVm *vm);
+struct ScrcmdWork;
+struct ScriptVm;
 
-extern u16 *SCRIPT_WORK_ReadWorkPointer(ScriptVm *vm, ScrCmdWork *scrCmdWork);
+extern u16 *SCRIPT_WORK_ReadWorkPointer(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
 
-extern u16 SCRIPT_WORK_ReadWorkValue(ScriptVm *vm, ScrCmdWork *scrCmdWork);
+extern u32 SCRIPT_WORK_ReadWorkValue(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
 
 u32 PLEASURE_BOAT_GetPassengerParam(PleasureBoatWork *work, u32 index);
 
@@ -292,7 +297,7 @@ int PLEASURE_BOAT_ScrCmdCreate(ScriptVm *vm, ScrCmdWork *scrCmdWork)
 /* Script command: frees the boat work. */
 int PLEASURE_BOAT_ScrCmdDelete(ScriptVm *vm, ScrCmdWork *scrCmdWork)
 {
-    SYMBOL_MAP_DeleteLinkRecord(GAME_DATA_GetEventState(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(GAMESYSTEM_GetFieldMap(SCRCMD_WORK_GetGameSystem(scrCmdWork))))));
+    SYMBOL_MAP_DeleteLinkRecord((struct SymbolMapOwner *)(GAME_DATA_GetEventState(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(GAMESYSTEM_GetFieldMap(SCRCMD_WORK_GetGameSystem(scrCmdWork)))))));
     return 0;
 }
 
@@ -306,7 +311,7 @@ int PLEASURE_BOAT_ScrCmdGetStat(ScriptVm *vm, ScrCmdWork *scrCmdWork)
     SCRCMD_WORK_GetScriptWork(scrCmdWork);
     holder = GAME_DATA_GetEventState(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(GAMESYSTEM_GetFieldMap(SCRCMD_WORK_GetGameSystem(scrCmdWork)))));
     kind = VM_ReadU16(vm);
-    out = SCRIPT_WORK_ReadWorkPointer(vm, scrCmdWork);
+    out = SCRIPT_WORK_ReadWorkPointer(vm, (struct ScrcmdWork *)scrCmdWork);
     *out = PLEASURE_BOAT_GetStat(holder->boat, kind);
     return 0;
 }
@@ -329,10 +334,10 @@ int PLEASURE_BOAT_ScrCmdSetPassengerInfo(ScriptVm *vm, ScrCmdWork *scrCmdWork)
 
     SCRCMD_WORK_GetScriptWork(scrCmdWork);
     holder = GAME_DATA_GetEventState(GAMESYSTEM_GetGameData(SCRCMD_WORK_GetGameSystem(scrCmdWork)));
-    index = SCRIPT_WORK_ReadWorkValue(vm, scrCmdWork);
+    index = SCRIPT_WORK_ReadWorkValue(vm, (struct ScrcmdWork *)scrCmdWork);
     subCommand = VM_ReadU16(vm);
     VM_ReadU16(vm);
-    value = SCRIPT_WORK_ReadWorkValue(vm, scrCmdWork);
+    value = SCRIPT_WORK_ReadWorkValue(vm, (struct ScrcmdWork *)scrCmdWork);
     switch (subCommand) {
     case 0:
     case 1:

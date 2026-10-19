@@ -196,55 +196,65 @@ typedef struct ShortcutProcTask {
 extern struct GameEvent *GAME_EVENT_Create(struct GameSystem *gameSystem, void *parent, void *func, u32 size);
 extern void *GAME_EVENT_GetWork(struct GameEvent *event);
 extern struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
-extern struct FieldMap *GAMESYSTEM_GetFieldMap(const struct GameSystem *gameSystem);
-extern void SCRIPT_WORK_SetParams(void *msgWindow, int messageIndex, int a, int b, u16 c);
-extern int GFL_HEAP_Free();
+extern void *GAMESYSTEM_GetFieldMap(const struct GameSystem *gameSystem);
+struct ScriptWork;
+extern int SCRIPT_WORK_SetParams(struct ScriptWork *work, int param0, int param1, int param2, unsigned short param3);
+extern unsigned int GFL_HEAP_Free(void *block);
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 line);
 extern void GAME_EVENT_CallEvent(struct GameEvent *parent, struct GameEvent *child);
 extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gameData);
 extern void GAMESYSTEM_CallProc(struct GameSystem *gameSystem, u32 overlayId, void *procTemplate, void *work);
 extern u32 GAMESYSTEM_GetProcStatus(const struct GameSystem *gameSystem);
-extern struct GameEvent *EVENT_FIELDMAP_CONTROL_StartFadeOut(struct GameSystem *gameSystem, struct FieldMap *fieldMap, u32 a, u32 b);
+extern struct GameEvent *EVENT_FIELDMAP_CONTROL_StartFadeOut(struct GameSystem *gameSystem, struct FieldMap *fieldMap, int effect, int skipWait);
 extern void *GAME_DATA_GetMyParty(const struct GameData *gameData);
 extern struct GameEvent *FIELD_STATUS_CreateFieldCloseEvent(struct GameSystem *gameSystem, struct FieldMap *fieldMap);
 extern struct GameEvent *FIELD_STATUS_CreateFieldOpenEvent(struct GameSystem *gameSystem);
-extern struct GameEvent *EVENT_FIELDMAP_CONTROL_StartFadeIn(struct GameSystem *gameSystem, struct FieldMap *fieldMap, u32 a, u32 b, u32 c, u32 d, u32 e);
+extern struct GameEvent *EVENT_FIELDMAP_CONTROL_StartFadeIn(struct GameSystem *gameSystem, struct FieldMap *fieldMap, int effect, int skipWait, int restoreBg, unsigned char seasonShown, unsigned char seasonTarget);
 extern void UI_SetInputMode(u8 v);
-extern void *FIELDMAP_GetMmdlSys(struct FieldMap *fieldMap);
-extern void FLDMMDL_SysPauseMove(void *map);
-extern u32 *FLDMMDL_SysResumeMove(void *map);
-extern void MOVE_POKEMON_InitSkillInfo(struct FieldMap *fieldMap, ShortcutFieldInfo *out);
-extern struct GameEvent *FIELD_LINK_EVENT_Create(u32 index, struct GameSystem *gameSystem, struct FieldMap *fieldMap);
-extern ShortcutList *RECENT_ID_LIST_SAVEDATA_GetBlockFromSys(struct SaveControl *save);
-extern u16 RECENT_ID_LIST_SAVEDATA_CountIds(const ShortcutList *list);
-extern void FIELD_SKILL_CHECK_FillUseFlags(ShortcutAvailMask *mask, struct GameSystem *gameSystem, struct FieldMap *fieldMap);
-extern void SHORTCUT_MENU_Main(void *commObj);
-extern void SHORTCUT_MENU_Start(void *commObj);
-extern void SHORTCUT_MENU_RequestClose(void *commObj);
-extern int SHORTCUT_MENU_IsWaitingInput(void *commObj);
-extern u32 SHORTCUT_MENU_GetResult(void *commObj, u32 *result);
-extern void *GAME_DATA_GetMyPlayerWork(const struct GameData *gameData);
-extern u32 GAME_DATA_GetPlayerObjectCode(const void *eventWork);
+struct MmdlSys;
+extern struct MmdlSys *FIELDMAP_GetMmdlSys(struct FieldMap *fieldMap);
+extern void FLDMMDL_SysPauseMove(struct MmdlSys *sys);
+extern void FLDMMDL_SysResumeMove(struct MmdlSys *sys);
+struct FieldSkillInfo;
+extern void MOVE_POKEMON_InitSkillInfo(struct FieldMap *fieldMap, struct FieldSkillInfo *out);
+extern struct GameEvent *FIELD_LINK_EVENT_Create(int index, struct GameSystem *gameSystem, struct FieldMap *fieldMap);
+extern void *RECENT_ID_LIST_SAVEDATA_GetBlockFromSys(void *sys);
+extern u16 RECENT_ID_LIST_SAVEDATA_CountIds(u8 *ids);
+struct FieldSkillUseFlags;
+extern void FIELD_SKILL_CHECK_FillUseFlags(struct FieldSkillUseFlags *flags, struct GameSystem *gameSystem, void *fieldMap);
+struct ShortcutMenu;
+extern void SHORTCUT_MENU_Main(struct ShortcutMenu *menu);
+extern void SHORTCUT_MENU_Start(struct ShortcutMenu *menu);
+extern void SHORTCUT_MENU_RequestClose(struct ShortcutMenu *menu);
+extern int SHORTCUT_MENU_IsWaitingInput(struct ShortcutMenu *menu);
+extern u32 SHORTCUT_MENU_GetResult(struct ShortcutMenu *menu, u32 *outValue);
+struct PlayerWork;
+extern struct PlayerWork *GAME_DATA_GetMyPlayerWork(const struct GameData *gameData);
+extern u32 GAME_DATA_GetPlayerObjectCode(struct PlayerWork *player);
 extern int GAME_DATA_GetIntrudeCount(const struct GameData *gameData);
-extern u32 FIELD_SKILL_USE_FLAGS_IsSkillUsable(const ShortcutAvailMask *mask, u32 bit);
-extern u8 RECENT_ID_LIST_SAVEDATA_GetIdAt(const ShortcutList *list, u32 slot);
-extern int BG_SYS_SetPlaneVisible();
-extern void *FIELDMAP_GetMsgBg(struct FieldMap *fieldMap);
-extern int FIELD_MSGBG_ReleaseBg();
-extern const u16 *GAME_DATA_GetRtcWork(struct GameData *gameData);
-extern void *SHORTCUT_MENU_Create(struct GameData *gameData, int mode, const u16 *playerName, u16 bufferSize, u16 heapId);
-extern int SHORTCUT_MENU_Delete();
-extern int FIELD_MSGBG_SetupBgSingle();
-extern int SHORTCUT_MENU_RunPrint(void *commObj);
-extern void *SCRIPT_SYS_CreateScriptEventSimple(struct GameSystem *gameSystem, int messageId, int a, int heapId);
-extern void *SCRIPT_SYS_GetEventScriptWork(void *msgWindow);
-extern u32 POKEPARTY_GetCount(void *party);
-extern void *POKEPARTY_GetMember(void *party, u32 index);
-extern u32 POKE_TOOL_GetPartyValue(void *mon, u32 param, u32 value);
-extern u32 POKE_TOOL_HasRibbonData(void *mon);
+extern u32 FIELD_SKILL_USE_FLAGS_IsSkillUsable(struct FieldSkillUseFlags *flags, u32 skillIndex);
+extern u8 RECENT_ID_LIST_SAVEDATA_GetIdAt(u8 *ids, u32 index);
+extern void BG_SYS_SetPlaneVisible(u8 which, u8 enable);
+struct FieldMsgBg;
+extern struct FieldMsgBg *FIELDMAP_GetMsgBg(struct FieldMap *fieldMap);
+extern void FIELD_MSGBG_ReleaseBg(struct FieldMsgBg *msgBg);
+extern unsigned char *GAME_DATA_GetRtcWork(struct GameData *gameData);
+extern struct ShortcutMenu *SHORTCUT_MENU_Create(void *gameSystem, int mode, unsigned short *savedState, unsigned short textHeapId, unsigned short heapId);
+extern void SHORTCUT_MENU_Delete(struct ShortcutMenu *menu);
+extern void FIELD_MSGBG_SetupBgSingle(struct FieldMsgBg *msgBg);
+extern int SHORTCUT_MENU_RunPrint(struct ShortcutMenu *menu);
+extern struct GameEvent *SCRIPT_SYS_CreateScriptEventSimple(void *fieldSys, unsigned short scriptId, void *target, int reserved);
+extern void *SCRIPT_SYS_GetEventScriptWork(struct GameEvent *event);
+struct Party;
+extern u32 POKEPARTY_GetCount(struct Party *party);
+struct PokemonParam;
+extern struct PokemonParam *POKEPARTY_GetMember(struct Party *party, u32 pos);
+extern u32 POKE_TOOL_GetPartyValue(struct PokemonParam *pp, u32 paramId, u32 arg);
+struct BoxPokemon;
+extern u32 POKE_TOOL_HasRibbonData(struct BoxPokemon *box);
 extern void MI_CpuFill8(void *dst, u8 val, u32 size);
 extern void FIELDMAP_SetBgMode(void);
-extern void FIELDMAP_ResetBgAffineShowMsg(void *map);
+extern void FIELDMAP_ResetBgAffineShowMsg(struct FieldMap *fieldMap);
 
 
 int EVENT_SHORTCUT_MENU_HasShortcuts(struct GameSystem *gameSystem);
@@ -276,7 +286,7 @@ extern ShortcutProc d_021712CC[];
  */
 int EVENT_SHORTCUT_MENU_HasShortcuts(struct GameSystem *gameSystem)
 {
-    if (RECENT_ID_LIST_SAVEDATA_CountIds(RECENT_ID_LIST_SAVEDATA_GetBlockFromSys(GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData(gameSystem)))) != 0)
+    if (RECENT_ID_LIST_SAVEDATA_CountIds((u8 *)(RECENT_ID_LIST_SAVEDATA_GetBlockFromSys(GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData(gameSystem))))) != 0)
         return 1;
 
     return 0;
@@ -295,7 +305,7 @@ struct GameEvent *EVENT_SHORTCUT_MENU_Create(struct GameSystem *gameSystem, stru
     ShortcutMenuWork *work;
 
     shortcuts = RECENT_ID_LIST_SAVEDATA_GetBlockFromSys(GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData(gameSystem)));
-    if (RECENT_ID_LIST_SAVEDATA_CountIds(shortcuts) == 1) {
+    if (RECENT_ID_LIST_SAVEDATA_CountIds((u8 *)shortcuts) == 1) {
         event = GAME_EVENT_Create(gameSystem, 0, (void *)EVENT_SHORTCUT_MENU_ReturnEvent, sizeof(ShortcutMenuWork));
     } else {
         event = GAME_EVENT_Create(gameSystem, 0, (void *)EVENT_SHORTCUT_MENU_MainEvent, sizeof(ShortcutMenuWork));
@@ -312,7 +322,7 @@ struct GameEvent *EVENT_SHORTCUT_MENU_Create(struct GameSystem *gameSystem, stru
     work->link->gameSystem = work->gameSystem;
     work->link->fieldMap = work->fieldMap;
     work->link->event = event;
-    if (RECENT_ID_LIST_SAVEDATA_CountIds(shortcuts) != 1) {
+    if (RECENT_ID_LIST_SAVEDATA_CountIds((u8 *)shortcuts) != 1) {
         work->link->onResume = EVENT_SHORTCUT_MENU_ResumeLinkHook;
         work->link->onSuspend = EVENT_SHORTCUT_MENU_SuspendLinkHook;
         work->link->hookArg = work;
@@ -376,8 +386,8 @@ int EVENT_SHORTCUT_MENU_MainEvent(struct GameEvent *event, u32 *seq, ShortcutMen
             if (isUnknownId == 0 && GAME_DATA_GetIntrudeCount(GAMESYSTEM_GetGameData(work->gameSystem)) == 1) {
                 blocked = 1;
             } else if (hasAvailBit == 1) {
-                FIELD_SKILL_CHECK_FillUseFlags(&avail, work->gameSystem, work->fieldMap);
-                if (FIELD_SKILL_USE_FLAGS_IsSkillUsable(&avail, availBit) == 0)
+                FIELD_SKILL_CHECK_FillUseFlags((struct FieldSkillUseFlags *)(&avail), work->gameSystem, work->fieldMap);
+                if (FIELD_SKILL_USE_FLAGS_IsSkillUsable((struct FieldSkillUseFlags *)(&avail), availBit) == 0)
                     blocked = 1;
             }
             if (code == 9 && EVENT_SHORTCUT_MENU_CheckPartyRibbon(work) == 0)
@@ -515,7 +525,7 @@ int EVENT_SHORTCUT_MENU_ReturnEvent(struct GameEvent *event, u32 *seq, ShortcutM
 
     switch (*seq) {
     case 0:
-        shortcutId = RECENT_ID_LIST_SAVEDATA_GetIdAt(RECENT_ID_LIST_SAVEDATA_GetBlockFromSys(GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData(work->gameSystem))), 0);
+        shortcutId = RECENT_ID_LIST_SAVEDATA_GetIdAt((u8 *)(RECENT_ID_LIST_SAVEDATA_GetBlockFromSys(GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData(work->gameSystem)))), 0);
         blocked = 0;
         result = EVENT_SHORTCUT_MENU_ResolveShortcut(work->link, shortcutId);
         noEligibleMon = 0;
@@ -523,8 +533,8 @@ int EVENT_SHORTCUT_MENU_ReturnEvent(struct GameEvent *event, u32 *seq, ShortcutM
         if (isUnknownId == 0 && GAME_DATA_GetIntrudeCount(GAMESYSTEM_GetGameData(work->gameSystem)) == 1) {
             blocked = 1;
         } else if (hasAvailBit == 1) {
-            FIELD_SKILL_CHECK_FillUseFlags(&avail, work->gameSystem, work->fieldMap);
-            if (FIELD_SKILL_USE_FLAGS_IsSkillUsable(&avail, availBit) == 0)
+            FIELD_SKILL_CHECK_FillUseFlags((struct FieldSkillUseFlags *)(&avail), work->gameSystem, work->fieldMap);
+            if (FIELD_SKILL_USE_FLAGS_IsSkillUsable((struct FieldSkillUseFlags *)(&avail), availBit) == 0)
                 blocked = 1;
         }
         if (shortcutId == 9 && EVENT_SHORTCUT_MENU_CheckPartyRibbon(work) == 0)
@@ -762,7 +772,7 @@ void EVENT_SHORTCUT_MENU_OpenLink(int mode, ShortcutMenuWork *work)
         if (fieldComm != 0)
             FIELD_MSGBG_ReleaseBg(fieldComm);
         gameData = GAMESYSTEM_GetGameData(work->gameSystem);
-        work->commObj = SHORTCUT_MENU_Create(gameData, mode, GAME_DATA_GetRtcWork(gameData), 0x50, 0x15);
+        work->commObj = SHORTCUT_MENU_Create(gameData, mode, (unsigned short *)GAME_DATA_GetRtcWork(gameData), 0x50, 0x15);
     }
 }
 
@@ -814,7 +824,7 @@ int EVENT_SHORTCUT_MENU_ResumeLinkHook(ShortcutLink *link, ShortcutMenuWork *wor
     shortcuts = RECENT_ID_LIST_SAVEDATA_GetBlockFromSys(GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData(work->gameSystem)));
     switch (work->commCloseState) {
     case 0:
-        if (RECENT_ID_LIST_SAVEDATA_CountIds(shortcuts) == 0) {
+        if (RECENT_ID_LIST_SAVEDATA_CountIds((u8 *)shortcuts) == 0) {
             work->commClosed = 1;
             work->commCloseState = 2;
         } else if (link->result - 1 <= 2) {
@@ -903,8 +913,8 @@ struct GameEvent *EVENT_SHORTCUT_MENU_CreateProcEvent(ShortcutLink *link, u16 id
     task->scrollOffset = 0;
     task->selectedItem = 0;
     EVENT_SHORTCUT_MENU_InitHooks(&task->hooks, task->link, task->link->onResume, task->link->onSuspend, task->link->onExit, task->link->hookArg);
-    FIELD_SKILL_CHECK_FillUseFlags(&task->avail, task->link->gameSystem, task->link->fieldMap);
-    MOVE_POKEMON_InitSkillInfo(task->link->fieldMap, &task->fieldInfo);
+    FIELD_SKILL_CHECK_FillUseFlags((struct FieldSkillUseFlags *)(&task->avail), task->link->gameSystem, task->link->fieldMap);
+    MOVE_POKEMON_InitSkillInfo(task->link->fieldMap, (struct FieldSkillInfo *)(&task->fieldInfo));
     return event;
 }
 

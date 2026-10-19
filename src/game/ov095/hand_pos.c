@@ -53,7 +53,7 @@ extern u16 BTL_EVENT_GetFactorKey(struct BtlEventFactor *factor);
 extern struct BtlEventFactor *BTL_EVENT_FindNextFactor(struct BtlEventFactor *factor);
 extern int BTL_SERVER_FLOW_GetPokeViewPos(struct BtlServerFlow *flow, u32 pokeId);
 extern int BTL_POKEPARAM_GetMajorStatusIndex(struct BtlPokeParam *bpp);
-extern u32 BTL_POKEPARAM_GetMoveCount(struct BtlPokeParam *bpp);
+extern u8 BTL_POKEPARAM_GetMoveCount(struct BtlPokeParam *bpp);
 extern u8 BTL_POKEPARAM_GetMovePPLost(struct BtlPokeParam *bpp, u8 moveIndex);
 extern int BTL_POKEPARAM_GetValue(struct BtlPokeParam *bpp, int valueId);
 extern int BTL_POKEPARAM_IsFainted(struct BtlPokeParam *bpp);

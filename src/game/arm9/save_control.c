@@ -135,21 +135,21 @@ extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *file, u
 extern u32 GFL_HEAP_Free(void *memory);
 
 extern void GF_PANIC_Fail(const char *file, u32 line, const char *message);
+struct SaveDataParam;
 
-extern struct BackupSaveData *BACKUP_SYSTEM_Create(const struct SaveAreaDesc *desc, u32 heapId);
+extern struct BackupSaveData *BACKUP_SYSTEM_Create(struct SaveDataParam *param, u32 heap_id);
 
-extern struct BackupSaveData *BACKUP_SYSTEM_CreateWithWork(const struct SaveAreaDesc *desc, u32 heapId,
-                                            void *work, u32 workSize, u32 initMode);
+extern struct BackupSaveData *BACKUP_SYSTEM_CreateWithWork(struct SaveDataParam *param, u32 heap_id, void *svwk, u32 svwk_size, u32 init_mode);
 
 extern void BACKUP_SYSTEM_Delete(struct BackupSaveData *backup);
 
-extern void *BACKUP_SYSTEM_GetWork(struct BackupSaveData *backup, u32 *size);
+extern u8 *BACKUP_SYSTEM_GetWork(struct BackupSaveData *backup, u32 *size);
 
-extern void *BACKUP_SYSTEM_GetRecordWork(struct BackupSaveData *backup, u32 recordId);
+extern u8 *BACKUP_SYSTEM_GetRecordWork(struct BackupSaveData *backup, u32 recordId);
 
 extern void BACKUP_SYSTEM_ClearWork(struct BackupSaveData *backup);
 
-extern void *BACKUP_SYSTEM_GetDiffSize(struct BackupSaveData *backup);
+extern void BACKUP_SYSTEM_GetDiffSize(struct BackupSaveData *backup, u32 *diffSize, u32 *totalSize);
 
 extern int BACKUP_SYSTEM_Erase(struct BackupSaveData *backup, u32 heapId);
 
@@ -169,7 +169,7 @@ extern int BACKUP_SYSTEM_LoadLinked(struct BackupSaveData *backup, u32 heapId, u
 
 extern u32 BACKUP_SYSTEM_GetWrittenSize(struct BackupSaveData *backup);
 
-extern void BACKUP_SYSTEM_WriteFlash(u32 flashAddr, const void *src, u32 size);
+extern void BACKUP_SYSTEM_WriteFlash(u32 flash_addr, u32 src, u32 size);
 
 extern int BACKUP_SYSTEM_ReadRecordFromFlash(struct BackupSaveData *backup, u32 recordId, u32 areaIndex, u32 dest, u32 size);
 
@@ -179,21 +179,21 @@ extern u8 SAVE_OUTSIDE_IsLoaded(struct SaveOutside *outside);
 
 extern int SAVE_OUTSIDE_IsCorrupt(struct SaveOutside *outside);
 
-extern void SAVE_OUTSIDE_Free(struct SaveOutside *outside);
+extern void SAVE_OUTSIDE_Free(void *p);
 
-extern u8 SYSTEM_DATA_IsActive(struct SaveControl *save);
+extern u8 SYSTEM_DATA_IsActive(void *save);
 
-extern void SYSTEM_DATA_SetActive(struct SaveControl *save);
+extern void SYSTEM_DATA_SetActive(void *save);
 
 extern void SYSTEM_DATA_ClearActive(struct SaveControl *save);
 
-extern int SYSTEM_DATA_IsMarked(struct SaveControl *save, u32 slot);
+extern int SYSTEM_DATA_IsMarked(void *save, u32 index);
 
-extern void SYSTEM_DATA_SetMark(struct SaveControl *save, u32 slot);
+extern void SYSTEM_DATA_SetMark(void *save, u32 index);
 
-extern void SYSTEM_DATA_ClearMark(struct SaveControl *save, u32 slot);
+extern void SYSTEM_DATA_ClearMark(void *save, u32 index);
 
-extern u32 *SYSTEM_DATA_GetWordSlot(struct SaveControl *save, u32 slot);
+extern u32 *SYSTEM_DATA_GetWordSlot(void *save, u32 index);
 
 extern struct MusicalSave *MUSICAL_SAVE_GetFromSave(struct SaveControl *save);
 
@@ -271,7 +271,7 @@ struct SaveControl *SAVE_CONTROL_Create(int heapId)
     saveControl->hasFlashSave = 0;
     saveControl->outsideSaveLoaded = outsideLoaded;
     saveControl->outsideSaveBroken = outsideBroken;
-    saveControl->mainSave = BACKUP_SYSTEM_Create(&_MainSaveDesc, heapId);
+    saveControl->mainSave = BACKUP_SYSTEM_Create((struct SaveDataParam *)(&_MainSaveDesc), heapId);
     loadResult = BACKUP_SYSTEM_Load(saveControl->mainSave, 1);
     if ((u32)(loadResult - 1) <= 1 && SYSTEM_DATA_IsActive(saveControl) == 1)
         loadResult = SAVE_LOAD_NO_DATA;
@@ -555,9 +555,9 @@ void *SAVE_CONTROL_EraseMainSave(struct SaveControl *saveControl)
     return (void *)BACKUP_SYSTEM_Erase(saveControl->mainSave, 1);
 }
 
-void *SAVE_CONTROL_GetDiffSize(struct SaveControl *saveControl)
+void SAVE_CONTROL_GetDiffSize(struct SaveControl *saveControl, u32 *diffSize, u32 *totalSize)
 {
-    return BACKUP_SYSTEM_GetDiffSize(saveControl->mainSave);
+    BACKUP_SYSTEM_GetDiffSize(saveControl->mainSave, diffSize, totalSize);
 }
 
 /*
@@ -603,7 +603,7 @@ int SAVE_CONTROL_ReadRecordFromFlash(struct SaveControl *saveControl, u32 record
  */
 u32 SAVE_CONTROL_LoadExtraSave(struct SaveControl *saveControl, u32 slot, u8 heapId)
 {
-    saveControl->extraSaves[slot] = BACKUP_SYSTEM_Create(&_ExtraSaveDescs[slot], heapId);
+    saveControl->extraSaves[slot] = BACKUP_SYSTEM_Create((struct SaveDataParam *)(&_ExtraSaveDescs[slot]), heapId);
     if (SYSTEM_DATA_IsMarked(saveControl, slot) == 0) {
         return 0;
     }
@@ -635,7 +635,7 @@ void SAVE_CONTROL_DeleteExtraSave(struct SaveControl *saveControl, u32 slot)
 /* Like SAVE_CONTROL_LoadExtraSave, but the area works in the caller's buffer (initMode 1) and is loaded. */
 u32 SAVE_CONTROL_LoadExtraSaveWithBuffer(struct SaveControl *saveControl, u32 slot, u8 heapId, void *work, u32 workSize)
 {
-    saveControl->extraSaves[slot] = BACKUP_SYSTEM_CreateWithWork(&_ExtraSaveDescs[slot], heapId, work, workSize, 1);
+    saveControl->extraSaves[slot] = BACKUP_SYSTEM_CreateWithWork((struct SaveDataParam *)(&_ExtraSaveDescs[slot]), heapId, work, workSize, 1);
     if (SYSTEM_DATA_IsMarked(saveControl, slot) == 0) {
         return 0;
     }
@@ -651,7 +651,7 @@ u32 SAVE_CONTROL_LoadExtraSaveWithBuffer(struct SaveControl *saveControl, u32 sl
  */
 void SAVE_CONTROL_CreateExtraSaveWithBuffer(struct SaveControl *saveControl, u32 slot, u32 heapId, u32 work, u32 workSize)
 {
-    saveControl->extraSaves[slot] = BACKUP_SYSTEM_CreateWithWork(&_ExtraSaveDescs[slot], heapId, (void *)work, workSize, 0);
+    saveControl->extraSaves[slot] = BACKUP_SYSTEM_CreateWithWork((struct SaveDataParam *)(&_ExtraSaveDescs[slot]), heapId, (void *)work, workSize, 0);
 }
 
 void SAVE_CONTROL_DeleteExtraSaveBuffered(struct SaveControl *saveControl, u32 slot)
@@ -748,6 +748,6 @@ void SAVE_CONTROL_EraseOutsideSave(void)
 {
     u32 zero = 0;
 
-    BACKUP_SYSTEM_WriteFlash(0x7F800, &zero, 4);
-    BACKUP_SYSTEM_WriteFlash(0x7FC00, &zero, 4);
+    BACKUP_SYSTEM_WriteFlash((u32)0x7F800, (u32)(&zero), 4);
+    BACKUP_SYSTEM_WriteFlash((u32)0x7FC00, (u32)(&zero), 4);
 }

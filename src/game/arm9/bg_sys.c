@@ -238,19 +238,19 @@ extern void MI_CpuFill8(void *dst, u32 value, u32 size);
 
 extern u32 GFL_HEAP_Free(void *p);
 
-extern struct AreaMan *AREAMAN_Create(u32 size, u32 heap);
+extern struct AreaMan *AREAMAN_Create(u32 area_count, u16 heap_id);
 
 extern u32 AREAMAN_Delete(void *a);
 
 extern s32 AREAMAN_AllocUp(struct AreaMan *p, u32 start, u32 limit, u32 len);
 
-extern u32 AREAMAN_AllocDown(u32 arena, u32 a, u32 b, u32 c);
+extern s32 AREAMAN_AllocDown(struct AreaMan *areaman, u32 start, u32 limit, u32 len);
 
 extern s32 AREAMAN_AllocAt(struct AreaMan *p, u32 start, u32 len);
 
 extern void AREAMAN_Free(struct AreaMan *p, u32 start, s32 len);
 
-extern void GX_SetGraphicsMode(u32 a, u32 b, u32 c);
+extern void GX_SetGraphicsMode(s32 dispMode, s32 bgMode, s32 bg0_2d3d);
 
 extern void GXS_SetGraphicsMode(u32 a);
 
@@ -604,7 +604,7 @@ u32 BG_SYS_CreateRun(u32 layer, u32 size, u32 top)
     if (top == 0)
         r = AREAMAN_AllocUp((struct AreaMan *)base, d1, d2, n + f);
     else
-        r = AREAMAN_AllocDown(base, d1 + d2 - 1, d2, n + f);
+        r = AREAMAN_AllocDown((struct AreaMan *)base, d1 + d2 - 1, d2, n + f);
     if (r == 0xFFFFFFFF)
         return 0xFFFFFFFF;
     return (r * t - g_02146A44->tileBaseOffset[layer]) / t;
@@ -3481,7 +3481,7 @@ struct DispVram {
     GXOBJVRamModeChar sub_mapping;      /* +0x2C */
 };
 
-extern void GX_SetBankForLCDC(u32 banks);
+extern void GX_SetBankForLCDC(s32 lcdc);
 
 extern void GX_DisableBankForLCDC(void);
 

@@ -119,7 +119,7 @@ extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u
 extern void  MI_CpuFill8(void *dest, u8 data, u32 size);
 extern void *KEY_Create(u32 heap);
 extern void *TOUCHPANEL_Create(u32 heap);
-extern void  PM_GetBackLight(u32 *top, u32 *bottom);
+extern unsigned int PM_GetBackLight(int *top, int *bottom);
 extern void KEY_Main(void);
 extern void TOUCHPANEL_Main(void);
 extern void UI_ServiceLidSleep(void);
@@ -132,7 +132,7 @@ extern void UI_SetSoftResetInhibit(struct UiCtx *p, u8 mask);
 extern u32 UI_TestSoftResetInhibit(struct UiCtx *p, u32 mask);
 extern void OS_Terminate(void);
 extern int OS_IsRunOnTwl(void);
-extern int PM_GetBattery(u32 *out);
+extern unsigned int PM_GetBattery(int *batteryBuf);
 extern unsigned int PM_GetBatteryLevel(void *isConnectedBuf);
 void UI_Create(u32 heap, u8 mode);
 void UI_Main(struct UiCtx *p);
@@ -268,11 +268,11 @@ void UI_Create(u32 heap, u8 mode)
     p->powerState = 5;
 
     if (mode == 0) {
-        PM_GetBackLight(0, &a);
+        PM_GetBackLight((int *)0, (int *)(&a));
         p->backlightState = a;
     }
     if (mode == 1) {
-        PM_GetBackLight(0, &b);
+        PM_GetBackLight((int *)0, (int *)(&b));
         p->backlightState = b;
         UI_SetKeepAwakeFlagsGlobal(0x10);
         UI_SetSoftResetInhibitGlobal(4);
@@ -958,7 +958,7 @@ void UI_PollPower(void)
         return;
     }
 
-    if (PM_GetBattery(&bat) != 0)
+    if (PM_GetBattery((int *)(&bat)) != 0)
         return;
     if (bat == 0)
         gUiState.ctx->powerState = 5;
@@ -971,16 +971,16 @@ static int DWCi_IsFold(void)
     return ((*(unsigned short *)0x02FFFFA8 & 0x8000) >> 15) != 0;
 }
 
-extern int PM_SetBackLight(u32 which, u32 status);
+extern unsigned int PM_SetBackLight(int target, int sw);
 extern void TOUCHPANEL_AutoSamplingStop(void);
-extern void PM_GoSleepMode(u32 trigger, u32 a, u32 b);
+extern void PM_GoSleepMode(u32 trigger, u32 logic, u16 keyPattern);
 extern void TOUCHPANEL_AutoSamplingRestart(void);
 extern void UI_RunSuspendHook(struct UiCtx *ui);
 extern struct UiCtx *UI_GetContext(void);
-extern void GXx_SetMasterBrightness_(u32 reg, int brightness);
+extern void GXx_SetMasterBrightness_(unsigned short *reg, int brightness);
 extern u32 CARD_TryWaitBackupAsync(void);
 extern void OS_ResetSystem(u32 param);
-extern void OS_WaitIrq(u32 clear, u32 irqFlags);
+extern void OS_WaitIrq(int clear, unsigned int irqFlags);
 extern void FADE_Update(void);
 int UI_IsPowerConnected(void);
 void UI_RunWakePoweredHook(struct UiCtx *ui);
@@ -1000,13 +1000,13 @@ void UI_ChangeFrameRate(u8 value);
 int UI_GetPowerState(void);
 void UI_ApplyInputBounds(int inputObj);
 void TOUCHPANEL_ClearFrameRateWork(struct UiCtx *ui);
-void TOUCHPANEL_SetPoint(void *touchObj, u16 lowerX, u16 lowerY, u16 upperX, u16 upperY);
-int TOUCHPANEL_SetTrg(int inputObj, int trg, int trg30);
-int TOUCHPANEL_SetCont(int inputObj, int cont, int cont30);
+void TOUCHPANEL_SetPoint(struct UiCtx *ui, unsigned short x, unsigned short y, unsigned short x30, unsigned short y30);
+void TOUCHPANEL_SetTrg(struct UiCtx *ui, int trg, int trg30);
+void TOUCHPANEL_SetCont(struct UiCtx *ui, int cont, int cont30);
 void KEY_ClearFrameRateWork(struct UiCtx *ui);
-int KEY_SetTrg(int inputObj, int trg, int trg30);
-int KEY_SetCont(int inputObj, int cont, int cont30);
-int KEY_SetRepeat(int inputObj, int repeat, int repeat30);
+void KEY_SetTrg(struct UiCtx *ui, int trg, int trg30);
+void KEY_SetCont(struct UiCtx *ui, int cont, int cont30);
+void KEY_SetRepeat(struct UiCtx *ui, int repeat, int repeat30);
 int GFL_NET_Exit(void (*hook)(u32));
 u32 GFL_NET_Main(void);
 u32 GFL_NET_IsIdle(void);
@@ -1303,8 +1303,8 @@ void UI_SoftReset(u32 resetParam)
     struct UiCtx *ui;
 
     ui = UI_GetContext();
-    GXx_SetMasterBrightness_(0x0400006C, 0x10);
-    GXx_SetMasterBrightness_(0x0400006C + 0x1000, 0x10);
+    GXx_SetMasterBrightness_((unsigned short *)0x0400006C, 0x10);
+    GXx_SetMasterBrightness_((unsigned short *)(0x0400006C + 0x1000), 0x10);
     GFL_NET_Exit(0);
 
     while (1) {
@@ -1664,10 +1664,10 @@ void UI_ApplyInputBounds(int inputObj)
     if (gUiState.getInputBounds(&lower, &upper) == 0) {
         return;
     }
-    KEY_SetTrg(inputObj, lower.keyParam0, upper.keyParam0);
-    KEY_SetCont(inputObj, lower.keyParam1, upper.keyParam1);
-    KEY_SetRepeat(inputObj, lower.keyParam2, upper.keyParam2);
+    KEY_SetTrg((struct UiCtx *)inputObj, lower.keyParam0, upper.keyParam0);
+    KEY_SetCont((struct UiCtx *)inputObj, lower.keyParam1, upper.keyParam1);
+    KEY_SetRepeat((struct UiCtx *)inputObj, lower.keyParam2, upper.keyParam2);
     TOUCHPANEL_SetPoint((void *)inputObj, lower.touchX, lower.touchY, upper.touchX, upper.touchY);
-    TOUCHPANEL_SetTrg(inputObj, lower.touchFlagA, upper.touchFlagA);
-    TOUCHPANEL_SetCont(inputObj, lower.touchFlagB, upper.touchFlagB);
+    TOUCHPANEL_SetTrg((struct UiCtx *)inputObj, lower.touchFlagA, upper.touchFlagA);
+    TOUCHPANEL_SetCont((struct UiCtx *)inputObj, lower.touchFlagB, upper.touchFlagB);
 }

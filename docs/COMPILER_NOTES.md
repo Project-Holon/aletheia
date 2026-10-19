@@ -131,3 +131,45 @@ reason they read as gaps in one tool was that three of the shard/manifest entrie
 were absent, not that the code was unmatched. When a small run looks unmatched,
 check the manifest entry before writing code.
 
+
+## 12. A conversion helper name missing from `symbols:` can pass per file and break the link
+
+When C code does a conversion or a divide, mwcc emits a call to a runtime helper
+under its own name. The name depends on the operand types, not on what the
+original code called:
+
+| C operation | name mwcc emits | address |
+| --- | --- | --- |
+| `(double)` of an `int` | `_dflt` | 0x0209B750 |
+| `(double)` of a `u32` | `_dfltu` | 0x0209B790 |
+| `(s32)` of a `double` | `_dfix` | 0x0209C508 |
+| `(u64)` of a `double` | `_ll_ufrom_d` | 0x0209C554 |
+| `(float)` of an `int`, float `+`, `-`, `(int)` of a float | `_fflt`, `_fadd`, `_fsub`, `_ffix` | 0x0209BDBC, 0x0209C95C, 0x0209CB8C, 0x0209C494 |
+| `u32 / u32`, `int / int` | `_u32_div_f`, `_s32_div_f` | 0x0209C2B0, 0x0209C0A4 |
+
+If the name is not in the file's `symbols:` block, the per-file check takes its
+address from the call in the image, so `gameverify.py` reports EXACT even when the
+name is wrong for that address. `gamelink.py` then binds the name once for the
+whole region (the first file wins), and every other file that calls the same name
+goes to that address. In HELPER (wave 19), `mcss.c` wrote
+`(double)(sizeS + 2)` with `sizeS` a `u32`: mwcc emitted `_dfltu`, the image calls
+`_dflt`, and the two `_dfltu` calls in `msl_ansi_fp.c` landed 0x40 bytes off in
+the ARM9 link. The fix was the field's real type (`GXTexSizeS`, an int enum).
+
+Rules: put the emitted name in `symbols:` (check with `match.py one`: every
+relocation must say "resolved"). If the name and the image address disagree, the
+operand type in the C is wrong; do not change the address.
+
+Both sides are now checked (wave 19):
+
+- `tools/gameverify.py` reports a file whose relocation names no address anywhere
+  (no `symbols:` row, no `func_`/`d_` name, not in `layout/symbols_sdk.json` or the
+  matched manifest) as `MATCH (unattested: NAME: no symbols row)`, not EXACT. The
+  check is `match.unattested_names`, applied in `restructure.verify`.
+- `tools/gamelink.py` (and so `tools/onelink.py`), after the first link pass, reads
+  every file's own call or pool word for each undefined name from the original code
+  and fails with the names and files when two files disagree on the address.
+- Two files had the wrong helper name for the image: `pokemontrade_3d.c` divided
+  `long long` where the original divides unsigned (`_ll_udiv`), and
+  `comm_btl_demo_main.c` took `u32 % 180` where the original takes a signed value
+  (`_s32_div_f`). The operand type was fixed, not the address.

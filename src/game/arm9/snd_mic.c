@@ -25,6 +25,7 @@
  *   _MicIirFilter       0x020A7030  data
  *   _SndMic             0x02146164  data
  *   PERAPVOICE_Pack  0x02007BD0  thumb
+ *   MIC_AdjustLimitedSampling    0x0208B500  arm
  */
 #include "pm_voice_shared_types.h"
 
@@ -58,7 +59,7 @@ struct SndMic {
 /* Calls into the voice channel layer and the other data readers. */
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 line);
 
-extern void  GFL_HEAP_Free(void *block);
+extern u32 GFL_HEAP_Free(void *block);
 
 extern void  MI_CpuFill8(void *p, u32 value, u32 size);
 
@@ -70,11 +71,12 @@ extern void  MIC_Init(void);
 
 extern int   OS_IsRunOnTwl(void);
 
-extern void  SNDEXi_SetIirFilter(u32 index, u8 *coefficients);
+extern u32 SNDEXi_SetIirFilter(u32 target, u16 *coefficients);
 
 extern u32   MIC_AdjustLimitedSampling(const struct MICAutoParam *param);
+struct PerapVoice;
 
-extern void  PERAPVOICE_Pack(struct PerapVoice *perapVoice, const void *src);
+extern void  PERAPVOICE_Pack(struct PerapVoice *voice, char *src);
 
 /* microphone (snd_mic.c part of this file) */
 void SND_MIC_Init(u16 heapId);
@@ -121,7 +123,7 @@ void SND_MIC_Init(u16 heapId)
     mic->status.word = (mic->status.word & ~1u) | 1u;
     MIC_Init();
     if (OS_IsRunOnTwl() == 1) {
-        SNDEXi_SetIirFilter(0, _MicIirFilter);
+        SNDEXi_SetIirFilter(0, (u16 *)_MicIirFilter);
     }
     _SndMic = mic;
 }

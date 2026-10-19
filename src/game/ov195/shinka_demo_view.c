@@ -90,6 +90,11 @@
  *   FX_InvSqrt 0x0207C7E8 arm
  *   d_02208E4C 0x02208E4C data
  *   d_02208E38 0x02208E38 data
+ *   _fdiv                        0x0209CE10  arm
+ *   _ffix                        0x0209C494  arm
+ *   _fflt                        0x0209BDBC  arm
+ *   _ffltu                       0x0209BE04  arm
+ *   _fgr                         0x0209BBB0  arm
  */
 #include "shinka_demo_graphic_shared_types.h"
 #include "shinka_demo_view_shared_types.h"
@@ -287,80 +292,87 @@ extern u32 GFL_HEAP_Free(void *p);
 extern u32 G3D_CAMERA_Create(int, int, int, int, int, int, int, int, void *, void *, void *, void *);
 
 extern u32 G3D_CAMERA_Delete(void *ptr);
+struct G3dCamera;
 
-extern void G3D_CAMERA_Reset(struct Light *l);
+extern void G3D_CAMERA_Reset(struct G3dCamera *camera);
 
 extern void G3D_SYSTEM_ApplyLookAt(void);
 
 extern u32 POKE_TOOL_GetPartyParamSize(void);
+struct PartyPokemon;
 
-extern void POKE_TOOL_CopyPartyPokemon(const struct RecDC *src, struct RecDC *dest);
+extern void POKE_TOOL_CopyPartyPokemon(struct PartyPokemon *src, struct PartyPokemon *dest);
+struct PokemonParam;
 
-extern void POKE_TOOL_ChangeSpecies(void *p, u32 a);
+extern void POKE_TOOL_ChangeSpecies(struct PokemonParam *pp, unsigned int species);
 
-extern u32 POKE_TOOL_GetPartyValue(void *,u32,u32);
+extern u32 POKE_TOOL_GetPartyValue(struct PokemonParam *pp, unsigned int paramId, unsigned int arg);
 
-extern u32 PM_VOICE_Play(u32,u32,u32,u32,u32,u32,u32,u32);
+extern u32 PM_VOICE_Play(unsigned int species, unsigned int form, unsigned int pan, unsigned int dual, unsigned int volumeBiasB, unsigned int frequencyOffsetB, unsigned int reverse, void **recordedVoice);
 
 extern int PM_VOICE_IsAnyActive(void);
+struct McssWork;
 
-extern void MCSS_SetPaletteFade(struct McssFade *w, u32 cur, u32 target, s32 step, u32 e);
+extern void MCSS_SetPaletteFade(struct McssWork *work, unsigned int start, unsigned int end, int wait, unsigned int color);
 
-extern void MCSS_SetAnmStopFlag(void *);
+extern void MCSS_SetAnmStopFlag(struct McssWork *work);
 
-extern int MCSS_CheckPaletteFade(void *);
+extern int MCSS_CheckPaletteFade(struct McssWork *work);
 
-extern void *MCSS_GetAnimCtrl(void *);
+extern void *MCSS_GetAnimCtrl(struct McssWork *work);
+struct MultiCellAnim;
 
-extern void NNS_G2dRestartMCAnimation(struct Obj *);
+extern void NNS_G2dRestartMCAnimation(struct MultiCellAnim *pMCAnim);
 
-extern void MCSS_ResetVanishFlag(void *);
+extern void MCSS_ResetVanishFlag(struct McssWork *work);
 
-extern void MCSS_SetVanishFlag(void *);
+extern void MCSS_SetVanishFlag(struct McssWork *work);
 
-extern void MCSS_ResetAnmStopFlag(void *);
+extern void MCSS_ResetAnmStopFlag(struct McssWork *work);
 
-extern void MCSS_Main(char *);
+extern void MCSS_Main(struct McssSys *sys);
 
 extern void MCSS_Draw(struct McssSys *sys);
 
-extern void *MCSS_Init(u32 id, void *heap);
+extern struct McssSys *MCSS_Init(unsigned int maxCount, unsigned int heapId);
 
-extern void MCSS_SetTextureTransAdrs(void *p, u32 v);
+extern void MCSS_SetTextureTransAdrs(struct McssSys *sys, unsigned int adrs);
 
-extern void MCSS_SetOrthoMode(void *obj);
+extern void MCSS_SetOrthoMode(struct McssSys *sys);
 
-extern void MCSS_Exit(u8 *sys);
+extern void MCSS_Exit(struct McssSys *sys);
 
-extern void *MCSS_TOOL_AddPokeMcss(void *sys, void *pp, u32 direction, u32 x, u32 y, u32 z);
+extern struct McssWork *MCSS_TOOL_AddPokeMcss(struct McssSys *sys, void *pp, unsigned int direction, int x, int y, int z);
 
-extern void MCSS_SetShadowVanishFlag(char *p, int v);
+extern void MCSS_SetShadowVanishFlag(struct McssWork *work, int flag);
 
-extern int MCSS_TOOL_SetAnimeStopCallback(int work);
+extern int MCSS_TOOL_SetAnimeStopCallback(struct McssWork *work);
 
-extern void MCSS_SetScale(void *p, u32 *src);
+extern void MCSS_SetScale(struct McssWork *work, unsigned int *src);
 
-extern void MCSS_Del(void *sys, void *obj);
+extern void MCSS_Del(struct McssSys *sys, struct McssWork *work);
 
-extern u16 MCSS_GetSizeY(void *p);
+extern u16 MCSS_GetSizeY(struct McssWork *work);
 
-extern s16 MCSS_GetOfsY(void *p);
+extern s16 MCSS_GetOfsY(struct McssWork *work);
 
-extern s16 MCSS_GetOfsX(void *p);
+extern s16 MCSS_GetOfsX(struct McssWork *work);
 
-extern void MCSS_SetOfsPosition(void *p, u32 *src);
+extern void MCSS_SetOfsPosition(struct McssWork *work, unsigned int *src);
 
-extern void MCSS_GetPosition(void *p, u32 *out);
+extern void MCSS_GetPosition(struct McssWork *work, unsigned int *out);
 
-extern void MCSS_SetPosition(void *p, u32 *src);
+extern void MCSS_SetPosition(struct McssWork *work, unsigned int *src);
 
-extern u8 POKE_TOOL_GetGender(void *p);
+extern u8 POKE_TOOL_GetGender(struct PokemonParam *pp);
 
-extern u32 POKE_TOOL_IsShiny(void *p);
+extern u32 POKE_TOOL_IsShiny(struct PokemonParam *pp);
+struct G3dProjection;
 
-extern void G3D_SYSTEM_GetProjection(int proj);
+extern void G3D_SYSTEM_GetProjection(struct G3dProjection *proj);
+struct G3dLookAt;
 
-extern void G3D_SYSTEM_GetLookAt(u8 *dst);
+extern void G3D_SYSTEM_GetLookAt(struct G3dLookAt *lookAt);
 
 extern void MTX_Identity33_(MtxFx33 *m);
 
@@ -372,9 +384,9 @@ extern void NNS_G3dGlbBaseScale(const VecFx32 *scale);
 
 extern void NNS_G3dGeFlushBuffer(void);
 
-extern void G3D_SYSTEM_SetProjection(const u32 *src);
+extern void G3D_SYSTEM_SetProjection(struct G3dProjection *proj);
 
-extern void G3D_SYSTEM_SetLookAt(u8 *lookAt);
+extern void G3D_SYSTEM_SetLookAt(struct G3dLookAt *lookAt);
 
 extern struct Bmp *BMP_Create(u32 width, u32 height, u32 depth, u16 heap);
 
@@ -384,9 +396,9 @@ extern s32 POKEGRA_GetCgrArcIndex(u32 arcId, u32 monsNo, u32 formNo, u32 sex, u3
 
 extern s32 POKEGRA_GetPalArcIndex(u32 arcId, u32 monsNo, u32 formNo, u32 sex, u32 s5, u32 s6, u32 s7);
 
-extern void *ARC_UTIL_LoadScreenDataFromArchive(u32 archiveID, u32 memberIdx, u32 heapID, u32 unpackedOut, u16 flags);
+extern void *ARC_UTIL_LoadScreenDataFromArchive(u32 archiveID, u32 memberIdx, u32 heapID, void *unpackedOut, u16 flags);
 
-extern void *ARC_UTIL_LoadPaletteBlockFromArchive(u32 archiveID, u32 memberIdx, u32 unpackedOut, u32 flags);
+extern void *ARC_UTIL_LoadPaletteBlockFromArchive(u32 archiveID, u32 memberIdx, void *unpackedOut, u16 flags);
 
 extern void *BMP_GetPixels(const struct Bmp *bmp);
 
@@ -398,7 +410,7 @@ extern struct Bmp *BMP_ConvertToLinear(struct Bmp *src, u32 keep, u16 heap);
 
 extern s32 NNS_GfdRegisterNewVramTransferTask(void *p, u32 a, u32 b, s32 size);
 
-extern void BMP_Delete(void *p);
+extern void BMP_Delete(struct Bmp *bmp);
 
 extern int FX_Sqrt(int);
 
@@ -599,8 +611,8 @@ void SHINKA_DEMO_VIEW_Main(char *p)
     case 2:if(W(0x24))W(0x14)=3;break;
     case 3:
         W(0x14)=4;
-        MCSS_SetPaletteFade((struct McssFade *)NODE(B(0x48)),0,16,0,0x7fff);
-        MCSS_SetPaletteFade((struct McssFade *)NODE(SHINKA_DEMO_VIEW_OtherSlot(B(0x48))),16,16,0,0x7fff);
+        MCSS_SetPaletteFade((struct McssWork *)NODE(B(0x48)),0,16,0,0x7fff);
+        MCSS_SetPaletteFade((struct McssWork *)NODE(SHINKA_DEMO_VIEW_OtherSlot(B(0x48))),16,16,0,0x7fff);
         MCSS_SetAnmStopFlag(NODE(B(0x48)));
         break;
     case 4:if(!MCSS_CheckPaletteFade(NODE(B(0x48))))W(0x14)=5;break;
@@ -613,7 +625,7 @@ void SHINKA_DEMO_VIEW_Main(char *p)
         SHINKA_DEMO_VIEW_SetModelPosX(p,0x100000);
         SHINKA_DEMO_VIEW_SetModelsPos(p,0,0xfffff800,0);
         W(0x5c)=0;
-        NNS_G2dRestartMCAnimation((struct Obj *)MCSS_GetAnimCtrl(NODE(B(0x48))));
+        NNS_G2dRestartMCAnimation((struct MultiCellAnim *)MCSS_GetAnimCtrl(NODE(B(0x48))));
         break;
     case 7:
         if(W(0x18)>=1){W(0x14)=8;W(0x18)=0;}
@@ -646,7 +658,7 @@ void SHINKA_DEMO_VIEW_Main(char *p)
     case 15:if(W(0x30))W(0x14)=16;break;
     case 16:
         W(0x14)=17;
-        MCSS_SetPaletteFade((struct McssFade *)NODE(B(0x48)),16,0,1,0x7fff);
+        MCSS_SetPaletteFade((struct McssWork *)NODE(B(0x48)),16,0,1,0x7fff);
         break;
     case 17:
         if(!MCSS_CheckPaletteFade(NODE(B(0x48)))){W(0x14)=18;MCSS_ResetAnmStopFlag(NODE(B(0x48)));}
@@ -781,7 +793,7 @@ int SHINKA_DEMO_VIEW_TrySecondForm(int *p)
  */
 void SHINKA_DEMO_VIEW_InitMcss(char *owner)
 {
-    ((Owner *)owner)->sys = (void *)(u32)MCSS_Init(2, (void *)(((Owner *)owner)->heap));
+    ((Owner *)owner)->sys = (void *)(u32)MCSS_Init((unsigned int)2, (unsigned int)(((Owner *)owner)->heap));
     MCSS_SetTextureTransAdrs((void *)(((Owner *)owner)->sys), 0x30000);
     MCSS_SetOrthoMode((void *)(((Owner *)owner)->sys));
 }
@@ -829,7 +841,7 @@ void SHINKA_DEMO_VIEW_CreateModels(Owner *o)
             else
                 o->obj[i] = MCSS_TOOL_AddPokeMcss(o->sys, o->res1, 0, 0, SHINKA_DEMO_VIEW_GetModelOffset(o->res1), 0);
             MCSS_SetShadowVanishFlag(o->obj[i], 1);
-            MCSS_TOOL_SetAnimeStopCallback((int)o->obj[i]);
+            MCSS_TOOL_SetAnimeStopCallback(o->obj[i]);
             MCSS_SetScale(o->obj[i], (u32 *)(&scale));
             if (i != 0) {
                 MCSS_SetVanishFlag(o->obj[i]);
@@ -839,7 +851,7 @@ void SHINKA_DEMO_VIEW_CreateModels(Owner *o)
     } else {
         o->obj[1] = MCSS_TOOL_AddPokeMcss(o->sys, o->res0, 0, 0, SHINKA_DEMO_VIEW_GetModelOffset(o->res0), 0);
         MCSS_SetShadowVanishFlag(o->obj[1], 1);
-        MCSS_TOOL_SetAnimeStopCallback((int)o->obj[1]);
+        MCSS_TOOL_SetAnimeStopCallback(o->obj[1]);
         MCSS_SetScale(o->obj[1], (u32 *)(&scale));
     }
     SHINKA_DEMO_VIEW_UpdateModelOffsets((Owner *)o);
@@ -1032,8 +1044,8 @@ void SHINKA_DEMO_VIEW_Draw3d(Owner *o)
     Work *w = o->work;
     u8 i;
 
-    G3D_SYSTEM_GetProjection((int)save0);
-    G3D_SYSTEM_GetLookAt(save1);
+    G3D_SYSTEM_GetProjection((struct G3dProjection *)save0);
+    G3D_SYSTEM_GetLookAt((struct G3dLookAt *)save1);
     {
         VecFx32 scale = d_02208E8C;
         MtxFx33 rot;
@@ -1045,7 +1057,7 @@ void SHINKA_DEMO_VIEW_Draw3d(Owner *o)
         d_02148BCC.flag &= ~0xa4;
         NNS_G3dGlbBaseScale(&scale);
     }
-    G3D_CAMERA_Reset((struct Light *)w->camera);
+    G3D_CAMERA_Reset((struct G3dCamera *)w->camera);
     G3D_SYSTEM_ApplyLookAt();
     NNS_G3dGeFlushBuffer();
     REG_MTX_MODE = 3;
@@ -1059,8 +1071,8 @@ void SHINKA_DEMO_VIEW_Draw3d(Owner *o)
     }
     if (w->quad != 0)
         SHINKA_DEMO_VIEW_DrawQuad((Quad *)w->quad, o->heap);
-    G3D_SYSTEM_SetProjection((const u32 *)save0);
-    G3D_SYSTEM_SetLookAt(save1);
+    G3D_SYSTEM_SetProjection((struct G3dProjection *)save0);
+    G3D_SYSTEM_SetLookAt((struct G3dLookAt *)save1);
     G3D_SYSTEM_ApplyLookAt();
     NNS_G3dGeFlushBuffer();
 }
@@ -1176,8 +1188,8 @@ Grid *SHINKA_DEMO_VIEW_CreateGrid(u32 monsNo, u32 formNo, u32 sex, u32 isShiny, 
     plttFile = POKEGRA_GetPalArcIndex(POKEGRA_GetArcID(), monsNo, formNo, sex, isShiny, dir, isEgg);
     g->chr = 0;
     g->pltt = 0;
-    g->chrRes = ARC_UTIL_LoadScreenDataFromArchive(POKEGRA_GetArcID(), chrFile, 1, (u32)(&g->chr), heap);
-    g->plttRes = ARC_UTIL_LoadPaletteBlockFromArchive(POKEGRA_GetArcID(), plttFile, (u32)(&g->pltt), heap);
+    g->chrRes = ARC_UTIL_LoadScreenDataFromArchive(POKEGRA_GetArcID(), chrFile, 1, (&g->chr), heap);
+    g->plttRes = ARC_UTIL_LoadPaletteBlockFromArchive(POKEGRA_GetArcID(), plttFile, (&g->pltt), heap);
     src = g->chr->raw;
     buf = BMP_GetPixels(g->canvas);
     MIi_CpuClear32(0, buf, 0x2000);

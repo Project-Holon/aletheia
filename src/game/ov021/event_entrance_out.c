@@ -45,9 +45,13 @@ extern GameEvent *GAME_EVENT_Create(GameSystem *gameSystem, GameEvent *parent, E
 extern void *GAME_EVENT_GetWork(GameEvent *event);
 extern void GAME_EVENT_CallEvent(GameEvent *event, GameEvent *child);
 extern struct BgmInfo *GAME_DATA_GetBgmInfo(const GameData *gameData);
-extern GameEvent *FIELD_GROUND_ANIME_CreateA(EntranceParam *param);
-extern GameEvent *EVENT_FIELD_PROCLINK_StartObjAnim(GameSystem *gameSystem, FieldMap *fieldMap);
-extern GameEvent *EVENT_APPEAR_CreateDescendingSpin(int unused, GameSystem *gameSystem, FieldMap *fieldMap);
+struct GroundAnimeArgs;
+extern void *FIELD_GROUND_ANIME_CreateA(struct GroundAnimeArgs *args);
+struct GameSystem;
+struct GameEvent;
+extern GameEvent *EVENT_FIELD_PROCLINK_StartObjAnim(struct GameSystem *gameSystem, void *source);
+struct FieldMap;
+extern GameEvent *EVENT_APPEAR_CreateDescendingSpin(struct GameEvent *parent, struct GameSystem *gameSystem, struct FieldMap *fieldMap);
 extern GameEvent *EVENT_FIELDMAP_CONTROL_StartFadeIn(GameSystem *gameSystem, FieldMap *fieldMap, int effectId, int wait, int initScreen, u8 fromSeason, u8 toSeason);
 extern u32 FIELD_SOUND_SYSTEM_PostFadeIn(struct BgmInfo *bgmInfo, GameData *gameData);
 extern GameEvent *FIELD_SOUND_SYSTEM_StartFadeInTask(GameSystem *gameSystem, u32 frames);
@@ -130,7 +134,7 @@ u32 EVENT_ENTRANCE_OUT_RunGroundAnime(GameEvent *event, int *seq, EntranceOutWor
 
     switch (*seq) {
     case 0:
-        GAME_EVENT_CallEvent(event, FIELD_GROUND_ANIME_CreateA(param));
+        GAME_EVENT_CallEvent(event, FIELD_GROUND_ANIME_CreateA((struct GroundAnimeArgs *)param));
         (*seq)++;
         break;
     case 1:
@@ -197,7 +201,7 @@ u32 EVENT_ENTRANCE_OUT_RunCamera(GameEvent *event, int *seq, EntranceOutWork *wo
     FIELDMAP_GetCamera(param->fieldMap);
     switch (*seq) {
     case 0:
-        GAME_EVENT_CallEvent(event, FIELD_GROUND_ANIME_CreateA(param));
+        GAME_EVENT_CallEvent(event, FIELD_GROUND_ANIME_CreateA((struct GroundAnimeArgs *)param));
         (*seq)++;
         break;
     case 1:

@@ -110,16 +110,16 @@ extern void FS_ReleaseArchiveName(FSArchive *p_arc);
 extern void OS_ReleaseLockID(unsigned short lockID);
 extern void DWCi_HEAPlFree_(void **mem);
 extern void CARD_LockRom(u16 lock_id);
-extern void CARD_UnlockRom(int id);
-extern unsigned long FS_GetArchiveBase(void *arc);
-extern int CARDi_ReadRom(int dma, unsigned long src, void *dst, unsigned long len, void (*cb)(void *), void *arg, int async);
-extern void FS_NotifyArchiveAsyncEnd(void *arc, int result);
+extern void CARD_UnlockRom(u32 id);
+extern void *FS_GetArchiveBase(void *arc);
+extern void CARDi_ReadRom(unsigned int dma, void *src, void *dst, unsigned int len, void (*cb)(void *), void *arg, int is_async);
+extern void FS_NotifyArchiveAsyncEnd(struct FSArchive *arc, int ret);
 extern void *DWCi_QUElPopBack(void *queue);
 extern u32 FS_GetLength(FSFile *file);
 extern void MI_UncompressLZ8(void *src, void *dst);
 extern void DWCi_QUElPushBack(void *que, void *elem);
 extern int strlen(const u8 *s);
-extern int memcmp(const u8 *a, const u8 *b, int n);
+extern int memcmp(u8 *s1, u8 *s2, u32 n);
 void DWCi_ARClInit(void);
 void DWCi_ARClEnd(void);
 int DWCi_ARClCbWrite(void);
@@ -210,8 +210,8 @@ static int userProc(int unused, unsigned long cmd)
 
 static int cbRead(void *arc, void *dst, unsigned long pos, unsigned long size)
 {
-	unsigned long base = FS_GetArchiveBase(arc);
-	CARDi_ReadRom(-1, pos + base, dst, size, cbReadRom, arc, 1);
+	unsigned long base = (unsigned int)FS_GetArchiveBase(arc);
+	CARDi_ReadRom(-1, (void *)(pos + base), dst, size, cbReadRom, arc, 1);
 	return 0x100;
 }
 
@@ -286,6 +286,6 @@ static int cmpBack(char *str0, char *str1, int n)
 	len1 = strlen((const u8 *)str1);
 	if (len0 < n || len1 < n)
 		return 0;
-	rs = memcmp((const u8 *)(str0 + (len0 - n)), (const u8 *)(str1 + (len1 - n)), n);
+	rs = memcmp((u8 *)(str0 + (len0 - n)), (u8 *)(str1 + (len1 - n)), n);
 	return rs == 0;
 }

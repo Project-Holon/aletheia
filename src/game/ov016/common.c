@@ -44,7 +44,7 @@
 
 typedef struct tagCOORD { unsigned short x, y; } COORD;
 
-extern char *strncpy(char *d, const char *s, unsigned long n);
+extern unsigned char *strncpy(unsigned char *dest, unsigned char *src, unsigned int n);
 extern unsigned char DWCi_Language(void);
 extern void *DWCi_ARClReadEx(char *path, unsigned long *size, int alignment);
 extern void DC_FlushRange(void *startAddr, unsigned long nBytes);
@@ -54,11 +54,11 @@ extern void DWCi_STEPlChange(int step);
 extern void DWCi_GetParam_(void **outStepParam, void **outButtonParam);
 extern void DWCi_BTNlInit(int kind);
 extern void *DWCi_FNTlFormBgEx(int lcd, int font);
-extern unsigned short *DWCi_MSGlGet(void *msg, int id);
+extern unsigned int DWCi_MSGlGet(unsigned int *p, unsigned int idx);
 int DWCi_CMNlFontFlag(void);
 extern void DWCi_FNTlDrawRect(void *canvas, int x, int y, int w, int h, int color,
                               unsigned long flag, unsigned short *txt);
-extern void DWCi_FNTlRenewBg(void *canvas);
+extern void DWCi_FNTlRenewBg(int x);
 extern void DWCi_FNTlDraw(void *canvas, int x, int y, int color, unsigned long flag, unsigned short *txt);
 unsigned char *DWCi_Char(unsigned char *name);
 void DWCi_CMNlLoadResource(char *file, void (*func)(void *, unsigned long, unsigned long));
@@ -78,7 +78,7 @@ unsigned char *DWCi_Char(unsigned char *name)
 {
     int lang;
 
-    strncpy((char *)gCommonWork, (char *)name, 0x3f);
+    strncpy((unsigned char *)gCommonWork, (unsigned char *)name, 0x3f);
     if (name[5] == 'x')
         return gCommonWork;
     lang = DWCi_Language();
@@ -128,11 +128,11 @@ void DWCi_CMNlButton(int kind)
 void DWCi_CMNlMsgDraw(int msgId)
 {
     void *canvas = DWCi_FNTlFormBgEx(0, 0);
-    unsigned short *msg = DWCi_MSGlGet(DWCiMsgCmn, msgId);
+    unsigned short *msg = (unsigned short *)DWCi_MSGlGet(DWCiMsgCmn, msgId);
     unsigned long flag = DWCi_CMNlFontFlag();
 
     DWCi_FNTlDrawRect(canvas, 0xd, 0x28, 0xe6, 0x70, 2, flag, msg);
-    DWCi_FNTlRenewBg(canvas);
+    DWCi_FNTlRenewBg((int)canvas);
 }
 
 
@@ -148,7 +148,7 @@ void DWCi_CMNlMsgNameDraw(unsigned short *name, int msgId)
     msg = (short unsigned int *)DWCi_MSGlGet((void *)gCommentWork, msgId);
     DWCi_FNTlDrawRect(canvas, 13, 60, 230, 94, 2, DWCi_CMNlFontFlag(), msg);
     DWCi_FNTlDraw(canvas, sCommonNamePosByLanguage[DWCi_Language()].x, sCommonNamePosByLanguage[DWCi_Language()].y, 2, 13 + 508, name);
-    DWCi_FNTlRenewBg(canvas);
+    DWCi_FNTlRenewBg((int)canvas);
 }
 
 

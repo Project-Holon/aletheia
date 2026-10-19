@@ -65,7 +65,8 @@ typedef struct {
 #define POLYATTR_ID_MASK       0x3f000000u
 
 extern void *NNS_FndAllocFromAllocator(struct NNSFndAllocator *pAllocator, u32 size);
-extern void NNS_FndFreeToAllocator(struct NNSFndAllocator *pAllocator, void *pBlock);
+struct NNSiFndObject;
+extern void NNS_FndFreeToAllocator(struct NNSiFndObject *o, u32 x);
 extern u32 GetTaggedPayloadSize(const u8 *pAnm, const ResMdl *pMdl);
 void *NNS_G3dAllocRenderObj(struct NNSFndAllocator *pAllocator);
 void NNS_G3dFreeRenderObj(struct NNSFndAllocator *pAllocator, void *pRenderObj);
@@ -82,7 +83,7 @@ void NNS_G3dMdlSetMdlPolygonIDAll(ResMdl *pMdl, u32 polygonId);
 void *NNS_G3dAllocRenderObj(struct NNSFndAllocator *pAllocator){ return NNS_FndAllocFromAllocator(pAllocator, 0x54); }
 
 /* NNS_G3dFreeRenderObj */
-void NNS_G3dFreeRenderObj(struct NNSFndAllocator *pAllocator, void *pRenderObj){ NNS_FndFreeToAllocator(pAllocator, pRenderObj); }
+void NNS_G3dFreeRenderObj(struct NNSFndAllocator *pAllocator, void *pRenderObj){ NNS_FndFreeToAllocator((struct NNSiFndObject *)pAllocator, (u32)pRenderObj); }
 
 /*
  * NNS_G3dAllocAnmObj: forwards the two tail arguments through GetTaggedPayloadSize and hands the result,
@@ -99,7 +100,7 @@ void *NNS_G3dAllocAnmObj(struct NNSFndAllocator *pAllocator, const u8 *pAnm, con
 }
 
 /* NNS_G3dFreeAnmObj */
-void NNS_G3dFreeAnmObj(struct NNSFndAllocator *pAllocator, void *pAnmObj){ NNS_FndFreeToAllocator(pAllocator, pAnmObj); }
+void NNS_G3dFreeAnmObj(struct NNSFndAllocator *pAllocator, void *pAnmObj){ NNS_FndFreeToAllocator((struct NNSiFndObject *)pAllocator, (u32)pAnmObj); }
 
 /*
  * A family of five near-identical bitfield setters over the same inlined

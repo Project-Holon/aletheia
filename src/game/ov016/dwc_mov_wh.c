@@ -169,10 +169,10 @@ extern int WM_Disconnect(void (*callback)(void *), unsigned short aid);
 extern int WM_StartMP(void (*callback)(void *), unsigned short *recvBuf, unsigned short recvBufSize,
                       unsigned short *sendBuf, unsigned short sendBufSize, unsigned short mpFreq);
 int DWCi_MOV_WH_StateInStartParentKeyShare(void);
-extern int WM_StartDataSharing(void *dsInfo, unsigned short port, unsigned short aidBitmap,
-                               unsigned short dataLength, int doubleMode);
-extern int WM_StartKeySharing(int, int);
-extern int WM_EndKeySharing(int);
+struct WMDataSharingInfo;
+extern int WM_StartDataSharing(struct WMDataSharingInfo *dsInfo, unsigned short port, unsigned short aidBitmap, unsigned short dataLength, int doubleMode);
+extern int WM_StartKeySharing(void *dsInfo, unsigned short port);
+extern int WM_EndKeySharing(void *dsInfo);
 extern int WM_EndMP(void (*callback)(void *));
 extern int WM_EndParent(void (*callback)(void *));
 extern int WM_Reset(void (*callback)(void *));
@@ -187,7 +187,9 @@ extern int WM_SetIndCallback(void (*callback)(void *));
 extern unsigned short WM_GetDispersionBeaconPeriod(void);
 int DWCi_MOV_WH_StateInSetParentParam(void);
 extern void WM_GetSharedDataAddress(void *, void *, int);
-extern int WM_StepDataSharing(void *dsInfo, unsigned short *sendData, void *receiveData);
+struct WMDataSet;
+struct WMDataSharingInfo;
+extern int WM_StepDataSharing(struct WMDataSharingInfo *dsInfo, u16 *sendData, struct WMDataSet *receiveData);
 int DWCi_MOV_WH_StateInEndChildKeyShare(void);
 int DWCi_MOV_WH_StateInEndParentKeyShare(void);
 extern int WM_End(int);
@@ -458,7 +460,7 @@ static void DWCi_MOV_WH_StateOutStartParentMP(void *arg)
                 return;
             }
         } else if (((WHWork *)dwc_mov_wh_bss.wh)->connectMode == 4) {
-            result = WM_StartDataSharing(((WHWork *)dwc_mov_wh_bss.wh)->dsInfo, 13, 7, 0x44, 1);
+            result = WM_StartDataSharing((struct WMDataSharingInfo *)(((WHWork *)dwc_mov_wh_bss.wh)->dsInfo), 13, 7, 0x44, 1);
             if (result != 0) {
                 DWCi_MOV_WH_SetError(result);
                 DWCi_MOV_WH_ChangeSysState(9);
@@ -491,7 +493,7 @@ int DWCi_MOV_WH_StateInStartParentKeyShare(void)
     int rs;
 
     DWCi_MOV_WH_ChangeSysState(6);
-    rs = WM_StartKeySharing(g[1] + 0x1e00, 0xd);
+    rs = WM_StartKeySharing((void *)(g[1] + 0x1e00), 0xd);
     if (rs == 2)
         return 1;
     DWCi_MOV_WH_SetError(rs);
@@ -508,7 +510,7 @@ int DWCi_MOV_WH_StateInEndParentKeyShare(void)
     int *g = (int *)0x021DE660;
     int rs;
 
-    rs = WM_EndKeySharing(g[1] + 0x1e00);
+    rs = WM_EndKeySharing((void *)(g[1] + 0x1e00));
     if (rs == 2)
         return 1;
     DWCi_MOV_WH_SetError(rs);
@@ -582,7 +584,7 @@ int DWCi_MOV_WH_StateInEndChildKeyShare(void)
     if (*(int *)(g[1] + 0x40) != 6)
         return 0;
     DWCi_MOV_WH_ChangeSysState(3);
-    rs = WM_EndKeySharing(g[1] + 0x1e00);
+    rs = WM_EndKeySharing((void *)(g[1] + 0x1e00));
     if (rs == 2)
         return 1;
     DWCi_MOV_WH_SetError(rs);
@@ -1083,7 +1085,7 @@ int DWCi_MOV_WH_StepDS(void *data)
 {
     int result;
 
-    result = WM_StepDataSharing(((WHWork *)dwc_mov_wh_bss.wh)->dsInfo, (unsigned short *)data, ((WHWork *)dwc_mov_wh_bss.wh)->receiveData);
+    result = WM_StepDataSharing((struct WMDataSharingInfo *)(((WHWork *)dwc_mov_wh_bss.wh)->dsInfo), (unsigned short *)data, (struct WMDataSet *)(((WHWork *)dwc_mov_wh_bss.wh)->receiveData));
     if (result == 7) {
         if (dwc_mov_wh_bss.wh_trace)
             dwc_mov_wh_bss.wh_trace(0x8000000, dwc_mov_wh_str_14361);

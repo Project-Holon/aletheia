@@ -59,47 +59,53 @@ extern int GFL_NET_GetGameKind(void);
 
 extern int DWC_IsEqualFriendData(void *friendA, void *friendB);
 
-extern int DWC_GetGsProfileId(void *userData, const void *friendData);
+extern int DWC_GetGsProfileId(struct DWCstAccUserData *userdata, void *frienddata);
 
 extern u32 GFL_NET_GetWifiUserData(void);
 
 extern u32 GFL_NET_GetFriendList(void);
 
 extern u32 GFL_NET_GetFriendListNum(void);
+struct WifiList;
 
-extern struct DWCstAccUserData *WIFILIST_GetWork(struct WifiFriendSave *save);
+extern struct WifiList *WIFILIST_GetWork(struct WifiList *list);
 
-extern struct WifiFriendRecord *WIFILIST_GetDwcFriendData(struct WifiFriendSave *save, int slot);
+extern DWCFriendData *WIFILIST_GetDwcFriendData(struct WifiList *list, int index);
 
-extern u32 WIFILIST_CountFriends(struct WifiFriendSave *save);
+extern u32 WIFILIST_CountFriends(struct WifiList *list);
 
-extern int  DWC_CheckFriendKey(void *userData, u64 friendKey);
+extern int  DWC_CheckFriendKey(struct DWCstAccUserData *userdata, u64 friendKey);
 
-extern void DWC_CreateFriendKeyToken(DWCFriendData *token, u64 friendKey);
+extern void DWC_CreateFriendKeyToken(void *token, u64 friend_key);
 
 extern int  DWC_IsValidFriendData(const void *friendData);
 
 extern void  MI_CpuCopy8(void *dst, const void *src, u32 size);
+struct Strbuf;
 
-extern struct U16String *MYSTATUS_CreateNameStrbuf(struct PlayerProfileSrc *profile, int heapId);
+extern struct Strbuf *MYSTATUS_CreateNameStrbuf(unsigned short *name, int heap_id);
+struct MyStatus;
 
-extern u32 MYSTATUS_GetId(const struct PlayerProfileSrc *profile);
+extern u32 MYSTATUS_GetId(struct MyStatus *mystatus);
 
-extern u32 MYSTATUS_GetProfileId(const struct PlayerProfileSrc *profile);
+extern u32 MYSTATUS_GetProfileId(struct MyStatus *mystatus);
 
-extern u8 MYSTATUS_GetSex(const struct PlayerProfileSrc *profile);
+extern u8 MYSTATUS_GetSex(struct MyStatus *mystatus);
 
-extern u8 MYSTATUS_GetTrainerView(const struct PlayerProfileSrc *profile);
+extern u8 MYSTATUS_GetTrainerView(struct MyStatus *mystatus);
 
-extern void WIFILIST_SetFriendInfoField(struct WifiFriendSave *save, u32 slot, u32 fieldId, u32 value);
+extern void WIFILIST_SetFriendInfoField(struct WifiList *list, unsigned int index, unsigned int field, unsigned int value);
+struct U16Vec;
 
-extern void WIFILIST_StoreFriendNameFromStrbuf(struct WifiFriendSave *save, int slot, void *name);
+extern void WIFILIST_StoreFriendNameFromStrbuf(struct WifiList *list, int index, struct U16Vec *dest);
 
-extern void STRBUF_Delete(struct U16String *string);
+extern void STRBUF_Delete(struct Strbuf *strbuf);
+struct GameData;
+struct FieldState;
 
-extern u32 GAME_DATA_GetWifiList(const struct SaveData *saveData);
+extern struct FieldState *GAME_DATA_GetWifiList(struct GameData *gameData);
 
-extern int WIFILIST_IsFriendDataValid(struct WifiFriendSave *save, u32 slot);
+extern int WIFILIST_IsFriendDataValid(struct WifiList *list, u32 index);
 
 extern u32 GFL_NET_Main();
 

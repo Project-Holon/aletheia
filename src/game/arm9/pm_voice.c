@@ -39,8 +39,11 @@
  *   _VoiceBuffer0       0x02140534  data
  *   _VoiceChannelTable  0x0209D8C0  data
  *   _PmVoiceFile        0x020A7024  data
+ *   GFL_USE_IsLoaderBusy         0x02005C64  thumb
+ *   _ll_udiv                     0x0209C00C  arm
  */
 #include "pm_voice_shared_types.h"
+extern int GFL_USE_IsLoaderBusy(void);
 
 typedef signed char    s8;
 
@@ -127,20 +130,19 @@ struct PmVoiceSystem {
 
 extern void  OS_Sleep(u32 msec);
 
-extern struct SndArcWaveArcEntry *NNS_SndArcGetWaveArcInfo(int waveArcNo);
+extern void *NNS_SndArcGetWaveArcInfo(int waveArcNo);
 
 /* Calls into the voice channel layer and the other data readers. */
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 line);
 
-extern void  GFL_HEAP_Free(void *block);
+extern u32 GFL_HEAP_Free(void *block);
+struct NNSSndWaveOutHandle;
 
-extern int   NNS_SndWaveOutIsPlaying(struct SndChannel *channel);
+extern int   NNS_SndWaveOutIsPlaying(struct NNSSndWaveOutHandle *handle);
 
-extern struct SndChannel *NNS_SndWaveOutAllocChannel(u32 channelNo);
+extern struct NNSSndWaveOutHandle *NNS_SndWaveOutAllocChannel(u32 channelNo);
 
-extern int   NNS_SndWaveOutStart(struct SndChannel *channel, u32 format, void *data,
-                           u32 loopFlag, u32 start, u32 end, u32 sampleRate,
-                           u8 volume, u32 frequency, u8 pan);
+extern int   NNS_SndWaveOutStart(struct NNSSndWaveOutHandle *handle, int format, void *waveData, int loopFlag, int loopStart, int loopEnd, int sampleRate, int volume, int playFreq, int pan);
 
 extern u32   NNS_SndArcGetFileSize(u32 fileId);
 
@@ -148,29 +150,31 @@ extern int   NNS_SndArcReadFile(u32 fileId, void *dst, int length, u32 offset);
 
 extern void *SNDi_GetBankWaveArcTable(char *file);
 
-extern void  NNS_SndWaveOutStop(struct SndChannel *channel);
+extern void  NNS_SndWaveOutStop(struct NNSSndWaveOutHandle *handle);
 
-extern void  NNS_SndWaveOutWaitIdle(struct SndChannel *channel);
+extern void  NNS_SndWaveOutWaitIdle(struct NNSSndWaveOutHandle *handle);
 
-extern void  NNSi_SndWaveOutUnlockChannel(struct SndChannel *channel);
+extern void  NNSi_SndWaveOutUnlockChannel(u32 *channelNoPtr);
 
-extern void  NNS_SndWaveOutSetVolume(struct SndChannel *channel, u32 volume);
+extern void  NNS_SndWaveOutSetVolume(struct NNSSndWaveOutHandle *handle, unsigned int volume);
 
-extern void  NNS_SndWaveOutSetSpeed(struct SndChannel *channel, u32 frequency);
+extern void  NNS_SndWaveOutSetSpeed(struct NNSSndWaveOutHandle *handle, int speed);
 
 extern u32   GFL_USE_GetRandom(u32 limit);
+struct PerapVoice;
 
-extern u32   PERAPVOICE_IsRecorded(void *perapVoice);
+extern u32   PERAPVOICE_IsRecorded(struct PerapVoice *voice);
 
 extern u8   *PERAPVOICE_GetSamples(struct PerapVoice *perapVoice);
 
-extern void  PERAPVOICE_Unpack(void *dst, const void *src);
+extern void  PERAPVOICE_Unpack(s8 *dest, s8 *src);
 
 extern void  ARC_TOOL_ReadMember(void *dst, u32 archiveId, u32 member);
+struct SaveControl;
 
-extern struct SaveData  *SAVE_CONTROL_Get(void);
+extern struct SaveControl *SAVE_CONTROL_Get(void);
 
-extern struct SaveBlock *PERAPVOICE_GetFromSave(struct SaveData *saveData);
+extern struct PerapVoice *PERAPVOICE_GetFromSave(struct SaveControl *saveControl);
 
 /* voice mixer */
 void PM_VOICE_Init(u16 heapId,
@@ -311,9 +315,9 @@ void PM_VOICE_StopFinished(void)
     for (i = 0; i < _VoiceSystem.count; i++) {
         voice = &_VoiceSystem.voices[i];
         if (voice->active == 1) {
-            busyA = NNS_SndWaveOutIsPlaying(voice->channelA);
+            busyA = NNS_SndWaveOutIsPlaying((struct NNSSndWaveOutHandle *)voice->channelA);
             if (voice->dual == 1) {
-                busyB = NNS_SndWaveOutIsPlaying(voice->channelB);
+                busyB = NNS_SndWaveOutIsPlaying((struct NNSSndWaveOutHandle *)voice->channelB);
             } else {
                 busyB = 0;
             }
@@ -505,17 +509,17 @@ int PM_VOICE_StartChannels(struct PmVoice *voice)
     if (voice->dataSize == 0) {
         return 0;
     }
-    voice->channelA = NNS_SndWaveOutAllocChannel(voice->channelNoA);
+    voice->channelA = (struct SndChannel *)NNS_SndWaveOutAllocChannel(voice->channelNoA);
     if (voice->channelA == 0) {
         return 0;
     }
-    if (NNS_SndWaveOutStart(voice->channelA, 0, voice->data, 0, 0, voice->dataSize,
+    if (NNS_SndWaveOutStart((struct NNSSndWaveOutHandle *)voice->channelA, 0, voice->data, 0, 0, voice->dataSize,
                       voice->sampleRate, PM_VOICE_ScaleVolume(voice->volume),
                       voice->frequency, voice->pan) == 0) {
         return 0;
     }
     if (voice->dual == 1) {
-        voice->channelB = NNS_SndWaveOutAllocChannel(voice->channelNoB);
+        voice->channelB = (struct SndChannel *)NNS_SndWaveOutAllocChannel(voice->channelNoB);
         if (voice->channelB == 0) {
             return 0;
         }
@@ -526,7 +530,7 @@ int PM_VOICE_StartChannels(struct PmVoice *voice)
         if (volumeB > SND_VOLUME_MAX) {
             volumeB = SND_VOLUME_MAX;
         }
-        if (NNS_SndWaveOutStart(voice->channelB, 0, voice->data, 0, 0, voice->dataSize,
+        if (NNS_SndWaveOutStart((struct NNSSndWaveOutHandle *)voice->channelB, 0, voice->data, 0, 0, voice->dataSize,
                           voice->sampleRate, PM_VOICE_ScaleVolume((u8)volumeB),
                           voice->frequency + voice->frequencyOffsetB,
                           voice->pan) == 0) {
@@ -545,13 +549,13 @@ int PM_VOICE_StartChannels(struct PmVoice *voice)
  */
 void PM_VOICE_Stop(struct PmVoice *voice)
 {
-    NNS_SndWaveOutStop(voice->channelA);
-    NNS_SndWaveOutWaitIdle(voice->channelA);
-    NNSi_SndWaveOutUnlockChannel(voice->channelA);
+    NNS_SndWaveOutStop((struct NNSSndWaveOutHandle *)voice->channelA);
+    NNS_SndWaveOutWaitIdle((struct NNSSndWaveOutHandle *)voice->channelA);
+    NNSi_SndWaveOutUnlockChannel((u32 *)voice->channelA);
     if (voice->dual == 1) {
-        NNS_SndWaveOutStop(voice->channelB);
-        NNS_SndWaveOutWaitIdle(voice->channelB);
-        NNSi_SndWaveOutUnlockChannel(voice->channelB);
+        NNS_SndWaveOutStop((struct NNSSndWaveOutHandle *)voice->channelB);
+        NNS_SndWaveOutWaitIdle((struct NNSSndWaveOutHandle *)voice->channelB);
+        NNSi_SndWaveOutUnlockChannel((u32 *)voice->channelB);
     }
     voice->active = 0;
     PM_VOICE_ResetParams(voice);
@@ -656,7 +660,7 @@ void PM_VOICE_AddVolume(u32 slot, int delta)
         volume = SND_VOLUME_MAX;
     }
     voice->volume = volume;
-    NNS_SndWaveOutSetVolume(voice->channelA, PM_VOICE_ScaleVolume(voice->volume));
+    NNS_SndWaveOutSetVolume((struct NNSSndWaveOutHandle *)voice->channelA, PM_VOICE_ScaleVolume(voice->volume));
     if (voice->dual == 1) {
         volume = voice->volume + voice->volumeBiasB;
         if (volume < 0) {
@@ -665,7 +669,7 @@ void PM_VOICE_AddVolume(u32 slot, int delta)
         if (volume > SND_VOLUME_MAX) {
             volume = SND_VOLUME_MAX;
         }
-        NNS_SndWaveOutSetVolume(voice->channelA, PM_VOICE_ScaleVolume((u8)volume));
+        NNS_SndWaveOutSetVolume((struct NNSSndWaveOutHandle *)voice->channelA, PM_VOICE_ScaleVolume((u8)volume));
     }
 }
 
@@ -685,9 +689,9 @@ void PM_VOICE_AddFrequency(u32 slot, u32 delta)
     }
     frequency = voice->frequency + delta;
     voice->frequency = frequency;
-    NNS_SndWaveOutSetSpeed(voice->channelA, frequency);
+    NNS_SndWaveOutSetSpeed((struct NNSSndWaveOutHandle *)voice->channelA, frequency);
     if (voice->dual == 1) {
-        NNS_SndWaveOutSetSpeed(voice->channelB, voice->frequency + voice->frequencyOffsetB);
+        NNS_SndWaveOutSetSpeed((struct NNSSndWaveOutHandle *)voice->channelB, voice->frequency + voice->frequencyOffsetB);
     }
 }
 
@@ -818,7 +822,7 @@ u32 PM_VOICE_PrepareCry(u32 species, u32 form, void **recordedVoice, u8 **data,
         return 0;
     }
     if (species == 441 && form == 0 && PERAPVOICE_IsRecorded(recordedVoice[0]) == 1) {
-        PERAPVOICE_Unpack(data[0], PERAPVOICE_GetSamples(recordedVoice[0]));
+        PERAPVOICE_Unpack((s8 *)data[0], (s8 *)(PERAPVOICE_GetSamples(recordedVoice[0])));
         *dataSize = 0x1FF4;
         *sampleRate = 0x1FF4;
         *volume = 0x78;
@@ -835,5 +839,5 @@ u32 PM_VOICE_PrepareCry(u32 species, u32 form, void **recordedVoice, u8 **data,
  */
 void PM_VOICE_GetPerapVoiceSave(struct SaveBlock **out)
 {
-    *out = PERAPVOICE_GetFromSave(SAVE_CONTROL_Get());
+    *out = (struct SaveBlock *)PERAPVOICE_GetFromSave(SAVE_CONTROL_Get());
 }

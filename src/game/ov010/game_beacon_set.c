@@ -58,10 +58,11 @@ extern void GAME_BEACON_SetDetailsBattleLeader(GameBeaconInfo *info, u32 trainer
 extern void GAME_BEACON_SetDetailsBattleBigFour(GameBeaconInfo *info, u32 trainerId);
 
 extern void GAME_BEACON_CopyStrbufCodes(const struct Strbuf *str, u16 *dest);
+struct MiscSave;
 
-extern struct MyStatus *MISC_GetBlock(struct SaveControl *saveControl);
+extern struct MiscSave *MISC_GetBlock(struct SaveControl *saveControl);
 
-extern const u16 *MISC_GetThanksMessage(const struct MyStatus *myStatus);
+extern const u16 *MISC_GetThanksMessage(struct MiscSave *beacon);
 
 extern void WORDSET_CopyString(const u16 *src, u16 *dest, u32 length);
 

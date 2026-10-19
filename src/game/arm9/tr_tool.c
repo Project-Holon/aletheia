@@ -33,6 +33,13 @@
  *   MSGDATA_ReadString  0x02045CAC  arm
  *   MIi_CpuCopy16  0x02082A60  arm
  *   MSGDATA_CreateFromArchive  0x02045B38  arm
+ *   POKE_PERSONAL_Create         0x0201ADE4  thumb
+ *   POKE_PERSONAL_Delete         0x0201AE14  thumb
+ *   POKE_PERSONAL_GetParam       0x0201AE1C  thumb
+ *   POKE_TOOL_GetPartyValue      0x02017E1C  thumb
+ *   POKE_TOOL_GetPersonalParam   0x02019C90  thumb
+ *   POKE_TOOL_SetAbility         0x02018A00  thumb
+ *   POKE_TOOL_SetNature          0x020185B0  thumb
  *
  * tr_tool.c: build a trainer's party.  Loads the trainer record (0x14
  * bytes) and its party table (up to 6 entries) from the archive, then per
@@ -90,24 +97,27 @@ struct Mon;
 struct Party;
 struct PartyMon;
 extern void POKEPARTY_InitEx(struct Party *p, s32 capacity);
-extern u32 POKEPARTY_Add(struct Party *p, const struct PartyMon *src);
+struct PokemonParam;
+extern u32 POKEPARTY_Add(struct Party *party, struct PokemonParam *member);
 extern u32   POKE_TOOL_GetPartyParamSize(void);
 extern void TPOKE_DATA_ReadRecord(void *dest, void *arc);
 extern void TPOKE_DATA_ReadParty(void *dest, void *arc);
 extern u8    TPOKE_DATA_GetGenderValue(u32 cls);
 extern void  TR_TOOL_AdjustPersonality(u32 species, u32 form, int ability, u32 *gender, u16 heap);
 extern void  TR_TOOL_FinalizePartyMember(u32 id, void *mon, u32 form, u32 ability);
-extern void POKE_TOOL_SetupPartyParamEx(struct Mon *p, u16 species, u16 level, unsigned long long id, u32 pow, unsigned long long rnd);
-extern void  POKE_TOOL_SetPartyValue(void *mon, u32 id, u32 val);
-extern void POKE_TOOL_SetMoveSlot(void *p, u16 move, u32 slot);
+extern void POKE_TOOL_SetupPartyParamEx(struct PokemonParam *pp, u16 species, u16 level, u64 otId, u32 ivs, u64 personality);
+extern void  POKE_TOOL_SetPartyValue(struct PokemonParam *pp, u32 paramId, u32 value);
+extern void POKE_TOOL_SetMoveSlot(struct PokemonParam *pp, u16 move, u32 slot);
 struct Personal;
-extern void *POKE_PERSONAL_Create(u32 species, int form, u32 heapId);
-extern u32 POKE_PERSONAL_GetParam(const struct Personal *personal, u32 field);
-extern void POKE_PERSONAL_Delete(void *personal);
-extern u32  POKE_TOOL_GetPartyValue(void *mon, u32 field, u32 index);
-extern void POKE_TOOL_SetAbility(void *mon, u32 species, u32 form);
+struct PersonalData;
+extern struct PersonalData *POKE_PERSONAL_Create(u32 species, int form, u32 heapId);
+extern u32 POKE_PERSONAL_GetParam(struct PersonalData *data, u32 field);
+extern void POKE_PERSONAL_Delete(struct PersonalData *data);
+extern u32  POKE_TOOL_GetPartyValue(struct PokemonParam *pp, u32 paramId, u32 arg);
+struct BoxPokemon;
+extern void POKE_TOOL_SetAbility(struct BoxPokemon *box, u32 species, u32 form);
 extern u32  POKE_TOOL_GetPersonalParam(u32 species, u16 form, u32 personalField);
-extern void POKE_TOOL_SetNature(void *mon, u32 nature);
+extern void POKE_TOOL_SetNature(struct PokemonParam *pp, u32 nature);
 
 typedef struct {
     u32 trainerId;    /* +0x00 the trainer id this record was loaded for */
@@ -121,7 +131,8 @@ typedef struct {
 
 struct MsgBank;
 extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
+struct Strbuf;
+extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, struct Strbuf *dest);
 extern u32 MSGDATA_Delete(struct MsgBank *rec);
 extern void  MIi_CpuCopy16(const void *src, void *dest, u32 size);
 extern void  PMSI_PARAM_ClearSentence(void *p);
@@ -335,7 +346,7 @@ void TR_TOOL_AdjustPersonality(u32 species, u32 form, int adjustFlags, u32 *pers
     personal = (u32)POKE_PERSONAL_Create((u16)species, (u16)form, heapId);
 
     if (genderAdjust != 0) {
-        *personalityLow = POKE_PERSONAL_GetParam((const struct Personal *)personal, 0x14);
+        *personalityLow = POKE_PERSONAL_GetParam((struct PersonalData *)personal, 0x14);
         if (genderAdjust == 1)
             *personalityLow = *personalityLow + 2;
         else

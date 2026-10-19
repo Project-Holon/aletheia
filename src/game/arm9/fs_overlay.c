@@ -155,8 +155,8 @@ extern s32 FS_ReadFile(FSFile *file, void *buffer, s32 length);
 extern BOOL FS_CloseFile(FSFile *file);
 extern u32 FS_GetFileImageTop(FSFile *file);
 extern u32 FS_GetFileLength(FSFile *file);
-extern void MSL_C_LIB_TwlCall5(void *digest, const void *bin_ptr, u32 bin_len, const void *key_ptr, u32 key_len);
-extern u32 MATHi_SetOverlayTableMode(u32);
+extern void MSL_C_LIB_TwlCall5(u32 digest, u32 data, u32 dataLen, u32 key, u32 keyLen);
+extern s32 MATHi_SetOverlayTableMode(s32 flag);
 extern void MATH_CalcHMACSHA1(void *digest, const void *bin_ptr, u32 bin_len, const void *key_ptr, u32 key_len);
 extern void OS_Terminate(void);
 extern void MIi_UncompressBackward(void *bottom);
@@ -364,7 +364,7 @@ BOOL FSi_CompareDigest(const u8 *spec_digest, void *src, int len, BOOL table_mod
     MI_CpuCopy8(FSiOverlayContext.digest_key, tmp, FSiOverlayContext.digest_key_len);
 
     if (table_mode == 0 && OS_IsRunOnTwl() != 0) {
-        MSL_C_LIB_TwlCall5(buf, src, len, tmp, FSiOverlayContext.digest_key_len);
+        MSL_C_LIB_TwlCall5((u32)buf, (u32)src, (u32)len, (u32)tmp, FSiOverlayContext.digest_key_len);
     } else {
         handle = 0;
         if (table_mode != 0) {

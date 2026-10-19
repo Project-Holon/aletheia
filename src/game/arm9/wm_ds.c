@@ -151,7 +151,7 @@ extern WMErrCode WM_SetPortCallback(u16 port, WMCallbackFunc callback, void *arg
 extern WMErrCode WM_SetMPDataToPortEx(WMCallbackFunc callback, void *arg, u16 *sendData,
                                       u16 sendDataSize, u16 destBitmap, u16 port, u16 prio);
 extern void MIi_CpuCopy16(const void *srcp, void *destp, u32 size);
-extern WMArm9Buf *WMi_GetSystemWork(void);
+extern void *WMi_GetSystemWork(void);
 extern OSIntrMode OS_DisableInterrupts(void);
 extern OSIntrMode OS_RestoreInterrupts(OSIntrMode state);
 extern void MIi_CpuClear16(u16 data, void *destp, u32 size);

@@ -53,9 +53,10 @@ extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u
 
 extern u32 GFL_HEAP_Free(void *p);
 
-extern int ARC_UTIL_LoadMember(int archiveID, int memberIdx, int decompress, int heapID);
+extern int ARC_UTIL_LoadMember(s32 archiveID, s32 memberIdx, s32 decompress, u16 heapID);
+struct NitroFileHeader;
 
-extern s32 NNS_G2dGetUnpackedCharacterDataEx(void *resource, struct CharData **out);
+extern s32 NNS_G2dGetUnpackedCharacterDataEx(struct NitroFileHeader *file, void **out);
 
 extern void  OS_Terminate(void);
 
@@ -342,7 +343,7 @@ struct Bmp *BMP_CreateFromArchive(u32 arcId, u32 memberId, u32 compressed, u32 h
 
     bmp = (struct Bmp *)GFL_HEAP_Alloc(heapId, sizeof(struct Bmp), 0, bmp_File, 266);
     resource = (void *)ARC_UTIL_LoadMember(arcId, memberId, compressed, (u16)((heapId & 0x7FFF) | 0x8000));
-    if (NNS_G2dGetUnpackedCharacterDataEx(resource, &charData) == 0) {
+    if (NNS_G2dGetUnpackedCharacterDataEx(resource, (void **)(&charData)) == 0) {
         OS_Terminate();
         return 0;
     }

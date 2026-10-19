@@ -197,18 +197,22 @@ typedef struct { void (*f[3])(int **, int); } Tbl;
 typedef unsigned long long u64;
 
 struct Arc { int f0; int f4; int f8; u8 *fC; };
+struct CodeinParam;
 
-extern struct WifiBsubwayCodeInParam *CODEIN_PARAM_Create(u32 heap, u32 mode, u32 initialPage, u32 maxLength, u32 *src);
-extern void GAMESYSTEM_CallProc(struct IcaAnime *p, u32 id, void *a, void *b);
-extern void CODEIN_PARAM_Delete(void *p);
+extern struct CodeinParam *CODEIN_PARAM_Create(u32 heap, u32 mode, u32 initialPage, u32 maxLength, u32 *src);
+struct GameSystem;
+extern void GAMESYSTEM_CallProc(struct GameSystem *gameSystem, u32 overlayId, void *procData, void *param);
+extern void CODEIN_PARAM_Delete(struct CodeinParam *param);
 extern u16 STRBUF_GetEosChar(void);
-extern u16 *STRBUF_GetChars(struct U16Vec *vec);
+struct Strbuf;
+extern u16 *STRBUF_GetChars(struct Strbuf *strbuf);
 extern int WIFI_BSUBWAY_PollHttpRequest(u8 *,u8 *,int);
-extern void WIFI_BSUBWAY_StartHttpRequest(u8 *,u8 *,int,int);
+extern void WIFI_BSUBWAY_StartHttpRequest(u8 *status, u8 *async, u8 *unusedA, int heapId);
 extern void WIFI_BSUBWAY_StartUploadPlayer(u8 *,u8 *);
 extern int WIFI_BSUBWAY_IsUploadDone(void *unused, u8 *p);
-extern u32 BSUBWAY_SCOREDATA_AccessFlag(struct Blk1AC *p, int i, u32 op);
-extern u8 BSUBWAY_SCOREDATA_GetLevel(struct Blk1AC *p);
+struct BsubwayScoreData;
+extern u32 BSUBWAY_SCOREDATA_AccessFlag(struct BsubwayScoreData *p, int i, unsigned int op);
+extern u8 BSUBWAY_SCOREDATA_GetLevel(struct BsubwayScoreData *p);
 extern void WIFI_BSUBWAY_StartRoomRequest(u8 *,u8 *,u16);
 extern void WIFI_BSUBWAY_StartPlayerDownload(u8 *,u8 *,u16);
 extern int WIFI_BSUBWAY_FinishRoomRequest(u8 *,u8 *);
@@ -224,12 +228,15 @@ extern void WIFI_BSUBWAY_OpenCodeIn(u8 *,int);
 extern int FADE_IsActive(void);
 extern void FADE_Start(u32 a, int b, int c, int d);
 extern int DWC_GetDateTime(void *date, void *time);
-extern int BSUBWAY_WIFIDATA_GetTrainerBit(struct BlkB90 *p, u8 a, u8 b, const struct Stamp *q);
+struct BsubwayWifiData;
+extern int BSUBWAY_WIFIDATA_GetTrainerBit(struct BsubwayWifiData *p, u8 a, u8 b, struct Stamp *q);
 extern void WIFI_BSUBWAY_ClearTrainers(void *a);
-extern struct Sub020097BCObj *WIFILIST_GetWork(struct Sub020097BCObj *obj);
-extern int WIFILIST_GetGsProfileId(void *list);
-extern void MYSTATUS_SetProfileIdOnce(struct Sub0200852CObj *obj, u32 value);
-extern u32 MYSTATUS_GetProfileId(const struct Sub0200852CObj *obj);
+struct WifiList;
+extern struct WifiList *WIFILIST_GetWork(struct WifiList *list);
+extern int WIFILIST_GetGsProfileId(struct WifiList *list);
+struct MyStatus;
+extern void MYSTATUS_SetProfileIdOnce(struct MyStatus *mystatus, u32 profile_id);
+extern u32 MYSTATUS_GetProfileId(struct MyStatus *mystatus);
 extern unsigned long long DWC_CreateFriendKey(struct DWCstAccUserData *userdata);
 extern void DPW_BT_Init(unsigned a, unsigned b, unsigned c, unsigned mode);
 extern void DPW_BT_GetServerStateAsync(void);
@@ -244,69 +251,77 @@ extern u32 GFL_NET_STATE_GetError(void);
 extern int WIFI_BSUBWAY_AsyncHasError(u8 *p);
 extern int WIFI_BSUBWAY_CheckFatalError(int *p);
 extern int WIFI_BSUBWAY_GetErrorState(int *p);
-extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
+struct BmpWin;
+extern struct BmpWin *BMP_WIN_Create(unsigned int bgLayer, unsigned int posX, unsigned int posY, unsigned char width, unsigned char height, unsigned char palette, unsigned char allocDir);
 extern void BMP_MENUWORK_DrawWindow(void *win, int commitMode, int tileBase, int palette);
 extern void *BMP_WIN_GetBmp(struct Descriptor *p);
 extern void BMP_Clear(struct CharBuf *buf, u8 value);
-extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
-extern void BMP_WIN_TransferChars(struct Descriptor *d);
+struct BmpWin;
+extern void BMP_WIN_MakeScreen(struct BmpWin *win);
+extern void BMP_WIN_TransferChars(struct BmpWin *win);
 extern void BG_SYS_MarkTileDirty(u32);
 extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern struct WordSet *WORDSET_CreateDefault(u32 heap);
 extern struct GfFont *GF_FONT_Create(int archiveId, int fileId, int format, int isFixedWidth, u32 heapId);
-extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
+extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
 extern void *TCBL_Create(u32, u32, u32, u32);
 extern void BG_SYS_SetMainPlaneVisible(u32, u32);
 extern void BG_SYS_SetSubPlaneVisible(u32, u32);
 extern void GFL_NET_RefreshWmIconAtTopRight(u32, u32);
-extern void PRINTSYS_PrintStreamDelete(struct Rec3 *p);
-extern void TCBL_Destroy(struct S02031140 *p);
-extern unsigned int MSGDATA_Delete(struct Rec *rec);
+struct TextPrinter;
+extern void PRINTSYS_PrintStreamDelete(struct TextPrinter *printer);
+struct TcblSystem;
+extern void TCBL_Destroy(struct TcblSystem *tcbl);
+extern unsigned int MSGDATA_Delete(struct MsgBank *bank);
 extern unsigned int WORDSET_Delete(struct WordSet *p);
-extern unsigned int GF_FONT_Delete(void *ptr);
-extern void STRBUF_Delete(struct U16Vec *vec);
+extern unsigned int GF_FONT_Delete(struct GfFont *font);
+extern void STRBUF_Delete(struct Strbuf *strbuf);
 extern void BMP_MENU_DeleteYesNo(u8 *o);
-extern unsigned int BMP_WIN_Delete(struct Descriptor *d);
+extern unsigned int BMP_WIN_Delete(struct BmpWin *win);
 extern void GF_FONT_SetDefaultTextColor(void);
 extern void MI_CpuFill8(void *,int,int);
-extern void TCBL_Main(struct Tcbl *p);
+extern void TCBL_Main(struct TcblSystem *tcbl);
 extern void *ARC_TOOL_CreateHandle(unsigned int, unsigned int);
 extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *, int, int, int, int, unsigned int);
 extern unsigned int ARC_UTIL_RegisterObjCharFromHandle(void *, int, int, int, int, unsigned int);
 extern void ARC_UTIL_UploadBgPaletteAddFromHandle(void *, int, int, int, u16, int, int, unsigned int);
-extern void *ARC_UTIL_LoadPaletteBlockFromHandle(void *arc, unsigned int memberIdx, unsigned int unpackedOut, unsigned int flags);
+extern void *ARC_UTIL_LoadPaletteBlockFromHandle(void *arc, u32 memberIdx, u32 unpackedOut, u16 flags);
 extern void ARC_TOOL_DeleteHandle(void *);
 extern int ARC_UTIL_UploadPaletteFromArchiveWhole(int, int, int, int, int, unsigned int);
 extern void MI_CpuCopy8(const void *, void *, unsigned int);
 extern unsigned int GFL_HEAP_Free(void *p);
 extern void *GFL_USE_AddMainTask(void *, void *, int);
 extern void DC_FlushRange(void *, unsigned int);
-extern void G2x_SetBlendAlpha_(void *, int, int, int, int);
+extern void G2x_SetBlendAlpha_(u32 *reg, u32 a, u32 b, u32 c, u32 d);
 extern unsigned int BG_SYS_CreateRun(unsigned int layer, unsigned int size, unsigned int top);
 extern void *BMP_MENUWORK_LoadFrameGfx(void *layer, unsigned int palSlot, unsigned int frameId, unsigned int heapId);
 extern void PALANM_BlendColors(void *, void *, u16, u8, u16);
-extern void GX_LoadBGPltt(void *,int,int);
-extern void GXS_LoadBGPltt(void *,int,int);
+extern void GX_LoadBGPltt(void *pSrc, unsigned int offset, unsigned int szByte);
+extern void GXS_LoadBGPltt(void *pSrc, u32 offset, u32 szByte);
 extern void BG_SYS_ChangeScrollImmediate(unsigned int layer, unsigned int a, unsigned int b);
 extern void BG_SYS_FreeTileRun(unsigned int layer, unsigned int offset, unsigned int size);
-extern void TCB_DeleteTask(struct Node *n);
-extern void MSGDATA_ReadString(struct MsgBank *bank, unsigned int index, void *dest);
-extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
+struct TcbTask;
+extern void TCB_DeleteTask(struct TcbTask *task);
+extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, struct Strbuf *dest);
+extern void WORDSET_CopyTaggedText(struct WordSet *words, struct Strbuf *dst, struct Strbuf *src);
 extern void GF_FONT_SetTextColor(unsigned int r, unsigned int g, unsigned int b);
 extern signed char MSG_SPEED_GetWait(void);
 extern void *PRINTSYS_PrintStream(unsigned int,int,int,unsigned int,unsigned int,unsigned int,unsigned int,int,u16,int);
-extern unsigned int PRINTSYS_PrintStreamGetState(void *p);
+extern unsigned int PRINTSYS_PrintStreamGetState(struct TextPrinter *printer);
 extern unsigned int KEY_GetTrg(void);
 extern int TOUCHPANEL_GetTrg(void);
-extern void PRINTSYS_PrintStreamReleasePause(void *);
+extern void PRINTSYS_PrintStreamReleasePause(struct TextPrinter *printer);
 extern void WORDSET_SetSlotNumber(struct WordSet *p, unsigned int i, unsigned int a, unsigned int b, unsigned int c, unsigned int d);
 extern struct BmpMenu *BMP_MENU_CreateYesNo(const struct WinDat *,u16,u8,u8,u16);
 extern unsigned int BMP_MENU_ProcessYesNo(u8 *);
-extern unsigned int GFL_USE_GetMainTaskList(void);
-extern u8 *TIME_ICON_Create(void *owner, void *refWin, u8 fillColor, u8 waitInterval, volatile u16 heap);
-extern void TIME_ICON_Delete(u8 *);
-extern int GAME_DATA_SaveStart(int);
-extern int GAME_DATA_SaveMain(u8 *);
+struct TcbList;
+extern struct TcbList *GFL_USE_GetMainTaskList(void);
+struct TimeIcon;
+extern struct TimeIcon *TIME_ICON_Create(struct TcbList *taskList, struct BmpWin *refWin, u8 fillColor, u8 waitInterval, u16 heapId);
+extern void TIME_ICON_Delete(struct TimeIcon *icon);
+struct GameData;
+extern int GAME_DATA_SaveStart(struct GameData *gd);
+extern int GAME_DATA_SaveMain(struct GameData *gd);
 extern void *GFL_HEAP_Alloc(unsigned int heapId, unsigned int size, int clear, const char *site, u16 tag);
 extern void BG_SYS_ClearGraphicsMemory(unsigned);
 extern void BG_SYS_SetVramBanks(const struct DispVram *c);
@@ -462,13 +477,13 @@ int WIFI_BSUBWAY_GRAPHIC_Step(struct WifiBsubwayWork *p,int b)
     int v;
     switch (p->state) {
     case 0: WIFI_BSUBWAY_GRAPHIC_PrintMessage(&p->graphic,7); ++p->state; break;
-    case 1: WIFI_BSUBWAY_StartHttpRequest((u8 *)&p->status,(u8 *)&p->async,(int)(p->saveData),b); ++p->state; break;
+    case 1: WIFI_BSUBWAY_StartHttpRequest((u8 *)&p->status,(u8 *)&p->async,(p->saveData),b); ++p->state; break;
     case 2:
         v=WIFI_BSUBWAY_PollHttpRequest((u8 *)&p->status,(u8 *)&p->async,0);
         if(v==1) p->state=5;
         else if(v==2) p->state=3;
         break;
-    case 3: WIFI_BSUBWAY_StartHttpRequest((u8 *)&p->status,(u8 *)&p->async,(int)(p->saveData),b); ++p->state; break;
+    case 3: WIFI_BSUBWAY_StartHttpRequest((u8 *)&p->status,(u8 *)&p->async,(p->saveData),b); ++p->state; break;
     case 4:
         if(WIFI_BSUBWAY_PollHttpRequest((u8 *)&p->status,(u8 *)&p->async,1)==1) p->state=5;
         break;
@@ -509,7 +524,7 @@ int WIFI_BSUBWAY_GRAPHIC_StepWithInput(struct WifiBsubwayWork *p,short heap)
             box=WIFI_BSUBWAY_GetRoomNumber((u8 *)&p->trainers); n=p->codeInValue; v=WIFI_BSUBWAY_GetDownloadResult((u8 *)&p->trainers);
             DWC_GetDateTime(record,extra);
             if(n<1 || n>(u32)v) { p->state=16; break; }
-            if(BSUBWAY_WIFIDATA_GetTrainerBit(p->saveBlock3B,box,n,(const struct Stamp *)record)!=0) { p->state=14; break; }
+            if(BSUBWAY_WIFIDATA_GetTrainerBit(p->saveBlock3B,box,n,(struct Stamp *)record)!=0) { p->state=14; break; }
             WIFI_BSUBWAY_StartPlayerDownload((u8 *)&p->trainers,(u8 *)&p->async,p->codeInValue);
             v=WIFI_BSUBWAY_GetPlayerIndex((u8 *)&p->trainers); WIFI_BSUBWAY_GRAPHIC_SetWord(&p->graphic,0,v,(u32)WIFI_BSUBWAY_GetTransferState((u8 *)&p->trainers));
             WIFI_BSUBWAY_GRAPHIC_SetWord(&p->graphic,1,WIFI_BSUBWAY_GetRoomNumber((u8 *)&p->trainers),(u32)((void *)2)); WIFI_BSUBWAY_GRAPHIC_PrintMessage(&p->graphic,1); WIFI_BSUBWAY_GRAPHIC_CreateTimeIcon(&p->graphic); ++p->state;
@@ -814,7 +829,7 @@ void WIFI_BSUBWAY_GRAPHIC_PrintMessage(struct WifiBsubwayGraphic *p,unsigned int
  GF_FONT_SetTextColor(1,2,15);
  p->printStream=PRINTSYS_PrintStream((unsigned int)p->window,0,0,(unsigned int)p->strbufB,(unsigned int)p->font,MSG_SPEED_GetWait(),(unsigned int)p->tcbl,2,p->heapId,15);
  BMP_MENUWORK_DrawWindow((void *)p->window,1,(u16)p->frameGfxA,13);
- BMP_WIN_TransferChars((struct Descriptor *)p->window);
+ BMP_WIN_TransferChars((struct BmpWin *)p->window);
 }
 
 
@@ -850,10 +865,10 @@ void WIFI_BSUBWAY_GRAPHIC_CreateTimeIcon(struct WifiBsubwayGraphic *p) { p->time
 void WIFI_BSUBWAY_GRAPHIC_DeleteTimeIcon(struct WifiBsubwayGraphic *p) { if(p->timeIcon!=0) { TIME_ICON_Delete(p->timeIcon); p->timeIcon=0; } }
 
 
-void WIFI_BSUBWAY_GRAPHIC_StartSave(struct WifiBsubwayWork *p) { GAME_DATA_SaveStart((int)p->saveControl); p->dpwDone=1; }
+void WIFI_BSUBWAY_GRAPHIC_StartSave(struct WifiBsubwayWork *p) { (struct GameData *)GAME_DATA_SaveStart((struct GameData *)p->saveControl); p->dpwDone=1; }
 
 
-int WIFI_BSUBWAY_GRAPHIC_UpdateSave(struct WifiBsubwayWork *p) { if(p->dpwDone==0) return 1; if(GAME_DATA_SaveMain((u8 *)p->saveControl)==2) { p->dpwDone=0; return 1; } return 0; }
+int WIFI_BSUBWAY_GRAPHIC_UpdateSave(struct WifiBsubwayWork *p) { if(p->dpwDone==0) return 1; if(GAME_DATA_SaveMain((struct GameData *)p->saveControl)==2) { p->dpwDone=0; return 1; } return 0; }
 
 
 /*

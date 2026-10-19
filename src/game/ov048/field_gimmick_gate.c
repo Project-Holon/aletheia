@@ -85,50 +85,56 @@ extern void *FIELDMAP_GetCommonWork(FieldMap *fieldMap, int id);
 extern struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
 extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gameData);
 extern struct SaveControl *GAME_DATA_GetSaveControlWork(struct GameData *gameData);
-extern struct GimmickWork *GAME_DATA_GetFieldSave(struct GameData *gameData);
-extern struct EventWork *GAME_DATA_GetEventWork(struct GameData *gameData);
+extern u8 *GAME_DATA_GetFieldSave(struct GameData *gameData);
+extern void *GAME_DATA_GetEventWork(struct GameData *gameData);
 extern void *GAME_DATA_GetSaveBlock42(struct GameData *gameData);
-extern void *GIMMICK_WORK_GetWork(struct GimmickWork *gimmickWork, u32 gimmickId);
+extern s32 *GIMMICK_WORK_GetWork(struct GimmickWork *gimmickWork, u32 gimmickId);
 extern s32 GIMMICK_WORK_GetId(struct GimmickWork *gimmickWork);
 extern struct ConfigSave *SYSTEM_DATA_GetConfig(struct SaveControl *saveControl);
 extern int CONFIG_GetTextLanguage(struct ConfigSave *config);
-extern void *MISC_GetFromSave(struct SaveControl *saveControl);
+struct MiscSave;
+extern struct MiscSave *MISC_GetFromSave(struct SaveControl *saveControl);
 extern u16 MISC_GetGatePoints(struct MiscSave *miscSave);
 extern struct MiscSave *MISC_GetBlock(struct SaveControl *saveControl);
 extern void MISC_SetGatePoints(struct MiscSave *miscSave, u16 value);
 extern u32 ZONEDATA_CheckEventFlag(struct EventWork *eventWork, s32 flagId);
 extern void ZONEDATA_SetEventFlag(struct EventWork *eventWork, int flagId);
 extern u32 SAVE_CONTROL_LoadExtraSave(struct SaveControl *saveControl, u32 id, u32 heapId);
-extern struct ExtraSaveRecord *SAVE_CONTROL_GetExtraSaveRecord(struct SaveControl *saveControl, u32 id, u32 value);
+extern void *SAVE_CONTROL_GetExtraSaveRecord(struct SaveControl *saveControl, u32 id, u32 value);
 extern void SAVE_CONTROL_DeleteExtraSave(struct SaveControl *saveControl, u32 id);
-extern u32 DENDOU_SAVEDATA_GetRecordCount(struct ExtraSaveRecord *record);
-extern int DENDOU_SAVEDATA_GetRingMemberCount(struct ExtraSaveRecord *record, int index);
-extern void DENDOU_SAVEDATA_ExportRingMember(struct ExtraSaveRecord *record, u32 type, u32 index, GateListEntry *entry);
-extern int DENDOU_SAVEDATA_GetMemberCount(void *saveBlock);
+extern u32 DENDOU_SAVEDATA_GetRecordCount(char *ring);
+extern int DENDOU_SAVEDATA_GetRingMemberCount(char *o, int idx);
+extern void DENDOU_SAVEDATA_ExportRingMember(void *ring, unsigned int index, void *recordIndex, void *target);
+extern int DENDOU_SAVEDATA_GetMemberCount(char *records);
 extern void DENDOU_SAVEDATA_ExportMember(void *saveBlock, int index, GateListEntry *entry);
-extern struct StrBuf *STRBUF_Create(u32 capacity, u32 heapId);
-extern void STRBUF_Delete(struct StrBuf *str);
+struct Strbuf;
+extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
+extern void STRBUF_Delete(struct Strbuf *strbuf);
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32 GFL_HEAP_Free(void *memory);
 extern u32 ARC_TOOL_GetArchiveFileCount(u32 archiveId);
 extern u32 GPOWER_GetSpecialPowerId(void);
 extern void MI_CpuFill8(void *dst, int value, int size);
 extern void BUTTON_MAN_MakeRotMtxXYZ(int angleX, int angleY, int angleZ, MtxFx33 *dst);
-extern void FLD_EXP_OBJ_AddUnitFromArchive(FldExpObjCnt *expObj, const G3dUtilSetup *setup, int unitIndex);
+struct G3dUtilSetup;
+struct FldExpObjCnt;
+extern void FLD_EXP_OBJ_AddUnitFromArchive(struct FldExpObjCnt *cnt, struct G3dUtilSetup *setup, unsigned short unitIdx);
 extern G3dObject *FLD_EXP_OBJ_GetModelObject(FldExpObjCnt *expObj, u32 unitIndex, int modelIndex);
 extern G3dObjectStatus *FLD_EXP_OBJ_GetModelStatus(FldExpObjCnt *expObj, unsigned unitIndex, int modelIndex);
 extern void FLD_EXP_OBJ_UpdateAnimes(FldExpObjCnt *expObj);
 extern void FLD_EXP_OBJ_SetAnimeEnabled(FldExpObjCnt *expObj, int unitIndex, int modelIndex, int animeIndex, int enable);
+struct ElboardConfig;
+struct GimmickObjElboard;
 
 /* The board object (gimmick_obj_elboard.c). */
-extern struct GimmickObjElboard *GIMMICK_OBJ_ELBOARD_Create(GateElboardSetup *setup);
+extern struct GimmickObjElboard *GIMMICK_OBJ_ELBOARD_Create(struct ElboardConfig *config);
 extern void GIMMICK_OBJ_ELBOARD_Delete(struct GimmickObjElboard *board);
 extern void GIMMICK_OBJ_ELBOARD_Advance(struct GimmickObjElboard *board, int scrollStep);
 extern int GIMMICK_OBJ_ELBOARD_GetScroll(struct GimmickObjElboard *board);
 extern void GIMMICK_OBJ_ELBOARD_SetScroll(struct GimmickObjElboard *board, int scrollPos);
 extern void GIMMICK_OBJ_ELBOARD_FillMessages(GateWork *work);
-extern int GIMMICK_OBJ_ELBOARD_ReadGateInfo(GateBoardRecord *dst, int archiveId, int index);
-extern int GIMMICK_OBJ_ELBOARD_ReadGateEntry(GateNewsEntry *dst, int archiveId, int index);
+extern int GIMMICK_OBJ_ELBOARD_ReadGateInfo(void *dst, unsigned int archiveId, unsigned int memberIndex);
+extern int GIMMICK_OBJ_ELBOARD_ReadGateEntry(void *dst, u32 archiveId, u32 memberIndex);
 extern int GIMMICK_OBJ_ELBOARD_CheckEntryZone(GateNewsEntry *entry, int zoneId);
 extern int GIMMICK_OBJ_ELBOARD_CheckEntryGPower(GateNewsEntry *entry);
 
@@ -236,8 +242,8 @@ GateSave *FIELD_GIMMICK_GATE_GetSave(FieldMap *fieldMap)
 {
     struct GimmickWork *gimmickWork;
 
-    gimmickWork = GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap)));
-    return GIMMICK_WORK_GetWork(gimmickWork, GIMMICK_WORK_GetId(gimmickWork));
+    gimmickWork = (struct GimmickWork *)GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap)));
+    return (struct GateSave *)GIMMICK_WORK_GetWork(gimmickWork, GIMMICK_WORK_GetId(gimmickWork));
 }
 
 /* Copies the board state (scroll, misc value, message log) into the save area. */
@@ -315,7 +321,7 @@ GateWork *FIELD_GIMMICK_GATE_CreateWork(FieldMap *fieldMap)
     setup.bitmapWidthCells = 8;
     setup.bitmapHeightCells = 3;
     setup.model = FLD_EXP_OBJ_GetModelObject(expObj, GATE_EXP_OBJ_UNIT_INDEX, GATE_EXP_OBJ_MODEL_BOARD);
-    work->board = GIMMICK_OBJ_ELBOARD_Create(&setup);
+    work->board = GIMMICK_OBJ_ELBOARD_Create((struct ElboardConfig *)(&setup));
     return work;
 }
 
@@ -464,15 +470,15 @@ void FIELD_GIMMICK_GATE_ReadExtraSaveValues(const GateWork *work, u32 *values, i
     saveControl = GAME_DATA_GetSaveControl(work->gameData);
     if (SAVE_CONTROL_LoadExtraSave(saveControl, GATE_EXTRA_SAVE_ID, work->heapId) - 1 <= 1) {
         record = SAVE_CONTROL_GetExtraSaveRecord(saveControl, GATE_EXTRA_SAVE_ID, i);
-        if (DENDOU_SAVEDATA_GetRecordCount(record) != 0) {
-            *count = DENDOU_SAVEDATA_GetRingMemberCount(record, i);
+        if (DENDOU_SAVEDATA_GetRecordCount((char *)record) != 0) {
+            *count = DENDOU_SAVEDATA_GetRingMemberCount((char *)record, i);
             for (; i < *count; i++) {
-                entry.nameStr = STRBUF_Create(0x40, work->heapId);
-                entry.placeStr = STRBUF_Create(0x40, work->heapId);
-                DENDOU_SAVEDATA_ExportRingMember(record, 0, i, &entry);
+                entry.nameStr = (struct StrBuf *)STRBUF_Create(0x40, work->heapId);
+                entry.placeStr = (struct StrBuf *)STRBUF_Create(0x40, work->heapId);
+                DENDOU_SAVEDATA_ExportRingMember((void *)record, 0, (void *)i, &entry);
                 values[i] = entry.entryId;
-                STRBUF_Delete(entry.nameStr);
-                STRBUF_Delete(entry.placeStr);
+                STRBUF_Delete((struct Strbuf *)entry.nameStr);
+                STRBUF_Delete((struct Strbuf *)entry.placeStr);
             }
         }
     }
@@ -489,12 +495,12 @@ void FIELD_GIMMICK_GATE_ReadSaveBlockValues(GateWork *work, u32 *values, int *co
     saveBlock = GAME_DATA_GetSaveBlock42(work->gameData);
     *count = DENDOU_SAVEDATA_GetMemberCount(saveBlock);
     for (i = 0; i < *count; i++) {
-        entry.nameStr = STRBUF_Create(0x40, work->heapId);
-        entry.placeStr = STRBUF_Create(0x40, work->heapId);
+        entry.nameStr = (struct StrBuf *)STRBUF_Create(0x40, work->heapId);
+        entry.placeStr = (struct StrBuf *)STRBUF_Create(0x40, work->heapId);
         DENDOU_SAVEDATA_ExportMember(saveBlock, i, &entry);
         values[i] = entry.entryId;
-        STRBUF_Delete(entry.nameStr);
-        STRBUF_Delete(entry.placeStr);
+        STRBUF_Delete((struct Strbuf *)entry.nameStr);
+        STRBUF_Delete((struct Strbuf *)entry.placeStr);
     }
 }
 

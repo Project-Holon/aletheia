@@ -58,6 +58,7 @@
  *   DELIVERY_IRC_GetResult 0x02157E6C thumb ov010
  *   GFL_NET_IsIdle 0x0203D210 arm
  */
+#include "../version.h"
 #include "livebattlematch_shared_types.h"
 #include "livebattlematch_shared_types.h"
 
@@ -91,15 +92,12 @@ extern void WIFIBATTLEMATCH_UTIL_PrintMessage(int *p, int a, int b, int c);
 extern int WIFIBATTLEMATCH_UTIL_GetBusy(const int *);
 extern int BG_SYS_SetPlaneVisible(int, int);
 extern void WIFIBATTLEMATCH_UTIL_ClearBmp(struct WifibattlematchUtilWork *);
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+#include "../arm9/gfl_heap_wrap.h"
 extern int GFL_NET_GetRunState(void);
-extern void GFL_NET_COMMAND_AddCommandTable(u32 a, u32 b, u32 c, u32 d);
-extern void GFL_NET_COMMAND_DeleteCommandTable(u32 key);
-extern u32 GFL_HEAP_Free(void *p);
-extern u32 GFL_NET_ERR_GetErrorLevel(void);
+#include "../arm9/net_command.h"
+typedef int BOOL;
+#include "../arm9/net_err.h"
 extern int DELIVERY_IRC_Delete(void *work);
-extern u32 GFL_NET_ERR_WaitLinkClosed(void);
-extern void GFL_NET_ERR_ShowSimpleScreen(void);
 extern void GFL_NET_StartSession(struct Req *req, unsigned int transportArg, unsigned int userArg);
 extern void IRCNET_SetFilter(int);
 extern int GFL_NET_StartChangeoverChild(int changeoverParam);
@@ -111,11 +109,14 @@ extern u32 GFL_NET_GetHandleNetID(struct Link *p);
 extern int POKE_REGULATION_GetDataSize(void);
 extern u32 GFL_NET_SendData(u32 entry, u32 sendID, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h);
 extern void MI_CpuCopy8(void *,const void *,u32);
-extern void GF_PANIC_Fail(const char *expr, u32 line, const char *file);
+#include "../arm9/gf_panic.h"
 extern void *DELIVERY_IRC_Create(u8 *p);
-extern void DELIVERY_IRC_Main(u8 *p);
-extern int DELIVERY_IRC_Start(void *p);
-extern unsigned char DELIVERY_IRC_GetResult(char *p);
+struct DeliveryIrcWork;
+extern void DELIVERY_IRC_Main(struct DeliveryIrcWork *work);
+struct DeliveryIrcWork;
+extern int DELIVERY_IRC_Start(struct DeliveryIrcWork *work);
+struct DeliveryIrcWork;
+extern unsigned char DELIVERY_IRC_GetResult(struct DeliveryIrcWork *work);
 extern u32 GFL_NET_IsIdle(void);
 void LIVEBATTLEMATCH_IRC_ShowMenu(int *p, int a);
 void LIVEBATTLEMATCH_IRC_CreateWindow(char *p, int mode);
@@ -409,7 +410,7 @@ void LIVEBATTLEMATCH_IRC_CreateDelivery(char *p, unsigned value)
     config.reserved = 0;
     config.heapId = ((struct LiveBattleMatchIrcWork *)p)->heap;
     config.entries[0].id = GAME_LANGUAGE_Code;
-    config.entries[0].mask = 0x200000;
+    config.entries[0].mask = PM_VERSION_MASK;
     config.entryCount = 1;
     if (((struct LiveBattleMatchIrcWork *)p)->delivery)
         GF_PANIC_Fail(d_0217E64C, 0, d_0217E64C);

@@ -24,6 +24,9 @@
  *   d_021BA610 0x021BA610 data a4
  *   MUSICAL_MCSS_GetElemFlag 0x021F4EFC thumb ov112
  *   MUSICAL_MCSS_GetElemField 0x021F4EE0 thumb ov112
+ *   _fdiv                        0x0209CE10  arm
+ *   _ffix                        0x0209C494  arm
+ *   _fflt                        0x0209BDBC  arm
  */
 #include "dup_fitting_types.h"
 #include "dup_fitting_types.h"
@@ -33,16 +36,19 @@ extern void *GFL_HEAP_Alloc(u32, u32, int, const char *, u16);
 extern u32 GFL_HEAP_Free(void *p);
 
 extern void MUSICAL_MCSS_FreeElemImage(u8 *, u8 *, int, u16);
+struct McssActorPool;
+struct McssActorElem;
 
-extern u8 *MUSICAL_MCSS_AddImageNoVram(u8 *, int, u32, Vec *);
+extern struct McssActorElem *MUSICAL_MCSS_AddImageNoVram(struct McssActorPool *pool, int type, unsigned int id, int *v);
 
 extern void MUSICAL_MCSS_FreeElem(u8 *p, u8 *e);
+struct McssOffset;
 
-extern void MUSICAL_MCSS_GetElemOffset(u8 *,DupFittingPair *);
+extern void MUSICAL_MCSS_GetElemOffset(unsigned char *elem, struct McssOffset *out);
 
 extern unsigned int DUP_FITTING_ITEM_ElemHitDistance(u8 *, int, int);
 
-extern int MUSICAL_MCSS_GetElemFlag(int, Flags *);
+extern int MUSICAL_MCSS_GetElemFlag(int unused, struct McssActorElem *p);
 
 extern void MUSICAL_MCSS_GetElemField(int, u16 *, u16 *);
 
@@ -133,7 +139,7 @@ int DUP_FITTING_ITEM_ListIsFull(char *list)
     return ((struct DupFittingItemList *)list)->count == ((struct DupFittingItemList *)list)->max;
 }
 
-u8 *DUP_FITTING_ITEM_CreateElem(u16 heap, struct Object*pool, u8*data, int*pos){u8*elem;elem=GFL_HEAP_Alloc(heap,52,0,d_021BA610,204);*(u32 *)&((struct DupFittingItemElem *)elem)->next=0;*(u8* *)&((struct DupFittingItemElem *)elem)->data=data;*(u8 **)&((struct DupFittingItemElem *)elem)->renderElem=MUSICAL_MCSS_AddImageNoVram((u8 *)pool,((struct DupFittingItemData *)data)->id,((struct DupFittingItemData *)data)->imageId,(Vec *)pos);((struct DupFittingItemElem *)elem)->animFrames=0;((struct DupFittingItemElem *)elem)->frameIndex=10;return elem;}
+u8 *DUP_FITTING_ITEM_CreateElem(u16 heap, struct Object*pool, u8*data, int*pos){u8*elem;elem=GFL_HEAP_Alloc(heap,52,0,d_021BA610,204);*(u32 *)&((struct DupFittingItemElem *)elem)->next=0;*(u8* *)&((struct DupFittingItemElem *)elem)->data=data;*(u8 **)&((struct DupFittingItemElem *)elem)->renderElem=(unsigned char *)MUSICAL_MCSS_AddImageNoVram((struct McssActorPool *)pool,((struct DupFittingItemData *)data)->id,((struct DupFittingItemData *)data)->imageId,(int *)pos);((struct DupFittingItemElem *)elem)->animFrames=0;((struct DupFittingItemElem *)elem)->frameIndex=10;return elem;}
 
 void DUP_FITTING_ITEM_DeleteElem(u8*elem,u8*pool){MUSICAL_MCSS_FreeElem(pool,*(u8* *)&((struct DupFittingItemElem *)elem)->renderElem);GFL_HEAP_Free(elem);}
 
@@ -217,7 +223,7 @@ int DUP_FITTING_ITEM_ElemHitTest(u8 *elem, int x, int y)
     short c;
     int dx, dy;
     short rx, ry;
-    MUSICAL_MCSS_GetElemOffset((u8 *)((struct DupFittingItemElem *)elem)->renderElem, (DupFittingPair *)pos);
+    MUSICAL_MCSS_GetElemOffset((u8 *)((struct DupFittingItemElem *)elem)->renderElem, (struct McssOffset *)pos);
     if (MUSICAL_MCSS_GetElemFlag(0, ((struct DupFittingItemElem *)elem)->renderElem) == 1) {
         MUSICAL_MCSS_GetElemField(0, ((struct DupFittingItemElem *)elem)->renderElem, &angle);
         s = ((const short *)FX_SinCosTable_)[(angle >> 4) * 2];
@@ -242,7 +248,7 @@ unsigned int DUP_FITTING_ITEM_ElemHitDistance(u8 *elem, int x, int y)
     short c;
     int dx, dy;
     short rx, ry;
-    MUSICAL_MCSS_GetElemOffset((u8 *)((struct DupFittingItemElem *)elem)->renderElem, (DupFittingPair *)pos);
+    MUSICAL_MCSS_GetElemOffset((u8 *)((struct DupFittingItemElem *)elem)->renderElem, (struct McssOffset *)pos);
     if (MUSICAL_MCSS_GetElemFlag(0, ((struct DupFittingItemElem *)elem)->renderElem) == 1) {
         MUSICAL_MCSS_GetElemField(0, ((struct DupFittingItemElem *)elem)->renderElem, &angle);
         s = ((const short *)FX_SinCosTable_)[(angle >> 4) * 2];

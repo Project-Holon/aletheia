@@ -54,7 +54,6 @@ extern int SOCLi_ExecCommandPacketInSendPipe(SOCLSocket *socket,
                                              SOCLiCommandPacket *command);
 extern void CPS_TcpShutdown(void);
 int SOCL_Shutdown(int s);
-int SOCLi_ShutdownCallBack(void *arg);
 
 static int SOCLi_ShutdownCallBack(void *arg);
 
@@ -104,7 +103,7 @@ static inline int IsTcp(int mode)
 /*
  * sdk:      SOCLi_ShutdownCallBack (libsoc.TWL.HYB.a(socl_shutdown.o))
  */
-int SOCLi_ShutdownCallBack(void *arg)
+static int SOCLi_ShutdownCallBack(void *arg)
 {
     Socket *socket = ((Cmd *)arg)->socket;
 

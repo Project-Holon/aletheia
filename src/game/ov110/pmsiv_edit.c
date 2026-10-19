@@ -159,9 +159,9 @@ struct PmsivEdit {
     struct PmsInputView *view;
     struct PmsInputState *input;
     void *param;
-    struct Descriptor *windows[PMSIV_EDIT_SCREEN_COUNT];
-    struct Obj *cursors[PMSIV_EDIT_SCREEN_COUNT];
-    struct Obj *wordIcons[PMSIV_EDIT_SLOT_COUNT][PMSIV_EDIT_SCREEN_COUNT];
+    struct BmpWin *windows[PMSIV_EDIT_SCREEN_COUNT];
+    struct Actor *cursors[PMSIV_EDIT_SCREEN_COUNT];
+    struct Actor *wordIcons[PMSIV_EDIT_SLOT_COUNT][PMSIV_EDIT_SCREEN_COUNT];
     struct MsgBank *messageBank;
     struct U16Vec *text;
     void *bmpCursor;
@@ -191,136 +191,148 @@ typedef volatile unsigned short vu16;
 struct WinMgr;
 
 extern u32 GFL_HEAP_Free(void *p);
+struct PmsInput;
 
-extern int *PMS_INPUT_GetUiInputModePtr(struct PmsInputState *input);
+extern unsigned int *PMS_INPUT_GetUiInputModePtr(struct PmsInput *input);
+struct TcbTask;
 
-extern void TCB_DeleteTask(struct Node *n);
+extern void TCB_DeleteTask(struct TcbTask *task);
 
 extern void ARC_UTIL_UploadBgPaletteFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 
 extern u32 ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
+struct BmpWin;
+struct Bmp;
 
-extern void *BMP_WIN_GetBmp(struct Descriptor *p);
+extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *win);
+struct Bmp;
 
-extern void BMP_Clear(struct CharBuf *buf, u8 value);
+extern void BMP_Clear(struct Bmp *bmp, u8 value);
 
 extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+struct Strbuf;
 
-extern void STRBUF_Delete(struct U16Vec *vec);
+extern void STRBUF_Delete(struct Strbuf *strbuf);
 
 extern u32 MSGDATA_Delete(struct MsgBank *bank);
+struct BmpWin;
 
-extern u8 BMP_WIN_GetBgLayer(struct Descriptor *);
+extern u8 BMP_WIN_GetBgLayer(struct BmpWin *win);
 
 extern void BG_SYS_MarkTileDirty(unsigned);
 
-extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
+extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
 
 extern void *GFL_HEAP_Alloc(u32, u32, int, const char *, u16);
+struct Actor;
 
-extern void CLACT_DeleteActor(struct Obj *p);
+extern void CLACT_DeleteActor(struct Actor *actor);
 
-extern unsigned int BMP_WIN_Delete(struct Descriptor *d);
+extern unsigned int BMP_WIN_Delete(struct BmpWin *win);
 
 extern void BG_SYS_ChangeScrollImmediate(u32, u32, u32);
+struct GfFont;
 
-extern u32 PMS_INPUT_VIEW_GetFont(struct PmsInputView *view);
+extern struct GfFont *PMS_INPUT_VIEW_GetFont(struct PmsInputView *view);
 
-extern struct Descriptor *BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
+extern struct BmpWin *BMP_WIN_Create(u32 bgLayer, u32 posX, u32 posY, u8 width, u8 height, u8 palette, u8 allocDir);
 
-extern u32 PRINTSYS_MeasureWidestLine(struct StrObj *s, u32 a, u32 b);
+extern u32 PRINTSYS_MeasureWidestLine(struct Strbuf *text, struct GfFont *font, unsigned int spacing);
 
-extern void BMP_WIN_MakeScreen(struct Descriptor *window);
+extern void BMP_WIN_MakeScreen(struct BmpWin *win);
 
-extern void BMP_WIN_TransferChars(struct Descriptor *d);
+extern void BMP_WIN_TransferChars(struct BmpWin *win);
 
 extern void PMS_INPUT_VIEW_GetUiRes(struct PmsInputView *, struct ActorSetup *, int, int);
+struct MenuCursor;
 
-extern void *BMP_CURSOR_Create(unsigned);
+extern struct MenuCursor *BMP_CURSOR_Create(unsigned);
+struct BgWinFrmWork;
 
-extern struct WinMgr *BGWINFRM_Create(u32 transMode, u32 frameMax, u32 heap);
+extern struct BgWinFrmWork *BGWINFRM_Create(u32 transMode, u32 frameMax, u32 heap);
 
-extern void BGWINFRM_Delete(struct WinMgr *mgr);
+extern void BGWINFRM_Delete(struct BgWinFrmWork *wk);
 
-extern void BMP_CURSOR_Delete(void *cursor);
+extern void BMP_CURSOR_Delete(struct MenuCursor *cursor);
 
-extern void BGWINFRM_AddFrame(struct WinMgr *mgr, u32 idx, u32 bg, u32 w, u32 h);
+extern void BGWINFRM_AddFrame(struct BgWinFrmWork *wk, u32 idx, u32 bgFrame, u32 sizeX, u32 sizeY);
 
-extern void BGWINFRM_SetFrameDataArcHandle(struct WinMgr *mgr, u32 idx, void *arc, u32 member, u32 alloc);
+extern void BGWINFRM_SetFrameDataArcHandle(struct BgWinFrmWork *wk, u32 idx, void *arcHandle, u32 datId, u32 compressed);
 
-extern void BGWINFRM_PutFrame(struct WinMgr *mgr, u32 idx, s8 x, s8 y);
+extern void BGWINFRM_PutFrame(struct BgWinFrmWork *wk, u32 idx, s8 x, s8 y);
 
-extern void BGWINFRM_PutBmpWin(struct WinMgr *mgr, u32 idx, void *a);
+extern void BGWINFRM_PutBmpWin(struct BgWinFrmWork *wk, u32 idx, void *bmpWin);
 
-extern void BGWINFRM_ShowFrame(struct WinMgr *mgr, u32 idx);
+extern void BGWINFRM_ShowFrame(struct BgWinFrmWork *wk, u32 idx);
 
-extern void BG_SYS_SetTileEntry(unsigned, int, int, int, u8, u8, u8);
+extern void BG_SYS_SetTileEntry(u32 layer, u16 value, u8 x0, u8 y0, u8 w, u8 h, u8 mode);
 
 extern void *GFL_USE_AddHBlankTask(u32 a, u32 b, u32 c);
 
 extern void *GFL_USE_AddMainTask(void *, void *, unsigned);
 
-extern short CLACT_GetActorSurfacePosAxis(struct Obj *, u16 surface, unsigned axis);
+extern short CLACT_GetActorSurfacePosAxis(struct Actor *, u16 surface, unsigned axis);
 
-extern void CLACT_SetActorSurfacePosAxis(struct Obj *, short pos, u16 surface, unsigned axis);
+extern void CLACT_SetActorSurfacePosAxis(struct Actor *, short pos, u16 surface, unsigned axis);
 
 extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
 
-extern void *ARC_UTIL_LoadPaletteBlockFromHandle(void *arc, u32 memberIdx, u32 unpackedOut, u32 flags);
+extern void *ARC_UTIL_LoadPaletteBlockFromHandle(void *arc, u32 memberIdx, void *unpackedOut, u16 flags);
 
 extern void MIi_CpuCopy16(const void *, void *, int);
 
 extern void DC_FlushRange(void *, unsigned);
+struct PmsInput;
 
-extern unsigned PMS_INPUT_GetInputMode(struct PmsInputState *input);
+extern unsigned PMS_INPUT_GetInputMode(struct PmsInput *input);
 
-extern int PMS_INPUT_GetSentenceType(struct PmsInputState *input);
+extern int PMS_INPUT_GetSentenceType(struct PmsInput *input);
 
-extern void GX_LoadBGPltt(void *, int, int);
+extern void GX_LoadBGPltt(void *pSrc, u32 offset, u32 szByte);
 
-extern void GXS_LoadBGPltt(void *, int, int);
+extern void GXS_LoadBGPltt(void *pSrc, unsigned int offset, unsigned int szByte);
 
 extern void PMS_INPUT_VIEW_GetCursorRes(struct PmsInputView *view, struct ActorSetup *out, int i);
 
 extern void *PMS_INPUT_VIEW_CreateActor(struct PmsInputView *view, struct ActorSetup *setup, int x, int y, int a, int mode);
 
-extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
+extern void CLACT_SetActorDrawEnable(struct Actor *actor, u32 value);
 
-extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
+extern void CLACT_SetActorAnimSeq(struct Actor *p, u16 value);
 
-extern void CLACT_SetActorBgPriority(struct Obj *, int);
+extern void CLACT_SetActorBgPriority(struct Actor *, int);
 
-extern u32 PMS_INPUT_GetWord(struct PmsInputState *input, u32 i);
+extern u32 PMS_INPUT_GetWord(struct PmsInput *input, u32 i);
 
-extern struct U16Vec *PMS_INPUT_GetSentenceString(struct PmsInputState *input, u32 heap);
+extern void *PMS_INPUT_GetSentenceString(struct PmsInput *input, u32 heapId);
 
 extern void GF_FONT_SetTextColor(u32, u32, u32);
 
-extern void PRINTSYS_Print(void *, short, short, void *, void *);
+extern void PRINTSYS_Print(struct Bmp *bmp, short x, short y, struct Strbuf *str, struct GfFont *font);
 
-extern u16 *STRBUF_GetChars(struct U16Vec *vec);
+extern u16 *STRBUF_GetChars(struct Strbuf *strbuf);
 
-extern void STRBUF_SetStringN(struct U16Vec *, const u16 *, u32);
+extern void STRBUF_SetStringN(struct Strbuf *strbuf, u16 *srcChars, u32 charCount);
 
 extern u32 PRINTSYS_GetTagParam(const u16 *, u32);
 
 extern u16 *PRINTSYS_SkipTag(u16 *);
 
-extern void BMP_FillRect(struct Bmp *b, u32 x, u32 y, u32 w, u32 h, u32 value);
+extern void BMP_FillRect(struct Bmp *bmp, u32 x, u32 y, u32 w, u16 h, u8 value);
 
 extern u32 PMSI_PARAM_IsDecoWord(u32);
 
 extern u32 PMSI_PARAM_GetDecoId(u32);
 
-extern u8 BMP_WIN_GetPosX(struct Descriptor *);
+extern u8 BMP_WIN_GetPosX(struct BmpWin *win);
 
-extern u8 BMP_WIN_GetPosY(struct Descriptor *);
+extern u8 BMP_WIN_GetPosY(struct BmpWin *win);
 
-extern void CLACT_AddActorSurfacePos(struct Obj *p, const ScreenPos *delta, u32 which);
+extern void CLACT_AddActorSurfacePos(struct Actor *p, const ScreenPos *delta, u32 which);
 
 extern u8 BG_SYS_GetPriority(u32);
 
-extern void PMS_WORD_LoadString(u32, void *, u32);
+extern void PMS_WORD_LoadString(unsigned int id, void *dest, unsigned short heap);
 
 struct PmsivEdit *PMSIV_EDIT_Create(struct PmsInputView *view, struct PmsInputState *input, void *param);
 
@@ -336,7 +348,7 @@ void PMSIV_EDIT_Redraw(struct PmsivEdit *p);
 
 void PMSIV_EDIT_Delete(struct PmsivEdit *p);
 
-void PMSIV_EDIT_Setup(struct PmsivEdit *p, u32 arcHandle);
+void PMSIV_EDIT_Setup(struct PmsivEdit *p, void *arcHandle);
 
 extern const char sPmsivEditAllocSite[];
 
@@ -347,11 +359,11 @@ struct PmsivEdit *PMSIV_EDIT_Create(struct PmsInputView *view, struct PmsInputSt
     p->view = view;
     p->input = input;
     p->param = param;
-    p->modeFlag = PMS_INPUT_GetUiInputModePtr(input);
+    p->modeFlag = (int *)PMS_INPUT_GetUiInputModePtr((struct PmsInput *)input);
     p->cursors[0] = 0;
     p->cursors[1] = 0;
     p->scrollTask = 0;
-    p->text = STRBUF_Create(128, PMSIV_EDIT_HEAP);
+    p->text = (struct U16Vec *)STRBUF_Create(128, PMSIV_EDIT_HEAP);
     p->messageBank = MSGDATA_CreateFromArchive(0, 2, 146, PMSIV_EDIT_HEAP);
     p->bmpCursor = BMP_CURSOR_Create(PMSIV_EDIT_HEAP);
     p->scrollOffset = 0;
@@ -359,29 +371,29 @@ struct PmsivEdit *PMSIV_EDIT_Create(struct PmsInputView *view, struct PmsInputSt
     p->unusedWord1A8 = 0;
     p->unusedWord1AC = 0;
     p->frameTask = 0;
-    p->frameMgr = BGWINFRM_Create(1, 1, PMSIV_EDIT_HEAP);
+    p->frameMgr = (struct WinMgr *)BGWINFRM_Create(1, 1, PMSIV_EDIT_HEAP);
     return p;
 }
 
 void PMSIV_EDIT_Delete(struct PmsivEdit *p)
 {
-    BGWINFRM_Delete(p->frameMgr);
+    BGWINFRM_Delete((struct BgWinFrmWork *)p->frameMgr);
     if (p->frameTask) TCB_DeleteTask(p->frameTask);
     if (p->scrollTask) TCB_DeleteTask(p->scrollTask);
     if (p->bmpCursor) BMP_CURSOR_Delete(p->bmpCursor);
-    if (p->cursors[0]) CLACT_DeleteActor(p->cursors[0]);
-    if (p->cursors[1]) CLACT_DeleteActor(p->cursors[1]);
+    if (p->cursors[0]) CLACT_DeleteActor((struct Actor *)p->cursors[0]);
+    if (p->cursors[1]) CLACT_DeleteActor((struct Actor *)p->cursors[1]);
     if (p->messageBank) MSGDATA_Delete(p->messageBank);
-    if (p->text) STRBUF_Delete(p->text);
-    BMP_WIN_Delete(p->windows[0]);
-    BMP_WIN_Delete(p->windows[1]);
+    if (p->text) STRBUF_Delete((struct Strbuf *)p->text);
+    BMP_WIN_Delete((struct BmpWin *)p->windows[0]);
+    BMP_WIN_Delete((struct BmpWin *)p->windows[1]);
     GFL_HEAP_Free(p);
 }
 
 /*
  * prototype: legacy 02040618 fourth input is unused by its full 02042360 target; caller sets only r0-r2.
  */
-void PMSIV_EDIT_Setup(struct PmsivEdit *p, u32 arcHandle)
+void PMSIV_EDIT_Setup(struct PmsivEdit *p, void *arcHandle)
 {
     PMSIV_EDIT_LoadPalette(p, (void *)arcHandle);
     ARC_UTIL_UploadBgPaletteFromHandle((void *)arcHandle, 25, 0, 0, 0, 0, PMSIV_EDIT_HEAP);
@@ -398,11 +410,11 @@ void PMSIV_EDIT_Setup(struct PmsivEdit *p, u32 arcHandle)
     PMSIV_EDIT_CreateWordIcons(p);
     PMSIV_EDIT_Redraw(p);
     PMSIV_EDIT_CreateCursors(p);
-    BGWINFRM_AddFrame(p->frameMgr, 0, 0, 32, 6);
-    BGWINFRM_SetFrameDataArcHandle(p->frameMgr, 0, (void *)arcHandle, 25, 0);
-    BGWINFRM_PutFrame(p->frameMgr, 0, 0, 0);
-    BGWINFRM_PutBmpWin(p->frameMgr, 0, p->windows[0]);
-    BGWINFRM_ShowFrame(p->frameMgr, 0);
+    BGWINFRM_AddFrame((struct BgWinFrmWork *)p->frameMgr, 0, 0, 32, 6);
+    BGWINFRM_SetFrameDataArcHandle((struct BgWinFrmWork *)p->frameMgr, 0, (void *)arcHandle, 25, 0);
+    BGWINFRM_PutFrame((struct BgWinFrmWork *)p->frameMgr, 0, 0, 0);
+    BGWINFRM_PutBmpWin((struct BgWinFrmWork *)p->frameMgr, 0, p->windows[0]);
+    BGWINFRM_ShowFrame((struct BgWinFrmWork *)p->frameMgr, 0);
     p->frameDirty = 0;
 }
 
@@ -421,7 +433,7 @@ void PMSIV_EDIT_ApplyPalette(struct PmsivEdit *p);
 
 void PMSIV_EDIT_GetSlotRect(struct PmsivEdit *p, unsigned char *rect, int slot);
 
-int PMSIV_EDIT_DrawFreeText(struct PmsivEdit *p, struct Descriptor *window, u8 screen);
+int PMSIV_EDIT_DrawFreeText(struct PmsivEdit *p, struct BmpWin *window, u8 screen);
 
 void PMSIV_EDIT_ParserInit(struct PmsivTextParser *parser, struct PmsivEdit *p);
 
@@ -433,9 +445,9 @@ void PMSIV_EDIT_SlotPosToBoxOrigin(const short *pos, short *boxOrigin);
 
 void PMSIV_EDIT_BoxOriginToSlotPos(const short *boxOrigin, short *pos);
 
-void PMSIV_EDIT_ClearSlotBox(struct Descriptor *window, const ScreenPos *pos);
+void PMSIV_EDIT_ClearSlotBox(struct BmpWin *window, const ScreenPos *pos);
 
-void PMSIV_EDIT_DrawSlotWord(struct PmsivEdit *p, struct Descriptor *window, const ScreenPos *pos, u32 wordId, struct Obj *icon);
+void PMSIV_EDIT_DrawSlotWord(struct PmsivEdit *p, struct BmpWin *window, const ScreenPos *pos, u32 wordId, struct Actor *icon);
 
 void PMSIV_EDIT_SetCursorPressed(struct PmsivEdit *p, int pressed);
 
@@ -463,8 +475,8 @@ void PMSIV_EDIT_UpdateFramePosition(void *task, struct PmsivEdit *p)
     p->unusedWord1AC = 0;
     if (p->frameDirty) {
         BG_SYS_SetTileEntry(0, 0, 0, 0, 32, 6, 17);
-        BGWINFRM_PutFrame(p->frameMgr, 0, 0, (s8)(-p->scrollOffset / 8));
-        BGWINFRM_ShowFrame(p->frameMgr, 0);
+        BGWINFRM_PutFrame((struct BgWinFrmWork *)p->frameMgr, 0, 0, (s8)(-p->scrollOffset / 8));
+        BGWINFRM_ShowFrame((struct BgWinFrmWork *)p->frameMgr, 0);
         p->frameDirty = 0;
     }
 }
@@ -522,7 +534,7 @@ void PMSIV_EDIT_LoadPalette(struct PmsivEdit *p, void *arcHandle)
     void *handle;
     ARC_UTIL_UploadPaletteFromHandleWhole(arcHandle, 3, 0, 0, 448, PMSIV_EDIT_HEAP);
     ARC_UTIL_UploadPaletteFromHandleWhole(arcHandle, 4, 4, 0, 160, PMSIV_EDIT_HEAP);
-    handle = ARC_UTIL_LoadPaletteBlockFromHandle(arcHandle, 6, (u32)((void **)&data), PMSIV_EDIT_HEAP);
+    handle = ARC_UTIL_LoadPaletteBlockFromHandle((void *)arcHandle, 6, ((void **)&data), PMSIV_EDIT_HEAP);
     MIi_CpuCopy16(data->rawData, p->palette, PMSIV_EDIT_PALETTE_BYTES);
     DC_FlushRange(p->palette, PMSIV_EDIT_PALETTE_BYTES);
     GFL_HEAP_Free(handle);
@@ -530,8 +542,8 @@ void PMSIV_EDIT_LoadPalette(struct PmsivEdit *p, void *arcHandle)
 
 void PMSIV_EDIT_ApplyPalette(struct PmsivEdit *p)
 {
-    if (PMS_INPUT_GetInputMode(p->input) == PMSIV_EDIT_MODE_FREE_TEXT && (unsigned)PMS_INPUT_GetSentenceType(p->input) < 5) {
-        unsigned n = (unsigned)PMS_INPUT_GetSentenceType(p->input) + 1;
+    if (PMS_INPUT_GetInputMode((struct PmsInput *)p->input) == PMSIV_EDIT_MODE_FREE_TEXT && (unsigned)PMS_INPUT_GetSentenceType((struct PmsInput *)p->input) < 5) {
+        unsigned n = (unsigned)PMS_INPUT_GetSentenceType((struct PmsInput *)p->input) + 1;
         GX_LoadBGPltt(p->palette + n * 32, 0, 32);
         GXS_LoadBGPltt(p->palette + n * 32, 0, 32);
     } else {
@@ -542,7 +554,7 @@ void PMSIV_EDIT_ApplyPalette(struct PmsivEdit *p)
 
 void PMSIV_EDIT_InitSlotPositions(struct PmsivEdit *p)
 {
-    switch (PMS_INPUT_GetInputMode(p->input)) {
+    switch (PMS_INPUT_GetInputMode((struct PmsInput *)p->input)) {
     case PMSIV_EDIT_MODE_SINGLE: p->slotPos[0].x = 104; p->slotPos[0].y = 16; p->slotCount = 1; break;
     case PMSIV_EDIT_MODE_DOUBLE: p->slotPos[0].x = 48; p->slotPos[0].y = 16; p->slotPos[1].x = 160; p->slotPos[1].y = 16; p->slotCount = 2; break;
     case PMSIV_EDIT_MODE_FREE_TEXT: p->slotCount = 0; break;
@@ -593,23 +605,23 @@ void PMSIV_EDIT_Redraw(struct PmsivEdit *p)
         for (j = 0; j < PMSIV_EDIT_SLOT_COUNT; j++) {
             if (p->wordIcons[j][i]) CLACT_SetActorDrawEnable(p->wordIcons[j][i], 0);
         }
-        BMP_Clear(BMP_WIN_GetBmp(p->windows[i]), 15);
-        switch (PMS_INPUT_GetInputMode(p->input)) {
+        BMP_Clear(BMP_WIN_GetBmp((struct BmpWin *)p->windows[i]), 15);
+        switch (PMS_INPUT_GetInputMode((struct PmsInput *)p->input)) {
         case PMSIV_EDIT_MODE_SINGLE:
             PMSIV_EDIT_ClearSlotBox(p->windows[i], &p->slotPos[0]);
-            PMSIV_EDIT_DrawSlotWord(p, p->windows[i], &p->slotPos[0], PMS_INPUT_GetWord(p->input, 0), p->wordIcons[0][i]);
+            PMSIV_EDIT_DrawSlotWord(p, p->windows[i], &p->slotPos[0], PMS_INPUT_GetWord((struct PmsInput *)p->input, 0), p->wordIcons[0][i]);
             break;
         case PMSIV_EDIT_MODE_DOUBLE:
             PMSIV_EDIT_ClearSlotBox(p->windows[i], &p->slotPos[0]);
             PMSIV_EDIT_ClearSlotBox(p->windows[i], &p->slotPos[1]);
-            PMSIV_EDIT_DrawSlotWord(p, p->windows[i], &p->slotPos[0], PMS_INPUT_GetWord(p->input, 0), p->wordIcons[0][i]);
-            PMSIV_EDIT_DrawSlotWord(p, p->windows[i], &p->slotPos[1], PMS_INPUT_GetWord(p->input, 1), p->wordIcons[1][i]);
+            PMSIV_EDIT_DrawSlotWord(p, p->windows[i], &p->slotPos[0], PMS_INPUT_GetWord((struct PmsInput *)p->input, 0), p->wordIcons[0][i]);
+            PMSIV_EDIT_DrawSlotWord(p, p->windows[i], &p->slotPos[1], PMS_INPUT_GetWord((struct PmsInput *)p->input, 1), p->wordIcons[1][i]);
             break;
         case PMSIV_EDIT_MODE_FREE_TEXT:
             p->slotCount = PMSIV_EDIT_DrawFreeText(p, p->windows[i], i);
             break;
         }
-        BMP_WIN_TransferChars(p->windows[i]);
+        BMP_WIN_TransferChars((struct BmpWin *)p->windows[i]);
     }
     BG_SYS_MarkTileDirty(0);
     BG_SYS_MarkTileDirty(4);
@@ -629,13 +641,13 @@ void PMSIV_EDIT_GetSlotRect(struct PmsivEdit *p, unsigned char *rect, int slot)
     rect[1] = rect[0] + 0x10;
 }
 
-int PMSIV_EDIT_DrawFreeText(struct PmsivEdit *p, struct Descriptor *window, u8 screen)
+int PMSIV_EDIT_DrawFreeText(struct PmsivEdit *p, struct BmpWin *window, u8 screen)
 {
     struct U16Vec *run;
     u16 wordId;
     int running, slotCount, x, y;
     u32 font;
-    run = PMS_INPUT_GetSentenceString(p->input, PMSIV_EDIT_HEAP);
+    run = PMS_INPUT_GetSentenceString((struct PmsInput *)p->input, PMSIV_EDIT_HEAP);
     font = (u32)PMS_INPUT_VIEW_GetFont(p->view);
     running = 1;
     slotCount = 0; y = 0; x = 0;
@@ -644,8 +656,8 @@ int PMSIV_EDIT_DrawFreeText(struct PmsivEdit *p, struct Descriptor *window, u8 s
         switch (PMSIV_EDIT_ParserNext(&p->parser, run)) {
         case PMSIV_EDIT_TOKEN_TEXT:
             GF_FONT_SetTextColor(1, 2, 15);
-            PRINTSYS_Print(BMP_WIN_GetBmp(window), x, y, run, (void *)font);
-            x += PRINTSYS_MeasureWidestLine((struct StrObj *)run, font, 0);
+            PRINTSYS_Print(BMP_WIN_GetBmp((struct BmpWin *)window), x, y, (struct Strbuf *)run, (void *)font);
+            x += PRINTSYS_MeasureWidestLine((struct Strbuf *)run, (struct GfFont *)font, 0);
             break;
         case PMSIV_EDIT_TOKEN_SLOT: {
             wordId = p->parser.slotWordId;
@@ -653,7 +665,7 @@ int PMSIV_EDIT_DrawFreeText(struct PmsivEdit *p, struct Descriptor *window, u8 s
             p->slotPos[slotCount].x = x + 50;
             p->slotPos[slotCount].y = y + 8;
             PMSIV_EDIT_ClearSlotBox(window, &p->slotPos[slotCount]);
-            PMSIV_EDIT_DrawSlotWord(p, window, &p->slotPos[slotCount], PMS_INPUT_GetWord(p->input, wordId), p->wordIcons[slotCount][screen]);
+            PMSIV_EDIT_DrawSlotWord(p, window, &p->slotPos[slotCount], PMS_INPUT_GetWord((struct PmsInput *)p->input, wordId), p->wordIcons[slotCount][screen]);
             slotCount++;
             x += 100;
             break;
@@ -663,7 +675,7 @@ int PMSIV_EDIT_DrawFreeText(struct PmsivEdit *p, struct Descriptor *window, u8 s
         }
     } while (running);
     PMSIV_EDIT_ParserFree(&p->parser);
-    STRBUF_Delete(run);
+    STRBUF_Delete((struct Strbuf *)run);
     return slotCount;
 }
 
@@ -672,15 +684,15 @@ int PMSIV_EDIT_DrawFreeText(struct PmsivEdit *p, struct Descriptor *window, u8 s
  */
 void PMSIV_EDIT_ParserInit(struct PmsivTextParser *parser, struct PmsivEdit *p)
 {
-    parser->text = PMS_INPUT_GetSentenceString(p->input, PMSIV_EDIT_HEAP);
-    parser->cursor = STRBUF_GetChars(parser->text);
+    parser->text = PMS_INPUT_GetSentenceString((struct PmsInput *)p->input, PMSIV_EDIT_HEAP);
+    parser->cursor = STRBUF_GetChars((struct Strbuf *)parser->text);
     if (*parser->cursor == PMSIV_EDIT_CHAR_SLOT) parser->state = 1;
     else parser->state = 0;
 }
 
 void PMSIV_EDIT_ParserFree(struct PmsivTextParser *parser)
 {
-    STRBUF_Delete(parser->text);
+    STRBUF_Delete((struct Strbuf *)parser->text);
 }
 
 int PMSIV_EDIT_ParserNext(struct PmsivTextParser *parser, struct U16Vec *out)
@@ -698,7 +710,7 @@ int PMSIV_EDIT_ParserNext(struct PmsivTextParser *parser, struct U16Vec *out)
             default: parser->cursor += 1; break;
             }
         }
-        STRBUF_SetStringN(out, start, (parser->cursor - start) + 1);
+        STRBUF_SetStringN((struct Strbuf *)out, start, (parser->cursor - start) + 1);
         return PMSIV_EDIT_TOKEN_TEXT;
     case 1:
         parser->slotWordId = PRINTSYS_GetTagParam(start, 0);
@@ -734,37 +746,37 @@ void PMSIV_EDIT_BoxOriginToSlotPos(const short *boxOrigin, short *pos)
     pos[1] = boxOrigin[1] + 8;
 }
 
-void PMSIV_EDIT_ClearSlotBox(struct Descriptor *window, const ScreenPos *pos)
+void PMSIV_EDIT_ClearSlotBox(struct BmpWin *window, const ScreenPos *pos)
 {
     ScreenPos origin;
     PMSIV_EDIT_SlotPosToBoxOrigin((const short *)pos, (short *)&origin);
-    BMP_FillRect(BMP_WIN_GetBmp(window), origin.x, origin.y, 0x60, 16, 14);
+    BMP_FillRect(BMP_WIN_GetBmp((struct BmpWin *)window), origin.x, origin.y, 0x60, 16, 14);
 }
 
-void PMSIV_EDIT_DrawSlotWord(struct PmsivEdit *p, struct Descriptor *window, const ScreenPos *pos, u32 wordId, struct Obj *icon)
+void PMSIV_EDIT_DrawSlotWord(struct PmsivEdit *p, struct BmpWin *window, const ScreenPos *pos, u32 wordId, struct Actor *icon)
 {
     ScreenPos origin;
     ScreenPos iconPos;
     u32 font;
     u32 decoIndex;
     u32 surface;
-    font = PMS_INPUT_VIEW_GetFont(p->view);
+    font = (u32)PMS_INPUT_VIEW_GetFont(p->view);
     if (wordId == 0xffff) return;
     PMSIV_EDIT_SlotPosToBoxOrigin((const short *)pos, (short *)&origin);
     if (PMSI_PARAM_IsDecoWord(wordId) != 0) {
         decoIndex = PMSI_PARAM_GetDecoId(wordId) - 1;
-        surface = PMSIV_EDIT_IsSubScreenLayer(BMP_WIN_GetBgLayer(window));
-        iconPos.x = origin.x + BMP_WIN_GetPosX(window) * 8;
-        iconPos.y = origin.y + BMP_WIN_GetPosY(window) * 8;
+        surface = PMSIV_EDIT_IsSubScreenLayer(BMP_WIN_GetBgLayer((struct BmpWin *)window));
+        iconPos.x = origin.x + BMP_WIN_GetPosX((struct BmpWin *)window) * 8;
+        iconPos.y = origin.y + BMP_WIN_GetPosY((struct BmpWin *)window) * 8;
         if (surface == 1) iconPos.y += 192;
         CLACT_SetActorAnimSeq(icon, decoIndex);
         CLACT_AddActorSurfacePos(icon, &iconPos, (u16)surface);
         CLACT_SetActorDrawEnable(icon, 1);
-        CLACT_SetActorBgPriority(icon, (int)(BG_SYS_GetPriority(BMP_WIN_GetBgLayer(window))));
+        CLACT_SetActorBgPriority(icon, (int)(BG_SYS_GetPriority(BMP_WIN_GetBgLayer((struct BmpWin *)window))));
     } else {
         PMS_WORD_LoadString(wordId, p->text, PMSIV_EDIT_HEAP);
         GF_FONT_SetTextColor((u32)3, (u32)4, (u32)14);
-        PRINTSYS_Print(BMP_WIN_GetBmp(window), (short)origin.x, (short)origin.y, p->text, (void *)font);
+        PRINTSYS_Print(BMP_WIN_GetBmp((struct BmpWin *)window), (short)origin.x, (short)origin.y, (struct Strbuf *)p->text, (void *)font);
     }
 }
 

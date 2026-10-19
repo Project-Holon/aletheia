@@ -47,6 +47,7 @@
  */
 #include "../ov021/fld_exp_obj_types.h"
 #include "field_gimmick_sound_objs_b_types.h"
+extern void G3D_CAMERA_GetCamTarget(struct G3dCamera *camera, VecFx32 *out);
 
 void FIELD_GIMMICK_SOUND_OBJS_B_Init(struct FieldMap *fieldMap);
 void FIELD_GIMMICK_SOUND_OBJS_B_Exit(struct FieldMap *fieldMap);

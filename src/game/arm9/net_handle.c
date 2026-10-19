@@ -115,7 +115,7 @@ extern int    GFL_NET_SYSTEM_IsSendEnable(void);
 
 extern GFLNetHandle *GFL_NET_HANDLE_GetNetHandle(s32 idx);
 
-extern void OS_GetMacAddress(void *p);
+extern void OS_GetMacAddress(u8 *macAddress);
 
 extern int GFL_NET_SYSTEM_ClampNetId(int slot);
 
@@ -212,10 +212,11 @@ u32 GFL_NET_IsParentAid(void);
 u32 GFL_NET_IsHandleReady(GFLNetHandle *e);
 
 int GFL_NET_SendToHandle(GFLNetHandle *a, u32 b, u32 c, const void *d);
+struct GFLNetHandle;
 
-u32 GFL_NET_SendData(void *entry, u32 sendID, u32 c, u32 d, const void *e, u32 f, u32 g, u32 h);
+u32 GFL_NET_SendData(struct GFLNetHandle *handle, u32 sendId, u32 command, u32 size, void *data, u32 sendFlags, u32 skipIfQueued, u32 queueMode);
 
-u32 GFL_NET_SendDataMask(void *entry, u32 mask, u32 c, u32 d, const void *e, u32 f, u32 g, u32 h);
+u32 GFL_NET_SendDataMask(struct GFLNetHandle *handle, u32 targetMask, u32 command, u32 size, void *data, u32 sendFlags, u32 skipIfQueued, u32 queueMode);
 
 u32 GFL_NET_GetUserArg(void);
 
@@ -1079,7 +1080,7 @@ int GFL_NET_HANDLE_CheckNegotiation(void)
     if (GFL_NET_SYSTEM_IsConnectMember(GFL_NET_SYSTEM_GetCurrentAid()) != 0) {
         state = handle->state;
         if (state == 2) {
-            OS_GetMacAddress(&msg);
+            OS_GetMacAddress((u8 *)(&msg));
             msg.netID = selfID;
             msg.gameKind = session->init.gameKind;
             msg.linkFlags = session->init.linkExtraFlags;
@@ -1636,7 +1637,7 @@ void GFL_NET_HANDLE_RecvNegotiation(u32 netID, u32 size, const struct NetNegotia
   rec->active = 1;
   MI_CpuCopy8(msg, rec->peerMac, 6);
   rec->netID = msg->netID;
-  OS_GetMacAddress(rec);
+  OS_GetMacAddress((u8 *)rec);
   if (msg->linkFlags == 0)
     goto linkFlagsZero;
   if ((msg->netID != 0) && (msg->gameKind != *(volatile u8 *)&session->init.gameKind))

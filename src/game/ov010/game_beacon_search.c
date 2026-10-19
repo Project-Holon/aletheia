@@ -152,10 +152,12 @@ extern u32 GAME_COMM_GetCounter(struct GameComm *gameComm);
 extern void GFL_HEAP_DumpReport(u32 heapId);
 
 extern void GFL_NET_StartSession(const struct NetInitParam *init, void (*callback)(void *work), void *work);
+struct WihContext;
 
-extern u8 *WIH_DWC_Create(int index, u32 heapId);
+extern struct WihContext *WIH_DWC_Create(int maxBeacons, void *heap);
+struct WihContext;
 
-extern void WIH_DWC_Delete(u8 *wihDwc);
+extern void WIH_DWC_Delete(struct WihContext *context);
 
 extern int GFL_NET_Exit(void (*callback)(void *work));
 
@@ -185,7 +187,7 @@ extern int INTRUDE_COMM_IsListedId(u16 zoneId);
 
 extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
 
-extern void GAME_COMM_RequestExit(struct GameComm *gameComm, void (*callback)(void *work, int cancel), void *work);
+extern void GAME_COMM_RequestExit(struct GameComm *comm, void (*callback)(void *work, int cancel), unsigned int exitArg);
 
 extern void MI_CpuFill8(void *dst, u8 value, u32 size);
 
@@ -195,13 +197,13 @@ extern void WIH_DWC_TickTimers(void);
 
 extern void GFL_NET_EndDeviceWrapper(int mode);
 
-extern u8 *GFL_NET_GetScanResultMac(u32 index);
+extern void *GFL_NET_GetScanResultMac(u32 index);
 
 extern int GAME_BEACON_ReceiveInfo(const GameBeaconInfo *info);
 
 extern u8 NET_WHPIPE_GetEntryKind(u8 index);
 
-extern void *GFL_NET_GetScanResult(u32 index);
+extern u32 GFL_NET_GetScanResult(u32 index);
 
 extern void GAME_BEACON_GetMyInfo(GameBeaconInfo *info);
 
@@ -223,7 +225,7 @@ extern int GFL_NET_GetRunState(void);
 
 extern u32 GAME_COMM_GetKind(struct GameComm *gameComm);
 
-extern void GAME_COMM_Start(struct GameComm *gameComm, u32 kind, void *work);
+extern void GAME_COMM_Start(struct GameComm *comm, u32 kind, u32 param);
 
 GameBeaconSearchWork *GAME_BEACON_SEARCH_Init(void *unused, struct GameSystem *gameSystem);
 
@@ -302,12 +304,12 @@ void GAME_BEACON_SEARCH_OnSessionStarted(void *arg)
     GameBeaconSearchWork *work = arg;
 
     work->state = 1;
-    work->wihDwc = WIH_DWC_Create(4, 0x8005);
+    work->wihDwc = (unsigned char *)WIH_DWC_Create(4, (void *)0x8005);
 }
 
 int GAME_BEACON_SEARCH_Exit(void *unused0, void *unused1, GameBeaconSearchWork *work)
 {
-    WIH_DWC_Delete(work->wihDwc);
+    WIH_DWC_Delete((struct WihContext *)work->wihDwc);
     GFL_NET_Exit(GAME_BEACON_SEARCH_OnNetExit);
     return 1;
 }
@@ -372,7 +374,7 @@ void GAME_BEACON_SEARCH_Update(void *unused, struct GameSystem *gameSystem, Game
                         request = GFL_HEAP_Alloc(0x8005, sizeof(GameBeaconConnectRequest), 1, GAME_BEACON_SEARCH_FileName, 0x154);
                         request->gameSystem = gameSystem;
                         MI_CpuCopy8(target->macAddress, request->macAddress, 6);
-                        GAME_COMM_RequestExit(gameComm, GAME_BEACON_SEARCH_StartConnectEvent, request);
+                        GAME_COMM_RequestExit(gameComm, GAME_BEACON_SEARCH_StartConnectEvent, (unsigned int)request);
                         goto end; /* the connect path skips the target reset; bytes need the goto */
                     }
                 }
@@ -445,14 +447,14 @@ GameBeaconSearchBeacon *GAME_BEACON_SEARCH_PickBestScanResult(GameBeaconSearchWo
         if (scanState == 2 && work->scanDelay != 0) {
             continue;
         }
-        beacon = GFL_NET_GetScanResult(i);
+        beacon = (struct GameBeaconSearchBeacon *)GFL_NET_GetScanResult(i);
         if (beacon == 0) {
             continue;
         }
         if (beacon->header.memberNum < beacon->header.memberMax) {
             if (best == none) {
                 best = i;
-            } else if (GAME_BEACON_SEARCH_SelectBetterEntry(beacon, GFL_NET_GetScanResult(best)) == beacon) {
+            } else if (GAME_BEACON_SEARCH_SelectBetterEntry(beacon, (struct GameBeaconSearchBeacon *)GFL_NET_GetScanResult(best)) == beacon) {
                 best = i;
             }
         } else {
@@ -461,7 +463,7 @@ GameBeaconSearchBeacon *GAME_BEACON_SEARCH_PickBestScanResult(GameBeaconSearchWo
     }
     if (best != -1) {
         *index = best;
-        return GFL_NET_GetScanResult(best);
+        return (struct GameBeaconSearchBeacon *)GFL_NET_GetScanResult(best);
     }
     return 0;
 }
@@ -554,6 +556,6 @@ void GAME_BEACON_SEARCH_StartConnectEvent(void *arg, int cancel)
         event->gameSystem = gameSystem;
         event->gameComm = GAMESYSTEM_GetGameComm(gameSystem);
         MI_CpuCopy8(macAddress, event->macAddress, 6);
-        GAME_COMM_Start(gameComm, 2, event);
+        GAME_COMM_Start(gameComm, (u32)2, (u32)event);
     }
 }

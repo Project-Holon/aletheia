@@ -128,19 +128,27 @@ extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u
 extern int GF_OVERLAY_Load(int overlayId);
 extern void GF_OVERLAY_Unload(int overlayId);
 extern struct GfFont *GF_FONT_Create(int, int, int, int, u32 heapId);
-extern void *BTLV_EFFECT_CreateSetup(int, int, void *scene, int, u16 *params, int, int, u16 heapId);
-extern void BTLV_EFFECT_Init(void *screen, struct GfFont *font, u16 heapId);
+struct BtlvEffFieldSituation;
+struct BtlvEffSetup;
+extern struct BtlvEffSetup *BTLV_EFFECT_CreateSetup(int rule, int competitor, struct BtlvEffFieldSituation *situation, int isMultiMode, u16 *trainerTypes, void *battle, int param, u16 heap);
+extern void BTLV_EFFECT_Init(struct BtlvEffSetup *setup, void *font, u16 heap);
 extern u32 GFL_HEAP_Free(void *p);
-extern int BTLV_EFFECT_GetPalanm(void);
-extern struct PdcMenu *BTLV_INPUT_CreateDefault(struct GameData *gameData, int, int, struct GfFont *font, u32 *menuWork, u16 heapId);
-extern struct Tcbl *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
-extern void *MYITEM_SAVEDATA_CreateBagCursor(u32 heapId);
-extern void TCBL_Main(struct Tcbl *tcbl);
+struct PalAnmSlot;
+extern struct PalAnmSlot *BTLV_EFFECT_GetPalanm(void);
+struct BtlvInput;
+extern struct BtlvInput *BTLV_INPUT_CreateDefault(int infoWinParam, int battleType, int palAnm, int font, int cursorVisible, u16 heap);
+struct TcblSystem;
+extern struct TcblSystem *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
+struct BagCursor;
+extern struct BagCursor *MYITEM_SAVEDATA_CreateBagCursor(u32 heapId);
+struct TcblSystem;
+extern void TCBL_Main(struct TcblSystem *tcbl);
 extern void BTLV_EFFECT_Main(void);
-extern void BTLV_INPUT_UpdateInfoWindow(struct PdcMenu *menu);
-extern void TCBL_Destroy(struct Tcbl *tcbl);
+struct BtlvInput;
+extern void BTLV_INPUT_UpdateInfoWindow(struct BtlvInput *input);
+extern void TCBL_Destroy(struct TcblSystem *tcbl);
 extern void BTLV_EFFECT_Exit(void);
-extern void BTLV_INPUT_Delete(struct PdcMenu *menu);
+extern void BTLV_INPUT_Delete(struct BtlvInput *input);
 extern unsigned int GF_FONT_Delete(struct GfFont *font);
 extern void BG_SYS_Create(u16);
 extern void BMP_WIN_Init(u16);
@@ -150,34 +158,37 @@ extern void BG_SYS_SetGraphicsMode(struct DispConfig *);
 extern void G3D_SYSTEM_Init(u32, u32, u32, u32, u16, u32, void (*)(void));
 extern void G3D_SYSTEM_SetSwapBuffersMode(u32, u32);
 extern void G3X_SetFog(int, int, int, int);
-extern void CLACT_InitSystem(const struct Cfg *, u32, u32);
+struct DispVramCfg;
+struct SysInit;
+extern void CLACT_InitSystem(struct SysInit *cfg, struct DispVramCfg *res_cfg, u32 heapId);
 extern void BG_SYS_EnableBg0WithPriority(u32);
 extern void BG_SYS_SetMainPlaneVisible(u32, u32);
 extern void BMP_WIN_Exit(void);
 extern void BG_SYS_Delete(void);
 extern void CLACT_ExitSystem(void);
 extern void G3D_SYSTEM_Exit(void);
-extern void BTLV_EFFECT_SetPokeSpriteKey(struct PokemonParam *mon, int key);
+extern void BTLV_EFFECT_SetPokeSpriteKey(void *poke, int key);
 extern void BTLV_EFFECT_StartEffect(u32 a);
 extern int BTLV_EFFECT_IsBusy(void);
-extern void BTLV_EFFECT_GaugeInitSlotFromPartyPoke(struct PokedexSave *pokedexSave, struct PokemonParam *mon, u32 c);
-extern void BTLV_INPUT_ChangeScreen(struct PdcMenu *menu, int mode, void *arg);
+struct ZukanSave;
+extern void BTLV_EFFECT_GaugeInitSlotFromPartyPoke(struct ZukanSave *zukanSave, void *partyPoke, u32 slotIdx);
+extern void BTLV_INPUT_ChangeScreen(struct BtlvInput *input, int mode, void *arg);
 extern int BTLV_INPUT_ProcessTouchInput(struct PdcMenu *menu, char *b, char *c);
-extern void BTLV_INPUT_StartPaletteFadeTask(struct PdcMenu *menu, int);
-extern int BTLV_INPUT_IsScreenBusy(struct PdcMenu *menu);
-extern void BTLV_INPUT_StartScreenFadeTask(struct PdcMenu *menu);
-extern void B_BAG_MAIN_Create(struct PdcItemSelect *select);
+extern void BTLV_INPUT_StartPaletteFadeTask(struct BtlvInput *input, int flag);
+extern int BTLV_INPUT_IsScreenBusy(struct BtlvInput *input);
+extern void BTLV_INPUT_StartScreenFadeTask(struct BtlvInput *input);
+extern void B_BAG_MAIN_Create(u8 *arg);
 extern void BTLV_EFFECT_StartEffectWithColor(u32, u16, u8, int, int);
 extern void BTLV_EFFECT_ResumeVm(void);
 extern u32 MYITEM_SAVEDATA_RemoveItem(struct MyItem *myItem, u16 itemId, u16 quantity, u16 heapId);
-extern void GFL_USE_CancelChangeAndPlayBgm(u32, u16);
+extern void GFL_USE_CancelChangeAndPlayBgm(u32 bgmNo, u32 trackMask);
 extern int GFL_USE_IsBgmPlaying(void);
 extern u32 KEY_GetTrg(void);
 extern int TOUCHPANEL_GetTrg(void);
 extern void FADE_Start(u32, int, int, int);
 extern int FADE_IsActive(void);
 extern unsigned short PALANM_GetPairedCodeForFirst(int value);
-extern void POKE_TOOL_SetPartyValue(void *, u32, u32);
+extern void POKE_TOOL_SetPartyValue(struct PokemonParam *pp, u32 paramId, u32 value);
 extern void GFL_USE_FadeOutBgm(u32 a);
 extern int GXx_GetMasterBrightness_(volatile u16 *reg);
 
@@ -239,8 +250,8 @@ struct PdcSys *PDC_MAIN_Create(struct PdcArgs *args, u16 heapId)
     BTLV_EFFECT_Init(screen, sys->msgFont, sys->heapId);
     GFL_HEAP_Free(screen);
     gameData = PDC_GetGameData(args);
-    sys->menu = BTLV_INPUT_CreateDefault(gameData, 0, BTLV_EFFECT_GetPalanm(), sys->font, &sys->menuWork, sys->heapId);
-    sys->tcbl = TCBL_Create(heapId, heapId, 64, 128);
+    sys->menu = (struct PdcMenu *)BTLV_INPUT_CreateDefault((int)gameData, (int)0, (int)BTLV_EFFECT_GetPalanm(), (int)sys->font, (int)(&sys->menuWork), sys->heapId);
+    sys->tcbl = (struct Tcbl *)TCBL_Create(heapId, heapId, 64, 128);
     sys->mon = PDC_GetMon(args);
     sys->msg = PDC_MSG_Create(sys->font, PDC_GetConfig(args), sys->tcbl, sys->heapId);
     sys->workBuf = MYITEM_SAVEDATA_CreateBagCursor(sys->heapId);
@@ -251,9 +262,9 @@ struct PdcSys *PDC_MAIN_Create(struct PdcArgs *args, u16 heapId)
 int PDC_MAIN_Update(struct PdcSys *sys)
 {
     PdcStep step;
-    TCBL_Main(sys->tcbl);
+    TCBL_Main((struct TcblSystem *)sys->tcbl);
     BTLV_EFFECT_Main();
-    BTLV_INPUT_UpdateInfoWindow(sys->menu);
+    BTLV_INPUT_UpdateInfoWindow((struct BtlvInput *)sys->menu);
     step = sys->step;
     if (step != 0) return step(sys);
     return 0;
@@ -261,10 +272,10 @@ int PDC_MAIN_Update(struct PdcSys *sys)
 
 void PDC_MAIN_Delete(struct PdcSys *sys)
 {
-    TCBL_Destroy(sys->tcbl);
+    TCBL_Destroy((struct TcblSystem *)sys->tcbl);
     PDC_MSG_Delete(sys->msg);
     BTLV_EFFECT_Exit();
-    BTLV_INPUT_Delete(sys->menu);
+    BTLV_INPUT_Delete((struct BtlvInput *)sys->menu);
     GF_FONT_Delete(sys->font);
     GF_FONT_Delete(sys->msgFont);
     PDC_MAIN_ExitGraphics();
@@ -291,7 +302,7 @@ void PDC_MAIN_InitGraphics(u16 heapId)
     DISP3DCNT = (u16)((DISP3DCNT & ~0x3000) | 16);
     G3X_SetFog(0, 0, 0, 0);
     BG0CNT = (u16)((BG0CNT & ~3) | 1);
-    CLACT_InitSystem(&gPdcClactInit, (u32)&gPdcDispVram, heapId);
+    CLACT_InitSystem((struct SysInit *)(&gPdcClactInit), (struct DispVramCfg *)&gPdcDispVram, heapId);
     BG_SYS_EnableBg0WithPriority(1);
     BG_SYS_SetMainPlaneVisible(16, 1);
 }
@@ -328,7 +339,7 @@ int PDC_MAIN_StepIntro(struct PdcSys *sys)
     case 3:
         if (PDC_MSG_Update(sys->msg) != 0) {
             pokedexSave = PDC_GetPokedexSave(sys->args);
-            BTLV_EFFECT_GaugeInitSlotFromPartyPoke(pokedexSave, PDC_GetMon(sys->args), 1);
+            BTLV_EFFECT_GaugeInitSlotFromPartyPoke((struct ZukanSave *)pokedexSave, PDC_GetMon(sys->args), 1);
             PDC_MSG_StartFadeIn(sys->msg);
             sys->state++;
         }
@@ -359,7 +370,7 @@ int PDC_MAIN_StepConfirm(struct PdcSys *sys)
         break;
     case 1:
         if (PDC_MSG_Update(sys->msg) != 0) {
-            BTLV_INPUT_ChangeScreen(sys->menu, 7, 0);
+            BTLV_INPUT_ChangeScreen((struct BtlvInput *)sys->menu, 7, 0);
             sys->state++;
         }
         break;
@@ -392,21 +403,21 @@ int PDC_MAIN_StepChooseItem(struct PdcSys *sys)
         sys->select.cursorPos = 0; sys->select.scrollPos = 0; sys->select.done = 0;
         sys->select.menuWork = (u8 *)&sys->menuWork;
         sys->select.enabled = 1;
-        BTLV_INPUT_StartPaletteFadeTask(sys->menu, 1);
+        BTLV_INPUT_StartPaletteFadeTask((struct BtlvInput *)sys->menu, 1);
         GF_OVERLAY_Load((int)ov196_id);
         sys->state++;
         break;
     case 1:
-        if (!BTLV_INPUT_IsScreenBusy(sys->menu)) {
+        if (!BTLV_INPUT_IsScreenBusy((struct BtlvInput *)sys->menu)) {
             GF_OVERLAY_Load((int)ov197_id);
-            B_BAG_MAIN_Create(&sys->select);
+            B_BAG_MAIN_Create((u8 *)(&sys->select));
             sys->state++;
         }
         break;
     case 2:
         if (sys->select.done) {
             GF_OVERLAY_Unload((int)ov196_id); GF_OVERLAY_Unload((int)ov197_id);
-            BTLV_INPUT_StartScreenFadeTask(sys->menu);
+            BTLV_INPUT_StartScreenFadeTask((struct BtlvInput *)sys->menu);
             if (sys->select.chosenItem == 0) sys->state = 3;
             else {
                 MYITEM_SAVEDATA_RemoveItem(PDC_GetMyItem(sys->args), sys->select.chosenItem, 1, sys->heapId);
@@ -415,10 +426,10 @@ int PDC_MAIN_StepChooseItem(struct PdcSys *sys)
         }
         break;
     case 3:
-        if (!BTLV_INPUT_IsScreenBusy(sys->menu)) PDC_MAIN_SetStep(sys, PDC_MAIN_StepConfirm);
+        if (!BTLV_INPUT_IsScreenBusy((struct BtlvInput *)sys->menu)) PDC_MAIN_SetStep(sys, PDC_MAIN_StepConfirm);
         break;
     case 4:
-        if (!BTLV_INPUT_IsScreenBusy(sys->menu)) {
+        if (!BTLV_INPUT_IsScreenBusy((struct BtlvInput *)sys->menu)) {
             PDC_MSG_PrintMessage1(sys->msg, sys->args);
             sys->state++;
         }

@@ -29,12 +29,12 @@ typedef struct TwlWork {
     u8 *buf;
 } TwlWork;
 
-extern TwlWork *NWMi_GetSystemWork(void);
-extern u32 NWMi_CheckState(u32, u32);
+extern u32 NWMi_GetSystemWork(void);
+extern u32 NWMi_CheckState(u32 n, ...);
 extern u32 OS_DisableInterrupts(void);
 extern void OS_RestoreInterrupts(u32);
 extern void DC_StoreRange(void *, u32);
-extern u32 NWMi_SendCommand(u32, u32, u32, void *, u32);
+extern u32 NWMi_SendCommand(unsigned short apiid, unsigned short argc, ...);
 extern void MI_CpuCopy8(u32, u32, u32);
 void NWMi_AddMACHeader(u32 destMac, u32 srcMac, u8 *frame, u32 length);
 
@@ -43,7 +43,7 @@ u32 NWM_SendFrame(u32 callback, u32 destMac, u8 *frame, u32 length) {
     u32 r;
     u32 saved;
 
-    w = NWMi_GetSystemWork();
+    w = (struct TwlWork *)NWMi_GetSystemWork();
     r = NWMi_CheckState(1, 4);
     if (r != 0 && r != 2) {
         return r;

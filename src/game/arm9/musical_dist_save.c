@@ -65,42 +65,46 @@ struct BlockImage {
     u8 body[0x1FE0];
     u8 footer[0x20];
 };
+struct GameData;
+struct SaveControl;
 
-extern void *GAME_DATA_GetSaveControl(struct SaveWork *saveWork);
+extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gd);
 
 extern void *GFL_HEAP_Alloc(u32 heap_id, u32 size, int clear, const char *file_name, u16 line);
 
 extern u32   SAVE_CONTROL_LoadExtraSaveWithBuffer(void *save_ctrl, u32 block_id, u32 heap_id, void *buf, u32 size);
 
-extern void *SAVE_CONTROL_GetExtraSaveRecord(struct SaveBlockCtrl *save_ctrl, u32 block_id, u32 mode);
+extern void *SAVE_CONTROL_GetExtraSaveRecord(struct SaveControl *saveControl, u32 slot, u32 recordId);
 
 extern void  MI_CpuCopy8(const void *src, void *dest, u32 size);
 
-extern void SAVE_CONTROL_DeleteExtraSave(struct SaveBlockCtrl *save_ctrl, u32 block_id);
+extern void SAVE_CONTROL_DeleteExtraSave(struct SaveControl *saveControl, u32 slot);
 
 extern u32 GFL_HEAP_Free(void *mem);
 
-extern void GAME_DATA_PartSaveStart(u8 *game_sys, u32 block_id);
+extern void GAME_DATA_PartSaveStart(struct GameData *gd, u32 blockId);
 
-extern int GAME_DATA_PartSaveMain(char *game_sys, int block_id);
+extern int GAME_DATA_PartSaveMain(struct GameData *gd, s32 blockId);
+struct MusicalSave;
 
-extern void *MUSICAL_SAVE_GetFromSave(void *save);
+extern struct MusicalSave *MUSICAL_SAVE_GetFromSave(struct SaveControl *save);
 
-extern void MUSICAL_SAVE_SetHasDistData(struct SaveWork *profile, u8 value);
+extern void MUSICAL_SAVE_SetHasDistData(struct MusicalSave *musical, u8 value);
 
-extern u8 *MUSICAL_SAVE_GetStageData(struct SaveWork *profile);
+extern u8 *MUSICAL_SAVE_GetStageData(struct MusicalSave *musical);
 
-extern void *ARC_TOOL_CreateHandleFromMemory(void *data, u32 size, u32 heap_id);
+extern void *ARC_TOOL_CreateHandleFromMemory(void *buf, u32 size, u16 heapID);
 
 extern void *ARC_UTIL_LoadHandleMemberWithSize(void *narc, int file_id, int decompress, u32 heap_id, u32 *out_size);
 
 extern struct MsgBank *MSGDATA_CreateFromMemory(const void *file, u32 heap_id);
+struct Strbuf;
 
-extern void *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
+extern struct Strbuf *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
 
-extern void  STRBUF_ToChars(struct MsgString *str, u16 *dest, u32 max_len);
+extern void  STRBUF_ToChars(struct Strbuf *strbuf, u16 *out, u32 maxChars);
 
-extern void STRBUF_Delete(struct MsgString *str);
+extern void STRBUF_Delete(struct Strbuf *strbuf);
 
 extern u32 MSGDATA_Delete(struct MsgBank *bank);
 

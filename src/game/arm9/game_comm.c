@@ -141,7 +141,7 @@ extern struct MyStatus *GAME_DATA_GetMyStatus(struct GameData *gameData);
 
 extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
 
-extern void MYSTATUS_NameToStrbuf(const struct MyStatus *status, struct Strbuf *dst);
+extern void MYSTATUS_NameToStrbuf(u16 *name, struct Strbuf *buf);
 
 extern void STRBUF_Delete(struct Strbuf *vec);
 
@@ -185,8 +185,8 @@ struct VecSet *GAME_COMM_Create(u32 heapId, void *gameData)
         e = base + i;
         e->buf1 = STRBUF_Create(8, heapId);
         e->buf2 = STRBUF_Create(8, heapId);
-        MYSTATUS_NameToStrbuf(q, e->buf1);
-        MYSTATUS_NameToStrbuf(q, e->buf2);
+        MYSTATUS_NameToStrbuf((u16 *)q, e->buf1);
+        MYSTATUS_NameToStrbuf((u16 *)q, e->buf2);
     }
     return p;
 }
@@ -619,9 +619,9 @@ void GAME_COMM_PushInfoMessage(GameComm *comm, u32 netId0, u32 netId1, u32 messa
     entry->netId = (u8)netId0;
     entry->messageId = (u16)messageId;
     entry->used = 1;
-    MYSTATUS_NameToStrbuf(status0, entry->name[0]);
+    MYSTATUS_NameToStrbuf((u16 *)status0, entry->name[0]);
     entry->firstSex = (u8)MYSTATUS_GetSex(status0);
-    MYSTATUS_NameToStrbuf(status1, entry->name[1]);
+    MYSTATUS_NameToStrbuf((u16 *)status1, entry->name[1]);
     entry->secondSex = (u8)MYSTATUS_GetSex(status1);
     queue->writeIndex = (u8)(queue->writeIndex + 1);
     if (queue->writeIndex >= 6) {

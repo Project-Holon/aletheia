@@ -141,7 +141,8 @@ extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
 extern void MI_CpuFill8(void *,u32,u32);
 extern void *MANUAL_COMMON_CreateData(void *,u16);
 extern void BG_SYS_SetPriority(int,u16);
-extern void *GFL_USE_AddMainTask(void (*)(void *,char *),void *,u32);
+struct Tcb;
+extern struct Tcb *GFL_USE_AddMainTask(void (*)(void *,char *),void *,u32);
 extern void FADE_Start(u32,int,int,int);
 extern void GFL_NET_RefreshWmIconAtTopRight(u32,u32);
 extern char *MANUAL_COMMON_CreateDialog(char *,char *);
@@ -150,7 +151,8 @@ extern void MANUAL_CATEGORY_DeleteList(char *p);
 extern void MANUAL_CATEGORY_DeleteDetailList(char *p);
 extern void MANUAL_CATEGORY_DeleteOption(char *p);
 extern void MANUAL_COMMON_DeleteData(char *p);
-extern void TCB_DeleteTask(struct Node *n);
+struct TcbTask;
+extern void TCB_DeleteTask(struct TcbTask *task);
 extern void PROCSYS_FreeProcWork(struct Proc *p);
 extern void GFL_HEAP_DeleteChecked(unsigned int heap);
 extern int FADE_IsActive(void);
@@ -160,15 +162,16 @@ extern int MANUAL_CATEGORY_IsListFinished(char *);
 extern int MANUAL_CATEGORY_IsDetailFinished(char *);
 extern u16 MANUAL_COMMON_GetEntryValue3(char *,int);
 extern u16 MANUAL_COMMON_GetEntryValue2(char *,int);
-extern int MANUAL_COMMON_GetSaveValue(void *,int,int);
+extern int MANUAL_COMMON_GetSaveValue(void *unused, int id, void *save);
 extern void MANUAL_COMMON_SetSaveValue(void *unused, int code, struct Big *save);
 extern u16 MANUAL_COMMON_GetEntryValue0(char *,int);
 extern u16 MANUAL_COMMON_GetEntryPair1(char *,int,int);
-extern int MANUAL_COMMON_IsValidKey(unsigned unused, unsigned key);
+extern int MANUAL_COMMON_IsValidKey(char *unused, u32 key);
 extern u16 MANUAL_COMMON_GetEntryPair0(char *,int,int);
 extern char *MANUAL_CATEGORY_CreateOption(char *,char *);
 extern int MANUAL_CATEGORY_UpdateOption(char *);
-extern struct ManualMenuList *MANUAL_CATEGORY_CreateDetailList(struct Owner *p, struct Data *data);
+struct ManualDetailOwner;
+extern struct ManualMenuList *MANUAL_CATEGORY_CreateDetailList(struct ManualDetailOwner *p, struct ManualData *data);
 extern void MANUAL_COMMON_DrawData(char *);
 extern void *GFL_HEAP_Alloc(u32, u32, int, const char *, u16);
 extern void BG_SYS_ClearGraphicsMemory(u32);
@@ -190,7 +193,9 @@ extern void BG_SYS_FreeLayerBuf(u32 i);
 extern void BMP_WIN_Exit(void);
 extern void BG_SYS_Delete(void);
 extern void BG_SYS_Update(void);
-extern void CLACT_InitSystem(const struct Cfg *cfg, unsigned int arg, unsigned int heapId);
+struct DispVramCfg;
+struct SysInit;
+extern void CLACT_InitSystem(struct SysInit *cfg, struct DispVramCfg *res_cfg, u32 heapId);
 extern struct Bank *CLACT_CreateUnit(int count, u8 flag, unsigned int heapId);
 extern void CLACT_SetUnitDefaultRenderer(struct Bank *bank);
 extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
@@ -297,7 +302,7 @@ int MANUAL_GRAPHIC_Main(void *unusedA,u32 *state,void *unused,char *work)
       ((struct ManualWork *)work)->state=2; ((struct ManualWork *)work)->ownerState=1;
       ((struct ManualWork *)work)->detailId=done;
       ((struct ManualWork *)work)->detailCount=done; ((struct ManualWork *)work)->detailSelected=done;
-      *(char * *)&((struct ManualWork *)work)->detailList=(char *)MANUAL_CATEGORY_CreateDetailList((struct Owner *)(work+0x30),(struct Data *)(*(char * *)&((struct ManualWork *)work)->data));
+      *(char * *)&((struct ManualWork *)work)->detailList=(char *)MANUAL_CATEGORY_CreateDetailList((struct ManualDetailOwner *)(work+0x30),(struct ManualData *)(*(char * *)&((struct ManualWork *)work)->data));
      }
     }
    }
@@ -316,7 +321,7 @@ innerDone:
      ((struct ManualWork *)work)->state=2; ((struct ManualWork *)work)->ownerState=0;
      ((struct ManualWork *)work)->detailId=((struct ManualWork *)work)->detailEntry;
      ((struct ManualWork *)work)->detailCount=done; ((struct ManualWork *)work)->detailSelected=done;
-     *(char * *)&((struct ManualWork *)work)->detailList=(char *)MANUAL_CATEGORY_CreateDetailList((struct Owner *)(work+0x30),(struct Data *)(*(char * *)&((struct ManualWork *)work)->data));
+     *(char * *)&((struct ManualWork *)work)->detailList=(char *)MANUAL_CATEGORY_CreateDetailList((struct ManualDetailOwner *)(work+0x30),(struct ManualData *)(*(char * *)&((struct ManualWork *)work)->data));
     }
    }
    break;
@@ -331,13 +336,13 @@ innerDone:
      id=((struct ManualWork *)work)->entryId;
      count=MANUAL_COMMON_GetEntryValue3(*(char * *)&((struct ManualData *)(*(char * *)&((struct ManualWork *)work)->data))->list,id);
      selected=MANUAL_COMMON_GetEntryValue2(*(char * *)&((struct ManualData *)(*(char * *)&((struct ManualWork *)work)->data))->list,id);
-     if(!MANUAL_COMMON_GetSaveValue(*(char * *)&((struct ManualData *)(*(char * *)&((struct ManualWork *)work)->data))->list,selected,**(int * *)&((struct ManualWork *)work)->data))
+     if(!MANUAL_COMMON_GetSaveValue((void *)(*(char * *)&((struct ManualData *)(*(char * *)&((struct ManualWork *)work)->data))->list),selected,(void *)(**(int * *)&((struct ManualWork *)work)->data)))
       MANUAL_COMMON_SetSaveValue(*(char * *)&((struct ManualData *)(*(char * *)&((struct ManualWork *)work)->data))->list,selected,(struct Big *)(**(int * *)&((struct ManualWork *)work)->data));
      ((struct ManualWork *)work)->selectedId=MANUAL_COMMON_GetEntryValue0(*(char * *)&((struct ManualData *)(*(char * *)&((struct ManualWork *)work)->data))->list,id);
      ((struct ManualWork *)work)->entryCount=MANUAL_COMMON_GetEntryValue3(*(char * *)&((struct ManualData *)(*(char * *)&((struct ManualWork *)work)->data))->list,id);
      for(entryIndex=0;entryIndex<count;entryIndex++) {
       item=MANUAL_COMMON_GetEntryPair1(*(char * *)&((struct ManualData *)(*(char * *)&((struct ManualWork *)work)->data))->list,id,entryIndex);
-      if(!MANUAL_COMMON_IsValidKey((unsigned int)(*(char * *)&((struct ManualData *)(*(char * *)&((struct ManualWork *)work)->data))->list),item)) item=65535;
+      if(!MANUAL_COMMON_IsValidKey((*(char * *)&((struct ManualData *)(*(char * *)&((struct ManualWork *)work)->data))->list),item)) item=65535;
       ((struct ManualWork *)work)->entries[entryIndex].item=item;
       ((struct ManualWork *)work)->entries[entryIndex].count=MANUAL_COMMON_GetEntryPair0(*(char * *)&((struct ManualData *)(*(char * *)&((struct ManualWork *)work)->data))->list,id,entryIndex);
      }
@@ -350,7 +355,7 @@ innerDone:
     MANUAL_CATEGORY_DeleteOption(((struct ManualWork *)work)->optionList);
     if(((struct ManualWork *)work)->closeFlag==0) {
      ((struct ManualWork *)work)->state=2;
-     *(char * *)&((struct ManualWork *)work)->detailList=(char *)MANUAL_CATEGORY_CreateDetailList((struct Owner *)(work+0x30),(struct Data *)(*(char * *)&((struct ManualWork *)work)->data));
+     *(char * *)&((struct ManualWork *)work)->detailList=(char *)MANUAL_CATEGORY_CreateDetailList((struct ManualDetailOwner *)(work+0x30),(struct ManualData *)(*(char * *)&((struct ManualWork *)work)->data));
     }
    }
    break;
@@ -464,7 +469,7 @@ void MANUAL_GRAPHIC_VBlankBg(void *unused) { BG_SYS_Update(); }
 void MANUAL_GRAPHIC_CreateClactUnit(unsigned char *clact, int arg, int heap)
 {
     MI_CpuFill8(clact, 0, 4);
-    CLACT_InitSystem((const struct Cfg *)0x021BBE00, arg, heap);
+    CLACT_InitSystem((struct SysInit *)0x021BBE00, (struct DispVramCfg *)arg, heap);
     ((struct ManualClactUnit *)clact)->unit = (int)CLACT_CreateUnit(0x80, 0, heap);
     CLACT_SetUnitDefaultRenderer((void *)((struct ManualClactUnit *)clact)->unit);
     BG_SYS_SetMainPlaneVisible(0x10, 1);

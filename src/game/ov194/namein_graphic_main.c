@@ -194,25 +194,30 @@ typedef struct NameinGraphicWork {
     void *nameStrbuf;             /* 0x2D0 */
 } NameinGraphicWork;
 
-extern u8 MISC_GetInputFlag(struct Blk34 *p, u32 i);
+extern void BG_SYS_PushTile(u32 index);
+struct MiscSave;
+extern u8 MISC_GetInputFlag(struct MiscSave *beacon, unsigned int index);
 extern void GFL_HEAP_CreateChildHeap(u32, u32, u32);
 extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
 extern void MI_CpuFill8(void *,unsigned,unsigned);
 extern struct GfFont *GF_FONT_Create(int archiveId, int fileId, int format, int isFixedWidth, u32 heapId);
-extern void *PRINTSYS_QUE_CreateEx(u16 n, u32 heap);
+struct PrintQueue;
+extern struct PrintQueue *PRINTSYS_QUE_CreateEx(u16 n, u32 heap);
 extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern struct WordSet *WORDSET_CreateDefault(u32 heap);
+extern struct WordSet *WORDSET_CreateDefault(unsigned short heapId);
 extern unsigned char *NAMEIN_GRAPHIC_CreateDisplay(unsigned swap, unsigned short heap);
 extern unsigned NAMEIN_GRAPHIC_GetDisplayHandle(unsigned char *p);
-extern void *BMP_OAM_CreateSys(u32 heapId, void *clact);
+struct BmpOamSys;
+extern struct BmpOamSys *BMP_OAM_CreateSys(u32 heapId, void *clact);
 extern int NAMEIN_GRAPHIC_GetIconMode(int x, int y);
 extern void NAMEIN_GRAPHIC_InitIconActor(u8 *o, u32 mode, u32 iconIndex, u32 iconForm, u32 s0, u32 s1, u32 s2, void *s3, u32 s4, u16 heap);
 extern u32 *NAMEIN_GRAPHIC_CreateMembers(u32 heap);
-extern struct U16Vec *STRBUF_Clone(struct U16Vec *src, u32 heapId);
-extern u16 STRBUF_GetLength(struct U16Vec *vec);
-extern u16 *STRBUF_GetChars(struct U16Vec *vec);
+struct Strbuf;
+extern struct Strbuf *STRBUF_Clone(struct Strbuf *src, unsigned int heapId);
+extern u16 STRBUF_GetLength(struct Strbuf *strbuf);
+extern u16 *STRBUF_GetChars(struct Strbuf *strbuf);
 extern u32 NAMEIN_GRAPHIC_IsNameCharValid(u16 *s, u32 x);
-extern void STRBUF_Clear(struct U16Vec *vec);
+extern void STRBUF_Clear(struct Strbuf *strbuf);
 extern void NAMEIN_GRAPHIC_InitCallback(u8 *a, u32 b, u32 c);
 extern void NAMEIN_GRAPHIC_CallbackWaitDraw(unsigned char *p, int *unused, unsigned char *q);
 extern void NAMEIN_GRAPHIC_InitInputField(u8 *p, u32 a, u32 b, u32 c, u32 d, u8 *e, u32 f);
@@ -225,31 +230,32 @@ extern void NAMEIN_GRAPHIC_PrintMonMsg(char *, int, void *);
 extern void NAMEIN_GRAPHIC_PrintMsg(char *, int);
 extern int GFL_NET_GetRunState(void);
 extern void GFL_NET_RefreshWmIconAtTopRight(u32, u32);
-extern void SAVE_CONTROL_INTR_Resume(unsigned char *p);
+struct SaveControlIntr;
+extern void SAVE_CONTROL_INTR_Resume(struct SaveControlIntr *intr);
 extern void PROF_WORD_Delete(u8 *);
 extern void NAMEIN_GRAPHIC_DeleteTcbl(u8 *);
 extern void NAMEIN_GRAPHIC_DeleteMsgBox(u8 *);
 extern void NAMEIN_GRAPHIC_DeleteGrid(u8 *);
-extern void STRBUF_Delete(struct U16Vec *vec);
+extern void STRBUF_Delete(struct Strbuf *strbuf);
 extern void NAMEIN_GRAPHIC_DeleteMembers(u8 *);
 extern void NAMEIN_GRAPHIC_DeleteInputField(u8 *);
 extern void NAMEIN_GRAPHIC_ClearCallback(void *p);
 extern void NAMEIN_GRAPHIC_DeleteIconActor(u8 *);
-extern void BMP_OAM_DeleteSys(void *);
+extern void BMP_OAM_DeleteSys(struct BmpOamSys *sys);
 extern void NAMEIN_GRAPHIC_DeleteDisplay(unsigned char *p);
 extern u32 WORDSET_Delete(struct WordSet *p);
-extern u32 MSGDATA_Delete(struct Rec *rec);
-extern void PRINTSYS_QUE_Clear(struct PrintSys *p);
-extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
-extern u32 GF_FONT_Delete(void *ptr);
+extern u32 MSGDATA_Delete(struct MsgBank *bank);
+extern void PRINTSYS_QUE_Clear(struct PrintQueue *queue);
+extern void PRINTSYS_QUE_Delete(struct PrintQueue *queue);
+extern u32 GF_FONT_Delete(struct GfFont *font);
 extern void PROCSYS_FreeProcWork(struct Proc *p);
 extern void GFL_HEAP_DeleteChecked(u32);
 extern void NAMEIN_GRAPHIC_RunCallback(u8 *);
 extern void NAMEIN_GRAPHIC_DrawDisplay(u8 *);
-extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
+extern u32 PRINTSYS_QUE_Main(struct PrintQueue *queue);
 extern void NAMEIN_GRAPHIC_FlushIconOam(u8 *);
 extern unsigned NAMEIN_GRAPHIC_GetCallbackState(unsigned char *p);
-extern void *ARC_TOOL_CreateHandle(unsigned int id, unsigned int heap);
+extern void *ARC_TOOL_CreateHandle(unsigned int archiveID, unsigned short heapID);
 extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *,unsigned,unsigned,unsigned,unsigned,u16);
 extern unsigned int ARC_UTIL_UploadBgCharFromHandle(void *a, unsigned int b, unsigned int c, unsigned int d, unsigned int e, unsigned int f, u16 g);
 extern void ARC_UTIL_UploadBgPaletteFromHandle(void *,unsigned,unsigned,unsigned,unsigned,unsigned,u16);
@@ -262,9 +268,9 @@ extern int CLACT_RegisterPalette(void *,unsigned,unsigned,unsigned,u16);
 extern int CLACT_RegisterCellAnim(void *,unsigned,unsigned,unsigned);
 extern int CLACT_RegisterCharacter(void *,unsigned,unsigned,unsigned,u16);
 extern struct Obj *CLACT_CreateActor(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
-extern void CLACT_SetActorDrawEnable(struct Obj *,unsigned int);
-extern void CLACT_SetActorAutoAnim(struct Obj *,unsigned);
-extern void CLACT_DeleteActor(struct Obj *p);
+extern void CLACT_SetActorDrawEnable(struct Actor *actor, unsigned int value);
+extern void CLACT_SetActorAutoAnim(struct Actor *actor, unsigned int enable);
+extern void CLACT_DeleteActor(struct Actor *actor);
 extern void CLACT_ReleasePalette(u32 i);
 extern void CLACT_ReleaseCharacter(u32 i);
 extern void CLACT_ReleaseCellAnim(u32 i);
@@ -303,7 +309,7 @@ u32 NAMEIN_GRAPHIC_Create(struct Proc *a, u32 b, u8 *args)
 
     mode = 0;
     if (*(u32 *)(args + 0x28) != 0) {
-        mode = MISC_GetInputFlag((struct Blk34 *)(*(u32 *)(args + 0x28)), *(u32 *)args);
+        mode = MISC_GetInputFlag((struct MiscSave *)(*(u32 *)(args + 0x28)), *(u32 *)args);
         if (mode >= 5) {
             mode = 0;
         }
@@ -325,11 +331,11 @@ u32 NAMEIN_GRAPHIC_Create(struct Proc *a, u32 b, u8 *args)
     NAMEIN_GRAPHIC_InitIconActor(w + 0x264, NAMEIN_GRAPHIC_GetIconMode(*(u32 *)args, h), h, *(u16 *)(args + 6), s,
                   *(u32 *)(w + 0x2b0), *(u32 *)(w + 0x2b4), (void *)(*(u32 *)(w + 0x2b8)), *(u32 *)(w + 0x2c0), 0x1e);
     *(u32 *)(w + 0x22c) = (u32)NAMEIN_GRAPHIC_CreateMembers(0x1e);
-    *(u32 *)(w + 0x2d0) = (u32)STRBUF_Clone(*(struct U16Vec **)(args + 0x20), 0x1e);
-    if (STRBUF_GetLength(*(struct U16Vec **)(w + 0x2d0)) != 0) {
-        if (STRBUF_GetLength(*(struct U16Vec **)(w + 0x2d0)) > *(u32 *)(args + 0x18)
-            || NAMEIN_GRAPHIC_IsNameCharValid(STRBUF_GetChars(*(struct U16Vec **)(w + 0x2d0)), 0x1e) == 0) {
-            STRBUF_Clear(*(struct U16Vec **)(w + 0x2d0));
+    *(u32 *)(w + 0x2d0) = (u32)STRBUF_Clone((struct Strbuf *)(*(struct U16Vec **)(args + 0x20)), 0x1e);
+    if (STRBUF_GetLength((struct Strbuf *)(*(struct U16Vec **)(w + 0x2d0))) != 0) {
+        if (STRBUF_GetLength((struct Strbuf *)(*(struct U16Vec **)(w + 0x2d0))) > *(u32 *)(args + 0x18)
+            || NAMEIN_GRAPHIC_IsNameCharValid(STRBUF_GetChars((struct Strbuf *)(*(struct U16Vec **)(w + 0x2d0))), 0x1e) == 0) {
+            STRBUF_Clear((struct Strbuf *)(*(struct U16Vec **)(w + 0x2d0)));
         }
     }
     NAMEIN_GRAPHIC_InitCallback(w + 0x2a0, (u32)w, (u32)NAMEIN_GRAPHIC_CallbackWaitDraw);
@@ -352,7 +358,7 @@ u32 NAMEIN_GRAPHIC_Create(struct Proc *a, u32 b, u8 *args)
         GFL_NET_RefreshWmIconAtTopRight(1, 0x1e);
     }
     if (*(u32 *)(*(u8 **)(w + 0x2c4) + 0x24) != 0) {
-        SAVE_CONTROL_INTR_Resume((unsigned char *)(*(u32 *)(*(u8 **)(w + 0x2c4) + 0x24)));
+        SAVE_CONTROL_INTR_Resume((struct SaveControlIntr *)(*(u32 *)(*(u8 **)(w + 0x2c4) + 0x24)));
     }
     return 1;
 }
@@ -388,7 +394,7 @@ int NAMEIN_GRAPHIC_Delete(void *a,u32 b,u32 c,u8 *d)
 
 
 
-int NAMEIN_GRAPHIC_Main(int a,int b,int c,u8 *p) { NAMEIN_GRAPHIC_RunCallback(p+0x2a0);NAMEIN_GRAPHIC_DrawDisplay(*(u8 * *)&((NameinGraphicWork *)p)->display);PRINTSYS_QUE_Main((struct PrintSys *)(((NameinGraphicWork *)p)->printSys));NAMEIN_GRAPHIC_FlushIconOam(p+0x264);if(NAMEIN_GRAPHIC_GetCallbackState(p+0x2a0))return 1;return 0; }
+int NAMEIN_GRAPHIC_Main(int a,int b,int c,u8 *p) { NAMEIN_GRAPHIC_RunCallback(p+0x2a0);NAMEIN_GRAPHIC_DrawDisplay(*(u8 * *)&((NameinGraphicWork *)p)->display);PRINTSYS_QUE_Main((struct PrintQueue *)(((NameinGraphicWork *)p)->printSys));NAMEIN_GRAPHIC_FlushIconOam(p+0x264);if(NAMEIN_GRAPHIC_GetCallbackState(p+0x2a0))return 1;return 0; }
 
 
 

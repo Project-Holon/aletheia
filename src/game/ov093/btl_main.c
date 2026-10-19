@@ -248,7 +248,9 @@
  *   BTL_CLIENT_AddPoints  0x021CD9F4  thumb  ov093
  *   BTL_CLIENT_IsWindowWaiting  0x021CDDA0  thumb  ov093
  *   BTL_CLIENT_IsWindowDone  0x021CDDCC  thumb  ov093
+ *   _u32_div_f                   0x0209C2B0  arm
  */
+#include "../version.h"
 #include "btl_main_types.h"
 
 
@@ -279,7 +281,8 @@ struct ProcHandle
  */
 
 extern void GFL_HEAP_CreateChildHeap(u32, u32, u32);
-extern void *PROCSYS_AllocProcWork(struct ProcHandle *proc, u32 size, u32 heapId);
+struct Proc;
+extern void *PROCSYS_AllocProcWork(struct Proc *proc, u32 size, u32 heapId);
 extern void MIi_CpuClear32(u32, void *, u32);
 extern void BTLV_CORE_LoadOverlays(unsigned short heapId);
 extern void BTLV_CORE_LoadDsiOverlay(void);
@@ -291,12 +294,13 @@ extern u32 CONFIG_GetBattleStyle(struct Config *config);
 extern struct BtlField *BTL_FIELD_Create(u32 heapId);
 extern void BTL_SIDE_Init(struct BtlSide *side, struct BtlMain *main, u32 sideIndex);
 extern void BTL_SETUP_ClearResultStats(struct BattleSetupParam *setup);
-extern void GF_STANDARD_SeedLcg64(struct BattleRngState *rng);
+struct Lcg64;
+extern void GF_STANDARD_SeedLcg64(struct Lcg64 *out);
 extern void BTL_CALC_Init(struct BattleRngState *rng, u32 heapId);
 extern void BTL_SERVER_CMD_Dummy(void);
 extern u32 BTL_CALC_CalcPrizeMoney(struct BattleSetupParam *setup);
 extern void BTL_CLIENT_SET_Clear(struct BtlClientSet *set);
-extern void BTL_NET_Init(unsigned int netHandle, u16 mask, u16 heapId);
+extern void BTL_NET_Init(void *netHandle, u16 memberMask, u16 heapId);
 extern void BTL_CALC_SetHeapId(u32 heapId);
 extern int BTL_NET_HasCommError(void);
 extern int BTL_NET_IsInitialSyncDone(void);
@@ -315,7 +319,7 @@ extern int GFL_USE_IsBgmFading(void);
 extern void GFL_USE_CancelChangeAndStopBgm(void);
 extern int GXx_GetMasterBrightness_(volatile u16 *reg);
 extern void GXx_SetMasterBrightness_(volatile u16 *reg, int level);
-extern void BTL_FIELD_Delete(struct BtlField *field);
+extern void BTL_FIELD_Delete(void *state);
 extern u32 GFL_HEAP_Free(void *p);
 extern void BTL_NET_FreeRelayPacket(void *p);
 extern void BTL_CALC_Exit(void);
@@ -328,11 +332,12 @@ extern void BTLV_CORE_UnloadOverlays(void);
 extern void GFL_USE_SetPlayersAudible(int, u32);
 extern void PM_VOICE_ResetMasterVolume(void);
 extern void RINGTONE_SYS_RegisterSleepCallbacks(void);
-extern void PROCSYS_FreeProcWork(struct ProcHandle *proc);
+extern void PROCSYS_FreeProcWork(struct Proc *proc);
 extern void GFL_HEAP_DeleteChecked(unsigned int);
 extern void BTLV_CORE_UnloadDsiOverlay(void);
-extern void *GAME_DATA_GetSaveControl(struct GameData *gameData);
-extern const struct PerapVoice *PERAPVOICE_GetFromSave(void *sys);
+struct SaveControl;
+extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gameData);
+extern const struct PerapVoice *PERAPVOICE_GetFromSave(struct SaveControl *saveControl);
 extern struct PerapVoice *PERAPVOICE_Create(u32 heapId);
 extern void PERAPVOICE_Copy(struct PerapVoice *dest, const struct PerapVoice *src);
 extern int BTL_MAIN_GetClientVoiceFlag(struct BtlMain *main, unsigned int client);
@@ -340,16 +345,17 @@ extern u8 BTL_MAIN_GetRelativeClientIndex(int ownClient, int client);
 extern void BTL_MAIN_SetClientParty(struct BtlMain *main, int client, struct Party *party);
 extern void BTL_TRAINER_SLOT_InitFromData(struct BtlTrainerSlot *slot, struct BattleTrainerData *trainer);
 extern void BTL_TRAINER_SLOT_InitPlayer(struct BtlTrainerSlot *slot, int heapId, void *playerStatus);
-extern u32 POKEPARTY_GetCount(void *party);
+extern u32 POKEPARTY_GetCount(struct Party *party);
 extern void BTL_REC_InitReader(void *reader, void *recordBuffer, int size);
 extern void BTL_CLIENT_AttachRemoteLink(struct BtlClient *client, void *reader);
-extern struct BtlvCore *BTLV_CORE_Create(struct BtlMain *main, struct BtlClient *client, struct BtlSide *side, int isComm, u16 heapId);
+struct BtlvCore;
+extern struct BtlvCore *BTLV_CORE_Create(void *context, void *client, struct BtlSide *monTable, s32 param, u16 heapId);
 extern void BTL_CLIENT_SetView(struct BtlClient *client, struct BtlvCore *viewCore);
 extern void BTL_SIDE_SetupClientParty(struct BtlSide *side, struct BtlMain *main, u8 slot);
 extern struct BtlServer *BTL_SERVER_Create(struct BtlMain *main, struct BattleRngState *rng, struct BtlSide *side, int isComm, u16 heapId);
 extern struct BtlClient *BTL_CLIENT_Create(struct BtlMain *main, struct BtlSide *side, int unused, int netHandle, u16 clientId, u16 slotCount, u8 isOpponent, int isComm, int ownsSlots, struct BattleRngState *rng, u16 heapId);
 extern u32 BTL_CLIENT_GetNetChannel(struct BtlClient *client);
-extern void BTL_SERVER_SetClientAdapter(struct BtlServer *server, int clientRef, u8 clientId, u8 slotCount);
+extern void BTL_SERVER_SetClientAdapter(struct BtlServer *server, void *adapter, u8 clientId, u8 battleSlots);
 extern void BTL_SERVER_Restart(struct BtlServer *server);
 extern void BTLV_CORE_Delete(struct BtlvCore *viewCore);
 extern void BTL_CLIENT_Delete(struct BtlClient *client);
@@ -361,11 +367,12 @@ extern int BTL_NET_IsLeaderKnown(void);
 extern int BTL_NET_IsLeader(void);
 extern u8 BTL_NET_GetLeaderValue(void);
 extern int BTL_MAIN_CheckSetupStatusFlag(struct BtlMain *main, int mask);
-extern u32 BTL_NET_SendSetup(u32 a);
+struct BtlRuleExchange;
+extern u32 BTL_NET_SendSetup(struct BtlRuleExchange *setup);
 extern int BTL_NET_GetSetup(void *);
 extern void BTL_NET_BeginSync(int a);
 extern int BTL_NET_PollSync(int a);
-extern u8 BTL_NET_SendParty(u32 a);
+extern u8 BTL_NET_SendParty(struct Party *party);
 extern int BTL_NET_IsPartyReceived(void);
 extern void *BTL_NET_AllocRelayPacket(u32,u16);
 extern void BTL_NET_FillRelayPacket(u32 *p, const void *src, u32 a);
@@ -375,7 +382,7 @@ extern void *BTL_NET_GetParty(u8);
 extern void BTL_NET_FreeAfterPartyUse(void);
 extern void BTL_MAIN_CopyClientParty(struct BtlMain *main, u8 client, void *dst);
 extern int POKE_REGULATION_GetDataSize(void);
-extern int BTL_NET_SendPlayerInfo(u32 a);
+extern int BTL_NET_SendPlayerInfo(void *myStatus);
 extern int BTL_NET_IsPlayerInfoReceived(void);
 extern void *BTL_NET_GetPlayerInfo(u8);
 extern u32 BTL_NET_SendRelayedPlayerInfo(void *);
@@ -386,13 +393,14 @@ extern void BTL_NET_FreeAfterPlayerInfoUse(void);
 extern void BTL_TRAINER_SLOT_InitFromPacket(struct BtlTrainerSlot *slot, const struct BtlTrainerPacket *src);
 extern void BTL_MAIN_CopyClientPlayerStatus(struct BtlMain *main, u8 client, void *src);
 extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern void *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
-extern u32 MSGDATA_Delete(void *bank);
-extern u16 *STRBUF_GetChars(struct U16Vec *vec);
-extern u16 STRBUF_GetLength(struct U16Vec *vec);
+struct Strbuf;
+extern struct Strbuf *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
+extern u32 MSGDATA_Delete(struct MsgBank *bank);
+extern u16 *STRBUF_GetChars(struct Strbuf *strbuf);
+extern u16 STRBUF_GetLength(struct Strbuf *strbuf);
 extern u16 STRBUF_GetEosChar(void);
-extern void STRBUF_Delete(struct U16Vec *vec);
-extern u32 MYSTATUS_CopyName(u32 value, void *dst);
+extern void STRBUF_Delete(struct Strbuf *strbuf);
+extern void MYSTATUS_CopyName(u16 *dest, u16 *src);
 extern void BTL_NET_ResetAfterParty(void);
 extern u32 BTL_NET_SendPerapVoice(u32 *);
 extern int BTL_NET_IsPerapVoiceReceived(void);
@@ -403,7 +411,7 @@ extern void BTL_MAIN_StoreClientVoiceFlag(struct BtlMain *main, int client);
 extern u32 PERAPVOICE_GetSize(void);
 extern void MI_CpuCopy8(const void *,void *,u32);
 extern void BTL_SERVER_CreateClientAdapter(struct BtlServer *server, int unused, int netId, int clientId, u8 slotCount);
-extern void BTL_SERVER_SetClientWithoutAdapter(struct BtlServer *server, u8 clientId, int slotCount);
+extern void BTL_SERVER_SetClientWithoutAdapter(struct BtlServer *server, u8 clientId, u8 battleSlots);
 extern void BTL_CLIENT_SetRequestParam(struct BtlClient *client, struct BtlServer *server);
 extern u8 BTL_MAIN_GetPartnerClient(struct BtlMain *main, u8 clientId);
 extern int BTL_SERVER_Update(struct BtlServer *server);
@@ -416,11 +424,14 @@ extern signed char MSG_SPEED_GetWaitForSpeed(u32 idx);
 extern int GF_OVERLAY_Load(int id);
 extern void GF_OVERLAY_Unload(int id);
 extern int CARD_SPI_CheckCardId(void);
-extern u16 BTL_POKEPARAM_GetSpecies(void *mon);
+struct BtlPokeParam;
+extern u16 BTL_POKEPARAM_GetSpecies(struct BtlPokeParam *pp);
 extern int ZUKAN_SAVE_IsCaught(void *,unsigned int);
-extern u16 ZUKAN_SAVE_CountCaughtNational(void *zukanWork);
-extern void *BTL_POKEPARAM_GetMon(void *);
-extern void ZUKAN_SAVE_RegisterSeen(void *zukanWork, void *mon);
+struct ZukanSave;
+extern u16 ZUKAN_SAVE_CountCaughtNational(struct ZukanSave *pZukan);
+struct PokemonParam;
+extern struct PokemonParam *BTL_POKEPARAM_GetMon(struct BtlPokeParam *pp);
+extern void ZUKAN_SAVE_RegisterSeen(struct ZukanSave *pZukan, void *pMon);
 extern u8 ov231_id[];
 extern int (*gSetupSeqKind3Steps[7])(struct BtlMain *, u32 *);
 #include "btl_server_types.h"
@@ -441,27 +452,29 @@ extern int MYITEM_SAVEDATA_RemoveItem(void *,u32,int,u16);
 extern int MYITEM_SAVEDATA_AddItem(void *,u32,int,u16);
 extern u32 GPOWER_ApplyPrizeMoney(u32 v);
 extern void *GAME_DATA_GetMiscSave(struct GameData *gameData);
-extern u32 MISC_GetMoney(struct Blk34 *p);
-extern u32 BTL_CALC_CalcDefeatMoneyLoss(u32 a, void *b);
+struct MiscSave;
+extern u32 MISC_GetMoney(struct MiscSave *beacon);
+struct BtlParty;
+extern u32 BTL_CALC_CalcDefeatMoneyLoss(u32 badgeCount, struct BtlParty *party);
 extern struct FieldSituation *BTL_MAIN_GetFieldSituation(struct BtlMain *main);
-extern void NATSUKI_Calc(void *pp, int type, int zoneId, int heap);
+extern void NATSUKI_Calc(struct PokemonParam *pp, s32 type, s32 zoneId, u16 heap);
 extern void BTL_POKEPARAM_CopyMoves(struct BtlPokeParam *src, struct BtlPokeParam *dst);
 extern int BTL_POKEPARAM_IsIllusionActive(struct BtlPokeParam *poke);
-extern void *BTL_POKEPARAM_GetDisplayMon(struct BtlPokeParam *poke);
+extern struct PokemonParam *BTL_POKEPARAM_GetDisplayMon(struct BtlPokeParam *poke);
 extern void BTL_POKEPARAM_Delete(struct BtlPokeParam *poke);
-extern void *POKEPARTY_GetMember(void *p, u32 idx);
-extern struct BtlPokeParam *BTL_POKEPARAM_Create(void *mon, u8 pokeId, u32 heapId);
+extern struct PokemonParam *POKEPARTY_GetMember(struct Party *party, u32 pos);
+extern struct BtlPokeParam *BTL_POKEPARAM_Create(struct PokemonParam *mon, u8 pokeId, u32 heapId);
 extern int BTL_POKEPARAM_GetValue(struct BtlPokeParam *poke, int paramId);
-extern void BTL_POKEPARAM_SetFakeMon(struct BtlPokeParam *poke, void *mon);
-extern u32 POKE_TOOL_GetPartyValue(void *p, u32 id, u32 v);
-extern void *POKE_TOOL_Create(u16 species, u16 level, u64 id, u16 heap);
+extern void BTL_POKEPARAM_SetFakeMon(struct BtlPokeParam *pp, struct PokemonParam *fakeMon);
+extern u32 POKE_TOOL_GetPartyValue(struct PokemonParam *pp, u32 paramId, u32 arg);
+extern struct PokemonParam *POKE_TOOL_Create(u16 species, u16 level, u64 id, u16 heap);
 extern void POKEPARTY_Init(struct Party *p);
 extern void BTL_POKEPARAM_WriteBackToParam(struct BtlPokeParam *poke, int flag);
-extern u32 POKEPARTY_Add(struct Party *p, const struct PartyMon *src);
+extern u32 POKEPARTY_Add(struct Party *party, struct PokemonParam *member);
 extern void POKEPARTY_Copy(const struct Party *src, struct Party *dst);
-extern void BTL_POKEPARAM_SetPokeParam(struct BtlPokeParam *poke, void *mon);
+extern void BTL_POKEPARAM_SetPokeParam(void **pokeParamSlot, void *pokeParam);
 extern int BTL_POKEPARAM_HasEnteredBattle(struct BtlPokeParam *poke);
-extern void *PERAPVOICE_IsRecorded(struct PerapVoice *voice);
+extern u32 PERAPVOICE_IsRecorded(struct PerapVoice *voice);
 extern u32 PERAPVOICE_GetVoiceKind(struct PerapVoice *p);
 extern u32 BTL_MAIN_GetRule(struct BtlMain *main);
 extern u8 BTL_MAIN_GetEnemyLanePos(int rule, u32 basePos, u32 lane);
@@ -469,33 +482,34 @@ extern int BTL_POKEPARAM_IsAbleToBattle(struct BtlPokeParam *poke);
 extern unsigned int BTL_MAIN_CountClientTrainers(struct BtlMain *main, int clientId);
 extern void BTL_POKEPARAM_ClearFakeMon(struct BtlPokeParam *poke);
 extern void *MYSTATUS_Create(int a);
-extern void MYSTATUS_Copy(void *src, void *dst);
-extern u8 MYSTATUS_GetSex(const void *myStatus);
-extern void *MYSTATUS_CreateNameStrbuf(void *a, int tag);
+struct MyStatus;
+extern void MYSTATUS_Copy(struct MyStatus *src, struct MyStatus *dest);
+extern u8 MYSTATUS_GetSex(struct MyStatus *mystatus);
+extern struct Strbuf *MYSTATUS_CreateNameStrbuf(u16 *name, s32 heap_id);
 extern void PMSI_PARAM_ClearSentence(void *a);
-extern void *STRBUF_Clone(void *src, u32 heapId);
+extern struct Strbuf *STRBUF_Clone(struct Strbuf *src, u32 heapId);
 extern void PMSI_PARAM_Copy(void *dst, const void *src);
-extern void *STRBUF_Create(u32 capacity, u32 heapId);
-extern void STRBUF_SetChars(void *buf, const void *src, u32 n);
+extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
+extern void STRBUF_SetChars(struct Strbuf *strbuf, void *srcChars, u32 charCount);
 char *COMM_PLAYER_SUPPORT_GetCurrent(char *p);
 extern struct Party *POKEPARTY_Create(u32);
 int BTL_SETUP_CheckStatusFlag(struct BattleSetupParam *setup, int mask);
 extern u32 RECORD_AddOne(void *trainerRecord, int arg);
 extern u32 RECORD_AddCounter(void *trainerRecord, int arg, u32 delta);
 extern u8 BTL_MAIN_IsCommCompetitor(struct BattleSetupParam *setup);
-extern void NATSUKI_CalcUseItem(void *, int, u16, u16);
+extern void NATSUKI_CalcUseItem(struct PokemonParam *pp, s32 item, u16 zoneId, u16 heap);
 extern int BTL_CALC_IsBossTrainer(u32);
-extern void NATSUKI_CalcParty(void *party, int zoneId, int heap);
-extern void POKE_TOOL_SetPartyValue(void *p, u32 id, u32 v);
-extern u32 BTL_CALC_GetItemParam(void *p, u32 n);
+extern void NATSUKI_CalcParty(struct Party *party, s32 zoneId, u16 heap);
+extern void POKE_TOOL_SetPartyValue(struct PokemonParam *pp, u32 paramId, u32 value);
+extern u32 BTL_CALC_GetItemParam(u32 itemId, u32 paramId);
 extern int BTL_POKEPARAM_GetMajorStatusIndex(struct BtlPokeParam *poke);
-extern u32 BTL_CLIENT_SET_GetCount(u32 *set);
-extern int BTL_CLIENT_SET_JudgeResult(struct BtlClientSet *set, int ownClientId, unsigned int competitor);
+extern u32 BTL_CLIENT_SET_GetCount(struct BtlClientSet *set);
+extern int BTL_CLIENT_SET_JudgeResult(struct BtlClientSet *set, u8 localClientId, u32 rule);
 extern void BTL_CALC_SetRngState(void *);
 extern void BTL_MAIN_InitClientParties(struct BtlMain *main, struct BattleSetupParam *setup);
-extern void BTLV_CORE_ResetDisplay(void *p);
+extern void BTLV_CORE_ResetDisplay(u16 heapId);
 extern u8 BTL_POKEPARAM_GetUsedMoveTotal(struct BtlPokeParam *poke);
-int BTL_MAIN_IsOpposingPos(int unusedWork, int posA, int posB);
+int BTL_MAIN_IsOpposingPos(void *unusedWork, int posA, int posB);
 unsigned char BTL_MAIN_GetSlotClientId(struct BtlMain *main, int slot);
 u8 BTL_MAIN_PokeIdToClientId(u32 pokeId);
 u8 BTL_MAIN_CollectLivingPokeIds(struct BtlMain *main, struct BtlSide *side, int code, u8 *outPokeIds);
@@ -607,16 +621,18 @@ int BTL_MAIN_CheckOwnWindowDone(struct BtlMain *main);
 void BTL_MAIN_RestartBattle(struct BtlMain *main, u16 stepArg);
 void BTL_MAIN_StartClientMainSteps(struct BtlMain *main);
 u32 BTL_MAIN_GetServerFlow(struct BtlMain *main);
-void BTL_SERVER_NotifyLevelUp(struct BtlServer *server, struct BtlPokeParam *poke);
+void BTL_SERVER_NotifyLevelUp(struct BtlServer *server, u32 *pokeParam);
 void BTL_SERVER_NotifyCapture(struct BtlServer *server, u32 *captureInfo);
-u32 BTL_SERVER_GetFlow(struct BtlServer *server);
-u16 BTL_SERVER_FLOW_GetPlayerNoEffectCount(void *flow);
-u16 BTL_SERVER_FLOW_GetPlayerSuperEffectiveCount(void *flow);
-u16 BTL_SERVER_FLOW_GetPlayerResistedCount(void *flow);
-u16 BTL_SERVER_FLOW_GetOpponentNoEffectCount(void *flow);
-u16 BTL_SERVER_FLOW_GetOpponentResistedCount(void *flow);
-u16 BTL_SERVER_FLOW_GetTurnCount(void *flow);
-unsigned char BTL_SERVER_FLOW_GetSlotFlag(void *flow, int arg);
+void *BTL_SERVER_GetFlow(struct BtlServer *server);
+u16 BTL_SERVER_FLOW_GetPlayerNoEffectCount(u8 *flow);
+u16 BTL_SERVER_FLOW_GetPlayerSuperEffectiveCount(u8 *flow);
+struct BtlServerFlowResistedCount;
+u16 BTL_SERVER_FLOW_GetPlayerResistedCount(struct BtlServerFlowResistedCount *p);
+u16 BTL_SERVER_FLOW_GetOpponentNoEffectCount(u8 *flow);
+u16 BTL_SERVER_FLOW_GetOpponentResistedCount(u8 *flow);
+struct BtlServerFlowTurnCount;
+u16 BTL_SERVER_FLOW_GetTurnCount(struct BtlServerFlowTurnCount *p);
+unsigned char BTL_SERVER_FLOW_GetSlotFlag(char *flow, int index);
 void *BTL_CLIENT_ReadRecorderEntry(struct BtlClient *client, u32 *outSize);
 void BTL_CLIENT_StartRemoteStep(struct BtlClient *client, u16 stepArg);
 void BTL_CLIENT_StartMainStep(struct BtlClient *client);
@@ -705,7 +721,7 @@ int BTL_MAIN_ProcInit(struct ProcHandle *proc, u32 *step, struct BattleSetupPara
       GFL_HEAP_CreateChildHeap(1, 0x12, 0x20000);
       GFL_HEAP_CreateChildHeap(1, 0x14, 0x8000);
       GFL_HEAP_CreateChildHeap(1, 0x13, 0xab100);
-      main = PROCSYS_AllocProcWork(proc, 0x474, 0x12);
+      main = PROCSYS_AllocProcWork((struct Proc *)proc, 0x474, 0x12);
       MIi_CpuClear32(0, main, 0x474);
       BTLV_CORE_LoadOverlays(0x13);
       BTLV_CORE_LoadDsiOverlay();
@@ -742,7 +758,7 @@ int BTL_MAIN_ProcInit(struct ProcHandle *proc, u32 *step, struct BattleSetupPara
       main->tempBuffer = 0;
       main->netBuffer = 0;
       if (main->setup->ownsSlots == 0)
-        GF_STANDARD_SeedLcg64(&main->rng);
+        GF_STANDARD_SeedLcg64((struct Lcg64 *)(&main->rng));
       else
         main->rng = setup->rng;
       BTL_CALC_Init(&main->rng, main->heapId);
@@ -761,7 +777,7 @@ int BTL_MAIN_ProcInit(struct ProcHandle *proc, u32 *step, struct BattleSetupPara
       if (battleStyle != 0)
         flagBit = 1;
       main->isSetStyle = flagBit;
-      BTL_NET_Init(setup->netHandle, setup->levelCap, 0x14);
+      BTL_NET_Init((void *)setup->netHandle, setup->levelCap, 0x14);
       BTL_CALC_SetHeapId(0x12);
       (*step)++;
       break;
@@ -935,7 +951,7 @@ int BTL_MAIN_ProcExit(struct ProcHandle *proc, u32 *step, int unused, struct Btl
         GFL_USE_SetPlayersAudible(1, 62);
         PM_VOICE_ResetMasterVolume();
         if (main->flags.sleepHooksSet) { RINGTONE_SYS_RegisterSleepCallbacks(); main->flags.sleepHooksSet = 0; }
-        PROCSYS_FreeProcWork(proc);
+        PROCSYS_FreeProcWork((struct Proc *)proc);
         GFL_HEAP_DeleteChecked(19);
         GFL_HEAP_DeleteChecked(20);
         GFL_HEAP_DeleteChecked(18);
@@ -1110,7 +1126,7 @@ void BTL_MAIN_CreateViewCore(struct BtlMain *main, struct BattleSetupParam *setu
         client = main->clients[setup->netId];
     else
         client = main->clients[0];
-    viewCore = BTLV_CORE_Create(main, client, &main->sides[0], isComm, 0x13);
+    viewCore = BTLV_CORE_Create(main, client, (&main->sides[0]), isComm, 0x13);
     main->viewCore = viewCore;
     BTL_CLIENT_SetView(client, viewCore);
 }
@@ -1139,8 +1155,8 @@ int BTL_MAIN_TaskSetupSingle(u32 *unused, void *arg)
     main->clients[1] = BTL_CLIENT_Create(main, &main->sides[0], 0, setup->netHandle, 1, 1, 1, isComm, setup->ownsSlots, &main->rng, main->heapId);
     BTL_MAIN_StartRecordPlayback(main, setup);
     BTL_MAIN_CreateViewCore(main, setup, isComm);
-    BTL_SERVER_SetClientAdapter(main->server, BTL_CLIENT_GetNetChannel(main->clients[0]), 0, 1);
-    BTL_SERVER_SetClientAdapter(main->server, BTL_CLIENT_GetNetChannel(main->clients[1]), 1, 1);
+    BTL_SERVER_SetClientAdapter(main->server, (void *)(BTL_CLIENT_GetNetChannel(main->clients[0])), 0, 1);
+    BTL_SERVER_SetClientAdapter(main->server, (void *)(BTL_CLIENT_GetNetChannel(main->clients[1])), 1, 1);
     BTL_SERVER_Restart(main->server);
     main->tick = BTL_MAIN_StepClientsSolo;
     return 1;
@@ -1198,8 +1214,8 @@ int BTL_MAIN_TaskSetupDouble(u32 *unused, void *arg)
     main->clients[1] = BTL_CLIENT_Create(main, &main->sides[0], 0, setup->netHandle, 1, 2, 1, isComm, setup->ownsSlots, &main->rng, main->heapId);
     BTL_MAIN_StartRecordPlayback(main, setup);
     BTL_MAIN_CreateViewCore(main, setup, isComm);
-    BTL_SERVER_SetClientAdapter(main->server, BTL_CLIENT_GetNetChannel(main->clients[0]), 0, 2);
-    BTL_SERVER_SetClientAdapter(main->server, BTL_CLIENT_GetNetChannel(main->clients[1]), 1, 2);
+    BTL_SERVER_SetClientAdapter(main->server, (void *)(BTL_CLIENT_GetNetChannel(main->clients[0])), 0, 2);
+    BTL_SERVER_SetClientAdapter(main->server, (void *)(BTL_CLIENT_GetNetChannel(main->clients[1])), 1, 2);
     BTL_SERVER_Restart(main->server);
     main->tick = BTL_MAIN_StepClientsSolo;
     return 1;
@@ -1284,7 +1300,7 @@ int BTL_MAIN_TaskSetupMulti(u32 *unused, void *arg)
     for (client = 0; client < 4; client++) {
         if (BTL_MAIN_IsClientUsed(main, client)) {
             slotCount = BTL_MAIN_CountClientTrainers(main, (u8)client);
-            BTL_SERVER_SetClientAdapter(main->server, BTL_CLIENT_GetNetChannel(main->clients[client]), client, slotCount);
+            BTL_SERVER_SetClientAdapter(main->server, (void *)(BTL_CLIENT_GetNetChannel(main->clients[client])), client, slotCount);
         }
     }
     BTL_SERVER_Restart(main->server);
@@ -1321,8 +1337,8 @@ int BTL_MAIN_TaskSetupTriple(u32 *unused, void *arg)
     main->clients[1] = BTL_CLIENT_Create(main, &main->sides[0], 0, setup->netHandle, 1, 3, 1, isComm, setup->ownsSlots, &main->rng, main->heapId);
     BTL_MAIN_StartRecordPlayback(main, setup);
     BTL_MAIN_CreateViewCore(main, setup, isComm);
-    BTL_SERVER_SetClientAdapter(main->server, BTL_CLIENT_GetNetChannel(main->clients[0]), 0, 3);
-    BTL_SERVER_SetClientAdapter(main->server, BTL_CLIENT_GetNetChannel(main->clients[1]), 1, 3);
+    BTL_SERVER_SetClientAdapter(main->server, (void *)(BTL_CLIENT_GetNetChannel(main->clients[0])), 0, 3);
+    BTL_SERVER_SetClientAdapter(main->server, (void *)(BTL_CLIENT_GetNetChannel(main->clients[1])), 1, 3);
     BTL_SERVER_Restart(main->server);
     main->tick = BTL_MAIN_StepClientsSolo;
     return 1;
@@ -1356,8 +1372,8 @@ int BTL_MAIN_TaskSetupRotation(u32 *unused, void *arg)
     main->clients[1] = BTL_CLIENT_Create(main, &main->sides[0], 0, setup->netHandle, 1, 1, 1, isComm, setup->ownsSlots, &main->rng, main->heapId);
     BTL_MAIN_StartRecordPlayback(main, setup);
     BTL_MAIN_CreateViewCore(main, setup, isComm);
-    BTL_SERVER_SetClientAdapter(main->server, BTL_CLIENT_GetNetChannel(main->clients[0]), 0, 1);
-    BTL_SERVER_SetClientAdapter(main->server, BTL_CLIENT_GetNetChannel(main->clients[1]), 1, 1);
+    BTL_SERVER_SetClientAdapter(main->server, (void *)(BTL_CLIENT_GetNetChannel(main->clients[0])), 0, 1);
+    BTL_SERVER_SetClientAdapter(main->server, (void *)(BTL_CLIENT_GetNetChannel(main->clients[1])), 1, 1);
     BTL_SERVER_Restart(main->server);
     main->tick = BTL_MAIN_StepClientsSolo;
     return 1;
@@ -1522,7 +1538,7 @@ int BTL_MAIN_SeqSyncRules(struct BtlMain *main, u32 *state)
             main->ruleExchange.textSpeed = 2;
             main->ruleExchange.sceneOff = 1;
         }
-        if (BTL_NET_SendSetup((u32)&main->ruleExchange)) ++*state;
+        if (BTL_NET_SendSetup(&main->ruleExchange)) ++*state;
         break;
     case 3:
         if (BTL_NET_GetSetup(&main->ruleExchange)) {
@@ -1567,7 +1583,7 @@ int BTL_MAIN_SeqExchangeRegulation(struct BtlMain *main, u32 *state)
         if (BTL_NET_PollSync((u8)2)) ++*state;
         break;
     case 2:
-        if (BTL_NET_SendParty((u32)(setup->party[0]))) ++*state;
+        if (BTL_NET_SendParty((setup->party[0]))) ++*state;
         break;
     case 3:
         if (BTL_NET_IsPartyReceived()) {
@@ -1664,7 +1680,7 @@ int BTL_MAIN_SeqExchangePlayers(struct BtlMain *main, u32 *state)
         if (BTL_NET_PollSync((u8)4)) ++*state;
         break;
     case 2:
-        if (BTL_NET_SendPlayerInfo((u32)(main->playerStatus))) ++*state;
+        if (BTL_NET_SendPlayerInfo((main->playerStatus))) ++*state;
         break;
     case 3:
         if (BTL_NET_IsPlayerInfoReceived()) {
@@ -1675,17 +1691,17 @@ int BTL_MAIN_SeqExchangePlayers(struct BtlMain *main, u32 *state)
                     if (i != main->ownClientId && setup->bits.hidePlayerNames) {
                         int j;
                         bank = MSGDATA_CreateFromArchive(0, 2, 0x51, main->heapId);
-                        nameStr = MSGDATA_AllocString(bank, 15);
+                        nameStr = MSGDATA_AllocString(bank, MSG_PROFANITY_NOTICE);
                         MSGDATA_Delete(bank);
                         src = STRBUF_GetChars(nameStr);
                         for (j = 0; j < 15 && (u32)j < STRBUF_GetLength(nameStr); ++j) buf[j] = src[j];
                         dst = buf;
                         dst[j] = STRBUF_GetEosChar();
                         STRBUF_Delete(nameStr);
-                        MYSTATUS_CopyName((u32)(main->trainers[i].handle), dst);
+                        MYSTATUS_CopyName((u16 *)(main->trainers[i].handle), dst);
                         STRBUF_Delete(main->trainers[i].name);
                         bank = MSGDATA_CreateFromArchive(0, 2, 0x51, main->heapId);
-                        defaultName = MSGDATA_AllocString(bank, 15);
+                        defaultName = MSGDATA_AllocString(bank, MSG_PROFANITY_NOTICE);
                         MSGDATA_Delete(bank);
                         main->trainers[i].name = defaultName;
                     }
@@ -1797,7 +1813,7 @@ int BTL_MAIN_SeqCreateClientsKind1Solo(struct BtlMain *main)
     if (main->hostsServer) {
         main->server = BTL_SERVER_Create(main, &main->rng, &main->sides[1], isComm, main->heapId);
         main->clients[clientId] = BTL_CLIENT_Create(main, &main->sides[0], setup->commPos, setup->netHandle, clientId, (u8)1, 0, isComm, (u8)0, &main->rng, main->heapId);
-        BTL_SERVER_SetClientAdapter(main->server, BTL_CLIENT_GetNetChannel(main->clients[clientId]), clientId, 1);
+        BTL_SERVER_SetClientAdapter(main->server, (void *)(BTL_CLIENT_GetNetChannel(main->clients[clientId])), clientId, 1);
         flag = 1;
         if (clientId != 0) flag = 0;
         BTL_SERVER_CreateClientAdapter(main->server, setup->commPos, setup->netHandle, (u8)flag, 1);
@@ -1842,13 +1858,13 @@ int BTL_MAIN_SeqCreateClientsByMulti(struct BtlMain *main)
     if (main->hostsServer) {
         main->server = BTL_SERVER_Create(main, &main->rng, &main->sides[1], isComm, main->heapId);
         main->clients[clientId] = BTL_CLIENT_Create(main, &main->sides[0], setup->commPos, setup->netHandle, clientId, (u8)slotCount, 0, isComm, (u8)0, &main->rng, main->heapId);
-        BTL_SERVER_SetClientAdapter(main->server, BTL_CLIENT_GetNetChannel(main->clients[clientId]), clientId, slotCount);
+        BTL_SERVER_SetClientAdapter(main->server, (void *)(BTL_CLIENT_GetNetChannel(main->clients[clientId])), clientId, slotCount);
         if (setup->multiMode == 2) {
             x = BTL_MAIN_GetPartnerClient(main, clientId);
             main->clients[1] = BTL_CLIENT_Create(main, &main->sides[0], setup->commPos, setup->netHandle, 1, (u8)slotCount, 1, isComm, (u8)0, &main->rng, main->heapId);
-            BTL_SERVER_SetClientAdapter(main->server, BTL_CLIENT_GetNetChannel(main->clients[1]), 1, slotCount);
+            BTL_SERVER_SetClientAdapter(main->server, (void *)(BTL_CLIENT_GetNetChannel(main->clients[1])), 1, slotCount);
             main->clients[3] = BTL_CLIENT_Create(main, &main->sides[0], setup->commPos, setup->netHandle, 3, (u8)slotCount, 1, isComm, (u8)0, &main->rng, main->heapId);
-            BTL_SERVER_SetClientAdapter(main->server, BTL_CLIENT_GetNetChannel(main->clients[3]), 3, slotCount);
+            BTL_SERVER_SetClientAdapter(main->server, (void *)(BTL_CLIENT_GetNetChannel(main->clients[3])), 3, slotCount);
             BTL_SERVER_CreateClientAdapter(main->server, setup->commPos, setup->netHandle, (u8)x, slotCount);
         } else {
             for (i = 0; i < main->clientCount; i++) {
@@ -1888,7 +1904,7 @@ int BTL_MAIN_SeqCreateClientsKind3(struct BtlMain *main)
     if (main->hostsServer) {
         main->server = BTL_SERVER_Create(main, &main->rng, &main->sides[1], isComm, main->heapId);
         main->clients[clientId] = BTL_CLIENT_Create(main, &main->sides[0], setup->commPos, setup->netHandle, clientId, (u8)3, 0, isComm, (u8)0, &main->rng, main->heapId);
-        BTL_SERVER_SetClientAdapter(main->server, BTL_CLIENT_GetNetChannel(main->clients[clientId]), clientId, 3);
+        BTL_SERVER_SetClientAdapter(main->server, (void *)(BTL_CLIENT_GetNetChannel(main->clients[clientId])), clientId, 3);
         flag = 0;
         if (clientId == 0) flag = 1;
         BTL_SERVER_CreateClientAdapter(main->server, setup->commPos, setup->netHandle, (u8)flag, 3);
@@ -1924,7 +1940,7 @@ int BTL_MAIN_SeqCreateClientsKind1(struct BtlMain *main)
     if (main->hostsServer) {
         main->server = BTL_SERVER_Create(main, &main->rng, &main->sides[1], isComm, main->heapId);
         main->clients[clientId] = BTL_CLIENT_Create(main, &main->sides[0], setup->commPos, setup->netHandle, clientId, (u8)1, 0, isComm, (u8)0, &main->rng, main->heapId);
-        BTL_SERVER_SetClientAdapter(main->server, BTL_CLIENT_GetNetChannel(main->clients[clientId]), clientId, 1);
+        BTL_SERVER_SetClientAdapter(main->server, (void *)(BTL_CLIENT_GetNetChannel(main->clients[clientId])), clientId, 1);
         for (i = 0; i < main->clientCount; i++) {
             if (i != clientId)
                 BTL_SERVER_CreateClientAdapter(main->server, setup->commPos, setup->netHandle, (u8)i, 1);
@@ -1955,7 +1971,7 @@ int BTL_MAIN_SeqCreateView(struct BtlMain *main, int *step)
     }
     if (*step == 0) {
         isComm = BTL_MAIN_IsCommCompetitor(main->setup);
-        viewCore = BTLV_CORE_Create(main, main->clients[main->ownClientId], &main->sides[0], isComm, 0x13);
+        viewCore = BTLV_CORE_Create(main, main->clients[main->ownClientId], (&main->sides[0]), isComm, 0x13);
         main->viewCore = viewCore;
         BTL_CLIENT_SetView(main->clients[main->ownClientId], viewCore);
         if (main->hostsServer) {
@@ -2242,7 +2258,7 @@ int BTL_MAIN_CheckZukanSeen(struct BtlMain *main, void *mon) { unsigned int spec
 
 u32 BTL_MAIN_GetZukanSeenCount(struct BtlMain *main)
 {
-    return ZUKAN_SAVE_CountCaughtNational((struct Blk37 *)(main->setup->zukanWork));
+    return ZUKAN_SAVE_CountCaughtNational((struct ZukanSave *)(main->setup->zukanWork));
 }
 
 
@@ -2618,7 +2634,7 @@ u8 BTL_MAIN_MapPosForRule(struct BtlMain *main, u8 basePos)
 
 
 
-int BTL_MAIN_IsOpposingPos(int unusedWork, int posA, int posB)
+int BTL_MAIN_IsOpposingPos(void *unusedWork, int posA, int posB)
 {
     int differs = 1;
     if ((posA & 1) == (posB & 1)) differs = 0;
@@ -3424,7 +3440,7 @@ u32 BTL_MAIN_CalcPenaltyMoney(struct BtlMain *main)
     if (main->flags.penaltyDone == 0) {
         if (main->setup->competitor <= 1) {
             maxLoss = MISC_GetMoney(GAME_DATA_GetMiscSave(main->setup->gameData));
-            loss = BTL_CALC_CalcDefeatMoneyLoss(main->setup->badgeCount, BTL_SIDE_GetSlotOfClientThunk(&main->sides[1], main->ownClientId));
+            loss = BTL_CALC_CalcDefeatMoneyLoss(main->setup->badgeCount, (struct BtlParty *)(BTL_SIDE_GetSlotOfClientThunk(&main->sides[1], main->ownClientId)));
             if (loss > maxLoss)
                 loss = maxLoss;
             penalty = loss;
@@ -3796,7 +3812,7 @@ void BTL_SIDE_WriteBackParty(struct BtlSide *side, struct BtlMain *main, int cli
     for (i = 0; i < count; i++) {
         mon = POKEPARTY_GetMember(party, i);
         poke = BTL_SLOT_GetPoke(slot, (u8)i);
-        BTL_POKEPARAM_SetPokeParam(poke, mon);
+        BTL_POKEPARAM_SetPokeParam((void **)poke, mon);
         if (illusionLinks[i] != 6)
             BTL_POKEPARAM_SetFakeMon(poke, POKEPARTY_GetMember(party, illusionLinks[i]));
     }
@@ -4927,7 +4943,7 @@ void BTL_TRAINER_SLOT_InitFromPacket(struct BtlTrainerSlot *slot, const struct B
         nameBuf = STRBUF_Create(0x20, 0x12);
         nameLength = src->nameLength + 1;
         slot->name = nameBuf;
-        STRBUF_SetChars(nameBuf, src->nameChars, nameLength);
+        STRBUF_SetChars(nameBuf, (void *)src->nameChars, nameLength);
         slot->aiFlags = src->aiFlags;
         MI_CpuCopy8((void *)src->itemIds, slot->itemIds, 8);
         PMSI_PARAM_Copy(slot->winWord, src->winWord);
@@ -5507,7 +5523,7 @@ int BTL_MAIN_IsRecordAllowed(struct BtlMain *main)
 void BTL_MAIN_NotifyLevelUp(struct BtlMain *main, struct BtlPokeParam *poke)
 {
     BTL_MAIN_UpdateFriendship(main, poke, 0);
-    BTL_SERVER_NotifyLevelUp(main->server, poke);
+    BTL_SERVER_NotifyLevelUp(main->server, (u32 *)poke);
 }
 
 
@@ -5608,7 +5624,7 @@ void BTL_MAIN_WriteBackResults(struct BtlMain *main)
                 old = POKEPARTY_GetMember(main->setup->party[0], i0);
                 mon = POKEPARTY_GetMember(party, i0);
                 move = (u16)POKE_TOOL_GetPartyValue(old, 6, 0);
-                if (!BTL_CALC_GetItemParam((void *)move, 0x10))
+                if (!BTL_CALC_GetItemParam(move, 0x10))
                     POKE_TOOL_SetPartyValue(mon, 6, move);
                 else if (move != POKE_TOOL_GetPartyValue(mon, 6, 0))
                     POKE_TOOL_SetPartyValue(mon, 6, 0);
@@ -5699,7 +5715,7 @@ int BTL_MAIN_JudgeResult(struct BtlMain *main)
         result = 6;
     } else if (main->setup->resultValue[0] != 6) {
         result = 5;
-    } else if (BTL_CLIENT_SET_GetCount(&main->defeatedClients.count)) {
+    } else if (BTL_CLIENT_SET_GetCount((struct BtlClientSet *)(&main->defeatedClients.count))) {
         result = BTL_CLIENT_SET_JudgeResult(&main->defeatedClients, main->ownClientId, (unsigned int)BTL_MAIN_GetCompetitor(main));
     } else {
         if (main->outcome == 7) {
@@ -5992,8 +6008,8 @@ void BTL_MAIN_RestartBattle(struct BtlMain *main, u16 stepArg)
         }
     }
     BTLV_CORE_Delete(main->viewCore);
-    BTLV_CORE_ResetDisplay((void *)0x13);
-    main->viewCore = BTLV_CORE_Create(main, main->clients[main->setup->netId], &main->sides[0], isComm, 0x13);
+    BTLV_CORE_ResetDisplay((u16)0x13);
+    main->viewCore = BTLV_CORE_Create(main, main->clients[main->setup->netId], (&main->sides[0]), isComm, 0x13);
     BTL_CLIENT_SetView(main->clients[main->setup->netId], main->viewCore);
     BTL_SERVER_Restart(main->server);
 }
@@ -6043,7 +6059,7 @@ void BTL_MAIN_StartClientMainSteps(struct BtlMain *main)
 
 u32 BTL_MAIN_GetServerFlow(struct BtlMain *main)
 {
-    return BTL_SERVER_GetFlow(main->server);
+    return (u32)BTL_SERVER_GetFlow(main->server);
 }
 
 

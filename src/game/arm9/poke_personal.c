@@ -86,10 +86,11 @@ extern struct ArcHandle *ARC_TOOL_CreateHandle(unsigned int arcId, unsigned int 
 extern u32   ARC_TOOL_GetHandleMemberOffset(struct ArcHandle *arc, u32 dataId);
 
 extern void  ARC_TOOL_SeekHandle(struct ArcHandle *arc, u32 offset);
+struct ArcHandleRaw;
 
-extern void  ARC_TOOL_ReadHandle(struct ArcHandle *arc, u32 size, void *dst);
+extern void  ARC_TOOL_ReadHandle(struct ArcHandleRaw *arc, u32 size, void *dst);
 
-extern void *ARC_UTIL_LoadHandleMemberWithSize(struct ArcHandle *arc, int dataId, int fromTail, u32 heap, u32 *sizeOut);
+extern void *ARC_UTIL_LoadHandleMemberWithSize(void *narc, s32 fileID, s32 decompress, u32 heapID, u32 *out_size);
 
 void POKE_PERSONAL_OpenHandle(u32 heap);
 
@@ -157,7 +158,7 @@ void POKE_PERSONAL_LoadData(u32 species, int form, void *dst)
 
     dataId = ARC_TOOL_GetHandleMemberOffset(_pPersonalArc, dataId);
     ARC_TOOL_SeekHandle(_pPersonalArc, dataId);
-    ARC_TOOL_ReadHandle(_pPersonalArc, 0x3C, dst);
+    ARC_TOOL_ReadHandle((struct ArcHandleRaw *)_pPersonalArc, 0x3C, dst);
 }
 
 /*
@@ -478,7 +479,7 @@ u32 POKE_PERSONAL_GetFormDataId(u32 species, s32 form)
         return 0;
     }
     ARC_TOOL_SeekHandle(_pPersonalArc, ARC_TOOL_GetHandleMemberOffset(_pPersonalArc, species));
-    ARC_TOOL_ReadHandle(_pPersonalArc, 0x3C, &data);
+    ARC_TOOL_ReadHandle((struct ArcHandleRaw *)_pPersonalArc, 0x3C, &data);
     if (data.formStatsIndex == 0 || data.formCount <= form || form == 0) {
         return species;
     }

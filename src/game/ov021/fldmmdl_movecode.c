@@ -231,7 +231,9 @@ extern int FLDMMDL_GetDirHeader(Mmdl *mmdl);
 extern u16 FLDMMDL_MOVE_GetDirTableValue(int dir);
 extern u16 FLDMMDL_GetDirMove(Mmdl *mmdl);
 extern int FLDMMDL_GetParam(Mmdl *mmdl, int index);
-extern int EVENT_TRAINER_EYE_GetPlayerDistance(Mmdl *mmdl, int a, int b, int c);
+struct FieldEncount;
+struct Mmdl;
+extern int EVENT_TRAINER_EYE_GetPlayerDistance(struct Mmdl *mmdl, unsigned int dir, int range, struct FieldEncount *encount);
 extern int FLDMMDL_ChangeMoveCode(Mmdl *mmdl, int moveCode);
 extern unsigned int KEY_GetCont(void);
 extern Mmdl *FLDMMDL_SysSearchPlayer(MmdlSys *sys);
@@ -239,9 +241,10 @@ extern u16 FLDMMDL_GetAcmdCode(Mmdl *mmdl);
 extern u32 KEY_GetTrg(void);
 extern u32 GFL_USE_GetRandom(u32 range);
 extern u16 FLDMMDL_MOVE_GetDirFromPoints(int x0, int y0, int x1, int y1);
-extern int FLDMMDL_CheckStatusBit(Mmdl *mmdl, int bit);
-extern u32 *FLDMMDL_SetStatusBit(Mmdl *mmdl, u32 bit);
-extern u32 *FLDMMDL_ClearStatusBit(Mmdl *mmdl, u32 bit);
+struct Mmdl;
+extern u32 FLDMMDL_CheckStatusBit(struct Mmdl *mmdl, u32 bit);
+extern void FLDMMDL_SetStatusBit(Mmdl *mmdl, u32 bit);
+extern void FLDMMDL_ClearStatusBit(Mmdl *mmdl, u32 bit);
 extern int FLDMMDL_GetGridOldX(Mmdl *mmdl);
 extern int FLDMMDL_GetGridOldZ(Mmdl *mmdl);
 
@@ -306,14 +309,20 @@ extern int FLDMMDL_CheckMoveBitMove(Mmdl *mmdl);
 extern u32 FLDMMDL_SetStatusBitFellowHit(Mmdl *mmdl, u32 mode);
 extern u16 FLDMMDL_GetZoneId(Mmdl *mmdl);
 extern int EVENT_TRAINER_EYE_GetTrainerId(Mmdl *mmdl);
-extern int FLDMMDL_SysSearchUseMmdl(void *mmdlSys, void **outMmdl, u32 *iter);
+struct MmdlSys;
+extern int FLDMMDL_SysSearchUseMmdl(struct MmdlSys *sys, struct Mmdl **out, u32 *iter);
 extern u32 FLDMMDL_CheckMoveBit(Mmdl *mmdl, u32 bits);
-extern void *FLDMMDL_SetMoveBit(Mmdl *mmdl, u32 bits);
-extern void FLDMMDL_SetDrawOffset(Mmdl *mmdl, void *offset);
-extern void FIELD_EFFECT_DeleteObject(u32 effect);
-extern u32 FLDMMDL_SysGetFieldMap(void *mmdlSys);
-extern u32 FIELDMAP_GetEffect(u8 *fieldMap);
-extern u32 FLDEFF_HIDE_Start(u32 fieldMap, Mmdl *mmdl, u32 kind);
+extern void FLDMMDL_SetMoveBit(Mmdl *mmdl, u32 bits);
+struct MmdlVec;
+extern void FLDMMDL_SetDrawOffset(struct Mmdl *mmdl, struct MmdlVec *offset);
+struct FieldEffectObj;
+extern void FIELD_EFFECT_DeleteObject(struct FieldEffectObj *obj);
+extern void *FLDMMDL_SysGetFieldMap(struct MmdlSys *sys);
+struct FieldMap;
+struct FieldEffectCont;
+extern struct FieldEffectCont *FIELDMAP_GetEffect(struct FieldMap *fieldMap);
+struct FieldEffectSys;
+extern struct FieldEffectObj *FLDEFF_HIDE_Start(struct FieldEffectSys *fieldEffect, struct Mmdl *mmdl, unsigned int kind);
 extern int FLDMMDL_CheckDrawInitComp(Mmdl *mmdl);
 u32 FLDMMDL_MOVE_InitFaceDir();
 u32 FLDMMDL_MOVE_InitFaceDirUp(Mmdl *mmdl);
@@ -337,7 +346,7 @@ void FLDMMDL_MOVE_InitWallWalkMode2Hand0(Mmdl *mmdl);
 void FLDMMDL_MOVE_InitWallWalkMode2Hand1(Mmdl *mmdl);
 extern int FLDMMDL_MOVE_GetMapAttr(Mmdl *mmdl, MmdlVec *pos, u32 *outAttr);
 extern int MAP_ATTR_IsBlocked(u32 attr);
-extern void FLDMMDL_GetPos(const struct Actor *mmdl, struct VecFx32 *pos);
+extern void FLDMMDL_GetPos(struct Mmdl *mmdl, struct MmdlVec *out);
 void FLDMMDL_MOVE_InitWalkRepeat(Mmdl *mmdl);
 int FLDMMDL_MOVE_WalkRepeat(Mmdl *mmdl);
 int FLDMMDL_MOVE_TurnLookAround(Mmdl *mmdl);
@@ -2163,7 +2172,7 @@ Mmdl *FLDMMDL_MOVE_FindFellow(Mmdl *mmdl)
     case 7:
     case 8:
     case 20:
-        while (FLDMMDL_SysSearchUseMmdl(mmdlSys, (void **)(&other), &iter) == 1) {
+        while (FLDMMDL_SysSearchUseMmdl(mmdlSys, (struct Mmdl **)(&other), &iter) == 1) {
             if (mmdl != other && zoneId == FLDMMDL_GetZoneId((void *)other) && area == EVENT_TRAINER_EYE_GetTrainerId(other)) {
                 return other;
             }
@@ -2185,7 +2194,7 @@ int FLDMMDL_MOVE_UpdateFellowTracking(Mmdl *mmdl, MmdlLookWork *work)
     iter = 0;
     zoneId = FLDMMDL_GetZoneId((void *)mmdl);
     area = EVENT_TRAINER_EYE_GetTrainerId(mmdl);
-    while (FLDMMDL_SysSearchUseMmdl(mmdlSys, (void **)(&other), &iter) == 1) {
+    while (FLDMMDL_SysSearchUseMmdl(mmdlSys, (struct Mmdl **)(&other), &iter) == 1) {
         if (mmdl != other && zoneId == FLDMMDL_GetZoneId((void *)other) && area == EVENT_TRAINER_EYE_GetTrainerId(other)) {
             if (work->tracking == 0) {
                 FLDMMDL_MOVE_StartFellowTracking(mmdl, work, other);
@@ -2278,7 +2287,7 @@ void FLDMMDL_MOVE_DeleteHide(Mmdl *mmdl)
 {
     u32 effect = FLDMMDL_MOVE_GetHideEffect(mmdl);
     if (effect != 0) {
-        FIELD_EFFECT_DeleteObject(effect);
+        FIELD_EFFECT_DeleteObject((struct FieldEffectObj *)effect);
     }
 }
 
@@ -2299,7 +2308,7 @@ void FLDMMDL_MOVE_RecoverHide(Mmdl *mmdl)
 /* Create the hide field effect of the given kind. */
 int FLDEFF_HIDE_Create(Mmdl *mmdl, u32 kind)
 {
-    return FLDEFF_HIDE_Start(FIELDMAP_GetEffect((u8 *)FLDMMDL_SysGetFieldMap(FLDMMDL_GetMmdlSys((void *)mmdl))), mmdl, kind);
+    return (int)FLDEFF_HIDE_Start((struct FieldEffectSys *)FIELDMAP_GetEffect((struct FieldMap *)FLDMMDL_SysGetFieldMap(FLDMMDL_GetMmdlSys((void *)mmdl))), mmdl, kind);
 }
 
 /* Hide, step 0: create the effect and pause the model's movement. */
@@ -2534,7 +2543,7 @@ int FLDMMDL_MOVE_IsWallAtOffsetB(Mmdl *mmdl, MmdlVec *pos, int dir, int hand)
 int FLDMMDL_MOVE_IsWallNearA(Mmdl *mmdl, int dir, int hand)
 {
     MmdlVec pos;
-    FLDMMDL_GetPos((const struct Actor *)mmdl, (struct VecFx32 *)&pos);
+    FLDMMDL_GetPos((struct Mmdl *)mmdl, (struct MmdlVec *)&pos);
     return FLDMMDL_MOVE_IsWallAtOffsetA(mmdl, &pos, dir, hand);
 }
 
@@ -2542,7 +2551,7 @@ int FLDMMDL_MOVE_IsWallNearA(Mmdl *mmdl, int dir, int hand)
 int FLDMMDL_MOVE_IsWallNearB(Mmdl *mmdl, int dir, int hand)
 {
     MmdlVec pos;
-    FLDMMDL_GetPos((const struct Actor *)mmdl, (struct VecFx32 *)&pos);
+    FLDMMDL_GetPos((struct Mmdl *)mmdl, (struct MmdlVec *)&pos);
     return FLDMMDL_MOVE_IsWallAtOffsetB(mmdl, &pos, dir, hand);
 }
 

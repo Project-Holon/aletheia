@@ -79,10 +79,12 @@ typedef struct { u16 heap; u16 pad_2; char *main; Slot slots[8]; } Scene;
 typedef struct { u32 stats[9]; int scale[3]; } Buffers;
 
 extern void *GFL_HEAP_Alloc(u32, u32, int, const char *, u16);
+struct PokemonParam;
+struct BoxPokemon;
 
-extern void *POKE_TOOL_GetBoxParam(void *p);
+extern struct BoxPokemon *POKE_TOOL_GetBoxParam(struct PokemonParam *pp);
 
-extern u32 POKE_TOOL_NormalizeForm(u32, u32);
+extern u32 POKE_TOOL_NormalizeForm(u16 species, u16 form);
 
 extern int POKE_TOOL_FilterSpecies(u16 a, int b);
 
@@ -124,15 +126,15 @@ int MUSICAL_MCSS_IsRenderVisible(u8 **p);
 
 void MUSICAL_MCSS_ResumeRenderAnim(void **p);
 
-void MUSICAL_MCSS_PauseRenderAnim(int a);
+void MUSICAL_MCSS_PauseRenderAnim(void *a);
 
-void MUSICAL_MCSS_SetRenderAnim(int a, u32 n);
+void MUSICAL_MCSS_SetRenderAnim(void *a, u32 n);
 
 void MUSICAL_MCSS_ResetRender(int a);
 
 void MUSICAL_MCSS_ResetRender2(int a,int b);
 
-void MUSICAL_MCSS_SetRenderDrawOffset(int slot, int isLarge);
+void MUSICAL_MCSS_SetRenderDrawOffset(void *slot, int isLarge);
 
 void MUSICAL_MCSS_SetRenderCellVramBase(void **p,int b);
 
@@ -309,14 +311,14 @@ int MUSICAL_MCSS_IsRenderVisible(u8 **p) { return MUSICAL_MCSS_IsMCAnimHidden(p[
 
 void MUSICAL_MCSS_ResumeRenderAnim(void **p) {MUSICAL_MCSS_ResumeMCAnim(p[3]); if(p[4])MUSICAL_MCSS_ResumeMCAnim(p[4]); }
 
-void MUSICAL_MCSS_PauseRenderAnim(int a) {
+void MUSICAL_MCSS_PauseRenderAnim(void *a) {
     MUSICAL_MCSS_PauseMCAnim((u8 *)(((Slot *)a)->primary));
     if (((Slot *)a)->secondary != 0) {
         MUSICAL_MCSS_PauseMCAnim((u8 *)(((Slot *)a)->secondary));
     }
 }
 
-void MUSICAL_MCSS_SetRenderAnim(int a, u32 n)
+void MUSICAL_MCSS_SetRenderAnim(void *a, u32 n)
 {
     MUSICAL_MCSS_SetMCAnim(*(char * *)&((Slot *)a)->object, n);
 }
@@ -344,7 +346,7 @@ void MUSICAL_MCSS_ResetRender2(int a,int b) { if(b!=((Slot *)a)->enabled)MUSICAL
  *
  * Addresses are Black-image addresses.
  */
-void MUSICAL_MCSS_SetRenderDrawOffset(int slot, int isLarge)
+void MUSICAL_MCSS_SetRenderDrawOffset(void *slot, int isLarge)
 {
     if (isLarge == 1)
         MUSICAL_MCSS_EnableDrawOffset((u8 *)(((Slot *)slot)->object));

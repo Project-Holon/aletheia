@@ -54,7 +54,7 @@ typedef struct {
     unsigned char passphrase[0x20];
     unsigned char pmk[0x20];
     unsigned char ssid[2][0x20];
-    unsigned char reserved80;
+    unsigned char ssidLength0; /* aossEx.ssidLength[0] (TKIP); overlays wpa.rsv in WPA records */
     unsigned char wpaMode;
     unsigned char proxyMode;
     unsigned char proxyAuthType;
@@ -173,8 +173,8 @@ extern void DWCi_AC_SetStealthChannel(unsigned short channel);
 extern int DWCi_AC_CheckNintendoUsbAP(char *ssid);
 extern int DWCi_AC_CheckNintendoShopAP(char *ssid);
 extern int OS_IsRunOnTwl(void);
-extern NWMInfoElements *NWM_GetInfoElements(WCMBssDesc *bssDesc, unsigned char elementID);
-extern NWMInfoElements *NWM_GetVenderInfoElements(WCMBssDesc *bssDesc, unsigned char elementID, unsigned char *ouiType);
+extern unsigned char *NWM_GetInfoElements(unsigned char *bssDesc, unsigned char elementId);
+extern unsigned char *NWM_GetVenderInfoElements(unsigned char *bssDesc, unsigned int elementId, void *oui);
 extern int DWCi_AC_CheckNintendoSSID(WMBssDesc *bssdesc);
 extern int strncmp(const char *s1, const char *s2, unsigned long n) __attribute__((pure));
 extern void WCMi_BssDescCopy(WMBssDesc *srcBssDesc, WMBssDesc *destBssDesc);
@@ -272,10 +272,10 @@ int DWCi_AC_IsSupportWPA(WMBssDesc *bssDesc)
     NWMInfoElements *elem;
 
     if (OS_IsRunOnTwl()) {
-        elem = NWM_GetInfoElements((WCMBssDesc *)bssDesc, 0x30);
+        elem = (struct NWMInfoElements *)NWM_GetInfoElements((unsigned char *)bssDesc, 0x30);
         if (elem == 0) {
             wpaTag = g_020A161C;
-            elem = NWM_GetVenderInfoElements((WCMBssDesc *)bssDesc, 0xdd, wpaTag.b);
+            elem = (struct NWMInfoElements *)NWM_GetVenderInfoElements((unsigned char *)bssDesc, 0xdd, wpaTag.b);
             if (elem == 0) {
                 return 0;
             }

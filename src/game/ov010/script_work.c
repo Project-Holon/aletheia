@@ -78,37 +78,50 @@ struct ScriptCheckTask {
 typedef enum { SCRIPT_CHECK_BIT = 1 } ScriptCheckBit;
 
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int align, const char *fileName, u16 line);
-extern int GFL_HEAP_Free(void *block);
-extern int STRBUF_Delete(void *buffer);
-extern void *GAMESYSTEM_GetGameData(void *gameSystem);
-extern u32 GAME_DATA_GetEventWork(void *gameData);
-extern void *GAME_EVENT_GetWork(void *task);
-extern void *GAME_EVENT_Create(void *gameSystem, void *arg, ScriptCheckTaskFn callback, unsigned int size);
-extern u16 *ZONEDATA_GetEventWorkAddress(u32 eventWork, u32 id);
+extern u32 GFL_HEAP_Free(void *block);
+struct Strbuf;
+extern void STRBUF_Delete(struct Strbuf *strbuf);
+struct GameSystem;
+struct GameData;
+extern struct GameData *GAMESYSTEM_GetGameData(struct GameSystem *gameSystem);
+extern void *GAME_DATA_GetEventWork(struct GameData *gd);
+struct GameEvent;
+extern void *GAME_EVENT_GetWork(struct GameEvent *event);
+extern struct GameEvent *GAME_EVENT_Create(struct GameSystem *gameSystem, struct GameEvent *parent, ScriptCheckTaskFn callback, unsigned int workSize);
+struct EventWork;
+extern u16 *ZONEDATA_GetEventWorkAddress(struct EventWork *ev, u32 workId);
 extern u32 VM_GetU32(ScriptVm *vm);
-extern void *GAMESYSTEM_GetFieldMap(void *gameSystem);
-extern void *SCRCMD_WORK_GetGameSystem(ScriptVm *vm);
+extern void *GAMESYSTEM_GetFieldMap(struct GameSystem *gameSystem);
+struct ScrcmdWork;
+extern struct GameSystem *SCRCMD_WORK_GetGameSystem(struct ScrcmdWork *work);
 extern int MIi_CpuClear32();
-extern int FIELDMAP_GetMsgBg();
-extern void *WORDSET_Create(u32 count, u32 size, u16 heapId);
-extern void *STRBUF_Create(u32 capacity, u32 heapId);
-extern void *SCRCMD_WORK_CreateCommon(ScriptWork *work, int heapId);
-extern int WORDSET_Delete();
-extern int SCRCMD_WORK_DeleteCommon();
-extern u16 FLDMMDL_GetObjId(void *obj);
+struct FieldMap;
+struct FieldMsgBg;
+extern struct FieldMsgBg *FIELDMAP_GetMsgBg(struct FieldMap *fieldMap);
+struct WordSet;
+extern struct WordSet *WORDSET_Create(u32 count, u32 size, u16 heapId);
+extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
+struct ScriptWork;
+struct ScrcmdCommonWork;
+extern struct ScrcmdCommonWork *SCRCMD_WORK_CreateCommon(ScriptWork *work, int heapId);
+extern u32 WORDSET_Delete(struct WordSet *words);
+extern void SCRCMD_WORK_DeleteCommon(struct ScrcmdCommonWork *common);
+struct Mmdl;
+extern u16 FLDMMDL_GetObjId(struct Mmdl *mmdl);
 extern void MIi_CpuCopy16(const void *src, void *dst, unsigned int size);
-extern void *SCRCMD_WORK_GetScriptWork(ScriptVm *vm);
-extern void VM_End(ScriptVm *vm);
-extern int SCRCMD_WORK_CountDownWait(void *cmdWork);
+extern struct ScriptWork *SCRCMD_WORK_GetScriptWork(struct ScrcmdWork *work);
+struct ScriptVm;
+extern struct ScriptVm *VM_End(ScriptVm *vm);
+extern int SCRCMD_WORK_CountDownWait(struct ScrcmdWork *work);
 extern u16 VM_ReadU16(ScriptVm *vm);
-extern void SCRCMD_WORK_SetWaitCount(void *cmdWork, unsigned short count);
+extern void SCRCMD_WORK_SetWaitCount(struct ScrcmdWork *work, u16 count);
 extern void VM_SetWait(ScriptVm *vm, ScriptWaitFn waitFn);
 extern void VM_Call(ScriptVm *vm, u8 *target);
-extern u32 VM_Return(ScriptVm *vm);
-extern void *SCRCMD_WORK_GetGameData(void *work);
-extern unsigned int SCRIPT_WORK_ReadWorkValue(ScriptVm *vm, ScriptWork *work);
+extern u8 *VM_Return(ScriptVm *vm);
+extern struct GameData *SCRCMD_WORK_GetGameData(struct ScrcmdWork *work);
+extern unsigned int SCRIPT_WORK_ReadWorkValue(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
 extern u32 VM_PopStack(ScriptVm *vm);
-extern int SCRIPT_SYS_IsChildScript(ScriptWork *parentWork);
+extern int SCRIPT_SYS_IsChildScript(int mode);
 extern const char sScriptWorkFileName[];
 extern int gScriptCheckFlags;
 extern ScriptCheckHandler gScriptCheckHandlers[];
@@ -170,7 +183,7 @@ int SCRIPT_WORK_InitFieldParam(ScriptFieldParam *fieldParam, void *gameSystem)
     int result = MIi_CpuClear32(0, fieldParam, 8);
     fieldParam->fieldSystem = fieldSystem;
     if (fieldSystem != 0) {
-        result = FIELDMAP_GetMsgBg(fieldSystem);
+        result = (int)FIELDMAP_GetMsgBg(fieldSystem);
         fieldParam->mapSystem = (void *)result;
     }
     return result;
@@ -187,7 +200,7 @@ ScriptWork *SCRIPT_WORK_Create(u16 heapId, void *gameSystem, void *event, u16 sc
     work->targetObj = 0;
     work->targetObjParam = targetObjParam;
     work->parentWork = parentWork;
-    work->isChild = SCRIPT_SYS_IsChildScript(parentWork);
+    work->isChild = SCRIPT_SYS_IsChildScript((int)parentWork);
     if (work->isChild == 0) {
         work->wordSet = WORDSET_Create(0x1C, 0x40, heapId);
         work->msgBuffer = STRBUF_Create(0x500, heapId);
@@ -289,9 +302,9 @@ u16 *SCRIPT_WORK_GetLocalWork(ScriptWork *work, u32 id)
 
 u16 *SCRIPT_WORK_GetWorkPtr(ScriptWork *work, void *gameData, unsigned int id)
 {
-    u32 eventWork = GAME_DATA_GetEventWork(gameData);
+    u32 eventWork = (u32)GAME_DATA_GetEventWork(gameData);
     if (id < 0x4000) return 0;
-    if (id < 0x8000) return ZONEDATA_GetEventWorkAddress(eventWork, id);
+    if (id < 0x8000) return ZONEDATA_GetEventWorkAddress((struct EventWork *)eventWork, id);
     if (id < 0xc000) return SCRIPT_WORK_GetLocalWork(work, id);
     return 0;
 }
@@ -440,8 +453,8 @@ int SCRIPT_WORK_RunCheckTask(int taskHandle, int taskArg, ScriptCheckTask *task)
 
 void *SCRIPT_WORK_CreateCheckTask(ScriptVm *vm)
 {
-    void *scriptCtl = SCRCMD_WORK_GetScriptWork(vm);
-    void *gameSystem = SCRCMD_WORK_GetGameSystem(vm);
+    void *scriptCtl = SCRCMD_WORK_GetScriptWork((struct ScrcmdWork *)vm);
+    void *gameSystem = SCRCMD_WORK_GetGameSystem((struct ScrcmdWork *)vm);
     void *taskHandle = GAME_EVENT_Create(gameSystem, 0, SCRIPT_WORK_RunCheckTask, sizeof(ScriptCheckTask));
     ScriptCheckTask *task = GAME_EVENT_GetWork(taskHandle);
     task->gameSystem = gameSystem;
@@ -499,15 +512,15 @@ int SCRIPT_WORK_CmdReturn(ScriptVm *vm, void *work)
 
 int SCRIPT_WORK_CmdDebugWork(ScriptVm *vm, ScriptWork *work)
 {
-    SCRCMD_WORK_GetGameData(work);
-    SCRIPT_WORK_ReadWorkValue(vm, work);
+    SCRCMD_WORK_GetGameData((struct ScrcmdWork *)work);
+    SCRIPT_WORK_ReadWorkValue(vm, (struct ScrcmdWork *)work);
     return 0;
 }
 
 int SCRIPT_WORK_CmdDebugStack(ScriptVm *vm, ScriptWork *work)
 {
     VM_PopStack(vm);
-    SCRIPT_WORK_ReadWorkValue(vm, work);
+    SCRIPT_WORK_ReadWorkValue(vm, (struct ScrcmdWork *)work);
     return 0;
 }
 

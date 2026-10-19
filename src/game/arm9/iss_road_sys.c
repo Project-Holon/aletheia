@@ -51,8 +51,9 @@ extern u32 GFL_HEAP_Free(void *p);
 extern void ISS_ROAD_SYS_UpdateVolume(IssRoadSys *road);
 
 void ISS_ROAD_SYS_ApplyVolume(IssRoadSys *road);
+struct Location;
 
-IssRoadSys *ISS_ROAD_SYS_Create(u32 player, u32 heapId);
+IssRoadSys *ISS_ROAD_SYS_Create(struct Location *player, u32 heapId);
 
 void ISS_ROAD_SYS_Delete(void *road);
 
@@ -74,7 +75,7 @@ void ISS_ROAD_SYS_Deactivate(IssRoadSys *road);
  * Verified with:
  *   python tools/match.py one --src src/matched/ISS_ROAD_SYS_Create.c  *       --func ISS_ROAD_SYS_Create --addr 0x0202B1AC --thumb --cc 1.1p1
  */
-IssRoadSys *ISS_ROAD_SYS_Create(u32 player, u32 heapId)
+IssRoadSys *ISS_ROAD_SYS_Create(struct Location *player, u32 heapId)
 {
     IssRoadSys *road = (IssRoadSys *)GFL_HEAP_Alloc(heapId, 0x18, 0,
                                                    (const void *)0x020A7708, 0x4a);

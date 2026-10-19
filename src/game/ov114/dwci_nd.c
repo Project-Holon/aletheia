@@ -111,6 +111,7 @@
  *   MI_CpuFill8  0x02082BCC  arm  arm9
  *   NHTTPi_strToInt  0x021BA448  arm  ov114
  *   NHTTPi_intToStr  0x021BA4E4  arm  ov114
+ *   strncmp                      0x020949F4  arm
  */
 #include "dwci_nd_types.h"
 
@@ -135,15 +136,17 @@ typedef struct NdWiFiInfo {
     int pad[3];
 } NdWiFiInfo;
 
-extern unsigned long strlen(const char *s);
-extern int strncmp(const char *a, const char *b, unsigned long n);
+extern int DWCi_Ndi_intToStrFigure(char *buffer, unsigned long long value, int figure);
+extern int strlen(unsigned char *s);
+extern int strncmp(unsigned char *s1, unsigned char *s2, unsigned int n);
 extern void MI_CpuFill8(void *dstp, unsigned char data, unsigned long size);
 extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
 void DWCi_Ndi_memcpy(void *dst, void *src, u32 size);
 extern int NHTTP_Startup(void *alloc, void *free, int a);
 extern void NHTTP_CleanupAsync(void (*callback)(void));
-extern int NHTTP_GetConnectionStatus(void *handle);
-extern int NHTTP_DeleteConnection(void *handle);
+struct _NHTTPConnection;
+extern int NHTTP_GetConnectionStatus(struct _NHTTPConnection *handle_p);
+extern int NHTTP_DeleteConnection(struct _NHTTPConnection *handle_p);
 extern void DWCi_SetError(int error, int errorCode);
 extern int DWC_NdGetProgress(unsigned long *received, unsigned long *contentlen);
 extern int NHTTP_CancelConnection(void *handle);
@@ -151,20 +154,22 @@ extern int DWC_GetApInfo(NdApInfo *apinfo);
 extern void DWCi_BM_GetWiFiInfo(NdWiFiInfo *buf);
 extern int OS_SNPrintf(char *dst, unsigned int len, const char *fmt, ...);
 extern void *NHTTP_GetUserParam(void *handle);
-extern int NHTTP_GetConnectionError(void *handle);
+extern int NHTTP_GetConnectionError(struct _NHTTPConnection *handle_p);
 extern int NHTTP_GetHeaderField(void *handle, char *label_p, char **value_pp);
 extern int NHTTP_GetBodyBuffer(void *handle, char **value_pp, unsigned long *size_p);
-extern void *NHTTP_CreateConnection(char *url_p, int method, char *buf_p, unsigned long len, int (*callback)(void *, int, void *), void *userParam_p);
-extern int NHTTP_SetRootCA(void *handle, char *rootCAData_p, unsigned long rootCASize);
+extern struct _NHTTPConnection *NHTTP_CreateConnection(char *url_p, int method, char *buf_p, unsigned long len, int (*callback)(void *, int, void *), void *userParam_p);
+extern int NHTTP_SetRootCA(void *handle_p, void *rootCA_p, int rootCALen);
 extern int NHTTP_SetVerifyOption(void *handle, unsigned long verifyOption);
 extern int NHTTP_AddHeaderField(void *handle, char *label_p, char *value_p);
 extern int NHTTP_AddPostDataAscii(void *handle, char *label_p, char *value_p);
 extern int NHTTP_StartConnection(void *handle);
 extern int NHTTP_GetConnectionProgress(void *handle, unsigned long *received_p, unsigned long *contentlen_p);
-extern void OS_InitMutex(void *mutex);
-extern void OS_LockMutex(void *mutex);
-extern void OS_UnlockMutex(void *mutex);
-extern void OS_SendMessage(void *event, int a, int b);
+struct OSMutex;
+extern void OS_InitMutex(struct OSMutex *mutex);
+extern void OS_LockMutex(struct OSMutex *mutex);
+extern void OS_UnlockMutex(struct OSMutex *mutex);
+struct OSMessageQueue;
+extern int OS_SendMessage(struct OSMessageQueue *mq, void *msg, int flags);
 extern void OS_GetMacAddress(unsigned char *macAddress);
 extern int DWCi_Ndi_hexToStrFigure(char *p, unsigned long n, int figure);
 extern int NHTTPi_strToInt(char *s, int len);
@@ -1207,7 +1212,7 @@ done:
 
 int DWCi_Ndi_initLockGlobal(void)
 {
-    OS_InitMutex(gDwciNdGlobalMutex);
+    OS_InitMutex((struct OSMutex *)gDwciNdGlobalMutex);
     return 1;
 }
 
@@ -1220,17 +1225,17 @@ void DWCi_Ndi_freeLockGlobal(void)
  */
 void DWCi_Ndi_lockGlobal(void)
 {
-    OS_LockMutex(gDwciNdGlobalMutex);
+    OS_LockMutex((struct OSMutex *)gDwciNdGlobalMutex);
 }
 
 void DWCi_Ndi_unlockGlobal(void)
 {
-    OS_UnlockMutex(gDwciNdGlobalMutex);
+    OS_UnlockMutex((struct OSMutex *)gDwciNdGlobalMutex);
 }
 
 int DWCi_Ndi_initHttpCallback(void)
 {
-    OS_InitMutex(gDwciNdHttpMutex);
+    OS_InitMutex((struct OSMutex *)gDwciNdHttpMutex);
     gDwciNdStatics.httpCallbackBusy = 0;
     return 1;
 }
@@ -1242,19 +1247,19 @@ void DWCi_Ndi_freeHttpCallback(void)
 int DWCi_Ndi_prepareHttpCallback(void)
 {
     int rc;
-    OS_LockMutex(gDwciNdHttpMutex);
+    OS_LockMutex((struct OSMutex *)gDwciNdHttpMutex);
     rc = (gDwciNdStatics.httpCallbackBusy == 0);
     if (rc)
         gDwciNdStatics.httpCallbackBusy = 1;
-    OS_UnlockMutex(gDwciNdHttpMutex);
+    OS_UnlockMutex((struct OSMutex *)gDwciNdHttpMutex);
     return rc;
 }
 
 void DWCi_Ndi_unprepareHttpCallback(void)
 {
-    OS_LockMutex(gDwciNdHttpMutex);
+    OS_LockMutex((struct OSMutex *)gDwciNdHttpMutex);
     gDwciNdStatics.httpCallbackBusy = 0;
-    OS_UnlockMutex(gDwciNdHttpMutex);
+    OS_UnlockMutex((struct OSMutex *)gDwciNdHttpMutex);
 }
 
 /*
@@ -1284,7 +1289,7 @@ void DWCi_Ndi_getMacAddress(char *macaddr)
  */
 unsigned long DWCi_Ndi_strlen(char *str)
 {
-    return strlen(str);
+    return strlen((unsigned char *)str);
 }
 
 /*
@@ -1292,7 +1297,7 @@ unsigned long DWCi_Ndi_strlen(char *str)
  */
 int DWCi_Ndi_strncmp(char *str1, char *str2, unsigned long size)
 {
-    return strncmp(str1, str2, size);
+    return strncmp((unsigned char *)str1, (unsigned char *)str2, size);
 }
 
 /*

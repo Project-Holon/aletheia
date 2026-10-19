@@ -140,8 +140,8 @@ extern void MIi_CpuClear32(u32 value, void *dst, u32 size);
 extern void MATHi_CRC16InitTable(struct MATHCRC16Table *table, u16 poly);
 extern void GF_PANIC_Fail(const char *file, u32 line, const char *expr);
 extern u32 GFL_HEAP_Free(void *mem);
-extern void  UI_SetKeepAwakeFlagsGlobal(u32 flag);
-extern void UI_ClearKeepAwakeFlagsGlobal(u32 flag);
+extern void  UI_SetKeepAwakeFlagsGlobal(u8 flags);
+extern void UI_ClearKeepAwakeFlagsGlobal(u8 v);
 extern u16 MATH_CalcCRC16CCITT(const void *table, const void *data, u32 len);
 extern void  MIi_CpuCopy16(const void *src, void *dst, u32 size);
 extern s32 GF_STANDARD_CompareBytes(const u8 *a, const u8 *b, u32 size);
@@ -202,14 +202,15 @@ int BACKUP_SYSTEM_ReadRecordFromFlash(BackupSaveData *sv, u32 id, u32 area_index
 int FLASH_ACCESS_Identify(u32 unused_arg);
 u32 FLASH_ACCESS_Write(u32 flash_addr, u32 src, u32 size, u32 write_error_func);
 int FLASH_ACCESS_Read(u32 flash_addr, u32 dst, u32 size, void (*read_error_func)(void));
-u16 FLASH_ACCESS_StartWrite(u32 flash_addr, u32 src, u32 size, u32 write_error_func);
+u16 FLASH_ACCESS_StartWrite(u32 flash_addr, u32 ram_src, u32 size, void *on_error);
 int FLASH_ACCESS_PollWrite(u16 lock_id, u32 *success, u32 write_error_func);
 void FLASH_ACCESS_CancelWrite(u16 lock_id);
 void *FLASH_ACCESS_GetBusyFlag(void);
+struct SaveBlockDef;
 /* savedata.c */
-SaveDataTable *SAVEDATA_CreateTable(u16 heap_id, const void *table_def, u32 table_num, u32 savearea_size, u32 footer_size, u32 record_footer_size, u32 crc_table_size);
+SaveDataTable *SAVEDATA_CreateTable(unsigned short heap_id, struct SaveBlockDef *table, unsigned int table_max, unsigned int size_limit, unsigned int header_size, unsigned int block_overhead, unsigned int footer_size);
 void SAVEDATA_DeleteTable(SaveDataTable *table);
-void SAVEDATA_InitBuffer(u8 *svwk, SaveDataTable *table);
+void SAVEDATA_InitBuffer(u32 buffer_addr, struct SaveDataTable *svdt);
 u32 SAVEDATA_GetBlockOffset(SaveDataTable *table, u32 id);
 u32 SAVEDATA_GetBlockSize(SaveDataTable *table, u32 id);
 u32 SAVEDATA_GetTableMax(SaveDataTable *table);
@@ -307,7 +308,7 @@ BackupSaveData *BACKUP_SYSTEM_CreateCore(const SaveDataParam *param, u32 heap_id
 
     sv->block_area = GFL_HEAP_Alloc(heap_id, sv->block_area_size, 1, str_020A7848,
                                  0x125);
-    table = SAVEDATA_CreateTable((u16)heap_id, param->table_def, param->table_num, sv->savearea_size, 0x10, 4, sv->crc_table_size);
+    table = SAVEDATA_CreateTable((u16)heap_id, (struct SaveBlockDef *)param->table_def, param->table_num, sv->savearea_size, 0x10, 4, sv->crc_table_size);
     sv->table = table;
     sv->data_size = SAVEDATA_GetTotalSize(table);
     if (svwk != 0) {
@@ -425,7 +426,7 @@ u8 *BACKUP_SYSTEM_GetRecordWork(BackupSaveData *sv, u32 id)
  */
 void BACKUP_SYSTEM_ClearWork(BackupSaveData *sv)
 {
-    SAVEDATA_InitBuffer(sv->svwk, sv->table);
+    SAVEDATA_InitBuffer((u32)sv->svwk, sv->table);
     BACKUP_SYSTEM_FillBlockAreas(sv, 1);
 }
 
@@ -1255,7 +1256,7 @@ int BACKUP_SYSTEM_WriteFooterBody(BackupSaveData *sv, u32 area)
     flash_addr = data_size + BACKUP_SYSTEM_GetAreaAddr(sv, area) - 0x10;
     work = sv->svwk;
     BACKUP_SYSTEM_SetFooter(sv, work);
-    return FLASH_ACCESS_StartWrite(flash_addr, (u32)(work + (data_size - 0x10)), 0xF, svsys->write_error_func);
+    return FLASH_ACCESS_StartWrite(flash_addr, (u32)(work + (data_size - 0x10)), 0xF, (void *)svsys->write_error_func);
 }
 
 
@@ -1273,7 +1274,7 @@ int BACKUP_SYSTEM_WriteFooterLastByte(BackupSaveData *sv, u32 area)
     u32 data_size = sv->data_size;
     u32 end_addr = data_size + BACKUP_SYSTEM_GetAreaAddr(sv, area);
 
-    return FLASH_ACCESS_StartWrite(end_addr - 1, (u32)(sv->svwk + (data_size - 1)), 1, svsys->write_error_func);
+    return FLASH_ACCESS_StartWrite(end_addr - 1, (u32)(sv->svwk + (data_size - 1)), 1, (void *)svsys->write_error_func);
 }
 
 
@@ -1480,7 +1481,7 @@ u16 BACKUP_SYSTEM_WriteRecord(BackupSaveData *sv, u32 id, u32 area, u32 pass)
     ofs = SAVEDATA_GetBlockOffset(sv->table, id);
     size = SAVEDATA_GetBlockSize(sv->table, id);
     record = BACKUP_SYSTEM_GetRecordWork(sv, id);
-    FLASH_ACCESS_StartWrite(area_addr + ofs, (u32)record, size + 4, svsys->write_error_func);
+    FLASH_ACCESS_StartWrite(area_addr + ofs, (u32)record, size + 4, (void *)svsys->write_error_func);
 }
 
 
@@ -1503,7 +1504,7 @@ int BACKUP_SYSTEM_WriteCrcTable(BackupSaveData *sv, u32 area)
     flash_addr = sv->data_size + BACKUP_SYSTEM_GetAreaAddr(sv, area);
     flash_addr = flash_addr - 0x10 - sv->crc_table_size;
     crc_table = BACKUP_SYSTEM_GetCrcTable(sv);
-    return FLASH_ACCESS_StartWrite(flash_addr, (u32)crc_table, sv->crc_table_size, svsys->write_error_func);
+    return FLASH_ACCESS_StartWrite(flash_addr, (u32)crc_table, sv->crc_table_size, (void *)svsys->write_error_func);
 }
 
 
@@ -1987,7 +1988,7 @@ void BACKUP_SYSTEM_WriteFlash(u32 flash_addr, u32 src, u32 size)
  */
 u16 BACKUP_SYSTEM_WriteFlashAsync(u32 flash_addr, u32 src, u32 size)
 {
-    return FLASH_ACCESS_StartWrite(flash_addr, src, size, svsys->write_error_func);
+    return FLASH_ACCESS_StartWrite(flash_addr, src, size, (void *)svsys->write_error_func);
 }
 
 

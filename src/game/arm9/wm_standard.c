@@ -150,7 +150,7 @@ typedef struct WMStatus {
 extern WMErrCode WMi_CheckStateEx(s32 paramNum, ...);
 extern void WMi_SetCallbackTable(int id, WMCallbackFunc callback);
 extern void WMi_RegisterSleepCallback(void);
-extern WMArm9Buf *WMi_GetSystemWork(void);
+extern void *WMi_GetSystemWork(void);
 extern WMErrCode WMi_SendCommand(int id, u16 paramNum, ...);
 extern WMErrCode WMi_InitializeEx(void *wmSysBuf, WMCallbackFunc callback, u16 dmaNo, u32 miscFlags);
 extern WMErrCode WM_Init(void *wmSysBuf, u16 dmaNo);

@@ -362,38 +362,45 @@ extern void MI_CpuFill8(void *dest, int value, int size);
 extern struct GameData *GAMESYSTEM_GetGameData(struct GameSystem *gameSystem);
 extern void FLDMMDL_SetAcmd(struct FldMmdl *mmdl, int acmd);
 extern void GFL_USE_PlaySeDefaultVolume(u32 seId);
-extern int FLDMMDL_EndAcmd(struct FldMmdl *mmdl);
+struct Mmdl;
+extern int FLDMMDL_EndAcmd(struct Mmdl *mmdl);
 extern int INTRUDE_COMM_TakeRequestResult(IntrudeCommSys *sys);
 extern u32 KEY_GetTrg(void);
 extern int INTRUDE_COMM_SendAnswer(int netId, int seq);
 extern void INTRUDE_COMM_NextRequestToken(IntrudeCommSys *sys);
-extern int INTRUDE_COMM_SendReply(IntrudeCommSys *sys, int netId, int requestActive, int seq);
+extern int INTRUDE_COMM_SendReply(void *unused, s32 destNetId, s32 answer, s32 seq);
 extern struct GameComm *GAMESYSTEM_GetGameComm(struct GameSystem *gameSystem);
 extern u8 GAME_DATA_GetOwnNetId(struct GameData *gameData);
 extern IntrudeCommSys *INTRUDE_COMM_GetWorkIfRunning(struct GameComm *gameComm);
 extern struct GameEvent *GAME_EVENT_Create(struct GameSystem *gameSystem, struct GameEvent *parent, GameEventFunc func, unsigned int workSize);
 extern void *GAME_EVENT_GetWork(struct GameEvent *event);
 u32 GAME_COMM_GetKind(struct GameComm *gameComm);
-IntrudeCommSys *GAME_COMM_GetWork(struct GameComm *gameComm);
+void *GAME_COMM_GetWork(struct GameComm *gameComm);
 extern struct GameSystem *GAME_EVENT_GetGameSystem(struct GameEvent *event);
 extern void GAME_EVENT_CallEvent(struct GameEvent *event, struct GameEvent *child);
 u32 GFL_NET_ERR_GetErrorLevel(void);
 void GAME_COMM_RequestExitNoCallback(struct GameComm *gameComm);
-extern struct FieldMap *GAMESYSTEM_GetFieldMap(struct GameSystem *gameSystem);
+extern void *GAMESYSTEM_GetFieldMap(struct GameSystem *gameSystem);
 int FIELDMAP_IsReady(struct FieldMap *fieldMap);
 extern void *FIELDMAP_GetMsgBg(struct FieldMap *fieldMap);
 extern void *FIELD_MSGBG_CreateMsgData(void *fieldMsgbg, u32 arcDatId);
-extern void *FIELD_MSGBG_CreateBottomSysWin(void *fieldMsgbg, void *msgData);
-void *FIELD_SOUND_SYSTEM_StartPushAndPlayTask(struct GameSystem *gameSystem, u32 soundId);
+struct MsgData;
+struct FieldMsgBg;
+struct FieldSysWin;
+extern struct FieldSysWin *FIELD_MSGBG_CreateBottomSysWin(struct FieldMsgBg *msgBg, struct MsgData *msgData);
+struct GameEvent *FIELD_SOUND_SYSTEM_StartPushAndPlayTask(struct GameSystem *gameSystem, u32 soundId);
 int GFL_USE_IsBgmPlaying(void);
-void *FIELD_SOUND_SYSTEM_StartPopAndWaitTask(struct GameSystem *gameSystem, u32 popMode, u32 fadeFrames);
-extern int FIELD_MSGBG_SysWinMain(void *printer);
-extern void FIELD_MSGBG_DeleteSysWin(void *printer);
-extern u32 MSGDATA_Delete(void *msgData);
-extern struct GameSystem *SCRCMD_WORK_GetGameSystem(struct ScriptWork *scriptWork);
+struct GameEvent *FIELD_SOUND_SYSTEM_StartPopAndWaitTask(struct GameSystem *gameSystem, u32 popMode, u32 fadeFrames);
+extern u32 FIELD_MSGBG_SysWinMain(struct FieldSysWin *sysWin);
+extern s32 FIELD_MSGBG_DeleteSysWin(struct FieldSysWin *sysWin);
+struct MsgBank;
+extern u32 MSGDATA_Delete(struct MsgBank *bank);
+struct ScrcmdWork;
+extern struct GameSystem *SCRCMD_WORK_GetGameSystem(struct ScrcmdWork *work);
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *file, u16 line);
-extern void *GAMESYSTEM_GetMyPlayerWork(struct GameSystem *gameSystem);
-extern u16 GAME_DATA_GetPlayerZoneId(void *playerWork);
+struct PlayerWork;
+extern struct PlayerWork *GAMESYSTEM_GetMyPlayerWork(struct GameSystem *gameSystem);
+extern u16 GAME_DATA_GetPlayerZoneId(struct PlayerWork *player);
 extern u32 GFL_HEAP_Free(void *memory);
 extern u8 GAME_DATA_GetIntrudeIdByte(struct GameData *gameData);
 extern void GF_PANIC_Fail(const char *expr, u32 line, const char *file);
@@ -401,60 +408,72 @@ extern u32 ZONEDATA_IsEntralink(u32 zoneId);
 extern int INTRUDE_COMM_HasResult(IntrudeSession *session);
 extern int INTRUDE_COMM_IsSessionAccepted(IntrudeSession *session);
 extern struct WordSet *WORDSET_CreateDefault(u32 heapId);
-extern void *STRBUF_Create(u32 capacity, u32 heapId);
-extern void STRBUF_Delete(void *strbuf);
-extern unsigned int WORDSET_Delete(void *wordSet);
-extern void *GAME_DATA_GetMyStatus(struct GameData *gameData);
-extern u8 MYSTATUS_GetSex(void *myStatus);
-extern void *MSGDATA_AllocString(void *msgData, u32 msgId);
+struct Strbuf;
+extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
+extern void STRBUF_Delete(struct Strbuf *strbuf);
+extern unsigned int WORDSET_Delete(struct WordSet *words);
+struct MyStatus;
+extern struct MyStatus *GAME_DATA_GetMyStatus(struct GameData *gameData);
+extern u8 MYSTATUS_GetSex(struct MyStatus *mystatus);
+extern struct Strbuf *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
 extern void *GAME_DATA_GetLastBattleRecSlot(struct GameData *gameData);
-extern void *GAME_DATA_GetMyStatusPlayer(struct GameData *gameData, u32 netId);
-extern void WORDSET_SetSlotMyStatus(void *wordSet, u32 index, void *myStatus);
-extern void MSGDATA_ReadString(void *msgData, u32 msgId, void *dest);
-extern void WORDSET_CopyTaggedText(void *wordSet, void *dest, void *src);
+extern struct MyStatus *GAME_DATA_GetMyStatusPlayer(struct GameData *gameData, u32 netId);
+extern void WORDSET_SetSlotMyStatus(struct WordSet *words, u32 slot, void *source);
+extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, struct Strbuf *dest);
+extern void WORDSET_CopyTaggedText(struct WordSet *words, struct Strbuf *dst, struct Strbuf *src);
 int GFL_NET_GetNegotiationNum(void);
-extern void *GAME_DATA_GetMyStatusByNetId(struct GameData *gameData, int netId);
-void INTRUDE_COMM_SetWordSetRequest(IntrudeMemberRecord *record, IntrudeMemberName *name, void *wordSet, u16 heapId);
+extern struct MyStatus *GAME_DATA_GetMyStatusByNetId(struct GameData *gameData, u32 netId);
+struct IntrudeMemberName;
+struct IntrudeRequestHead;
+void INTRUDE_COMM_SetWordSetRequest(struct IntrudeRequestHead *head, struct IntrudeMemberName *name, struct WordSet *wordSet, u16 heapId);
 extern IntrudeMemberRecord *INTRUDE_COMM_GetActiveSessionRequest(IntrudeSession *session);
 extern struct WordSet *WORDSET_Create(u32 count, u32 length, u16 heapId);
-extern void FIELD_MSGBG_DeleteMsgData(void *msgData);
-extern void FIELD_MSGBG_SysWinPrintStr(void *printer, u32 x, u16 y, void *text);
-extern void FIELD_MSGBG_ClearSysWin(void *printer);
-extern void *FIELD_MSGBG_CreateMsgWin(void *fieldMsgbg, void *msgData, u16 x, u16 y, u16 width, u16 height);
-extern int FIELD_MSGBG_DeleteMsgWin(void *window);
-extern void FIELD_MSGBG_MsgWinPrintStr(void *window, u16 x, u16 y, void *text);
-extern int FIELD_MSGBG_DeleteMenuFunc(void *menu);
-extern void *FIELD_MSGBG_CreateYesNoMenu(void *fieldMsgbg, u32 cursorPos);
-extern int FIELD_MSGBG_YesNoMenuMain(void *menu);
+extern u32 FIELD_MSGBG_DeleteMsgData(struct MsgData *msgData);
+extern void FIELD_MSGBG_SysWinPrintStr(struct FieldSysWin *sysWin, u32 x, u16 y, struct Strbuf *str);
+extern void FIELD_MSGBG_ClearSysWin(struct FieldSysWin *sysWin);
+struct FieldMsgWin;
+extern struct FieldMsgWin *FIELD_MSGBG_CreateMsgWin(struct FieldMsgBg *msgBg, struct MsgData *msgData, u16 x, u16 y, u16 width, u16 height);
+extern int FIELD_MSGBG_DeleteMsgWin(struct FieldMsgWin *msgWin);
+extern void FIELD_MSGBG_MsgWinPrintStr(struct FieldMsgWin *msgWin, s32 x, s32 y, struct Strbuf *str);
+struct FieldMenuFunc;
+extern int FIELD_MSGBG_DeleteMenuFunc(struct FieldMenuFunc *menu);
+extern struct FieldMenuFunc *FIELD_MSGBG_CreateYesNoMenu(struct FieldMsgBg *msgBg, u32 cursorPos);
+extern int FIELD_MSGBG_YesNoMenuMain(struct FieldMenuFunc *menu);
 extern struct GameData *GAME_COMM_GetGameData(struct GameComm *gameComm);
-extern void *SCRCMD_WORK_GetScriptWork(struct ScriptWork *scriptWork);
-extern u16 *SCRIPT_WORK_ReadWorkPointer(ScriptVm *vm, struct ScriptWork *scriptWork);
-extern void SCRIPT_SYS_CallEvent(void *scriptSys, struct GameEvent *event);
+extern struct ScriptWork *SCRCMD_WORK_GetScriptWork(struct ScrcmdWork *work);
+struct ScriptVm;
+extern u16 *SCRIPT_WORK_ReadWorkPointer(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
+extern void SCRIPT_SYS_CallEvent(void *scriptWork, void *task);
 extern u8 GAME_DATA_GetIntrudeId(struct GameData *gameData);
 extern void INTRUDE_COMM_ClearSessionEntries(IntrudeSession *session);
-extern void INTRUDE_FIELD_InitStartParam(IntrudeRemoteRecord *startParam);
+struct IntrudeStartParam;
+extern void INTRUDE_FIELD_InitStartParam(struct IntrudeStartParam *param);
 extern void *FIELD_MSGBG_CreateBottomMsgWin(void *fieldMsgbg, void *msgData);
-extern int FIELD_MSGBG_MsgWinPrintMsg(void *window, u32 x, u32 y, u32 msgId);
-extern int INTRUDE_CMD_SendEntryIndex(IntrudeCommSys *sys, int netId);
-extern int INTRUDE_COMM_GetMemberNameNetId(IntrudeMemberEntry *entry);
-extern int INTRUDE_COMM_SendReady(IntrudeCommSys *sys, int netId);
-extern u8 INTRUDE_FIELD_GetStartKind(IntrudeRemoteRecord *startParam);
-extern int FIELD_MSGBG_IsMsgWinTransDone(void *window);
+extern int FIELD_MSGBG_MsgWinPrintMsg(struct FieldMsgWin *msgWin, s32 x, s32 y, u32 msgId);
+struct IntrudeCommSys;
+extern int INTRUDE_CMD_SendEntryIndex(struct IntrudeCommSys *unused, s32 entryIndex);
+extern int INTRUDE_COMM_GetMemberNameNetId(struct IntrudeMemberName *name);
+extern int INTRUDE_COMM_SendReady(struct IntrudeCommSys *unused, u8 destNetId);
+extern u8 INTRUDE_FIELD_GetStartKind(struct IntrudeStartParam *param);
+extern int FIELD_MSGBG_IsMsgWinTransDone(struct FieldMsgWin *msgWin);
 extern struct GameEvent *INTRUDE_FIELD_CreateOfferInfoEvent(struct GameSystem *gameSystem, struct FieldMap *fieldMap, IntrudeCommSys *sys, u16 senderNetId);
 extern void GAME_EVENT_ChangeEvent(struct GameEvent *event, struct GameEvent *next);
 extern u8 INTRUDE_COMM_GetRequesterNetId(IntrudeCommSys *sys, IntrudeSession *session);
-extern void *GAME_DATA_GetSaveControl(struct GameData *gameData);
-extern void *INTRUDE_GetFromSave(void *saveControl);
-extern u8 INTRUDE_GetMonolithLevel(void *battleRec);
-extern void *FIELDMAP_GetMmdlSys(struct FieldMap *fieldMap);
-extern void FLDMMDL_SysPauseMove(void *mmdlSys);
-extern u32 *FLDMMDL_SysResumeMove(void *mmdlSys);
+struct SaveControl;
+extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gameData);
+struct IntrudeSave;
+extern struct IntrudeSave *INTRUDE_GetFromSave(struct SaveControl *save);
+extern u8 INTRUDE_GetMonolithLevel(struct IntrudeSave *intrude);
+struct MmdlSys;
+extern struct MmdlSys *FIELDMAP_GetMmdlSys(struct FieldMap *fieldMap);
+extern void FLDMMDL_SysPauseMove(struct MmdlSys *sys);
+extern void FLDMMDL_SysResumeMove(struct MmdlSys *sys);
 extern void INTRUDE_COMM_InitRequest(IntrudeCommSys *sys, int netId);
 extern void INTRUDE_COMM_ClearNotice(IntrudeCommSys *sys);
 extern void INTRUDE_COMM_ClearRequestOpen(IntrudeCommSys *sys);
 extern int COMM_PLAYER_CheckActive(struct CommPlayerWork *commPlayer, int netId);
-extern struct FldMmdl *COMM_PLAYER_GetMmdl(struct CommPlayerWork *commPlayer, int netId);
-extern void MYSTATUS_Copy(void *src, void *dest);
+extern u32 COMM_PLAYER_GetMmdl(struct CommPlayerWork *commPlayer, int netId);
+extern void MYSTATUS_Copy(struct MyStatus *src, struct MyStatus *dest);
 extern int INTRUDE_COMM_IsSessionActive(IntrudeSession *session);
 extern void MI_CpuCopy8(const void *src, void *dest, int size);
 extern void INTRUDE_COMM_SetState(IntrudeCommSys *sys, int state);
@@ -466,50 +485,54 @@ extern int INTRUDE_COMM_TakeNoticeState(IntrudeSession *session);
 extern void INTRUDE_COMM_ClearRequestResult(IntrudeCommSys *sys);
 extern int INTRUDE_COMM_SendNoticeBytes(int netId, int answer);
 extern u8 *INTRUDE_COMM_GetNotice(IntrudeCommSys *sys);
-extern int FLDMMDL_CheckPossibleAcmd(struct FldMmdl *mmdl);
+extern int FLDMMDL_CheckPossibleAcmd(struct Mmdl *mmdl);
 extern struct GameSystem *FIELDMAP_GetGameSystem(struct FieldMap *fieldMap);
 u16 FIELDMAP_GetHeapId(struct FieldMap *fieldMap);
 int INTRUDE_COMM_HasResultReward(IntrudeCommSys *sys, IntrudeSession *session);
 u8 INTRUDE_COMM_GetPartnerTallyValid(IntrudeCommSys *sys);
 int INTRUDE_COMM_GetResultCount(IntrudeCommSys *sys, IntrudeSession *session);
-void INTRUDE_AddMissionBonusScore(void *battleRec, s32 count);
-void INTRUDE_AddMissionScore(void *battleRec, s32 count);
+void INTRUDE_AddMissionBonusScore(struct IntrudeSave *intrude, s32 add);
+void INTRUDE_AddMissionScore(struct IntrudeSave *intrude, s32 add);
 void *GAME_DATA_GetMyItem(struct GameData *gameData);
-u32 MYITEM_SAVEDATA_GetItemQuantity(void *myItem, u16 itemId, u16 heapId);
+struct MyItem;
+u32 MYITEM_SAVEDATA_GetItemQuantity(struct MyItem *bag, u16 itemId, u16 heapId);
 u32 MYITEM_SAVEDATA_GetMaxStack(u32 itemId);
-u32 MYITEM_SAVEDATA_AddItem(void *myItem, u16 itemId, u16 count, u16 heapId);
-u32 INTRUDE_IncrementMissionClearCount(void *record);
-void WORDSET_SetSlotNumber(void *wordSet, u32 index, u32 number, u32 digits, u32 dispType, u32 codeType);
-extern void GAME_EVENT_Change(struct GameEvent *event, GameEventFunc func, int workSize);
+u32 MYITEM_SAVEDATA_AddItem(struct MyItem *bag, u16 itemId, u16 quantity, u16 heapId);
+u32 INTRUDE_IncrementMissionClearCount(struct IntrudeSave *intrude);
+void WORDSET_SetSlotNumber(struct WordSet *words, u32 slot, u32 number, u32 topDigitIndex, u32 padMode, u32 isHalfWidth);
+extern void GAME_EVENT_Change(struct GameEvent *event, GameEventFunc func, u32 workSize);
 int INTRUDE_CMD_SendProposal(IntrudeCommSys *sys, IntrudeSession *session);
 int INTRUDE_COMM_GetJoinStatus(IntrudeCommSys *sys, IntrudeSession *session);
-void WORDSET_SetSlotFromMsgA0(void *wordSet, u32 index, s32 value);
+void WORDSET_SetSlotFromMsgA0(struct WordSet *words, u32 slot, s32 entryIndex);
 struct GameEvent *GAME_EVENT_CreateOverlayEvent(struct GameSystem *gameSystem, u32 overlayId, struct GameEvent *(*createFunc)(struct GameSystem *gameSystem, void *param), void *param);
 struct GameEvent *GPOWER_EVENT_CreateActivateEvent(struct GameSystem *gameSystem, void *param);
 int INTRUDE_COMM_TogglePeerFlags(IntrudeCommSys *sys, int flags, int netId);
-void INTRUDE_COMM_SetLock(IntrudeCommSys *sys, int locked);
-int INTRUDE_COMM_SendPeerFlags(IntrudeCommSys *sys, int netId, int flags);
-struct GameEvent *INTRUDE_LINK_CreateEvent(struct GameSystem *gameSystem, EventCommBattleParam *param);
-void INTRUDE_COMM_PickEntryForKind(void *battleRec, u32 key);
-int INTRUDE_COMM_SendSupportMode(IntrudeCommSys *sys, int netId, int mode);
-void *GAME_DATA_GetPmsWork(struct GameData *gameData);
-void *MYSTATUS_Create(u32 heapId);
+struct IntrudeCommSys;
+void INTRUDE_COMM_SetLock(struct IntrudeCommSys *work, u32 value);
+int INTRUDE_COMM_SendPeerFlags(struct IntrudeCommSys *unused, u8 netId, s32 flags, ...);
+struct GameEvent *INTRUDE_LINK_CreateEvent(struct GameSystem *gameSystem, void *procArg);
+struct IntrudeSaveSlot;
+void INTRUDE_COMM_PickEntryForKind(struct IntrudeSaveSlot *save, u32 kind);
+int INTRUDE_COMM_SendSupportMode(struct IntrudeCommSys *unused, u8 netId, s32 mode, ...);
+s32 GAME_DATA_GetPmsWork(struct GameData *gameData);
+void *MYSTATUS_Create(s32 heap_id);
 void *COMM_PLAYER_SUPPORT_GetActiveRecord(void *pmsWork);
-struct GameEvent *SCRIPT_SYS_CreateScriptEventSimple(struct GameSystem *gameSystem, int scriptId, int param, int heapId);
+struct GameEvent *SCRIPT_SYS_CreateScriptEventSimple(void *fieldSys, u16 scriptId, void *target, s32 reserved);
 void *SCRIPT_SYS_GetEventScriptWork(struct GameEvent *event);
-int SCRIPT_WORK_SetParams(void *scriptWork, int scriptParam0, int scriptParam1, int scriptParam2, u16 scriptParam3);
-extern u32 MYSTATUS_CopyNameChars(void *myStatus, void *dest, u32 size);
-int INTRUDE_COMM_SendProfile(u32 netId, void *name);
-void WORDSET_SetSlotFromMsg36(void *wordSet, u32 index, u32 itemId);
+int SCRIPT_WORK_SetParams(struct ScriptWork *work, s32 param0, s32 param1, s32 param2, u16 param3);
+extern void MYSTATUS_CopyNameChars(u16 *src, u16 *dest, u32 n);
+int INTRUDE_COMM_SendProfile(u8 netId, void *profile);
+void WORDSET_SetSlotFromMsg36(struct WordSet *words, u32 slot, u32 entryIndex);
 extern int INTRUDE_COMM_IsValidProfileCode(u32 itemId);
 extern void *GAME_DATA_GetMiscSave(struct GameData *gameData);
-extern u32 MISC_GetMoney(void *miscSave);
-extern u32 MISC_SubMoney(void *miscSave, u32 amount);
-extern u32 MYITEM_SAVEDATA_CanAddItem(void *myItem, u16 itemId, u16 count, u16 heapId);
+struct MiscSave;
+extern u32 MISC_GetMoney(struct MiscSave *beacon);
+extern u32 MISC_SubMoney(struct MiscSave *beacon, u32 sub);
+extern u32 MYITEM_SAVEDATA_CanAddItem(struct MyItem *bag, u16 itemId, u16 quantity, u16 heapId);
 extern int INTRUDE_SUBDISP_MainRequestAnswerSeq(IntrudeCommSys *sys, EventCommCommonWork *work, u8 *answerSeq);
-struct GameEvent *INTRUDE_SUBDISP_CreatePalaceWarpEvent(struct GameSystem *gameSystem);
-struct GameEvent *INTRUDE_SUBDISP_CreateDisconnectEvent(struct GameSystem *gameSystem, int mode);
-extern struct GameEvent *INTRUDE_SUBDISP_CreateTownWarpEvent(struct GameSystem *gameSystem, struct FieldMap *fieldMap, u16 zoneId, int mode);
+void *INTRUDE_SUBDISP_CreatePalaceWarpEvent(void *gameSystem);
+s32 INTRUDE_SUBDISP_CreateDisconnectEvent(void *gameSystem, s32 cause);
+extern void *INTRUDE_SUBDISP_CreateTownWarpEvent(void *gameSystem, void *fieldMap, u16 zoneId, s32 mode);
 void EVENT_COMM_COMMON_InitMsgBox(EventCommMsgBox *msgBox, struct GameSystem *gameSystem);
 void EVENT_COMM_COMMON_ExitMsgBox(EventCommMsgBox *msgBox);
 void EVENT_COMM_COMMON_SetupPrintWin(EventCommMsgBox *msgBox);
@@ -752,7 +775,7 @@ void EVENT_COMM_COMMON_PrintText(EventCommMsgBox *msgBox, void *text)
 
 void EVENT_COMM_COMMON_PrintMsg(EventCommMsgBox *msgBox, u16 msgId)
 {
-    MSGDATA_ReadString(msgBox->msgData, msgId, msgBox->templateText);
+    MSGDATA_ReadString((struct MsgBank *)msgBox->msgData, msgId, msgBox->templateText);
     WORDSET_CopyTaggedText(msgBox->wordSet, msgBox->text, msgBox->templateText);
     EVENT_COMM_COMMON_PrintText(msgBox, msgBox->text);
 }
@@ -944,9 +967,9 @@ int EVENT_COMM_COMMON_GetPeerTalkStatus(IntrudeCommSys *sys, u8 netId)
  */
 int EVENT_COMM_COMMON_CmdCallExitSyncEvent(ScriptVm *vm, struct ScriptWork *scriptWork)
 {
-    void *scriptSys = SCRCMD_WORK_GetScriptWork(scriptWork);
-    struct GameSystem *gameSystem = SCRCMD_WORK_GetGameSystem(scriptWork);
-    SCRIPT_SYS_CallEvent(scriptSys, EVENT_COMM_COMMON_CreateExitSyncEvent(gameSystem, SCRIPT_WORK_ReadWorkPointer(vm, scriptWork)));
+    void *scriptSys = (struct ScrcmdWork *)SCRCMD_WORK_GetScriptWork((struct ScrcmdWork *)scriptWork);
+    struct GameSystem *gameSystem = SCRCMD_WORK_GetGameSystem((struct ScrcmdWork *)scriptWork);
+    SCRIPT_SYS_CallEvent(scriptSys, EVENT_COMM_COMMON_CreateExitSyncEvent(gameSystem, SCRIPT_WORK_ReadWorkPointer(vm, (struct ScrcmdWork *)scriptWork)));
     return 1;
 }
 
@@ -998,7 +1021,7 @@ int EVENT_COMM_COMMON_ExitSyncEventMain(struct GameEvent *event, int *seq, void 
         }
         if (sys != 0) {
             INTRUDE_COMM_ClearSessionEntries(&sys->session);
-            INTRUDE_FIELD_InitStartParam(&sys->remoteRecord);
+            INTRUDE_FIELD_InitStartParam((struct IntrudeStartParam *)(&sys->remoteRecord));
         }
         fieldMsgbg = FIELDMAP_GetMsgBg(fieldMap);
         work->msgData = FIELD_MSGBG_CreateMsgData(fieldMsgbg, 0x2D);
@@ -1034,7 +1057,7 @@ int EVENT_COMM_COMMON_ExitSyncEventMain(struct GameEvent *event, int *seq, void 
         }
         break;
     case 2:
-        if (INTRUDE_COMM_GetMemberNameNetId(&sys->session.members[GAME_DATA_GetIntrudeIdByte(gameData)]) == 1) {
+        if (INTRUDE_COMM_GetMemberNameNetId((struct IntrudeMemberName *)(&sys->session.members[GAME_DATA_GetIntrudeIdByte(gameData)])) == 1) {
             (*seq)++;
         }
         break;
@@ -1044,7 +1067,7 @@ int EVENT_COMM_COMMON_ExitSyncEventMain(struct GameEvent *event, int *seq, void 
         }
         break;
     case 4:
-        if (INTRUDE_FIELD_GetStartKind(&sys->remoteRecord) == 1) {
+        if (INTRUDE_FIELD_GetStartKind((struct IntrudeStartParam *)(&sys->remoteRecord)) == 1) {
             *work->result = 1;
             *seq = 5;
         }
@@ -1079,8 +1102,8 @@ int EVENT_COMM_COMMON_CmdGetObjCode(ScriptVm *vm, struct ScriptWork *scriptWork)
     u16 *result;
     IntrudeCommSys *sys;
     int unused;
-    result = SCRIPT_WORK_ReadWorkPointer(vm, scriptWork);
-    sys = INTRUDE_COMM_GetWorkIfRunning(GAMESYSTEM_GetGameComm(SCRCMD_WORK_GetGameSystem(scriptWork)));
+    result = SCRIPT_WORK_ReadWorkPointer(vm, (struct ScrcmdWork *)scriptWork);
+    sys = INTRUDE_COMM_GetWorkIfRunning(GAMESYSTEM_GetGameComm(SCRCMD_WORK_GetGameSystem((struct ScrcmdWork *)scriptWork)));
     if (sys == 0 || sys->localPeer.objCode == 0) {
         *result = 0;
     } else {
@@ -1097,8 +1120,8 @@ int EVENT_COMM_COMMON_CmdCheckMissionInfoPending(ScriptVm *vm, struct ScriptWork
     IntrudeCommSys *sys;
     int value;
 
-    result = SCRIPT_WORK_ReadWorkPointer(vm, scriptWork);
-    sys = INTRUDE_COMM_GetWorkIfRunning(GAMESYSTEM_GetGameComm(SCRCMD_WORK_GetGameSystem(scriptWork)));
+    result = SCRIPT_WORK_ReadWorkPointer(vm, (struct ScrcmdWork *)scriptWork);
+    sys = INTRUDE_COMM_GetWorkIfRunning(GAMESYSTEM_GetGameComm(SCRCMD_WORK_GetGameSystem((struct ScrcmdWork *)scriptWork)));
     if (sys != 0 && sys->infoShown == 0 && INTRUDE_COMM_IsSessionAccepted(&sys->session) == 1) {
         value = 1;
     } else {
@@ -1113,8 +1136,8 @@ int EVENT_COMM_COMMON_CmdCheckMissionInfoPending(ScriptVm *vm, struct ScriptWork
 int EVENT_COMM_COMMON_CmdCallMissionInfoEvent(ScriptVm *vm, struct ScriptWork *scriptWork)
 {
     void *scriptSys;
-    scriptSys = SCRCMD_WORK_GetScriptWork(scriptWork);
-    SCRIPT_SYS_CallEvent(scriptSys, EVENT_COMM_COMMON_CreateMissionInfoEvent(SCRCMD_WORK_GetGameSystem(scriptWork)));
+    scriptSys = (struct ScrcmdWork *)SCRCMD_WORK_GetScriptWork((struct ScrcmdWork *)scriptWork);
+    SCRIPT_SYS_CallEvent(scriptSys, EVENT_COMM_COMMON_CreateMissionInfoEvent(SCRCMD_WORK_GetGameSystem((struct ScrcmdWork *)scriptWork)));
     return 1;
 }
 
@@ -1247,8 +1270,8 @@ int EVENT_COMM_COMMON_CmdGetIntrudeDistance(ScriptVm *vm, struct ScriptWork *scr
     struct GameData *gameData;
     int distance;
 
-    result = SCRIPT_WORK_ReadWorkPointer(vm, scriptWork);
-    gameSystem = SCRCMD_WORK_GetGameSystem(scriptWork);
+    result = SCRIPT_WORK_ReadWorkPointer(vm, (struct ScrcmdWork *)scriptWork);
+    gameSystem = SCRCMD_WORK_GetGameSystem((struct ScrcmdWork *)scriptWork);
     GAMESYSTEM_GetGameComm(gameSystem);
     gameData = GAMESYSTEM_GetGameData(gameSystem);
     if (GAME_DATA_GetIntrudeIdByte(gameData) == GAME_DATA_GetOwnNetId(gameData)) {
@@ -1269,8 +1292,8 @@ int EVENT_COMM_COMMON_CmdCheckBattleRecState(ScriptVm *vm, struct ScriptWork *sc
 {
     u16 *result;
     int value;
-    result = SCRIPT_WORK_ReadWorkPointer(vm, scriptWork);
-    if (INTRUDE_GetMonolithLevel(INTRUDE_GetFromSave(GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData(SCRCMD_WORK_GetGameSystem(scriptWork))))) != 0x30) {
+    result = SCRIPT_WORK_ReadWorkPointer(vm, (struct ScrcmdWork *)scriptWork);
+    if (INTRUDE_GetMonolithLevel(INTRUDE_GetFromSave(GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData(SCRCMD_WORK_GetGameSystem((struct ScrcmdWork *)scriptWork))))) != 0x30) {
         value = 1;
     } else {
         value = 0;
@@ -1403,11 +1426,11 @@ void EVENT_COMM_COMMON_InitCommonWork(struct GameSystem *gameSystem, IntrudeComm
     work->heapId = heapId;
     work->playerMmdl = playerMmdl;
     partnerNetId = netId;
-    work->partnerMmdl = COMM_PLAYER_GetMmdl(sys->commPlayer, partnerNetId);
+    work->partnerMmdl = (struct FldMmdl *)COMM_PLAYER_GetMmdl(sys->commPlayer, partnerNetId);
     work->fieldMap = fieldMap;
     work->peerSlot = (u8)netId;
     work->msgIndex = EVENT_COMM_COMMON_GetPeerTalkStatus(sys, (u8)netId);
-    MYSTATUS_Copy(GAME_DATA_GetMyStatusByNetId(GAMESYSTEM_GetGameData(gameSystem), partnerNetId), work->myStatus);
+    MYSTATUS_Copy((struct MyStatus *)(GAME_DATA_GetMyStatusByNetId(GAMESYSTEM_GetGameData(gameSystem), partnerNetId)), (struct MyStatus *)work->myStatus);
     if (INTRUDE_COMM_IsSessionActive(&sys->session) == 1) {
         MI_CpuCopy8(INTRUDE_COMM_GetActiveSessionRequest(&sys->session), &work->member, 0x34);
     }
@@ -1589,7 +1612,7 @@ int EVENT_COMM_COMMON_TalkedEventMain(struct GameEvent *event, int *seq, void *w
         (*seq)++;
         break;
     case 1:
-        if (FLDMMDL_CheckPossibleAcmd(work->common.playerMmdl) == 1) {
+        if (FLDMMDL_CheckPossibleAcmd((struct Mmdl *)work->common.playerMmdl) == 1) {
             dir = sys->peers[work->common.peerSlot].package.zoneId;
             if (dir == 2) {
                 acmd = 3;
@@ -1606,7 +1629,7 @@ int EVENT_COMM_COMMON_TalkedEventMain(struct GameEvent *event, int *seq, void *w
         }
         break;
     case 2:
-        if (FLDMMDL_EndAcmd(work->common.playerMmdl) == 1) {
+        if (FLDMMDL_EndAcmd((struct Mmdl *)work->common.playerMmdl) == 1) {
             (*seq)++;
         }
         break;
@@ -1873,7 +1896,7 @@ int EVENT_COMM_COMMON_MissionResultEventMain(struct GameEvent *event, int *seq, 
         }
         break;
     case 1:
-        INTRUDE_COMM_SetWordSetRequest(&work->result.record, &work->result.record.name, work->msgBox.wordSet, work->heapId);
+        INTRUDE_COMM_SetWordSetRequest((struct IntrudeRequestHead *)(&work->result.record), &work->result.record.name, work->msgBox.wordSet, work->heapId);
         EVENT_COMM_COMMON_SetupListWindowB(&work->msgBox, gameSystem, 1, 4, 0x1E, 0x10);
         EVENT_COMM_COMMON_PrintListWindowB(&work->msgBox, work->missionKind, 8, 0);
         EVENT_COMM_COMMON_PrintListWindowB(&work->msgBox, work->missionPoint, 8, 0x10);
@@ -1957,7 +1980,7 @@ int EVENT_COMM_COMMON_MissionResultEventMain(struct GameEvent *event, int *seq, 
         break;
     case 12:
         EVENT_COMM_COMMON_ExitMsgBox(&work->msgBox);
-        GAME_EVENT_ChangeEvent(event, INTRUDE_SUBDISP_CreateDisconnectEvent(gameSystem, 0));
+        GAME_EVENT_ChangeEvent(event, (struct GameEvent *)INTRUDE_SUBDISP_CreateDisconnectEvent(gameSystem, 0));
         return 0;
     }
     return 0;
@@ -2597,9 +2620,9 @@ int EVENT_COMM_COMMON_BattleRequestEventMain(struct GameEvent *event, int *seq, 
         if (work->battleDone == 1) {
             next = EVENT_COMM_COMMON_CreateMissionResultEvent(gameSystem, work->battleDone);
         } else if (work->canceled == 0) {
-            next = INTRUDE_SUBDISP_CreateDisconnectEvent(gameSystem, 1);
+            next = (struct GameEvent *)INTRUDE_SUBDISP_CreateDisconnectEvent(gameSystem, 1);
         } else {
-            next = INTRUDE_SUBDISP_CreateDisconnectEvent(gameSystem, 0);
+            next = (struct GameEvent *)INTRUDE_SUBDISP_CreateDisconnectEvent(gameSystem, 0);
         }
         GAME_EVENT_ChangeEvent(event, next);
         return 0;
@@ -3018,7 +3041,7 @@ int EVENT_COMM_COMMON_SearchFoundEventMain(struct GameEvent *event, int *seq, vo
         break;
     case 3:
         work->achieved = 1;
-        INTRUDE_COMM_SetWordSetRequest(&work->common.member, &work->common.member.name, work->common.msgBox.wordSet, work->common.heapId);
+        INTRUDE_COMM_SetWordSetRequest((struct IntrudeRequestHead *)(&work->common.member), &work->common.member.name, work->common.msgBox.wordSet, work->common.heapId);
         EVENT_COMM_COMMON_PrintMsg(&work->common.msgBox, sSearchFoundMsgIdsA[work->common.msgIndex]);
         (*seq)++;
         break;
@@ -3031,7 +3054,7 @@ int EVENT_COMM_COMMON_SearchFoundEventMain(struct GameEvent *event, int *seq, vo
         break;
     case 5:
         work->achieved = 1;
-        INTRUDE_COMM_SetWordSetRequest(&work->common.member, &work->common.member.name, work->common.msgBox.wordSet, work->common.heapId);
+        INTRUDE_COMM_SetWordSetRequest((struct IntrudeRequestHead *)(&work->common.member), &work->common.member.name, work->common.msgBox.wordSet, work->common.heapId);
         EVENT_COMM_COMMON_PrintMsg(&work->common.msgBox, sSearchFoundOtherMsgIds[work->common.msgIndex]);
         *seq = 6;
         break;
@@ -3064,7 +3087,7 @@ struct GameEvent *EVENT_COMM_COMMON_CreateSupportMsgEvent(struct GameSystem *gam
     struct GameEvent *event;
     EventCommSupportMsgWork *work;
 
-    pmsWork = GAME_DATA_GetPmsWork(GAMESYSTEM_GetGameData(gameSystem));
+    pmsWork = (void *)GAME_DATA_GetPmsWork(GAMESYSTEM_GetGameData(gameSystem));
     event = GAME_EVENT_Create(gameSystem, 0, EVENT_COMM_COMMON_SupportMsgEventMain, sizeof(EventCommSupportMsgWork));
     work = GAME_EVENT_GetWork(event);
     work->myStatus = MYSTATUS_Create(heapId);
@@ -3319,7 +3342,7 @@ struct GameEvent *EVENT_COMM_COMMON_CreateOfferAnswerEvent(struct GameSystem *ga
     myStatus = GAME_DATA_GetMyStatus(gameData);
     event = GAME_EVENT_Create(gameSystem, 0, EVENT_COMM_COMMON_OfferAnswerEventMain, sizeof(EventCommOfferWork));
     work = GAME_EVENT_GetWork(event);
-    MYSTATUS_CopyNameChars(myStatus, work->myName, 8);
+    MYSTATUS_CopyNameChars((u16 *)myStatus, (u16 *)work->myName, 8);
     work->itemId = param->y;
     work->offerArg = param->x;
     work->senderNetId = offer->name.netId;
@@ -3530,10 +3553,10 @@ int EVENT_COMM_COMMON_ItemSaleEventMain(struct GameEvent *event, int *seq, void 
             return 0;
         }
         if (work->canceled == 0) {
-            GAME_EVENT_ChangeEvent(event, INTRUDE_SUBDISP_CreateDisconnectEvent(gameSystem, 2));
+            GAME_EVENT_ChangeEvent(event, (struct GameEvent *)INTRUDE_SUBDISP_CreateDisconnectEvent(gameSystem, 2));
             return 0;
         }
-        GAME_EVENT_ChangeEvent(event, INTRUDE_SUBDISP_CreateDisconnectEvent(gameSystem, 0));
+        GAME_EVENT_ChangeEvent(event, (struct GameEvent *)INTRUDE_SUBDISP_CreateDisconnectEvent(gameSystem, 0));
         return 0;
     }
     return 0;
@@ -3869,7 +3892,7 @@ int EVENT_COMM_COMMON_MsgScriptEventMain(struct GameEvent *event, int *seq, void
         break;
     case 4:
         EVENT_COMM_COMMON_ExitCommonWork(sys, &work->common);
-        GAME_EVENT_ChangeEvent(event, INTRUDE_SUBDISP_CreateDisconnectEvent(gameSystem, 0));
+        GAME_EVENT_ChangeEvent(event, (struct GameEvent *)INTRUDE_SUBDISP_CreateDisconnectEvent(gameSystem, 0));
         return 0;
     }
     return 0;

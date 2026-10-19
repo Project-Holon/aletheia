@@ -70,40 +70,46 @@ typedef struct MoveSelectEventWork {
     u16 *retDecided;    /* 1 = a move slot was picked */
     u16 *retMovePos;
 } MoveSelectEventWork;
+struct GameSystem;
+struct GameData;
 
-extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
+extern struct GameData *GAMESYSTEM_GetGameData(struct GameSystem *gameSystem);
 
-extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
+extern void *GAMESYSTEM_GetFieldMap(struct GameSystem *gameSystem);
 
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
 extern u32 GFL_HEAP_Free(void *p);
 
-extern void *GAME_DATA_GetMyParty(const struct BigObj *p);
+extern void *GAME_DATA_GetMyParty(struct GameData *gd);
 
 extern struct Desc *GAME_EVENT_Create(void *owner, void *a, void *b, u32 size);
+struct GameEvent;
 
-extern void *GAME_EVENT_GetWork(struct Obj *p);
+extern void *GAME_EVENT_GetWork(struct GameEvent *event);
 
 extern void *ZUKAN_SAVE_GetFromGameData(void *a);
+struct ZukanSave;
 
-extern u32 ZUKAN_SAVE_IsNationalDexEnabled(struct Blk37 *p);
+extern u32 ZUKAN_SAVE_IsNationalDexEnabled(struct ZukanSave *pZukan);
+struct Party;
 
-extern u32 POKEPARTY_GetCount(void *p);
+extern u32 POKEPARTY_GetCount(struct Party *party);
+struct FieldMap;
 
-extern void *EVENT_FIELDMAP_CONTROL_StartFadeOut(void *, void *, int, int);
+extern struct GameEvent *EVENT_FIELDMAP_CONTROL_StartFadeOut(struct GameSystem *gameSystem, struct FieldMap *fieldMap, int effect, int skipWait);
 
-extern void *EVENT_FIELDMAP_CONTROL_StartFadeIn(void *, void *, int, int, int, int, int);
+extern struct GameEvent *EVENT_FIELDMAP_CONTROL_StartFadeIn(struct GameSystem *gameSystem, struct FieldMap *fieldMap, int effect, int skipWait, int restoreBg, unsigned char seasonShown, unsigned char seasonTarget);
 
-extern void GAME_EVENT_CallEvent(struct Evt *evt, struct Evt **out);
+extern void GAME_EVENT_CallEvent(struct GameEvent *parent, struct GameEvent *child);
 
-extern int FIELD_STATUS_CreateFieldCloseEvent(int gameSystem, int fieldMap);
+extern struct GameEvent *FIELD_STATUS_CreateFieldCloseEvent(struct GameSystem *gameSystem, struct FieldMap *fieldMap);
 
-extern void *FIELD_STATUS_CreateSubProcListEvent(char *anime, int slot, int config, int target);
+extern void *FIELD_STATUS_CreateSubProcListEvent(void *anime, int slot, int config, int target);
 
-extern void *FIELD_STATUS_CreateFieldOpenEvent(void *);
+extern struct GameEvent *FIELD_STATUS_CreateFieldOpenEvent(struct GameSystem *gameSystem);
 
-extern void GAMESYSTEM_CallProc(struct IcaAnime *p, u32 id, void *a, void *b);
+extern void GAMESYSTEM_CallProc(struct GameSystem *gameSystem, u32 overlayId, void *procData, void *param);
 
 int EVENT_POKE_STATUS_PokeSelectEvent(void *event, u32 *seq, PokeListEventWork *work);
 
@@ -142,7 +148,7 @@ void *EVENT_POKE_STATUS_CreatePokeSelectEvent(int gameSystem, u16 *retDecided, u
 
 void *EVENT_POKE_STATUS_CreatePokeSelectMoveEvent(int gameSystem, int retDecided, int retSlot, int fieldIndex, unsigned short moveId)
 {
-    void *party = GAME_DATA_GetMyParty(GAMESYSTEM_GetGameData((const struct Ctx *)gameSystem));
+    void *party = GAME_DATA_GetMyParty(GAMESYSTEM_GetGameData((struct GameSystem *)gameSystem));
     PokeListParam *listParam = GFL_HEAP_Alloc(4, 0x98, 1, d_021728CC, 0x66);
     void *event;
     PokeListEventWork *work;
@@ -165,7 +171,7 @@ void *EVENT_POKE_STATUS_CreatePokeSelectMoveEvent(int gameSystem, int retDecided
 
 void *EVENT_POKE_STATUS_CreatePokeSelectStatusEvent(int gameSystem, int retDecided, int retSlot)
 {
-    void *gameData = GAMESYSTEM_GetGameData((const struct Ctx *)gameSystem);
+    void *gameData = GAMESYSTEM_GetGameData((struct GameSystem *)gameSystem);
     void *party = GAME_DATA_GetMyParty(gameData);
     int zukanSave = (int)ZUKAN_SAVE_GetFromGameData(gameData);
     PokeListParam *listParam = GFL_HEAP_Alloc(4, 0x98, 1, d_021728CC, 0x90);
@@ -183,7 +189,7 @@ void *EVENT_POKE_STATUS_CreatePokeSelectStatusEvent(int gameSystem, int retDecid
     statusParam->mode = 1;
     statusParam->max = POKEPARTY_GetCount(party);
     statusParam->page = 0;
-    statusParam->isNationalDex = ZUKAN_SAVE_IsNationalDexEnabled((struct Blk37 *)zukanSave);
+    statusParam->isNationalDex = ZUKAN_SAVE_IsNationalDexEnabled((struct ZukanSave *)zukanSave);
     statusParam->canUseButtons = 0;
     event = GAME_EVENT_Create((void *)gameSystem, 0, EVENT_POKE_STATUS_PokeSelectEvent, 0x18);
     work = GAME_EVENT_GetWork(event);
@@ -207,7 +213,7 @@ int EVENT_POKE_STATUS_PokeSelectEvent(void *event, u32 *seq, PokeListEventWork *
         *seq = 1;
         break;
     case 1:
-        GAME_EVENT_CallEvent(event, (struct Evt **)FIELD_STATUS_CreateFieldCloseEvent((int)gameSystem, (int)work->fieldMap));
+        GAME_EVENT_CallEvent((struct GameEvent *)event, (struct GameEvent *)FIELD_STATUS_CreateFieldCloseEvent(gameSystem, work->fieldMap));
         *seq = 2;
         break;
     case 2:
@@ -215,7 +221,7 @@ int EVENT_POKE_STATUS_PokeSelectEvent(void *event, u32 *seq, PokeListEventWork *
         *seq = 3;
         break;
     case 3:
-        GAME_EVENT_CallEvent(event, FIELD_STATUS_CreateFieldOpenEvent(gameSystem));
+        GAME_EVENT_CallEvent((struct GameEvent *)event, (struct GameEvent *)FIELD_STATUS_CreateFieldOpenEvent(gameSystem));
         *seq = 4;
         break;
     case 4:
@@ -241,7 +247,7 @@ int EVENT_POKE_STATUS_PokeSelectEvent(void *event, u32 *seq, PokeListEventWork *
 
 int EVENT_POKE_STATUS_CreateMoveSelectEvent(int gameSystem, int fieldMap, int pos, int retDecided, int retMovePos, int mode, unsigned short newMove)
 {
-    int gameData = (int)GAMESYSTEM_GetGameData((const struct Ctx *)gameSystem);
+    int gameData = (int)GAMESYSTEM_GetGameData((struct GameSystem *)gameSystem);
     void *party = GAME_DATA_GetMyParty((void *)gameData);
     PStatusParam *param = (PStatusParam *)GFL_HEAP_Alloc(4, 0x98, 1, (const char *)&d_021728CC, 0x11d);
     int event;
@@ -257,7 +263,7 @@ int EVENT_POKE_STATUS_CreateMoveSelectEvent(int gameSystem, int fieldMap, int po
     param->canUseButtons = 0;
     param->config = (void *)gameData;
     event = (int)GAME_EVENT_Create((void *)gameSystem, 0, EVENT_POKE_STATUS_MoveSelectEvent, 0x14);
-    work = GAME_EVENT_GetWork((struct Obj *)event);
+    work = GAME_EVENT_GetWork((struct GameEvent *)event);
     work->gameSystem = (void *)gameSystem;
     work->fieldMap = (void *)fieldMap;
     work->param = param;
@@ -280,7 +286,7 @@ int EVENT_POKE_STATUS_MoveSelectEvent(void *event, u32 *seq, MoveSelectEventWork
         *seq = 1;
         break;
     case 1:
-        GAME_EVENT_CallEvent(event, (struct Evt **)FIELD_STATUS_CreateFieldCloseEvent((int)gameSystem, (int)work->fieldMap));
+        GAME_EVENT_CallEvent((struct GameEvent *)event, (struct GameEvent *)FIELD_STATUS_CreateFieldCloseEvent(gameSystem, work->fieldMap));
         *seq = 2;
         break;
     case 2:
@@ -288,7 +294,7 @@ int EVENT_POKE_STATUS_MoveSelectEvent(void *event, u32 *seq, MoveSelectEventWork
         *seq = 3;
         break;
     case 3:
-        GAME_EVENT_CallEvent(event, FIELD_STATUS_CreateFieldOpenEvent(gameSystem));
+        GAME_EVENT_CallEvent((struct GameEvent *)event, (struct GameEvent *)FIELD_STATUS_CreateFieldOpenEvent(gameSystem));
         *seq = 4;
         break;
     case 4:

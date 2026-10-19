@@ -119,8 +119,9 @@ extern void BG_SYS_ClearSubPlanes(void);
 extern void GF_FONT_InitTextColor(void);
 
 extern u32 GFL_USE_AddMainTask(void *, void *, int);
+struct TcbTask;
 
-extern void TCB_DeleteTask(struct Node *n);
+extern void TCB_DeleteTask(struct TcbTask *task);
 
 extern void GF_FONT_SetDefaultTextColor(void);
 
@@ -147,8 +148,10 @@ extern void BMP_WIN_Exit(void);
 extern void BG_SYS_Delete(void);
 
 extern void BG_SYS_Update(void);
+struct DispVramCfg;
+struct SysInit;
 
-extern void CLACT_InitSystem(const struct Cfg *cfg, unsigned int arg, unsigned int heapId);
+extern void CLACT_InitSystem(struct SysInit *cfg, struct DispVramCfg *res_cfg, unsigned int heapId);
 
 extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 
@@ -177,8 +180,9 @@ extern u32 G3D_CAMERA_Delete(void *ptr);
 extern void G3D_SYSTEM_Exit(int);
 
 extern void G3D_SYSTEM_DrawStart(void);
+struct G3dCamera;
 
-extern void G3D_CAMERA_Reset(struct Light *l);
+extern void G3D_CAMERA_Reset(struct G3dCamera *camera);
 
 extern void G3D_SYSTEM_ApplyLookAt(void);
 
@@ -198,7 +202,7 @@ int SHINKA_DEMO_GRAPHIC_GetCamera(char *a);
 
 void SHINKA_DEMO_GRAPHIC_SetupSubBg(void);
 
-void SHINKA_DEMO_GRAPHIC_ReleaseSubBg(int unused);
+void SHINKA_DEMO_GRAPHIC_ReleaseSubBg(void *unused);
 
 void SHINKA_DEMO_GRAPHIC_VBlank(int a, char *b);
 
@@ -327,7 +331,7 @@ void SHINKA_DEMO_GRAPHIC_SetupSubBg(void)
     }
 }
 
-void SHINKA_DEMO_GRAPHIC_ReleaseSubBg(int unused)
+void SHINKA_DEMO_GRAPHIC_ReleaseSubBg(void *unused)
 {
     unsigned int i;
     for (i = 0; i < 6; i++)
@@ -381,7 +385,7 @@ void SHINKA_DEMO_GRAPHIC_UpdateSubBg(void *unused){BG_SYS_Update();}
 void SHINKA_DEMO_GRAPHIC_InitClact(unsigned char *clact, int vramBanks, u32 heap)
 {
     MI_CpuFill8(clact, 0, 4);
-    CLACT_InitSystem((const struct Cfg *)0x02208CB0, vramBanks, heap);
+    CLACT_InitSystem((struct SysInit *)0x02208CB0, (struct DispVramCfg *)vramBanks, heap);
     ((ShinkaClact *)clact)->unit = CLACT_CreateUnit(0x80, 0, heap);
     CLACT_SetUnitDefaultRenderer(((ShinkaClact *)clact)->unit);
     BG_SYS_SetMainPlaneVisible(0x10, 1);
@@ -418,7 +422,7 @@ void SHINKA_DEMO_GRAPHIC_Exit3d(int *camera)
 void SHINKA_DEMO_GRAPHIC_Update3d(char *g3d)
 {
     G3D_SYSTEM_DrawStart();
-    G3D_CAMERA_Reset((struct Light *)((ShinkaG3d *)g3d)->camera);
+    G3D_CAMERA_Reset((struct G3dCamera *)((ShinkaG3d *)g3d)->camera);
     G3D_SYSTEM_ApplyLookAt();
 }
 

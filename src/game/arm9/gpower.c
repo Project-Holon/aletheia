@@ -26,7 +26,9 @@
  *   POKE_TOOL_EncodePartyParam  0x02017D70  thumb
  *   WAZA_TOOL_GetMaxPP  0x0201C158  thumb
  *   MI_CpuFill8        0x02082BCC  arm
+ *   _ll_sdiv                     0x0209BE5C  arm
  */
+#include "../version.h"
 #include "script_vm_types.h"
 #include "vm_shared_types.h"
 
@@ -63,20 +65,22 @@ typedef signed long long s64;
 extern void *ARC_TOOL_LoadMember(u32 arcId, u32 dataId, u32 heapId);
 
 extern u32 GFL_HEAP_Free(void *memory);
+struct Party;
 
-extern void POKE_TOOL_HealParty(void *party);
+extern void POKE_TOOL_HealParty(struct Party *party);
 
-extern u32 POKEPARTY_FindFirstBattleReady(void *party);
+extern u32 POKEPARTY_FindFirstBattleReady(struct Party *party);
+struct PokemonParam;
 
-extern void *POKEPARTY_GetMember(void *party, u32 slot);
+extern struct PokemonParam *POKEPARTY_GetMember(struct Party *party, u32 pos);
 
-extern u32 POKE_TOOL_DecodePartyParam(struct Pokemon *pokemon);
+extern u32 POKE_TOOL_DecodePartyParam(struct PokemonParam *pp);
 
-extern u32 POKE_TOOL_GetPartyValue(void *pokemon, u32 param, u32 arg);
+extern u32 POKE_TOOL_GetPartyValue(struct PokemonParam *pp, u32 paramId, u32 arg);
 
-extern void POKE_TOOL_SetPartyValue(void *pokemon, u32 param, u32 value);
+extern void POKE_TOOL_SetPartyValue(struct PokemonParam *pp, u32 paramId, u32 value);
 
-extern u32 POKE_TOOL_EncodePartyParam(struct Pokemon *pokemon, u32 fastMode);
+extern u32 POKE_TOOL_EncodePartyParam(struct PokemonParam *pp, u32 didDecode);
 
 extern u8 WAZA_TOOL_GetMaxPP(u16 move, u32 ppUp);
 
@@ -661,5 +665,5 @@ s32 GPOWER_ApplyCaptureRate(s32 rate)
  */
 u32 GPOWER_GetSpecialPowerId(void)
 {
-    return 0x15;
+    return PM_VERSION_ID;
 }

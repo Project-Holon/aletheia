@@ -52,7 +52,7 @@ struct FieldPlayer;
 /* Encounter effect (ENCEFF): one effect plays before a battle. */
 struct EncEffWork;
 
-typedef void (*EncEffUpdateFunc)(struct EncEffWork *eff, u32 self, u32 extraArg0, u32 extraArg1);
+typedef void (*EncEffUpdateFunc)(struct EncEffWork *eff);
 
 /* Work of one running effect (0x20 bytes). */
 typedef struct EncEffWork {
@@ -118,10 +118,11 @@ extern u32 TPOKE_DATA_GetRecordField(void *trainerData, u32 index);
 extern u8 TPOKE_DATA_GetTrainerKind(u32 trainerClass);
 
 extern u8 TPOKE_DATA_FindTrainerType(u32 trainerClass);
+struct AreaData;
 
-extern u32 FIELDMAP_GetAreaData(struct FieldMap *fieldMap);
+extern struct AreaData *FIELDMAP_GetAreaData(struct FieldMap *fieldMap);
 
-extern u8 ZONEDATA_GetAreaInnerOuter(u32 areaData);
+extern u8 ZONEDATA_GetAreaInnerOuter(struct AreaData *areaData);
 
 extern char d_021DE5FC[];
 
@@ -145,7 +146,7 @@ void ENCEFF_Start(EncEffWork *eff, struct GameEvent *parentEvent, int kind);
 
 struct GameEvent *ENCEFF_GetEffect(EncEffWork *eff);
 
-void ENCEFF_RunUpdate(EncEffWork *eff, u32 unused, u32 extraArg0, u32 extraArg1);
+void ENCEFF_RunUpdate(EncEffWork *eff);
 
 void ENCEFF_AllocWork(EncEffWork *eff, u32 size, u32 heapId);
 
@@ -210,10 +211,10 @@ struct GameEvent *ENCEFF_GetEffect(EncEffWork *eff)
 }
 
 /* Calls the update function of the effect, if it has one. */
-void ENCEFF_RunUpdate(EncEffWork *eff, u32 unused, u32 extraArg0, u32 extraArg1)
+void ENCEFF_RunUpdate(EncEffWork *eff)
 {
     if (eff->update != 0) {
-        eff->update(eff, (u32)eff->update, extraArg0, extraArg1);
+        eff->update(eff);
     }
 }
 

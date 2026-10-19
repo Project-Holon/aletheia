@@ -34,6 +34,7 @@
  *   SOCLiCPSConfig     0x021AA450  data
  */
 #include "ov009_globals.h"
+extern void OS_SleepThread(void *queue);
 
 struct SOCLiSocketRingBuffer {
     long size;
@@ -109,12 +110,14 @@ typedef struct {
 } Info;
 
 extern int SOCL_SocketIsInvalid(struct SOCLSocket *socket);
-extern int OS_TryLockMutex(void *mutex);
-extern void OS_LockMutex(void *mutex);
-extern void OS_UnlockMutex(void *mutex);
+struct OSMutex;
+extern int OS_TryLockMutex(struct OSMutex *mutex);
+extern void OS_LockMutex(struct OSMutex *mutex);
+extern void OS_UnlockMutex(struct OSMutex *mutex);
 extern unsigned long OS_DisableInterrupts(void);
 extern unsigned long OS_RestoreInterrupts(unsigned long state);
-extern struct SOCLiCommandWrite *SOCLi_CreateCommandPacket(int (*handler)(void *), struct SOCLSocket *socket, long flag);
+struct SOCLiCommandPacket;
+extern struct SOCLiCommandPacket *SOCLi_CreateCommandPacket(int (*handler)(void *), struct SOCLSocket *socket, long flag);
 extern void MI_CpuCopy(void *srcp, void *destp, unsigned long size);
 extern unsigned short CPS_SocGetEport(void);
 extern int SOCLi_ExecCommandPacketInSendPipe(struct SOCLSocket *socket, struct SOCLiCommandWrite *command);
@@ -177,15 +180,15 @@ int SOCL_WriteTo(int s, void *buffer, int buffer_len, unsigned short remote_port
     }
     send_pipe = socket->send_pipe;
     if ((flags & 4) || socket->flag_block == 0) {
-        if (!OS_TryLockMutex(send_pipe->mutex))
+        if (!OS_TryLockMutex((struct OSMutex *)send_pipe->mutex))
             return -6;
         flag_block = 0;
     } else {
-        OS_LockMutex(send_pipe->mutex);
+        OS_LockMutex((struct OSMutex *)send_pipe->mutex);
         flag_block = 1;
     }
     result = SOCLi_WriteBuffer(socket, buffer, buffer_len, remote_port, remote_ip, flag_block);
-    OS_UnlockMutex(send_pipe->mutex);
+    OS_UnlockMutex((struct OSMutex *)send_pipe->mutex);
     return result;
 }
 
@@ -331,7 +334,7 @@ static int SOCLi_ExecWriteCommand(struct SOCLSocket *socket, unsigned char *buff
     unsigned char *wrtbuf;
     int result;
 
-    command = SOCLi_CreateCommandPacket(SOCLi_WriteCallBack, send_pipe->exe_socket, flag_block);
+    command = (struct SOCLiCommandWrite *)SOCLi_CreateCommandPacket(SOCLi_WriteCallBack, send_pipe->exe_socket, flag_block);
     if (command == 0)
         return -0x21;
     if ((flag_block & 1) && socket->flag_mode != 1)

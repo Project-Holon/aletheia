@@ -54,22 +54,25 @@ struct GameData;
 struct GameSystem;
 struct GameComm;
 struct BattleRec;
+struct FieldMap;
 
-extern u16 FIELDMAP_GetHeapId(void *fieldMap);
+extern u16 FIELDMAP_GetHeapId(struct FieldMap *fieldMap);
 extern void *FIELDMAP_GetExpObj(void *fieldMap);
-extern struct GameSystem *FIELDMAP_GetGameSystem(void *fieldMap);
+extern struct GameSystem *FIELDMAP_GetGameSystem(struct FieldMap *fieldMap);
 extern struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
 extern u8 *GAME_DATA_GetFieldSave(struct GameData *gameData);
 extern struct GameComm *GAMESYSTEM_GetGameComm(const struct GameSystem *gameSystem);
-extern FieldGimmickGaugeEffectWork *FIELDMAP_AllocCommonWork(void *fieldMap, int id, int heapId, int size);
-extern void FLD_EXP_OBJ_AddUnit(void *expObj, void *unitDesc, int b);
-extern void FLD_EXP_OBJ_RemoveUnit(void *expObj, unsigned short unit);
-extern void FIELDMAP_FreeCommonWork(void *fieldMap, int id);
+extern void *FIELDMAP_AllocCommonWork(struct FieldMap *fieldMap, s32 id, s32 heapId, s32 size);
+struct G3dUtilSetup;
+struct FldExpObjCnt;
+extern void FLD_EXP_OBJ_AddUnit(struct FldExpObjCnt *cnt, struct G3dUtilSetup *setup, u16 unitIdx);
+extern void FLD_EXP_OBJ_RemoveUnit(struct FldExpObjCnt *cnt, u16 unitIdx);
+extern void FIELDMAP_FreeCommonWork(struct FieldMap *fieldMap, s32 id);
 extern FieldGimmickGaugeEffectWork *FIELDMAP_GetCommonWork(void *fieldMap, int idx);
-extern void FLD_EXP_OBJ_UpdateAnimes(void *expObj);
+extern void FLD_EXP_OBJ_UpdateAnimes(struct FldExpObjCnt *cnt);
 extern void FIELD_GIMMICK_GAUGE_EFFECT_UpdateEffect(FieldGimmickGaugeEffectWork *work, void *expObj);
 extern VecFx32 *FLD_EXP_OBJ_GetModelStatus(void *expObj, int unit, u16 model);
-extern void FLD_EXP_OBJ_SetModelCullDraw(void *expObj, int unit, int model, int visible);
+extern void FLD_EXP_OBJ_SetModelCullDraw(struct FldExpObjCnt *cnt, s32 unitIdx, s32 modelIdx, s32 cullDraw);
 extern void FLD_EXP_OBJ_SetModelHidden(void *expObj, int unit, u16 model, int hidden);
 extern u8 GAME_DATA_GetIntrudeId(const struct GameData *gameData);
 extern u8 GAME_DATA_GetOwnNetId(const struct GameData *gameData);
@@ -79,11 +82,12 @@ extern void *GAME_DATA_GetBattleRecSlot(struct GameData *gameData, u32 slot);
 extern u16 INTRUDE_GetMissionScore(struct BattleRec *record);
 extern u16 INTRUDE_GetMissionBonusScore(struct BattleRec *record);
 extern unsigned int GAME_COMM_GetKind(struct GameComm *gameComm);
-extern IntrudeCommSys *GAME_COMM_GetWork(struct GameComm *gameComm);
-extern void FLD_EXP_OBJ_SetAnimeEnabled(void *expObj, int unit, int model, int animeIdx, int enabled);
+extern void *GAME_COMM_GetWork(struct GameComm *gameComm);
+extern void FLD_EXP_OBJ_SetAnimeEnabled(struct FldExpObjCnt *cnt, s32 unitIdx, s32 modelIdx, s32 animeIdx, s32 enable);
 extern u8 *FLD_EXP_OBJ_GetAnime(void *expObj, int unit, int model, u16 animeIdx);
-extern void FLD_EXP_OBJ_SetAnimeLoop(u8 *anime, int loop);
-extern void FLD_EXP_OBJ_SetAnimePaused(u8 *anime, int paused);
+struct FldExpObjAnime;
+extern void FLD_EXP_OBJ_SetAnimeLoop(struct FldExpObjAnime *anime, s32 loop);
+extern void FLD_EXP_OBJ_SetAnimePaused(struct FldExpObjAnime *anime, s32 paused);
 extern void FLD_EXP_OBJ_SetAnimeFrame(void *expObj, int unit, int model, int animeIdx, int frame);
 void FIELD_GIMMICK_GAUGE_EFFECT_Init(void *fieldMap);
 void FIELD_GIMMICK_GAUGE_EFFECT_Exit(void *fieldMap);
@@ -98,7 +102,7 @@ IntrudeCommSys *FIELD_GIMMICK_GAUGE_EFFECT_GetIntrudeCommSys(struct GameComm *ga
 void FIELD_GIMMICK_GAUGE_EFFECT_SetupEffect(void *unused, void *expObj);
 void FIELD_GIMMICK_GAUGE_EFFECT_ShowEffect(FieldGimmickGaugeEffectWork *work, void *expObj, VecFx32 *pos);
 extern char gGaugeEffectUnitSetup[];
-extern int FLD_EXP_OBJ_IsAnimeStopped(u8 *anime);
+extern int FLD_EXP_OBJ_IsAnimeStopped(struct FldExpObjAnime *anime);
 
 void FIELD_GIMMICK_GAUGE_EFFECT_Init(void *fieldMap)
 {
@@ -116,7 +120,7 @@ void FIELD_GIMMICK_GAUGE_EFFECT_Init(void *fieldMap)
     GAME_DATA_GetFieldSave(gameData);
     commSys = FIELD_GIMMICK_GAUGE_EFFECT_GetIntrudeCommSys(GAMESYSTEM_GetGameComm(gameSystem));
     work = FIELDMAP_AllocCommonWork(fieldMap, 0, heapId, 4);
-    FLD_EXP_OBJ_AddUnit(expObj, gGaugeEffectUnitSetup, 0);
+    FLD_EXP_OBJ_AddUnit(expObj, (struct G3dUtilSetup *)gGaugeEffectUnitSetup, 0);
     FIELD_GIMMICK_GAUGE_EFFECT_PlaceModels(work, fieldMap, gameData, commSys);
     FIELD_GIMMICK_GAUGE_EFFECT_SetupEffect(work, expObj);
 }
@@ -266,8 +270,8 @@ void FIELD_GIMMICK_GAUGE_EFFECT_SetupEffect(void *unused, void *expObj)
     for (animeIdx = 0; animeIdx < FIELD_GIMMICK_GAUGE_EFFECT_EFFECT_ANIME_COUNT; animeIdx++) {
         FLD_EXP_OBJ_SetAnimeEnabled(expObj, 0, FIELD_GIMMICK_GAUGE_EFFECT_EFFECT_MODEL, (u16)animeIdx, 1);
         anime = FLD_EXP_OBJ_GetAnime(expObj, 0, FIELD_GIMMICK_GAUGE_EFFECT_EFFECT_MODEL, (u16)animeIdx);
-        FLD_EXP_OBJ_SetAnimeLoop(anime, 0);
-        FLD_EXP_OBJ_SetAnimePaused(anime, 0);
+        FLD_EXP_OBJ_SetAnimeLoop((struct FldExpObjAnime *)anime, 0);
+        FLD_EXP_OBJ_SetAnimePaused((struct FldExpObjAnime *)anime, 0);
     }
 }
 
@@ -288,7 +292,7 @@ void FIELD_GIMMICK_GAUGE_EFFECT_ShowEffect(FieldGimmickGaugeEffectWork *work, vo
 void FIELD_GIMMICK_GAUGE_EFFECT_UpdateEffect(FieldGimmickGaugeEffectWork *work, void *expObj)
 {
     if (work->effectActive != 0) {
-        if (FLD_EXP_OBJ_IsAnimeStopped(FLD_EXP_OBJ_GetAnime(expObj, 0, FIELD_GIMMICK_GAUGE_EFFECT_EFFECT_MODEL, 0)) != 0) {
+        if (FLD_EXP_OBJ_IsAnimeStopped((struct FldExpObjAnime *)(FLD_EXP_OBJ_GetAnime(expObj, 0, FIELD_GIMMICK_GAUGE_EFFECT_EFFECT_MODEL, 0))) != 0) {
             FLD_EXP_OBJ_SetModelHidden(expObj, 0, FIELD_GIMMICK_GAUGE_EFFECT_EFFECT_MODEL, 1);
             work->effectActive = 0;
         }

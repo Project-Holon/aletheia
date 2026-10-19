@@ -56,8 +56,9 @@ extern int MANUAL_COMMON_CheckUnlocked(void *,int,void *);
 extern u16 MANUAL_COMMON_GetGroupValue0(char *,int);
 
 extern void *MANUAL_COMMON_CreateListWork(char *owner, struct ManualData *data);
+struct TcbTask;
 
-extern void TCB_DeleteTask(struct Node *);
+extern void TCB_DeleteTask(struct TcbTask *task);
 
 extern void MANUAL_COMMON_DeleteListWork(char *);
 
@@ -118,7 +119,7 @@ char *MANUAL_CATEGORY_CreateList(char *p,char *data)
  */
 void MANUAL_CATEGORY_DeleteList(char *p)
 {
-    TCB_DeleteTask(*(struct Node * *)&((struct ManualMenuList *)p)->task);
+    TCB_DeleteTask((struct TcbTask *)(*(struct Node * *)&((struct ManualMenuList *)p)->task));
     *(u16 *)*(char * *)&((struct ManualMenuList *)p)->owner = ((struct ManualMenuList *)p)->savedA;
     ((struct ManualListOwner *)(*(char * *)&((struct ManualMenuList *)p)->owner))->originY = ((struct ManualMenuList *)p)->savedB;
     if (((struct ManualMenuList *)p)->mode == 0) ((struct ManualListOwner *)(*(char * *)&((struct ManualMenuList *)p)->owner))->hasDetail = 0;

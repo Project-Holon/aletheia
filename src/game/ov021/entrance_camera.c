@@ -54,21 +54,21 @@ extern void FIELD_CAMERA_StopTargetTrace(struct FieldCamera *camera);
 extern struct FieldPlayer *FIELDMAP_GetFieldPlayer(FieldMap *fieldMap);
 extern unsigned short FIELDMAP_GetHeapId(FieldMap *fieldMap);
 extern void FIELD_CAMERA_ANIME_SetData(struct FieldCameraAnime *anime, FieldCameraAnimeData *data);
-extern int FIELD_CAMERA_ANIME_Start(struct FieldCameraAnime *anime);
+extern void FIELD_CAMERA_ANIME_Start(struct FieldCameraAnime *anime);
 extern void FIELD_CAMERA_ANIME_Restore(struct FieldCameraAnime *anime);
 extern struct FieldCameraAnime *FIELD_CAMERA_ANIME_Create(FieldMap *fieldMap);
-extern void FIELD_CAMERA_ANIME_Delete(void);
+extern void FIELD_CAMERA_ANIME_Delete(struct FieldCameraAnime *anime);
 extern unsigned short FIELD_PLAYER_GetDirDisp(struct FieldPlayer *player);
-extern void FIELD_GROUND_ANIME_GetEntryPos(FieldMap *fieldMap, VecFx32 *out);
+extern void FIELD_GROUND_ANIME_GetEntryPos(void *fieldMap, VecFx32 *out);
 extern void FIELD_PLAYER_GetPos(struct FieldPlayer *player, VecFx32 *out);
-extern void FIELD_CAMERA_ANIME_Setup(struct FieldCameraAnime *anime);
+extern int FIELD_CAMERA_ANIME_Setup(struct FieldCameraAnime *anime);
 extern void FIELD_CAMERA_ANIME_GetCurrentParam(struct FieldCamera *camera, FieldCameraParam *param);
 extern void FIELD_CAMERA_ANIME_ApplyStartParam(struct FieldCameraAnime *anime);
 extern void ARC_TOOL_ReadMember(void *dst, unsigned int archiveId, unsigned int memberId);
 extern void FIELD_CAMERA_Main(struct FieldCamera *camera, unsigned int value);
 extern int FIELD_CAMERA_ResumeTargetTrace(struct FieldCamera *camera);
 extern unsigned int FIELD_CAMERA_SetTarget(struct FieldCamera *camera, const VecFx32 *target);
-extern unsigned int EVENT_FIELD_PROCLINK_IsSlotIndexOutOfRange(unsigned int entranceType);
+extern int EVENT_FIELD_PROCLINK_IsSlotIndexOutOfRange(int value);
 
 void *ENTRANCE_CAMERA_Create(FieldMap *fieldMap);
 void ENTRANCE_CAMERA_Delete(EntranceCamera *work);
@@ -196,7 +196,7 @@ void ENTRANCE_CAMERA_CreateAnime(EntranceCamera *work, int heapId)
 void ENTRANCE_CAMERA_DeleteAnime(EntranceCamera *work)
 {
     if (work->anime != 0) {
-        FIELD_CAMERA_ANIME_Delete();
+        FIELD_CAMERA_ANIME_Delete(work->anime);
         work->anime = 0;
     }
 }

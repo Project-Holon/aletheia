@@ -27,7 +27,7 @@ typedef struct {
     u32 z;
 } Vec3;
 
-extern void *GFL_HEAP_Alloc(u16 heapID, u32 size, int clear, const char *file, int line);
+extern void *GFL_HEAP_Alloc(unsigned int heapId, unsigned int size, int clear, char *site, unsigned short tag);
 
 extern u32 GFL_HEAP_Free(void *p);
 
@@ -95,10 +95,12 @@ struct G3dCamera {
     VecFx32 target;
     VecFx32 up;
 };
+struct G3dProjection;
 
-void G3D_SYSTEM_SetProjection(const u32 *src);
+void G3D_SYSTEM_SetProjection(struct G3dProjection *proj);
+struct G3dLookAt;
 
-void G3D_SYSTEM_SetLookAt(u8 *lookAt);
+void G3D_SYSTEM_SetLookAt(struct G3dLookAt *lookAt);
 
 void G3D_CAMERA_Reset(struct G3dCamera *l);
 
@@ -176,8 +178,8 @@ void G3D_CAMERA_SetFarClipAlt(struct G3dCamera *l, u32 v);
  */
 void G3D_CAMERA_Reset(struct G3dCamera *camera)
 {
-    G3D_SYSTEM_SetProjection((const u32 *)camera);
-    G3D_SYSTEM_SetLookAt((u8 *)(&camera->eye));
+    G3D_SYSTEM_SetProjection((struct G3dProjection *)camera);
+    G3D_SYSTEM_SetLookAt((struct G3dLookAt *)(&camera->eye));
 }
 
 void G3D_CAMERA_GetEye(struct G3dCamera *camera, VecFx32 *out)

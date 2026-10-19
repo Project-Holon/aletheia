@@ -198,32 +198,40 @@ extern void GFL_HEAP_CreateChildHeap(unsigned int,unsigned int,unsigned int);
 extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
 extern void MI_CpuFill8(void *,int,int);
 extern void *PROCSYS_Create(int heapId);
-extern void *POKEPARTY_GetMember(void *,unsigned);
-extern u32 POKEPARTY_Add(struct Party *p, const struct PartyMon *src);
+struct PokemonParam;
+extern struct PokemonParam *POKEPARTY_GetMember(struct Party *party, unsigned int pos);
+extern u32 POKEPARTY_Add(struct Party *party, struct PokemonParam *member);
 extern void PLIST_COMM_End(void *);
 extern void GF_OVERLAY_Unload(s32 handle);
 extern void PROCSYS_Delete(struct S020314B8 *p);
 extern void PROCSYS_FreeProcWork(struct Proc *p);
 extern void GFL_HEAP_DeleteChecked(unsigned);
 extern int GFL_NET_GetRunState(void);
-extern void *GFL_NET_GetInitParam(void);
+struct GFLNetSession;
+extern struct GFLNetSession *GFL_NET_GetInitParam(void);
 extern u32 GFL_NET_ERR_GetErrorLevel(void);
 extern void GFL_NET_ERR_RequestScreen(void);
-extern int DWC_RAPCOMMON_HandleNetError(void *,void *);
+extern int DWC_RAPCOMMON_HandleNetError(int hasSession, int keepError);
 extern int GF_OVERLAY_Load(int);
 extern void PROCSYS_Push(void *,u32,void *,void *);
 extern u32 PROCSYS_Main(void *);
-extern void PLIST_COMM_Update(u8 *);
-extern void *GAME_DATA_GetSaveControl(struct Big *p);
+struct PartyListCommWork;
+extern void PLIST_COMM_Update(struct PartyListCommWork *work);
+struct GameData;
+struct SaveControl;
+extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gd);
 extern struct Sub02008700Obj *SYSTEM_DATA_GetConfig(void *sys);
-extern void PLIST_COMM_Start(u8 *);
-extern u8 *GAME_DATA_GetMyStatus(void *p);
+extern void PLIST_COMM_Start(struct PartyListCommWork *work);
+struct MyStatus;
+extern struct MyStatus *GAME_DATA_GetMyStatus(struct GameData *gd);
 extern void *ZUKAN_SAVE_GetFromGameData(void *a);
-extern unsigned int POKEPARTY_GetCount(void *p);
-extern u32 ZUKAN_SAVE_IsNationalDexEnabled(struct Blk37 *p);
-extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
-extern void GFL_NET_HANDLE_SetTimingSyncRange(struct Link *,unsigned int,unsigned int);
-extern unsigned int GFL_NET_HANDLE_IsTimingSyncRange(struct Link *,unsigned int,unsigned int);
+extern unsigned int POKEPARTY_GetCount(struct Party *party);
+struct ZukanSave;
+extern u32 ZUKAN_SAVE_IsNationalDexEnabled(struct ZukanSave *pZukan);
+struct GFLNetHandle;
+extern struct GFLNetHandle *GFL_NET_HANDLE_GetCurrentHandle(void);
+extern void GFL_NET_HANDLE_SetTimingSyncRange(struct GFLNetHandle *handle, unsigned int timingLow, unsigned int timingHigh);
+extern unsigned int GFL_NET_HANDLE_IsTimingSyncRange(struct GFLNetHandle *handle, unsigned int timingLow, unsigned int timingHigh);
 extern char *WIFIBATTLEMATCH_NET_CreateNetContext(u32,void *,u32,u16);
 extern u32 WIFIBATTLEMATCH_NET_SendRegDataAlt(char *,u32),WIFIBATTLEMATCH_NET_TakeRegBuffer(char *,u32);
 extern void WIFIBATTLEMATCH_NET_DeleteNetContext(u8 *p);
@@ -231,7 +239,7 @@ extern void *LIVEBATTLEMATCH_IRC_Create(int unused, int heap);
 extern int LIVEBATTLEMATCH_IRC_SendSaveData(int unused, int arg);
 extern int LIVEBATTLEMATCH_IRC_RecvSaveData(u8 *p, const void *q);
 extern void LIVEBATTLEMATCH_IRC_NoOp(void *);
-extern void LIVEBATTLEMATCH_IRC_Delete(int);
+extern void LIVEBATTLEMATCH_IRC_Delete(int *p);
 int PARTY_STATUS_Create(void *handle,int unused,PartyStatusObj5 *q);
 int PARTY_STATUS_Destroy(void *handle,int unused,PartyStatusObj6 *q,PartyStatusObj1 *p);
 int PARTY_STATUS_Update(void *unused,int unused2,PartyStatusObj4 *q,char *p);
@@ -318,7 +326,7 @@ int PARTY_STATUS_Update(void *unused,int unused2,PartyStatusObj4 *q,char *p)
         } else {
             int one;
             one=1;
-            switch(DWC_RAPCOMMON_HandleNetError((void *)1,(void *)1)) {
+            switch(DWC_RAPCOMMON_HandleNetError((int)1,(int)1)) {
             case 0:case 3:break;
             case 4:q->exitReason=3;((PartyStatusObj1 *)p)->closeRequested=one;((PartyStatusObj1 *)p)->forceExit=one;break;
             case 1:case 2:default:q->exitReason=1;((PartyStatusObj1 *)p)->closeRequested=1;((PartyStatusObj1 *)p)->forceExit=1;break;
@@ -345,7 +353,7 @@ int PARTY_STATUS_Update(void *unused,int unused2,PartyStatusObj4 *q,char *p)
     }
     if(((PartyStatusObj1 *)p)->closeRequested==0) {
         p+=8;
-        PLIST_COMM_Update((u8 *)p);
+        PLIST_COMM_Update((struct PartyListCommWork *)p);
     }
     return 0;
 }
@@ -421,7 +429,7 @@ void PARTY_STATUS_SetupDisplay(Args *p, Other *o, Output *out)
         out->timeLeft = 0;
     }
     GF_OVERLAY_Load((int)ov90_id);
-    PLIST_COMM_Start((u8 *)out);
+    PLIST_COMM_Start((struct PartyListCommWork *)out);
 }
 
 
@@ -436,7 +444,7 @@ void PARTY_STATUS_InitRecord(int *args, int *work, PartyStatusObj2 *record)
 {
     int saveControl;
     int zukanSave;
-    saveControl = (int)GAME_DATA_GetSaveControl((struct Big *)args[5]);
+    saveControl = (int)GAME_DATA_GetSaveControl((struct GameData *)args[5]);
     GAME_DATA_GetMyStatus((void *)args[5]);
     zukanSave = (int)ZUKAN_SAVE_GetFromGameData((void *)args[5]);
     record->party = work[1];
@@ -450,7 +458,7 @@ void PARTY_STATUS_InitRecord(int *args, int *work, PartyStatusObj2 *record)
     record->retMovePos = 0;
     record->retSel = 0;
     record->newMove = 0;
-    record->isNationalDex = ZUKAN_SAVE_IsNationalDexEnabled((struct Blk37 *)zukanSave);
+    record->isNationalDex = ZUKAN_SAVE_IsNationalDexEnabled((struct ZukanSave *)zukanSave);
     record->canUseButtons = 0;
     record->forceExit = 0;
 }
@@ -532,27 +540,27 @@ void PARTY_STATUS_Noop(int work, int *param, int heapId) {}
 int PARTY_STATUS_NetSync(char **out,u32 *ctx,u32 *state)
 {
     if(GFL_NET_GetRunState()) {
-        switch(DWC_RAPCOMMON_HandleNetError((void *)1,(void *)1)) {
+        switch(DWC_RAPCOMMON_HandleNetError((int)1,(int)1)) {
         case 0:break;
         case 1:case 4:ctx[2]=3;return 1;
         case 2:case 3:default:ctx[2]=1;return 1;
         }
     }
     switch(*state) {
-    case 0:GFL_NET_HANDLE_SetTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),16,36);++*state;break;
-    case 1:if(GFL_NET_HANDLE_IsTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),16,36))++*state;break;
+    case 0:GFL_NET_HANDLE_SetTimingSyncRange((struct GFLNetHandle *)GFL_NET_HANDLE_GetCurrentHandle(),16,36);++*state;break;
+    case 1:if(GFL_NET_HANDLE_IsTimingSyncRange((struct GFLNetHandle *)GFL_NET_HANDLE_GetCurrentHandle(),16,36))++*state;break;
     case 2:GF_OVERLAY_Load((int)ov067_id);GF_OVERLAY_Load((int)ov114_id);GF_OVERLAY_Load((int)ov175_id);
         *out=WIFIBATTLEMATCH_NET_CreateNetContext(ctx[5],**(void ** *)&((PartyStatusObj7 *)ctx)->netConfig,0,88);++*state;break;
-    case 3:GFL_NET_HANDLE_SetTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),17,36);++*state;break;
-    case 4:if(GFL_NET_HANDLE_IsTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),17,36))++*state;break;
+    case 3:GFL_NET_HANDLE_SetTimingSyncRange((struct GFLNetHandle *)GFL_NET_HANDLE_GetCurrentHandle(),17,36);++*state;break;
+    case 4:if(GFL_NET_HANDLE_IsTimingSyncRange((struct GFLNetHandle *)GFL_NET_HANDLE_GetCurrentHandle(),17,36))++*state;break;
     case 5:if(WIFIBATTLEMATCH_NET_SendRegDataAlt(*out,ctx[3]))++*state;break;
     case 6:if(WIFIBATTLEMATCH_NET_TakeRegBuffer(*out,ctx[4]))++*state;break;
-    case 7:GFL_NET_HANDLE_SetTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),18,36);++*state;break;
-    case 8:if(GFL_NET_HANDLE_IsTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),18,36))++*state;break;
+    case 7:GFL_NET_HANDLE_SetTimingSyncRange((struct GFLNetHandle *)GFL_NET_HANDLE_GetCurrentHandle(),18,36);++*state;break;
+    case 8:if(GFL_NET_HANDLE_IsTimingSyncRange((struct GFLNetHandle *)GFL_NET_HANDLE_GetCurrentHandle(),18,36))++*state;break;
     case 9:WIFIBATTLEMATCH_NET_DeleteNetContext((u8 *)((u32)*out));*out=0;
         GF_OVERLAY_Unload((int)ov175_id);GF_OVERLAY_Unload((int)ov114_id);GF_OVERLAY_Unload((int)ov067_id);++*state;break;
-    case 10:GFL_NET_HANDLE_SetTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),19,36);++*state;break;
-    case 11:if(GFL_NET_HANDLE_IsTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),19,36))return 1;break;
+    case 10:GFL_NET_HANDLE_SetTimingSyncRange((struct GFLNetHandle *)GFL_NET_HANDLE_GetCurrentHandle(),19,36);++*state;break;
+    case 11:if(GFL_NET_HANDLE_IsTimingSyncRange((struct GFLNetHandle *)GFL_NET_HANDLE_GetCurrentHandle(),19,36))return 1;break;
     }
     return 0;
 }
@@ -586,8 +594,8 @@ unsigned PARTY_STATUS_NetSync2(void **netWork,unsigned *ctx,unsigned *state)
  if(GFL_NET_ERR_GetErrorLevel()!=0){GFL_NET_ERR_RequestScreen();ctx[2]=2;return 1;}
  switch(*state) {
  case 0:++*state;break;
- case 1:GFL_NET_HANDLE_SetTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),0x11,0x1F);++*state;break;
- case 2:if(GFL_NET_HANDLE_IsTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),0x11,0x1F)!=0)++*state;break;
+ case 1:GFL_NET_HANDLE_SetTimingSyncRange((struct GFLNetHandle *)GFL_NET_HANDLE_GetCurrentHandle(),0x11,0x1F);++*state;break;
+ case 2:if(GFL_NET_HANDLE_IsTimingSyncRange((struct GFLNetHandle *)GFL_NET_HANDLE_GetCurrentHandle(),0x11,0x1F)!=0)++*state;break;
  case 3:if(LIVEBATTLEMATCH_IRC_SendSaveData((int)(*netWork),ctx[3])!=0)++*state;break;
  case 4:if(LIVEBATTLEMATCH_IRC_RecvSaveData(*netWork,(const void *)ctx[4])!=0)++*state;break;
  case 5:return 1;
@@ -598,6 +606,6 @@ unsigned PARTY_STATUS_NetSync2(void **netWork,unsigned *ctx,unsigned *state)
 
 void PARTY_STATUS_ExitSubWork(int *work, void *param)
 {
-    LIVEBATTLEMATCH_IRC_Delete(*work);
+    LIVEBATTLEMATCH_IRC_Delete((int *)(*work));
     GF_OVERLAY_Unload((int)ov176_id);
 }

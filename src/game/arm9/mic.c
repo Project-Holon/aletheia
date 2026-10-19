@@ -121,7 +121,7 @@ extern MICResult MIC_StopAutoSamplingAsync(MICCallback callback, void *arg);
 extern MICResult MIC_StopAutoSampling(void);
 extern MICResult MICEXi_StartLimitedSamplingAsync(const MICAutoParam *param, MICCallback callback, void *arg);
 extern MICResult MICEXi_StartLimitedSampling(const MICAutoParam *param);
-extern MICResult MICEXi_StopLimitedSampling(void);
+extern u32 MICEXi_StopLimitedSampling(void);
 extern void micWork(void);
 void MIC_Init(void);
 MICResult MIC_StartAutoSampling(MICAutoParam *param);

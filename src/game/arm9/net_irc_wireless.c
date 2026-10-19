@@ -63,13 +63,13 @@ extern GFLNetHandle *GFL_NET_HANDLE_GetCurrentHandle(void);
 
 extern void MI_CpuCopy8(const void *src, void *dst, int n);
 
-extern void OS_GetMacAddress(void *dst);
+extern void OS_GetMacAddress(u8 *macAddress);
 
 extern s32 GF_STANDARD_CompareBytes(const u8 *lhs, const u8 *rhs, u32 size);
 
-extern void UI_SetKeepAwakeFlagsGlobal(u32 flag);
+extern void UI_SetKeepAwakeFlagsGlobal(u8 flags);
 
-extern void UI_ClearKeepAwakeFlagsGlobal(u32 flag);
+extern void UI_ClearKeepAwakeFlagsGlobal(u8 v);
 
 extern void GFL_NET_HANDLE_SetTimingSyncRange(GFLNetHandle *handle, u32 timingNo, u32 option);
 

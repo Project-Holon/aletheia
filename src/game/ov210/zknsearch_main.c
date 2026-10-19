@@ -289,7 +289,7 @@ extern void BG_SYS_SetSubPlaneVisible(u32, u32);
 extern void BG_SYS_FreeLayerBuf(u32 a);
 extern void BG_SYS_Delete(void);
 extern void BG_SYS_SetPriority(int idx, unsigned short val);
-extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
+extern void *ARC_TOOL_CreateHandle(unsigned int archiveID, unsigned short heapID);
 extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern u32 ARC_UTIL_RegisterObjCharFromHandle(void *arc, u32 memberIdx, u32 bgId, u32 size, u32 heapID, u16 flags);
 extern u32 ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
@@ -307,44 +307,50 @@ extern void PALANM_AllocSlotBuffers(struct PalAnmSlot *,unsigned,unsigned,unsign
 extern void PALANM_CopyHwPaletteToSlot(struct PalAnmSlot *slots, u32 bank, u32 off, u32 size);
 extern void PALANM_FreeSlotBuffers(struct PalAnmSlot *slots, u32 idx);
 extern u32 PALANM_Delete(void *ctx);
-extern u32 GFL_USE_GetMainTaskList(void);
+struct TcbList;
+extern struct TcbList *GFL_USE_GetMainTaskList(void);
 extern int PALANM_RequestFade(struct PalAnmObj *,u16,u16,s16,u8,u8,u16,void *);
-extern void G2x_SetBlendAlpha_(u32 reg, u32 a, u32 b, u32 c, u32 d);
+extern void G2x_SetBlendAlpha_(unsigned int *reg, unsigned int a, unsigned int b, unsigned int c, unsigned int d);
 extern struct MsgBank *MSGDATA_CreateFromArchive(u32, u32, u32, u32);
 extern struct GfFont *GF_FONT_Create(int, int, int, int, u32);
-extern struct WordSet *WORDSET_CreateDefault(u32);
-extern u32 PRINTSYS_QUE_Create(void *);
-extern struct U16Vec *STRBUF_Create(u32, u32);
-extern void STRBUF_Delete(struct U16Vec *vec);
-extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
+extern struct WordSet *WORDSET_CreateDefault(unsigned short heapId);
+struct PrintQueue;
+extern struct PrintQueue *PRINTSYS_QUE_Create(unsigned int heap);
+struct Strbuf;
+extern struct Strbuf *STRBUF_Create(u32, u32);
+extern void STRBUF_Delete(struct Strbuf *strbuf);
+extern void PRINTSYS_QUE_Delete(struct PrintQueue *queue);
 extern u32 WORDSET_Delete(struct WordSet *p);
-extern u32 GF_FONT_Delete(void *ptr);
-extern u32 MSGDATA_Delete(struct Rec *rec);
-extern struct CodeIn *BLINK_PALANM_Create(u16 firstColor, u16 colorCount, u32 mode, u16 heap);
-extern void BLINK_PALANM_LoadPalettes(struct CodeIn *p, u8 *archive, u32 fileId, u32 srcStart, u32 dstStart);
-extern u32 BLINK_PALANM_Delete(struct CodeIn *p);
-extern struct WinMgr *BGWINFRM_Create(u32 transMode, u32 frameMax, u32 heap);
-extern void BGWINFRM_AddFrame(struct WinMgr *mgr, u32 idx, u32 bg, u32 w, u32 h);
-extern void BGWINFRM_SetFrameData(struct WinMgr *mgr, u32 idx, const void *src);
-extern void BG_SYS_SetTileEntry(u32, int, int, int, u8, u8, u8);
-extern void BGWINFRM_Delete(struct WinMgr *mgr);
+extern u32 GF_FONT_Delete(struct GfFont *font);
+extern u32 MSGDATA_Delete(struct MsgBank *bank);
+struct BlinkPalAnm;
+extern struct BlinkPalAnm *BLINK_PALANM_Create(u16 firstColor, u16 colorCount, u32 mode, u16 heap);
+extern void BLINK_PALANM_LoadPalettes(struct BlinkPalAnm *anm, void *archive, unsigned int fileId, unsigned int srcStart, unsigned int dstStart);
+extern u32 BLINK_PALANM_Delete(struct BlinkPalAnm *anm);
+struct BgWinFrmWork;
+extern struct BgWinFrmWork *BGWINFRM_Create(u32 transMode, u32 frameMax, u32 heap);
+extern void BGWINFRM_AddFrame(struct BgWinFrmWork *wk, unsigned int idx, unsigned int bgFrame, unsigned int sizeX, unsigned int sizeY);
+extern void BGWINFRM_SetFrameData(struct BgWinFrmWork *wk, unsigned int idx, void *src);
+extern void BG_SYS_SetTileEntry(unsigned int layer, unsigned short value, unsigned char x0, unsigned char y0, unsigned char w, unsigned char h, unsigned char mode);
+extern void BGWINFRM_Delete(struct BgWinFrmWork *wk);
 extern void *GFL_HEAP_Alloc(u32, u32, int, const char *, u16);
 extern void *ARC_UTIL_LoadPaletteDataFromHandle(void *, u32, u32, void **, u16);
 extern void MIi_CpuCopy16(const void *, void *, u32);
 extern u32 GFL_HEAP_Free(void *p);
-extern void BG_SYS_DrawTile(u32, u32, u32, u32, u8, u8);
+extern void BG_SYS_DrawTile(unsigned int index, void *src, unsigned char dx, unsigned char dy, unsigned char cw, unsigned char ch);
 extern int GAME_DATA_ContainsRecentId(int, int);
 extern void BG_SYS_ChangeScroll(u32, u32, u32);
-extern void BGWINFRM_PutFrame(struct WinMgr *mgr, u32 idx, s8 x, s8 y);
-extern void BGWINFRM_UpdateMoves(struct WinMgr *mgr);
-extern void BGWINFRM_StartMove(struct WinMgr *mgr, u32 idx, s8 dx, s8 dy, u8 frames);
+extern void BGWINFRM_PutFrame(struct BgWinFrmWork *wk, u32 idx, s8 x, s8 y);
+extern void BGWINFRM_UpdateMoves(struct BgWinFrmWork *wk);
+extern void BGWINFRM_StartMove(struct BgWinFrmWork *wk, u32 idx, s8 moveX, s8 moveY, u8 count);
 extern void ZUKAN_TickCounter(u32 a, u32 b, u32 *counter);
 extern int GF_OVERLAY_Load(s32 handle);
 extern void BG_SYS_SetMainVisiblePlanes(u32 a);
 extern void BG_SYS_SetSubVisiblePlanes(u32 a);
 extern void BG_SYS_SetLcdSwap(u32 a);
 extern void GXx_SetMasterBrightness_(volatile u16 *reg, int brightness);
-extern u32 ZUKAN_SAVE_GetViewMode(struct Blk37 *p);
+struct ZukanSave;
+extern u32 ZUKAN_SAVE_GetViewMode(struct ZukanSave *pZukan);
 extern void GFL_NET_RefreshWmIconAtTopRight(u32 a, u32 b);
 extern void ZKNSEARCH_SYS_SetVramBanks(void);
 extern void ZKNSEARCH_SYS_RegisterVBlank(u8 *p);
@@ -354,58 +360,63 @@ extern u32 ZKNSEARCH_SYS_UnregisterHBlank(u8 *p);
 extern u32 ZKNSEARCH_SYS_UnregisterVBlank(u8 *p);
 extern void GF_OVERLAY_Unload(int);
 extern void GFL_USE_PlaySeDefaultVolume(u32 id);
-extern s32 BLINK_PALANM_Update(struct Row *p);
+extern s32 BLINK_PALANM_Update(struct BlinkPalAnm *anm);
 extern void ZUKAN_InitQuery(struct Blk37 *p, u8 *out);
 extern void GFL_USE_StopAllSe(void);
 extern int ZUKAN_SEARCH_ENGINE_Create(int, int, int);
 extern void ZUKAN_SEARCH_ENGINE_ReleaseWork(int);
 extern int ZUKAN_SEARCH_ENGINE_Filter(struct Search *p, u16 heap, u16 *outCount, u16 **out);
 extern u8 UI_GetInputMode(void);
-extern void CURSOR_MOVE_SetState(struct CursorMove *obj, u32 state);
+struct Cursor;
+extern void CURSOR_MOVE_SetState(struct Cursor *obj, unsigned int state);
 extern void ZKNSEARCH_MENU_InitFrameList(char *ctx);
 extern int FRAME_LIST_UpdateInit(struct FrameList *p);
 extern int FRAME_LIST_Update(struct FrameList *p);
-extern void ZKNSEARCH_RESULT_DeleteFrameList(int p);
+extern void ZKNSEARCH_RESULT_DeleteFrameList(u8 *work);
 extern void ZKNSEARCH_LIST_InitFrameList(char *ctx);
 extern void ZKNSEARCH_LIST_InitFrameList2(char *ctx);
 extern void ZKNSEARCH_COND_InitFrameList(char *ctx);
 extern void ZKNSEARCH_RESULT_InitFrameList(char *ctx);
 extern void FRAME_LIST_SetCursor(struct FrameList *s, int v);
-extern int FRAME_LIST_GetScrollPos(char *p);
+extern int FRAME_LIST_GetScrollPos(struct FrameList *list);
 extern void GAME_DATA_SetRecentId(void *, unsigned, unsigned);
 extern void BMP_WIN_Init(unsigned short);
-extern unsigned BMP_WIN_Create(unsigned, unsigned, unsigned, unsigned, u8, u8, u8);
-extern u32 BMP_WIN_Delete(struct Descriptor *d);
+struct BmpWin;
+extern struct BmpWin *BMP_WIN_Create(unsigned int bgLayer, unsigned int posX, unsigned int posY, unsigned char width, unsigned char height, unsigned char palette, unsigned char allocDir);
+extern u32 BMP_WIN_Delete(struct BmpWin *win);
 extern void BMP_WIN_Exit(void);
-extern unsigned PRINTSYS_QUE_Main(struct PrintSys *);
-extern void *BMP_WIN_GetBmp(struct Descriptor *);
-extern unsigned PRINTSYS_QUE_IsExistTarget(struct PrintSys *, void *);
-extern void BMP_WIN_TransferChars(struct Descriptor *);
-extern void *MSGDATA_AllocString(struct MsgBank *, u32);
+extern unsigned PRINTSYS_QUE_Main(struct PrintQueue *queue);
+struct Bmp;
+extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *win);
+extern unsigned PRINTSYS_QUE_IsExistTarget(struct PrintQueue *queue, struct Bmp *bmp);
+extern void BMP_WIN_TransferChars(struct BmpWin *win);
+extern struct Strbuf *MSGDATA_AllocString(struct MsgBank *, u32);
 extern void TOUCHBAR_PrintAligned(u8 *p, void *a, u16 b, u16 c, u32 s0, u32 s1, u16 s2, u32 s3);
-extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
-extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
-extern void BMP_Clear(struct CharBuf *buf, u8 value);
-extern u32 PRINTSYS_MeasureWidestLine(struct StrObj *s, u32 a, u32 b);
-extern u32 FRAME_LIST_GetPrinter(char *p);
-extern u8 BMP_WIN_GetWidth(struct Descriptor *p);
+extern void BMP_WIN_MakeScreen(struct BmpWin *win);
+extern u8 BMP_WIN_GetBgLayer(struct BmpWin *win);
+extern void BMP_Clear(struct Bmp *bmp, unsigned char value);
+extern u32 PRINTSYS_MeasureWidestLine(struct Strbuf *text, struct GfFont *font, unsigned int spacing);
+extern struct PrintSys *FRAME_LIST_GetPrinter(struct FrameList *list);
+extern u8 BMP_WIN_GetWidth(struct BmpWin *win);
 extern void CLACT_ExitSystem(void);
-extern u32 CLACT_GetActorAutoAnim(struct Obj *p);
-extern void CLACT_AddActorAnimFrame(struct Obj *p, u32 arg);
+extern u32 CLACT_GetActorAutoAnim(struct Actor *actor);
+extern void CLACT_AddActorAnimFrame(struct Actor *actor, unsigned int frames);
 extern void CLACT_DrawSystem(void);
-extern void CLACT_SetActorAnimFrame(struct Obj *p, u32 value);
-extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
-extern void CLACT_SetActorAutoAnim(struct Obj *p, unsigned int v);
-extern u16 CLACT_GetActorAnimSeq(struct Obj *p);
+extern void CLACT_SetActorAnimFrame(struct Actor *actor, unsigned int frame);
+extern void CLACT_SetActorAnimSeq(struct Actor *actor, unsigned short value);
+extern void CLACT_SetActorAutoAnim(struct Actor *actor, unsigned int enable);
+extern u16 CLACT_GetActorAnimSeq(struct Actor *actor);
 extern u32 CLACT_IsActorAnimActive(struct Actor *a);
-extern void CLACT_SetActorDrawEnable(struct Obj *p, unsigned int v);
-extern u32 CLACT_GetActorDrawEnable(struct Obj *p);
+extern void CLACT_SetActorDrawEnable(struct Actor *actor, unsigned int value);
+extern u32 CLACT_GetActorDrawEnable(struct Actor *actor);
 extern void CLACT_SetActorObjMode(struct Actor *actor, u32 value);
 extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
 extern void CLACT_GetActorSurfacePos(struct Actor *actor, struct PtS *out, u16 space);
-extern void CLACT_SetActorBgPriority(int h, unsigned v);
+extern void CLACT_SetActorBgPriority(struct Actor *actor, unsigned int priority);
 extern void *ZKNSEARCH_SYS_GetVramBanks(void);
-extern void CLACT_InitSystem(const struct Cfg *cfg, u32 arg, u32 heapId);
+struct DispVramCfg;
+struct SysInit;
+extern void CLACT_InitSystem(struct SysInit *cfg, struct DispVramCfg *res_cfg, unsigned int heapId);
 extern int CLACT_RegisterCharacter(void *arc, u32 idx, u32 a, u32 b, u16 heap);
 extern int CLACT_RegisterPalette(void *arc, u32 idx, u32 a, u32 b, u16 heap);
 extern int CLACT_RegisterCellAnim(void *arc, u32 a, u32 b, u32 heap);
@@ -417,22 +428,24 @@ extern void CLACT_ReleaseCharacter(unsigned);
 extern void CLACT_ReleasePalette(unsigned);
 extern void CLACT_ReleaseCellAnim(unsigned);
 extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
-extern struct Obj *ZUKAN_CreateActor(u32 bank, const u8 *t, u16 heap);
-extern void CLACT_DeleteActor(struct Obj *p);
+extern struct Obj *ZUKAN_CreateActor(void *bank, struct ZknSearchActorTemplate *t, u16 heap);
+extern void CLACT_DeleteActor(struct Actor *actor);
 extern u32 CLACT_DeleteUnit(struct Bank *bank);
 extern int FRAME_LIST_ClampToScrollBar(struct FrameList *, unsigned int);
-extern int FRAME_LIST_GetCursor(char *p);
-extern int FRAME_LIST_CanScrollDown(char *p);
-extern struct CursorMove *CURSOR_MOVE_Create(u32 entries, u32 vt, u32 ctx, u32 state, u8 start, u16 heapId);
-extern void CURSOR_MOVE_EnableInput(struct CursorMove *obj);
-extern void CURSOR_MOVE_Delete(void);
-extern void *CURSOR_MOVE_GetEntry(void **obj, unsigned int idx);
-extern int CURSOR_MOVE_PollRepeatInput(struct Sound *obj);
+extern int FRAME_LIST_GetCursor(struct FrameList *list);
+extern int FRAME_LIST_CanScrollDown(struct FrameList *list);
+struct CursorVtbl;
+struct CursorEntry;
+extern struct Cursor *CURSOR_MOVE_Create(struct CursorEntry *entries, struct CursorVtbl *vt, unsigned int ctx, unsigned int state, unsigned char start, unsigned short heapId);
+extern void CURSOR_MOVE_EnableInput(struct Cursor *obj);
+extern u32 CURSOR_MOVE_Delete(void *cursor);
+extern struct CursorEntry *CURSOR_MOVE_GetEntry(struct Cursor *obj, unsigned int idx);
+extern int CURSOR_MOVE_PollRepeatInput(struct Cursor *obj);
 extern unsigned KEY_GetTrg(void);
 extern void UI_SetInputMode(u8 v);
-extern u8 CURSOR_MOVE_GetCurrent(struct Sound *obj);
-extern void CURSOR_MOVE_SetCurrent(struct Sound *obj, u8 sel);
-extern void BLINK_PALANM_ResetPhase(struct CodeIn *p);
+extern u8 CURSOR_MOVE_GetCurrent(struct Cursor *obj);
+extern void CURSOR_MOVE_SetCurrent(struct Cursor *obj, unsigned char sel);
+extern void BLINK_PALANM_ResetPhase(struct BlinkPalAnm *anm);
 extern int TOUCHPANEL_GetTrg(void);
 extern int TOUCHPANEL_HitTrg(const void *);
 extern void FRAME_LIST_ShowCursor(struct FrameList *s);
@@ -470,7 +483,7 @@ void ZKNSEARCH_MAIN_StartScrollMove(char *p, int delta);
 int ZKNSEARCH_MAIN_UpdateScrollMove(char *p);
 u32 ZKNSEARCH_MAIN_GetListIndexA(u32 a, u32 b);
 u32 ZKNSEARCH_MAIN_GetListIndexB(u32 a, u32 b);
-u16 ZKNSEARCH_MAIN_LookupEntryId(int work, int index);
+u16 ZKNSEARCH_MAIN_LookupEntryId(char *work, int index);
 u16 ZKNSEARCH_MAIN_LookupSavedEntryId(int work, int index);
 void ZKNSEARCH_MAIN_NormalizeRecordByte(u8 *p);
 void ZKNSEARCH_MAIN_DenormalizeRecordByte(u8 *p);
@@ -533,7 +546,7 @@ void ZKNSEARCH_MAIN_PrintEntryCount3(u8 *p);
 void ZKNSEARCH_MAIN_InitListTexts4(u8 *p);
 void ZKNSEARCH_MAIN_PrintEntryCount4(u8 *p);
 void ZKNSEARCH_MAIN_InitListTexts5(u8 *p);
-void ZKNSEARCH_MAIN_PrintListRow(int p, int *a, u32 b);
+void ZKNSEARCH_MAIN_PrintListRow(char *p, int *a, u32 b);
 void ZKNSEARCH_MAIN_TransferRowChars(int a, unsigned *p);
 void ZKNSEARCH_MAIN_PrintMessageText(u8 *p, unsigned message);
 void ZKNSEARCH_MAIN_PrintMessage11(void *a);
@@ -814,8 +827,8 @@ void ZKNSEARCH_MAIN_RequestPaletteFade(char *work,u8 startLevel,u8 endLevel)
 void ZKNSEARCH_MAIN_SetBrightness(int mode)
 {
     if (mode == 1) {
-        G2x_SetBlendAlpha_(0x04000050, 8, 4, 16, 6);
-        G2x_SetBlendAlpha_(0x04001050, 2, 6, 6, 10);
+        G2x_SetBlendAlpha_((unsigned int *)0x04000050, 8, 4, 16, 6);
+        G2x_SetBlendAlpha_((unsigned int *)0x04001050, 2, 6, 6, 10);
         return;
     }
     *(volatile u16 *)0x04001050 = 0;
@@ -882,8 +895,8 @@ void ZKNSEARCH_MAIN_InitTextSystem(char *work)
     *(struct MsgBank * *)&((ZknSearchWork *)work)->msgBank = MSGDATA_CreateFromArchive(0, 2, 277, 123);
     *(struct GfFont * *)&((ZknSearchWork *)work)->font = GF_FONT_Create(23, 0, 0, 0, 123);
     *(struct WordSet * *)&((ZknSearchWork *)work)->wordSet = WORDSET_CreateDefault(123);
-    ((ZknSearchWork *)work)->printSys = PRINTSYS_QUE_Create((void *)123);
-    *(struct U16Vec * *)&((ZknSearchWork *)work)->strBuf = STRBUF_Create(128, 123);
+    ((ZknSearchWork *)work)->printSys = (unsigned int)PRINTSYS_QUE_Create((unsigned int)123);
+    *(struct U16Vec * *)&((ZknSearchWork *)work)->strBuf = (struct U16Vec *)STRBUF_Create(128, 123);
 }
 
 
@@ -893,11 +906,11 @@ void ZKNSEARCH_MAIN_InitTextSystem(char *work)
 
 u32 ZKNSEARCH_MAIN_DeleteTextSystem(u8 *work)
 {
-    STRBUF_Delete((struct U16Vec *)(((ZknSearchWork *)work)->strBuf));
-    PRINTSYS_QUE_Delete((struct PrintSys *)(((ZknSearchWork *)work)->printSys));
+    STRBUF_Delete((struct Strbuf *)(((ZknSearchWork *)work)->strBuf));
+    PRINTSYS_QUE_Delete((struct PrintQueue *)(((ZknSearchWork *)work)->printSys));
     WORDSET_Delete((struct WordSet *)(((ZknSearchWork *)work)->wordSet));
     GF_FONT_Delete((void *)(((ZknSearchWork *)work)->font));
-    return MSGDATA_Delete((struct Rec *)(((ZknSearchWork *)work)->msgBank));
+    return MSGDATA_Delete((struct MsgBank *)(((ZknSearchWork *)work)->msgBank));
 }
 
 
@@ -910,7 +923,7 @@ void ZKNSEARCH_MAIN_InitBlinkPalette(int work)
     void *h = ARC_TOOL_CreateHandle(0x9f, 0x807b);
 
     ((ZknSearchWork *)work)->blinkPal = (int)BLINK_PALANM_Create(0x30, 0x10, 1, 0x7b);
-    BLINK_PALANM_LoadPalettes((struct CodeIn *)(((ZknSearchWork *)work)->blinkPal), h, 0x49, 0x20, 0x30);
+    BLINK_PALANM_LoadPalettes((struct BlinkPalAnm *)(((ZknSearchWork *)work)->blinkPal), h, 0x49, 0x20, 0x30);
     ARC_TOOL_DeleteHandle(h);
 }
 
@@ -921,7 +934,7 @@ void ZKNSEARCH_MAIN_InitBlinkPalette(int work)
 
 u32 ZKNSEARCH_MAIN_UpdateBlinkPalette(u8 *work)
 {
-    return BLINK_PALANM_Delete((struct CodeIn *)(((ZknSearchWork *)work)->blinkPal));
+    return BLINK_PALANM_Delete((struct BlinkPalAnm *)(((ZknSearchWork *)work)->blinkPal));
 }
 
 
@@ -931,9 +944,9 @@ u32 ZKNSEARCH_MAIN_UpdateBlinkPalette(u8 *work)
 void ZKNSEARCH_MAIN_InitScrollWindow(char *work)
 {
     u32 base = BG_SYS_GetBuf(0);
-    *(struct WinMgr * *)&((ZknSearchWork *)work)->scrollWin = BGWINFRM_Create(2, 1, 123);
-    BGWINFRM_AddFrame(*(struct WinMgr * *)&((ZknSearchWork *)work)->scrollWin, 0, 0, 32, 3);
-    BGWINFRM_SetFrameData(*(struct WinMgr * *)&((ZknSearchWork *)work)->scrollWin, 0, (void *)(base + 0x540));
+    *(struct WinMgr * *)&((ZknSearchWork *)work)->scrollWin = (struct WinMgr *)BGWINFRM_Create(2, 1, 123);
+    BGWINFRM_AddFrame((struct BgWinFrmWork *)(*(struct WinMgr * *)&((ZknSearchWork *)work)->scrollWin), 0, 0, 32, 3);
+    BGWINFRM_SetFrameData((struct BgWinFrmWork *)(*(struct WinMgr * *)&((ZknSearchWork *)work)->scrollWin), 0, (void *)(base + 0x540));
     BG_SYS_SetTileEntry(0, 0, 0, 21, 32, 3, 0);
     BG_SYS_MarkTileDirty(0);
 }
@@ -945,7 +958,7 @@ void ZKNSEARCH_MAIN_InitScrollWindow(char *work)
 
 void ZKNSEARCH_MAIN_DeleteScrollWindow(u8 *work)
 {
-    BGWINFRM_Delete(*(struct WinMgr * *)&((ZknSearchWork *)work)->scrollWin);
+    BGWINFRM_Delete((struct BgWinFrmWork *)(*(struct WinMgr * *)&((ZknSearchWork *)work)->scrollWin));
 }
 
 
@@ -1053,7 +1066,7 @@ u32 ZKNSEARCH_MAIN_DeleteResultGraphics(u8 *work)
 
 void ZKNSEARCH_MAIN_ShowResultLayout(char *work)
 {
-    BG_SYS_DrawTile(1, (u32)((ZknSearchWork *)work)->resultGraphics, 0, 17, 32, 6);
+    BG_SYS_DrawTile(1, ((ZknSearchWork *)work)->resultGraphics, 0, 17, 32, 6);
     BG_SYS_MarkTileDirty(1);
     ZKNSEARCH_MAIN_SetActorAnimAuto((int)work, 2, 15);
     ZKNSEARCH_MAIN_SetActorAnimAuto((int)work, 3, 14);
@@ -1132,8 +1145,8 @@ void ZKNSEARCH_MAIN_EnterResultLayout(char *work)
     short x, y;
     BG_SYS_ChangeScroll(4, 3, 48);
     BG_SYS_ChangeScroll(7, 3, 48);
-    BGWINFRM_PutFrame(*(struct WinMgr * *)&((ZknSearchWork *)work)->scrollWin, 0, 0, 27);
-    BGWINFRM_UpdateMoves(*(struct WinMgr * *)&((ZknSearchWork *)work)->scrollWin);
+    BGWINFRM_PutFrame((struct BgWinFrmWork *)(*(struct WinMgr * *)&((ZknSearchWork *)work)->scrollWin), 0, 0, 27);
+    BGWINFRM_UpdateMoves((struct BgWinFrmWork *)(*(struct WinMgr * *)&((ZknSearchWork *)work)->scrollWin));
     for (i = 2; i <= 4; i++) {
         ZKNSEARCH_MAIN_GetActorSurfacePos(work, i, &x, &y, 0);
         y += 48;
@@ -1153,7 +1166,7 @@ void ZKNSEARCH_MAIN_StartScrollMove(char *work, int delta)
     ((ZknSearchWork *)work)->scrollDelta = delta;
     magnitude = delta < 0 ? -delta : delta;
     direction = delta / (delta < 0 ? -delta : delta);
-    BGWINFRM_StartMove(*(struct WinMgr * *)&((ZknSearchWork *)work)->scrollWin, 0, 0, direction, 48 / magnitude);
+    BGWINFRM_StartMove((struct BgWinFrmWork *)(*(struct WinMgr * *)&((ZknSearchWork *)work)->scrollWin), 0, 0, direction, 48 / magnitude);
 }
 
 
@@ -1169,7 +1182,7 @@ int ZKNSEARCH_MAIN_UpdateScrollMove(char *work)
     short x, y;
     int magnitude;
     if (((ZknSearchWork *)work)->scrollRemaining == 0) return 0;
-    BGWINFRM_UpdateMoves(*(struct WinMgr * *)&((ZknSearchWork *)work)->scrollWin);
+    BGWINFRM_UpdateMoves((struct BgWinFrmWork *)(*(struct WinMgr * *)&((ZknSearchWork *)work)->scrollWin));
     BG_SYS_ChangeScroll(4, 4, ((ZknSearchWork *)work)->scrollDelta);
     BG_SYS_ChangeScroll(7, 4, ((ZknSearchWork *)work)->scrollDelta);
     for (i = 2; i <= 4; i++) {
@@ -1206,7 +1219,7 @@ u32 ZKNSEARCH_MAIN_GetListIndexB(u32 work, u32 index)
 
 
 
-u16 ZKNSEARCH_MAIN_LookupEntryId(int work, int index)
+u16 ZKNSEARCH_MAIN_LookupEntryId(char *work, int index)
 {
     (void)work;
     return d_021C072E[index];
@@ -1323,7 +1336,7 @@ u32 ZKNSEARCH_MAIN_InitSearchScreen(u8 *work)
     m = -16;
     GXx_SetMasterBrightness_((volatile u16 *)(ra + 0x1c), m);
     GXx_SetMasterBrightness_((volatile u16 *)(rb + 0x1c), m);
-    if (ZUKAN_SAVE_GetViewMode((struct Blk37 *)(((ZknSearchWork *)work)->save->block)) == 1) {
+    if (ZUKAN_SAVE_GetViewMode((struct ZukanSave *)(((ZknSearchWork *)work)->save->block)) == 1) {
         ((ZknSearchWork *)work)->save->record[0] = z;
     } else {
         ((ZknSearchWork *)work)->save->record[0] = 1;
@@ -1476,7 +1489,7 @@ u32 ZKNSEARCH_MAIN_UpdateSearchResult(u8 *work)
         ZKNSEARCH_MAIN_SetActorAnimAuto((int)work, 2, 9);
         return ZKNSEARCH_MAIN_EnterMessageState(work, 1, 2, 0x1a);
     }
-    BLINK_PALANM_Update((struct Row *)(((ZknSearchWork *)work)->blinkPal));
+    BLINK_PALANM_Update((struct BlinkPalAnm *)(((ZknSearchWork *)work)->blinkPal));
     return 4;
 }
 
@@ -1705,7 +1718,7 @@ u32 ZKNSEARCH_MAIN_ExitListPage1(u32 work)
 {
     ZKNSEARCH_MAIN_SetFadeStateB((u8 *)work);
     ZKNSEARCH_MAIN_HideAllActors((u8 *)work);
-    ZKNSEARCH_RESULT_DeleteFrameList(work);
+    ZKNSEARCH_RESULT_DeleteFrameList((u8 *)work);
     return 3;
 }
 
@@ -1841,7 +1854,7 @@ u32 ZKNSEARCH_MAIN_ExitListPage2(u8 *work)
 {
     ZKNSEARCH_MAIN_SetFadeStateB(work);
     ZKNSEARCH_MAIN_HideAllActors(work);
-    ZKNSEARCH_RESULT_DeleteFrameList((int)work);
+    ZKNSEARCH_RESULT_DeleteFrameList(work);
     return 3;
 }
 
@@ -1975,7 +1988,7 @@ u32 ZKNSEARCH_MAIN_ExitListPage3(u8 *work)
 {
     ZKNSEARCH_MAIN_SetFadeStateB(work);
     ZKNSEARCH_MAIN_HideAllActors(work);
-    ZKNSEARCH_RESULT_DeleteFrameList((int)work);
+    ZKNSEARCH_RESULT_DeleteFrameList(work);
     return 3;
 }
 
@@ -2111,7 +2124,7 @@ u32 ZKNSEARCH_MAIN_ExitListPage4(u8 *work)
 {
     ZKNSEARCH_MAIN_SetFadeStateB(work);
     ZKNSEARCH_MAIN_HideAllActors(work);
-    ZKNSEARCH_RESULT_DeleteFrameList((int)work);
+    ZKNSEARCH_RESULT_DeleteFrameList(work);
     return 3;
 }
 
@@ -2244,7 +2257,7 @@ u32 ZKNSEARCH_MAIN_ExitListPage5(u8 *work)
 {
     ZKNSEARCH_MAIN_SetFadeStateB(work);
     ZKNSEARCH_MAIN_HideAllActors(work);
-    ZKNSEARCH_RESULT_DeleteFrameList((int)work);
+    ZKNSEARCH_RESULT_DeleteFrameList(work);
     return 3;
 }
 
@@ -2441,7 +2454,7 @@ void ZKNSEARCH_MAIN_ClearEntry3(u8 *work)
  */
 void ZKNSEARCH_MAIN_ToggleEntry3(u8 *work, int index)
 {
-    int sum = index + FRAME_LIST_GetScrollPos(*(char * *)&((ZknSearchWork *)work)->frameList);
+    int sum = index + FRAME_LIST_GetScrollPos((struct FrameList *)(*(char * *)&((ZknSearchWork *)work)->frameList));
     u8 *data = *(u8 * *)&((ZknSearchWork *)work)->save->record;
     if (data[5] == sum) {
         data[5] = 255;
@@ -2477,7 +2490,7 @@ void ZKNSEARCH_MAIN_ClearEntry4(u8 *work)
  */
 void ZKNSEARCH_MAIN_ToggleEntry4(u8 *work, int index)
 {
-    int sum = index + FRAME_LIST_GetScrollPos(*(char * *)&((ZknSearchWork *)work)->frameList);
+    int sum = index + FRAME_LIST_GetScrollPos((struct FrameList *)(*(char * *)&((ZknSearchWork *)work)->frameList));
     u8 *data = *(u8 * *)&((ZknSearchWork *)work)->save->record;
     if (data[6] == sum) {
         data[6] = 255;
@@ -2562,7 +2575,7 @@ void ZKNSEARCH_MAIN_InitBmpWindows(u8 *work)
     BMP_WIN_Init(123);
     for (i = 0; i < 16; i++) {
         const struct ZknSearchBmpTemplate *r = &d_021C0900[i];
-        *(unsigned *)(work + i * 8 + 0x14c) = BMP_WIN_Create(r->x, r->y, r->w, r->h, r->charW, r->charH, 1);
+        *(unsigned *)(work + i * 8 + 0x14c) = (unsigned int)BMP_WIN_Create((unsigned int)r->x, (unsigned int)r->y, (unsigned int)r->w, r->h, r->charW, r->charH, 1);
     }
     ZKNSEARCH_MAIN_InitWindowTexts(work);
 }
@@ -2600,7 +2613,7 @@ void ZKNSEARCH_MAIN_UpdateBmpWindows(u8 *work)
 {
     int release, clear, get, flag;
     unsigned i;
-    PRINTSYS_QUE_Main(*(struct PrintSys * *)&((ZknSearchWork *)work)->printSys);
+    PRINTSYS_QUE_Main((struct PrintQueue *)(*(struct PrintSys * *)&((ZknSearchWork *)work)->printSys));
     release = 0x14c;
     clear = 0x150;
     get = 0x14c;
@@ -2608,8 +2621,8 @@ void ZKNSEARCH_MAIN_UpdateBmpWindows(u8 *work)
     for (i = 0; i < 16; i++) {
         struct PrintSys *ps = *(struct PrintSys * *)&((ZknSearchWork *)work)->printSys;
         u8 *record = work + i * 8;
-        if (record[flag] != 0 && PRINTSYS_QUE_IsExistTarget(ps, BMP_WIN_GetBmp(*(struct Descriptor **)(record + get))) == 0) {
-            BMP_WIN_TransferChars(*(struct Descriptor **)(record + release));
+        if (record[flag] != 0 && PRINTSYS_QUE_IsExistTarget((struct PrintQueue *)ps, BMP_WIN_GetBmp((struct BmpWin *)(*(struct Descriptor **)(record + get)))) == 0) {
+            BMP_WIN_TransferChars((struct BmpWin *)(*(struct Descriptor **)(record + release)));
             record[clear] = 0;
         }
     }
@@ -2621,9 +2634,9 @@ void ZKNSEARCH_MAIN_UpdateBmpWindows(u8 *work)
 
 void ZKNSEARCH_MAIN_PrintWindowText(u8 *work, int slot, u32 message, int x, int y, u16 color, u32 mode)
 {
-    struct U16Vec *text = MSGDATA_AllocString(*(struct MsgBank * *)&((ZknSearchWork *)work)->msgBank, message);
+    struct U16Vec *text = (struct U16Vec *)MSGDATA_AllocString(*(struct MsgBank * *)&((ZknSearchWork *)work)->msgBank, message);
     TOUCHBAR_PrintAligned(work + 0x14c + slot * 8, (void *)(((ZknSearchWork *)work)->printSys), x, y, (u32)text, ((ZknSearchWork *)work)->font, color, mode);
-    STRBUF_Delete(text);
+    STRBUF_Delete((struct Strbuf *)text);
 }
 
 
@@ -2633,8 +2646,8 @@ void ZKNSEARCH_MAIN_PrintWindowText(u8 *work, int slot, u32 message, int x, int 
 
 void ZKNSEARCH_MAIN_MakeWindowScreen(u8 *zknSearchBmpWin)
 {
-    BMP_WIN_MakeScreen((struct Cfg *)(((ZknSearchBmpWin *)zknSearchBmpWin)->bmp));
-    BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer((struct Descriptor *)(((ZknSearchBmpWin *)zknSearchBmpWin)->bmp)));
+    BMP_WIN_MakeScreen((struct BmpWin *)(((ZknSearchBmpWin *)zknSearchBmpWin)->bmp));
+    BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer((struct BmpWin *)(((ZknSearchBmpWin *)zknSearchBmpWin)->bmp)));
 }
 
 
@@ -2689,11 +2702,11 @@ void ZKNSEARCH_MAIN_UpdateResultTexts(u8 *work)
     ZKNSEARCH_MAIN_MakeWindowScreen(work + 0x1A4);
     ZKNSEARCH_MAIN_PrintLabel1(work);
 
-    BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)((ZknSearchWork *)work)->bmpWin[7].bmp)), 0);
+    BMP_Clear((struct Bmp *)((u32)BMP_WIN_GetBmp((struct BmpWin *)((ZknSearchWork *)work)->bmpWin[7].bmp)), 0);
     ZKNSEARCH_MAIN_PrintWindowText(work, 7, Bytes021BE564(work)[1] + 0x19, 0x28, 4, 0x3C40, 2);
     ZKNSEARCH_MAIN_MakeWindowScreen(work + 0x184);
 
-    BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)((ZknSearchWork *)work)->bmpWin[8].bmp)), 0);
+    BMP_Clear((struct Bmp *)((u32)BMP_WIN_GetBmp((struct BmpWin *)((ZknSearchWork *)work)->bmpWin[8].bmp)), 0);
     v = Bytes021BE564(work)[2];
     if (v == 0xFF)
         ZKNSEARCH_MAIN_PrintWindowText(work, 8, 0x5F, 8, 4, 0x3C40, 2);
@@ -2701,7 +2714,7 @@ void ZKNSEARCH_MAIN_UpdateResultTexts(u8 *work)
         ZKNSEARCH_MAIN_PrintWindowText(work, 8, v + 0x33, 8, 4, 0x3C40, 2);
     ZKNSEARCH_MAIN_MakeWindowScreen(work + 0x18C);
 
-    BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)((ZknSearchWork *)work)->bmpWin[9].bmp)), 0);
+    BMP_Clear((struct Bmp *)((u32)BMP_WIN_GetBmp((struct BmpWin *)((ZknSearchWork *)work)->bmpWin[9].bmp)), 0);
     if (Bytes021BE564(work)[3] == 0xFF) {
         ZKNSEARCH_MAIN_PrintWindowText(work, 9, 0x30, 0x40, 4, 0x3C40, 2);
     } else if (Bytes021BE564(work)[4] == 0xFF) {
@@ -2709,20 +2722,20 @@ void ZKNSEARCH_MAIN_UpdateResultTexts(u8 *work)
     } else {
         s1 = (u32)MSGDATA_AllocString((struct MsgBank *)(*(u32 *)&((ZknSearchWork *)work)->msgBank), 0x31);
         TOUCHBAR_PrintAligned(work + 0x194, (void *)(((ZknSearchWork *)work)->printSys), 0x42, 4, s1, ((ZknSearchWork *)work)->font, 0x3C40, 2);
-        w = PRINTSYS_MeasureWidestLine((struct StrObj *)s1, ((ZknSearchWork *)work)->font, 0);
-        STRBUF_Delete((struct U16Vec *)s1);
+        w = PRINTSYS_MeasureWidestLine((struct Strbuf *)s1, (struct GfFont *)(((ZknSearchWork *)work)->font), 0);
+        STRBUF_Delete((struct Strbuf *)s1);
         x = 0x40 - (u8)(w / 2);
         s2 = (u32)MSGDATA_AllocString((struct MsgBank *)(*(u32 *)&((ZknSearchWork *)work)->msgBank), ZKNSEARCH_MAIN_LookupSavedEntryId((int)work, Bytes021BE564(work)[3]));
         TOUCHBAR_PrintAligned(work + 0x194, (void *)(((ZknSearchWork *)work)->printSys), x + 2, 4, s2, ((ZknSearchWork *)work)->font, 0x3C40, 1);
-        STRBUF_Delete((struct U16Vec *)s2);
+        STRBUF_Delete((struct Strbuf *)s2);
         x += w;
         s3 = (u32)MSGDATA_AllocString((struct MsgBank *)(*(u32 *)&((ZknSearchWork *)work)->msgBank), ZKNSEARCH_MAIN_LookupSavedEntryId((int)work, Bytes021BE564(work)[4]));
         TOUCHBAR_PrintAligned(work + 0x194, (void *)(((ZknSearchWork *)work)->printSys), x + 2, 4, s3, ((ZknSearchWork *)work)->font, 0x3C40, 0);
-        STRBUF_Delete((struct U16Vec *)s3);
+        STRBUF_Delete((struct Strbuf *)s3);
     }
     ZKNSEARCH_MAIN_MakeWindowScreen(work + 0x194);
 
-    BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)((ZknSearchWork *)work)->bmpWin[10].bmp)), 0);
+    BMP_Clear((struct Bmp *)((u32)BMP_WIN_GetBmp((struct BmpWin *)((ZknSearchWork *)work)->bmpWin[10].bmp)), 0);
     v = Bytes021BE564(work)[5];
     if (v == 0xFF)
         ZKNSEARCH_MAIN_PrintWindowText(work, 10, 0x6A, 0x28, 4, 0x3C40, 2);
@@ -2740,7 +2753,7 @@ void ZKNSEARCH_MAIN_PrintLabel1(u8 *work)
 {
     u32 z = 0;
 
-    BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)*(u32 *)&((ZknSearchWork *)work)->bmpWin[1].bmp)), 0);
+    BMP_Clear((struct Bmp *)((u32)BMP_WIN_GetBmp((struct BmpWin *)*(u32 *)&((ZknSearchWork *)work)->bmpWin[1].bmp)), 0);
     ZKNSEARCH_MAIN_PrintWindowText(work, 1, 1, 0, 4, 0x440, z);
     ZKNSEARCH_MAIN_MakeWindowScreen(work + 0x154);
 }
@@ -2752,8 +2765,8 @@ void ZKNSEARCH_MAIN_PrintLabel1(u8 *work)
 
 void ZKNSEARCH_MAIN_ClearLabel1(u8 *work)
 {
-    BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)((ZknSearchWork *)work)->bmpWin[1].bmp)), 0);
-    BMP_WIN_TransferChars((struct Descriptor *)((ZknSearchWork *)work)->bmpWin[1].bmp);
+    BMP_Clear((struct Bmp *)((u32)BMP_WIN_GetBmp((struct BmpWin *)((ZknSearchWork *)work)->bmpWin[1].bmp)), 0);
+    BMP_WIN_TransferChars((struct BmpWin *)((ZknSearchWork *)work)->bmpWin[1].bmp);
 }
 
 
@@ -2763,10 +2776,10 @@ void ZKNSEARCH_MAIN_ClearLabel1(u8 *work)
 void ZKNSEARCH_MAIN_InitListTexts(u8 *work)
 {
     ZKNSEARCH_MAIN_MakeWindowScreen(work + 0x14c);
-    BMP_Clear(BMP_WIN_GetBmp(*(struct Descriptor * *)&((ZknSearchWork *)work)->bmpWin[1].bmp), 0);
+    BMP_Clear(BMP_WIN_GetBmp((struct BmpWin *)(*(struct Descriptor * *)&((ZknSearchWork *)work)->bmpWin[1].bmp)), 0);
     ZKNSEARCH_MAIN_PrintWindowText(work, 1, 4, 0, 4, 0x440, 0);
     ZKNSEARCH_MAIN_MakeWindowScreen(work + 0x154);
-    BMP_Clear(BMP_WIN_GetBmp(*(struct Descriptor * *)&((ZknSearchWork *)work)->bmpWin[12].bmp), 0);
+    BMP_Clear(BMP_WIN_GetBmp((struct BmpWin *)(*(struct Descriptor * *)&((ZknSearchWork *)work)->bmpWin[12].bmp)), 0);
     ZKNSEARCH_MAIN_PrintWindowText(work, 12, 12, 40, 0, 0x3c40, 2);
     ZKNSEARCH_MAIN_MakeWindowScreen(work + 0x1ac);
     ZKNSEARCH_MAIN_PrintEntryCount(work);
@@ -2778,7 +2791,7 @@ void ZKNSEARCH_MAIN_InitListTexts(u8 *work)
 
 void ZKNSEARCH_MAIN_PrintEntryCount(u8 *work)
 {
-    BMP_Clear(BMP_WIN_GetBmp(*(struct Descriptor * *)&((ZknSearchWork *)work)->bmpWin[13].bmp), 0);
+    BMP_Clear(BMP_WIN_GetBmp((struct BmpWin *)(*(struct Descriptor * *)&((ZknSearchWork *)work)->bmpWin[13].bmp)), 0);
     ZKNSEARCH_MAIN_PrintWindowText(work, 13, (*(u8 **)(*(u8 * *)&((ZknSearchWork *)work)->save + 8))[1] + 25, 48, 0, 0x3c40, 2);
     ZKNSEARCH_MAIN_MakeWindowScreen(work + 0x1b4);
 }
@@ -2791,10 +2804,10 @@ void ZKNSEARCH_MAIN_PrintEntryCount(u8 *work)
 void ZKNSEARCH_MAIN_InitListTexts2(u8 *work)
 {
     ZKNSEARCH_MAIN_MakeWindowScreen(work + 0x14C);
-    BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)*(u32 *)&((ZknSearchWork *)work)->bmpWin[1].bmp)), 0);
+    BMP_Clear((struct Bmp *)((u32)BMP_WIN_GetBmp((struct BmpWin *)*(u32 *)&((ZknSearchWork *)work)->bmpWin[1].bmp)), 0);
     ZKNSEARCH_MAIN_PrintWindowText(work, 1, 5, 0, 4, 0x440, 0);
     ZKNSEARCH_MAIN_MakeWindowScreen(work + 0x154);
-    BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)*(u32 *)&((ZknSearchWork *)work)->bmpWin[12].bmp)), 0);
+    BMP_Clear((struct Bmp *)((u32)BMP_WIN_GetBmp((struct BmpWin *)*(u32 *)&((ZknSearchWork *)work)->bmpWin[12].bmp)), 0);
     ZKNSEARCH_MAIN_PrintWindowText(work, 0xC, 0xD, 0x28, 0, 0x3C40, 2);
     ZKNSEARCH_MAIN_MakeWindowScreen(work + 0x1AC);
     ZKNSEARCH_MAIN_PrintEntryCount2(work);
@@ -2810,7 +2823,7 @@ void ZKNSEARCH_MAIN_InitListTexts2(u8 *work)
 void ZKNSEARCH_MAIN_PrintEntryCount2(u8 *work)
 {
     unsigned message;
-    BMP_Clear(BMP_WIN_GetBmp(*(struct Descriptor * *)&((ZknSearchWork *)work)->bmpWin[13].bmp), 0);
+    BMP_Clear(BMP_WIN_GetBmp((struct BmpWin *)(*(struct Descriptor * *)&((ZknSearchWork *)work)->bmpWin[13].bmp)), 0);
     message = (*(u8 **)(*(u8 * *)&((ZknSearchWork *)work)->save + 8))[2];
     if (message != 255) ZKNSEARCH_MAIN_PrintWindowText(work, 13, message + 51, 48, 0, 0x3c40, 2);
     else ZKNSEARCH_MAIN_PrintWindowText(work, 13, 95, 48, 0, 0x3c40, 2);
@@ -2825,10 +2838,10 @@ void ZKNSEARCH_MAIN_PrintEntryCount2(u8 *work)
 void ZKNSEARCH_MAIN_InitListTexts3(u8 *work)
 {
     ZKNSEARCH_MAIN_MakeWindowScreen(work + 0x14C);
-    BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)*(u32 *)&((ZknSearchWork *)work)->bmpWin[1].bmp)), 0);
+    BMP_Clear((struct Bmp *)((u32)BMP_WIN_GetBmp((struct BmpWin *)*(u32 *)&((ZknSearchWork *)work)->bmpWin[1].bmp)), 0);
     ZKNSEARCH_MAIN_PrintWindowText(work, 1, 6, 0, 4, 0x440, 0);
     ZKNSEARCH_MAIN_MakeWindowScreen(work + 0x154);
-    BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)*(u32 *)&((ZknSearchWork *)work)->bmpWin[12].bmp)), 0);
+    BMP_Clear((struct Bmp *)((u32)BMP_WIN_GetBmp((struct BmpWin *)*(u32 *)&((ZknSearchWork *)work)->bmpWin[12].bmp)), 0);
     ZKNSEARCH_MAIN_PrintWindowText(work, 0xC, 0xE, 0x28, 0, 0x3C40, 2);
     ZKNSEARCH_MAIN_MakeWindowScreen(work + 0x1AC);
     ZKNSEARCH_MAIN_PrintEntryCount3(work);
@@ -2843,8 +2856,8 @@ void ZKNSEARCH_MAIN_PrintEntryCount3(u8 *work)
 {
     u8 c;
 
-    BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)*(u32 *)&((ZknSearchWork *)work)->bmpWin[13].bmp)), 0);
-    BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)((ZknSearchWork *)work)->bmpWin[14].bmp)), 0);
+    BMP_Clear((struct Bmp *)((u32)BMP_WIN_GetBmp((struct BmpWin *)*(u32 *)&((ZknSearchWork *)work)->bmpWin[13].bmp)), 0);
+    BMP_Clear((struct Bmp *)((u32)BMP_WIN_GetBmp((struct BmpWin *)((ZknSearchWork *)work)->bmpWin[14].bmp)), 0);
     c = ((u8 *)*(u32 *)(*(u32 *)&((ZknSearchWork *)work)->save + 8))[3];
     if (c != 0xFF)
         ZKNSEARCH_MAIN_PrintWindowText(work, 0xD, ZKNSEARCH_MAIN_LookupSavedEntryId((int)work, c), 0x30, 0, 0x3C40, 2);
@@ -2867,10 +2880,10 @@ void ZKNSEARCH_MAIN_PrintEntryCount3(u8 *work)
 void ZKNSEARCH_MAIN_InitListTexts4(u8 *work)
 {
     ZKNSEARCH_MAIN_MakeWindowScreen(work + 0x14C);
-    BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)*(u32 *)&((ZknSearchWork *)work)->bmpWin[1].bmp)), 0);
+    BMP_Clear((struct Bmp *)((u32)BMP_WIN_GetBmp((struct BmpWin *)*(u32 *)&((ZknSearchWork *)work)->bmpWin[1].bmp)), 0);
     ZKNSEARCH_MAIN_PrintWindowText(work, 1, 8, 0, 4, 0x440, 0);
     ZKNSEARCH_MAIN_MakeWindowScreen(work + 0x154);
-    BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)*(u32 *)&((ZknSearchWork *)work)->bmpWin[12].bmp)), 0);
+    BMP_Clear((struct Bmp *)((u32)BMP_WIN_GetBmp((struct BmpWin *)*(u32 *)&((ZknSearchWork *)work)->bmpWin[12].bmp)), 0);
     ZKNSEARCH_MAIN_PrintWindowText(work, 0xC, 0xF, 0x28, 0, 0x3C40, 2);
     ZKNSEARCH_MAIN_MakeWindowScreen(work + 0x1AC);
     ZKNSEARCH_MAIN_PrintEntryCount4(work);
@@ -2886,7 +2899,7 @@ void ZKNSEARCH_MAIN_PrintEntryCount4(u8 *work)
     u32 v;
     u8 *b;
 
-    BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)*(u32 *)&((ZknSearchWork *)work)->bmpWin[13].bmp)), 0);
+    BMP_Clear((struct Bmp *)((u32)BMP_WIN_GetBmp((struct BmpWin *)*(u32 *)&((ZknSearchWork *)work)->bmpWin[13].bmp)), 0);
     b = (u8 *)*(u32 *)(*(u32 *)&((ZknSearchWork *)work)->save + 8);
     v = b[5];
     if (v != 0xFF)
@@ -2904,10 +2917,10 @@ void ZKNSEARCH_MAIN_PrintEntryCount4(u8 *work)
 void ZKNSEARCH_MAIN_InitListTexts5(u8 *work)
 {
     ZKNSEARCH_MAIN_MakeWindowScreen(work + 0x14c);
-    BMP_Clear(BMP_WIN_GetBmp(*(struct Descriptor * *)&((ZknSearchWork *)work)->bmpWin[1].bmp), 0);
+    BMP_Clear(BMP_WIN_GetBmp((struct BmpWin *)(*(struct Descriptor * *)&((ZknSearchWork *)work)->bmpWin[1].bmp)), 0);
     ZKNSEARCH_MAIN_PrintWindowText(work, 1, 7, 0, 4, 0x440, 0);
     ZKNSEARCH_MAIN_MakeWindowScreen(work + 0x154);
-    BMP_Clear(BMP_WIN_GetBmp(*(struct Descriptor * *)&((ZknSearchWork *)work)->bmpWin[12].bmp), 0);
+    BMP_Clear(BMP_WIN_GetBmp((struct BmpWin *)(*(struct Descriptor * *)&((ZknSearchWork *)work)->bmpWin[12].bmp)), 0);
     ZKNSEARCH_MAIN_PrintWindowText(work, 12, 16, 40, 0, 0x3c40, 2);
     ZKNSEARCH_MAIN_MakeWindowScreen(work + 0x1ac);
 }
@@ -2917,11 +2930,11 @@ void ZKNSEARCH_MAIN_InitListTexts5(u8 *work)
 
 
 
-void ZKNSEARCH_MAIN_PrintListRow(int work, int *window, u32 text)
+void ZKNSEARCH_MAIN_PrintListRow(char *work, int *window, u32 text)
 {
-    u32 x = FRAME_LIST_GetPrinter(*(char * *)&((ZknSearchWork *)work)->frameList);
+    u32 x = (unsigned int)FRAME_LIST_GetPrinter((struct FrameList *)(*(char * *)&((ZknSearchWork *)work)->frameList));
 
-    TOUCHBAR_PrintAligned((u8 *)window, (void *)x, (u16)(BMP_WIN_GetWidth((struct Descriptor *)(*window)) * 8 / 2), 4, text,
+    TOUCHBAR_PrintAligned((u8 *)window, (void *)x, (u16)(BMP_WIN_GetWidth((struct BmpWin *)(*window)) * 8 / 2), 4, text,
                   ((ZknSearchWork *)work)->font, 0x39e0, 2);
 }
 
@@ -2932,7 +2945,7 @@ void ZKNSEARCH_MAIN_PrintListRow(int work, int *window, u32 text)
 
 void ZKNSEARCH_MAIN_TransferRowChars(int work, unsigned *window)
 {
-    BMP_WIN_TransferChars((struct Descriptor *)*window);
+    BMP_WIN_TransferChars((struct BmpWin *)*window);
 }
 
 
@@ -2942,7 +2955,7 @@ void ZKNSEARCH_MAIN_TransferRowChars(int work, unsigned *window)
 void ZKNSEARCH_MAIN_PrintMessageText(u8 *work, unsigned message)
 {
     WindowOffset offset = kMsgWindowOffset;
-    BMP_Clear(BMP_WIN_GetBmp(*(struct Descriptor **)(work + offset)), 6);
+    BMP_Clear(BMP_WIN_GetBmp((struct BmpWin *)(*(struct Descriptor **)(work + offset))), 6);
     ZKNSEARCH_MAIN_PrintWindowText(work, 15, message, 120, 0, 0x446, 2);
     ZKNSEARCH_MAIN_MakeWindowScreen(work + offset);
 }
@@ -3025,8 +3038,8 @@ void ZKNSEARCH_MAIN_UpdateActorAnims(int work)
     for (i = 0; i < 0x39; i++) {
         ZknSearchWork *q = (ZknSearchWork *)work;
 
-        if (q->actors[i] != 0 && CLACT_GetActorAutoAnim((struct Obj *)q->actors[i]) != 1)
-            CLACT_AddActorAnimFrame((struct Obj *)q->actors[i], 0x1000);
+        if (q->actors[i] != 0 && CLACT_GetActorAutoAnim((struct Actor *)q->actors[i]) != 1)
+            CLACT_AddActorAnimFrame((struct Actor *)q->actors[i], 0x1000);
     }
     CLACT_DrawSystem();
 }
@@ -3050,7 +3063,7 @@ void ZKNSEARCH_MAIN_SetActorAnim(char *work, int idx, int animSeq)
 void ZKNSEARCH_MAIN_SetActorAnimAuto(int work, int i, int animSeq)
 {
     ZKNSEARCH_MAIN_SetActorAnim((char *)work, i, animSeq);
-    CLACT_SetActorAutoAnim((struct Obj *)((ZknSearchWork *)work)->actors[i], 1);
+    CLACT_SetActorAutoAnim((struct Actor *)((ZknSearchWork *)work)->actors[i], 1);
 }
 
 
@@ -3060,7 +3073,7 @@ void ZKNSEARCH_MAIN_SetActorAnimAuto(int work, int i, int animSeq)
 
 int ZKNSEARCH_MAIN_GetActorAnimSeq(int work, int i)
 {
-    return CLACT_GetActorAnimSeq((struct Obj *)((ZknSearchWork *)work)->actors[i]);
+    return CLACT_GetActorAnimSeq((struct Actor *)((ZknSearchWork *)work)->actors[i]);
 }
 
 
@@ -3085,7 +3098,7 @@ void ZKNSEARCH_MAIN_SetActorVisible(int work, int i, int visible)
     int h = (int)((ZknSearchWork *)work)->actors[i];
 
     if (h != 0)
-        CLACT_SetActorDrawEnable((struct Obj *)h, visible);
+        CLACT_SetActorDrawEnable((struct Actor *)h, visible);
 }
 
 
@@ -3095,7 +3108,7 @@ void ZKNSEARCH_MAIN_SetActorVisible(int work, int i, int visible)
 
 int ZKNSEARCH_MAIN_GetActorVisible(int work, int i)
 {
-    return CLACT_GetActorDrawEnable((struct Obj *)((ZknSearchWork *)work)->actors[i]);
+    return CLACT_GetActorDrawEnable((struct Actor *)((ZknSearchWork *)work)->actors[i]);
 }
 
 
@@ -3148,7 +3161,7 @@ void ZKNSEARCH_MAIN_GetActorSurfacePos(char *work, int idx, short *outA, short *
 
 void ZKNSEARCH_MAIN_SetActorBgPriority(int work, int i, unsigned bgPriority)
 {
-    CLACT_SetActorBgPriority((int)((ZknSearchWork *)work)->actors[i], (unsigned char)bgPriority);
+    CLACT_SetActorBgPriority(((ZknSearchWork *)work)->actors[i], (unsigned char)bgPriority);
 }
 
 
@@ -3160,7 +3173,7 @@ void ZKNSEARCH_MAIN_InitClact(void)
 {
     ClactConfig tbl = d_021C0990;
 
-    CLACT_InitSystem((const struct Cfg *)(&tbl), (u32)ZKNSEARCH_SYS_GetVramBanks(), 0x7b);
+    CLACT_InitSystem((struct SysInit *)(&tbl), ZKNSEARCH_SYS_GetVramBanks(), 0x7b);
 }
 
 
@@ -3245,7 +3258,7 @@ void ZKNSEARCH_MAIN_CreateActors(ZknSearchWork *work)
         t0.charIdx = work->charRes[t0.charIdx];
         t0.palIdx = work->palRes[t0.palIdx];
         t0.cellIdx = work->cellRes[t0.cellIdx];
-        work->actors[i] = ZUKAN_CreateActor((u32)work->actorBank, (const u8 *)(&t0), 0x7B);
+        work->actors[i] = ZUKAN_CreateActor(work->actorBank, (struct ZknSearchActorTemplate *)(&t0), 0x7B);
     }
 
     if (GAME_DATA_ContainsRecentId((int)(work->save->gameData), 0x10) == 1)
@@ -3275,7 +3288,7 @@ void ZKNSEARCH_MAIN_CreateActors(ZknSearchWork *work)
         t.palIdx = work->palRes[t.palIdx];
         t.cellIdx = work->cellRes[t.cellIdx];
         t.id = i;
-        work->actors[15 + i] = ZUKAN_CreateActor((u32)work->actorBank, (const u8 *)(&t), 0x7B);
+        work->actors[15 + i] = ZUKAN_CreateActor(work->actorBank, (struct ZknSearchActorTemplate *)(&t), 0x7B);
         ZKNSEARCH_MAIN_SetActorVisible((int)work, i + 15, 0);
 
         t = tb;
@@ -3283,10 +3296,10 @@ void ZKNSEARCH_MAIN_CreateActors(ZknSearchWork *work)
         t.palIdx = work->palRes[t.palIdx];
         t.cellIdx = work->cellRes[t.cellIdx];
         t.id = i;
-        work->actors[29 + i] = ZUKAN_CreateActor((u32)work->actorBank, (const u8 *)(&t), 0x7B);
+        work->actors[29 + i] = ZUKAN_CreateActor(work->actorBank, (struct ZknSearchActorTemplate *)(&t), 0x7B);
         ZKNSEARCH_MAIN_SetActorVisible((int)work, i + 29, 0);
         ZKNSEARCH_MAIN_SetActorObjMode((char *)work, (int)i + 29, 1);
-        work->actors[43 + i] = ZUKAN_CreateActor((u32)work->actorBank, (const u8 *)(&t), 0x7B);
+        work->actors[43 + i] = ZUKAN_CreateActor(work->actorBank, (struct ZknSearchActorTemplate *)(&t), 0x7B);
         ZKNSEARCH_MAIN_SetActorVisible((int)work, i + 43, 0);
         CLACT_SetActorObjMode(work->actors[43 + i], 2);
     }
@@ -3302,7 +3315,7 @@ void ZKNSEARCH_MAIN_DeleteActorAt(int work, int i)
     ZknSearchWork *q = (ZknSearchWork *)work;
 
     if (q->actors[i] != 0) {
-        CLACT_DeleteActor((struct Obj *)q->actors[i]);
+        CLACT_DeleteActor((struct Actor *)q->actors[i]);
         q->actors[i] = 0;
     }
 }
@@ -3461,7 +3474,7 @@ void ZKNSEARCH_MAIN_ShowEntry6Actor(char *work)
 
 void ZKNSEARCH_MAIN_LayoutScrollActors(char *work)
 {
-    short base = FRAME_LIST_GetScrollPos(*(char * *)&((ZknSearchWork *)work)->frameList);
+    short base = FRAME_LIST_GetScrollPos((struct FrameList *)(*(char * *)&((ZknSearchWork *)work)->frameList));
     short i;
     for (i = 0; i < 14; i++) {
         ZKNSEARCH_MAIN_SetActorVisible((int)work, i + 15, 0);
@@ -3495,16 +3508,16 @@ void ZKNSEARCH_MAIN_UpdateScrollBarActor(char *work)
 
 void ZKNSEARCH_MAIN_UpdateCursorActors(u8 *work, int force)
 {
-    int r6 = FRAME_LIST_GetCursor((char *)(((ZknSearchWork *)work)->frameList));
+    int r6 = FRAME_LIST_GetCursor((struct FrameList *)(((ZknSearchWork *)work)->frameList));
 
     if (ZKNSEARCH_MAIN_GetActorAnimSeq((int)work, 6) != 0xC || force == 0) {
-        if (FRAME_LIST_GetScrollPos((char *)(((ZknSearchWork *)work)->frameList)) == 0 && r6 == 0)
+        if (FRAME_LIST_GetScrollPos((struct FrameList *)(((ZknSearchWork *)work)->frameList)) == 0 && r6 == 0)
             ZKNSEARCH_MAIN_SetActorAnimAuto((int)work, 6, 0x12);
         else
             ZKNSEARCH_MAIN_SetActorAnimAuto((int)work, 6, 4);
     }
     if (ZKNSEARCH_MAIN_GetActorAnimSeq((int)work, 5) != 0xD || force == 0) {
-        if (FRAME_LIST_CanScrollDown((char *)(((ZknSearchWork *)work)->frameList)) == 0 &&
+        if (FRAME_LIST_CanScrollDown((struct FrameList *)(((ZknSearchWork *)work)->frameList)) == 0 &&
             r6 == ((ZknSearchWork *)work)->entryCount - 1)
             ZKNSEARCH_MAIN_SetActorAnimAuto((int)work, 5, 0x13);
         else
@@ -3646,7 +3659,7 @@ void ZKNSEARCH_MAIN_PlaceColumnActor4(char *work, int i, int flag)
 
 void ZKNSEARCH_MAIN_PlaceScrollActor(char *ctx, int slot, int index)
 {
-    unsigned center = FRAME_LIST_GetScrollPos(*(char * *)&((ZknSearchWork *)ctx)->frameList);
+    unsigned center = FRAME_LIST_GetScrollPos((struct FrameList *)(*(char * *)&((ZknSearchWork *)ctx)->frameList));
     signed short lower = center - 7;
     signed short upper = center + 7;
     if (lower < 0) lower = 0;
@@ -3661,7 +3674,7 @@ void ZKNSEARCH_MAIN_PlaceScrollActor(char *ctx, int slot, int index)
 
 void ZKNSEARCH_MAIN_PlaceScrollActor2(char *ctx)
 {
-    unsigned center = FRAME_LIST_GetScrollPos(*(char * *)&((ZknSearchWork *)ctx)->frameList);
+    unsigned center = FRAME_LIST_GetScrollPos((struct FrameList *)(*(char * *)&((ZknSearchWork *)ctx)->frameList));
     int index = (*(unsigned char ***)(ctx))[2][6];
     signed short lower = index - 4;
     signed short upper = index + 4;
@@ -3788,9 +3801,9 @@ void ZKNSEARCH_MAIN_PlaceProgressActor(int work, int progress)
 void ZKNSEARCH_MAIN_InitCursorMove(char *ctx, int index)
 {
     if (UI_GetInputMode() == 1) {
-        ((ZknSearchWork *)ctx)->cursorMove = CURSOR_MOVE_Create((unsigned)d_021C0B60, (unsigned)d_021C0B14, (unsigned)ctx, 0, index, 123);
+        ((ZknSearchWork *)ctx)->cursorMove = CURSOR_MOVE_Create((struct CursorEntry *)d_021C0B60, (struct CursorVtbl *)d_021C0B14, (unsigned)ctx, 0, index, 123);
     } else {
-        ((ZknSearchWork *)ctx)->cursorMove = CURSOR_MOVE_Create((unsigned)d_021C0B60, (unsigned)d_021C0B14, (unsigned)ctx, 1, index, 123);
+        ((ZknSearchWork *)ctx)->cursorMove = CURSOR_MOVE_Create((struct CursorEntry *)d_021C0B60, (struct CursorVtbl *)d_021C0B14, (unsigned)ctx, 1, index, 123);
         ZKNSEARCH_MAIN_SetCursorTile((int)ctx, index, 3);
     }
     CURSOR_MOVE_EnableInput(((ZknSearchWork *)ctx)->cursorMove);
@@ -3804,7 +3817,7 @@ void ZKNSEARCH_MAIN_DeleteCursorMove(int work)
     int *q = (int *)work;
 
     if (q[0xac] != 0) {
-        CURSOR_MOVE_Delete();
+        CURSOR_MOVE_Delete((void *)q[0xac]);
         q[0xac] = 0;
     }
 }
@@ -3823,7 +3836,7 @@ void ZKNSEARCH_MAIN_SetCursorTile(int work, unsigned int index, unsigned int fil
 
     if (index > 6)
         return;
-    t = (u8 *)CURSOR_MOVE_GetEntry((void **)q[0xac], index);
+    t = (u8 *)CURSOR_MOVE_GetEntry((struct Cursor *)q[0xac], index);
     BG_SYS_FillTileMap(0, t[0], t[1], t[2], t[3], (u8)fill);
     BG_SYS_MarkTileDirty(0);
 }
@@ -3834,7 +3847,7 @@ void ZKNSEARCH_MAIN_SetCursorTile(int work, unsigned int index, unsigned int fil
 u32 ZKNSEARCH_MAIN_PollMenuInput(int work)
 {
     int *q = (int *)work;
-    int r = CURSOR_MOVE_PollRepeatInput((struct Sound *)q[0xac]);
+    int r = CURSOR_MOVE_PollRepeatInput((struct Cursor *)q[0xac]);
     unsigned k;
 
     if (r != -1)
@@ -3847,14 +3860,14 @@ u32 ZKNSEARCH_MAIN_PollMenuInput(int work)
     k = KEY_GetTrg();
     if (k & 0x800) {
         if (UI_GetInputMode() == 1)
-            CURSOR_MOVE_SetState((struct CursorMove *)q[0xac], 1);
+            CURSOR_MOVE_SetState((struct Cursor *)q[0xac], 1);
         UI_SetInputMode(0);
         return 7;
     }
     k = KEY_GetTrg();
     if (k & 8) {
         if (UI_GetInputMode() == 1)
-            CURSOR_MOVE_SetState((struct CursorMove *)q[0xac], 1);
+            CURSOR_MOVE_SetState((struct Cursor *)q[0xac], 1);
         UI_SetInputMode(0);
         ZKNSEARCH_MAIN_MoveCursor(work, 5);
         return 5;
@@ -3862,14 +3875,14 @@ u32 ZKNSEARCH_MAIN_PollMenuInput(int work)
     k = KEY_GetTrg();
     if (k & 4) {
         if (UI_GetInputMode() == 1)
-            CURSOR_MOVE_SetState((struct CursorMove *)q[0xac], 1);
+            CURSOR_MOVE_SetState((struct Cursor *)q[0xac], 1);
         UI_SetInputMode(0);
         ZKNSEARCH_MAIN_MoveCursor(work, 6);
         return 6;
     }
     if (KEY_GetTrg() != 0 && UI_GetInputMode() == 1) {
         UI_SetInputMode(0);
-        CURSOR_MOVE_SetState((struct CursorMove *)q[0xac], 1);
+        CURSOR_MOVE_SetState((struct Cursor *)q[0xac], 1);
         return -4;
     }
     return r;
@@ -3882,9 +3895,9 @@ void ZKNSEARCH_MAIN_MoveCursor(int work, unsigned index)
 {
     int *q = (int *)work;
 
-    ZKNSEARCH_MAIN_SetCursorTile(work, CURSOR_MOVE_GetCurrent((struct Sound *)q[0xac]), 1);
+    ZKNSEARCH_MAIN_SetCursorTile(work, CURSOR_MOVE_GetCurrent((struct Cursor *)q[0xac]), 1);
     ZKNSEARCH_MAIN_SetCursorTile(work, index, 3);
-    CURSOR_MOVE_SetCurrent((struct Sound *)q[0xac], (unsigned char)index);
+    CURSOR_MOVE_SetCurrent((struct Cursor *)q[0xac], (unsigned char)index);
 }
 
 
@@ -3897,7 +3910,7 @@ void ZKNSEARCH_MAIN_SetCursor(int work, unsigned index)
     if ((r & 2) && !(r & 0xf1))
         return;
     ZKNSEARCH_MAIN_SetCursorTile(work, index, 3);
-    BLINK_PALANM_ResetPhase((struct CodeIn *)(((int *)work)[0xad]));
+    BLINK_PALANM_ResetPhase((struct BlinkPalAnm *)(((int *)work)[0xad]));
 }
 
 
@@ -3916,7 +3929,7 @@ void ZKNSEARCH_MAIN_SelectCursor(int work, unsigned index, unsigned prevIndex)
 {
     ZKNSEARCH_MAIN_SetCursorTile(work, prevIndex, 1);
     ZKNSEARCH_MAIN_SetCursorTile(work, index, 3);
-    BLINK_PALANM_ResetPhase((struct CodeIn *)(((int *)work)[0xad]));
+    BLINK_PALANM_ResetPhase((struct BlinkPalAnm *)(((int *)work)[0xad]));
 }
 
 
@@ -3926,7 +3939,7 @@ void ZKNSEARCH_MAIN_UpdateCursor(int work, unsigned index, unsigned prevIndex)
 {
     ZKNSEARCH_MAIN_SetCursorTile(work, prevIndex, 1);
     if (index == 7)
-        CURSOR_MOVE_SetCurrent((struct Sound *)(((int *)work)[0xac]), (unsigned char)prevIndex);
+        CURSOR_MOVE_SetCurrent((struct Cursor *)(((int *)work)[0xac]), (unsigned char)prevIndex);
 }
 
 

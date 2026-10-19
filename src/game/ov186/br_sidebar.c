@@ -45,6 +45,10 @@
  *   CLACT_GetActorSurfacePosAxis 0x0204B4EC arm
  *   GF_STANDARD_SinFromDegreesWrapped 0x0203F684 arm
  *   CLACT_GetActorScaleAxis 0x0204B5E4 arm
+ *   _fadd                        0x0209C95C  arm
+ *   _ffix                        0x0209C494  arm
+ *   _fflt                        0x0209BDBC  arm
+ *   _fsub                        0x0209CB8C  arm
  */
 #include "br_types.h"
 
@@ -58,7 +62,7 @@ extern void * MI_CpuFill8(void *,u32,u32);
 
 extern void BR_RES_LoadSprite(struct BrRes *res, u32 spriteIndex, u32 heapId);
 
-extern int BR_RES_GetSprite(struct BrRes *res, unsigned spriteIndex, struct BrResSprite *outSprite);
+extern int BR_RES_GetSprite(struct BrRes *res, unsigned int spriteIndex, void *outSprite);
 
 extern void BR_RES_ReleaseSprite(struct BrRes *res, unsigned spriteIndex);
 

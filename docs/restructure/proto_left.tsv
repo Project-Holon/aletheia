@@ -1,0 +1,1105 @@
+# One row per file with prototype mismatches left (tools/protocheck.py, 2026-10-19), plus every file whose externs or casts the PROTO1 lane changed.
+# left: declarations whose signature differs from the definition. kinds: counts per kind. casts_net: added minus removed casts in call arguments and results (approximate, from the diff against HEAD; includes edits of other lanes in the same file). Detail rows: docs/restructure/proto_left_detail.tsv
+file	region	left	kinds	casts_net
+src/game/ov093/btl_server_flow.c	ov093	286	count=4 other=9 pointee=232 ptrint=16 ret=50 sign=18 width=25	-1
+src/game/ov175/wifibattlematch_net.c	ov175	144	other=2 pointee=88 ptrint=46 ret=41 sign=17 width=11	0
+src/game/ov170/box2_seq.c	ov170	124	pointee=102 ptrint=12 ret=13 sign=5 width=9	-2
+src/game/ov183/br_codein.c	ov183	115	count=1 pointee=96 ptrint=14 ret=16 sign=3 width=6	-524
+src/game/ov170/box2_main.c	ov170	103	other=1 pointee=81 ptrint=14 ret=17 sign=3 width=7	0
+src/game/ov172/ctvt_call.c	ov172	90	count=1 pointee=65 ptrint=20 ret=19 sign=2 width=10	0
+src/game/ov208/zukan_detail_area.c	ov208	81	pointee=54 ptrint=17 ret=16 sign=4 width=7	0
+src/game/ov121/mystery_album.c	ov121	72	count=1 pointee=58 ptrint=8 ret=15 sign=3 width=12	1
+src/game/ov023/oekaki.c	ov023	66	count=1 pointee=44 ptrint=3 ret=17 sign=4 width=9	0
+src/game/ov119/pokemontrade_nego.c	ov119	65	pointee=50 ptrint=8 ret=9 sign=4 width=5	0
+src/game/ov088/startmenu.c	ov088	55	other=1 pointee=27 ptrint=13 ret=19 sign=10 width=24	12
+src/game/ov172/ctvt_draw.c	ov172	44	pointee=33 ptrint=7 ret=7 sign=1 width=6	0
+src/game/ov135/worldtrade_search.c	ov135	42	count=1 pointee=31 ptrint=5 ret=10 sign=2 width=5	0
+src/game/ov020/field_wfbc_data_local.c	ov020	39	other=1 pointee=28 ptrint=3 ret=15 sign=1 width=4	7
+src/game/ov021/fieldmap.c	ov021	39	count=8 pointee=15 ptrint=6 ret=16 sign=6 width=7	55
+src/game/ov181/staff_roll.c	ov181	39	other=1 pointee=27 ptrint=5 ret=8 sign=2 width=6	0
+src/game/ov093/btl_client.c	ov093	38	count=1 other=2 pointee=24 ptrint=7 ret=8 sign=2 width=11	72
+src/game/ov009/dwc_match.c	ov009	37	other=6 pointee=29 ptrint=1 ret=7 sign=3 width=1	-1
+src/game/ov010/scrcmd_musical.c	ov010	37	count=1 pointee=20 ptrint=2 ret=22 unproto=7 width=1	37
+src/game/ov099/wifi_club.c	ov099	37	count=1 other=1 pointee=22 ptrint=4 ret=16 sign=4 width=8	178
+src/game/ov184/br_download.c	ov184	35	count=2 pointee=21 ptrint=13 ret=7 sign=2 width=1	0
+src/game/ov208/zukan_detail_info.c	ov208	35	pointee=30 ptrint=4 ret=4 sign=1 width=4	0
+src/game/ov176/livebattlematch_flow.c	ov176	34	count=2 pointee=21 ptrint=6 ret=10 sign=1 width=3	0
+src/game/ov020/event_mapchange.c	ov020	32	count=2 other=1 pointee=13 ptrint=4 ret=17 sign=3 width=9	61
+src/game/ov093/btl_main.c	ov093	31	pointee=30 ptrint=3 ret=8 sign=1 width=4	21
+src/game/ov128/wf2dmap_friend.c	ov128	31	count=3 other=1 pointee=16 ptrint=2 ret=9 sign=3 width=11	23
+src/game/ov093/hand_common_protos.h	ov093	29	pointee=12 ptrint=2 ret=10 sign=6 width=5	0
+src/game/ov093/hand_waza_types.h	ov093	29	other=1 pointee=13 ptrint=2 ret=12 sign=7 width=3	0
+src/game/ov103/irc_compatible_touch_test.c	ov103	29	count=3 pointee=15 ptrint=1 ret=10 sign=7 width=9	16
+src/game/ov107/mb_parent_sys.c	ov107	27	count=2 pointee=18 ptrint=3 ret=6 sign=1 width=3	2
+src/game/arm9/gfl_use.c	arm9	24	count=3 pointee=8 ptrint=6 ret=12 sign=3 width=2	46
+src/game/ov095/btlv_scd.c	ov095	24	pointee=13 ptrint=2 ret=13 sign=6 width=5	0
+src/game/ov219/beacon_detail.c	ov219	24	count=3 pointee=15 ptrint=4 ret=8 sign=1 width=6	32
+src/game/ov043/field_gimmick_lift_elevator.c	ov043	23	other=1 pointee=23 ptrint=1 ret=9 width=5	28
+src/game/ov093/btlv_core.c	ov093	23	count=7 pointee=6 ret=4 sign=3 width=5	110
+src/game/ov119/pokemontrade_save.c	ov119	23	count=1 pointee=17 ptrint=6 ret=7 sign=1 width=5	4
+src/game/ov216/beacon_detail_gra.c	ov216	23	pointee=15 ptrint=5 ret=6 width=6	67
+src/game/ov021/scrcmd_wordset_warp.c	ov021	22	count=1 pointee=7 ptrint=7 ret=8 sign=3 width=1	0
+src/game/ov039/field_gimmick_cart_lanes_types.h	ov039	21	pointee=5 ptrint=2 ret=9 sign=2 width=8	0
+src/game/ov070/itemmenu.c	ov070	21	pointee=11 ptrint=2 ret=9 sign=3 unproto=3 width=4	52
+src/game/ov018/intrude_field.c	ov018	20	count=1 other=1 pointee=8 ptrint=2 ret=7 sign=1 unproto=1 width=3	18
+src/game/ov021/fld3d_ci.c	ov021	20	other=2 pointee=14 ptrint=3 ret=11 sign=3 width=3	1
+src/game/ov021/scrcmd_proc_fld.c	ov021	20	pointee=13 ptrint=5 ret=10 sign=2 width=4	-8
+src/game/ov107/mb_comm_sys.c	ov107	20	pointee=16 ptrint=3 ret=4 sign=1 width=1	-3
+src/game/ov107/mbp.c	ov107	20	pointee=16 ptrint=3 ret=4 sign=1 width=1	1
+src/game/ov116/wifi_bsubway_graphic.c	ov116	20	count=1 other=1 pointee=6 ptrint=3 ret=6 sign=7 width=13	0
+src/game/ov021/field_event_check.c	ov021	19	other=1 pointee=14 ptrint=3 ret=5 sign=1 width=8	12
+src/game/ov071/monolith_tool.c	ov071	19	pointee=14 ptrint=3 ret=6 sign=2 width=2	58
+src/game/ov094/btlv_input.c	ov094	19	count=2 pointee=14 ptrint=2 ret=3 sign=1 width=1	0
+src/game/ov106/irc_ranking.c	ov106	19	pointee=7 ret=3 sign=2 width=11	24
+src/game/ov120/gtsnego_disp.c	ov120	19	pointee=17 ptrint=1 ret=5 sign=1 width=2	23
+src/game/ov195/shinka_demo.c	ov195	19	count=2 pointee=9 ptrint=4 ret=5 sign=1 width=4	25
+src/game/ov021/field_menu.c	ov021	18	other=1 pointee=8 ptrint=2 ret=6 sign=1 width=7	21
+src/game/ov094/btlv_effvm.c	ov094	18	pointee=15 ptrint=1 ret=1 sign=1 width=2	54
+src/game/ov121/mystery.c	ov121	18	count=1 pointee=9 ptrint=4 ret=7 sign=2 unproto=2 width=10	13
+src/game/ov136/mb_seq.c	ov136	18	count=1 pointee=12 ptrint=2 ret=3 sign=1 width=4	95
+src/game/ov194/namein_graphic.c	ov194	18	pointee=10 ptrint=4 ret=7 sign=2 width=8	12
+src/game/ov213/comm_btl_demo_main.c	ov213	18	pointee=16 ptrint=2 ret=5 width=5	19
+src/game/ov009/gsxml.c	ov009	17	pointee=8 ptrint=5 ret=9 sign=3	0
+src/game/ov021/field_player_grid_event.c	ov021	17	count=1 pointee=11 ret=11 sign=3 width=2	17
+src/game/ov032/beacon_view.c	ov032	17	other=3 pointee=13 ptrint=4 ret=7 width=2	48
+src/game/ov105/irc_result.c	ov105	17	pointee=6 ret=4 sign=7 width=12	29
+src/game/ov119/pokemontrade_proc.c	ov119	17	count=1 pointee=13 ptrint=1 ret=4 sign=2 width=2	12
+src/game/ov133/dup_fitting.c	ov133	17	other=1 pointee=12 ret=4 sign=3 width=3	43
+src/game/ov171/dendou_view.c	ov171	17	pointee=13 ptrint=4 ret=4 sign=1 width=1	40
+src/game/ov214/btl_rec_sel.c	ov214	17	count=1 pointee=11 ptrint=4 ret=5 sign=1 width=4	29
+src/game/ov217/research_graph.c	ov217	17	pointee=9 ptrint=1 ret=10 sign=1 unproto=4 width=2	93
+src/game/ov217/research_top.c	ov217	17	pointee=5 ptrint=2 ret=10 sign=1 unproto=3 width=4	5
+src/game/ov223/psel.c	ov223	17	pointee=10 ptrint=3 ret=9 sign=2 width=4	84
+src/game/ov112/mus_shot_info.c	ov112	16	count=2 pointee=7 ptrint=1 ret=7 sign=2 width=4	9
+src/game/ov118/pokemontrade_demo_common.c	ov118	16	pointee=12 ptrint=1 ret=4 sign=1 width=1	0
+src/game/ov132/sta_acting.c	ov132	16	count=1 pointee=11 ptrint=2 ret=5 sign=2 width=5	5
+src/game/ov135/worldtrade_detail.c	ov135	16	count=1 pointee=11 ptrint=3 ret=7 unproto=1 width=3	0
+src/game/ov137/guru2_main.c	ov137	16	count=1 pointee=10 ptrint=2 ret=5 width=2	4
+src/game/ov217/research_list.c	ov217	16	pointee=9 ret=9 unproto=3 width=1	21
+src/game/twl/nwmif.c	twl	16	pointee=6 ptrint=13 ret=3 width=3	11
+src/game/arm9/btl_setup.c	arm9	15	pointee=10 ptrint=1 ret=3 sign=1 width=3	0
+src/game/ov021/scrcmd_misc.c	ov021	15	count=1 other=2 pointee=7 ptrint=1 ret=5 sign=1 width=2	26
+src/game/ov029/c_gear.c	ov029	15	count=3 other=1 pointee=10 ret=3	53
+src/game/ov051/field_gimmick_d06_types.h	ov051	15	count=1 pointee=2 ret=9 sign=2 width=3	0
+src/game/ov072/townmap.c	ov072	15	pointee=14 ret=2 width=2	40
+src/game/ov111/viewer_actor.c	ov111	15	pointee=13 ptrint=1 ret=6 sign=2 width=2	2
+src/game/ov218/un_select.c	ov218	15	pointee=11 ptrint=3 ret=4 sign=3 width=5	20
+src/game/ov009/cps_network.c	ov009	14	pointee=14	3
+src/game/ov009/dwc_main.c	ov009	14	count=4 other=1 pointee=9 ptrint=3 ret=5	7
+src/game/ov009/gpisearch.c	ov009	14	pointee=9 ptrint=5 ret=3 sign=2	6
+src/game/ov014/wih.c	ov014	14	other=12 pointee=3 ptrint=2 ret=1 sign=2 width=5	8
+src/game/ov021/bsubway_scr.c	ov021	14	count=1 other=1 pointee=10 ptrint=6 ret=8 sign=4 width=4	8
+src/game/ov021/fldmmdl_movecode.c	ov021	14	pointee=1 ret=8 sign=1 unproto=2 width=5	5
+src/game/ov021/fldmmdl_rail.c	ov021	14	pointee=2 ret=7 sign=1 width=7	17
+src/game/ov021/fldmmdl_rail_move.c	ov021	14	count=1 pointee=3 ptrint=3 ret=7 width=1	5
+src/game/ov091/plist_plate.c	ov091	14	pointee=10 ret=5 sign=1 width=2	43
+src/game/ov091/pokelist.c	ov091	14	count=1 pointee=8 ptrint=1 ret=3 sign=2 width=6	228
+src/game/ov093/btl_server.c	ov093	14	pointee=12 ptrint=1 ret=3 width=3	12
+src/game/ov176/digitalcardcheck.c	ov176	14	count=1 pointee=10 ptrint=2 ret=9 sign=3 width=1	11
+src/game/ov176/livebattlematch_irc.c	ov176	14	pointee=6 ptrint=5 ret=4 sign=1 width=2	0
+src/game/ov199/wifibattlematch_sys.c	ov199	14	count=1 pointee=13 ret=4 sign=5 width=5	3
+src/game/ov209/zukan_list.c	ov209	14	pointee=10 ptrint=3 ret=5 sign=1 width=2	47
+src/game/ov009/gpiinfo.c	ov009	13	pointee=7 ptrint=3 ret=4 sign=2	0
+src/game/ov010/event_field_proclink.c	ov010	13	other=1 pointee=7 ptrint=2 ret=9 unproto=2	20
+src/game/ov010/scrcmd_work.c	ov010	13	pointee=5 ptrint=1 ret=8 sign=4 width=8	17
+src/game/ov018/intrude_subdisp.c	ov018	13	other=1 pointee=12 ptrint=1 ret=4 sign=1 width=2	133
+src/game/ov021/field_ground_anime.c	ov021	13	count=1 other=1 pointee=11 ret=5 sign=1 width=1	11
+src/game/ov021/field_saveanime.c	ov021	13	other=1 pointee=9 ptrint=2 ret=3 sign=1 width=3	8
+src/game/ov021/scrcmd_pokemon_fld.c	ov021	13	count=1 pointee=6 ptrint=3 ret=10 sign=2 width=6	14
+src/game/ov115/wifilogin_disp.c	ov115	13	count=1 other=1 pointee=4 ptrint=1 ret=6 sign=2 width=5	10
+src/game/ov135/worldtrade_deposit.c	ov135	13	pointee=9 ptrint=4 ret=3 width=1	-1
+src/game/ov136/mailsys.c	ov136	13	count=1 other=1 pointee=6 ptrint=1 ret=5 sign=2 width=5	41
+src/game/ov197/b_bag_main.c	ov197	13	pointee=11 ptrint=5 ret=7 sign=2 width=2	39
+src/game/ov208/zukan_detail_form.c	ov208	13	count=1 pointee=12 ret=2 sign=1	57
+src/game/ov010/fldmmdl_move.c	ov010	12	ptrint=1 ret=7 unproto=5 width=4	18
+src/game/ov011/intrude_comm.c	ov011	12	other=1 pointee=5 ptrint=2 ret=4 sign=3 width=2	50
+src/game/ov021/field_player.c	ov021	12	pointee=10 ptrint=1 ret=2 unproto=1	5
+src/game/ov033/dowsing.c	ov033	12	count=1 pointee=9 ret=2 sign=1 width=1	34
+src/game/ov038/field_gimmick_plate_doors.c	ov038	12	other=1 pointee=11 ptrint=1 ret=4 sign=1 width=5	26
+src/game/ov065/field_gimmick_time_effect.c	ov065	12	other=1 pointee=12 ret=8 sign=1 width=2	6
+src/game/ov091/plist_menu.c	ov091	12	pointee=2 ptrint=8 ret=2 width=3	111
+src/game/ov093/hand_item_types.h	ov093	12	pointee=6 ptrint=1 ret=3 width=2	0
+src/game/ov100/ircbattlematch.c	ov100	12	pointee=7 ptrint=5 ret=2	119
+src/game/ov110/pms_select_graphic.c	ov110	12	pointee=9 ret=1 sign=1 width=2	-1
+src/game/ov129/wf2dmap_scene.c	ov129	12	count=1 pointee=8 ptrint=2 ret=5	7
+src/game/ov135/worldtrade.c	ov135	12	count=2 other=1 pointee=8 ret=2 sign=1	6
+src/game/ov223/psel_graphic.c	ov223	12	count=3 pointee=4 ret=3 sign=2 width=5	10
+src/game/arm9/game_beacon.c	arm9	11	pointee=1 ptrint=2 ret=4 unproto=1 width=5	6
+src/game/arm9/game_data.c	arm9	11	count=1 pointee=4 ptrint=1 ret=10 sign=1 unproto=1 width=1	24
+src/game/ov009/gpibuddy.c	ov009	11	pointee=7 ptrint=6 ret=3 sign=2	36
+src/game/ov010/scrcmd_proc.c	ov010	11	count=1 pointee=6 ptrint=3 ret=9 sign=2 unproto=2 width=3	13
+src/game/ov010/symbol_map.c	ov010	11	other=1 pointee=7 ptrint=4 ret=5 width=3	28
+src/game/ov019/union_oneself.c	ov019	11	other=1 pointee=3 ptrint=6 ret=4 width=1	28
+src/game/ov021/field_msgbg.c	ov021	11	pointee=2 ptrint=1 ret=6 sign=2 width=7	51
+src/game/ov044/field_gimmick_lift.c	ov044	11	other=1 pointee=11 ptrint=1 ret=3 width=1	5
+src/game/ov046/field_gimmick_rotating_room.c	ov046	11	pointee=7 ret=6 width=4	27
+src/game/ov094/btlv_gauge.c	ov094	11	other=1 pointee=8 ret=4 width=1	63
+src/game/ov112/mus_shot_photo.c	ov112	11	count=1 pointee=2 ptrint=4 ret=4 sign=2 width=4	0
+src/game/ov119/pokemontrade_2d.c	ov119	11	pointee=8 ptrint=3 ret=4 sign=2 width=2	11
+src/game/ov131/p_status.c	ov131	11	count=1 pointee=4 ptrint=2 ret=5 sign=2 width=2	0
+src/game/ov135/worldtrade_server.c	ov135	11	count=6 pointee=4 ptrint=1 ret=3 width=1	15
+src/game/ov180/hall_of_fame_scene.c	ov180	11	pointee=8 ptrint=3 ret=3 sign=1	11
+src/game/ov195/shinka_demo_graphic.c	ov195	11	count=2 other=2 pointee=4 ptrint=4 ret=3 sign=3 width=1	2
+src/game/ov210/zknsearch_main.c	ov210	11	pointee=8 ptrint=2 ret=3 sign=1	37
+src/game/arm9/clact.c	arm9	10	other=1 pointee=8 ptrint=3 ret=3 sign=1 unproto=1 width=3	37
+src/game/arm9/mcss.c	arm9	10	other=3 pointee=6 ptrint=3 ret=2 sign=1 width=6	38
+src/game/ov010/field_g3d_map.c	ov010	10	pointee=9 ptrint=1 ret=4 width=1	8
+src/game/ov016/scenesetlist.c	ov016	10	pointee=1 ptrint=1 ret=6 sign=2 width=1	5
+src/game/ov021/field_subscreen.c	ov021	10	count=3 pointee=4 ptrint=1 ret=6 unproto=1 width=6	7
+src/game/ov068/option_menu.c	ov068	10	pointee=4 ptrint=1 ret=6 sign=4 width=6	108
+src/game/ov093/hand_waza.c	ov093	10	pointee=8 ret=2 width=1	15
+src/game/ov094/btlv_effect.c	ov094	10	count=1 pointee=8 ret=1 width=1	16
+src/game/ov111/viewer_main.c	ov111	10	count=1 pointee=6 ptrint=3 ret=1 sign=2 width=3	-5
+src/game/ov132/script_command.c	ov132	10	count=1 pointee=9 ret=1 width=1	-1
+src/game/ov168/mictest.c	ov168	10	count=1 pointee=5 ptrint=2 ret=3 width=1	2
+src/game/ov198/b_plist_draw.c	ov198	10	count=1 pointee=5 ptrint=2 ret=5 sign=1 width=3	58
+src/game/ov203/demo3d_graphic.c	ov203	10	count=2 pointee=3 ptrint=3 ret=3 width=2	4
+src/game/ov207/zukan_nickname.c	ov207	10	pointee=6 ptrint=4 ret=3 sign=1 width=3	10
+src/game/ov221/chihou_zukan_award_graphic.c	ov221	10	count=1 pointee=2 ptrint=1 ret=3 width=5	2
+src/game/arm9/button_man.c	arm9	9	pointee=9 sign=1 width=1	0
+src/game/arm9/pms_draw.c	arm9	9	pointee=5 ptrint=1 ret=2 width=4	4
+src/game/ov009/dwc_auth.c	ov009	9	pointee=9	13
+src/game/ov009/ssl.c	ov009	9	count=2 pointee=6 ret=1	18
+src/game/ov010/namein_setup.c	ov010	9	other=1 pointee=7 ptrint=3 ret=2 sign=1 unproto=1 width=1	16
+src/game/ov016/font.c	ov016	9	other=2 pointee=8 ptrint=2 ret=5 sign=4	3
+src/game/ov021/fld_exp_obj.c	ov021	9	pointee=7 ret=4 width=1	0
+src/game/ov021/fld_wipe_3dobj.c	ov021	9	pointee=7 ptrint=2 ret=2 sign=5 width=1	25
+src/game/ov021/scrcmd_msgwin.c	ov021	9	pointee=4 ret=8 sign=1 width=2	45
+src/game/ov021/scrcmd_trainer_audio_item.c	ov021	9	other=1 pointee=2 ret=6 width=5	44
+src/game/ov034/report.c	ov034	9	pointee=7 ptrint=1 ret=4 sign=3 width=4	21
+src/game/ov035/c_gear_power_onoff.c	ov035	9	pointee=3 ret=5 sign=3 width=8	11
+src/game/ov067/touchbar.c	ov067	9	pointee=1 ptrint=1 ret=1 width=8	7
+src/game/ov072/townmap_grh.c	ov072	9	count=1 pointee=6 ret=3 width=1	26
+src/game/ov094/btlv_mcss.c	ov094	9	other=1 pointee=8 ptrint=1 ret=4 sign=1 width=1	124
+src/game/ov095/btl_sick_types.h	ov095	9	other=4 pointee=1 ret=6 sign=1 width=1	0
+src/game/ov110/pmsiv_edit.c	ov110	9	count=1 other=1 pointee=3 ptrint=1 ret=3 sign=2 width=3	45
+src/game/ov119/pokemontrade_3d.c	ov119	9	pointee=8 ret=3 width=1	1
+src/game/ov121/mystery_graphic.c	ov121	9	pointee=5 ret=2 sign=2 width=4	5
+src/game/ov121/mystery_util.c	ov121	9	pointee=6 ptrint=2 ret=5 sign=1 width=4	32
+src/game/ov123/gsync_disp.c	ov123	9	other=1 pointee=5 ptrint=1 ret=4 sign=2 width=1	44
+src/game/ov123/gsync_state.c	ov123	9	pointee=4 ptrint=3 ret=3 sign=4 width=4	13
+src/game/ov124/cg_help.c	ov124	9	other=1 pointee=5 ret=3 sign=1 width=2	8
+src/game/ov128/wf2dmap_touch.c	ov128	9	pointee=4 ptrint=4 ret=4 sign=1 width=1	3
+src/game/ov135/worldtrade_box.c	ov135	9	pointee=7 ptrint=2 ret=1	19
+src/game/ov136/mailview.c	ov136	9	count=1 pointee=6 ptrint=1 ret=1	33
+src/game/ov137/guru2_receipt.c	ov137	9	pointee=7 ptrint=1 ret=3 sign=1 width=1	17
+src/game/ov185/br_pokesearch.c	ov185	9	count=1 pointee=3 ptrint=6 ret=2 sign=2 width=2	23
+src/game/ov198/b_plist_main.c	ov198	9	pointee=7 ptrint=1 ret=2 unproto=1 width=2	60
+src/game/ov208/zukan_detail_graphic.c	ov208	9	count=1 pointee=2 ptrint=1 ret=2 width=4	3
+src/game/ov208/zukan_detail_voice.c	ov208	9	pointee=7 ptrint=3 ret=4 sign=1 width=1	38
+src/game/ov213/comm_btl_demo_graphic.c	ov213	9	count=1 other=1 pointee=2 ret=2 sign=1 width=4	2
+src/game/ov218/un_select_graphic.c	ov218	9	pointee=2 ptrint=1 ret=2 width=5	2
+src/game/ov222/zenkoku_zukan_award_graphic.c	ov222	9	count=1 pointee=2 ptrint=1 ret=2 width=4	2
+src/game/ov224/subway_map_graphic.c	ov224	9	count=1 pointee=3 ptrint=1 ret=3 width=4	4
+src/game/ov225/manual_touchbar.c	ov225	9	pointee=8 ptrint=1 ret=3 width=1	33
+src/game/arm9/file_util.c	arm9	8	pointee=2 ret=4 sign=2 width=4	0
+src/game/ov009/sb_serverlist.c	ov009	8	count=2 pointee=3 ret=5 sign=1	0
+src/game/ov010/move_pokemon.c	ov010	8	other=1 pointee=2 ptrint=1 ret=4 unproto=1 width=2	35
+src/game/ov010/musical_event.c	ov010	8	other=1 pointee=7 ptrint=2 ret=3 width=2	13
+src/game/ov010/scrcmd_event_mon.c	ov010	8	pointee=8 ret=5 sign=2	6
+src/game/ov010/script_sys.c	ov010	8	pointee=3 ptrint=1 ret=7 sign=1 unproto=2 width=2	8
+src/game/ov016/scenesetaplist.c	ov016	8	pointee=1 ptrint=2 ret=3 sign=2	9
+src/game/ov016/scenesetedit32.c	ov016	8	other=1 pointee=2 ptrint=1 ret=3 sign=1	2
+src/game/ov016/scenesetsearch.c	ov016	8	ptrint=1 ret=5 sign=2	0
+src/game/ov021/field_place_name.c	ov021	8	pointee=3 ptrint=1 ret=5 width=1	17
+src/game/ov021/field_player_core.c	ov021	8	ptrint=1 ret=5 sign=4 width=1	17
+src/game/ov021/fldeff_namipoke.c	ov021	8	pointee=7 ptrint=2 ret=4 sign=2 width=1	78
+src/game/ov021/ircbattlemenu.c	ov021	8	pointee=6 ret=4 sign=1 width=1	105
+src/game/ov021/shortcut_menu.c	ov021	8	other=1 pointee=5 ptrint=1 ret=4 sign=2	37
+src/game/ov021/weather_task.c	ov021	8	pointee=3 ret=2 sign=2 width=4	3
+src/game/ov060/field_gimmick_gauge_effect.c	ov060	8	pointee=8 ret=4 sign=2 width=3	4
+src/game/ov064/field_gimmick_arc_effect.c	ov064	8	pointee=8 ret=3 width=2	8
+src/game/ov088/save_control_intr.c	ov088	8	pointee=6 ptrint=1 ret=1 width=2	0
+src/game/ov093/btl_pokeparam.c	ov093	8	other=5 ret=4 width=1	0
+src/game/ov096/tr_ai.c	ov096	8	other=1 pointee=2 ret=4 sign=2 width=5	17
+src/game/ov102/irc_compatible_menu.c	ov102	8	pointee=7 ret=2 width=1	9
+src/game/ov107/mb_util_msg.c	ov107	8	pointee=5 ret=4 sign=2 width=3	55
+src/game/ov110/pms_input.c	ov110	8	count=2 pointee=3 ret=4	26
+src/game/ov135/worldtrade_list.c	ov135	8	pointee=6 ptrint=1 ret=1 width=2	21
+src/game/ov177/wifibattlematch_util.c	ov177	8	pointee=5 ptrint=2 ret=5 sign=2 width=4	9
+src/game/ov177/wifibattlematch_view.c	ov177	8	pointee=3 ptrint=1 ret=3 width=6	28
+src/game/ov186/br_util.c	ov186	8	pointee=6 ret=3 sign=1 width=4	9
+src/game/ov203/demo3d_engine.c	ov203	8	pointee=5 ptrint=2 ret=4 sign=2 width=2	6
+src/game/ov214/btl_rec_sel_graphic.c	ov214	8	count=1 pointee=2 ret=1 width=4	4
+src/game/arm9/billboard_act.c	arm9	7	pointee=2 ptrint=2 ret=5 sign=1 width=2	7
+src/game/arm9/wih_dwc.c	arm9	7	count=4 pointee=1 ret=6	3
+src/game/ov009/gpi.c	ov009	7	pointee=5 ptrint=1 ret=2 sign=1	17
+src/game/ov016/sceneoptinfo.c	ov016	7	pointee=1 ptrint=1 ret=4 sign=1	1
+src/game/ov016/scenesetaossbutton.c	ov016	7	pointee=1 ptrint=1 ret=4 sign=1	0
+src/game/ov016/sceneseteditaddress.c	ov016	7	pointee=2 ptrint=1 ret=2 sign=1 width=1	3
+src/game/ov018/event_comm_common.c	ov018	7	pointee=5 ret=4 width=2	36
+src/game/ov021/field_buildmodel.c	ov021	7	pointee=6 ptrint=1 ret=4	15
+src/game/ov021/field_light.c	ov021	7	pointee=7 width=1	0
+src/game/ov021/scrcmd_fldmmdl.c	ov021	7	pointee=2 ret=3 sign=1 width=3	8
+src/game/ov021/sodateya.c	ov021	7	pointee=5 ret=4 width=1	89
+src/game/ov053/field_gimmick_sound_objs_types.h	ov053	7	pointee=3 ret=4 width=1	0
+src/game/ov094/btlv_b_gauge.c	ov094	7	pointee=5 ret=3 width=1	6
+src/game/ov110/pmsiv_wordwin.c	ov110	7	count=1 pointee=6 ret=1	35
+src/game/ov112/musical_mcss.c	ov112	7	pointee=5 ptrint=2 ret=2	5
+src/game/ov112/sta_act_poke.c	ov112	7	pointee=7 ptrint=1 sign=2	4
+src/game/ov115/wifilogin_message.c	ov115	7	pointee=5 ptrint=2 ret=2 sign=2 width=2	11
+src/game/ov123/gsync_menu.c	ov123	7	other=1 pointee=5 ret=4 sign=2 width=1	10
+src/game/ov131/p_sta_skill.c	ov131	7	pointee=5 ptrint=2 ret=1 sign=1 width=2	88
+src/game/ov135/worldtrade_input.c	ov135	7	pointee=6 ptrint=2 ret=1 width=1	5
+src/game/ov174/local_tvt_sys.c	ov174	7	pointee=4 ptrint=2 ret=4 sign=1 width=1	5
+src/game/ov182/the_end_graphic.c	ov182	7	other=1 pointee=3 ret=2 sign=2 width=2	6
+src/game/ov186/br_graphic.c	ov186	7	pointee=3 ptrint=1 ret=2 width=2	2
+src/game/ov195/shinka_demo_effect.c	ov195	7	pointee=6 ret=1 width=1	4
+src/game/ov203/demo3d.c	ov203	7	pointee=5 ret=1 width=2	2
+src/game/ov204/intro_g3d.c	ov204	7	pointee=5 ptrint=1 ret=3 sign=1 width=2	1
+src/game/ov204/intro_graphic.c	ov204	7	pointee=2 ptrint=1 ret=2 sign=1 width=2	4
+src/game/ov205/save_screen.c	ov205	7	pointee=7 ret=2 sign=1 width=1	22
+src/game/ov215/egg_demo_graphic.c	ov215	7	count=1 pointee=2 ret=1 width=3	4
+src/game/twl/dsp_process.c	twl	7	pointee=6 ret=2 sign=4	2
+src/game/arm9/arc_tool.c	arm9	6	pointee=6 ptrint=1 ret=4 sign=2	5
+src/game/arm9/gf_standard.c	arm9	6	pointee=6 ret=1	4
+src/game/arm9/ica_anime.c	arm9	6	pointee=5 ret=1 width=1	5
+src/game/arm9/infowin.c	arm9	6	other=1 ret=3 width=5	1
+src/game/arm9/nns_g2d_renderer.c	arm9	6	pointee=3 ptrint=5	11
+src/game/arm9/nns_gfd_vram_transfer.c	arm9	6	pointee=6	0
+src/game/ov009/dwc_nasfunc.c	ov009	6	pointee=5 sign=1	0
+src/game/ov009/dwc_rap.c	ov009	6	other=1 pointee=2 ptrint=5	-2
+src/game/ov009/gpipeer.c	ov009	6	pointee=2 ptrint=3 ret=3 sign=2	64
+src/game/ov009/gsudp_types.h	ov009	6	pointee=4 ret=1 width=1	0
+src/game/ov010/comm_player.c	ov010	6	pointee=6 ptrint=1 ret=4 width=1	5
+src/game/ov010/event_battle.c	ov010	6	other=1 pointee=3 ptrint=2 ret=3 sign=1 width=3	7
+src/game/ov010/field_intrude_event.c	ov010	6	other=1 pointee=5 ptrint=1 ret=5 width=1	2
+src/game/ov010/game_beacon_set.c	ov010	6	width=6	0
+src/game/ov016/sceneopterase.c	ov016	6	ptrint=1 ret=4 sign=1	0
+src/game/ov016/scenesetselectap.c	ov016	6	other=1 pointee=2 ptrint=1 ret=2 sign=1	0
+src/game/ov016/scenesetusbready1.c	ov016	6	ptrint=2 ret=3 sign=1	0
+src/game/ov016/window.c	ov016	6	pointee=5 ret=1 unproto=1 width=1	0
+src/game/ov021/fieldmap_ctrl_nogrid_work.c	ov021	6	pointee=4 ret=5	1
+src/game/ov021/fldeff_gyoe.c	ov021	6	pointee=6 ptrint=1 ret=3 sign=1	6
+src/game/ov021/fldmmdl_acmd.c	ov021	6	pointee=1 ret=1 width=4	7
+src/game/ov021/scrcmd_encount.c	ov021	6	other=1 pointee=4 ptrint=1 ret=4 sign=3 width=1	11
+src/game/ov021/scrcmd_gimmick.c	ov021	6	pointee=3 ret=6 sign=3 width=1	2
+src/game/ov021/sound_obj.c	ov021	6	pointee=5 ptrint=2 ret=1 sign=1	0
+src/game/ov025/weather_snow_blizzard_downpour_diamond_dust_types.h	ov025	6	pointee=3 sign=1 width=3	0
+src/game/ov054/field_gimmick_sound_objs_b_types.h	ov054	6	pointee=2 ret=4 width=1	0
+src/game/ov069/bsubway_record_list.c	ov069	6	pointee=4 ret=2 width=1	35
+src/game/ov078/enceff_ripple.c	ov078	6	other=3 pointee=3 ret=6	1
+src/game/ov093/btlv_scu.c	ov093	6	pointee=5 ptrint=1 ret=2 sign=1 width=1	192
+src/game/ov094/btlv_camera.c	ov094	6	pointee=6 ret=1 sign=1 width=1	0
+src/game/ov094/btlv_clact.c	ov094	6	pointee=5 ret=1	1
+src/game/ov095/hand_field_types.h	ov095	6	pointee=3 ret=4 sign=1 width=2	0
+src/game/ov099/wifi_club_actor.c	ov099	6	other=3 pointee=5 ret=4	5
+src/game/ov110/pms_input_view.c	ov110	6	pointee=5 ret=3	20
+src/game/ov114/dwci_nd.c	ov114	6	other=1 pointee=3 ret=1 sign=2	8
+src/game/ov122/intrude_comm_view.c	ov122	6	pointee=3 ptrint=2 ret=4	6
+src/game/ov135/worldtrade_title.c	ov135	6	pointee=5 ptrint=1 ret=1	6
+src/game/ov173/poke_summary_actor.c	ov173	6	pointee=5 ret=2	5
+src/game/ov180/hall_of_fame_sprites.c	ov180	6	pointee=2 ptrint=2 ret=3 sign=2	23
+src/game/ov186/br_pokesearch.c	ov186	6	pointee=4 ptrint=1 ret=2 width=1	25
+src/game/ov194/namein_graphic_main.c	ov194	6	pointee=2 ptrint=1 ret=3 sign=2 width=2	6
+src/game/ov207/zukan_toroku_graphic.c	ov207	6	pointee=2 ptrint=1 ret=2 width=2	3
+src/game/ov208/zukan_detail_common.c	ov208	6	count=1 pointee=5 ret=1	1
+src/game/ov220/th_award_graphic.c	ov220	6	other=1 pointee=2 ret=2 sign=1 width=2	3
+src/game/ov222/zenkoku_zukan_award.c	ov222	6	pointee=4 ptrint=1 ret=3	1
+src/game/arm9/g3d_system.c	arm9	5	pointee=3 ptrint=2 ret=3 width=1	3
+src/game/arm9/gamesystem.c	arm9	5	pointee=3 ptrint=1 ret=2	7
+src/game/arm9/iss_3ds_sys.c	arm9	5	pointee=5	0
+src/game/arm9/iss_zone_sys.c	arm9	5	pointee=5	0
+src/game/arm9/nns_g3d_anm_calc.c	arm9	5	pointee=1 ret=2 sign=2	0
+src/game/arm9/particle.c	arm9	5	count=1 pointee=3 ptrint=1 ret=3 width=1	20
+src/game/ov006/event_wificlub.c	ov006	5	other=1 pointee=4 ptrint=2 ret=1	10
+src/game/ov009/dwc_netcheck.c	ov009	5	pointee=5	75
+src/game/ov010/report_event.c	ov010	5	pointee=5 ptrint=1 ret=4 sign=1 width=1	49
+src/game/ov010/trcard_sys.c	ov010	5	pointee=3 ret=2 unproto=2	5
+src/game/ov016/sceneoptmovfailure.c	ov016	5	ptrint=1 ret=3 sign=1	0
+src/game/ov016/scenesetrakubutton.c	ov016	5	ptrint=1 ret=3 sign=1	0
+src/game/ov016/scenesetrakubutton1.c	ov016	5	ptrint=1 ret=3 sign=1	0
+src/game/ov016/scenesetrakuready.c	ov016	5	ptrint=1 ret=3 sign=1	0
+src/game/ov016/scenesettestconfirm.c	ov016	5	other=1 ptrint=1 ret=1 sign=2	0
+src/game/ov021/comm_entry_menu.c	ov021	5	ptrint=2 ret=2 width=1	28
+src/game/ov021/event_fishing.c	ov021	5	other=1 pointee=5 ptrint=1 ret=2 sign=1	6
+src/game/ov021/fldmmdl_draw.c	ov021	5	pointee=3 ptrint=1 ret=2	21
+src/game/ov021/party_select_list.c	ov021	5	pointee=2 ret=3 width=1	20
+src/game/ov021/scrcmd_player_events.c	ov021	5	other=1 pointee=5 ptrint=1 ret=3 width=2	7
+src/game/ov031/union_subdisp.c	ov031	5	pointee=4 ptrint=1 ret=2	39
+src/game/ov048/field_gimmick_gate.c	ov048	5	pointee=4 ret=1 width=1	15
+src/game/ov048/gimmick_obj_elboard.c	ov048	5	count=1 pointee=1 ret=1 width=3	22
+src/game/ov091/plist_battle.c	ov091	5	pointee=1 ptrint=3 ret=2 sign=1 width=1	20
+src/game/ov093/btl_calc.c	ov093	5	ret=5 width=3	3
+src/game/ov093/hand_tokusei_types.h	ov093	5	pointee=4 ptrint=3 width=1	0
+src/game/ov097/vs_multi_list.c	ov097	5	pointee=4 ret=2	68
+src/game/ov104/irc_rhythm.c	ov104	5	pointee=4 ret=2	19
+src/game/ov107/mb_task.c	ov107	5	pointee=5 ret=1	0
+src/game/ov112/sta_act_light.c	ov112	5	pointee=4 ret=3	1
+src/game/ov118/pokemontrade_demo_up.c	ov118	5	other=1 pointee=3 ptrint=1 ret=2	57
+src/game/ov121/mystery_net.c	ov121	5	count=1 pointee=1 ptrint=2 ret=2 sign=1	5
+src/game/ov123/gsync_message.c	ov123	5	pointee=5 ptrint=1 ret=3 sign=1 width=1	1
+src/game/ov123/pdwacc_disp.c	ov123	5	other=1 pointee=2 ret=2 sign=2 width=1	3
+src/game/ov125/gds_socket.c	ov125	5	count=1 pointee=3 ptrint=1 ret=1 sign=1	5
+src/game/ov132/sta_act_button.c	ov132	5	pointee=4 ret=1	1
+src/game/ov132/sta_act_script.c	ov132	5	count=1 pointee=4 ptrint=1 ret=1	1
+src/game/ov135/worldtrade_sublcd.c	ov135	5	pointee=4 ptrint=1 ret=1 width=1	-2
+src/game/ov136/mailtool.c	ov136	5	pointee=4 ret=1	1
+src/game/ov172/ctvt_comm.c	ov172	5	count=1 pointee=2 ptrint=2	7
+src/game/ov173/poke_summary_main.c	ov173	5	pointee=3 ptrint=2 ret=4	1
+src/game/ov176/battle_championship_flow.c	ov176	5	pointee=3 ptrint=1 ret=2	2
+src/game/ov178/party_status.c	ov178	5	count=1 pointee=3 ret=1	1
+src/game/ov186/br_res.c	ov186	5	ret=3 width=5	0
+src/game/ov203/demo3d_exp_c_cruiser.c	ov203	5	pointee=5 ptrint=2 ret=1 width=1	3
+src/game/ov204/intro_cmd.c	ov204	5	pointee=3 ptrint=2 ret=1 width=2	4
+src/game/ov204/intro_msg.c	ov204	5	pointee=3 ptrint=2 ret=2 sign=1 width=1	-1
+src/game/ov206/zukan_info.c	ov206	5	pointee=2 ptrint=1 ret=2 width=3	6
+src/game/ov217/circle_graph.c	ov217	5	pointee=3 ptrint=2	0
+src/game/ov217/research_common.c	ov217	5	count=1 pointee=2 ret=4 unproto=1	2
+src/game/ov225/manual_graphic.c	ov225	5	pointee=2 ret=1 width=2	3
+src/game/ov225/manual_list.c	ov225	5	pointee=3 ptrint=2 ret=2	20
+src/game/arm9/arc_util.c	arm9	4	ptrint=2 ret=2 width=2	5
+src/game/arm9/gx_load2d.c	arm9	4	ret=4	14
+src/game/arm9/mystery_data.c	arm9	4	pointee=4	2
+src/game/arm9/net_err.c	arm9	4	pointee=1 ptrint=1 ret=3 sign=1 width=1	4
+src/game/arm9/nns_g2d_oam_manager.c	arm9	4	count=2 ptrint=2 ret=1	6
+src/game/arm9/nns_snd_arc.c	arm9	4	count=1 pointee=1 ptrint=3 ret=3 sign=2	21
+src/game/arm9/save_control.c	arm9	4	pointee=3 ret=1	8
+src/game/arm9/tpoke_data.c	arm9	4	pointee=1 width=3	6
+src/game/ov008/event_battle_rec_save.c	ov008	4	other=1 pointee=4 ptrint=1 ret=1	-5
+src/game/ov009/dwc_login_types.h	ov009	4	pointee=2 ptrint=1 sign=1	0
+src/game/ov009/gpiconnect.c	ov009	4	pointee=2 ret=2 sign=1	2
+src/game/ov009/sb_server.c	ov009	4	pointee=2 ret=2 sign=1	0
+src/game/ov009/sb_serverbrowsing.c	ov009	4	other=3 pointee=3 ret=1 sign=1	1
+src/game/ov009/wcm_wmif.c	ov009	4	other=1 pointee=3	1
+src/game/ov010/event_ircbattle.c	ov010	4	other=3 pointee=3 ptrint=1	15
+src/game/ov010/eventdata_system.c	ov010	4	pointee=2 ptrint=1 ret=1 sign=1 width=4	3
+src/game/ov010/field_clock.c	ov010	4	pointee=2 ret=2	6
+src/game/ov010/fldmmdl.c	ov010	4	count=1 pointee=1 ret=2 width=1	0
+src/game/ov010/scrcmd_network.c	ov010	4	pointee=2 ret=3	54
+src/game/ov010/scrcmd_symbol.c	ov010	4	pointee=3 ret=1 width=1	25
+src/game/ov010/script_work_cmd.c	ov010	4	pointee=3 ptrint=1 width=2	17
+src/game/ov016/atermset.c	ov016	4	count=1 ret=2 width=1	6
+src/game/ov016/button.c	ov016	4	other=1 pointee=3 ret=1	0
+src/game/ov016/dwc_mov_wh.c	ov016	4	pointee=1 ptrint=3 ret=1 width=2	6
+src/game/ov016/scenemenu.c	ov016	4	ptrint=1 ret=1 sign=2	0
+src/game/ov016/sceneoptmenu.c	ov016	4	ptrint=1 ret=2 sign=1	0
+src/game/ov016/sceneoptmovconfirm1.c	ov016	4	ptrint=1 ret=3	0
+src/game/ov016/sceneoptmovuser.c	ov016	4	other=1 ptrint=2 ret=1	0
+src/game/ov016/sceneoptmovwait.c	ov016	4	ptrint=1 ret=2 sign=1	0
+src/game/ov016/sceneseterror.c	ov016	4	ptrint=1 ret=1 sign=1 width=1	5
+src/game/ov021/event_trainer_eye.c	ov021	4	ret=3 sign=2 width=2	14
+src/game/ov021/field_nogrid_mapper.c	ov021	4	count=1 ptrint=1 ret=2 sign=1 width=1	1
+src/game/ov021/fld_trade.c	ov021	4	other=1 pointee=1 ptrint=2 ret=1 sign=1 width=2	7
+src/game/ov021/fldeff_reflect.c	ov021	4	pointee=2 ptrint=3 ret=2 width=2	13
+src/game/ov021/pdw_postman.c	ov021	4	pointee=1 ret=2 width=4	19
+src/game/ov021/pleasure_boat.c	ov021	4	pointee=2 ret=3	5
+src/game/ov021/talkmsgwin.c	ov021	4	ptrint=1 ret=2 sign=2 width=2	16
+src/game/ov021/weather.c	ov021	4	pointee=3 ptrint=1 ret=1	8
+src/game/ov041/field_gimmick_cannons.c	ov041	4	pointee=1 ret=1 width=2	4
+src/game/ov042/field_gimmick_button_states_types.h	ov042	4	ret=3 width=1	0
+src/game/ov052/field_gimmick_bsubway_types.h	ov052	4	ret=4	0
+src/game/ov056/field_fk_demo.c	ov056	4	pointee=2 ret=3 sign=1 width=1	9
+src/game/ov056/field_fk_demo_types.h	ov056	4	pointee=1 ret=3	0
+src/game/ov056/field_fk_sound_anime.c	ov056	4	pointee=3 width=1	0
+src/game/ov061/field_gimmick_connect_markers.c	ov061	4	pointee=4 ret=2 width=2	10
+src/game/ov062/field_gimmick_62.c	ov062	4	pointee=4 ret=2 width=1	1
+src/game/ov076/enceff_model_types.h	ov076	4	ret=4	0
+src/game/ov077/enceff_grid_types.h	ov077	4	ret=4	0
+src/game/ov092/event_battle_return.c	ov092	4	pointee=3 ret=1 width=1	30
+src/game/ov093/btl_field.c	ov093	4	other=2 ret=2 width=1	6
+src/game/ov093/hand_item.c	ov093	4	pointee=3 ret=1 width=1	6
+src/game/ov094/btlv_timer.c	ov094	4	pointee=3 ret=2	19
+src/game/ov095/hand_side_types.h	ov095	4	ret=2 sign=1 width=1	0
+src/game/ov101/irc_appbar.c	ov101	4	pointee=1 ret=1 width=3	6
+src/game/ov101/irc_compatible.c	ov101	4	pointee=4 ptrint=1 sign=1	1
+src/game/ov107/mb_parent.c	ov107	4	pointee=4	2
+src/game/ov110/pmsiv_menu.c	ov110	4	count=1 pointee=1 ret=1 sign=1 width=2	73
+src/game/ov111/viewer_text.c	ov111	4	pointee=3 ret=2 sign=1 width=1	-6
+src/game/ov117/pokemontrade_demo_common.c	ov117	4	pointee=3 ptrint=1 ret=2 sign=1	2
+src/game/ov118/pokemontrade_demo_down.c	ov118	4	other=1 pointee=2 ptrint=2 ret=2	41
+src/game/ov118/pokemontrade_demo_middle.c	ov118	4	pointee=3 ptrint=1 ret=1	8
+src/game/ov120/gtsnego_message.c	ov120	4	pointee=3 ptrint=1 ret=2	4
+src/game/ov123/pdwacc_message.c	ov123	4	pointee=4 ret=2 sign=2 width=2	5
+src/game/ov127/wf2dmap_scrdraw.c	ov127	4	pointee=2 sign=1 width=3	-1
+src/game/ov131/p_sta_oam.c	ov131	4	pointee=2 ptrint=2	0
+src/game/ov131/p_sta_sub.c	ov131	4	pointee=4 ret=1	25
+src/game/ov134/net_party_command.c	ov134	4	pointee=3 ret=1 sign=1	8
+src/game/ov135/worldtrade_enter.c	ov135	4	count=1 pointee=1 ret=2	0
+src/game/ov170/box2_ui.c	ov170	4	pointee=4 ret=1	113
+src/game/ov186/br_fade.c	ov186	4	pointee=3 ptrint=1 width=1	5
+src/game/ov187/br_main.c	ov187	4	pointee=3 sign=1 width=1	1
+src/game/ov208/zukan_detail_touchbar.c	ov208	4	pointee=2 ptrint=1 ret=2	3
+src/game/ov212/zukan.c	ov212	4	pointee=3 ptrint=1 ret=1	8
+src/game/ov215/egg_demo_main.c	ov215	4	pointee=3 ptrint=2 ret=2	3
+src/game/ov215/egg_demo_view.c	ov215	4	pointee=4	10
+src/game/ov217/arrow.c	ov217	4	pointee=3 ret=2	10
+src/game/ov221/chihou_zukan_award.c	ov221	4	pointee=3 ptrint=1 ret=2	6
+src/game/ov227/event_pdc_return.c	ov227	4	pointee=2 ptrint=2 ret=1	5
+src/game/twl/dsp_pipe.c	twl	4	pointee=4	4
+src/game/twl/fatfs_api.c	twl	4	pointee=3 ret=1	0
+src/game/arm9/bmp_oam.c	arm9	3	pointee=3 sign=1	0
+src/game/arm9/console_stamp.c	arm9	3	pointee=3 ret=2	0
+src/game/arm9/flash_access.c	arm9	3	other=1 ret=1 width=1	0
+src/game/arm9/nns_g3d_anm.c	arm9	3	pointee=2 ret=1 sign=1	0
+src/game/arm9/nns_g3d_sbc_types.h	arm9	3	ret=3	0
+src/game/arm9/pokegra.c	arm9	3	pointee=1 ret=1 width=2	0
+src/game/arm9/screentex.c	arm9	3	pointee=3	0
+src/game/arm9/spl_emitter.c	arm9	3	pointee=3	16
+src/game/arm9/tr_tool.c	arm9	3	pointee=1 sign=1 width=2	1
+src/game/arm9/zone_light.c	arm9	3	pointee=1 width=2	0
+src/game/ov009/darray.c	ov009	3	ptrint=2 ret=2 sign=3	0
+src/game/ov009/dwc_http.c	ov009	3	pointee=3	74
+src/game/ov009/gpibuffer.c	ov009	3	ptrint=2 ret=3	4
+src/game/ov009/gsplatformutil.c	ov009	3	pointee=1 ret=2 sign=1	1
+src/game/ov009/gssoap.c	ov009	3	other=1 pointee=1 ret=2 sign=1 unproto=1	-2
+src/game/ov009/gsudpengine.c	ov009	3	pointee=2 ret=1 sign=1	-3
+src/game/ov009/gt2main.c	ov009	3	other=2 pointee=1 ptrint=2 ret=1	1
+src/game/ov009/natneg.c	ov009	3	other=1 ret=1 unproto=1	6
+src/game/ov009/qr2.c	ov009	3	ret=3 sign=1	-1
+src/game/ov009/socl_read.c	ov009	3	pointee=3 ret=1	6
+src/game/ov009/socl_startup.c	ov009	3	other=1 ptrint=1 sign=1	2
+src/game/ov009/socl_write.c	ov009	3	pointee=3 ret=1	4
+src/game/ov010/bsubway_comm.c	ov010	3	pointee=1 ret=2 unproto=1	6
+src/game/ov010/field_skill_check.c	ov010	3	other=1 pointee=3 ptrint=1 ret=1	1
+src/game/ov010/scrcmd_research.c	ov010	3	pointee=1 ret=2 unproto=1	56
+src/game/ov012/union_comm.c	ov012	3	pointee=1 ptrint=1 ret=1	6
+src/game/ov014/net_devwireless.c	ov014	3	ptrint=2 ret=1	0
+src/game/ov016/aoss.c	ov016	3	count=2 pointee=1 sign=1	2
+src/game/ov016/apc.c	ov016	3	ret=3 width=1	0
+src/game/ov016/dwc_moveid.c	ov016	3	pointee=1 ret=2 width=1	0
+src/game/ov016/sceneopterase1.c	ov016	3	ptrint=1 ret=1 sign=1	0
+src/game/ov016/sceneoptmovcomm.c	ov016	3	ptrint=1 ret=2	0
+src/game/ov016/sceneoptmovcomplete.c	ov016	3	ptrint=1 ret=1 sign=1	0
+src/game/ov016/sceneoptmovconfirm.c	ov016	3	ptrint=1 ret=1 sign=1	0
+src/game/ov016/scenesetlistsave.c	ov016	3	ptrint=1 ret=1 sign=1	0
+src/game/ov016/scenesetselectway.c	ov016	3	ptrint=1 ret=1 width=1	1
+src/game/ov016/scenesettest.c	ov016	3	pointee=1 ptrint=1 ret=1	0
+src/game/ov016/scenesetusbready.c	ov016	3	ptrint=1 ret=2	0
+src/game/ov016/sub.c	ov016	3	ret=3	0
+src/game/ov019/union_msg.c	ov019	3	pointee=3 ptrint=3 ret=2 width=1	34
+src/game/ov020/el_scoreboard.c	ov020	3	other=1 pointee=1 width=2	1
+src/game/ov021/event_entrance_in.c	ov021	3	pointee=1 ret=1 sign=1	3
+src/game/ov021/field_camera_anime.c	ov021	3	ret=3 width=3	4
+src/game/ov021/field_g3d_mapper.c	ov021	3	pointee=1 ret=2 sign=1 width=1	36
+src/game/ov021/field_rail.c	ov021	3	pointee=2 ret=1 sign=1	10
+src/game/ov021/field_wfbc.c	ov021	3	pointee=2 ret=2 width=1	6
+src/game/ov021/fldmmdl_blact.c	ov021	3	count=1 pointee=1 ret=1	5
+src/game/ov021/fldmmdl_g3dobj.c	ov021	3	pointee=2 ptrint=1 ret=3 width=1	8
+src/game/ov021/scrcmd_sub_proc_events.c	ov021	3	other=1 pointee=2 ptrint=1 ret=1 width=1	1
+src/game/ov021/trial_house.c	ov021	3	pointee=1 ret=3 sign=1 width=1	1
+src/game/ov040/field_gimmick_flag_anime_types.h	ov040	3	ret=3	0
+src/game/ov045/field_gimmick_switch_toggle.c	ov045	3	pointee=3 ret=2 sign=1 width=3	30
+src/game/ov049/field_gimmick_models_a_types.h	ov049	3	ret=2 width=1	0
+src/game/ov050/field_gimmick_models_b_types.h	ov050	3	width=3	0
+src/game/ov059/sp_poke_gimmick.c	ov059	3	ret=1 sign=1 width=3	5
+src/game/ov059/sp_poke_gimmick_types.h	ov059	3	ret=2 width=1	0
+src/game/ov067/frame_list.c	ov067	3	pointee=2 ptrint=1 width=1	20
+src/game/ov067/yesno_menu.c	ov067	3	pointee=3 ptrint=1 ret=1 width=2	52
+src/game/ov075/enceff_screen_tex.c	ov075	3	ptrint=3 ret=1	2
+src/game/ov083/gpower_event.c	ov083	3	pointee=1 ret=1 width=2	30
+src/game/ov093/btl_msg.c	ov093	3	pointee=1 ret=1 width=1	15
+src/game/ov093/hand_tokusei.c	ov093	3	other=1 pointee=1 width=1	7
+src/game/ov110/pmsi_search.c	ov110	3	pointee=3 ret=1	2
+src/game/ov110/pmsiv_category.c	ov110	3	count=1 pointee=2 ret=1	42
+src/game/ov114/dwc_nd.c	ov114	3	pointee=3	29
+src/game/ov114/ghttpprocess.c	ov114	3	pointee=1 ret=3 sign=2	24
+src/game/ov114/nhttp_os_ntr.c	ov114	3	pointee=3	4
+src/game/ov114/nhttp_rap.c	ov114	3	pointee=1 ptrint=1 ret=2 sign=1	2
+src/game/ov116/wifi_bsubway.c	ov116	3	pointee=2 ptrint=1 sign=1	33
+src/game/ov127/wf2dmap_objdraw.c	ov127	3	pointee=2 ret=2 width=1	0
+src/game/ov131/p_sta_ribbon.c	ov131	3	pointee=3	-1
+src/game/ov137/guru2.c	ov137	3	pointee=3 sign=1	3
+src/game/ov172/camera_system.c	ov172	3	other=3	2
+src/game/ov172/ctvt_talk.c	ov172	3	pointee=3 ret=1	10
+src/game/ov177/wifibattlematch_graphic.c	ov177	3	pointee=2 ret=1	4
+src/game/ov179/cdemo_main.c	ov179	3	other=1 pointee=2 ptrint=2 ret=1 sign=1	1
+src/game/ov186/br_btn.c	ov186	3	pointee=3 ret=1	14
+src/game/ov186/br_proc_sys.c	ov186	3	pointee=2 ptrint=1	10
+src/game/ov203/demo3d_data.c	ov203	3	ptrint=2 ret=3 sign=1 width=1	17
+src/game/ov208/zknd_tbar.c	ov208	3	pointee=2 ptrint=1 ret=1 width=1	0
+src/game/ov210/zknsearch_sys.c	ov210	3	pointee=1 ptrint=2 ret=2	3
+src/game/ov215/egg_demo_menu.c	ov215	3	pointee=3 ptrint=1 ret=1 sign=1 width=1	1
+src/game/twl/card_rom.c	twl	3	other=1 pointee=3 ptrint=1	0
+src/game/twl/dsp_g711.c	twl	3	pointee=3 ptrint=1 ret=1 width=1	2
+src/game/twl/mi_sharedWram.c	twl	3	other=3 pointee=2 ret=2 sign=1 width=2	0
+src/game/arm9/app_env.c	arm9	2	pointee=1 ret=1	0
+src/game/arm9/app_power.c	arm9	2	ptrint=2	0
+src/game/arm9/backup_system.c	arm9	2	pointee=1 width=1	7
+src/game/arm9/battle_rec.c	arm9	2	width=2	3
+src/game/arm9/bg_sys.c	arm9	2	pointee=1 ptrint=2 sign=1	1
+src/game/arm9/bmp_menu.c	arm9	2	pointee=1 ptrint=1 ret=1 width=1	9
+src/game/arm9/bmp_menulist.c	arm9	2	pointee=2 ptrint=2 width=2	0
+src/game/arm9/bmp_menuwork.c	arm9	2	ptrint=1 ret=1 width=2	2
+src/game/arm9/card_api.c	arm9	2	count=1 width=1	0
+src/game/arm9/card_rom.c	arm9	2	ret=1 width=1	0
+src/game/arm9/config.c	arm9	2	pointee=1 ret=1 width=1	0
+src/game/arm9/dwc_ac.c	arm9	2	count=1 ret=1	0
+src/game/arm9/dwc_ac_start.c	arm9	2	pointee=2	0
+src/game/arm9/dwc_connectinet.c	arm9	2	sign=2	1
+src/game/arm9/fs_proc_rom.c	arm9	2	pointee=1 ptrint=1 ret=1	1
+src/game/arm9/g3d_util.c	arm9	2	pointee=1 width=1	0
+src/game/arm9/gds_profile.c	arm9	2	pointee=2	1
+src/game/arm9/gf_font.c	arm9	2	pointee=1 ret=2 sign=1 width=1	9
+src/game/arm9/greeting_savedata.c	arm9	2	pointee=2	0
+src/game/arm9/gx_load3d.c	arm9	2	ret=2	7
+src/game/arm9/mic.c	arm9	2	pointee=2 ptrint=1 ret=2	0
+src/game/arm9/msgdata.c	arm9	2	pointee=1 ret=1 sign=1 width=1	0
+src/game/arm9/net_err_proc.c	arm9	2	pointee=2 ptrint=1	1
+src/game/arm9/nns_g3d_ge.c	arm9	2	pointee=2 ret=2	6
+src/game/arm9/nns_g3d_glb.c	arm9	2	ret=2	0
+src/game/arm9/nns_g3d_mdl.c	arm9	2	pointee=2 ret=1	4
+src/game/arm9/nns_g3d_tex_mtx.c	arm9	2	ret=1 sign=1	0
+src/game/arm9/nns_snd_player.c	arm9	2	count=1 ret=1 sign=1	27
+src/game/arm9/nns_snd_strm.c	arm9	2	pointee=2	3
+src/game/arm9/playtime.c	arm9	2	pointee=2 ret=2	0
+src/game/arm9/pmsi_param.c	arm9	2	ptrint=1 sign=1 width=1	0
+src/game/arm9/poke_personal.c	arm9	2	pointee=1 ret=2 sign=1 width=1	2
+src/game/arm9/printsys.c	arm9	2	other=1 pointee=1 ret=1 width=1	3
+src/game/arm9/shinka_check.c	arm9	2	ret=1 width=2	0
+src/game/arm9/systemfont.c	arm9	2	ptrint=1 ret=2	0
+src/game/arm9/trcard_sign.c	arm9	2	pointee=2 ret=1	0
+src/game/arm9/ui.c	arm9	2	ret=2	10
+src/game/arm9/wipe.c	arm9	2	other=1 ptrint=1 ret=2	1
+src/game/arm9/wipe_sub.c	arm9	2	other=1 pointee=1 ret=2	0
+src/game/arm9/wm_icon.c	arm9	2	ret=1 sign=2 width=2	1
+src/game/arm9/zonedata.c	arm9	2	ret=2 sign=1 width=2	0
+src/game/ov004/event_worldtrade.c	ov004	2	other=1 pointee=2 ret=2	9
+src/game/ov009/dwc_transport.c	ov009	2	ret=2	0
+src/game/ov009/gpioperation.c	ov009	2	ret=2 sign=2	24
+src/game/ov009/gpiprofile.c	ov009	2	ptrint=1 ret=1 sign=1	3
+src/game/ov009/gpiunique.c	ov009	2	pointee=1 ret=1 sign=1	2
+src/game/ov009/gsplatformsocket.c	ov009	2	count=1 ptrint=1	2
+src/game/ov009/gstats.c	ov009	2	pointee=1 ptrint=1 ret=2 sign=1	2
+src/game/ov009/socl_close.c	ov009	2	pointee=2	2
+src/game/ov009/socl_create.c	ov009	2	pointee=1 ptrint=1	2
+src/game/ov009/socl_shutdown.c	ov009	2	pointee=1 ret=2	0
+src/game/ov010/delivery_irc.c	ov010	2	pointee=1 ptrint=1	1
+src/game/ov010/event_gameclear.c	ov010	2	ret=2 width=1	1
+src/game/ov010/field_encount_st.c	ov010	2	pointee=1 ptrint=1 ret=2	3
+src/game/ov010/fld_btl_inst_tool.c	ov010	2	pointee=1 ptrint=1 ret=2 width=1	34
+src/game/ov010/formchange_season.c	ov010	2	pointee=1 ret=2 width=1	2
+src/game/ov010/game_beacon_search.c	ov010	2	pointee=1 ptrint=1 ret=1	8
+src/game/ov010/irc_battle_task.c	ov010	2	other=2 pointee=2	5
+src/game/ov010/map_replace.c	ov010	2	pointee=1 sign=1 width=2	11
+src/game/ov010/text_texture.c	ov010	2	pointee=2 ret=1	0
+src/game/ov013/vct_mixer.c	ov013	2	ret=2	0
+src/game/ov014/net_whpipe.c	ov014	2	count=1 ret=2	0
+src/game/ov016/anime.c	ov016	2	pointee=1 ret=1	0
+src/game/ov016/archive.c	ov016	2	pointee=2 ptrint=1 ret=1	4
+src/game/ov016/cellinfo.c	ov016	2	pointee=1 ret=2 sign=1	0
+src/game/ov016/keyboard.c	ov016	2	pointee=2 sign=1	2
+src/game/ov016/keyboard10.c	ov016	2	pointee=2 sign=1	2
+src/game/ov016/move.c	ov016	2	pointee=1 ret=1	0
+src/game/ov016/sceneend.c	ov016	2	ret=2	0
+src/game/ov016/sceneinit.c	ov016	2	ret=2	2
+src/game/ov016/sceneoptmovdisconnect.c	ov016	2	ptrint=1 ret=1	0
+src/game/ov016/scenesetaosscomplete.c	ov016	2	ptrint=1 unproto=1	0
+src/game/ov016/scenesetrakucomplete.c	ov016	2	ptrint=1 sign=1	0
+src/game/ov016/scenesettestcomplete.c	ov016	2	ptrint=1 ret=1	0
+src/game/ov016/scrollbar.c	ov016	2	other=1 pointee=1	0
+src/game/ov016/usbap.c	ov016	2	pointee=1 unproto=1	1
+src/game/ov021/effect_encount.c	ov021	2	ret=2	6
+src/game/ov021/enceff.c	ov021	2	ret=2	-1
+src/game/ov021/entrance_camera.c	ov021	2	ret=2	0
+src/game/ov021/event_entrance_out.c	ov021	2	count=1 ret=2	2
+src/game/ov021/field_bbd_color.c	ov021	2	pointee=1 width=1	1
+src/game/ov021/field_door_anime.c	ov021	2	other=1 pointee=2 ret=1	21
+src/game/ov021/field_encount.c	ov021	2	pointee=1 ret=1	27
+src/game/ov021/field_player_grid.c	ov021	2	ret=1 width=2	15
+src/game/ov021/field_player_nogrid.c	ov021	2	pointee=1 width=1	3
+src/game/ov021/field_rail_loader.c	ov021	2	pointee=2 ret=1 sign=1	2
+src/game/ov021/field_task_manager.c	ov021	2	pointee=1 width=1	9
+src/game/ov021/field_tile_move.c	ov021	2	ptrint=1 ret=2	3
+src/game/ov021/fieldmap_ctrl_hybrid.c	ov021	2	ret=2 width=1	4
+src/game/ov021/fldeff_footmark.c	ov021	2	pointee=2 ptrint=1	11
+src/game/ov021/fldeff_grass.c	ov021	2	pointee=2 ret=1	5
+src/game/ov021/fldeff_kemuri.c	ov021	2	ret=2	4
+src/game/ov021/scrcmd_wifi_history.c	ov021	2	pointee=1 ret=1	5
+src/game/ov022/union_app.c	ov022	2	ret=1 width=1	0
+src/game/ov047/field_gimmick_bridge_types.h	ov047	2	ret=2	0
+src/game/ov058/field_gimmick_lane_trains_types.h	ov058	2	width=2	0
+src/game/ov063/rail_slipdown.c	ov063	2	pointee=2	4
+src/game/ov073/enceff_name_cutin.c	ov073	2	pointee=1 ret=2	1
+src/game/ov079/enceff_block_flip.c	ov079	2	other=1 pointee=1 ret=2	0
+src/game/ov094/btlv_finger_cursor.c	ov094	2	pointee=2	0
+src/game/ov095/btl_pospoke.c	ov095	2	ptrint=1 ret=1 width=1	11
+src/game/ov098/pdc_main.c	ov098	2	pointee=1 ptrint=1 width=1	20
+src/game/ov098/pdc_msg.c	ov098	2	ret=1 width=2	2
+src/game/ov101/compatible_irc_sys.c	ov101	2	pointee=1 ptrint=1	3
+src/game/ov107/mb_wm_base.c	ov107	2	other=1 ptrint=1	1
+src/game/ov112/mus_item_draw.c	ov112	2	pointee=2	2
+src/game/ov112/musical_shot_sys.c	ov112	2	other=1 ptrint=2 ret=1	1
+src/game/ov112/sta_act_obj.c	ov112	2	pointee=2	0
+src/game/ov114/d_nhttp_common.c	ov114	2	count=1 pointee=1	2
+src/game/ov114/ghttpEncryption.c	ov114	2	ptrint=1 ret=2 sign=1	2
+src/game/ov114/ghttpconnection.c	ov114	2	ptrint=1 ret=2 sign=2	11
+src/game/ov114/nhttp_socket_ntr.c	ov114	2	count=1 ret=2	1
+src/game/ov114/nhttp_thread.c	ov114	2	count=1 pointee=1 ret=1	0
+src/game/ov117/pokemontrade_ircdemo.c	ov117	2	pointee=1 ptrint=1 ret=1	1
+src/game/ov127/wf2dmap_objcmd.c	ov127	2	other=2	0
+src/game/ov127/wifi_2dchar.c	ov127	2	pointee=1 ret=1 width=1	5
+src/game/ov131/p_sta_info.c	ov131	2	pointee=2 ptrint=1 sign=1	4
+src/game/ov132/mus_comm_func.c	ov132	2	pointee=1 ptrint=1	-3
+src/game/ov135/worldtrade_adapter.c	ov135	2	pointee=1 ptrint=1 ret=1 width=2	0
+src/game/ov135/worldtrade_demo.c	ov135	2	count=1 pointee=1 ret=1	7
+src/game/ov137/guru2_comm.c	ov137	2	pointee=1 width=1	-1
+src/game/ov172/ctvt_camera.c	ov172	2	pointee=1 ptrint=2	-1
+src/game/ov183/br_codein_rec.c	ov183	2	pointee=2 ptrint=2 ret=1 sign=2 width=1	4
+src/game/ov195/shinka_demo_view.c	ov195	2	pointee=2 ptrint=1 ret=1 sign=1	0
+src/game/ov196/b_app_tool.c	ov196	2	pointee=2 ptrint=1 ret=1 sign=1 width=1	2
+src/game/ov203/demo3d_cmdsys.c	ov203	2	pointee=1 ret=1 sign=1	2
+src/game/ov204/intro_mcss.c	ov204	2	pointee=2 ptrint=1 ret=1 sign=1	1
+src/game/ov211/zukan_search_screen.c	ov211	2	pointee=1 ptrint=1 ret=1 width=1	0
+src/game/ov217/percentage.c	ov217	2	pointee=2 ret=1	21
+src/game/ov220/th_award.c	ov220	2	pointee=1 ptrint=1 ret=2	-20
+src/game/ov225/manual_top.c	ov225	2	pointee=1 ptrint=1 ret=1	9
+src/game/twl/aes_lock.c	twl	2	pointee=2	0
+src/game/twl/aes_util.c	twl	2	ptrint=2 ret=1	0
+src/game/twl/camera_api.c	twl	2	pointee=2 ptrint=1	9
+src/game/twl/card_hash.c	twl	2	ptrint=2	14
+src/game/twl/dsp_util.c	twl	2	pointee=2 ptrint=1	4
+src/game/twl/nwm_init.c	twl	2	count=1 ret=1	3
+src/game/arm9/app_icon.c	arm9	1	pointee=1 width=1	2
+src/game/arm9/app_taskmenu.c	arm9	1	pointee=1	25
+src/game/arm9/bag_param.c	arm9	1	ret=1	2
+src/game/arm9/battle_examination.c	arm9	1	ptrint=1 ret=1 width=1	0
+src/game/arm9/billboard.c	arm9	1	ret=1 sign=1	1
+src/game/arm9/codein_param.c	arm9	1	width=1	0
+src/game/arm9/comm_history.c	arm9	1	count=1 ret=1	11
+src/game/arm9/comm_player_support.c	arm9	1	ptrint=1 ret=1	10
+src/game/arm9/ctrdg.c	arm9	1	ret=1 width=1	0
+src/game/arm9/ctrdg_proc.c	arm9	1	count=1	0
+src/game/arm9/cursor_move.c	arm9	1	pointee=1	0
+src/game/arm9/event_id.c	arm9	1	pointee=1	0
+src/game/arm9/field_sound_system.c	arm9	1	ret=1 sign=1	0
+src/game/arm9/fs_overlay.c	arm9	1	ret=1	4
+src/game/arm9/fs_proc_default.c	arm9	1	count=1	0
+src/game/arm9/fs_proc_mem.c	arm9	1	pointee=1 ptrint=1	0
+src/game/arm9/fx_atanidx.c	arm9	1	ret=1 sign=1	0
+src/game/arm9/fx_mtx43.c	arm9	1	pointee=1	0
+src/game/arm9/game_comm.c	arm9	1	ret=1	4
+src/game/arm9/gf_panic.c	arm9	1	pointee=1	0
+src/game/arm9/gfl_heap.h	arm9	1	ptrint=1	0
+src/game/arm9/gpower.c	arm9	1	width=1	0
+src/game/arm9/iss_city_unit.c	arm9	1	width=1	0
+src/game/arm9/key.c	arm9	1	pointee=1 ret=1	0
+src/game/arm9/musical_dist_save.c	arm9	1	pointee=1 width=1	0
+src/game/arm9/net.c	arm9	1	ret=1	1
+src/game/arm9/net.h	arm9	1	ptrint=1	0
+src/game/arm9/net_lower_data.c	arm9	1	ret=1	0
+src/game/arm9/net_save.c	arm9	1	pointee=1	5
+src/game/arm9/net_state.c	arm9	1	pointee=1	0
+src/game/arm9/net_state.h	arm9	1	ptrint=1	0
+src/game/arm9/nns_fnd_frameheap.c	arm9	1	ptrint=1 width=1	0
+src/game/arm9/nns_g2d_multi_cell_animation.c	arm9	1	pointee=1 sign=1	23
+src/game/arm9/nns_g3d_util.c	arm9	1	ret=1	0
+src/game/arm9/nns_snd_arcplayer.c	arm9	1	ptrint=1 width=1	13
+src/game/arm9/nns_snd_main.c	arm9	1	ret=1	13
+src/game/arm9/os_interrupt.c	arm9	1	ptrint=1	0
+src/game/arm9/os_printf.c	arm9	1	other=1	0
+src/game/arm9/pms_word.c	arm9	1	sign=1 width=1	1
+src/game/arm9/poke_regulation.c	arm9	1	width=1	29
+src/game/arm9/poke_tool.c	arm9	1	ptrint=1	8
+src/game/arm9/pokerus.c	arm9	1	ret=1	0
+src/game/arm9/ringtone_sys.c	arm9	1	width=1	0
+src/game/arm9/snd_mic.c	arm9	1	pointee=1	1
+src/game/arm9/spl_random.c	arm9	1	pointee=1	0
+src/game/arm9/symbol_save.c	arm9	1	pointee=1 ptrint=1 ret=1	4
+src/game/arm9/time_icon.c	arm9	1	width=1	9
+src/game/arm9/wifi_friend.c	arm9	1	ret=1	0
+src/game/arm9/wm_sync.c	arm9	1	ret=1	0
+src/game/ov000/event_gsync.c	ov000	1	other=1 pointee=1	13
+src/game/ov001/event_gtsnego.c	ov001	1	other=1 pointee=1 ret=1	1
+src/game/ov002/event_wifibattlematch.c	ov002	1	other=1 pointee=1 ret=1	6
+src/game/ov003/event_menuproc.c	ov003	1	other=1 pointee=1 ret=1	2
+src/game/ov007/event_bsubway_comm.c	ov007	1	other=1 pointee=1	2
+src/game/ov009/dwc_cal.c	ov009	1	pointee=1	0
+src/game/ov009/dwc_friend.h	ov009	1	ptrint=1	0
+src/game/ov009/dwc_rap_types.h	ov009	1	ret=1	0
+src/game/ov009/dwc_rapcommon.c	ov009	1	other=1 pointee=1	0
+src/game/ov009/gbucket.c	ov009	1	ret=1 sign=1	0
+src/game/ov009/gp.c	ov009	1	pointee=1 ptrint=1	0
+src/game/ov009/gpicallback.c	ov009	1	ret=1	2
+src/game/ov009/gpikeys.c	ov009	1	ret=1 sign=1	1
+src/game/ov009/gsavailable.c	ov009	1	ret=1	0
+src/game/ov009/gscore.c	ov009	1	ret=1 sign=1	0
+src/game/ov009/gsstringutil.c	ov009	1	ret=1 sign=1	0
+src/game/ov009/gt2auth.c	ov009	1	ret=1	0
+src/game/ov009/gt2buffer.c	ov009	1	ret=1 sign=1	-1
+src/game/ov009/gt2connection.c	ov009	1	ret=1 sign=1	3
+src/game/ov009/gt2socket.c	ov009	1	ret=1 sign=1	6
+src/game/ov009/gt2utility.c	ov009	1	ret=1 unproto=1	2
+src/game/ov009/hashtable.c	ov009	1	ret=1 sign=1	2
+src/game/ov009/sb_server.h	ov009	1	ptrint=1	0
+src/game/ov009/socl_bind.c	ov009	1	pointee=1 ret=1	2
+src/game/ov009/socl_ssl.c	ov009	1	pointee=1 ret=1	3
+src/game/ov009/wcm_aplist.c	ov009	1	ptrint=1 ret=1	2
+src/game/ov009/wcm_cpsif.c	ov009	1	pointee=1	7
+src/game/ov009/wcm_system.c	ov009	1	ret=1	8
+src/game/ov010/calender.c	ov010	1	ret=1	2
+src/game/ov010/delivery_beacon.c	ov010	1	ptrint=1	1
+src/game/ov010/event_field_proclink_return.c	ov010	1	ret=1	11
+src/game/ov010/event_poke_status.c	ov010	1	other=1 pointee=1 ret=1	5
+src/game/ov010/event_research_radar.c	ov010	1	other=1 pointee=1 ret=1	24
+src/game/ov010/event_shortcut_menu.c	ov010	1	other=1 pointee=1	11
+src/game/ov010/event_wifi_proc.c	ov010	1	ptrint=1 ret=1	0
+src/game/ov010/fld_faceup.c	ov010	1	other=1 pointee=1	8
+src/game/ov010/fldmmdl_poslog.c	ov010	1	pointee=1 ret=1	-1
+src/game/ov010/map_matrix.c	ov010	1	width=1	0
+src/game/ov010/mystery_gift_mon.c	ov010	1	ret=1 width=1	3
+src/game/ov010/scrcmd_bridge_gimmick.c	ov010	1	pointee=1	0
+src/game/ov010/scrcmd_sodateya.c	ov010	1	other=1 pointee=1	3
+src/game/ov010/scrcmd_trialhouse.c	ov010	1	width=1	14
+src/game/ov012/union_command.c	ov012	1	pointee=1 width=1	3
+src/game/ov013/vct_main.c	ov013	1	ret=1	25
+src/game/ov016/cell.c	ov016	1	ret=1 sign=1	0
+src/game/ov016/focus.c	ov016	1	other=1	0
+src/game/ov016/headline.c	ov016	1	ret=1	1
+src/game/ov016/input.c	ov016	1	pointee=1 width=1	0
+src/game/ov016/scenesetusbcomplete.c	ov016	1	ptrint=1	0
+src/game/ov016/search.c	ov016	1	pointee=1	4
+src/game/ov016/setting.c	ov016	1	ptrint=1	-1
+src/game/ov016/sound.c	ov016	1	pointee=1 width=1	2
+src/game/ov016/step.c	ov016	1	pointee=1 sign=1	1
+src/game/ov019/colosseum_tool.c	ov019	1	pointee=1	1
+src/game/ov019/union_chara.c	ov019	1	pointee=1 width=1	23
+src/game/ov019/union_eff.c	ov019	1	width=1	6
+src/game/ov021/event_comm_error.c	ov021	1	ptrint=1	4
+src/game/ov021/event_game_manual.c	ov021	1	other=1 pointee=1	0
+src/game/ov021/event_namein.c	ov021	1	other=1 pointee=1	9
+src/game/ov021/event_sweet_scent.c	ov021	1	other=1 pointee=1 ret=1	1
+src/game/ov021/field_3dbg.c	ov021	1	pointee=1	0
+src/game/ov021/field_camera.c	ov021	1	pointee=1 sign=1 width=1	2
+src/game/ov021/field_comm_actor.c	ov021	1	width=1	0
+src/game/ov021/field_effect.c	ov021	1	count=1	7
+src/game/ov021/field_g3d_map_block.c	ov021	1	pointee=1	46
+src/game/ov021/field_zonefog.c	ov021	1	width=1	0
+src/game/ov021/fieldmap_ctrl_grid.c	ov021	1	ret=1	0
+src/game/ov021/fieldmap_tcb_camera_zoom.c	ov021	1	other=1 ptrint=1 ret=1 sign=1	1
+src/game/ov021/fld_particle.c	ov021	1	ptrint=1 ret=1	1
+src/game/ov021/fld_scenearea_loader.c	ov021	1	width=1	0
+src/game/ov021/fldeff_bubble.c	ov021	1	pointee=1	4
+src/game/ov021/fldeff_encount.c	ov021	1	ret=1	8
+src/game/ov021/fldeff_hide.c	ov021	1	ret=1	22
+src/game/ov021/fldeff_ripple.c	ov021	1	pointee=1	4
+src/game/ov021/intrude_offer.c	ov021	1	other=1 pointee=1	1
+src/game/ov021/land_data_patch.c	ov021	1	width=1	2
+src/game/ov021/map_attr.c	ov021	1	pointee=1	0
+src/game/ov021/place_name_letter.c	ov021	1	width=1	0
+src/game/ov021/scrcmd_fld_battle.c	ov021	1	other=1 pointee=1 ret=1	0
+src/game/ov021/scrcmd_otid.c	ov021	1	other=1 pointee=1	13
+src/game/ov021/scrcmd_palpark.c	ov021	1	pointee=1 ptrint=1 ret=1 sign=1	2
+src/game/ov024/weather_clear_types.h	ov024	1	width=1	0
+src/game/ov026/weather_rain_thunderstorm_storm_types.h	ov026	1	sign=1	0
+src/game/ov027/weather_sandstorm.c	ov027	1	width=1	2
+src/game/ov028/weather_fog.c	ov028	1	width=1	0
+src/game/ov048/field_gimmick_gate_news.c	ov048	1	pointee=1 ret=1	0
+src/game/ov055/field_gimmick_crowd.c	ov055	1	pointee=1 width=1	8
+src/game/ov067/ui_scene.c	ov067	1	pointee=1	0
+src/game/ov076/enceff_model_scene.c	ov076	1	other=1 pointee=1 ret=1	1
+src/game/ov077/enceff_cell_grid.c	ov077	1	other=1 pointee=1 ret=1	1
+src/game/ov082/fld_faceup.c	ov082	1	pointee=1	9
+src/game/ov093/btl_action_word_types.h	ov093	1	width=1	0
+src/game/ov093/hand_common.c	ov093	1	pointee=1 ret=1	0
+src/game/ov094/btlv_field.c	ov094	1	pointee=1 ret=1	0
+src/game/ov094/btlv_stage.c	ov094	1	pointee=1 ret=1	0
+src/game/ov095/hand_pos.c	ov095	1	width=1	0
+src/game/ov099/wifi_club.h	ov099	1	ptrint=1	0
+src/game/ov107/mb_fileinfo.c	ov107	1	pointee=1	2
+src/game/ov110/pmsiv_tool.c	ov110	1	pointee=1	0
+src/game/ov112/mus_item_data.c	ov112	1	width=1	0
+src/game/ov114/d_nhttp_private.c	ov114	1	pointee=1	0
+src/game/ov114/dpw_bt.c	ov114	1	pointee=1 ptrint=1 sign=1	3
+src/game/ov114/dpw_tr.c	ov114	1	pointee=1 ptrint=1 sign=1	6
+src/game/ov114/dwc_encsession_2.c	ov114	1	unproto=1	18
+src/game/ov114/ghttpbuffer.c	ov114	1	ptrint=1 ret=1 sign=1	1
+src/game/ov114/ghttpcallbacks.c	ov114	1	other=1 ret=1	0
+src/game/ov114/ghttppost.c	ov114	1	ret=1 sign=1	1
+src/game/ov115/wifilogin_common.c	ov115	1	ret=1	0
+src/game/ov123/gsync_download.c	ov123	1	ptrint=1 sign=1	0
+src/game/ov123/pdwacc_state.c	ov123	1	ptrint=1 sign=1	4
+src/game/ov125/gds_rap.c	ov125	1	ret=1	4
+src/game/ov127/wf2dmap_cmdq.c	ov127	1	width=1	0
+src/game/ov127/wf2dmap_map.c	ov127	1	width=1	0
+src/game/ov127/wf2dmap_obj.c	ov127	1	width=1	0
+src/game/ov132/sta_act_audience.c	ov132	1	pointee=1	1
+src/game/ov132/sta_act_effect.c	ov132	1	pointee=1 ptrint=1	2
+src/game/ov135/worldtrade_status.c	ov135	1	pointee=1	0
+src/game/ov172/comm_tvt_sys.c	ov172	1	pointee=1	29
+src/game/ov172/ctvt_mic.c	ov172	1	ptrint=1 ret=1	4
+src/game/ov172/exifenc.c	ov172	1	pointee=1	0
+src/game/ov174/local_tvt_chara.c	ov174	1	pointee=1 ret=1	15
+src/game/ov175/authservice.c	ov175	1	ret=1 sign=1	1
+src/game/ov175/dwc_gdb.c	ov175	1	count=1	0
+src/game/ov175/sakemain.c	ov175	1	ret=1 sign=1	0
+src/game/ov175/sakerequest.c	ov175	1	ret=1 sign=1	0
+src/game/ov175/sakerequestread.c	ov175	1	ret=1 sign=1	0
+src/game/ov175/sciinterface.c	ov175	1	ret=1 sign=1	0
+src/game/ov175/scireport.c	ov175	1	ret=1 sign=1	0
+src/game/ov180/hall_of_fame_proc.c	ov180	1	other=1 ret=1 sign=1	0
+src/game/ov186/br_member_count.c	ov186	1	ret=1 width=1	0
+src/game/ov186/br_net.c	ov186	1	ret=1	1
+src/game/ov186/br_sidebar.c	ov186	1	pointee=1	0
+src/game/ov188/battle_rec_tool.c	ov188	1	pointee=1	3
+src/game/ov194/namein_data.c	ov194	1	width=1	0
+src/game/ov194/namein_graphic_field.c	ov194	1	pointee=1	-2
+src/game/ov204/intro_particle.c	ov204	1	pointee=1	-1
+src/game/ov208/zukan_detail_headbar.c	ov208	1	ptrint=1 ret=1	6
+src/game/ov212/zukan_search_engine.c	ov212	1	ret=1 width=1	0
+src/game/ov217/bg_font.c	ov217	1	width=1	1
+src/game/ov225/manual_category.c	ov225	1	ptrint=1 ret=1	1
+src/game/ov225/manual_explain.c	ov225	1	ptrint=1 ret=1	9
+src/game/ov225/manual_title.c	ov225	1	ptrint=1 ret=1	1
+src/game/ov230/sealed_checks_card_image.c	ov230	1	other=1	0
+src/game/ov230/sealed_checks_console.c	ov230	1	pointee=1	0
+src/game/twl/fatfs_request.c	twl	1	pointee=1	2
+src/game/twl/nwm_end.c	twl	1	ptrint=1 sign=1	0
+src/game/twl/pm.c	twl	1	ret=1 width=1	0
+src/game/arm9/actor_tool.c	arm9	0		0
+src/game/arm9/app_keycursor.c	arm9	0		3
+src/game/arm9/battle_box.c	arm9	0		7
+src/game/arm9/beacon.c	arm9	0		12
+src/game/arm9/beacon_status.c	arm9	0		9
+src/game/arm9/bgm_info.c	arm9	0		9
+src/game/arm9/bgwinfrm.c	arm9	0		-1
+src/game/arm9/blink_palanm.c	arm9	0		1
+src/game/arm9/block20_savedata.c	arm9	0		0
+src/game/arm9/bmp.c	arm9	0		1
+src/game/arm9/bmp_cursor.c	arm9	0		1
+src/game/arm9/bmp_win.c	arm9	0		0
+src/game/arm9/box_savedata.c	arm9	0		3
+src/game/arm9/card_common.c	arm9	0		0
+src/game/arm9/card_pullout.c	arm9	0		0
+src/game/arm9/dendou_savedata.c	arm9	0		0
+src/game/arm9/double3Ddisp.c	arm9	0		0
+src/game/arm9/dwc_ac_beacon.c	arm9	0		2
+src/game/arm9/dwc_ac_close.c	arm9	0		0
+src/game/arm9/dwc_ac_connect.c	arm9	0		-2
+src/game/arm9/dwc_ac_makelist.c	arm9	0		-1
+src/game/arm9/dwc_ac_nintendospot.c	arm9	0		0
+src/game/arm9/dwc_ac_search.c	arm9	0		0
+src/game/arm9/dwc_ac_shop_usb.c	arm9	0		0
+src/game/arm9/dwc_ac_test.c	arm9	0		2
+src/game/arm9/external.c	arm9	0		0
+src/game/arm9/field_status.c	arm9	0		1
+src/game/arm9/fx_mtx33.c	arm9	0		0
+src/game/arm9/fx_mtx44.c	arm9	0		0
+src/game/arm9/g3_util.c	arm9	0		0
+src/game/arm9/g3d_camera.c	arm9	0		1
+src/game/arm9/g3d_light.c	arm9	0		2
+src/game/arm9/g3x.c	arm9	0		1
+src/game/arm9/gf_overlay.c	arm9	0		2
+src/game/arm9/gfl_heap.c	arm9	0		7
+src/game/arm9/gfl_heap_wrap.c	arm9	0		0
+src/game/arm9/gx.c	arm9	0		2
+src/game/arm9/intrude.c	arm9	0		1
+src/game/arm9/irc_ranking.c	arm9	0		2
+src/game/arm9/iss_dungeon_sys.c	arm9	0		3
+src/game/arm9/iss_switch_set.c	arm9	0		10
+src/game/arm9/iss_sys.c	arm9	0		18
+src/game/arm9/livebattlematch_savedata.c	arm9	0		0
+src/game/arm9/mail.c	arm9	0		0
+src/game/arm9/met_trainers_savedata.c	arm9	0		0
+src/game/arm9/mi_init.c	arm9	0		0
+src/game/arm9/mon_snapshot_savedata.c	arm9	0		0
+src/game/arm9/move_pokemon_save.c	arm9	0		0
+src/game/arm9/msg_speed.c	arm9	0		0
+src/game/arm9/msl_crt.c	arm9	0		7
+src/game/arm9/msl_stdio.c	arm9	0		9
+src/game/arm9/musical_shot.c	arm9	0		1
+src/game/arm9/net_command.c	arm9	0		0
+src/game/arm9/net_handle.c	arm9	0		2
+src/game/arm9/net_irc_wireless.c	arm9	0		0
+src/game/arm9/net_system.c	arm9	0		4
+src/game/arm9/nns_fnd_unitheap.c	arm9	0		0
+src/game/arm9/nns_g2d_anim_bank.c	arm9	0		4
+src/game/arm9/nns_g2d_cell_animation.c	arm9	0		1
+src/game/arm9/nns_g2d_font.c	arm9	0		0
+src/game/arm9/nns_g2d_load.c	arm9	0		2
+src/game/arm9/nns_g2d_renderer_core.c	arm9	0		6
+src/game/arm9/nns_g3d_sbc.c	arm9	0		2
+src/game/arm9/nns_gfd_lnk_vram_man.c	arm9	0		5
+src/game/arm9/nns_gfd_vram_load.c	arm9	0		3
+src/game/arm9/nns_gfd_vram_man.c	arm9	0		16
+src/game/arm9/nns_snd_system.c	arm9	0		2
+src/game/arm9/nns_snd_waveout.c	arm9	0		0
+src/game/arm9/palanm.c	arm9	0		0
+src/game/arm9/perapvoice.c	arm9	0		2
+src/game/arm9/player_location.c	arm9	0		1
+src/game/arm9/pm.c	arm9	0		0
+src/game/arm9/pm_voice.c	arm9	0		19
+src/game/arm9/regulation.c	arm9	0		7
+src/game/arm9/save_sync_savedata.c	arm9	0		0
+src/game/arm9/snd_main.c	arm9	0		0
+src/game/arm9/system_data.c	arm9	0		0
+src/game/arm9/textprint.c	arm9	0		0
+src/game/arm9/touchpanel.c	arm9	0		3
+src/game/arm9/trial_house_savedata.c	arm9	0		0
+src/game/arm9/wifilist.c	arm9	0		3
+src/game/arm9/wm_dcf.c	arm9	0		0
+src/game/arm9/wm_ds.c	arm9	0		0
+src/game/arm9/wm_etc.c	arm9	0		0
+src/game/arm9/wm_ks.c	arm9	0		0
+src/game/arm9/wm_mp.c	arm9	0		0
+src/game/arm9/wm_standard.c	arm9	0		0
+src/game/arm9/wm_system.c	arm9	0		0
+src/game/arm9/wordset.c	arm9	0		0
+src/game/arm9/zone_weather.c	arm9	0		13
+src/game/arm9/zukan_save.c	arm9	0		0
+src/game/ov009/dwc_auth_interface.c	ov009	0		-1
+src/game/ov009/dwc_common.c	ov009	0		6
+src/game/ov009/dwc_friend.c	ov009	0		6
+src/game/ov009/dwc_nastime.c	ov009	0		5
+src/game/ov009/dwc_prof.c	ov009	0		6
+src/game/ov009/dwc_reliable.c	ov009	0		0
+src/game/ov009/dwc_svl.c	ov009	0		17
+src/game/ov009/gpitransfer.c	ov009	0		0
+src/game/ov009/gpiutility.c	ov009	0		9
+src/game/ov009/gscrypt.c	ov009	0		2
+src/game/ov009/gslargeint.c	ov009	0		1
+src/game/ov009/gsplatformthread.c	ov009	0		0
+src/game/ov009/gt2callback.c	ov009	0		0
+src/game/ov009/gt2message.c	ov009	0		21
+src/game/ov009/natify.c	ov009	0		2
+src/game/ov009/qr2regkeys.c	ov009	0		3
+src/game/ov009/sb_queryengine.c	ov009	0		4
+src/game/ov009/screen.c	ov009	0		0
+src/game/ov009/soc.c	ov009	0		0
+src/game/ov009/socl_cleanup.c	ov009	0		0
+src/game/ov009/socl_poll.c	ov009	0		2
+src/game/ov010/beacon_view_event.c	ov010	0		0
+src/game/ov010/event_field_menu.c	ov010	0		9
+src/game/ov010/event_field_proclink_eventdata.c	ov010	0		0
+src/game/ov010/event_trainer.c	ov010	0		3
+src/game/ov010/field_g3d_map_scr.c	ov010	0		0
+src/game/ov010/field_map_change.c	ov010	0		6
+src/game/ov010/formchange_shaymin.c	ov010	0		1
+src/game/ov010/game_beacon_accessor.c	ov010	0		2
+src/game/ov010/intrude_comm_query.c	ov010	0		1
+src/game/ov010/musical_dressup_sys.c	ov010	0		1
+src/game/ov010/musical_event_party.c	ov010	0		6
+src/game/ov010/musical_program.c	ov010	0		0
+src/game/ov010/musical_stage_sys.c	ov010	0		1
+src/game/ov010/scrcmd_mmdl.c	ov010	0		6
+src/game/ov010/script_work.c	ov010	0		9
+src/game/ov010/symbol_map_pair_band.c	ov010	0		3
+src/game/ov010/waza_oshie.c	ov010	0		0
+src/game/ov012/colosseum.c	ov012	0		7
+src/game/ov012/union_main.c	ov012	0		2
+src/game/ov012/union_scene.c	ov012	0		14
+src/game/ov013/vct.c	ov013	0		0
+src/game/ov013/vct_audio.c	ov013	0		4
+src/game/ov013/vct_session.c	ov013	0		0
+src/game/ov015/irc_internal.c	ov015	0		0
+src/game/ov015/ircnet.c	ov015	0		0
+src/game/ov016/aosslink.c	ov016	0		0
+src/game/ov016/comment.c	ov016	0		1
+src/game/ov016/common.c	ov016	0		0
+src/game/ov016/dwc_mov_mbp.c	ov016	0		1
+src/game/ov016/dwcutil_main.c	ov016	0		-2
+src/game/ov016/effect.c	ov016	0		0
+src/game/ov016/icon.c	ov016	0		0
+src/game/ov016/libaoss.c	ov016	0		0
+src/game/ov016/obj.c	ov016	0		0
+src/game/ov016/screen.c	ov016	0		0
+src/game/ov016/task.c	ov016	0		0
+src/game/ov017/error_screen.c	ov017	0		0
+src/game/ov021/event_appear.c	ov021	0		4
+src/game/ov021/event_disappear.c	ov021	0		4
+src/game/ov021/event_fieldmap_control.c	ov021	0		11
+src/game/ov021/event_recovery.c	ov021	0		6
+src/game/ov021/field_fog.c	ov021	0		0
+src/game/ov021/field_g3dobj.c	ov021	0		8
+src/game/ov021/field_gimmick.c	ov021	0		4
+src/game/ov021/field_palace_sys.c	ov021	0		0
+src/game/ov021/fieldmap_func.c	ov021	0		12
+src/game/ov021/fld_vreq.c	ov021	0		2
+src/game/ov021/fldeff_btrain.c	ov021	0		2
+src/game/ov021/fldeff_d06denki.c	ov021	0		7
+src/game/ov021/fldeff_fishing.c	ov021	0		2
+src/game/ov021/fldeff_iaigiri.c	ov021	0		4
+src/game/ov021/fldeff_iwakudaki.c	ov021	0		4
+src/game/ov021/fldeff_shadow.c	ov021	0		8
+src/game/ov021/fldeff_splash.c	ov021	0		22
+src/game/ov021/rail_attr.c	ov021	0		1
+src/game/ov021/scrcmd_c03center.c	ov021	0		8
+src/game/ov021/scrcmd_screeneffects.c	ov021	0		36
+src/game/ov021/scrcmd_shop.c	ov021	0		2
+src/game/ov021/union_chat_log.c	ov021	0		1
+src/game/ov030/no_gear.c	ov030	0		0
+src/game/ov037/gimmick_init_helpers.c	ov037	0		11
+src/game/ov057/field_gimmick_model_scene.c	ov057	0		0
+src/game/ov058/field_gimmick_lane_trains.c	ov058	0		1
+src/game/ov067/msgsearch.c	ov067	0		9
+src/game/ov090/plist_comm.c	ov090	0		6
+src/game/ov091/plist_message.c	ov091	0		24
+src/game/ov093/btl_adapter.c	ov093	0		5
+src/game/ov093/btl_dsi_overlay.c	ov093	0		2
+src/game/ov093/btl_event.c	ov093	0		0
+src/game/ov093/btl_net.c	ov093	0		-5
+src/game/ov094/btlv_bg.c	ov094	0		0
+src/game/ov095/btl_pokeset.c	ov095	0		1
+src/game/ov095/btl_sick.c	ov095	0		1
+src/game/ov095/hand_side.c	ov095	0		1
+src/game/ov107/mb_common.c	ov107	0		0
+src/game/ov109/idle_screen.c	ov109	0		3
+src/game/ov110/pms_input_data.c	ov110	0		2
+src/game/ov112/mus_poke_draw.c	ov112	0		0
+src/game/ov112/musical_system.c	ov112	0		0
+src/game/ov112/sta_act_bg.c	ov112	0		3
+src/game/ov114/crypto_util.c	ov114	0		0
+src/game/ov114/d_nhttp.c	ov114	0		0
+src/game/ov114/dwc_encsession_1.c	ov114	0		4
+src/game/ov114/dwc_ghttp.c	ov114	0		0
+src/game/ov114/ghttpcommon.c	ov114	0		1
+src/game/ov114/ghttpmain.c	ov114	0		1
+src/game/ov114/nhttp_bgnend.c	ov114	0		0
+src/game/ov114/nhttp_control.c	ov114	0		0
+src/game/ov114/nhttp_list.c	ov114	0		2
+src/game/ov114/nhttp_rap_evilcheck.c	ov114	0		5
+src/game/ov114/nhttp_recvbuf.c	ov114	0		0
+src/game/ov114/nhttp_request.c	ov114	0		0
+src/game/ov119/pokemontrade_mcss.c	ov119	0		0
+src/game/ov127/wf2dmap_anim.c	ov127	0		0
+src/game/ov132/sta_net.c	ov132	0		3
+src/game/ov133/dup_fitting_item.c	ov133	0		3
+src/game/ov172/jpegdec.c	ov172	0		1
+src/game/ov172/jpegenc.c	ov172	0		2
+src/game/ov175/dwc_sc.c	ov175	0		0
+src/game/ov175/sciwebservices.c	ov175	0		0
+src/game/ov179/cdemo_scene.c	ov179	0		2
+src/game/ov179/cdemo_wipe.c	ov179	0		0
+src/game/ov186/br_btn_data.c	ov186	0		1
+src/game/ov194/nsbtx_to_clwk.c	ov194	0		2
+src/game/ov194/prof_word.c	ov194	0		0
+src/game/ov198/b_plist_anm.c	ov198	0		-1
+src/game/ov208/zukan_detail.c	ov208	0		0
+src/game/ov208/zukan_detail_main.c	ov208	0		0
+src/game/ov210/zknsearch_cond.c	ov210	0		-1
+src/game/ov210/zknsearch_list.c	ov210	0		-3
+src/game/ov210/zknsearch_menu.c	ov210	0		-1
+src/game/ov210/zknsearch_result.c	ov210	0		1
+src/game/ov211/zukan_search_proc.c	ov211	0		1
+src/game/ov225/manual_common.c	ov225	0		6
+src/game/ov225/manual_data.c	ov225	0		2
+src/game/ov228/save_outside.c	ov228	0		3
+src/game/ov230/loader_entry.c	ov230	0		0
+src/game/ov230/sealed_call_stubs_a.c	ov230	0		0
+src/game/ov230/sealed_call_stubs_b.c	ov230	0		0
+src/game/ov230/sealed_call_stubs_c.c	ov230	0		0
+src/game/ov230/sealed_call_stubs_d.c	ov230	0		0
+src/game/ov230/sealed_call_stubs_e.c	ov230	0		0
+src/game/ov230/sealed_call_stubs_f.c	ov230	0		0
+src/game/ov230/sealed_cipher.c	ov230	0		0
+src/game/ov231/card_spi.c	ov231	0		0
+src/game/twl/aes_core.c	twl	0		9
+src/game/twl/mi_ndma.c	twl	0		1
+src/game/twl/mi_ndma_gxcommand.c	twl	0		0
+src/game/twl/micex.c	twl	0		10
+src/game/twl/nwm_close.c	twl	0		0
+src/game/twl/nwm_cmd.c	twl	0		7
+src/game/twl/nwm_connect.c	twl	0		2
+src/game/twl/nwm_disconnect.c	twl	0		1
+src/game/twl/nwm_loaddev.c	twl	0		1
+src/game/twl/nwm_open.c	twl	0		0
+src/game/twl/nwm_recvframe.c	twl	0		3
+src/game/twl/nwm_sendframe.c	twl	0		1
+src/game/twl/nwm_setpowersave.c	twl	0		1
+src/game/twl/nwm_setwepkey.c	twl	0		2
+src/game/twl/nwm_startscan.c	twl	0		1
+src/game/twl/nwm_system.c	twl	0		2
+src/game/twl/nwm_unloaddev.c	twl	0		0
+src/game/twl/nwm_wpa.c	twl	0		1
+src/game/twl/os_arena.c	twl	0		0
+src/game/twl/sndex.c	twl	0		11

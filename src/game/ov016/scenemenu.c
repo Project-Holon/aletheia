@@ -126,7 +126,7 @@ struct SceneMenuState {
 };
 
 extern void DWCi_HLlLoad(int x);
-extern void DWCi_COMMENTlDispEx(int a, int b, int c);
+extern int DWCi_COMMENTlDispEx(int a, int b, int c);
 extern void DWCi_STEPlChangeScr(int x);
 extern void DWCi_CMNlLoadResource(char *file, void (*func)(void *, unsigned long, unsigned long));
 extern unsigned char *DWCi_Char(unsigned char *name);
@@ -137,19 +137,19 @@ extern bool DWCi_EFFlWait(int frame);
 extern void DWCi_GXlVisible(int lcd, int plane);
 extern void DWCi_ChangeScene(void (*scene)(void));
 extern void DWCi_CMNlButton(int kind);
-extern int DWCi_BTNlGet(void);
+extern char DWCi_BTNlGet(void);
 extern void DWCi_BTNlEnable(void);
 extern void DWCi_BTNlDisable(void);
-extern void DWCi_BTNlSet(int idx);
+extern void DWCi_BTNlSet(char v);
 extern void DWCi_SNDlPlay(int no);
 extern void DWCi_FOCUSlDisp4(int x0, int x1, int y0, int y1);
-extern bool DWCi_TPlCheckTrigger(RECT *r);
-extern bool DWCi_IPTlCheckTrigger(unsigned short input);
-extern bool DWCi_IPTlCheckRepeat(unsigned short input);
+extern int DWCi_TPlCheckTrigger(unsigned short *a);
+extern int DWCi_IPTlCheckTrigger(unsigned int f);
+extern int DWCi_IPTlCheckRepeat(unsigned int f);
 extern void DWCi_SCREENlCopyPalette(void *src, int sColor, int dColor);
 extern void DWCi_SceneEnd(void);
 extern void DWCi_FOCUSlDelete(void);
-extern void DWCi_COMMENTlDelete(void);
+extern int DWCi_COMMENTlDelete(void);
 extern void DWCi_ARClRelease(void *file);
 extern void DWCi_GXlInvisible(int a, int b);
 extern void DWCi_SetParam_(unsigned int a, unsigned int b);
@@ -282,7 +282,7 @@ static void input(void)
     int i;
 
     for (i = 0; i < sizeof(scenemenu_rodata.R_TOUCH) / sizeof(RECT); i++) {
-        if (DWCi_TPlCheckTrigger((RECT *)&scenemenu_rodata.R_TOUCH[i])) {
+        if (DWCi_TPlCheckTrigger((unsigned short *)&scenemenu_rodata.R_TOUCH[i])) {
             DWCi_BTNlSet(1);
             scenemenu_bss.FocusPos = (unsigned char)i;
             DWCi_FOCUSlDisp4(scenemenu_rodata.R_FOCUS[scenemenu_bss.FocusPos].l, scenemenu_rodata.R_FOCUS[scenemenu_bss.FocusPos].r,

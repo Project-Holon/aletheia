@@ -19,6 +19,7 @@
  *   OS_InitMessageQueue  0x02085D94  arm  arm9
  *   OS_SendMessage  0x02085DBC  arm  arm9
  *   OS_ReceiveMessage  0x02085E50  arm  arm9
+ *   data_02150FEC                0x02150FEC  data
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
@@ -43,13 +44,14 @@ typedef struct {
     u32 fullArg;
 } MicexState;
 
-extern MicexState *MICEXi_GetLimitedSamplingCallback(void);
+extern void *MICEXi_GetLimitedSamplingCallback(void);
 extern u32 OS_DisableInterrupts(void);
 extern void OS_RestoreInterrupts(u32);
-extern void OS_InitMessageQueue(u32 *, u32 *, u32);
-extern u32 OS_ReceiveMessage(u32 *, u32 *, u32);
-extern u32 OS_SendMessage(u32, u32, u32);
-extern s32 PXI_SendWordByFifo(u32, u32, u32);
+struct OSMessageQueue;
+extern void OS_InitMessageQueue(struct OSMessageQueue *mq, void **msgArray, int msgCount);
+extern int OS_ReceiveMessage(struct OSMessageQueue *mq, void **msg, int flags);
+extern int OS_SendMessage(struct OSMessageQueue *mq, void *msg, int flags);
+extern s32 PXI_SendWordByFifo(int fifotag, unsigned int data, int err);
 extern u32 data_02150FEC[];
 
 u32 MICEXi_StartLimitedSampling(const MicexReq *param);
@@ -68,10 +70,10 @@ u32 MICEXi_StartLimitedSampling(const MicexReq *param) {
     if (data_02150FEC[1] == 0) {
         return 5;
     }
-    OS_InitMessageQueue(queue, &buf, 1);
+    OS_InitMessageQueue((struct OSMessageQueue *)queue, (void **)(&buf), 1);
     res = MICEXi_StartLimitedSamplingAsync(param, (u32)MicexSyncCallback, (u32)queue);
     if (res == 0) {
-        OS_ReceiveMessage(queue, &res, 1);
+        OS_ReceiveMessage((struct OSMessageQueue *)queue, (void **)(&res), 1);
     }
     return res;
 }
@@ -157,11 +159,11 @@ u32 MICEXi_StopLimitedSampling(void) {
     if (data_02150FEC[1] == 0) {
         return 5;
     }
-    OS_InitMessageQueue(queue, &buf, 1);
+    OS_InitMessageQueue((struct OSMessageQueue *)queue, (void **)(&buf), 1);
     res = MICEXi_StopLimitedSamplingAsync((u32)MicexSyncCallback, (u32)queue);
     msg = res;
     if (msg == 0) {
-        OS_ReceiveMessage(queue, &msg, 1);
+        OS_ReceiveMessage((struct OSMessageQueue *)queue, (void **)(&msg), 1);
     }
     return msg;
 }
@@ -186,7 +188,7 @@ u32 MICEXi_StopLimitedSamplingAsync(u32 callback, u32 arg) {
 }
 
 void MicexSyncCallback(u32 result, u32 queue) {
-    OS_SendMessage(queue, result, 0);
+    OS_SendMessage((struct OSMessageQueue *)queue, (void *)result, 0);
 }
 
 u32 MicexStartLimitedSampling(u32 addr, u32 len, u32 size, u32 flags) {

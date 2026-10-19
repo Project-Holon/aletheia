@@ -57,15 +57,15 @@ struct NNSGfdVramRing {
 };
 
 extern void GX_BeginLoadTex(void);
-extern void GX_LoadTex(u32 a, u32 b, u32 c);
+extern void GX_LoadTex(void *pSrc, u32 destSlotAddr, u32 szByte);
 extern void GX_EndLoadTex(void);
 extern void GX_BeginLoadTexPltt(void);
-extern void GX_LoadTexPltt(u32 a, u32 b, u32 c);
+extern void GX_LoadTexPltt(void *pSrc, u32 destSlotAddr, u32 szByte);
 extern void GX_EndLoadTexPltt(void);
 extern void GX_BeginLoadClearImage(void);
-extern void GX_LoadClearImageColor(u32 a, u32 c);
+extern void GX_LoadClearImageColor(void *pSrc, u32 szByte);
 extern void GX_EndLoadClearImage(void);
-extern void GX_LoadClearImageDepth(u32 a, u32 c);
+extern void GX_LoadClearImageDepth(void *pSrc, u32 szByte);
 u32 NNS_GfdAllocVram(u32 size, u32 flag, u32 dir);
 void NNSi_GfdGetVramManagerWork(struct Arena02146B74 *dst);
 void NNSi_GfdSetVramManagerWork(void *pWork);
@@ -77,16 +77,16 @@ void NNS_GfdFuncLoadTexPltt(u32 a, u32 b, u32 c);
 void NNS_GfdFuncLoadClearImageColor(u32 a, u32 b, u32 c);
 void NNS_GfdFuncLoadClearImageDepth(u32 a, u32 b, u32 c);
 extern struct Arena02146B74 g_02146B74;
-extern void GX_LoadBG0Char(u32 a, u32 b, u32 c);
-extern void GX_LoadBG1Char(u32 a, u32 b, u32 c);
-extern void GX_LoadBG2Char(u32 a, u32 b, u32 c);
-extern void GX_LoadBG3Char(u32 a, u32 b, u32 c);
-extern void GX_LoadBG0Scr(u32 a, u32 b, u32 c);
-extern void GX_LoadBG1Scr(u32 a, u32 b, u32 c);
-extern void GX_LoadBG2Scr(u32 a, u32 b, u32 c);
-extern void GX_LoadBG3Scr(u32 a, u32 b, u32 c);
-extern void GX_LoadOBJPltt(u32 a, u32 b, u32 c);
-extern void GX_LoadBGPltt(u32 a, u32 b, u32 c);
+extern void GX_LoadBG0Char(void *pSrc, u32 offset, u32 szByte);
+extern void GX_LoadBG1Char(void *pSrc, u32 offset, u32 szByte);
+extern void GX_LoadBG2Char(void *pSrc, u32 offset, u32 szByte);
+extern void GX_LoadBG3Char(void *pSrc, u32 offset, u32 szByte);
+extern void GX_LoadBG0Scr(void *pSrc, u32 offset, u32 szByte);
+extern void GX_LoadBG1Scr(void *pSrc, u32 offset, u32 szByte);
+extern void GX_LoadBG2Scr(void *pSrc, u32 offset, u32 szByte);
+extern void GX_LoadBG3Scr(void *pSrc, u32 offset, u32 szByte);
+extern void GX_LoadOBJPltt(void *pSrc, u32 offset, u32 szByte);
+extern void GX_LoadBGPltt(void *pSrc, u32 offset, u32 szByte);
 void NNS_GfdFuncLoadBG0Char(u32 a, u32 b, u32 c);
 void NNS_GfdFuncLoadBG1Char(u32 a, u32 b, u32 c);
 void NNS_GfdFuncLoadBG2Char(u32 a, u32 b, u32 c);
@@ -329,7 +329,7 @@ int NNSi_GfdRingIsEmpty(void *p)
 void NNS_GfdFuncLoadTex(u32 a, u32 b, u32 c)
 {
     GX_BeginLoadTex();
-    GX_LoadTex(a, b, c);
+    GX_LoadTex((void *)a, b, c);
     GX_EndLoadTex();
 }
 
@@ -343,7 +343,7 @@ void NNS_GfdFuncLoadTex(u32 a, u32 b, u32 c)
 void NNS_GfdFuncLoadTexPltt(u32 a, u32 b, u32 c)
 {
     GX_BeginLoadTexPltt();
-    GX_LoadTexPltt(a, b, c);
+    GX_LoadTexPltt((void *)a, b, c);
     GX_EndLoadTexPltt();
 }
 
@@ -367,7 +367,7 @@ void NNS_GfdFuncLoadTexPltt(u32 a, u32 b, u32 c)
 void NNS_GfdFuncLoadClearImageColor(u32 a, u32 b, u32 c)
 {
     GX_BeginLoadClearImage();
-    GX_LoadClearImageColor(a, c);
+    GX_LoadClearImageColor((void *)a, c);
     GX_EndLoadClearImage();
 }
 
@@ -389,78 +389,78 @@ void NNS_GfdFuncLoadClearImageColor(u32 a, u32 b, u32 c)
 void NNS_GfdFuncLoadClearImageDepth(u32 a, u32 b, u32 c)
 {
     GX_BeginLoadClearImage();
-    GX_LoadClearImageDepth(a, c);
+    GX_LoadClearImageDepth((void *)a, c);
     GX_EndLoadClearImage();
 }
 
 
 void NNS_GfdFuncLoadBG0Char(u32 a, u32 b, u32 c)
 {
-    GX_LoadBG0Char(a, b, c);
+    GX_LoadBG0Char((void *)a, b, c);
 }
 
 
 void NNS_GfdFuncLoadBG1Char(u32 a, u32 b, u32 c)
 {
-    GX_LoadBG1Char(a, b, c);
+    GX_LoadBG1Char((void *)a, b, c);
 }
 
 
 void NNS_GfdFuncLoadBG2Char(u32 a, u32 b, u32 c)
 {
-    GX_LoadBG2Char(a, b, c);
+    GX_LoadBG2Char((void *)a, b, c);
 }
 
 
 void NNS_GfdFuncLoadBG3Char(u32 a, u32 b, u32 c)
 {
-    GX_LoadBG3Char(a, b, c);
+    GX_LoadBG3Char((void *)a, b, c);
 }
 
 
 void NNS_GfdFuncLoadBG0Scr(u32 a, u32 b, u32 c)
 {
-    GX_LoadBG0Scr(a, b, c);
+    GX_LoadBG0Scr((void *)a, b, c);
 }
 
 
 void NNS_GfdFuncLoadBG1Scr(u32 a, u32 b, u32 c)
 {
-    GX_LoadBG1Scr(a, b, c);
+    GX_LoadBG1Scr((void *)a, b, c);
 }
 
 
 void NNS_GfdFuncLoadBG2Scr(u32 a, u32 b, u32 c)
 {
-    GX_LoadBG2Scr(a, b, c);
+    GX_LoadBG2Scr((void *)a, b, c);
 }
 
 
 void NNS_GfdFuncLoadBG3Scr(u32 a, u32 b, u32 c)
 {
-    GX_LoadBG3Scr(a, b, c);
+    GX_LoadBG3Scr((void *)a, b, c);
 }
 
 
 void NNS_GfdFuncLoadBG2ScrDup(u32 a, u32 b, u32 c)
 {
-    GX_LoadBG2Scr(a, b, c);
+    GX_LoadBG2Scr((void *)a, b, c);
 }
 
 
 void NNS_GfdFuncLoadBG3ScrDup(u32 a, u32 b, u32 c)
 {
-    GX_LoadBG3Scr(a, b, c);
+    GX_LoadBG3Scr((void *)a, b, c);
 }
 
 
 void NNS_GfdFuncLoadOBJPltt(u32 a, u32 b, u32 c)
 {
-    GX_LoadOBJPltt(a, b, c);
+    GX_LoadOBJPltt((void *)a, b, c);
 }
 
 
 void NNS_GfdFuncLoadBGPltt(u32 a, u32 b, u32 c)
 {
-    GX_LoadBGPltt(a, b, c);
+    GX_LoadBGPltt((void *)a, b, c);
 }

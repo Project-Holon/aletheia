@@ -101,12 +101,12 @@ typedef struct DpwBtPacket {
 
 extern int DWCi_EncSessionProcess(void);
 extern void DWCi_EncSessionShutdown(void);
-extern const void *DWCi_EncSessionGetResponse(u32 *len);
+extern u32 DWCi_EncSessionGetResponse(u32 *len);
 extern int DWC_GetLastErrorEx(int *code, int *type);
 extern void DWCi_EncSessionInitialize(int server, char *initdata);
 extern int DWCi_EncSessionGetAsync(void *, unsigned, void *, unsigned, unsigned);
 extern void DWCi_EncSessionCancel(void);
-extern void OS_GetMacAddress(void *);
+extern void OS_GetMacAddress(u8 *macAddress);
 extern int DWC_UpdateConnection(void);
 extern void DWC_ClearError(void);
 
@@ -162,7 +162,7 @@ void DPW_BT_Main(void)
             return;
         case DWC_ENC_PROCESS_DONE:
             gDpwBtWork.state = DPW_BT_STATE_DONE;
-            memcpy(&gDpwBtWork.response, DWCi_EncSessionGetResponse(&len), 2);
+            memcpy(&gDpwBtWork.response, (void *)DWCi_EncSessionGetResponse(&len), 2);
             if (len != 0) {
                 gDpwBtWork.result = gDpwBtWork.response.code;
             } else {
@@ -207,7 +207,7 @@ void DPW_BT_Main(void)
             return;
         case DWC_ENC_PROCESS_DONE:
             gDpwBtWork.state = DPW_BT_STATE_DONE;
-            memcpy(&gDpwBtWork.response, DWCi_EncSessionGetResponse(&len), 2);
+            memcpy(&gDpwBtWork.response, (void *)DWCi_EncSessionGetResponse(&len), 2);
             switch (gDpwBtWork.response.code) {
             case 1: gDpwBtWork.result = 0; break;
             case 2: gDpwBtWork.result = -3; break;
@@ -229,7 +229,7 @@ void DPW_BT_Main(void)
             return;
         case DWC_ENC_PROCESS_DONE:
             gDpwBtWork.state = DPW_BT_STATE_DONE;
-            memcpy(&gDpwBtWork.response, DWCi_EncSessionGetResponse(&len), 2);
+            memcpy(&gDpwBtWork.response, (void *)DWCi_EncSessionGetResponse(&len), 2);
             switch (gDpwBtWork.response.code) {
             case 1: gDpwBtWork.result = 0; break;
             case 3: gDpwBtWork.result = 1; break;
@@ -317,7 +317,7 @@ void DPW_BT_GetRoomNumAsync(unsigned rank)
 }
 
 /* Request: download the players of a room into resultBuf. */
-void DPW_BT_DownloadPlayerAsync(unsigned rank, unsigned roomNo, unsigned resultBuf)
+void DPW_BT_DownloadPlayerAsync(unsigned rank, unsigned roomNo, u8 *resultBuf)
 {
     gDpwBtWork.resultBuf = (unsigned char *)resultBuf;
     gDpwBtWork.rank = rank - 1;
@@ -379,7 +379,7 @@ void DPW_BT_GetServerStateAsync(void)
 }
 
 /* Request: set the player profile (100 bytes). */
-void DPW_BT_SetProfileAsync(unsigned char *profile, unsigned resultBuf)
+void DPW_BT_SetProfileAsync(unsigned char *profile, u8 *resultBuf)
 {
     OS_GetMacAddress(profile + 0x1c);
     memcpy(((unsigned *)&gDpwBtRequestPacket), profile, 100);

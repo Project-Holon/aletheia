@@ -29,11 +29,12 @@
 extern void *DWCi_HEAPlAllocEx(unsigned long size, int align);
 extern void MIi_CpuClearFast(unsigned long data, void *dst, unsigned long size);
 extern void *DWCi_QUElFormEx(long size, void *data, long dsize);
-extern void *DWCi_TSKlForm(int kind, void (*func)(void *, void *), void *work, unsigned char prio);
+struct TCB;
+extern struct TCB *DWCi_TSKlForm(int kind, void (*func)(void *, void *), void *work, unsigned char prio);
 extern void DC_FlushRange(void *start, unsigned long n);
 extern void GX_LoadOAM(void *src, unsigned long off, unsigned long sz);
 extern void GXS_LoadOAM(void *src, unsigned long off, unsigned long sz);
-extern void DWCi_TSKlDeleteByIndex(unsigned int idx, void *r4);
+extern void DWCi_TSKlDeleteByIndex(unsigned int taskIdx, struct TCB *task);
 extern void DWCi_HEAPlFree_(void **mem);
 extern void *DWCi_QUElPopBack(void *queue);
 extern void DWCi_QUElPushBack(void *que, void *elem);

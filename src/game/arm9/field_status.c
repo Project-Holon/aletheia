@@ -107,9 +107,9 @@ struct ProcPairWork {
 
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *file, u16 line);
 
-extern void GFL_HEAP_Free(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 
-extern struct FieldSoundSystem *GAME_DATA_GetBgmInfo(struct GameData *gameData);
+extern u32 GAME_DATA_GetBgmInfo(struct GameData *gameData);
 
 extern u32 GAMESYSTEM_GetProcStatus(struct GameSystem *gameSystem);
 
@@ -119,7 +119,7 @@ extern void GAMESYSTEM_CallProc(struct GameSystem *gameSystem, u32 overlayId, vo
 
 extern void GAMESYSTEM_CallFieldProc(struct GameSystem *gameSystem);
 
-extern struct FieldMap *GAMESYSTEM_GetFieldMap(struct GameSystem *gameSystem);
+extern void *GAMESYSTEM_GetFieldMap(struct GameSystem *gameSystem);
 
 extern struct GameEvent *GAME_EVENT_Create(struct GameSystem *gameSystem, struct GameEvent *parent, GameEventFunc func, u32 workSize);
 
@@ -364,7 +364,7 @@ int FIELD_STATUS_FieldCloseEvent(struct GameEvent *event, u32 *seq, void *work)
     struct FieldMap *fieldMap = wk->fieldMap;
     struct FieldSoundSystem *fieldSound;
 
-    fieldSound = GAME_DATA_GetBgmInfo(gameData);
+    fieldSound = (struct FieldSoundSystem *)GAME_DATA_GetBgmInfo(gameData);
     switch (*seq) {
     case 0:
         FIELDMAP_RequestClose(fieldMap);

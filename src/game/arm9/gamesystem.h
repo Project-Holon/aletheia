@@ -1,0 +1,65 @@
+#ifndef GAME_ARM9_GAMESYSTEM_H
+#define GAME_ARM9_GAMESYSTEM_H
+
+/* Public functions of gamesystem.c, prototypes copied from their definitions. */
+
+struct Proc;
+struct GameSystem;
+struct GameInitWork;
+struct Vec3;
+struct GameData;
+struct PlayerWork;
+struct GameEvent;
+struct GameComm;
+
+#include "../arm9/ica_anime_shared_types.h"
+
+u32 GAMESYSTEM_CallIfSet(u32 (*func)(void));
+void GAMESYSTEM_RandTwice(void);
+void GAMESYSTEM_ApplyTamperPenalty(void);
+void GAMESYSTEM_ProbeHeapCreate(void);
+void GAMESYSTEM_ApplyTamperPenaltyRepeat(void);
+u32 GAMESYSTEM_ProcInit(struct Proc *proc, u32 *seq, u32 initParam);
+u32 GAMESYSTEM_ProcMain(struct Proc *proc, u32 *seq, u32 initParam, struct GameSystem *gameSystem);
+u32 GAMESYSTEM_ProcEnd(struct Proc *proc, u32 *seq, u32 initParam, struct GameSystem *gameSystem);
+struct GameInitWork *GAMESYSTEM_SetupInitWork(u32 mode, u16 zoneId, struct Vec3 *position, int direction);
+u32 GAMESYSTEM_GetWorkSize(void);
+void GAMESYSTEM_Init(struct GameSystem *gameSystem, u16 heapId, u32 initParam);
+void GAMESYSTEM_Exit(struct GameSystem *gameSystem);
+void GAMESYSTEM_Setup(struct GameSystem *gameSystem, u16 heapId, u32 initParam);
+int GAMESYSTEM_Main(struct GameSystem *gameSystem);
+void GAMESYSTEM_UpdateAutoComm(struct GameSystem *gameSystem);
+void GAMESYSTEM_Delete(struct GameSystem *gameSystem);
+void GAMESYSTEM_SetEventCreator(struct GameSystem *gameSystem, GameEventCreatorFn creator, void *arg);
+void GAMESYSTEM_UpdateEventActiveFlag(struct GameSystem *gameSystem);
+void GAMESYSTEM_CallProc(struct GameSystem *gameSystem, u32 overlayId, void *procData, void *param);
+void GAMESYSTEM_CallFieldProc(struct GameSystem *gameSystem);
+int GAMESYSTEM_IsEventActive(struct GameSystem *gameSystem);
+u32 GAMESYSTEM_GetProcStatus(const struct GameSystem *gameSystem);
+struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
+struct PlayerWork *GAMESYSTEM_GetMyPlayerWork(const struct GameSystem *gameSystem);
+struct GameEvent *GAMESYSTEM_GetEvent(const struct GameSystem *gameSystem);
+void GAMESYSTEM_SetEvent(struct GameSystem *gameSystem, struct GameEvent *event);
+void *GAMESYSTEM_GetFieldMap(const struct GameSystem *gameSystem);
+void GAMESYSTEM_SetFieldMap(struct GameSystem *gameSystem, void *fieldMap);
+u32 GAMESYSTEM_IsFieldMapActive(const struct GameSystem *gameSystem);
+void GAMESYSTEM_SetFieldMapState(struct GameSystem *gameSystem, u32 state);
+u8 GAMESYSTEM_GetFieldMapState(const struct GameSystem *gameSystem);
+void *GAMESYSTEM_GetIssSystem(const struct GameSystem *gameSystem);
+struct GameComm *GAMESYSTEM_GetGameComm(const struct GameSystem *gameSystem);
+void GAMESYSTEM_SetCommBlocked(struct GameSystem *gameSystem, u32 blocked);
+u8 GAMESYSTEM_IsCommBlocked(const struct GameSystem *gameSystem);
+u32 GAMESYSTEM_IsAlwaysNetFlagSet(const struct GameSystem *gameSystem);
+void GAMESYSTEM_SetAlwaysNetFlag(struct GameSystem *gameSystem, unsigned int on);
+u32 GAMESYSTEM_CanStartAutoComm(struct GameSystem *gameSystem);
+u32 GAMESYSTEM_TryStartAutoComm(struct GameSystem *gameSystem);
+u32 GAMESYSTEM_IsNetOffBySleep(const struct GameSystem *gameSystem);
+void GAMESYSTEM_ClearNetOffBySleep(struct GameSystem *gameSystem);
+void GAMESYSTEM_OnSleep(struct GameSystem *gameSystem);
+void GAMESYSTEM_RegisterSleepCallback(struct GameSystem *gameSystem);
+void GAMESYSTEM_ReleaseSleepCallback(struct GameSystem *gameSystem);
+int GAMESYSTEM_IsSleepBlocked(struct GameSystem *gameSystem);
+void GAMESYSTEM_RegisterSleepCheck(struct GameSystem *gameSystem);
+void GAMESYSTEM_ReleaseSleepCheck(struct GameSystem *gameSystem);
+
+#endif

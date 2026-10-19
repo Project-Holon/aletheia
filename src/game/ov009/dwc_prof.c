@@ -131,7 +131,7 @@ typedef struct DWCProfFieldNames {
 extern int wcslen(const unsigned short *s);
 extern void MI_CpuFill8(void *dstp, unsigned char data, unsigned long size);
 extern u8 *strncpy(u8 *dest, const u8 *src, u32 n);
-extern char *strstr(const char *s1, const char *s2);
+extern unsigned char *strstr(unsigned char *s1, unsigned char *s2);
 extern void MI_CpuCopy8(const void *srcp, void *dstp, unsigned long size);
 extern int DWC_Http_Create(DWCHttp *http, DWCHttpParam *param);
 extern int DWC_Auth_GetCalInfoFromNVRAM(void *cal);
@@ -147,10 +147,10 @@ extern int OS_IsThreadTerminated(OSThread *thread);
 extern unsigned char DWC_AC_GetApType(void);
 extern void DWCi_SetError(int error, int errorCode);
 extern int DWC_Http_ParseResult(DWCHttp *http, int noparsebody);
-extern char *DWC_Http_GetResult(DWCHttp *http, char *label);
+extern char *DWC_Http_GetResult(char *http, char *label);
 extern int DWC_Auth_SetNasTimeDiff(char *datestr);
 extern int atoi(u32 s);
-extern int DWC_Http_GetBase64DecodedResult(DWCHttp *http, char *label, char *buffer, unsigned long buffer_len);
+extern int DWC_Http_GetBase64DecodedResult(char *http, char *label, char *buffer, unsigned int buffer_len);
 extern void *DWC_Alloc(int name, unsigned long size);
 /* DWC_Free takes a third argument, the allocation size. The callee ignores it. */
 extern void DWC_Free(int name, void *ptr, unsigned long size);
@@ -236,7 +236,7 @@ int DWCi_CheckProfanityAsync(unsigned short **words, int wordsnum, char *reserve
     gDwcProfWorkarea->wordsnum = wordsnum;
     strncpy((u8 *)gDwcProfWorkarea->url, (const u8 *)gDwcHttpParamArg.url, 256);
     gDwcProfWorkarea->url[256] = '\0';
-    pos = strstr(gDwcProfWorkarea->url, gDwcProfPathAc);
+    pos = (char *)strstr((unsigned char *)gDwcProfWorkarea->url, (unsigned char *)gDwcProfPathAc);
     if (pos == 0)
         goto error;
     MI_CpuCopy8(gDwcProfPathPr, pos, 4);
@@ -401,18 +401,18 @@ int DWCi_Prof_ParseResponse(void)
     if (!DWC_Http_ParseResult(DWChttp, 0))
         goto error;
 
-    strp = DWC_Http_GetResult(DWChttp, gDwcProfLabelDate);
+    strp = DWC_Http_GetResult((char *)DWChttp, gDwcProfLabelDate);
     if (strp != 0)
         DWC_Auth_SetNasTimeDiff(strp);
 
-    strp = DWC_Http_GetResult(DWChttp, gDwcProfLabelHttpResult);
+    strp = DWC_Http_GetResult((char *)DWChttp, gDwcProfLabelHttpResult);
     if (strp == 0)
         goto error;
     httpretcode = atoi((u32)strp);
     if (errno == 34 || httpretcode != 200)
         goto error;
 
-    if (DWC_Http_GetBase64DecodedResult(DWChttp, gDwcProfLabelReturnCd, retcode, 4) <= 0)
+    if (DWC_Http_GetBase64DecodedResult((char *)DWChttp, gDwcProfLabelReturnCd, retcode, 4) <= 0)
         goto error;
     httpretcode = atoi((u32)retcode);
     if (errno == 34)
@@ -425,7 +425,7 @@ int DWCi_Prof_ParseResponse(void)
     for (i = 0; i < sizeof(regionResultFieldName.name) / sizeof(char *) - 1; i++) {
         if (regionResultFieldName.name[i] == 0)
             continue;
-        decodedStringLength = DWC_Http_GetBase64DecodedResult(DWChttp, regionResultFieldName.name[i], result, sizeof(result));
+        decodedStringLength = DWC_Http_GetBase64DecodedResult((char *)DWChttp, regionResultFieldName.name[i], result, sizeof(result));
         if (decodedStringLength < 0)
             goto error;
         if (decodedStringLength == 0)
@@ -439,7 +439,7 @@ int DWCi_Prof_ParseResponse(void)
         }
     }
 
-    decodedStringLength = DWC_Http_GetBase64DecodedResult(DWChttp, gDwcProfLabelPrWords, result, sizeof(result));
+    decodedStringLength = DWC_Http_GetBase64DecodedResult((char *)DWChttp, gDwcProfLabelPrWords, result, sizeof(result));
     if (decodedStringLength < 0)
         goto error;
     if (decodedStringLength == 0)

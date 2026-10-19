@@ -44,11 +44,6 @@ ALLOWED = {
     # stores), so a call must keep that name: under the definition's name
     # (MSL_C_LIB_MemsetPtr, MI_CpuFill8) the code differs (gameverify DIFF).
     ("memset", None),
-    # A second declaration of the same function with other parameter types:
-    # unified under the definition's name and prototype the code differs
-    # (gameverify DIFF, 2026-10-19), so the second name is load-bearing.
-    ("func_020061E4_2", None),
-    ("func_020355D8x", None),
 }
 # Files whose `symbols:` rows may give the file's own functions a second name
 # (none: ov213/comm_btl_demo_main.c unified in wave 18 once its caller

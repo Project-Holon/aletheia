@@ -58,33 +58,37 @@
 
 struct LerpObj;
 struct Obj;
+struct SndStrm;
 
-extern void NNSi_SndStrmUpdate(NNSSndStrm *, u32);
+extern void NNSi_SndStrmUpdate(struct SndStrm *strm, u32 isTimerCall);
 extern u32 OS_DisableInterrupts(void);
 extern void OS_RestoreInterrupts(u32);
 extern void SND_StartTimer(u32, u32, u32, u32);
-extern void NNS_SndFaderUpdate(struct LerpObj *fader);
-extern int NNS_SndFaderIsFinished(struct LerpObj *fader);
-extern s32 NNS_SndFaderGet(struct Obj *fader);
+struct SndFader;
+extern void NNS_SndFaderUpdate(struct SndFader *fader);
+extern int NNS_SndFaderIsFinished(struct SndFader *fader);
+extern s32 NNS_SndFaderGet(struct SndFader *fader);
 extern void SND_SetChannelVolume(u32 chBitMask, s32 volume, s32 shift);
-extern void SND_StopTimer(u32 chBitMask, u32 capBitMask, u32 alarmBitMask, s32 flags);
-extern s32  SND_GetCurrentCommandTag(void);
-extern void SND_FlushCommand(s32 flush);
-extern void SND_WaitForCommandProc(s32 commandTag);
-extern s32  OS_ReceiveMessage(void *messageQueue, s32 message, s32 flags);
+extern void SND_StopTimer(u32 chBitMask, u32 capBitMask, u32 alarmBitMask, u32 flags);
+extern u32 SND_GetCurrentCommandTag(void);
+extern s32 SND_FlushCommand(u32 flags);
+extern void SND_WaitForCommandProc(u32 tag);
+struct OSMessageQueue;
+extern s32  OS_ReceiveMessage(struct OSMessageQueue *mq, void **msg, s32 flags);
 extern void SND_CHANNEL_ClearClaimedMask(u32 mask);
 extern void SND_CHANNEL_UnlockChannels(u32 chan);
 extern void NNS_SndWaveOutFreeChannel(u32 alarmNo);
 extern void SND_SetOutputSelector(s32 left, s32 right, s32 mix, s32 flags);
 extern void MIi_CpuClear32(u32 value, u32 dst, u32 size);
 extern void DC_FlushRange(u32 start, u32 size);
-extern u32  FS_ConvertPathToFileID(FSFileID *id, const char *path);
+struct FSFileID;
+extern s32 FS_ConvertPathToFileID(FSFileID *id, const char *path);
 extern void FS_InitFile(FSFile *file);
 extern u32  FS_OpenFileFast(FSFile *file, FSFileID id);
-extern int   FS_SeekFile(FSFile *file, u32 position, int origin);
+extern int   FS_SeekFile(FSFile *file, s32 offset, s32 origin);
 extern int   FS_ReadFile(FSFile *file, void *dst, int length);
-extern void *NNS_SndHeapAlloc(u32 *heap, u32 size, void (*freeCallback)(void *, u32, NNSSndArc *),
-                           NNSSndArc *arc, u32 allocId);
+struct NNSSndHeap;
+extern void *NNS_SndHeapAlloc(struct NNSSndHeap *heap, unsigned int size, void (*freeCallback)(void *, u32, NNSSndArc *), unsigned int data1, unsigned int data2);
 extern void  NNSi_SndArcDisposeInfo(void *block, u32 size, NNSSndArc *arc);
 extern void  NNSi_SndArcDisposeFat(void *block, u32 size, NNSSndArc *arc);
 extern void  NNSi_SndArcDisposeSymbol(void *block, u32 size, NNSSndArc *arc);
@@ -109,7 +113,7 @@ void NNSi_SndStrmStart(NNSSndStrm *strm) {
     if (!strm->isStarted) return;
     while (strm->pendingFrames != 0) {
         savedIrq = OS_DisableInterrupts();
-        NNSi_SndStrmUpdate(strm, 1);
+        NNSi_SndStrmUpdate((struct SndStrm *)strm, 1);
         OS_RestoreInterrupts(savedIrq);
     }
     SND_StartTimer(strm->channelMask, 0, 1u << strm->alarmNo, 0);
@@ -140,14 +144,14 @@ void NNS_SndMain(void)
         return;
     }
 
-    NNS_SndFaderUpdate((struct LerpObj *)sndSystem->fader);
+    NNS_SndFaderUpdate((struct SndFader *)sndSystem->fader);
 
-    if (sndSystem->fadeFinishCheck != 0 && NNS_SndFaderIsFinished((struct LerpObj *)sndSystem->fader) != 0) {
+    if (sndSystem->fadeFinishCheck != 0 && NNS_SndFaderIsFinished((struct SndFader *)sndSystem->fader) != 0) {
         NNSi_SndShutdown();
         return;
     }
 
-    volume = NNS_SndFaderGet((struct Obj *)sndSystem->fader) >> 8;
+    volume = NNS_SndFaderGet((struct SndFader *)sndSystem->fader) >> 8;
     if (volume == sndSystem->lastVolume) {
         return;
     }
@@ -186,7 +190,7 @@ void NNSi_SndShutdown(void)
         SND_FlushCommand(1);
         SND_WaitForCommandProc(commandTag);
         zero = 0;
-        while (OS_ReceiveMessage(gNNSSndMessageQueue, zero, zero) != 0)
+        while ((void **)OS_ReceiveMessage((struct OSMessageQueue *)gNNSSndMessageQueue, (void **)zero, zero) != 0)
             ;
     }
 
@@ -280,20 +284,20 @@ u32 NNSi_SndArcLoadTables(NNSSndArc *arc, u32 *heap, u32 loadSymbols)
     if (FS_SeekFile(&arc->file, 0, 0) == 0) return 0;
     if (FS_ReadFile(&arc->file, arc, 0x30) != 0x30) return 0;
     if (heap != 0) {
-        arc->infoBlock = NNS_SndHeapAlloc(heap, arc->infoSize, NNSi_SndArcDisposeInfo, arc, 0);
+        arc->infoBlock = NNS_SndHeapAlloc((struct NNSSndHeap *)heap, (unsigned int)arc->infoSize, NNSi_SndArcDisposeInfo, (unsigned int)arc, 0);
         if (arc->infoBlock == 0) return 0;
         if (FS_SeekFile(&arc->file, arc->infoOffset, 0) == 0) return 0;
         bytesRead = FS_ReadFile(&arc->file, arc->infoBlock, arc->infoSize);
         if (bytesRead != arc->infoSize) return 0;
 
-        arc->fatBlock = NNS_SndHeapAlloc(heap, arc->fatSize, NNSi_SndArcDisposeFat, arc, 0);
+        arc->fatBlock = NNS_SndHeapAlloc((struct NNSSndHeap *)heap, (unsigned int)arc->fatSize, NNSi_SndArcDisposeFat, (unsigned int)arc, 0);
         if (arc->fatBlock == 0) return 0;
         if (FS_SeekFile(&arc->file, arc->fatOffset, 0) == 0) return 0;
         bytesRead = FS_ReadFile(&arc->file, arc->fatBlock, arc->fatSize);
         if (bytesRead != arc->fatSize) return 0;
 
         if (loadSymbols != 0 && arc->symbolSize != 0) {
-            arc->symbolBlock = NNS_SndHeapAlloc(heap, arc->symbolSize, NNSi_SndArcDisposeSymbol, arc, 0);
+            arc->symbolBlock = NNS_SndHeapAlloc((struct NNSSndHeap *)heap, (unsigned int)arc->symbolSize, NNSi_SndArcDisposeSymbol, (unsigned int)arc, 0);
             if (arc->symbolBlock == 0) return 0;
             if (FS_SeekFile(&arc->file, arc->symbolOffset, 0) == 0) return 0;
             bytesRead = FS_ReadFile(&arc->file, arc->symbolBlock, arc->symbolSize);

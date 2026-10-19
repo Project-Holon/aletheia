@@ -28,16 +28,17 @@ typedef struct {
 } RecordWord;
 
 extern u32 SYMBOL_SAVE_FindBandThunk(u32 recordIndex);
+struct SymbolSave;
 
-extern u32 SYMBOL_SAVE_RemoveSlotAndFind(u32 *save, u32 band);
+extern u32 SYMBOL_SAVE_RemoveSlotAndFind(struct SymbolSave *save, u32 band);
 
-extern void SYMBOL_SAVE_FinalizeChecksum(char *save);
+extern void SYMBOL_SAVE_FinalizeChecksum(struct SymbolSave *save);
 
-extern void SYMBOL_SAVE_SetRank(u8 *save, int recordIndex);
+extern void SYMBOL_SAVE_SetRank(struct SymbolSave *save, int index);
 
-extern void SYMBOL_SAVE_UpdateChecksum(void *save);
+extern void SYMBOL_SAVE_UpdateChecksum(struct SymbolSave *save);
 
-extern void SYMBOL_SAVE_RemoveSlotAndCommit(u32 *save, u32 recordIndex);
+extern void SYMBOL_SAVE_RemoveSlotAndCommit(struct SymbolSave *save, u32 index);
 
 int SYMBOL_MAP_MoveRecordToPairedBand(u32 *save, u32 recordIndex);
 
@@ -84,14 +85,14 @@ int SYMBOL_MAP_MoveRecordToPairedBand(u32 *save, u32 recordIndex)
     default:
         return 0;
     }
-    newIndex = SYMBOL_SAVE_RemoveSlotAndFind(save, targetBand);
+    newIndex = SYMBOL_SAVE_RemoveSlotAndFind((struct SymbolSave *)save, targetBand);
     if (newIndex == 0xFFFF)
         return 0;
-    SYMBOL_SAVE_FinalizeChecksum((char *)save);
+    SYMBOL_SAVE_FinalizeChecksum((struct SymbolSave *)save);
     ((RecordWord *)save)[newIndex] = ((RecordWord *)save)[recordIndex];
     if (targetBand == 3)
-        SYMBOL_SAVE_SetRank((u8 *)save, (u16)newIndex);
-    SYMBOL_SAVE_UpdateChecksum(save);
-    SYMBOL_SAVE_RemoveSlotAndCommit(save, recordIndex);
+        SYMBOL_SAVE_SetRank((struct SymbolSave *)save, (u16)newIndex);
+    SYMBOL_SAVE_UpdateChecksum((struct SymbolSave *)save);
+    SYMBOL_SAVE_RemoveSlotAndCommit((struct SymbolSave *)save, recordIndex);
     return 1;
 }

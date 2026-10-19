@@ -103,6 +103,11 @@
  *   CLACT_GetActorImageProxy 0x0204B7C8 arm
  *   GX_LoadOBJPltt 0x0207E51C arm
  *   GFL_USE_AddMainTask 0x020056A0 thumb
+ *   _dmul                        0x0209B2E8  arm
+ *   _f2d                         0x0209BD38  arm
+ *   _ffix                        0x0209C494  arm
+ *   _fflt                        0x0209BDBC  arm
+ *   _fsub                        0x0209CB8C  arm
  */
 #include "../ov114/dwci_nd_types.h"
 #include "gsync_common_types.h"
@@ -123,21 +128,23 @@ extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
 
 extern void BG_SYS_Init(u32, u32, u32, u32);
 
-extern void BG_SYS_SetTileEntry(u32, u32, u32, u32, u8, u8, u8);
+extern void BG_SYS_SetTileEntry(u32 layer, u16 value, u8 x0, u8 y0, u8 w, u8 h, u8 mode);
+struct Actor;
 
-extern void CLACT_SetActorAutoAnim(struct ClActor *p, u32 v);
+extern void CLACT_SetActorAutoAnim(struct Actor *actor, unsigned int enable);
 
 extern struct ClActor *CLACT_CreateActor(void *owner, unsigned int i, unsigned int j, unsigned int k, const struct ActorSpawnPos *position, unsigned short space, unsigned short heap);
 
-extern void CLACT_SetActorDrawEnable(struct ClActor *p, u32 v);
+extern void CLACT_SetActorDrawEnable(struct Actor *actor, unsigned int value);
+struct Actor;
 
-extern void CLACT_SetActorObjMode(struct ClActor *actor, u32 value);
+extern void CLACT_SetActorObjMode(struct Actor *actor, u32 value);
 
-extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
+extern void *ARC_TOOL_CreateHandle(u32 archiveID, u16 heapID);
 
 extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *, u32, u32, u32, u32, u16);
 
-extern void *ARC_UTIL_LoadPaletteBlockFromHandle(void *arc, u32 memberIdx, u32 unpackedOut, u32 flags);
+extern void *ARC_UTIL_LoadPaletteBlockFromHandle(void *arc, u32 memberIdx, void *unpackedOut, u16 flags);
 
 extern void MI_CpuCopy8(const void *, void *, u32);
 
@@ -159,11 +166,11 @@ extern void BG_SYS_FreeLayerBuf(u32 i);
 
 extern void CLACT_ApplyActorAnimCommand(struct ClActor *a, const struct Cmd *cmd);
 
-extern void CLACT_SetActorAnimSeq(struct ClActor *p, u16 value);
+extern void CLACT_SetActorAnimSeq(struct Actor *actor, unsigned short value);
 
 extern void DC_FlushRange(void *, int);
 
-extern void GXS_LoadBGPltt(void *, int, int);
+extern void GXS_LoadBGPltt(void *pSrc, u32 offset, u32 szByte);
 
 extern void CLACT_VBlankSystem(void);
 
@@ -180,26 +187,29 @@ extern void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
 extern void BG_SYS_SetMainVisiblePlanes(u32);
 
 extern void BG_SYS_SetSubVisiblePlanes(u32);
+struct DispVramCfg;
+struct SysInit;
 
-extern void CLACT_InitSystem(const struct Cfg *cfg, u32 arg, u32 heapId);
+extern void CLACT_InitSystem(struct SysInit *cfg, struct DispVramCfg *res_cfg, u32 heapId);
 
 extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 
 extern void *GFL_USE_AddMainTask(void *,void *,int);
 
-extern void G2x_SetBlendAlpha_(void *,int,int,int,int);
+extern void G2x_SetBlendAlpha_(u32 *reg, u32 a, u32 b, u32 c, u32 d);
 
 extern void CLACT_DrawSystem(void);
 
-extern void CLACT_DeleteActor(struct ClActor *p);
+extern void CLACT_DeleteActor(struct Actor *actor);
 
 extern void CLACT_ReleasePalette(u32 i);
 
 extern void CLACT_ReleaseCharacter(u32 i);
 
 extern void CLACT_ReleaseCellAnim(u32 i);
+struct TcbTask;
 
-extern void TCB_DeleteTask(struct Node *n);
+extern void TCB_DeleteTask(struct TcbTask *task);
 
 extern u32 CLACT_DeleteUnit(struct Bank *bank);
 
@@ -211,37 +221,40 @@ extern int GF_OVERLAY_Load(int);
 
 extern void GF_OVERLAY_Unload(int);
 
-extern void GX_LoadBGPltt(const void *, int, int);
+extern void GX_LoadBGPltt(void *pSrc, u32 offset, u32 szByte);
 
-extern void CLACT_SetActorAnimFrame(struct ClActor *p, u32 value);
+extern void CLACT_SetActorAnimFrame(struct Actor *actor, u32 frame);
 
-extern void CLACT_SetActorAffineMode(struct ClActor *actor, u32 value);
+extern void CLACT_SetActorAffineMode(struct Actor *actor, u32 value);
 
 extern int POKE_TOOL_GetIconPaletteArcId(void);
 
 extern int CLACT_RegisterPaletteCompressed(void *archive, u32 file_idx, u32 vram_mode, u32 vram_offset, u16 heap_id);
+struct BoxPokemon;
 
-extern u32 POKE_TOOL_GetGraphicIndex(void *mon);
+extern u32 POKE_TOOL_GetGraphicIndex(struct BoxPokemon *box);
 
-extern int POKE_TOOL_GetIconPalette(void *box);
+extern u32 POKE_TOOL_GetIconPalette(struct BoxPokemon *box);
 
-extern void CLACT_SetActorPaletteOffset(struct ClActor *o, u32 v, u32 flag);
+extern void CLACT_SetActorPaletteOffset(struct Actor *actor, u32 offset, u32 pltt_op);
 
 extern void *GFL_USE_AddHBlankTask(u32 a, u32 b, u32 c);
 
 extern void FX_MakeSineTable(s16 *out, u32 count, u16 step, s32 amp);
 
 extern void CLACT_AddActorSurfacePos(struct ClActor *p, const struct ActorPos *delta, unsigned int which);
+struct Pair32;
 
-extern void CLACT_SetActorScale(struct ClActor *dst, struct ActorScale *src);
+extern void CLACT_SetActorScale(struct Actor *actor, struct Pair32 *src);
 
 extern void CLACT_GetActorSurfacePos(struct ClActor *actor, struct ActorPos *out, u16 space);
 
-extern void CLACT_GetActorScale(const struct ClActor *o, struct ActorScale *p);
+extern void CLACT_GetActorScale(struct Actor *actor, struct Pair32 *out_scale);
 
 extern u32 GFL_USE_GetRandom(u32 range);
+struct ArcHandle;
 
-extern void *ARC_TOOL_LoadHandleMember(struct ArcFile *arc, u32 member, u32 heap);
+extern void *ARC_TOOL_LoadHandleMember(struct ArcHandle *arc, u32 memberIdx, u16 heapID);
 
 extern u32 FILE_UTIL_Get(u16, int);
 
@@ -249,15 +262,16 @@ extern s32 NNS_G2dGetUnpackedPaletteData(struct NitroFileHeader *file, void **ou
 
 extern s32 NNS_G2dGetUnpackedCharacterDataEx(struct NitroFileHeader *file, void **out);
 
-extern u32 POKE_TOOL_NormalizeForm(u32 a, u32 n);
+extern u32 POKE_TOOL_NormalizeForm(u16 species, u16 form);
 
 extern u32 POKE_TOOL_CalcIconPalette(u32 species, u32 form, u32 half, u32 isEgg);
 
 extern u32 POKE_TOOL_CalcGraphicIndex(u32 species, u32 form, u32 gender, u32 isEgg);
+struct ImageProxy;
 
-extern void CLACT_GetActorImageProxy(const char *src, struct ActorImageProxy *dst);
+extern void CLACT_GetActorImageProxy(char *actor_base, struct ImageProxy *dst);
 
-extern void GX_LoadOBJPltt(void *,int,int);
+extern void GX_LoadOBJPltt(void *pSrc, u32 offset, u32 szByte);
 
 u8 *GSYNC_DISP_Init(u32 heap);
 
@@ -376,7 +390,7 @@ u8 *GSYNC_DISP_Init(u32 heap)
     *(volatile u32 *)0x04001000|=0x10000;
     GX_DispOn();
     BG_SYS_Create(disp->heapId);
-    CLACT_InitSystem((const struct Cfg *)gGsyncClactConfig,(u32)gGsyncDispClactParam,disp->heapId);
+    CLACT_InitSystem((struct SysInit *)gGsyncClactConfig,(struct DispVramCfg *)gGsyncDispClactParam,disp->heapId);
     disp->clactUnit=CLACT_CreateUnit(40,0,disp->heapId);
     BG_SYS_SetVramBanks((const struct DispVram *)gGsyncDispClactParam); BG_SYS_SetGraphicsMode((struct DispConfig *)gGsyncDispDisplayConfig);
     GSYNC_DISP_InitBgLayers(disp); GSYNC_DISP_LoadResources(disp); GSYNC_DISP_CreatePokeIconActor(disp); GSYNC_DISP_CreateBackdropActors(disp);
@@ -393,8 +407,8 @@ void GSYNC_DISP_Exit(GsyncDispWork *disp)
     int resourceIndex;
     GSYNC_DISP_DeleteMainActor(disp);
     GFL_HEAP_Free(disp->paletteBlock);
-    CLACT_DeleteActor(disp->pokeIconActor);
-    CLACT_DeleteActor(disp->backdropActor);
+    CLACT_DeleteActor((struct Actor *)disp->pokeIconActor);
+    CLACT_DeleteActor((struct Actor *)disp->backdropActor);
     resourceIndex=0;
     do { if(disp->resources.all[resourceIndex]) CLACT_ReleasePalette((u32)(disp->resources.all[resourceIndex])); resourceIndex++; } while(resourceIndex<6);
     for(;resourceIndex<13;resourceIndex++) if(disp->resources.all[resourceIndex]) CLACT_ReleaseCharacter((u32)(disp->resources.all[resourceIndex]));
@@ -448,7 +462,7 @@ void GSYNC_DISP_LoadResources(GsyncDispWork *disp)
     disp->charBase=ARC_UTIL_RegisterObjCharFromHandle(archiveHandle,8,4,0,0,disp->heapId);
     ARC_UTIL_UploadBgPaletteAddFromHandle(archiveHandle,21,4,0,(u16)(disp->charBase),0,0,disp->heapId);
     ARC_UTIL_UploadBgPaletteAddFromHandle(archiveHandle,24,7,0,(u16)(disp->paletteBase),0,0,disp->heapId);
-    disp->paletteBlock=ARC_UTIL_LoadPaletteBlockFromHandle(archiveHandle,2,(u32)(&disp->paletteData),disp->heapId);
+    disp->paletteBlock=ARC_UTIL_LoadPaletteBlockFromHandle((void *)archiveHandle,2,(&disp->paletteData),disp->heapId);
     ARC_UTIL_UploadPaletteFromHandleWhole(archiveHandle,2,0,0,0,disp->heapId);
     disp->paletteBase=ARC_UTIL_RegisterObjCharFromHandle(archiveHandle,8,0,0,0,disp->heapId);
     ARC_UTIL_UploadBgPaletteAddFromHandle(archiveHandle,23,0,0,(u16)(disp->paletteBase),0,0,disp->heapId);
@@ -468,7 +482,7 @@ void GSYNC_DISP_CreateSlotActor(GsyncDispWork *disp,unsigned int slotIndex){GSYN
 
 void GSYNC_DISP_SetSlotAnimSeq(GsyncDispWork *disp, int slotIndex, u32 animSeq)
 {
-    CLACT_SetActorAnimSeq(disp->actors[slotIndex], (u16)animSeq);
+    CLACT_SetActorAnimSeq((struct Actor *)disp->actors[slotIndex], (u16)animSeq);
 }
 
 void GSYNC_DISP_SetSlotAnimCommand(GsyncDispWork *disp, int slotIndex, int command)
@@ -479,7 +493,7 @@ void GSYNC_DISP_SetSlotAnimCommand(GsyncDispWork *disp, int slotIndex, int comma
 void GSYNC_DISP_DeleteSlotActor(GsyncDispWork *disp, int slotIndex)
 {
     if (disp->actors[slotIndex]) {
-        CLACT_DeleteActor(disp->actors[slotIndex]);
+        CLACT_DeleteActor((struct Actor *)disp->actors[slotIndex]);
         disp->actors[slotIndex] = 0;
     }
 }
@@ -490,8 +504,8 @@ void GSYNC_DISP_CreateEffectActorAt(GsyncDispWork *disp, int posX, int posY)
     if (disp->actors[GSYNC_DISP_ACTOR_EFFECT] == 0) {
         pt.x = posX; pt.y = posY; pt.z = 0; pt.mode = 0; pt.space = 1;
         disp->actors[GSYNC_DISP_ACTOR_EFFECT] = CLACT_CreateActor((void *)disp->clactUnit, (u32)disp->resources.byKind.characters[1], (u32)disp->resources.byKind.palettes[1], (u32)disp->resources.byKind.cellAnims[1], &pt, 1, disp->heapId);
-        CLACT_SetActorAutoAnim(disp->actors[GSYNC_DISP_ACTOR_EFFECT], 1);
-        CLACT_SetActorDrawEnable(disp->actors[GSYNC_DISP_ACTOR_EFFECT], 1);
+        CLACT_SetActorAutoAnim((struct Actor *)disp->actors[GSYNC_DISP_ACTOR_EFFECT], 1);
+        CLACT_SetActorDrawEnable((struct Actor *)disp->actors[GSYNC_DISP_ACTOR_EFFECT], 1);
     }
 }
 
@@ -501,22 +515,22 @@ void GSYNC_DISP_CreateEffectActorAt(GsyncDispWork *disp, int posX, int posY)
 void GSYNC_DISP_CreateSlotActorAt(GsyncDispWork *disp, unsigned int slotIndex)
 {
     struct ActorSpawnPos pt;
-    if (disp->actors[slotIndex]) CLACT_DeleteActor(disp->actors[slotIndex]);
+    if (disp->actors[slotIndex]) CLACT_DeleteActor((struct Actor *)disp->actors[slotIndex]);
     pt.x = gGsyncSlotPositions[slotIndex].x; pt.y = gGsyncSlotPositions[slotIndex].y;
     pt.z = slotIndex; pt.mode = gGsyncSlotPositions[slotIndex].mode; pt.space = 1;
     disp->actors[slotIndex] = CLACT_CreateActor((void *)disp->clactUnit, (u32)disp->resources.byKind.characters[0], (u32)disp->resources.byKind.palettes[0], (u32)disp->resources.byKind.cellAnims[0], &pt, 0, disp->heapId);
-    CLACT_SetActorAnimFrame(disp->actors[slotIndex],0);
-    CLACT_SetActorAutoAnim(disp->actors[slotIndex],1);
-    CLACT_SetActorDrawEnable(disp->actors[slotIndex],1);
-    CLACT_SetActorAffineMode(disp->actors[slotIndex],2);
+    CLACT_SetActorAnimFrame((struct Actor *)disp->actors[slotIndex],0);
+    CLACT_SetActorAutoAnim((struct Actor *)disp->actors[slotIndex],1);
+    CLACT_SetActorDrawEnable((struct Actor *)disp->actors[slotIndex],1);
+    CLACT_SetActorAffineMode((struct Actor *)disp->actors[slotIndex],2);
 }
 
 void GSYNC_DISP_SetMainActorAnimSeq(GsyncDispWork *disp)
 {
-    CLACT_SetActorAnimSeq(disp->actors[GSYNC_DISP_ACTOR_MON], 2);
+    CLACT_SetActorAnimSeq((struct Actor *)disp->actors[GSYNC_DISP_ACTOR_MON], 2);
 }
 
-void GSYNC_DISP_DeleteMainActor(GsyncDispWork *disp){int slotIndex;for(slotIndex=0;slotIndex<16;slotIndex++){if(disp->actors[slotIndex]){CLACT_DeleteActor(disp->actors[slotIndex]);disp->actors[slotIndex]=0;}}}
+void GSYNC_DISP_DeleteMainActor(GsyncDispWork *disp){int slotIndex;for(slotIndex=0;slotIndex<16;slotIndex++){if(disp->actors[slotIndex]){CLACT_DeleteActor((struct Actor *)disp->actors[slotIndex]);disp->actors[slotIndex]=0;}}}
 
 void GSYNC_DISP_LoadEffectResources(GsyncDispWork *disp)
 {
@@ -541,21 +555,21 @@ void GSYNC_DISP_CreateMonIconActor(GsyncDispWork *disp, void *mon, int slotIndex
     else { pt.x=iconScaleX.x; pt.y=iconScaleY.x; }
     pt.z=0; pt.mode=3; pt.space=1;
     disp->actors[GSYNC_DISP_ACTOR_MON] = CLACT_CreateActor((void *)disp->clactUnit,(unsigned int)disp->resources.byKind.characters[2],(u32)disp->resources.byKind.palettes[2],(u32)disp->resources.byKind.cellAnims[2],&pt,(u16)slotIndex,disp->heapId);
-    CLACT_SetActorAutoAnim(disp->actors[GSYNC_DISP_ACTOR_MON],0);
-    CLACT_SetActorDrawEnable(disp->actors[GSYNC_DISP_ACTOR_MON],1);
-    CLACT_SetActorPaletteOffset(disp->actors[GSYNC_DISP_ACTOR_MON],POKE_TOOL_GetIconPalette(mon),1);
+    CLACT_SetActorAutoAnim((struct Actor *)disp->actors[GSYNC_DISP_ACTOR_MON],0);
+    CLACT_SetActorDrawEnable((struct Actor *)disp->actors[GSYNC_DISP_ACTOR_MON],1);
+    CLACT_SetActorPaletteOffset((struct Actor *)disp->actors[GSYNC_DISP_ACTOR_MON],POKE_TOOL_GetIconPalette(mon),1);
     ARC_TOOL_DeleteHandle(archiveHandle);
 }
 
 void GSYNC_DISP_EnableActorAutoAnim(GsyncDispWork *disp)
 {
-    CLACT_SetActorAutoAnim(disp->actors[GSYNC_DISP_ACTOR_MON], 1);
+    CLACT_SetActorAutoAnim((struct Actor *)disp->actors[GSYNC_DISP_ACTOR_MON], 1);
 }
 
 void GSYNC_DISP_RestartActorAnim(GsyncDispWork *disp)
 {
-    CLACT_SetActorAnimSeq(disp->actors[GSYNC_DISP_ACTOR_MON], 1);
-    CLACT_SetActorAutoAnim(disp->actors[GSYNC_DISP_ACTOR_MON], 1);
+    CLACT_SetActorAnimSeq((struct Actor *)disp->actors[GSYNC_DISP_ACTOR_MON], 1);
+    CLACT_SetActorAutoAnim((struct Actor *)disp->actors[GSYNC_DISP_ACTOR_MON], 1);
 }
 
 void GSYNC_DISP_PaletteWaveTask(void *unused, GsyncDispWork *disp)
@@ -571,27 +585,27 @@ void GSYNC_DISP_PaletteWaveTask(void *unused, GsyncDispWork *disp)
         *(volatile u32 *)0x0400001C = disp->sineTable[idx] & 0x1FF;
         progressLine = disp->progressLine;
         if (progressLine >= 0xC0) {
-            GX_LoadBGPltt(gGsyncPaletteWaveColors, 0x142, 2);
+            GX_LoadBGPltt((void *)gGsyncPaletteWaveColors, 0x142, 2);
             return;
         }
         if (progressLine == 0) {
-            GX_LoadBGPltt(&gGsyncPaletteWaveColors[9], 0x142, 2);
+            GX_LoadBGPltt((void *)(&gGsyncPaletteWaveColors[9]), 0x142, 2);
             return;
         }
         if (line > 200) {
-            GX_LoadBGPltt(gGsyncPaletteWaveColors, 0x142, 2);
+            GX_LoadBGPltt((void *)gGsyncPaletteWaveColors, 0x142, 2);
             return;
         }
         if (progressLine > line) {
-            GX_LoadBGPltt(gGsyncPaletteWaveColors, 0x142, 2);
+            GX_LoadBGPltt((void *)gGsyncPaletteWaveColors, 0x142, 2);
             return;
         }
         colorOffset = line - progressLine;
         if ((u32)colorOffset < 10 && colorOffset >= 0) {
-            GX_LoadBGPltt(&gGsyncPaletteWaveColors[colorOffset], 0x142, 2);
+            GX_LoadBGPltt((void *)(&gGsyncPaletteWaveColors[colorOffset]), 0x142, 2);
             return;
         }
-        GX_LoadBGPltt(&gGsyncPaletteWaveColors[9], 0x142, 2);
+        GX_LoadBGPltt((void *)(&gGsyncPaletteWaveColors[9]), 0x142, 2);
     }
 }
 
@@ -637,13 +651,13 @@ void GSYNC_DISP_SpawnParticleLeft(GsyncDispWork *disp, int slotIndex)
     GSYNC_DISP_CopyIconPaletteMain(disp,slotIndex,disp->pokeIconActor);
     actor = disp->pokeIconActor;
     pos = gGsyncParticlePosLeft; pair = gGsyncParticleScaleLeft;
-    CLACT_AddActorSurfacePos(actor,(const struct ActorPos *)(&pos),0); CLACT_SetActorScale(actor, (struct ActorScale *)&pair);
-    CLACT_SetActorAutoAnim(actor,0); CLACT_SetActorDrawEnable(actor,0);
-    CLACT_SetActorObjMode(actor,1); CLACT_SetActorAffineMode(actor,2);
+    CLACT_AddActorSurfacePos(actor,(const struct ActorPos *)(&pos),0); CLACT_SetActorScale((struct Actor *)actor, (struct Pair32 *)&pair);
+    CLACT_SetActorAutoAnim((struct Actor *)actor,0); CLACT_SetActorDrawEnable((struct Actor *)actor,0);
+    CLACT_SetActorObjMode((struct Actor *)actor,1); CLACT_SetActorAffineMode((struct Actor *)actor,2);
     disp->particles[slotIndex].actor = actor;
 }
 
-void GSYNC_DISP_HideParticle(GsyncDispParticle *particle){if(particle->actor)CLACT_SetActorDrawEnable(particle->actor,0);particle->actor=0;}
+void GSYNC_DISP_HideParticle(GsyncDispParticle *particle){if(particle->actor)CLACT_SetActorDrawEnable((struct Actor *)particle->actor,0);particle->actor=0;}
 
 void GSYNC_DISP_SpawnParticleRight(GsyncDispWork *disp, int slotIndex)
 {
@@ -653,9 +667,9 @@ void GSYNC_DISP_SpawnParticleRight(GsyncDispWork *disp, int slotIndex)
     GSYNC_DISP_CopyIconPaletteSub(disp,slotIndex,disp->backdropActor);
     actor = disp->backdropActor;
     pos = gGsyncParticlePosRight; pair = gGsyncParticleScaleRight;
-    CLACT_AddActorSurfacePos(actor,(const struct ActorPos *)(&pos),0); CLACT_SetActorScale(actor, (struct ActorScale *)&pair);
-    CLACT_SetActorAutoAnim(actor,0); CLACT_SetActorDrawEnable(actor,0);
-    CLACT_SetActorObjMode(actor,1); CLACT_SetActorAffineMode(actor,2);
+    CLACT_AddActorSurfacePos(actor,(const struct ActorPos *)(&pos),0); CLACT_SetActorScale((struct Actor *)actor, (struct Pair32 *)&pair);
+    CLACT_SetActorAutoAnim((struct Actor *)actor,0); CLACT_SetActorDrawEnable((struct Actor *)actor,0);
+    CLACT_SetActorObjMode((struct Actor *)actor,1); CLACT_SetActorAffineMode((struct Actor *)actor,2);
     disp->particles[slotIndex].actor = actor;
 }
 
@@ -679,14 +693,14 @@ void GSYNC_DISP_UpdateParticle(GsyncDispParticle *particle)
             else particle->x = particle->x + 1;
         }
         CLACT_AddActorSurfacePos(particle->actor, (const struct ActorPos *)(&pos), 0);
-        CLACT_SetActorDrawEnable(particle->actor, 1);
+        CLACT_SetActorDrawEnable((struct Actor *)particle->actor, 1);
         particle->age++;
         if (pos.y > 25) {
-            CLACT_GetActorScale(particle->actor, (struct ActorScale *)&scale);
+            CLACT_GetActorScale((struct Actor *)particle->actor, (struct Pair32 *)&scale);
             scale.x -= 16;
             scale.y -= 16;
             if (scale.x < 0 || scale.y < 0) GSYNC_DISP_HideParticle(particle);
-            else CLACT_SetActorScale(particle->actor, (struct ActorScale *)&scale);
+            else CLACT_SetActorScale((struct Actor *)particle->actor, (struct Pair32 *)&scale);
         }
         if (pos.y > 50) GSYNC_DISP_HideParticle(particle);
     } else particle->finished = 1;
@@ -800,7 +814,7 @@ void GSYNC_DISP_LoadIconResources(GsyncDispWork *disp)
 void GSYNC_DISP_CopyIconPaletteMain(GsyncDispWork *disp,int slotIndex,void *actor)
 {
     struct ActorImageProxy imageProxy;
-    CLACT_GetActorImageProxy(actor,(struct ActorImageProxy *)(&imageProxy));
+    CLACT_GetActorImageProxy(actor,(struct ImageProxy *)(&imageProxy));
     MI_CpuCopy8(disp->iconRecords[slotIndex].paletteData,(void *)(imageProxy.characterBase+0x6400000),0x200);
     CLACT_SetActorPaletteOffset(actor,(u8)(disp->iconRecords[slotIndex].paletteOffset),1);
 }
@@ -808,7 +822,7 @@ void GSYNC_DISP_CopyIconPaletteMain(GsyncDispWork *disp,int slotIndex,void *acto
 void GSYNC_DISP_CopyIconPaletteSub(GsyncDispWork *disp,int slotIndex,void *actor)
 {
     struct ActorImageProxy imageProxy;
-    CLACT_GetActorImageProxy(actor,(struct ActorImageProxy *)(&imageProxy));
+    CLACT_GetActorImageProxy(actor,(struct ImageProxy *)(&imageProxy));
     MI_CpuCopy8(disp->iconRecords[slotIndex].paletteData,(void *)(imageProxy.characterBase+0x6400000),0x200);
     DC_FlushRange(disp->iconRecords[slotIndex].palette,0x20);
     GX_LoadOBJPltt(disp->iconRecords[slotIndex].palette,0x100,0x20);
@@ -827,8 +841,8 @@ void GSYNC_DISP_CreatePokeIconActor(GsyncDispWork *disp)
     disp->resources.byKind.characters[3]=(void *)CLACT_RegisterCharacter(archiveHandle,graphicIndex,0,0,disp->heapId);
     pt.x=133; pt.y=128; pt.z=0; pt.mode=3; pt.space=2;
     disp->pokeIconActor=CLACT_CreateActor((void *)disp->clactUnit,(u32)disp->resources.byKind.characters[3],(u32)disp->resources.byKind.palettes[2],(u32)disp->resources.byKind.cellAnims[2],&pt,0,disp->heapId);
-    CLACT_SetActorAutoAnim(disp->pokeIconActor,0);
-    CLACT_SetActorDrawEnable(disp->pokeIconActor,0);
+    CLACT_SetActorAutoAnim((struct Actor *)disp->pokeIconActor,0);
+    CLACT_SetActorDrawEnable((struct Actor *)disp->pokeIconActor,0);
     ARC_TOOL_DeleteHandle(archiveHandle);
 }
 
@@ -843,6 +857,6 @@ void GSYNC_DISP_CreateBackdropActors(GsyncDispWork *disp)
     ARC_TOOL_DeleteHandle(archiveHandle);
     pt.x=156; pt.y=28; pt.z=0; pt.mode=0; pt.space=2;
     disp->backdropActor=CLACT_CreateActor((void *)disp->clactUnit,(unsigned int)disp->resources.byKind.characters[6],(u32)disp->resources.byKind.palettes[5],(u32)disp->resources.byKind.cellAnims[6],&pt,0,disp->heapId);
-    CLACT_SetActorAutoAnim(disp->backdropActor,0);
-    CLACT_SetActorDrawEnable(disp->backdropActor,0);
+    CLACT_SetActorAutoAnim((struct Actor *)disp->backdropActor,0);
+    CLACT_SetActorDrawEnable((struct Actor *)disp->backdropActor,0);
 }

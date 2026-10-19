@@ -134,20 +134,22 @@ typedef struct {
 
 extern void *DWCi_HEAPlAllocEx(u32 size, int alignment);
 extern void *DWCi_QUElFormEx(long size, void *data, long dataSize);
-extern int DWCi_Language(void);
+extern u8 DWCi_Language(void);
 extern void *DWCi_ARClReadEx(char *path, u32 *size, int alignment);
-extern void NNS_G2dFontInitUTF16(void *font, void *res);
+struct NNSG2dFont;
+extern void NNS_G2dFontInitUTF16(struct NNSG2dFont *pFont, void *pResource);
 extern void DWCi_ARClRelease(void *file);
-extern void DWCi_QUElDelete(void *queue);
+struct tagLISTCB;
+extern void DWCi_QUElDelete(struct tagLISTCB *list);
 extern void DWCi_HEAPlFree_(void **mem);
 extern void *DWCi_QUElPopBack(void *queue);
 extern void *DWCi_OVRlAlloc(int lcd, int num, int head, int *name);
-extern u32 NNSi_G2dCalcCharAreaSize(int w, int h);
-extern void NNS_G2dCharCanvasInitForVRAM(Canvas *cnv, void *base, int w, int h, int fmt);
+extern u32 NNSi_G2dCalcCharAreaSize(unsigned int areaWidth, unsigned int areaHeight);
+extern void NNS_G2dCharCanvasInitForVRAM(void *pCC, void *charBase, int areaWidth, int areaHeight, int colorMode);
 extern void DWCi_OVRlFree(void *ovram);
 extern void DWCi_QUElPushBack(void *queue, void *data);
 extern void NNSi_G2dInitPenSimple(int a, int b, int c, int d, int e);
-extern void *G2S_GetBG0ScrPtr(void);
+extern u32 G2S_GetBG0ScrPtr(void);
 extern void *G2_GetBG0ScrPtr(void);
 extern void NNS_G2dMapScrToCharText(void *scnBase, int areaWidth, int areaHeight, int areaLeft, int areaTop, int scnWidth, int charNo, int cplt);
 extern void *DWCi_TSKlForm(int kind, void (*f)(void *), void *w, unsigned char prio);
@@ -165,7 +167,7 @@ int DWCi_FNTlDrawCharEx(void *canvas, int x, int y, int color, unsigned short ch
 extern void NNSi_G2dAlignTextVertical(TextCanvas *tc, int x, int y, int w, int h, int color, u32 flag, u16 *txt, Pair p);
 extern void *DWCi_CELLlGetObj(void *cell, int idx);
 extern void DWCi_CELLlSetEffect(void *cell, int idx, int effect, int affine);
-extern void DWCi_CELLlSetPalette(void *cell, int idx, int mode, int plt);
+extern void DWCi_CELLlSetPalette(unsigned char *obj, int idx, unsigned int v, unsigned int w);
 extern void DWCi_CELLlSetPriority(void *cell, int idx, int priority);
 extern void NNSi_G2dMakeCharObjArea(void *oam, int w, int h, int x, int y, int a, int name, int b);
 void DWCi_FNTlInit(void);
@@ -203,12 +205,12 @@ void DWCi_FNTlInit(void)
     if (DWCi_Language() == 6) {
         for (i = 0; i < 2; i++) {
             gFontWork->file[i] = DWCi_ARClReadEx(sFontTable4[i], 0, 4);
-            NNS_G2dFontInitUTF16(&gFontWork->font[i], gFontWork->file[i]);
+            NNS_G2dFontInitUTF16((struct NNSG2dFont *)(&gFontWork->font[i]), gFontWork->file[i]);
         }
     } else {
         for (i = 0; i < 2; i++) {
             gFontWork->file[i] = DWCi_ARClReadEx(sFontTable5[i], 0, 4);
-            NNS_G2dFontInitUTF16(&gFontWork->font[i], gFontWork->file[i]);
+            NNS_G2dFontInitUTF16((struct NNSG2dFont *)(&gFontWork->font[i]), gFontWork->file[i]);
         }
     }
 }
@@ -304,7 +306,7 @@ void *DWCi_FNTlFormBgEx(int lcd, int font)
     cv->text.hSpace = 1;
     cv->text.vSpace = 1;
     if (lcd == 1)
-        scr = G2S_GetBG0ScrPtr();
+        scr = (void *)G2S_GetBG0ScrPtr();
     else
         scr = G2_GetBG0ScrPtr();
     chr = sFontTable1[lcd];

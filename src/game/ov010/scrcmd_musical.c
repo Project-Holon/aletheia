@@ -224,8 +224,9 @@ extern struct ScriptCtl *SCRCMD_WORK_GetScriptWork(struct ScriptWork *scriptWork
 extern struct GameSystem *SCRCMD_WORK_GetGameSystem(struct ScriptWork *scriptWork);
 
 extern struct GameData *SCRCMD_WORK_GetGameData(struct ScriptWork *scriptWork);
+struct ScrcmdWork;
 
-extern u16 SCRCMD_WORK_GetHeapId(struct ScriptWork *scriptWork);
+extern u16 SCRCMD_WORK_GetHeapId(struct ScrcmdWork *work);
 
 extern int SCRIPT_WORK_ResetFieldParam(struct ScriptCtl *scriptCtl);
 
@@ -239,7 +240,7 @@ extern u16 SCRIPT_WORK_ReadWorkValue(ScriptVm *vm, struct ScriptWork *scriptWork
 
 extern u16 *SCRIPT_WORK_ReadWorkPointer(ScriptVm *vm, struct ScriptWork *scriptWork);
 
-extern struct GameEvent *EVENT_POKE_STATUS_CreatePokeSelectStatusEvent(struct GameSystem *gameSys, u16 *partyIndexVar, u16 *resultVar);
+extern void *EVENT_POKE_STATUS_CreatePokeSelectStatusEvent(s32 gameSystem, s32 retDecided, s32 retSlot);
 
 /* game system, game event, game data */
 extern struct FieldMap *GAMESYSTEM_GetFieldMap(struct GameSystem *gameSys);
@@ -303,12 +304,13 @@ extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
 extern void STRBUF_SetStringN(struct Strbuf *dest, const u16 *src, u32 size);
 
 extern void STRBUF_Delete(struct Strbuf *strbuf);
+struct MsgBank;
 
-extern struct MsgData *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 
-extern struct Strbuf *MSGDATA_AllocString(struct MsgData *msgData, u32 index);
+extern struct Strbuf *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
 
-extern u32 MSGDATA_Delete(struct MsgData *msgData);
+extern u32 MSGDATA_Delete(struct MsgBank *bank);
 
 extern void WORDSET_SetSlotTag(struct WordSet *wordSet, u32 slot, const struct Strbuf *str, u32 grammar, u32 form, u32 count);
 
@@ -343,37 +345,39 @@ extern u8 *MUSICAL_SAVE_GetStageData(struct MusicalSave *musical);
 
 /* musical event (ov010 musical_dressup_sys.c) */
 extern struct GameEvent *MUSICAL_EVENT_Create(struct GameSystem *gameSys, struct GameData *gameData, u8 arg, u32 mode, MusicalLinkWork *link);
+struct MusicalEventWork;
 
-extern u8 MUSICAL_EVENT_GetLocalSlot(struct MusicalEvent *event);
+extern u8 MUSICAL_EVENT_GetLocalSlot(struct MusicalEventWork *work);
 
-extern u16 MUSICAL_EVENT_GetMaxScore(struct MusicalEvent *event);
+extern u16 MUSICAL_EVENT_GetMaxScore(struct MusicalEventWork *work);
 
-extern u16 MUSICAL_EVENT_GetMinScore(struct MusicalEvent *event);
+extern u16 MUSICAL_EVENT_GetMinScore(struct MusicalEventWork *work);
 
-extern u8 MUSICAL_EVENT_GetScoreCapped(struct MusicalEvent *event, u8 index);
+extern u8 MUSICAL_EVENT_GetScoreCapped(struct MusicalEventWork *work, u8 slot);
 
-extern int MUSICAL_EVENT_GetPlayerOfSlot(int event, u8 index);
+extern u8 MUSICAL_EVENT_GetPlayerOfSlot(struct MusicalEventWork *work, u8 slot);
 
-extern u8 MUSICAL_EVENT_GetProgramBestCategory(struct MusicalEvent *event);
+extern u8 MUSICAL_EVENT_GetProgramBestCategory(struct MusicalEventWork *work);
 
-extern u8 MUSICAL_EVENT_GetSlotOfRank(struct MusicalEvent *event, u8 index);
+extern u8 MUSICAL_EVENT_GetSlotOfRank(struct MusicalEventWork *work, u8 rank);
 
-extern u8 MUSICAL_EVENT_GetBestAppealCategory(struct MusicalEvent *event, u8 index);
+extern u8 MUSICAL_EVENT_GetBestAppealCategory(struct MusicalEventWork *work, u8 slot);
 
-extern u8 MUSICAL_EVENT_GetPortraitClass(struct MusicalEvent *event, u8 index);
+extern u8 MUSICAL_EVENT_GetPortraitClass(struct MusicalEventWork *work, u8 slot);
 
-extern struct Strbuf *MUSICAL_EVENT_AllocTitleString(int player, int heapId);
+extern void *MUSICAL_EVENT_AllocTitleString(struct MusicalEventWork *work, s32 heapId);
 
-extern void MUSICAL_EVENT_SetPlayerNameWord(struct MusicalEvent *event, u8 index, struct WordSet *wordSet, u32 slot);
+extern void MUSICAL_EVENT_SetPlayerNameWord(struct MusicalEventWork *work, u8 slot, void *wordSet, u32 wordIndex);
 
-extern void MUSICAL_EVENT_SetPokemonNameWord(struct MusicalEvent *event, u8 index, struct WordSet *wordSet, u32 slot);
+extern void MUSICAL_EVENT_SetPokemonNameWord(struct MusicalEventWork *work, u8 slot, void *wordSet, u32 wordIndex);
 
-extern int MUSICAL_EVENT_CheckNetError(struct MusicalEvent *event);
+extern void MUSICAL_EVENT_CheckNetError(struct MusicalEventWork *work);
 
-extern u32 MUSICAL_EVENT_IsAborted(struct MusicalEvent *event);
+extern u32 MUSICAL_EVENT_IsAborted(struct MusicalEventWork *work);
+struct Party;
 
 /* party and musical system */
-extern u32 POKEPARTY_GetCount(struct PokeParty *party);
+extern u32 POKEPARTY_GetCount(struct Party *party);
 
 extern struct Pokemon *POKEPARTY_GetMember(struct PokeParty *party, u32 index);
 
@@ -736,7 +740,7 @@ int SCRCMD_MUSICAL_GetValue(ScriptVm *vm, struct ScriptWork *scriptWork)
         u8 partyCount;
 
         party = GAME_DATA_GetMyParty(gameData);
-        partyCount = POKEPARTY_GetCount(party);
+        partyCount = POKEPARTY_GetCount((struct Party *)party);
 
         for (i = 0; i < partyCount; i++) {
             if ((u32)MUSICAL_MCSS_GetMonValue(POKEPARTY_GetMember(party, (int)i)) == 1)
@@ -775,31 +779,31 @@ int SCRCMD_MUSICAL_GetValue(ScriptVm *vm, struct ScriptWork *scriptWork)
             *resultVar = 0;
         break;
     case 30:
-        *resultVar = MUSICAL_EVENT_GetLocalSlot(musicalEvent);
+        *resultVar = MUSICAL_EVENT_GetLocalSlot((struct MusicalEventWork *)musicalEvent);
         break;
     case 31:
-        *resultVar = MUSICAL_EVENT_GetMaxScore(musicalEvent);
+        *resultVar = MUSICAL_EVENT_GetMaxScore((struct MusicalEventWork *)musicalEvent);
         break;
     case 32:
-        *resultVar = MUSICAL_EVENT_GetMinScore(musicalEvent);
+        *resultVar = MUSICAL_EVENT_GetMinScore((struct MusicalEventWork *)musicalEvent);
         break;
     case 33:
-        *resultVar = MUSICAL_EVENT_GetScoreCapped(musicalEvent, arg);
+        *resultVar = MUSICAL_EVENT_GetScoreCapped((struct MusicalEventWork *)musicalEvent, arg);
         break;
     case 35:
-        *resultVar = MUSICAL_EVENT_GetPlayerOfSlot((int)musicalEvent, arg);
+        *resultVar = MUSICAL_EVENT_GetPlayerOfSlot((struct MusicalEventWork *)musicalEvent, arg);
         break;
     case 36:
-        *resultVar = MUSICAL_EVENT_GetProgramBestCategory(musicalEvent);
+        *resultVar = MUSICAL_EVENT_GetProgramBestCategory((struct MusicalEventWork *)musicalEvent);
         break;
     case 37:
-        *resultVar = MUSICAL_EVENT_GetSlotOfRank(musicalEvent, arg);
+        *resultVar = MUSICAL_EVENT_GetSlotOfRank((struct MusicalEventWork *)musicalEvent, arg);
         break;
     case 38:
-        *resultVar = MUSICAL_EVENT_GetBestAppealCategory(musicalEvent, arg);
+        *resultVar = MUSICAL_EVENT_GetBestAppealCategory((struct MusicalEventWork *)musicalEvent, arg);
         break;
     case 39:
-        *resultVar = MUSICAL_EVENT_GetPortraitClass(musicalEvent, arg);
+        *resultVar = MUSICAL_EVENT_GetPortraitClass((struct MusicalEventWork *)musicalEvent, arg);
         break;
     }
     return 0;
@@ -868,7 +872,7 @@ int SCRCMD_MUSICAL_BufferString(ScriptVm *vm, struct ScriptWork *scriptWork)
 {
     struct ScriptCtl *scriptCtl = SCRCMD_WORK_GetScriptWork(scriptWork);
     struct GameData *gameData = SCRCMD_WORK_GetGameData(scriptWork);
-    u32 heapId = SCRCMD_WORK_GetHeapId(scriptWork);
+    u32 heapId = SCRCMD_WORK_GetHeapId((struct ScrcmdWork *)scriptWork);
     struct WordSet *wordSet = SCRIPT_WORK_GetWordSet(scriptCtl);
     u8 kind;
     u8 slot;
@@ -895,32 +899,32 @@ int SCRCMD_MUSICAL_BufferString(ScriptVm *vm, struct ScriptWork *scriptWork)
     case 1:
     case 8:
         if (kind == 1)
-            msgData = MSGDATA_CreateFromArchive(0, 2, 0x4F, heapId);
+            msgData = (struct MsgData *)MSGDATA_CreateFromArchive(0, 2, 0x4F, heapId);
         else
-            msgData = MSGDATA_CreateFromArchive(0, 2, 0x11A, heapId);
-        str = MSGDATA_AllocString(msgData, arg + 3);
+            msgData = (struct MsgData *)MSGDATA_CreateFromArchive(0, 2, 0x11A, heapId);
+        str = MSGDATA_AllocString((struct MsgBank *)msgData, arg + 3);
         WORDSET_SetSlotTag(wordSet, slot, str, 0, 1, 2);
         STRBUF_Delete(str);
-        MSGDATA_Delete(msgData);
+        MSGDATA_Delete((struct MsgBank *)msgData);
         break;
     case 2:
-        str = MUSICAL_EVENT_AllocTitleString((int)(*((void **)GAME_DATA_GetExternalWork(gameData))), heapId);
+        str = MUSICAL_EVENT_AllocTitleString((struct MusicalEventWork *)(*((void **)GAME_DATA_GetExternalWork(gameData))), heapId);
         WORDSET_SetSlotTag(wordSet, slot, str, 0, 1, 2);
         STRBUF_Delete(str);
         break;
     case 3:
-        msgData = MSGDATA_CreateFromArchive(0, 2, 0x4B, heapId);
-        str = MSGDATA_AllocString(msgData, arg);
+        msgData = (struct MsgData *)MSGDATA_CreateFromArchive(0, 2, 0x4B, heapId);
+        str = MSGDATA_AllocString((struct MsgBank *)msgData, arg);
         WORDSET_SetSlotTag(wordSet, slot, str, 0, 1, 2);
         STRBUF_Delete(str);
-        MSGDATA_Delete(msgData);
+        MSGDATA_Delete((struct MsgBank *)msgData);
         break;
     case 4:
-        msgData = MSGDATA_CreateFromArchive(0, 2, 0x4B, heapId);
-        str = MSGDATA_AllocString(msgData, arg + 4);
+        msgData = (struct MsgData *)MSGDATA_CreateFromArchive(0, 2, 0x4B, heapId);
+        str = MSGDATA_AllocString((struct MsgBank *)msgData, arg + 4);
         WORDSET_SetSlotTag(wordSet, slot, str, 0, 1, 2);
         STRBUF_Delete(str);
-        MSGDATA_Delete(msgData);
+        MSGDATA_Delete((struct MsgBank *)msgData);
         break;
     case 5:
         MUSICAL_EVENT_SetPlayerNameWord(*((void **)GAME_DATA_GetExternalWork(gameData)), arg, wordSet, slot);
@@ -972,13 +976,13 @@ int SCRCMD_MUSICAL_BufferString(ScriptVm *vm, struct ScriptWork *scriptWork)
             labelIds[2] = slotOrder[2] + 4;
         else
             labelIds[2] = slotOrder[3] + 4;
-        msgData = MSGDATA_CreateFromArchive(0, 2, 0x4B, heapId);
+        msgData = (struct MsgData *)MSGDATA_CreateFromArchive(0, 2, 0x4B, heapId);
         for (i = 0; i < 3; i++) {
-            str = MSGDATA_AllocString(msgData, labelIds[i]);
+            str = MSGDATA_AllocString((struct MsgBank *)msgData, labelIds[i]);
             WORDSET_SetSlotTag(wordSet, i, str, 0, 1, 2);
             STRBUF_Delete(str);
         }
-        MSGDATA_Delete(msgData);
+        MSGDATA_Delete((struct MsgBank *)msgData);
         break;
     }
     }
@@ -1002,7 +1006,7 @@ int SCRCMD_MUSICAL_SelectPartyMon(ScriptVm *vm, struct ScriptWork *scriptWork)
     u16 *resultVar = SCRIPT_WORK_ReadWorkPointer(vm, scriptWork);
     struct ScriptCtl *scriptCtl = SCRCMD_WORK_GetScriptWork(scriptWork);
 
-    SCRIPT_SYS_CallEvent(scriptCtl, EVENT_POKE_STATUS_CreatePokeSelectStatusEvent(SCRCMD_WORK_GetGameSystem(scriptWork), partyIndexVar, resultVar));
+    SCRIPT_SYS_CallEvent(scriptCtl, EVENT_POKE_STATUS_CreatePokeSelectStatusEvent((s32)(SCRCMD_WORK_GetGameSystem(scriptWork)), (s32)partyIndexVar, (s32)resultVar));
     return 1;
 }
 
@@ -1040,8 +1044,8 @@ int SCRCMD_MUSICAL_LinkControl(ScriptVm *vm, struct ScriptWork *scriptWork)
     if (cmd != 0 && cmd != 0x15) {
         link = GAME_DATA_GetExternalWork(gameData);
         if (link->musicalEvent != 0) {
-            MUSICAL_EVENT_CheckNetError(link->musicalEvent);
-            if (MUSICAL_EVENT_IsAborted(link->musicalEvent) == 1)
+            MUSICAL_EVENT_CheckNetError((struct MusicalEventWork *)link->musicalEvent);
+            if (MUSICAL_EVENT_IsAborted((struct MusicalEventWork *)link->musicalEvent) == 1)
                 busy = 1;
         }
     }
@@ -1365,8 +1369,8 @@ int SCRCMD_MUSICAL_WaitSetMemberCount(ScriptVm *vm, struct ScriptWork *scriptWor
     SCRCMD_WORK_GetScriptWork(scriptWork);
     link = GAME_DATA_GetExternalWork(SCRCMD_WORK_GetGameData(scriptWork));
     if (link->musicalEvent != 0) {
-        MUSICAL_EVENT_CheckNetError(link->musicalEvent);
-        if (MUSICAL_EVENT_IsAborted(link->musicalEvent) == 1)
+        MUSICAL_EVENT_CheckNetError((struct MusicalEventWork *)link->musicalEvent);
+        if (MUSICAL_EVENT_IsAborted((struct MusicalEventWork *)link->musicalEvent) == 1)
             return 1;
     }
     if (MUS_COMM_FUNC_CheckTimingSync(link->session, (u8)link->memberCount) == 1)
@@ -1381,8 +1385,8 @@ int SCRCMD_MUSICAL_WaitSessionReady(ScriptVm *vm, struct ScriptWork *scriptWork)
 
     SCRCMD_WORK_GetScriptWork(scriptWork);
     link = GAME_DATA_GetExternalWork(SCRCMD_WORK_GetGameData(scriptWork));
-    MUSICAL_EVENT_CheckNetError(link->musicalEvent);
-    if (MUSICAL_EVENT_IsAborted(link->musicalEvent) == 1)
+    MUSICAL_EVENT_CheckNetError((struct MusicalEventWork *)link->musicalEvent);
+    if (MUSICAL_EVENT_IsAborted((struct MusicalEventWork *)link->musicalEvent) == 1)
         return 1;
     if (STA_NET_GetSlot3Done(link->session) == 1)
         return 1;
@@ -1423,8 +1427,8 @@ int SCRCMD_MUSICAL_WaitCommIdle(ScriptVm *vm, struct ScriptWork *scriptWork)
     gameComm = GAMESYSTEM_GetGameComm(gameSys);
     link = GAME_DATA_GetExternalWork(gameData);
     if (link->musicalEvent != 0) {
-        MUSICAL_EVENT_CheckNetError(link->musicalEvent);
-        if (MUSICAL_EVENT_IsAborted(link->musicalEvent) == 1) {
+        MUSICAL_EVENT_CheckNetError((struct MusicalEventWork *)link->musicalEvent);
+        if (MUSICAL_EVENT_IsAborted((struct MusicalEventWork *)link->musicalEvent) == 1) {
             return 1;
         }
     }
@@ -1441,8 +1445,8 @@ int SCRCMD_MUSICAL_WaitSessionFinish(ScriptVm *vm, struct ScriptWork *scriptWork
 
     SCRCMD_WORK_GetScriptWork(scriptWork);
     link = GAME_DATA_GetExternalWork(SCRCMD_WORK_GetGameData(scriptWork));
-    MUSICAL_EVENT_CheckNetError(link->musicalEvent);
-    if (MUSICAL_EVENT_IsAborted(link->musicalEvent) == 1)
+    MUSICAL_EVENT_CheckNetError((struct MusicalEventWork *)link->musicalEvent);
+    if (MUSICAL_EVENT_IsAborted((struct MusicalEventWork *)link->musicalEvent) == 1)
         return 1;
     if (STA_NET_GetRecordsReceived(link->session) == 1)
         return 1;
@@ -1469,7 +1473,7 @@ int SCRCMD_MUSICAL_WifiListCommand(ScriptVm *vm, struct ScriptWork *scriptWork)
 
     cmd = SCRIPT_WORK_ReadWorkValue(vm, scriptWork);
     resultVar = SCRIPT_WORK_ReadWorkPointer(vm, scriptWork);
-    key = SCRCMD_WORK_GetHeapId(scriptWork);
+    key = SCRCMD_WORK_GetHeapId((struct ScrcmdWork *)scriptWork);
     gameSys = SCRCMD_WORK_GetGameSystem(scriptWork);
     gameData = SCRCMD_WORK_GetGameData(scriptWork);
     wifiList = GAME_SYNC_GetBlock(GAME_DATA_GetSaveControl(gameData));

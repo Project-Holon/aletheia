@@ -161,13 +161,13 @@ extern u32 GF_STANDARD_Rand(void);
 
 extern void GFL_NET_STATE_Idle(void);
 
-extern void UI_SetKeepAwakeFlagsGlobal(u32 a);
+extern void UI_SetKeepAwakeFlagsGlobal(u8 flags);
 
 extern void GFL_NET_SYSTEM_SetNoChildError(u8 v);
 
-extern int UI_ClearSoftResetInhibitGlobal(u32 v);
+extern void UI_ClearSoftResetInhibitGlobal(u32 v);
 
-extern void UI_SetSoftResetInhibitGlobal(u32 a);
+extern void UI_SetSoftResetInhibitGlobal(u8 mask);
 
 extern void GFL_NET_SYSTEM_SetNoSend(void);
 
@@ -244,7 +244,7 @@ void GFL_NET_STATE_ConnectMac(struct NetStateWork *work);
 
 void GFL_NET_STATE_StartConnectMac(void);
 
-void GFL_NET_STATE_ConnectMacAddress(int mac, int anyParent);
+void GFL_NET_STATE_ConnectMacAddress(void *mac, int anyParent);
 
 void GFL_NET_STATE_BeaconScanIdle(void);
 
@@ -1041,7 +1041,7 @@ void GFL_NET_STATE_StartConnectMac(void)
 
 
 
-void GFL_NET_STATE_ConnectMacAddress(int mac, int anyParent)
+void GFL_NET_STATE_ConnectMacAddress(void *mac, int anyParent)
 {
     if ((int)_pNetState->aMacAddress & 1) {
         GF_PANIC_Fail(_FileName, 395, _AssertMacAlign);

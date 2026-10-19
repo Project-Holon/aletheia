@@ -377,7 +377,7 @@ typedef struct {
 void *AOSS_MALLOC(int size);
 void AOSS_FREE(void *mem);
 extern int AOSSi_WLANGetBSSList(WLLA_BSS_LIST **bssList);
-extern void AOSSi_Sleep(int msec);
+extern void AOSSi_Sleep(u32 msec);
 extern int AOSSi_WLANConnect(WLLA_CONNECT_PARAM *conParam, WLLA_LINK_STAT *linkStat);
 void *AOSS_Memcpy(void *dest, void *src, int n);
 int AOSS_Strlen(char *s);
@@ -389,7 +389,7 @@ extern int SOC_Cleanup(void);
 extern int AOSSi_Disconnect(void);
 extern void MI_CpuCopy8(const void *srcp, void *dstp, u32 size);
 extern void MI_CpuFill8(void *dstp, u8 data, u32 size);
-extern int SOC_RecvFrom(int, void *, int, int, void *);
+extern int SOC_RecvFrom(int s, int buf, int len, int flags, unsigned char *sockFrom);
 extern int SOC_Poll(SOCPollFD *fds, unsigned int nfds, unsigned long long timeout);
 extern int SOC_SendTo(int, void *, int, int, void *);
 extern int SOC_Socket(int domain, int type, int protocol);
@@ -2060,7 +2060,7 @@ void *AOSS_Memset(void *s, int c, int n)
 int AOSS_Recvfrom(int s, void *buf, int len, int flags, void *from, int *fromlen)
 {
     *(unsigned char *)from = (unsigned char)*fromlen;
-    return SOC_RecvFrom(s, buf, len, flags, from);
+    return SOC_RecvFrom((int)s, (int)buf, len, flags, from);
 }
 
 

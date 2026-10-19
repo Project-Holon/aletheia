@@ -64,8 +64,9 @@ typedef struct NNSG2dAnimController {
 typedef unsigned char  u8;
 
 typedef signed int     s32;
+struct AnimCtrl;
 
-extern BOOL NNS_G2dTickAnimCtrl(NNSG2dAnimController *pAnimCtrl, fx32 frames);
+extern BOOL NNS_G2dTickAnimCtrl(struct AnimCtrl *p, s32 frames);
 void NNS_G2dResetCellAnimation(NNSG2dAnimController *pAnimCtrl);
 void NNS_G2dSetCellAnimationBank(struct CellAnim *anim, void *bank);
 void NNS_G2dSetCellAnimationParam(struct CellAnim *anim, int type, int param, int func);
@@ -100,7 +101,7 @@ void NNS_G2dResetCellAnimation(NNSG2dAnimController *pAnimCtrl)
     }
     pAnimCtrl->pActiveCurrent = pAnimCtrl->pCurrent;
     pAnimCtrl->currentTime = 0;
-    NNS_G2dTickAnimCtrl(pAnimCtrl, 0);
+    NNS_G2dTickAnimCtrl((struct AnimCtrl *)pAnimCtrl, 0);
 }
 
 

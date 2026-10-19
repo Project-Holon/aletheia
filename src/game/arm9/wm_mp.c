@@ -135,7 +135,7 @@ typedef enum WMApiid {
     WM_APIID_MAX = 0x7FFFFFFF
 } WMApiid;
 
-extern WMArm9Buf *WMi_GetSystemWork(void);
+extern void *WMi_GetSystemWork(void);
 extern WMErrCode WMi_CheckStateEx(s32 paramNum, ...);
 extern void DC_InvalidateRange(void *startAddr, u32 nBytes);
 extern int WM_GetMPReceiveBufferSize(void);

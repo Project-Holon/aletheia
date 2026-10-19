@@ -117,6 +117,7 @@
  *   BG_SYS_Delete  0x0203F9B4  arm  arm9
  *   BG_SYS_ChangeScroll  0x02041EE4  arm  arm9
  *   BG_SYS_GetMainVisiblePlanes  0x02043658  arm  arm9
+ *   G3D_LIGHT_DeleteSlots        0x02048C4C  arm
  */
 #include "intro_types.h"
 
@@ -206,8 +207,8 @@ extern char *INTRO_CMD_Create(void *, unsigned, unsigned, char *, unsigned, unsi
 extern void INTRO_PARTICLE_Delete(char *);
 extern void INTRO_MCSS_Delete(u8 *p);
 extern void INTRO_G3D_Delete(char *);
-extern unsigned int MSGDATA_Delete(struct Rec *rec);
-extern u32 GF_FONT_Delete(void *ptr);
+extern unsigned int MSGDATA_Delete(struct MsgBank *bank);
+extern u32 GF_FONT_Delete(struct GfFont *font);
 extern void INTRO_CMD_Delete(u8 *p);
 extern void PROCSYS_FreeProcWork(struct Proc *);
 extern void GFL_HEAP_DeleteChecked(unsigned int heap);
@@ -215,12 +216,13 @@ extern void GF_OVERLAY_Unload(s32 handle);
 extern int INTRO_CMD_Main(char *p);
 extern void INTRO_G3D_UpdateIdleAnim(char *p);
 extern void INTRO_MCSS_Main(u8 *p);
-extern void INTRO_PARTICLE_Main(int);
+extern void INTRO_PARTICLE_Main(void *unused);
 extern void INTRO_G3D_Draw(char *p);
 extern void BG_SYS_SetMainPlaneVisible(unsigned, unsigned);
 extern void G3X_SetFog(BOOL, int, int, int);
 extern void G3X_SetClearColor(unsigned short, int, int, int, BOOL);
-extern void G3D_SYSTEM_SetLight(u32 idx, const u16 *src);
+struct G3dLight;
+extern void G3D_SYSTEM_SetLight(unsigned int lightIdx, struct G3dLight *light);
 extern void G3D_SYSTEM_SetSwapBuffersMode(unsigned, unsigned);
 extern void *GFL_HEAP_Alloc(u32,u32,int,const char *,u16);
 extern void BG_SYS_ClearGraphicsMemory(u32);
@@ -231,7 +233,8 @@ extern void BG_SYS_ClearSubPlanes(void);
 extern void BG_SYS_SetVramBanks(const struct DispVram *);
 extern void GF_FONT_InitTextColor(void);
 extern void *GFL_USE_AddMainTask(u32,u32,u32);
-extern void TCB_DeleteTask(struct Node *);
+struct TcbTask;
+extern void TCB_DeleteTask(struct TcbTask *task);
 extern void GF_FONT_SetDefaultTextColor(void);
 extern u32 GFL_HEAP_Free(void *p);
 extern void BG_SYS_Create(unsigned);
@@ -245,7 +248,9 @@ extern void BG_SYS_Delete(void);
 extern u32 BG_SYS_GetMainVisiblePlanes(void);
 extern void BG_SYS_ChangeScroll(u32, u32, u32);
 extern void BG_SYS_Update(void);
-extern void CLACT_InitSystem(const struct Cfg *cfg, unsigned int arg, unsigned int heapId);
+struct DispVramCfg;
+struct SysInit;
+extern void CLACT_InitSystem(struct SysInit *cfg, struct DispVramCfg *res_cfg, unsigned int heapId);
 extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 extern void CLACT_SetUnitDefaultRenderer(struct Bank *bank);
 extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
@@ -257,25 +262,29 @@ extern void G3D_SYSTEM_Init(u32 texMode, u32 texSize, u32 plttMode, u32 plttSize
                           u16 fifoSize, u16 heap, void (*setupFn)(void));
 extern u32 *G3D_CAMERA_Create(u32 mode, u32 nearClip, u32 farClip, u32 fieldOfView, u32 aspectRatio, u32 scale, u32 roll, u32 flags,
                           Vec3 *eye, Vec3 *a10, Vec3 *a11, u16 heap);
-extern void G3D_CAMERA_SetFar(struct Light *l, const u32 *in);
-extern void G3D_CAMERA_SetNear(struct Light *l, const u32 *in);
-extern struct LightSlot *G3D_LIGHT_CreateSlots(const struct LightSet *s, u32 heap);
+struct G3dCamera;
+extern void G3D_CAMERA_SetFar(struct G3dCamera *camera, unsigned int *in);
+extern void G3D_CAMERA_SetNear(struct G3dCamera *camera, unsigned int *in);
+struct LightSetDesc;
+struct LightSlotValue;
+extern struct LightSlotValue *G3D_LIGHT_CreateSlots(struct LightSetDesc *set, unsigned short heapID);
 extern void G3D_LIGHT_ApplySlots(struct LightSlot *slots);
-extern void G3D_LIGHT_DeleteSlots(u32);
+extern unsigned int G3D_LIGHT_DeleteSlots(void *slots);
 extern u32 G3D_CAMERA_Delete(void *ptr);
 extern void G3D_SYSTEM_Exit(void);
-/* Original consumes 02048AD0's live r0 through the next veneer call. */
-extern void *G3D_CAMERA_Reset(struct Light *);
+                                                                        
+extern void G3D_CAMERA_Reset(struct G3dCamera *camera);
 extern void G3D_SYSTEM_DrawStart(void);
 extern void G3D_SYSTEM_ApplyLookAt(void);
 extern void G3D_SYSTEM_DrawEnd(void);
-extern char *INTRO_CMD_GetScenarioRow(int);
+struct IntroCommand;
+extern struct IntroCommand *INTRO_CMD_GetScenarioRow(unsigned int n);
 extern void INTRO_MSG_DrawMenuList(char *);
 extern int INTRO_CMD_AddCommand(IntroCmdWork *, IntroCommand *);
 extern void INTRO_MSG_CreateMenuList(char *p, u32 *entries, u32 count, int flag);
 extern void INTRO_MSG_MainMenuList(u8 *p);
 extern int INTRO_MSG_GetMenuChoice(u8 *p, int *out);
-extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
+extern void *ARC_TOOL_CreateHandle(unsigned int archiveID, unsigned short heapID);
 extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *,u32,u32,u32,u32,u16);
 extern u32 ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void ARC_UTIL_UploadBgPaletteFromHandle(void *,u32,u32,u32,u32,u32,u16);
@@ -385,7 +394,7 @@ int INTRO_GRAPHIC_Main(int a, int b, int c, void *p)
     INTRO_GRAPHIC_Draw3d(work->display);
     INTRO_G3D_UpdateIdleAnim(work->mcss);
     INTRO_MCSS_Main(work->mcss);
-    INTRO_PARTICLE_Main((int)work->particle);
+    INTRO_PARTICLE_Main(work->particle);
     INTRO_G3D_Draw(work->g3d);
     INTRO_GRAPHIC_Draw3dEnd(work->display);
     return 0;
@@ -429,7 +438,7 @@ void INTRO_GRAPHIC_Setup3d(void)
     G3X_SetFog(0, 0, 0, 0);
     G3X_SetClearColor(0, 0, 0x7FFF, 63, 0);
     *(volatile unsigned *)0x04000580 = 0xBFFF0000;
-    for (i = 0; i < 4; i++) G3D_SYSTEM_SetLight((unsigned char)i, d_021BFDAC[i]);
+    for (i = 0; i < 4; i++) G3D_SYSTEM_SetLight((unsigned char)i, (struct G3dLight *)d_021BFDAC[i]);
     G3D_SYSTEM_SetSwapBuffersMode(0, 0);
 }
 
@@ -598,7 +607,7 @@ void INTRO_GRAPHIC_InitBg7(IntroDisplay *disp,u16 heap)
 void INTRO_GRAPHIC_InitClact(IntroClact *clact, int a, int b)
 {
     MI_CpuFill8(clact, 0, 4);
-    CLACT_InitSystem((const struct Cfg *)0x021BFD90, a, b);
+    CLACT_InitSystem((struct SysInit *)0x021BFD90, (struct DispVramCfg *)a, b);
     clact->bank = CLACT_CreateUnit(0x80, 0, b);
     CLACT_SetUnitDefaultRenderer(clact->bank);
     BG_SYS_SetMainPlaneVisible(0x10, 1);
@@ -646,7 +655,7 @@ void INTRO_GRAPHIC_InitCamera(IntroCamera *cam, u16 heap)
     near_clip = 0x19A;
     G3D_CAMERA_SetFar(cam->camera, &far_clip);
     G3D_CAMERA_SetNear(cam->camera, &near_clip);
-    cam->lightSlot = G3D_LIGHT_CreateSlots(&d_021BFD4C, heap);
+    cam->lightSlot = G3D_LIGHT_CreateSlots((struct LightSetDesc *)(&d_021BFD4C), heap);
     G3D_LIGHT_ApplySlots(cam->lightSlot);
 }
 
@@ -661,7 +670,7 @@ void INTRO_GRAPHIC_InitCamera7(IntroCamera *cam, u16 heap)
     near_clip = 0x19A;
     G3D_CAMERA_SetFar(cam->camera, &far_clip);
     G3D_CAMERA_SetNear(cam->camera, &near_clip);
-    cam->lightSlot = G3D_LIGHT_CreateSlots(&d_021BFD54, heap);
+    cam->lightSlot = G3D_LIGHT_CreateSlots((struct LightSetDesc *)(&d_021BFD54), heap);
     G3D_LIGHT_ApplySlots(cam->lightSlot);
 }
 
@@ -670,7 +679,7 @@ void INTRO_GRAPHIC_InitCamera7(IntroCamera *cam, u16 heap)
 
 void INTRO_GRAPHIC_DeleteCamera(IntroCamera *cam)
 {
-    G3D_LIGHT_DeleteSlots((u32)cam->lightSlot);
+    G3D_LIGHT_DeleteSlots(cam->lightSlot);
     G3D_CAMERA_Delete(cam->camera);
     G3D_SYSTEM_Exit();
 }
@@ -721,7 +730,7 @@ u32 INTRO_GRAPHIC_CmdSetScenario(u8 *p)
 void INTRO_GRAPHIC_DrawMenuEntry(char *p, int which)
 {
     IntroCmdWork *work = (IntroCmdWork *)p;
-    char *q = INTRO_CMD_GetScenarioRow(work->scenarioId) + 24 * work->rowIndex;
+    char *q = (char *)INTRO_CMD_GetScenarioRow(work->scenarioId) + 24 * work->rowIndex;
     INTRO_MSG_DrawMenuList(work->msg);
     if (which == 0) {
         if (q) INTRO_CMD_AddCommand(work, (IntroCommand *)q);

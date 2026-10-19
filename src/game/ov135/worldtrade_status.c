@@ -36,8 +36,10 @@ extern void MI_CpuFill8(void *p, u32 v, u32 n);
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
 extern u32 GFL_HEAP_Free(void *p);
+struct GameSystem;
+struct GameData;
 
-extern void *GAMESYSTEM_GetGameData(const void *p);
+extern struct GameData *GAMESYSTEM_GetGameData(struct GameSystem *gameSystem);
 
 extern void WORLDTRADE_ExitPlanes(Work *);
 
@@ -46,7 +48,7 @@ extern void WORLDTRADE_ClearAndShowPlanes(Work *p);
 extern void WORLDTRADE_AdvanceScreenId(Work *p);
 
 
-extern void WORLDTRADE_SetStateAndReturn(void *p, u32 a, u32 b);
+extern void WORLDTRADE_SetStateAndReturn(Work *p, u32 nextScreenId, u32 kind);
 
 extern int WORLDTRADE_BOX_IsPartyBox(int);
 

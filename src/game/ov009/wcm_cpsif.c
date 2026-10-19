@@ -57,15 +57,15 @@ typedef struct OSMutex {
 } OSMutex;
 
 extern void MI_CpuFill8(void *dst, unsigned char data, unsigned long size);
-extern void OS_InitMutex(void *mutex);
+extern void OS_InitMutex(struct OSMutex *mutex);
 extern WCMWork *WCMi_GetSystemWork(void);
 extern unsigned long OS_DisableInterrupts(void);
 extern unsigned long OS_RestoreInterrupts(unsigned long state);
-extern void OS_LockMutex(void *mutex);
-extern void OS_UnlockMutex(void *mutex);
+extern void OS_LockMutex(struct OSMutex *mutex);
+extern void OS_UnlockMutex(struct OSMutex *mutex);
 extern long WCMi_WmifSetDCFData(unsigned char *dstAddr, unsigned short *buf, unsigned short len, void (*callback)(long));
 extern int OS_IsRunOnTwl(void);
-extern void WCMi_NwmifSetDCFData();
+extern unsigned int WCMi_NwmifSetDCFData(unsigned int destMac, unsigned int frame, unsigned int length, unsigned int asyncArg);
 extern void OS_WakeupThread(void *queue);
 extern void MI_CpuCopy(void *src, void *dst, unsigned long size);
 void WCMi_InitCpsif(void);
@@ -77,7 +77,7 @@ void WCM_SetRecvDCFCallback(void (*callback)(unsigned char *, unsigned char *, u
 long WCM_SendDCFDataEx(unsigned char *dstAddr, unsigned char *header, long headerLen, unsigned char *body, long bodyLen);
 void WCMi_CpsifUnlockMutexInIRQ(OSMutex *mutex);
 void WCMi_CpsifSetMacAddress(void *mac);
-void WCM_GetMacAddress(int a);
+void WCM_GetMacAddress(unsigned char *a);
 unsigned long WCMi_MergeToBuffer(unsigned char deviceId, unsigned short *sendBuf, void *header, unsigned long headerLen, void *body, unsigned long bodyLen);
 extern WcmCpsifWork gWcmCpsifWork;
 extern char gWcmCpsifMac[];
@@ -100,7 +100,7 @@ void WCMi_InitCpsif(void)
     MI_CpuFill8(gWcmCpsifMac, 0, 6);
     gWcmCpsifWork.reserved8 = 0;
     gWcmCpsifWork.reserved4 = 0;
-    OS_InitMutex(gWcmCpsifWork.mutex);
+    OS_InitMutex((struct OSMutex *)gWcmCpsifWork.mutex);
 }
 
 
@@ -221,15 +221,15 @@ long WCM_SendDCFDataEx(unsigned char *dstAddr, unsigned char *header, long heade
         OS_RestoreInterrupts(e);
         return -1;
     }
-    OS_LockMutex(gWcmCpsifMutex);
+    OS_LockMutex((struct OSMutex *)gWcmCpsifMutex);
     w = WCMi_GetSystemWork();
     if (w == 0) {
-        OS_UnlockMutex(gWcmCpsifMutex);
+        OS_UnlockMutex((struct OSMutex *)gWcmCpsifMutex);
         OS_RestoreInterrupts(e);
         return -1;
     }
     if (w->phase != 9 || w->resetting == 1) {
-        OS_UnlockMutex(gWcmCpsifMutex);
+        OS_UnlockMutex((struct OSMutex *)gWcmCpsifMutex);
         OS_RestoreInterrupts(e);
         return -4;
     }
@@ -240,11 +240,11 @@ long WCM_SendDCFDataEx(unsigned char *dstAddr, unsigned char *header, long heade
         break;
     case 2:
         if (OS_IsRunOnTwl()) {
-            WCMi_NwmifSetDCFData(dstAddr, (unsigned short *)w->sendBuf, (unsigned short)totalLen, 0);
+            WCMi_NwmifSetDCFData((unsigned int)dstAddr, (unsigned int)w->sendBuf, (unsigned short)totalLen, 0);
         }
         break;
     }
-    OS_UnlockMutex(gWcmCpsifMutex);
+    OS_UnlockMutex((struct OSMutex *)gWcmCpsifMutex);
     OS_RestoreInterrupts(e);
     return headerLen + bodyLen;
 }
@@ -283,7 +283,7 @@ void WCMi_CpsifSetMacAddress(void *mac)
 /*
  * Copies six bytes to the object at 0x021AA80C.
  */
-void WCM_GetMacAddress(int a)
+void WCM_GetMacAddress(unsigned char *a)
 {
     MI_CpuCopy((void *)(gWcmCpsifMac), (void *)(a), (unsigned long)(6));
 }

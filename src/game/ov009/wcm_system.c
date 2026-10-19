@@ -88,26 +88,27 @@ extern long OS_IsTickAvailable(void);
 extern void OS_InitTick(void);
 extern long OS_IsAlarmAvailable(void);
 extern void OS_InitAlarm(void);
-extern void OS_CreateAlarm(void *alarm);
+struct OSiAlarm;
+extern void OS_CreateAlarm(struct OSiAlarm *alarm);
 extern void WcmConfigure(WCMConfig *config, void (*notify)(void *));
 extern unsigned short WM_GetAllowedChannel(void);
 extern long WCMi_WmifStartupAsync(void);
-extern long WCMi_NwmifStartupAsync(void);
+extern u32 WCMi_NwmifStartupAsync(void);
 extern long WCMi_WmifCleanupAsync(void);
-extern long WCMi_NwmifCleanupAsync(void);
+extern u32 WCMi_NwmifCleanupAsync(void);
 extern long WCMi_WmifBeginSearchAsync(void *bssid, void *essid, unsigned long option);
-extern long WCMi_NwmifBeginSearchAsync(void *bssid, void *essid, unsigned long option);
+extern long WCMi_NwmifBeginSearchAsync(u32 bssid, u32 essid, u32 option);
 extern void WCMi_SetPhase(unsigned char phase);
 extern long WCMi_WmifConnectAsync(void);
-extern long WCMi_NwmifConnectAsync();
+extern u32 WCMi_NwmifConnectAsync();
 extern long WCMi_WmifDisconnectAsync(void);
-extern long WCMi_NwmifDisconnectAsync(void);
+extern u32 WCMi_NwmifDisconnectAsync(void);
 extern long WCMi_WmifTerminateAsync(void);
-extern long WCMi_NwmifTerminateAsync();
+extern u32 WCMi_NwmifTerminateAsync();
 extern unsigned short WCMi_WmifGetAllowedChannel(void);
 extern unsigned short WCMi_NwmifGetAllowedChannel(void);
-extern void OS_CancelAlarm(void *alarm);
-extern void OS_SetAlarm(void *alarm, unsigned long long tick, void (*handler)(void *), void *arg);
+extern void OS_CancelAlarm(struct OSiAlarm *alarm);
+extern void OS_SetAlarm(struct OSiAlarm *alarm, unsigned long long tick, void (*handler)(void *), void *arg);
 
 long WCM_Finish(void);
 int WCM_GetWorkSize(long *workSize, unsigned char deviceId);
@@ -115,7 +116,7 @@ long WCM_StartupAsync(void *config, void (*notify)(void *));
 long WCM_CleanupAsync(void);
 void WCM_SearchAsync(void *bssid, void *essid, unsigned long option);
 long WCM_BeginSearchAsync(void *bssid, void *essid, unsigned long option);
-long WCM_EndSearchAsync(void *bssid, void *essid);
+long WCM_EndSearchAsync(void);
 long WCM_ConnectAsync(void *bssDesc, void *wepDesc, unsigned long option);
 long WCM_DisconnectAsync(void);
 long WCM_TerminateAsync(void);
@@ -244,7 +245,7 @@ long WCM_InitEx(void *buf, long len, unsigned char deviceId)
     if (OS_IsAlarmAvailable() == 0) {
         OS_InitAlarm();
     }
-    OS_CreateAlarm(wcmw->alarm);
+    OS_CreateAlarm((struct OSiAlarm *)wcmw->alarm);
     OS_RestoreInterrupts(e);
     return 0;
 }
@@ -391,7 +392,7 @@ long WCM_CleanupAsync(void)
 void WCM_SearchAsync(void *bssid, void *essid, unsigned long option)
 {
     if (bssid == 0 || essid == 0) {
-        WCM_EndSearchAsync(bssid, essid);
+        WCM_EndSearchAsync();
         return;
     }
 
@@ -415,7 +416,7 @@ long WCM_BeginSearchAsync(void *bssid, void *essid, unsigned long option)
         break;
     case 2:
         if (OS_IsRunOnTwl()) {
-            wcmResult = WCMi_NwmifBeginSearchAsync(bssid, essid, option);
+            wcmResult = WCMi_NwmifBeginSearchAsync((u32)bssid, (u32)essid, option);
             break;
         }
     default:
@@ -432,7 +433,7 @@ long WCM_BeginSearchAsync(void *bssid, void *essid, unsigned long option)
  *
  * Ends an AP search: only valid in the search phases, moves to the search-ending phase and reports pending.
  */
-long WCM_EndSearchAsync(void *bssid, void *essid)
+long WCM_EndSearchAsync(void)
 {
     unsigned long e;
 
@@ -817,14 +818,14 @@ void WCMi_SetPhase(unsigned char phase)
 
     e = OS_DisableInterrupts();
     if (wcmw->phase == 9 && phase != 9) {
-        OS_CancelAlarm(wcmw->alarm);
+        OS_CancelAlarm((struct OSiAlarm *)wcmw->alarm);
     }
     if (wcmw->phase != 0xB) {
         wcmw->phase = phase;
     }
     if (phase == 9) {
-        OS_CancelAlarm(wcmw->alarm);
-        OS_SetAlarm(wcmw->alarm, 0x022F5341ULL, (void (*)(void *))WcmKeepAliveAlarm, 0);
+        OS_CancelAlarm((struct OSiAlarm *)wcmw->alarm);
+        OS_SetAlarm((struct OSiAlarm *)wcmw->alarm, 0x022F5341ULL, (void (*)(void *))WcmKeepAliveAlarm, 0);
     }
     OS_RestoreInterrupts(e);
 }
@@ -837,9 +838,9 @@ void WCMi_ResetKeepAliveAlarm(void)
 {
     unsigned long e = OS_DisableInterrupts();
 
-    OS_CancelAlarm(wcmw->alarm);
+    OS_CancelAlarm((struct OSiAlarm *)wcmw->alarm);
     if (wcmw->phase == 9)
-        OS_SetAlarm(wcmw->alarm, 0x022f5341, (void (*)(void *))WcmKeepAliveAlarm, 0);
+        OS_SetAlarm((struct OSiAlarm *)wcmw->alarm, 0x022f5341, (void (*)(void *))WcmKeepAliveAlarm, 0);
     OS_RestoreInterrupts(e);
 }
 

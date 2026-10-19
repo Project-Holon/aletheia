@@ -192,6 +192,7 @@
  *   FLD_BTL_INST_TOOL_InitTrainerHeader  0x021688BC  thumb  ov010
  *   FLD_BTL_INST_TOOL_BuildBattleMon  0x021684E8  thumb  ov010
  *   GFL_USE_GetRandom  0x020056EC  thumb
+ *   _u32_div_f                   0x0209C2B0  arm
  */
 
 #define NULL ((void *)0)
@@ -312,26 +313,33 @@ typedef struct TrainerNoRange {
     u16 minNo;
     u16 maxNo;
 } TrainerNoRange;
+struct ScrcmdWork;
 
 
-extern void *SCRCMD_WORK_GetGameSystem(void *work);
+extern struct GameSystem *SCRCMD_WORK_GetGameSystem(struct ScrcmdWork *work);
 extern void *GAMESYSTEM_GetFieldMap(const struct GameSystem *p);
-extern void *GAMESYSTEM_GetGameData(const struct GameSystem *p);
-extern void *SCRCMD_WORK_GetScriptWork(void *p);
-extern u16 VM_ReadU16(struct ScriptStream *s);
+extern struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *p);
+struct ScriptWork;
+extern struct ScriptWork *SCRCMD_WORK_GetScriptWork(struct ScrcmdWork *work);
+struct ScriptVm;
+extern u16 VM_ReadU16(struct ScriptVm *vm);
 extern u16 SCRIPT_WORK_ReadWorkValue(void *a, void *b);
 extern struct Task *GAME_EVENT_Create(void *owner, void *a, void *b, u32 size);
-extern void *GAME_EVENT_GetWork(struct Task *p);
-extern void *FIELDMAP_GetFieldPlayer(struct FieldMap *p);
-extern u16 FLDMMDL_GetDirDisp(void *p);
+struct GameEvent;
+extern void *GAME_EVENT_GetWork(struct GameEvent *event);
+struct FieldPlayer;
+extern struct FieldPlayer *FIELDMAP_GetFieldPlayer(struct FieldMap *p);
+struct Mmdl;
+extern u16 FLDMMDL_GetDirDisp(struct Mmdl *mmdl);
 extern void FIELD_PLAYER_GetPos(unsigned char *p, struct VecFx32 *out);
-extern void FLDMMDL_SetDirDispCheckPause(int a, int b);
+extern void FLDMMDL_SetDirDispCheckPause(struct Mmdl *mmdl, s32 dir);
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32 GFL_HEAP_Free(void *p);
-extern void FLDMMDL_GetPos(const struct MapObj *a, struct VecFx32 *v);
-extern void *GAME_DATA_SetCurrentEvent(GameData *gameData, BsubwayScrWork *work);
-extern u8 *GAME_DATA_GetMyStatus(void *p);
-extern void *GAME_DATA_GetSaveControl(struct GameData *p);
+struct MmdlVec;
+extern void FLDMMDL_GetPos(struct Mmdl *mmdl, struct MmdlVec *out);
+extern struct GameData *GAME_DATA_SetCurrentEvent(struct GameData *gd, void *event);
+extern struct MyStatus *GAME_DATA_GetMyStatus(struct GameData *gd);
+extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *p);
 extern u8 MYSTATUS_GetSex(const struct MyStatus *obj);
 extern void *SAVE_CONTROL_GetBlock(struct SaveControl *ctrl, u32 id);
 extern void BSUBWAY_PLAYDATA_SetFlag01(struct BsubwayPlayData *p, u32 v);
@@ -341,13 +349,16 @@ extern u32 BSUBWAY_SCOREDATA_HasCleared(struct BsubwayScoreData *p, u32 i);
 extern u16 BSUBWAY_SCOREDATA_GetWinCount(struct BsubwayScoreData *p, u32 i);
 extern void BSUBWAY_PLAYDATA_SetField(struct BsubwayPlayData *p, u32 id, const void *src);
 extern u32 BSUBWAY_PLAYDATA_GetField(struct BsubwayPlayData *p, u32 id, void *out);
-extern void *GAME_DATA_GetMyPlayerWork(void *p);
+struct PlayerWork;
+extern struct PlayerWork *GAME_DATA_GetMyPlayerWork(struct GameData *gameData);
 extern u16 BSUBWAY_PLAYDATA_GetRound(struct BsubwayPlayData *p);
 extern u16 BSUBWAY_SCOREDATA_GetRepeatClearCount(struct BsubwayScoreData *p, u32 i);
-extern int BTL_SETUP_Delete(int param);
+struct BattleSetupParam;
+extern void BTL_SETUP_Delete(struct BattleSetupParam *param);
 extern void MI_CpuFill8(void *p, int v, int n);
-extern void *POKEPARTY_GetMember(void *p, u32 idx);
-extern u32 POKE_TOOL_GetPartyValue(void *m, u32 id, u32 v);
+struct PokemonParam;
+extern struct PokemonParam *POKEPARTY_GetMember(struct Party *party, u32 pos);
+extern u32 POKE_TOOL_GetPartyValue(struct PokemonParam *pp, u32 paramId, u32 arg);
 extern void BSUBWAY_SCOREDATA_ResetClearCount(struct BsubwayScoreData *p, u32 i);
 extern void BSUBWAY_SCOREDATA_SetWinCount(struct BsubwayScoreData *p, u32 i, u16 v);
 extern void BSUBWAY_SCOREDATA_UpdateMaxWinCount(struct BsubwayScoreData *p, u32 i, u16 v);
@@ -360,79 +371,96 @@ extern u32 BSUBWAY_SCOREDATA_AccessFlag(struct BsubwayScoreData *p, s32 i, u32 o
 extern void BSUBWAY_SCOREDATA_IncLevel(struct BsubwayScoreData *p);
 extern u8 BSUBWAY_SCOREDATA_UpdateStreak(struct BsubwayScoreData *p, u32 kind);
 extern void BSUBWAY_SCOREDATA_DecLevel(struct BsubwayScoreData *p);
-extern void *BATTLE_BOX_GetFromSave(void *p);
-extern void *BATTLE_BOX_CreateParty(int box, int heap);
+struct BattleBoxSave;
+extern struct BattleBoxSave *BATTLE_BOX_GetFromSave(struct SaveControl *save);
+struct BoxMonGroup;
+extern struct Party *BATTLE_BOX_CreateParty(struct BoxMonGroup *box, s32 heap);
 extern void *GAME_DATA_GetMyParty(const struct GameData *p);
-extern void BSUBWAY_SCOREDATA_CalcRecordScore(struct BsubwayScoreData *p, const struct BsubwayRecordSrc *q);
+struct GdsScoreSrc;
+extern void BSUBWAY_SCOREDATA_CalcRecordScore(struct BsubwayScoreData *p, struct GdsScoreSrc *q);
 extern void BSUBWAY_SCOREDATA_SetRecordBlob(struct BsubwayScoreData *p, u32 which, const void *src);
-extern int SCRIPT_WORK_ResetFieldParam(int work);
-extern void *SCRIPT_WORK_GetGameSystem(void *p);
+struct ScriptFieldParam;
+extern struct ScriptFieldParam *SCRIPT_WORK_ResetFieldParam(struct ScriptWork *work);
+extern void *SCRIPT_WORK_GetGameSystem(struct ScriptWork *work);
 extern void *GAME_DATA_GetCurrentEvent(struct GameData *p);
-extern u32 GAME_DATA_GetEventWork(const struct GameData *p);
-extern u16 *SCRIPT_WORK_GetWorkPtr(void *a, void *b, unsigned int id);
+extern void *GAME_DATA_GetEventWork(const struct GameData *p);
+extern u16 *SCRIPT_WORK_GetWorkPtr(struct ScriptWork *work, void *gameData, u32 id);
 extern void SCRIPT_SYS_CallEvent(void *h, void *task);
 extern void OS_ResetSystem(u32 a);
 extern u32 BSUBWAY_PLAYDATA_GetFlag01(struct BsubwayPlayData *p);
-extern u16 FIELD_PLAYER_GetDirDisp(u8 *p);
-extern u16 FIELDMAP_GetZoneId(u8 *p);
+extern u16 FIELD_PLAYER_GetDirDisp(struct FieldPlayer *player);
+extern u16 FIELDMAP_GetZoneId(struct FieldMap *fieldMap);
 extern void ZONEDATA_SetDirectLocation(ReturnLocation *out, u32 id, s16 n, u32 a, u32 b, u32 c);
-extern void GAME_DATA_SetSpecialLocation(struct GameData *p, const struct ReturnLocation *src);
-extern void ZONEDATA_SetEventFlag(char *ev, int flagId);
-extern void ZONEDATA_ResetEventFlag(char *ev, int flagId);
-extern u32 FIELD_PLAYER_GetSex(u8 *p);
+struct Location;
+extern void GAME_DATA_SetSpecialLocation(struct GameData *gameData, struct Location *location);
+struct EventWork;
+extern void ZONEDATA_SetEventFlag(struct EventWork *ev, s32 flagId);
+extern void ZONEDATA_ResetEventFlag(struct EventWork *ev, s32 flagId);
+extern u32 FIELD_PLAYER_GetSex(struct FieldPlayer *player);
 extern u16 FIELD_PLAYER_GetFormObjCode(int i, int j);
-extern void *FIELDMAP_GetMmdlSys(unsigned char *p);
-extern void *FLDMMDL_SysSearchObjId(void *a, u32 id);
-extern void FLDMMDL_SetStatusBitVanish(unsigned int *p, unsigned int v);
+struct MmdlSys;
+extern struct MmdlSys *FIELDMAP_GetMmdlSys(struct FieldMap *fieldMap);
+extern struct Mmdl *FLDMMDL_SysSearchObjId(struct MmdlSys *sys, u32 objId);
+extern void FLDMMDL_SetStatusBitVanish(struct Mmdl *mmdl, s32 flag);
 extern void FIELD_GIMMICK_BSUBWAY_StartTrain(void *a, int b, int c);
-extern int FIELD_GIMMICK_BSUBWAY_GetTrainEffect(int a);
-extern void FLDEFF_BTRAIN_SetAnime(void *o, u32 v);
-extern void FLDEFF_BTRAIN_SetHidden(void *o, u32 v);
-extern void FLDMMDL_InitPosition(void *a, int *p, int b);
-extern int FLDMMDL_SetStatusBitHeightGetOff(void *mmdl, int flag);
+struct FieldEffectObj;
+extern struct FieldEffectObj *FIELD_GIMMICK_BSUBWAY_GetTrainEffect(struct FieldMap *fieldMap);
+extern void FLDEFF_BTRAIN_SetAnime(struct FieldEffectObj *effect, u32 animeIndex);
+extern void FLDEFF_BTRAIN_SetHidden(struct FieldEffectObj *effect, u32 hidden);
+extern void FLDMMDL_InitPosition(struct Mmdl *mmdl, struct MmdlVec *pos, s32 dir);
+extern void FLDMMDL_SetStatusBitHeightGetOff(struct Mmdl *mmdl, s32 flag);
 extern int FIELD_PLAYER_GetObjCodeOfFormCode(int i, int v);
-extern u32 BATTLE_BOX_HasMon(void *a);
-extern void FLDMMDL_OnMoveBitMovePause(void *o);
-extern int FLDMMDL_GetParam(char *mmdl, int no);
+extern u32 BATTLE_BOX_HasMon(struct BoxMonGroup *box);
+extern void FLDMMDL_OnMoveBitMovePause(struct Mmdl *mmdl);
+extern int FLDMMDL_GetParam(struct Mmdl *mmdl, s32 no);
 extern void *NAMEIN_SETUP_StartNameBalloonFromHistory(u32 x, u32 v, u32 id);
-extern struct BsubwayWifiRecordList *BSUBWAY_SAVEDATA_AllocHistoryCopy(struct BsubwayWifiData *p, u32 heap);
-extern u32 BSUBWAY_SAVEDATA_CountHistoryEntries(struct BsubwayWifiRecordList *b);
-extern struct Task *GAME_EVENT_CreateOverlayEvent(void *gameSystem, u32 overlayId, u32 (*fn)(void *, u32), u32 arg);
-extern int EVENT_BSUBWAY_COMM_Start(int x, struct Ov007ProcParam *p);
-extern u8 BSUBWAY_SAVEDATA_GetTrainersTagA(struct BsubwayWifiData *p);
-extern u8 BSUBWAY_SAVEDATA_GetTrainersPresent(struct BsubwayWifiData *p);
-extern u8 BSUBWAY_SAVEDATA_GetHistoryPresent(struct BsubwayWifiData *p);
-extern void *NAMEIN_SETUP_StartHistoryScreenEvent(void *a);
-extern int BSUBWAY_SAVEDATA_GetHistoryTagA(struct BsubwayWifiData *p);
-extern u8 BSUBWAY_SAVEDATA_GetHistoryTagB(struct BsubwayWifiData *p);
-extern void *NAMEIN_SETUP_StartPartyPickEvent(struct PartySelectParam *c, void *sys, u8 useOwn);
+struct BsubwaySave;
+struct HistoryBuf;
+extern struct HistoryBuf *BSUBWAY_SAVEDATA_AllocHistoryCopy(struct BsubwaySave *save, u32 heapId);
+extern u32 BSUBWAY_SAVEDATA_CountHistoryEntries(struct HistoryBuf *history);
+extern struct GameEvent *GAME_EVENT_CreateOverlayEvent(struct GameSystem *gameSystem, u32 overlayId, u32 (*fn)(void *, u32), void *arg);
+struct BsubwayProcArgs;
+extern int EVENT_BSUBWAY_COMM_Start(s32 gameSystem, struct BsubwayProcArgs *args);
+extern u8 BSUBWAY_SAVEDATA_GetTrainersTagA(struct BsubwaySave *save);
+extern u8 BSUBWAY_SAVEDATA_GetTrainersPresent(struct BsubwaySave *save);
+extern u8 BSUBWAY_SAVEDATA_GetHistoryPresent(struct BsubwaySave *save);
+extern struct GameEvent *NAMEIN_SETUP_StartHistoryScreenEvent(struct GameSystem *gameSystem);
+extern int BSUBWAY_SAVEDATA_GetHistoryTagA(struct BsubwaySave *save);
+extern u8 BSUBWAY_SAVEDATA_GetHistoryTagB(struct BsubwaySave *save);
+struct EncounterContext;
+extern struct GameEvent *NAMEIN_SETUP_StartPartyPickEvent(struct EncounterContext *ctx, struct GameSystem *gameSystem, u8 useOwnParty);
 extern void *NAMEIN_SETUP_StartEncounterScene(BsubwayScrWork *work, u32 gameSystem, void *fieldMap);
-extern void *NAMEIN_SETUP_StartNameBalloonFromRecord(BsubwayScrWork *work, void *gameSystem, u32 idx, u16 id, u8 dir);
-extern u32 GAMESYSTEM_GetIssSystem(u32 *p);
+struct NameBalloonRecord;
+extern struct GameEvent *NAMEIN_SETUP_StartNameBalloonFromRecord(struct NameBalloonRecord *records, struct GameSystem *gameSystem, u32 recordIndex, u16 npcId, u8 dir);
+extern void *GAMESYSTEM_GetIssSystem(struct GameSystem *gameSystem);
 extern u32 ISS_SYS_GetSwitchSys(u32 *p);
 extern void ISS_SWITCH_SYS_SwitchOn(u8 *p, u32 a);
 extern void *POKE_REGULATION_Load(int a, int b);
-extern int POKE_REGULATION_CheckPartyUsable(void *ctx, void *q);
-extern u32 BATTLE_REC_VerifyAndCloseSave(void *a, u32 heap, u32 *dp, u32 id);
+struct Regulation;
+extern int POKE_REGULATION_CheckPartyUsable(struct Regulation *reg, struct Party *party);
+extern u32 BATTLE_REC_VerifyAndCloseSave(struct SaveControl *save, u32 heap, u32 *result, u32 id);
 extern void BATTLE_REC_LoadToolOverlay(void);
-extern void BATTLE_REC_TOOL_PackSetup(void *p);
+extern void BATTLE_REC_TOOL_PackSetup(struct BattleSetupParam *setup);
 extern void BATTLE_REC_UnloadToolOverlay(void);
 extern void VM_SetWait(char *p, int val);
 extern void BATTLE_REC_FreeWork(void);
 extern void *FIELD_STATUS_CreateSubProcCallbackEvent(char *gameSystem, int fieldMap, int overlayId, int procData, int procWork, int callback, int callbackWork);
-extern void FIELD_GIMMICK_BSUBWAY_HaltTrainSway(int a);
-extern u32 POKEPARTY_GetCount(void *party);
+extern void FIELD_GIMMICK_BSUBWAY_HaltTrainSway(struct FieldMap *fieldMap);
+extern u32 POKEPARTY_GetCount(struct Party *party);
 extern void BSUBWAY_PLAYDATA_AddCounters(struct BsubwayPlayData *p, s32 a, s32 b, s32 c);
 extern void BSUBWAY_PLAYDATA_IncRound(struct BsubwayPlayData *p);
 extern void BSUBWAY_SCOREDATA_SetFirstClear(struct BsubwayScoreData *p, u32 i);
 extern void BSUBWAY_COMM_AddCommandTable(u32 a);
 extern void BSUBWAY_COMM_NetInit(void *p);
 extern int BSUBWAY_COMM_StartTimingSync(int timingNo);
-extern u32 COMM_ENTRY_MENU_Create(u32 a, void *b, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h);
-extern void BSUBWAY_COMM_SetSendData(BsubwayScrWork *work, u32 cmd, u32 arg);
+struct CommEntryMenu;
+extern struct CommEntryMenu *COMM_ENTRY_MENU_Create(struct MyStatus *myStatus, struct FieldMap *fieldMap, u32 minMembers, u32 maxMembers, u32 heapId, u32 menuMode, u32 isChild, u8 *mac);
+struct BsubwayScrWork;
+extern void BSUBWAY_COMM_SetSendData(struct BsubwayScrWork *work, u32 cmd, u16 arg);
 extern void BSUBWAY_COMM_SetRecvMode(BsubwayScrWork *work, u8 v);
 extern u16 GFL_NET_SYSTEM_GetCurrentAid(void);
-extern void MET_TRAINERS_Insert(struct GdsProfileSave *l, u32 val);
+struct MetTrainersSave;
+extern void MET_TRAINERS_Insert(struct MetTrainersSave *list, u32 value);
 extern void *MET_TRAINERS_GetFromSave(void *p);
 extern void GFL_NET_ERR_RequestScreen(void);
 extern void GAMESYSTEM_SetFieldMapState(struct GameSystem *p, u32 v);
@@ -440,8 +468,8 @@ extern u32 GFL_NET_ERR_GetErrorLevel(void);
 extern u32 BATTLE_REC_IsVersionSupported(u32 v);
 extern int BSUBWAY_COMM_SendData(BsubwayScrWork *work);
 extern int BSUBWAY_COMM_CheckTimingSync(int timingNo);
-extern u32 COMM_ENTRY_MENU_Main(u8 *p);
-extern u32 COMM_ENTRY_MENU_Delete(u32 *p);
+extern u32 COMM_ENTRY_MENU_Main(struct CommEntryMenu *menu);
+extern u32 COMM_ENTRY_MENU_Delete(struct CommEntryMenu *menu);
 extern int BSUBWAY_COMM_IsRecvEnd(BsubwayScrWork *work, u16 *out);
 extern u32 GFL_NET_IsParentAid(void);
 extern void GFL_NET_SetLoginOption(u8 loginOption);
@@ -449,23 +477,29 @@ extern void BSUBWAY_COMM_DeleteCommandTable(void *p);
 extern int GFL_NET_GetNegotiationNum(void);
 extern int GFL_NET_Exit(int exitCallback);
 extern int GFL_NET_IsSessionNull(void);
-extern void SCRCMD_WORK_SetWaitCount(int *p, unsigned short v);
-extern int SCRCMD_WORK_CountDownWait(char *work);
-extern u32 FIELDMAP_GetMsgBg(u8 *p);
-extern u32 *FIELD_MSGBG_CreateYesNoMenu(u16 *a, u32 b);
-extern int FIELD_MSGBG_YesNoMenuMain(struct ScreenHandle *h);
-extern int FIELD_MSGBG_DeleteMenuFunc(void *a);
-extern u32 BSUBWAY_SAVEDATA_GetHistoryEntryScore(struct WifiRecordEntry *e);
+extern void SCRCMD_WORK_SetWaitCount(struct ScrcmdWork *work, u16 count);
+extern int SCRCMD_WORK_CountDownWait(struct ScrcmdWork *work);
+struct FieldMsgBg;
+extern struct FieldMsgBg *FIELDMAP_GetMsgBg(struct FieldMap *fieldMap);
+struct FieldMenuFunc;
+extern struct FieldMenuFunc *FIELD_MSGBG_CreateYesNoMenu(struct FieldMsgBg *msgBg, u32 cursorPos);
+extern int FIELD_MSGBG_YesNoMenuMain(struct FieldMenuFunc *menu);
+extern int FIELD_MSGBG_DeleteMenuFunc(struct FieldMenuFunc *menu);
+struct HistoryEntry;
+extern u32 BSUBWAY_SAVEDATA_GetHistoryEntryScore(struct HistoryEntry *entry);
 extern void *FLDMMDL_AddMmdlParam(void *o, int x, int y, u16 d, u32 a, u32 b, u32 c, u32 e);
-extern int FLDMMDL_SetParam(int mmdl, int param, int no);
-extern void FLDMMDL_SetEventId(void *h, u16 v);
-extern u32 BATTLE_REC_BeginSave(void *a, u16 b, u32 c, u32 d, u32 e, u16 *state, u16 *sub);
+extern void FLDMMDL_SetParam(struct Mmdl *mmdl, s32 param, s32 no);
+extern void FLDMMDL_SetEventId(struct Mmdl *mmdl, u16 eventId);
+extern u32 BATTLE_REC_BeginSave(struct GameData *gameData, u16 heap, u32 modeIndex, u32 battleCount, u32 id, u16 *seq, u16 *subSeq);
 extern struct Party *POKEPARTY_Create(u32 heap);
 extern void POKEPARTY_InitEx(struct Party *p, s32 capacity);
-extern u32 POKEPARTY_Add(struct Party *p, const struct PartyMon *src);
-extern struct BattleSystem *FLD_BTL_INST_TOOL_CreateBtlSetup(void *gameSystem, void *party, u32 playMode, BtlInstTrainer *trainers, BtlInstTrainer *partner, int memberNum);
+extern u32 POKEPARTY_Add(struct Party *party, struct PokemonParam *member);
+struct BtlInstTrainer;
+struct BtlSetup;
+extern struct BtlSetup *FLD_BTL_INST_TOOL_CreateBtlSetup(struct GameSystem *gameSystem, struct Party *playerParty, u32 battleMode, struct BtlInstTrainer *trainerA, struct BtlInstTrainer *trainerB, s32 monCount);
 extern u8 FLD_BTL_INST_TOOL_CreateTrainer(BtlInstTrainer *trainer, u16 trainerNo, u8 memberNum, u16 *monsNo, u16 *itemNo, BtlInstDraw *draw, u16 heapId);
-extern void *FLD_BTL_INST_TOOL_InitTrainerHeader(BtlInstTrainer *trainer, int trainerNo, u16 heapId);
+struct BtlInstGroup;
+extern struct BtlInstGroup *FLD_BTL_INST_TOOL_InitTrainerHeader(struct BtlInstTrainer *trainer, s32 trainerIndex, s32 heapId);
 extern u32 FLD_BTL_INST_TOOL_BuildBattleMon(struct BattleMon *out, u32 member, u32 otId, u32 pid, u8 iv, u8 itemIdx, int useItem, u16 heap);
 extern u32 GFL_USE_GetRandom(u32 max);
 int BSUBWAY_SCR_ClearWorkPtr(GameSystem *gameSystem);
@@ -520,7 +554,7 @@ void BSUBWAY_SCR_GetNpcEntryInfo(BsubwayScrWork *work, u32 idx, u16 *infoFirst, 
 int BSUBWAY_SCR_WaitBeginSave(u32 unused, u32 script);
 int BSUBWAY_SCR_GetRegulationNo(u32 playMode);
 int BSUBWAY_SCR_GetTrainNo(void *fieldMap);
-u32 BSUBWAY_SCR_CreateBtlSetup(BsubwayScrWork *work, int gameSystem);
+u32 BSUBWAY_SCR_CreateBtlSetup(BsubwayScrWork *work, struct GameSystem *gameSystem);
 void *BSUBWAY_SCR_GetNameinEncounterWork(void *work);
 u16 BSUBWAY_SCR_DrawTrainerNo(BsubwayScrWork *work, u32 round, u32 stage, u32 line, u8 alt);
 u8 BSUBWAY_SCR_CreateTrainer(BsubwayScrWork *work, BtlInstTrainer *trainer, u16 trainerNo, u8 memberNum, u16 *monsNo, u16 *itemNo, BtlInstDraw *draw, u16 heapId);
@@ -652,7 +686,7 @@ void BSUBWAY_SCR_DeleteWork(GameSystem *gameSystem, BsubwayScrWork *work)
             work->partyCopy = 0;
         }
         if (work->btlSetup != 0) {
-            BTL_SETUP_Delete((int)(work->btlSetup));
+            BTL_SETUP_Delete((struct BattleSetupParam *)(work->btlSetup));
             work->btlSetup = 0;
         }
         MI_CpuFill8(work, 0, 0x7EC);
@@ -1128,7 +1162,7 @@ void BSUBWAY_SCR_LoadPartyCopy(BsubwayScrWork *work)
 {
     if (work->partyCopy != 0)
         GFL_HEAP_Free(work->partyCopy);
-    work->partyCopy = BATTLE_BOX_CreateParty((int)BATTLE_BOX_GetFromSave(GAME_DATA_GetSaveControl(work->gameData)), 4);
+    work->partyCopy = BATTLE_BOX_CreateParty((struct BoxMonGroup *)BATTLE_BOX_GetFromSave(GAME_DATA_GetSaveControl(work->gameData)), 4);
 }
 
 
@@ -1293,7 +1327,7 @@ void BSUBWAY_SCR_SaveRecordParty(BsubwayScrWork *work, u32 saveControl, int unus
         BSUBWAY_PLAYDATA_SetField(work->playData, 0, &saveByte);
         saveByte = BSUBWAY_PLAYDATA_GetRound(work->playData) + 1;
         BSUBWAY_PLAYDATA_SetField(work->playData, 1, &saveByte);
-        BSUBWAY_SCOREDATA_CalcRecordScore(work->scoreData, (const struct BsubwayRecordSrc *)(work->playData));
+        BSUBWAY_SCOREDATA_CalcRecordScore(work->scoreData, (struct GdsScoreSrc *)(work->playData));
         break;
     }
 }
@@ -1387,9 +1421,9 @@ int BSUBWAY_SCR_CmdCreateWork(u32 script, u32 scriptCtx)
     void *scriptWork = SCRCMD_WORK_GetScriptWork((void *)scriptCtx);
     u32 gameSystem, resume;
 
-    SCRIPT_WORK_ResetFieldParam((int)scriptWork);
+    SCRIPT_WORK_ResetFieldParam((struct ScriptWork *)scriptWork);
     gameSystem = (u32)SCRIPT_WORK_GetGameSystem(scriptWork);
-    resume = VM_ReadU16((struct ScriptStream *)script);
+    resume = VM_ReadU16((struct ScriptVm *)script);
     BSUBWAY_SCR_CreateWork((GameSystem *)gameSystem, resume, SCRIPT_WORK_ReadWorkValue((void *)script, (void *)scriptCtx));
     return 0;
 }
@@ -1401,7 +1435,7 @@ int BSUBWAY_SCR_CmdClearWorkPtr(u32 script, u32 scriptCtx)
 {
     void *scriptWork = SCRCMD_WORK_GetScriptWork((void *)scriptCtx);
 
-    SCRIPT_WORK_ResetFieldParam((int)scriptWork);
+    SCRIPT_WORK_ResetFieldParam((struct ScriptWork *)scriptWork);
     BSUBWAY_SCR_ClearWorkPtr(SCRIPT_WORK_GetGameSystem(scriptWork));
     return 0;
 }
@@ -1414,7 +1448,7 @@ int BSUBWAY_SCR_CmdDeleteWork(u32 script, u32 scriptCtx)
     void *scriptWork = SCRCMD_WORK_GetScriptWork((void *)scriptCtx);
     u32 gameSystem;
 
-    SCRIPT_WORK_ResetFieldParam((int)scriptWork);
+    SCRIPT_WORK_ResetFieldParam((struct ScriptWork *)scriptWork);
     gameSystem = (u32)SCRIPT_WORK_GetGameSystem(scriptWork);
     BSUBWAY_SCR_DeleteWork((GameSystem *)gameSystem, GAME_DATA_GetCurrentEvent(GAMESYSTEM_GetGameData((const struct GameSystem *)gameSystem)));
     return 0;
@@ -1486,11 +1520,11 @@ int BSUBWAY_SCR_CmdTool(void *scriptCtx, u32 script)
 
     startedTask = 0;
     scriptWork = SCRCMD_WORK_GetScriptWork((void *)script);
-    SCRIPT_WORK_ResetFieldParam((int)scriptWork);
+    SCRIPT_WORK_ResetFieldParam((struct ScriptWork *)scriptWork);
     gameSystem = (u32)SCRIPT_WORK_GetGameSystem(scriptWork);
     gameData = (u32)GAMESYSTEM_GetGameData((const struct GameSystem *)gameSystem);
     saveControl = (u32)GAME_DATA_GetSaveControl((struct GameData *)gameData);
-    eventFlags = GAME_DATA_GetEventWork((const struct GameData *)gameData);
+    eventFlags = (u32)GAME_DATA_GetEventWork((const struct GameData *)gameData);
     work = GAME_DATA_GetCurrentEvent((struct GameData *)gameData);
     playData = (u32)SAVE_CONTROL_GetBlock((struct SaveControl *)saveControl, 0x39);
     playMode = BSUBWAY_PLAYDATA_GetField((struct BsubwayPlayData *)playData, 0, 0);
@@ -1542,12 +1576,12 @@ int BSUBWAY_SCR_CmdTool(void *scriptCtx, u32 script)
             break;
         }
         ZONEDATA_SetDirectLocation(&playerLocation, FIELDMAP_GetZoneId(fieldMap), dirCode, playerPos.x, playerPos.y, playerPos.z);
-        GAME_DATA_SetSpecialLocation((struct GameData *)gameData, (const struct ReturnLocation *)(&playerLocation));
-        ZONEDATA_SetEventFlag((char *)eventFlags, 0x966);
+        GAME_DATA_SetSpecialLocation((struct GameData *)gameData, (struct Location *)(&playerLocation));
+        ZONEDATA_SetEventFlag((struct EventWork *)eventFlags, 0x966);
         break;
     }
     case BSUBWAY_SCR_CMD_CLEAR_RETURN_LOCATION_FLAG:
-        ZONEDATA_ResetEventFlag((char *)eventFlags, 0x966);
+        ZONEDATA_ResetEventFlag((struct EventWork *)eventFlags, 0x966);
         break;
     case BSUBWAY_SCR_CMD_GET_RECORD_WIN_COUNT:
         *resultDst = BSUBWAY_SCOREDATA_GetWinCount((struct BsubwayScoreData *)scoreData, operand1);
@@ -1593,10 +1627,10 @@ int BSUBWAY_SCR_CmdTool(void *scriptCtx, u32 script)
         FIELD_GIMMICK_BSUBWAY_StartTrain(fieldMap, data_021DAD88[operand1], (int)(&data_021DAD70[operand2]));
         break;
     case BSUBWAY_SCR_CMD_SET_TRAIN_DOOR_STATE:
-        FLDEFF_BTRAIN_SetAnime((void *)FIELD_GIMMICK_BSUBWAY_GetTrainEffect((int)fieldMap), operand1);
+        FLDEFF_BTRAIN_SetAnime((void *)FIELD_GIMMICK_BSUBWAY_GetTrainEffect((struct FieldMap *)fieldMap), operand1);
         break;
     case BSUBWAY_SCR_CMD_SET_TRAIN_DOOR_STATE_OTHER:
-        FLDEFF_BTRAIN_SetHidden((void *)FIELD_GIMMICK_BSUBWAY_GetTrainEffect((int)fieldMap), operand1);
+        FLDEFF_BTRAIN_SetHidden((void *)FIELD_GIMMICK_BSUBWAY_GetTrainEffect((struct FieldMap *)fieldMap), operand1);
         break;
     case BSUBWAY_SCR_CMD_GET_SAVED_PLAY_MODE:
         *resultDst = BSUBWAY_PLAYDATA_GetField((struct BsubwayPlayData *)playData, 0, 0);
@@ -1622,9 +1656,9 @@ int BSUBWAY_SCR_CmdTool(void *scriptCtx, u32 script)
         u32 height = operand2 << 16;
         void *npcObj = FLDMMDL_SysSearchObjId(FIELDMAP_GetMmdlSys((void *)fieldMap), operand1);
         if (npcObj != 0) {
-            FLDMMDL_GetPos(npcObj, &npcPos);
+            FLDMMDL_GetPos(npcObj, (struct MmdlVec *)(&npcPos));
             npcPos.y = height;
-            FLDMMDL_InitPosition(npcObj, (int *)(&npcPos), FLDMMDL_GetDirDisp(npcObj));
+            FLDMMDL_InitPosition(npcObj, (struct MmdlVec *)(&npcPos), FLDMMDL_GetDirDisp(npcObj));
             FLDMMDL_SetStatusBitHeightGetOff(npcObj, 1);
         }
         break;
@@ -1682,7 +1716,7 @@ int BSUBWAY_SCR_CmdTool(void *scriptCtx, u32 script)
     case BSUBWAY_SCR_CMD_SET_NPC_ANIMATION: {
         void *npcObj = FLDMMDL_SysSearchObjId(FIELDMAP_GetMmdlSys((void *)fieldMap), operand1);
         if (npcObj != 0)
-            FLDMMDL_SetDirDispCheckPause((int)npcObj, operand2);
+            FLDMMDL_SetDirDispCheckPause((struct Mmdl *)npcObj, operand2);
         break;
     }
     case BSUBWAY_SCR_CMD_RESET_NPC_ANIMATION: {
@@ -1718,7 +1752,7 @@ int BSUBWAY_SCR_CmdTool(void *scriptCtx, u32 script)
         *resultDst = thirdC;
         break;
     case BSUBWAY_SCR_CMD_GET_WIFI_RECORD_COUNT: {
-        void *recordList = BSUBWAY_SAVEDATA_AllocHistoryCopy((struct BsubwayWifiData *)wifiData, 4);
+        void *recordList = BSUBWAY_SAVEDATA_AllocHistoryCopy((struct BsubwaySave *)wifiData, 4);
         *resultDst = BSUBWAY_SAVEDATA_CountHistoryEntries(recordList);
         GFL_HEAP_Free(recordList);
         break;
@@ -1735,8 +1769,8 @@ int BSUBWAY_SCR_CmdTool(void *scriptCtx, u32 script)
         u16 tableIndex = BSUBWAY_SCR_GetTrainNo(fieldMap);
         const VecFx32 *pos = &data_021DAE50[tableIndex];
         ZONEDATA_SetDirectLocation(&tableLocation, data_021DADAC[tableIndex], 4, pos->x, pos->y, pos->z);
-        GAME_DATA_SetSpecialLocation((struct GameData *)gameData, (const struct ReturnLocation *)(&tableLocation));
-        ZONEDATA_SetEventFlag((char *)eventFlags, 0x966);
+        GAME_DATA_SetSpecialLocation((struct GameData *)gameData, (struct Location *)(&tableLocation));
+        ZONEDATA_SetEventFlag((struct EventWork *)eventFlags, 0x966);
         break;
     }
     case BSUBWAY_SCR_CMD_SET_SCORE_FLAG_FIRST:
@@ -1751,26 +1785,26 @@ int BSUBWAY_SCR_CmdTool(void *scriptCtx, u32 script)
     case BSUBWAY_SCR_CMD_START_OV007_PROC_A:
         procParam.mode = 0;
         procParam.result = resultDst;
-        SCRIPT_SYS_CallEvent(scriptWork, GAME_EVENT_CreateOverlayEvent((void *)gameSystem, (u32)ov007_id, (u32 (*)(void *, u32))EVENT_BSUBWAY_COMM_Start, (u32)(&procParam)));
+        SCRIPT_SYS_CallEvent(scriptWork, GAME_EVENT_CreateOverlayEvent((void *)gameSystem, (u32)ov007_id, (u32 (*)(void *, u32))EVENT_BSUBWAY_COMM_Start, (void *)(&procParam)));
         startedTask = 1;
         break;
     case BSUBWAY_SCR_CMD_START_OV007_PROC_B:
         startedTask = 1;
         procParam.mode = 1;
         procParam.result = resultDst;
-        SCRIPT_SYS_CallEvent(scriptWork, GAME_EVENT_CreateOverlayEvent((void *)gameSystem, (u32)ov007_id, (u32 (*)(void *, u32))EVENT_BSUBWAY_COMM_Start, (u32)(&procParam)));
+        SCRIPT_SYS_CallEvent(scriptWork, GAME_EVENT_CreateOverlayEvent((void *)gameSystem, (u32)ov007_id, (u32 (*)(void *, u32))EVENT_BSUBWAY_COMM_Start, (void *)(&procParam)));
         break;
     case BSUBWAY_SCR_CMD_START_OV007_PROC_C:
         procParam.mode = 2;
         procParam.result = resultDst;
-        SCRIPT_SYS_CallEvent(scriptWork, GAME_EVENT_CreateOverlayEvent((void *)gameSystem, (u32)ov007_id, (u32 (*)(void *, u32))EVENT_BSUBWAY_COMM_Start, (u32)(&procParam)));
+        SCRIPT_SYS_CallEvent(scriptWork, GAME_EVENT_CreateOverlayEvent((void *)gameSystem, (u32)ov007_id, (u32 (*)(void *, u32))EVENT_BSUBWAY_COMM_Start, (void *)(&procParam)));
         startedTask = 1;
         break;
     case BSUBWAY_SCR_CMD_GET_WIFI_FIELD_101:
-        *resultDst = BSUBWAY_SAVEDATA_GetTrainersTagA((struct BsubwayWifiData *)wifiData);
+        *resultDst = BSUBWAY_SAVEDATA_GetTrainersTagA((struct BsubwaySave *)wifiData);
         break;
     case BSUBWAY_SCR_CMD_GET_WIFI_FIELD_FE:
-        *resultDst = BSUBWAY_SAVEDATA_GetTrainersPresent((struct BsubwayWifiData *)wifiData);
+        *resultDst = BSUBWAY_SAVEDATA_GetTrainersPresent((struct BsubwaySave *)wifiData);
         break;
     case BSUBWAY_SCR_CMD_SET_PLAY_DATA_BYTE_11:
         byte11 = operand1;
@@ -1780,17 +1814,17 @@ int BSUBWAY_SCR_CmdTool(void *scriptCtx, u32 script)
         *resultDst = BSUBWAY_PLAYDATA_GetField((struct BsubwayPlayData *)playData, 11, 0);
         break;
     case BSUBWAY_SCR_CMD_GET_WIFI_FIELD_FF:
-        *resultDst = BSUBWAY_SAVEDATA_GetHistoryPresent((struct BsubwayWifiData *)wifiData);
+        *resultDst = BSUBWAY_SAVEDATA_GetHistoryPresent((struct BsubwaySave *)wifiData);
         break;
     case BSUBWAY_SCR_CMD_START_PARTY_TASK:
         SCRIPT_SYS_CallEvent(scriptWork, NAMEIN_SETUP_StartHistoryScreenEvent((void *)gameSystem));
         startedTask = 1;
         break;
     case BSUBWAY_SCR_CMD_GET_WIFI_FIELD_103:
-        *resultDst = BSUBWAY_SAVEDATA_GetHistoryTagA((struct BsubwayWifiData *)wifiData);
+        *resultDst = BSUBWAY_SAVEDATA_GetHistoryTagA((struct BsubwaySave *)wifiData);
         break;
     case BSUBWAY_SCR_CMD_GET_WIFI_FIELD_102:
-        *resultDst = BSUBWAY_SAVEDATA_GetHistoryTagB((struct BsubwayWifiData *)wifiData);
+        *resultDst = BSUBWAY_SAVEDATA_GetHistoryTagB((struct BsubwaySave *)wifiData);
         break;
     case BSUBWAY_SCR_CMD_RESULT_FALSE_B:
         *resultDst = 0;
@@ -1806,14 +1840,14 @@ int BSUBWAY_SCR_CmdTool(void *scriptCtx, u32 script)
         if (playMode < 9) {
             const VecFx32 *pos = &data_021DAE50[playMode];
             ZONEDATA_SetDirectLocation(&modeLocation, data_021DADAC[playMode], 4, pos->x, pos->y, pos->z);
-            GAME_DATA_SetSpecialLocation((struct GameData *)gameData, (const struct ReturnLocation *)(&modeLocation));
-            ZONEDATA_SetEventFlag((char *)eventFlags, 0x966);
+            GAME_DATA_SetSpecialLocation((struct GameData *)gameData, (struct Location *)(&modeLocation));
+            ZONEDATA_SetEventFlag((struct EventWork *)eventFlags, 0x966);
         }
         break;
     case BSUBWAY_SCR_CMD_START_PARTY_SELECT:
         {
             u8 useOwnParty = BSUBWAY_PLAYDATA_GetField((struct BsubwayPlayData *)playData, 10, 0);
-            SCRIPT_SYS_CallEvent(scriptWork, NAMEIN_SETUP_StartPartyPickEvent((struct PartySelectParam *)work, (void *)gameSystem, useOwnParty));
+            SCRIPT_SYS_CallEvent(scriptWork, NAMEIN_SETUP_StartPartyPickEvent((struct EncounterContext *)work, (void *)gameSystem, useOwnParty));
         }
         startedTask = 1;
         break;
@@ -1877,7 +1911,7 @@ int BSUBWAY_SCR_CmdTool(void *scriptCtx, u32 script)
         MI_CpuFill8(work->recvBuf, 0, 0x46);
         break;
     case BSUBWAY_SCR_CMD_START_PARTNER_TASK_A:
-        SCRIPT_SYS_CallEvent(scriptWork, NAMEIN_SETUP_StartNameBalloonFromRecord(work, (void *)gameSystem, operand1, operand2, 5));
+        SCRIPT_SYS_CallEvent(scriptWork, NAMEIN_SETUP_StartNameBalloonFromRecord((struct NameBalloonRecord *)work, (void *)gameSystem, operand1, operand2, 5));
         startedTask = 1;
         break;
     case BSUBWAY_SCR_CMD_SAVE_PLAY_DATA_MEMBERS:
@@ -1925,7 +1959,7 @@ int BSUBWAY_SCR_CmdTool(void *scriptCtx, u32 script)
         BsubwayRecordNo recordNo = 0;
         u16 playRound = BSUBWAY_PLAYDATA_GetRound((struct BsubwayPlayData *)playData);
         if (playRound != 0) {
-            void *trainerCard = (void *)ISS_SYS_GetSwitchSys((u32 *)GAMESYSTEM_GetIssSystem((u32 *)gameSystem));
+            void *trainerCard = (void *)ISS_SYS_GetSwitchSys((u32 *)GAMESYSTEM_GetIssSystem((struct GameSystem *)gameSystem));
             playRound = recordNo + playRound + 1;
             for (; recordNo < playRound; recordNo++) {
                 if (recordNo < 9 && recordNo != 0)
@@ -1956,7 +1990,7 @@ int BSUBWAY_SCR_CmdTool(void *scriptCtx, u32 script)
         partySource = BSUBWAY_PLAYDATA_GetField((struct BsubwayPlayData *)playData, 10, 0);
         regulation = POKE_REGULATION_Load(BSUBWAY_SCR_GetRegulationNo(playMode), 4);
         if (partySource == 1) {
-            recordParty = BATTLE_BOX_CreateParty((u32)BATTLE_BOX_GetFromSave((void *)saveControl), 4);
+            recordParty = BATTLE_BOX_CreateParty((struct BoxMonGroup *)BATTLE_BOX_GetFromSave((void *)saveControl), 4);
             checkedParty = recordParty;
         } else {
             checkedParty = GAME_DATA_GetMyParty((void *)gameData);
@@ -2007,7 +2041,7 @@ int BSUBWAY_SCR_CmdTool(void *scriptCtx, u32 script)
     case BSUBWAY_SCR_CMD_FREE_BATTLE_SETUP:
         if (work->btlSetup != 0) {
             BATTLE_REC_FreeWork();
-            BTL_SETUP_Delete((int)work->btlSetup);
+            BTL_SETUP_Delete((struct BattleSetupParam *)work->btlSetup);
             work->btlSetup = 0;
         }
         break;
@@ -2029,7 +2063,7 @@ int BSUBWAY_SCR_CmdTool(void *scriptCtx, u32 script)
         BSUBWAY_SCOREDATA_ResetClearCount((struct BsubwayScoreData *)scoreData, playMode);
         break;
     case BSUBWAY_SCR_CMD_RELEASE_TRAIN_SIGN:
-        FIELD_GIMMICK_BSUBWAY_HaltTrainSway((int)fieldMap);
+        FIELD_GIMMICK_BSUBWAY_HaltTrainSway((struct FieldMap *)fieldMap);
         break;
     case BSUBWAY_SCR_CMD_GET_TRAINER_NO: {
         u32 playRound = BSUBWAY_PLAYDATA_GetRound((struct BsubwayPlayData *)playData);
@@ -2052,7 +2086,7 @@ int BSUBWAY_SCR_CmdTool(void *scriptCtx, u32 script)
         break;
     }
     case BSUBWAY_SCR_CMD_START_PARTNER_TASK_B:
-        SCRIPT_SYS_CallEvent(scriptWork, NAMEIN_SETUP_StartNameBalloonFromRecord(work, (void *)gameSystem, operand1, operand2, 6));
+        SCRIPT_SYS_CallEvent(scriptWork, NAMEIN_SETUP_StartNameBalloonFromRecord((struct NameBalloonRecord *)work, (void *)gameSystem, operand1, operand2, 6));
         startedTask = 1;
         break;
     case BSUBWAY_SCR_CMD_ADD_BATTLE_TALLY: {
@@ -2126,13 +2160,13 @@ int BSUBWAY_SCR_CmdTool(void *scriptCtx, u32 script)
         break;
     case BSUBWAY_SCR_CMD_START_COMM_CHECK_A:
         work->commResultDst = resultDst;
-        work->commTask = (void *)COMM_ENTRY_MENU_Create((u32)GAME_DATA_GetMyStatus((void *)gameData), fieldMap, 2, 2, 4, 0, 2, 0);
+        work->commTask = (void *)COMM_ENTRY_MENU_Create((struct MyStatus *)GAME_DATA_GetMyStatus((void *)gameData), fieldMap, 2, 2, 4, 0, 2, 0);
         VM_SetWait(scriptCtx, (int)BSUBWAY_SCR_WaitCommEntryMenu);
         startedTask = 1;
         break;
     case BSUBWAY_SCR_CMD_START_COMM_CHECK_B:
         work->commResultDst = resultDst;
-        work->commTask = (void *)COMM_ENTRY_MENU_Create((u32)GAME_DATA_GetMyStatus((void *)gameData), fieldMap, 2, 2, 4, 1, 2, 0);
+        work->commTask = (void *)COMM_ENTRY_MENU_Create((struct MyStatus *)GAME_DATA_GetMyStatus((void *)gameData), fieldMap, 2, 2, 4, 1, 2, 0);
         startedTask = 1;
         VM_SetWait(scriptCtx, (int)BSUBWAY_SCR_WaitCommEntryMenuSimple);
         break;
@@ -2262,7 +2296,7 @@ int BSUBWAY_SCR_WaitCommEntryMenu(u32 unused, u32 script)
     u32 zero;
 
     scriptWork = SCRCMD_WORK_GetScriptWork((void *)script);
-    SCRIPT_WORK_ResetFieldParam((int)scriptWork);
+    SCRIPT_WORK_ResetFieldParam((struct ScriptWork *)scriptWork);
     gameData = GAMESYSTEM_GetGameData(SCRIPT_WORK_GetGameSystem(scriptWork));
     saveControl = GAME_DATA_GetSaveControl(gameData);
     GAME_DATA_GetEventWork(gameData);
@@ -2270,9 +2304,9 @@ int BSUBWAY_SCR_WaitCommEntryMenu(u32 unused, u32 script)
     zero = 0;
     BSUBWAY_PLAYDATA_GetField(SAVE_CONTROL_GetBlock(saveControl, 0x39), 0, 0);
     SAVE_CONTROL_GetBlock(saveControl, 0x3A);
-    commResult = COMM_ENTRY_MENU_Main((u8 *)work->commTask);
+    commResult = COMM_ENTRY_MENU_Main((struct CommEntryMenu *)work->commTask);
     if (commResult != 0) {
-        COMM_ENTRY_MENU_Delete((u32 *)work->commTask);
+        COMM_ENTRY_MENU_Delete((struct CommEntryMenu *)work->commTask);
         work->commTask = (void *)zero;
         switch (commResult) {
         case 1:
@@ -2303,7 +2337,7 @@ int BSUBWAY_SCR_WaitCommEntryMenuSimple(u32 unused, u32 script)
     u32 zero;
 
     scriptWork = SCRCMD_WORK_GetScriptWork((void *)script);
-    SCRIPT_WORK_ResetFieldParam((int)scriptWork);
+    SCRIPT_WORK_ResetFieldParam((struct ScriptWork *)scriptWork);
     gameData = GAMESYSTEM_GetGameData(SCRIPT_WORK_GetGameSystem(scriptWork));
     saveControl = GAME_DATA_GetSaveControl(gameData);
     GAME_DATA_GetEventWork(gameData);
@@ -2311,9 +2345,9 @@ int BSUBWAY_SCR_WaitCommEntryMenuSimple(u32 unused, u32 script)
     zero = 0;
     BSUBWAY_PLAYDATA_GetField(SAVE_CONTROL_GetBlock(saveControl, 0x39), 0, 0);
     SAVE_CONTROL_GetBlock(saveControl, 0x3A);
-    commResult = COMM_ENTRY_MENU_Main((u8 *)work->commTask);
+    commResult = COMM_ENTRY_MENU_Main((struct CommEntryMenu *)work->commTask);
     if (commResult != 0) {
-        COMM_ENTRY_MENU_Delete((u32 *)work->commTask);
+        COMM_ENTRY_MENU_Delete((struct CommEntryMenu *)work->commTask);
         work->commTask = (void *)zero;
         switch (commResult) {
         case 1:
@@ -2424,12 +2458,12 @@ int BSUBWAY_SCR_YesNoMenuMain(void *task, int *state, ScreenTaskWork *taskWork)
         (*state)++;
     case 1:
         if (SCRCMD_WORK_CountDownWait(taskWork->script) == 1) {
-            taskWork->screen = (u32)FIELD_MSGBG_CreateYesNoMenu((u16 *)FIELDMAP_GetMsgBg(GAMESYSTEM_GetFieldMap(SCRCMD_WORK_GetGameSystem(taskWork->script))), taskWork->arg);
+            taskWork->screen = (u32)FIELD_MSGBG_CreateYesNoMenu((struct FieldMsgBg *)FIELDMAP_GetMsgBg(GAMESYSTEM_GetFieldMap(SCRCMD_WORK_GetGameSystem(taskWork->script))), taskWork->arg);
             (*state)++;
         }
         break;
     case 2:
-        switch (FIELD_MSGBG_YesNoMenuMain((struct ScreenHandle *)taskWork->screen)) {
+        switch (FIELD_MSGBG_YesNoMenuMain((struct FieldMenuFunc *)taskWork->screen)) {
         case 0:
             *taskWork->result = 0;
             (*state)++;
@@ -2499,17 +2533,17 @@ void BSUBWAY_SCR_CreateMarkerObjects(BsubwayScrWork *work, void *gameData, void 
     if (playMode == 4) {
         spawnPos = d_021DADD0;
         recordList = (u8 *)BSUBWAY_SAVEDATA_AllocHistoryCopy(SAVE_CONTROL_GetBlock(GAME_DATA_GetSaveControl(gameData), 0x3B), (int)4);
-        recordCount = BSUBWAY_SAVEDATA_CountHistoryEntries((struct BsubwayWifiRecordList *)recordList);
+        recordCount = BSUBWAY_SAVEDATA_CountHistoryEntries((struct HistoryBuf *)recordList);
         if (recordCount != 0) {
             recordEntry = recordList + (recordCount - 1) * 0x22;
             while (recordCount != 0 && i < 5) {
-                u32 lookIndex = BSUBWAY_SAVEDATA_GetHistoryEntryScore((struct WifiRecordEntry *)recordEntry) % 10;
+                u32 lookIndex = BSUBWAY_SAVEDATA_GetHistoryEntryScore((struct HistoryEntry *)recordEntry) % 10;
                 if (((WifiRecordFlags *)(recordEntry + 0x20))->lookSet == 0)
                     objCode = d_021DAD48[lookIndex];
                 else
                     objCode = d_021DAD5C[lookIndex];
                 mapObj = FLDMMDL_AddMmdlParam(fieldMmdlSys, spawnPos->x, spawnPos->y, i % 4, objId, objCode, 2, zoneId);
-                FLDMMDL_SetParam((int)mapObj, (u16)(recordCount - 1), 0);
+                FLDMMDL_SetParam((struct Mmdl *)mapObj, (u16)(recordCount - 1), 0);
                 FLDMMDL_SetEventId(mapObj, 5);
                 recordEntry -= 0x22;
                 i++;
@@ -2540,8 +2574,8 @@ void BSUBWAY_SCR_CreateMarkerObjects(BsubwayScrWork *work, void *gameData, void 
     while (spawnEntry->objCode != 0xFFFF) {
         if (threshold == d_021DADF8[spawnEntry->thresholdNo - 1]) {
             mapObj = FLDMMDL_AddMmdlParam(fieldMmdlSys, spawnEntry->x, spawnEntry->y, i % 4, objId, spawnEntry->objCode, 2, zoneId);
-            FLDMMDL_SetParam((int)mapObj, (u16)i, 0);
-            FLDMMDL_SetParam((int)mapObj, (u16)spawnEntry->param, 1);
+            FLDMMDL_SetParam((struct Mmdl *)mapObj, (u16)i, 0);
+            FLDMMDL_SetParam((struct Mmdl *)mapObj, (u16)spawnEntry->param, 1);
             FLDMMDL_SetEventId(mapObj, 5);
             if (objId < 0xFF)
                 objId++;
@@ -2562,7 +2596,7 @@ void BSUBWAY_SCR_CreateMarkerObjects(BsubwayScrWork *work, void *gameData, void 
  */
 u32 BSUBWAY_SCR_GetMmdlParam(u32 mapObj)
 {
-    return FLDMMDL_GetParam((char *)mapObj, 1);
+    return FLDMMDL_GetParam((struct Mmdl *)mapObj, 1);
 }
 
 
@@ -2740,7 +2774,7 @@ int BSUBWAY_SCR_GetTrainNo(void *fieldMap)
  *
  * Addresses are Black-image addresses.
  */
-u32 BSUBWAY_SCR_CreateBtlSetup(BsubwayScrWork *work, int gameSystem)
+u32 BSUBWAY_SCR_CreateBtlSetup(BsubwayScrWork *work, struct GameSystem *gameSystem)
 {
     void *partyList = POKEPARTY_Create(0x8004);
     void *party = BSUBWAY_SCR_GetParty(work);

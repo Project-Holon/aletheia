@@ -36,8 +36,9 @@ typedef enum { LV0, LV1, LV2, LV3 } WMLinkLevel;
 
 extern void *DWCi_HEAPlAllocEx(unsigned long size, int alignment);
 extern GXOamAttr *DWCi_CEINlSetExObj(int lcd, int idx);
-extern void *DWCi_TSKlForm(int kind, void (*func)(void *, void *), void *work, unsigned char prio);
-extern void DWCi_TSKlDeleteByIndex(unsigned int idx, void *r4);
+struct TCB;
+extern struct TCB *DWCi_TSKlForm(int kind, void (*func)(void *, void *), void *work, unsigned char prio);
+extern void DWCi_TSKlDeleteByIndex(unsigned int taskIdx, struct TCB *task);
 extern void DWCi_OBJlDelete(unsigned int *obj);
 extern void DWCi_HEAPlFree_(void **mem);
 extern unsigned short WM_GetAllowedChannel(void);

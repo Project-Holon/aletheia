@@ -98,17 +98,18 @@ extern void *GFL_USE_AddMainTask(u32,u32,u32);
 
 extern void *MUSICAL_SHOT_INFO_Create(u8 *,u32,u32,u32,u16);
 
-extern void WIPE_SYS_Start(void *,u32,u32,u32,u32,u32,u32);
+extern void WIPE_SYS_Start(void *divisionMode, u32 mainPattern, u32 subPattern, u16 color, u32 frames, u32 wait, u32 heapId);
 
 extern unsigned WIPE_SYS_EndCheck(void);
 
 extern void GXx_SetMasterBrightness_(volatile u16 *reg, int brightness);
 
-extern void G2x_SetBlendAlpha_(void *,int,int,int,int);
+extern void G2x_SetBlendAlpha_(u32 *reg, u32 a, u32 b, u32 c, u32 d);
 
 extern void MUSICAL_SHOT_INFO_Delete(u8 *);
+struct TcbTask;
 
-extern void TCB_DeleteTask(struct Node *n);
+extern void TCB_DeleteTask(struct TcbTask *task);
 
 extern void GF_OVERLAY_Unload(int);
 
@@ -132,7 +133,7 @@ extern void BG_SYS_ClearSubPlanes(void);
 
 extern void WIPE_SetBrightnessFadeOut(u32 a, u32 color);
 
-extern u32 WIPE_ResetWndMask(void *win);
+extern void WIPE_ResetWndMask(void *win);
 
 extern void BG_SYS_SetVramBanks(const struct DispVram *c);
 
@@ -141,8 +142,10 @@ extern void BG_SYS_Create(u16);
 extern void BMP_WIN_Init(u16);
 
 extern void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
+struct DispVramCfg;
+struct SysInit;
 
-extern void CLACT_InitSystem(const struct Cfg *cfg, u32 arg, u32 heapId);
+extern void CLACT_InitSystem(struct SysInit *cfg, struct DispVramCfg *res_cfg, u32 heapId);
 
 extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
 
@@ -288,7 +291,7 @@ void MUSICAL_SHOT_SYS_InitGraphics(u8 *p)
     BG_SYS_Create(((State *)p)->heap);
     BMP_WIN_Init(((State *)p)->heap);
     BG_SYS_SetGraphicsMode((struct DispConfig *)d_021F815C);
-    CLACT_InitSystem((const struct Cfg *)gClActorInitParam,(u32)d_021F816C,((State *)p)->heap);
+    CLACT_InitSystem((struct SysInit *)gClActorInitParam,(struct DispVramCfg *)d_021F816C,((State *)p)->heap);
     BG_SYS_SetMainPlaneVisible(16,1);
 }
 

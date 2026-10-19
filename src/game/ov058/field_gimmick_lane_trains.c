@@ -42,19 +42,20 @@
 
 extern struct GameSystem *FIELDMAP_GetGameSystem(struct FieldMap *fieldMap);
 extern struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
-extern struct GimmickWork *GAME_DATA_GetFieldSave(struct GameData *gameData);
+extern u8 *GAME_DATA_GetFieldSave(struct GameData *gameData);
 extern void *FIELDMAP_AllocCommonWork(struct FieldMap *fieldMap, int id, int heapId, int size);
-extern FieldGimmickLaneTrainsWork *FIELDMAP_GetCommonWork(struct FieldMap *fieldMap, int id);
+extern void *FIELDMAP_GetCommonWork(struct FieldMap *fieldMap, int id);
 extern void FIELDMAP_FreeCommonWork(struct FieldMap *fieldMap, int id);
 extern void FLD_EXP_OBJ_AddUnitFromArchive(FldExpObjCnt *expObj, const G3dUtilSetup *setup, u16 unitIndex);
 extern void FLD_EXP_OBJ_RemoveUnit(FldExpObjCnt *expObj, u16 unitIndex);
 extern struct FieldPlayer *FIELDMAP_GetFieldPlayer(struct FieldMap *fieldMap);
 extern void FIELD_PLAYER_GetPos(struct FieldPlayer *player, VecFx32 *pos);
-extern void *GAME_DATA_GetBgmInfo(struct GameData *gameData);
+extern u32 GAME_DATA_GetBgmInfo(struct GameData *gameData);
 extern u32 GFL_USE_GetRandom(u32 range);
 extern int GFL_USE_GetSeSlot(u32 seId);
-extern int GFL_USE_IsSeSlotBusy(int seSlot);
-extern void FIELD_SOUND_SYSTEM_ClaimSlot(void *fieldSound, u32 seId);
+extern int GFL_USE_IsSeSlotBusy(u32 slot);
+struct FieldSoundSystem;
+extern void FIELD_SOUND_SYSTEM_ClaimSlot(struct FieldSoundSystem *s, u32 soundId);
 extern void FIELD_GIMMICK_LANE_TRAINS_PlaceLaneTrains(FieldGimmickLaneTrainsWork *work, struct FieldMap *fieldMap, int leadModel, int trailModel);
 
 void FIELD_GIMMICK_LANE_TRAINS_Init(struct FieldMap *fieldMap);
@@ -150,7 +151,7 @@ void FIELD_GIMMICK_LANE_TRAINS_Update(struct FieldMap *fieldMap)
 
     FIELD_PLAYER_GetPos(FIELDMAP_GetFieldPlayer(fieldMap), &playerPos);
     if (playerPos.z >= FIELD_GIMMICK_LANE_TRAINS_HEAR_MIN_Z && playerPos.z <= FIELD_GIMMICK_LANE_TRAINS_HEAR_MAX_Z) {
-        fieldSound = GAME_DATA_GetBgmInfo(gameData);
+        fieldSound = (void *)GAME_DATA_GetBgmInfo(gameData);
         delta = playerPos.x - eastLeadX;
         if (delta >= 0 && delta <= FIELD_GIMMICK_LANE_TRAINS_HEAR_DISTANCE && work->eastSoundPlayed == 0) {
             if (GFL_USE_IsSeSlotBusy(GFL_USE_GetSeSlot(0x77e)) == 0) {

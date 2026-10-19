@@ -117,7 +117,7 @@ extern int FS_CloseFile(FSFile *file);
 extern s32 FS_ReadFile(FSFile *file, void *buffer, s32 length);
 extern u32 MBi_GetGgid(void);
 extern u16 MBi_GetTgid(void);
-extern u16 MBi_calc_cksum(u16 *buf, int length);
+#include "mb_common.h"
 extern int WM_SetGameInfo(void (*callback)(void *), u16 *userGameInfo,
                           u16 userGameInfoSize, u32 ggid, u16 tgid, u8 attr);
 
@@ -132,7 +132,6 @@ void MB_SendGameInfoBeacon(u32 ggid, u16 tgid, u8 attribute);
 int MBi_ReadyBeaconSendStatus(void);
 void MBi_InitSendFixedBeacon(void);
 void MBi_InitSendVolatBeacon(void);
-void MBi_SendVolatBeacon(u32 ggid, u16 tgid, u8 attribute);
 BOOL MBi_CheckMBParent(void *bssDescp);
 
 #pragma opt_lifetimes off

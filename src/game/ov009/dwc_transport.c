@@ -114,11 +114,11 @@ typedef struct TransInfo {
 } TransInfo;
 
 extern int DWCi_IsError(void);
-extern int DWC_IsValidAID(int aid);
-extern int DWCi_IsValidAID(int aid);
-extern void strncpy(char *dst, const char *src, int n);
+extern int DWC_IsValidAID(unsigned char aid);
+extern int DWCi_IsValidAID(unsigned char aid);
+extern unsigned char *strncpy(unsigned char *dest, unsigned char *src, unsigned int n);
 extern void MI_CpuCopy8(void *srcp, void *dstp, unsigned long size);
-extern int memcmp(const void *a, const void *b, unsigned int n);
+extern int memcmp(unsigned char *s1, unsigned char *s2, unsigned int n);
 extern int DWCi_NodeInfoList_GetCount(void);
 extern unsigned long long OS_GetTick(void);
 extern void MI_CpuFill8(void *dstp, unsigned char data, unsigned long size);
@@ -134,7 +134,7 @@ extern int DWCi_SendServerPolling(int immediate);
 extern unsigned char DWCi_GetServerOrSubServerAID(void);
 extern int DWCi_ProcessReliableQueue(void);
 extern int DWCi_IsReliableQueueFree(void);
-extern void DWCi_CleanupReliableQueue(TransInfo **p);
+extern void DWCi_CleanupReliableQueue(char *p);
 extern int DWCi_ProcessReliableQueue(void);
 extern int gt2Send(void *connection, unsigned char *buffer, int size, int reliable);
 extern int DWCi_InsertReliableQueue(void *connection, unsigned char *buffer, int size);
@@ -142,11 +142,11 @@ extern void DWCi_SetError(int kind, int code);
 extern void *DWCi_GetGT2Connection(unsigned char aid);
 extern char *DWCi_NodeInfoList_GetNodeInfoForIndex(int index);
 extern void *DWC_Alloc(int name, unsigned long size);
-extern void DWC_Free(int name, void *ptr, int flag);
-extern int strncmp(const char *a, const char *b, unsigned int n);
+extern void DWC_Free(int name, void *ptr, unsigned int size);
+extern int strncmp(unsigned char *s1, unsigned char *s2, unsigned int n);
 extern void DWCi_HandleGT2UnreliableMatchCommandMessage(void *data, int len);
 extern void DWCi_ProcessMatchSynPacket(unsigned char aid, unsigned short type, unsigned char *data);
-extern int gt2GetOutgoingBufferFreeSpace(void *connection);
+extern int gt2GetOutgoingBufferFreeSpace(int *p);
 extern TransInfo *gDwcTransInfo;
 extern char gDwcTransHeaderMagic[];
 extern char gDwcTransForwardMagic[];
@@ -350,7 +350,7 @@ int DWC_SetUserRecvTimeoutCallback(void (*cb)(unsigned char, void *), void *para
 
 void DWCs_EncodeHeader(TransHeader *header, unsigned short type, int size)
 {
-    strncpy(header->magicStrings, gDwcTransHeaderMagic, 2);
+    strncpy((unsigned char *)header->magicStrings, (unsigned char *)gDwcTransHeaderMagic, 2);
     header->type = type;
     header->size = size;
 }
@@ -360,7 +360,7 @@ unsigned short DWCs_DecodeHeader(void *message)
     TransHeader header;
 
     MI_CpuCopy8(message, &header, 8);
-    if (memcmp(header.magicStrings, gDwcTransHeaderMagic, 2) == 0)
+    if (memcmp((unsigned char *)header.magicStrings, (unsigned char *)gDwcTransHeaderMagic, 2) == 0)
         return header.type;
     return 0;
 }
@@ -546,7 +546,7 @@ void DWCi_ClearTransConnection(int i)
 void DWCi_ShutdownTransport(void)
 {
     gDwcTransInfo = 0;
-    DWCi_CleanupReliableQueue(&gDwcTransInfo);
+    DWCi_CleanupReliableQueue((char *)(&gDwcTransInfo));
 }
 
 /*
@@ -617,7 +617,7 @@ void DWCi_SendUnreliable(unsigned char aidFrom, unsigned char aidTo, unsigned ch
         sendBuf = DWC_Alloc(4, size + 8);
         if (sendBuf == 0)
             return;
-        strncpy((char *)sendBuf, gDwcTransForwardMagic, 3);
+        strncpy((unsigned char *)sendBuf, (unsigned char *)gDwcTransForwardMagic, 3);
         sendBuf[3] = aidFrom;
         *(unsigned long *)(sendBuf + 4) = 1 << aidTo;
         MI_CpuCopy8(buffer, sendBuf + 8, size);
@@ -684,11 +684,11 @@ void DWCs_HandleUnreliableMessage(void *connection, void *message, int size)
         DWCi_SetError(6, 0xfffe8298);
         return;
     }
-    if (size >= 0x14u && strncmp(message, gDwcTransMatchMagic, 4) == 0) {
+    if (size >= 0x14u && strncmp((unsigned char *)message, (unsigned char *)gDwcTransMatchMagic, 4) == 0) {
         DWCi_HandleGT2UnreliableMatchCommandMessage(message, size);
         return;
     }
-    if (size >= 8 && memcmp(message, gDwcTransForwardMagic, 3) == 0)
+    if (size >= 8 && memcmp((unsigned char *)message, (unsigned char *)gDwcTransForwardMagic, 3) == 0)
         headerAvailable = 1;
     if (headerAvailable == 1) {
         aidFrom = ((unsigned char *)message)[3];

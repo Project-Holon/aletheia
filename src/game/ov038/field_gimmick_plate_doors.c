@@ -89,52 +89,57 @@ typedef signed int     s32;
 typedef unsigned char  u8;
 
 typedef signed char s8;
+struct FldExpObjCnt;
 
-extern int FIELDMAP_GetExpObj(int *fieldMap);
-extern void *FIELDMAP_GetGameSystem(void *fieldMap);
-extern void *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
-extern struct GimmickWork *GAME_DATA_GetFieldSave(struct GameData *gameData);
-extern void *GIMMICK_WORK_GetWork(struct GimmickWork *gimmickSave, u32 gimmickId);
+extern struct FldExpObjCnt *FIELDMAP_GetExpObj(struct FieldMap *fieldMap);
+extern struct GameSystem *FIELDMAP_GetGameSystem(struct FieldMap *fieldMap);
+extern struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
+extern u8 *GAME_DATA_GetFieldSave(struct GameData *gameData);
+extern s32 *GIMMICK_WORK_GetWork(struct GimmickWork *gimmickSave, u32 gimmickId);
 extern void *GFL_HEAP_GetTotalFreeSize(u32 heapId);
-extern u16 FIELDMAP_GetHeapId(u8 *fieldMap);
-extern void *FIELDMAP_AllocCommonWork(unsigned char *fieldMap, int id, int heapId, int size);
-extern void  FLD_EXP_OBJ_AddUnitFromArchive(void *expObj, void *unitDef, int unitIdx);
+extern u16 FIELDMAP_GetHeapId(struct FieldMap *fieldMap);
+extern void *FIELDMAP_AllocCommonWork(struct FieldMap *fieldMap, s32 id, s32 heapId, s32 size);
+struct G3dUtilSetup;
+extern void  FLD_EXP_OBJ_AddUnitFromArchive(struct FldExpObjCnt *cnt, struct G3dUtilSetup *setup, u16 unitIdx);
 extern VecFx32 *FLD_EXP_OBJ_GetModelStatus(void *expObj, int unitIdx, u16 modelIdx);
 extern void FLD_EXP_OBJ_SetModelCullDraw(char *expObj, int unitIdx, int modelIdx, int cullDraw);
 extern void FLD_EXP_OBJ_SetModelHidden(void *expObj, int unitIdx, u16 modelIdx, int hidden);
 extern void *FLD_EXP_OBJ_GetAnime(void *expObj, int unitIdx, u16 modelIdx, u16 animeIdx);
-extern void FLD_EXP_OBJ_SetAnimeLoop(unsigned char *anime, int loop);
-extern void FLD_EXP_OBJ_SetAnimePaused(unsigned char *anime, int paused);
+struct FldExpObjAnime;
+extern void FLD_EXP_OBJ_SetAnimeLoop(struct FldExpObjAnime *anime, s32 loop);
+extern void FLD_EXP_OBJ_SetAnimePaused(struct FldExpObjAnime *anime, s32 paused);
 extern void FLD_EXP_OBJ_SetAnimeEnabled(void *expObj, int unitIdx, u16 modelIdx, u16 animeIdx, int enable);
 extern void FLD_EXP_OBJ_SetAnimeFrame(void *expObj, int unitIdx, u16 modelIdx, u16 animeIdx, int frame);
-extern int FLD_EXP_OBJ_GetAnimeLastFrame(u32 anime);
-extern struct FieldGimmickPlateDoorsRuntime *FIELDMAP_GetCommonWork(char *fieldMap, int idx);
-extern void FIELDMAP_FreeCommonWork(unsigned char *fieldMap, int id);
-extern void FLD_EXP_OBJ_RemoveUnit(unsigned char *expObj, u16 unitIdx);
-extern void FLD_EXP_OBJ_UpdateAnimes(void *expObj);
+extern int FLD_EXP_OBJ_GetAnimeLastFrame(struct FldExpObjAnime *anime);
+extern void *FIELDMAP_GetCommonWork(struct FieldMap *fieldMap, s32 id);
+extern void FIELDMAP_FreeCommonWork(struct FieldMap *fieldMap, s32 id);
+extern void FLD_EXP_OBJ_RemoveUnit(struct FldExpObjCnt *cnt, u16 unitIdx);
+extern void FLD_EXP_OBJ_UpdateAnimes(struct FldExpObjCnt *cnt);
 extern void *GAMESYSTEM_GetFieldMap(const struct GameSystem *gameSystem);
-extern void *FIELDMAP_GetFieldPlayer(struct FieldMap *fieldMap);
-extern u16 FIELD_PLAYER_GetDirDisp(u8 *fieldPlayer);
+struct FieldPlayer;
+extern struct FieldPlayer *FIELDMAP_GetFieldPlayer(struct FieldMap *fieldMap);
+extern u16 FIELD_PLAYER_GetDirDisp(struct FieldPlayer *player);
 extern struct GameEvent *GAME_EVENT_Create(void *owner, void *work, void *run, u32 size);
-extern void *GAME_EVENT_GetGameSystem(struct GameEvent *event);
+extern struct GameSystem *GAME_EVENT_GetGameSystem(struct GameEvent *event);
 extern void *FIELD_PLAYER_GetMmdl(unsigned char *fieldPlayer);
-extern int FLDMMDL_CheckEndAcmd(void *mmdl);
-extern int FLDMMDL_CheckPossibleAcmd(int mmdl);
+struct Mmdl;
+extern int FLDMMDL_CheckEndAcmd(struct Mmdl *mmdl);
+extern int FLDMMDL_CheckPossibleAcmd(struct Mmdl *mmdl);
 extern void FIELD_PLAYER_GetPos(unsigned char *fieldPlayer, VecFx32 *out);
 extern void FIELD_PLAYER_SetPos(u8 *fieldPlayer, VecFx32 *pos);
-extern int FLD_EXP_OBJ_IsAnimeStopped(int *anime);
-extern int FLD_EXP_OBJ_GetAnimeFrame(int expObj, int unitIdx, int modelIdx, int animeIdx);
+extern int FLD_EXP_OBJ_IsAnimeStopped(struct FldExpObjAnime *anime);
+extern int FLD_EXP_OBJ_GetAnimeFrame(struct FldExpObjCnt *cnt, s32 unitIdx, s32 modelIdx, s32 animeIdx);
 extern unsigned int KEY_GetCont(void);
 extern void GFL_USE_PlaySeDefaultVolume(u32 se);
 extern void GFL_USE_StopAllSe(void);
-extern void GAME_EVENT_ChangeEvent(struct GameEvent *event, u32 *newEvent);
-extern void GAME_EVENT_CallEvent(struct GameEvent *event, struct GameEvent **out);
-extern void *EVENT_FIELD_PROCLINK_CreateObjAnimEvent(void *gameSystem, int fieldMap, int arg, int acmdTable);
+extern void GAME_EVENT_ChangeEvent(struct GameEvent *now, struct GameEvent *next);
+extern void GAME_EVENT_CallEvent(struct GameEvent *parent, struct GameEvent *child);
+extern struct GameEvent *EVENT_FIELD_PROCLINK_CreateObjAnimEvent(struct GameSystem *gameSystem, void *source, int fieldObjectId, char *animName);
 extern int FLDMMDL_ACMD_ListCheckEnd(u32 acmdList);
 extern void FLDMMDL_ACMD_ListDelete(void *acmdList);
 extern int FLDMMDL_ACMD_ListCreate(void *mmdl, void *acmdTable);
 extern int FIELD_GIMMICK_PLATE_DOORS_EventScripted(void *, int *);
-extern u16 *GIMMICK_WORK_GetSubWork(struct GimmickWork *gimmickSave, u32 gimmickId);
+extern u8 *GIMMICK_WORK_GetSubWork(struct GimmickWork *gimmickSave, u32 gimmickId);
 void FIELD_GIMMICK_PLATE_DOORS_Init(void *fieldMap);
 void FIELD_GIMMICK_PLATE_DOORS_Exit(void *fieldMap);
 void FIELD_GIMMICK_PLATE_DOORS_Update(void *fieldMap);
@@ -161,8 +166,8 @@ extern const s8 gPlateDoorsPlatePrerequisite[];
 extern const u8 gPlateDoorsPlateDoor[];
 /* The enum type keeps the narrowing of the script event ids, see the note above. */
 typedef enum { SCRIPT_EVENT_ID_ZERO } ScriptEventId;
-extern int SCRIPT_SYS_CallScriptEvent(void *gameSystem, u16 scriptId, int target, int parentWork, u16 flags);
-extern int SCRIPT_SYS_ChangeScriptEvent(int gameSystem, int scriptId, int target, int flags);
+extern void *SCRIPT_SYS_CallScriptEvent(void *parentEvent, u16 scriptId, void *target, void *parentWork, u16 reserved);
+extern void *SCRIPT_SYS_ChangeScriptEvent(void *event, u16 scriptId, void *target, s32 reserved);
 extern const VecFx32 gPlateDoorsEffectPos[];
 
 /*
@@ -184,10 +189,10 @@ void FIELD_GIMMICK_PLATE_DOORS_Init(void *fieldMap)
     VecFx32 pos;
 
     expObj = (void *)FIELDMAP_GetExpObj(fieldMap);
-    save = GIMMICK_WORK_GetWork(GAME_DATA_GetFieldSave((struct GameData *)GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), 6);
+    save = (struct FieldGimmickPlateDoorsWork *)GIMMICK_WORK_GetWork((struct GimmickWork *)GAME_DATA_GetFieldSave((struct GameData *)GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), 6);
     GFL_HEAP_GetTotalFreeSize(0x15);
     FIELDMAP_AllocCommonWork(fieldMap, 1, FIELDMAP_GetHeapId(fieldMap), 0x24);
-    FLD_EXP_OBJ_AddUnitFromArchive(expObj, &gPlateDoorsUnitDef, 0);
+    FLD_EXP_OBJ_AddUnitFromArchive(expObj, (struct G3dUtilSetup *)(&gPlateDoorsUnitDef), 0);
     GFL_HEAP_GetTotalFreeSize(0x15);
     for (i = 0; i < 8; i++) {
         status = FLD_EXP_OBJ_GetModelStatus(expObj, 0, i);
@@ -199,7 +204,7 @@ void FIELD_GIMMICK_PLATE_DOORS_Init(void *fieldMap)
             FLD_EXP_OBJ_SetAnimeEnabled(expObj, 0, i, j, 1);
             FLD_EXP_OBJ_SetAnimePaused(anime, 1);
             if (save->switchFound[i] != 0)
-                FLD_EXP_OBJ_SetAnimeFrame(expObj, 0, i, j, FLD_EXP_OBJ_GetAnimeLastFrame((u32)anime));
+                FLD_EXP_OBJ_SetAnimeFrame(expObj, 0, i, j, FLD_EXP_OBJ_GetAnimeLastFrame((struct FldExpObjAnime *)anime));
         }
     }
     for (i = 0; i < 10; i++) {
@@ -213,7 +218,7 @@ void FIELD_GIMMICK_PLATE_DOORS_Init(void *fieldMap)
             FLD_EXP_OBJ_SetAnimeEnabled(expObj, 0, plateModel, j, 1);
             FLD_EXP_OBJ_SetAnimePaused(anime, 1);
             if (save->platePressed[i] != 0)
-                FLD_EXP_OBJ_SetAnimeFrame(expObj, 0, plateModel, j, FLD_EXP_OBJ_GetAnimeLastFrame((u32)anime));
+                FLD_EXP_OBJ_SetAnimeFrame(expObj, 0, plateModel, j, FLD_EXP_OBJ_GetAnimeLastFrame((struct FldExpObjAnime *)anime));
         }
     }
     for (doorIdx = 0; doorIdx < 7; doorIdx++) {
@@ -259,10 +264,10 @@ void FIELD_GIMMICK_PLATE_DOORS_Init(void *fieldMap)
 /* Exit: frees the runtime state and the expansion object unit. */
 void FIELD_GIMMICK_PLATE_DOORS_Exit(void *fieldMap)
 {
-    int expObj = FIELDMAP_GetExpObj(fieldMap);
+    int expObj = (s32)FIELDMAP_GetExpObj(fieldMap);
     FIELDMAP_GetCommonWork(fieldMap, 1);
     FIELDMAP_FreeCommonWork(fieldMap, 1);
-    FLD_EXP_OBJ_RemoveUnit((unsigned char *)expObj, 0);
+    FLD_EXP_OBJ_RemoveUnit((struct FldExpObjCnt *)expObj, 0);
 }
 
 
@@ -272,9 +277,9 @@ void FIELD_GIMMICK_PLATE_DOORS_Exit(void *fieldMap)
  */
 void FIELD_GIMMICK_PLATE_DOORS_Update(void *fieldMap)
 {
-    int expObj = FIELDMAP_GetExpObj(fieldMap);
+    int expObj = (s32)FIELDMAP_GetExpObj(fieldMap);
     FIELDMAP_GetCommonWork(fieldMap, 1);
-    GIMMICK_WORK_GetWork(GAME_DATA_GetFieldSave((struct GameData *)GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), 6);
+    GIMMICK_WORK_GetWork((struct GimmickWork *)GAME_DATA_GetFieldSave((struct GameData *)GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), 6);
     FLD_EXP_OBJ_UpdateAnimes((void *)expObj);
 }
 
@@ -335,10 +340,10 @@ int FIELD_GIMMICK_PLATE_DOORS_StartDoorEvent(int gameSystem, int cellX, int cell
     FieldGimmickPlateDoorsRuntime *runtime;
 
     fieldInfo = (int)GAMESYSTEM_GetFieldMap((void *)gameSystem);
-    runtime = FIELDMAP_GetCommonWork((char *)((void *)fieldInfo), 1);
+    runtime = FIELDMAP_GetCommonWork((struct FieldMap *)((void *)fieldInfo), 1);
     fieldInfo = (int)FIELDMAP_GetFieldPlayer((void *)fieldInfo);
-    workOrDoor = (int)GIMMICK_WORK_GetWork(GAME_DATA_GetFieldSave((struct GameData *)GAMESYSTEM_GetGameData((const struct GameSystem *)(int)FIELDMAP_GetGameSystem(GAMESYSTEM_GetFieldMap((void *)gameSystem)))), 6);
-    fieldInfo = FIELD_PLAYER_GetDirDisp((u8 *)fieldInfo);
+    workOrDoor = (int)GIMMICK_WORK_GetWork((struct GimmickWork *)GAME_DATA_GetFieldSave((struct GameData *)GAMESYSTEM_GetGameData((const struct GameSystem *)(int)FIELDMAP_GetGameSystem(GAMESYSTEM_GetFieldMap((void *)gameSystem)))), 6);
+    fieldInfo = FIELD_PLAYER_GetDirDisp((struct FieldPlayer *)fieldInfo);
     if (fieldInfo != 0 && fieldInfo != 1)
         return 0;
     workOrDoor = FIELD_GIMMICK_PLATE_DOORS_FindDoor((FieldGimmickPlateDoorsWork *)workOrDoor, cellX, cellZ, &doorOpen, &exactCell);
@@ -392,10 +397,10 @@ int FIELD_GIMMICK_PLATE_DOORS_EventSlideDoor(int event, int *state)
 
     gameSystem = GAME_EVENT_GetGameSystem((struct GameEvent *)event);
     fieldMap = GAMESYSTEM_GetFieldMap(gameSystem);
-    expObj = FIELDMAP_GetExpObj(fieldMap);
+    expObj = (s32)FIELDMAP_GetExpObj(fieldMap);
     runtime = FIELDMAP_GetCommonWork(fieldMap, 1);
     fieldPlayer = FIELDMAP_GetFieldPlayer(fieldMap);
-    GIMMICK_WORK_GetWork(GAME_DATA_GetFieldSave((struct GameData *)GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), 6);
+    GIMMICK_WORK_GetWork((struct GimmickWork *)GAME_DATA_GetFieldSave((struct GameData *)GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), 6);
     side = 0;
     openModel = runtime->doorIdx + 0x19;
     if (runtime->side == 1)
@@ -404,7 +409,7 @@ int FIELD_GIMMICK_PLATE_DOORS_EventSlideDoor(int event, int *state)
     switch (*state) {
     case 0:
         mmdl = FIELD_PLAYER_GetMmdl((void *)fieldPlayer);
-        if (FLDMMDL_CheckEndAcmd(mmdl) != 0 && FLDMMDL_CheckPossibleAcmd((int)mmdl) != 0) {
+        if ((struct Mmdl *)(struct Mmdl *)FLDMMDL_CheckEndAcmd((struct Mmdl *)mmdl) != 0 && (struct Mmdl *)FLDMMDL_CheckPossibleAcmd((struct Mmdl *)mmdl) != 0) {
             runtime->acmdActive = 1;
             FIELD_PLAYER_GetPos(fieldPlayer, &runtime->doorPos);
             FLD_EXP_OBJ_SetModelHidden((char *)expObj, 0, openModel, 1);
@@ -444,7 +449,7 @@ int FIELD_GIMMICK_PLATE_DOORS_EventSlideDoor(int event, int *state)
                     *state = *state + 1;
             }
         } else {
-            GAME_EVENT_ChangeEvent((struct GameEvent *)event, (u32 *)GAME_EVENT_Create(gameSystem, 0, FIELD_GIMMICK_PLATE_DOORS_EventReturnDoor, 0));
+            GAME_EVENT_ChangeEvent((struct GameEvent *)event, (struct GameEvent *)GAME_EVENT_Create(gameSystem, 0, FIELD_GIMMICK_PLATE_DOORS_EventReturnDoor, 0));
             return 0;
         }
         break;
@@ -462,13 +467,13 @@ int FIELD_GIMMICK_PLATE_DOORS_EventSlideDoor(int event, int *state)
         }
         if (runtime->acmdDone != 0) {
             FLD_EXP_OBJ_SetAnimePaused(anime, 0);
-            GAME_EVENT_CallEvent((struct GameEvent *)event, EVENT_FIELD_PROCLINK_CreateObjAnimEvent(gameSystem, (int)fieldMap, 0xff, (int)(runtime->side == 0 ? gPlateDoorsReleaseAcmdSide0 : gPlateDoorsReleaseAcmdSide1)));
+            GAME_EVENT_CallEvent((struct GameEvent *)event, EVENT_FIELD_PROCLINK_CreateObjAnimEvent(gameSystem, (void *)fieldMap, 0xff, (char *)(runtime->side == 0 ? gPlateDoorsReleaseAcmdSide0 : gPlateDoorsReleaseAcmdSide1)));
             GFL_USE_StopAllSe();
             GFL_USE_PlaySeDefaultVolume(0x6C3);
         }
         break;
     case 3:
-        FLD_EXP_OBJ_GetAnimeFrame(expObj, 0, 0x22, side);
+        (struct FldExpObjCnt *)FLD_EXP_OBJ_GetAnimeFrame((struct FldExpObjCnt *)expObj, 0, 0x22, side);
         if (FLD_EXP_OBJ_IsAnimeStopped(anime)) {
             FLD_EXP_OBJ_SetAnimeEnabled((void *)expObj, 0, 0x22, side, 0);
             FLD_EXP_OBJ_SetModelHidden((char *)expObj, 0, 0x22, 1);
@@ -510,7 +515,7 @@ int FIELD_GIMMICK_PLATE_DOORS_EventReturnDoor(int event, int *state)
     VecFx32 pos;
 
     fieldMap = GAMESYSTEM_GetFieldMap(GAME_EVENT_GetGameSystem((void *)event));
-    expObj = FIELDMAP_GetExpObj(fieldMap);
+    expObj = (s32)FIELDMAP_GetExpObj(fieldMap);
     runtime = FIELDMAP_GetCommonWork(fieldMap, 1);
     fieldPlayer = FIELDMAP_GetFieldPlayer(fieldMap);
     side = 0;
@@ -596,10 +601,10 @@ int FIELD_GIMMICK_PLATE_DOORS_EventBumpDoorSide(int event, int *state)
     VecFx32 *srcStatus;
 
     fieldMap = GAMESYSTEM_GetFieldMap(GAME_EVENT_GetGameSystem((void *)event));
-    expObj = FIELDMAP_GetExpObj(fieldMap);
+    expObj = (s32)FIELDMAP_GetExpObj(fieldMap);
     runtime = FIELDMAP_GetCommonWork(fieldMap, 1);
     FIELDMAP_GetFieldPlayer(fieldMap);
-    save = GIMMICK_WORK_GetWork(GAME_DATA_GetFieldSave((struct GameData *)GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), 6);
+    save = (struct FieldGimmickPlateDoorsWork *)GIMMICK_WORK_GetWork((struct GimmickWork *)GAME_DATA_GetFieldSave((struct GameData *)GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), 6);
     if (save->doorOpen[runtime->doorIdx] == 0) {
         srcModel = runtime->doorIdx + 0x12;
         tempModel = 0x21;
@@ -658,7 +663,7 @@ int FIELD_GIMMICK_PLATE_DOORS_EventBumpClosedDoor(int event, int *state)
 
     fieldMap = GAMESYSTEM_GetFieldMap(GAME_EVENT_GetGameSystem((void *)event));
     expObj = (char *)FIELDMAP_GetExpObj(fieldMap);
-    runtime = FIELDMAP_GetCommonWork((char *)fieldMap, 1);
+    runtime = FIELDMAP_GetCommonWork((struct FieldMap *)fieldMap, 1);
     FIELDMAP_GetFieldPlayer(fieldMap);
     animeIdx = 0;
     closedModel = runtime->doorIdx + 0x12;
@@ -697,7 +702,7 @@ int FIELD_GIMMICK_PLATE_DOORS_EventBumpClosedDoor(int event, int *state)
 /* Script command: starts the press event of a switch. */
 void *FIELD_GIMMICK_PLATE_DOORS_StartSwitchEvent(void *gameSystem, int switchIdx)
 {
-    FieldGimmickPlateDoorsRuntime *runtime = FIELDMAP_GetCommonWork((char *)GAMESYSTEM_GetFieldMap(gameSystem), 1);
+    FieldGimmickPlateDoorsRuntime *runtime = FIELDMAP_GetCommonWork((struct FieldMap *)GAMESYSTEM_GetFieldMap(gameSystem), 1);
     if (switchIdx >= 8) return 0;
     runtime->switchIdx = switchIdx;
     return GAME_EVENT_Create(gameSystem, 0, FIELD_GIMMICK_PLATE_DOORS_EventPressSwitch, 0);
@@ -709,7 +714,7 @@ void *FIELD_GIMMICK_PLATE_DOORS_StartSwitchEvent(void *gameSystem, int switchIdx
 /* Script command: starts the press event of a plate. */
 void *FIELD_GIMMICK_PLATE_DOORS_StartPlateEvent(void *gameSystem, int plateIdx)
 {
-    FieldGimmickPlateDoorsRuntime *runtime = FIELDMAP_GetCommonWork((char *)GAMESYSTEM_GetFieldMap(gameSystem), 1);
+    FieldGimmickPlateDoorsRuntime *runtime = FIELDMAP_GetCommonWork((struct FieldMap *)GAMESYSTEM_GetFieldMap(gameSystem), 1);
     if (plateIdx >= 10) return 0;
     runtime->plateIdx = plateIdx;
     return GAME_EVENT_Create(gameSystem, 0, FIELD_GIMMICK_PLATE_DOORS_EventPressPlate, 0);
@@ -721,7 +726,7 @@ void *FIELD_GIMMICK_PLATE_DOORS_StartPlateEvent(void *gameSystem, int plateIdx)
 /* Script command: starts the scripted event, whose script depends on the variant. */
 void *FIELD_GIMMICK_PLATE_DOORS_StartScriptedEvent(void *gameSystem, int variant)
 {
-    FieldGimmickPlateDoorsRuntime *runtime = FIELDMAP_GetCommonWork((char *)GAMESYSTEM_GetFieldMap(gameSystem), 1);
+    FieldGimmickPlateDoorsRuntime *runtime = FIELDMAP_GetCommonWork((struct FieldMap *)GAMESYSTEM_GetFieldMap(gameSystem), 1);
     runtime->scriptVariant = variant;
     return GAME_EVENT_Create(gameSystem, 0, FIELD_GIMMICK_PLATE_DOORS_EventScripted, 0);
 }
@@ -751,11 +756,11 @@ int FIELD_GIMMICK_PLATE_DOORS_EventPressSwitch(int event, int *state)
     u8 switchModel;
 
     fieldMap = GAMESYSTEM_GetFieldMap(GAME_EVENT_GetGameSystem((void *)event));
-    expObj = FIELDMAP_GetExpObj(fieldMap);
+    expObj = (s32)FIELDMAP_GetExpObj(fieldMap);
     runtime = FIELDMAP_GetCommonWork(fieldMap, 1);
     gimmickSave = (unsigned int)GAME_DATA_GetFieldSave((struct GameData *)GAMESYSTEM_GetGameData((const struct GameSystem *)FIELDMAP_GetGameSystem(fieldMap)));
-    save = GIMMICK_WORK_GetWork((struct GimmickWork *)gimmickSave, 6);
-    progress = GIMMICK_WORK_GetSubWork((struct GimmickWork *)gimmickSave, 6);
+    save = (struct FieldGimmickPlateDoorsWork *)GIMMICK_WORK_GetWork((struct GimmickWork *)gimmickSave, 6);
+    progress = (u16 *)GIMMICK_WORK_GetSubWork((struct GimmickWork *)gimmickSave, 6);
     switch (*state) {
     case 0:
         switchModel = runtime->switchIdx;
@@ -800,9 +805,9 @@ int FIELD_GIMMICK_PLATE_DOORS_EventPressPlate(int event, int *state)
     VecFx32 *srcStatus;
 
     fieldMap = GAMESYSTEM_GetFieldMap(GAME_EVENT_GetGameSystem((void *)event));
-    expObj = FIELDMAP_GetExpObj(fieldMap);
-    runtime = FIELDMAP_GetCommonWork((char *)fieldMap, 1);
-    save = GIMMICK_WORK_GetWork(GAME_DATA_GetFieldSave((struct GameData *)GAMESYSTEM_GetGameData((const struct GameSystem *)FIELDMAP_GetGameSystem(fieldMap))), 6);
+    expObj = (s32)FIELDMAP_GetExpObj(fieldMap);
+    runtime = FIELDMAP_GetCommonWork((struct FieldMap *)fieldMap, 1);
+    save = (struct FieldGimmickPlateDoorsWork *)GIMMICK_WORK_GetWork((struct GimmickWork *)GAME_DATA_GetFieldSave((struct GameData *)GAMESYSTEM_GetGameData((const struct GameSystem *)FIELDMAP_GetGameSystem(fieldMap))), 6);
     switch (*state) {
     case 0:
         plateModel = runtime->plateIdx + 8;
@@ -882,7 +887,7 @@ int FIELD_GIMMICK_PLATE_DOORS_EventScripted(void *event, int *state)
     fieldMap = (void *)GAMESYSTEM_GetFieldMap(GAME_EVENT_GetGameSystem(event));
     expObj = (void *)FIELDMAP_GetExpObj(fieldMap);
     runtime = FIELDMAP_GetCommonWork(fieldMap, 1);
-    GIMMICK_WORK_GetWork(GAME_DATA_GetFieldSave((struct GameData *)GAMESYSTEM_GetGameData((void *)FIELDMAP_GetGameSystem(fieldMap))), 6);
+    GIMMICK_WORK_GetWork((struct GimmickWork *)GAME_DATA_GetFieldSave((struct GameData *)GAMESYSTEM_GetGameData((void *)FIELDMAP_GetGameSystem(fieldMap))), 6);
     switch (*state) {
     case 0:
         for (i = 0; i < 2; i++) {
@@ -905,7 +910,7 @@ int FIELD_GIMMICK_PLATE_DOORS_EventScripted(void *event, int *state)
             scriptId = 6;
             if (runtime->scriptVariant == 0)
                 scriptId = 5;
-            SCRIPT_SYS_ChangeScriptEvent((int)event, (u16)scriptId, 0, 0x8015);
+            SCRIPT_SYS_ChangeScriptEvent((void *)event, (u16)scriptId, 0, 0x8015);
             *state = *state + 1;
         }
         break;

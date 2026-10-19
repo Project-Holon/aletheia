@@ -168,7 +168,7 @@ extern void FLDMMDL_SetDirDispCheckPause(Mmdl *mmdl, int direction);
 
 extern void FIELD_PLAYER_GetPos(FieldPlayer *player, VecFx32 *pos);
 
-extern void FADE_Start(u32 mode, u32 start, u32 end, u32 wait);
+extern void FADE_Start(u32 a, s32 b, s32 c, s32 d);
 
 extern void VEC_Subtract(VecFx32 *a, VecFx32 *b, VecFx32 *out);
 
@@ -177,20 +177,24 @@ extern u32 GFL_HEAP_Free(void *p);
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
 extern void MI_CpuFill8(void *dst, int value, int size);
+struct G3dResource;
 
-extern void *G3D_SYSTEM_CreateResourceArc(u32 arcId, u32 mode);
+extern struct G3dResource *G3D_SYSTEM_CreateResourceArc(u32 arcId, u32 mode);
+struct G3dRender;
 
-extern void *G3D_SYSTEM_CreateRender(void *resArc, u32 index, void *param);
+extern struct G3dRender *G3D_SYSTEM_CreateRender(struct G3dResource *mdlRes, u32 mdlIdx, struct G3dResource *texRes);
+struct G3dAnime;
+struct G3dObject;
 
-extern void *G3D_SYSTEM_CreateObject(void *render, u32 *anime, int count);
+extern struct G3dObject *G3D_SYSTEM_CreateObject(struct G3dRender *render, struct G3dAnime **anmTbl, s32 anmCount);
 
-extern void G3D_SYSTEM_DeleteResource(void *resArc);
+extern void G3D_SYSTEM_DeleteResource(struct G3dResource *res);
 
-extern void G3D_SYSTEM_DeleteRender(void *render);
+extern void G3D_SYSTEM_DeleteRender(struct G3dRender *render);
 
-extern void G3D_SYSTEM_DeleteObject(void *object);
+extern void G3D_SYSTEM_DeleteObject(struct G3dObject *obj);
 
-extern void *G3D_SYSTEM_GetObjectRender(void *object);
+extern struct G3dRender *G3D_SYSTEM_GetObjectRender(struct G3dObject *obj);
 
 extern void G3D_SYSTEM_GetLookAt(G3dLookAt *dst);
 
@@ -212,59 +216,70 @@ extern void NNS_G3dMdlSetMdlAlpha(void *mdl, int a, int b);
 
 extern void NNS_G3dMdlSetMdlPolygonMode(void *mdl, int a, int b);
 
-extern void G3D_SYSTEM_DrawObject(void *object, G3dObjectStatus *status);
+extern void G3D_SYSTEM_DrawObject(struct G3dObject *obj, struct G3dObjectStatus *status);
+struct ScrcmdWork;
+struct GameSystem;
 
-extern GameSystem *SCRCMD_WORK_GetGameSystem(ScrCmdWork *work);
+extern GameSystem *SCRCMD_WORK_GetGameSystem(struct ScrcmdWork *work);
 
-extern FieldMap *GAMESYSTEM_GetFieldMap(GameSystem *gameSystem);
+extern void *GAMESYSTEM_GetFieldMap(GameSystem *gameSystem);
 
 extern Fld3dCi *FIELDMAP_GetFld3dCi(FieldMap *fieldMap);
 
 extern u16 VM_ReadU16(ScriptVm *vm);
+struct ScriptWork;
 
-extern ScriptSystem *SCRCMD_WORK_GetScriptWork(ScrCmdWork *work);
+extern struct ScriptWork *SCRCMD_WORK_GetScriptWork(struct ScrcmdWork *work);
 
-extern GameEvent *FLD3D_CI_StartSequence(GameSystem *gameSystem, Fld3dCi *ci, int id);
+extern void *FLD3D_CI_StartSequence(void *gameSystem, struct Fld3dCi *ci, s32 sequenceId);
 
-extern void SCRIPT_SYS_CallEvent(ScriptSystem *scriptSys, GameEvent *event);
+extern void SCRIPT_SYS_CallEvent(void *scriptWork, void *task);
+struct ScriptVm;
 
-extern unsigned int SCRIPT_WORK_ReadWorkValue(ScriptVm *vm, ScrCmdWork *work);
+extern unsigned int SCRIPT_WORK_ReadWorkValue(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
 
-extern GameEvent *FLD3D_CI_StartPartyMemberSequence(GameSystem *gameSystem, Fld3dCi *ci, int value);
+extern void *FLD3D_CI_StartPartyMemberSequence(void *gameSystem, struct Fld3dCi *ci, s32 partyPos);
 
-extern GameEvent *FLD3D_CI_StartMessageSequence(GameSystem *gameSystem, Fld3dCi *ci, unsigned int value);
+extern void *FLD3D_CI_StartMessageSequence(void *gameSystem, struct Fld3dCi *ci, u32 nameMsgId);
 
 extern GameEvent *GAME_EVENT_Create(GameSystem *gameSystem, GameEvent *parent, int (*main)(), unsigned int workSize);
 
 extern void *GAME_EVENT_GetWork(GameEvent *event);
+struct GameData;
 
-extern void *GAMESYSTEM_GetGameData(GameSystem *gameSystem);
+extern struct GameData *GAMESYSTEM_GetGameData(GameSystem *gameSystem);
 
-extern MyStatus *GAME_DATA_GetMyStatus(void *gameData);
+extern MyStatus *GAME_DATA_GetMyStatus(struct GameData *gd);
 
 extern u8 MYSTATUS_GetSex(const MyStatus *myStatus);
+struct Location;
 
-extern void ZONEDATA_SetZoneStartLocation(ZoneStartLocation *location, int zoneId);
+extern void ZONEDATA_SetZoneStartLocation(struct Location *loc, s32 zoneId);
+struct FieldMap;
+struct FieldNogridMapper;
 
-extern u32 FIELDMAP_GetNogridMapper(FieldMap *fieldMap);
+extern struct FieldNogridMapper *FIELDMAP_GetNogridMapper(FieldMap *fieldMap);
 
 extern void FIELD_CAMERA_SetAreasEnabled(FieldCamera *camera, u32 value);
+struct FieldCamera;
 
-extern u32 FIELD_CAMERA_GetTraceTarget(FieldCamera *camera);
+extern VecFx32 *FIELD_CAMERA_GetTraceTarget(FieldCamera *camera);
 
 extern void FIELD_CAMERA_EndDelay(FieldCamera *camera);
 
 extern u32 FIELD_CAMERA_IsDelayEnabled(FieldCamera *camera);
 
-extern void FIELD_NOGRID_MAPPER_SetActive(u32 bg, u32 value);
+extern void FIELD_NOGRID_MAPPER_SetActive(struct FieldNogridMapper *mapper, s32 active);
 
 extern void FIELD_CAMERA_StopTargetTrace(FieldCamera *camera);
 
 extern void FIELD_CAMERA_PushState(FieldCamera *camera);
 
 extern void FIELD_CAMERA_PushStateConstrained(FieldCamera *camera);
+struct FieldCameraMoveRequest;
+struct FieldCamera;
 
-extern void FIELD_CAMERA_StartMove(FieldCamera *camera, CameraAnimParam *param, int frames);
+extern void FIELD_CAMERA_StartMove(struct FieldCamera *camera, struct FieldCameraMoveRequest *request, u16 frames);
 
 extern int FIELD_CAMERA_IsMoving(FieldCamera *camera);
 
@@ -274,19 +289,22 @@ extern void FLDMMDL_SysPauseMove(MmdlSys *mmdlSys);
 
 extern void GAME_EVENT_CallEvent(GameEvent *parent, GameEvent *child);
 
-extern u32 *FLDMMDL_SysResumeMove(MmdlSys *mmdlSys);
+extern void FLDMMDL_SysResumeMove(MmdlSys *mmdlSys);
+struct Mmdl;
 
-extern void FLDMMDL_SetStatusBitVanish(Mmdl *mmdl, unsigned int vanish);
+extern void FLDMMDL_SetStatusBitVanish(struct Mmdl *mmdl, s32 flag);
 
 extern void FIELD_CAMERA_PopState(FieldCamera *camera);
+struct GameEvent;
 
-extern GameEvent *EVENT_FIELDMAP_CONTROL_CreateFadeOutEvent(GameSystem *gameSystem, FieldMap *fieldMap, u32 a, u32 b);
+extern GameEvent *EVENT_FIELDMAP_CONTROL_CreateFadeOutEvent(struct GameSystem *gameSystem, struct FieldMap *fieldMap, s32 effect, s32 skipWait);
 
 extern GameEvent *EVENT_MAPCHANGE_CreateWarpEventToLocation(GameSystem *gameSystem, FieldMap *fieldMap, u16 zoneId, ZoneStartLocation *location, u16 flag);
+struct FieldPlaceName;
 
-extern void *FIELDMAP_GetPlaceName(FieldMap *fieldMap);
+extern struct FieldPlaceName *FIELDMAP_GetPlaceName(FieldMap *fieldMap);
 
-extern int FIELD_PLACE_NAME_Cancel(void *msgBg);
+extern int FIELD_PLACE_NAME_Cancel(struct FieldPlaceName *placeName);
 
 extern u32 BG_SYS_GetMainVisiblePlanes(void);
 
@@ -296,9 +314,10 @@ extern void BG_SYS_SetMainVisiblePlanes(u32 planes);
 
 extern void FIELDMAP_ResetBgAffineShowMsg(FieldMap *fieldMap);
 
-extern void FIELD_PLACE_NAME_ShowForZone(void *msgBg, int zoneId);
+extern void FIELD_PLACE_NAME_ShowForZone(struct FieldPlaceName *placeName, s32 zoneId);
+struct FieldCameraMoveChannels;
 
-extern void FIELD_CAMERA_StartMoveToSaved(FieldCamera *camera, CameraAnimFlags *flags, u16 frames);
+extern void FIELD_CAMERA_StartMoveToSaved(struct FieldCamera *camera, struct FieldCameraMoveChannels *channels, u16 frames);
 
 extern void FIELD_CAMERA_SetTraceTarget(FieldCamera *camera, u32 bits);
 
@@ -390,10 +409,10 @@ int SCRCMD_StartFld3dCi(ScriptVm *vm, ScrCmdWork *work)
     GameSystem *gameSystem;
     ScriptSystem *scriptSys;
     GameEvent *event;
-    gameSystem = SCRCMD_WORK_GetGameSystem(work);
+    gameSystem = SCRCMD_WORK_GetGameSystem((struct ScrcmdWork *)work);
     ci = FIELDMAP_GetFld3dCi(GAMESYSTEM_GetFieldMap(gameSystem));
     ciId = VM_ReadU16(vm);
-    scriptSys = SCRCMD_WORK_GetScriptWork(work);
+    scriptSys = (struct ScriptSystem *)SCRCMD_WORK_GetScriptWork((struct ScrcmdWork *)work);
     event = FLD3D_CI_StartSequence(gameSystem, ci, (unsigned char)ciId);
     if (event) {
         SCRIPT_SYS_CallEvent(scriptSys, event);
@@ -409,10 +428,10 @@ int SCRCMD_StartFld3dCiByVar(ScriptVm *vm, ScrCmdWork *work)
     GameSystem *gameSystem;
     ScriptSystem *scriptSys;
     GameEvent *event;
-    gameSystem = SCRCMD_WORK_GetGameSystem(work);
+    gameSystem = SCRCMD_WORK_GetGameSystem((struct ScrcmdWork *)work);
     ci = FIELDMAP_GetFld3dCi(GAMESYSTEM_GetFieldMap(gameSystem));
-    ciId = SCRIPT_WORK_ReadWorkValue(vm, work);
-    scriptSys = SCRCMD_WORK_GetScriptWork(work);
+    ciId = SCRIPT_WORK_ReadWorkValue(vm, (struct ScrcmdWork *)work);
+    scriptSys = (struct ScriptSystem *)SCRCMD_WORK_GetScriptWork((struct ScrcmdWork *)work);
     event = FLD3D_CI_StartPartyMemberSequence(gameSystem, ci, (unsigned char)ciId);
     if (event) {
         SCRIPT_SYS_CallEvent(scriptSys, event);
@@ -428,10 +447,10 @@ int SCRCMD_RunFld3dCiMain(ScriptVm *vm, ScrCmdWork *work)
     GameSystem *gameSystem;
     ScriptSystem *scriptSys;
     GameEvent *event;
-    gameSystem = SCRCMD_WORK_GetGameSystem(work);
+    gameSystem = SCRCMD_WORK_GetGameSystem((struct ScrcmdWork *)work);
     ci = FIELDMAP_GetFld3dCi(GAMESYSTEM_GetFieldMap(gameSystem));
-    value = (int)SCRIPT_WORK_ReadWorkValue(vm, work);
-    scriptSys = SCRCMD_WORK_GetScriptWork(work);
+    value = (int)SCRIPT_WORK_ReadWorkValue(vm, (struct ScrcmdWork *)work);
+    scriptSys = (struct ScriptSystem *)SCRCMD_WORK_GetScriptWork((struct ScrcmdWork *)work);
     event = FLD3D_CI_StartMessageSequence(gameSystem, ci, value);
     if (event) {
         SCRIPT_SYS_CallEvent(scriptSys, event);
@@ -450,9 +469,9 @@ int SCRCMD_StartFld3dCiByTable(ScriptVm *vm, ScrCmdWork *work)
     ScriptSystem *scriptSys;
     unsigned short ciId;
     GameEvent *event;
-    gameSystem = SCRCMD_WORK_GetGameSystem(work);
+    gameSystem = SCRCMD_WORK_GetGameSystem((struct ScrcmdWork *)work);
     ci = FIELDMAP_GetFld3dCi(GAMESYSTEM_GetFieldMap(gameSystem));
-    value = (int)SCRIPT_WORK_ReadWorkValue(vm, work);
+    value = (int)SCRIPT_WORK_ReadWorkValue(vm, (struct ScrcmdWork *)work);
     found = 0;
     for (i = 0; i < 17; i++) {
         if (value == gFld3dCiKeyTable[i * 2]) {
@@ -462,7 +481,7 @@ int SCRCMD_StartFld3dCiByTable(ScriptVm *vm, ScrCmdWork *work)
         }
     }
     if (found) {
-        scriptSys = SCRCMD_WORK_GetScriptWork(work);
+        scriptSys = (struct ScriptSystem *)SCRCMD_WORK_GetScriptWork((struct ScrcmdWork *)work);
         event = FLD3D_CI_StartSequence(gameSystem, ci, (unsigned char)ciId);
         if (event) {
             SCRIPT_SYS_CallEvent(scriptSys, event);
@@ -490,7 +509,7 @@ GameEvent *FLD_WIPE_3DOBJ_CreateMapChangeEvent(GameSystem *gameSystem, int unuse
         cutInIdAfter = 19;
     }
     work->cutInIdAfter = cutInIdAfter;
-    ZONEDATA_SetZoneStartLocation(&work->startLocation, (unsigned short)zoneId);
+    ZONEDATA_SetZoneStartLocation((struct Location *)(&work->startLocation), (unsigned short)zoneId);
     return event;
 }
 
@@ -513,18 +532,18 @@ int FLD_WIPE_3DOBJ_MapChangeEventMain(GameEvent *event, int *seq, WipeMapChangeW
     fieldMap = GAMESYSTEM_GetFieldMap(work->gameSystem);
     camera = FIELDMAP_GetCamera(fieldMap);
     ci = FIELDMAP_GetFld3dCi(fieldMap);
-    bg = FIELDMAP_GetNogridMapper(fieldMap);
+    bg = (u32)FIELDMAP_GetNogridMapper(fieldMap);
     switch (*seq) {
     case 0:
         FIELD_CAMERA_SetAreasEnabled(camera, 0);
-        work->savedCameraBits = FIELD_CAMERA_GetTraceTarget(camera);
+        work->savedCameraBits = (u32)FIELD_CAMERA_GetTraceTarget(camera);
         FIELD_CAMERA_EndDelay(camera);
         (*seq)++;
         break;
     case 1:
         if (work->savedCameraBits != 0 && FIELD_CAMERA_IsDelayEnabled(camera) != 0)
             break;
-        FIELD_NOGRID_MAPPER_SetActive(bg, 0);
+        FIELD_NOGRID_MAPPER_SetActive((struct FieldNogridMapper *)bg, 0);
         FIELD_CAMERA_StopTargetTrace(camera);
         FIELD_CAMERA_PushState(camera);
         FIELD_PLAYER_GetPos(FIELDMAP_GetFieldPlayer(fieldMap), &playerPos1);
@@ -542,7 +561,7 @@ int FLD_WIPE_3DOBJ_MapChangeEventMain(GameEvent *event, int *seq, WipeMapChangeW
         firstCameraParam.flags.apply[3] = 1;
         firstCameraParam.flags.apply[4] = 1;
         firstCameraParam.flags.apply[5] = 1;
-        FIELD_CAMERA_StartMove(camera, &firstCameraParam, 10);
+        FIELD_CAMERA_StartMove(camera, (struct FieldCameraMoveRequest *)(&firstCameraParam), 10);
         (*seq)++;
     case 2:
         if (FIELD_CAMERA_IsMoving(camera) != 0)
@@ -566,14 +585,14 @@ int FLD_WIPE_3DOBJ_MapChangeEventMain(GameEvent *event, int *seq, WipeMapChangeW
         break;
     case 5:
         FIELD_PLACE_NAME_Cancel(FIELDMAP_GetPlaceName(fieldMap));
-        work->savedCameraBits = FIELD_CAMERA_GetTraceTarget(camera);
+        work->savedCameraBits = (u32)FIELD_CAMERA_GetTraceTarget(camera);
         FIELD_CAMERA_EndDelay(camera);
         (*seq)++;
         break;
     case 6:
         if (work->savedCameraBits != 0 && FIELD_CAMERA_IsDelayEnabled(camera) != 0)
             break;
-        FIELD_NOGRID_MAPPER_SetActive(bg, 0);
+        FIELD_NOGRID_MAPPER_SetActive((struct FieldNogridMapper *)bg, 0);
         FIELD_CAMERA_StopTargetTrace(camera);
         FIELD_CAMERA_PushStateConstrained(camera);
         FIELD_CAMERA_SetAreasEnabled(camera, 0);
@@ -592,7 +611,7 @@ int FLD_WIPE_3DOBJ_MapChangeEventMain(GameEvent *event, int *seq, WipeMapChangeW
         secondCameraParam.flags.apply[3] = 1;
         secondCameraParam.flags.apply[4] = 1;
         secondCameraParam.flags.apply[5] = 1;
-        FIELD_CAMERA_StartMove(camera, &secondCameraParam, 1);
+        FIELD_CAMERA_StartMove(camera, (struct FieldCameraMoveRequest *)(&secondCameraParam), 1);
         (*seq)++;
     case 7:
         if (FIELD_CAMERA_IsMoving(camera) != 0)
@@ -626,7 +645,7 @@ int FLD_WIPE_3DOBJ_MapChangeEventMain(GameEvent *event, int *seq, WipeMapChangeW
         flags.apply[3] = 1;
         flags.apply[4] = 1;
         flags.apply[5] = 1;
-        FIELD_CAMERA_StartMoveToSaved(camera, &flags, 10);
+        FIELD_CAMERA_StartMoveToSaved(camera, (struct FieldCameraMoveChannels *)(&flags), 10);
         (*seq)++;
     case 10:
         if (FIELD_CAMERA_IsMoving(camera) != 0)
@@ -634,7 +653,7 @@ int FLD_WIPE_3DOBJ_MapChangeEventMain(GameEvent *event, int *seq, WipeMapChangeW
         if (work->savedCameraBits != 0)
             FIELD_CAMERA_SetTraceTarget(camera, work->savedCameraBits);
         FIELD_CAMERA_RestartDelay(camera);
-        FIELD_NOGRID_MAPPER_SetActive(bg, 1);
+        FIELD_NOGRID_MAPPER_SetActive((struct FieldNogridMapper *)bg, 1);
         FIELD_CAMERA_PopState(camera);
         FIELD_CAMERA_SetAreasEnabled(camera, 1);
         return 1;

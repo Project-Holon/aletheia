@@ -52,22 +52,24 @@ extern u32 GFL_HEAP_Free(void *p);
 extern int PARTICLE_UpdateAllSystems(void);
 
 extern int PARTICLE_DrawAllSystems(void);
+struct ParticleSys;
 
-extern int PARTICLE_CreateSystemDefault(int a, int b, int c, int d);
+extern struct ParticleSys *PARTICLE_CreateSystemDefault(unsigned int workBuf, unsigned int workSize, unsigned int withCamera, unsigned int heapId);
 
-extern int PARTICLE_LoadArchiveMember(u32 a, u32 b, u32 c);
+extern void *PARTICLE_LoadArchiveMember(u32 a, u32 b, u32 c);
+struct TcbList;
 
-extern unsigned GFL_USE_GetMainTaskList(void);
+extern struct TcbList *GFL_USE_GetMainTaskList(void);
 
-extern void PARTICLE_SetupSystem(void *, void *, unsigned, unsigned);
+extern void PARTICLE_SetupSystem(struct ParticleSys *sys, void *block, unsigned int applyNow, unsigned int taskMgr);
 
-extern void PARTICLE_KillAllEffects(u32);
+extern void PARTICLE_KillAllEffects(struct ParticleSys *sys);
 
-extern void PARTICLE_DeleteSystem(u8 *p);
+extern void PARTICLE_DeleteSystem(struct ParticleSys *sys);
 
-extern int PARTICLE_StartEffect(void *p, int b, int c);
+extern int PARTICLE_StartEffect(struct ParticleSys *sys, int resId, int arg);
 
-extern void PARTICLE_KillEffect(void **p, void *q);
+extern void PARTICLE_KillEffect(struct ParticleSys *sys, void *effect);
 
 extern void PARTICLE_EMITTER_SetEmitPos(void *, int);
 
@@ -131,13 +133,13 @@ char *STA_ACT_EFFECT_StartSystem(char *p, u32 memberIndex)
     j = 0;
     ((ActEffectSystem *)q)->system.p = (void *)PARTICLE_CreateSystemDefault((int)(q + 4), 0x4800, 0, ((ActEffectManager *)p)->heapId);
     v = (void *)PARTICLE_LoadArchiveMember(47, memberIndex, ((ActEffectManager *)p)->heapId);
-    PARTICLE_SetupSystem(((ActEffectSystem *)q)->system.p, v, 0, GFL_USE_GetMainTaskList());
+    PARTICLE_SetupSystem(((ActEffectSystem *)q)->system.p, v, 0, (unsigned int)GFL_USE_GetMainTaskList());
     for (; j < 4; j++) *(int *)(q + j * 16 + 0x4808) = 0;
     ((ActEffectSystem *)q)->active.s = 1;
     return q;
 }
 
-void STA_ACT_EFFECT_KillSystem(u8 *unused,u8 *p) { ((ActEffectSystem *)p)->active.u=0; PARTICLE_KillAllEffects(((ActEffectSystem *)p)->system.u); PARTICLE_DeleteSystem((u8 *)(((ActEffectSystem *)p)->system.u)); }
+void STA_ACT_EFFECT_KillSystem(u8 *unused,u8 *p) { ((ActEffectSystem *)p)->active.u=0; PARTICLE_KillAllEffects((struct ParticleSys *)(((ActEffectSystem *)p)->system.u)); PARTICLE_DeleteSystem((struct ParticleSys *)(((ActEffectSystem *)p)->system.u)); }
 
 static inline void set(Vec *p, int x, int y, int z)
 {

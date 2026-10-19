@@ -158,9 +158,10 @@ typedef struct SkillEventWork {
     SkillTarget target;                   /* 0x0C */
 } SkillEventWork;
 
-extern int SCRIPT_SYS_ChangeScriptEvent(int event, int msgId, int c, int d);
+extern void *SCRIPT_SYS_ChangeScriptEvent(void *event, u16 scriptId, void *target, s32 reserved);
+struct ScriptWork;
 
-extern int SCRIPT_WORK_SetParams(int a, int b, int c, int d, u16 e);
+extern int SCRIPT_WORK_SetParams(struct ScriptWork *work, s32 param0, s32 param1, s32 param2, u16 param3);
 
 extern struct GameData *GAMESYSTEM_GetGameData(struct GameSystem *gameSystem);
 
@@ -173,12 +174,13 @@ extern struct MyStatus *GAME_DATA_GetMyStatus(struct GameData *gameData);
 extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gameData);
 
 extern u8 GAME_DATA_GetSeason(struct GameData *gameData);
+struct PlayerWork;
 
-extern u16 GAME_DATA_GetPlayerZoneId(void *playerWork);
+extern u16 GAME_DATA_GetPlayerZoneId(struct PlayerWork *player);
 
-extern void *GAME_DATA_GetMyPlayerWork(struct GameData *gameData);
+extern struct PlayerWork *GAME_DATA_GetMyPlayerWork(struct GameData *gameData);
 
-extern u32 GAME_DATA_GetEventWork(struct GameData *gameData);
+extern void *GAME_DATA_GetEventWork(struct GameData *gameData);
 
 extern struct FieldStatus *GAME_DATA_GetMoveModelSys(struct GameData *gameData);
 
@@ -196,13 +198,15 @@ extern u32 GFL_HEAP_Free(void *ptr);
 extern void MI_CpuFill8(void *dst, u8 value, u32 size);
 
 extern u32 GFL_USE_GetRandomBelow(u32 range);
+struct Party;
+struct PokemonParam;
 
-extern struct Pokemon *POKEPARTY_GetMember(struct PokeParty *party, u32 index);
+extern struct PokemonParam *POKEPARTY_GetMember(struct Party *party, u32 pos);
 
 extern u32 MYSTATUS_GetId(struct MyStatus *myStatus);
 
 /* move_pokemon: roaming legendary save (arm9 unit_0200C7C0.c) */
-extern void *MOVE_POKEMON_SAVE_GetBlock(struct SaveControl *save);
+extern void *MOVE_POKEMON_SAVE_GetBlock(void *saveControl);
 
 extern u8 MOVE_POKEMON_SAVE_IsEntryActive(struct MovePokemonSave *block, u32 index);
 
@@ -216,13 +220,14 @@ extern void MOVE_POKEMON_SAVE_SetEntryField(struct MovePokemonEntry *entry, u32 
 
 extern u32 POKE_TOOL_GetPartyParamSize(void);
 
-extern void POKE_TOOL_SetupPartyParamEx(struct Pokemon *mon, u16 species, u16 level, unsigned long long personalId, u32 power, unsigned long long rand);
+extern void POKE_TOOL_SetupPartyParamEx(struct PokemonParam *pp, unsigned short species, unsigned short level, unsigned long long otId, unsigned int ivs, unsigned long long personality);
 
-extern u32 POKE_TOOL_GetPartyValue(struct Pokemon *mon, u32 paramId, u32 buf);
+extern u32 POKE_TOOL_GetPartyValue(struct PokemonParam *pp, u32 paramId, u32 arg);
 
-extern void *ZUKAN_SAVE_GetBlock(struct SaveControl *save);
+extern void *ZUKAN_SAVE_GetBlock(void *saveControl);
+struct ZukanSave;
 
-extern void ZUKAN_SAVE_RegisterSeen(void *boxData, struct Pokemon *mon);
+extern void ZUKAN_SAVE_RegisterSeen(struct ZukanSave *pZukan, void *pMon);
 
 extern void MOVE_POKEMON_SAVE_SetEntryState(struct MovePokemonSave *block, u32 index, u32 state);
 
@@ -233,16 +238,18 @@ extern void MOVE_POKEMON_SAVE_InitEntry(struct MovePokemonEntry *entry);
 extern void MOVE_POKEMON_SAVE_SetEntryLocation(struct MovePokemonSave *block, u32 index, u8 location);
 
 extern u32 MOVE_POKEMON_SAVE_GetEntryField(const struct MovePokemonEntry *entry, u32 field);
+struct BattleSetupParam;
 
-extern void *BTL_SETUP_GetParty(BattleResultWork *work, int index);
+extern void *BTL_SETUP_GetParty(struct BattleSetupParam *param, s32 client);
 
 extern u16 FIELDMAP_GetZoneId(struct FieldMap *fieldMap);
 
-extern void *FIELDMAP_GetGameSystem(void *field);
+extern struct GameSystem *FIELDMAP_GetGameSystem(struct FieldMap *fieldMap);
 
 extern struct FieldPlayer *FIELDMAP_GetFieldPlayer(struct FieldMap *fieldMap);
+struct MmdlSys;
 
-extern void *FIELDMAP_GetMmdlSys(struct FieldMap *fieldMap);
+extern struct MmdlSys *FIELDMAP_GetMmdlSys(struct FieldMap *fieldMap);
 
 extern u32 FIELD_PLAYER_GetFormCode(struct FieldPlayer *player);
 
@@ -259,10 +266,12 @@ extern int FIELD_PLAYER_CheckSurfStartAttr(struct FieldPlayer *player, int a, in
 extern int FIELD_PLAYER_CheckWaterfallClimbAttr(struct FieldPlayer *player, int a, int b);
 
 extern void FIELD_PLAYER_GetNowGridPos(struct FieldPlayer *player, u16 *x, u16 *y, u16 *z);
+struct Mmdl;
 
-extern u16 FLDMMDL_GetObjCode(struct MapObject *obj);
+extern u16 FLDMMDL_GetObjCode(struct Mmdl *mmdl);
+struct MmdlVec;
 
-extern void FLDMMDL_GetPos(const struct MapObject *obj, VecFx32 *out);
+extern void FLDMMDL_GetPos(struct Mmdl *mmdl, struct MmdlVec *out);
 
 extern int FLDMMDL_IsMovedPosObjCode(u16 kind);
 
@@ -284,7 +293,7 @@ extern u32 ZONEDATA_IsRawZoneF7(u32 zoneId);
 
 extern u32 ZONEDATA_IsNormalFieldZone(u32 zoneId);
 
-extern void *SWEET_SCENT_CreateEvent(struct GameSystem *gameSys, struct FieldMap *fieldMap, u8 skillId);
+extern void *SWEET_SCENT_CreateEvent(void *gameSys, void *fieldMap, u8 partyIdx);
 
 struct FieldStatus;
 
@@ -510,13 +519,13 @@ void MOVE_POKEMON_SpawnEntry(struct GameData *gameData, u8 slot)
     MOVE_POKEMON_SAVE_SetEntryField(entry, 9, flag);
     myStatus = GAME_DATA_GetMyStatus(gameData);
     mon = GFL_HEAP_Alloc(0x8003, POKE_TOOL_GetPartyParamSize(), 1, d_0217293C, 0x12E);
-    POKE_TOOL_SetupPartyParamEx(mon, species, level, MYSTATUS_GetId(myStatus), 0xFFFFFFFF, 0xFFFFFFFF00000000ULL);
+    POKE_TOOL_SetupPartyParamEx((struct PokemonParam *)mon, species, level, MYSTATUS_GetId(myStatus), 0xFFFFFFFF, 0xFFFFFFFF00000000ULL);
     MOVE_POKEMON_SAVE_SetEntryField(entry, 7, 0);
     MOVE_POKEMON_SAVE_SetEntryField(entry, 8, 1);
-    MOVE_POKEMON_SAVE_SetEntryField(entry, 2, POKE_TOOL_GetPartyValue(mon, 0xAC, 0));
-    MOVE_POKEMON_SAVE_SetEntryField(entry, 3, POKE_TOOL_GetPartyValue(mon, 0, 0));
-    MOVE_POKEMON_SAVE_SetEntryField(entry, 10, POKE_TOOL_GetPartyValue(mon, 0x70, 0));
-    MOVE_POKEMON_SAVE_SetEntryField(entry, 5, POKE_TOOL_GetPartyValue(mon, 0xA1, 0));
+    MOVE_POKEMON_SAVE_SetEntryField(entry, 2, POKE_TOOL_GetPartyValue((struct PokemonParam *)mon, 0xAC, 0));
+    MOVE_POKEMON_SAVE_SetEntryField(entry, 3, POKE_TOOL_GetPartyValue((struct PokemonParam *)mon, 0, 0));
+    MOVE_POKEMON_SAVE_SetEntryField(entry, 10, POKE_TOOL_GetPartyValue((struct PokemonParam *)mon, 0x70, 0));
+    MOVE_POKEMON_SAVE_SetEntryField(entry, 5, POKE_TOOL_GetPartyValue((struct PokemonParam *)mon, 0xA1, 0));
     ZUKAN_SAVE_RegisterSeen(ZUKAN_SAVE_GetBlock(save), mon);
     GFL_HEAP_Free(mon);
     MOVE_POKEMON_MoveToNeighbor(block, (u32)((void *)GAME_DATA_GetSeason(gameData)), slot, 5);
@@ -558,10 +567,10 @@ void MOVE_POKEMON_HandleBattleResult(struct GameData *gameData, BattleResultWork
         return;
     }
     GAME_DATA_GetPlayerZoneId(GAME_DATA_GetMyPlayerWork(gameData));
-    mon = POKEPARTY_GetMember(BTL_SETUP_GetParty(work, 1), 0);
-    species = POKE_TOOL_GetPartyValue(mon, 5, 0);
-    hp = POKE_TOOL_GetPartyValue(mon, 0xA0, 0);
-    status = POKE_TOOL_GetPartyValue(mon, 0x9D, 0);
+    mon = (struct Pokemon *)POKEPARTY_GetMember(BTL_SETUP_GetParty((struct BattleSetupParam *)work, 1), 0);
+    species = POKE_TOOL_GetPartyValue((struct PokemonParam *)mon, 5, 0);
+    hp = POKE_TOOL_GetPartyValue((struct PokemonParam *)mon, 0xA0, 0);
+    status = POKE_TOOL_GetPartyValue((struct PokemonParam *)mon, 0x9D, 0);
     block = MOVE_POKEMON_SAVE_GetBlock(GAME_DATA_GetSaveControl(gameData));
     entry = MOVE_POKEMON_FindEntryBySpecies(block, species);
     if (entry == 0) {
@@ -716,9 +725,9 @@ void MOVE_POKEMON_InitSkillInfo(struct FieldMap *fieldMap, FieldSkillInfo *out)
     playerObj = FIELD_PLAYER_SearchFrontMmdl(player);
     out->playerObj = playerObj;
     if (playerObj != 0) {
-        objKind = FLDMMDL_GetObjCode(playerObj);
+        objKind = FLDMMDL_GetObjCode((struct Mmdl *)playerObj);
         map = FIELDMAP_GetMmdlSys(fieldMap);
-        FLDMMDL_GetPos(playerObj, &pos);
+        FLDMMDL_GetPos((struct Mmdl *)playerObj, (struct MmdlVec *)(&pos));
         if (FLDMMDL_IsMovedPosObjCode(objKind) && FLDMMDL_CheckMovedPosAtMapPos(map, &pos) == 0)
             out->usableMask |= 8;
         if (objKind == 0x6C)
@@ -817,8 +826,8 @@ int MOVE_POKEMON_CutEventMain(struct GameEvent *event, u32 *state, void *work)
 
     GAME_DATA_GetEventWork(GAMESYSTEM_GetGameData(skillWork->gameSys));
     targetId = skillWork->target.id;
-    scriptCtl = SCRIPT_SYS_ChangeScriptEvent((int)event, 0x2715, 0, 0);
-    SCRIPT_WORK_SetParams(scriptCtl, targetId, 0, 0, 0);
+    scriptCtl = (s32)SCRIPT_SYS_ChangeScriptEvent((void *)event, 0x2715, 0, 0);
+    (struct ScriptWork *)SCRIPT_WORK_SetParams((struct ScriptWork *)scriptCtl, targetId, 0, 0, 0);
     return 0;
 }
 
@@ -860,8 +869,8 @@ int MOVE_POKEMON_FlyEventMain(struct GameEvent *event, u32 *state, void *work)
     int scriptCtl;
     GAME_DATA_GetEventWork(GAMESYSTEM_GetGameData(skillWork->gameSys));
     targetId = skillWork->target.id;
-    scriptCtl = SCRIPT_SYS_ChangeScriptEvent((int)event, 0x2713, 0, 0);
-    SCRIPT_WORK_SetParams(scriptCtl, targetId, 0, 0, 0);
+    scriptCtl = (s32)SCRIPT_SYS_ChangeScriptEvent((void *)event, 0x2713, 0, 0);
+    (struct ScriptWork *)SCRIPT_WORK_SetParams((struct ScriptWork *)scriptCtl, targetId, 0, 0, 0);
     return 0;
 }
 
@@ -887,8 +896,8 @@ int MOVE_POKEMON_SurfEventMain(struct GameEvent *event, u32 *state, void *work)
     int scriptCtl;
     GAME_DATA_GetEventWork(GAMESYSTEM_GetGameData(skillWork->gameSys));
     targetId = skillWork->target.id;
-    scriptCtl = SCRIPT_SYS_ChangeScriptEvent((int)event, 0x2717, 0, 0);
-    SCRIPT_WORK_SetParams(scriptCtl, targetId, 0, 0, 0);
+    scriptCtl = (s32)SCRIPT_SYS_ChangeScriptEvent((void *)event, 0x2717, 0, 0);
+    (struct ScriptWork *)SCRIPT_WORK_SetParams((struct ScriptWork *)scriptCtl, targetId, 0, 0, 0);
     return 0;
 }
 
@@ -914,8 +923,8 @@ int MOVE_POKEMON_StrengthEventMain(struct GameEvent *event, u32 *state, void *wo
     int scriptCtl;
     GAME_DATA_GetEventWork(GAMESYSTEM_GetGameData(skillWork->gameSys));
     targetId = skillWork->target.id;
-    scriptCtl = SCRIPT_SYS_ChangeScriptEvent((int)event, 0x2711, 0, 0);
-    SCRIPT_WORK_SetParams(scriptCtl, targetId, 0, 0, 0);
+    scriptCtl = (s32)SCRIPT_SYS_ChangeScriptEvent((void *)event, 0x2711, 0, 0);
+    (struct ScriptWork *)SCRIPT_WORK_SetParams((struct ScriptWork *)scriptCtl, targetId, 0, 0, 0);
     return 0;
 }
 
@@ -934,15 +943,17 @@ void *MOVE_POKEMON_CreateDiveEvent(SkillTarget *target, FieldSkillInfo *info)
 
 extern int GAME_BEACON_SEARCH_SetCountValue(u32 seId);
 
-extern int FLD_WIPE_3DOBJ_CreateMapChangeEvent(struct GameSystem *gameSystem, u32 fieldPlayer, u32 targetParam);
+extern struct GameEvent *FLD_WIPE_3DOBJ_CreateMapChangeEvent(struct GameSystem *gameSystem, s32 unused, s32 zoneId);
 
 extern void *GAMESYSTEM_GetFieldMap(struct GameSystem *gameSystem);
+struct FieldSkillMapEff;
 
-extern void *FIELDMAP_GetMapEff(void *fieldMap);
+extern struct FieldSkillMapEff *FIELDMAP_GetMapEff(struct FieldMap *fieldMap);
+struct FieldFlash;
 
-extern void *FIELDSKILL_MAPEFF_GetFlash(void *p);
+extern struct FieldFlash *FIELDSKILL_MAPEFF_GetFlash(struct FieldSkillMapEff *mapEff);
 
-extern u16 FIELDMAP_GetHeapId(void *fieldMap);
+extern u16 FIELDMAP_GetHeapId(struct FieldMap *fieldMap);
 
 extern void *SCRIPT_SYS_CallScriptEvent(struct GameEvent *event, u32 msgId, u32 b, u32 c, u32 d);
 
@@ -954,7 +965,7 @@ extern void FIELD_FLASH_SetPendingCommand(void *mapEffect, u16 mode);
 
 extern void FIELD_STATUS_SetMapEffectMask(struct FieldStatus *fieldStatus, u32 mask);
 
-extern u16 FIELD_FLASH_GetState(void *mapEffect);
+extern u16 FIELD_FLASH_GetState(struct FieldFlash *flash);
 
 extern struct GameEvent *EVENT_MAPCHANGE_CreateEscapeRopeEvent(struct GameSystem *gameSystem);
 
@@ -962,9 +973,9 @@ extern void GAME_EVENT_ChangeEvent(struct GameEvent *event, struct GameEvent *ne
 
 extern struct GameEvent *EVENT_MAPCHANGE_CreateSituationWarpEvent(struct GameSystem *gameSystem);
 
-extern void EVENT_PERAP_RECORD_Create(struct GameSystem *gameSystem, u32 fieldPlayer, unsigned partySlot);
+extern struct GameEvent *EVENT_PERAP_RECORD_Create(struct GameSystem *gameSystem, struct FieldMap *fieldMap, u32 partySlot);
 
-extern u32 ZONEDATA_CheckEventFlag(void *eventWork, int flag);
+extern u32 ZONEDATA_CheckEventFlag(struct EventWork *ev, s32 flagId);
 
 int MOVE_POKEMON_StartSkillOnTarget(const FieldSkillTarget *target, const FieldSkillContext *ctx, int unused);
 
@@ -1020,7 +1031,7 @@ extern int d_021711FC[];
 int MOVE_POKEMON_StartSkillOnTarget(const FieldSkillTarget *target, const FieldSkillContext *ctx, int unused)
 {
     GAME_BEACON_SEARCH_SetCountValue(0x13);
-    return FLD_WIPE_3DOBJ_CreateMapChangeEvent(ctx->gameSystem, ctx->fieldPlayer, target->targetParam);
+    return (s32)FLD_WIPE_3DOBJ_CreateMapChangeEvent(ctx->gameSystem, ctx->fieldPlayer, target->targetParam);
 }
 
 int MOVE_POKEMON_CheckWaterfall(const FieldSkillCheck *check)
@@ -1066,7 +1077,7 @@ int MOVE_POKEMON_FlashEventMain(struct GameEvent *event, int *seq, FieldSkillWor
     case 0:
         partySlot = work->target.partySlot;
         msg = SCRIPT_SYS_CallScriptEvent(event, 0x2718, 0, 0, windowParam);
-        SCRIPT_WORK_SetParams((int)msg, partySlot, 0, 0, 0);
+        (struct ScriptWork *)SCRIPT_WORK_SetParams((struct ScriptWork *)msg, partySlot, 0, 0, 0);
         (*seq)++;
         break;
     case 1:
@@ -1114,7 +1125,7 @@ int MOVE_POKEMON_DigEventMain(struct GameEvent *event, int *seq, FieldSkillWork 
     case 0:
         partySlot = work->target.partySlot;
         msg = (void *)SCRIPT_SYS_CallScriptEvent(event, 0x271a, 0, 0, 0x15);
-        SCRIPT_WORK_SetParams((int)msg, partySlot, 0, 0, 0);
+        (struct ScriptWork *)SCRIPT_WORK_SetParams((struct ScriptWork *)msg, partySlot, 0, 0, 0);
         *seq = *seq + 1;
         break;
     case 1:
@@ -1151,7 +1162,7 @@ int MOVE_POKEMON_TeleportEventMain(struct GameEvent *event, int *seq, FieldSkill
     case 0:
         partySlot = work->target.partySlot;
         msg = (void *)SCRIPT_SYS_CallScriptEvent(event, 0x2719, 0, 0, 0x15);
-        SCRIPT_WORK_SetParams((int)msg, partySlot, 0, 0, 0);
+        (struct ScriptWork *)SCRIPT_WORK_SetParams((struct ScriptWork *)msg, partySlot, 0, 0, 0);
         *seq = *seq + 1;
         break;
     case 1:
@@ -1186,8 +1197,8 @@ int MOVE_POKEMON_MilkDrinkEventMain(struct GameEvent *event, int *seq, FieldSkil
 
     GAME_DATA_GetEventWork(GAMESYSTEM_GetGameData(work->gameSystem));
     partySlot = work->target.partySlot;
-    msg = SCRIPT_SYS_ChangeScriptEvent((int)event, 0x271c, 0, 0);
-    SCRIPT_WORK_SetParams(msg, partySlot, 0, 0, 0);
+    msg = (s32)SCRIPT_SYS_ChangeScriptEvent((void *)event, 0x271c, 0, 0);
+    (struct ScriptWork *)SCRIPT_WORK_SetParams((struct ScriptWork *)msg, partySlot, 0, 0, 0);
     return 0;
 }
 
@@ -1203,7 +1214,7 @@ int MOVE_POKEMON_CheckSweetScent(const FieldSkillCheck *check)
 void MOVE_POKEMON_StartSweetScent(const FieldSkillTarget *target, const FieldSkillContext *ctx)
 {
     GAME_BEACON_SEARCH_SetCountValue(0x1C0);
-    EVENT_PERAP_RECORD_Create(ctx->gameSystem, ctx->fieldPlayer, (u8)target->partySlot);
+    EVENT_PERAP_RECORD_Create(ctx->gameSystem, (struct FieldMap *)ctx->fieldPlayer, (u8)target->partySlot);
 }
 
 int MOVE_POKEMON_SweetScentEventMain(struct GameEvent *event, int *seq, FieldSkillWork *work)
@@ -1218,11 +1229,11 @@ int MOVE_POKEMON_SweetScentEventMain(struct GameEvent *event, int *seq, FieldSki
     case 0:
         partySlot = work->target.partySlot;
         msg = SCRIPT_SYS_CallScriptEvent(event, 0x271e, 0, 0, windowParam);
-        SCRIPT_WORK_SetParams((int)msg, partySlot, 0, 0, 0);
+        (struct ScriptWork *)SCRIPT_WORK_SetParams((struct ScriptWork *)msg, partySlot, 0, 0, 0);
         *seq = *seq + 1;
         break;
     case 1:
-        SCRIPT_SYS_ChangeScriptEvent((int)event, 0x28e3, 0, 0);
+        SCRIPT_SYS_ChangeScriptEvent((void *)event, 0x28e3, 0, 0);
         break;
     }
     return 0;
@@ -1249,11 +1260,11 @@ int MOVE_POKEMON_SoftBoiledEventMain(struct GameEvent *event, int *seq, FieldSki
     case 0:
         partySlot = work->target.partySlot;
         msg = SCRIPT_SYS_CallScriptEvent(event, 0x271d, 0, 0, windowParam);
-        SCRIPT_WORK_SetParams((int)msg, partySlot, 0, 0, 0);
+        (struct ScriptWork *)SCRIPT_WORK_SetParams((struct ScriptWork *)msg, partySlot, 0, 0, 0);
         *seq = *seq + 1;
         break;
     case 1:
-        SCRIPT_SYS_ChangeScriptEvent((int)event, 0x28e2, 0, 0);
+        SCRIPT_SYS_ChangeScriptEvent((void *)event, 0x28e2, 0, 0);
         break;
     }
     return 0;

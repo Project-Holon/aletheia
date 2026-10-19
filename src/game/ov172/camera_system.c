@@ -97,19 +97,19 @@ typedef struct Camera {
 
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
-extern void UI_SetKeepAwakeFlagsGlobal(int);
+extern void UI_SetKeepAwakeFlagsGlobal(unsigned char flags);
 
 extern int OS_IsRunOnTwl(void);
 
 extern void OS_Terminate(void);
 
-extern void OS_EnableIrqMask(int);
+extern unsigned int OS_EnableIrqMask(unsigned int intr);
 
 extern void UI_SetIntrDataGlobal(u32 a, u32 b);
 
 extern void OS_Sleep(u32 msec);
 
-extern int DSPi_IsShutterSoundPlayingCore(void);
+extern unsigned int DSPi_IsShutterSoundPlayingCore(void);
 
 extern void DSPi_UnloadG711Core(void);
 
@@ -119,15 +119,15 @@ extern void MI_StopNDma(int);
 
 extern void CAMERA_EndCore(void);
 
-int CAMERA_InitCore(void);
+unsigned int CAMERA_InitCore(void);
 
-int CAMERA_I2CInitCore(int);
+unsigned int CAMERA_I2CInitCore(unsigned int camera);
 
-void CAMERA_I2CEffectExCore(int, int, int);
+unsigned int CAMERA_I2CEffectExCore(unsigned int camera, unsigned int context, unsigned int effect);
 
-void CAMERA_I2CAutoExposureCore(int, int);
+unsigned int CAMERA_I2CAutoExposureCore(unsigned int camera, unsigned int enable);
 
-void CAMERA_I2CAutoWhiteBalanceCore(int, int);
+unsigned int CAMERA_I2CAutoWhiteBalanceCore(unsigned int camera, unsigned int enable);
 
 u32 CAMERA_I2CActivateCore(u32 camera);
 
@@ -139,15 +139,15 @@ void CAMERA_SetRebootCallbackCore(void *);
 
 void CAMERA_SetOutputFormatCore(int);
 
-void MI_FreeWram(int, int);
+unsigned int MI_FreeWram(unsigned int ch, unsigned int proc);
 
-void MI_CancelWram(int, int);
+unsigned int MI_CancelWram(unsigned int ch, unsigned int proc);
 
-void DSPi_OpenStaticComponentG711Core(void *);
+void DSPi_OpenStaticComponentG711Core(unsigned int *file);
 
-int DSPi_LoadG711Core(void *, int, int);
+unsigned int DSPi_LoadG711Core(unsigned int file, unsigned int bankMaskA, unsigned int bankMaskB);
 
-extern void UI_ClearKeepAwakeFlagsGlobal(u32 v);
+extern void UI_ClearKeepAwakeFlagsGlobal(unsigned char v);
 
 extern u32 GFL_HEAP_Free(void *p);
 
@@ -167,9 +167,9 @@ void DSPi_StopSoundCore(void);
 
 u32 CAMERA_GetBytesAtOnceCore(u32 width);
 
-void MI_Camera_NDmaRecvAsync(u32 ch, u32 dst, u32 blockWordCount, u32 size, int s0, void (*s1)(void), int s2);
+void MI_Camera_NDmaRecvAsync(unsigned int ch, unsigned int dst, unsigned int blockWordCount, unsigned int size, int mode, void (*s1)(void), unsigned int arg);
 
-void DSPi_PlayShutterSoundCore(void *, int);
+unsigned int DSPi_PlayShutterSoundCore(unsigned char *p, unsigned int len);
 
 void CAMERA_StopCaptureCore(void);
 
@@ -179,11 +179,11 @@ void CAMERA_StartCaptureCore(void);
 
 int CAMERA_IsBusyCore(void);
 
-int MI_IsNDmaBusy(int ch);
+unsigned int MI_IsNDmaBusy(int ch);
 
-void CAMERA_SetTrimmingCore(int);
+void CAMERA_SetTrimmingCore(unsigned int enable);
 
-int CAMERA_GetMaxLinesRoundCore(u32, u32);
+unsigned int CAMERA_GetMaxLinesRoundCore(u32, u32);
 
 void CAMERA_SetTransferLinesCore(int);
 
@@ -306,8 +306,8 @@ Camera *CTVT_CAMERA_Create(int id)
     MI_FreeWram(2, 0);
     MI_CancelWram(2, 0);
     MI_CancelWram(2, 1);
-    if (OS_IsRunOnTwl() != 0) DSPi_OpenStaticComponentG711Core(buf);
-    if (OS_IsRunOnTwl() != 0) r = DSPi_LoadG711Core(buf, 0xFF, 0xFF);
+    if (OS_IsRunOnTwl() != 0) DSPi_OpenStaticComponentG711Core((unsigned int *)buf);
+    if (OS_IsRunOnTwl() != 0) r = DSPi_LoadG711Core((unsigned int)buf, 0xFF, 0xFF);
     else r = 0;
     if (r == 0) OS_Terminate();
     UI_SetIntrDataGlobal((u32)((void *)CTVT_CAMERA_OnPowerOff), (u32)p);

@@ -76,17 +76,20 @@ extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
 
 extern void MI_CpuFill8(void *p, int v, int n);
 
-extern char *ZUKAN_DETAIL_GRAPHIC_InitBgGraphics(u32 display, u32 heap, int threeD);
+extern char *ZUKAN_DETAIL_GRAPHIC_InitBgGraphics(unsigned int display, unsigned short heap, int threeD);
 
 extern void ZUKAN_DETAIL_GRAPHIC_ExitBgGraphics(char *p);
 
 extern struct GfFont *GF_FONT_Create(int archiveId, int fileId, int format, int isFixedWidth, u32 heapId);
+struct PrintQueue;
 
-extern u32 PRINTSYS_QUE_Create(void *p);
+extern struct PrintQueue *PRINTSYS_QUE_Create(unsigned int heap);
+struct Tcb;
 
-extern int GFL_USE_AddMainTask(void (*fn)(void), void *arg, int n);
+extern struct Tcb *GFL_USE_AddMainTask(void (*fn)(void), void *work, unsigned int priority);
+struct ZukanSave;
 
-extern u32 ZUKAN_SAVE_GetDexObtained(struct Blk37 *p);
+extern u32 ZUKAN_SAVE_GetDexObtained(struct ZukanSave *pZukan);
 
 extern char *ZUKAN_DETAIL_TOUCHBAR_Create(u16 heap, unsigned arg);
 
@@ -96,31 +99,33 @@ extern void FADE_Start(u32 a, s32 b, s32 c, s32 d);
 
 extern void GFL_NET_RefreshWmIconAtTopRight(u32 a, u32 b);
 
-extern void ZUKAN_DETAIL_HEADBAR_Delete(struct Ov208Mgr *m);
+extern void ZUKAN_DETAIL_HEADBAR_Delete(struct Ov208Icon *m);
+struct Ov208Scene;
 
-extern void ZUKAN_DETAIL_TOUCHBAR_Delete(struct Ov208Mgr *m);
+extern void ZUKAN_DETAIL_TOUCHBAR_Delete(struct Ov208Scene *m);
+struct TcbTask;
 
-extern void TCB_DeleteTask(struct Node *n);
+extern void TCB_DeleteTask(struct TcbTask *task);
 
-extern void PRINTSYS_QUE_Clear(struct PrintSys *p);
+extern void PRINTSYS_QUE_Clear(struct PrintQueue *queue);
 
-extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
+extern void PRINTSYS_QUE_Delete(struct PrintQueue *queue);
 
-extern u32 GF_FONT_Delete(void *ptr);
+extern u32 GF_FONT_Delete(struct GfFont *font);
 
 extern void PROCSYS_FreeProcWork(struct Proc *p);
 
 extern void GFL_HEAP_DeleteChecked(unsigned int heap);
 
-extern unsigned ZUKAN_DETAIL_TOUCHBAR_GetPressedButtonId(const struct Ov208Fsm *p);
+extern unsigned ZUKAN_DETAIL_TOUCHBAR_GetPressedButtonId(struct Ov208Scene *p);
 
-extern unsigned ZUKAN_DETAIL_TOUCHBAR_GetHeldButtonId(const struct Ov208Fsm *p);
+extern unsigned ZUKAN_DETAIL_TOUCHBAR_GetHeldButtonId(struct Ov208Scene *p);
 
-extern void ZUKAN_DETAIL_TOUCHBAR_Update(struct Ov208Fade *m);
+extern void ZUKAN_DETAIL_TOUCHBAR_Update(struct Ov208Scene *m);
 
 extern void ZUKAN_DETAIL_HEADBAR_Update(struct Ov208Icon *p);
 
-extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
+extern u32 PRINTSYS_QUE_Main(struct PrintQueue *queue);
 
 extern void ZUKAN_DETAIL_GRAPHIC_DrawFrame(char *p);
 
@@ -166,7 +171,7 @@ int ZUKAN_DETAIL_MAIN_Init(void *owner, int unused, struct Ov208Args *args)
     ZUKAN_DETAIL_GRAPHIC_ExitBgGraphics(p->display);
     p->display = ZUKAN_DETAIL_GRAPHIC_InitBgGraphics(0, p->heap, 0);
     p->font = GF_FONT_Create(0x17, 0, 0, 0, p->heap);
-    p->printer = (void *)PRINTSYS_QUE_Create((void *)p->heap);
+    p->printer = (void *)PRINTSYS_QUE_Create((unsigned int)p->heap);
     p->task = (void *)GFL_USE_AddMainTask(ZUKAN_DETAIL_MAIN_NoOp, p, 1);
 
     p->touchbar = ZUKAN_DETAIL_TOUCHBAR_Create(p->heap, ZUKAN_SAVE_GetDexObtained(ZUKAN_SAVE_GetFromGameData(args->src)));
@@ -193,7 +198,7 @@ int ZUKAN_DETAIL_MAIN_Exit(void *owner,int seq,int args,char *p)
     ZUKAN_DETAIL_HEADBAR_Delete(((struct Ov208Main *)p)->headbar);
     ZUKAN_DETAIL_TOUCHBAR_Delete(((struct Ov208Main *)p)->touchbar);
     TCB_DeleteTask(((struct Ov208Main *)p)->task);
-    PRINTSYS_QUE_Clear((struct PrintSys *)(*(unsigned *)&((struct Ov208Main *)p)->printer));
+    PRINTSYS_QUE_Clear((struct PrintQueue *)(*(unsigned *)&((struct Ov208Main *)p)->printer));
     PRINTSYS_QUE_Delete(((struct Ov208Main *)p)->printer);
     GF_FONT_Delete(((struct Ov208Main *)p)->font);
     ZUKAN_DETAIL_GRAPHIC_ExitBgGraphics(*(char * *)&((struct Ov208Main *)p)->display);

@@ -147,25 +147,28 @@ typedef struct PartySelectList {
     u8 padC2[2];
 } PartySelectList;
 
-extern void *GFL_HEAP_Alloc(u16 heap, u32 size, u32 clear, const char *file, u32 line);
+extern void *GFL_HEAP_Alloc(unsigned int heapId, unsigned int size, int clear, char *site, unsigned short tag);
 extern void STRBUF_Delete(struct Strbuf *str);
 extern u32 GFL_HEAP_Free(void *p);
-extern u32 POKE_TOOL_GetPartyValue(void *obj, u32 key, u32 off);
-extern void *POKEPARTY_GetMember(void *p, u32 idx);
+struct PokemonParam;
+extern u32 POKE_TOOL_GetPartyValue(struct PokemonParam *pp, u32 paramId, u32 arg);
+struct Party;
+extern struct PokemonParam *POKEPARTY_GetMember(struct Party *party, u32 pos);
 extern void GF_PANIC_Fail(const char *expr, u32 line, const char *file);
 extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 extern struct GfFont *GF_FONT_Create(int archiveId, int fileId, int format, int isFixedWidth, u32 heapId);
-extern u32 GF_FONT_Delete(void *ptr);
+extern u32 GF_FONT_Delete(struct GfFont *font);
 extern u32 CLACT_DeleteUnit(struct Bank *bank);
-extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
+extern void *ARC_TOOL_CreateHandle(u32 archiveID, u16 heapID);
 extern int POKE_TOOL_GetIconPaletteArcId(void);
 extern int CLACT_RegisterPaletteCompressed(void *h, u32 file_idx, u32 vram_mode, u32 vram_offset, u16 heap_id);
 extern int POKE_TOOL_GetIconCellArcId(void);
 extern int POKE_TOOL_GetIconCellEntryId(void);
 extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
-extern u32 POKEPARTY_GetCount(void *p);
-extern u32 POKE_TOOL_CastToBoxParam(void *p);
-extern u32 POKE_TOOL_GetGraphicIndex(void *mon);
+extern u32 POKEPARTY_GetCount(struct Party *party);
+extern struct PokemonParam *POKE_TOOL_CastToBoxParam(struct PokemonParam *mon);
+struct BoxPokemon;
+extern u32 POKE_TOOL_GetGraphicIndex(struct BoxPokemon *box);
 extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 vram_mode, u16 flags);
 extern void ARC_TOOL_DeleteHandle(void *h);
 extern void CLACT_ReleaseCharacter(u32 v);
@@ -173,22 +176,26 @@ extern void CLACT_ReleaseCellAnim(u32 v);
 extern u32 CLACT_ReleasePalette(u32 v);
 extern u32 POKE_TOOL_CalcIconPalette(u32 species, u32 form, u32 half, u32 isEgg);
 extern struct IconActor *CLACT_CreateActor(void *, u32, u32, u32, const void *, u16, u16);
-extern void CLACT_SetActorPaletteOffset(struct IconActor *o, u32 v, u32 flag);
-extern void CLACT_SetActorDrawEnable(struct IconActor *p, unsigned int v);
-extern void CLACT_DeleteActor(struct IconActor *p);
+struct Actor;
+extern void CLACT_SetActorPaletteOffset(struct Actor *actor, u32 offset, u32 pltt_op);
+extern void CLACT_SetActorDrawEnable(struct Actor *actor, u32 value);
+extern void CLACT_DeleteActor(struct Actor *actor);
 extern u32 APP_ICON_GetItemCellFileId(void);
 extern s32 CLACT_RegisterPaletteEx(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
 extern u32 APP_ICON_GetItemAnimFileId(u32 a);
 extern u32 APP_ICON_GetItemFrameFileId(u32 a);
 extern u32 APP_ICON_GetItemPaletteFileId(void);
 extern u32 FILE_UTIL_IsMailItem(u16 v);
-extern FieldMsgBg *FIELDMAP_GetMsgBg(void *owner);
-extern struct WordSet *WORDSET_CreateDefault(u32 heap);
+struct FieldMap;
+struct FieldMsgBg;
+extern FieldMsgBg *FIELDMAP_GetMsgBg(struct FieldMap *fieldMap);
+extern struct WordSet *WORDSET_CreateDefault(u16 heapId);
 extern u32 WORDSET_Delete(struct WordSet *p);
 extern u32 BMP_MENULIST_GetUserData(struct BmpMenuList *menu);
 extern void BMP_MENULIST_SetOverrideColors(struct BmpMenuList *menu, u8 a, u8 b, u8 c);
 extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
-extern void MSGDATA_ReadString(struct MsgData *msgData, u32 index, struct Strbuf *dest);
+struct MsgBank;
+extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, struct Strbuf *dest);
 extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern void WORDSET_CopyTaggedText(struct WordSet *ws, struct Strbuf *dst, struct Strbuf *src);
 
@@ -255,7 +262,7 @@ PartySelectList *PARTY_SELECT_LIST_Create(void *owner, void *firstParty, void *s
 
     if (firstParty == 0 || secondParty == 0)
         GF_PANIC_Fail(d_021DE5BC, 0, d_021DE5BC);
-    list = GFL_HEAP_Alloc(heapId, 0xc4, 1, d_021DE5C0, 0xd3);
+    list = GFL_HEAP_Alloc(heapId, 0xc4, 1, (char *)d_021DE5C0, 0xd3);
     list->owner = owner;
     list->party[0] = firstParty;
     list->party[1] = secondParty;
@@ -420,8 +427,8 @@ void PARTY_SELECT_LIST_CreateMonIcons(PartySelectList *list)
         form = POKE_TOOL_GetPartyValue(mon, POKE_TOOL_PARAM_FORM, 0);
         isEgg = (POKE_TOOL_GetPartyValue(mon, POKE_TOOL_PARAM_SPECIES_OR_EGG, 0) == 0x28a) ? 1 : 0;
         iconKind = POKE_TOOL_CalcIconPalette(species, form, POKE_TOOL_GetPartyValue(mon, POKE_TOOL_PARAM_GENDER, 0), isEgg);
-        CLACT_SetActorPaletteOffset(list->monIcon[0][i], (u8)iconKind, 1);
-        CLACT_SetActorDrawEnable(list->monIcon[0][i], 0);
+        CLACT_SetActorPaletteOffset((struct Actor *)list->monIcon[0][i], (u8)iconKind, 1);
+        CLACT_SetActorDrawEnable((struct Actor *)list->monIcon[0][i], 0);
     }
     if (list->party[1] != 0) {
         count1 = POKEPARTY_GetCount(list->party[1]);
@@ -433,8 +440,8 @@ void PARTY_SELECT_LIST_CreateMonIcons(PartySelectList *list)
             form = POKE_TOOL_GetPartyValue(mon, POKE_TOOL_PARAM_FORM, 0);
             isEgg = (POKE_TOOL_GetPartyValue(mon, POKE_TOOL_PARAM_SPECIES_OR_EGG, 0) == 0x28a) ? 1 : 0;
             iconKind = POKE_TOOL_CalcIconPalette(species, form, POKE_TOOL_GetPartyValue(mon, POKE_TOOL_PARAM_GENDER, 0), isEgg);
-            CLACT_SetActorPaletteOffset(list->monIcon[1][i], (u8)iconKind, 1);
-            CLACT_SetActorDrawEnable(list->monIcon[1][i], 0);
+            CLACT_SetActorPaletteOffset((struct Actor *)list->monIcon[1][i], (u8)iconKind, 1);
+            CLACT_SetActorDrawEnable((struct Actor *)list->monIcon[1][i], 0);
         }
     }
 }
@@ -447,11 +454,11 @@ void PARTY_SELECT_LIST_DeleteMonIcons(PartySelectList *list)
 
     count = POKEPARTY_GetCount(list->party[0]);
     for (i = 0; i < count; i++)
-        CLACT_DeleteActor(list->monIcon[0][i]);
+        CLACT_DeleteActor((struct Actor *)list->monIcon[0][i]);
     if (list->party[1]) {
         count = POKEPARTY_GetCount(list->party[1]);
         for (i = 0; i < count; i++)
-            CLACT_DeleteActor(list->monIcon[1][i]);
+            CLACT_DeleteActor((struct Actor *)list->monIcon[1][i]);
     }
 }
 
@@ -462,19 +469,19 @@ void PARTY_SELECT_LIST_SetMonIconsVisible(PartySelectList *list, int side)
 
     for (i = 0; i < 6; i++) {
         if (list->monIcon[0][i] != 0)
-            CLACT_SetActorDrawEnable(list->monIcon[0][i], 0);
+            CLACT_SetActorDrawEnable((struct Actor *)list->monIcon[0][i], 0);
         if (list->monIcon[1][i] != 0)
-            CLACT_SetActorDrawEnable(list->monIcon[1][i], 0);
+            CLACT_SetActorDrawEnable((struct Actor *)list->monIcon[1][i], 0);
     }
     if (side == 0) {
         for (i = 0; i < 6; i++) {
             if (list->monIcon[0][i] != 0)
-                CLACT_SetActorDrawEnable(list->monIcon[0][i], 1);
+                CLACT_SetActorDrawEnable((struct Actor *)list->monIcon[0][i], 1);
         }
     } else if (side == 1) {
         for (i = 0; i < 6; i++) {
             if (list->monIcon[1][i] != 0)
-                CLACT_SetActorDrawEnable(list->monIcon[1][i], 1);
+                CLACT_SetActorDrawEnable((struct Actor *)list->monIcon[1][i], 1);
         }
     }
 }
@@ -533,7 +540,7 @@ void PARTY_SELECT_LIST_CreateStatusIcons(PartySelectList *list)
             }
             pos.x = i * 0x28 + 0x20;
             list->statusIcon[0][i] = CLACT_CreateActor(list->actorBank, list->statusIconRes, list->statusIconCell, list->statusIconAnim, &pos, 0, list->heapId);
-            CLACT_SetActorDrawEnable(list->statusIcon[0][i], 0);
+            CLACT_SetActorDrawEnable((struct Actor *)list->statusIcon[0][i], 0);
         }
     }
     if (list->party[1] != 0) {
@@ -548,7 +555,7 @@ void PARTY_SELECT_LIST_CreateStatusIcons(PartySelectList *list)
                 }
                 pos.x = i * 0x28 + 0x20;
                 list->statusIcon[1][i] = CLACT_CreateActor(list->actorBank, list->statusIconRes, list->statusIconCell, list->statusIconAnim, &pos, 0, list->heapId);
-                CLACT_SetActorDrawEnable(list->statusIcon[1][i], 0);
+                CLACT_SetActorDrawEnable((struct Actor *)list->statusIcon[1][i], 0);
             }
         }
     }
@@ -563,13 +570,13 @@ void PARTY_SELECT_LIST_DeleteStatusIcons(PartySelectList *list)
     count = POKEPARTY_GetCount(list->party[0]);
     for (i = 0; i < count; i++) {
         if (list->statusIcon[0][i])
-            CLACT_DeleteActor(list->statusIcon[0][i]);
+            CLACT_DeleteActor((struct Actor *)list->statusIcon[0][i]);
     }
     if (list->party[1]) {
         count = POKEPARTY_GetCount(list->party[1]);
         for (i = 0; i < count; i++) {
             if (list->statusIcon[1][i])
-                CLACT_DeleteActor(list->statusIcon[1][i]);
+                CLACT_DeleteActor((struct Actor *)list->statusIcon[1][i]);
         }
     }
 }
@@ -581,19 +588,19 @@ void PARTY_SELECT_LIST_SetStatusIconsVisible(PartySelectList *list, int side)
 
     for (i = 0; i < 6; i++) {
         if (list->statusIcon[0][i] != 0)
-            CLACT_SetActorDrawEnable(list->statusIcon[0][i], 0);
+            CLACT_SetActorDrawEnable((struct Actor *)list->statusIcon[0][i], 0);
         if (list->statusIcon[1][i] != 0)
-            CLACT_SetActorDrawEnable(list->statusIcon[1][i], 0);
+            CLACT_SetActorDrawEnable((struct Actor *)list->statusIcon[1][i], 0);
     }
     if (side == 0) {
         for (i = 0; i < 6; i++) {
             if (list->statusIcon[0][i] != 0)
-                CLACT_SetActorDrawEnable(list->statusIcon[0][i], 1);
+                CLACT_SetActorDrawEnable((struct Actor *)list->statusIcon[0][i], 1);
         }
     } else if (side == 1) {
         for (i = 0; i < 6; i++) {
             if (list->statusIcon[1][i] != 0)
-                CLACT_SetActorDrawEnable(list->statusIcon[1][i], 1);
+                CLACT_SetActorDrawEnable((struct Actor *)list->statusIcon[1][i], 1);
         }
     }
 }
@@ -766,7 +773,7 @@ void PARTY_SELECT_LIST_PrintPartyNames(PartySelectList *list, void *party)
         isNicknamed = POKE_TOOL_GetPartyValue(mon, POKE_TOOL_PARAM_NICKNAME_NOT_DEFAULT_NIDORAN, 0);
         nickname = POKE_TOOL_GetPartyValue(mon, POKE_TOOL_PARAM_LEVEL, 0);
         gender = POKE_TOOL_GetPartyValue(mon, POKE_TOOL_PARAM_GENDER, 0);
-        MSGDATA_ReadString(list->msgData, 4, templateBuf);
+        MSGDATA_ReadString((struct MsgBank *)list->msgData, 4, templateBuf);
         WORDSET_SetSlotNumber(list->wordSet, 0, nickname, 3, 0, 1);
         WORDSET_CopyTaggedText(list->wordSet, nameBuf, templateBuf);
         x = i * 0x28;

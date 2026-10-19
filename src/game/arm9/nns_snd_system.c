@@ -65,7 +65,7 @@ extern void SND_Init(void);
 
 extern void PM_PrependPreSleepCallback(void *info);
 
-extern void PM_AppendPostSleepCallback(struct SleepCb *cb);
+extern void PM_AppendPostSleepCallback(void *info);
 
 extern void NNS_SndWaveOutInit(void);
 
@@ -87,15 +87,15 @@ extern void SND_SetMasterPan(int pan);
 
 extern void SND_ResetMasterPan(void);
 
-extern u32  SND_IsFinishedCommandTag(u32 tag);
+extern int SND_IsFinishedCommandTag(u32 tag);
 
-extern void SND_ReadDriverInfo(void *dst);
+extern void SND_ReadDriverInfo(struct SNDDriverInfo *info);
 
 extern u32  SND_GetCurrentCommandTag(void);
 
 extern void DC_InvalidateRange(void *p, u32 n);
 
-extern void SND_FlushCommand(u32 flags);
+extern int SND_FlushCommand(u32 flags);
 
 extern int SND_ReadTrackInfo(struct SNDDriverInfo *, int playerNo, int trackNo, struct SNDTrackInfo *trackInfo);
 
@@ -284,7 +284,7 @@ u32 NNS_SndReadDriverInfo(void)
         if (g_0214BAC0.idx < 0)
             g_0214BAC0.idx = 1;
 
-        SND_ReadDriverInfo(&g_0214BB00[g_0214BAC0.idx * 0x11E0]);
+        SND_ReadDriverInfo((struct SNDDriverInfo *)(&g_0214BB00[g_0214BAC0.idx * 0x11E0]));
         g_0214BAC0.tag = SND_GetCurrentCommandTag();
         if (g_0214BAC0.idx == 0)
             g_0214BAC0.idx = 1;
@@ -295,7 +295,7 @@ u32 NNS_SndReadDriverInfo(void)
         return 1;
     }
 
-    SND_ReadDriverInfo(&g_0214BB00[0]);
+    SND_ReadDriverInfo((struct SNDDriverInfo *)(&g_0214BB00[0]));
     g_0214BAC0.tag = SND_GetCurrentCommandTag();
     g_0214BAC0.pending = 0;
     return 0;

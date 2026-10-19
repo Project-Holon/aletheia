@@ -72,16 +72,17 @@ extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *file, u
 extern void MI_CpuFill8(void *dst, u8 val, u32 size);
 
 extern void TP_Init(void);
+struct TPCalibrateParam;
 
-extern int  TP_GetUserInfo(u16 *info);
+extern int  TP_GetUserInfo(struct TPCalibrateParam *calibrate);
 
-extern void TP_SetCalibrateParam(u16 *info);
+extern void TP_SetCalibrateParam(struct TPCalibrateParam *param);
 
 extern void TP_RequestSamplingAsync(void);
 
 extern u32  TP_WaitRawResult(TPData *result);
 
-extern void TP_RequestAutoSamplingStartAsync(u32 vcount, u32 freq, TPData *buf, u32 size);
+extern void TP_RequestAutoSamplingStartAsync(u16 vcount, u16 frequence, TPData *samplingBufs, u16 bufSize);
 
 extern void TP_RequestAutoSamplingStopAsync(void);
 
@@ -233,14 +234,14 @@ TouchPanelWork *TOUCHPANEL_Create(u32 heapId)
     tp->autoSampleMode = 0;
     tp->autoSampleStopped = 0;
     TP_Init();
-    if (TP_GetUserInfo(info) == 1) {
-        TP_SetCalibrateParam(info);
+    if (TP_GetUserInfo((struct TPCalibrateParam *)info) == 1) {
+        TP_SetCalibrateParam((struct TPCalibrateParam *)info);
     } else {
         info[0] = 0x2ae;
         info[1] = 0x58c;
         info[2] = 0xe25;
         info[3] = 0x1208;
-        TP_SetCalibrateParam(info);
+        TP_SetCalibrateParam((struct TPCalibrateParam *)info);
     }
     tp->autoSampleFreq = 4;
     tp->autoSampleIndex = 0;

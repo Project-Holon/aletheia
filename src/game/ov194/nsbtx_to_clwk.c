@@ -58,24 +58,27 @@ extern void ARC_TOOL_DeleteHandle(void *h);
 extern void *GFL_HEAP_Alloc(unsigned, unsigned, int, const char *, unsigned short);
 
 extern void MI_CpuCopy8(const void *, void *, unsigned);
+struct ArcHandle;
 
-extern void *ARC_TOOL_LoadHandleMember(struct ArcFile *arc, u32 member, u32 heap);
+extern void *ARC_TOOL_LoadHandleMember(struct ArcHandle *arc, unsigned int memberIdx, unsigned short heapID);
 
 extern u8 *NNS_G3dGetTex(u8 *);
+struct Actor;
 
-extern u16 CLACT_GetActorCharacterIndex(u8 *);
+extern u16 CLACT_GetActorCharacterIndex(struct Actor *actor);
 
 extern void CLACT_TransferCharacterPart(int,void *,u32,int,int);
 
 extern void DC_FlushRange(void *,unsigned);
+struct PaletteProxy;
 
-extern void CLACT_GetActorPaletteProxy(const char *src, struct Struct20 *dst);
+extern void CLACT_GetActorPaletteProxy(char *actor_base, struct PaletteProxy *dst);
 
 extern int NNSi_G2dGetVramHandleEx(char *,int);
 
-extern void GX_LoadOBJPltt(void *,int,unsigned);
+extern void GX_LoadOBJPltt(void *pSrc, unsigned int offset, unsigned int szByte);
 
-extern void GXS_LoadOBJPltt(void *,int,unsigned);
+extern void GXS_LoadOBJPltt(void *pSrc, unsigned int offset, unsigned int szByte);
 
 void NAMEIN_GRAPHIC_BlitTexture(const char *src, int width, int x, int y, int w, int h, char *dst);
 
@@ -141,11 +144,11 @@ void NAMEIN_GRAPHIC_LoadIconMember(u8 *dst,unsigned arc,u32 member,u32 index,u16
     pixels=tex+((NameinGraphicTex *)tex)->pixelOffset;
     void *buf=GFL_HEAP_Alloc((u16)((heap&0x7fff)|0x8000),size,0,d_021F57A8,95);
     NAMEIN_GRAPHIC_BlitTexture((const char *)(pixels+offset),width,0,0,width,height,buf);
-    CLACT_TransferCharacterPart(CLACT_GetActorCharacterIndex(dst),buf,size,pos,mode);
+    CLACT_TransferCharacterPart(CLACT_GetActorCharacterIndex((struct Actor *)dst),buf,size,pos,mode);
     GFL_HEAP_Free(buf);
     u32 poff=((NameinGraphicTex *)tex)->paletteOffset;
     DC_FlushRange(tex+poff,32);
-    CLACT_GetActorPaletteProxy((const char *)dst,(struct Struct20 *)(&pal));
+    CLACT_GetActorPaletteProxy((char *)dst,(struct PaletteProxy *)(&pal));
     if(mode==0 || mode==2) GX_LoadOBJPltt(tex+poff,NNSi_G2dGetVramHandleEx((char *)&pal,1),32);
     if(mode==1 || mode==2) GXS_LoadOBJPltt(tex+poff,NNSi_G2dGetVramHandleEx((char *)&pal,2),32);
     GFL_HEAP_Free(raw);

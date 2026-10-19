@@ -24,11 +24,11 @@
  */
 #define CALCULATEODDMODE(buffer, i, oddmode) ((buffer[i-1] & 1) ^ (i & 1) ^ oddmode ^ (buffer[0] & 1) ^ ((buffer[0] < 79) ? 1 : 0) ^ ((buffer[i-1] < buffer[0]) ? 1 : 0))
 extern unsigned int current_time(void);
-extern void srand();
+extern void srand(unsigned int seed);
 extern int rand();
-extern int strlen();
+extern int strlen(unsigned char *s);
 extern int gti2VerifyChallenge();
-extern int abs();
+extern int abs(int value);
 int gti2VerifyChallenge(unsigned char *buffer);
 unsigned char *gti2GetChallenge(unsigned char *buffer);
 unsigned char *gti2GetResponse(unsigned char *buffer, unsigned char *challenge);
@@ -70,8 +70,7 @@ unsigned char *gti2GetChallenge(unsigned char *buffer)
 	int i;
 	int oddmode;
 
-	current_time();
-	srand();
+	srand(current_time());
 	buffer[0] = (unsigned char)(33 + rand() % 93);
 
 	oddmode = 0;
@@ -98,7 +97,7 @@ unsigned char *gti2GetResponse(unsigned char *buffer, unsigned char *challenge)
     int keylen;
     int chalrand;
 
-    keylen = strlen(gGt2AuthChallengeKey);
+    keylen = strlen((unsigned char *)gGt2AuthChallengeKey);
     valid = gti2VerifyChallenge(challenge);
     for (i = 0; i < 32; i++)
     {

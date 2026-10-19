@@ -69,8 +69,8 @@ struct FSFile
 };
 
 extern char *FS_GetArchiveName(FSArchive *arc);
-extern u32 STD_GetStringLength(const char *s);
-extern int STD_TSPrintf(char *dst, const char *fmt, const char *s);
+extern int STD_GetStringLength(const char *s);
+extern int STD_TSPrintf(char *dst, char *fmt, ...);
 extern u32 OS_DisableInterrupts(void);
 extern u32 OS_RestoreInterrupts(u32 state);
 extern void FS_InitArchive(FSArchive *p_arc);

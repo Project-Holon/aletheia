@@ -54,7 +54,7 @@ typedef struct {
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *file, u16 line);
 extern u32 GFL_HEAP_Free(void *p);
 extern void G3X_SetFog(int enable, int fogMode, int fogSlope, int fogOffset);
-extern void G3X_SetFogTable(u8 *fogTable);
+extern void G3X_SetFogTable(void *src);
 void FIELD_FOG_InitFogTable(FieldFog *fog);
 int FIELD_FOG_FadeIsRunning(FieldFogFade *fade);
 void FIELD_FOG_FadeStart(FieldFogFade *fade, u32 startOffset, u32 endOffset, u16 startSlope, u16 endSlope, u16 frames);

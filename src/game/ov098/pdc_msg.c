@@ -68,7 +68,7 @@ struct PalAnmSlot;
 
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32 GFL_HEAP_Free(void *p);
-extern int BTLV_EFFECT_GetPalanm(void);
+extern struct PalAnmSlot *BTLV_EFFECT_GetPalanm(void);
 extern u32 KEY_GetTrg(void);
 extern int TOUCHPANEL_GetTrg(void);
 extern void BG_SYS_InitBgLayer(u32 layer, const struct BgTemplate *template, u32 mode);
@@ -77,38 +77,42 @@ extern u32 CONFIG_GetTextSpeed(struct Config *config);
 extern signed char MSG_SPEED_GetWaitForSpeed(u32 textSpeed);
 extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
 extern struct WordSet *WORDSET_CreateDefault(u32 heapId);
-extern void BG_SYS_SetTileEntry(u32, int, int, int, u8, u8, u8);
+extern void BG_SYS_SetTileEntry(u32 layer, u16 value, u8 x0, u8 y0, u8 w, u8 h, u8 mode);
 extern void BG_SYS_Init(u32, u32, u32, u32);
 extern u32 ARC_UTIL_RegisterObjCharFromArchive(u32, u32, u32, u32, u32, u16);
 extern void PALANM_LoadArcPaletteToSlotAt(struct PalAnmSlot *, u32, u32, u32, u32, u32, u16, u16);
-extern struct BmpWin *BMP_WIN_Create(u32 layer, u32 x, u32 y, u32 width, u8 height, u8 palette, u8 charBase);
+struct BmpWin;
+extern struct BmpWin *BMP_WIN_Create(u32 bgLayer, u32 posX, u32 posY, u8 width, u8 height, u8 palette, u8 allocDir);
 extern void BMP_WIN_MakeScreen(struct BmpWin *window);
 extern void BMP_WIN_DrawFrame(struct BmpWin *window, u16 frameIndex, u32 palette);
 extern void BG_SYS_PushTile(u32);
 extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
 extern void STRBUF_Delete(struct Strbuf *strbuf);
-extern void WORDSET_Delete(struct WordSet *wordSet);
-extern void PRINTSYS_PrintStreamDelete(void *stream);
-extern void BG_SYS_FreeLayerBuf(int);
-extern void MSGDATA_Delete(struct MsgBank *msgBank);
-extern void BMP_WIN_Delete(struct BmpWin *window);
+extern u32 WORDSET_Delete(struct WordSet *wordSet);
+struct TextPrinter;
+extern void PRINTSYS_PrintStreamDelete(struct TextPrinter *printer);
+extern void BG_SYS_FreeLayerBuf(u32 i);
+extern u32 MSGDATA_Delete(struct MsgBank *msgBank);
+extern u32 BMP_WIN_Delete(struct BmpWin *window);
 extern struct Strbuf *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
-extern void WORDSET_SetSlotMonNickname(struct WordSet *wordSet, u32 index, struct PokemonParam *mon);
-extern void WORDSET_SetSlotMyStatus(struct WordSet *wordSet, u32 index, struct MyStatus *myStatus);
+extern void WORDSET_SetSlotMonNickname(struct WordSet *words, u32 slot, void *mon);
+extern void WORDSET_SetSlotMyStatus(struct WordSet *words, u32 slot, void *source);
 extern void WORDSET_CopyTaggedText(struct WordSet *wordSet, struct Strbuf *dst, struct Strbuf *src);
-extern void PRINTSYS_PrintStreamRun(void *stream);
-extern u32 PRINTSYS_PrintStreamGetState(void *stream);
-extern void PRINTSYS_PrintStreamReleasePause(void *stream);
+extern void PRINTSYS_PrintStreamRun(struct TextPrinter *printer);
+extern u32 PRINTSYS_PrintStreamGetState(struct TextPrinter *printer);
+extern void PRINTSYS_PrintStreamReleasePause(struct TextPrinter *printer);
 extern void GF_FONT_SetDefaultTextColor(void);
-extern void *BMP_WIN_GetBmp(struct BmpWin *window);
-extern void BMP_Clear(void *bmp, u8 color);
+struct Bmp;
+extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *window);
+struct Bmp;
+extern void BMP_Clear(struct Bmp *bmp, u8 value);
 extern void BMP_WIN_TransferChars(struct BmpWin *window);
 extern void GF_FONT_SetTextColor(u32, u32, u32);
 extern void *PRINTSYS_PrintStream(struct BmpWin *window, u32 x, u32 y, struct Strbuf *str, struct GfFont *font,
                                   int speed, struct Tcbl *tcbl, u32 unused, u16 heapId, u16 color);
-extern void PRINTSYS_PrintStreamStop(void *stream);
-extern void PRINTSYS_Print(void *bmp, short x, short y, struct Strbuf *str, struct GfFont *font);
-extern void G2x_SetBlendAlpha_(int, int, int, int, int);
+extern void PRINTSYS_PrintStreamStop(struct TextPrinter *printer);
+extern void PRINTSYS_Print(struct Bmp *bmp, short x, short y, struct Strbuf *str, struct GfFont *font);
+extern void G2x_SetBlendAlpha_(unsigned int *reg, unsigned int a, unsigned int b, unsigned int c, unsigned int d);
 
 extern struct PokemonParam *PDC_GetMon(struct PdcArgs *args);
 extern struct MyStatus *PDC_GetMyStatus(struct PdcArgs *args);
@@ -334,7 +338,7 @@ void PDC_MSG_InitBlend(struct PdcBlend *blend, struct BmpWin *window)
     blend->state = PDC_BLEND_HIDDEN;
     blend->alphaA = 0x1f000;
     blend->alphaB = 0x7000;
-    G2x_SetBlendAlpha_(0x04000050, 2, 0x3d, 0x1f, 7);
+    G2x_SetBlendAlpha_((unsigned int *)0x04000050, 2, 0x3d, 0x1f, 7);
 }
 
 /*
@@ -404,7 +408,7 @@ int PDC_MSG_BlendUpdate(struct PdcBlend *blend)
         break;
     }
 
-    G2x_SetBlendAlpha_(0x04000050, 2, 0x3d,
+    G2x_SetBlendAlpha_((unsigned int *)0x04000050, 2, 0x3d,
                   (u8)(blend->alphaA >> 12), (u8)(blend->alphaB >> 12));
     return 0;
 }

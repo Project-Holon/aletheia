@@ -104,11 +104,13 @@ typedef signed short s16;
 #include "gds_rap_types.h"
 #include "../ov009/cps_ssl_types.h"
 #include "../ov009/qr2_types.h"
+extern void *__builtin__clear(void *dest, unsigned long size);
 
 typedef struct GdsRequestIdTable { int ids[8]; } GdsRequestIdTable;
+struct OSMutex;
 
-extern void OS_UnlockMutex(void *mutex);
-extern void OS_InitMutex(void *mutex);
+extern void OS_UnlockMutex(struct OSMutex *mutex);
+extern void OS_InitMutex(struct OSMutex *mutex);
 extern int OS_IsTickAvailable(void);
 extern void OS_InitTick(void);
 extern void GDS_SOCKET_RunConnection(void);
@@ -119,23 +121,23 @@ extern char *SOC_InetNtoA(SOCInAddr addr);
 extern char *strcpy(char *dst, const char *src);
 extern int SOC_Socket(int family, int type, int protocol);
 extern unsigned long CPS_Resolve(char *name);
-extern int SOCL_EnableSsl(int socket, CPSSslConnection *con);
+extern int SOCL_EnableSsl(s32 s, void *con);
 extern int SOC_Shutdown(int socket, int how);
 extern int SOC_Close(int socket);
 extern u64 OS_GetTick(void);
-extern int SOC_Connect(int socket, const SOCSockAddrIn *address);
+extern int SOC_Connect(s32 s, void *sockAddr);
 extern void GDS_SOCKET_Lock(void);
 extern int SOC_Send(int socket, void *buf, int len, int flags);
 extern int SOC_Recv(int socket, void *buf, int len, int flags);
 extern void OS_DestroyThread(void *thread);
 extern void OS_Sleep(unsigned long msec);
-extern int DWC_SVLGetTokenAsync(const char *svl, DWCSvlResult *result);
+extern int DWC_SVLGetTokenAsync(char *svl, void *result);
 extern int DWC_SVLProcess(void);
 extern int DWC_GetLastErrorEx(int *errorCode, int *errorType);
 int GDS_SOCKET_Start(const char *host, int port, GdsClientInfo *client);
-extern char *DWC_Alloc(int heap, int size);
-extern void DWC_Free(int heap, int ptr, int flags);
-extern void OS_LockMutex(void *mutex);
+extern void *DWC_Alloc(s32 name, u32 size);
+extern void DWC_Free(s32 name, void *ptr, u32 size);
+extern void OS_LockMutex(struct OSMutex *mutex);
 extern void GDS_SOCKET_Reset(void);
 void GDS_SOCKET_ResetConnection(void);
 extern unsigned GDS_SOCKET_GetStateUnlocked(void);
@@ -148,7 +150,7 @@ extern void OS_GetLowEntropyData(u32 *buffer);
 extern void CPS_SslAddRandomSeed(void *seed, u32 size);
 extern void MI_CpuFill8(void *dst, u32 value, u32 size);
 extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
-extern u32 STD_GetStringLength(const char *s);
+extern s32 STD_GetStringLength(const char *s);
 char *GDS_SOCKET_Alloc(int size);
 extern char *STD_CopyString(char *dst, const char *src);
 void GDS_SOCKET_Free(int ptr);
@@ -447,25 +449,25 @@ char *GDS_SOCKET_Alloc(int size)
 }
 
 
-void GDS_SOCKET_Free(int ptr){if(ptr)DWC_Free(0,ptr,0);}
+void GDS_SOCKET_Free(int ptr){if(ptr)DWC_Free(0,(void *)ptr,0);}
 
 
 
 void GDS_SOCKET_Lock(void)
 {
-    OS_LockMutex(gGdsSocketMutex);
+    OS_LockMutex((struct OSMutex *)gGdsSocketMutex);
 }
 
 
 void GDS_SOCKET_Unlock(void)
 {
-    OS_UnlockMutex(gGdsSocketMutex);
+    OS_UnlockMutex((struct OSMutex *)gGdsSocketMutex);
 }
 
 
 int GDS_SOCKET_InitLock(void)
 {
-    OS_InitMutex(gGdsSocketMutex);
+    OS_InitMutex((struct OSMutex *)gGdsSocketMutex);
     return 1;
 }
 
@@ -809,7 +811,7 @@ int GDS_SOCKET_WaitToken(void)
 
     if (gGdsSocket->tokenReady == 1)
         return 1;
-    if (DWC_SVLGetTokenAsync(sGdsSvlService, &svl) == 0) {
+    if (DWC_SVLGetTokenAsync((char *)sGdsSvlService, &svl) == 0) {
         gGdsSocket->errorCode = 0xE;
         return 0;
     }

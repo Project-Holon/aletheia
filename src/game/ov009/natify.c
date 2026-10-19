@@ -127,12 +127,13 @@ extern char *SOC_InetNtoA(SOCInAddr in);
 extern int OS_SPrintf(char *dst, const char *fmt, ...);
 extern SOCHostEnt *getlocalhost(void);
 extern int IsPrivateIP(SOCInAddr *addr);
-extern int getsockname(int sock, void *addr, int *len);
-extern void gsDebugFormat(int theCat, int theType, unsigned char theLevel, const char *theTokenStr, ...);
+struct SOCSockAddr;
+extern int getsockname(int sock, struct SOCSockAddr *addr, int *len);
+extern void gsDebugFormat(int cat, int type, int level, char *fmt, ...);
 extern int CanReceiveOnSocket(int sock);
-extern int recvfrom(int sock, char *buf, int len, int flags, SOCSockAddrIn *addr, int *fromlen);
+extern int recvfrom(int sock, char *buf, int len, int flags, struct SOCSockAddr *addr, int *fromlen);
 extern int GOAGetLastError(int sock);
-extern int memcmp(const void *s1, const void *s2, unsigned long n);
+extern int memcmp(unsigned char *s1, unsigned char *s2, unsigned int n);
 extern int abs(int x) __attribute__((const));
 char *AddressToString(unsigned int ip, unsigned short port, char *string);
 static unsigned int GetLocalIP(void);
@@ -257,7 +258,7 @@ static unsigned short GetLocalPort(int sock)
 	int saddrlen;
 
 	saddrlen = 8;
-	ret = getsockname(sock, &saddr, &saddrlen);
+	ret = getsockname(sock, (struct SOCSockAddr *)(&saddr), &saddrlen);
 	if (ret == -1)
 		return 0;
 	return saddr.port;
@@ -353,13 +354,13 @@ int Think(int sock, NAT *nat)
         return 0;
 
     if (sock != -1 && CanReceiveOnSocket(sock)) do {
-        length = recvfrom(sock, g_021AE498, 512, 0, &saddr, &saddrlen);
+        length = recvfrom(sock, g_021AE498, 512, 0, (struct SOCSockAddr *)(&saddr), &saddrlen);
         if (length == -1) {
             gsDebugFormat(7, 0, 8, g_021A59B4, GOAGetLastError(sock));
             break;
         }
 
-        if (memcmp(g_021AE498, ((char *)&gNatNegMagic), 6) != 0)
+        if (memcmp((unsigned char *)g_021AE498, (unsigned char *)(((char *)&gNatNegMagic)), 6) != 0)
             return 1;
 
         ptype = *(unsigned char *)(g_021AE498 + 7);

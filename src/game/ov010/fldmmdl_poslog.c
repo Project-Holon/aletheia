@@ -73,18 +73,22 @@ typedef struct {
 } PosRecord;
 
 extern void MIi_CpuClear32(u32 data, void *destp, u32 size);
-extern u16 FLDMMDL_GetObjCode(void *p);
-extern u16 FLDMMDL_GetZoneId(void *p);
-extern u16 FLDMMDL_GetObjId(void *p);
+struct Mmdl;
+extern u16 FLDMMDL_GetObjCode(struct Mmdl *mmdl);
+extern u16 FLDMMDL_GetZoneId(struct Mmdl *mmdl);
+extern u16 FLDMMDL_GetObjId(struct Mmdl *mmdl);
 extern void *FLDMMDL_GetMmdlSys(void *);
-extern void FLDMMDL_GetPos(const struct Actor *, struct VecFx32 *);
+struct MmdlVec;
+extern void FLDMMDL_GetPos(struct Mmdl *mmdl, struct MmdlVec *out);
 int FLDMMDL_HasMovedPos();
 int FLDMMDL_GetMovedPos(void *mmdl, MovedPos *out);
-void FLDMMDL_StoreMovedPos(void *a, int unused);
-extern u8 *FLDMMDL_SysSearchGridPosHeight(u32 a, u32 b, u32 c, s32 x, s32 lim, u32 d);
+void FLDMMDL_StoreMovedPos(void *a);
+struct MmdlSys;
+extern struct Mmdl *FLDMMDL_SysSearchGridPosHeight(struct MmdlSys *sys, u32 gridX, u32 gridZ, s32 posY, s32 range, u32 flag);
 extern void *ZUKAN_SAVE_GetFromGameData(void *a);
-extern unsigned int POKE_TOOL_GetPartyValue(void *a, unsigned int b, unsigned int c);
-extern u32 POKE_TOOL_ChangeForm(void *p, u32 a);
+struct PokemonParam;
+extern unsigned int POKE_TOOL_GetPartyValue(struct PokemonParam *pp, u32 paramId, u32 arg);
+extern u32 POKE_TOOL_ChangeForm(struct PokemonParam *pp, u32 form);
 extern void ZUKAN_SAVE_RegisterSeen(struct ZukanSave *p, void *m);
 int FLDMMDL_CheckMovedPosAtMapPos(void *map, const VecFx32 *pos);
 int FLDMMDL_IsMovedPosObjCode(u16 id);
@@ -94,7 +98,7 @@ u32 FLDMMDL_GetMovedPosSaveSize(void);
 void FLDMMDL_InitMovedPosSave(void *block);
 int FLDMMDL_IsMovedPosSet(const MovedPos *pos);
 int FLDMMDL_FindMovedPosSlot(int a, int b);
-int FLDMMDL_GetMovedPosSlot(int mmdl, int unused);
+int FLDMMDL_GetMovedPosSlot(int mmdl);
 extern const u16 d_02172A70[][4];
 extern u16 d_02172554[][2];
 extern u16 d_02172556[][2];
@@ -171,7 +175,7 @@ int FLDMMDL_FindMovedPosSlot(int gridX, int gridZ)
 
 
 
-int FLDMMDL_GetMovedPosSlot(int mmdl, int unused)
+int FLDMMDL_GetMovedPosSlot(int mmdl)
 {
     int slot = 30;
 
@@ -191,7 +195,7 @@ int unused;
     int slot;
     ObjContext *ctx;
 
-    slot = FLDMMDL_GetMovedPosSlot((int)mmdl, unused);
+    slot = FLDMMDL_GetMovedPosSlot((int)mmdl);
     if (slot != 30) {
         ctx = FLDMMDL_GetMmdlSys(mmdl);
         return FLDMMDL_IsMovedPosSet((const MovedPos *)(ctx->movedPosTable + slot * 12));
@@ -205,7 +209,7 @@ int FLDMMDL_GetMovedPos(void *mmdl, MovedPos *out)
     MovedPos *entry;
     ObjContext *ctx;
 
-    slot = FLDMMDL_GetMovedPosSlot((int)mmdl, (int)out);
+    slot = FLDMMDL_GetMovedPosSlot((int)mmdl);
     if (slot != 30) {
         ctx = FLDMMDL_GetMmdlSys(mmdl);
         entry = (MovedPos *)(ctx->movedPosTable + slot * 12);
@@ -226,18 +230,18 @@ int FLDMMDL_GetMovedPos(void *mmdl, MovedPos *out)
  * halfword or 30. Thus i <=65535 and i*12 <=786420; no Vec array bound
  * is assumed. D88C unconditionally initializes all 12 bytes of v.
  */
-void FLDMMDL_StoreMovedPos(void *mmdl, int unused)
+void FLDMMDL_StoreMovedPos(void *mmdl)
 {
     int slot;
     MovedPos *entry;
     MovedPos curPos;
     ObjContext *ctx;
-    slot = FLDMMDL_GetMovedPosSlot((int)mmdl, unused);
+    slot = FLDMMDL_GetMovedPosSlot((int)mmdl);
     if (slot != 30)
     {
         ctx = FLDMMDL_GetMmdlSys(mmdl);
         entry = (MovedPos *) (ctx->movedPosTable + (slot * 12));
-        FLDMMDL_GetPos(mmdl, (struct VecFx32 *)&curPos);
+        FLDMMDL_GetPos(mmdl, (struct MmdlVec *)&curPos);
         *entry = curPos;
     }
 }
@@ -251,7 +255,7 @@ void FLDMMDL_StoreMovedPos(void *mmdl, int unused)
  */
 int FLDMMDL_CheckMovedPosAtMapPos(void *map, const VecFx32 *pos)
 {
-    void *mmdl = FLDMMDL_SysSearchGridPosHeight((u32)map, (s16)((pos->x >> 4) / 4096), (s16)((pos->z >> 4) / 4096), pos->y, 0x20000, (int)0);
+    void *mmdl = FLDMMDL_SysSearchGridPosHeight((struct MmdlSys *)map, (s16)((pos->x >> 4) / 4096), (s16)((pos->z >> 4) / 4096), pos->y, 0x20000, (int)0);
 
     if (mmdl != 0 && FLDMMDL_HasMovedPos(mmdl) == 1)
         return 1;

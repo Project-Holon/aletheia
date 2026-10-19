@@ -89,7 +89,8 @@ typedef struct FieldNogridMapperRes {
 
 extern void *GFL_HEAP_Alloc(unsigned int heapId, unsigned int size, int clear, const char *file, u16 line);
 extern u32 GFL_HEAP_Free(void *p);
-extern RailManager *FIELD_RAIL_Create(u16 heapId, u32 workMax, int fieldCamera);
+struct FieldCamera;
+extern RailManager *FIELD_RAIL_Create(u16 heapId, u32 workMax, struct FieldCamera *fieldCamera);
 extern FieldRailLoader *FIELD_RAIL_LOADER_Create(u32 heapId);
 extern RailAttr *RAIL_ATTR_Create(int heapId);
 extern void RAIL_ATTR_Delete(RailAttr *attr);
@@ -99,7 +100,7 @@ extern void FLD_SCENEAREA_SetEnabled(FldSceneArea *sceneArea, u32 active);
 extern u32 ARC_TOOL_GetArchiveFileCount(u32 arcId);
 extern void FIELD_RAIL_LOADER_Load(FieldRailLoader *loader, u32 dataId, u32 heapId);
 extern FieldRailSetting *FIELD_RAIL_LOADER_GetSetting(FieldRailLoader *loader);
-extern int FIELD_RAIL_SetSetting(RailManager *railMan, FieldRailSetting *setting);
+extern void FIELD_RAIL_SetSetting(RailManager *railMan, FieldRailSetting *setting);
 extern void RAIL_ATTR_Load(RailAttr *attr, u32 dataId, u32 heapId);
 extern void FLD_SCENEAREA_LOADER_Load(FldSceneAreaLoader *loader, int arcIndex, u32 dataId, u16 heapId);
 extern u32 FLD_SCENEAREA_LOADER_GetRecs(FldSceneAreaLoader *loader);
@@ -110,20 +111,20 @@ extern u32 ARC_TOOL_GetMemberSize(u32 arcId, u32 dataId);
 extern void ARC_TOOL_ReadMember(void *dst, u32 arcId, u32 dataId);
 extern void FLD_SCENEAREA_ClearData(FldSceneArea *sceneArea);
 extern u32 FIELD_RAIL_ClearSetting(RailManager *railMan);
-extern int FIELD_RAIL_LOADER_Unload(FieldRailLoader *loader);
-extern u32 FLD_SCENEAREA_LOADER_Unload(FldSceneAreaLoader *loader);
+extern void FIELD_RAIL_LOADER_Unload(FieldRailLoader *loader);
+extern void FLD_SCENEAREA_LOADER_Unload(FldSceneAreaLoader *loader);
 extern void RAIL_ATTR_Release(RailAttr *attr);
 extern void FIELD_RAIL_Update(RailManager *railMan);
 extern int FIELD_RAIL_UpdateCamera(RailManager *railMan, int force);
 extern void FIELD_RAIL_ActivateFreeWork(RailManager *railMan);
-extern void FIELD_RAIL_ReleaseWork(RailManager *railMan, RailWork *work);
+extern int FIELD_RAIL_ReleaseWork(RailManager *railMan, RailWork *work);
 extern void FIELD_RAIL_SetFocusWork(RailManager *railMan, RailWork *work);
 extern void FIELD_RAIL_ClearFocusWork(RailManager *railMan);
-extern u32 RAIL_ATTR_GetAttribute(RailAttr *attr, const RailLocation *location);
+extern int RAIL_ATTR_GetAttribute(RailAttr *attr, const RailLocation *location);
 extern void FIELD_RAIL_UpdateCameraAtLocation(RailManager *railMan, const RailLocation *location);
 extern void FIELD_RAIL_SetLineEnable(RailManager *railMan, int lineIndex, int enable);
 extern int ZONEDATA_GetSpecialKind(u16 zoneId);
-extern void FIELD_RAIL_MakeLineLocation(RailManager *railMan, FieldRailSetting *setting, u32 railIndex, u32 lineGrid, u32 widthPos, RailLocation *outLocation);
+extern void FIELD_RAIL_MakeLineLocation(struct RailManager *manager, FieldRailSetting *setting, u16 railIndex, u16 lineGrid, u16 widthPos, RailLocation *outLocation);
 
 FieldNogridMapper *FIELD_NOGRID_MAPPER_Create(u32 heapId, u32 fieldCamera, FldSceneArea *sceneArea, FldSceneAreaLoader *sceneAreaLoader);
 int FIELD_NOGRID_MAPPER_Delete(FieldNogridMapper *mapper);
@@ -149,7 +150,7 @@ FieldNogridMapper *FIELD_NOGRID_MAPPER_Create(u32 heapId, u32 fieldCamera, FldSc
 {
     FieldNogridMapper *mapper = GFL_HEAP_Alloc((u16)heapId, sizeof(FieldNogridMapper), 1, (const char *)&d_021DE2D0, 0x47);
 
-    mapper->railMan = FIELD_RAIL_Create(heapId, RAIL_WORK_MAX, fieldCamera);
+    mapper->railMan = FIELD_RAIL_Create(heapId, RAIL_WORK_MAX, (struct FieldCamera *)fieldCamera);
     mapper->railLoader = FIELD_RAIL_LOADER_Create(heapId);
     mapper->sceneArea = sceneArea;
     mapper->sceneAreaLoader = sceneAreaLoader;

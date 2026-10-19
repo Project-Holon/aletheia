@@ -75,19 +75,20 @@ extern void *GFL_HEAP_Alloc(unsigned int heapId, unsigned int size, int clear, c
 
 extern void POKEPARTY_InitEx(struct Party *p, s32 capacity);
 
-extern void POKE_TOOL_SetPartyValue(void *,u32,u32);
+extern void POKE_TOOL_SetPartyValue(struct PokemonParam *pp, unsigned int paramId, unsigned int value);
 
 extern u32 POKEPARTY_Add(struct Party *p, const struct PokemonParam *src);
 
 extern u32 GFL_HEAP_Free(void *p);
 
-extern void MYSTATUS_Copy(void *, void *);
+extern void MYSTATUS_Copy(struct MyStatus *src, struct MyStatus *dest);
+struct Strbuf;
 
-extern void STRBUF_ToChars(struct StrBuf *vec, u16 *out, u32 n);
+extern void STRBUF_ToChars(struct Strbuf *strbuf, unsigned short *out, unsigned int maxChars);
 
-extern void STRBUF_SetString(struct StrBuf *o, const u16 *src);
+extern void STRBUF_SetString(struct Strbuf *strbuf, unsigned short *srcChars);
 
-extern u16 *STRBUF_GetChars(struct StrBuf *vec);
+extern u16 *STRBUF_GetChars(struct Strbuf *strbuf);
 
 extern u16 STRBUF_GetEosChar(void);
 
@@ -342,7 +343,7 @@ void BATTLE_REC_TOOL_PackPlayers(struct BattleSetupParam *setup, struct BattleRe
             BATTLE_REC_TOOL_PackPlayerProfile(setup->trainerData[i], &rec->players[i].data.trainer);
             rec->players[i].kind = BATTLE_REC_PLAYER_TRAINER;
         } else if (setup->playerStatus[i]) {
-            MYSTATUS_Copy(setup->playerStatus[i], rec->players[i].data.status);
+            MYSTATUS_Copy((struct MyStatus *)setup->playerStatus[i], (struct MyStatus *)rec->players[i].data.status);
             rec->players[i].kind = BATTLE_REC_PLAYER_STATUS;
         } else {
             rec->players[i].kind = BATTLE_REC_PLAYER_NONE;
@@ -356,7 +357,7 @@ void BATTLE_REC_TOOL_UnpackPlayers(struct BattleSetupParam *setup, struct Battle
     unsigned i;
     for(i=0;i<4;i++) {
         switch(rec->players[i].kind) {
-        case BATTLE_REC_PLAYER_STATUS: MYSTATUS_Copy(rec->players[i].data.status, setup->playerStatus[i]); break;
+        case BATTLE_REC_PLAYER_STATUS: MYSTATUS_Copy((struct MyStatus *)rec->players[i].data.status, setup->playerStatus[i]); break;
         case BATTLE_REC_PLAYER_TRAINER: BATTLE_REC_TOOL_UnpackPlayerProfile(setup->trainerData[i], &rec->players[i].data.trainer); break;
         }
         setup->voiceFlags[i] = rec->players[i].voiceFlags;

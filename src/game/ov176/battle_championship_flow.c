@@ -143,15 +143,16 @@ typedef struct {
 
 extern void GFL_HEAP_CreateChildHeap(unsigned int,unsigned int,unsigned int);
 
-extern void *PROCSYS_AllocProcWork(struct ProcOwner *owner, u32 size, u32 heap);
+extern void *PROCSYS_AllocProcWork(struct Proc *proc, unsigned int size, unsigned int heapId);
 
 extern void MI_CpuFill8(void *,int,unsigned);
 
 extern int GF_OVERLAY_Load(signed int);
+struct WifibattlematchCallback;
 
-extern int *WIFIBATTLEMATCH_UTIL_CreateCallback(int a, int b, int c);
+extern struct WifibattlematchCallback *WIFIBATTLEMATCH_UTIL_CreateCallback(int a, int b, int c);
 
-extern void WIFIBATTLEMATCH_UTIL_DeleteCallback(int);
+extern void WIFIBATTLEMATCH_UTIL_DeleteCallback(void *p);
 
 extern void GF_OVERLAY_Unload(int);
 
@@ -163,7 +164,7 @@ extern void BATTLE_CHAMPIONSHIP_FLOW_ReleaseGraphic(int *),BATTLE_CHAMPIONSHIP_F
 
 extern int WIFIBATTLEMATCH_UTIL_IsCallbackNull(int **);
 
-extern int *WIFIBATTLEMATCH_GRAPHIC_Create(unsigned swap, int heap);
+extern int *WIFIBATTLEMATCH_GRAPHIC_Create(unsigned int swap, unsigned short heap);
 
 extern void WIFIBATTLEMATCH_GRAPHIC_Delete(char *p);
 
@@ -180,26 +181,28 @@ extern void WIFIBATTLEMATCH_VIEW_Delete(void *);
 extern struct GfFont *GF_FONT_Create(int archiveId, int fileId, int format, int isFixedWidth, u32 heapId);
 
 extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+struct PrintQueue;
 
-extern u32 PRINTSYS_QUE_Create(void *p);
+extern struct PrintQueue *PRINTSYS_QUE_Create(unsigned int heap);
+struct WifibattlematchUtilWork;
 
-extern void *WIFIBATTLEMATCH_UTIL_Create(unsigned,unsigned,unsigned,unsigned,void *,void *,unsigned);
+extern struct WifibattlematchUtilWork *WIFIBATTLEMATCH_UTIL_Create(int layer, int winType, unsigned short winWidth, unsigned short winHeight, int unused, int printArg, unsigned short heap);
 
-extern void WIFIBATTLEMATCH_UTIL_Delete(u32 a);
+extern void WIFIBATTLEMATCH_UTIL_Delete(struct WifibattlematchUtilWork *p);
 
-extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
+extern void PRINTSYS_QUE_Delete(struct PrintQueue *queue);
 
-extern u32 MSGDATA_Delete(struct Rec *rec);
+extern u32 MSGDATA_Delete(struct MsgBank *bank);
 
-extern u32 GF_FONT_Delete(void *ptr);
+extern u32 GF_FONT_Delete(struct GfFont *font);
 
-extern void WIFIBATTLEMATCH_UTIL_Main(char *p);
+extern void WIFIBATTLEMATCH_UTIL_Main(struct WifibattlematchUtilWork *p);
 
-extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
+extern u32 PRINTSYS_QUE_Main(struct PrintQueue *queue);
 
 extern void WIFIBATTLEMATCH_UTIL_SetCallback(int *p, int v);
 
-extern void WIFIBATTLEMATCH_UTIL_ClearCallback(int a);
+extern void WIFIBATTLEMATCH_UTIL_ClearCallback(void *record);
 
 extern void FADE_Start(u32 a, s32 b, s32 c, s32 d);
 
@@ -224,22 +227,27 @@ extern void DIGITALCARDCHECK_DeleteAlt(int *p);
 extern int DIGITALCARDCHECK_GetProcResult(int *p);
 
 extern void DIGITALCARDCHECK_Delete(int *p);
+struct GameData;
+struct SaveControl;
 
-extern void *GAME_DATA_GetSaveControl(struct Big *p);
+extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gd);
+struct BattleCompetitionSave;
 
-extern void *BATTLE_COMPETITION_GetFromSave(void *);
+extern struct BattleCompetitionSave *BATTLE_COMPETITION_GetFromSave(struct SaveControl *save);
 
 extern struct RegulationCard *REGULATION_GetCard(struct RegulationCard *arr, u32 index);
+struct WifibattlematchMenu;
 
-extern void *WIFIBATTLEMATCH_UTIL_CreateMenu(WifibattlematchMenuDesc *,u8,u8,u8,u32,int);
+extern struct WifibattlematchMenu *WIFIBATTLEMATCH_UTIL_CreateMenu(WifibattlematchMenuDesc *p, u8 x, u8 y, u8 width, s32 height, u16 heap);
+struct WifibattlematchMenu;
 
-extern void WIFIBATTLEMATCH_UTIL_DeleteMenu(void *);
+extern void WIFIBATTLEMATCH_UTIL_DeleteMenu(struct WifibattlematchMenu *p);
 
-extern int WIFIBATTLEMATCH_UTIL_UpdateMenu(void *);
+extern int WIFIBATTLEMATCH_UTIL_UpdateMenu(struct WifibattlematchMenu *p);
 
-extern void WIFIBATTLEMATCH_UTIL_PrintMessage(int *p, int a, int b, int c);
+extern void WIFIBATTLEMATCH_UTIL_PrintMessage(struct WifibattlematchUtilWork *p, void *msgBank, s32 msgIndex, s32 mode);
 
-extern int WIFIBATTLEMATCH_UTIL_GetBusy(const int *);
+extern int WIFIBATTLEMATCH_UTIL_GetBusy(struct WifibattlematchUtilWork *p);
 
 int BATTLE_CHAMPIONSHIP_FLOW_Create(void *a,void *b,void *context);
 
@@ -354,7 +362,7 @@ int BATTLE_CHAMPIONSHIP_FLOW_Create(void *owner,void *unused,void *context)
 
 int BATTLE_CHAMPIONSHIP_FLOW_Delete(int owner, int unused, int unused2, int *work)
 {
-    WIFIBATTLEMATCH_UTIL_DeleteCallback((int)((BattleChampionshipFlowWork *)work)->proc);
+    WIFIBATTLEMATCH_UTIL_DeleteCallback(((BattleChampionshipFlowWork *)work)->proc);
     BATTLE_CHAMPIONSHIP_FLOW_DeleteText(work);
     BATTLE_CHAMPIONSHIP_FLOW_DeleteView(work);
     BATTLE_CHAMPIONSHIP_FLOW_DeleteGraphic(work);
@@ -407,22 +415,22 @@ void BATTLE_CHAMPIONSHIP_FLOW_CreateText(char *work)
 {
     ((BattleChampionshipFlowWork *)work)->font=GF_FONT_Create(0x17,0,0,0,((BattleChampionshipFlowWork *)work)->heapId);
     ((BattleChampionshipFlowWork *)work)->msgBank=MSGDATA_CreateFromArchive(0,2,4,((BattleChampionshipFlowWork *)work)->heapId);
-    ((BattleChampionshipFlowWork *)work)->printQue=(void *)PRINTSYS_QUE_Create((void *)(((BattleChampionshipFlowWork *)work)->heapId));
-    ((BattleChampionshipFlowWork *)work)->printSys=WIFIBATTLEMATCH_UTIL_Create(0,15,14,10,((BattleChampionshipFlowWork *)work)->printQue,((BattleChampionshipFlowWork *)work)->font,((BattleChampionshipFlowWork *)work)->heapId);
+    ((BattleChampionshipFlowWork *)work)->printQue=(void *)PRINTSYS_QUE_Create((unsigned int)(((BattleChampionshipFlowWork *)work)->heapId));
+    ((BattleChampionshipFlowWork *)work)->printSys=WIFIBATTLEMATCH_UTIL_Create((int)0,(int)15,14,10,(int)(((BattleChampionshipFlowWork *)work)->printQue),(int)(((BattleChampionshipFlowWork *)work)->font),((BattleChampionshipFlowWork *)work)->heapId);
 }
 
 void BATTLE_CHAMPIONSHIP_FLOW_DeleteText(int *work)
 {
-    WIFIBATTLEMATCH_UTIL_Delete((u32)((BattleChampionshipFlowWork *)work)->printSys);
-    PRINTSYS_QUE_Delete((struct PrintSys *)(((BattleChampionshipFlowWork *)work)->printQue));
-    MSGDATA_Delete((struct Rec *)(((BattleChampionshipFlowWork *)work)->msgBank));
+    WIFIBATTLEMATCH_UTIL_Delete(((BattleChampionshipFlowWork *)work)->printSys);
+    PRINTSYS_QUE_Delete((struct PrintQueue *)(((BattleChampionshipFlowWork *)work)->printQue));
+    MSGDATA_Delete((struct MsgBank *)(((BattleChampionshipFlowWork *)work)->msgBank));
     GF_FONT_Delete((void *)(((BattleChampionshipFlowWork *)work)->font));
 }
 
 void BATTLE_CHAMPIONSHIP_FLOW_UpdateText(int *work)
 {
-    WIFIBATTLEMATCH_UTIL_Main((char *)(((BattleChampionshipFlowWork *)work)->printSys));
-    PRINTSYS_QUE_Main((struct PrintSys *)(((BattleChampionshipFlowWork *)work)->printQue));
+    WIFIBATTLEMATCH_UTIL_Main((struct WifibattlematchUtilWork *)(((BattleChampionshipFlowWork *)work)->printSys));
+    PRINTSYS_QUE_Main((struct PrintQueue *)(((BattleChampionshipFlowWork *)work)->printQue));
 }
 
 void BATTLE_CHAMPIONSHIP_FLOW_SelectFlow(void *proc,int unused,char *work)
@@ -437,7 +445,7 @@ void BATTLE_CHAMPIONSHIP_FLOW_SelectFlow(void *proc,int unused,char *work)
 
 void BATTLE_CHAMPIONSHIP_FLOW_End(void *proc)
 {
-    WIFIBATTLEMATCH_UTIL_ClearCallback((int)proc);
+    WIFIBATTLEMATCH_UTIL_ClearCallback(proc);
 }
 
 void BATTLE_CHAMPIONSHIP_FLOW_FadeIn(void *proc,int *state,char *work)
@@ -565,7 +573,7 @@ void *BATTLE_CHAMPIONSHIP_FLOW_CreateMenu(const BattleChampionshipFlowConfig *co
     return menu;
 }
 
-void BATTLE_CHAMPIONSHIP_FLOW_DeleteMenu(int *work) {WIFIBATTLEMATCH_UTIL_DeleteCallback((int)(((BattleChampionshipFlowMenu *)work)->proc));MSGDATA_Delete(((BattleChampionshipFlowMenu *)work)->msgBank);GFL_HEAP_Free(work);}
+void BATTLE_CHAMPIONSHIP_FLOW_DeleteMenu(int *work) {WIFIBATTLEMATCH_UTIL_DeleteCallback((((BattleChampionshipFlowMenu *)work)->proc));MSGDATA_Delete(((BattleChampionshipFlowMenu *)work)->msgBank);GFL_HEAP_Free(work);}
 
 /*
  * leaf: sole blocker of owned 0217B0C8 MATCH; no prior source/unit/shard, parent claim accepted.
@@ -604,7 +612,7 @@ void BATTLE_CHAMPIONSHIP_FLOW_SelectMenuPhase(int proc, int unused, int *work)
     }
 }
 
-void BATTLE_CHAMPIONSHIP_FLOW_EndMenu(int proc) {WIFIBATTLEMATCH_UTIL_ClearCallback(proc);}
+void BATTLE_CHAMPIONSHIP_FLOW_EndMenu(int proc) {WIFIBATTLEMATCH_UTIL_ClearCallback((void *)proc);}
 
 void BATTLE_CHAMPIONSHIP_FLOW_MenuMain(int proc, unsigned *state, int *work)
 {
@@ -805,14 +813,14 @@ unsigned BATTLE_CHAMPIONSHIP_FLOW_GetWindowResult(int *work) {return WIFIBATTLEM
 
 void BATTLE_CHAMPIONSHIP_FLOW_SetOption(int *work, int option)
 {
-    WIFIBATTLEMATCH_UTIL_PrintMessage((int *)(*(int *)&((BattleChampionshipFlowMenu *)work)->printSys), *(int *)&((BattleChampionshipFlowMenu *)work)->msgBank2, option, 1);
+    WIFIBATTLEMATCH_UTIL_PrintMessage((struct WifibattlematchUtilWork *)(*(int *)&((BattleChampionshipFlowMenu *)work)->printSys), (void *)(*(int *)&((BattleChampionshipFlowMenu *)work)->msgBank2), option, 1);
 }
 
 void BATTLE_CHAMPIONSHIP_FLOW_SetExtraOption(int *work, int option)
 {
-    WIFIBATTLEMATCH_UTIL_PrintMessage((int *)(*(int *)&((BattleChampionshipFlowMenu *)work)->printSys), (int)((BattleChampionshipFlowMenu *)work)->msgBank, option, 1);
+    WIFIBATTLEMATCH_UTIL_PrintMessage((struct WifibattlematchUtilWork *)(*(int *)&((BattleChampionshipFlowMenu *)work)->printSys), ((BattleChampionshipFlowMenu *)work)->msgBank, option, 1);
 }
 
-int BATTLE_CHAMPIONSHIP_FLOW_IsOptionDone(int *work) {return WIFIBATTLEMATCH_UTIL_GetBusy(*(int * *)&((BattleChampionshipFlowMenu *)work)->printSys);}
+int BATTLE_CHAMPIONSHIP_FLOW_IsOptionDone(int *work) {return WIFIBATTLEMATCH_UTIL_GetBusy((struct WifibattlematchUtilWork *)(*(int * *)&((BattleChampionshipFlowMenu *)work)->printSys));}
 
 void BATTLE_CHAMPIONSHIP_FLOW_FinishMenu(int *work,int result) {((BattleChampionshipFlowMenu *)work)->result=result;WIFIBATTLEMATCH_UTIL_SetCallback((int *)((BattleChampionshipFlowMenu *)work)->proc,(int)BATTLE_CHAMPIONSHIP_FLOW_EndMenu);}

@@ -1,5 +1,5 @@
 /*
- * function: EVENT_MAPCHANGE_EndMarker
+ * function: EVENT_MAPCHANGE_NopHook
  * address:  0x0218608C
  * packet:   pkt_ov020_0218608C
  * region:   ov020
@@ -15,6 +15,6 @@
  * passes EVENT_MAPCHANGE_AllocWorkBufferA and EVENT_MAPCHANGE_AllocWorkBufferB to func_021882A0 and func_02188318.
  */
 
-void EVENT_MAPCHANGE_EndMarker(void)
+void EVENT_MAPCHANGE_NopHook(void)
 {
 }

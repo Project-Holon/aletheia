@@ -113,41 +113,48 @@ extern u32 *PMS_INPUT_GetUiInputModePtr(struct PmsInput *input);
 extern void ARC_TOOL_DeleteHandle(void *handle);
 extern u32 PMS_INPUT_HasInitialSentence(struct PmsInput *input);
 extern u8 PMS_INPUT_GetBrowseMode(struct PmsInput *input);
-extern struct MsgData *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern void STRBUF_Delete(void *str);
-extern u32 MSGDATA_Delete(struct MsgData *msgData);
-extern void CLACT_DeleteActor(struct ClactActor *actor);
+struct MsgBank;
+extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern void STRBUF_Delete(struct Strbuf *strbuf);
+extern u32 MSGDATA_Delete(struct MsgBank *bank);
+struct Actor;
+extern void CLACT_DeleteActor(struct Actor *actor);
 extern struct GfFont *PMS_INPUT_VIEW_GetFont(struct PmsInputView *view);
 extern void PMS_INPUT_VIEW_GetUiRes(struct PmsInputView *view, struct PmsInputViewSpriteRes *out, int screen, int unused);
 extern void *ARC_TOOL_CreateHandle(unsigned int id, unsigned int heapId);
 extern u8 PMS_INPUT_GetInitialCount(struct PmsInput *input);
-extern u32 CLACT_GetActorDrawEnable(struct ClactActor *actor);
-extern u16 CLACT_GetActorAnimSeq(struct ClactActor *actor);
-extern u32 CLACT_IsActorAnimActive(struct ClactActor *actor);
+extern u32 CLACT_GetActorDrawEnable(struct Actor *actor);
+extern u16 CLACT_GetActorAnimSeq(struct Actor *actor);
+extern u32 CLACT_IsActorAnimActive(struct Actor *actor);
 extern unsigned PMS_INPUT_GetInputMode(struct PmsInput *input);
 extern int PMS_INPUT_GetSentenceType(struct PmsInput *input);
 extern struct ClactActor *PMS_INPUT_VIEW_CreateActor(struct PmsInputView *view, struct PmsInputViewSpriteRes *res, int x, int y, int priority, int mode);
-extern void CLACT_SetActorDrawEnable(struct ClactActor *actor, u32 enable);
-extern void CLACT_SetActorAnimSeq(struct ClactActor *actor, u16 seq);
+extern void CLACT_SetActorDrawEnable(struct Actor *actor, unsigned int value);
+extern void CLACT_SetActorAnimSeq(struct Actor *actor, unsigned short value);
 extern struct PrintQue *PMS_INPUT_VIEW_GetPrintQue(struct PmsInputView *view);
-extern struct AppTaskMenuRes *APP_TASKMENU_RES_Create(u16, u16, struct GfFont *font, struct PrintQue *printQue, u16 heapId);
+struct PrintQueue;
+struct GFont;
+struct TaskMenuRes;
+extern struct TaskMenuRes *APP_TASKMENU_RES_Create(u16 bgFrame, u16 palNo, struct GFont *font, struct PrintQueue *printQue, u16 heapId);
 extern void ARC_UTIL_UploadPaletteFromArchiveWhole(u32 a, u32 b, u32 c, u32 d, u32 e, u16 heapId);
 extern void CLACT_ReleasePalette(u32 id);
 extern void CLACT_ReleaseCharacter(u32 id);
 extern void CLACT_ReleaseCellAnim(u32 id);
-extern u32 APP_TASKMENU_RES_Delete(struct AppTaskMenuRes *res);
-extern void APP_TASKMENU_WIN_Update(struct AppTaskMenuWin *win);
-extern void APP_TASKMENU_WIN_Delete(struct AppTaskMenuWin *win);
+extern void APP_TASKMENU_RES_Delete(struct TaskMenuRes *res);
+struct TaskMenuWin;
+extern void APP_TASKMENU_WIN_Update(struct TaskMenuWin *win);
+extern void APP_TASKMENU_WIN_Delete(struct TaskMenuWin *win);
 extern void BG_SYS_PushTile(u32 index);
-extern void *MSGDATA_AllocString(struct MsgData *msgData, u32 index);
-extern struct AppTaskMenuWin *APP_TASKMENU_WIN_Create(struct AppTaskMenuRes *res, const struct PmsivMenuEntry *entry, u32, u8, u8, u16 heapId);
-extern void APP_TASKMENU_WIN_ChangePalette(struct AppTaskMenuWin *win, struct AppTaskMenuRes *res, u32, u32, u16);
+extern struct Strbuf *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
+struct TaskMenuItem;
+extern struct TaskMenuWin *APP_TASKMENU_WIN_Create(struct TaskMenuRes *res, struct TaskMenuItem *item, u16 charPosX, u16 charPosY, u8 width, u16 heapId);
+extern void APP_TASKMENU_WIN_ChangePalette(struct TaskMenuWin *win, struct TaskMenuRes *res, u32 palNo, u32 color0, u16 color1);
 extern int PMS_INPUT_CanConfirm(struct PmsInput *input);
 extern int PMS_INPUT_GetSearchState(struct PmsInput *input);
-extern void APP_TASKMENU_WIN_ResetDecide(struct AppTaskMenuWin *win);
-extern void APP_TASKMENU_WIN_SetActive(struct AppTaskMenuWin *win, u32 active);
-extern void APP_TASKMENU_WIN_SetDecide(struct AppTaskMenuWin *win, int decide);
-extern u32 APP_TASKMENU_WIN_IsFinish(struct AppTaskMenuWin *win);
+extern void APP_TASKMENU_WIN_ResetDecide(struct TaskMenuWin *win);
+extern void APP_TASKMENU_WIN_SetActive(struct TaskMenuWin *win, unsigned int isActive);
+extern void APP_TASKMENU_WIN_SetDecide(struct TaskMenuWin *win, int isDecide);
+extern u32 APP_TASKMENU_WIN_IsFinish(struct TaskMenuWin *win);
 extern int CLACT_RegisterCharacter(void *handle, unsigned int fileId, unsigned int compressed, unsigned int screen, u16 heapId);
 extern int CLACT_RegisterCellAnim(void *handle, unsigned int cellFileId, unsigned int animFileId, unsigned int heapId);
 extern unsigned int APP_ICON_GetArchiveId(void);
@@ -159,11 +166,11 @@ extern int CLACT_RegisterPaletteEx(void *handle, u32 fileId, u32 screen, u32 off
 extern void MI_CpuFill8(void *dst, int value, unsigned size);
 extern struct ClactUnit *PMS_INPUT_VIEW_GetClactUnit(struct PmsInputView *view);
 extern struct ClactActor *CLACT_CreateActor(void *unit, u32 character, u32 palette, u32 cellAnim, const void *setup, u16 screen, u16 heapId);
-extern void CLACT_SetActorAutoAnim(struct ClactActor *actor, u32 enable);
-extern void *ARC_UTIL_LoadPaletteBlockFromArchive(u32 archiveID, u32 memberIdx, u32 unpackedOut, u32 flags);
+extern void CLACT_SetActorAutoAnim(struct Actor *actor, u32 enable);
+extern void *ARC_UTIL_LoadPaletteBlockFromArchive(u32 archiveID, u32 memberIdx, void *unpackedOut, u16 flags);
 extern void MI_CpuCopy8(const void *src, void *dst, unsigned int size);
-extern int NNS_GfdRegisterNewVramTransferTask(u32 target, u32 offset, const void *data, int size);
-extern void CLACT_SetActorPaletteOffset(struct ClactActor *actor, u32 offset, u32 flag);
+extern int NNS_GfdRegisterNewVramTransferTask(void *pTaskFunc, unsigned int dstOffset, unsigned int srcAddr, int szByte);
+extern void CLACT_SetActorPaletteOffset(struct Actor *actor, unsigned int offset, unsigned int pltt_op);
 extern short FX_SinCosTable_[];
 
 struct PmsivMenuActorSetup { u16 x, y, z; u8 priority, mode; };
@@ -182,7 +189,7 @@ void PMSIV_MENU_PressEntry2(struct PmsivMenu *menu);
 int PMSIV_MENU_IsEntry2Done(struct PmsivMenu *menu);
 void PMSIV_MENU_PressBackItem(struct PmsivMenu *menu);
 int PMSIV_MENU_IsBackItemDone(struct PmsivMenu *menu);
-void PMSIV_MENU_FinishBackItem(struct PmsivMenu *menu, int i, int j);
+void PMSIV_MENU_FinishBackItem(struct PmsivMenu *menu);
 void PMSIV_MENU_PressEntry1(struct PmsivMenu *menu);
 int PMSIV_MENU_IsEntry1Done(struct PmsivMenu *menu);
 void PMSIV_MENU_PressEntry0(struct PmsivMenu *menu);
@@ -190,7 +197,7 @@ int PMSIV_MENU_IsEntry0Done(struct PmsivMenu *menu);
 void PMSIV_MENU_StartPress(struct PmsivMenu *menu, u32 mode);
 void PMSIV_MENU_SelectItem(struct PmsivMenu *menu, int mode);
 int PMSIV_MENU_IsPressDone(struct PmsivMenu *menu, u32 mode);
-void PMSIV_MENU_FinishPress(struct PmsivMenu *menu, int i, int j);
+void PMSIV_MENU_FinishPress(struct PmsivMenu *menu, int i);
 void PMSIV_MENU_SetActiveEntry(struct PmsivMenu *menu, int n, int v);
 void PMSIV_MENU_SetDecideEntry(struct PmsivMenu *menu, u32 index, int value);
 u32 PMSIV_MENU_IsEntryFinished(struct PmsivMenu *menu, u32 index);
@@ -222,10 +229,10 @@ struct PmsivMenu *PMSIV_MENU_Create(struct PmsInputView *view, struct PmsInput *
     menu=GFL_HEAP_Alloc(PMSIV_MENU_HEAP_ID,sizeof(struct PmsivMenu),1,gPmsivMenuHeapSite,309);
     menu->view=view; menu->input=input; menu->wordData=wordData;
     menu->uiInputMode=PMS_INPUT_GetUiInputModePtr(input);
-    menu->msgData=MSGDATA_CreateFromArchive(0,2,146,PMSIV_MENU_HEAP_ID);
+    menu->msgData=(struct MsgData *)MSGDATA_CreateFromArchive(0,2,146,PMSIV_MENU_HEAP_ID);
     for (i=0;i<PMSIV_MENU_TEXT_COUNT;i++) {
         font=PMS_INPUT_VIEW_GetFont(menu->view);
-        menu->taskMenuRes[i]=APP_TASKMENU_RES_Create(0,8,font,PMS_INPUT_VIEW_GetPrintQue(menu->view),PMSIV_MENU_HEAP_ID);
+        menu->taskMenuRes[i]=(struct AppTaskMenuRes *)APP_TASKMENU_RES_Create(0,8,(struct GFont *)font,(struct PrintQueue *)(PMS_INPUT_VIEW_GetPrintQue(menu->view)),PMSIV_MENU_HEAP_ID);
     }
     ARC_UTIL_UploadPaletteFromArchiveWhole(43,9,0,448,64,PMSIV_MENU_HEAP_ID);
     PMSIV_MENU_CreateBackButton(menu);PMSIV_MENU_CreateItems(menu);PMSIV_MENU_CreateExtraItems(menu);PMSIV_MENU_LoadBlendColors(menu);
@@ -239,24 +246,24 @@ void PMSIV_MENU_Delete(struct PmsivMenu *menu)
 {
     int i;
     PMSIV_MENU_HideAll(menu);
-    CLACT_DeleteActor(menu->backButton);
+    CLACT_DeleteActor((struct Actor *)menu->backButton);
     CLACT_ReleasePalette(menu->backPalette);
     CLACT_ReleaseCharacter(menu->backCharacter);
     CLACT_ReleaseCellAnim(menu->backCellAnim);
-    for (i=0;i<PMSIV_MENU_TEXT_COUNT;i++) APP_TASKMENU_RES_Delete(menu->taskMenuRes[i]);
+    for (i=0;i<PMSIV_MENU_TEXT_COUNT;i++) APP_TASKMENU_RES_Delete((struct TaskMenuRes *)menu->taskMenuRes[i]);
     PMSIV_MENU_Reserved(menu); PMSIV_MENU_DeleteExtraItems(menu); PMSIV_MENU_DeleteItems(menu);
-    MSGDATA_Delete(menu->msgData);
+    MSGDATA_Delete((struct MsgBank *)menu->msgData);
     GFL_HEAP_Free(menu);
 }
 
 void PMSIV_MENU_Update(struct PmsivMenu *menu)
 {
     int i;
-    for (i=0;i<PMSIV_MENU_TEXT_COUNT;i++) if (menu->taskMenuWin[i]) APP_TASKMENU_WIN_Update(menu->taskMenuWin[i]);
+    for (i=0;i<PMSIV_MENU_TEXT_COUNT;i++) if (menu->taskMenuWin[i]) APP_TASKMENU_WIN_Update((struct TaskMenuWin *)menu->taskMenuWin[i]);
     switch (menu->backButtonState) {
     case 0: break;
     case 1: menu->backButtonState=2;
-    case 2: if (!CLACT_IsActorAnimActive(menu->backButton)) menu->backButtonState=3; break;
+    case 2: if (!CLACT_IsActorAnimActive((struct Actor *)menu->backButton)) menu->backButtonState=3; break;
     case 3: menu->backButtonState=0; break;
     }
     PMSIV_MENU_UpdateBlend(menu);
@@ -266,12 +273,12 @@ void PMSIV_MENU_HideAll(struct PmsivMenu *menu) {
     int i;
     for(i=0;i<PMSIV_MENU_TEXT_COUNT;i++) {
         if(menu->entries[i].text) { STRBUF_Delete(menu->entries[i].text); menu->entries[i].text=0; }
-        if(menu->taskMenuWin[i]) { APP_TASKMENU_WIN_Delete(menu->taskMenuWin[i]); menu->taskMenuWin[i]=0; }
+        if(menu->taskMenuWin[i]) { APP_TASKMENU_WIN_Delete((struct TaskMenuWin *)menu->taskMenuWin[i]); menu->taskMenuWin[i]=0; }
     }
-    for(i=0;i<PMSIV_MENU_ITEM_COUNT;i++) CLACT_SetActorDrawEnable(menu->items[i], 0);
-    for(i=0;i<PMSIV_MENU_EXTRA_COUNT;i++) CLACT_SetActorDrawEnable(menu->extraItems[i], 0);
+    for(i=0;i<PMSIV_MENU_ITEM_COUNT;i++) CLACT_SetActorDrawEnable((struct Actor *)menu->items[i], 0);
+    for(i=0;i<PMSIV_MENU_EXTRA_COUNT;i++) CLACT_SetActorDrawEnable((struct Actor *)menu->extraItems[i], 0);
     BG_SYS_PushTile(0);
-    CLACT_SetActorDrawEnable(menu->backButton, 0);
+    CLACT_SetActorDrawEnable((struct Actor *)menu->backButton, 0);
 }
 
 /*
@@ -292,23 +299,23 @@ void PMSIV_MENU_ShowEditEntries(struct PmsivMenu *menu)
     i=0;
     entries=menu->entries;
     for(;i<2;i++) {
-        menu->entries[i].text=MSGDATA_AllocString(menu->msgData,i+14);
+        menu->entries[i].text=MSGDATA_AllocString((struct MsgBank *)menu->msgData,i+14);
         menu->entries[i].color=0x39e3;
         menu->entries[i].selected=(i==1);
-        menu->taskMenuWin[i]=APP_TASKMENU_WIN_Create(menu->taskMenuRes[i],&entries[i],23,(u8)(i*3+18),9,PMSIV_MENU_HEAP_ID);
-        APP_TASKMENU_WIN_ChangePalette(menu->taskMenuWin[i],menu->taskMenuRes[i],8,0x3545,0x7b2c);
+        menu->taskMenuWin[i]=(struct AppTaskMenuWin *)APP_TASKMENU_WIN_Create((struct TaskMenuRes *)menu->taskMenuRes[i],(struct TaskMenuItem *)(&entries[i]),23,(u8)(i*3+18),9,PMSIV_MENU_HEAP_ID);
+        APP_TASKMENU_WIN_ChangePalette((struct TaskMenuWin *)menu->taskMenuWin[i],(struct TaskMenuRes *)menu->taskMenuRes[i],8,0x3545,0x7b2c);
     }
     PMSIV_MENU_UpdateEntryPalette(menu);
     BG_SYS_PushTile(0);
     if(PMS_INPUT_HasInitialSentence(menu->input)==0 && PMS_INPUT_GetInputMode(menu->input)==2) {
-        CLACT_SetActorDrawEnable(menu->items[0], 1);
-        CLACT_SetActorDrawEnable(menu->items[1], 1);
-        CLACT_SetActorDrawEnable(menu->items[2], 1);
-        CLACT_SetActorDrawEnable(menu->items[3], 1);
-        CLACT_SetActorDrawEnable(menu->items[4], 1);
-        CLACT_SetActorDrawEnable(menu->items[5], 1);
-        CLACT_SetActorDrawEnable(menu->items[6], 1);
-        for(i=0;i<2;i++) CLACT_SetActorDrawEnable(menu->extraItems[i], 1);
+        CLACT_SetActorDrawEnable((struct Actor *)menu->items[0], 1);
+        CLACT_SetActorDrawEnable((struct Actor *)menu->items[1], 1);
+        CLACT_SetActorDrawEnable((struct Actor *)menu->items[2], 1);
+        CLACT_SetActorDrawEnable((struct Actor *)menu->items[3], 1);
+        CLACT_SetActorDrawEnable((struct Actor *)menu->items[4], 1);
+        CLACT_SetActorDrawEnable((struct Actor *)menu->items[5], 1);
+        CLACT_SetActorDrawEnable((struct Actor *)menu->items[6], 1);
+        for(i=0;i<2;i++) CLACT_SetActorDrawEnable((struct Actor *)menu->extraItems[i], 1);
     }
     PMSIV_MENU_UpdateItemHighlight(menu);
 }
@@ -316,7 +323,7 @@ void PMSIV_MENU_ShowEditEntries(struct PmsivMenu *menu)
 void PMSIV_MENU_ShowWordEntries(struct PmsivMenu *menu)
 {
     PMSIV_MENU_HideAll(menu);
-    CLACT_SetActorDrawEnable(menu->items[7], 1);
+    CLACT_SetActorDrawEnable((struct Actor *)menu->items[7], 1);
     if (PMS_INPUT_GetBrowseMode(menu->input) == 0) PMSIV_MENU_ShowBackButton(menu);
     else PMSIV_MENU_ShowListEntries(menu);
 }
@@ -324,8 +331,8 @@ void PMSIV_MENU_ShowWordEntries(struct PmsivMenu *menu)
 void PMSIV_MENU_ShowOnlyBackButton(struct PmsivMenu *menu)
 {
     PMSIV_MENU_HideAll(menu);
-    CLACT_SetActorDrawEnable(menu->backButton, 1);
-    CLACT_SetActorAnimSeq(menu->backButton, 1);
+    CLACT_SetActorDrawEnable((struct Actor *)menu->backButton, 1);
+    CLACT_SetActorAnimSeq((struct Actor *)menu->backButton, 1);
     menu->backButtonState = 0;
 }
 
@@ -337,7 +344,7 @@ void PMSIV_MENU_UpdateItemHighlight(struct PmsivMenu *menu) {
     old=-1; new=-1;
     selected=PMS_INPUT_GetSentenceType(menu->input);
     for(i=1;i<=5;i++) {
-        state=CLACT_GetActorAnimSeq(menu->items[i]);
+        state=CLACT_GetActorAnimSeq((struct Actor *)menu->items[i]);
         if(state==gPmsivMenuItemAnimSeq[i*2+1]) { old=i; break; }
     }
     for(i=0;i<5;i++) {
@@ -354,21 +361,21 @@ void PMSIV_MENU_UpdateItemHighlight(struct PmsivMenu *menu) {
 void PMSIV_MENU_UpdateEntryPalette(struct PmsivMenu *menu)
 {
     if (PMS_INPUT_CanConfirm(menu->input) != 0) {
-        APP_TASKMENU_WIN_ChangePalette(menu->taskMenuWin[0], menu->taskMenuRes[0], 8, 0x3545, 0x7b2c);
+        APP_TASKMENU_WIN_ChangePalette((struct TaskMenuWin *)menu->taskMenuWin[0], (struct TaskMenuRes *)menu->taskMenuRes[0], 8, 0x3545, 0x7b2c);
     } else {
-        APP_TASKMENU_WIN_ChangePalette(menu->taskMenuWin[0], menu->taskMenuRes[0], 14, 0x3545, 0x7b2c);
+        APP_TASKMENU_WIN_ChangePalette((struct TaskMenuWin *)menu->taskMenuWin[0], (struct TaskMenuRes *)menu->taskMenuRes[0], 14, 0x3545, 0x7b2c);
     }
 }
 
 void PMSIV_MENU_UpdateEntryPalettes(struct PmsivMenu *menu) {
     if (PMS_INPUT_GetInitialCount(menu->input))
-        APP_TASKMENU_WIN_ChangePalette(menu->taskMenuWin[0],menu->taskMenuRes[0],8,0x3545,0x7b2c);
+        APP_TASKMENU_WIN_ChangePalette((struct TaskMenuWin *)menu->taskMenuWin[0],(struct TaskMenuRes *)menu->taskMenuRes[0],8,0x3545,0x7b2c);
     else
-        APP_TASKMENU_WIN_ChangePalette(menu->taskMenuWin[0],menu->taskMenuRes[0],14,0x3545,0x7b2c);
+        APP_TASKMENU_WIN_ChangePalette((struct TaskMenuWin *)menu->taskMenuWin[0],(struct TaskMenuRes *)menu->taskMenuRes[0],14,0x3545,0x7b2c);
     if (PMS_INPUT_GetSearchState(menu->input))
-        APP_TASKMENU_WIN_ChangePalette(menu->taskMenuWin[1],menu->taskMenuRes[1],8,0x3545,0x7b2c);
+        APP_TASKMENU_WIN_ChangePalette((struct TaskMenuWin *)menu->taskMenuWin[1],(struct TaskMenuRes *)menu->taskMenuRes[1],8,0x3545,0x7b2c);
     else
-        APP_TASKMENU_WIN_ChangePalette(menu->taskMenuWin[1],menu->taskMenuRes[1],14,0x3545,0x7b2c);
+        APP_TASKMENU_WIN_ChangePalette((struct TaskMenuWin *)menu->taskMenuWin[1],(struct TaskMenuRes *)menu->taskMenuRes[1],14,0x3545,0x7b2c);
 }
 
 void PMSIV_MENU_PressEntry2(struct PmsivMenu *menu)
@@ -389,11 +396,11 @@ void PMSIV_MENU_PressBackItem(struct PmsivMenu *menu) {
 }
 
 int PMSIV_MENU_IsBackItemDone(struct PmsivMenu *menu) {
-    if (CLACT_IsActorAnimActive(menu->items[7])==0) return 1;
+    if (CLACT_IsActorAnimActive((struct Actor *)menu->items[7])==0) return 1;
     return 0;
 }
 
-void PMSIV_MENU_FinishBackItem(struct PmsivMenu *menu, int i, int j) {
+void PMSIV_MENU_FinishBackItem(struct PmsivMenu *menu) {
     PMSIV_MENU_SetItemAnim(menu, 7, 0);
 }
 
@@ -409,7 +416,7 @@ int PMSIV_MENU_IsEntry1Done(struct PmsivMenu *menu) {
     if (PMS_INPUT_GetBrowseMode(menu->input)==1) {
         result=1;
         if (PMSIV_MENU_IsEntryFinished(menu,1)) {
-            APP_TASKMENU_WIN_ResetDecide(menu->taskMenuWin[1]);
+            APP_TASKMENU_WIN_ResetDecide((struct TaskMenuWin *)menu->taskMenuWin[1]);
             return result;
         }
     } else {
@@ -476,9 +483,9 @@ int PMSIV_MENU_IsPressDone(struct PmsivMenu *menu, u32 mode) {
     return 1;
 }
 
-void PMSIV_MENU_FinishPress(struct PmsivMenu *menu, int i, int j) {
+void PMSIV_MENU_FinishPress(struct PmsivMenu *menu, int i) {
     if (i == 1) {
-        PMSIV_MENU_FinishBackItem(menu, i, j);
+        PMSIV_MENU_FinishBackItem(menu);
     }
 }
 
@@ -490,30 +497,30 @@ void PMSIV_MENU_SetActiveEntry(struct PmsivMenu *menu, int n, int v) {
     struct AppTaskMenuWin **a = menu->taskMenuWin;
     if (a[n]) {
         for (i = 0; i < PMSIV_MENU_TEXT_COUNT; i++) {
-            if (menu->taskMenuWin[i]) APP_TASKMENU_WIN_SetActive(menu->taskMenuWin[i], 0);
+            if (menu->taskMenuWin[i]) APP_TASKMENU_WIN_SetActive((struct TaskMenuWin *)menu->taskMenuWin[i], 0);
         }
-        APP_TASKMENU_WIN_SetActive(a[n], v);
+        APP_TASKMENU_WIN_SetActive((struct TaskMenuWin *)a[n], v);
     }
 }
 
 void PMSIV_MENU_SetDecideEntry(struct PmsivMenu *menu, u32 index, int value) {
     int i;
     for(i=0;i<PMSIV_MENU_TEXT_COUNT;i++) {
-        if (menu->taskMenuWin[i]) APP_TASKMENU_WIN_SetActive(menu->taskMenuWin[i],0);
+        if (menu->taskMenuWin[i]) APP_TASKMENU_WIN_SetActive((struct TaskMenuWin *)menu->taskMenuWin[i],0);
     }
-    if (menu->taskMenuWin[index]) APP_TASKMENU_WIN_SetDecide(menu->taskMenuWin[index],value);
+    if (menu->taskMenuWin[index]) APP_TASKMENU_WIN_SetDecide((struct TaskMenuWin *)menu->taskMenuWin[index],value);
 }
 
 u32 PMSIV_MENU_IsEntryFinished(struct PmsivMenu *menu, u32 index) {
-    return APP_TASKMENU_WIN_IsFinish(menu->taskMenuWin[index]);
+    return APP_TASKMENU_WIN_IsFinish((struct TaskMenuWin *)menu->taskMenuWin[index]);
 }
 
 /*
  * Extent ends in two-byte alignment padding at 0x021BD026.
  */
 int PMSIV_MENU_PressBackButton(struct PmsivMenu *menu) {
-    if (CLACT_GetActorDrawEnable(menu->backButton) && menu->backButtonState==0) {
-        CLACT_SetActorAnimSeq(menu->backButton, 9);
+    if (CLACT_GetActorDrawEnable((struct Actor *)menu->backButton) && menu->backButtonState==0) {
+        CLACT_SetActorAnimSeq((struct Actor *)menu->backButton, 9);
         menu->backButtonState=1;
         return 1;
     }
@@ -522,7 +529,7 @@ int PMSIV_MENU_PressBackButton(struct PmsivMenu *menu) {
 
 int PMSIV_MENU_IsBackButtonDone(struct PmsivMenu *menu)
 {
-    if(CLACT_GetActorDrawEnable(menu->backButton) && menu->backButtonState!=3) return 0;
+    if(CLACT_GetActorDrawEnable((struct Actor *)menu->backButton) && menu->backButtonState!=3) return 0;
     return 1;
 }
 
@@ -540,14 +547,14 @@ void PMSIV_MENU_CreateItems(struct PmsivMenu *menu) {
         if(i==7) x=0;
         menu->items[i]=PMS_INPUT_VIEW_CreateActor(menu->view, &menu->itemRes, (int)x, (int)168, (int)0, 1);
         PMSIV_MENU_SetItemAnim(menu,i,0);
-        CLACT_SetActorDrawEnable(menu->items[i], 0);
+        CLACT_SetActorDrawEnable((struct Actor *)menu->items[i], 0);
     }
 }
 
 void PMSIV_MENU_DeleteItems(struct PmsivMenu *menu)
 {
     int i;
-    for(i=0;i<PMSIV_MENU_ITEM_COUNT;i++) CLACT_DeleteActor(menu->items[i]);
+    for(i=0;i<PMSIV_MENU_ITEM_COUNT;i++) CLACT_DeleteActor((struct Actor *)menu->items[i]);
     CLACT_ReleaseCharacter(menu->itemRes.character);
     CLACT_ReleaseCellAnim(menu->itemRes.cellAnim);
 }
@@ -558,22 +565,22 @@ void PMSIV_MENU_DeleteItems(struct PmsivMenu *menu)
  */
 void PMSIV_MENU_SetItemAnim(struct PmsivMenu *menu,int i,int flag)
 {
-    CLACT_SetActorAnimSeq(menu->items[i], *(u8 *)((u32)gPmsivMenuItemAnimSeq+i*2+flag));
+    CLACT_SetActorAnimSeq((struct Actor *)menu->items[i], *(u8 *)((u32)gPmsivMenuItemAnimSeq+i*2+flag));
 }
 
 void PMSIV_MENU_CreateExtraItems(struct PmsivMenu *menu) {
     u8 i;
     for(i=0;i<PMSIV_MENU_EXTRA_COUNT;i++) {
         menu->extraItems[i]=PMS_INPUT_VIEW_CreateActor(menu->view, &menu->itemRes, (int)(gPmsivMenuExtraItems[3*i]), (int)(gPmsivMenuExtraItems[3*i+1]), (int)0, 1);
-        CLACT_SetActorAnimSeq(menu->extraItems[i], gPmsivMenuExtraItems[3*i+2]);
-        CLACT_SetActorDrawEnable(menu->extraItems[i], 0);
+        CLACT_SetActorAnimSeq((struct Actor *)menu->extraItems[i], gPmsivMenuExtraItems[3*i+2]);
+        CLACT_SetActorDrawEnable((struct Actor *)menu->extraItems[i], 0);
     }
 }
 
 void PMSIV_MENU_DeleteExtraItems(struct PmsivMenu *menu)
 {
     u8 i;
-    for(i=0;i<PMSIV_MENU_EXTRA_COUNT;i++) CLACT_DeleteActor(menu->extraItems[i]);
+    for(i=0;i<PMSIV_MENU_EXTRA_COUNT;i++) CLACT_DeleteActor((struct Actor *)menu->extraItems[i]);
 }
 
 void PMSIV_MENU_CreateBackButton(struct PmsivMenu *menu) {
@@ -589,8 +596,8 @@ void PMSIV_MENU_CreateBackButton(struct PmsivMenu *menu) {
     MI_CpuFill8(&setup,0,8);
     setup.x=232; setup.y=168; setup.z=1; setup.priority=0; setup.mode=3;
     menu->backButton=CLACT_CreateActor(PMS_INPUT_VIEW_GetClactUnit(menu->view),menu->backCharacter,menu->backPalette,menu->backCellAnim,&setup,0,PMSIV_MENU_HEAP_ID);
-    CLACT_SetActorAutoAnim(menu->backButton,1);
-    CLACT_SetActorDrawEnable(menu->backButton, 0);
+    CLACT_SetActorAutoAnim((struct Actor *)menu->backButton,1);
+    CLACT_SetActorDrawEnable((struct Actor *)menu->backButton, 0);
     menu->backButtonState=0;
 }
 
@@ -599,19 +606,19 @@ void PMSIV_MENU_CreateBackButton(struct PmsivMenu *menu) {
  */
 void PMSIV_MENU_ShowBackButton(struct PmsivMenu *menu)
 {
-    CLACT_SetActorDrawEnable(menu->backButton, 1);
-    CLACT_SetActorAnimSeq(menu->backButton, 1);
+    CLACT_SetActorDrawEnable((struct Actor *)menu->backButton, 1);
+    CLACT_SetActorAnimSeq((struct Actor *)menu->backButton, 1);
     menu->backButtonState=0;
 }
 
 void PMSIV_MENU_ShowListEntries(struct PmsivMenu *menu) {
     int i;
     for(i=0;i<PMSIV_MENU_TEXT_COUNT;i++) {
-        menu->entries[i].text=MSGDATA_AllocString(menu->msgData,i+18);
+        menu->entries[i].text=MSGDATA_AllocString((struct MsgBank *)menu->msgData,i+18);
         menu->entries[i].color=0x39e3;
         menu->entries[i].selected=i==2;
-        menu->taskMenuWin[i]=APP_TASKMENU_WIN_Create(menu->taskMenuRes[i],&menu->entries[i],(u8)(5+9*i),(int)21,9,PMSIV_MENU_HEAP_ID);
-        APP_TASKMENU_WIN_ChangePalette(menu->taskMenuWin[i],menu->taskMenuRes[i],8,0x3545,0x7b2c);
+        menu->taskMenuWin[i]=(struct AppTaskMenuWin *)APP_TASKMENU_WIN_Create((struct TaskMenuRes *)menu->taskMenuRes[i],(struct TaskMenuItem *)(&menu->entries[i]),(u8)(5+9*i),(int)21,9,PMSIV_MENU_HEAP_ID);
+        APP_TASKMENU_WIN_ChangePalette((struct TaskMenuWin *)menu->taskMenuWin[i],(struct TaskMenuRes *)menu->taskMenuRes[i],8,0x3545,0x7b2c);
     }
     PMSIV_MENU_UpdateEntryPalettes(menu);
     BG_SYS_PushTile(0);
@@ -624,7 +631,7 @@ void PMSIV_MENU_LoadBlendColors(struct PmsivMenu *menu) {
     PaletteFile *file;
     void *handle;
     u8 *data;
-    handle = ARC_UTIL_LoadPaletteBlockFromArchive(43, 7, (u32)(&file), PMSIV_MENU_HEAP_ID);
+    handle = ARC_UTIL_LoadPaletteBlockFromArchive(43, 7, (&file), PMSIV_MENU_HEAP_ID);
     data = file->colors;
     MI_CpuCopy8(data + 0x96, menu->baseColors, 10);
     MI_CpuCopy8(data + 0x76, menu->targetColors, 10);
@@ -664,17 +671,17 @@ void PMSIV_MENU_UpdateBlend(struct PmsivMenu *menu)
     for (i = 0; i < PMSIV_MENU_BLEND_COLORS; i++) {
         lerp(&menu->blendColors[i], t, menu->baseColors[i], menu->targetColors[i]);
     }
-    NNS_GfdRegisterNewVramTransferTask(14, 0x56, menu->blendColors, 10);
+    NNS_GfdRegisterNewVramTransferTask((void *)14, (unsigned int)0x56, (unsigned int)menu->blendColors, 10);
 }
 
 void PMSIV_MENU_StartItemBlend(struct PmsivMenu *menu,int i)
 {
-    CLACT_SetActorPaletteOffset(menu->items[i],2,1);
+    CLACT_SetActorPaletteOffset((struct Actor *)menu->items[i],2,1);
     MI_CpuCopy8(menu->baseColors,menu->blendColors,10);
     menu->blendPhase=0;
 }
 
 void PMSIV_MENU_StopItemBlend(struct PmsivMenu *menu,int i)
 {
-    CLACT_SetActorPaletteOffset(menu->items[i],6,1);
+    CLACT_SetActorPaletteOffset((struct Actor *)menu->items[i],6,1);
 }

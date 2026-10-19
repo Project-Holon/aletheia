@@ -100,18 +100,18 @@ extern void GXS_LoadBG2Scr(const void *pSrc, u32 offset, u32 szByte);
 extern void GXS_LoadBG3Scr(const void *pSrc, u32 offset, u32 szByte);
 extern void GXS_LoadOBJPltt(const void *pSrc, u32 offset, u32 szByte);
 extern void GXS_LoadBGPltt(const void *pSrc, u32 offset, u32 szByte);
-extern void GXS_BeginLoadOBJExtPltt(void);
+extern void *GXS_BeginLoadOBJExtPltt(void);
 extern void GXS_LoadOBJExtPltt(const void *pSrc, u32 offset, u32 szByte);
 extern void GXS_EndLoadOBJExtPltt(void);
-extern void GXS_BeginLoadBGExtPltt(void);
+extern void *GXS_BeginLoadBGExtPltt(void);
 extern void GXS_LoadBGExtPltt(const void *pSrc, u32 offset, u32 szByte);
 extern void GXS_EndLoadBGExtPltt(void);
 extern void GXS_LoadOAM(const void *pSrc, u32 offset, u32 szByte);
 extern void GXS_LoadOBJ(const void *pSrc, u32 offset, u32 szByte);
 extern void DC_FlushRange(u32, u32);
-extern int NNSi_GfdRingIsFull(NNSiGfdVramTransferTaskQueue *pQueue);
-extern u32 NNSi_GfdRingNextIndex(NNSiGfdVramTransferTaskQueue *pQueue, u32 index);
-extern int NNSi_GfdRingIsEmpty(NNSiGfdVramTransferTaskQueue *pQueue);
+extern int NNSi_GfdRingIsFull(u8 *p);
+extern u32 NNSi_GfdRingNextIndex(u8 *p, u32 v);
+extern int NNSi_GfdRingIsEmpty(void *p);
 void NNSi_GfdLoadMainObjExtPltt(const void *pSrc, u32 offset, u32 szByte);
 void NNSi_GfdLoadMainBgExtPltt(const void *pSrc, u32 offset, u32 szByte);
 void NNSi_GfdLoadMainOam(const void *pSrc, u32 offset, u32 szByte);
@@ -304,9 +304,9 @@ void NNSi_GfdResetVramTransferTaskQueue(NNSiGfdVramTransferTaskQueue *pQueue)
 int NNSi_GfdPushVramTransferTask(NNSiGfdVramTransferTaskQueue *pQueue)
 {
     int next;
-    if (NNSi_GfdRingIsFull(pQueue))
+    if (NNSi_GfdRingIsFull((u8 *)pQueue))
         return 0;
-    next = NNSi_GfdRingNextIndex(pQueue, pQueue->tail);
+    next = NNSi_GfdRingNextIndex((u8 *)pQueue, pQueue->tail);
     *(volatile u16 *)&pQueue->tail = (u16)next;
     *(volatile u16 *)&pQueue->count = (u16)(*(volatile u16 *)&pQueue->count + 1);
     return 1;
@@ -339,7 +339,7 @@ u32 NNSi_GfdPopVramTransferTask(NNSiGfdVramTransferTaskQueue *pQueue)
     if (NNSi_GfdRingIsEmpty(pQueue) != 0) {
         return 0;
     }
-    pQueue->head = NNSi_GfdRingNextIndex(pQueue, pQueue->head);
+    pQueue->head = NNSi_GfdRingNextIndex((u8 *)pQueue, pQueue->head);
     pQueue->count -= 1;
     return 1;
 }

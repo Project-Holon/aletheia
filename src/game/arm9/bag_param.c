@@ -22,6 +22,7 @@
  *   GAME_DATA_GetPlayerObjectCode  0x02012B28  thumb
  *   GAME_DATA_GetMyStatus  0x02012944  thumb
  *   SYSTEM_DATA_GetConfig  0x0200873C  thumb
+ *   GAME_DATA_GetMapMatrix       0x02012924  thumb
  */
 #include "iss_switch_sys_shared_types.h"
 #include "iss_switch_shared_types.h"
@@ -46,24 +47,28 @@ struct BagParam {
 };
 
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+struct GameData;
+struct SaveControl;
 
-extern void *GAME_DATA_GetSaveControl(struct Big *p);
+extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gd);
 
 extern struct Sub02008700Obj *SYSTEM_DATA_GetConfig(void *sys);
+struct MyStatus;
 
-extern u8 *GAME_DATA_GetMyStatus(void *p);
+extern struct MyStatus *GAME_DATA_GetMyStatus(struct GameData *gd);
 
-extern unsigned int GAME_DATA_GetMapMatrix(const struct BigObj *p);
+extern unsigned int GAME_DATA_GetMapMatrix(struct GameData *gd);
 
-extern void *GAME_DATA_GetMyItem(const struct BigObj *p);
+extern void *GAME_DATA_GetMyItem(struct GameData *gd);
 
 extern void  MI_CpuCopy8(void *src, void *dst, int n);
+struct PlayerWork;
 
-extern void *GAME_DATA_GetMyPlayerWork(struct SaveBlock *p);
+extern struct PlayerWork *GAME_DATA_GetMyPlayerWork(struct GameData *gameData);
 
-extern u32 GAME_DATA_GetPlayerObjectCode(const struct Rec44 *p);
+extern u32 GAME_DATA_GetPlayerObjectCode(struct PlayerWork *player);
 
-void *BAG_PARAM_Create(const struct BigObj *gameData, int itemCheck, int mode, int heapId);
+void *BAG_PARAM_Create(const struct BigObj *gameData, u8 *itemCheck, int mode, int heapId);
 
 extern char BagParamFileName[];
 
@@ -85,20 +90,20 @@ extern char BagParamFileName[];
  *   python tools/match.py one --src src/matched/BAG_PARAM_Create.c \
  *       --func BAG_PARAM_Create --addr 0x0202E474 --cc 1.1p1 --thumb
  */
-void *BAG_PARAM_Create(const struct BigObj *gameData, int itemCheck, int mode, int heapId)
+void *BAG_PARAM_Create(const struct BigObj *gameData, u8 *itemCheck, int mode, int heapId)
 {
-    int   saveControl = (int)GAME_DATA_GetSaveControl((struct Big *)gameData);
+    int   saveControl = (int)GAME_DATA_GetSaveControl((struct GameData *)gameData);
     struct BagParam *param = GFL_HEAP_Alloc(heapId, 0x3c, 1, BagParamFileName, 0x37);
 
     param->gameData = (void *)gameData;
     param->myStatus = SYSTEM_DATA_GetConfig((void *)saveControl);
     param->myItem = GAME_DATA_GetMyStatus((void *)gameData);
-    param->saveWork = GAME_DATA_GetMapMatrix(gameData);
-    param->config = GAME_DATA_GetMyItem((const struct BigObj *)gameData);
+    param->saveWork = GAME_DATA_GetMapMatrix((struct GameData *)gameData);
+    param->config = GAME_DATA_GetMyItem((struct GameData *)gameData);
     if (itemCheck != 0) {
         MI_CpuCopy8((void *)itemCheck, param->itemCheck, 0x18);
     }
     param->mode = mode;
-    param->cycleFlag = GAME_DATA_GetPlayerObjectCode(GAME_DATA_GetMyPlayerWork((struct SaveBlock *)gameData)) == 1;
+    param->cycleFlag = GAME_DATA_GetPlayerObjectCode(GAME_DATA_GetMyPlayerWork((struct GameData *)gameData)) == 1;
     return param;
 }

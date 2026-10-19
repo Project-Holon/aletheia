@@ -110,7 +110,7 @@ struct InfoWin {
     void *task;
 };
 
-struct Link {
+struct GFLNetSession {
     u8 leading[0x65];
     u8 connState;
     u8 connPhase;
@@ -134,23 +134,30 @@ struct InfoWinDrawBuffer {
     struct Ofs6 ofs; /* +0x12 */
     u16 clk[10];    /* +0x1E */
 };
+struct TcbSystem;
+struct TcbTask;
 
-extern void TCB_AddTask(void *ctx, void (*fn)(void *, PaletteFade *), PaletteFade *p, s32 pri);
-extern u32 TCB_DeleteTask(struct Node *n);
+extern struct TcbTask *TCB_AddTask(struct TcbSystem *sys, void (*fn)(void *, PaletteFade *), void *work, unsigned int priority);
+struct TcbTask;
+extern void TCB_DeleteTask(struct TcbTask *task);
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void *GFL_USE_AddMainTask(void *fn, void *arg, u32 prio);
 extern u32 GFL_HEAP_Free(void *p);
 extern void MI_CpuFill8(void *dst, u8 data, u32 size);
 extern int UI_GetPowerState(void);
-extern u32 GAME_DATA_GetWifiList(const struct BigObj *p);
-extern u32 GAME_DATA_IsConfigFlagSet(const struct BigObj *p);
+struct GameData;
+struct FieldState;
+extern struct FieldState *GAME_DATA_GetWifiList(struct GameData *gameData);
+struct GameData;
+extern u32 GAME_DATA_IsConfigFlagSet(struct GameData *gd);
 extern int   GFL_NET_GetRunState(void);
-extern void *GFL_NET_GetInitParam(void);
+struct GFLNetSession;
+extern struct GFLNetSession *GFL_NET_GetInitParam(void);
 extern int   GFL_NET_GetNegotiationNum(void);
 extern u32 GFL_NET_IsNetTypeWifi(void);
 extern u32 WIH_DWC_PollStatus(void *key);
 extern int   GAME_BEACON_GetNextNewLogIndex(int *p);
-extern int  BG_SYS_FreeTileRun(u32 a, u32 b, u32 c);
+extern void BG_SYS_FreeTileRun(u32 a, u32 b, u32 c);
 extern int  BG_SYS_LoadPltt(u32 a, const void *b, u16 c, u16 d);
 extern void *ARC_TOOL_CreateHandle(unsigned int id, unsigned int heap);
 extern u32   BG_SYS_CreateRun(u32 a, u32 b, u32 c);
@@ -159,7 +166,7 @@ extern void  ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e
 extern void  ARC_TOOL_DeleteHandle(void *a);
 extern void  BG_SYS_SetTileEntry(u32 a, u16 b, u32 c, u32 d, u32 e, u32 f, u32 g);
 extern void GF_STANDARD_GetCachedTime(struct RtcTime *time);
-extern void BG_SYS_DrawTileEx(u32 index, u32 dx, u32 dy, u32 cw, u8 ch, u32 src, u8 sx, u8 sy, u8 sw, u8 sh);
+extern void BG_SYS_DrawTileEx(u32 index, u8 dx, u8 dy, u8 cw, u8 ch, void *src, u8 sx, u8 sy, u8 sw, u8 sh);
 extern void BG_SYS_PushTile(u32 index);
 extern u8 UI_GetFrameRate(void);
 extern int  OS_IsRunOnTwl(void);
@@ -199,7 +206,7 @@ void INFOWIN_Init(u8 bgFrame, u8 palette, void *gameData, u16 heap)
     gInfoWin->linkActive = 0;
     gInfoWin->batteryLevel = UI_GetPowerState();
     if (gameData != 0) {
-        gInfoWin->wifiConfig = GAME_DATA_GetWifiList(gameData);
+        gInfoWin->wifiConfig = (u32)GAME_DATA_GetWifiList(gameData);
         gInfoWin->wifiMode = GAME_DATA_IsConfigFlagSet(gameData);
     } else {
         gInfoWin->wifiConfig = 0;
@@ -222,7 +229,7 @@ void INFOWIN_Update(void)
 {
     int flag = 0;
     u8 n = 0;
-    struct Link *link = 0;
+    struct GFLNetSession *link = 0;
     u32 bits;
     int idx;
 
@@ -380,7 +387,7 @@ void INFOWIN_DrawTask(void)
         buf.clk[7] = gInfoWin->charBase + ((gInfoWin->palette << 12) + k);
         buf.clk[8] = buf.clk[3] + 0x10;
         buf.clk[9] = buf.clk[4] + 0x10;
-        BG_SYS_DrawTileEx(gInfoWin->bgFrame, 1, 0, 5, 2, (u32)buf.clk, 0, 0, 5, 2);
+        BG_SYS_DrawTileEx(gInfoWin->bgFrame, 1, 0, 5, 2, (void *)buf.clk, 0, 0, 5, 2);
         done = 1;
         gInfoWin->redrawFlags = gInfoWin->redrawFlags - 1;
     }
@@ -449,7 +456,7 @@ void INFOWIN_DrawTask(void)
         buf.scr[2] = buf.scr[0] + 0x10;
         buf.scr[1] = buf.scr[0] + 0x400;
         buf.scr[3] = buf.scr[2] + 0x400;
-        BG_SYS_DrawTileEx(gInfoWin->bgFrame, 0x1C, 0, 2, 2, (u32)buf.scr, 0, 0, 2, 2);
+        BG_SYS_DrawTileEx(gInfoWin->bgFrame, 0x1C, 0, 2, 2, (void *)buf.scr, 0, 0, 2, 2);
         INFOWIN_LoadCharacters(13, d_0209F830, 1);
         done = 1;
         gInfoWin->redrawFlags = gInfoWin->redrawFlags - 0x20;
@@ -484,7 +491,7 @@ void INFOWIN_WriteScreen(u32 base, u32 blk, u8 x, u8 y, u8 w, u8 h)
             i++;
         } while (i < w);
     }
-    BG_SYS_DrawTileEx(gInfoWin->bgFrame, x, y, w, h, (u32)buf, 0, 0, w, h);
+    BG_SYS_DrawTileEx(gInfoWin->bgFrame, x, y, w, h, (void *)buf, 0, 0, w, h);
 }
 
 int INFOWIN_LoadCharacters(int tile, const void *src, int count)

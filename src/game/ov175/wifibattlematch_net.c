@@ -336,7 +336,9 @@
  *   g_021E35E4   0x021E35E4  data
  *   g_021E3600   0x021E3600  data
  *   g_021E3618   0x021E3618  data
+ *   _u32_div_f                   0x0209C2B0  arm
  */
+#include "../version.h"
 
 #define P(base, k) (*(int *)((base) + (k)))
 #define Q(base, k) (*(int *)((base) + (k)))
@@ -1099,7 +1101,7 @@ extern u8 *POKE_TOOL_CastToBoxParam(u32 entry);
 extern u32 POKE_TOOL_GetBoxParamSize(void);
 extern int GF_STANDARD_CompareBytes(const u8 *a, const u8 *b, u32 n);
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern u32 WIFILIST_GetWork(void);
+extern u32 WIFILIST_GetWork(u32 list);
 extern u32 MYSTATUS_GetProfileId(const struct Sub0200852CObj *obj);
 extern void GFL_NET_COMMAND_AddCommandTable(u32, u32, u32, u32);
 extern void GFL_NET_SetWaitMode(int);
@@ -6039,10 +6041,12 @@ int WIFIBATTLEMATCH_NET_GetSetCompStat(char *obj, u32 *rec)
  */
 char *WIFIBATTLEMATCH_NET_CreateNetContext(u32 netId, void *save, u32 heapId, u16 heap) {
     char *ctx;
+    u32 wifiList;
     ctx = GFL_HEAP_Alloc(heap, 0x149c, 0, d_021E2EE0, 0x2b0);
     MI_CpuFill8(ctx, 0, 0x149c);
-    *(u32 *)(ctx + 4) = GAME_DATA_GetWifiList(save);
-    *(u32 *)ctx = WIFILIST_GetWork();
+    wifiList = GAME_DATA_GetWifiList(save);
+    *(u32 *)(ctx + 4) = wifiList;
+    *(u32 *)ctx = WIFILIST_GetWork(wifiList);
     *(void **)(ctx + 0xc) = (void *)MYSTATUS_GetProfileId((const struct Sub0200852CObj *)GAME_DATA_GetMyStatus(save));
     *(void **)(ctx + 8) = save;
     *(u32 *)(ctx + 0x10) = heapId;
@@ -6273,7 +6277,7 @@ void WIFIBATTLEMATCH_NET_SetMatchKey(char *obj, int mode, int extra, int group, 
     WIFIBATTLEMATCH_NET_AddMatchKey(obj, 5, rec[1]);
     WIFIBATTLEMATCH_NET_AddMatchKey(obj, 4, rec[2]);
     WIFIBATTLEMATCH_NET_AddMatchKey(obj, 6, rec[3]);
-    WIFIBATTLEMATCH_NET_AddMatchKey(obj, 7, 0x20015);
+    WIFIBATTLEMATCH_NET_AddMatchKey(obj, 7, 0x20000 | PM_VERSION_ID);
     STD_TSPrintf(obj + 0x44, d_021E2EFC, count, group, 1);
     ((struct WifiBattleMatchNetCtx *)obj)->mmState = 0;
     ((struct WifiBattleMatchNetCtx *)obj)->pollCount = 0;
@@ -8550,7 +8554,7 @@ int WIFIBATTLEMATCH_NET_ProfanityProcess(char *obj, int *out)
         *out = ((struct WifiBattleMatchNetCtx *)obj)->profanityCount > 0 ? 1 : 0;
     if (done == 1 && *out == 1) {
         u32 msg = (u32)MSGDATA_CreateFromArchive(0, 2, 0x51, ((struct WifiBattleMatchNetCtx *)obj)->heapTag);
-        u32 str = (u32)MSGDATA_AllocString((struct MsgBank *)msg, 0xf);
+        u32 str = (u32)MSGDATA_AllocString((struct MsgBank *)msg, MSG_PROFANITY_NOTICE);
         MSGDATA_Delete((struct Rec *)msg);
         MYSTATUS_NameFromStrbuf((u16 *)((struct WifiBattleMatchNetCtx *)obj)->profanityWindow, (struct U16Vec *)str);
         STRBUF_Delete((struct U16Vec *)str);

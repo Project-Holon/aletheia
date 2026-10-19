@@ -89,22 +89,25 @@ struct SpecialWordTable {
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32 GFL_HEAP_Free(void *p);
 extern void MI_CpuCopy8(const void *src, void *dest, u32 size);
-extern void *SAVE_CONTROL_GetBlock(struct WinPanel020071CCCtrl *ctrl, u32 id);
-extern void *GAME_DATA_GetEventWorkFromSave(struct WinPanel020071CCCtrl *save);
-extern u32 ZONEDATA_CheckEventFlag(void *bitmap, int id);
+struct SaveControl;
+extern void *SAVE_CONTROL_GetBlock(struct SaveControl *saveControl, u32 blockId);
+extern void *GAME_DATA_GetEventWorkFromSave(struct SaveControl *save);
+struct EventWork;
+extern u32 ZONEDATA_CheckEventFlag(struct EventWork *ev, int flagId);
 extern u8 UI_GetInputMode(void);
 extern void UI_SetInputMode(void *);
-extern struct WordSet *WORDSET_CreateDefault(u32 heap);
+extern struct WordSet *WORDSET_CreateDefault(u16 heapId);
 extern u32 WORDSET_Delete(struct WordSet *p);
 extern void WORDSET_SetSlotPmsWord(struct WordSet *p, u32 i, u32 v);
 extern void WORDSET_SetSlotMarkerFlag(struct WordSet *p, u32 i, u32 v);
-extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
-extern void  *STRBUF_Create(u32 size, u16 heap);
-extern void STRBUF_Delete(struct U16Vec *vec);
-extern u32 MSGDATA_Delete(struct Rec *rec);
+struct Strbuf;
+extern void WORDSET_CopyTaggedText(struct WordSet *words, struct Strbuf *dst, struct Strbuf *src);
+extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
+extern void STRBUF_Delete(struct Strbuf *strbuf);
+extern u32 MSGDATA_Delete(struct MsgBank *bank);
 extern struct MsgBank *MSGDATA_CreateFromArchive(int resident, int arcId, u32 fileId, u16 heapId);
-extern void *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
-extern u32 PRINTSYS_CountControlTag(void *s);
+extern struct Strbuf *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
+extern u32 PRINTSYS_CountControlTag(struct Strbuf *text);
 struct PmsiParam *PMSI_PARAM_Create(u32 inputMode, u32 unused, void *initialSentence, u32 optionFlag, void *saveControl, u32 heapId);
 void PMSI_PARAM_Delete(void *obj);
 void PMSI_PARAM_SetWord(struct PmsiParam *obj, u16 word);
@@ -620,9 +623,9 @@ u32 PMSI_PARAM_GetWordCount(u32 sentenceType, u32 sentenceId, u16 heapId)
     void *message = MSGDATA_AllocString(bank, sentenceId);
     u32 length;
 
-    MSGDATA_Delete((struct Rec *)bank);
+    MSGDATA_Delete((struct MsgBank *)bank);
     length = PRINTSYS_CountControlTag(message);
-    STRBUF_Delete((struct U16Vec *)message);
+    STRBUF_Delete((struct Strbuf *)message);
 
     return length;
 }

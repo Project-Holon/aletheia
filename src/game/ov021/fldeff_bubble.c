@@ -134,29 +134,32 @@ typedef struct BubbleWork {
 extern void MI_CpuFill8(void *dst, u32 value, u32 size);
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *file, u16 line);
 extern u32 GFL_HEAP_Free(void *p);
-extern ArcHandle *FIELD_EFFECT_GetArcHandle(FieldEffectSys *fieldEffect);
+struct FieldEffectSys;
+extern u32 FIELD_EFFECT_GetArcHandle(FieldEffectSys *fieldEffect);
 extern G3dResource *G3D_SYSTEM_CreateResourceArcHandle(ArcHandle *arc, u32 fileId);
 extern u32 G3D_SYSTEM_CheckResourceType(G3dResource *res, u32 kind);
 extern int G3D_SYSTEM_TransVramTexture(G3dResource *res);
 extern int G3D_SYSTEM_FreeVramTexture(G3dResource *res);
 extern void G3D_SYSTEM_DeleteResource(G3dResource *res);
 extern G3dRender *G3D_SYSTEM_CreateRender(G3dResource *mdlRes, u32 mdlIdx, G3dResource *texRes);
-extern G3dAnime *G3D_SYSTEM_CreateAnime(G3dRender *render, const G3dResource *anmRes, int anmIdx);
+extern G3dAnime *G3D_SYSTEM_CreateAnime(struct G3dRender *render, struct G3dResource *anmRes, u32 anmIdx);
 extern G3dObject *G3D_SYSTEM_CreateObject(G3dRender *render, G3dAnime **anmTbl, int anmCount);
-extern u32 G3D_SYSTEM_EnableObjectAnime(G3dObject *obj, u32 anmIdx);
+extern s32 G3D_SYSTEM_EnableObjectAnime(G3dObject *obj, u32 anmIdx);
 extern void G3D_SYSTEM_DeleteAnime(G3dAnime *anime);
 extern void G3D_SYSTEM_DeleteObject(G3dObject *obj);
 extern void G3D_SYSTEM_DeleteRender(G3dRender *render);
 extern int G3D_SYSTEM_GetObjectAnimeFrameMax(G3dObject *obj, int anmIdx, int *out);
-extern u32 G3D_SYSTEM_SetObjectAnimeFrame(G3dObject *obj, u16 anmIdx, s32 *frame);
+extern s32 G3D_SYSTEM_SetObjectAnimeFrame(G3dObject *obj, u16 anmIdx, s32 *frame);
 extern int G3D_SYSTEM_DrawObjectCulling(G3dObject *obj, G3dObjectStatus *status);
-extern void *FIELD_EFFECT_GetResource(FieldEffectSys *fieldEffect, u32 effectId);
+extern s32 FIELD_EFFECT_GetResource(struct FieldEffectSys *sys, s32 id);
 extern void FIELD_EFFECT_AddObject(FieldEffectSys *fieldEffect, const FieldEffectObjFuncs *funcs, const VecFx32 *pos, u32 mode, void *param, u32 priority);
 extern void *FIELD_EFFECT_GetObjectParam(FieldEffectObj *effect);
-extern void FLDMMDL_GetPos(const Mmdl *mmdl, VecFx32 *out);
+struct MmdlVec;
+struct Mmdl;
+extern void FLDMMDL_GetPos(struct Mmdl *mmdl, struct MmdlVec *out);
 extern int FLDMMDL_CheckPossibleAcmd(Mmdl *mmdl);
 extern u16 FLDMMDL_GetDirDisp(Mmdl *mmdl);
-extern int FLDMMDL_CheckStatusBit(Mmdl *mmdl, int bits);
+extern u32 FLDMMDL_CheckStatusBit(struct Mmdl *mmdl, u32 bit);
 extern int FLDMMDL_MOVE_GetDirAddGridX(int dir);
 extern int FLDMMDL_MOVE_GetDirAddGridZ(int dir);
 extern void FLDMMDL_RAIL_GetDrawOffsetByDir(Mmdl *mmdl, u32 dir, s16 *out);
@@ -195,9 +198,9 @@ void FLDEFF_BUBBLE_Start(Mmdl *mmdl, FieldEffectSys *fieldEffect)
     BubbleStartParam param;
     VecFx32 pos;
 
-    param.res = FIELD_EFFECT_GetResource(fieldEffect, FLDEFF_ID_BUBBLE);
+    param.res = (struct BubbleRes *)FIELD_EFFECT_GetResource(fieldEffect, FLDEFF_ID_BUBBLE);
     param.mmdl = mmdl;
-    FLDMMDL_GetPos(mmdl, &pos);
+    FLDMMDL_GetPos(mmdl, (struct MmdlVec *)(&pos));
     FIELD_EFFECT_AddObject(fieldEffect, &d_021DB968, &pos, 0, &param, 0);
 }
 
@@ -222,7 +225,7 @@ void FLDEFF_BUBBLE_LoadResources(BubbleRes *res)
     ArcHandle *arc;
     int i;
 
-    arc = FIELD_EFFECT_GetArcHandle(res->fieldEffect);
+    arc = (struct ArcHandle *)FIELD_EFFECT_GetArcHandle(res->fieldEffect);
     for (i = 0; i < BUBBLE_RES_COUNT; i++) {
         res->res[i] = G3D_SYSTEM_CreateResourceArcHandle(arc, d_021DB95C[i]);
         if (G3D_SYSTEM_CheckResourceType(res->res[i], 2)) {
@@ -339,7 +342,7 @@ void FLDEFF_BUBBLE_SpawnBubble(BubbleParticle *bubble, Mmdl *mmdl)
 
     bubble->active = 1;
     bubble->age = 0;
-    FLDMMDL_GetPos(mmdl, &bubble->pos);
+    FLDMMDL_GetPos(mmdl, (struct MmdlVec *)(&bubble->pos));
     if (FLDEFF_BUBBLE_GetFacingVector(mmdl, dirVec) == 0) {
         distance = BUBBLE_FACING_DISTANCE_ALT;
     } else {

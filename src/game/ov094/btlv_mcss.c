@@ -137,6 +137,14 @@
  *   BTLV_EFFECT_GetBattleMain 0x021F8754 thumb ov094
  *   BTLV_EFFECT_GetBitMask 0x021F935C thumb ov094
  *   BTLV_EFFVM_GetFallbackScriptFlag 0x021F9824 thumb ov094
+ *   _fadd                        0x0209C95C  arm
+ *   _fdiv                        0x0209CE10  arm
+ *   _ffix                        0x0209C494  arm
+ *   _fflt                        0x0209BDBC  arm
+ *   _fgr                         0x0209BBB0  arm
+ *   _fmul                        0x0209C77C  arm
+ *   _fsub                        0x0209CB8C  arm
+ *   _ull_mul                     0x0209C054  arm
  */
 #include "btlv_mcss_shared_types.h"
 
@@ -221,99 +229,110 @@ typedef struct BtlvMcssAnimEntry {
 /* Arm9 helpers */
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32 GFL_HEAP_Free(void *p);
-extern void TCB_DeleteTask(struct TcblTask *task);
-extern void *TCB_AddTask(void *owner, void (*fn)(void *, void *), void *p, u32 priority);
-extern void *TCBL_IsDeletePending(struct TcblTask *task);
+struct TcbTask;
+extern void TCB_DeleteTask(struct TcbTask *task);
+struct TcbSystem;
+extern struct TcbTask *TCB_AddTask(struct TcbSystem *sys, void (*fn)(void *, void *), void *work, u32 priority);
+struct TcblSystem;
+extern u32 TCBL_IsDeletePending(struct TcblSystem *tcbl);
 extern u32 GF_STANDARD_Rand(void);
 extern u32 FX_Div(u32 a, u32 b);
 extern void GFL_USE_StopSeSlot(int slot);
 extern void GFL_USE_PlaySeInSlot(u32 seNo, int slot);
+struct McssSys;
 
-/* MCSS */
-extern struct McssSystem *MCSS_Init(u32 maxSprites, u32 heapId);
-extern void MCSS_Exit(struct McssSystem *sys);
-extern void MCSS_Main(struct McssSystem *sys);
-extern void MCSS_Draw(struct McssSystem *sys);
-extern void MCSS_SetDepthStep(struct McssSystem *sys, int v);
-extern void MCSS_SetNearDepthRange(struct McssSystem *sys, int v);
+          
+extern struct McssSys *MCSS_Init(u32 maxSprites, u32 heapId);
+extern void MCSS_Exit(struct McssSys *sys);
+extern void MCSS_Main(struct McssSys *sys);
+extern void MCSS_Draw(struct McssSys *sys);
+extern void MCSS_SetDepthStep(struct McssSys *sys, s32 depthStep);
+extern void MCSS_SetNearDepthRange(struct McssSys *sys, s32 flag);
 extern struct McssSprite *MCSS_Add(struct McssSystem *sys, u32 x, u32 y, u32 z, const BtlvMcssAddWork *work);
-extern void MCSS_Del(struct McssSystem *sys, struct McssSprite *s);
+struct McssWork;
+extern void MCSS_Del(struct McssSys *sys, struct McssWork *work);
 extern void MCSS_ReloadResource(struct McssSystem *sys, struct McssSprite *s, const u32 *resourceIds); /* archive id and the seven file ids of a BtlvMcssAddWork */
-extern void MCSS_RestartAnime(struct McssSprite *s);
-extern void MCSS_SetShadowAlpha(struct McssSprite *s, int v);
-extern void MCSS_SetShadowOffset(struct McssSprite *s, const BtlvMcssVec *src);
-extern void MCSS_SetShadowRotateZ(struct McssSprite *s, u16 value);
+extern void MCSS_RestartAnime(struct McssWork *work);
+extern void MCSS_SetShadowAlpha(struct McssWork *work, s32 alpha);
+extern void MCSS_SetShadowOffset(struct McssWork *work, s32 *src);
+extern void MCSS_SetShadowRotateZ(struct McssWork *work, u16 rotZ);
 extern void MCSS_SetAnimCallback(struct McssSprite *s, u32 pos, void (*cb)(int), u32 flags);
-extern void MCSS_SetPosition(struct McssSprite *s, const BtlvMcssVec *src);
-extern void MCSS_GetPosition(struct McssSprite *s, BtlvMcssVec *out);
-extern void MCSS_SetOfsPosition(struct McssSprite *s, const BtlvMcssVec *src);
-extern void MCSS_GetOfsPosition(struct McssSprite *s, BtlvMcssVec *out);
-extern void MCSS_SetScale(struct McssSprite *s, const BtlvMcssVec *src);
-extern void MCSS_GetScale(struct McssSprite *s, BtlvMcssVec *out);
-extern void MCSS_SetOfsScale(struct McssSprite *s, const BtlvMcssVec *src);
-extern void MCSS_SetShadowScale(struct McssSprite *s, const BtlvMcssVec *src);
-extern void MCSS_GetShadowScale(struct McssSprite *s, BtlvMcssVec *out);
-extern void MCSS_SetDrawScale(struct McssSprite *s, const BtlvMcssVec *src);
-extern void MCSS_GetDrawScale(struct McssSprite *s, BtlvMcssVec *out);
-extern void MCSS_SetRotate(struct McssSprite *s, const BtlvMcssVec *src);
-extern void MCSS_GetRotate(struct McssSprite *s, BtlvMcssVec *out);
-extern void MCSS_SetAlpha(struct McssSprite *s, int v);
-extern u8 MCSS_GetAlpha(struct McssSprite *s);
-extern void MCSS_SetMosaic(struct McssSystem *sys, struct McssSprite *s, int v);
-extern u8 MCSS_GetMosaic(struct McssSprite *s);
-extern void MCSS_SetOrthoMode(struct McssSystem *sys);
-extern void MCSS_ResetOrthoMode(struct McssSystem *sys);
-extern void MCSS_SetOrthoBillboardFlag(struct McssSprite *s);
-extern void MCSS_ResetOrthoBillboardFlag(struct McssSprite *s);
-extern void MCSS_SetMepachiFlag(struct McssSprite *s);
-extern void MCSS_ResetMepachiFlag(struct McssSprite *s);
-extern void MCSS_FlipMepachiFlag(struct McssSprite *s);
-extern int MCSS_GetAnmStopFlag(struct McssSprite *s);
-extern void MCSS_SetAnmStopFlag(struct McssSprite *s);
-extern void MCSS_ResetAnmStopFlag(struct McssSprite *s);
-extern void MCSS_SetAnmStopFlagAlways(struct McssSprite *s);
-extern void MCSS_ResetAnmStopFlagAlways(struct McssSprite *s);
-extern int MCSS_GetVanishFlag(struct McssSprite *s);
-extern void MCSS_SetVanishFlag(struct McssSprite *s);
-extern void MCSS_ResetVanishFlag(struct McssSprite *s);
-extern void MCSS_FlipVanishFlag(struct McssSprite *s);
-extern void MCSS_SetShadowVanishFlag(struct McssSprite *s, int v);
-extern void MCSS_SetAnimeSpeed(struct McssSprite *s, int v);
-extern int MCSS_CheckPaletteFade(struct McssSprite *s);
-extern void MCSS_SetPaletteFade(struct McssSprite *s, u32 cur, u32 target, s32 step, u32 color);
+extern void MCSS_SetPosition(struct McssWork *work, u32 *src);
+extern void MCSS_GetPosition(struct McssWork *work, u32 *out);
+extern void MCSS_SetOfsPosition(struct McssWork *work, u32 *src);
+extern void MCSS_GetOfsPosition(struct McssWork *work, u32 *out);
+extern void MCSS_SetScale(struct McssWork *work, u32 *src);
+extern void MCSS_GetScale(struct McssWork *work, u32 *out);
+extern void MCSS_SetOfsScale(struct McssWork *work, u32 *src);
+extern void MCSS_SetShadowScale(struct McssWork *work, u32 *src);
+extern void MCSS_GetShadowScale(struct McssWork *work, u32 *out);
+extern void MCSS_SetDrawScale(struct McssWork *work, u32 *src);
+extern void MCSS_GetDrawScale(struct McssWork *work, u32 *out);
+extern void MCSS_SetRotate(struct McssWork *work, u32 *src);
+extern void MCSS_GetRotate(struct McssWork *work, u32 *out);
+extern void MCSS_SetAlpha(struct McssWork *work, s32 alpha);
+extern u8 MCSS_GetAlpha(struct McssWork *work);
+extern void MCSS_SetMosaic(struct McssSys *sys, struct McssWork *work, s32 mosaic);
+extern u8 MCSS_GetMosaic(struct McssWork *work);
+extern void MCSS_SetOrthoMode(struct McssSys *sys);
+extern void MCSS_ResetOrthoMode(struct McssSys *sys);
+extern void MCSS_SetOrthoBillboardFlag(struct McssWork *work);
+extern void MCSS_ResetOrthoBillboardFlag(struct McssWork *work);
+extern void MCSS_SetMepachiFlag(struct McssWork *work);
+extern void MCSS_ResetMepachiFlag(struct McssWork *work);
+extern void MCSS_FlipMepachiFlag(struct McssWork *work);
+extern int MCSS_GetAnmStopFlag(struct McssWork *work);
+extern void MCSS_SetAnmStopFlag(struct McssWork *work);
+extern void MCSS_ResetAnmStopFlag(struct McssWork *work);
+extern void MCSS_SetAnmStopFlagAlways(struct McssWork *work);
+extern void MCSS_ResetAnmStopFlagAlways(struct McssWork *work);
+extern int MCSS_GetVanishFlag(struct McssWork *work);
+extern void MCSS_SetVanishFlag(struct McssWork *work);
+extern void MCSS_ResetVanishFlag(struct McssWork *work);
+extern void MCSS_FlipVanishFlag(struct McssWork *work);
+extern void MCSS_SetShadowVanishFlag(struct McssWork *work, s32 flag);
+extern void MCSS_SetAnimeSpeed(struct McssWork *work, s32 speed);
+extern int MCSS_CheckPaletteFade(struct McssWork *work);
+extern void MCSS_SetPaletteFade(struct McssWork *work, u32 start, u32 end, s32 wait, u32 color);
 extern void MCSS_CreatePaletteTransTask(struct McssSystem *sys, struct McssSprite *s, int a, int b);
-extern void MCSS_CreatePaletteCopyTask(struct McssSystem *sys, struct McssSprite *s);
-extern int MCSS_GetStopCellFlags(struct McssSprite *s);
+extern void MCSS_CreatePaletteCopyTask(struct McssSys *sys, struct McssWork *work);
+extern u8 MCSS_GetStopCellFlags(struct McssWork *work);
 extern void MCSS_TOOL_SetSpindaSpotHook(struct McssSystem *sys, u32 personalRand);
-extern void MCSS_TOOL_MakeAddWorkFromPP(void *pp, BtlvMcssAddWork *out, u32 isBack);
-extern void MCSS_TOOL_MakeAddWorkFromTrainer(void *trainer, BtlvMcssAddWork *out, u32 isBack);
-extern int MCSS_GetAnimSeqNumEx(struct McssSprite *s);
+struct McssAddWork;
+extern void MCSS_TOOL_MakeAddWorkFromPP(void *pp, struct McssAddWork *out, u32 direction);
+extern void MCSS_TOOL_MakeAddWorkFromTrainer(void *trainerClass, struct McssAddWork *out, void *trainerGender);
+extern u16 MCSS_GetAnimSeqNumEx(struct McssWork *work);
 extern void MCSS_SetAnimeIndex(struct McssSprite *s, u32 index);
-extern void MCSS_SetMepachiDrawLast(struct McssSprite *s, int flag);
+extern void MCSS_SetMepachiDrawLast(struct McssWork *work, s32 flag);
 extern struct McssAnimCtrl *MCSS_GetAnimCtrl(struct McssSprite *s);
 extern void MCSS_SetCellCallback(struct McssSprite *s, unsigned flags, int (*cb)(u32, int, int *, int));
-extern u8 MCSS_GetStopCellNum(struct McssSprite *s);
-extern u16 MCSS_GetAnimSeqNum(struct McssSprite *s);
-extern u8 MCSS_GetStopCellIndex(struct McssSprite *s, u8 i);
+extern u8 MCSS_GetStopCellNum(struct McssWork *work);
+extern u16 MCSS_GetAnimSeqNum(struct McssWork *work);
+extern u8 MCSS_GetStopCellIndex(struct McssWork *work, u8 i);
 extern int POKEGRA_GetArcID(void);
+struct PokemonParam;
 
 /* Pokemon data, voices, battle */
-extern u32 POKE_TOOL_GetPartyValue(void *pp, u32 id, u32 arg);
-extern u32 POKE_TOOL_IsShiny(void *pp);
+extern u32 POKE_TOOL_GetPartyValue(struct PokemonParam *pp, u32 paramId, u32 arg);
+extern u32 POKE_TOOL_IsShiny(struct PokemonParam *pp);
 extern u32 POKE_TOOL_GetPersonalParam(u16 species, u16 form, u32 paramId);
 extern int BGWINFRM_GetScaleRank(u32 hp, u32 maxHp);
-extern int BTL_MAIN_GetVoiceOfSlot(void *main, int pos, u32 *out);
-extern u32 PM_VOICE_Play(u32 species, u32 form, u32 voiceId, u32 chorus, u32 chorusParamA, u32 chorusParamB, u32 chorusParamC, u32 *voiceOut);
+struct PerapVoice;
+struct BtlMain;
+extern int BTL_MAIN_GetVoiceOfSlot(struct BtlMain *main, u32 slot, struct PerapVoice **outVoice);
+extern u32 PM_VOICE_Play(u32 species, u32 form, u32 pan, u32 dual, u32 volumeBiasB, u32 frequencyOffsetB, u32 reverse, void **recordedVoice);
 extern void PM_VOICE_AddVolume(u32 voice, int delta);
 extern void PM_VOICE_AddFrequency(u32 voice, u32 delta);
+struct BtlvStage;
 
 /* Battle view helpers (other files of this overlay) */
-extern void BTLV_STAGE_ArmLayerEntry(void *stage, int a, int b, int c, int d);
+extern void BTLV_STAGE_ArmLayerEntry(struct BtlvStage *stage, s32 side, s32 anim, s32 speed, s32 updates);
 extern int BTLV_EFFECT_IsBusy(void);
 extern int BTLV_EFFECT_GaugeGetSlotHealthInfo(int pos, int *a, int *statusKind);
 extern BtlvMcssWork *BTLV_EFFECT_GetMcss(void);
-extern void *BTLV_EFFECT_GetStage(void);
-extern void *BTLV_EFFECT_GetGauge(void);
+extern struct BtlvStage *BTLV_EFFECT_GetStage(void);
+struct BtlvGaugeWork;
+extern struct BtlvGaugeWork *BTLV_EFFECT_GetGauge(void);
 extern void *BTLV_EFFECT_GetEffvm(void);
 extern int BTLV_EFFECT_GetMode(void);
 extern void *BTLV_EFFECT_GetBattleMain(void);
@@ -323,7 +342,7 @@ extern void BTLV_EFFECT_ComputeVectorStep(const BtlvMcssVec *a, const BtlvMcssVe
 extern int BTLV_EFFECT_StepMover(BtlvMover *state, BtlvMcssVec *out);
 extern int BTLV_EFFECT_GetBitMask(int pos);
 extern int BTLV_EFFVM_GetFallbackScriptFlag(void *a);
-extern void BTLV_GAUGE_HideSlot(void *gauge, int pos);
+extern void BTLV_GAUGE_HideSlot(struct BtlvGaugeWork *work, s32 slotIdx);
 
 extern const s16 FX_SinCosTable_[];
 extern char gBtlvMcssSourceFileName[];
@@ -465,12 +484,12 @@ BtlvMcssWork *BTLV_MCSS_Create(int rule, void *taskOwner, u16 heapId)
     int sysParam = 0xe;
     int i;
     w = GFL_HEAP_Alloc(heapId, 0x5b4, 1, gBtlvMcssSourceFileName, 0x184);
-    w->mcss = MCSS_Init(sysParam, heapId);
+    w->mcss = (struct McssSystem *)MCSS_Init(sysParam, heapId);
     w->taskOwner = taskOwner;
     w->heapId = heapId;
     sysParam += 0xf2;
-    MCSS_SetDepthStep(w->mcss, sysParam);
-    MCSS_SetNearDepthRange(w->mcss, 1);
+    MCSS_SetDepthStep((struct McssSys *)w->mcss, sysParam);
+    MCSS_SetNearDepthRange((struct McssSys *)w->mcss, 1);
     w->orthoActive = 1;
     w->scaleEven = 0x1000;
     w->scaleOdd = 0x1000;
@@ -489,7 +508,7 @@ void BTLV_MCSS_Delete(BtlvMcssWork *work)
         if (BTLV_MCSS_IsSpriteLoaded(work, pos))
             BTLV_MCSS_RemoveSprite(work, pos);
     }
-    MCSS_Exit(work->mcss);
+    MCSS_Exit((struct McssSys *)work->mcss);
     GFL_HEAP_Free(work);
 }
 
@@ -511,11 +530,11 @@ void BTLV_MCSS_Update(BtlvMcssWork *work)
             spriteIdx = BTLV_MCSS_FindSpriteIndex(work, pos);
             if (work->sprites[spriteIdx].flags.restartAnim) {
                 work->sprites[spriteIdx].flags.restartAnim = 0;
-                MCSS_RestartAnime(work->sprites[spriteIdx].mcss);
+                MCSS_RestartAnime((struct McssWork *)work->sprites[spriteIdx].mcss);
             }
         }
     }
-    MCSS_Main(work->mcss);
+    MCSS_Main((struct McssSys *)work->mcss);
     if (work->flags.rotating == 0) {
         for (pos = 0; pos < BTLV_MCSS_POKE_POS_COUNT; pos++) {
             /* 1 in 100 frames: start an eye blink */
@@ -613,7 +632,7 @@ void BTLV_MCSS_Update(BtlvMcssWork *work)
 
 void BTLV_MCSS_Draw(BtlvMcssWork *work)
 {
-    MCSS_Draw(work->mcss);
+    MCSS_Draw((struct McssSys *)work->mcss);
 }
 
 /*
@@ -663,10 +682,10 @@ void BTLV_MCSS_AddPoke(BtlvMcssWork *work, void *pp, int pos)
             visible = 1;
         }
         if (visible == 0)
-            MCSS_SetShadowAlpha(work->sprites[i].mcss, 0);
+            MCSS_SetShadowAlpha((struct McssWork *)work->sprites[i].mcss, 0);
         else {
-            MCSS_SetShadowOffset(work->sprites[i].mcss, &vectors.shadowOffset);
-            MCSS_SetShadowRotateZ(work->sprites[i].mcss, angle);
+            MCSS_SetShadowOffset((struct McssWork *)work->sprites[i].mcss, (s32 *)(&vectors.shadowOffset));
+            MCSS_SetShadowRotateZ((struct McssWork *)work->sprites[i].mcss, angle);
         }
         work->sprites[i].flags.idleCounter = 3;
         BTLV_MCSS_ApplySlotScale(work, pos);
@@ -698,10 +717,10 @@ void BTLV_MCSS_RemoveSprite(BtlvMcssWork *work, int pos)
 {
     int idx = BTLV_MCSS_FindSpriteIndex(work, pos);
 
-    MCSS_Del(work->mcss, work->sprites[idx].mcss);
+    MCSS_Del((struct McssSys *)work->mcss, (struct McssWork *)work->sprites[idx].mcss);
     work->sprites[idx].mcss = 0;
     if (work->sprites[idx].animWatchTask != 0) {
-        GFL_HEAP_Free(TCBL_IsDeletePending(work->sprites[idx].animWatchTask));
+        GFL_HEAP_Free((void *)TCBL_IsDeletePending(work->sprites[idx].animWatchTask));
         TCB_DeleteTask(work->sprites[idx].animWatchTask);
         work->sprites[idx].animWatchTask = 0;
     }
@@ -721,7 +740,7 @@ void BTLV_MCSS_SetPosition(BtlvMcssWork *work, int pos, int x, int y, int z)
     v.x = x;
     v.y = y;
     v.z = z;
-    MCSS_SetPosition(work->sprites[idx].mcss, &v);
+    MCSS_SetPosition((struct McssWork *)work->sprites[idx].mcss, (u32 *)(&v));
 }
 
 void BTLV_MCSS_EnableOrthoMode(BtlvMcssWork *work)
@@ -729,7 +748,7 @@ void BTLV_MCSS_EnableOrthoMode(BtlvMcssWork *work)
     int i;
     int idx;
 
-    MCSS_SetOrthoMode(work->mcss);
+    MCSS_SetOrthoMode((struct McssSys *)work->mcss);
     work->orthoActive = 1;
     for (i = 0; i < BTLV_MCSS_SPRITE_MAX; i++) {
         idx = BTLV_MCSS_FindSpriteIndex(work, i);
@@ -745,7 +764,7 @@ void BTLV_MCSS_DisableOrthoMode(BtlvMcssWork *work)
     int i;
     int idx;
 
-    MCSS_ResetOrthoMode(work->mcss);
+    MCSS_ResetOrthoMode((struct McssSys *)work->mcss);
     work->orthoActive = 0;
     for (i = 0; i < BTLV_MCSS_SPRITE_MAX; i++) {
         idx = BTLV_MCSS_FindSpriteIndex(work, i);
@@ -763,7 +782,7 @@ void BTLV_MCSS_EnableBillboard(BtlvMcssWork *work, int pos)
     if (idx == -1)
         return;
     work->sprites[idx].flags.orthoBillboard = 1;
-    MCSS_SetOrthoBillboardFlag(work->sprites[idx].mcss);
+    MCSS_SetOrthoBillboardFlag((struct McssWork *)work->sprites[idx].mcss);
     BTLV_MCSS_ApplySlotScale(work, pos);
 }
 
@@ -774,7 +793,7 @@ void BTLV_MCSS_DisableBillboard(BtlvMcssWork *work, int pos)
     if (idx == -1)
         return;
     work->sprites[idx].flags.orthoBillboard = 0;
-    MCSS_ResetOrthoBillboardFlag(work->sprites[idx].mcss);
+    MCSS_ResetOrthoBillboardFlag((struct McssWork *)work->sprites[idx].mcss);
     BTLV_MCSS_ApplySlotScale(work, pos);
 }
 
@@ -788,20 +807,20 @@ void BTLV_MCSS_SetBlinkMode(BtlvMcssWork *work, int pos, int mode)
     if (work->sprites[idx].mcss == 0)
         return;
     if (mode == 4) {
-        MCSS_ResetMepachiFlag(work->sprites[idx].mcss);
+        MCSS_ResetMepachiFlag((struct McssWork *)work->sprites[idx].mcss);
         work->sprites[idx].flags.blinkLocked = 0;
     }
     if (work->sprites[idx].flags.blinkLocked)
         return;
     if (mode == 2) {
-        MCSS_FlipMepachiFlag(work->sprites[idx].mcss);
+        MCSS_FlipMepachiFlag((struct McssWork *)work->sprites[idx].mcss);
     } else if (mode == 1) {
-        MCSS_SetMepachiFlag(work->sprites[idx].mcss);
+        MCSS_SetMepachiFlag((struct McssWork *)work->sprites[idx].mcss);
     } else if (mode == 3) {
-        MCSS_SetMepachiFlag(work->sprites[idx].mcss);
+        MCSS_SetMepachiFlag((struct McssWork *)work->sprites[idx].mcss);
         work->sprites[idx].flags.blinkLocked = 1;
     } else {
-        MCSS_ResetMepachiFlag(work->sprites[idx].mcss);
+        MCSS_ResetMepachiFlag((struct McssWork *)work->sprites[idx].mcss);
     }
 }
 
@@ -813,7 +832,7 @@ int BTLV_MCSS_IsAnimStopped(BtlvMcssWork *work, int pos)
         return 0;
     if (work->sprites[idx].mcss == 0)
         return 0;
-    return MCSS_GetAnmStopFlag(work->sprites[idx].mcss);
+    return MCSS_GetAnmStopFlag((struct McssWork *)work->sprites[idx].mcss);
 }
 
 /* mode 1 stop, 2 stop always, 3 release always, other release */
@@ -826,13 +845,13 @@ void BTLV_MCSS_SetAnimStopMode(BtlvMcssWork *work, int pos, int mode)
     if (work->sprites[idx].mcss == 0)
         return;
     if (mode == 1)
-        MCSS_SetAnmStopFlag(work->sprites[idx].mcss);
+        MCSS_SetAnmStopFlag((struct McssWork *)work->sprites[idx].mcss);
     else if (mode == 2)
-        MCSS_SetAnmStopFlagAlways(work->sprites[idx].mcss);
+        MCSS_SetAnmStopFlagAlways((struct McssWork *)work->sprites[idx].mcss);
     else if (mode == 3)
-        MCSS_ResetAnmStopFlagAlways(work->sprites[idx].mcss);
+        MCSS_ResetAnmStopFlagAlways((struct McssWork *)work->sprites[idx].mcss);
     else
-        MCSS_ResetAnmStopFlag(work->sprites[idx].mcss);
+        MCSS_ResetAnmStopFlag((struct McssWork *)work->sprites[idx].mcss);
 }
 
 int BTLV_MCSS_IsVanished(BtlvMcssWork *work, int pos)
@@ -843,7 +862,7 @@ int BTLV_MCSS_IsVanished(BtlvMcssWork *work, int pos)
         return 0;
     if (work->sprites[idx].mcss == 0)
         return 0;
-    return MCSS_GetVanishFlag(work->sprites[idx].mcss);
+    return MCSS_GetVanishFlag((struct McssWork *)work->sprites[idx].mcss);
 }
 
 /* mode 0 show, 1 hide, 2 toggle, 3 hide and remember if it was already hidden, 4 undo mode 3 */
@@ -857,24 +876,24 @@ void BTLV_MCSS_SetVanishMode(BtlvMcssWork *work, int pos, int mode)
         return;
     switch (mode) {
     case 2:
-        MCSS_FlipVanishFlag(work->sprites[idx].mcss);
+        MCSS_FlipVanishFlag((struct McssWork *)work->sprites[idx].mcss);
         break;
     case 1:
-        MCSS_SetVanishFlag(work->sprites[idx].mcss);
+        MCSS_SetVanishFlag((struct McssWork *)work->sprites[idx].mcss);
         break;
     case 0:
-        MCSS_ResetVanishFlag(work->sprites[idx].mcss);
+        MCSS_ResetVanishFlag((struct McssWork *)work->sprites[idx].mcss);
         break;
     case 3:
-        if (MCSS_GetVanishFlag(work->sprites[idx].mcss))
+        if (MCSS_GetVanishFlag((struct McssWork *)work->sprites[idx].mcss))
             work->sprites[idx].flags.vanishHeld = 1;
-        MCSS_SetVanishFlag(work->sprites[idx].mcss);
+        MCSS_SetVanishFlag((struct McssWork *)work->sprites[idx].mcss);
         break;
     case 4:
         if (work->sprites[idx].flags.vanishHeld)
             work->sprites[idx].flags.vanishHeld = 0;
         else
-            MCSS_ResetVanishFlag(work->sprites[idx].mcss);
+            MCSS_ResetVanishFlag((struct McssWork *)work->sprites[idx].mcss);
         break;
     }
 }
@@ -932,7 +951,7 @@ void BTLV_MCSS_SetShadowVanish(BtlvMcssWork *work, int pos, u8 vanish)
         return;
     if (work->sprites[i].mcss == 0)
         return;
-    MCSS_SetShadowVanishFlag(work->sprites[i].mcss, vanish);
+    MCSS_SetShadowVanishFlag((struct McssWork *)work->sprites[i].mcss, vanish);
 }
 
 void BTLV_MCSS_SetAnimSpeed(BtlvMcssWork *work, int pos, int speed)
@@ -943,7 +962,7 @@ void BTLV_MCSS_SetAnimSpeed(BtlvMcssWork *work, int pos, int speed)
         return;
     if (work->sprites[i].mcss == 0)
         return;
-    MCSS_SetAnimeSpeed(work->sprites[i].mcss, speed);
+    MCSS_SetAnimeSpeed((struct McssWork *)work->sprites[i].mcss, speed);
 }
 
 void BTLV_MCSS_StartPositionTween(BtlvMcssWork *work, int pos, int kind, BtlvMcssVec *target, int frames, int waitFrames, int repeat)
@@ -954,7 +973,7 @@ void BTLV_MCSS_StartPositionTween(BtlvMcssWork *work, int pos, int kind, BtlvMcs
         return;
     if (work->sprites[idx].mcss == 0)
         return;
-    MCSS_GetPosition(work->sprites[idx].mcss, &start);
+    MCSS_GetPosition((struct McssWork *)work->sprites[idx].mcss, (u32 *)(&start));
     if (kind == BTLV_MCSS_TWEEN_ABSOLUTE) {
         if (pos & 1)
             target->x = start.x - target->x;
@@ -972,7 +991,7 @@ void BTLV_MCSS_StartPositionTween(BtlvMcssWork *work, int pos, int kind, BtlvMcs
         kind = BTLV_MCSS_TWEEN_SET;
     }
     if (kind == BTLV_MCSS_TWEEN_SET) {
-        MCSS_SetPosition(work->sprites[idx].mcss, target);
+        MCSS_SetPosition((struct McssWork *)work->sprites[idx].mcss, (u32 *)target);
         return;
     }
     work->positionSerial[pos]++;
@@ -989,7 +1008,7 @@ void BTLV_MCSS_StartShadowScaleTween(BtlvMcssWork *work, int pos, int kind, Btlv
         return;
     if (work->sprites[idx].mcss == 0)
         return;
-    MCSS_GetShadowScale(work->sprites[idx].mcss, &cur);
+    MCSS_GetShadowScale((struct McssWork *)work->sprites[idx].mcss, (u32 *)(&cur));
     work->shadowScaleSerial[pos]++;
     BTLV_MCSS_CreateTweenTask(work, pos, kind, &cur, target, frames, waitFrames, repeat, BTLV_MCSS_ShadowScaleTweenTaskMain, BTLV_MCSS_ShadowScaleTweenTaskEnd, 0, work->shadowScaleSerial[pos]);
     work->shadowScaleTweenMask |= BTLV_EFFECT_GetBitMask(pos);
@@ -1004,7 +1023,7 @@ void BTLV_MCSS_StartScaleTween(BtlvMcssWork *work, int pos, int kind, BtlvMcssVe
         return;
     if (work->sprites[idx].mcss == 0)
         return;
-    MCSS_GetScale(work->sprites[idx].mcss, &cur);
+    MCSS_GetScale((struct McssWork *)work->sprites[idx].mcss, (u32 *)(&cur));
     work->scaleSerial[pos]++;
     BTLV_MCSS_CreateTweenTask(work, pos, kind, &cur, target, frames, waitFrames, repeat, BTLV_MCSS_ScaleTweenTaskMain, BTLV_MCSS_ScaleTweenTaskEnd, 0, work->scaleSerial[pos]);
     work->scaleTweenMask |= BTLV_EFFECT_GetBitMask(pos);
@@ -1020,7 +1039,7 @@ void BTLV_MCSS_StartDrawScaleTween(BtlvMcssWork *work, int pos, int kind, BtlvMc
         return;
     if (work->sprites[idx].mcss == 0)
         return;
-    MCSS_GetShadowScale(work->sprites[idx].mcss, &cur);
+    MCSS_GetShadowScale((struct McssWork *)work->sprites[idx].mcss, (u32 *)(&cur));
     work->drawScaleSerial[pos]++;
     BTLV_MCSS_CreateTweenTask(work, pos, kind, &cur, target, frames, waitFrames, repeat, BTLV_MCSS_DrawScaleTweenTaskMain, BTLV_MCSS_DrawScaleTweenTaskEnd, 0, work->drawScaleSerial[pos]);
     work->drawScaleTweenMask |= BTLV_EFFECT_GetBitMask(pos);
@@ -1035,7 +1054,7 @@ void BTLV_MCSS_StartRotateTween(BtlvMcssWork *work, int pos, int kind, BtlvMcssV
         return;
     if (work->sprites[idx].mcss == 0)
         return;
-    MCSS_GetRotate(work->sprites[idx].mcss, &cur);
+    MCSS_GetRotate((struct McssWork *)work->sprites[idx].mcss, (u32 *)(&cur));
     work->rotateSerial[pos]++;
     BTLV_MCSS_CreateTweenTask(work, pos, kind, &cur, target, frames, waitFrames, repeat, BTLV_MCSS_RotateTweenTaskMain, BTLV_MCSS_RotateTweenTaskEnd, 1, work->rotateSerial[pos]);
     work->rotateTweenMask |= BTLV_EFFECT_GetBitMask(pos);
@@ -1105,7 +1124,7 @@ void BTLV_MCSS_StartAlphaTween(BtlvMcssWork *work, int pos, int kind, int alpha,
         return;
     if (work->sprites[idx].mcss == 0)
         return;
-    start.x = INT_TO_FX32(MCSS_GetAlpha(work->sprites[idx].mcss));
+    start.x = INT_TO_FX32(MCSS_GetAlpha((struct McssWork *)work->sprites[idx].mcss));
     start.y = 0;
     start.z = 0;
     end.x = INT_TO_FX32(alpha);
@@ -1158,7 +1177,7 @@ void BTLV_MCSS_StartBounceTask(BtlvMcssWork *work, BtlvMcssBounceParams *params)
         return;
     *task = *params;
     task->work = work;
-    MCSS_GetPosition(work->sprites[idx].mcss, &task->startPosition);
+    MCSS_GetPosition((struct McssWork *)work->sprites[idx].mcss, (u32 *)(&task->startPosition));
     work->positionSerial[task->pos]++;
     task->serial = work->positionSerial[task->pos];
     BTLV_EFFECT_RegisterTask(TCB_AddTask(work->taskOwner, BTLV_MCSS_BounceTaskMain, task, 0), BTLV_MCSS_BounceTaskEnd, 2);
@@ -1173,7 +1192,7 @@ void BTLV_MCSS_StartMosaicTween(BtlvMcssWork *work, int pos, int kind, int mosai
         return;
     if (work->sprites[idx].mcss == 0)
         return;
-    start.x = INT_TO_FX32(MCSS_GetMosaic(work->sprites[idx].mcss));
+    start.x = INT_TO_FX32(MCSS_GetMosaic((struct McssWork *)work->sprites[idx].mcss));
     start.y = 0;
     start.z = 0;
     end.x = INT_TO_FX32(mosaic);
@@ -1189,7 +1208,7 @@ int BTLV_MCSS_IsSpriteBusy(BtlvMcssWork *work, int pos)
     int fading = 0;
 
     if (BTLV_MCSS_IsSpriteLoaded(work, pos))
-        fading = MCSS_CheckPaletteFade(work->sprites[BTLV_MCSS_FindSpriteIndex(work, pos)].mcss);
+        fading = MCSS_CheckPaletteFade((struct McssWork *)(work->sprites[BTLV_MCSS_FindSpriteIndex(work, pos)].mcss));
     if (BTLV_EFFECT_GetBitMask(pos) & work->positionTweenMask
         || BTLV_EFFECT_GetBitMask(pos) & work->shadowScaleTweenMask
         || BTLV_EFFECT_GetBitMask(pos) & work->drawScaleTweenMask
@@ -1230,7 +1249,7 @@ void BTLV_MCSS_SetPaletteFade(BtlvMcssWork *work, int pos, u8 cur, u8 target, u8
         return;
     if (work->sprites[idx].mcss == 0)
         return;
-    MCSS_SetPaletteFade(work->sprites[idx].mcss, cur, target, (s8)step, color);
+    MCSS_SetPaletteFade((struct McssWork *)work->sprites[idx].mcss, cur, target, (s8)step, color);
     work->sprites[idx].flags.paletteFadeSet = 1;
 }
 
@@ -1253,7 +1272,7 @@ void BTLV_MCSS_StartPaletteCopy(BtlvMcssWork *work, int pos)
         return;
     if (work->sprites[idx].mcss == 0)
         return;
-    MCSS_CreatePaletteCopyTask(work->mcss, work->sprites[idx].mcss);
+    MCSS_CreatePaletteCopyTask((struct McssSys *)work->mcss, (struct McssWork *)work->sprites[idx].mcss);
 }
 
 void BTLV_MCSS_RefreshSpriteFromParty(BtlvMcssWork *work, int pos, void *pp)
@@ -1321,7 +1340,7 @@ int BTLV_MCSS_GetStopCellFlags(BtlvMcssWork *work, int pos)
         return 0;
     if (work->sprites[idx].mcss == 0)
         return 0;
-    return MCSS_GetStopCellFlags(work->sprites[idx].mcss);
+    return MCSS_GetStopCellFlags((struct McssWork *)work->sprites[idx].mcss);
 }
 
 /* showSubstitute 0 restores the Pokemon sprite, otherwise the substitute doll resources are loaded. */
@@ -1372,7 +1391,7 @@ void BTLV_MCSS_SetMosaic(BtlvMcssWork *work, int pos, int mosaic)
     if (work->sprites[idx].mcss == 0)
         return;
     MCSS_TOOL_SetSpindaSpotHook(work->mcss, work->sprites[idx].identity.personalRand);
-    MCSS_SetMosaic(work->mcss, work->sprites[idx].mcss, mosaic);
+    MCSS_SetMosaic((struct McssSys *)work->mcss, (struct McssWork *)work->sprites[idx].mcss, mosaic);
 }
 
 /* Copy the identity and resources of sprite posA to posB, shifting the resource ids to the other side's set. */
@@ -1453,7 +1472,7 @@ int BTLV_MCSS_PlayCry(BtlvMcssWork *work, int pos, int pitch, int pan, int choru
     out = &buf;
     chorus = 0;
     if (main != 0) {
-        if (BTL_MAIN_GetVoiceOfSlot(main, pos, out) == 0)
+        if (BTL_MAIN_GetVoiceOfSlot(main, pos, (struct PerapVoice **)out) == 0)
             out = 0;
     } else {
         out = 0;
@@ -1466,7 +1485,7 @@ int BTLV_MCSS_PlayCry(BtlvMcssWork *work, int pos, int pitch, int pan, int choru
         else
             pitch = 0;
     }
-    voice = PM_VOICE_Play(work->sprites[idx].identity.species, work->sprites[idx].identity.form, (u8)voiceId, chorus, chorusParamA, chorusParamB, chorusParamC, out);
+    voice = PM_VOICE_Play(work->sprites[idx].identity.species, work->sprites[idx].identity.form, (u8)voiceId, chorus, chorusParamA, chorusParamB, chorusParamC, (void **)out);
     PM_VOICE_AddVolume(voice, (signed char)pan);
     PM_VOICE_AddFrequency(voice, pitch);
     return voice;
@@ -1503,7 +1522,7 @@ void BTLV_MCSS_MakeAddWorkFromPoke(BtlvMcssWork *work, void *pp, BtlvMcssAddWork
 
     if (pos & 1)
         isBack = 0;
-    MCSS_TOOL_MakeAddWorkFromPP(pp, out, isBack);
+    MCSS_TOOL_MakeAddWorkFromPP(pp, (struct McssAddWork *)out, isBack);
     MCSS_TOOL_SetSpindaSpotHook(work->mcss, POKE_TOOL_GetPartyValue(pp, BTLV_PARTY_VALUE_PERSONAL_RAND, 0));
 }
 
@@ -1519,7 +1538,7 @@ int BTLV_MCSS_SetAnimIndexIfValid(BtlvMcssWork *work, int pos, int animIndex)
         return 0;
     if (work->sprites[i].mcss == 0)
         return 0;
-    if (animIndex < MCSS_GetAnimSeqNumEx(work->sprites[i].mcss)) {
+    if (animIndex < MCSS_GetAnimSeqNumEx((struct McssWork *)work->sprites[i].mcss)) {
         MCSS_SetAnimeIndex(work->sprites[i].mcss, animIndex);
         ok = 1;
         work->sprites[i].animPending = ok;
@@ -1562,8 +1581,8 @@ void BTLV_MCSS_ResetSpritePosition(BtlvMcssWork *work, int pos)
     if (work->sprites[i].mcss == 0)
         return;
     BTLV_MCSS_CalcSlotPosition(work, &want, pos);
-    MCSS_GetPosition(work->sprites[i].mcss, &cur);
-    MCSS_GetOfsPosition(work->sprites[i].mcss, &off);
+    MCSS_GetPosition((struct McssWork *)work->sprites[i].mcss, (u32 *)(&cur));
+    MCSS_GetOfsPosition((struct McssWork *)work->sprites[i].mcss, (u32 *)(&off));
     work->sprites[i].flags.repositionHidden = 0;
     if (want.x == cur.x && want.y == cur.y && want.z == cur.z
         && off.x == 0 && off.y == 0 && off.z == 0)
@@ -1572,9 +1591,9 @@ void BTLV_MCSS_ResetSpritePosition(BtlvMcssWork *work, int pos)
     off.x = 0;
     off.y = 0;
     off.z = 0;
-    MCSS_SetPosition(work->sprites[i].mcss, &want);
-    MCSS_SetOfsPosition(work->sprites[i].mcss, &off);
-    MCSS_SetVanishFlag(work->sprites[i].mcss);
+    MCSS_SetPosition((struct McssWork *)work->sprites[i].mcss, (u32 *)(&want));
+    MCSS_SetOfsPosition((struct McssWork *)work->sprites[i].mcss, (u32 *)(&off));
+    MCSS_SetVanishFlag((struct McssWork *)work->sprites[i].mcss);
 }
 
 /*
@@ -1618,7 +1637,7 @@ void BTLV_MCSS_SetSpriteWorkFlagForRule(BtlvMcssWork *work, int pos, int mode)
             break;
         }
     }
-    MCSS_SetMepachiDrawLast(work->sprites[i].mcss, flag);
+    MCSS_SetMepachiDrawLast((struct McssWork *)work->sprites[i].mcss, flag);
 }
 
 int BTLV_MCSS_TakeSpriteRefreshedFlag(BtlvMcssWork *work, int pos)
@@ -1671,7 +1690,7 @@ void BTLV_MCSS_RestoreVanishStates(BtlvMcssWork *work)
  */
 void BTLV_MCSS_MakeAddWorkFromTrainer(void *trainer, BtlvMcssAddWork *out, int pos)
 {
-    MCSS_TOOL_MakeAddWorkFromTrainer(trainer, out, (pos & 1) == 0);
+    MCSS_TOOL_MakeAddWorkFromTrainer((void *)trainer, (struct McssAddWork *)out, (void *)((pos & 1) == 0));
 }
 
 static inline fx32 FX_Mul(fx32 a, fx32 b)
@@ -1698,12 +1717,12 @@ void BTLV_MCSS_ApplySlotScale(BtlvMcssWork *work, int pos)
     s.x = scale;
     s.y = scale;
     s.z = 0x1000;
-    MCSS_SetScale(work->sprites[idx].mcss, &s);
+    MCSS_SetScale((struct McssWork *)work->sprites[idx].mcss, (u32 *)(&s));
     scale = BTLV_MCSS_CalcSlotScale(work, pos, 0);
     s.x = scale;
     s.y = scale;
     s.z = 0x1000;
-    MCSS_SetOfsScale(work->sprites[idx].mcss, &s);
+    MCSS_SetOfsScale((struct McssWork *)work->sprites[idx].mcss, (u32 *)(&s));
 }
 
 /* Create the task of one tween; fn steps it each frame, endCb clears the work mask bit. */
@@ -1773,16 +1792,16 @@ void BTLV_MCSS_PositionTweenTaskMain(void *task, void *arg)
         BTLV_EFFECT_DeleteTask(task);
         return;
     }
-    MCSS_GetPosition(w->sprites[i].mcss, &v);
+    MCSS_GetPosition((struct McssWork *)w->sprites[i].mcss, (u32 *)(&v));
     done = BTLV_EFFECT_StepMover(&t->state, &v);
-    MCSS_SetPosition(w->sprites[i].mcss, &v);
+    MCSS_SetPosition((struct McssWork *)w->sprites[i].mcss, (u32 *)(&v));
     if (done == 1)
         BTLV_EFFECT_DeleteTask(task);
 }
 
 void BTLV_MCSS_PositionTweenTaskEnd(void *task)
 {
-    BtlvMcssTween *t = TCBL_IsDeletePending(task);
+    BtlvMcssTween *t = (struct BtlvMcssTween *)TCBL_IsDeletePending(task);
 
     if (t->serial == t->work->positionSerial[t->pos])
         t->work->positionTweenMask &= BTLV_EFFECT_GetBitMask(t->pos) ^ 0xFFFFFFFF;
@@ -1809,16 +1828,16 @@ void BTLV_MCSS_ShadowScaleTweenTaskMain(void *task, void *arg)
         BTLV_EFFECT_DeleteTask(task);
         return;
     }
-    MCSS_GetShadowScale(w->sprites[i].mcss, &v);
+    MCSS_GetShadowScale((struct McssWork *)w->sprites[i].mcss, (u32 *)(&v));
     done = BTLV_EFFECT_StepMover(&t->state, &v);
-    MCSS_SetShadowScale(w->sprites[i].mcss, &v);
+    MCSS_SetShadowScale((struct McssWork *)w->sprites[i].mcss, (u32 *)(&v));
     if (done == 1)
         BTLV_EFFECT_DeleteTask(task);
 }
 
 void BTLV_MCSS_ShadowScaleTweenTaskEnd(void *task)
 {
-    BtlvMcssTween *t = TCBL_IsDeletePending(task);
+    BtlvMcssTween *t = (struct BtlvMcssTween *)TCBL_IsDeletePending(task);
 
     if (t->serial == t->work->shadowScaleSerial[t->pos])
         t->work->shadowScaleTweenMask &= BTLV_EFFECT_GetBitMask(t->pos) ^ 0xFFFFFFFF;
@@ -1845,16 +1864,16 @@ void BTLV_MCSS_ScaleTweenTaskMain(void *task, void *arg)
         BTLV_EFFECT_DeleteTask(task);
         return;
     }
-    MCSS_GetScale(w->sprites[i].mcss, &v);
+    MCSS_GetScale((struct McssWork *)w->sprites[i].mcss, (u32 *)(&v));
     done = BTLV_EFFECT_StepMover(&t->state, &v);
-    MCSS_SetScale(w->sprites[i].mcss, &v);
+    MCSS_SetScale((struct McssWork *)w->sprites[i].mcss, (u32 *)(&v));
     if (done == 1)
         BTLV_EFFECT_DeleteTask(task);
 }
 
 void BTLV_MCSS_ScaleTweenTaskEnd(void *task)
 {
-    BtlvMcssTween *t = TCBL_IsDeletePending(task);
+    BtlvMcssTween *t = (struct BtlvMcssTween *)TCBL_IsDeletePending(task);
 
     if (t->serial == t->work->scaleSerial[t->pos])
         t->work->scaleTweenMask &= BTLV_EFFECT_GetBitMask(t->pos) ^ 0xFFFFFFFF;
@@ -1881,16 +1900,16 @@ void BTLV_MCSS_DrawScaleTweenTaskMain(void *task, void *arg)
         BTLV_EFFECT_DeleteTask(task);
         return;
     }
-    MCSS_GetDrawScale(w->sprites[i].mcss, &v);
+    MCSS_GetDrawScale((struct McssWork *)w->sprites[i].mcss, (u32 *)(&v));
     done = BTLV_EFFECT_StepMover(&t->state, &v);
-    MCSS_SetDrawScale(w->sprites[i].mcss, &v);
+    MCSS_SetDrawScale((struct McssWork *)w->sprites[i].mcss, (u32 *)(&v));
     if (done == 1)
         BTLV_EFFECT_DeleteTask(task);
 }
 
 void BTLV_MCSS_DrawScaleTweenTaskEnd(void *task)
 {
-    BtlvMcssTween *t = TCBL_IsDeletePending(task);
+    BtlvMcssTween *t = (struct BtlvMcssTween *)TCBL_IsDeletePending(task);
 
     if (t->serial == t->work->drawScaleSerial[t->pos])
         t->work->drawScaleTweenMask &= BTLV_EFFECT_GetBitMask(t->pos) ^ 0xFFFFFFFF;
@@ -1917,16 +1936,16 @@ void BTLV_MCSS_RotateTweenTaskMain(void *task, void *arg)
         BTLV_EFFECT_DeleteTask(task);
         return;
     }
-    MCSS_GetRotate(w->sprites[i].mcss, &v);
+    MCSS_GetRotate((struct McssWork *)w->sprites[i].mcss, (u32 *)(&v));
     done = BTLV_EFFECT_StepMover(&t->state, &v);
-    MCSS_SetRotate(w->sprites[i].mcss, &v);
+    MCSS_SetRotate((struct McssWork *)w->sprites[i].mcss, (u32 *)(&v));
     if (done == 1)
         BTLV_EFFECT_DeleteTask(task);
 }
 
 void BTLV_MCSS_RotateTweenTaskEnd(void *task)
 {
-    BtlvMcssTween *t = TCBL_IsDeletePending(task);
+    BtlvMcssTween *t = (struct BtlvMcssTween *)TCBL_IsDeletePending(task);
 
     if (t->serial == t->work->rotateSerial[t->pos])
         t->work->rotateTweenMask &= BTLV_EFFECT_GetBitMask(t->pos) ^ 0xFFFFFFFF;
@@ -1957,7 +1976,7 @@ void BTLV_MCSS_BlinkTaskMain(void *task, void *arg)
 
 void BTLV_MCSS_BlinkTaskEnd(void *task)
 {
-    BtlvMcssBlinkTask *t = TCBL_IsDeletePending(task);
+    BtlvMcssBlinkTask *t = (struct BtlvMcssBlinkTask *)TCBL_IsDeletePending(task);
 
     if (t->serial == t->work->blinkSerial[t->pos])
         t->work->blinkTaskMask &= BTLV_EFFECT_GetBitMask(t->pos) ^ 0xFFFFFFFF;
@@ -1984,14 +2003,14 @@ void BTLV_MCSS_AlphaTweenTaskMain(void *task, void *arg)
         return;
     }
     done = BTLV_EFFECT_StepMover(&t->state, &t->cur);
-    MCSS_SetAlpha(w->sprites[i].mcss, (u8)(t->cur.x >> 12));
+    MCSS_SetAlpha((struct McssWork *)w->sprites[i].mcss, (u8)(t->cur.x >> 12));
     if (done == 1)
         BTLV_EFFECT_DeleteTask(task);
 }
 
 void BTLV_MCSS_AlphaTweenTaskEnd(void *task)
 {
-    BtlvMcssTween *t = TCBL_IsDeletePending(task);
+    BtlvMcssTween *t = (struct BtlvMcssTween *)TCBL_IsDeletePending(task);
 
     if (t->serial == t->work->alphaSerial[t->pos])
         t->work->alphaTweenMask &= BTLV_EFFECT_GetBitMask(t->pos) ^ 0xFFFFFFFF;
@@ -2080,7 +2099,7 @@ void BTLV_MCSS_ShakeTaskMain(void *task, void *arg)
                 break;
             }
         }
-        MCSS_SetOfsPosition(w->sprites[i].mcss, &v);
+        MCSS_SetOfsPosition((struct McssWork *)w->sprites[i].mcss, (u32 *)(&v));
         } else {
             q->intervalCounter += 1;
         }
@@ -2099,7 +2118,7 @@ void BTLV_MCSS_ShakeTaskMain(void *task, void *arg)
  */
 void BTLV_MCSS_ShakeTaskEnd(void *task)
 {
-    BtlvMcssShakeParams *q = TCBL_IsDeletePending(task);
+    BtlvMcssShakeParams *q = (struct BtlvMcssShakeParams *)TCBL_IsDeletePending(task);
 
     if (q->serial == q->work->positionSerial[q->pos])
         q->work->positionTweenMask &= BTLV_EFFECT_GetBitMask(*(int *)((char *)q + 4)) ^ 0xFFFFFFFF;
@@ -2134,13 +2153,13 @@ void BTLV_MCSS_BounceTaskMain(void *task, void *arg)
     offset = (int)(((s64)offset * q->amplitude + 0x800) >> 12);
     if (q->axisY != 0) v.y = offset;
     else v.x = offset;
-    MCSS_SetOfsPosition(w->sprites[i].mcss, &v);
+    MCSS_SetOfsPosition((struct McssWork *)w->sprites[i].mcss, (u32 *)(&v));
     q->frames -= 1;
     if (q->frames == 0) {
         v.x = 0;
         v.y = 0;
         v.z = 0;
-        MCSS_SetOfsPosition(w->sprites[i].mcss, &v);
+        MCSS_SetOfsPosition((struct McssWork *)w->sprites[i].mcss, (u32 *)(&v));
         BTLV_EFFECT_DeleteTask(task);
     }
 }
@@ -2151,7 +2170,7 @@ void BTLV_MCSS_BounceTaskMain(void *task, void *arg)
  */
 void BTLV_MCSS_BounceTaskEnd(void *task)
 {
-    BtlvMcssBounceParams *q = TCBL_IsDeletePending(task);
+    BtlvMcssBounceParams *q = (struct BtlvMcssBounceParams *)TCBL_IsDeletePending(task);
 
     if (q->serial == q->work->positionSerial[q->pos])
         q->work->positionTweenMask &= BTLV_EFFECT_GetBitMask(*(int *)((char *)q + 4)) ^ 0xFFFFFFFF;
@@ -2187,7 +2206,7 @@ void BTLV_MCSS_MosaicTweenTaskMain(void *task, void *arg)
 
 void BTLV_MCSS_MosaicTweenTaskEnd(void *task)
 {
-    BtlvMcssTween *t = TCBL_IsDeletePending(task);
+    BtlvMcssTween *t = (struct BtlvMcssTween *)TCBL_IsDeletePending(task);
 
     if (t->serial == t->work->mosaicSerial[t->pos])
         t->work->mosaicTweenMask &= BTLV_EFFECT_GetBitMask(t->pos) ^ 0xFFFFFFFF;
@@ -2341,7 +2360,7 @@ void BTLV_MCSS_IdleAnimCallback(int pos)
     if (sprites[pos].mcss == 0) return;
     if (BTLV_EFFVM_GetFallbackScriptFlag(BTLV_EFFECT_GetEffvm()) == 0) return;
     if (w->flags.rotating) return;
-    if (MCSS_GetStopCellNum(sprites[pos].mcss) == 0xff) {
+    if (MCSS_GetStopCellNum((struct McssWork *)sprites[pos].mcss) == 0xff) {
         w->sprites[pos].flags.restartAnim = 1;
         return;
     }
@@ -2352,7 +2371,7 @@ void BTLV_MCSS_IdleAnimCallback(int pos)
     w->sprites[pos].flags.idleCounter = 3;
     watch = GFL_HEAP_Alloc((u16)((w->heapId & 0x7fff) | 0x8000), 12, 1, gBtlvMcssSourceFileName, 0xd5e);
     watch->pos = pos;
-    if (MCSS_GetAnimSeqNum(sprites[pos].mcss) > 1) MCSS_SetAnimeIndex(sprites[pos].mcss, 1);
+    if (MCSS_GetAnimSeqNum((struct McssWork *)sprites[pos].mcss) > 1) MCSS_SetAnimeIndex(sprites[pos].mcss, 1);
     w->sprites[pos].animWatchTask = TCB_AddTask(w->taskOwner, BTLV_MCSS_AnimWatchTaskMain, watch, 0);
 }
 
@@ -2379,11 +2398,11 @@ int BTLV_MCSS_CellCallbackCheckStopCell(u32 flags, int unused, int *out, int sto
         return 0;
     if (flags & 0x80000000) {
         found = 0;
-        n = MCSS_GetStopCellNum(work->sprites[idx].mcss);
+        n = MCSS_GetStopCellNum((struct McssWork *)work->sprites[idx].mcss);
         for (i = 0; i < n; i++) {
             BtlvMcssSprite *s = &work->sprites[idx];
 
-            if (stopCell == MCSS_GetStopCellIndex(s->mcss, i))
+            if (stopCell == MCSS_GetStopCellIndex((struct McssWork *)s->mcss, i))
                 found = 1;
         }
         if (found == 0)

@@ -21,6 +21,10 @@
     "__fadd",
     "__fsub"
    ],
+   "addresses": [
+    "0x0209C95C",
+    "0x0209CB8C"
+   ],
    "covers": [
     "0x0209C95C",
     "0x0209CB8C"

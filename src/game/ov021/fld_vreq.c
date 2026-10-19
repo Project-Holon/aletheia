@@ -61,10 +61,10 @@ typedef void (*FldVReqBlendFunc)(void *params, int isMain);
 
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32 GFL_HEAP_Free(void *p);
-extern u32 BG_SYS_SetPlaneVisible(u32 which, u32 enable);
+extern void BG_SYS_SetPlaneVisible(u8 which, u8 enable);
 extern void MI_CpuFill8(void *p, int v, int n);
 extern void GXx_SetMasterBrightness_(volatile u16 *reg, int brightness);
-extern void G2x_SetBlendAlpha_(int, int, int, int, int);
+extern void G2x_SetBlendAlpha_(u32 *reg, u32 a, u32 b, u32 c, u32 d);
 extern void G2x_SetBlendBrightness_(u32 addr, int plane, int brightness);
 extern void G2x_SetBlendBrightnessExt_(u32 reg, int a, int b, int c, int d, int e);
 extern void DWCi_WindowG2x_ChangeBlendBrightness_(u32 addr, int brightness);
@@ -202,9 +202,9 @@ void FLD_VREQ_ApplyBlendNone(void *params, int isMain)
 void FLD_VREQ_ApplyBlendAlpha(int *params, int isMain)
 {
     if (isMain) {
-        G2x_SetBlendAlpha_(_REG_MAIN_BLDCNT, params[0], params[1], params[2], params[3]);
+        G2x_SetBlendAlpha_((u32 *)_REG_MAIN_BLDCNT, params[0], params[1], params[2], params[3]);
     } else {
-        G2x_SetBlendAlpha_(_REG_SUB_BLDCNT, params[0], params[1], params[2], params[3]);
+        G2x_SetBlendAlpha_((u32 *)_REG_SUB_BLDCNT, params[0], params[1], params[2], params[3]);
     }
 }
 

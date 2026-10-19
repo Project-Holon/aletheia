@@ -33,30 +33,33 @@
 struct GameSystem;
 struct GameData;
 struct GimmickWork;
+struct FieldMap;
 
-extern struct GameSystem *FIELDMAP_GetGameSystem(void *fieldMap);
+extern struct GameSystem *FIELDMAP_GetGameSystem(struct FieldMap *fieldMap);
 extern struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
-extern struct GimmickWork *GAME_DATA_GetFieldSave(struct GameData *gameData);
+extern u8 *GAME_DATA_GetFieldSave(struct GameData *gameData);
 extern s32 *GIMMICK_WORK_GetWork(struct GimmickWork *gimmickWork, u32 slot);
 extern void *FIELDMAP_GetExpObj(void *fieldMap);
 extern void FLD_EXP_OBJ_AddUnitFromArchive(void *expObj, void *unitDesc, int b);
 extern VecFx32 *FLD_EXP_OBJ_GetModelStatus(void *expObj, unsigned unit, int model);
 extern void FLD_EXP_OBJ_SetModelCullDraw(void *expObj, int unit, int model, int visible);
-extern void FLD_EXP_OBJ_SetAnimeEnabled(void *expObj, int unit, int model, int animeIdx, int enabled);
-extern void FLD_EXP_OBJ_SetModelHidden(void *expObj, int unit, int model, int hidden);
-extern void FLD_EXP_OBJ_RemoveUnit(void *expObj, unsigned short unit);
+struct FldExpObjCnt;
+extern void FLD_EXP_OBJ_SetAnimeEnabled(struct FldExpObjCnt *cnt, int unitIdx, int modelIdx, int animeIdx, int enable);
+extern void FLD_EXP_OBJ_SetModelHidden(struct FldExpObjCnt *cnt, int unitIdx, int modelIdx, int hidden);
+extern void FLD_EXP_OBJ_RemoveUnit(struct FldExpObjCnt *cnt, unsigned short unitIdx);
 void FIELD_GIMMICK_62_Init(void *fieldMap);
 void FIELD_GIMMICK_62_Exit(void *fieldMap);
 extern VecFx32 gFieldGimmick62UnitSetup;
 extern VecFx32 gFieldGimmick62ModelPos;
-extern void FLD_EXP_OBJ_UpdateAnimes(void *expObj);
+struct FldExpObjCnt;
+extern void FLD_EXP_OBJ_UpdateAnimes(struct FldExpObjCnt *cnt);
 
 void FIELD_GIMMICK_62_Init(void *fieldMap)
 {
     s32 *hideFlag;
     void *expObj;
 
-    hideFlag = GIMMICK_WORK_GetWork(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), FIELD_GIMMICK_62_WORK_SLOT);
+    hideFlag = GIMMICK_WORK_GetWork((struct GimmickWork *)GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))), FIELD_GIMMICK_62_WORK_SLOT);
     expObj = FIELDMAP_GetExpObj(fieldMap);
     FLD_EXP_OBJ_AddUnitFromArchive(expObj, &gFieldGimmick62UnitSetup, 0);
     *FLD_EXP_OBJ_GetModelStatus(expObj, 0, 0) = gFieldGimmick62ModelPos;

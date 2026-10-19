@@ -103,45 +103,54 @@ struct StrBuf;
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void MI_CpuFill8(void *p, u32 v, u32 n);
 extern u32 GFL_HEAP_Free(void *p);
-extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
+extern void *ARC_TOOL_CreateHandle(u32 archiveID, u16 heapID);
 extern void ARC_TOOL_DeleteHandle(void *arc);
-extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *arc, u32 plttId, u32 target, u32 offset, u32 size, u32 heapId);
-extern u32 ARC_UTIL_RegisterObjCharFromHandle(void *arc, u32 charId, u32 layer, u32 offset, u32 size, u32 heapId);
+extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *arc, u32 memberIdx, u32 kind, u32 dest, u32 size, u16 flags);
+extern u32 ARC_UTIL_RegisterObjCharFromHandle(void *arc, u32 memberIdx, u32 bgId, u32 size, u32 heapID, u16 flags);
 extern void BG_SYS_FreeTileRun(u32 layer, u32 offset, u32 size);
 extern void BG_SYS_FillTileMap(u8 layer, u8 x, u8 y, u8 width, u8 height, u8 plttSlot);
-extern void BG_SYS_PushTile(u8 layer);
+extern void BG_SYS_PushTile(u32 index);
 extern void CLACT_SetActorAutoAnim(struct Actor *actor, u32 value);
 extern void CLACT_DeleteActor(struct Actor *actor);
 extern u32 TOUCHPANEL_GetPointTrg(u32 *touchX, u32 *touchY);
 extern void UI_SetInputMode(u8 inputMode);
 extern u32 KEY_GetTrg(void);
 extern void GFL_USE_PlaySeDefaultVolume(u32 seId);
-extern struct CharBuf *BMP_WIN_GetBmp(struct TextWindow *window);
+struct BmpWin;
+struct Bmp;
+extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *win);
 extern void PRINTSYS_PrintQueColor(struct PrintSys *printer, struct CharBuf *chars, s16 x, s16 y, struct StrBuf *text, u32 fontId, u16 color);
 extern void CLACT_SetActorDrawEnable(struct Actor *actor, u32 value);
 extern void CLACT_SetActorBgPriority(struct Actor *actor, unsigned int priority);
-extern u32 PRINTSYS_MeasureWidestLine(struct StrBuf *text, u32 fontId, u32 spacing);
-extern void BG_SYS_FreeSlot(u32 layer);
-extern u32 ARC_TOOL_GetHandleMemberSize(void *arc, u32 member);
-extern void ARC_TOOL_ReadHandleMember(void *arc, u32 member, void *dest);
-extern s32 NNS_G2dGetUnpackedPaletteData(void *file, void **out);
+struct GfFont;
+struct Strbuf;
+extern u32 PRINTSYS_MeasureWidestLine(struct Strbuf *text, struct GfFont *font, unsigned int spacing);
+extern void BG_SYS_FreeSlot(u8 idx);
+struct ArcHandle;
+extern u32 ARC_TOOL_GetHandleMemberSize(struct ArcHandle *arc, u32 memberIdx);
+extern void ARC_TOOL_ReadHandleMember(struct ArcHandle *arc, u32 memberIdx, void *dst);
+struct NitroFileHeader;
+extern s32 NNS_G2dGetUnpackedPaletteData(struct NitroFileHeader *file, void **out);
 extern void ARC_UTIL_UploadBgPaletteFromHandle(void *arc, u32 mapId, u32 layer, u32 tileOffset, u32 size, u32 blockOffset, u16 heapId);
 extern void BG_SYS_SetPlaneVisible(unsigned char layer, unsigned char enable);
 extern void ARC_UTIL_UploadPaletteFromArchiveWhole(u32 arcId, u32 plttId, u32 target, u32 offset, u32 size, u16 heapId);
-extern struct TextWindow *BMP_WIN_Create(u32 layer, u32 x, u32 y, u32 tiles, u8 height, u8 plttSlot, u8 flags);
-extern void BMP_Clear(struct CharBuf *chars, u8 fill);
+struct BmpWin;
+extern struct BmpWin *BMP_WIN_Create(u32 bgLayer, u32 posX, u32 posY, u8 width, u8 height, u8 palette, u8 allocDir);
+extern void BMP_Clear(struct Bmp *bmp, unsigned char value);
 extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
 extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
-extern u32 BMP_WIN_Delete(struct TextWindow *window);
+extern u32 BMP_WIN_Delete(struct BmpWin *win);
 extern void CLACT_AddActorSurfacePos(struct Actor *actor, YesNoPoint *pos, u16 screen);
-extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintSys *printer, struct CharBuf *chars);
-extern void BMP_WIN_TransferChars(struct TextWindow *window);
-extern void BMP_WIN_MakeScreen(struct TextWindow *window);
-extern u8 BMP_WIN_GetBgLayer(struct TextWindow *window);
+struct Bmp;
+struct PrintQueue;
+extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintQueue *queue, struct Bmp *bmp);
+extern void BMP_WIN_TransferChars(struct BmpWin *win);
+extern void BMP_WIN_MakeScreen(struct BmpWin *win);
+extern u8 BMP_WIN_GetBgLayer(struct BmpWin *win);
 extern void BG_SYS_MarkTileDirty(u32 bit);
 extern u8 UI_GetInputMode(void);
 extern int TOUCHPANEL_HitPoint(YesNoTouchTable *table, u32 x, u32 y);
-extern s32 NNS_GfdRegisterNewVramTransferTask(u32 region, u32 offset, const void *src, s32 size);
+extern s32 NNS_GfdRegisterNewVramTransferTask(void *pTaskFunc, u32 dstOffset, u32 srcAddr, s32 szByte);
 void UI_SCENE_LoadActorGfx(ActorGfxSet *out, ActorGfxDesc *desc, void *actorSys, u16 heapId);
 void UI_SCENE_FreeActorGfx(ActorGfxSet *gfx);
 struct Actor *UI_SCENE_CreateActor(ActorGfxSet *gfx, void *actorSys, u16 x, u16 y, u8 animIndex, u16 heapId);
@@ -222,10 +231,10 @@ YesNoMenu *YESNO_MENU_Create(u16 heapId, u32 textBgLayer, u32 actorPriority, u32
     YESNO_MENU_CopyPalette(menu->plttTarget, menu->noPlttSlot, menu->palette);
     BG_SYS_SetPlaneVisible(menu->buttonBgLayer, 0);
     ARC_UTIL_UploadPaletteFromArchiveWhole(0x17, 5, menu->plttTarget, menu->textPlttSlot << 5, 0x20, menu->heapId);
-    menu->windowUpper = BMP_WIN_Create(menu->textBgLayer, 0, 5, 0x20, 6, menu->textPlttSlot, 1);
-    BMP_Clear(BMP_WIN_GetBmp(menu->windowUpper), 0);
-    menu->windowLower = BMP_WIN_Create(menu->textBgLayer, 0, 0xb, 0x20, 6, menu->textPlttSlot, 1);
-    BMP_Clear(BMP_WIN_GetBmp(menu->windowLower), 0);
+    menu->windowUpper = (struct TextWindow *)BMP_WIN_Create(menu->textBgLayer, 0, 5, 0x20, 6, menu->textPlttSlot, 1);
+    BMP_Clear(BMP_WIN_GetBmp((struct BmpWin *)menu->windowUpper), 0);
+    menu->windowLower = (struct TextWindow *)BMP_WIN_Create(menu->textBgLayer, 0, 0xb, 0x20, 6, menu->textPlttSlot, 1);
+    BMP_Clear(BMP_WIN_GetBmp((struct BmpWin *)menu->windowLower), 0);
     BG_SYS_SetPlaneVisible(menu->textBgLayer, 0);
     desc.screen = menu->isSubScreen;
     desc.flags = 0;
@@ -262,8 +271,8 @@ void YESNO_MENU_Delete(YesNoMenu *menu)
         CLACT_DeleteActor(menu->buttonActors[i]);
     }
     UI_SCENE_FreeActorGfx(&menu->gfx);
-    BMP_WIN_Delete(menu->windowUpper);
-    BMP_WIN_Delete(menu->windowLower);
+    BMP_WIN_Delete((struct BmpWin *)menu->windowUpper);
+    BMP_WIN_Delete((struct BmpWin *)menu->windowLower);
     tileAlloc = menu->buttonTileAlloc;
     BG_SYS_FreeTileRun(menu->buttonBgLayer, (u16)tileAlloc, (u16)(tileAlloc >> 16));
     GFL_HEAP_Free(menu);
@@ -289,27 +298,27 @@ void YESNO_MENU_Start(YesNoMenu *menu, struct StrBuf *upperText, struct StrBuf *
     YESNO_MENU_CopyPalette(menu->plttTarget, menu->yesPlttSlot, menu->palette);
     YESNO_MENU_CopyPalette(menu->plttTarget, menu->noPlttSlot, menu->palette);
     BG_SYS_SetPlaneVisible(menu->buttonBgLayer, 1);
-    BMP_Clear(BMP_WIN_GetBmp(menu->windowUpper), 0);
-    BMP_Clear(BMP_WIN_GetBmp(menu->windowLower), 0);
-    textWidth = PRINTSYS_MeasureWidestLine(upperText, menu->fontId, 0);
-    PRINTSYS_PrintQueColor(menu->printer, BMP_WIN_GetBmp(menu->windowUpper), (u16)((0x100 - textWidth) / 2), 0x10, upperText, menu->fontId, 0x3c40);
-    textWidth = PRINTSYS_MeasureWidestLine(lowerText, menu->fontId, 0);
-    PRINTSYS_PrintQueColor(menu->printer, BMP_WIN_GetBmp(menu->windowLower), (u16)((0x100 - textWidth) / 2), 0x10, lowerText, menu->fontId, 0x3c40);
+    BMP_Clear(BMP_WIN_GetBmp((struct BmpWin *)menu->windowUpper), 0);
+    BMP_Clear(BMP_WIN_GetBmp((struct BmpWin *)menu->windowLower), 0);
+    textWidth = PRINTSYS_MeasureWidestLine((struct Strbuf *)upperText, (struct GfFont *)menu->fontId, 0);
+    PRINTSYS_PrintQueColor(menu->printer, (struct CharBuf *)BMP_WIN_GetBmp((struct BmpWin *)menu->windowUpper), (u16)((0x100 - textWidth) / 2), 0x10, upperText, menu->fontId, 0x3c40);
+    textWidth = PRINTSYS_MeasureWidestLine((struct Strbuf *)lowerText, (struct GfFont *)menu->fontId, 0);
+    PRINTSYS_PrintQueColor(menu->printer, (struct CharBuf *)BMP_WIN_GetBmp((struct BmpWin *)menu->windowLower), (u16)((0x100 - textWidth) / 2), 0x10, lowerText, menu->fontId, 0x3c40);
     menu->upperDone = 0;
     menu->lowerDone = 0;
     BG_SYS_SetPlaneVisible(menu->textBgLayer, 1);
-    if (menu->upperDone == 0 && PRINTSYS_QUE_IsExistTarget(menu->printer, BMP_WIN_GetBmp(menu->windowUpper)) == 0) {
+    if (menu->upperDone == 0 && PRINTSYS_QUE_IsExistTarget((struct PrintQueue *)menu->printer, (struct Bmp *)(BMP_WIN_GetBmp((struct BmpWin *)menu->windowUpper))) == 0) {
         window = menu->windowUpper;
-        BMP_WIN_TransferChars(window);
-        BMP_WIN_MakeScreen(window);
-        BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer(window));
+        BMP_WIN_TransferChars((struct BmpWin *)window);
+        BMP_WIN_MakeScreen((struct BmpWin *)window);
+        BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer((struct BmpWin *)window));
         menu->upperDone = 1;
     }
-    if (menu->lowerDone == 0 && PRINTSYS_QUE_IsExistTarget(menu->printer, BMP_WIN_GetBmp(menu->windowLower)) == 0) {
+    if (menu->lowerDone == 0 && PRINTSYS_QUE_IsExistTarget((struct PrintQueue *)menu->printer, (struct Bmp *)(BMP_WIN_GetBmp((struct BmpWin *)menu->windowLower))) == 0) {
         window = menu->windowLower;
-        BMP_WIN_TransferChars(window);
-        BMP_WIN_MakeScreen(window);
-        BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer(window));
+        BMP_WIN_TransferChars((struct BmpWin *)window);
+        BMP_WIN_MakeScreen((struct BmpWin *)window);
+        BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer((struct BmpWin *)window));
         menu->lowerDone = 1;
     }
     if (UI_GetInputMode() == YESNO_MENU_INPUT_KEYS) {
@@ -329,16 +338,16 @@ void YESNO_MENU_Close(YesNoMenu *menu)
 
     BG_SYS_SetPlaneVisible(menu->buttonBgLayer, 0);
     BG_SYS_SetPlaneVisible(menu->textBgLayer, 0);
-    BMP_Clear(BMP_WIN_GetBmp(menu->windowUpper), 0);
-    BMP_Clear(BMP_WIN_GetBmp(menu->windowLower), 0);
+    BMP_Clear(BMP_WIN_GetBmp((struct BmpWin *)menu->windowUpper), 0);
+    BMP_Clear(BMP_WIN_GetBmp((struct BmpWin *)menu->windowLower), 0);
     window = menu->windowUpper;
-    BMP_WIN_TransferChars(window);
-    BMP_WIN_MakeScreen(window);
-    BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer(window));
+    BMP_WIN_TransferChars((struct BmpWin *)window);
+    BMP_WIN_MakeScreen((struct BmpWin *)window);
+    BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer((struct BmpWin *)window));
     window = menu->windowLower;
-    BMP_WIN_TransferChars(window);
-    BMP_WIN_MakeScreen(window);
-    BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer(window));
+    BMP_WIN_TransferChars((struct BmpWin *)window);
+    BMP_WIN_MakeScreen((struct BmpWin *)window);
+    BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer((struct BmpWin *)window));
     for (i = 0; i < YESNO_MENU_BUTTON_COUNT; i++) {
         CLACT_SetActorDrawEnable(menu->buttonActors[i], 0);
         CLACT_SetActorAutoAnim(menu->buttonActors[i], 0);
@@ -461,18 +470,18 @@ void YESNO_MENU_Update(YesNoMenu *menu)
         break;
     }
     if (menu->state != YESNO_MENU_STATE_IDLE) {
-        if (menu->upperDone == 0 && PRINTSYS_QUE_IsExistTarget(menu->printer, BMP_WIN_GetBmp(menu->windowUpper)) == 0) {
+        if (menu->upperDone == 0 && PRINTSYS_QUE_IsExistTarget((struct PrintQueue *)menu->printer, (struct Bmp *)(BMP_WIN_GetBmp((struct BmpWin *)menu->windowUpper))) == 0) {
             window = menu->windowUpper;
-            BMP_WIN_TransferChars(window);
-            BMP_WIN_MakeScreen(window);
-            BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer(window));
+            BMP_WIN_TransferChars((struct BmpWin *)window);
+            BMP_WIN_MakeScreen((struct BmpWin *)window);
+            BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer((struct BmpWin *)window));
             menu->upperDone = 1;
         }
-        if (menu->lowerDone == 0 && PRINTSYS_QUE_IsExistTarget(menu->printer, BMP_WIN_GetBmp(menu->windowLower)) == 0) {
+        if (menu->lowerDone == 0 && PRINTSYS_QUE_IsExistTarget((struct PrintQueue *)menu->printer, (struct Bmp *)(BMP_WIN_GetBmp((struct BmpWin *)menu->windowLower))) == 0) {
             window = menu->windowLower;
-            BMP_WIN_TransferChars(window);
-            BMP_WIN_MakeScreen(window);
-            BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer(window));
+            BMP_WIN_TransferChars((struct BmpWin *)window);
+            BMP_WIN_MakeScreen((struct BmpWin *)window);
+            BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer((struct BmpWin *)window));
             menu->lowerDone = 1;
         }
     }
@@ -524,5 +533,5 @@ void YESNO_MENU_CopyPalette(int target, u8 slot, void *colors)
     default:
         return;
     }
-    NNS_GfdRegisterNewVramTransferTask(region, slot << 5, colors, 0x20);
+    (void *)NNS_GfdRegisterNewVramTransferTask((void *)region, (u32)(slot << 5), (u32)colors, 0x20);
 }

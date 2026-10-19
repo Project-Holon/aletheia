@@ -18,6 +18,7 @@ typedef signed int s32;
 /* Sources in a subdirectory (unplaced/) include the ov010 header themselves,
  * since this relative path is resolved from the source file's directory. */
 #ifndef ALETHEIA_OV010_COMM_PLAYER_TYPES_H
+#include "../version.h"
 #include "../ov010/comm_player_types.h"
 #endif
 
@@ -40,7 +41,7 @@ struct Strbuf;
 #define UNION_CHAT_LOG_MAX       30
 #define UNION_RECV_BUFFER_SIZE   0x800
 #define UNION_BEACON_PC_LIFE     450
-#define UNION_PM_VERSION         0x15
+#define UNION_PM_VERSION         PM_VERSION_ID
 #define UNION_LANGUAGE           2
 #define UNION_STATUS_NONE        0x1B
 #define UNION_PLAY_CATEGORY_COLOSSEUM 0x2A

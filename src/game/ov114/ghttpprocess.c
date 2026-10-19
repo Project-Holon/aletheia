@@ -140,18 +140,19 @@ typedef struct {
 
 extern int strcspn(const u8 *s, const u8 *reject);
 extern char *goastrdup(char *);
-extern int gsDebugFormat(int index, char *table, int mask, const char *fmt, ...);
+extern void gsDebugFormat(int cat, int type, int level, char *fmt, ...);
 extern void ghiCallProgressCallback(GHIConnection *, char *, int);
 extern void SocketStartUp();
 extern int ghttpSetRequestEncryptionEngine(int, int);
-extern int inet_addr(int a);
+extern int inet_addr(char *addrString);
 extern int gsiStartResolvingHostname(char *hostname, struct GSIResolveHostnameInfo **handle);
 extern int gsiGetResolvedIP(int *p);
 extern int socket(int pf, int type, int protocol);
 extern int GOAGetLastError(int socket);
 extern int SetSockBlocking(int sock, int isblocking);
 extern int SetReceiveBufferSize(int sock, int size);
-extern int connect(int sock, void *addr, int len);
+struct SOCSockAddr;
+extern int connect(int sock, struct SOCSockAddr *addr, int len);
 extern int GSISocketSelect(int theSocket, int *theReadFlag, int *theWriteFlag, int *theExceptFlag);
 extern int ghiSendBufferedData(struct GHIConnection *connection);
 extern void ghiResetBuffer(GHIBuffer *buffer);
@@ -253,10 +254,10 @@ extern char sGhttpReceiveFileIdleTimeout[];
 
 
 extern unsigned long strlen(const char *p);
-extern int strncmp(const char *s1, const char *s2, unsigned int n);
-extern char *strchr(const char *, int);
-extern char *strstr(const char *s, const char *find);
-extern int atoi(const char *s);
+extern int strncmp(unsigned char *s1, unsigned char *s2, unsigned int n);
+extern unsigned char *strchr(unsigned char *s, int c);
+extern unsigned char *strstr(unsigned char *s1, unsigned char *s2);
+extern int atoi(u32 s);
 extern void *memmove(void *dst, const void *src, unsigned long n);
 /*
  * sdk:      ghiParseURL (libdwcgsghttp.TWL.HYB.a ghttpprocess.o)
@@ -274,10 +275,10 @@ GHTTPBool ghiParseURL(GHIConnection *connection)
     URL = connection->URL;
     if (URL == 0)
         return GHTTPFalse;
-    if (strncmp((const char *)URL, (const char *)sGhttpHttp2, 7) == 0) {
+    if (strncmp((unsigned char *)URL, (unsigned char *)sGhttpHttp2, 7) == 0) {
         connection->protocol = 0;
         URL += 7;
-    } else if (strncmp((const char *)URL, (const char *)sGhttpHttps3, 8) == 0) {
+    } else if (strncmp((unsigned char *)URL, (unsigned char *)sGhttpHttps3, 8) == 0) {
         connection->protocol = 1;
         URL += 8;
     } else {
@@ -293,7 +294,7 @@ GHTTPBool ghiParseURL(GHIConnection *connection)
     URL += nIndex;
     if (*URL == ':') {
         URL++;
-        connection->serverPort = (unsigned short)atoi((const char *)URL);
+        connection->serverPort = (unsigned short)atoi((u32)URL);
         if (connection->serverPort == 0)
             return GHTTPFalse;
         while (*++URL != 0 && *URL != '/')
@@ -307,7 +308,7 @@ GHTTPBool ghiParseURL(GHIConnection *connection)
         URL = sGhttpRootPath;
     path = goastrdup(URL);
     connection->requestPath = path;
-    while ((p = strchr(path, ' ')) != 0) {
+    while ((p = (char *)strchr((unsigned char *)path, ' ')) != 0) {
         *p = '+';
         path = connection->requestPath;
     }
@@ -327,7 +328,7 @@ void ghiDoSocketInit(GHIConnection *connection)
 {
     int aResult;
 
-    gsDebugFormat(8, (char *)3, 16, sGhttpSocketInitialization);
+    gsDebugFormat((int)8, (int)3, 16, sGhttpSocketInitialization);
     ghiCallProgressCallback(connection, 0, 0);
     SocketStartUp();
     if (ghiParseURL(connection) == GHTTPFalse) {
@@ -343,10 +344,10 @@ void ghiDoSocketInit(GHIConnection *connection)
         gsDebugFormat(8, 0, 2, sGhttpEncryptionEngineSetForUnsecured);
     }
     if (connection->protocol == 1 && connection->encryptor.interfaceCreated == 0) {
-        gsDebugFormat(8, (char *)3, 15, sGhttpInitializingSslEngine);
+        gsDebugFormat((int)8, (int)3, 15, sGhttpInitializingSslEngine);
         aResult = connection->encryptor.initFunc(connection, &connection->encryptor);
         if (aResult == 3) {
-            gsDebugFormat(8, (char *)3, 2, sGhttpFailedToInitializeSslEngine);
+            gsDebugFormat((int)8, (int)3, 2, sGhttpFailedToInitializeSslEngine);
             connection->completed = 1;
             connection->result = 17;
             return;
@@ -372,17 +373,17 @@ void ghiDoHostLookup(GHIConnection *connection)
         ghiCallProgressCallback(connection, 0, 0);
         return;
     }
-    gsDebugFormat(8, (char *)3, 16, sGhttpHostLookup);
+    gsDebugFormat((int)8, (int)3, 16, sGhttpHostLookup);
     server = connection->proxyOverrideServer;
     if (server == 0) {
         server = gGhttpProxyServer;
         if (server == 0)
             server = connection->serverAddress;
     }
-    connection->serverIP = inet_addr((int)server);
+    connection->serverIP = inet_addr(server);
     if (connection->serverIP == (unsigned int)-1) {
         if (gsiStartResolvingHostname(server, (struct GSIResolveHostnameInfo **)(&connection->handle)) == -1) {
-            gsDebugFormat(8, (char *)3, 1, sGhttpThreadCreationFailed);
+            gsDebugFormat((int)8, (int)3, 1, sGhttpThreadCreationFailed);
             connection->handle = 0;
             connection->completed = 1;
             connection->result = 4;
@@ -409,7 +410,7 @@ void ghiDoLookupPending(GHIConnection *connection)
 {
     connection->serverIP = gsiGetResolvedIP(connection->handle);
     if (connection->serverIP == (unsigned int)-1) {
-        gsDebugFormat(8, (char *)3, 1, sGhttpErrorResolvingHostname);
+        gsDebugFormat((int)8, (int)3, 1, sGhttpErrorResolvingHostname);
         connection->handle = 0;
         connection->completed = 1;
         connection->result = 4;
@@ -421,7 +422,7 @@ void ghiDoLookupPending(GHIConnection *connection)
         return;
     }
     connection->handle = 0;
-    gsDebugFormat(8, (char *)3, 16, sGhttpDnsLookupComplete);
+    gsDebugFormat((int)8, (int)3, 16, sGhttpDnsLookupComplete);
     connection->state = 3;
     ghiCallProgressCallback(connection, 0, 0);
 }
@@ -441,7 +442,7 @@ void ghiDoConnecting(GHIConnection *connection)
     int writeFlag;
     int exceptFlag;
 
-    gsDebugFormat(8, (char *)3, 0x10, sGhttpConnecting);
+    gsDebugFormat((int)8, (int)3, 0x10, sGhttpConnecting);
 
     if (connection->socket == -1)
     {
@@ -488,7 +489,7 @@ void ghiDoConnecting(GHIConnection *connection)
             address.port = SOC_HTONS(connection->serverPort);
         address.addr = connection->serverIP;
 
-        rcode = connect(connection->socket, &address, sizeof(address));
+        rcode = connect(connection->socket, (struct SOCSockAddr *)(&address), sizeof(address));
         if (rcode == -1)
         {
             socketError = GOAGetLastError(connection->socket);
@@ -538,7 +539,7 @@ void ghiDoSecuringSession(GHIConnection *connection)
 
     if (!connection->encryptor.initialized)
     {
-        gsDebugFormat(8, (char *)3, 0x10, sGhttpSecuringSession);
+        gsDebugFormat((int)8, (int)3, 0x10, sGhttpSecuringSession);
         if (connection->encryptor.startFunc != 0)
         {
             if (connection->encryptor.startFunc(connection, &connection->encryptor) == 3)
@@ -619,7 +620,7 @@ void ghiDoSendingRequest(GHIConnection *connection)
     GHIBuffer *writeBuffer;
     char *requestType;
 
-    gsDebugFormat(8, (char *)3, 0x10, sGhttpSendingRequest);
+    gsDebugFormat((int)8, (int)3, 0x10, sGhttpSendingRequest);
 
     if (connection->sendBuffer.len == 0)
     {
@@ -655,7 +656,7 @@ void ghiDoSendingRequest(GHIConnection *connection)
             ghiAppendDataToBuffer(writeBuffer, sGhttpLineEndProcess, 2);
         }
 
-        if (connection->sendHeaders == 0 || strstr(connection->sendHeaders, sGhttpUserAgent) == 0)
+        if (connection->sendHeaders == 0 || strstr((unsigned char *)connection->sendHeaders, (unsigned char *)sGhttpUserAgent) == 0)
             ghiAppendHeaderToBuffer(writeBuffer, sGhttpUserAgent, sGhttpGamespyhttp);
 
         if (connection->persistConnection)
@@ -712,7 +713,7 @@ void ghiDoPosting(GHIConnection *connection)
     int rcode;
     int readFlag;
 
-    gsDebugFormat(8, (char *)3, 16, sGhttpPosting);
+    gsDebugFormat((int)8, (int)3, 16, sGhttpPosting);
     oldBytesPosted = connection->postingState.bytesPosted;
     result = ghiPostDoPosting(connection);
     if (result == 0) {
@@ -752,7 +753,7 @@ void ghiDoWaiting(GHIConnection *connection)
     int readFlag;
     int exceptFlag;
 
-    gsDebugFormat(8, (char *)3, 16, sGhttpWaiting);
+    gsDebugFormat((int)8, (int)3, 16, sGhttpWaiting);
     rcode = GSISocketSelect(connection->socket, &readFlag, 0, &exceptFlag);
     if (rcode == -1 || (rcode == 1 && exceptFlag)) {
         connection->completed = 1;
@@ -818,7 +819,7 @@ void ghiDoReceivingStatus(GHIConnection *connection)
     char *endOfStatus;
     int statusLength;
 
-    gsDebugFormat(8, (char *)3, 0x10, sGhttpReceivingStatus);
+    gsDebugFormat((int)8, (int)3, 0x10, sGhttpReceivingStatus);
 
     bufferLen = sizeof(buffer);
     result = ghiDoReceive(connection, buffer, &bufferLen);
@@ -845,7 +846,7 @@ void ghiDoReceivingStatus(GHIConnection *connection)
         }
     }
 
-    endOfStatus = strstr(connection->recvBuffer.data, sGhttpLineEndProcess);
+    endOfStatus = (char *)strstr((unsigned char *)connection->recvBuffer.data, (unsigned char *)sGhttpLineEndProcess);
     if (endOfStatus != 0)
     {
         *endOfStatus = '\0';
@@ -958,7 +959,7 @@ int ghiProcessIncomingFileData(GHIConnection *connection, char *data, int len)
         {
             if (connection->chunkReadingState == 0)
             {
-                endOfHeader = strchr(data, '\n');
+                endOfHeader = (char *)strchr((unsigned char *)data, '\n');
                 if (endOfHeader != 0)
                 {
                     ghiAppendToChunkHeaderBuffer(connection, data, endOfHeader - data);
@@ -1005,7 +1006,7 @@ int ghiProcessIncomingFileData(GHIConnection *connection, char *data, int len)
             }
             else if (connection->chunkReadingState == 2)
             {
-                endOfFooter = strchr(data, '\n');
+                endOfFooter = (char *)strchr((unsigned char *)data, '\n');
                 if (endOfFooter == 0)
                     return 1;
                 endOfFooter++;
@@ -1111,15 +1112,15 @@ void ghiDoReceivingHeaders(GHIConnection *connection)
 
     headers = connection->recvBuffer.data + connection->headerStringIndex;
     if (connection->statusCode / 100 == 1 &&
-        (strncmp(headers, sGhttpLineEndProcess, 2) == 0 ||
-         strncmp(headers, sGhttpDoubleLf, 2) == 0)) {
+        (strncmp((unsigned char *)headers, (unsigned char *)sGhttpLineEndProcess, 2) == 0 ||
+         strncmp((unsigned char *)headers, (unsigned char *)sGhttpDoubleLf, 2) == 0)) {
         endOfHeaders = headers;
         hasHeaders = 0;
     } else {
-        endOfHeaders = strstr(headers, sGhttpDoubleCrLf);
+        endOfHeaders = (char *)strstr((unsigned char *)headers, (unsigned char *)sGhttpDoubleCrLf);
     }
     if (endOfHeaders == 0)
-        endOfHeaders = strstr(headers, sGhttpDoubleLf);
+        endOfHeaders = (char *)strstr((unsigned char *)headers, (unsigned char *)sGhttpDoubleLf);
     if (endOfHeaders != 0) {
         if (hasHeaders == 1)
             endOfHeaders += 2;
@@ -1156,7 +1157,7 @@ void ghiDoReceivingHeaders(GHIConnection *connection)
                 ghiFreeTempBuffer(buffer);
                 return;
             }
-            location = strstr(headers, sGhttpLocation);
+            location = (char *)strstr((unsigned char *)headers, (unsigned char *)sGhttpLocation);
             if (location != 0) {
                 location += 9;
                 while (ISSPACE(*location))
@@ -1185,7 +1186,7 @@ void ghiDoReceivingHeaders(GHIConnection *connection)
             }
         }
 
-        contentLength = strstr(headers, sGhttpContentLength2);
+        contentLength = (char *)strstr((unsigned char *)headers, (unsigned char *)sGhttpContentLength2);
         if (contentLength != 0) {
             char *pEnd;
             char *pStart;
@@ -1203,16 +1204,16 @@ void ghiDoReceivingHeaders(GHIConnection *connection)
                 ghiFreeTempBuffer(buffer);
                 return;
             }
-            if (len == pEnd - pStart && strncmp(pStart, szMaxSize, pEnd - pStart) >= 0) {
+            if (len == pEnd - pStart && strncmp((unsigned char *)pStart, (unsigned char *)szMaxSize, pEnd - pStart) >= 0) {
                 connection->completed = 1;
                 connection->result = 0x10;
                 ghiFreeTempBuffer(buffer);
                 return;
             }
-            connection->totalSize = atoi(pStart);
+            connection->totalSize = atoi((u32)pStart);
         }
 
-        connection->chunkedTransfer = (strstr(headers, sGhttpTransferEncodingChunked) != 0) ? 1 : 0;
+        connection->chunkedTransfer = (strstr((unsigned char *)headers, (unsigned char *)sGhttpTransferEncodingChunked) != 0) ? 1 : 0;
         if (connection->chunkedTransfer) {
             connection->chunkHeader[0] = 0;
             connection->chunkHeaderLen = 0;
@@ -1267,7 +1268,7 @@ void ghiDoReceivingFile(GHIConnection *connection)
         return;
     }
 
-    gsDebugFormat(8, (char *)3, 0x10, sGhttpReceivingFile);
+    gsDebugFormat((int)8, (int)3, 0x10, sGhttpReceivingFile);
 
     while (!connection->completed && runningTime < connection->maxRecvTime)
     {

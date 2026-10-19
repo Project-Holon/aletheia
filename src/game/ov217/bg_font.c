@@ -41,6 +41,9 @@
  *   BMP_WIN_GetWidth  0x02045738  arm
  *   PRINTSYS_MeasureWidestLine  0x0201D304  thumb
  *   BMP_WIN_Delete  0x020452E8  arm  arm9
+ *   _ffix                        0x0209C494  arm
+ *   _fflt                        0x0209BDBC  arm
+ *   _fmul                        0x0209C77C  arm
  */
 #include "research_shared_types.h"
 
@@ -75,13 +78,17 @@ struct BgTextLabel {
 };
 
 extern u32 GFL_HEAP_Free(void *mem);
-extern void *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
-extern void PRINTSYS_PrintColor(void *bmp, s16 x, s16 y, void *text, void *font, u16 color);
+struct MsgBank;
+struct Strbuf;
+extern struct Strbuf *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
+struct GfFont;
+struct Bmp;
+extern void PRINTSYS_PrintColor(struct Bmp *bmp, short x, short y, struct Strbuf *str, struct GfFont *font, unsigned short color);
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern u32 BMP_WIN_Create(u32 bgLayer, u32 x, u32 y, u32 width, u8 height, u8 palette, u8 startChar);
+extern struct BmpWin *BMP_WIN_Create(unsigned int bgLayer, unsigned int posX, unsigned int posY, unsigned char width, unsigned char height, unsigned char palette, unsigned char allocDir);
 extern u32 BMP_WIN_Delete(struct BmpWin *win);
-extern void *BMP_WIN_GetBmp(struct BmpWin *win);
-extern void BMP_Clear(struct BmpPixels *pixels, u8 value);
+extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *win);
+extern void BMP_Clear(struct Bmp *bmp, unsigned char value);
 extern void BMP_WIN_TransferChars(struct BmpWin *win);
 extern void BMP_WIN_MakeScreen(struct BmpWin *win);
 extern u8 BMP_WIN_GetBgLayer(struct BmpWin *win);
@@ -94,7 +101,7 @@ extern u8 BMP_WIN_GetDispWidth(struct BmpWin *win);
 extern u8 BMP_WIN_GetDispHeight(struct BmpWin *win);
 extern void BG_SYS_FillTileMap(u32 bgLayer, u8 x, u8 y, u8 width, u8 height, u8 palette);
 extern u8 BMP_WIN_GetWidth(struct BmpWin *win);
-extern u32 PRINTSYS_MeasureWidestLine(struct StrObj *text, u32 font, u32 spacing);
+extern u32 PRINTSYS_MeasureWidestLine(struct Strbuf *text, struct GfFont *font, unsigned int spacing);
 
 struct BgTextLabel *BgTextLabel_Create(const struct BgTextLabelConfig *config, u32 font, u32 msgBank, u32 heapId);
 void BgTextLabel_Destroy(struct BgTextLabel *label);
@@ -202,7 +209,7 @@ int BgTextLabel_GetCenterOffset(struct BgTextLabel *label, void *text)
     int offset;
     int space;
     space = BMP_WIN_GetWidth(label->window) * 8;
-    space = space - PRINTSYS_MeasureWidestLine((struct StrObj *)text, label->font, 0);
+    space = space - PRINTSYS_MeasureWidestLine((struct Strbuf *)text, (struct GfFont *)label->font, 0);
     offset = (int)(0.5f * (float)space);
     if (offset < 0) {
         offset = 0;

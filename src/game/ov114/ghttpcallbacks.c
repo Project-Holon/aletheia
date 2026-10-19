@@ -20,7 +20,7 @@
 #include "ghttp_types.h"
 
 extern int gsDebugFormat(int index, int table, int mask, const char *fmt, int arg);
-extern int ArrayLength(void *array);
+extern int ArrayLength(int *array);
 void ghiCallCompletedCallback(GHIConnection *connection);
 /*
  * sdk:      ghiCallProgressCallback (ghttpcallbacks)

@@ -102,6 +102,12 @@
  *   WEATHER_RequestChange  0x021A1BDC  thumb  ov021
  *   GAME_DATA_SetWeatherId  0x020129A0  thumb
  *   GFL_USE_ClearVBlankHook  0x0200566C  thumb  arm9
+ *   _fadd                        0x0209C95C  arm
+ *   _fdiv                        0x0209CE10  arm
+ *   _ffix                        0x0209C494  arm
+ *   _fgr                         0x0209BBB0  arm
+ *   _fmul                        0x0209C77C  arm
+ *   _fsub                        0x0209CB8C  arm
  */
 #include "symbol_map_shared_types.h"
 
@@ -232,45 +238,53 @@ typedef struct PmsInputSentence {
     u16 second;
 } PmsInputSentence;
 
-extern void *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
+extern struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
+struct SaveControl;
 
-extern void *GAME_DATA_GetSaveControl(struct GameData *gameData);
+extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gameData);
 
 extern void *SYMBOL_SAVE_GetBlock(void *saveControl);
+struct GameComm;
 
-extern u32 GAMESYSTEM_GetGameComm(const struct GameSystem *gameSystem);
+extern struct GameComm *GAMESYSTEM_GetGameComm(const struct GameSystem *gameSystem);
 
 extern u8 INTRUDE_COMM_GetPartnerSlot(void *comm, void *gameData);
 
 extern u8 SYMBOL_MAP_GetSymbolIndex(u8 *saveData);
 
 extern u8 SYMBOL_MAP_GetGroup(u8 *saveData);
+struct IntrudeCommSys;
 
-extern int INTRUDE_COMM_GetWorkIfRunning(int comm);
+extern struct IntrudeCommSys *INTRUDE_COMM_GetWorkIfRunning(struct GameComm *comm);
 
-extern u8 *INTRUDE_COMM_GetPartnerSymbolPage(u8 *link);
+extern u8 *INTRUDE_COMM_GetPartnerSymbolPage(struct IntrudeCommSys *linkState);
 
-extern int GAME_DATA_GetSymbolMapFlag(u8 *gameData);
+extern int GAME_DATA_GetSymbolMapFlag(struct GameData *gd);
 
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *fileName, u16 line);
+struct Entry32;
 
-extern u16 SYMBOL_MAP_GetEntryPage(SymbolMapEntry *entries, SymbolMapEntry *out, u32 capacity, int page, u8 *count);
+extern u16 SYMBOL_MAP_GetEntryPage(struct Entry32 *list, struct Entry32 *out, u32 cap, s32 page, u8 *n);
 
 extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
 
 extern struct GameTask *GAME_EVENT_Create(void *parent, void *reserved, void *mainFunc, u32 workSize);
+struct GameEvent;
 
-extern void *GAME_EVENT_GetWork(struct GameTask *task);
+extern void *GAME_EVENT_GetWork(struct GameEvent *event);
+struct CommProcParam;
 
-extern void EVENT_FIELD_PROCLINK_StartCommProc(void *work, void *gameSystem, u8 startFlag, u8 param);
+extern void EVENT_FIELD_PROCLINK_StartCommProc(struct CommProcParam *param, struct GameSystem *gameSystem, u8 kind, u8 sub);
 
-extern int GFL_HEAP_Free();
+extern u32 GFL_HEAP_Free(void *block);
 
-extern void GAME_EVENT_CallProc(struct GameTask *task, u32 overlayId, u32 procTable, u32 param);
+extern void GAME_EVENT_CallProc(struct GameEvent *parent, u32 overlayId, void *procData, void *param);
+struct ScrcmdWork;
+struct ScriptWork;
 
-extern void *SCRCMD_WORK_GetScriptWork(void *work);
+extern struct ScriptWork *SCRCMD_WORK_GetScriptWork(struct ScrcmdWork *work);
 
-extern void *SCRCMD_WORK_GetGameSystem(void *work);
+extern struct GameSystem *SCRCMD_WORK_GetGameSystem(struct ScrcmdWork *work);
 
 extern u8 *GAME_DATA_GetEventState(struct GameData *gameData);
 
@@ -278,29 +292,33 @@ extern u16 SCRIPT_WORK_ReadWorkValue(void *vm, void *work);
 
 extern u16 VM_ReadU16(struct ScriptVm *vm);
 
-extern u16 *SCRIPT_WORK_ReadWorkPointer(void *vm, void *work);
+extern u16 *SCRIPT_WORK_ReadWorkPointer(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
+struct PleasureBoatWork;
 
-extern u32 PLEASURE_BOAT_GetPassengerParam(void *eventState, u32 index);
+extern u32 PLEASURE_BOAT_GetPassengerParam(struct PleasureBoatWork *work, u32 index);
 
-extern u32 PLEASURE_BOAT_GetPassengerType(void *eventState, u32 index);
+extern u32 PLEASURE_BOAT_GetPassengerType(struct PleasureBoatWork *work, u32 index);
 
-extern u32 PLEASURE_BOAT_GetPassengerExtra(void *eventState, u32 index, u32 index2);
+extern u32 PLEASURE_BOAT_GetPassengerExtra(struct PleasureBoatWork *work, u32 index, u32 wordIndex);
 
-extern u32 PLEASURE_BOAT_GetPassengerOccupied(void *eventState, u32 index);
+extern u32 PLEASURE_BOAT_GetPassengerOccupied(struct PleasureBoatWork *work, u32 index);
 
 extern void SCRIPT_SYS_CallEvent(void *scriptSystem, void *task);
+struct WifiHistory;
 
-extern struct SymbolMapSave *WIFI_HISTORY_GetBlock(void *saveControl);
+extern struct WifiHistory *WIFI_HISTORY_GetBlock(struct SaveControl *saveControl);
 
-extern u32 WIFI_HISTORY_IsCountryVisited(const struct SymbolMapSave *save, u32 index);
+extern u32 WIFI_HISTORY_IsCountryVisited(struct WifiHistory *history, u32 country);
 
-extern u8 WIFI_HISTORY_GetFirstFreeEntry(const struct SymbolMapSave *save);
+extern u8 WIFI_HISTORY_GetFirstFreeEntry(struct WifiHistory *history);
+struct HistoryEntry;
 
-extern struct SymbolMapSaveEntry *WIFI_HISTORY_GetEntry(struct SymbolMapSave *save, int index);
+extern struct HistoryEntry *WIFI_HISTORY_GetEntry(struct WifiHistory *history, s32 index);
+struct MyStatus;
 
-extern u8 MYSTATUS_GetNation(const struct SymbolMapSaveEntry *entry);
+extern u8 MYSTATUS_GetNation(struct MyStatus *mystatus);
 
-extern SaveSyncBlock *GAME_DATA_GetSaveSyncBlock(struct GameData *gameData);
+extern u8 *GAME_DATA_GetSaveSyncBlock(struct GameData *gameData);
 
 extern void MTX_Scale22_(void *dst, int scaleX, int scaleY);
 
@@ -311,20 +329,22 @@ extern int GFL_USE_SetVBlankHook(int callback, int param);
 extern void MTX_Identity22_(void *matrix);
 
 extern void GFL_USE_ClearVBlankHook(void);
+struct PokemonParam;
 
-extern u32   POKE_TOOL_GetPartyValue(void *poke, u32 key, u32 extra);
+extern u32   POKE_TOOL_GetPartyValue(struct PokemonParam *pp, u32 paramId, u32 arg);
+struct FieldMap;
 
-extern int FIELD_STATUS_CreateFieldCloseEvent(int gameSystem, int transitionArg);
+extern struct GameEvent *FIELD_STATUS_CreateFieldCloseEvent(struct GameSystem *gameSystem, struct FieldMap *fieldMap);
 
-extern void GAME_EVENT_CallEvent(struct GameTask *task, struct GameEvent **event);
+extern void GAME_EVENT_CallEvent(struct GameEvent *parent, struct GameEvent *child);
 
 extern void GAMESYSTEM_CallProc(struct GameSystem *gameSystem, u32 overlayId, void *procTable, void *param);
 
-extern void *FIELD_STATUS_CreateFieldOpenEvent(void *gameSystem);
+extern struct GameEvent *FIELD_STATUS_CreateFieldOpenEvent(struct GameSystem *gameSystem);
 
-extern int EVENT_FIELDMAP_CONTROL_StartFadeOut(void *gameSystem, int transitionArg, int sel, int d);
+extern struct GameEvent *EVENT_FIELDMAP_CONTROL_StartFadeOut(struct GameSystem *gameSystem, struct FieldMap *fieldMap, s32 effect, s32 skipWait);
 
-extern int EVENT_FIELDMAP_CONTROL_StartFadeIn(void *gameSystem, int transitionArg, int sel, int d, int e, u8 f, u8 g);
+extern struct GameEvent *EVENT_FIELDMAP_CONTROL_StartFadeIn(struct GameSystem *gameSystem, struct FieldMap *fieldMap, s32 effect, s32 skipWait, s32 restoreBg, u8 seasonShown, u8 seasonTarget);
 
 extern void  GAME_BEACON_SEARCH_SetSymbolMapPoke(u16 species);
 
@@ -332,51 +352,55 @@ extern u32 ZONEDATA_GetParentZoneId(u32 zoneId);
 
 extern SpecialLocation *GAME_DATA_GetSpecialLocation(void *gameData);
 
-extern u32 GAME_DATA_GetEventWork(const struct GameData *gameData);
+extern void *GAME_DATA_GetEventWork(const struct GameData *gameData);
 
-extern void *GAME_DATA_GetMiscSave(void *gameData);
+extern void *GAME_DATA_GetMiscSave(struct GameData *gd);
 
-extern u8 *GAME_DATA_GetMyStatus(void *gameData);
+extern struct MyStatus *GAME_DATA_GetMyStatus(struct GameData *gd);
 
-extern u8 WIFI_HISTORY_GetDisplayCount(void *save, u32 b, u32 c);
+extern u8 WIFI_HISTORY_GetDisplayCount(struct WifiHistory *history, struct MyStatus *status, s32 flag);
+struct EventWork;
 
-extern u32 ZONEDATA_CheckEventFlag(void *eventWork, s32 flagId);
+extern u32 ZONEDATA_CheckEventFlag(struct EventWork *ev, s32 flagId);
 
 extern int FIELD_G3D_MAP_CheckBeaconTrainerKey(void *miscSave, int keyId, void *myStatus);
 
-extern void *SCRCMD_WORK_GetGameData(void *work);
+extern struct GameData *SCRCMD_WORK_GetGameData(struct ScrcmdWork *work);
 
 extern void MI_CpuFill8(void *dst, u8 val, u32 size);
+struct PmsiParam;
 
-extern void *PMSI_PARAM_Create(u32 mode, u32 unused, void *src, u32 flag, void *saveControl, u32 hh);
+extern struct PmsiParam *PMSI_PARAM_Create(u32 mode, u32 unused, void *src, u32 flag, void *saveControl, u32 hh);
 
 extern void *GREETING_SAVEDATA_GetFromSave(u32 saveControl);
+struct QuadRecord;
 
-extern void GREETING_SAVEDATA_GetSentence(void *table, int index, void *dst);
+extern void GREETING_SAVEDATA_GetSentence(struct QuadRecord *src, s32 idx, struct QuadRecord *dst);
 
 extern void PMSI_PARAM_SetSentence(u16 *pmsParam, const u16 *sentence);
 
-extern int PMSI_PARAM_CheckCanceled(unsigned char *pmsParam);
+extern int PMSI_PARAM_CheckCanceled(struct PmsiParam *obj);
 
 extern void  PMSI_PARAM_GetWords(void *pmsParam, PmsInputWords *out);
 
-extern unsigned int PMSI_PARAM_GetWord(unsigned short *pmsParam);
+extern unsigned int PMSI_PARAM_GetWord(struct PmsiParam *obj);
 
 extern void PMSI_PARAM_GetSentence(char *pmsParam, void *out);
 
-extern void *GAME_EVENT_GetGameSystem(struct GameTask *task);
+extern struct GameSystem *GAME_EVENT_GetGameSystem(struct GameEvent *event);
 
-extern void GREETING_SAVEDATA_SetSentence(void *table, int index, void *src);
+extern void GREETING_SAVEDATA_SetSentence(struct QuadRecord *dst, s32 idx, struct QuadRecord *src);
 
 extern void  PMSI_PARAM_Delete(void *pmsParam);
 
 extern void *GAMESYSTEM_GetFieldMap(const struct GameSystem *gameSystem);
+struct WeatherSys;
 
-extern u32 FIELDMAP_GetWeather(u8 *fieldMap);
+extern struct WeatherSys *FIELDMAP_GetWeather(struct FieldMap *fieldMap);
 
-extern u16 FIELDMAP_GetZoneId(u8 *fieldMap);
+extern u16 FIELDMAP_GetZoneId(struct FieldMap *fieldMap);
 
-extern u8 WEATHER_GetZoneWeatherId(void *gameSystem, u32 zoneId);
+extern u32 WEATHER_GetZoneWeatherId(void *gameSystem, u32 zoneId);
 
 extern void WEATHER_RequestChangeNoFade(int a, int b);
 
@@ -608,7 +632,7 @@ int SYMBOL_MAP_GetSelection(void *gameSystem, u32 *outSymbolIndex, u32 *outSymbo
         *outSymbolGroup = SYMBOL_MAP_GetGroup(saveData);
         return 1;
     }
-    comm = (void *)INTRUDE_COMM_GetWorkIfRunning((int)comm);
+    comm = (void *)INTRUDE_COMM_GetWorkIfRunning((struct GameComm *)comm);
     if (comm == 0) {
         *outSymbolIndex = 0;
         *outSymbolGroup = 0;
@@ -667,7 +691,7 @@ SymbolMapLinkRecord *SYMBOL_MAP_CreateLinkRecord(u16 heapId, void *gameSystem, u
     if (INTRUDE_COMM_GetPartnerSlot(comm, gameData) == 4) {
         page = GAME_DATA_GetSymbolMapFlag(gameData);
         record = GFL_HEAP_Alloc(heapId, sizeof(SymbolMapLinkRecord), 1, g_SymbolMapFileName, 0x1C9);
-        *outStart = SYMBOL_MAP_GetEntryPage(saveData, record->entries, 20, page, &count);
+        *outStart = SYMBOL_MAP_GetEntryPage((struct Entry32 *)saveData, (struct Entry32 *)record->entries, 20, page, &count);
         record->entryCount = count;
         record->symbolIndex = SYMBOL_MAP_GetSymbolIndex(saveData);
         record->symbolGroup = SYMBOL_MAP_GetGroup(saveData);
@@ -675,7 +699,7 @@ SymbolMapLinkRecord *SYMBOL_MAP_CreateLinkRecord(u16 heapId, void *gameSystem, u
         record->page = page;
         return record;
     }
-    partnerLink = (void *)INTRUDE_COMM_GetWorkIfRunning((int)comm);
+    partnerLink = (void *)INTRUDE_COMM_GetWorkIfRunning((struct GameComm *)comm);
     if (partnerLink == 0)
         return 0;
     record = GFL_HEAP_Alloc(heapId, sizeof(SymbolMapLinkRecord), 1, g_SymbolMapFileName, 0x1DC);
@@ -757,10 +781,10 @@ void *SYMBOL_MAP_CreateRecordTask(void *gameSystem, void *progress, void *outCom
     struct GameTask *task;
     SymbolMapRecordWork *work;
     task = GAME_EVENT_Create(gameSystem, 0, SYMBOL_MAP_RecordTaskMain, 32);
-    work = GAME_EVENT_GetWork(task);
+    work = GAME_EVENT_GetWork((struct GameEvent *)task);
     work->progress = progress;
     work->outCompleted = outCompleted;
-    EVENT_FIELD_PROCLINK_StartCommProc(work, gameSystem, 1, 0);
+    EVENT_FIELD_PROCLINK_StartCommProc((struct CommProcParam *)work, gameSystem, 1, 0);
     work->lastResult = SYMBOL_MAP_GetLastResult(progress);
     return task;
 }
@@ -779,7 +803,7 @@ int SYMBOL_MAP_RecordTaskMain(void *task, u32 *state)
     SymbolMapRecordWork *work = GAME_EVENT_GetWork(task);
     switch (*state) {
     case 0:
-        GAME_EVENT_CallProc(task, (u32)ov203_id, (u32)gDemo3dProcData, (u32)work);
+        GAME_EVENT_CallProc(task, (u32)ov203_id, (void *)gDemo3dProcData, (void *)work);
         *state = *state + 1;
         break;
     case 1:
@@ -930,24 +954,24 @@ void *SYMBOL_MAP_CreatePickerTask(void *gameSystem, int mode, u32 outKind, u32 o
     int flagIndex;
 
     task = GAME_EVENT_Create(gameSystem, 0, SYMBOL_MAP_PickerTaskMain, 0x128);
-    work = GAME_EVENT_GetWork(task);
+    work = GAME_EVENT_GetWork((struct GameEvent *)task);
     work->mode = mode;
     work->outPicked = (u16 *)outPicked;
     work->outKind = (u16 *)outKind;
     work->outValue = (u16 *)outValue;
-    save = WIFI_HISTORY_GetBlock(GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData(gameSystem)));
+    save = (struct SymbolMapSave *)WIFI_HISTORY_GetBlock(GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData(gameSystem)));
     for (i = 1; i < 0xE9; i++) {
         flagIndex = i - 1;
-        if (WIFI_HISTORY_IsCountryVisited(save, i))
+        if (WIFI_HISTORY_IsCountryVisited((struct WifiHistory *)save, i))
             work->ownedFlags[flagIndex] = 1;
         else
             work->ownedFlags[flagIndex] = 0;
     }
-    count = WIFI_HISTORY_GetFirstFreeEntry(save);
+    count = WIFI_HISTORY_GetFirstFreeEntry((struct WifiHistory *)save);
     if (count > 20)
         count = 20;
     for (i = 0; i < count; i++)
-        work->candidateIds[i] = MYSTATUS_GetNation(WIFI_HISTORY_GetEntry(save, i));
+        work->candidateIds[i] = MYSTATUS_GetNation((struct MyStatus *)WIFI_HISTORY_GetEntry((struct WifiHistory *)save, i));
     for (; i < 20; i++)
         work->candidateIds[i] = 0;
     return task;
@@ -965,7 +989,7 @@ int SYMBOL_MAP_PickerTaskMain(void *task, int *state)
     SymbolMapPickerWork *work = GAME_EVENT_GetWork(task);
     switch (*state) {
     case 0:
-        GAME_EVENT_CallProc(task, (u32)ov218_id, (u32)gUnSelectProcData, (u32)work);
+        GAME_EVENT_CallProc(task, (u32)ov218_id, (void *)gUnSelectProcData, (void *)work);
         *state = *state + 1;
         break;
     case 1:
@@ -997,7 +1021,7 @@ int SYMBOL_MAP_ScrCmdGetSyncBlockItem(void *vm, void *work)
     SCRCMD_WORK_GetScriptWork(work);
     gameData = SCRCMD_WORK_GetGameSystem(work);
     gameData = GAMESYSTEM_GetGameData(gameData);
-    block = GAME_DATA_GetSaveSyncBlock(gameData);
+    block = (struct SaveSyncBlock *)GAME_DATA_GetSaveSyncBlock(gameData);
     index = (u8)VM_ReadU16(vm);
     out = SCRIPT_WORK_ReadWorkPointer(vm, work);
     *out = SYMBOL_MAP_GetSyncBlockItem(block, index);
@@ -1015,7 +1039,7 @@ int SYMBOL_MAP_ScrCmdGetSyncBlockHeader(void *vm, void *work)
     SCRCMD_WORK_GetScriptWork(work);
     gameData = SCRCMD_WORK_GetGameSystem(work);
     gameData = GAMESYSTEM_GetGameData(gameData);
-    block = GAME_DATA_GetSaveSyncBlock(gameData);
+    block = (struct SaveSyncBlock *)GAME_DATA_GetSaveSyncBlock(gameData);
     sel = SCRIPT_WORK_ReadWorkValue(vm, work);
     out = SCRIPT_WORK_ReadWorkPointer(vm, work);
     *out = SYMBOL_MAP_GetSyncBlockHeader(block, sel);
@@ -1101,7 +1125,7 @@ u32 SYMBOL_MAP_PokeEventTaskMain(void *task, u32 *state, PokeEventWork *work)
 
     switch (*state) {
     case 0:
-        if (POKE_TOOL_GetPartyValue(work->poke, 0x4C, 0) == 0 || POKE_TOOL_GetPartyValue(work->poke, 3, 0) == 1) {
+        if (POKE_TOOL_GetPartyValue((struct PokemonParam *)work->poke, 0x4C, 0) == 0 || POKE_TOOL_GetPartyValue((struct PokemonParam *)work->poke, 3, 0) == 1) {
             *state = 7;
         } else {
             *state = 1;
@@ -1113,11 +1137,11 @@ u32 SYMBOL_MAP_PokeEventTaskMain(void *task, u32 *state, PokeEventWork *work)
         *state = 2;
         break;
     case 2:
-        GAME_EVENT_CallEvent(task, (struct GameEvent **)EVENT_FIELDMAP_CONTROL_StartFadeOut(gameSystem, transitionArg, 0, 0));
+        GAME_EVENT_CallEvent((struct GameEvent *)task, (struct GameEvent *)EVENT_FIELDMAP_CONTROL_StartFadeOut(gameSystem, (struct FieldMap *)transitionArg, 0, 0));
         *state = 3;
         break;
     case 3:
-        GAME_EVENT_CallEvent(task, (struct GameEvent **)FIELD_STATUS_CreateFieldCloseEvent((int)gameSystem, transitionArg));
+        GAME_EVENT_CallEvent((struct GameEvent *)task, (struct GameEvent *)FIELD_STATUS_CreateFieldCloseEvent((struct GameSystem *)gameSystem, (struct FieldMap *)transitionArg));
         *state = 4;
         break;
     case 4:
@@ -1129,8 +1153,8 @@ u32 SYMBOL_MAP_PokeEventTaskMain(void *task, u32 *state, PokeEventWork *work)
         *state = 6;
         break;
     case 6:
-        GAME_EVENT_CallEvent(task, (struct GameEvent **)EVENT_FIELDMAP_CONTROL_StartFadeIn(gameSystem, transitionArg, 0, 0, 1, 0, 0));
-        GAME_BEACON_SEARCH_SetSymbolMapPoke(POKE_TOOL_GetPartyValue(work->poke, 5, 0));
+        GAME_EVENT_CallEvent((struct GameEvent *)task, (struct GameEvent *)EVENT_FIELDMAP_CONTROL_StartFadeIn(gameSystem, (struct FieldMap *)transitionArg, 0, 0, 1, 0, 0));
+        GAME_BEACON_SEARCH_SetSymbolMapPoke(POKE_TOOL_GetPartyValue((struct PokemonParam *)work->poke, 5, 0));
         *state = 7;
         break;
     case 7:
@@ -1144,7 +1168,7 @@ void *SYMBOL_MAP_CreatePokeEventTask(void *gameSystem, void *transitionArg, void
     struct GameTask *task;
     PokeEventWork *work;
     task = GAME_EVENT_Create(gameSystem, 0, SYMBOL_MAP_PokeEventTaskMain, 24);
-    work = GAME_EVENT_GetWork(task);
+    work = GAME_EVENT_GetWork((struct GameEvent *)task);
     work->gameSystem = gameSystem;
     work->transitionArg = (u32)transitionArg;
     work->gameData = GAMESYSTEM_GetGameData(gameSystem);
@@ -1199,7 +1223,7 @@ int SYMBOL_MAP_CheckEventFlag(void *gameData, u32 flagId)
         return FIELD_G3D_MAP_CheckBeaconTrainerKey(miscSave, 1, myStatus);
     case 0xF001:
         result = 0;
-        if (WIFI_HISTORY_GetDisplayCount(save, (u32)myStatus, 0) >= 1)
+        if (WIFI_HISTORY_GetDisplayCount(save, (struct MyStatus *)myStatus, 0) >= 1)
             result = 1;
         return result;
     }
@@ -1238,7 +1262,7 @@ int SYMBOL_MAP_ScrCmdStartPmsInput(void *vm, void *work)
     outResult = SCRIPT_WORK_ReadWorkPointer(vm, work);
     mode = 0;
     task = GAME_EVENT_Create(gameSystem, 0, SYMBOL_MAP_PmsInputTaskMain, sizeof(PmsInputWork));
-    inputWork = GAME_EVENT_GetWork(task);
+    inputWork = GAME_EVENT_GetWork((struct GameEvent *)task);
     MI_CpuFill8(inputWork, 0, sizeof(PmsInputWork));
     inputWork->kind = kind;
     inputWork->outWord0 = outWord0;
@@ -1280,7 +1304,7 @@ int SYMBOL_MAP_ScrCmdStartPmsInput(void *vm, void *work)
     }
     inputWork->pmsParam = PMSI_PARAM_Create(mode, 0, 0, 0, GAME_DATA_GetSaveControl(gameData), 1);
     if (inputWork->hasSentence) {
-        GREETING_SAVEDATA_GetSentence(GREETING_SAVEDATA_GetFromSave((u32)GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData(gameSystem))), inputWork->sentenceId, sentenceBuf);
+        GREETING_SAVEDATA_GetSentence((struct QuadRecord *)(GREETING_SAVEDATA_GetFromSave((u32)GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData(gameSystem)))), inputWork->sentenceId, (struct QuadRecord *)sentenceBuf);
         PMSI_PARAM_SetSentence(inputWork->pmsParam, (const u16 *)sentenceBuf);
     }
     SCRIPT_SYS_CallEvent(scriptSystem, task);
@@ -1322,7 +1346,7 @@ u32 SYMBOL_MAP_PmsInputTaskMain(void *task, u32 *state)
         if (pmsParam == 0) {
             return 1;
         }
-        GAME_EVENT_CallProc(task, (u32)ov110_id, (u32)gPmsSelectProcData, (u32)pmsParam);
+        GAME_EVENT_CallProc(task, (u32)ov110_id, (void *)gPmsSelectProcData, (void *)pmsParam);
         (*state)++;
         break;
     case 1:
@@ -1339,7 +1363,7 @@ u32 SYMBOL_MAP_PmsInputTaskMain(void *task, u32 *state)
             } else {
                 PMSI_PARAM_GetSentence(pmsParam, &sentence);
                 if (work->hasSentence != 0) {
-                    GREETING_SAVEDATA_SetSentence(GREETING_SAVEDATA_GetFromSave((u32)GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData(GAME_EVENT_GetGameSystem(task)))), work->sentenceId, (&sentence));
+                    GREETING_SAVEDATA_SetSentence((struct QuadRecord *)(GREETING_SAVEDATA_GetFromSave((u32)GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData(GAME_EVENT_GetGameSystem(task))))), work->sentenceId, (struct QuadRecord *)((&sentence)));
                 }
                 *work->outWord0 = sentence.first;
                 second = sentence.second;
@@ -1370,7 +1394,7 @@ int SYMBOL_MAP_ScrCmdSetSubscreenMode(void *vm, void *work)
     gameSystem = SCRCMD_WORK_GetGameSystem(work);
     gameData = SCRCMD_WORK_GetGameData(work);
     fieldMap = GAMESYSTEM_GetFieldMap(gameSystem);
-    fieldState = FIELDMAP_GetWeather(fieldMap);
+    fieldState = (s32)FIELDMAP_GetWeather(fieldMap);
     modeId = SCRIPT_WORK_ReadWorkValue(vm, work);
     enable = SCRIPT_WORK_ReadWorkValue(vm, work);
     if (modeId == 0xFFFF)

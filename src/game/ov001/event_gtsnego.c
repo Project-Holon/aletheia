@@ -146,19 +146,20 @@ typedef struct GtsNegoEventWork {
 } GtsNegoEventWork;
 
 extern struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
-extern struct FieldMap *GAMESYSTEM_GetFieldMap(const struct GameSystem *gameSystem);
+extern void *GAMESYSTEM_GetFieldMap(const struct GameSystem *gameSystem);
 extern u16 GFL_USE_GetBgmNo(void);
 extern void GFL_USE_FadeOutBgm(u32 frames);
 extern struct GameComm *GAMESYSTEM_GetGameComm(const struct GameSystem *gameSystem);
-extern u32 GAME_COMM_GetKind(void *gameComm);
-extern int FIELD_STATUS_CreateFieldCloseEvent(int gameSystem, int fieldMap);
-extern void GAME_EVENT_CallEvent(struct GameEvent *event, struct GameEvent **newEvent);
+extern u32 GAME_COMM_GetKind(struct GameComm *comm);
+extern struct GameEvent *FIELD_STATUS_CreateFieldCloseEvent(struct GameSystem *gameSystem, struct FieldMap *fieldMap);
+extern void GAME_EVENT_CallEvent(struct GameEvent *parent, struct GameEvent *child);
 extern void GAMESYSTEM_CallProc(struct GameSystem *gameSystem, u32 overlayId, void *procData, void *param);
 extern u32 GAMESYSTEM_GetProcStatus(const struct GameSystem *gameSystem);
 extern int   GFL_NET_GetRunState(void);
-extern struct NetHandle *GFL_NET_HANDLE_GetCurrentHandle(void);
-extern void  GFL_NET_HANDLE_SetTimingSyncRange(struct NetHandle *handle, u32 rangeStart, u32 rangeEnd);
-extern u32   GFL_NET_HANDLE_IsTimingSyncRange(struct NetHandle *handle, u32 rangeStart, u32 rangeEnd);
+struct GFLNetHandle;
+extern struct GFLNetHandle *GFL_NET_HANDLE_GetCurrentHandle(void);
+extern void  GFL_NET_HANDLE_SetTimingSyncRange(struct GFLNetHandle *handle, u32 timingLow, u32 timingHigh);
+extern u32   GFL_NET_HANDLE_IsTimingSyncRange(struct GFLNetHandle *handle, u32 timingLow, u32 timingHigh);
 extern void GFL_NET_SetAutoExit(u8 enable);
 extern void GFL_NET_SetLoginOption(u8 option);
 extern void GFL_NET_STATE_WifiDisconnect(u32 a);
@@ -166,13 +167,13 @@ extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *fileNam
 extern u32 GFL_HEAP_Free(void *p);
 extern void  GFL_USE_CancelChangeAndPlayBgm(u32 bgmNo, u32 fadeTarget);
 extern void GFL_USE_FadeInBgmFull(u32 frames);
-extern void *FIELD_STATUS_CreateFieldOpenEvent(void *gameSystem);
+extern struct GameEvent *FIELD_STATUS_CreateFieldOpenEvent(struct GameSystem *gameSystem);
 void *GAME_EVENT_GetWork(struct GameEvent *event);
 void GAME_COMM_RequestExitNoCallback(struct GameComm *gameComm);
 struct Party *POKEPARTY_Create(u32 heapId);
 void MI_CpuFill8(void *dst, int value, int size);
 int MYSTATUS_GetSize(void);
-u8 *GAME_DATA_GetMyStatus(void *gameData);
+struct MyStatus *GAME_DATA_GetMyStatus(struct GameData *gd);
 void MI_CpuCopy8(u32 src, void *dst, u32 size);
 void *GAME_EVENT_Create(void *gameSystem, void *a, void *callback, u32 workSize);
 u32 EVENT_GTSNEGO_Main(struct GameEvent *event, u32 *seq, GtsNegoEventWork *work);
@@ -207,7 +208,7 @@ u32 EVENT_GTSNEGO_Main(struct GameEvent *event, u32 *seq, GtsNegoEventWork *work
         break;
     case 1:
         if (GAME_COMM_GetKind(GAMESYSTEM_GetGameComm(gameSystem)) == 0) {
-            GAME_EVENT_CallEvent(event, (struct GameEvent **)FIELD_STATUS_CreateFieldCloseEvent((int)gameSystem, (int)fieldMap));
+            GAME_EVENT_CallEvent((struct GameEvent *)event, (struct GameEvent *)FIELD_STATUS_CreateFieldCloseEvent((struct GameSystem *)gameSystem, (struct FieldMap *)fieldMap));
             (*seq)++;
         }
         break;

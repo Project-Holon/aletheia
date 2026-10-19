@@ -129,7 +129,7 @@ int DWC_GetInetStatus(void);
 
 void DWC_ProcessInet(void);
 
-void DWC_InitFriendsMatch(void *userData, int productId, char *gameName, int secretKey, int sakeAppId, void *friendList, int friendListLen);
+void DWC_InitFriendsMatch(struct DWCstAccUserData *userdata, int productID, char *secretKey, int sendBufSize, int recvBufSize, void *friendList, int friendListLen);
 
 void OS_GetOwnerInfo(struct OSOwnerInfo *info);
 
@@ -145,7 +145,7 @@ u8 DWC_AddMatchKeyString(u8 keyID, char *keyString, char *valueSrc);
 
 void MI_CpuFill8(void *dst, int value, int size);
 
-u32 sprintf(char *dst, u32 format, ...);
+u32 sprintf(char *dst, char *fmt, ...);
 
 u32 GF_STANDARD_GetStringLength(const u8 *str);
 
@@ -171,11 +171,11 @@ unsigned char DWC_GetMyAID(void);
 
 int DWC_CheckDirtyFlag(void *userdata);
 
-void DWC_ClearDirtyFlag(int userData);
+void DWC_ClearDirtyFlag(struct DWCstAccUserData *userdata);
 
-int DWC_SetRecvTimeoutTime(u8 aid, int timeoutMs);
+int DWC_SetRecvTimeoutTime(u8 aid, u32 time);
 
-int VCT_MAIN_HandlePacket(int aid, int data, int size);
+int VCT_MAIN_HandlePacket(int aid, u8 *data, int size);
 
 extern int DWC_GetNumConnectionHost(void);
 
@@ -189,11 +189,11 @@ extern void DWC_ShutdownFriendsMatch(void);
 
 extern int DWC_NdCleanupAsync(void);
 
-extern void DWC_GdbShutdown(void);
+extern int DWC_GdbShutdown(void);
 
 extern int DWC_IsValidAID(u8);
 
-extern int DWC_IsSendableReliable(int a);
+extern int DWC_IsSendableReliable(u8 a);
 
 void VCT_MAIN_Update(int);
 
@@ -211,9 +211,9 @@ extern void VCT_MAIN_SetMuted(int);
 
 extern void VCT_MAIN_HangUp(void);
 
-extern int DWC_IsBuddyFriendData(u8 *);
+extern int DWC_IsBuddyFriendData(void *frienddata);
 
-extern unsigned char DWC_GetFriendStatusData(void *p, int a, int b);
+extern unsigned char DWC_GetFriendStatusData(void *p, int a, u8 *b);
 
 extern int DWC_SetOwnStatusData(char *, unsigned long);
 
@@ -221,11 +221,11 @@ int DWC_SetupGameServer(int topology, unsigned char maxEntry, void *matchedCallb
 
 int DWC_ConnectToGameServerAsync(int, int, void *, u32, void *, u32, void *, int *, u32);
 
-extern void DWC_CloseConnectionHardFromServer(u8);
+extern int DWC_CloseConnectionHardFromServer(u8);
 
 extern int VCT_MAIN_GetVoiceLevel(void);
 
-extern void DWC_SetRecvBuffer(u8, u32, u32);
+extern int DWC_SetRecvBuffer(unsigned char aid, void *recvBuffer, int size);
 
 void DWC_RAP_SetState(int state);
 
@@ -586,7 +586,7 @@ int DWC_RAP_StartMatchWithKey(void *matchValue, int maxPlayers, int useFilter, i
     if (DWC_AddMatchKeyString(0, _sMatchKey, matchValue) == 0)
         GF_PANIC_Fail(_sAssertEmpty, 0, _sAssertEmpty);
     MI_CpuFill8(_pRapWork->matchFilter, 0, 0x80);
-    sprintf(_pRapWork->matchFilter, (u32)_sMatchFilterFormat, _sMatchKey, matchValue);
+    sprintf((char *)_pRapWork->matchFilter, _sMatchFilterFormat, _sMatchKey, matchValue);
     if ((int)GF_STANDARD_GetStringLength((const u8 *)_pRapWork->matchFilter) >= 0x80)
         GF_PANIC_Fail(_sAssertEmpty, 0, _sAssertEmpty);
     if (useFilter)
@@ -780,7 +780,7 @@ void DWC_RAP_SendPendingAck(void)
 void DWC_RAP_OnLogin(int error)
 {
     if (DWC_CheckDirtyFlag((void *)_pRapWork->userData) != 0) {
-        DWC_ClearDirtyFlag((int)_pRapWork->userData);
+        DWC_ClearDirtyFlag((struct DWCstAccUserData *)_pRapWork->userData);
         _pRapWork->userDataChanged = 1;
     }
     if (error == 0)
@@ -936,7 +936,7 @@ void DWC_RAP_OnReceive(u32 aid, u8 *data, int size)
             _pRapWork->sendStateReady = 1;
             return;
         } else {
-            if (VCT_MAIN_HandlePacket(aid, (int)data, size) == 0)
+            if (VCT_MAIN_HandlePacket(aid, data, size) == 0)
                 return;
             return;
         }
@@ -1416,7 +1416,7 @@ void DWC_RAP_PollFriendStatus(void)
         int statusLen;
         if (DWC_IsBuddyFriendData(_pRapWork->friendList + byteOffset) != 0) {
             u32 status = DWC_GetFriendStatusData(_pRapWork->friendList + byteOffset,
-                                  (int)_pRapWork->friendStatusData[slot], (int)(&statusLen));
+                                  (int)_pRapWork->friendStatusData[slot], (u8 *)((&statusLen)));
             if (statusLen < 1) {
                 _pRapWork->friendStatus[slot] = 0;
                 MI_CpuFill8(_pRapWork->friendStatusData[slot], 0, 0x20);
@@ -1629,7 +1629,7 @@ void DWC_RAP_AllocRecvBuffer(u32 aid)
         u32 bufSize = 0x1000;
         _pRapWork->recvBuffer[aid] =
             GFL_NET_AllocAligned(netInit->heapId, bufSize, (const char *)_sDwcRapFile, 0xb74);
-        DWC_SetRecvBuffer(aid, (u32)_pRapWork->recvBuffer[aid], bufSize);
+        DWC_SetRecvBuffer(aid, _pRapWork->recvBuffer[aid], bufSize);
     }
 }
 

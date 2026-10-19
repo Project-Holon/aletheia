@@ -44,6 +44,10 @@
  *   PLIST_PLATE_GetCenterPos  0x021BB3D4  thumb
  *   NATSUKI_CalcUseItem  0x0201B7B4  thumb
  *   GFL_USE_GetMainTaskList  0x020056BC  thumb  arm9
+ *   _fadd                        0x0209C95C  arm
+ *   _ffix                        0x0209C494  arm
+ *   _fflt                        0x0209BDBC  arm
+ *   _fsub                        0x0209CB8C  arm
  */
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -58,32 +62,32 @@ typedef signed int     s32;
 struct Rec;
 struct RtcTime;
 struct PokemonParam;
-extern u32 POKE_TOOL_GetPartyValue(void *,u32,u32);
-extern void POKE_TOOL_SetPartyValue(void *,u32,u32);
-extern u32 GFL_HEAP_Free(void *p);
-extern u32 POKE_TOOL_GetStatusCondition(void *p);
-void APP_TASKMENU_WIN_SetDecide(char *p, int v);
-extern void *FILE_UTIL_LoadItemRecord(u32 item, u32 which, u32 heap);
-extern u32 FILE_UTIL_GetItemRecordParam(struct Rec *p, u32 sel);
-extern u32 POKE_TOOL_ChangeForm(void *,u32);
-extern int PARTICLE_LoadArchiveMember(u32,u32,u32);
-extern void *GFL_NET_AllocAligned(u32,u32,const char *,u16);
-extern void *PARTICLE_CreateSystemDefault(void *memory, int size, int a, int heap);
-extern u32 GFL_USE_GetMainTaskList(void);
-extern void PARTICLE_SetupSystem(void *system, u32 handle, u32 a, u32 b);
-extern int PARTICLE_StartEffect(void *p, int b, int c);
-extern void PARTICLE_DeleteSystem(void *system);
-extern void GFL_NET_FreeAligned(void *);
-extern void ZUKAN_SAVE_RegisterCaught(void *zukanSave, void *mon);
-extern u8 TIMEZONE_GetLight(int row, int col);
-extern void GF_STANDARD_GetCachedTime(struct RtcTime *time);
-extern u8 WAZA_TOOL_GetMaxPP(u16, u32);
-extern u8 POKE_TOOL_IsPPRestorable(void *, u32);
-extern u32 POKE_TOOL_GetExpForLevel(u16, u16, u16);
-extern void POKE_TOOL_RecalcParam(void *);
-extern u32 POKE_TOOL_RestorePP(void *, u32, u32);
-void PLIST_PLATE_GetCenterPos(PokelistWork *work, u8 *plate, PlistPos *out);
-void NATSUKI_CalcUseItem(struct PokemonParam *mon, int item, u16 zoneId, u16 heapId);
+typedef signed char s8;
+typedef unsigned long long u64;
+#include "../arm9/poke_tool.h"
+#include "../arm9/gfl_heap_wrap.h"
+struct TaskMenuWin;
+#include "../arm9/app_taskmenu.h"
+#include "../arm9/file_util.h"
+struct ItemRecord;
+#include "../arm9/particle.h"
+#include "../arm9/net.h"
+struct ParticleSys;
+struct TcbList;
+#include "../arm9/gfl_use.h"
+struct ParticleSys;
+struct ParticleSys;
+struct ParticleSys;
+struct ZukanSave;
+#include "../arm9/zukan_save.h"
+#include "../arm9/timezone.h"
+#include "../arm9/gf_standard.h"
+#include "../arm9/waza_tool.h"
+#include "../arm9/poke_tool_ext.h"
+struct PlistPlatePos;
+struct PlistPlate;
+#include "plist_plate.h"
+#include "../arm9/natsuki.h"
 void PLIST_DEMO_CreateParticles(PokelistWork *work);
 void PLIST_DEMO_DeleteParticles(PokelistWork *work);
 int PLIST_DEMO_CheckGiratinaToOrigin(PokelistWork *work, void *unused);
@@ -123,11 +127,11 @@ void PLIST_DEMO_CreateParticles(PokelistWork *work)
         count = 2;
         work->effectLength = 0x26;
     }
-    handle = PARTICLE_LoadArchiveMember(0x4c, member, work->heapId);
+    handle = (s32)PARTICLE_LoadArchiveMember(0x4c, member, work->heapId);
     work->particleMemory = GFL_NET_AllocAligned(work->heapId, 0x5000, (const char *)d_021BED58, 0xea);
-    work->particleSystem = PARTICLE_CreateSystemDefault(work->particleMemory, 0x5000, 0, work->heapId);
-    PARTICLE_SetupSystem(work->particleSystem, handle, 0, GFL_USE_GetMainTaskList());
-    PLIST_PLATE_GetCenterPos(work, (u8 *)work->plates[work->selectedSlot], &pos);
+    work->particleSystem = PARTICLE_CreateSystemDefault((u32)work->particleMemory, 0x5000, 0, work->heapId);
+    PARTICLE_SetupSystem(work->particleSystem, (void *)handle, 0, (u32)GFL_USE_GetMainTaskList());
+    PLIST_PLATE_GetCenterPos(work, (struct PlistPlate *)work->plates[work->selectedSlot], (struct PlistPlatePos *)(&pos));
     pos.x -= 0x28;
     pos.y += 4;
     if (pos.x > 0) vec[0] = (int)(0.5f + (float)(pos.x << 12)) / 0x26;

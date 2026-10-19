@@ -117,6 +117,7 @@
  *   GFL_NET_HANDLE_RecvNegotiation  0x0203A020  arm
  *   GFL_NET_STATE_Idle  0x0203C00C  arm
  *   GFL_NET_HANDLE_IsNegotiationDone  0x020399B8  arm
+ *   _u32_div_f                   0x0209C2B0  arm
  */
 
 typedef unsigned char u8;
@@ -176,12 +177,14 @@ int GFL_NET_SYSTEM_SetSendQueue(u32 command, const void *data, u32 size, u32 isQ
 
 
 int GFL_NET_HANDLE_GetNetHandleID(GFLNetHandle *a);
+struct GFLNetHandle;
 
 
 
-u32 GFL_NET_HANDLE_IsNegotiationDone(u8 *p);
+u32 GFL_NET_HANDLE_IsNegotiationDone(struct GFLNetHandle *handle);
+struct NetNegotiationMsg;
 
-void GFL_NET_HANDLE_RecvNegotiation(u32 idx, u32 size, const u8 *msg, u32 work, u8 *base);
+void GFL_NET_HANDLE_RecvNegotiation(u32 netID, u32 size, struct NetNegotiationMsg *msg, u32 work, struct GFLNetHandle *handle);
 
 void GFL_NET_COMMAND_Init(u32 groupKey, u32 commandList, u32 listNum, u32 userData, u32 unusedArg);
 
@@ -702,7 +705,7 @@ void GFL_NET_COMMAND_CallCommand(u32 netId, u32 destMask, int command, u32 size,
         return;
     }
     accepted = 1;
-    if (GFL_NET_HANDLE_IsNegotiationDone((u8 *)handle) == 0) {
+    if (GFL_NET_HANDLE_IsNegotiationDone((struct GFLNetHandle *)handle) == 0) {
         if (command >= 0x11) {
             accepted = 0;
         }

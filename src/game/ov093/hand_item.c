@@ -1,7 +1,7 @@
 /*
  * file:     hand_item.c
  * unit:     yes
- * function: HAND_ITEM_AddFactor, HAND_ITEM_RemoveUnforcedFactors, HAND_ITEM_AddHeldItemFactor, HAND_ITEM_AddForcedFactor, HAND_ITEM_RemoveFactor, HAND_ITEM_DisablePokeFactors, HAND_ITEM_EnablePokeFactors, HAND_ITEM_RollChance, HAND_ITEM_GetParam, HAND_ITEM_GetBoostRatio, HAND_ITEM_PushUseItem, HAND_ITEM_CheriBerryOnTrigger, HAND_ITEM_CheriBerryOnEaten, HAND_ITEM_AddCheriBerry, HAND_ITEM_ChestoBerryOnTrigger, HAND_ITEM_ChestoBerryOnEaten, HAND_ITEM_AddChestoBerry, HAND_ITEM_RawstBerryOnTrigger, HAND_ITEM_RawstBerryOnEaten, HAND_ITEM_AddRawstBerry, HAND_ITEM_AspearBerryOnTrigger, HAND_ITEM_AspearBerryOnEaten, HAND_ITEM_AddAspearBerry, HAND_ITEM_PersimBerryOnTrigger, HAND_ITEM_PersimBerryOnEaten, HAND_ITEM_AddPersimBerry, HAND_ITEM_PechaBerryOnTrigger, HAND_ITEM_PechaBerryOnEaten, HAND_ITEM_AddPechaBerry, HAND_ITEM_LumBerryOnTrigger, HAND_ITEM_LumBerryOnEaten, HAND_ITEM_AddLumBerry, HAND_ITEM_CureSickOnTrigger, HAND_ITEM_CureSickOnEaten, HAND_ITEM_CheckHasSick, HAND_ITEM_AddLeppaBerry, HAND_ITEM_LeppaBerryOnLastMoveEmpty, HAND_ITEM_LeppaBerryOnAnyMoveEmptyChecked, HAND_ITEM_LeppaBerryOnAnyMoveEmpty, HAND_ITEM_LeppaBerryClaimTrigger, HAND_ITEM_LeppaBerryOnEaten, HAND_ITEM_LeppaBerryOnForcedUse, HAND_ITEM_FindLastMoveEmptySlot, HAND_ITEM_FindEmptyMoveSlot, HAND_ITEM_PushRecoverPp, HAND_ITEM_AddOranBerry, HAND_ITEM_RecoverHpOnTrigger, HAND_ITEM_RecoverHpOnCheck, HAND_ITEM_RecoverHpOnLowHp, HAND_ITEM_RecoverFixedHpOnEaten, HAND_ITEM_AddBerryJuice, HAND_ITEM_AddSitrusBerry, HAND_ITEM_RecoverHpPercentOfMaxHp, HAND_ITEM_GetFlavorHealAttackHandlers, HAND_ITEM_FlavorHealAttack, HAND_ITEM_FlavorHealAttackIfForcedUse, HAND_ITEM_GetFlavorHealDefenseHandlers, HAND_ITEM_FlavorHealDefense, HAND_ITEM_FlavorHealDefenseIfForcedUse, HAND_ITEM_GetFlavorHealSpeedHandlers, HAND_ITEM_FlavorHealSpeed, HAND_ITEM_FlavorHealSpeedIfForcedUse, HAND_ITEM_GetFlavorHealSpAttackHandlers, HAND_ITEM_FlavorHealSpAttack, HAND_ITEM_FlavorHealSpAttackIfForcedUse, HAND_ITEM_GetFlavorHealSpDefenseHandlers, HAND_ITEM_FlavorHealSpDefense, HAND_ITEM_FlavorHealSpDefenseIfForcedUse, HAND_ITEM_RequestUseAtHalfHpChecked, HAND_ITEM_RequestUseAtHalfHp, HAND_ITEM_RequestUseAtHalfHpDirect, HAND_ITEM_FlavorHeal, HAND_ITEM_GetRaiseAttackOneHandlers, HAND_ITEM_RaiseAttackOne, HAND_ITEM_GetRaiseDefenseOneHandlers, HAND_ITEM_RaiseDefenseOne, HAND_ITEM_GetRaiseSpeedOneHandlers, HAND_ITEM_RaiseSpeedOne, HAND_ITEM_GetRaiseSpAttackOneHandlers, HAND_ITEM_RaiseSpAttackOne, HAND_ITEM_GetRaiseSpDefenseOneHandlers, HAND_ITEM_RaiseSpDefenseOne, HAND_ITEM_GetRaiseCriticalRateHandlers, HAND_ITEM_RaiseCriticalRate, HAND_ITEM_GetRaiseRandomStatHandlers, HAND_ITEM_RaiseRandomStatTwo, HAND_ITEM_RaiseStat, HAND_ITEM_GetSuperEffectiveHitRecoverHandlers, HAND_ITEM_RequestUseOnSuperEffectiveHit, HAND_ITEM_RecoverHpByMaxHpDivisor, HAND_ITEM_GetWeakenDamageFireHandlers, HAND_ITEM_WeakenDamageFire, HAND_ITEM_GetWeakenDamageWaterHandlers, HAND_ITEM_WeakenDamageWater, HAND_ITEM_GetWeakenDamageElectricHandlers, HAND_ITEM_WeakenDamageElectric, HAND_ITEM_GetWeakenDamageGrassHandlers, HAND_ITEM_WeakenDamageGrass, HAND_ITEM_GetWeakenDamageIceHandlers, HAND_ITEM_WeakenDamageIce, HAND_ITEM_GetWeakenDamageFightingHandlers, HAND_ITEM_WeakenDamageFighting, HAND_ITEM_GetWeakenDamagePoisonHandlers, HAND_ITEM_WeakenDamagePoison, HAND_ITEM_GetWeakenDamageGroundHandlers, HAND_ITEM_WeakenDamageGround, HAND_ITEM_GetWeakenDamageFlyingHandlers, HAND_ITEM_WeakenDamageFlying, HAND_ITEM_GetWeakenDamagePsychicHandlers, HAND_ITEM_WeakenDamagePsychic, HAND_ITEM_GetWeakenDamageBugHandlers, HAND_ITEM_WeakenDamageBug, HAND_ITEM_GetWeakenDamageRockHandlers, HAND_ITEM_WeakenDamageRock, HAND_ITEM_GetWeakenDamageGhostHandlers, HAND_ITEM_KasibBerryWeakenGhostHit, HAND_ITEM_GetHabanBerryHandlers, HAND_ITEM_HabanBerryWeakenDragonHit, HAND_ITEM_GetColburBerryHandlers, HAND_ITEM_ColburBerryWeakenDarkHit, HAND_ITEM_GetBabiriBerryHandlers, HAND_ITEM_BabiriBerryWeakenSteelHit, HAND_ITEM_GetChilanBerryHandlers, HAND_ITEM_ChilanBerryWeakenNormalHit, HAND_ITEM_WeakenHitOfType, HAND_ITEM_ShowResistBerryMessage, HAND_ITEM_HpBerryCheckAfterDamage, HAND_ITEM_HpBerryCheckAtTurnEnd, HAND_ITEM_HpBerryCheckOnUse, HAND_ITEM_HpBerryCheckAndUse, HAND_ITEM_IsHpLowForTrigger, HAND_ITEM_IsHpAtOrBelowFraction, HAND_ITEM_GetCustapBerryHandlers, HAND_ITEM_CustapBerryMoveFirst, HAND_ITEM_CustapBerryShowMessage, HAND_ITEM_GetMicleBerryHandlers, HAND_ITEM_MicleBerryCheckOnSwitchIn, HAND_ITEM_MicleBerryCheckAfterDamage, HAND_ITEM_MicleBerryCheckAfterAction, HAND_ITEM_MicleBerryCheckHp, HAND_ITEM_MicleBerryRaiseAccuracy, HAND_ITEM_MicleBerryUseWhenForced, HAND_ITEM_GetJabocaBerryHandlers, HAND_ITEM_JabocaBerryRememberPhysicalAttacker, HAND_ITEM_GetRowapBerryHandlers, HAND_ITEM_RowapBerryRememberSpecialAttacker, HAND_ITEM_RememberAttackerOfCategory, HAND_ITEM_HitBackAttacker, HAND_ITEM_GetWhiteHerbHandlers, HAND_ITEM_WhiteHerbCheckLoweredStats, HAND_ITEM_WhiteHerbCheckAfterAction, HAND_ITEM_WhiteHerbCheckOnStatChange, HAND_ITEM_WhiteHerbRestoreStats, HAND_ITEM_WhiteHerbUseWhenForced, HAND_ITEM_GetMentalHerbHandlers, HAND_ITEM_MentalHerbCheckCondition, HAND_ITEM_MentalHerbCureCondition, HAND_ITEM_MentalHerbUseWhenForced, HAND_ITEM_GetBrightPowderHandlers, HAND_ITEM_BrightPowderLowerAccuracy, HAND_ITEM_GetMachoBraceHandlers, HAND_ITEM_MachoBraceHalveSpeed, HAND_ITEM_GetQuickClawHandlers, HAND_ITEM_QuickClawMoveFirst, HAND_ITEM_QuickClawShowMessage, HAND_ITEM_GetLaggingTailHandlers, HAND_ITEM_LaggingTailMoveLast, HAND_ITEM_GetKingsRockHandlers, HAND_ITEM_KingsRockSetFlinchChance, HAND_ITEM_KingsRockFlingFlinch, HAND_ITEM_GetRazorFangHandlers, HAND_ITEM_GetWideLensHandlers, HAND_ITEM_WideLensRaiseAccuracy, HAND_ITEM_GetScopeLensHandlers, HAND_ITEM_RaiseCriticalRankByOne, HAND_ITEM_GetLuckyPunchHandlers, HAND_ITEM_LuckyPunchRaiseCriticalRankChansey, HAND_ITEM_GetStickHandlers, HAND_ITEM_StickRaiseCriticalRankFarfetchd, HAND_ITEM_GetZoomLensHandlers, HAND_ITEM_ZoomLensRaiseAccuracy, HAND_ITEM_GetLaxIncenseHandlers, HAND_ITEM_LaxIncenseLowerAccuracy, HAND_ITEM_GetMuscleBandHandlers, HAND_ITEM_MuscleBandBoostPhysical, HAND_ITEM_GetWiseGlassesHandlers, HAND_ITEM_WiseGlassesBoostSpecial, HAND_ITEM_GetDeepSeaToothHandlers, HAND_ITEM_DeepSeaToothDoubleSpAtk, HAND_ITEM_GetDeepSeaScaleHandlers, HAND_ITEM_DeepSeaScaleDoubleSpDef, HAND_ITEM_GetMetalPowderHandlers, HAND_ITEM_MetalPowder_DoubleDefense, HAND_ITEM_GetQuickPowderHandlers, HAND_ITEM_QuickPowder_DoubleSpeed, HAND_ITEM_GetSoulDewHandlers, HAND_ITEM_SoulDew_BoostSpAttack, HAND_ITEM_SoulDew_BoostSpDefense, HAND_ITEM_GetThickClubHandlers, HAND_ITEM_ThickClub_DoubleAttack, HAND_ITEM_GetChoiceBandHandlers, HAND_ITEM_ChoiceBand_BoostAttack, HAND_ITEM_GetChoiceSpecsHandlers, HAND_ITEM_ChoiceSpecs_BoostSpAttack, HAND_ITEM_GetChoiceScarfHandlers, HAND_ITEM_ChoiceScarf_BoostSpeed, HAND_ITEM_Choice_LockMove, HAND_ITEM_Choice_ReleaseMoveLock, HAND_ITEM_GetFocusSashHandlers, HAND_ITEM_FocusSash_CheckSurvive, HAND_ITEM_FocusSash_ConsumeAndAnnounce, HAND_ITEM_GetFocusBandHandlers, HAND_ITEM_FocusBand_CheckSurvive, HAND_ITEM_FocusBand_UseItem, HAND_ITEM_FocusBand_ShowMessage, HAND_ITEM_GetExpertBeltHandlers, HAND_ITEM_ExpertBelt_BoostSuperEffective, HAND_ITEM_GetLifeOrbHandlers, HAND_ITEM_LifeOrb_RecoilDamage, HAND_ITEM_LifeOrb_BoostDamage, HAND_ITEM_GetMetronomeHandlers, HAND_ITEM_Metronome_BoostConsecutiveUse, HAND_ITEM_GetGripClawHandlers, HAND_ITEM_GripClaw_ExtendBind, HAND_ITEM_GetShellBellHandlers, HAND_ITEM_ShellBell_HealFromDamage, HAND_ITEM_GetLightClayHandlers, HAND_ITEM_LightClay_ExtendScreen, HAND_ITEM_GetPowerHerbHandlers, HAND_ITEM_PowerHerb_CheckSkipCharge, HAND_ITEM_PowerHerb_UseItem, HAND_ITEM_PowerHerb_ShowMessage, HAND_ITEM_GetLeftoversHandlers, HAND_ITEM_Leftovers_TriggerOnTurnEnd, HAND_ITEM_Leftovers_Heal, HAND_ITEM_GetBlackSludgeHandlers, HAND_ITEM_BlackSludge_HealOrDamage, HAND_ITEM_GetDestinyKnotHandlers, HAND_ITEM_DestinyKnot_Infatuate, HAND_ITEM_GetStickyBarbHandlers, HAND_ITEM_StickyBarb_Transfer, HAND_ITEM_StickyBarb_TurnEndDamage, HAND_ITEM_GetPowerWeightHandlers, HAND_ITEM_GetPowerBracerHandlers, HAND_ITEM_GetPowerBeltHandlers, HAND_ITEM_GetPowerLensHandlers, HAND_ITEM_GetPowerBandHandlers, HAND_ITEM_GetPowerAnkletHandlers, HAND_ITEM_PowerItem_HalveSpeed, HAND_ITEM_GetFlamePlateHandlers, HAND_ITEM_GetSplashPlateHandlers, HAND_ITEM_GetZapPlateHandlers, HAND_ITEM_GetMeadowPlateHandlers, HAND_ITEM_GetIciclePlateHandlers, HAND_ITEM_GetFistPlateHandlers, HAND_ITEM_GetToxicPlateHandlers, HAND_ITEM_GetEarthPlateHandlers, HAND_ITEM_GetSkyPlateHandlers, HAND_ITEM_GetMindPlateHandlers, HAND_ITEM_GetInsectPlateHandlers, HAND_ITEM_GetStonePlateHandlers, HAND_ITEM_GetSpookyPlateHandlers, HAND_ITEM_GetDracoPlateHandlers, HAND_ITEM_GetDreadPlateHandlers, HAND_ITEM_GetIronPlateHandlers, HAND_ITEM_GetBigRootHandlers, HAND_ITEM_BigRoot_BoostDrain, HAND_ITEM_GetSmokeBallHandlers, HAND_ITEM_SmokeBall_AllowEscape, HAND_ITEM_SmokeBallShowEscapeMessage, HAND_ITEM_GetAmuletCoinHandlers, HAND_ITEM_AmuletCoinFlagDoublePrizeOnEnter, HAND_ITEM_AmuletCoinFlagDoublePrizeOnEnterDone, HAND_ITEM_GetGriseousOrbHandlers, HAND_ITEM_GriseousOrbBoostDragonGhostPower, HAND_ITEM_GetIcyRockHandlers, HAND_ITEM_IcyRockExtendHail, HAND_ITEM_GetSmoothRockHandlers, HAND_ITEM_SmoothRockExtendSandstorm, HAND_ITEM_GetHeatRockHandlers, HAND_ITEM_HeatRockExtendSunshine, HAND_ITEM_GetDampRockHandlers, HAND_ITEM_DampRockExtendRain, HAND_ITEM_ExtendWeatherTurns, HAND_ITEM_GetLightBallHandlers, HAND_ITEM_LightBallDoublePikachuAttack, HAND_ITEM_LightBallFlingParalyze, HAND_ITEM_GetToxicOrbHandlers, HAND_ITEM_ToxicOrbPoisonHolderOnTurnEnd, HAND_ITEM_ToxicOrbFlingPoison, HAND_ITEM_GetFlameOrbHandlers, HAND_ITEM_FlameOrbBurnHolderOnTurnEnd, HAND_ITEM_FlameOrbFlingBurn, HAND_ITEM_GetSilverPowderHandlers, HAND_ITEM_SilverPowderBoostPower, HAND_ITEM_GetSoftSandHandlers, HAND_ITEM_SoftSandBoostPower, HAND_ITEM_GetHardStoneHandlers, HAND_ITEM_HardStoneBoostPower, HAND_ITEM_GetMiracleSeedHandlers, HAND_ITEM_MiracleSeedBoostPower, HAND_ITEM_GetBlackGlassesHandlers, HAND_ITEM_BlackGlassesBoostPower, HAND_ITEM_GetBlackBeltHandlers, HAND_ITEM_BlackBeltBoostPower, HAND_ITEM_GetMagnetHandlers, HAND_ITEM_MagnetBoostPower, HAND_ITEM_GetMetalCoatHandlers, HAND_ITEM_MetalCoatBoostPower, HAND_ITEM_GetMysticWaterHandlers, HAND_ITEM_MysticWaterBoostPower, HAND_ITEM_GetSharpBeakHandlers, HAND_ITEM_SharpBeakBoostPower, HAND_ITEM_GetPoisonBarbHandlers, HAND_ITEM_PoisonBarbBoostPower, HAND_ITEM_PoisonBarbFlingPoison, HAND_ITEM_GetNeverMeltIceHandlers, HAND_ITEM_NeverMeltIceBoostPower, HAND_ITEM_GetSpellTagHandlers, HAND_ITEM_SpellTagBoostPower, HAND_ITEM_GetTwistedSpoonHandlers, HAND_ITEM_TwistedSpoonBoostPower, HAND_ITEM_GetCharcoalHandlers, HAND_ITEM_CharcoalBoostPower, HAND_ITEM_GetDragonFangHandlers, HAND_ITEM_DragonFangBoostPower, HAND_ITEM_GetSilkScarfHandlers, HAND_ITEM_SilkScarfBoostPower, HAND_ITEM_GetOddIncenseHandlers, HAND_ITEM_OddIncenseBoostPower, HAND_ITEM_GetRockIncenseHandlers, HAND_ITEM_RockIncenseBoostPower, HAND_ITEM_GetSeaIncenseHandlers, HAND_ITEM_SeaIncenseBoostPower, HAND_ITEM_GetWaveIncenseHandlers, HAND_ITEM_WaveIncenseBoostPower, HAND_ITEM_GetRoseIncenseHandlers, HAND_ITEM_RoseIncenseBoostPower, HAND_ITEM_BoostMovePowerOfType, HAND_ITEM_GetLustrousOrbHandlers, HAND_ITEM_LustrousOrbMovePower, HAND_ITEM_GetAdamantOrbHandlers, HAND_ITEM_AdamantOrbMovePower, HAND_ITEM_GetIronBallHandlers, HAND_ITEM_IronBallSpeedRatio, HAND_ITEM_IronBallGroundCheck, HAND_ITEM_GetFloatStoneHandlers, HAND_ITEM_FloatStoneWeightRatio, HAND_ITEM_GetEvioliteHandlers, HAND_ITEM_EvioliteDefenseRatio, HAND_ITEM_GetRockyHelmetHandlers, HAND_ITEM_RockyHelmetDamageReaction, HAND_ITEM_GetAirBalloonHandlers, HAND_ITEM_AirBalloonEnterField, HAND_ITEM_AirBalloonGroundCheck, HAND_ITEM_AirBalloonPop, HAND_ITEM_GetRedCardHandlers, HAND_ITEM_RedCardForceSwitch, HAND_ITEM_GetRingTargetHandlers, HAND_ITEM_RingTargetImmunityOverride, HAND_ITEM_GetBindingBandHandlers, HAND_ITEM_BindingBandSickCont, HAND_ITEM_GetAbsorbBulbHandlers, HAND_ITEM_AbsorbBulbDamageReaction, HAND_ITEM_AbsorbBulbUse, HAND_ITEM_GetCellBatteryHandlers, HAND_ITEM_CellBatteryDamageReaction, HAND_ITEM_CellBatteryUse, HAND_ITEM_GetEjectButtonHandlers, HAND_ITEM_EjectButtonAfterDamage, HAND_ITEM_EjectButtonUse, HAND_ITEM_GetFireGemHandlers, HAND_ITEM_FireGemMovePower, HAND_ITEM_FireGemMoveUsed, HAND_ITEM_GetWaterGemHandlers, HAND_ITEM_WaterGemMovePower, HAND_ITEM_WaterGemMoveUsed, HAND_ITEM_GetElectricGemHandlers, HAND_ITEM_ElectricGemMovePower, HAND_ITEM_ElectricGemMoveUsed, HAND_ITEM_GetGrassGemHandlers, HAND_ITEM_GrassGemMovePower, HAND_ITEM_GrassGemMoveUsed, HAND_ITEM_GetIceGemHandlers, HAND_ITEM_IceGemMovePower, HAND_ITEM_IceGemMoveUsed, HAND_ITEM_GetFightingGemHandlers, HAND_ITEM_FightingGemMovePower, HAND_ITEM_FightingGemMoveUsed, HAND_ITEM_GetPoisonGemHandlers, HAND_ITEM_PoisonGemMovePower, HAND_ITEM_PoisonGemMoveUsed, HAND_ITEM_GetGroundGemHandlers, HAND_ITEM_GroundGemMovePower, HAND_ITEM_GroundGemMoveUsed, HAND_ITEM_GetFlyingGemHandlers, HAND_ITEM_FlyingGemMovePower, HAND_ITEM_FlyingGemMoveUsed, HAND_ITEM_GetPsychicGemHandlers, HAND_ITEM_PsychicGemMovePower, HAND_ITEM_PsychicGemMoveUsed, HAND_ITEM_GetBugGemHandlers, HAND_ITEM_BugGemMovePower, HAND_ITEM_BugGemMoveUsed, HAND_ITEM_GetRockGemHandlers, HAND_ITEM_RockGemMovePower, HAND_ITEM_RockGemMoveUsed, HAND_ITEM_GetGhostGemHandlers, HAND_ITEM_GhostGemMovePower, HAND_ITEM_GhostGemMoveUsed, HAND_ITEM_GetDragonGemHandlers, HAND_ITEM_DragonGemMovePower, HAND_ITEM_DragonGemMoveUsed, HAND_ITEM_GetDarkGemHandlers, HAND_ITEM_DarkGemMovePower, HAND_ITEM_DarkGemMoveUsed, HAND_ITEM_GetSteelGemHandlers, HAND_ITEM_SteelGemMovePower, HAND_ITEM_SteelGemMoveUsed, HAND_ITEM_GetNormalGemHandlers, HAND_ITEM_NormalGemMoveUsed, HAND_ITEM_NormalGemMovePower, HAND_ITEM_GemMoveUsed
+ * function: HAND_ITEM_AddFactor, HAND_ITEM_RemoveUnforcedFactors, HAND_ITEM_AddHeldItemFactor, HAND_ITEM_AddForcedFactor, HAND_ITEM_RemoveFactor, HAND_ITEM_DisablePokeFactors, HAND_ITEM_EnablePokeFactors, HAND_ITEM_RollChance, HAND_ITEM_GetParam, HAND_ITEM_GetBoostRatio, HAND_ITEM_PushUseItem, HAND_ITEM_CheriBerryOnTrigger, HAND_ITEM_CheriBerryOnEaten, HAND_ITEM_AddCheriBerry, HAND_ITEM_ChestoBerryOnTrigger, HAND_ITEM_ChestoBerryOnEaten, HAND_ITEM_AddChestoBerry, HAND_ITEM_RawstBerryOnTrigger, HAND_ITEM_RawstBerryOnEaten, HAND_ITEM_AddRawstBerry, HAND_ITEM_AspearBerryOnTrigger, HAND_ITEM_AspearBerryOnEaten, HAND_ITEM_AddAspearBerry, HAND_ITEM_PersimBerryOnTrigger, HAND_ITEM_PersimBerryOnEaten, HAND_ITEM_AddPersimBerry, HAND_ITEM_PechaBerryOnTrigger, HAND_ITEM_PechaBerryOnEaten, HAND_ITEM_AddPechaBerry, HAND_ITEM_LumBerryOnTrigger, HAND_ITEM_LumBerryOnEaten, HAND_ITEM_AddLumBerry, HAND_ITEM_CureSickOnTrigger, HAND_ITEM_CureSickOnEaten, HAND_ITEM_CheckHasSick, HAND_ITEM_AddLeppaBerry, HAND_ITEM_LeppaBerryOnLastMoveEmpty, HAND_ITEM_LeppaBerryOnAnyMoveEmptyChecked, HAND_ITEM_LeppaBerryOnAnyMoveEmpty, HAND_ITEM_LeppaBerryClaimTrigger, HAND_ITEM_LeppaBerryOnEaten, HAND_ITEM_LeppaBerryOnForcedUse, HAND_ITEM_FindLastMoveEmptySlot, HAND_ITEM_FindEmptyMoveSlot, HAND_ITEM_PushRecoverPp, HAND_ITEM_AddOranBerry, HAND_ITEM_RecoverHpOnTrigger, HAND_ITEM_RecoverHpOnCheck, HAND_ITEM_RecoverHpOnLowHp, HAND_ITEM_RecoverFixedHpOnEaten, HAND_ITEM_AddBerryJuice, HAND_ITEM_AddSitrusBerry, HAND_ITEM_RecoverHpPercentOfMaxHp, HAND_ITEM_GetFigyBerryHandlers, HAND_ITEM_FigyBerryFlavorHeal, HAND_ITEM_FigyBerryFlavorHealIfForcedUse, HAND_ITEM_GetWikiBerryHandlers, HAND_ITEM_WikiBerryFlavorHeal, HAND_ITEM_WikiBerryFlavorHealIfForcedUse, HAND_ITEM_GetMagoBerryHandlers, HAND_ITEM_MagoBerryFlavorHeal, HAND_ITEM_MagoBerryFlavorHealIfForcedUse, HAND_ITEM_GetAguavBerryHandlers, HAND_ITEM_AguavBerryFlavorHeal, HAND_ITEM_AguavBerryFlavorHealIfForcedUse, HAND_ITEM_GetIapapaBerryHandlers, HAND_ITEM_IapapaBerryFlavorHeal, HAND_ITEM_IapapaBerryFlavorHealIfForcedUse, HAND_ITEM_RequestUseAtHalfHpChecked, HAND_ITEM_RequestUseAtHalfHp, HAND_ITEM_RequestUseAtHalfHpDirect, HAND_ITEM_FlavorHeal, HAND_ITEM_GetRaiseAttackOneHandlers, HAND_ITEM_RaiseAttackOne, HAND_ITEM_GetRaiseDefenseOneHandlers, HAND_ITEM_RaiseDefenseOne, HAND_ITEM_GetRaiseSpeedOneHandlers, HAND_ITEM_RaiseSpeedOne, HAND_ITEM_GetRaiseSpAttackOneHandlers, HAND_ITEM_RaiseSpAttackOne, HAND_ITEM_GetRaiseSpDefenseOneHandlers, HAND_ITEM_RaiseSpDefenseOne, HAND_ITEM_GetRaiseCriticalRateHandlers, HAND_ITEM_RaiseCriticalRate, HAND_ITEM_GetRaiseRandomStatHandlers, HAND_ITEM_RaiseRandomStatTwo, HAND_ITEM_RaiseStat, HAND_ITEM_GetSuperEffectiveHitRecoverHandlers, HAND_ITEM_RequestUseOnSuperEffectiveHit, HAND_ITEM_RecoverHpByMaxHpDivisor, HAND_ITEM_GetWeakenDamageFireHandlers, HAND_ITEM_WeakenDamageFire, HAND_ITEM_GetWeakenDamageWaterHandlers, HAND_ITEM_WeakenDamageWater, HAND_ITEM_GetWeakenDamageElectricHandlers, HAND_ITEM_WeakenDamageElectric, HAND_ITEM_GetWeakenDamageGrassHandlers, HAND_ITEM_WeakenDamageGrass, HAND_ITEM_GetWeakenDamageIceHandlers, HAND_ITEM_WeakenDamageIce, HAND_ITEM_GetWeakenDamageFightingHandlers, HAND_ITEM_WeakenDamageFighting, HAND_ITEM_GetWeakenDamagePoisonHandlers, HAND_ITEM_WeakenDamagePoison, HAND_ITEM_GetWeakenDamageGroundHandlers, HAND_ITEM_WeakenDamageGround, HAND_ITEM_GetWeakenDamageFlyingHandlers, HAND_ITEM_WeakenDamageFlying, HAND_ITEM_GetWeakenDamagePsychicHandlers, HAND_ITEM_WeakenDamagePsychic, HAND_ITEM_GetWeakenDamageBugHandlers, HAND_ITEM_WeakenDamageBug, HAND_ITEM_GetWeakenDamageRockHandlers, HAND_ITEM_WeakenDamageRock, HAND_ITEM_GetWeakenDamageGhostHandlers, HAND_ITEM_KasibBerryWeakenGhostHit, HAND_ITEM_GetHabanBerryHandlers, HAND_ITEM_HabanBerryWeakenDragonHit, HAND_ITEM_GetColburBerryHandlers, HAND_ITEM_ColburBerryWeakenDarkHit, HAND_ITEM_GetBabiriBerryHandlers, HAND_ITEM_BabiriBerryWeakenSteelHit, HAND_ITEM_GetChilanBerryHandlers, HAND_ITEM_ChilanBerryWeakenNormalHit, HAND_ITEM_WeakenHitOfType, HAND_ITEM_ShowResistBerryMessage, HAND_ITEM_HpBerryCheckAfterDamage, HAND_ITEM_HpBerryCheckAtTurnEnd, HAND_ITEM_HpBerryCheckOnUse, HAND_ITEM_HpBerryCheckAndUse, HAND_ITEM_IsHpLowForTrigger, HAND_ITEM_IsHpAtOrBelowFraction, HAND_ITEM_GetCustapBerryHandlers, HAND_ITEM_CustapBerryMoveFirst, HAND_ITEM_CustapBerryShowMessage, HAND_ITEM_GetMicleBerryHandlers, HAND_ITEM_MicleBerryCheckOnSwitchIn, HAND_ITEM_MicleBerryCheckAfterDamage, HAND_ITEM_MicleBerryCheckAfterAction, HAND_ITEM_MicleBerryCheckHp, HAND_ITEM_MicleBerryRaiseAccuracy, HAND_ITEM_MicleBerryUseWhenForced, HAND_ITEM_GetJabocaBerryHandlers, HAND_ITEM_JabocaBerryRememberPhysicalAttacker, HAND_ITEM_GetRowapBerryHandlers, HAND_ITEM_RowapBerryRememberSpecialAttacker, HAND_ITEM_RememberAttackerOfCategory, HAND_ITEM_HitBackAttacker, HAND_ITEM_GetWhiteHerbHandlers, HAND_ITEM_WhiteHerbCheckLoweredStats, HAND_ITEM_WhiteHerbCheckAfterAction, HAND_ITEM_WhiteHerbCheckOnStatChange, HAND_ITEM_WhiteHerbRestoreStats, HAND_ITEM_WhiteHerbUseWhenForced, HAND_ITEM_GetMentalHerbHandlers, HAND_ITEM_MentalHerbCheckCondition, HAND_ITEM_MentalHerbCureCondition, HAND_ITEM_MentalHerbUseWhenForced, HAND_ITEM_GetBrightPowderHandlers, HAND_ITEM_BrightPowderLowerAccuracy, HAND_ITEM_GetMachoBraceHandlers, HAND_ITEM_MachoBraceHalveSpeed, HAND_ITEM_GetQuickClawHandlers, HAND_ITEM_QuickClawMoveFirst, HAND_ITEM_QuickClawShowMessage, HAND_ITEM_GetLaggingTailHandlers, HAND_ITEM_LaggingTailMoveLast, HAND_ITEM_GetKingsRockHandlers, HAND_ITEM_KingsRockSetFlinchChance, HAND_ITEM_KingsRockFlingFlinch, HAND_ITEM_GetRazorFangHandlers, HAND_ITEM_GetWideLensHandlers, HAND_ITEM_WideLensRaiseAccuracy, HAND_ITEM_GetScopeLensHandlers, HAND_ITEM_RaiseCriticalRankByOne, HAND_ITEM_GetLuckyPunchHandlers, HAND_ITEM_LuckyPunchRaiseCriticalRankChansey, HAND_ITEM_GetStickHandlers, HAND_ITEM_StickRaiseCriticalRankFarfetchd, HAND_ITEM_GetZoomLensHandlers, HAND_ITEM_ZoomLensRaiseAccuracy, HAND_ITEM_GetLaxIncenseHandlers, HAND_ITEM_LaxIncenseLowerAccuracy, HAND_ITEM_GetMuscleBandHandlers, HAND_ITEM_MuscleBandBoostPhysical, HAND_ITEM_GetWiseGlassesHandlers, HAND_ITEM_WiseGlassesBoostSpecial, HAND_ITEM_GetDeepSeaToothHandlers, HAND_ITEM_DeepSeaToothDoubleSpAtk, HAND_ITEM_GetDeepSeaScaleHandlers, HAND_ITEM_DeepSeaScaleDoubleSpDef, HAND_ITEM_GetMetalPowderHandlers, HAND_ITEM_MetalPowder_DoubleDefense, HAND_ITEM_GetQuickPowderHandlers, HAND_ITEM_QuickPowder_DoubleSpeed, HAND_ITEM_GetSoulDewHandlers, HAND_ITEM_SoulDew_BoostSpAttack, HAND_ITEM_SoulDew_BoostSpDefense, HAND_ITEM_GetThickClubHandlers, HAND_ITEM_ThickClub_DoubleAttack, HAND_ITEM_GetChoiceBandHandlers, HAND_ITEM_ChoiceBand_BoostAttack, HAND_ITEM_GetChoiceSpecsHandlers, HAND_ITEM_ChoiceSpecs_BoostSpAttack, HAND_ITEM_GetChoiceScarfHandlers, HAND_ITEM_ChoiceScarf_BoostSpeed, HAND_ITEM_Choice_LockMove, HAND_ITEM_Choice_ReleaseMoveLock, HAND_ITEM_GetFocusSashHandlers, HAND_ITEM_FocusSash_CheckSurvive, HAND_ITEM_FocusSash_ConsumeAndAnnounce, HAND_ITEM_GetFocusBandHandlers, HAND_ITEM_FocusBand_CheckSurvive, HAND_ITEM_FocusBand_UseItem, HAND_ITEM_FocusBand_ShowMessage, HAND_ITEM_GetExpertBeltHandlers, HAND_ITEM_ExpertBelt_BoostSuperEffective, HAND_ITEM_GetLifeOrbHandlers, HAND_ITEM_LifeOrb_RecoilDamage, HAND_ITEM_LifeOrb_BoostDamage, HAND_ITEM_GetMetronomeHandlers, HAND_ITEM_Metronome_BoostConsecutiveUse, HAND_ITEM_GetGripClawHandlers, HAND_ITEM_GripClaw_ExtendBind, HAND_ITEM_GetShellBellHandlers, HAND_ITEM_ShellBell_HealFromDamage, HAND_ITEM_GetLightClayHandlers, HAND_ITEM_LightClay_ExtendScreen, HAND_ITEM_GetPowerHerbHandlers, HAND_ITEM_PowerHerb_CheckSkipCharge, HAND_ITEM_PowerHerb_UseItem, HAND_ITEM_PowerHerb_ShowMessage, HAND_ITEM_GetLeftoversHandlers, HAND_ITEM_Leftovers_TriggerOnTurnEnd, HAND_ITEM_Leftovers_Heal, HAND_ITEM_GetBlackSludgeHandlers, HAND_ITEM_BlackSludge_HealOrDamage, HAND_ITEM_GetDestinyKnotHandlers, HAND_ITEM_DestinyKnot_Infatuate, HAND_ITEM_GetStickyBarbHandlers, HAND_ITEM_StickyBarb_Transfer, HAND_ITEM_StickyBarb_TurnEndDamage, HAND_ITEM_GetPowerWeightHandlers, HAND_ITEM_GetPowerBracerHandlers, HAND_ITEM_GetPowerBeltHandlers, HAND_ITEM_GetPowerLensHandlers, HAND_ITEM_GetPowerBandHandlers, HAND_ITEM_GetPowerAnkletHandlers, HAND_ITEM_PowerItem_HalveSpeed, HAND_ITEM_GetFlamePlateHandlers, HAND_ITEM_GetSplashPlateHandlers, HAND_ITEM_GetZapPlateHandlers, HAND_ITEM_GetMeadowPlateHandlers, HAND_ITEM_GetIciclePlateHandlers, HAND_ITEM_GetFistPlateHandlers, HAND_ITEM_GetToxicPlateHandlers, HAND_ITEM_GetEarthPlateHandlers, HAND_ITEM_GetSkyPlateHandlers, HAND_ITEM_GetMindPlateHandlers, HAND_ITEM_GetInsectPlateHandlers, HAND_ITEM_GetStonePlateHandlers, HAND_ITEM_GetSpookyPlateHandlers, HAND_ITEM_GetDracoPlateHandlers, HAND_ITEM_GetDreadPlateHandlers, HAND_ITEM_GetIronPlateHandlers, HAND_ITEM_GetBigRootHandlers, HAND_ITEM_BigRoot_BoostDrain, HAND_ITEM_GetSmokeBallHandlers, HAND_ITEM_SmokeBall_AllowEscape, HAND_ITEM_SmokeBallShowEscapeMessage, HAND_ITEM_GetAmuletCoinHandlers, HAND_ITEM_AmuletCoinFlagDoublePrizeOnEnter, HAND_ITEM_AmuletCoinFlagDoublePrizeOnEnterDone, HAND_ITEM_GetGriseousOrbHandlers, HAND_ITEM_GriseousOrbBoostDragonGhostPower, HAND_ITEM_GetIcyRockHandlers, HAND_ITEM_IcyRockExtendHail, HAND_ITEM_GetSmoothRockHandlers, HAND_ITEM_SmoothRockExtendSandstorm, HAND_ITEM_GetHeatRockHandlers, HAND_ITEM_HeatRockExtendSunshine, HAND_ITEM_GetDampRockHandlers, HAND_ITEM_DampRockExtendRain, HAND_ITEM_ExtendWeatherTurns, HAND_ITEM_GetLightBallHandlers, HAND_ITEM_LightBallDoublePikachuAttack, HAND_ITEM_LightBallFlingParalyze, HAND_ITEM_GetToxicOrbHandlers, HAND_ITEM_ToxicOrbPoisonHolderOnTurnEnd, HAND_ITEM_ToxicOrbFlingPoison, HAND_ITEM_GetFlameOrbHandlers, HAND_ITEM_FlameOrbBurnHolderOnTurnEnd, HAND_ITEM_FlameOrbFlingBurn, HAND_ITEM_GetSilverPowderHandlers, HAND_ITEM_SilverPowderBoostPower, HAND_ITEM_GetSoftSandHandlers, HAND_ITEM_SoftSandBoostPower, HAND_ITEM_GetHardStoneHandlers, HAND_ITEM_HardStoneBoostPower, HAND_ITEM_GetMiracleSeedHandlers, HAND_ITEM_MiracleSeedBoostPower, HAND_ITEM_GetBlackGlassesHandlers, HAND_ITEM_BlackGlassesBoostPower, HAND_ITEM_GetBlackBeltHandlers, HAND_ITEM_BlackBeltBoostPower, HAND_ITEM_GetMagnetHandlers, HAND_ITEM_MagnetBoostPower, HAND_ITEM_GetMetalCoatHandlers, HAND_ITEM_MetalCoatBoostPower, HAND_ITEM_GetMysticWaterHandlers, HAND_ITEM_MysticWaterBoostPower, HAND_ITEM_GetSharpBeakHandlers, HAND_ITEM_SharpBeakBoostPower, HAND_ITEM_GetPoisonBarbHandlers, HAND_ITEM_PoisonBarbBoostPower, HAND_ITEM_PoisonBarbFlingPoison, HAND_ITEM_GetNeverMeltIceHandlers, HAND_ITEM_NeverMeltIceBoostPower, HAND_ITEM_GetSpellTagHandlers, HAND_ITEM_SpellTagBoostPower, HAND_ITEM_GetTwistedSpoonHandlers, HAND_ITEM_TwistedSpoonBoostPower, HAND_ITEM_GetCharcoalHandlers, HAND_ITEM_CharcoalBoostPower, HAND_ITEM_GetDragonFangHandlers, HAND_ITEM_DragonFangBoostPower, HAND_ITEM_GetSilkScarfHandlers, HAND_ITEM_SilkScarfBoostPower, HAND_ITEM_GetOddIncenseHandlers, HAND_ITEM_OddIncenseBoostPower, HAND_ITEM_GetRockIncenseHandlers, HAND_ITEM_RockIncenseBoostPower, HAND_ITEM_GetWaveIncenseHandlers, HAND_ITEM_WaveIncenseBoostPower, HAND_ITEM_GetSeaIncenseHandlers, HAND_ITEM_SeaIncenseBoostPower, HAND_ITEM_GetRoseIncenseHandlers, HAND_ITEM_RoseIncenseBoostPower, HAND_ITEM_BoostMovePowerOfType, HAND_ITEM_GetLustrousOrbHandlers, HAND_ITEM_LustrousOrbMovePower, HAND_ITEM_GetAdamantOrbHandlers, HAND_ITEM_AdamantOrbMovePower, HAND_ITEM_GetIronBallHandlers, HAND_ITEM_IronBallSpeedRatio, HAND_ITEM_IronBallGroundCheck, HAND_ITEM_GetFloatStoneHandlers, HAND_ITEM_FloatStoneWeightRatio, HAND_ITEM_GetEvioliteHandlers, HAND_ITEM_EvioliteDefenseRatio, HAND_ITEM_GetRockyHelmetHandlers, HAND_ITEM_RockyHelmetDamageReaction, HAND_ITEM_GetAirBalloonHandlers, HAND_ITEM_AirBalloonEnterField, HAND_ITEM_AirBalloonGroundCheck, HAND_ITEM_AirBalloonPop, HAND_ITEM_GetRedCardHandlers, HAND_ITEM_RedCardForceSwitch, HAND_ITEM_GetRingTargetHandlers, HAND_ITEM_RingTargetImmunityOverride, HAND_ITEM_GetBindingBandHandlers, HAND_ITEM_BindingBandSickCont, HAND_ITEM_GetAbsorbBulbHandlers, HAND_ITEM_AbsorbBulbDamageReaction, HAND_ITEM_AbsorbBulbUse, HAND_ITEM_GetCellBatteryHandlers, HAND_ITEM_CellBatteryDamageReaction, HAND_ITEM_CellBatteryUse, HAND_ITEM_GetEjectButtonHandlers, HAND_ITEM_EjectButtonAfterDamage, HAND_ITEM_EjectButtonUse, HAND_ITEM_GetFireGemHandlers, HAND_ITEM_FireGemMovePower, HAND_ITEM_FireGemMoveUsed, HAND_ITEM_GetWaterGemHandlers, HAND_ITEM_WaterGemMovePower, HAND_ITEM_WaterGemMoveUsed, HAND_ITEM_GetElectricGemHandlers, HAND_ITEM_ElectricGemMovePower, HAND_ITEM_ElectricGemMoveUsed, HAND_ITEM_GetGrassGemHandlers, HAND_ITEM_GrassGemMovePower, HAND_ITEM_GrassGemMoveUsed, HAND_ITEM_GetIceGemHandlers, HAND_ITEM_IceGemMovePower, HAND_ITEM_IceGemMoveUsed, HAND_ITEM_GetFightingGemHandlers, HAND_ITEM_FightingGemMovePower, HAND_ITEM_FightingGemMoveUsed, HAND_ITEM_GetPoisonGemHandlers, HAND_ITEM_PoisonGemMovePower, HAND_ITEM_PoisonGemMoveUsed, HAND_ITEM_GetGroundGemHandlers, HAND_ITEM_GroundGemMovePower, HAND_ITEM_GroundGemMoveUsed, HAND_ITEM_GetFlyingGemHandlers, HAND_ITEM_FlyingGemMovePower, HAND_ITEM_FlyingGemMoveUsed, HAND_ITEM_GetPsychicGemHandlers, HAND_ITEM_PsychicGemMovePower, HAND_ITEM_PsychicGemMoveUsed, HAND_ITEM_GetBugGemHandlers, HAND_ITEM_BugGemMovePower, HAND_ITEM_BugGemMoveUsed, HAND_ITEM_GetRockGemHandlers, HAND_ITEM_RockGemMovePower, HAND_ITEM_RockGemMoveUsed, HAND_ITEM_GetGhostGemHandlers, HAND_ITEM_GhostGemMovePower, HAND_ITEM_GhostGemMoveUsed, HAND_ITEM_GetDragonGemHandlers, HAND_ITEM_DragonGemMovePower, HAND_ITEM_DragonGemMoveUsed, HAND_ITEM_GetDarkGemHandlers, HAND_ITEM_DarkGemMovePower, HAND_ITEM_DarkGemMoveUsed, HAND_ITEM_GetSteelGemHandlers, HAND_ITEM_SteelGemMovePower, HAND_ITEM_SteelGemMoveUsed, HAND_ITEM_GetNormalGemHandlers, HAND_ITEM_NormalGemMoveUsed, HAND_ITEM_NormalGemMovePower, HAND_ITEM_GemMoveUsed
  * address:  0x021DCEC4
  * region:   ov093
  * compiler: dsi/1.1p1
@@ -91,14 +91,14 @@
  *   gBerryJuiceHandlers     0x021F1AA4  data   ov093  a4
  *   gSitrusBerryHandlers     0x021F1BDC  data   ov093  a4
  *   HAND_ITEM_GetParam   0x021DCFF8  thumb ov093
- *   gBtlItemFlavorHealDefenseHandlers 0x021F1C2C data a4
- *   gBtlItemFlavorHealSpeedHandlers 0x021F1C54 data a4
- *   gBtlItemFlavorHealSpAttackHandlers 0x021F1C7C data a4
- *   gBtlItemFlavorHealSpDefenseHandlers 0x021F1CA4 data a4
+ *   gWikiBerryHandlers 0x021F1C2C data a4
+ *   gMagoBerryHandlers 0x021F1C54 data a4
+ *   gAguavBerryHandlers 0x021F1C7C data a4
+ *   gIapapaBerryHandlers 0x021F1CA4 data a4
  *   HAND_ITEM_PushUseItem 0x021DD044 thumb ov093
  *   BTL_POKEPARAM_GetMon  0x021D5844  thumb  ov093
  *   POKE_TOOL_GetNatureStatMod  0x020189D0  thumb
- *   gBtlItemFlavorHealAttackHandlers     0x021F1C04  data   ov093  a4
+ *   gFigyBerryHandlers     0x021F1C04  data   ov093  a4
  *   gBtlItemRaiseAttackOneHandlers     0x021F1CCC  data   ov093  a4
  *   gBtlItemRaiseDefenseOneHandlers     0x021F1CF4  data   ov093  a4
  *   gBtlItemRaiseSpeedOneHandlers     0x021F1D1C  data   ov093  a4
@@ -235,8 +235,8 @@
  *   gSilkScarfHandlers     0x021F159C  data   ov093  a4
  *   gOddIncenseHandlers     0x021F155C  data   ov093  a4
  *   gRockIncenseHandlers     0x021F1404  data   ov093  a4
- *   gSeaIncenseHandlers     0x021F1544  data   ov093  a4
- *   gWaveIncenseHandlers     0x021F14DC  data   ov093  a4
+ *   gWaveIncenseHandlers     0x021F1544  data   ov093  a4
+ *   gSeaIncenseHandlers     0x021F14DC  data   ov093  a4
  *   gRoseIncenseHandlers     0x021F1414  data    a4
  *   gLustrousOrbHandlers     0x021F141C  data   ov093  a4
  *   gBtlHandlerItemAdamantOrbHandlers     0x021F157C  data   ov093  a4
@@ -277,6 +277,12 @@
  *   gHandItemSteelGemHandlers     0x021F19F4  data   ov093  a4
  *   BTL_EVENT_IsFactorDead  0x021D7098  thumb  ov093
  *   gHandItemNormalGemHandlers     0x021F19C4  data   ov093  a4
+ *   _fadd                        0x0209C95C  arm
+ *   _ffix                        0x0209C494  arm
+ *   _fflt                        0x0209BDBC  arm
+ *   _ffltu                       0x0209BE04  arm
+ *   _fsub                        0x0209CB8C  arm
+ *   _u32_div_f                   0x0209C2B0  arm
  */
 #include "btl_action_word_types.h"
 #include "hand_tokusei_types.h"
@@ -906,12 +912,15 @@ extern u16 BTL_EVENT_GetFactorKey(struct BtlEventFactor *factor);
 extern int BTL_POKEPARAM_HasSick(struct BtlPokeParam *bpp, int sickId);
 
 extern int BTL_CALC_DivideMaxHpMin1(struct BtlPokeParam *pokeParam, u32 divisor);
+struct PokemonParam;
 
-extern void *BTL_POKEPARAM_GetMon(struct BtlPokeParam *pokeParam);
+extern struct PokemonParam *BTL_POKEPARAM_GetMon(struct BtlPokeParam *pokeParam);
+struct BoxPokemon;
 
-extern int POKE_TOOL_GetNatureStatMod(void *mon, int statIndex);
+extern int POKE_TOOL_GetNatureStatMod(struct BoxPokemon *box, s32 stat);
+union BtlSickCont;
 
-extern void BTL_CALC_MakeSickContFromKind(int sickKind, struct BtlPokeParam *pokeParam, union SickCont *out);
+extern void BTL_CALC_MakeSickContFromKind(s32 kind, struct BtlPokeParam *attacker, union BtlSickCont *out);
 
 extern int BTL_POKEPARAM_TestContFlag(struct BtlPokeParam *bpp, u32 flagIndex);
 
@@ -939,55 +948,56 @@ extern u16 BTL_POKEPARAM_GetSpecies(struct BtlPokeParam *poke);
 
 extern int BTL_POKEPARAM_TestTurnFlag(struct BtlPokeParam *poke, u32 flag);
 
-extern int BTL_POKEPARAM_IsTransformed(void *pokeParam);
+extern int BTL_POKEPARAM_IsTransformed(struct BtlPokeParam *poke);
 
-extern u16 BTL_POKEPARAM_GetMoveStreak(void *pokeParam);
+extern u16 BTL_POKEPARAM_GetMoveStreak(struct BtlPokeParam *poke);
+union BtlvSlot;
 
-extern void BTL_SICKCONT_SetIndex(u32 *sickCont, int value);
+extern void BTL_SICKCONT_SetIndex(union BtlvSlot *slot, s32 count);
 
-extern void BTL_SICKCONT_AddIndex(u32 *sickCont, u32 turns);
+extern void BTL_SICKCONT_AddIndex(union BtlvSlot *slot, u32 delta);
 
-extern u16 BTL_POKEPARAM_GetTypePair(void *pokeParam);
+extern u16 BTL_POKEPARAM_GetTypePair(struct BtlPokeParam *pp);
 
 extern int BTL_TYPEPAIR_HasType(int typePair, int typeId);
 
 extern u32 WAZA_TOOL_GetFlag(u16 moveId, u32 flagBit);
 
-extern void HAND_COMMON_EventSetFlagIfAttacker(struct BtlEventFactor *factor, void *flow, int pokeId, void *work);
+extern void HAND_COMMON_EventSetFlagIfAttacker(s32 unusedArg0, s32 unusedArg1, s32 pokeId, s32 unusedArg2);
 
 void HAND_ITEM_GemMovePower(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int pokeId, int *work, u8 gemType);
 
 void HAND_ITEM_RecoverHpPercentOfMaxHp(struct BtlEventFactor *factor, void *server, int pokeId);
 
-int *HAND_ITEM_GetFlavorHealAttackHandlers(int *handlerCount);
+int *HAND_ITEM_GetFigyBerryHandlers(int *handlerCount);
 
-void HAND_ITEM_FlavorHealAttack(struct BtlEventFactor *factor, void *server, int pokeId, int *work);
+void HAND_ITEM_FigyBerryFlavorHeal(struct BtlEventFactor *factor, void *server, int pokeId, int *work);
 
-void HAND_ITEM_FlavorHealAttackIfForcedUse(struct BtlEventFactor *factor, void *server, int pokeId, int *work);
+void HAND_ITEM_FigyBerryFlavorHealIfForcedUse(struct BtlEventFactor *factor, void *server, int pokeId, int *work);
 
-int *HAND_ITEM_GetFlavorHealDefenseHandlers(int *handlerCount);
+int *HAND_ITEM_GetWikiBerryHandlers(int *handlerCount);
 
-void HAND_ITEM_FlavorHealDefense(struct BtlEventFactor *factor, void *server, int pokeId, int *work);
+void HAND_ITEM_WikiBerryFlavorHeal(struct BtlEventFactor *factor, void *server, int pokeId, int *work);
 
-void HAND_ITEM_FlavorHealDefenseIfForcedUse(struct BtlEventFactor *factor, void *server, int pokeId, int *work);
+void HAND_ITEM_WikiBerryFlavorHealIfForcedUse(struct BtlEventFactor *factor, void *server, int pokeId, int *work);
 
-int *HAND_ITEM_GetFlavorHealSpeedHandlers(int *handlerCount);
+int *HAND_ITEM_GetMagoBerryHandlers(int *handlerCount);
 
-void HAND_ITEM_FlavorHealSpeed(struct BtlEventFactor *factor, void *server, int pokeId, int *work);
+void HAND_ITEM_MagoBerryFlavorHeal(struct BtlEventFactor *factor, void *server, int pokeId, int *work);
 
-void HAND_ITEM_FlavorHealSpeedIfForcedUse(struct BtlEventFactor *factor, void *server, int pokeId, int *work);
+void HAND_ITEM_MagoBerryFlavorHealIfForcedUse(struct BtlEventFactor *factor, void *server, int pokeId, int *work);
 
-int *HAND_ITEM_GetFlavorHealSpAttackHandlers(int *handlerCount);
+int *HAND_ITEM_GetAguavBerryHandlers(int *handlerCount);
 
-void HAND_ITEM_FlavorHealSpAttack(struct BtlEventFactor *factor, void *server, int pokeId, int *work);
+void HAND_ITEM_AguavBerryFlavorHeal(struct BtlEventFactor *factor, void *server, int pokeId, int *work);
 
-void HAND_ITEM_FlavorHealSpAttackIfForcedUse(struct BtlEventFactor *factor, void *server, int pokeId, int *work);
+void HAND_ITEM_AguavBerryFlavorHealIfForcedUse(struct BtlEventFactor *factor, void *server, int pokeId, int *work);
 
-int *HAND_ITEM_GetFlavorHealSpDefenseHandlers(int *handlerCount);
+int *HAND_ITEM_GetIapapaBerryHandlers(int *handlerCount);
 
-void HAND_ITEM_FlavorHealSpDefense(struct BtlEventFactor *factor, void *server, int pokeId, int *work);
+void HAND_ITEM_IapapaBerryFlavorHeal(struct BtlEventFactor *factor, void *server, int pokeId, int *work);
 
-void HAND_ITEM_FlavorHealSpDefenseIfForcedUse(struct BtlEventFactor *factor, void *server, int pokeId, int *work);
+void HAND_ITEM_IapapaBerryFlavorHealIfForcedUse(struct BtlEventFactor *factor, void *server, int pokeId, int *work);
 
 void HAND_ITEM_RequestUseAtHalfHpChecked(struct BtlEventFactor *factor, void *server, int pokeId, int *work);
 
@@ -995,7 +1005,7 @@ void HAND_ITEM_RequestUseAtHalfHp(struct BtlEventFactor *factor, void *server, i
 
 void HAND_ITEM_RequestUseAtHalfHpDirect(struct BtlEventFactor *factor, void *server, int pokeId, int *work);
 
-void HAND_ITEM_FlavorHeal(struct BtlEventFactor *factor, void *server, int pokeId, int *work, int statIndex);
+void HAND_ITEM_FlavorHeal(struct BtlEventFactor *factor, void *server, int pokeId, int *work, int natureColumn);
 
 int *HAND_ITEM_GetRaiseAttackOneHandlers(int *handlerCount);
 
@@ -1517,13 +1527,13 @@ const BtlEventHandler *HAND_ITEM_GetRockIncenseHandlers(int *handlerCount);
 
 void HAND_ITEM_RockIncenseBoostPower(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int pokeId);
 
-const BtlEventHandler *HAND_ITEM_GetSeaIncenseHandlers(int *handlerCount);
-
-void HAND_ITEM_SeaIncenseBoostPower(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int pokeId);
-
 const BtlEventHandler *HAND_ITEM_GetWaveIncenseHandlers(int *handlerCount);
 
 void HAND_ITEM_WaveIncenseBoostPower(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int pokeId);
+
+const BtlEventHandler *HAND_ITEM_GetSeaIncenseHandlers(int *handlerCount);
+
+void HAND_ITEM_SeaIncenseBoostPower(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int pokeId);
 
 const BtlEventHandler *HAND_ITEM_GetRoseIncenseHandlers(int *handlerCount);
 
@@ -1699,15 +1709,15 @@ void HAND_ITEM_NormalGemMovePower(struct BtlEventFactor *factor, struct BtlServe
 
 void HAND_ITEM_GemMoveUsed(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int pokeId, int *work, u8 gemType);
 
-extern int gBtlItemFlavorHealAttackHandlers[];
+extern int gFigyBerryHandlers[];
 
-extern int gBtlItemFlavorHealDefenseHandlers[];
+extern int gWikiBerryHandlers[];
 
-extern int gBtlItemFlavorHealSpeedHandlers[];
+extern int gMagoBerryHandlers[];
 
-extern int gBtlItemFlavorHealSpAttackHandlers[];
+extern int gAguavBerryHandlers[];
 
-extern int gBtlItemFlavorHealSpDefenseHandlers[];
+extern int gIapapaBerryHandlers[];
 
 extern int gBtlItemRaiseAttackOneHandlers[];
 
@@ -1943,9 +1953,9 @@ extern const BtlEventHandler gOddIncenseHandlers[];
 
 extern const BtlEventHandler gRockIncenseHandlers[];
 
-extern const BtlEventHandler gSeaIncenseHandlers[];
-
 extern const BtlEventHandler gWaveIncenseHandlers[];
+
+extern const BtlEventHandler gSeaIncenseHandlers[];
 
 extern const BtlEventHandler gRoseIncenseHandlers[];
 
@@ -2028,51 +2038,51 @@ void HAND_ITEM_RecoverHpPercentOfMaxHp(struct BtlEventFactor *factor, void *serv
     BTL_SERVER_FLOW_CommitCmdRecord(server, cmd);
 }
 
-int *HAND_ITEM_GetFlavorHealAttackHandlers(int *handlerCount)
+int *HAND_ITEM_GetFigyBerryHandlers(int *handlerCount)
 {
     *handlerCount = 5;
-    return gBtlItemFlavorHealAttackHandlers;
+    return gFigyBerryHandlers;
 }
 
-void HAND_ITEM_FlavorHealAttack(struct BtlEventFactor *factor, void *server, int pokeId, int *work) { HAND_ITEM_FlavorHeal(factor, server, pokeId, work, 0); }
+void HAND_ITEM_FigyBerryFlavorHeal(struct BtlEventFactor *factor, void *server, int pokeId, int *work) { HAND_ITEM_FlavorHeal(factor, server, pokeId, work, 0); }
 
-void HAND_ITEM_FlavorHealAttackIfForcedUse(struct BtlEventFactor *factor, void *server, int pokeId, int *work)
+void HAND_ITEM_FigyBerryFlavorHealIfForcedUse(struct BtlEventFactor *factor, void *server, int pokeId, int *work)
 {
     if (work[ITEM_WORK_FORCED_USE] != 0) HAND_ITEM_FlavorHeal(factor, server, pokeId, work, 0);
 }
 
-int *HAND_ITEM_GetFlavorHealDefenseHandlers(int *handlerCount) { *handlerCount = 5; return gBtlItemFlavorHealDefenseHandlers; }
+int *HAND_ITEM_GetWikiBerryHandlers(int *handlerCount) { *handlerCount = 5; return gWikiBerryHandlers; }
 
-void HAND_ITEM_FlavorHealDefense(struct BtlEventFactor *factor, void *server, int pokeId, int *work) { HAND_ITEM_FlavorHeal(factor, server, pokeId, work, 1); }
+void HAND_ITEM_WikiBerryFlavorHeal(struct BtlEventFactor *factor, void *server, int pokeId, int *work) { HAND_ITEM_FlavorHeal(factor, server, pokeId, work, 1); }
 
-void HAND_ITEM_FlavorHealDefenseIfForcedUse(struct BtlEventFactor *factor, void *server, int pokeId, int *work)
+void HAND_ITEM_WikiBerryFlavorHealIfForcedUse(struct BtlEventFactor *factor, void *server, int pokeId, int *work)
 {
     if (work[ITEM_WORK_FORCED_USE] != 0) HAND_ITEM_FlavorHeal(factor, server, pokeId, work, 1);
 }
 
-int *HAND_ITEM_GetFlavorHealSpeedHandlers(int *handlerCount) { *handlerCount = 5; return gBtlItemFlavorHealSpeedHandlers; }
+int *HAND_ITEM_GetMagoBerryHandlers(int *handlerCount) { *handlerCount = 5; return gMagoBerryHandlers; }
 
-void HAND_ITEM_FlavorHealSpeed(struct BtlEventFactor *factor, void *server, int pokeId, int *work) { HAND_ITEM_FlavorHeal(factor, server, pokeId, work, 2); }
+void HAND_ITEM_MagoBerryFlavorHeal(struct BtlEventFactor *factor, void *server, int pokeId, int *work) { HAND_ITEM_FlavorHeal(factor, server, pokeId, work, 2); }
 
-void HAND_ITEM_FlavorHealSpeedIfForcedUse(struct BtlEventFactor *factor, void *server, int pokeId, int *work)
+void HAND_ITEM_MagoBerryFlavorHealIfForcedUse(struct BtlEventFactor *factor, void *server, int pokeId, int *work)
 {
     if (work[ITEM_WORK_FORCED_USE] != 0) HAND_ITEM_FlavorHeal(factor, server, pokeId, work, 2);
 }
 
-int *HAND_ITEM_GetFlavorHealSpAttackHandlers(int *handlerCount) { *handlerCount = 5; return gBtlItemFlavorHealSpAttackHandlers; }
+int *HAND_ITEM_GetAguavBerryHandlers(int *handlerCount) { *handlerCount = 5; return gAguavBerryHandlers; }
 
-void HAND_ITEM_FlavorHealSpAttack(struct BtlEventFactor *factor, void *server, int pokeId, int *work) { HAND_ITEM_FlavorHeal(factor, server, pokeId, work, 3); }
+void HAND_ITEM_AguavBerryFlavorHeal(struct BtlEventFactor *factor, void *server, int pokeId, int *work) { HAND_ITEM_FlavorHeal(factor, server, pokeId, work, 3); }
 
-void HAND_ITEM_FlavorHealSpAttackIfForcedUse(struct BtlEventFactor *factor, void *server, int pokeId, int *work)
+void HAND_ITEM_AguavBerryFlavorHealIfForcedUse(struct BtlEventFactor *factor, void *server, int pokeId, int *work)
 {
     if (work[ITEM_WORK_FORCED_USE] != 0) HAND_ITEM_FlavorHeal(factor, server, pokeId, work, 3);
 }
 
-int *HAND_ITEM_GetFlavorHealSpDefenseHandlers(int *handlerCount) { *handlerCount = 5; return gBtlItemFlavorHealSpDefenseHandlers; }
+int *HAND_ITEM_GetIapapaBerryHandlers(int *handlerCount) { *handlerCount = 5; return gIapapaBerryHandlers; }
 
-void HAND_ITEM_FlavorHealSpDefense(struct BtlEventFactor *factor, void *server, int pokeId, int *work) { HAND_ITEM_FlavorHeal(factor, server, pokeId, work, 4); }
+void HAND_ITEM_IapapaBerryFlavorHeal(struct BtlEventFactor *factor, void *server, int pokeId, int *work) { HAND_ITEM_FlavorHeal(factor, server, pokeId, work, 4); }
 
-void HAND_ITEM_FlavorHealSpDefenseIfForcedUse(struct BtlEventFactor *factor, void *server, int pokeId, int *work)
+void HAND_ITEM_IapapaBerryFlavorHealIfForcedUse(struct BtlEventFactor *factor, void *server, int pokeId, int *work)
 {
     if (work[ITEM_WORK_FORCED_USE] != 0) HAND_ITEM_FlavorHeal(factor, server, pokeId, work, 4);
 }
@@ -2092,7 +2102,8 @@ void HAND_ITEM_RequestUseAtHalfHpDirect(struct BtlEventFactor *factor, void *ser
     if (work[ITEM_WORK_USED] == 0 && BTL_POKEPARAM_HasSick(BTL_SERVER_FLOW_GetPokeParam(server, pokeId), BTL_SICK_ITEM_BLOCK) == 0 && HAND_ITEM_IsHpAtOrBelowFraction(server, pokeId, 2) != 0) HAND_ITEM_PushUseItem(factor, server, pokeId);
 }
 
-void HAND_ITEM_FlavorHeal(struct BtlEventFactor *factor, void *server, int pokeId, int *work, int statIndex)
+/* Flavour-heal berries (Figy, Wiki, Mago, Aguav, Iapapa: items 159-163). natureColumn indexes sNatureStatMods, whose columns are [Atk, SpA, Spe, SpD, Def]: the stat the berry flavour likes. A disliked flavour (-1) confuses. */
+void HAND_ITEM_FlavorHeal(struct BtlEventFactor *factor, void *server, int pokeId, int *work, int natureColumn)
 {
     struct BtlPokeParam *pokeParam;
     HandExRecoverHp *healCmd;
@@ -2107,11 +2118,11 @@ void HAND_ITEM_FlavorHeal(struct BtlEventFactor *factor, void *server, int pokeI
         BTL_SERVER_FLOW_AppendMsgRecordArg(&healCmd->message, pokeId);
         BTL_SERVER_FLOW_AppendMsgRecordArg(&healCmd->message, BTL_EVENT_GetFactorKey(factor));
         BTL_SERVER_FLOW_CommitCmdRecord(server, healCmd);
-        if (POKE_TOOL_GetNatureStatMod(BTL_POKEPARAM_GetMon(pokeParam), statIndex) == -1) {
+        if (POKE_TOOL_GetNatureStatMod((struct BoxPokemon *)BTL_POKEPARAM_GetMon(pokeParam), natureColumn) == -1) {
             sickCmd = BTL_SERVER_FLOW_AllocCmdRecord(server, HANDEX_KIND_ADD_SICK, pokeId);
             sickCmd->pokeId = pokeId;
             sickCmd->sickKind = BTL_SICK_CONFUSION;
-            BTL_CALC_MakeSickContFromKind(BTL_SICK_CONFUSION, pokeParam, &sickCmd->sickCont);
+            BTL_CALC_MakeSickContFromKind(BTL_SICK_CONFUSION, pokeParam, (union BtlSickCont *)(&sickCmd->sickCont));
             BTL_SERVER_FLOW_CommitCmdRecord(server, sickCmd);
         }
         work[ITEM_WORK_USED] = 1;
@@ -3409,7 +3420,7 @@ void HAND_ITEM_GripClaw_ExtendBind(struct BtlEventFactor *factor, void *flow, in
 
     if (pokeId == BTL_EVENT_GetVar(BTL_EVAR_ATTACKER_ID) && BTL_EVENT_GetVar(BTL_EVAR_SICK_ID) == BTL_SICK_BIND) {
         sickCont = BTL_EVENT_GetVar(BTL_EVAR_SICK_CONT);
-        BTL_SICKCONT_SetIndex((u32 *)&sickCont, 8);
+        BTL_SICKCONT_SetIndex((union BtlvSlot *)&sickCont, 8);
         BTL_EVENT_OverwriteVar(BTL_EVAR_SICK_CONT, sickCont);
     }
 }
@@ -3463,7 +3474,7 @@ void HAND_ITEM_LightClay_ExtendScreen(struct BtlEventFactor *factor, void *flow,
     if (pokeId == BTL_EVENT_GetVar(BTL_EVAR_POKE_ID) && (u32)BTL_EVENT_GetVar(BTL_EVAR_SCREEN_KIND) <= 1) {
         sickCont = BTL_EVENT_GetVar(BTL_EVAR_SICK_CONT);
         extraTurns = HAND_ITEM_GetParam(factor, 2);
-        BTL_SICKCONT_AddIndex((u32 *)&sickCont, extraTurns);
+        BTL_SICKCONT_AddIndex((union BtlvSlot *)&sickCont, extraTurns);
         BTL_EVENT_OverwriteVar(BTL_EVAR_SICK_CONT, sickCont);
     }
 }
@@ -3829,7 +3840,7 @@ int *HAND_ITEM_GetSmokeBallHandlers(int *count)
 /* Smoke Ball: guaranteed escape; forwards to the shared escape check (the second handler of the item is in the next file). */
 void HAND_ITEM_SmokeBall_AllowEscape(struct BtlEventFactor *factor, void *flow, int pokeId, void *work)
 {
-    HAND_COMMON_EventSetFlagIfAttacker(factor, flow, pokeId, work);
+    HAND_COMMON_EventSetFlagIfAttacker((s32)factor, (s32)flow, (s32)pokeId, (s32)work);
 }
 
 /* Smoke Ball (guess): after the escape check passes, show the escape message with its sound. */
@@ -4327,19 +4338,6 @@ void HAND_ITEM_RockIncenseBoostPower(struct BtlEventFactor *factor, struct BtlSe
     HAND_ITEM_BoostMovePowerOfType(factor, flow, pokeId, BTL_TYPE_ROCK);
 }
 
-/* Sea Incense. */
-const BtlEventHandler *HAND_ITEM_GetSeaIncenseHandlers(int *handlerCount)
-{
-    *handlerCount = 1;
-    return gSeaIncenseHandlers;
-}
-
-/* Sea Incense. */
-void HAND_ITEM_SeaIncenseBoostPower(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int pokeId)
-{
-    HAND_ITEM_BoostMovePowerOfType(factor, flow, pokeId, BTL_TYPE_WATER);
-}
-
 /* Wave Incense. */
 const BtlEventHandler *HAND_ITEM_GetWaveIncenseHandlers(int *handlerCount)
 {
@@ -4349,6 +4347,19 @@ const BtlEventHandler *HAND_ITEM_GetWaveIncenseHandlers(int *handlerCount)
 
 /* Wave Incense. */
 void HAND_ITEM_WaveIncenseBoostPower(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int pokeId)
+{
+    HAND_ITEM_BoostMovePowerOfType(factor, flow, pokeId, BTL_TYPE_WATER);
+}
+
+/* Sea Incense. */
+const BtlEventHandler *HAND_ITEM_GetSeaIncenseHandlers(int *handlerCount)
+{
+    *handlerCount = 1;
+    return gSeaIncenseHandlers;
+}
+
+/* Sea Incense. */
+void HAND_ITEM_SeaIncenseBoostPower(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int pokeId)
 {
     HAND_ITEM_BoostMovePowerOfType(factor, flow, pokeId, BTL_TYPE_WATER);
 }

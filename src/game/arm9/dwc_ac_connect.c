@@ -100,7 +100,7 @@ typedef struct {
     unsigned char passphrase[0x20];
     unsigned char pmk[0x20];
     unsigned char ssid[2][0x20];
-    unsigned char reserved80;
+    unsigned char ssidLength0; /* aossEx.ssidLength[0] (TKIP); overlays wpa.rsv in WPA records */
     unsigned char wpaMode;
     unsigned char proxyMode;
     unsigned char proxyAuthType;
@@ -169,7 +169,7 @@ extern void DWCi_AC_SetError(int error);
 extern unsigned char DWCi_AC_GetSearchListNum(void);
 extern int DWCi_AC_CheckNintendoSSID(WMBssDesc *bssdesc);
 extern unsigned char DWCi_AC_CheckFreespot(WMBssDesc *bssdesc);
-extern int strncmp(const char *s1, const char *s2, unsigned long n);
+extern int strncmp(unsigned char *s1, unsigned char *s2, unsigned int n);
 extern void MI_CpuCopy8(const void *srcp, void *dstp, unsigned long size);
 extern void DWCi_AC_GetNintendoUSBWepKey(char *ssid, unsigned char *wep);
 extern void DWCi_AC_GetNintendoShopWepKey(char *ssid, unsigned char *wep);
@@ -316,7 +316,7 @@ unsigned char GetConnectType(ACWORK *wk)
         }
         for (i = 0; i < max; i++) {
             if (bssdesc->ssidLength == wk->searchList[i].length
-                && strncmp((char *)bssdesc->ssid, (char *)wk->searchList[i].ssid, bssdesc->ssidLength) == 0) {
+                && strncmp((unsigned char *)bssdesc->ssid, (unsigned char *)wk->searchList[i].ssid, bssdesc->ssidLength) == 0) {
                 if (j == 0) {
                     type = wk->searchList[i].type;
                 } else {

@@ -20,6 +20,9 @@
    "functions": [
     "sqrt"
    ],
+   "addresses": [
+    "0x0209C5E0"
+   ],
    "covers": [
     "0x0209C5E0"
    ]

@@ -36,14 +36,15 @@ typedef struct {
 } OSInfo;
 
 extern int NHTTPi_IsCreateCommThreadMessageQueue(NHTTPThreadInfo *threadInfo_p);
-extern void OS_InitMessageQueue(void *msgQueue_p, void **msgArray, s32 msgCount);
+struct OSMessageQueue;
+extern void OS_InitMessageQueue(struct OSMessageQueue *mq, void **msgArray, s32 msgCount);
 extern void NHTTPi_IsCreateCommThreadMessageQueueOn(NHTTPThreadInfo *threadInfo_p);
 extern void OS_CreateThread(void *thread, void (*func)(void *), void *arg, void *stack, unsigned long stackSize, unsigned long prio);
 extern void OS_WakeupThreadDirect(void *thread);
 extern void NHTTPi_CommThreadProc(void *);
 extern void OS_JoinThread(void *);
-extern void OS_ReceiveMessage(void *, int *, int);
-extern void OS_SendMessage(void *, int, int);
+extern s32 OS_ReceiveMessage(struct OSMessageQueue *mq, void **msg, s32 flags);
+extern s32 OS_SendMessage(struct OSMessageQueue *mq, void *msg, s32 flags);
 extern void OS_Terminate(void);
 int NHTTPi_createCommThread(NHTTPThreadInfo *threadInfo_p, unsigned long priority, unsigned long *stack_p);
 void NHTTPi_destroyCommThread(NHTTPThreadInfo *threadInfo_p, NHTTPBgnEndInfo *bgnEndInfo_p);
@@ -57,7 +58,7 @@ extern OSInfo gMslRefToken;
 int NHTTPi_createCommThread(NHTTPThreadInfo *threadInfo_p, unsigned long priority, unsigned long *stack_p)
 {
     if (NHTTPi_IsCreateCommThreadMessageQueue(threadInfo_p) == 0) {
-        OS_InitMessageQueue(threadInfo_p->msgQueue, threadInfo_p->msgArray, 3);
+        OS_InitMessageQueue((struct OSMessageQueue *)threadInfo_p->msgQueue, threadInfo_p->msgArray, 3);
         NHTTPi_IsCreateCommThreadMessageQueueOn(threadInfo_p);
     }
     OS_CreateThread(threadInfo_p->commThread, NHTTPi_CommThreadProc, 0, (char *)stack_p + 0x2000, 0x2000, priority);
@@ -78,13 +79,13 @@ void NHTTPi_idleCommThread(NHTTPThreadInfo *threadInfo_p)
 {
     int message;
 
-    OS_ReceiveMessage(threadInfo_p->msgQueue, &message, 1);
+    OS_ReceiveMessage((struct OSMessageQueue *)threadInfo_p->msgQueue, (void **)(&message), 1);
 }
 
 
 void NHTTPi_kickCommThread(NHTTPThreadInfo *threadInfo_p)
 {
-    OS_SendMessage(threadInfo_p->msgQueue, 0, 0);
+    OS_SendMessage((struct OSMessageQueue *)threadInfo_p->msgQueue, 0, 0);
 }
 
 

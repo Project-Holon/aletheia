@@ -54,7 +54,7 @@ extern void MIi_CpuCopyFast(const void *srcp, void *destp, u32 size);
 extern int MI_CpuComp8(const void *mem1, const void *mem2, u32 size);
 extern void MI_CpuCopy(const void *srcp, void *destp, u32 size);
 extern int OS_IsRunOnTwl(void);
-extern NWMInfoElements *NWM_GetVenderInfoElements();
+extern u8 *NWM_GetVenderInfoElements(u8 *bssDesc, u32 elementId, void *oui);
 void WCM_ClearApList(void);
 long WCM_CountApList(void);
 long WCM_LockApList(long lock);
@@ -438,7 +438,7 @@ WMGameInfo *WCMi_GetGameInfo(WMBssDesc *bssDesc)
         if (w->deviceId == 2) {
             elem = 0;
             if (bssDesc->elementCount != 0) {
-                elem = NWM_GetVenderInfoElements(bssDesc, 0xDD, tag);
+                elem = (struct NWMInfoElements *)NWM_GetVenderInfoElements((u8 *)bssDesc, 0xDD, tag);
             }
             if (elem != 0) {
                 gameInfo = (WMGameInfo *)&elem->element[4];

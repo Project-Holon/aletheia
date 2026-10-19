@@ -284,7 +284,8 @@ typedef struct TaggedNode {
 } TaggedNode;
 
 extern void MIi_CpuClearFast(u32 data, void *dst, int size);
-extern void *NNS_G2dFindBinaryBlock(struct NitroFileHeader *file, u32 signature);
+struct NNSG2dBinaryFileHeader;
+extern void *NNS_G2dFindBinaryBlock(struct NNSG2dBinaryFileHeader *pHeader, u32 signature);
 extern void OS_Terminate(void);
 u16 NNSi_G2dFontGetGlyphIndexFromCMap(struct FontCMap *tbl, u16 charCode);
 void NNS_G2dFontInitUTF16(NNSG2dFont *pFont, void *pResource);
@@ -2312,7 +2313,7 @@ u32 NNS_G2dFontLoad(Res *res, void **out)
         legacy = 1;
     }
     NNSi_G2dFontFixupSections(res);
-    finf = NNS_G2dFindBinaryBlock((struct NitroFileHeader *)res, 0x46494e46u);
+    finf = NNS_G2dFindBinaryBlock((struct NNSG2dBinaryFileHeader *)res, 0x46494e46u);
     if (finf == 0) {
         *out = 0;
         return 0;

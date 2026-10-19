@@ -157,15 +157,15 @@ typedef int (*BbActControlFn)(struct BbActEntry *entry, struct BbActCmd *cmd);
 
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 line);
 
-extern struct BbBoard *BILLBOARD_Create(const struct BbActBoardInit *init, u32 heapId);
+extern void *BILLBOARD_Create(u8 *src, void *heap);
 
 extern struct AreaMan *AREAMAN_Create(u32 size, u32 heapId);
 
 extern void BILLBOARD_FreeElem(struct BbBoard *board, u32 elemId);
 
-extern void BILLBOARD_Delete(struct BbBoard *board);
+extern void BILLBOARD_Delete(void *p);
 
-extern u32 AREAMAN_Delete(struct AreaMan *pool);
+extern u32 AREAMAN_Delete(void *areaman);
 
 extern u32 GFL_HEAP_Free(void *p);
 
@@ -176,8 +176,9 @@ extern u16  BILLBOARD_AddImage(struct BbBoard *board, u32 resource, u32 format, 
 extern void BILLBOARD_TrimImageResource(struct BbBoard *board, u32 boardId);
 
 extern void BILLBOARD_DeleteImage(struct BbBoard *board, int boardId);
+struct G3dResource;
 
-extern void G3D_SYSTEM_DeleteResource(struct PayloadBlock *payload);
+extern void G3D_SYSTEM_DeleteResource(struct G3dResource *res);
 
 extern int AREAMAN_Free(struct AreaMan *pool, u32 start, s32 count);
 
@@ -185,25 +186,28 @@ extern s32  BILLBOARD_AddElem(struct BbBoard *board, u32 boardId, s16 width, s16
 
 extern int BILLBOARD_SetElemVisible(struct BbBoard *board, u32 elemId, const u32 *flags);
 
-extern void BILLBOARD_SetElemCell(struct BbBoard *board, u32 elemId, u16 *frame);
+extern void BILLBOARD_SetElemCell(struct BbBoard *board, s32 elemIndex, u16 *cell);
 
 extern void BILLBOARD_SetElemFlipS(struct BbBoard *board, u32 elemId, u32 *flipX);
 
 extern void BILLBOARD_SetElemFlipT(struct BbBoard *board, u32 elemId, u32 *flipY);
 
-extern int G3D_SYSTEM_GetTexDataAddr(u32 payload);
+extern void *G3D_SYSTEM_GetTexDataAddr(struct G3dResource *res);
 
-extern void BILLBOARD_GetImageVramAddr(struct BbBoard *board, u32 boardId, u32 *texDst);
+extern void BILLBOARD_GetImageVramAddr(struct BbBoard *board, s32 index, s32 *outTexVramOffset);
 
-extern void BILLBOARD_CalcImageFrameRange(struct BbBoard *board, u32 boardId, int frame, u32 *offset, u32 *size, u8 flag);
+extern void BILLBOARD_CalcImageFrameRange(struct BbBoard *board, u32 imageIndex, s32 frame, s32 *outOffset, s32 *outFrameSize, u8 useFrameIndex);
 
 extern int G3D_SYSTEM_GetPlttDataAddr(u32 payload);
 
 extern u32 BILLBOARD_GetImagePlttVramOffset(struct BbBoard *board, u16 boardId, u32 *palDst);
+struct LightSlot;
+struct Camera;
+struct G3dCamera;
 
-extern void BILLBOARD_Draw(void *ob);
+extern void BILLBOARD_Draw(struct BbBoard *board, struct G3dCamera *camera, struct LightSlot *lights);
 
-extern u32 BILLBOARD_GetElemVisible(struct BbBoard *board, u32 elemId);
+extern u32 BILLBOARD_GetElemVisible(struct BbBoard *board, s32 elemIndex);
 
 struct BbActSys *BILLBOARD_ACT_Create(u16 slotCount, u16 entryCount, BbActUploadFn uploadFn, int heapId);
 
@@ -341,7 +345,7 @@ struct BbActSys *BILLBOARD_ACT_Create(u16 slotCount, u16 entryCount, BbActUpload
     init = gBillboardActTpl;
     init.slotCount = sys->slotCount;
     init.entryCount = sys->entryCount;
-    sys->board = BILLBOARD_Create(&init, heapId);
+    sys->board = BILLBOARD_Create((u8 *)(&init), (void *)heapId);
 
     sys->slots = GFL_HEAP_Alloc(heapId, sys->slotCount * 8, 1, file, 119);
     sys->slotPool = AREAMAN_Create(sys->slotCount, heapId);
@@ -507,7 +511,7 @@ void BILLBOARD_ACT_DeleteSlots(struct BbActSys *sys, u32 first, u32 count)
             BILLBOARD_DeleteImage(sys->board, sys->slots[first + i].boardId);
         }
         if (sys->slots[first + i].payload != 0) {
-            G3D_SYSTEM_DeleteResource((struct PayloadBlock *)sys->slots[first + i].payload);
+            G3D_SYSTEM_DeleteResource((struct G3dResource *)sys->slots[first + i].payload);
         }
         BILLBOARD_ACT_InitSlot(&sys->slots[first + i]);
     }
@@ -697,10 +701,10 @@ void BILLBOARD_ACT_UploadSlotFrame(struct BbActSys *sys, struct BbActSlot *slot,
     u32 payloadBase;
     u32 zero;
 
-    payloadBase = G3D_SYSTEM_GetTexDataAddr(slot->payload);
-    BILLBOARD_GetImageVramAddr(sys->board, slot->boardId, &texDst);
+    payloadBase = (u32)G3D_SYSTEM_GetTexDataAddr((struct G3dResource *)slot->payload);
+    BILLBOARD_GetImageVramAddr(sys->board, slot->boardId, (s32 *)(&texDst));
     zero = 0;
-    BILLBOARD_CalcImageFrameRange(sys->board, slot->boardId, frame, &frameOffset, &frameSize, zero);
+    BILLBOARD_CalcImageFrameRange(sys->board, slot->boardId, frame, (s32 *)(&frameOffset), (s32 *)(&frameSize), zero);
     if (sys->uploadFn != 0) {
         sys->uploadFn(zero, texDst, payloadBase + frameOffset, frameSize);
     }
@@ -738,7 +742,7 @@ u32 BILLBOARD_ACT_UploadSlotPalette(struct BbActSys *sys, struct BbActSlot *slot
  */
 void BILLBOARD_ACT_Draw(struct BbActSys *sys, void *camera, void *light)
 {
-    BILLBOARD_Draw(sys->board);
+    BILLBOARD_Draw(sys->board, camera, light);
 }
 
 /*

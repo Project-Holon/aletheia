@@ -39,7 +39,7 @@ extern void *NHTTPi_alloc(unsigned long size, int align);
 extern int NHTTPi_loadFromHdrRecvBuf(NHTTPRes *res_p, char *buf, int pos, int size);
 extern int NHTTPi_strcmp(char *a, char *b);
 extern void NHTTPi_SetError(NHTTPBgnEndInfo *bgnEndInfo_p, int error);
-extern void NHTTPi_IsCreateCommThreadMessageQueueOff(void);
+extern void NHTTPi_IsCreateCommThreadMessageQueueOff(NHTTPThreadInfo *threadInfo_p);
 void NHTTPi_DestroyResponse(NHTTPMutexInfo *mutexInfo_p, NHTTPRes *res_p);
 int NHTTPi_getHeaderValue(const NHTTPRes *res_p, char *label_p, int *pos_p);
 int NHTTP_GetResponseHeaderField(NHTTPRes *res_p, char *label_p, char **value_pp);
@@ -190,5 +190,5 @@ int NHTTPi_GetResponseHeaderAll(NHTTPBgnEndInfo *bgnEndInfo_p, NHTTPRes *res_p, 
 
 void NHTTPi_InitThreadInfo(NHTTPThreadInfo *threadInfo_p)
 {
-    NHTTPi_IsCreateCommThreadMessageQueueOff();
+    NHTTPi_IsCreateCommThreadMessageQueueOff(threadInfo_p);
 }

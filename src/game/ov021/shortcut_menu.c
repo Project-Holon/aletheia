@@ -107,14 +107,14 @@ struct BgTemplate;
 struct Bank;
 struct GfFont;
 struct MsgBank;
-struct Obj;
+struct BmpMenuList;
 struct PrintSys;
 struct Rec;
 struct Node;
 struct Descriptor;
 struct Cfg;
 struct Slot;
-struct Src;
+struct MenuTemplate;
 struct PtS;
 struct Vec2;
 struct Desc;
@@ -172,7 +172,7 @@ typedef struct ShortcutListTemplate {
  */
 typedef struct ShortcutMenu {
     void *listItems;                      /* 0x00: list entry table */
-    struct Obj *list;                     /* 0x04: the list menu */
+    struct BmpMenuList *list;                     /* 0x04: the list menu */
     struct Descriptor *window;            /* 0x08 */
     struct PrintSys *printSys;            /* 0x0C */
     struct Descriptor *printWindow;       /* 0x10 */
@@ -183,7 +183,7 @@ typedef struct ShortcutMenu {
     u16 savedCursor;                      /* 0x1E: list cursor when move mode started */
     void *menuData;                       /* 0x20: the shortcut entries */
     u32 moveMode;                         /* 0x24: 1 while an entry is being moved */
-    struct Obj *listActors[3];            /* 0x28: copy of actors, set by InitList */
+    struct BmpMenuList *listActors[3];            /* 0x28: copy of actors, set by InitList */
     u16 heapId;                           /* 0x34 */
     u16 pad36;
     struct MsgBank *msgBank;              /* 0x38 */
@@ -196,7 +196,7 @@ typedef struct ShortcutMenu {
     u16 palResId;                         /* 0x52 */
     u16 cellResId;                        /* 0x54 */
     u16 pad56;
-    struct Obj *actors[3];                /* 0x58: the three cursor actors */
+    struct BmpMenuList *actors[3];                /* 0x58: the three cursor actors */
     struct MsgBank *ownedMsgBank;         /* 0x64 */
     struct GfFont *ownedFont;             /* 0x68 */
     struct PrintSys *ownedPrintSys;       /* 0x6C */
@@ -241,10 +241,10 @@ extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u
 extern u32 GFL_HEAP_Free(void *p);
 extern u32 MI_CpuFill8(void *p, int v, int n);
 extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
-extern void BG_SYS_FreeSlot(int);
+extern void BG_SYS_FreeSlot(u8 idx);
 extern void BG_SYS_Init(u32 layer, u32 value, u32 count, u32 index);
 extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
-extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
+extern void *ARC_TOOL_CreateHandle(u32 archiveID, u16 heapID);
 extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern int CLACT_RegisterPalette(void *a, u32 b, u32 c, u32 d, u16 g);
 extern int CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 vram_mode, u16 flags);
@@ -253,23 +253,26 @@ extern u32 ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, 
 extern void ARC_UTIL_UploadBgPaletteFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 extern void ARC_TOOL_DeleteHandle(void *);
-extern struct Obj *CLACT_CreateActor(void *, unsigned int, unsigned int, unsigned int, const void *, u16, u16);
-extern void CLACT_SetActorDrawEnable(struct Obj *p, unsigned int v);
-extern void CLACT_SetActorAutoAnim(struct Obj *obj, unsigned int v);
+extern struct BmpMenuList *CLACT_CreateActor(void *, unsigned int, unsigned int, unsigned int, const void *, u16, u16);
+extern void CLACT_SetActorDrawEnable(struct Actor *actor, u32 value);
+extern void CLACT_SetActorAutoAnim(struct Actor *actor, u32 enable);
 extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern struct GfFont *GF_FONT_Create(int archiveId, int fileId, int format, int isFixedWidth, u32 heapId);
-extern void *PRINTSYS_QUE_CreateEx(u16 n, u32 heap);
-extern void *GAME_DATA_GetSaveControl(struct Big *p);
+struct PrintQueue;
+extern struct PrintQueue *PRINTSYS_QUE_CreateEx(u16 n, u32 heap);
+struct GameData;
+struct SaveControl;
+extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gd);
 extern void *RECENT_ID_LIST_SAVEDATA_GetBlock(void *sys);
 extern void BG_SYS_MarkTileDirty(u32 bit);
-extern void G2x_SetBlendAlpha_(int, int, int, int, int);
+extern void G2x_SetBlendAlpha_(u32 *reg, u32 a, u32 b, u32 c, u32 d);
 extern void BG_SYS_ChangeScrollImmediate(u32 layer, u32 a, u32 b);
 extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
-extern void CLACT_DeleteActor(struct Obj *p);
-extern void PRINTSYS_QUE_Clear(struct PrintSys *p);
-extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
-extern u32 GF_FONT_Delete(void *ptr);
-extern u32 MSGDATA_Delete(struct Rec *rec);
+extern void CLACT_DeleteActor(struct Actor *actor);
+extern void PRINTSYS_QUE_Clear(struct PrintQueue *queue);
+extern void PRINTSYS_QUE_Delete(struct PrintQueue *queue);
+extern u32 GF_FONT_Delete(struct GfFont *font);
+extern u32 MSGDATA_Delete(struct MsgBank *bank);
 extern void CLACT_ReleasePalette(u32 i);
 extern void CLACT_ReleaseCharacter(u32 i);
 extern void CLACT_ReleaseCellAnim(u32 i);
@@ -278,36 +281,41 @@ extern void BG_SYS_FreeTiles(u32 idx, u32 count, u32 tile);
 extern void BG_SYS_FreeLayerBuf(u32 i);
 extern void GFL_USE_PlaySeDefaultVolume(u32 se);
 extern void *GFL_USE_AddMainTask(void *callback, void *ctx, int priority);
-extern void TCB_DeleteTask(struct Node *n);
-extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
-extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
-extern void BMP_WIN_TransferChars(struct Descriptor *d);
-extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
-extern unsigned char BMP_WIN_GetBgLayer(struct Descriptor *d);
+struct TcbTask;
+extern void TCB_DeleteTask(struct TcbTask *task);
+extern u32 PRINTSYS_QUE_Main(struct PrintQueue *queue);
+struct BmpWin;
+extern struct BmpWin *BMP_WIN_Create(u32 bgLayer, u32 posX, u32 posY, u8 width, u8 height, u8 palette, u8 allocDir);
+extern void BMP_WIN_TransferChars(struct BmpWin *win);
+extern void BMP_WIN_MakeScreen(struct BmpWin *win);
+extern unsigned char BMP_WIN_GetBgLayer(struct BmpWin *win);
 extern void BG_SYS_PushTile(unsigned int index);
-extern u32 BMP_WIN_Delete(struct Descriptor *d);
-extern u32 BMP_MENULIST_GetAttr(struct Obj *obj, u32 what);
-extern void BMP_MENULIST_GetPos(struct Obj *obj, u16 *a, u16 *b);
-extern u16 BMP_MENULIST_GetRowY(struct Obj *obj, u32 n);
+extern u32 BMP_WIN_Delete(struct BmpWin *win);
+struct BmpMenuList;
+extern u32 BMP_MENULIST_GetAttr(struct BmpMenuList *menu, u32 attr);
+extern void BMP_MENULIST_GetPos(struct BmpMenuList *menu, u16 *outScroll, u16 *outRow);
+extern u16 BMP_MENULIST_GetRowY(struct BmpMenuList *menu, u32 row);
 extern void UI_SetInputMode(u8 v);
-extern void BMP_MENULIST_GetListIndex(struct Obj *obj, u16 *out);
+extern void BMP_MENULIST_GetListIndex(struct BmpMenuList *menu, u16 *outIndex);
 extern unsigned int KEY_GetRepeat(void);
 extern u32 KEY_GetTrg(void);
-extern s32 BMP_MENULIST_Main(struct Obj *o);
-extern u32 BMP_MENULIST_GetItemValue(struct Obj *obj, u32 n);
+extern s32 BMP_MENULIST_Main(struct BmpMenuList *menu);
+extern u32 BMP_MENULIST_GetItemValue(struct BmpMenuList *menu, u32 index);
 extern u8 RECENT_ID_LIST_SAVEDATA_InsertId(u8 *a, int id, u8 pos);
-extern void *BMP_WIN_GetBmp(struct Descriptor *p);
-extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintSys *p, void *v);
-extern u16 BMP_MENULIST_GetCursorY(struct Obj *obj);
+struct Bmp;
+extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *win);
+extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintQueue *queue, struct Bmp *bmp);
+extern u16 BMP_MENULIST_GetCursorY(struct BmpMenuList *menu);
 extern u16 RECENT_ID_LIST_SAVEDATA_CountIds(const u8 *a);
 extern u8 RECENT_ID_LIST_SAVEDATA_GetIdAt(const u8 *a, u32 i);
 extern void *BMP_MENUWORK_Create(int n, u32 heap);
 extern void BMP_MENUWORK_AddMsgItem(struct Slot *table, u32 a, u32 b, u32 tag, u32 heap);
-extern struct Obj *BMP_MENULIST_Create(struct Src *src, u16 a, u16 b, u32 heap);
+struct MenuTemplate;
+extern struct BmpMenuList *BMP_MENULIST_Create(struct MenuTemplate *menuTemplate, u16 scroll, u16 row, u32 heap);
 extern u32 BMP_MENUWORK_Delete(void *p);
-extern void BMP_MENULIST_Delete(struct Obj *o, u16 *a, u16 *b);
+extern void BMP_MENULIST_Delete(struct BmpMenuList *menu, u16 *outScroll, u16 *outRow);
 extern void CLACT_GetActorSurfacePos(struct Actor *actor, struct PtS *out, u16 space);
-extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
+extern void CLACT_AddActorSurfacePos(struct BmpMenuList *p, const struct Vec2 *delta, u32 which);
 /* Retain the mode used to store f59 for the helper's second argument. */
 ShortcutMenu *SHORTCUT_MENU_Create(void *gameSystem, int mode, const u16 *savedState, u16 textHeapId, u16 heapId);
 void SHORTCUT_MENU_Delete(ShortcutMenu *menu);
@@ -317,7 +325,7 @@ void SHORTCUT_MENU_Start(ShortcutMenu *menu);
 void SHORTCUT_MENU_RequestClose(ShortcutMenu *menu);
 int SHORTCUT_MENU_IsWaitingInput(ShortcutMenu *menu);
 u32 SHORTCUT_MENU_GetResult(ShortcutMenu *menu, u32 *outValue);
-void SHORTCUT_MENU_InitList(ShortcutMenu *menu, const u16 *savedState, struct MsgBank *msgBank, struct GfFont *font, struct PrintSys *printSys, void *menuData, struct Obj **actors, u16 heapId);
+void SHORTCUT_MENU_InitList(ShortcutMenu *menu, const u16 *savedState, struct MsgBank *msgBank, struct GfFont *font, struct PrintSys *printSys, void *menuData, struct BmpMenuList **actors, u16 heapId);
 int SHORTCUT_MENU_FreeList(ShortcutMenu *menu, u16 *savedState);
 void SHORTCUT_MENU_OnKeyUp(ShortcutMenu *menu, int cursor, u32 itemCount, u32 *done);
 void SHORTCUT_MENU_OnKeyDown(ShortcutMenu *menu, int cursor, int itemCount, int *done);
@@ -382,16 +390,16 @@ ShortcutMenu *SHORTCUT_MENU_Create(void *gameSystem, int mode, const u16 *savedS
         pos.z = i;
         pos.x = gShortcutMenuActorX[i];
         menu->actors[i] = CLACT_CreateActor(menu->actorBank, menu->palResId, menu->charResId, menu->cellResId, &pos, 0, heapId);
-        CLACT_SetActorDrawEnable(menu->actors[i], 0);
-        CLACT_SetActorAutoAnim(menu->actors[i], 1);
+        CLACT_SetActorDrawEnable((struct Actor *)menu->actors[i], 0);
+        CLACT_SetActorAutoAnim((struct Actor *)menu->actors[i], 1);
     }
     menu->ownedMsgBank = MSGDATA_CreateFromArchive(0, 2, 0xAD, heapId);
     menu->ownedFont = GF_FONT_Create(0x17, 0, 0, 0, textHeapId);
-    menu->ownedPrintSys = PRINTSYS_QUE_CreateEx(0x1000, heapId);
+    menu->ownedPrintSys = (struct PrintSys *)PRINTSYS_QUE_CreateEx(0x1000, heapId);
     SHORTCUT_MENU_InitList(menu, menu->savedState, menu->ownedMsgBank, menu->ownedFont,
         menu->ownedPrintSys, RECENT_ID_LIST_SAVEDATA_GetBlock(GAME_DATA_GetSaveControl(gameSystem)), menu->actors, textHeapId);
     BG_SYS_MarkTileDirty(1);
-    G2x_SetBlendAlpha_(0x04000050, 2, 1, 12, 4);
+    G2x_SetBlendAlpha_((u32 *)0x04000050, 2, 1, 12, 4);
     switch (mode) {
     case 0:
         BG_SYS_ChangeScrollImmediate(1, 3, -0xC0);
@@ -415,12 +423,12 @@ void SHORTCUT_MENU_Delete(ShortcutMenu *menu)
     BG_SYS_SetPlaneVisible(1, 0);
     SHORTCUT_MENU_FreeList(menu, (u16 *)menu->savedState);
     for (i = 0; i < 3; i++) {
-        CLACT_DeleteActor(menu->actors[i]);
+        CLACT_DeleteActor((struct Actor *)menu->actors[i]);
     }
-    PRINTSYS_QUE_Clear(menu->ownedPrintSys);
-    PRINTSYS_QUE_Delete(menu->ownedPrintSys);
+    PRINTSYS_QUE_Clear((struct PrintQueue *)menu->ownedPrintSys);
+    PRINTSYS_QUE_Delete((struct PrintQueue *)menu->ownedPrintSys);
     GF_FONT_Delete(menu->ownedFont);
-    MSGDATA_Delete((struct Rec *)menu->ownedMsgBank);
+    MSGDATA_Delete((struct MsgBank *)menu->ownedMsgBank);
     CLACT_ReleasePalette(menu->charResId);
     CLACT_ReleaseCharacter(menu->palResId);
     CLACT_ReleaseCellAnim(menu->cellResId);
@@ -450,7 +458,7 @@ void SHORTCUT_MENU_Main(ShortcutMenu *menu)
         break;
     case 2:
         if (menu->scrollDone != 0) {
-            TCB_DeleteTask(menu->scrollTask);
+            TCB_DeleteTask((struct TcbTask *)menu->scrollTask);
             menu->state = 3;
         }
         break;
@@ -472,7 +480,7 @@ void SHORTCUT_MENU_Main(ShortcutMenu *menu)
         break;
     case 4:
         for (i = 0; i < 3; i++) {
-            CLACT_SetActorDrawEnable(menu->actors[i], 0);
+            CLACT_SetActorDrawEnable((struct Actor *)menu->actors[i], 0);
         }
         menu->scrollFrame = 4;
         menu->state = 5;
@@ -488,7 +496,7 @@ void SHORTCUT_MENU_Main(ShortcutMenu *menu)
 
 int SHORTCUT_MENU_RunPrint(ShortcutMenu *menu)
 {
-    PRINTSYS_QUE_Main(menu->ownedPrintSys);
+    PRINTSYS_QUE_Main((struct PrintQueue *)menu->ownedPrintSys);
     return SHORTCUT_MENU_FinishPrint(menu);
 }
 
@@ -536,7 +544,7 @@ u32 SHORTCUT_MENU_GetResult(ShortcutMenu *menu, u32 *outValue)
     return menu->resultKind;
 }
 
-void SHORTCUT_MENU_InitList(ShortcutMenu *menu, const u16 *savedState, struct MsgBank *msgBank, struct GfFont *font, struct PrintSys *printSys, void *menuData, struct Obj **actors, u16 heapId)
+void SHORTCUT_MENU_InitList(ShortcutMenu *menu, const u16 *savedState, struct MsgBank *msgBank, struct GfFont *font, struct PrintSys *printSys, void *menuData, struct BmpMenuList **actors, u16 heapId)
 {
     int i = 0;
     struct Descriptor *window;
@@ -552,9 +560,9 @@ void SHORTCUT_MENU_InitList(ShortcutMenu *menu, const u16 *savedState, struct Ms
     }
     window = (struct Descriptor *)BMP_WIN_Create(1, 1, 0xc, 0x1e, 0xc, 0xb, 1);
     menu->window = window;
-    BMP_WIN_TransferChars(window);
-    BMP_WIN_MakeScreen((struct Cfg *)window);
-    BG_SYS_PushTile(BMP_WIN_GetBgLayer(window));
+    BMP_WIN_TransferChars((struct BmpWin *)window);
+    BMP_WIN_MakeScreen((struct BmpWin *)window);
+    BG_SYS_PushTile(BMP_WIN_GetBgLayer((struct BmpWin *)window));
     menu->printWindow = menu->window;
     menu->printBusy = 0;
     SHORTCUT_MENU_CreateList(menu, savedState[0], savedState[1], heapId);
@@ -568,7 +576,7 @@ void SHORTCUT_MENU_InitList(ShortcutMenu *menu, const u16 *savedState, struct Ms
 int SHORTCUT_MENU_FreeList(ShortcutMenu *menu, u16 *savedState)
 {
     SHORTCUT_MENU_DeleteList(menu, savedState, savedState + 1);
-    BMP_WIN_Delete(menu->window);
+    BMP_WIN_Delete((struct BmpWin *)menu->window);
     return MI_CpuFill8(menu, 0, 76);
 }
 
@@ -584,7 +592,7 @@ void SHORTCUT_MENU_OnKeyUp(ShortcutMenu *menu, int cursor, u32 itemCount, u32 *d
     u16 row;
 
     if (cursor == 0) {
-        lastIndex = BMP_MENULIST_GetAttr(menu->list, 3);
+        lastIndex = BMP_MENULIST_GetAttr((struct BmpMenuList *)menu->list, 3);
         SHORTCUT_MENU_DeleteList(menu, 0, 0);
         SHORTCUT_MENU_CreateList(menu, (itemCount - 1) - (lastIndex - 1), lastIndex - 1, menu->heapId);
         if (menu->moveMode == 1)
@@ -592,8 +600,8 @@ void SHORTCUT_MENU_OnKeyUp(ShortcutMenu *menu, int cursor, u32 itemCount, u32 *d
         GFL_USE_PlaySeDefaultVolume(0x548);
         *done = 1;
     } else if (menu->cursorWrapped == 1 && menu->moveMode == 1) {
-        BMP_MENULIST_GetPos(menu->list, 0, &cursorIndex);
-        row = BMP_MENULIST_GetRowY(menu->list, cursorIndex) >> 3;
+        BMP_MENULIST_GetPos((struct BmpMenuList *)menu->list, 0, &cursorIndex);
+        row = BMP_MENULIST_GetRowY((struct BmpMenuList *)menu->list, cursorIndex) >> 3;
         SHORTCUT_MENU_SetActorsY(menu, (row + 0xC) * 8);
         menu->cursorWrapped = 0;
         *done = 1;
@@ -607,8 +615,8 @@ void SHORTCUT_MENU_OnKeyDown(ShortcutMenu *menu, int cursor, int itemCount, int 
 
     if (cursor == itemCount - 1) {
         if (menu->moveMode == 1) {
-            BMP_MENULIST_GetPos(menu->list, 0, &cursorIndex);
-            row = BMP_MENULIST_GetRowY(menu->list, (u16)(cursorIndex + 1)) >> 3;
+            BMP_MENULIST_GetPos((struct BmpMenuList *)menu->list, 0, &cursorIndex);
+            row = BMP_MENULIST_GetRowY((struct BmpMenuList *)menu->list, (u16)(cursorIndex + 1)) >> 3;
             SHORTCUT_MENU_SetActorsY(menu, (row + 0xc) << 3);
             menu->cursorWrapped ^= 1;
         }
@@ -638,27 +646,27 @@ void SHORTCUT_MENU_UpdateInput(ShortcutMenu *menu)
     toggleMode = 0;
     wrapped = 0;
     UI_SetInputMode(0);
-    BMP_MENULIST_GetListIndex(menu->list, &pickCursor[1]);
-    itemCount = BMP_MENULIST_GetAttr(menu->list, 2);
+    BMP_MENULIST_GetListIndex((struct BmpMenuList *)menu->list, &pickCursor[1]);
+    itemCount = BMP_MENULIST_GetAttr((struct BmpMenuList *)menu->list, 2);
     if (KEY_GetRepeat() & 0x40) {
         SHORTCUT_MENU_OnKeyUp(menu, pickCursor[1], itemCount, (u32 *)&wrapped);
     } else if (KEY_GetRepeat() & 0x80) {
         SHORTCUT_MENU_OnKeyDown(menu, pickCursor[1], itemCount, &wrapped);
     }
     if (wrapped == 0) {
-        selection = BMP_MENULIST_Main(menu->list);
+        selection = BMP_MENULIST_Main((struct BmpMenuList *)menu->list);
     }
     if (selection == -1) {
         if (KEY_GetTrg() & 0x400) {
             selection = -2;
             GFL_USE_PlaySeDefaultVolume(0x551);
         } else if (KEY_GetTrg() & 0x800) {
-            BMP_MENULIST_GetListIndex(menu->list, &pickCursor[0]);
-            selection = BMP_MENULIST_GetItemValue(menu->list, pickCursor[0]);
+            BMP_MENULIST_GetListIndex((struct BmpMenuList *)menu->list, &pickCursor[0]);
+            selection = BMP_MENULIST_GetItemValue((struct BmpMenuList *)menu->list, pickCursor[0]);
             GFL_USE_PlaySeDefaultVolume(0x54C);
         } else if ((KEY_GetTrg() & 4) && menu->moveMode == 1) {
-            BMP_MENULIST_GetListIndex(menu->list, &moveCursor[1]);
-            selection = BMP_MENULIST_GetItemValue(menu->list, moveCursor[1]);
+            BMP_MENULIST_GetListIndex((struct BmpMenuList *)menu->list, &moveCursor[1]);
+            selection = BMP_MENULIST_GetItemValue((struct BmpMenuList *)menu->list, moveCursor[1]);
             GFL_USE_PlaySeDefaultVolume(0x54C);
         }
     }
@@ -668,8 +676,8 @@ void SHORTCUT_MENU_UpdateInput(ShortcutMenu *menu)
         if (selection == -2) {
             toggleMode = 1;
         } else if (selection != -1) {
-            selection = BMP_MENULIST_GetItemValue(menu->list, (u16)(menu->savedScroll + menu->savedCursor));
-            BMP_MENULIST_GetListIndex(menu->list, &moveCursor[0]);
+            selection = BMP_MENULIST_GetItemValue((struct BmpMenuList *)menu->list, (u16)(menu->savedScroll + menu->savedCursor));
+            BMP_MENULIST_GetListIndex((struct BmpMenuList *)menu->list, &moveCursor[0]);
             if (menu->cursorWrapped != 0) {
                 selection = RECENT_ID_LIST_SAVEDATA_InsertId(menu->menuData, selection, 0xFF);
             } else {
@@ -683,7 +691,7 @@ void SHORTCUT_MENU_UpdateInput(ShortcutMenu *menu)
             toggleMode = 1;
         }
     }
-    if ((KEY_GetTrg() & 4) && menu->moveMode == 0 && BMP_MENULIST_GetAttr(menu->list, 2) > 1) {
+    if ((KEY_GetTrg() & 4) && menu->moveMode == 0 && BMP_MENULIST_GetAttr((struct BmpMenuList *)menu->list, 2) > 1) {
         GFL_USE_PlaySeDefaultVolume(0x54C);
         toggleMode = 1;
     }
@@ -692,13 +700,13 @@ void SHORTCUT_MENU_UpdateInput(ShortcutMenu *menu)
         if (menu->moveMode == 0) {
             menu->cursorWrapped = 0;
             for (i = 0; i < 3; i++) {
-                CLACT_SetActorDrawEnable(menu->listActors[i], 0);
+                CLACT_SetActorDrawEnable((struct Actor *)menu->listActors[i], 0);
             }
             SHORTCUT_MENU_UpdateCursorBg(menu->list, 0, 0);
             return;
         }
         if (menu->moveMode == 1) {
-            BMP_MENULIST_GetPos(menu->list, &menu->savedScroll, &menu->savedCursor);
+            BMP_MENULIST_GetPos((struct BmpMenuList *)menu->list, &menu->savedScroll, &menu->savedCursor);
             menu->showActors = 1;
         }
     }
@@ -711,8 +719,8 @@ int SHORTCUT_MENU_FinishPrint(ShortcutMenu *menu)
     int finished;
 
     if (menu->printBusy != 0) {
-        if (PRINTSYS_QUE_IsExistTarget(printSys, (void *)((int)BMP_WIN_GetBmp(menu->printWindow))) == 0) {
-            BMP_WIN_TransferChars(menu->printWindow);
+        if (PRINTSYS_QUE_IsExistTarget((struct PrintQueue *)printSys, (void *)((int)BMP_WIN_GetBmp((struct BmpWin *)menu->printWindow))) == 0) {
+            BMP_WIN_TransferChars((struct BmpWin *)menu->printWindow);
             menu->printBusy = 0;
         }
     }
@@ -727,7 +735,7 @@ int SHORTCUT_MENU_FinishPrint(ShortcutMenu *menu)
         }
         if (menu->showActors != 0) {
             for (i = 0; i < 3; i++) {
-                CLACT_SetActorDrawEnable(menu->listActors[i], 1);
+                CLACT_SetActorDrawEnable((struct Actor *)menu->listActors[i], 1);
             }
             menu->showActors = 0;
         }
@@ -784,8 +792,8 @@ void SHORTCUT_MENU_UpdateCursorBg(void *list, int unused0, int unused1)
         BG_SYS_MarkTileDirty(1);
     }
     if (menu->cursorWrapped == 1) {
-        row = BMP_MENULIST_GetAttr(menu->list, 3);
-        row = BMP_MENULIST_GetRowY(menu->list, row) >> 3;
+        row = BMP_MENULIST_GetAttr((struct BmpMenuList *)menu->list, 3);
+        row = BMP_MENULIST_GetRowY((struct BmpMenuList *)menu->list, row) >> 3;
         SHORTCUT_MENU_SetActorsY(menu, (row + 12) << 3);
     } else {
         SHORTCUT_MENU_SetActorsY(menu, (cursorRow + 12) << 3);
@@ -848,7 +856,7 @@ void SHORTCUT_MENU_CreateList(ShortcutMenu *menu, u16 scroll, u16 cursor, u32 he
     tmpl.windowRef = &menu->printWindow;
     tmpl.printSys = menu->printSys;
     tmpl.font = menu->font;
-    menu->list = BMP_MENULIST_Create((struct Src *)(&tmpl), scroll, cursor, heapId);
+    menu->list = BMP_MENULIST_Create((struct MenuTemplate *)(&tmpl), scroll, cursor, heapId);
 }
 
 /*
@@ -858,7 +866,7 @@ void SHORTCUT_MENU_CreateList(ShortcutMenu *menu, u16 scroll, u16 cursor, u32 he
  */
 int SHORTCUT_MENU_DeleteList(ShortcutMenu *menu, u16 *outScroll, u16 *outCursor)
 {
-    BMP_MENULIST_Delete(menu->list, outScroll, outCursor);
+    BMP_MENULIST_Delete((struct BmpMenuList *)menu->list, outScroll, outCursor);
     return BMP_MENUWORK_Delete(menu->listItems);
 }
 

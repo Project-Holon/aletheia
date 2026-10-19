@@ -36,7 +36,7 @@ extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u
 
 extern u32 GFL_HEAP_Free(void *p);
 
-extern void ZUKAN_DETAIL_INFO_SetHeapId(void *mem, u32 heap);
+extern void ZUKAN_DETAIL_INFO_SetHeapId(unsigned short *p, unsigned short v);
 
 extern void ZUKAN_DETAIL_AREA_SetHeapId(u16 *p, u16 v);
 

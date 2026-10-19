@@ -54,7 +54,7 @@ extern int SOCLi_CleanupCommandPacketQueue(void);
 extern void SOCLi_InitResource(void);
 extern void CPS_Cleanup(void);
 extern void CPS_SetScavengerCallback(int v);
-extern void CPS_SetCheckNConfigCallback(int v);
+extern void CPS_SetCheckNConfigCallback(void *callback);
 extern void WCM_SetRecvDCFCallback(void (*callback)(unsigned char *, unsigned char *, unsigned char *, long));
 extern unsigned long OS_DisableInterrupts(void);
 extern unsigned long OS_RestoreInterrupts(unsigned long state);
@@ -93,7 +93,7 @@ int SOCL_Cleanup(void)
 	result = SOCLi_CleanupCommandPacketQueue();
 	if (result >= 0) {
 		SOCLi_CleanupCPS();
-		if (gSoclConfig->serviceFlag == 0) {
+		if (gSoclConfig->lanBuffer == 0) {
 			gSoclConfig->free((void *)SOCLiCPSConfig.lan_buf);
 		}
 		gSoclConfig = 0;

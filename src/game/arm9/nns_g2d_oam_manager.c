@@ -192,13 +192,13 @@ extern void GXS_LoadOBJ(void *src, u32 off, u32 n);
 extern void GX_BeginLoadOBJExtPltt(u32 a);
 extern void GX_LoadOBJExtPltt(u32 a, u32 b, u32 c);
 extern void GX_EndLoadOBJExtPltt(void);
-extern void GX_LoadOBJPltt(u32 a, u32 b, u32 c);
+extern void GX_LoadOBJPltt(void *pSrc, u32 offset, u32 szByte);
 extern void GXS_BeginLoadOBJExtPltt(u32 a);
 extern void GXS_LoadOBJExtPltt(u32 a, u32 b, u32 c);
 extern void GXS_EndLoadOBJExtPltt(void);
-extern void GXS_LoadOBJPltt(u32 a, u32 b, u32 c);
+extern void GXS_LoadOBJPltt(void *pSrc, u32 offset, u32 szByte);
 extern void GX_BeginLoadTexPltt(void);
-extern void GX_LoadTexPltt(u32 a, u32 b, u32 c);
+extern void GX_LoadTexPltt(void *pSrc, u32 destSlotAddr, u32 szByte);
 extern void GX_EndLoadTexPltt(void);
 void NNSi_G2dCpuLoadOamSub(void *src, u32 offset);
 void NNSi_G2dCpuLoadOamMain(void *src, u32 offset);
@@ -1182,7 +1182,7 @@ void NNSi_G2dLoadVramResourceBySel(VramResourceSel *self, u32 offset, int sel, V
             GX_LoadOBJExtPltt(a, offset, b);
             GX_EndLoadOBJExtPltt();
         } else {
-            GX_LoadOBJPltt(a, offset, b);
+            GX_LoadOBJPltt((void *)a, offset, b);
         }
         break;
     case 2:
@@ -1191,12 +1191,12 @@ void NNSi_G2dLoadVramResourceBySel(VramResourceSel *self, u32 offset, int sel, V
             GXS_LoadOBJExtPltt(a, offset, b);
             GXS_EndLoadOBJExtPltt();
         } else {
-            GXS_LoadOBJPltt(a, offset, b);
+            GXS_LoadOBJPltt((void *)a, offset, b);
         }
         break;
     case 0:
         GX_BeginLoadTexPltt();
-        GX_LoadTexPltt(a, offset, b);
+        GX_LoadTexPltt((void *)a, offset, b);
         GX_EndLoadTexPltt();
         break;
     }
@@ -1300,7 +1300,7 @@ void NNSi_G2dLoadVramResourceList(VramResourceList *self, VramResourceIndices *l
                     GX_LoadOBJExtPltt(a + d, base + t, step);
                     GX_EndLoadOBJExtPltt();
                 } else {
-                    GX_LoadOBJPltt(a + d, base + t, step);
+                    GX_LoadOBJPltt((void *)(a + d), base + t, step);
                 }
                 break;
             case 2:
@@ -1309,12 +1309,12 @@ void NNSi_G2dLoadVramResourceList(VramResourceList *self, VramResourceIndices *l
                     GXS_LoadOBJExtPltt(a + d, base + t, step);
                     GXS_EndLoadOBJExtPltt();
                 } else {
-                    GXS_LoadOBJPltt(a + d, base + t, step);
+                    GXS_LoadOBJPltt((void *)(a + d), base + t, step);
                 }
                 break;
             case 0:
                 GX_BeginLoadTexPltt();
-                GX_LoadTexPltt(a + d, base + t, step);
+                GX_LoadTexPltt((void *)(a + d), base + t, step);
                 GX_EndLoadTexPltt();
                 break;
             default:

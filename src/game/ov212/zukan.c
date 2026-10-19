@@ -159,18 +159,19 @@ extern void *GFL_HEAP_Alloc(unsigned,unsigned,int,const char *,u16);
 extern void PROCSYS_Push(struct ProcSys *,unsigned,unsigned,unsigned);
 
 extern void *ZUKAN_SAVE_GetFromGameData(void *);
+struct ZukanSave;
 
-extern u16 ZUKAN_SAVE_GetLastViewedSpecies(struct Blk37 *);
+extern u16 ZUKAN_SAVE_GetLastViewedSpecies(struct ZukanSave *pZukan);
 
-extern void ZUKAN_SAVE_SetLastViewedSpecies(struct Blk37 *p, u32 v);
+extern void ZUKAN_SAVE_SetLastViewedSpecies(struct ZukanSave *pZukan, unsigned int value);
 
-extern unsigned ZUKAN_SAVE_GetViewMode(struct Blk37 *);
+extern unsigned ZUKAN_SAVE_GetViewMode(struct ZukanSave *pZukan);
 
-extern unsigned ZUKAN_SAVE_IsCaught(struct Blk37 *,u16);
+extern unsigned ZUKAN_SAVE_IsCaught(struct ZukanSave *pZukan, unsigned short species);
 
-extern unsigned ZUKAN_SAVE_IsSeen(struct Blk37 *,u16);
+extern unsigned ZUKAN_SAVE_IsSeen(struct ZukanSave *pZukan, unsigned short species);
 
-extern void WIPE_SYS_Start(void *,u32,u32,u32,u32,u32,u32);
+extern void WIPE_SYS_Start(void *divisionMode, unsigned int mainPattern, unsigned int subPattern, unsigned short color, unsigned int frames, unsigned int wait, unsigned int heapId);
 
 extern void BG_SYS_ChangeScroll(u32,u32,u32);
 
@@ -218,7 +219,7 @@ void ZUKAN_StartWipeOut(u32 heap);
 
 void ZUKAN_TickCounter(u32 a, u32 b, u32 *counter);
 
-struct Obj *ZUKAN_CreateActor(u32 bank, const struct ZknSearchActorTemplate *t, u16 heap);
+struct Obj *ZUKAN_CreateActor(void *bank, const struct ZknSearchActorTemplate *t, u16 heap);
 
 u32 ZUKAN_SEARCH_ENGINE_LoadSpeciesIds(u32 mode,int heap,u16 **out);
 
@@ -467,7 +468,7 @@ int ZUKAN_ResumeProc208(struct ZukanWork *p)
     int result;
     save = ZUKAN_SAVE_GetFromGameData(p->ctx->gameData);
     q = p->subWork;
-    ZUKAN_SAVE_SetLastViewedSpecies(save, q->idList[q->index]);
+    ZUKAN_SAVE_SetLastViewedSpecies((struct ZukanSave *)save, q->idList[q->index]);
     switch (q->step) {
     case 0:
         p->ctx->result = 1;
@@ -491,11 +492,11 @@ u16 ZUKAN_LoadListAndSelection(struct Blk37 *save,u16 **out,unsigned heap)
     u16 *list;
     unsigned count,i;
     u16 selected;
-    if(ZUKAN_SAVE_GetViewMode(save)==1)count=ZUKAN_SEARCH_ENGINE_LoadSpeciesIds(0,heap,&list);
+    if(ZUKAN_SAVE_GetViewMode((struct ZukanSave *)save)==1)count=ZUKAN_SEARCH_ENGINE_LoadSpeciesIds(0,heap,&list);
     else count=ZUKAN_SEARCH_ENGINE_LoadSpeciesIds(1,heap,&list);
     selected=0;
     for(i=0;i<count;i++){
-        if(ZUKAN_SAVE_IsCaught(save,list[i])==1||ZUKAN_SAVE_IsSeen(save,list[i])==1)selected=i+1;
+        if(ZUKAN_SAVE_IsCaught((struct ZukanSave *)save,list[i])==1||ZUKAN_SAVE_IsSeen((struct ZukanSave *)save,list[i])==1)selected=i+1;
     }
     *out=list;
     return selected;
@@ -516,13 +517,13 @@ void ZUKAN_FixLastViewedSpecies(void *p,u16 *ids,unsigned count)
 }
 
 int ZUKAN_IsNationalMode(struct Blk37 *p) {
-    if (ZUKAN_SAVE_GetViewMode(p) == 1) return 1;
-    if (ZUKAN_SAVE_IsCaught(p,494) == 1 || ZUKAN_SAVE_IsSeen(p,494) == 1) return 1;
+    if (ZUKAN_SAVE_GetViewMode((struct ZukanSave *)p) == 1) return 1;
+    if (ZUKAN_SAVE_IsCaught((struct ZukanSave *)p,494) == 1 || ZUKAN_SAVE_IsSeen((struct ZukanSave *)p,494) == 1) return 1;
     return 0;
 }
 
 void ZUKAN_InitQuery(struct Blk37 *p, u8 *out) {
-    if(ZUKAN_SAVE_GetViewMode(p)==1) out[0]=0; else out[0]=1;
+    if(ZUKAN_SAVE_GetViewMode((struct ZukanSave *)p)==1) out[0]=0; else out[0]=1;
     out[1]=0; out[2]=255; out[3]=255; out[4]=255; out[5]=255; out[6]=255;
 }
 
@@ -535,6 +536,6 @@ void ZUKAN_TickCounter(u32 a, u32 b, u32 *counter) {
     if(*counter==4) { BG_SYS_ChangeScroll(a,1,1); BG_SYS_ChangeScroll(b,1,1); *counter=0; }
 }
 
-struct Obj *ZUKAN_CreateActor(u32 bank, const struct ZknSearchActorTemplate *t, u16 heap) {
+struct Obj *ZUKAN_CreateActor(void *bank, const struct ZknSearchActorTemplate *t, u16 heap) {
     return CLACT_CreateActor((void *)bank,t->charIdx,t->palIdx,t->cellIdx,t,t->y,heap);
 }

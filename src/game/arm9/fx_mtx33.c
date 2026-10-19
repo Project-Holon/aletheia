@@ -175,7 +175,7 @@ asm void MTX_RotZ33_(void)
 #pragma thumb reset
 
 void FX_InvAsync(fx32 denom);
-fx32 FX_GetDivResult(void);
+unsigned int FX_GetDivResult(void);
 void MI_Copy36B(const void *pSrc, void *pDest);
 void MTX_RotAxis33(MtxFx33 *pDst, const VecFx32 *vec, fx32 sinVal, fx32 cosVal);
 int MTX_Inverse33(const MtxFx33 *pSrc, MtxFx33 *pDst);

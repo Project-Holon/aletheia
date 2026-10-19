@@ -81,10 +81,10 @@ void DWCi_CMNlLoadResource(char *file, void (*func)(void *, unsigned long, unsig
 void *DWCi_FNTlFormBgEx(int lcd, int font);
 void OS_GetMacAddress(unsigned char *macAddress);
 int OS_SNPrintf(char *dst, unsigned long len, char *fmt, ...);
-int DWCi_STRlConvertStringAsciiToUnicode(unsigned short *dst, char *src, int len);
+int DWCi_STRlConvertStringAsciiToUnicode(unsigned short *dst, unsigned char *src, int len);
 void DWCi_FNTlDrawRect(void *canvas, int x, int y, int w, int h, int color, unsigned long flag, unsigned short *txt);
 void DWCi_BM_GetWiFiInfo(struct tagDWCWiFiInfo *buf);
-void DWCi_FNTlRenewBg(void *canvas);
+void DWCi_FNTlRenewBg(int x);
 int DWCi_EFFlFade(int kind, int lcd, int plane, int frame);
 void DWCi_GXlVisible(int lcd, int plane);
 int DWCi_EFFlCheck(int lcd);
@@ -158,7 +158,7 @@ void drawInfo(void)
     canvas = DWCi_FNTlFormBgEx(0, 0);
     OS_GetMacAddress(mac);
     OS_SNPrintf(tmpbuf, 20, sSceneOptInfoTable1, mac[0], mac[1], mac[2], mac[3], mac[4], mac[5]);
-    DWCi_STRlConvertStringAsciiToUnicode(buf, tmpbuf, 20);
+    DWCi_STRlConvertStringAsciiToUnicode(buf, (unsigned char *)tmpbuf, 20);
     DWCi_FNTlDrawRect(canvas, 8, 0x40, 0xf0, 0x1c, 2, 0x480, buf);
     DWCi_BM_GetWiFiInfo(&info);
     id = info.id;
@@ -170,13 +170,13 @@ void drawInfo(void)
             id /= 10000;
         }
         OS_SNPrintf(tmpbuf, 20, sSceneOptInfoTable2, tmp[0], tmp[1], tmp[2], tmp[3]);
-        DWCi_STRlConvertStringAsciiToUnicode(buf, tmpbuf, 20);
+        DWCi_STRlConvertStringAsciiToUnicode(buf, (unsigned char *)tmpbuf, 20);
     } else {
         OS_SNPrintf(tmpbuf, 20, sSceneOptInfoTable3);
-        DWCi_STRlConvertStringAsciiToUnicode(buf, tmpbuf, 20);
+        DWCi_STRlConvertStringAsciiToUnicode(buf, (unsigned char *)tmpbuf, 20);
     }
     DWCi_FNTlDrawRect(canvas, 8, 0x78, 0xf0, 0x1c, 2, 0x480, buf);
-    DWCi_FNTlRenewBg(canvas);
+    DWCi_FNTlRenewBg((int)canvas);
 }
 
 

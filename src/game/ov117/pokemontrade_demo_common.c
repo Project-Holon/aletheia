@@ -88,31 +88,35 @@ typedef int s32;
 extern void G2x_SetBlendBrightness_(u32 addr, int plane, int brightness);
 extern int POKETRADE_PROC_IsHostSide(void *p);
 extern void *POKETRADE_PROC_GetSideMon(void *p, int which);
-extern u32 POKE_TOOL_GetPartyValue(void *mon, u32 id, u32 arg);
-extern void *POKE_PERSONAL_Create(u32 a, int b, u32 heap);
-extern u32 POKE_PERSONAL_GetParam(const struct Personal *p, u32 field);
-extern void POKE_PERSONAL_Delete(void *p);
-extern u32 MYSTATUS_GetId(const struct Sub0200852CObj *obj);
+struct PokemonParam;
+extern u32 POKE_TOOL_GetPartyValue(struct PokemonParam *pp, u32 paramId, u32 arg);
+struct PersonalData;
+extern struct PersonalData *POKE_PERSONAL_Create(u32 a, int b, u32 heap);
+extern u32 POKE_PERSONAL_GetParam(struct PersonalData *data, u32 field);
+extern void POKE_PERSONAL_Delete(struct PersonalData *data);
+struct MyStatus;
+extern u32 MYSTATUS_GetId(struct MyStatus *mystatus);
 extern struct Obj *CLACT_CreateActor(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
-extern void CLACT_SetActorAutoAnim(struct Obj *p, u32 v);
-extern void CLACT_SetActorDrawEnable(struct Obj *p, unsigned int v);
+extern void CLACT_SetActorAutoAnim(struct Actor *actor, u32 enable);
+extern void CLACT_SetActorDrawEnable(struct Actor *actor, u32 value);
 extern void CLACT_RestartActorAnim(struct Actor *a);
-extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
+extern void *ARC_TOOL_CreateHandle(u32 archiveID, u16 heapID);
 extern int CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 vram_mode, u16 flags);
 extern int CLACT_RegisterPaletteEx(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
 extern int CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 extern void ARC_TOOL_DeleteHandle(void *);
-extern void CLACT_DeleteActor(struct Obj *p);
+extern void CLACT_DeleteActor(struct Actor *actor);
 extern void CLACT_ReleaseCharacter(u32 i);
 extern void CLACT_ReleasePalette(u32 i);
 extern void CLACT_ReleaseCellAnim(u32 i);
 extern void POKETRADE_3D_FadeTexturePalette(char *p);
 extern void POKETRADE_3D_RemoveCurrentUnit(void *p);
 extern int POKETRADE_PROC_IsNetSession(void *p);
-extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
-extern void GFL_NET_HANDLE_SetTimingSyncRange(struct Link *h, u32 a, u32 b);
+struct GFLNetHandle;
+extern struct GFLNetHandle *GFL_NET_HANDLE_GetCurrentHandle(void);
+extern void GFL_NET_HANDLE_SetTimingSyncRange(struct GFLNetHandle *handle, u32 timingLow, u32 timingHigh);
 extern void POKETRADE_PROC_SetStep(void *p, int next);
-extern u32 GFL_NET_HANDLE_IsTimingSyncRange(struct Link *h, u32 a, u32 b);
+extern u32 GFL_NET_HANDLE_IsTimingSyncRange(struct GFLNetHandle *handle, u32 timingLow, u32 timingHigh);
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void POKETRADE_SAVE_FreeIfSet(u32 *p);
 extern void *POKETRADE_MCSS_SlideCreate(void *mcss, void *frameCount, void *targetPos, u32 heapId);
@@ -190,7 +194,7 @@ void POKETRADE_DEMO_COMMON_CompareSideMon(u8 *p, u8 *outSame, u8 *outFlag, u32 k
     isEgg = POKE_TOOL_GetPartyValue(mon, 0x4C, 0);
     if (isEgg == 0) {
         personal = (u32)POKE_PERSONAL_Create((u16)species, (int)(u16)form, ((PokeTradeDemoWork *)p)->heapId);
-        isSpecial = POKE_PERSONAL_GetParam((const struct Personal *)personal, 0x10);
+        isSpecial = POKE_PERSONAL_GetParam((struct PersonalData *)personal, 0x10);
         POKE_PERSONAL_Delete((void *)personal);
     }
     if (isEgg != 0) {
@@ -200,7 +204,7 @@ void POKETRADE_DEMO_COMMON_CompareSideMon(u8 *p, u8 *outSame, u8 *outFlag, u32 k
     } else {
         *outFlag = 0;
     }
-    if (monId != MYSTATUS_GetId((const struct Sub0200852CObj *)key)) {
+    if (monId != MYSTATUS_GetId((struct MyStatus *)key)) {
         *outSame = 0;
     } else {
         *outSame = 1;
@@ -226,8 +230,8 @@ void POKETRADE_DEMO_COMMON_ShowUnitActor(void *p)
                           ((PokeTradeDemoWork *)p)->paletteHandle,
                           ((PokeTradeDemoWork *)p)->cellAnimHandle,
                           &s, 0, ((PokeTradeDemoWork *)p)->heapId);
-        CLACT_SetActorAutoAnim((struct Obj *)((PokeTradeAnimWork *)((PokeTradeDemoWork *)p)->animWork)->actor, 1);
-        CLACT_SetActorDrawEnable((struct Obj *)((PokeTradeAnimWork *)((PokeTradeDemoWork *)p)->animWork)->actor, 1);
+        CLACT_SetActorAutoAnim((struct Actor *)((PokeTradeAnimWork *)((PokeTradeDemoWork *)p)->animWork)->actor, 1);
+        CLACT_SetActorDrawEnable((struct Actor *)((PokeTradeAnimWork *)((PokeTradeDemoWork *)p)->animWork)->actor, 1);
     } else {
         CLACT_RestartActorAnim((struct Actor *)actor);
     }
@@ -254,7 +258,7 @@ void POKETRADE_DEMO_COMMON_ReleaseUnit(void *p)
     u8 *b = p;
 
     if (((PokeTradeAnimWork *)((PokeTradeDemoWork *)b)->animWork)->actor != 0)
-        CLACT_DeleteActor((struct Obj *)((PokeTradeAnimWork *)((PokeTradeDemoWork *)b)->animWork)->actor);
+        CLACT_DeleteActor((struct Actor *)((PokeTradeAnimWork *)((PokeTradeDemoWork *)b)->animWork)->actor);
     if (((PokeTradeDemoWork *)b)->characterHandle != 0) {
         CLACT_ReleaseCharacter((u32)((PokeTradeDemoWork *)b)->characterHandle);
         CLACT_ReleasePalette((u32)((PokeTradeDemoWork *)b)->paletteHandle);
@@ -292,7 +296,7 @@ void POKETRADE_DEMO_COMMON_StepCompareMons(u8 *p)
         POKETRADE_DEMO_COMMON_CompareSideMon(p, &((PokeTradeDemoWork *)p)->ownSameMon, &((PokeTradeDemoWork *)p)->ownSpecialMon, ((PokeTradeDemoWork *)p)->ownMonKey, 0);
         POKETRADE_3D_RemoveCurrentUnit(p);
         if (POKETRADE_PROC_IsNetSession(p) != 0) {
-            GFL_NET_HANDLE_SetTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0x11, 8);
+            GFL_NET_HANDLE_SetTimingSyncRange((struct GFLNetHandle *)GFL_NET_HANDLE_GetCurrentHandle(), 0x11, 8);
             POKETRADE_PROC_SetStep(p, (int)POKETRADE_DEMO_COMMON_StepWaitSync);
         } else {
             POKETRADE_PROC_SetStep(p, (int)POKETRADE_DEMO_COMMON_StepStartSlides);
@@ -304,7 +308,7 @@ void POKETRADE_DEMO_COMMON_StepCompareMons(u8 *p)
 
 void POKETRADE_DEMO_COMMON_StepWaitSync(u8 *p)
 {
-    if (GFL_NET_HANDLE_IsTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0x11, 8) != 0) {
+    if (GFL_NET_HANDLE_IsTimingSyncRange((struct GFLNetHandle *)GFL_NET_HANDLE_GetCurrentHandle(), 0x11, 8) != 0) {
         POKETRADE_PROC_SetStep(p, (int)POKETRADE_DEMO_COMMON_StepStartSlides);
     }
 }

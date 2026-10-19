@@ -19,7 +19,7 @@
  *   MI_StopDma                     0x020825F0  arm
  */
 
-void MI_SetWramBank(int cnt);
+void MI_SetWramBank(unsigned int bank);
 int OS_IsRunOnTwl(void);
 void MI_InitNDma(void);
 void MI_StopDma(unsigned long dmaNo);

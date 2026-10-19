@@ -94,16 +94,18 @@ struct MiscSave {
 extern void MI_CpuFill8(void *dest, u8 value, u32 size);
 
 extern void *SAVE_CONTROL_GetBlock(struct SaveControl *save, u32 blockId);
+struct MsgBank;
 
-extern struct MsgData *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 
-extern u32 MSGDATA_Delete(struct MsgData *msg);
+extern u32 MSGDATA_Delete(struct MsgBank *bank);
+struct Strbuf;
 
-extern struct StrBuf *MSGDATA_AllocString(struct MsgData *msg, u32 msgIndex);
+extern struct Strbuf *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
 
-extern void STRBUF_ToChars(struct StrBuf *str, u16 *out, u32 maxLen);
+extern void STRBUF_ToChars(struct Strbuf *strbuf, u16 *out, u32 maxChars);
 
-extern void STRBUF_Delete(struct StrBuf *str);
+extern void STRBUF_Delete(struct Strbuf *strbuf);
 
 u32 MISC_GetSize(void);
 
@@ -221,14 +223,14 @@ void MISC_Init(struct MiscSave *beacon)
     MI_CpuFill8(beacon, 0, sizeof(struct MiscSave));
     MISC_ClearInputFlags(beacon);
     beacon->bestScore = 0;
-    msg = MSGDATA_CreateFromArchive(0, 3, 0x2f, 0x8007);
-    greet = MSGDATA_AllocString(msg, 0x151);
-    STRBUF_ToChars(greet, beacon->greetMessage, 9);
-    STRBUF_Delete(greet);
-    thanks = MSGDATA_AllocString(msg, 0x159);
-    STRBUF_ToChars(thanks, beacon->thanksMessage, 9);
-    STRBUF_Delete(thanks);
-    MSGDATA_Delete(msg);
+    msg = (struct MsgData *)MSGDATA_CreateFromArchive(0, 3, 0x2f, 0x8007);
+    greet = (struct StrBuf *)MSGDATA_AllocString((struct MsgBank *)msg, 0x151);
+    STRBUF_ToChars((struct Strbuf *)greet, beacon->greetMessage, 9);
+    STRBUF_Delete((struct Strbuf *)greet);
+    thanks = (struct StrBuf *)MSGDATA_AllocString((struct MsgBank *)msg, 0x159);
+    STRBUF_ToChars((struct Strbuf *)thanks, beacon->thanksMessage, 9);
+    STRBUF_Delete((struct Strbuf *)thanks);
+    MSGDATA_Delete((struct MsgBank *)msg);
     beacon->mode = 0;
     beacon->entryCount = 0;
     beacon->recentIds[0] = 0xff;
@@ -378,7 +380,7 @@ u16 *MISC_GetGreetMessage(struct MiscSave *beacon)
 
 void MISC_SetGreetMessage(struct MiscSave *beacon, struct StrBuf *message)
 {
-    STRBUF_ToChars(message, beacon->greetMessage, 9);
+    STRBUF_ToChars((struct Strbuf *)message, beacon->greetMessage, 9);
 }
 
 u16 *MISC_GetThanksMessage(struct MiscSave *beacon)
@@ -388,7 +390,7 @@ u16 *MISC_GetThanksMessage(struct MiscSave *beacon)
 
 void MISC_SetThanksMessage(struct MiscSave *beacon, struct StrBuf *message)
 {
-    STRBUF_ToChars(message, beacon->thanksMessage, 9);
+    STRBUF_ToChars((struct Strbuf *)message, beacon->thanksMessage, 9);
 }
 
 u8 MISC_GetResearchRank(struct MiscSave *beacon)

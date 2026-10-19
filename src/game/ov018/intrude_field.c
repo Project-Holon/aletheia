@@ -206,18 +206,18 @@ struct PlayerWork;
 struct MyStatus;
 struct FieldMap;
 struct FieldPlayer;
-struct FieldMsgBg;
-struct MsgData;
-struct MsgWin;
-struct PromptWin;
-struct YesNoMenu;
+struct FieldPlaceName;
+struct MsgBank;
+struct FieldMsgWin;
+struct FieldSysWin;
+struct FieldMenuFunc;
 struct WordSet;
 struct U16Vec;
 struct MapMatrix;
-struct TpokeData;
+struct Container;
 struct Pokemon;
 
-typedef struct VecFx32 {
+typedef struct PlayerPosition {
     s32 x;
     s32 y;
     s32 z;
@@ -235,8 +235,8 @@ typedef struct PlayerLook {
 typedef struct EdgeBlockWork {
     struct FieldMap *fieldMap;      /* 0x00 */
     Mmdl *playerMmdl;               /* 0x04 */
-    struct MsgData *msgData;        /* 0x08 */
-    struct MsgWin *msgWin;          /* 0x0C */
+    struct MsgBank *msgData;        /* 0x08 */
+    struct FieldMsgWin *msgWin;          /* 0x0C */
     int sessionBusy;                /* 0x10 */
     u16 edgeDir;                    /* 0x14: 2 left edge, 3 right edge */
     u16 moveDir;                    /* 0x16 */
@@ -246,8 +246,8 @@ typedef struct EdgeBlockWork {
 typedef struct AreaChangeWork {
     struct FieldMap *fieldMap;      /* 0x00 */
     Mmdl *playerMmdl;               /* 0x04 */
-    struct MsgData *msgData;        /* 0x08 */
-    struct MsgWin *msgWin;          /* 0x0C */
+    struct MsgBank *msgData;        /* 0x08 */
+    struct FieldMsgWin *msgWin;          /* 0x0C */
     struct WordSet *wordSet;        /* 0x10 */
     u16 edgeDir;                    /* 0x14 */
     u8 sessionBusy;                 /* 0x16 */
@@ -257,10 +257,10 @@ typedef struct AreaChangeWork {
 
 /* Event that asks whether to leave the Entralink (0x2C bytes). */
 typedef struct ExitConfirmWork {
-    struct MsgData *msgData;        /* 0x00 */
-    struct MsgWin *endMsgWin;       /* 0x04 */
-    struct PromptWin *promptWin;    /* 0x08 */
-    struct YesNoMenu *yesNoMenu;    /* 0x0C */
+    struct MsgBank *msgData;        /* 0x00 */
+    struct FieldMsgWin *endMsgWin;       /* 0x04 */
+    struct FieldSysWin *promptWin;    /* 0x08 */
+    struct FieldMenuFunc *yesNoMenu;    /* 0x0C */
     PlayerSpinWork spin;            /* 0x10 */
     u16 waitFrames;                 /* 0x28 */
     u16 pad2A;
@@ -268,8 +268,8 @@ typedef struct ExitConfirmWork {
 
 /* Event that shows a notice and spins the player (0x20 bytes). */
 typedef struct NoticeEventWork {
-    struct MsgData *msgData;        /* 0x00 */
-    struct PromptWin *promptWin;    /* 0x04 */
+    struct MsgBank *msgData;        /* 0x00 */
+    struct FieldSysWin *promptWin;    /* 0x04 */
     PlayerSpinWork spin;            /* 0x08 */
 } NoticeEventWork;
 
@@ -312,7 +312,7 @@ typedef struct SymbolMonEntry {
 
 /* Context of the Pokemon spawn on a symbol map. */
 typedef struct SymbolSpawnContext {
-    struct TpokeData *tpoke;        /* 0x00 */
+    struct Container *tpoke;        /* 0x00 */
     struct FieldMap *fieldMap;      /* 0x04 */
     int objIdBase;                  /* 0x08 */
 } SymbolSpawnContext;
@@ -331,7 +331,7 @@ typedef struct MmdlGridPos {
 } MmdlGridPos;
 
 /* Grid position of a model (three tile coordinates). */
-typedef struct GridPos {
+typedef struct MmdlGridVec {
     s16 x;
     s16 y;
     s16 z;
@@ -368,7 +368,7 @@ extern struct GameComm *GAMESYSTEM_GetGameComm(const struct GameSystem *gameSyst
 extern void *GAME_COMM_GetWork(struct GameComm *gameComm);
 extern struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
 extern struct PlayerWork *GAMESYSTEM_GetMyPlayerWork(const struct GameSystem *gameSystem);
-extern struct FieldMap *GAMESYSTEM_GetFieldMap(const struct GameSystem *gameSystem);
+extern void *GAMESYSTEM_GetFieldMap(const struct GameSystem *gameSystem);
 extern u32 GAMESYSTEM_IsFieldMapActive(const struct GameSystem *gameSystem);
 extern u8 GAME_DATA_IsSaving(const struct GameData *gameData);
 extern u32 GAME_COMM_GetKind(struct GameComm *gameComm);
@@ -384,7 +384,8 @@ extern u8 GAME_DATA_GetIntrudeId(const struct GameData *gameData);
 extern struct MyStatus *GAME_DATA_GetMyStatusPlayer(struct GameData *gameData, u32 index);
 extern struct MyStatus *GAME_DATA_GetMyStatus(struct GameData *gameData);
 extern struct PlayerWork *GAME_DATA_GetPlayerWork(struct GameData *gameData, int index);
-extern void GAME_DATA_SetPlayerPosition(struct PlayerWork *playerWork, const VecFx32 *pos);
+struct PlayerPosition;
+extern void GAME_DATA_SetPlayerPosition(struct PlayerWork *player, struct PlayerPosition *pos);
 extern u32 GAMESYSTEM_IsNetOffBySleep(const struct GameSystem *gameSystem);
 extern int GAMESYSTEM_IsEventActive(struct GameSystem *gameSystem);
 extern u32 GAME_COMM_GetCounter(struct GameComm *gameComm);
@@ -394,7 +395,7 @@ extern struct GameData *GAME_COMM_GetGameData(struct GameComm *gameComm);
 extern void GAME_COMM_RequestExitNoCallback(struct GameComm *gameComm);
 extern void GAME_COMM_RequestExit(struct GameComm *gameComm, u32 callback, u32 callbackArg);
 extern void GAME_COMM_Start(struct GameComm *gameComm, u32 kind, u32 param);
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const void *file, u16 line);
+extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, s32 clear, char *site, u16 tag);
 extern int DWCi_IsFold(void);
 extern int UI_IsPowerConnected(void);
 extern int GFL_NET_SYSTEM_GetConnectNum(void);
@@ -411,31 +412,37 @@ extern int GFL_USE_IsBgmPlaying(void);
 extern int GFL_NET_GetNegotiationNum(void);
 extern struct GameEvent *FIELD_SOUND_SYSTEM_StartPushAndPlayTask(struct GameSystem *gameSystem, u32 bgmId);
 extern struct GameEvent *FIELD_SOUND_SYSTEM_StartPopAndWaitTask(struct GameSystem *gameSystem, u32 fadeOutFrames, u32 fadeInFrames);
-/* MyStatus, Pokemon and message helpers */
-extern u8 MYSTATUS_GetId(const struct MyStatus *status);
+                                           
+extern u32 MYSTATUS_GetId(const struct MyStatus *status);
 extern u8 MYSTATUS_GetSex(const struct MyStatus *status);
 extern struct WordSet *WORDSET_CreateDefault(u32 heapId);
-extern void WORDSET_SetSlotMyStatus(struct WordSet *wordSet, u32 index, struct MyStatus *status);
-extern void WORDSET_CopyTaggedText(struct WordSet *wordSet, struct STRBUF *dst, struct STRBUF *src);
+extern void WORDSET_SetSlotMyStatus(struct WordSet *words, u32 slot, void *source);
+struct Strbuf;
+extern void WORDSET_CopyTaggedText(struct WordSet *words, struct Strbuf *dst, struct Strbuf *src);
 extern u32 WORDSET_Delete(struct WordSet *wordSet);
-extern struct STRBUF *STRBUF_Create(u32 capacity, u32 heapId);
-extern struct STRBUF *MSGDATA_AllocString(struct MsgData *msgData, u32 index);
-extern void STRBUF_Delete(struct STRBUF *strbuf);
-extern u32 MSGDATA_Delete(struct MsgData *msgData);
+extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
+extern struct Strbuf *MSGDATA_AllocString(struct MsgBank *msgData, u32 index);
+extern void STRBUF_Delete(struct Strbuf *strbuf);
+struct MsgBank;
+extern u32 MSGDATA_Delete(struct MsgBank *bank);
 extern u8 *ARC_UTIL_LoadMember(int arcId, int memberIdx, int decompress, int heapId);
-extern void GFL_HEAP_Free(void *ptr);
-extern u32 POKE_TOOL_CreatePersonalRnd(u32 trainerId, int species, int form, int sex, int shinyWanted, int mode);
+extern u32 GFL_HEAP_Free(void *ptr);
+extern u32 POKE_TOOL_CreatePersonalRnd(u32 otId, s32 species, u16 form, s32 ratioMode, s32 shinyWanted, s32 mode);
 extern void *POKE_TOOL_Create(u16 species, u16 level, u64 id, int heapId);
-extern void POKE_TOOL_SetupPartyParamEx(void *mon, u16 species, u16 level, unsigned long long id, u32 power, unsigned long long rnd);
-extern void POKE_TOOL_SetAbility(void *mon, u32 species, u32 form);
-extern u32 POKE_TOOL_ChangeForm(void *mon, u32 form);
-extern u16 POKE_TOOL_AddMove(void *mon, u16 move);
-extern void POKE_TOOL_PushMove(void *mon, int move);
-extern struct TpokeData *TPOKE_DATA_Create(int heapId);
-extern void TPOKE_Delete(struct TpokeData *tpoke);
-extern u32 TPOKE_DATA_GetRecordIndex(struct TpokeData *tpoke, u32 species, u32 sex, u32 form);
+struct PokemonParam;
+extern void POKE_TOOL_SetupPartyParamEx(struct PokemonParam *pp, u16 species, u16 level, u64 otId, u32 ivs, u64 personality);
+struct BoxPokemon;
+extern void POKE_TOOL_SetAbility(struct BoxPokemon *box, u32 species, u32 form);
+extern u32 POKE_TOOL_ChangeForm(struct PokemonParam *pp, u32 form);
+extern u16 POKE_TOOL_AddMove(struct PokemonParam *pp, u16 move);
+extern void POKE_TOOL_PushMove(struct PokemonParam *pp, u16 move);
+extern struct Container *TPOKE_DATA_Create(int heapId);
+extern void TPOKE_Delete(struct Container *tpoke);
+struct Container;
+extern u32 TPOKE_DATA_GetRecordIndex(struct Container *c, u32 key, u32 type, u32 subtype);
+struct CommPlayerWork;
 /* COMM_PLAYER, FLDMMDL and symbol map */
-extern void COMM_PLAYER_Update(struct GameSystem *gameSystem, struct CommPlayerWork *commPlayer);
+extern void COMM_PLAYER_Update(void *gameSystem, struct CommPlayerWork *work);
 extern int COMM_PLAYER_CheckOccupy(struct CommPlayerWork *commPlayer, int index);
 extern void COMM_PLAYER_Add(struct CommPlayerWork *commPlayer, int index, int objCode, IntrudePlayerPackage *package);
 extern void COMM_PLAYER_SetPackage(struct CommPlayerWork *commPlayer, int index, IntrudePlayerPackage *package);
@@ -443,7 +450,8 @@ extern int COMM_PLAYER_SetEffect(struct CommPlayerWork *commPlayer, int index);
 extern int COMM_PLAYER_SearchGridPos(struct CommPlayerWork *commPlayer, int gridX, int gridY, int gridZ, int *outIndex, int *outHit);
 extern int SYMBOL_MAP_IsHomeCell(int cellKind);
 extern int SYMBOL_MAP_IsPlainCell(int cellKind);
-extern void EVENT_FIELD_PROCLINK_SetReturnLinkId(u8 *returnSlots, u16 linkId);
+struct EventSlots;
+extern void EVENT_FIELD_PROCLINK_SetReturnLinkId(struct EventSlots *slots, u16 pendingKey);
 extern struct GameEvent *FIELD_INTRUDE_EVENT_CreateSymbolEntryEvent(struct GameSystem *gameSystem, int playSe, VecFx32 *pos, int edge, int cellId);
 extern Mmdl *FLDMMDL_AddMmdl(MmdlSys *mmdlSys, const MmdlHeader *header, int zoneId);
 extern int FLDMMDL_CheckPossibleAcmd(Mmdl *mmdl);
@@ -452,19 +460,25 @@ extern void FLDMMDL_SetAcmd(Mmdl *mmdl, u16 acmd);
 extern int FLDMMDL_CheckEndAcmd(Mmdl *mmdl, u32 *seq, void *work, u32 extra);
 extern int FLDMMDL_EndAcmd(Mmdl *mmdl);
 extern int FLDMMDL_GetParam(Mmdl *mmdl, int paramIndex);
-extern void FLDMMDL_GetGridNowPos(Mmdl *mmdl, GridPos *pos);
+struct MmdlGridVec;
+struct Mmdl;
+extern void FLDMMDL_GetGridNowPos(struct Mmdl *mmdl, struct MmdlGridVec *out);
 extern int FLDMMDL_GetGridNowX(Mmdl *mmdl);
 extern int FLDMMDL_GetGridNowZ(Mmdl *mmdl);
-extern void FLDMMDL_SetDrawOffset(Mmdl *mmdl, const VecFx32 *offset);
+struct MmdlVec;
+extern void FLDMMDL_SetDrawOffset(struct Mmdl *mmdl, struct MmdlVec *offset);
 extern void FLDMMDL_SysPauseMove(MmdlSys *mmdlSys);
-extern u32 *FLDMMDL_SysResumeMove(MmdlSys *mmdlSys);
+struct MmdlSys;
+extern void FLDMMDL_SysResumeMove(MmdlSys *mmdlSys);
+struct IntrudeSession;
 /* INTRUDE_COMM */
-extern int INTRUDE_CMD_SendRecordAccept(IntrudeCommSys *work, IntrudeSession *session);
+extern int INTRUDE_CMD_SendRecordAccept(s32 unused, struct IntrudeSession *session);
 extern void INTRUDE_COMM_SetState(IntrudeCommSys *work, int state);
 extern void INTRUDE_COMM_UpdatePlayerObjects(IntrudeCommSys *work);
 extern void INTRUDE_COMM_AdjustAllRemotePositions(IntrudeCommSys *work, int posX);
-extern void INTRUDE_COMM_PickDefaultObjCode(struct MyStatus *status, u16 *objCode, u8 *kind, u8 *flag);
-extern u16 INTRUDE_COMM_GetPlayerObjCode(const IntrudePeer *peer, struct MyStatus *status);
+extern void INTRUDE_COMM_PickDefaultObjCode(u32 myStatus, u16 *objCode, u8 *form, u8 *sex);
+struct IntrudePeer;
+extern u16 INTRUDE_COMM_GetPlayerObjCode(struct IntrudePeer *peer, u32 myStatus);
 extern void INTRUDE_COMM_SetIntrudeId(IntrudeCommSys *work, u32 intrudeId);
 extern int INTRUDE_COMM_IsSessionTimeLimitSet(IntrudeSession *session);
 extern IntrudeMemberRecord *INTRUDE_COMM_GetActiveSessionRequest(IntrudeSession *session);
@@ -474,40 +488,49 @@ extern int INTRUDE_COMM_IsSessionAcceptedOrResultReady(IntrudeSession *session);
 extern int INTRUDE_COMM_GetJoinStatus(IntrudeCommSys *work, IntrudeSession *session);
 extern int INTRUDE_COMM_HasResultReward(IntrudeCommSys *work, IntrudeSession *session);
 extern int INTRUDE_COMM_IsRequestFromSelf(IntrudeCommSys *work);
-extern void INTRUDE_COMM_SetWordSetRequest(IntrudeMemberRecord *record, IntrudeMemberName *name, int wordSet, u16 netId);
+struct IntrudeMemberName;
+struct IntrudeRequestHead;
+extern void INTRUDE_COMM_SetWordSetRequest(struct IntrudeRequestHead *head, struct IntrudeMemberName *name, struct WordSet *wordSet, u16 heapId);
 extern IntrudeCommSys *INTRUDE_COMM_GetWorkIfRunning(struct GameComm *gameComm);
 extern int INTRUDE_COMM_IsStepToOwnArea(struct GameComm *gameComm, struct GameData *gameData, int stepKind);
-extern int EVENT_COMM_COMMON_CreateOfferEvent(struct GameSystem *gameSystem, IntrudeCommSys *work, IntrudeMemberRecord *offer);
+struct IntrudeRequestHead;
+struct IntrudeCommSys;
+extern struct GameEvent *EVENT_COMM_COMMON_CreateOfferEvent(struct GameSystem *gameSystem, IntrudeCommSys *work, IntrudeMemberRecord *offer);
 extern struct GameEvent *EVENT_MAPCHANGE_CreateIntrudeReturnEvent(struct GameSystem *gameSystem);
 /* map matrix and field map */
 extern struct MapMatrix *MAP_MATRIX_Create(int heapId);
-extern int MAP_MATRIX_Load(struct MapMatrix *matrix, int matrixId, int zoneId, int heapId);
+extern int MAP_MATRIX_Load(struct MapMatrix *matrix, s32 matrixId, u16 zoneId, s32 heapId);
 extern void MAP_MATRIX_Delete(struct MapMatrix *matrix);
-extern void FIELD_G3D_MAPPER_AppendMatrix(struct FieldMap *fieldMap, int mapper, struct MapMatrix *matrix);
+struct FieldG3dMapper;
+extern s32 FIELD_G3D_MAPPER_AppendMatrix(struct FieldMap *fieldMap, struct FieldG3dMapper *mapper, struct MapMatrix *matrix);
 extern u16 FIELDMAP_GetHeapId(struct FieldMap *fieldMap);
 extern int FIELDMAP_IsReady(struct FieldMap *fieldMap);
 extern MmdlSys *FIELDMAP_GetMmdlSys(struct FieldMap *fieldMap);
-extern struct FieldMsgBg *FIELDMAP_GetMsgBg(struct FieldMap *fieldMap);
-extern unsigned int FIELDMAP_GetG3dMapper(struct FieldMap *fieldMap);
+extern struct FieldPlaceName *FIELDMAP_GetMsgBg(struct FieldMap *fieldMap);
+extern struct FieldG3dMapper *FIELDMAP_GetG3dMapper(struct FieldMap *fieldMap);
 extern u16 FIELDMAP_GetZoneId(struct FieldMap *fieldMap);
 extern struct FieldPlayer *FIELDMAP_GetFieldPlayer(struct FieldMap *fieldMap);
-extern int FIELDMAP_GetPlaceName(struct FieldMap *fieldMap);
-extern void FIELD_PLACE_NAME_ForceShowForZone(int placeName, int zoneId);
+struct FieldPlaceName;
+extern struct FieldPlaceName *FIELDMAP_GetPlaceName(struct FieldMap *fieldMap);
+extern void FIELD_PLACE_NAME_ForceShowForZone(struct FieldPlaceName *placeName, s32 zoneId);
 /* FIELD_MSGBG */
-extern struct MsgData *FIELD_MSGBG_CreateMsgData(struct FieldMsgBg *msgBg, u32 msgDataId);
-extern struct MsgWin *FIELD_MSGBG_CreateBottomMsgWin(struct FieldMsgBg *msgBg, struct MsgData *msgData);
-extern int FIELD_MSGBG_MsgWinPrintMsg(struct MsgWin *msgWin, u32 x, u32 y, u32 msgId);
-extern void FIELD_MSGBG_MsgWinPrintStr(struct MsgWin *msgWin, u32 x, u32 y, struct STRBUF *strbuf);
-extern int FIELD_MSGBG_IsMsgWinTransDone(struct MsgWin *msgWin);
-extern void FIELD_MSGBG_ClearMsgWin(struct MsgWin *msgWin);
-extern int FIELD_MSGBG_DeleteMsgWin(struct MsgWin *msgWin);
-extern struct PromptWin *FIELD_MSGBG_CreateBottomSysWin(struct FieldMsgBg *msgBg, struct MsgData *msgData);
-extern void FIELD_MSGBG_SysWinPrintMsg(struct PromptWin *promptWin, u32 x, u32 y, u32 msgId);
-extern int FIELD_MSGBG_SysWinMain(struct PromptWin *promptWin);
-extern void FIELD_MSGBG_DeleteSysWin(struct PromptWin *promptWin);
-extern struct YesNoMenu *FIELD_MSGBG_CreateYesNoMenu(struct FieldMsgBg *msgBg, int cursorPos);
-extern int FIELD_MSGBG_YesNoMenuMain(struct YesNoMenu *menu);
-extern void FIELD_MSGBG_DeleteMenuFunc(struct YesNoMenu *menu);
+extern struct MsgBank *FIELD_MSGBG_CreateMsgData(struct FieldPlaceName *msgBg, u32 msgDataId);
+extern struct FieldMsgWin *FIELD_MSGBG_CreateBottomMsgWin(struct FieldPlaceName *msgBg, struct MsgBank *msgData);
+extern int FIELD_MSGBG_MsgWinPrintMsg(struct FieldMsgWin *msgWin, u32 x, u32 y, u32 msgId);
+struct FieldMsgWin;
+extern void FIELD_MSGBG_MsgWinPrintStr(struct FieldMsgWin *msgWin, s32 x, s32 y, struct Strbuf *str);
+extern int FIELD_MSGBG_IsMsgWinTransDone(struct FieldMsgWin *msgWin);
+extern void FIELD_MSGBG_ClearMsgWin(struct FieldMsgWin *msgWin);
+extern int FIELD_MSGBG_DeleteMsgWin(struct FieldMsgWin *msgWin);
+struct FieldSysWin;
+extern struct FieldSysWin *FIELD_MSGBG_CreateBottomSysWin(struct FieldPlaceName *msgBg, struct MsgBank *msgData);
+extern void FIELD_MSGBG_SysWinPrintMsg(struct FieldSysWin *sysWin, u32 x, u16 y, u32 msgId);
+extern u32 FIELD_MSGBG_SysWinMain(struct FieldSysWin *sysWin);
+extern s32 FIELD_MSGBG_DeleteSysWin(struct FieldSysWin *sysWin);
+struct FieldMenuFunc;
+extern struct FieldMenuFunc *FIELD_MSGBG_CreateYesNoMenu(struct FieldPlaceName *msgBg, u32 cursorPos);
+extern int FIELD_MSGBG_YesNoMenuMain(struct FieldMenuFunc *menu);
+extern s32 FIELD_MSGBG_DeleteMenuFunc(struct FieldMenuFunc *menu);
 /* FIELD_PLAYER */
 extern void FIELD_PLAYER_GetPos(struct FieldPlayer *player, VecFx32 *pos);
 extern void FIELD_PLAYER_SetPos(struct FieldPlayer *player, const VecFx32 *pos);
@@ -516,14 +539,16 @@ extern unsigned int FIELD_PLAYER_GetFormCode(struct FieldPlayer *player);
 extern void FIELD_PLAYER_SetObjCode(struct FieldPlayer *player, u32 form);
 extern void FIELD_PLAYER_ClearRememberedObjCode(struct FieldPlayer *player);
 extern int FIELD_PLAYER_CheckFormModel(struct FieldPlayer *player);
-extern int FIELD_PLAYER_GetFrontGridPos(struct FieldPlayer *player, s16 *gridX, s16 *gridY, s16 *gridZ);
+extern void FIELD_PLAYER_GetFrontGridPos(struct FieldPlayer *player, s16 *gridX, s16 *gridY, s16 *gridZ);
+struct EventCommMsgBox;
 /* next original file (sub display and transition steps) */
-extern void EVENT_COMM_COMMON_InitMsgBox();
-extern void EVENT_COMM_COMMON_ExitMsgBox();
-extern void EVENT_COMM_COMMON_SetupListWindowB();
-extern void EVENT_COMM_COMMON_PrintListWindowB();
-extern void EVENT_COMM_COMMON_DeleteListWindowB();
-extern void INTRUDE_FIELD_InitMmdlCopyAnime();
+extern void EVENT_COMM_COMMON_InitMsgBox(struct EventCommMsgBox *msgBox, struct GameSystem *gameSystem);
+extern void EVENT_COMM_COMMON_ExitMsgBox(struct EventCommMsgBox *msgBox);
+extern void EVENT_COMM_COMMON_SetupListWindowB(struct EventCommMsgBox *msgBox, struct GameSystem *gameSystem, s32 x, s32 y, s32 width, s32 height);
+extern void EVENT_COMM_COMMON_PrintListWindowB(struct EventCommMsgBox *msgBox, u32 msgId, s32 x, s32 y);
+extern void EVENT_COMM_COMMON_DeleteListWindowB(struct EventCommMsgBox *msgBox);
+struct PlayerSpinWork;
+extern void INTRUDE_FIELD_InitMmdlCopyAnime(struct PlayerSpinWork *spinWork, void *gameSystem, void *fieldMap, void *intrudeWork, u16 id, u8 kind, u8 flag, u16 idx, s32 place);
 extern int INTRUDE_FIELD_MainMmdlCopyAnime();
 
 void INTRUDE_FIELD_Update(struct FieldMap *fieldMap, struct GameSystem *gameSystem, struct FieldPlayer *player);
@@ -632,7 +657,7 @@ void INTRUDE_FIELD_Update(struct FieldMap *fieldMap, struct GameSystem *gameSyst
             continue;
         if (COMM_PLAYER_CheckOccupy(work->commPlayer, i) == 0) {
             GAME_DATA_GetMyStatusPlayer(gameData, i);
-            objCode = INTRUDE_COMM_GetPlayerObjCode(&work->peers[i], GAME_DATA_GetMyStatusPlayer(gameData, i));
+            objCode = INTRUDE_COMM_GetPlayerObjCode(&work->peers[i], (u32)(GAME_DATA_GetMyStatusPlayer(gameData, i)));
             if (work->peers[i].objCode != 0 || GAME_DATA_GetIntrudeCount(gameData) != 0)
                 COMM_PLAYER_Add(work->commPlayer, i, objCode, &work->peers[i].package);
         } else {
@@ -694,7 +719,7 @@ int INTRUDE_FIELD_TaskEdgeBlock(struct GameEvent *event, u32 *seq, EdgeBlockWork
 {
     u16 turnAcmd;
     int acmd;
-    struct FieldMsgBg *msgBg;
+    struct FieldPlaceName *msgBg;
 
     switch (*seq) {
     case 0:
@@ -794,9 +819,9 @@ int INTRUDE_FIELD_TaskAreaChange(struct GameEvent *event, u32 *seq, AreaChangeWo
     struct GameComm *gameComm;
     struct GameData *gameData;
     IntrudeCommSys *intrudeWork;
-    struct FieldMsgBg *msgBg;
-    struct STRBUF *nameText;
-    struct STRBUF *template;
+    struct FieldPlaceName *msgBg;
+    struct Strbuf *nameText;
+    struct Strbuf *template;
     PlayerLook look;
 
     gameSystem = GAME_EVENT_GetGameSystem(event);
@@ -817,12 +842,12 @@ int INTRUDE_FIELD_TaskAreaChange(struct GameEvent *event, u32 *seq, AreaChangeWo
         }
         if (INTRUDE_COMM_IsSessionAcceptedOrResultReady(&intrudeWork->session) == 1) {
             work->sessionBusy = 1;
-            INTRUDE_FIELD_InitMmdlCopyAnime(work->transitionWork, gameSystem, work->fieldMap, intrudeWork, 0, 0, 0, work->edgeDir, 0);
+            INTRUDE_FIELD_InitMmdlCopyAnime((struct PlayerSpinWork *)work->transitionWork, gameSystem, work->fieldMap, intrudeWork, 0, 0, 0, work->edgeDir, 0);
         } else if (INTRUDE_COMM_IsStepToOwnArea(gameComm, gameData, work->edgeDir) == 1) {
-            INTRUDE_FIELD_InitMmdlCopyAnime(work->transitionWork, gameSystem, work->fieldMap, intrudeWork, 0, 0, 0, work->edgeDir, 1);
+            INTRUDE_FIELD_InitMmdlCopyAnime((struct PlayerSpinWork *)work->transitionWork, gameSystem, work->fieldMap, intrudeWork, 0, 0, 0, work->edgeDir, 1);
         } else {
-            INTRUDE_COMM_PickDefaultObjCode(GAME_DATA_GetMyStatus(gameData), &look.objCode, &look.kind, &look.flag);
-            INTRUDE_FIELD_InitMmdlCopyAnime(work->transitionWork, gameSystem, work->fieldMap, intrudeWork, look.objCode, look.kind, look.flag, work->edgeDir, 1);
+            INTRUDE_COMM_PickDefaultObjCode((u32)(GAME_DATA_GetMyStatus(gameData)), &look.objCode, &look.kind, &look.flag);
+            INTRUDE_FIELD_InitMmdlCopyAnime((struct PlayerSpinWork *)work->transitionWork, gameSystem, work->fieldMap, intrudeWork, look.objCode, look.kind, look.flag, work->edgeDir, 1);
         }
         *seq += 1;
         break;
@@ -860,8 +885,8 @@ int INTRUDE_FIELD_TaskAreaChange(struct GameEvent *event, u32 *seq, AreaChangeWo
         break;
     case 4:
         if (FIELD_MSGBG_IsMsgWinTransDone(work->msgWin) == 1) {
-            msgBg = (struct FieldMsgBg *)FIELDMAP_GetPlaceName(work->fieldMap);
-            FIELD_PLACE_NAME_ForceShowForZone((int)msgBg, FIELDMAP_GetZoneId(work->fieldMap));
+            msgBg = (struct FieldPlaceName *)FIELDMAP_GetPlaceName(work->fieldMap);
+            FIELD_PLACE_NAME_ForceShowForZone(msgBg, FIELDMAP_GetZoneId(work->fieldMap));
             *seq += 1;
         }
         break;
@@ -981,7 +1006,7 @@ int INTRUDE_FIELD_EventExitConfirm(struct GameEvent *event, u32 *seq, ExitConfir
     struct GameSystem *gameSystem;
     struct FieldMap *fieldMap;
     struct GameComm *gameComm;
-    struct FieldMsgBg *msgBg;
+    struct FieldPlaceName *msgBg;
     int answer;
     struct GameData *gameData;
     int i;
@@ -1111,7 +1136,7 @@ int INTRUDE_FIELD_EventNotice(struct GameEvent *event, u32 *seq, NoticeEventWork
 {
     struct GameSystem *gameSystem;
     struct FieldMap *fieldMap;
-    struct FieldMsgBg *msgBg;
+    struct FieldPlaceName *msgBg;
 
     gameSystem = GAME_EVENT_GetGameSystem(event);
     fieldMap = GAMESYSTEM_GetFieldMap(gameSystem);
@@ -1233,7 +1258,7 @@ void INTRUDE_FIELD_StartComm(struct GameSystem *gameSystem)
         return;
     if (DWCi_IsFold() == 1 && UI_IsPowerConnected() == 1)
         return;
-    param = GFL_HEAP_Alloc(0x8005, 0x10, 1, INTRUDE_FIELD_gStartParamFile, 0x528);
+    param = GFL_HEAP_Alloc(0x8005, 0x10, 1, (char *)INTRUDE_FIELD_gStartParamFile, 0x528);
     param->startKind = 1;
     param->gameSystem = gameSystem;
     param->gameComm = gameComm;
@@ -1300,7 +1325,7 @@ void INTRUDE_FIELD_UpdateAreaIndex(struct FieldMap *fieldMap, struct GameSystem 
         return;
     INTRUDE_COMM_SetIntrudeId(work, areaIndex);
     work->peerStatusDirty = 1;
-    EVENT_FIELD_PROCLINK_SetReturnLinkId(work->returnSlots, (u8)areaIndex);
+    EVENT_FIELD_PROCLINK_SetReturnLinkId((struct EventSlots *)work->returnSlots, (u8)areaIndex);
 }
 
 void INTRUDE_FIELD_ResetExtraAreaCount(int unusedArg0, int unusedArg1, IntrudeCommSys *work)
@@ -1387,7 +1412,7 @@ void INTRUDE_FIELD_ChangePlayerLook(IntrudeCommSys *work, struct GameSystem *gam
         work->localPeer.lookKind = kind;
         work->localPeer.lookFlag = flag;
         work->peerStatusDirty = 1;
-        playerForm = INTRUDE_COMM_GetPlayerObjCode(&work->localPeer, myStatus);
+        playerForm = INTRUDE_COMM_GetPlayerObjCode(&work->localPeer, (u32)myStatus);
     } else {
         objCode = 0;
         playerForm = 1;
@@ -1396,7 +1421,7 @@ void INTRUDE_FIELD_ChangePlayerLook(IntrudeCommSys *work, struct GameSystem *gam
     }
     player = FIELDMAP_GetFieldPlayer(GAMESYSTEM_GetFieldMap(gameSystem));
     FIELD_PLAYER_SetObjCode(player, (u16)playerForm);
-    FLDMMDL_SetDrawOffset(FIELD_PLAYER_GetMmdl(player), &drawOffset);
+    FLDMMDL_SetDrawOffset(FIELD_PLAYER_GetMmdl(player), (struct MmdlVec *)(&drawOffset));
     if (objCode == 0)
         FIELD_PLAYER_ClearRememberedObjCode(player);
 }
@@ -1432,7 +1457,7 @@ int INTRUDE_FIELD_TryStartOfferEvent(struct GameSystem *gameSystem, IntrudeCommS
         goto fail;
     if (playerGrid.z != gIntrudeOfferTilePositions[offerIndex].z)
         goto fail;
-    return EVENT_COMM_COMMON_CreateOfferEvent(gameSystem, work, offer);
+    return (s32)EVENT_COMM_COMMON_CreateOfferEvent(gameSystem, work, offer);
 fail:
     return 0;
 }
@@ -1775,7 +1800,7 @@ struct GameEvent *INTRUDE_FIELD_CreateOfferInfoEvent(struct GameSystem *gameSyst
     eventWork->fieldMap = fieldMap;
     eventWork->record = *offer;
     eventWork->showInfo = 1;
-    EVENT_COMM_COMMON_InitMsgBox(eventWork->infoWindow, gameSystem);
+    EVENT_COMM_COMMON_InitMsgBox((struct EventCommMsgBox *)eventWork->infoWindow, gameSystem);
     INTRUDE_COMM_SetState(work, 5);
     return event;
 }
@@ -1802,11 +1827,11 @@ int INTRUDE_FIELD_EventOfferInfo(struct GameEvent *event, u32 *seq, OfferEventWo
             *seq = 4;
             break;
         }
-        EVENT_COMM_COMMON_SetupListWindowB(work->infoWindow, gameSystem, 1, 1, 0x1E, 0x10);
-        INTRUDE_COMM_SetWordSetRequest(&work->record, &work->record.name, *(int *)work->infoWindow, work->senderNetId);
+        EVENT_COMM_COMMON_SetupListWindowB((struct EventCommMsgBox *)work->infoWindow, gameSystem, 1, 1, 0x1E, 0x10);
+        INTRUDE_COMM_SetWordSetRequest((struct IntrudeRequestHead *)(&work->record), &work->record.name, (struct WordSet *)(*(int *)work->infoWindow), work->senderNetId);
         pointIndex = work->record.head.pointIndex;
-        EVENT_COMM_COMMON_PrintListWindowB(work->infoWindow, (u16)work->record.head.kind, 8, 0);
-        EVENT_COMM_COMMON_PrintListWindowB(work->infoWindow, (u16)pointIndex, 8, 0x10);
+        EVENT_COMM_COMMON_PrintListWindowB((struct EventCommMsgBox *)work->infoWindow, (u16)work->record.head.kind, 8, 0);
+        EVENT_COMM_COMMON_PrintListWindowB((struct EventCommMsgBox *)work->infoWindow, (u16)pointIndex, 8, 0x10);
         (*seq)++;
         break;
     case 1:
@@ -1820,7 +1845,7 @@ int INTRUDE_FIELD_EventOfferInfo(struct GameEvent *event, u32 *seq, OfferEventWo
         }
         break;
     case 3:
-        EVENT_COMM_COMMON_DeleteListWindowB(work->infoWindow);
+        EVENT_COMM_COMMON_DeleteListWindowB((struct EventCommMsgBox *)work->infoWindow);
         (*seq)++;
         break;
     case 4:
@@ -1834,7 +1859,7 @@ int INTRUDE_FIELD_EventOfferInfo(struct GameEvent *event, u32 *seq, OfferEventWo
         break;
     case 6:
         if (intrudeWork != 0) {
-            if (INTRUDE_CMD_SendRecordAccept(intrudeWork, &intrudeWork->session) == 1)
+            if (INTRUDE_CMD_SendRecordAccept((s32)intrudeWork, &intrudeWork->session) == 1)
                 (*seq)++;
         } else {
             (*seq)++;
@@ -1849,7 +1874,7 @@ int INTRUDE_FIELD_EventOfferInfo(struct GameEvent *event, u32 *seq, OfferEventWo
         }
         break;
     case 8:
-        EVENT_COMM_COMMON_ExitMsgBox(work->infoWindow);
+        EVENT_COMM_COMMON_ExitMsgBox((struct EventCommMsgBox *)work->infoWindow);
         if (intrudeWork != 0)
             INTRUDE_COMM_SetState(intrudeWork, 0);
         return 1;

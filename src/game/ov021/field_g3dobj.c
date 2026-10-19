@@ -143,23 +143,25 @@ typedef struct ResTexPltt {
 
 extern void PALANM_ConvertGrayTable(u16 *pal, int n, const u8 *table);
 
-extern ResTexPltt *NNS_G3dGetTex(void *file);
+extern u8 *NNS_G3dGetTex(u8 *pFile);
+struct G3dObjectStatus;
 
-extern void G3D_SYSTEM_DrawObjectCulling(G3dObject *obj, VecFx32 *status);
+extern s32 G3D_SYSTEM_DrawObjectCulling(struct G3dObject *obj, struct G3dObjectStatus *status);
 
-extern void G3D_SYSTEM_DrawObject(G3dObject *obj, VecFx32 *status);
+extern void G3D_SYSTEM_DrawObject(struct G3dObject *obj, struct G3dObjectStatus *status);
 
 extern int G3D_SYSTEM_IncObjectAnimeFrame(G3dObject *obj, int idx, int amount);
 
 extern int G3D_SYSTEM_LoopObjectAnimeFrame(G3dObject *obj, int idx, int amount);
 
-extern u32 G3D_SYSTEM_SetObjectAnimeFrame(G3dObject *obj, u16 idx, s32 *frame);
+extern s32 G3D_SYSTEM_SetObjectAnimeFrame(G3dObject *obj, u16 idx, s32 *frame);
 
-extern u32 G3D_SYSTEM_GetObjectAnimeFrame(G3dObject *obj, u32 idx, s32 *frame);
+extern s32 G3D_SYSTEM_GetObjectAnimeFrame(G3dObject *obj, u32 idx, s32 *frame);
 
 extern int G3D_SYSTEM_TransVramTexture(G3dResource *res);
+struct ArcHandle;
 
-extern G3dResource *G3D_SYSTEM_CreateResourceArcHandle(u32 arc, u32 file);
+extern G3dResource *G3D_SYSTEM_CreateResourceArcHandle(struct ArcHandle *arc, u32 dataId);
 
 extern u32 G3D_SYSTEM_CheckResourceType(G3dResource *res, u32 kind);
 
@@ -171,11 +173,11 @@ extern void G3D_SYSTEM_DeleteResource(G3dResource *res);
 
 extern G3dRender *G3D_SYSTEM_CreateRender(G3dResource *model, u32 modelIdx, G3dResource *texture);
 
-extern G3dAnime *G3D_SYSTEM_CreateAnime(G3dRender *render, G3dResource *anime, int unused);
+extern G3dAnime *G3D_SYSTEM_CreateAnime(struct G3dRender *render, struct G3dResource *anmRes, u32 anmIdx);
 
 extern G3dObject *G3D_SYSTEM_CreateObject(G3dRender *render, G3dAnime **anime, int count);
 
-extern u32 G3D_SYSTEM_EnableObjectAnime(G3dObject *obj, u32 idx);
+extern s32 G3D_SYSTEM_EnableObjectAnime(G3dObject *obj, u32 idx);
 
 extern void G3D_SYSTEM_DeleteAnime(G3dAnime *anime);
 
@@ -322,9 +324,9 @@ void FIELD_G3DOBJ_DrawAll(FieldG3dObjCtrl *ctrl)
         if (obj->kind == FIELD_G3DOBJ_ACTIVE) {
             if (obj->manualDraw == 0 && obj->hidden == 0) {
                 if (obj->culling == 1)
-                    G3D_SYSTEM_DrawObjectCulling(obj->object, &obj->trans);
+                    G3D_SYSTEM_DrawObjectCulling(obj->object, (struct G3dObjectStatus *)(&obj->trans));
                 else
-                    G3D_SYSTEM_DrawObject(obj->object, &obj->trans);
+                    G3D_SYSTEM_DrawObject(obj->object, (struct G3dObjectStatus *)(&obj->trans));
             }
             obj->redrawFlag = 0;
         }
@@ -511,9 +513,9 @@ void FIELD_G3DOBJ_DrawObject(FieldG3dObjCtrl *ctrl, int objIdx)
     FieldG3dObj *obj = &ctrl->objTbl[objIdx];
     if (obj->kind == FIELD_G3DOBJ_ACTIVE && obj->hidden == 0) {
         if (obj->culling == 1)
-            G3D_SYSTEM_DrawObjectCulling(obj->object, &obj->trans);
+            G3D_SYSTEM_DrawObjectCulling(obj->object, (struct G3dObjectStatus *)(&obj->trans));
         else
-            G3D_SYSTEM_DrawObject(obj->object, &obj->trans);
+            G3D_SYSTEM_DrawObject(obj->object, (struct G3dObjectStatus *)(&obj->trans));
     }
 }
 
@@ -545,9 +547,9 @@ void FIELD_G3DOBJ_LoadResource(FieldG3dObjRes *res, int heapId, FieldG3dObjResDe
     int i;
 
     if (desc->modelArc != 0)
-        res->model = G3D_SYSTEM_CreateResourceArcHandle(desc->modelArc, desc->modelFile);
+        res->model = G3D_SYSTEM_CreateResourceArcHandle((struct ArcHandle *)desc->modelArc, desc->modelFile);
     if (desc->texArc != 0)
-        res->texture = G3D_SYSTEM_CreateResourceArcHandle(desc->texArc, desc->texFile);
+        res->texture = G3D_SYSTEM_CreateResourceArcHandle((struct ArcHandle *)desc->texArc, desc->texFile);
     if (palTable != 0) {
         palRes = 0;
         if (res->model != 0)
@@ -555,7 +557,7 @@ void FIELD_G3DOBJ_LoadResource(FieldG3dObjRes *res, int heapId, FieldG3dObjResDe
         if (res->texture != 0)
             palRes = res->texture;
         if (G3D_SYSTEM_CheckResourceType(palRes, 2)) {
-            tex = NNS_G3dGetTex(G3D_SYSTEM_GetResourceFile(palRes));
+            tex = (struct ResTexPltt *)NNS_G3dGetTex(G3D_SYSTEM_GetResourceFile(palRes));
             PALANM_ConvertGrayTable((u16 *)((u8 *)tex + tex->ofsPlttData), (u32)(tex->sizePltt << 3) / sizeof(u16), palTable);
         }
     }
@@ -569,7 +571,7 @@ void FIELD_G3DOBJ_LoadResource(FieldG3dObjRes *res, int heapId, FieldG3dObjResDe
         res->animeCount = desc->anmCount;
         MIi_CpuClear32(0, res->anime, sizeof(res->anime));
         for (i = 0; i < res->animeCount; i++)
-            res->anime[i] = G3D_SYSTEM_CreateResourceArcHandle(desc->anmArc, desc->anmFile[i]);
+            res->anime[i] = G3D_SYSTEM_CreateResourceArcHandle((struct ArcHandle *)desc->anmArc, desc->anmFile[i]);
     }
 }
 

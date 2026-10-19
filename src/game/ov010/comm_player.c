@@ -61,7 +61,7 @@ struct SaveBlock;
 struct Sub02014444Obj;
 struct FieldMap;
 struct Tbl;
-struct VecFx32;
+struct PlayerPosition;
 typedef unsigned char u8;
 
 typedef unsigned int u32;
@@ -77,7 +77,7 @@ typedef unsigned long long u64;
 
 typedef int fx32;
 
-typedef struct VecFx32 {
+typedef struct PlayerPosition {
     fx32 x;
     fx32 y;
     fx32 z;
@@ -142,35 +142,47 @@ typedef struct CommPlayerRowView {
     u8 head[28];
     CommPlayerFlagView flags;
 } CommPlayerRowView;
+struct SymbolSave;
 
-extern void SYMBOL_SAVE_FinalizeChecksum(char *p);
-extern void SYMBOL_SAVE_UpdateChecksum(void *p);
+extern void SYMBOL_SAVE_FinalizeChecksum(struct SymbolSave *save);
+extern void SYMBOL_SAVE_UpdateChecksum(struct SymbolSave *save);
 extern void MI_CpuFill8(void *dst, u8 val, u32 size);
 extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
 extern void *GFL_HEAP_Alloc(u32, u32, int, const char *, u16);
-extern unsigned int GAMESYSTEM_IsFieldMapActive(const struct Ctx *a);
-extern void FIELD_COMM_ACTOR_CTRL_Delete(void *obj);
+struct GameSystem;
+extern unsigned int GAMESYSTEM_IsFieldMapActive(struct GameSystem *gameSystem);
+struct FieldCommActorCtrl;
+extern void FIELD_COMM_ACTOR_CTRL_Delete(struct FieldCommActorCtrl *ctrl);
 extern void GF_PANIC_Fail(const char *expr, u32 line, const char *file);
 extern u32 GFL_HEAP_Free(void *p);
-extern int FLDEFF_GYOE_IsFinished(u32 v);
-extern void FIELD_COMM_ACTOR_CTRL_AddActor(u16 *a, int b, int c, u16 *d, int e, int f);
-extern void FIELD_COMM_ACTOR_CTRL_DeleteActor(void *, u32);
+extern int FLDEFF_GYOE_IsFinished(void *task);
+struct MmdlVec;
+extern void FIELD_COMM_ACTOR_CTRL_AddActor(struct FieldCommActorCtrl *ctrl, int id, int objCode, unsigned short *dir, struct MmdlVec *pos, int *vanish);
+extern void FIELD_COMM_ACTOR_CTRL_DeleteActor(struct FieldCommActorCtrl *ctrl, unsigned int id);
 extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
-extern void *FIELDMAP_GetMmdlSys(u8 *p);
-extern void *FIELD_COMM_ACTOR_CTRL_Create(int a, void *b, int heap, int c);
-extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
-extern void *GAME_DATA_GetMyPlayerWork(struct SaveBlock *p);
-extern u32 GAME_DATA_GetPlayerObjectCode(const struct Rec44 *p);
-extern void *GAME_DATA_GetMoveModelSys(const struct BigObj *p);
-extern u8 FIELD_STATUS_GetSeasonDispFlag(struct Sub02014444Obj *o);
-extern int FIELDMAP_IsReady(void *proc);
-extern void *FIELDMAP_GetFieldPlayer(struct FieldMap *p);
-extern void *FIELD_PLAYER_GetMmdl(u8 *p);
-extern int FIELD_PLAYER_GetFormSlot(u8 *p);
-extern void FIELD_PLAYER_GetPos(unsigned char *p, struct VecFx32 *out);
-extern void FLDMMDL_ACMD_GetDrawPos(u8 *p, fx32 *out);
-extern u16 FIELD_PLAYER_GetDirDisp(u8 *p);
-extern VecFx32 *GAME_DATA_GetPlayerPosition(void *pl);
+struct MmdlSys;
+extern struct MmdlSys *FIELDMAP_GetMmdlSys(struct FieldMap *fieldMap);
+extern struct FieldCommActorCtrl *FIELD_COMM_ACTOR_CTRL_Create(int actorMax, struct MmdlSys *mmdlSys, int heapId, int useRunAnime);
+struct GameData;
+extern struct GameData *GAMESYSTEM_GetGameData(struct GameSystem *gameSystem);
+struct PlayerWork;
+extern struct PlayerWork *GAME_DATA_GetMyPlayerWork(struct GameData *gameData);
+extern u32 GAME_DATA_GetPlayerObjectCode(struct PlayerWork *player);
+extern void *GAME_DATA_GetMoveModelSys(struct GameData *gd);
+struct FieldStatus;
+extern u8 FIELD_STATUS_GetSeasonDispFlag(struct FieldStatus *fs);
+extern int FIELDMAP_IsReady(struct FieldMap *fieldMap);
+struct FieldPlayer;
+extern struct FieldPlayer *FIELDMAP_GetFieldPlayer(struct FieldMap *p);
+struct Mmdl;
+extern struct Mmdl *FIELD_PLAYER_GetMmdl(struct FieldPlayer *player);
+extern int FIELD_PLAYER_GetFormSlot(struct FieldPlayer *player);
+extern void FIELD_PLAYER_GetPos(struct FieldPlayer *player, VecFx32 *out);
+struct MmdlVec;
+extern void FLDMMDL_ACMD_GetDrawPos(struct Mmdl *mmdl, struct MmdlVec *out);
+extern u16 FIELD_PLAYER_GetDirDisp(struct FieldPlayer *player);
+struct PlayerPosition;
+extern struct PlayerPosition *GAME_DATA_GetPlayerPosition(struct PlayerWork *player);
 extern u16 GAME_DATA_GetPlayerDirectionType(void *pl);
 extern fx32 GF_STANDARD_CompareBytes(const u8 *a, const u8 *b, u32 n);
 extern int FIELD_COMM_ACTOR_CTRL_SearchGridPos(void *playerSys, int, int, int, int, int);
@@ -245,9 +257,9 @@ u8 SYMBOL_MAP_GetGroup(u8 *p)
 {
     u8 v;
 
-    SYMBOL_SAVE_FinalizeChecksum((char *)p);
+    SYMBOL_SAVE_FinalizeChecksum((struct SymbolSave *)p);
     v = p[0x848];
-    SYMBOL_SAVE_UpdateChecksum(p);
+    SYMBOL_SAVE_UpdateChecksum((struct SymbolSave *)p);
     return v;
 }
 
@@ -264,9 +276,9 @@ u8 SYMBOL_MAP_GetSymbolIndex(u8 *p)
 {
     u8 v;
 
-    SYMBOL_SAVE_FinalizeChecksum((char *)p);
+    SYMBOL_SAVE_FinalizeChecksum((struct SymbolSave *)p);
     v = p[0x849];
-    SYMBOL_SAVE_UpdateChecksum(p);
+    SYMBOL_SAVE_UpdateChecksum((struct SymbolSave *)p);
     return v;
 }
 
@@ -286,9 +298,9 @@ u8 SYMBOL_MAP_CopyEntryRange(Entry32 *list, Entry32 *out, u32 cap, u32 start, in
 
     i = 0;
     MI_CpuFill8(out, 0, cap * 4);
-    SYMBOL_SAVE_FinalizeChecksum((char *)list);
+    SYMBOL_SAVE_FinalizeChecksum((struct SymbolSave *)list);
     MI_CpuCopy8(&list[start], out, count * 4);
-    SYMBOL_SAVE_UpdateChecksum(list);
+    SYMBOL_SAVE_UpdateChecksum((struct SymbolSave *)list);
     for (i = 0; i < count; i++) {
         if (out[i].id == 0)
             break;
@@ -419,7 +431,7 @@ void COMM_PLAYER_Update(void *gameSystem, CommPlayerWork *work)
     COMM_PLAYER_CreateSys(gameSystem, work);
     if (GAMESYSTEM_IsFieldMapActive(work->gameSystem) == 1) {
         for (i = 0; i < 4; i++) {
-            if (work->entries[i].used == 1 && work->entries[i].effect != 0 && FLDEFF_GYOE_IsFinished(work->entries[i].effect) == 1)
+            if (work->entries[i].used == 1 && work->entries[i].effect != 0 && FLDEFF_GYOE_IsFinished((void *)work->entries[i].effect) == 1)
                 work->entries[i].effect = 0;
         }
     }
@@ -441,7 +453,7 @@ void COMM_PLAYER_Add(CommPlayerWork *work, int index, int objCode, CommPlayerPac
         work->entries[index].pending = 0;
         work->entries[index].used = 1;
         work->entries[index].effect = 0;
-        FIELD_COMM_ACTOR_CTRL_AddActor(work->playerSys, index, objCode, &work->entries[index].zoneId, (int)(&work->entries[index]), (int)(&work->entries[index].vanish));
+        FIELD_COMM_ACTOR_CTRL_AddActor(work->playerSys, index, objCode, &work->entries[index].zoneId, (struct MmdlVec *)((&work->entries[index])), (int *)((&work->entries[index].vanish)));
     }
 }
 
@@ -600,7 +612,7 @@ int COMM_PLAYER_UpdateMyPackage(CommPlayerWork *work, CommPlayerPackage *out)
         if (FIELD_PLAYER_GetFormSlot(rail) == 4)
             FIELD_PLAYER_GetPos(rail, &pos);
         else
-            FLDMMDL_ACMD_GetDrawPos(railPlayer, (fx32 *)(&pos));
+            FLDMMDL_ACMD_GetDrawPos(railPlayer, (struct MmdlVec *)((fx32 *)(&pos)));
         zoneId = FIELD_PLAYER_GetDirDisp(rail);
     } else {
         pos = *GAME_DATA_GetPlayerPosition(player);

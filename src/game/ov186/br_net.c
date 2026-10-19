@@ -64,10 +64,13 @@
 extern void GF_OVERLAY_Load(int);
 
 extern void GF_OVERLAY_Unload(int);
+struct GameData;
+struct SaveControl;
 
-extern void *GAME_DATA_GetSaveControl(struct GameData *gameData);
+extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gameData);
+struct GdsProfile;
 
-extern void GDS_PROFILE_Init(struct GdsProfile *profile, struct GameData *gameData);
+extern void GDS_PROFILE_Init(struct GdsProfile *profile, void *sys);
 
 extern char ov125_id[];
 
@@ -76,10 +79,11 @@ extern void *MI_CpuFill8(void *dst, u32 value, u32 size);
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int align, const char *file, u16 line);
 
 extern u32 GFL_HEAP_Free(void *block);
+struct MyStatus;
 
-extern const void *GAME_DATA_GetMyStatus(struct GameData *gameData);
+extern struct MyStatus *GAME_DATA_GetMyStatus(struct GameData *gameData);
 
-extern u32 MYSTATUS_GetProfileId(const void *myStatus);
+extern u32 MYSTATUS_GetProfileId(struct MyStatus *mystatus);
 
 extern struct GdsProfile *GDS_PROFILE_Create(u32 heapId);
 
@@ -87,7 +91,7 @@ extern void GDS_PROFILE_Delete(struct GdsProfile *profile);
 
 typedef int (*BrNetErrorHook)(struct BrNet *net, int unused, int errorKind, int unused2);
 
-extern void DWC_RAP_SetErrorHookCallback(BrNetErrorHook hook, struct BrNet *net);
+extern void DWC_RAP_SetErrorHookCallback(BrNetErrorHook hook, unsigned int hookArg);
 
 extern void GF_PANIC_Fail(const char *expr, u32 line, const char *file);
 
@@ -260,7 +264,7 @@ struct BrNet *BR_NET_Create(struct GameData *gameData, void *profileSource, u32 
     net->profile=GDS_PROFILE_Create(heapId);
     GDS_PROFILE_Init(net->profile,gameData);
     net->task=BR_NET_CreateTask(net,BR_NET_StepIdle,heapId);
-    DWC_RAP_SetErrorHookCallback(BR_NET_OnRapError,net);
+    DWC_RAP_SetErrorHookCallback(BR_NET_OnRapError,(unsigned int)net);
     return net;
 }
 

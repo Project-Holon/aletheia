@@ -105,38 +105,46 @@
 #define TOWNMAP_GRH_BG_COUNT 7
 
 extern void MI_CpuFill8(void *dst, int value, int size);
-extern u32 GFL_USE_AddMainTask(void (*task)(void *, void *), void *arg, int priority);
-extern void TCB_DeleteTask(u32 task);
-extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
-extern u32 CLACT_RegisterCharacter(void *arc, u32 id, u32 a, u32 b, u32 heap);
-extern u32 CLACT_RegisterCellAnim(void *arc, u32 first, u32 second, u32 mode);
+struct Tcb;
+extern struct Tcb *GFL_USE_AddMainTask(void (*task)(void *, void *), void *work, u32 priority);
+struct TcbTask;
+extern void TCB_DeleteTask(struct TcbTask *task);
+extern void *ARC_TOOL_CreateHandle(unsigned int archiveID, unsigned short heapID);
+extern int CLACT_RegisterCharacter(void *archive, unsigned int file_idx, unsigned int compressed, unsigned int vram_mode, unsigned short heap_id);
+extern int CLACT_RegisterCellAnim(void *arc, u32 first, u32 second, u32 mode);
 extern void ARC_TOOL_DeleteHandle(void *arc);
 extern struct ClactActor *CLACT_CreateActor(struct ClactUnit *unit, u32 chr, u32 pal, u32 cell, const SpriteInit *init, u16 drawArea, u16 heap);
-extern void CLACT_SetActorAutoAnim(struct ClactActor *actor, u32 value);
-extern void CLACT_StopActorAnim(struct ClactActor *actor);
-extern void CLACT_DeleteActor(struct ClactActor *actor);
+struct Actor;
+extern void CLACT_SetActorAutoAnim(struct Actor *actor, u32 enable);
+extern void CLACT_StopActorAnim(struct Actor *actor);
+extern void CLACT_DeleteActor(struct Actor *actor);
 extern void CLACT_ReleaseCellAnim(u32 cellId);
 extern void CLACT_ReleaseCharacter(u32 charId);
 extern void CLACT_ReleasePalette(u32 palId);
 extern u32 TOUCHPANEL_GetPointTrg(u32 *outX, u32 *outY);
-extern u32 CLACT_IsActorAnimActive(struct ClactActor *actor);
-extern void CLACT_SetActorAnimSeq(struct ClactActor *actor, u16 animSeq);
-extern void CLACT_StartActorAnim(struct ClactActor *actor);
+extern u32 CLACT_IsActorAnimActive(struct Actor *actor);
+extern void CLACT_SetActorAnimSeq(struct Actor *actor, u16 value);
+extern void CLACT_StartActorAnim(struct Actor *actor);
 extern void CLACT_AddActorSurfacePos(struct ClactActor *actor, const ScreenPos *pos, u32 which);
-extern void CLACT_SetActorDrawEnable(struct ClactActor *actor, u32 enable);
-extern void CLACT_SetActorBgPriority(struct ClactActor *actor, int value);
-extern void CLACT_SetActorDrawPriority(struct ClactActor *actor, u32 priority);
+extern void CLACT_SetActorDrawEnable(struct Actor *actor, u32 value);
+extern void CLACT_SetActorBgPriority(struct Actor *actor, u32 priority);
+extern void CLACT_SetActorDrawPriority(struct Actor *actor, u32 priority);
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 line);
 extern u32 GFL_HEAP_Free(void *p);
-extern struct BmpWin *BMP_WIN_Create(u32 bgId, u32 x, u32 y, u32 width, u8 height, u8 palette, u8 baseTile);
-extern struct StrBuf *STRBUF_Create(u32 capacity, u32 heapId);
-extern void STRBUF_Delete(struct StrBuf *text);
+struct BmpWin;
+extern struct BmpWin *BMP_WIN_Create(u32 bgLayer, u32 posX, u32 posY, u8 width, u8 height, u8 palette, u8 allocDir);
+struct Strbuf;
+extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
+extern void STRBUF_Delete(struct Strbuf *strbuf);
 extern u32 BMP_WIN_Delete(struct BmpWin *win);
-extern struct Bitmap *BMP_WIN_GetBmp(struct BmpWin *win);
-extern void BMP_Clear(struct Bitmap *bitmap, u8 value);
+struct Bmp;
+extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *win);
+extern void BMP_Clear(struct Bmp *bmp, u8 value);
 extern u32 ZONEDATA_GetPlaceNameId(u32 townId);
-extern void MSGDATA_ReadString(struct MsgBank *msg, u32 index, struct StrBuf *dest);
-extern void PRINTSYS_Print(struct Bitmap *bitmap, s16 x, s16 y, struct StrBuf *text, void *font);
+struct MsgBank;
+extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, struct Strbuf *dest);
+struct GfFont;
+extern void PRINTSYS_Print(struct Bmp *bmp, s16 x, s16 y, struct Strbuf *str, struct GfFont *font);
 extern void BMP_WIN_TransferChars(struct BmpWin *win);
 extern void BMP_WIN_MakeScreen(struct BmpWin *win);
 extern u8 BMP_WIN_GetBgLayer(struct BmpWin *win);
@@ -167,12 +175,14 @@ extern void BG_SYS_FreeLayerBuf(u32 i);
 extern void BMP_WIN_Exit(void);
 extern void BG_SYS_Delete(void);
 extern void BG_SYS_Update(void);
-extern void CLACT_InitSystem(const TownMapClactInit *init, const struct DispVram *banks, u32 heapId);
+struct DispVramCfg;
+struct SysInit;
+extern void CLACT_InitSystem(struct SysInit *cfg, struct DispVramCfg *res_cfg, u32 heapId);
 extern struct ClactUnit *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 extern void CLACT_SetUnitDefaultRenderer(struct ClactUnit *unit);
 extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
 extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
-extern u32 CLACT_RegisterPalette(void *arc, u32 id, u32 a, u32 b, u32 heap);
+extern int CLACT_RegisterPalette(void *archive, unsigned int file_idx, unsigned int vram_mode, unsigned int vram_offset, unsigned short heap_id);
 extern u32 CLACT_DeleteUnit(struct ClactUnit *unit);
 extern void CLACT_ExitSystem(void);
 extern void CLACT_DrawSystem(int arg);
@@ -212,12 +222,12 @@ void TOWNMAP_GRH_InitTextBox(TownMapTextBox *box, int bgId, void *font, void *ms
     box->font = font;
     box->msg = msg;
     box->win = BMP_WIN_Create(bgId, x, y, width, height, 0xe, 0);
-    box->text = STRBUF_Create(0xff, heapId);
+    box->text = (struct StrBuf *)STRBUF_Create(0xff, heapId);
 }
 
 void TOWNMAP_GRH_ExitTextBox(TownMapTextBox *box)
 {
-    STRBUF_Delete(box->text);
+    STRBUF_Delete((struct Strbuf *)box->text);
     BMP_WIN_Delete(box->win);
     MI_CpuFill8(box, 0, sizeof(TownMapTextBox));
 }
@@ -227,8 +237,8 @@ void TOWNMAP_GRH_PrintTextBoxMessage(TownMapTextBox *box, u32 msgId, int x, int 
     struct BmpWin *win;
 
     BMP_Clear(BMP_WIN_GetBmp(box->win), 0);
-    MSGDATA_ReadString(box->msg, msgId, box->text);
-    PRINTSYS_Print(BMP_WIN_GetBmp(box->win), x, y, box->text, box->font);
+    MSGDATA_ReadString(box->msg, msgId, (struct Strbuf *)box->text);
+    PRINTSYS_Print(BMP_WIN_GetBmp(box->win), x, y, (struct Strbuf *)box->text, box->font);
     win = box->win;
     BMP_WIN_TransferChars(win);
     BMP_WIN_MakeScreen(win);
@@ -254,12 +264,12 @@ void TOWNMAP_GRH_InitLabel(TownMapLabel *label, int bgId, void *font, void *msg,
     pos.x = 0x80;
     pos.y = 0x60;
     CLACT_AddActorSurfacePos(label->marker, &pos, 0);
-    CLACT_SetActorBgPriority(label->marker, 1);
-    CLACT_SetActorDrawPriority(label->marker, 1);
-    CLACT_SetActorDrawEnable(label->marker, 1);
-    CLACT_SetActorAnimSeq(label->marker, 0);
-    CLACT_SetActorAutoAnim(label->marker, 1);
-    CLACT_StopActorAnim(label->marker);
+    CLACT_SetActorBgPriority((struct Actor *)label->marker, 1);
+    CLACT_SetActorDrawPriority((struct Actor *)label->marker, 1);
+    CLACT_SetActorDrawEnable((struct Actor *)label->marker, 1);
+    CLACT_SetActorAnimSeq((struct Actor *)label->marker, 0);
+    CLACT_SetActorAutoAnim((struct Actor *)label->marker, 1);
+    CLACT_StopActorAnim((struct Actor *)label->marker);
 }
 
 void TOWNMAP_GRH_ExitLabel(TownMapLabel *label)
@@ -272,15 +282,15 @@ void TOWNMAP_GRH_UpdateLabel(TownMapLabel *label)
 {
     if (label->requested != 0) {
         label->requested = 0;
-        CLACT_SetActorAnimSeq(label->marker, 0);
-        CLACT_StartActorAnim(label->marker);
-        CLACT_SetActorDrawEnable(label->marker, 1);
+        CLACT_SetActorAnimSeq((struct Actor *)label->marker, 0);
+        CLACT_StartActorAnim((struct Actor *)label->marker);
+        CLACT_SetActorDrawEnable((struct Actor *)label->marker, 1);
         TOWNMAP_GRH_ClearTextBox(&label->box);
         label->animating = 1;
     }
-    if (label->animating != 0 && CLACT_IsActorAnimActive(label->marker) == 0) {
+    if (label->animating != 0 && CLACT_IsActorAnimActive((struct Actor *)label->marker) == 0) {
         TOWNMAP_GRH_PrintTextBoxMessage(&label->box, ZONEDATA_GetPlaceNameId((u16)TOWNMAP_TownGetField(label->town, 0)), 0x10, 2);
-        CLACT_StopActorAnim(label->marker);
+        CLACT_StopActorAnim((struct Actor *)label->marker);
         label->animating = 0;
     }
 }
@@ -293,7 +303,7 @@ void TOWNMAP_GRH_SetLabelTown(TownMapLabel *label, TownMapTown *town)
 
 void TOWNMAP_GRH_SetLabelVisible(TownMapLabel *label, u32 visible)
 {
-    CLACT_SetActorDrawEnable(label->marker, visible);
+    CLACT_SetActorDrawEnable((struct Actor *)label->marker, visible);
     if (visible == 0) {
         label->requested = 0;
         label->animating = 0;
@@ -385,13 +395,13 @@ TownMapGfx *TOWNMAP_GRH_Create(u16 heapId)
     TOWNMAP_GRH_ResetDisplay();
     TOWNMAP_GRH_InitBgLayers(gfx, heapId);
     TOWNMAP_GRH_InitSprites(&gfx->sprites, &sTownMapGrhVramBanks, heapId);
-    gfx->task = GFL_USE_AddMainTask(TOWNMAP_GRH_UpdateTask, gfx, 1);
+    gfx->task = (u32)GFL_USE_AddMainTask(TOWNMAP_GRH_UpdateTask, gfx, 1);
     return gfx;
 }
 
 void TOWNMAP_GRH_Delete(TownMapGfx *gfx)
 {
-    TCB_DeleteTask(gfx->task);
+    TCB_DeleteTask((struct TcbTask *)gfx->task);
     TOWNMAP_GRH_ExitSprites(&gfx->sprites);
     TOWNMAP_GRH_ExitBgLayers(gfx);
     GFL_HEAP_Free(gfx);
@@ -508,7 +518,7 @@ void TOWNMAP_GRH_InitSprites(TownMapSprites *sprites, const struct DispVram *ban
     i = 0;
     MI_CpuFill8(sprites, 0, sizeof(TownMapSprites));
     init = sTownMapGrhClactInit;
-    CLACT_InitSystem(&init, banks, heapId);
+    CLACT_InitSystem((struct SysInit *)(&init), (struct DispVramCfg *)banks, heapId);
     sprites->unit = CLACT_CreateUnit(0x80, 0, heapId);
     CLACT_SetUnitDefaultRenderer(sprites->unit);
     BG_SYS_SetMainPlaneVisible(0x10, 1);
@@ -522,12 +532,12 @@ void TOWNMAP_GRH_InitSprites(TownMapSprites *sprites, const struct DispVram *ban
     for (; i < 4; i++) {
         sprites->actor[i] = CLACT_CreateActor(sprites->unit, sprites->charId, sprites->palId, sprites->cellId, &actorInit, 1, heapId);
     }
-    CLACT_SetActorAnimSeq(sprites->actor[0], 0);
-    CLACT_SetActorAnimSeq(sprites->actor[1], 4);
-    CLACT_SetActorAnimSeq(sprites->actor[2], 5);
-    CLACT_SetActorAnimSeq(sprites->actor[3], 6);
+    CLACT_SetActorAnimSeq((struct Actor *)sprites->actor[0], 0);
+    CLACT_SetActorAnimSeq((struct Actor *)sprites->actor[1], 4);
+    CLACT_SetActorAnimSeq((struct Actor *)sprites->actor[2], 5);
+    CLACT_SetActorAnimSeq((struct Actor *)sprites->actor[3], 6);
     for (i = 0; i < 4; i++) {
-        CLACT_SetActorDrawEnable(sprites->actor[i], 0);
+        CLACT_SetActorDrawEnable((struct Actor *)sprites->actor[i], 0);
     }
 }
 
@@ -537,7 +547,7 @@ void TOWNMAP_GRH_ExitSprites(TownMapSprites *sprites)
 
     for (i = 0; i < 4; i++) {
         if (sprites->actor[i] != 0) {
-            CLACT_DeleteActor(sprites->actor[i]);
+            CLACT_DeleteActor((struct Actor *)sprites->actor[i]);
         }
     }
     CLACT_ReleaseCellAnim(sprites->cellId);

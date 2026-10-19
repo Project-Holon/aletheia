@@ -94,43 +94,47 @@ typedef struct GiftMon {
 
 extern u32 GFL_USE_GetRandom(u32 range);
 
-extern int GFL_HEAP_Free();
+extern u32 GFL_HEAP_Free(void *block);
 
 extern struct MyStatus *GAME_DATA_GetMyStatus(struct GameData *gameData);
 
 extern u32 MYSTATUS_GetId(const struct MyStatus *status);
 
-extern const void *MYSTATUS_GetName(const struct MyStatus *status);
+extern const void *MYSTATUS_GetName(void *mystatus);
 
 extern void *POKE_TOOL_Create(u16 species, u16 level, u64 id, int heap);
 
-extern u32 POKE_TOOL_CreatePersonalRnd(u32 otId, int species, int form, int ratioMode, int shinyWanted, int mode);
+extern u32 POKE_TOOL_CreatePersonalRnd(u32 otId, s32 species, u16 form, s32 ratioMode, s32 shinyWanted, s32 mode);
 
 extern void POKE_TOOL_SetupPartyParamEx(struct PokemonParam *mon, u16 species, u16 level, unsigned long long id, u32 packedIvs, unsigned long long personalRnd);
 
-extern void POKE_TOOL_SetPartyValue(void *p, u32 id, u32 v);
+extern void POKE_TOOL_SetPartyValue(struct PokemonParam *pp, u32 paramId, u32 value);
 
-extern u32 POKE_TOOL_GetPartyValue(void *p, u32 id, u32 v);
+extern u32 POKE_TOOL_GetPartyValue(struct PokemonParam *pp, u32 paramId, u32 arg);
 
-extern u32 POKE_TOOL_SetDefaultMoves(void *p);
+extern u32 POKE_TOOL_SetDefaultMoves(struct PokemonParam *pp);
 
-extern u32 POKE_TOOL_AddMove(void *p, u32 move);
+extern u16 POKE_TOOL_AddMove(struct PokemonParam *pp, u16 move);
 
-extern void POKE_TOOL_PushMove(void *p, int move);
+extern void POKE_TOOL_PushMove(struct PokemonParam *pp, u16 move);
+struct BoxPokemon;
 
-extern void POKE_TOOL_SetAbility(void *p, u32 a, u32 b);
+extern void POKE_TOOL_SetAbility(struct BoxPokemon *box, u32 species, u32 form);
 
-extern void *POKE_TOOL_CastToBoxParam(void *p);
+extern struct PokemonParam *POKE_TOOL_CastToBoxParam(struct PokemonParam *mon);
 
-extern void POKE_TOOL_RecalcParam(void *p);
+extern void POKE_TOOL_RecalcParam(struct PokemonParam *pp);
+struct SaveData;
 
-extern void SAVE_EVENT_WriteWithDate(void *save, u32 eventId, u32 year, u32 month, u32 day);
+extern void SAVE_EVENT_WriteWithDate(struct SaveData *save, u32 eventId, u32 year, u32 month, u32 day);
 
 extern u16 STRBUF_GetEosChar(void);
+struct MsgBank;
+struct Strbuf;
 
-extern void *MSGDATA_AllocString(struct StrBank *bank, u32 index);
+extern struct Strbuf *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
 
-extern int STRBUF_Delete();
+extern void STRBUF_Delete(struct Strbuf *strbuf);
 
 extern u8 MYSTATUS_GetSex(const struct MyStatus *status);
 
@@ -273,7 +277,7 @@ struct PokemonParam *MYSTERY_GIFT_CreateMon(const GiftMon *gift, int heapId, str
         }
     }
     if (gift->pid == 0 && abilityKind == 2)
-        POKE_TOOL_SetAbility(mon, species, gift->form);
+        POKE_TOOL_SetAbility((struct BoxPokemon *)mon, species, gift->form);
     POKE_TOOL_SetPartyValue(mon, 0x6F, gift->form);
     if (gift->ball != 0 && gift->ball <= 0x19)
         POKE_TOOL_SetPartyValue(mon, 0x98, gift->ball);
@@ -327,7 +331,7 @@ struct PokemonParam *MYSTERY_GIFT_CreateMon(const GiftMon *gift, int heapId, str
         POKE_TOOL_SetPartyValue(mon, 0x9A, MYSTATUS_GetSex(GAME_DATA_GetMyStatus(gameData)));
     if (gift->isEgg) {
         POKE_TOOL_SetPartyValue(mon, 0x4C, 1);
-        eggName = MSGDATA_AllocString(gSpeciesNameBank, 0x28A);
+        eggName = MSGDATA_AllocString((struct MsgBank *)gSpeciesNameBank, 0x28A);
         POKE_TOOL_SetPartyValue(mon, 0x73, (u32)eggName);
         STRBUF_Delete(eggName);
         POKE_TOOL_SetPartyValue(mon, 9, 10);
@@ -336,7 +340,7 @@ struct PokemonParam *MYSTERY_GIFT_CreateMon(const GiftMon *gift, int heapId, str
     month = (u8)(gift->receivedDate >> 8);
     day = gift->receivedDate;
     metLocation = gift->isEgg ? gift->eggLocation : gift->metLocation;
-    SAVE_EVENT_WriteWithDate(POKE_TOOL_CastToBoxParam(mon), metLocation, year - 2000, month, day);
+    SAVE_EVENT_WriteWithDate((struct SaveData *)POKE_TOOL_CastToBoxParam(mon), metLocation, year - 2000, month, day);
     POKE_TOOL_RecalcParam(mon);
     result = 0;
     if (POKE_TOOL_GetPartyValue(mon, 3, 0) != 0)

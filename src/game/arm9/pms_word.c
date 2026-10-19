@@ -57,11 +57,13 @@ typedef struct Group {
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32 GFL_HEAP_Free(void *p);
 extern void MI_CpuCopy8(const void *src, void *dest, u32 size);
-extern void *SAVE_CONTROL_GetBlock(struct WinPanel020071CCCtrl *ctrl, u32 id);
-extern u32 MSGDATA_Delete(struct Rec *rec);
+struct SaveControl;
+extern void *SAVE_CONTROL_GetBlock(struct SaveControl *saveControl, u32 blockId);
+extern u32 MSGDATA_Delete(struct MsgBank *bank);
 extern struct MsgBank *MSGDATA_CreateFromArchive(int resident, int arcId, u32 fileId, u16 heapId);
-extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
-extern void STRBUF_Clear(struct U16Vec *vec);
+struct Strbuf;
+extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, struct Strbuf *dest);
+extern void STRBUF_Clear(struct Strbuf *strbuf);
 struct PmsWordSys *PMS_WORD_Create(u32 heapId);
 void PMS_WORD_Delete(struct PmsWordSys *p);
 void PMS_WORD_GetString(struct PmsWordSys *p, u32 id, void *dest);
@@ -109,7 +111,7 @@ void PMS_WORD_Delete(struct PmsWordSys *p)
 {
     int i;
     for (i = 0; i < 0xd; i++)
-        MSGDATA_Delete((struct Rec *)p->msg[i]);
+        MSGDATA_Delete((struct MsgBank *)p->msg[i]);
     GFL_HEAP_Free(p);
 }
 
@@ -241,7 +243,7 @@ void PMS_WORD_InitSave(struct PmsWord *p)
 
 void *PMS_WORD_GetSaveData(struct WinPanel020071CCCtrl *ctrl)
 {
-    return SAVE_CONTROL_GetBlock(ctrl, 0x27);
+    return SAVE_CONTROL_GetBlock((struct SaveControl *)ctrl, 0x27);
 }
 
 int PMS_WORD_CheckFlag(const u32 *p, u32 idx){return (*p >> idx) & 1;}

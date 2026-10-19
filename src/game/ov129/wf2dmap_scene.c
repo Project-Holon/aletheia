@@ -377,21 +377,23 @@ struct Param { void *bmp; short x,y; u32 f8,fc; u8 f10,f11; u16 f12; u32 f14; };
 extern void GFL_HEAP_CreateChildHeap(unsigned a, unsigned b, unsigned c);
 extern void *PROCSYS_AllocProcWork(struct Proc *obj, unsigned size, unsigned heap);
 extern void MI_CpuFill8(void *,int,unsigned);
-extern struct Param *CODEIN_PARAM_Create(unsigned heap, unsigned mode, unsigned initialPage, unsigned maxLength, unsigned *src);
+struct CodeinParam;
+extern struct CodeinParam *CODEIN_PARAM_Create(unsigned heap, unsigned mode, unsigned initialPage, unsigned maxLength, unsigned *src);
 extern unsigned GFL_HEAP_Free(void *p);
 extern void BG_SYS_ClearMainPlanes(void),BG_SYS_ClearSubPlanes(void);
-extern void *ARC_TOOL_CreateHandle(unsigned id, unsigned heap);
+extern void *ARC_TOOL_CreateHandle(u32 archiveID, u16 heapID);
 extern void BG_SYS_Create(u16),BMP_WIN_Init(u16);
 extern void * PALANM_Create(unsigned);
 extern struct GfFont *GF_FONT_Create(int archiveId, int fileId, int format, int isFixedWidth, unsigned heapId);
 extern void PALANM_SetAutoTransfer(struct PalAnmSlot *o, int v);
 extern void PALANM_AllocSlotBuffers(struct PalAnmSlot *slots, unsigned idx, unsigned size, unsigned heap);
-extern void G2x_SetBlendAlpha_(void *,int,int,int,int);
+extern void G2x_SetBlendAlpha_(u32 *reg, u32 a, u32 b, u32 c, u32 d);
 extern void *GFL_USE_AddMainTask(unsigned,unsigned,unsigned);
 extern void GFL_NET_RefreshWmIconAtTopRight(unsigned,unsigned);
 extern void CLACT_DrawSystem(void *);
-extern void TCB_DeleteTask(struct Node *n);
-extern unsigned GF_FONT_Delete(void *ptr);
+struct TcbTask;
+extern void TCB_DeleteTask(struct TcbTask *task);
+extern unsigned GF_FONT_Delete(struct GfFont *font);
 extern void BMP_WIN_Exit(void);
 extern void BG_SYS_SetMainPlaneVisible(unsigned,unsigned);
 extern void BG_SYS_SetSubPlaneVisible(unsigned,unsigned);
@@ -400,8 +402,10 @@ extern void BG_SYS_Delete(void);
 extern void PALANM_FreeSlotBuffers(struct PalAnmSlot *slots, unsigned idx);
 extern unsigned PALANM_Delete(void *ctx);
 extern void ARC_TOOL_DeleteHandle(void *);
-extern void BUTTON_MAN_Delete(void *);
-extern void STRBUF_Delete(struct U16Vec *vec);
+struct ButtonMan;
+extern void BUTTON_MAN_Delete(struct ButtonMan *bm);
+struct Strbuf;
+extern void STRBUF_Delete(struct Strbuf *strbuf);
 extern void PROCSYS_FreeProcWork(struct Proc *p);
 extern void GFL_HEAP_DeleteChecked(unsigned heap);
 extern void BG_SYS_ClearMainPlanes(void);
@@ -412,22 +416,25 @@ extern void BG_SYS_ClearSlot(unsigned);
 extern void BG_SYS_SetLcdSwap(unsigned);
 extern void PALANM_TransferPalettes(struct S02021D50 *p);
 extern void CLACT_VBlankSystem(void);
-extern void WIPE_SYS_Start(void *,unsigned,unsigned,unsigned,unsigned,unsigned,unsigned);
+extern void WIPE_SYS_Start(void *divisionMode, u32 mainPattern, u32 subPattern, u16 color, u32 frames, u32 wait, u32 heapId);
 extern unsigned WIPE_SYS_EndCheck(void);
 extern unsigned KEY_GetTrg(void);
 extern int TOUCHPANEL_GetTrg(void);
-extern s32 BUTTON_MAN_UpdateSlots(struct Ctx *c);
+extern s32 BUTTON_MAN_UpdateSlots(struct ButtonMan *c);
 extern void CLACT_GetActorSurfacePos(struct Actor *actor, struct PtS *out, u16 space);
 extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
-extern void CLACT_SetActorScale(struct Obj *dst, struct Pair *src);
-extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
+struct Pair32;
+extern void CLACT_SetActorScale(struct Actor *actor, struct Pair32 *src);
+extern void CLACT_SetActorAnimSeq(struct Actor *actor, u16 value);
 extern u32 KEY_GetRepeat(void);
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
-extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
-extern void WORDSET_FormatNumber(void *ctx, s32 n, u32 kind, u32 mode, u32 flag);
-extern void STRBUF_Append(struct U16Vec *dst, struct U16Vec *src);
+extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
+extern void WORDSET_FormatNumber(struct Strbuf *text, s32 number, u32 topDigitIndex, u32 padMode, u32 isHalfWidth);
+extern void STRBUF_Append(struct Strbuf *dst, struct Strbuf *src);
 extern void *BUTTON_MAN_Create(u8 *,int,int,int);
-extern void CLACT_InitSystem(const struct Cfg *cfg, unsigned int arg, unsigned int heapId);
+struct DispVramCfg;
+struct SysInit;
+extern void CLACT_InitSystem(struct SysInit *cfg, struct DispVramCfg *res_cfg, u32 heapId);
 extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 extern void CLACT_SetUnitDefaultRenderer(struct Bank *bank);
 extern u32 ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
@@ -439,45 +446,48 @@ extern int CLACT_RegisterCharacter(void *,u32,u32,u32,u16);
 extern int CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 extern void BMP_MENUWORK_LoadCharAndPltt(u32,u32,u32,u32,u16);
 extern void ARC_UTIL_UploadPaletteFromArchiveWhole(u32,u32,u32,u32,u32,u16);
-extern void CLACT_DeleteActor(struct Obj *p);
-extern unsigned int BMP_WIN_Delete(struct Descriptor *d);
+extern void CLACT_DeleteActor(struct Actor *actor);
+struct BmpWin;
+extern unsigned int BMP_WIN_Delete(struct BmpWin *win);
 extern void CLACT_ReleasePalette(u32 i);
 extern void CLACT_ReleaseCharacter(u32 i);
 extern void CLACT_ReleaseCellAnim(u32 i);
 extern u32 CLACT_DeleteUnit(struct Bank *bank);
 extern void CLACT_ExitSystem(void);
 extern struct Obj *CLACT_CreateActor(void *,unsigned int,unsigned int,unsigned int,const void *,u16,u16);
-extern void CLACT_SetActorDrawEnable(struct Obj *p, unsigned int v);
-extern void CLACT_SetActorAutoAnim(struct Obj *p, unsigned int v);
+extern void CLACT_SetActorDrawEnable(struct Actor *actor, u32 value);
+extern void CLACT_SetActorAutoAnim(struct Actor *actor, u32 enable);
 extern void CLACT_SetActorObjMode(struct Actor *actor, u32 value);
-extern void CLACT_SetActorAnimFrame(struct Obj *p, u32 value);
-extern u16 CLACT_GetActorAnimSeq(struct Obj *p);
+extern void CLACT_SetActorAnimFrame(struct Actor *actor, u32 frame);
+extern u16 CLACT_GetActorAnimSeq(struct Actor *actor);
 extern u32 CLACT_IsActorAnimActive(struct Actor *a);
-extern void BMP_OAM_SetPos(struct Grid *g, short x, short y);
-extern void *BMP_OAM_CreateSys(unsigned int heapId, void *clact);
-extern void BMP_OAM_Delete(struct Grid *);
-extern void BMP_OAM_DeleteSys(void *);
+struct BmpOam;
+extern void BMP_OAM_SetPos(struct BmpOam *bmpOam, s16 x, s16 y);
+struct BmpOamSys;
+extern struct BmpOamSys *BMP_OAM_CreateSys(unsigned int heapId, void *clact);
+extern void BMP_OAM_Delete(struct BmpOam *bmpOam);
+extern void BMP_OAM_DeleteSys(struct BmpOamSys *sys);
 extern int CLACT_RegisterPaletteCompressed(void *,u32,u32,u32,u16);
 extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern void *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
+extern struct Strbuf *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
 extern struct Bmp *BMP_Create(u32 width, u32 height, u32 depth, u16 heap);
-extern u32 PRINTSYS_MeasureWidestLine(struct StrObj *s, u32 a, u32 b);
-extern void PRINTSYS_PrintColor(void *,short,short,void *,void *,u16);
+extern u32 PRINTSYS_MeasureWidestLine(struct Strbuf *text, struct GfFont *font, u32 spacing);
+extern void PRINTSYS_PrintColor(struct Bmp *bmp, s16 x, s16 y, struct Strbuf *str, struct GfFont *font, u16 color);
 extern struct Grid *BMP_OAM_Create(struct Sys *sys, const struct Param *param);
-extern void BMP_OAM_UploadChars(struct Obj *o);
+extern void BMP_OAM_UploadChars(struct BmpOam *bmpOam);
 extern void BMP_Delete(struct Bmp *p);
-extern u32 MSGDATA_Delete(struct Rec *rec);
-extern unsigned int BMP_WIN_Create(unsigned int layer, unsigned int a, unsigned int b, unsigned int tiles, u8 c, u8 d, u8 slot);
-extern void BMP_MENUWORK_DrawWindow(void *,int,int,int);
-extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
-extern struct WordSet *WORDSET_CreateDefault(u32 heap);
+extern u32 MSGDATA_Delete(struct MsgBank *bank);
+extern struct BmpWin *BMP_WIN_Create(u32 bgLayer, u32 posX, u32 posY, u8 width, u8 height, u8 palette, u8 allocDir);
+extern void BMP_MENUWORK_DrawWindow(struct BmpWin *win, s32 commitMode, u16 tileBase, u32 palette);
+extern void BMP_WIN_MakeScreen(struct BmpWin *win);
+extern struct WordSet *WORDSET_CreateDefault(u16 heapId);
 extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
-extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
-extern void *BMP_WIN_GetBmp(struct Descriptor *p);
-extern void BMP_Clear(struct CharBuf *buf, u8 value);
-extern void PRINTSYS_Print(void *,short,short,void *,void *);
+extern void WORDSET_CopyTaggedText(struct WordSet *words, struct Strbuf *dst, struct Strbuf *src);
+extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *win);
+extern void BMP_Clear(struct Bmp *bmp, u8 value);
+extern void PRINTSYS_Print(struct Bmp *bmp, s16 x, s16 y, struct Strbuf *str, struct GfFont *font);
 extern u32 WORDSET_Delete(struct WordSet *p);
-extern void BMP_WIN_TransferChars(struct Descriptor *d);
+extern void BMP_WIN_TransferChars(struct BmpWin *win);
 extern void BG_SYS_PushTile(u32);
 int WF2DMAP_SCENE_Create(void *obj,void *unused,const Param *cfg);
 int WF2DMAP_SCENE_Draw(int a, int b, int c, int d);
@@ -860,13 +870,13 @@ int WF2DMAP_SCENE_StepAnimate(char *scene)
                 if(cellIdx>=((Wf2dmapScene *)scene)->mainStart && cellIdx<((Wf2dmapScene *)scene)->mainEnd) {
                     scale.x=d_021DA830[((Wf2dmapScene *)cell)->stepIndex];
                     scale.y=scale.x;
-                    CLACT_SetActorScale(((Wf2dmapScene *)cell)->actor.handle,(struct Pair *)(&scale));
+                    CLACT_SetActorScale(((Wf2dmapScene *)cell)->actor.handle,(struct Pair32 *)(&scale));
                     (((Wf2dmapScene *)cell)->stepIndex)++;
                 }
                 if(cellIdx>=((Wf2dmapScene *)scene)->subStart && cellIdx<((Wf2dmapScene *)scene)->subEnd) {
                     scale.x=d_021DA84C[((Wf2dmapScene *)cell)->stepIndex];
                     scale.y=scale.x;
-                    CLACT_SetActorScale(((Wf2dmapScene *)cell)->actor.handle,(struct Pair *)(&scale));
+                    CLACT_SetActorScale(((Wf2dmapScene *)cell)->actor.handle,(struct Pair32 *)(&scale));
                     (((Wf2dmapScene *)cell)->stepIndex)++;
                 }
             }
@@ -900,7 +910,7 @@ int WF2DMAP_SCENE_StepAnimate(char *scene)
             if(((Wf2dmapScene *)cell)->stepIndex!=6) {
                 scale.x=d_021DA830[((Wf2dmapScene *)cell)->stepIndex];
                 scale.y=scale.x;
-                CLACT_SetActorScale(((Wf2dmapScene *)cell)->actor.handle,(struct Pair *)(&scale));
+                CLACT_SetActorScale(((Wf2dmapScene *)cell)->actor.handle,(struct Pair32 *)(&scale));
                 (((Wf2dmapScene *)cell)->stepIndex)++;
             }
         }
@@ -909,7 +919,7 @@ int WF2DMAP_SCENE_StepAnimate(char *scene)
             if(((Wf2dmapScene *)cell)->stepIndex!=6) {
                 scale.x=d_021DA84C[((Wf2dmapScene *)cell)->stepIndex];
                 scale.y=scale.x;
-                CLACT_SetActorScale(((Wf2dmapScene *)cell)->actor.handle,(struct Pair *)(&scale));
+                CLACT_SetActorScale(((Wf2dmapScene *)cell)->actor.handle,(struct Pair32 *)(&scale));
                 (((Wf2dmapScene *)cell)->stepIndex)++;
             }
         }
@@ -1039,7 +1049,7 @@ void WF2DMAP_SCENE_HandleInput(char *scene)
             WF2DMAP_SCENE_SetCursorVisible(scene, 2, 1);
             WF2DMAP_SCENE_SetCursorPosBySlot(scene, cellType, 2);
             CLACT_SetActorAnimSeq(cells[index].handle, WF2DMAP_SCENE_GetCellAnim(cells[index].state, cells[index].flag));
-            CLACT_SetActorAnimSeq(*(struct Obj **)(scene + 0x1CC), 3);
+            CLACT_SetActorAnimSeq((struct Actor *)(*(struct Obj **)(scene + 0x1CC)), 3);
             cellValue = cells[index].value;
             if (index + 1 == ((Wf2dmapScene *)scene)->cellCount) {
                 ((Wf2dmapScene *)scene)->pendingCmd = 1;
@@ -1166,10 +1176,10 @@ void WF2DMAP_SCENE_BuildNumberList(char *scene)  {
         cell=scene+cellIdx*28;
         if(((Wf2dmapScene *)cell)->state==0)  {
             ((Wf2dmapScene *)cell)->state=1;
-            CLACT_SetActorAnimSeq((struct Obj *)(((Wf2dmapScene *)cell)->actor.handleRaw),WF2DMAP_SCENE_GetCellAnim(1,((Wf2dmapScene *)cell)->flag));
+            CLACT_SetActorAnimSeq((struct Actor *)(((Wf2dmapScene *)cell)->actor.handleRaw),WF2DMAP_SCENE_GetCellAnim(1,((Wf2dmapScene *)cell)->flag));
         }
         WORDSET_FormatNumber(strbuf,((Wf2dmapScene *)cell)->state-1,1,1,1);
-        STRBUF_Append((struct U16Vec *)(((Wf2dmapScene *)scene)->strbuf.handleRaw),strbuf);
+        STRBUF_Append((struct Strbuf *)(((Wf2dmapScene *)scene)->strbuf.handleRaw),strbuf);
     }
     STRBUF_Delete(strbuf);
     WF2DMAP_SCENE_ResetState(scene,3);
@@ -1202,10 +1212,10 @@ void WF2DMAP_SCENE_ClearSelection(const Wf2dmapCell *cells)  {
         return;
     }
     index=((Wf2dmapScene *)cells)->cursorIndex;
-    CLACT_SetActorAnimSeq((struct Obj *)cells[index].handle,clear_record(&((Wf2dmapCell *)cells)[index]));
+    CLACT_SetActorAnimSeq((struct Actor *)cells[index].handle,clear_record(&((Wf2dmapCell *)cells)[index]));
     value=cells[index].value;
     if(index>0)  {
-        CLACT_SetActorAnimSeq((struct Obj *)cells[index-1].handle,WF2DMAP_SCENE_GetCellAnim(cells[index-1].state,cells[index-1].flag));
+        CLACT_SetActorAnimSeq((struct Actor *)cells[index-1].handle,WF2DMAP_SCENE_GetCellAnim(cells[index-1].state,cells[index-1].flag));
         nextValue=cells[index-1].value;
         if(value!=nextValue)  {
             ((Wf2dmapScene *)cells)->pendingCmd=1;
@@ -1295,7 +1305,7 @@ void WF2DMAP_SCENE_HandleButton(u32 buttonIdx, int isRelease, char *scene)
                 WF2DMAP_SCENE_SetCursorVisible(scene, 1, 0);
                 WF2DMAP_SCENE_SetCursorVisible(scene, 2, 1);
                 WF2DMAP_SCENE_SetCursorPosBySlot(scene, cellType, 2);
-                CLACT_SetActorAnimSeq(*(struct Obj **)(scene + 0x1CC), 3);
+                CLACT_SetActorAnimSeq((struct Actor *)(*(struct Obj **)(scene + 0x1CC)), 3);
                 value = cells[index].value;
                 if (index + 1 == ((Wf2dmapScene *)scene)->cellCount) {
                     ((Wf2dmapScene *)scene)->pendingCmd = 1;
@@ -1370,7 +1380,7 @@ void WF2DMAP_SCENE_InitClact(char *scene,unsigned heapId)  {
     Config cfg = gClActorInitParam;
     ((unsigned char *)&cfg)[8] = 16;
     ((unsigned char *)&cfg)[9] = 112;
-    CLACT_InitSystem((const struct Cfg *)(&cfg),heapId,50);
+    CLACT_InitSystem((struct SysInit *)(&cfg),(struct DispVramCfg *)heapId,50);
     BG_SYS_SetMainPlaneVisible(16,1);
     ((Wf2dmapScene *)scene)->unit.handle=CLACT_CreateUnit(64,0,50);
     CLACT_SetUnitDefaultRenderer(((Wf2dmapScene *)scene)->unit.handle);
@@ -1406,15 +1416,15 @@ void WF2DMAP_SCENE_LoadActorAssets(char *scene)
 void WF2DMAP_SCENE_DeleteActors(char *scene)  {
     int index;
     char *cell;
-    for(index=0;index<((Wf2dmapScene *)scene)->cellCount;index++) CLACT_DeleteActor((struct Obj *)(*(int *)(scene+index*28+12)));
+    for(index=0;index<((Wf2dmapScene *)scene)->cellCount;index++) CLACT_DeleteActor((struct Actor *)(*(int *)(scene+index*28+12)));
     for(index=0;index<2;index++)  {
         cell=scene+index*28;
-        CLACT_DeleteActor((struct Obj *)(((Wf2dmapScene *)cell)->extraActor.handleRaw));
-        CLACT_DeleteActor((struct Obj *)(((Wf2dmapScene *)cell)->cursorAnimActor));
+        CLACT_DeleteActor((struct Actor *)(((Wf2dmapScene *)cell)->extraActor.handleRaw));
+        CLACT_DeleteActor((struct Actor *)(((Wf2dmapScene *)cell)->cursorAnimActor));
     }
-    for(index=0;index<3;index++) CLACT_DeleteActor((struct Obj *)(*(int *)(scene+index*28+0x194)));
+    for(index=0;index<3;index++) CLACT_DeleteActor((struct Actor *)(*(int *)(scene+index*28+0x194)));
     WF2DMAP_SCENE_DeleteOam((u8 *)scene);
-    BMP_WIN_Delete((struct Descriptor *)(((Wf2dmapScene *)scene)->windowHandle));
+    BMP_WIN_Delete((struct BmpWin *)(((Wf2dmapScene *)scene)->windowHandle));
     for(index=0;index<3;index++)  {
         cell=scene+index*4;
         CLACT_ReleasePalette(((Wf2dmapScene *)cell)->paletteA);
@@ -1450,8 +1460,8 @@ void WF2DMAP_SCENE_CreateCellActors(char *scene)
         }
     }
     if(((Wf2dmapScene *)scene)->group1Size==0 && ((Wf2dmapScene *)scene)->group2Size==0) {
-        CLACT_SetActorDrawEnable((struct Obj *)((Wf2dmapScene *)scene)->extraActor.handleRaw,0);
-        CLACT_SetActorDrawEnable((struct Obj *)((Wf2dmapScene *)scene)->extraActor1,0);
+        CLACT_SetActorDrawEnable((struct Actor *)((Wf2dmapScene *)scene)->extraActor.handleRaw,0);
+        CLACT_SetActorDrawEnable((struct Actor *)((Wf2dmapScene *)scene)->extraActor1,0);
     }
 }
 
@@ -1466,20 +1476,20 @@ void WF2DMAP_SCENE_CreateCursorActors(char *scene)
     ((Wf2dmapScene *)scene)->cursorActor2=(int)CLACT_CreateActor((void *)unit,((Wf2dmapScene *)scene)->charC,((Wf2dmapScene *)scene)->paletteC,((Wf2dmapScene *)scene)->cellAnimC,&param,0,50);
     ((Wf2dmapScene *)scene)->cursorActor4=(int)CLACT_CreateActor((void *)unit,((Wf2dmapScene *)scene)->charC,((Wf2dmapScene *)scene)->paletteC,((Wf2dmapScene *)scene)->cellAnimC,&param,0,50);
     WF2DMAP_SCENE_MoveCursor((u8 *)scene,0);
-    CLACT_SetActorAnimSeq((struct Obj *)(((Wf2dmapScene *)scene)->cursorActor.handleRaw),0);
-    CLACT_SetActorAutoAnim((struct Obj *)((Wf2dmapScene *)scene)->cursorActor.handleRaw,1);
+    CLACT_SetActorAnimSeq((struct Actor *)(((Wf2dmapScene *)scene)->cursorActor.handleRaw),0);
+    CLACT_SetActorAutoAnim((struct Actor *)((Wf2dmapScene *)scene)->cursorActor.handleRaw,1);
     ((Wf2dmapScene *)scene)->cursorCol=0; ((Wf2dmapScene *)scene)->cursorRow=0;
     ((Wf2dmapScene *)scene)->cursorMode=1;
     WF2DMAP_SCENE_SetCursorPos(scene,0);
-    CLACT_SetActorAnimSeq((struct Obj *)(((Wf2dmapScene *)scene)->cursorActor2),((Wf2dmapScene *)scene)->cursorMode);
-    CLACT_SetActorAutoAnim((struct Obj *)((Wf2dmapScene *)scene)->cursorActor2,1);
+    CLACT_SetActorAnimSeq((struct Actor *)(((Wf2dmapScene *)scene)->cursorActor2),((Wf2dmapScene *)scene)->cursorMode);
+    CLACT_SetActorAutoAnim((struct Actor *)((Wf2dmapScene *)scene)->cursorActor2,1);
     CLACT_SetActorObjMode((struct Actor *)(((Wf2dmapScene *)scene)->cursorActor2),1);
     ((Wf2dmapScene *)scene)->cursorValue0=0; ((Wf2dmapScene *)scene)->cursorValue1=0;
     ((Wf2dmapScene *)scene)->cursorActor3=1;
     WF2DMAP_SCENE_SetCursorPos(scene,0);
-    CLACT_SetActorAnimSeq((struct Obj *)(((Wf2dmapScene *)scene)->cursorActor4),((Wf2dmapScene *)scene)->cursorActor3);
+    CLACT_SetActorAnimSeq((struct Actor *)(((Wf2dmapScene *)scene)->cursorActor4),((Wf2dmapScene *)scene)->cursorActor3);
     CLACT_SetActorObjMode((struct Actor *)(((Wf2dmapScene *)scene)->cursorActor4),1);
-    CLACT_SetActorAutoAnim((struct Obj *)((Wf2dmapScene *)scene)->cursorActor4,1);
+    CLACT_SetActorAutoAnim((struct Actor *)((Wf2dmapScene *)scene)->cursorActor4,1);
     WF2DMAP_SCENE_SetCursorVisible(scene,1,0);
     WF2DMAP_SCENE_SetCursorVisible(scene,2,0);
 }
@@ -1501,11 +1511,11 @@ void WF2DMAP_SCENE_CreateExtraActors(char *scene)
     param.x = (((Wf2dmapScene *)scene)->selX0 + ((Wf2dmapScene *)scene)->selX1) / 2;
     param.y = (((Wf2dmapScene *)scene)->selY0 + ((Wf2dmapScene *)scene)->selY1) / 2;
     CLACT_AddActorSurfacePos((struct Obj *)(((Wf2dmapScene *)scene)->cursorAnimActor), (const struct Vec2 *)(&param), 0);
-    CLACT_SetActorAnimSeq((struct Obj *)(((Wf2dmapScene *)scene)->cursorAnimActor), 0);
+    CLACT_SetActorAnimSeq((struct Actor *)(((Wf2dmapScene *)scene)->cursorAnimActor), 0);
     param.x = (((Wf2dmapScene *)scene)->sel2X0 + ((Wf2dmapScene *)scene)->sel2X1) / 2;
     param.y = (((Wf2dmapScene *)scene)->sel2Y0 + ((Wf2dmapScene *)scene)->sel2Y1) / 2;
     CLACT_AddActorSurfacePos((struct Obj *)(((Wf2dmapScene *)scene)->cursorAnimActor2), (const struct Vec2 *)(&param), 0);
-    CLACT_SetActorAnimSeq((struct Obj *)(((Wf2dmapScene *)scene)->cursorAnimActor2), 0);
+    CLACT_SetActorAnimSeq((struct Actor *)(((Wf2dmapScene *)scene)->cursorAnimActor2), 0);
 }
 
 
@@ -1532,7 +1542,7 @@ void WF2DMAP_SCENE_SetCursorPos(char *scene,int cellIdx)
     pos.x = (rect[0x29a] + rect[0x29b])/2;
     pos.y = (rect[0x298] + rect[0x299])/2;
     CLACT_AddActorSurfacePos((struct Obj *)(((Wf2dmapScene *)scene)->cursorActor2),(const struct Vec2 *)(&pos),0);
-    CLACT_SetActorAnimFrame((struct Obj *)(((Wf2dmapScene *)scene)->cursorActor2),0);
+    CLACT_SetActorAnimFrame((struct Actor *)(((Wf2dmapScene *)scene)->cursorActor2),0);
 }
 
 
@@ -1544,7 +1554,7 @@ void WF2DMAP_SCENE_SetCursorPosBySlot(char *scene,int cellIdx,int cursorIdx)
     pos.x = (rect[0x29a] + rect[0x29b])/2;
     pos.y = (rect[0x298] + rect[0x299])/2;
     CLACT_AddActorSurfacePos((struct Obj *)(*(int *)((scene+0x194)+cursorIdx*0x1c)),(const struct Vec2 *)(&pos),0);
-    CLACT_SetActorAnimFrame((struct Obj *)(*(int *)((scene+0x194)+cursorIdx*0x1c)),0);
+    CLACT_SetActorAnimFrame((struct Actor *)(*(int *)((scene+0x194)+cursorIdx*0x1c)),0);
 }
 
 
@@ -1577,7 +1587,7 @@ void WF2DMAP_SCENE_UpdateCursorAnim(char *scene)
 void WF2DMAP_SCENE_SetOamPos(char *oam, int x, int y)
 {
     if (oam != 0)
-        BMP_OAM_SetPos((struct Grid *)oam, (short)x, (short)y);
+        BMP_OAM_SetPos((struct BmpOam *)oam, (short)x, (short)y);
 }
 
 
@@ -1604,19 +1614,19 @@ void WF2DMAP_SCENE_UpdateOam(char *scene)
         case 1:
             ((Wf2dmapScene *)cell)->cursorAnimFrame+=1;
             if(((Wf2dmapScene *)cell)->cursorAnimFrame==1) {
-                CLACT_SetActorAnimSeq((struct Obj *)(((Wf2dmapScene *)cell)->cursorAnimActor),1);
+                CLACT_SetActorAnimSeq((struct Actor *)(((Wf2dmapScene *)cell)->cursorAnimActor),1);
                 WF2DMAP_SCENE_SetOamPos(*(char * *)&((Wf2dmapScene *)byteRow)->oamA,x,y);
             } else if(((Wf2dmapScene *)cell)->cursorAnimFrame==2) {
-                CLACT_SetActorAnimSeq((struct Obj *)(((Wf2dmapScene *)cell)->cursorAnimActor),2);
+                CLACT_SetActorAnimSeq((struct Actor *)(((Wf2dmapScene *)cell)->cursorAnimActor),2);
                 WF2DMAP_SCENE_SetOamPos(*(char * *)&((Wf2dmapScene *)byteRow)->oamA,x,y);
             } else if(((Wf2dmapScene *)cell)->cursorAnimFrame==10) {
-                CLACT_SetActorAnimSeq((struct Obj *)(((Wf2dmapScene *)cell)->cursorAnimActor),0);
+                CLACT_SetActorAnimSeq((struct Actor *)(((Wf2dmapScene *)cell)->cursorAnimActor),0);
                 WF2DMAP_SCENE_SetOamPos(*(char * *)&((Wf2dmapScene *)byteRow)->oamA,x,y);
                 ((Wf2dmapScene *)cell)->cursorState+=1;
             }
             break;
         default:
-            CLACT_SetActorAnimSeq((struct Obj *)(((Wf2dmapScene *)cell)->cursorAnimActor),0);
+            CLACT_SetActorAnimSeq((struct Actor *)(((Wf2dmapScene *)cell)->cursorAnimActor),0);
             WF2DMAP_SCENE_SetOamPos(*(char * *)&((Wf2dmapScene *)byteRow)->oamA,x,y);
             ((Wf2dmapScene *)cell)->cursorState=0;
             break;
@@ -1732,7 +1742,7 @@ void WF2DMAP_SCENE_CreateOam(char *scene)
 
 
 
-void WF2DMAP_SCENE_DeleteOam(u8 *scene) { CLACT_ReleasePalette(((Wf2dmapScene *)scene)->oamPalette); BMP_OAM_Delete(*(struct Grid * *)&((Wf2dmapScene *)scene)->oamA); BMP_OAM_Delete(*(struct Grid * *)&((Wf2dmapScene *)scene)->oamB); BMP_OAM_DeleteSys(((Wf2dmapScene *)scene)->oamSys); }
+void WF2DMAP_SCENE_DeleteOam(u8 *scene) { CLACT_ReleasePalette(((Wf2dmapScene *)scene)->oamPalette); BMP_OAM_Delete((struct BmpOam *)(*(struct Grid * *)&((Wf2dmapScene *)scene)->oamA)); BMP_OAM_Delete((struct BmpOam *)(*(struct Grid * *)&((Wf2dmapScene *)scene)->oamB)); BMP_OAM_DeleteSys(((Wf2dmapScene *)scene)->oamSys); }
 
 
 
@@ -1761,7 +1771,7 @@ void WF2DMAP_SCENE_CreateTextOam(u8 *scene, int index, int argX, int argY, int u
     bank=MSGDATA_CreateFromArchive(0,2,25,50);
     msg=MSGDATA_AllocString(bank,index+3);
     bmp=BMP_Create(10,2,32,50);
-    PRINTSYS_PrintColor(bmp,(80-(int)PRINTSYS_MeasureWidestLine(msg,*(u32 *)&((Wf2dmapScene *)scene)->font.handle,0))/2,0,msg,((Wf2dmapScene *)scene)->font.handle,0x3dc0);
+    PRINTSYS_PrintColor(bmp,(80-(int)(struct GfFont *)PRINTSYS_MeasureWidestLine(msg,(struct GfFont *)(*(u32 *)&((Wf2dmapScene *)scene)->font.handle),0))/2,0,msg,((Wf2dmapScene *)scene)->font.handle,0x3dc0);
     xPos=(scene+(index+22)*4)[0x29a]+20;
     yPos=((scene+(index+22)*4)[0x298]+(scene+(index+22)*4)[0x299])/2;
     param.bmp=bmp;

@@ -74,14 +74,15 @@ extern int gsXmlWriteHexBinaryElement(void *stream, char *namespaceName, char *t
 extern int gsXmlWriteIntElement(void *stream, char *namespaceName, char *tag, unsigned int value);
 extern int gsXmlWriteStringElement(void *stream, char *namespaceName, char *tag, char *value);
 extern int gsXmlCloseWriter(void *stream);
-extern void gsXmlFreeWriter(void *stream);
+extern void gsXmlFreeWriter(void **writerRef);
 extern int gsXmlMoveToStart(void *stream);
 extern int gsXmlMoveToNext(void *stream, char *matchtag);
 extern int gsXmlReadChildAsInt(void *stream, char *matchtag, int *valueOut);
 extern int gsXmlReadChildAsStringNT(void *stream, char *matchtag, char *valueOut, int maxLen);
 extern void *gsiExecuteSoap(char *theURL, char *theService, void *theRequestSoap, GSSoapCallback theCallbackFunc,
                             void *theUserData);
-extern void *gsiExecuteSoapCustom(char *theURL, char *theService, void *theRequestSoap,
+struct GSSoapTask;
+extern struct GSSoapTask *gsiExecuteSoapCustom(char *theURL, char *theService, void *theRequestSoap,
                                   GSSoapCallback theCallbackFunc, GSSoapRequestFunc theRequestFunc,
                                   void *theUserData);
 extern int ghiPostAddFileFromMemory(struct GHIPost *_post, char *name, char *buffer, int bufferLen,

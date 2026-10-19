@@ -145,6 +145,7 @@
  *   PMSI_SEARCH_ClearInput 0x021BAFE4 thumb ov110
  *   PMSI_SEARCH_GetInputCount  0x021BAFDC  thumb  ov110
  *   PMSI_PARAM_GetSourceString  0x0202441C  thumb  arm9
+ *   _u32_div_f                   0x0209C2B0  arm
  */
 #include "pms_input_types.h"
 #include "pmsiv_wordwin_types.h"
@@ -176,8 +177,9 @@ extern void PROCSYS_FreeProcWork(struct Proc *proc);
 extern void *PROCSYS_AllocProcWork(struct Proc *proc, u32 size, u32 heapId);
 
 extern u32 TCB_GetTaskOffset(u32 taskCount);
+struct TcbSystem;
 
-extern struct TcbSystem *TCB_Init(u32 taskCount, void *buf);
+extern struct TcbSystem *TCB_Init(u32 capacity, struct TcbSystem *sys);
 
 extern void TCB_Main(struct TcbSystem *tasks);
 
@@ -200,10 +202,12 @@ extern unsigned int TOUCHPANEL_GetPointTrg(unsigned int *x, unsigned int *y);
 extern unsigned int TOUCHPANEL_HitPoint(const struct PmsTouchBox *table, unsigned int x, unsigned int y);
 
 extern void GFL_USE_PlaySeDefaultVolume(u32 seId);
+struct ButtonMan;
 
-extern void *BUTTON_MAN_Create(const u8 *rects, void (*callback)(int, unsigned int, PmsInput *), PmsInput *arg, int heapId);
+extern struct ButtonMan *BUTTON_MAN_Create(unsigned char *rects, void (*callback)(int, unsigned int, PmsInput *), int arg, int heap);
+struct ButtonMan;
 
-extern int BUTTON_MAN_UpdateSlots(void *buttonMan);
+extern int BUTTON_MAN_UpdateSlots(struct ButtonMan *c);
 
 extern void BUTTON_MAN_Delete(void *buttonMan);
 
@@ -211,7 +215,7 @@ extern u32 PMSI_PARAM_GetInputMode(const struct PmsiParam *param);
 
 extern u32 PMSI_PARAM_GetUiInputMode(const struct PmsiParam *param);
 
-extern void PMSI_PARAM_SetUiInputMode(struct PmsiParam *param, u32 uiInputMode);
+extern void PMSI_PARAM_SetUiInputMode(void *unused, void *inputMode);
 
 extern void PMSI_PARAM_GetResult(const struct PmsiParam *param, u16 *outWords, u16 *outSentence);
 
@@ -233,7 +237,7 @@ extern int PMS_INPUT_VIEW_IsTaskNotRunning(struct PmsInputView *view, int comman
 
 extern int PMS_INPUT_VIEW_GetEditValue(struct PmsInputView *view);
 
-extern void PMS_INPUT_VIEW_SetEditText(struct PmsInputView *view, struct PmsTouchBox *out, u8 slot);
+extern void PMS_INPUT_VIEW_SetEditText(struct PmsInputView *view, void *src, u8 n);
 
 extern void PMS_INPUT_VIEW_SetMenuItemMode(struct PmsInputView *view, int direction);
 
@@ -243,29 +247,31 @@ extern int PMS_INPUT_VIEW_UpdateCategoryFocus(struct PmsInputView *view, PmsInpu
 
 extern int PMS_INPUT_VIEW_UpdateWordwinFocus(struct PmsInputView *view, PmsInput *input, struct PmsInputData *data);
 
-extern struct PmsInputData *PMS_INPUT_DATA_Create(u32 heapId, struct PmsiParam *param);
+extern struct PmsInputData *PMS_INPUT_DATA_Create(unsigned int heap, void *save);
 
 extern void PMS_INPUT_DATA_Delete(struct PmsInputData *data);
+struct PmsInput;
 
-extern struct PmsInputView *PMS_INPUT_VIEW_Create(PmsInput *input, struct PmsInputData *data);
+extern void *PMS_INPUT_VIEW_Create(PmsInput *input, struct PmsInputData *data);
 
 extern void PMS_INPUT_VIEW_Delete(struct PmsInputView *view);
 
 extern u32 PMS_INPUT_DATA_GetCategoryWordCount(struct PmsInputData *data, int category);
+struct PmsiSearch;
 
-extern struct PmsInputSearch *PMSI_SEARCH_Create(PmsInput *input, struct PmsInputData *data, u16 heapId);
+extern struct PmsiSearch *PMSI_SEARCH_Create(void *owner, struct PmsInputData *wordData, u16 heap);
 
-extern void PMSI_SEARCH_Delete(struct PmsInputSearch *search);
+extern void PMSI_SEARCH_Delete(struct PmsiSearch *s);
 
-extern int PMSI_SEARCH_PopKey(struct PmsInputSearch *search);
+extern int PMSI_SEARCH_PopKey(struct PmsiSearch *s);
 
-extern int PMSI_SEARCH_Run(struct PmsInputSearch *search);
+extern int PMSI_SEARCH_Run(struct PmsiSearch *s);
 
-extern void PMSI_SEARCH_PushKey(struct PmsInputSearch *search, int index);
+extern void PMSI_SEARCH_PushKey(struct PmsiSearch *s, int key);
 
 extern int PMSI_SEARCH_GetKeyCount(void);
 
-extern void PMSI_SEARCH_GetKeyPosition(int index, int *outX, int *outY);
+extern void PMSI_SEARCH_GetKeyPosition(unsigned int i, int *column, int *row);
 
 /* pmsiv_wordwin.c */
 extern void PMS_INPUT_InitWordList(struct PmsWordListCursor *cursor, PmsInput *input);
@@ -440,14 +446,14 @@ struct PmsInput *PMS_INPUT_Create(struct Proc *proc, struct PmsiParam *param)
     input->tasks = TCB_Init(5, taskBuf);
     input->data = PMS_INPUT_DATA_Create(41, input->param);
     input->view = PMS_INPUT_VIEW_Create(input, input->data);
-    input->buttonMan = BUTTON_MAN_Create(gPmsInputButtonRects, PMS_INPUT_OnButton, input, 41);
+    input->buttonMan = BUTTON_MAN_Create((unsigned char *)gPmsInputButtonRects, PMS_INPUT_OnButton, (int)input, 41);
     input->browseMode = PMS_BROWSE_CATEGORY;
     input->subHandler = 0;
     input->subState = 0;
     input->wordSlot = 0;
     input->cancelSelected = 0;
     input->lastButton = 1;
-    input->search = PMSI_SEARCH_Create(input, input->data, 41);
+    input->search = (struct PmsInputSearch *)PMSI_SEARCH_Create(input, input->data, 41);
     PMS_INPUT_SetSubHandler(input, PMS_INPUT_SubHandleOpen);
     return input;
 }
@@ -498,13 +504,13 @@ void PMS_INPUT_SelectSentenceType(struct PmsSentenceCursor *cursor, struct PmsDa
 /* Frees everything the work object owns and ends the process. */
 void PMS_INPUT_Destroy(struct PmsInput *input, struct Proc *proc)
 {
-    PMSI_PARAM_SetUiInputMode(input->param, input->uiInputMode);
+    PMSI_PARAM_SetUiInputMode((void *)input->param, (void *)input->uiInputMode);
     BUTTON_MAN_Delete(input->buttonMan);
     PMS_INPUT_VIEW_Delete(input->view);
     TCB_Noop(input->tasks);
     GFL_HEAP_Free(input->taskBuf);
     PMS_INPUT_DATA_Delete(input->data);
-    PMSI_SEARCH_Delete(input->search);
+    PMSI_SEARCH_Delete((struct PmsiSearch *)input->search);
     PROCSYS_FreeProcWork(proc);
 }
 
@@ -1011,7 +1017,7 @@ void PMS_INPUT_HandleBrowseKeys(struct PmsInput *input, unsigned int *state)
 {
     if((input->keyTrg&PMS_KEY_START) && input->browseMode==1) {
         input->cursorPos=252;
-        if(PMSI_SEARCH_Run(input->search)) {
+        if(PMSI_SEARCH_Run((struct PmsiSearch *)input->search)) {
             PMS_INPUT_OpenWordList(input);
             *state=2;
             return;
@@ -1029,7 +1035,7 @@ void PMS_INPUT_HandleBrowseKeys(struct PmsInput *input, unsigned int *state)
         return;
     }
     if(input->keyTrg&PMS_KEY_B) {
-        if(input->browseMode==1 && PMSI_SEARCH_PopKey(input->search)) {
+        if(input->browseMode==1 && PMSI_SEARCH_PopKey((struct PmsiSearch *)input->search)) {
             input->savedCursorPos=input->cursorPos;
             *state=1;
             if(input->cursorPos!=253) {
@@ -1038,7 +1044,7 @@ void PMS_INPUT_HandleBrowseKeys(struct PmsInput *input, unsigned int *state)
             }
             GFL_USE_PlaySeDefaultVolume(PMS_SE_SELECT_INITIAL);
             PMS_INPUT_VIEW_StartTask(input->view,32);
-            PMSI_SEARCH_Run(input->search);
+            PMSI_SEARCH_Run((struct PmsiSearch *)input->search);
             PMS_INPUT_VIEW_StartTask(input->view,30);
             return;
         }
@@ -1054,7 +1060,7 @@ void PMS_INPUT_HandleBrowseKeys(struct PmsInput *input, unsigned int *state)
     }
     if(input->keyTrg&PMS_KEY_A) {
         if(input->cursorPos==252) {
-            if(PMSI_SEARCH_Run(input->search)) {
+            if(PMSI_SEARCH_Run((struct PmsiSearch *)input->search)) {
                 PMS_INPUT_OpenWordList(input);
                 *state=2;
                 return;
@@ -1062,12 +1068,12 @@ void PMS_INPUT_HandleBrowseKeys(struct PmsInput *input, unsigned int *state)
             GFL_USE_PlaySeDefaultVolume(PMS_SE_ERROR);
             return;
         } else if(input->cursorPos==253) {
-            if(input->browseMode==1 && PMSI_SEARCH_PopKey(input->search)) {
+            if(input->browseMode==1 && PMSI_SEARCH_PopKey((struct PmsiSearch *)input->search)) {
                 input->savedCursorPos=input->cursorPos;
                 *state=1;
                 GFL_USE_PlaySeDefaultVolume(PMS_SE_SELECT_INITIAL);
                 PMS_INPUT_VIEW_StartTask(input->view,32);
-                PMSI_SEARCH_Run(input->search);
+                PMSI_SEARCH_Run((struct PmsiSearch *)input->search);
                 PMS_INPUT_VIEW_StartTask(input->view,30);
                 return;
             }
@@ -1089,9 +1095,9 @@ void PMS_INPUT_HandleBrowseKeys(struct PmsInput *input, unsigned int *state)
             GFL_USE_PlaySeDefaultVolume(PMS_SE_ERROR);
             return;
         } else {
-            PMSI_SEARCH_PushKey(input->search,input->cursorPos);
+            PMSI_SEARCH_PushKey((struct PmsiSearch *)input->search,input->cursorPos);
             GFL_USE_PlaySeDefaultVolume(PMS_SE_OK);
-            PMSI_SEARCH_Run(input->search);
+            PMSI_SEARCH_Run((struct PmsiSearch *)input->search);
             PMS_INPUT_VIEW_StartTask(input->view,30);
             PMS_INPUT_VIEW_StartTask(input->view,33);
             return;
@@ -1197,8 +1203,8 @@ void PMS_INPUT_HandleBrowseTouch(struct PmsInput *input, unsigned int *state)
         r=PMS_INPUT_HitInitialCell(input);
         if(r>-1) {
             input->cursorPos=r;
-            PMSI_SEARCH_PushKey(input->search,input->cursorPos);
-            PMSI_SEARCH_Run(input->search);
+            PMSI_SEARCH_PushKey((struct PmsiSearch *)input->search,input->cursorPos);
+            PMSI_SEARCH_Run((struct PmsiSearch *)input->search);
             PMS_INPUT_VIEW_StartTask(input->view,30);
             GFL_USE_PlaySeDefaultVolume(PMS_SE_OK);
             PMS_INPUT_VIEW_StartTask(input->view,33);
@@ -1207,7 +1213,7 @@ void PMS_INPUT_HandleBrowseTouch(struct PmsInput *input, unsigned int *state)
         switch(PMS_INPUT_HitInitialButtons(input)) {
         case 0:
             input->cursorPos=252;
-            if(PMSI_SEARCH_Run(input->search)) {
+            if(PMSI_SEARCH_Run((struct PmsiSearch *)input->search)) {
                 PMS_INPUT_OpenWordList(input);
                 *state=2;
                 return;
@@ -1217,12 +1223,12 @@ void PMS_INPUT_HandleBrowseTouch(struct PmsInput *input, unsigned int *state)
             }
         case 1:
             input->cursorPos=253;
-            if(PMSI_SEARCH_PopKey(input->search)) {
+            if(PMSI_SEARCH_PopKey((struct PmsiSearch *)input->search)) {
                 input->savedCursorPos=input->cursorPos;
                 *state=1;
                 GFL_USE_PlaySeDefaultVolume(PMS_SE_SELECT_INITIAL);
                 PMS_INPUT_VIEW_StartTask(input->view,32);
-                PMSI_SEARCH_Run(input->search);
+                PMSI_SEARCH_Run((struct PmsiSearch *)input->search);
                 PMS_INPUT_VIEW_StartTask(input->view,30);
                 return;
             } else {
@@ -1289,19 +1295,20 @@ extern int PMS_INPUT_VIEW_GetEditEntry(struct PmsInputView *view, int slot);
 
 extern unsigned short PMS_INPUT_DATA_GetCategoryWordId(struct PmsInputData *data, unsigned int category, unsigned int index);
 
-extern u16 PMSI_SEARCH_GetResultWordId(struct PmsInputSearch *search, u32 index);
+extern u16 PMSI_SEARCH_GetResultWordId(struct PmsiSearch *s, u32 resultIndex);
 
-extern u8 PMSI_SEARCH_HasResults(struct PmsInputSearch *search);
+extern u8 PMSI_SEARCH_HasResults(struct PmsiSearch *s);
 
 extern void PMS_INPUT_DATA_GetCategoryWordString(struct PmsInputData *data, u32 category, u32 index, int buf);
 
-extern int PMSI_SEARCH_GetResultString(struct PmsInputSearch *search, u8 index, int buf);
+extern void PMSI_SEARCH_GetResultString(struct PmsiSearch *s, unsigned char resultIndex, int dest);
+struct U16Vec;
 
-extern void PMSI_SEARCH_BuildInputText(struct PmsInputSearch *search, void *arg);
+extern void PMSI_SEARCH_BuildInputText(struct PmsiSearch *s, struct U16Vec *out);
 
-extern void PMSI_SEARCH_ClearInput(struct PmsInputSearch *search);
+extern void PMSI_SEARCH_ClearInput(struct PmsiSearch *s);
 
-extern u8 PMSI_SEARCH_GetInputCount(struct PmsInputSearch *search);
+extern u8 PMSI_SEARCH_GetInputCount(struct PmsiSearch *s);
 
 extern void PMSI_PARAM_SetWordAt(struct PmsData *sentence, unsigned index, u16 word);
 
@@ -1824,7 +1831,7 @@ int PMS_INPUT_PickWord(PmsInput *input)
     u16 word;
     if (index == 65535) index = PMS_WORDLIST_GetSelectedIndex(&input->wordList);
     if (input->browseMode == 0) word = PMS_INPUT_DATA_GetCategoryWordId(input->data, input->cursorPos, index);
-    else word = PMSI_SEARCH_GetResultWordId(input->search, index);
+    else word = PMSI_SEARCH_GetResultWordId((struct PmsiSearch *)input->search, index);
     switch (input->inputMode) {
     case 0: input->words[0] = word; break;
     case 1: input->words[input->wordSlot] = word; break;
@@ -1956,13 +1963,13 @@ u16 PMS_INPUT_GetSavedCursorPos(PmsInput *input) { return input->savedCursorPos;
 /* Number of cells of the word list, with the two cells before the first word. */
 u32 PMS_INPUT_GetListItemCount(PmsInput *input) {
     if(input->browseMode==0) return PMS_INPUT_DATA_GetCategoryWordCount(input->data,input->cursorPos)+2;
-    else return PMSI_SEARCH_HasResults(input->search)+2;
+    else return PMSI_SEARCH_HasResults((struct PmsiSearch *)input->search)+2;
 }
 
 /* Writes the text of one list word to a buffer. */
 void PMS_INPUT_GetListWord(PmsInput *input,u32 a,int b) {
     if(input->browseMode==0) PMS_INPUT_DATA_GetCategoryWordString(input->data,input->cursorPos,a,b);
-    else PMSI_SEARCH_GetResultString(input->search,a,b);
+    else PMSI_SEARCH_GetResultString((struct PmsiSearch *)input->search,a,b);
 }
 
 /* Cell under the list cursor, or -1 when the cursor is on the bar. */
@@ -1987,10 +1994,10 @@ u32 PMS_INPUT_HasInitialSentence(PmsInput *input) { return PMSI_PARAM_HasInitial
 struct TcbSystem *PMS_INPUT_GetTasks(PmsInput *input) { return input->tasks; }
 
 /* Passes a value to the initial letter search. */
-void PMS_INPUT_SetSearchArg(PmsInput *input, void *arg) { PMSI_SEARCH_BuildInputText(input->search, arg); }
+void PMS_INPUT_SetSearchArg(PmsInput *input, void *arg) { PMSI_SEARCH_BuildInputText((struct PmsiSearch *)input->search, arg); }
 
 /* Resets the initial letter search. */
-void PMS_INPUT_ResetSearch(PmsInput *input) { PMSI_SEARCH_ClearInput(input->search); }
+void PMS_INPUT_ResetSearch(PmsInput *input) { PMSI_SEARCH_ClearInput((struct PmsiSearch *)input->search); }
 
 /* Reads the first visible row and the last possible one. */
 void PMS_INPUT_GetScrollRange(const PmsInput *input, u16 *topRow, u16 *maxTopRow) {
@@ -1999,13 +2006,13 @@ void PMS_INPUT_GetScrollRange(const PmsInput *input, u16 *topRow, u16 *maxTopRow
 }
 
 /* Number of words of the selected initial letter. */
-u8 PMS_INPUT_GetInitialCount(PmsInput *input) { return PMSI_SEARCH_HasResults(input->search); }
+u8 PMS_INPUT_GetInitialCount(PmsInput *input) { return PMSI_SEARCH_HasResults((struct PmsiSearch *)input->search); }
 
 /* State of the initial letter search. */
-int PMS_INPUT_GetSearchState(PmsInput *input) { return PMSI_SEARCH_GetInputCount(input->search); }
+int PMS_INPUT_GetSearchState(PmsInput *input) { return PMSI_SEARCH_GetInputCount((struct PmsiSearch *)input->search); }
 
 /* Writes the text of one word of the selected initial letter to a buffer. */
-void PMS_INPUT_GetInitialWord(PmsInput *input,u32 a,int b) { PMSI_SEARCH_GetResultString(input->search,a,b); }
+void PMS_INPUT_GetInitialWord(PmsInput *input,u32 a,int b) { PMSI_SEARCH_GetResultString((struct PmsiSearch *)input->search,a,b); }
 
 /* Whether the input can be confirmed. */
 int PMS_INPUT_CanConfirm(PmsInput *input) { return PMS_INPUT_IsComplete(input); }

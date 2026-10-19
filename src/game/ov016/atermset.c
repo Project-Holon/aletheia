@@ -112,11 +112,14 @@
  *   OS_IsThreadTerminated  0x0208574C  arm
  *   OS_JoinThread          0x02085710  arm
  *   gAtermThread           0x021DD07C  data
+ *   _ll_udiv                     0x0209C00C  arm
+ *   _ull_mul                     0x0209C054  arm
  */
 #include "../../matched/arm9_sdk/libc/memcmp/string.h"
 #include "../../matched/include/G__ATERMApConfigParam.h"
 #include "../../matched/include/G_ATERMSET_DATA.h"
 #include "../../matched/include/G_ATERMSET_BSS.h"
+extern void *__builtin__clear(void *dest, unsigned long size);
 
 #define APCI_CALLBACK(event)                                  \
     if (apci_user_callback != 0)                      \
@@ -351,7 +354,7 @@ extern int WCM_ConnectAsync(void *bssDesc, void *wepDesc, unsigned long option);
 extern int WCM_CleanupAsync(void);
 extern long WCM_Finish(void);
 extern int WCM_DisconnectAsync(void);
-extern int WCM_StartupAsync(struct WCMConfig *config, void (*notify)(struct WCMNotice *));
+extern int WCM_StartupAsync(void *config, void (*notify)(struct WCMNotice *));
 extern int WCM_LockApList(int lock);
 extern int WCM_CountApList(void);
 extern void *WCM_PointApList(unsigned short index);
@@ -373,7 +376,7 @@ extern void SOC_U32to4U8(unsigned long adr_u32, unsigned char *adr_4u8);
 extern int SOC_Socket(int pf, int type, int protocol);
 extern int SOC_Bind(int s, void *sockAddr);
 extern int SOC_Close(int s);
-extern int SOC_RecvFrom(int s, void *buf, int len, int flags, void *sockFrom);
+extern int SOC_RecvFrom(int s, int buf, int len, int flags, unsigned char *sockFrom);
 extern void OS_GetMacAddress(unsigned char *mac);
 extern unsigned long long OS_GetTick(void);
 extern int OS_IsThreadAvailable(void);
@@ -1794,7 +1797,7 @@ static int AutoConfigThreadEx(void)
             }
             target.len = sizeof(target);
             GetMacEncKey(gAtermsetBlock7, &target);
-            n = SOC_RecvFrom(sock, gAtermsetBlock10, 0x800, 4, &target);
+            n = SOC_RecvFrom((int)sock, (int)gAtermsetBlock10, 0x800, 4, (unsigned char *)(&target));
             if (n > 0) {
                 if (IsSearchCommand(gAtermsetBlock10, &gAtermsetBlock1)) {
                     atermset_data.gAtermApTimeout = GetTickCount() + 30000;
@@ -1818,7 +1821,7 @@ static int AutoConfigThreadEx(void)
                 bfinish = 1;
                 break;
             }
-            n = SOC_RecvFrom(sock, gAtermsetBlock10, 0x800, 4, &target);
+            n = SOC_RecvFrom((int)sock, (int)gAtermsetBlock10, 0x800, 4, (unsigned char *)(&target));
             if (n > 0) {
                 if (GetCommandElement(gAtermsetBlock10, 3, ElementData, gAtermsetBlock7)) {
                     lpe = GetFirstElement(ElementData, &eid, &esize);
@@ -1851,7 +1854,7 @@ static int AutoConfigThreadEx(void)
             atermset_bss.AutoPhase = 8;
             break;
         case 8:
-            if (SOC_RecvFrom(sock, gAtermsetBlock10, 0x800, 4, &target) > 0
+            if (SOC_RecvFrom((int)sock, (int)gAtermsetBlock10, 0x800, 4, (unsigned char *)(&target)) > 0
                 && (atermset_bss.cbElementData = GetCommandElement(gAtermsetBlock10, 5, ElementData, gAtermsetBlock8)) != 0
                 && GetWLanSetElement(ElementData)) {
                 if (gAtermsetBlock5[0x14] != 0)

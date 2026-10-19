@@ -142,15 +142,17 @@ extern u16 MBi_GetTgid(void);
 extern u8 MBi_GetAttribute(void);
 extern void MB_SendGameInfoBeacon(u32 ggid, u16 tgid, u8 attribute);
 extern void MIi_CpuClearFast(u32 data, void *destp, u32 size);
-extern u8 *MBi_SetRecvBufferFromChild(u8 *recvbuf, MBCommChildBlockHeader *hdr, u16 child_id);
+struct hdr;
+extern u8 *MBi_SetRecvBufferFromChild(u8 *recvbuf, struct hdr *hdr, u16 child_id);
 extern void MBi_CommChangeParentState(u16 child, int state, void *arg);
 extern struct WMMpRecvData *WM_ReadMPData(const struct WMMpRecvHeader *header, u16 aid);
-extern void MBi_CommParentRecvDataPerChild(void *arg, unsigned short child);
+static void MBi_CommParentRecvDataPerChild(void *arg, unsigned short child);
+static int MBi_CommParentSendData(void);
 extern u8 *MBi_MakeParentSendBuffer(MBCommParentBlockHeader *hdr, u8 *sendbuf);
 extern int MBi_BlockHeaderEnd(int body_len, u16 pollbmp, u32 *sendbuf);
 extern struct FSArchive *FS_FindArchive(const char *name, int name_len);
 extern int OS_IsRunOnTwl(void);
-extern RomHeader *CARD_GetOwnRomHeaderTWL(void);
+extern void *CARD_GetOwnRomHeaderTWL(void);
 extern void FS_InitFile(void *file);
 extern int FS_OpenFileDirect(void *file, void *arc, u32 top, u32 bottom, u32 id);
 extern s32 FS_ReadFile(struct FSFile *file, void *buffer, s32 length);
@@ -161,8 +163,8 @@ extern int MBi_get_blockinfo(MB_BlockInfo *bi, MB_BlockInfoTable *table,
 extern int MBi_ReadFromCache(MBiCacheList *pl, u32 src, void *dst, u32 len);
 extern int MBi_IsTaskBusy(MBiTaskInfo *pt);
 extern void OS_Terminate(void);
-extern void MBi_SetTask(MBiTaskInfo *pt, void (*task)(MBiTaskInfo *),
-                        void (*callback)(MBiTaskInfo *), u32 priority);
+struct MBiTaskInfo_tag;
+extern void MBi_SetTask(struct MBiTaskInfo_tag *pt, void (*task)(MBiTaskInfo *), void (*callback)(MBiTaskInfo *), u32 priority);
 extern void MIi_CpuClear16(u16 data, void *destp, u32 size);
 void MB_CommSetParentStateCallback(MBParentStateCallback callback);
 void *MB_CommGetChildUser(unsigned short child_aid);
@@ -500,7 +502,7 @@ static void MBi_CommParentRecvDataPerChild(void *arg, u16 child)
     if (child == 0 || child > 15)
         return;
 
-    p_data = MBi_SetRecvBufferFromChild((u8 *)arg + 0xa, &hd, child);
+    p_data = MBi_SetRecvBufferFromChild((u8 *)arg + 0xa, (struct hdr *)(&hd), child);
 
     state = pPwork->p_comm_state[child - 1];
 
@@ -802,7 +804,7 @@ int MBi_CommParentSendBlock(void)
 					trg->src = (card_addr & ~31);
 					p_task->param[0] = (u32)trg;
 					p_task->param[1] = (u32)pl;
-					MBi_SetTask(p_task, MBi_ReloadCache, 0, 4);
+					MBi_SetTask((struct MBiTaskInfo_tag *)p_task, MBi_ReloadCache, 0, 4);
 				}
 			}
 			return 0x15;

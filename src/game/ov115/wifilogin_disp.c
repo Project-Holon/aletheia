@@ -197,14 +197,17 @@ typedef struct BgTemplate {
 } BgTemplate;
 
 struct Rect { short x,y; u16 z; u8 kind,mode; };
+struct GameData;
+struct FieldState;
 
-extern u32 GAME_DATA_GetWifiList(const struct BigObj *p);
+extern struct FieldState *GAME_DATA_GetWifiList(struct GameData *gameData);
+struct WifiList;
 
-extern struct Sub020097BCObj *WIFILIST_GetWork(struct Sub020097BCObj *obj);
+extern struct WifiList *WIFILIST_GetWork(struct WifiList *list);
 
 extern struct Sub020097BCFriend *WIFILIST_GetDwcFriendData(struct Sub020097BCObj *obj, int i);
 
-extern void WIFILIST_MergeFriendRecord(struct Sub020097BCObj *obj, int src, int dest);
+extern void WIFILIST_MergeFriendRecord(struct WifiList *list, int src, int dest);
 
 extern u32 WIPE_SYS_EndCheck(void);
 
@@ -217,18 +220,20 @@ extern int GFL_NET_STATE_IsWifiLoginState(void);
 extern u32 APP_ENV_IsRunOnTwl(void);
 
 extern unsigned char DWC_RAP_IsUserDataChanged(void);
+struct GameData;
 
-extern int GAME_DATA_SaveMain(u8 *);
+extern int GAME_DATA_SaveMain(struct GameData *gd);
 
 extern void DWC_RAP_ClearUserDataChanged(int);
+struct MyStatus;
 
-extern u8 *GAME_DATA_GetMyStatus(void *);
+extern struct MyStatus *GAME_DATA_GetMyStatus(struct GameData *gd);
 
-extern void *WIFILIST_GetGsProfileId(void *);
+extern int WIFILIST_GetGsProfileId(struct WifiList *list);
 
-extern void MYSTATUS_SetProfileIdOnce(void *,void *);
+extern void MYSTATUS_SetProfileIdOnce(struct MyStatus *mystatus, unsigned int profile_id);
 
-extern void GAME_DATA_SaveStart(u8 *);
+extern int GAME_DATA_SaveStart(struct GameData *gd);
 
 extern int OS_IsRunOnTwl(void);
 
@@ -255,22 +260,26 @@ extern void GFL_NET_ERR_ResetState(void);
 extern void GFL_NET_STATE_ClearErrorMode(void);
 
 extern void GFL_NET_ERR_HaltIfActive(void);
+struct RegulationCard;
 
-extern struct Rec160 *REGULATION_GetCard(struct Rec160 *arr, u32 index);
+extern struct RegulationCard *REGULATION_GetCard(struct RegulationCard *cards, u32 index);
+struct SaveControl;
+struct BattleCompetitionSave;
 
-extern void *BATTLE_COMPETITION_GetFromSave(void *);
+extern struct BattleCompetitionSave *BATTLE_COMPETITION_GetFromSave(struct SaveControl *save);
 
-extern void *GAME_DATA_GetSaveControl(struct Big *p);
+extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gd);
+struct BattleBoxSave;
 
-extern void BATTLE_BOX_ClearLockFlags(struct Obj *p, int v);
+extern void BATTLE_BOX_ClearLockFlags(struct BattleBoxSave *box, int flags);
 
-extern void *BATTLE_BOX_GetFromSave(void *);
+extern struct BattleBoxSave *BATTLE_BOX_GetFromSave(struct SaveControl *save);
 
-extern void REGULATION_Card_SetValue(struct Reg2 *p, u32 id, int value);
+extern void REGULATION_Card_SetValue(struct RegulationCard *card, unsigned int id, int value);
 
-extern void WIFILIST_Init(void *p);
+extern void WIFILIST_Init(struct WifiList *list);
 
-extern int REGULATION_Card_GetValue(struct Reg2 *p, u32 id);
+extern int REGULATION_Card_GetValue(struct RegulationCard *card, u32 id);
 
 extern int APP_ENV_IsWirelessAvailable(u8 *);
 
@@ -280,7 +289,7 @@ extern int DWC_CheckHasProfile(struct DWCstAccUserData *userdata);
 
 extern int DWC_CheckValidConsole(struct DWCstAccUserData *userdata);
 
-extern void WIPE_SYS_Start(void *divisionMode, u32 mainPattern, u32 subPattern, u32 color, u32 frames, u32 wait, u32 heapId);
+extern void WIPE_SYS_Start(void *divisionMode, u32 mainPattern, u32 subPattern, u16 color, u32 frames, u32 wait, u32 heapId);
 
 extern void GFL_USE_FadeOutBgm(u32 a);
 
@@ -296,7 +305,7 @@ extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
 
 extern void MI_CpuFill8(void *,int,unsigned);
 
-extern void GFL_USE_CancelChangeAndPlayBgm(int,int);
+extern void GFL_USE_CancelChangeAndPlayBgm(u32 bgmNo, u32 trackMask);
 
 extern void BG_SYS_FreeLayerBuf(u32 i);
 
@@ -319,8 +328,9 @@ extern void BG_SYS_Create(u16);
 extern void BG_SYS_SetVramBanks(const struct DispVram *c);
 
 extern void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
+struct TcbTask;
 
-extern void TCB_DeleteTask(struct Node *n);
+extern void TCB_DeleteTask(struct TcbTask *task);
 
 extern void BG_SYS_FreeTiles(u32 idx, u32 count, u32 tile);
 
@@ -347,7 +357,7 @@ extern u32 ARC_UTIL_UploadBgCharFromHandle(void *, u32, u32, u32, u32, u32, u16)
 
 extern void ARC_UTIL_UploadBgPaletteFromHandle(void *, u32, u32, u32, u32, u32, u16);
 
-extern void *ARC_UTIL_LoadPaletteBlockFromHandle(void *arc, u32 memberIdx, u32 unpackedOut, u32 flags);
+extern void *ARC_UTIL_LoadPaletteBlockFromHandle(void *arc, u32 memberIdx, void *unpackedOut, u16 flags);
 
 extern void MI_CpuCopy8(const void *, void *, u32);
 
@@ -357,13 +367,13 @@ extern void DC_FlushRange(void *, int);
 
 extern void *GFL_USE_AddMainTask(void *, void *, int);
 
-extern void G2x_SetBlendAlpha_(void *, int, int, int, int);
+extern void G2x_SetBlendAlpha_(u32 *reg, u32 a, u32 b, u32 c, u32 d);
 
 extern void ARC_TOOL_DeleteHandle(void *);
 
-extern void GX_LoadBGPltt(void *, int, int);
+extern void GX_LoadBGPltt(void *pSrc, u32 offset, u32 szByte);
 
-extern void GXS_LoadBGPltt(void *, int, int);
+extern void GXS_LoadBGPltt(void *pSrc, u32 offset, u32 szByte);
 
 extern void BG_SYS_ChangeScrollImmediate(u32 layer, u32 a, u32 b);
 
@@ -384,22 +394,25 @@ extern int CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 extern void ARC_TOOL_DeleteHandle(void *);
 
 extern struct Obj *CLACT_CreateActor(void *,unsigned int,unsigned int,unsigned int,const void *,unsigned short,unsigned short);
+struct Actor;
 
-extern void CLACT_SetActorAutoAnim(struct Obj *,u32);
+extern void CLACT_SetActorAutoAnim(struct Actor *actor, u32 enable);
 
-extern void CLACT_SetActorDrawEnable(struct Obj *,u32);
+extern void CLACT_SetActorDrawEnable(struct Actor *actor, u32 value);
 
 extern void *GFL_USE_AddHBlankTask(u32,u32,u32);
 
 extern void FX_MakeSineTable(short *,u32,u16,int);
+struct DispVramCfg;
+struct SysInit;
 
-extern void CLACT_InitSystem(const struct Cfg *cfg, u32 arg, u32 heapId);
+extern void CLACT_InitSystem(struct SysInit *cfg, struct DispVramCfg *res_cfg, u32 heapId);
 
 extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 
 extern void CLACT_DrawSystem(void);
 
-extern void CLACT_DeleteActor(struct Obj *p);
+extern void CLACT_DeleteActor(struct Actor *actor);
 
 extern void CLACT_ReleasePalette(u32);
 
@@ -569,7 +582,7 @@ extern const BgTemplate d_021D6404, d_021D6344, d_021D64E4, d_021D6504;
 
 extern u8 gClActorInitParam[];
 
-void WIFILOGIN_DISP_OpenProfileCard(u8 *p) { WIFILIST_GetWork((struct Sub020097BCObj *)GAME_DATA_GetWifiList(((struct WifiloginWork *)p)->userdata)); }
+void WIFILOGIN_DISP_OpenProfileCard(u8 *p) { WIFILIST_GetWork((struct WifiList *)GAME_DATA_GetWifiList(((struct WifiloginWork *)p)->userdata)); }
 
 void WIFILOGIN_DISP_GetProfileSlot0(u8 *p) { WIFILIST_GetDwcFriendData((void *)GAME_DATA_GetWifiList(((struct WifiloginWork *)p)->userdata),0); }
 
@@ -599,9 +612,9 @@ void WIFILOGIN_DISP_StepWaitLogin(u8 *p) {
  if(GFL_NET_STATE_IsWifiLoginState()) { if(((struct WifiloginWork *)p)->accountError) { WIFILOGIN_MSG_CloseMessage((u8 *)((struct WifiloginWork *)p)->message); WIFILOGIN_MSG_RedrawWindow((u8 *)((struct WifiloginWork *)p)->message); if(APP_ENV_IsRunOnTwl()) WIFILOGIN_MSG_PrintMessage((u8 *)((struct WifiloginWork *)p)->message,44); else WIFILOGIN_MSG_PrintMessage((u8 *)((struct WifiloginWork *)p)->message,19); WIFILOGIN_COMMON_SetStateHandler(p,(u32)WIFILOGIN_DISP_StepCancel); } else if(((struct WifiloginWork *)p)->state->waiting) { WIFILOGIN_COMMON_SetStateHandler(p,(u32)WIFILOGIN_DISP_StepBeginToken); } else { WIFILOGIN_COMMON_SetStateHandler(p,(u32)WIFILOGIN_DISP_StepCallSync); } } else WIFILOGIN_DISP_HandleNetError(p);
 }
 
-void WIFILOGIN_DISP_StepSaveResult(u8 *p) { int r; if(DWC_RAP_IsUserDataChanged()) { r=GAME_DATA_SaveMain(*(u8 * *)&((struct WifiloginWork *)p)->userdata); switch(r) { case 0: case 1: return; default: DWC_RAP_ClearUserDataChanged(r); break; } } WIFILOGIN_DISP_StepWaitLogin(p); }
+void WIFILOGIN_DISP_StepSaveResult(u8 *p) { int r; if(DWC_RAP_IsUserDataChanged()) { r=GAME_DATA_SaveMain((struct GameData *)(*(u8 * *)&((struct WifiloginWork *)p)->userdata)); switch(r) { case 0: case 1: return; default: DWC_RAP_ClearUserDataChanged(r); break; } } WIFILOGIN_DISP_StepWaitLogin(p); }
 
-void WIFILOGIN_DISP_StepStartSave(u8 *p) { void *a; if(WIFILOGIN_MSG_IsPrintDone((u8 *)(((struct WifiloginWork *)p)->message))) { a=GAME_DATA_GetMyStatus(((struct WifiloginWork *)p)->userdata); MYSTATUS_SetProfileIdOnce(a,WIFILIST_GetGsProfileId(((struct WifiloginWork *)p)->profile)); GAME_DATA_SaveStart(*(u8 * *)&((struct WifiloginWork *)p)->userdata); ((struct WifiloginWork *)p)->saveStarted=1; WIFILOGIN_COMMON_SetStateHandler(p,(u32)WIFILOGIN_DISP_StepSaveResult); } }
+void WIFILOGIN_DISP_StepStartSave(u8 *p) { void *a; if(WIFILOGIN_MSG_IsPrintDone((u8 *)(((struct WifiloginWork *)p)->message))) { a=GAME_DATA_GetMyStatus((struct GameData *)(((struct WifiloginWork *)p)->userdata)); MYSTATUS_SetProfileIdOnce(a,WIFILIST_GetGsProfileId(((struct WifiloginWork *)p)->profile)); GAME_DATA_SaveStart((struct GameData *)(*(u8 * *)&((struct WifiloginWork *)p)->userdata)); ((struct WifiloginWork *)p)->saveStarted=1; WIFILOGIN_COMMON_SetStateHandler(p,(u32)WIFILOGIN_DISP_StepSaveResult); } }
 
 void WIFILOGIN_DISP_StepCheckSave(u8 *p) {
  if(WIFILOGIN_MSG_IsPrintDone((u8 *)((int)((u8 *)((struct WifiloginWork *)p)->message)))) { if(DWC_RAP_IsUserDataChanged() && !((struct WifiloginWork *)p)->saveStarted && ((struct WifiloginWork *)p)->state->netMode!=2) { WIFILOGIN_MSG_SetMessage((void *)((struct WifiloginWork *)p)->message,30); WIFILOGIN_COMMON_SetStateHandler(p,(u32)WIFILOGIN_DISP_StepStartSave); } else { WIFILOGIN_DISP_StepWaitLogin(p); } }
@@ -630,13 +643,13 @@ int WIFILOGIN_DISP_HandleNetError(u8 *p) {
 void WIFILOGIN_DISP_StepMenuAfterProfileError(u8 *p) { if(WIPE_SYS_EndCheck() && WIFILOGIN_MSG_IsPrintDone((u8 *)(*(int *)&((struct WifiloginWork *)p)->message))) { ((struct WifiloginWork *)p)->task=WIFILOGIN_MSG_OpenTask(*(u8 * *)&((struct WifiloginWork *)p)->message,0,!((struct WifiloginWork *)p)->state->mode,0); WIFILOGIN_COMMON_SetStateHandler(p,(u32)WIFILOGIN_DISP_StepConfirmConsoleResult); } }
 
 void WIFILOGIN_DISP_StepCardMenu(u8 *p) {
- void *v; if(WIFILOGIN_MSG_IsTaskFinish((u8 *)((struct WifiloginWork *)p)->task)) { if(!WIFILOGIN_MSG_GetTaskCursor((u8 *)((struct WifiloginWork *)p)->task)) { v=REGULATION_GetCard(BATTLE_COMPETITION_GetFromSave(GAME_DATA_GetSaveControl((void *)((struct WifiloginWork *)p)->userdata)),0); BATTLE_BOX_ClearLockFlags(BATTLE_BOX_GetFromSave(GAME_DATA_GetSaveControl((void *)((struct WifiloginWork *)p)->userdata)),1); REGULATION_Card_SetValue(v,10,5); ((struct WifiloginWork *)p)->state->aidMismatch=0; WIFILIST_Init((void *)((struct WifiloginWork *)p)->profile); WIFILOGIN_COMMON_SetStateHandler(p,(u32)WIFILOGIN_DISP_StartSession); } else { ((struct WifiloginWork *)p)->state->aidMismatch=1; WIFILOGIN_COMMON_SetStateHandler(p,(u32)WIFILOGIN_DISP_StepCheckAccount); } WIFILOGIN_MSG_RedrawBorder((u8 *)((struct WifiloginWork *)p)->message); if(!((struct WifiloginWork *)p)->state->mode) WIFILOGIN_MSG_ShowMessage((u8 *)((struct WifiloginWork *)p)->message,35); WIFILOGIN_MSG_CloseTask((u8 *)((struct WifiloginWork *)p)->task); ((struct WifiloginWork *)p)->task=0; }
+ void *v; if(WIFILOGIN_MSG_IsTaskFinish((u8 *)((struct WifiloginWork *)p)->task)) { if(!WIFILOGIN_MSG_GetTaskCursor((u8 *)((struct WifiloginWork *)p)->task)) { v=REGULATION_GetCard((struct RegulationCard *)(BATTLE_COMPETITION_GetFromSave(GAME_DATA_GetSaveControl((void *)((struct WifiloginWork *)p)->userdata))),0); BATTLE_BOX_ClearLockFlags(BATTLE_BOX_GetFromSave(GAME_DATA_GetSaveControl((void *)((struct WifiloginWork *)p)->userdata)),1); REGULATION_Card_SetValue(v,10,5); ((struct WifiloginWork *)p)->state->aidMismatch=0; WIFILIST_Init((void *)((struct WifiloginWork *)p)->profile); WIFILOGIN_COMMON_SetStateHandler(p,(u32)WIFILOGIN_DISP_StartSession); } else { ((struct WifiloginWork *)p)->state->aidMismatch=1; WIFILOGIN_COMMON_SetStateHandler(p,(u32)WIFILOGIN_DISP_StepCheckAccount); } WIFILOGIN_MSG_RedrawBorder((u8 *)((struct WifiloginWork *)p)->message); if(!((struct WifiloginWork *)p)->state->mode) WIFILOGIN_MSG_ShowMessage((u8 *)((struct WifiloginWork *)p)->message,35); WIFILOGIN_MSG_CloseTask((u8 *)((struct WifiloginWork *)p)->task); ((struct WifiloginWork *)p)->task=0; }
 }
 
 void WIFILOGIN_DISP_StepOpenCardMenu(u8 *p) { ((struct WifiloginWork *)p)->task=WIFILOGIN_MSG_OpenTask(*(u8 * *)&((struct WifiloginWork *)p)->message,1,!((struct WifiloginWork *)p)->state->mode,1); WIFILOGIN_COMMON_SetStateHandler(p,(u32)WIFILOGIN_DISP_StepCardMenu);  }
 
 void WIFILOGIN_DISP_StepCardSelect(u8 *p) {
- int x; void *v; u32 y; if(WIFILOGIN_MSG_IsTaskFinish((u8 *)((struct WifiloginWork *)p)->task)) { x=WIFILOGIN_MSG_GetTaskCursor((u8 *)((struct WifiloginWork *)p)->task); WIFILOGIN_MSG_RedrawBorder((u8 *)((struct WifiloginWork *)p)->message); if(!((struct WifiloginWork *)p)->state->mode) WIFILOGIN_MSG_ShowMessage((u8 *)((struct WifiloginWork *)p)->message,35); WIFILOGIN_MSG_CloseTask((u8 *)((struct WifiloginWork *)p)->task); ((struct WifiloginWork *)p)->task=0; if(!x) { v=REGULATION_GetCard(BATTLE_COMPETITION_GetFromSave(GAME_DATA_GetSaveControl((void *)((struct WifiloginWork *)p)->userdata)),0); x=REGULATION_Card_GetValue(v,2); y=REGULATION_Card_GetValue(v,10); if(x && y>=1 && y<=4) { WIFILOGIN_MSG_CloseMessage((u8 *)((int)((u8 *)((struct WifiloginWork *)p)->message))); WIFILOGIN_MSG_PrintMessage((u8 *)((struct WifiloginWork *)p)->message,38); WIFILOGIN_COMMON_SetStateHandler(p,(u32)WIFILOGIN_DISP_StepOpenCardMenu); } else { ((struct WifiloginWork *)p)->state->aidMismatch=0; WIFILIST_Init((void *)((struct WifiloginWork *)p)->profile); WIFILOGIN_COMMON_SetStateHandler(p,(u32)WIFILOGIN_DISP_StartSession); } } else { ((struct WifiloginWork *)p)->state->aidMismatch=1; WIFILOGIN_COMMON_SetStateHandler(p,(u32)WIFILOGIN_DISP_StepCheckAccount); } }
+ int x; void *v; u32 y; if(WIFILOGIN_MSG_IsTaskFinish((u8 *)((struct WifiloginWork *)p)->task)) { x=WIFILOGIN_MSG_GetTaskCursor((u8 *)((struct WifiloginWork *)p)->task); WIFILOGIN_MSG_RedrawBorder((u8 *)((struct WifiloginWork *)p)->message); if(!((struct WifiloginWork *)p)->state->mode) WIFILOGIN_MSG_ShowMessage((u8 *)((struct WifiloginWork *)p)->message,35); WIFILOGIN_MSG_CloseTask((u8 *)((struct WifiloginWork *)p)->task); ((struct WifiloginWork *)p)->task=0; if(!x) { v=REGULATION_GetCard((struct RegulationCard *)(BATTLE_COMPETITION_GetFromSave(GAME_DATA_GetSaveControl((void *)((struct WifiloginWork *)p)->userdata))),0); x=REGULATION_Card_GetValue(v,2); y=REGULATION_Card_GetValue(v,10); if(x && y>=1 && y<=4) { WIFILOGIN_MSG_CloseMessage((u8 *)((int)((u8 *)((struct WifiloginWork *)p)->message))); WIFILOGIN_MSG_PrintMessage((u8 *)((struct WifiloginWork *)p)->message,38); WIFILOGIN_COMMON_SetStateHandler(p,(u32)WIFILOGIN_DISP_StepOpenCardMenu); } else { ((struct WifiloginWork *)p)->state->aidMismatch=0; WIFILIST_Init((void *)((struct WifiloginWork *)p)->profile); WIFILOGIN_COMMON_SetStateHandler(p,(u32)WIFILOGIN_DISP_StartSession); } } else { ((struct WifiloginWork *)p)->state->aidMismatch=1; WIFILOGIN_COMMON_SetStateHandler(p,(u32)WIFILOGIN_DISP_StepCheckAccount); } }
 }
 
 void WIFILOGIN_DISP_StepOpenCardMenu2(u8 *p) { ((struct WifiloginWork *)p)->task=WIFILOGIN_MSG_OpenTask(*(u8 * *)&((struct WifiloginWork *)p)->message,1,!((struct WifiloginWork *)p)->state->mode,1); WIFILOGIN_COMMON_SetStateHandler(p,(u32)WIFILOGIN_DISP_StepCardSelect);  }
@@ -678,7 +691,7 @@ void WIFILOGIN_DISP_StepCheckAccount(u8 *p)
         WIFILOGIN_COMMON_SetStateHandler(p,(u32)WIFILOGIN_DISP_StepMenuAfterProfileError);
         return;
     }
-    if(DWC_CheckHasProfile((struct DWCstAccUserData *)WIFILIST_GetWork((struct Sub020097BCObj *)((struct WifiloginWork *)p)->profile))==0) {
+    if(DWC_CheckHasProfile((struct DWCstAccUserData *)WIFILIST_GetWork((struct WifiList *)((struct WifiloginWork *)p)->profile))==0) {
         ((struct WifiloginWork *)p)->accountError=1;
         WIFILOGIN_MSG_CloseMessage((u8 *)((int)(((struct WifiloginWork *)p)->message)));
         if(APP_ENV_IsRunOnTwl()==0) WIFILOGIN_MSG_PrintMessage(((struct WifiloginWork *)p)->message,18);
@@ -686,7 +699,7 @@ void WIFILOGIN_DISP_StepCheckAccount(u8 *p)
         WIFILOGIN_COMMON_SetStateHandler(p,(u32)WIFILOGIN_DISP_StepConfirmProfile);
         return;
     }
-    if(DWC_CheckValidConsole((struct DWCstAccUserData *)WIFILIST_GetWork((struct Sub020097BCObj *)((struct WifiloginWork *)p)->profile))==0) {
+    if(DWC_CheckValidConsole((struct DWCstAccUserData *)WIFILIST_GetWork((struct WifiList *)((struct WifiloginWork *)p)->profile))==0) {
         ((struct WifiloginWork *)p)->accountError=1;
         WIFILOGIN_MSG_CloseMessage((u8 *)((int)(((struct WifiloginWork *)p)->message)));
         if(APP_ENV_IsRunOnTwl()==0) WIFILOGIN_MSG_PrintMessage(((struct WifiloginWork *)p)->message,20);
@@ -1004,7 +1017,7 @@ void WIFILOGIN_DISP_LoadPalette(char *p)
     ARC_UTIL_UploadBgPaletteFromHandle(h, 7, 3, 0, j, j, ((struct WifiloginDisp *)p)->heapId);
     heap = ((struct WifiloginDisp *)p)->heapId;
     MI_CpuFill8(p + 0x10, 0, 0x970);
-    allocated = ARC_UTIL_LoadPaletteBlockFromHandle(h, 2, (u32)&record, heap);
+    allocated = ARC_UTIL_LoadPaletteBlockFromHandle((void *)h, 2, &record, heap);
     MI_CpuCopy8(*(void **)((u8 *)record + 0xc), p + 0x18, 0x1e0);
     MI_CpuCopy8(*(void **)((u8 *)record + 0xc), p + 0x1f8, 0x1e0);
     GFL_HEAP_Free(allocated);
@@ -1078,12 +1091,12 @@ void WIFILOGIN_DISP_CreateActors(u8 *p)
     ARC_TOOL_DeleteHandle((void *)res);
     a.x=128; a.y=96; a.z=10; a.kind=0; a.mode=2;
     *(struct Obj * *)&((struct WifiloginDisp *)p)->actors[0] = CLACT_CreateActor((void *)((struct WifiloginDisp *)p)->unit,((struct WifiloginDisp *)p)->charHandle,((struct WifiloginDisp *)p)->paletteHandle,((struct WifiloginDisp *)p)->cellAnimHandle,&a,1,((struct WifiloginDisp *)p)->heapId);
-    CLACT_SetActorAutoAnim(*(struct Obj * *)&((struct WifiloginDisp *)p)->actors[0],1);
-    CLACT_SetActorDrawEnable(*(struct Obj * *)&((struct WifiloginDisp *)p)->actors[0],1);
+    CLACT_SetActorAutoAnim((struct Actor *)(*(struct Obj * *)&((struct WifiloginDisp *)p)->actors[0]),1);
+    CLACT_SetActorDrawEnable((struct Actor *)(*(struct Obj * *)&((struct WifiloginDisp *)p)->actors[0]),1);
     b.x=128; b.y=96; b.z=11; b.kind=1; b.mode=2;
     *(struct Obj * *)&((struct WifiloginDisp *)p)->actors[1] = CLACT_CreateActor((void *)((struct WifiloginDisp *)p)->unit,((struct WifiloginDisp *)p)->charHandle,((struct WifiloginDisp *)p)->paletteHandle,((struct WifiloginDisp *)p)->cellAnimHandle,&b,1,((struct WifiloginDisp *)p)->heapId);
-    CLACT_SetActorAutoAnim(*(struct Obj * *)&((struct WifiloginDisp *)p)->actors[1],1);
-    CLACT_SetActorDrawEnable(*(struct Obj * *)&((struct WifiloginDisp *)p)->actors[1],1);
+    CLACT_SetActorAutoAnim((struct Actor *)(*(struct Obj * *)&((struct WifiloginDisp *)p)->actors[1]),1);
+    CLACT_SetActorDrawEnable((struct Actor *)(*(struct Obj * *)&((struct WifiloginDisp *)p)->actors[1]),1);
     G2x_SetBlendAlpha_((void *)0x04000050,4,3,6,16);
     G2x_SetBlendAlpha_((void *)0x04001050,8,21,6,16);
     ((struct WifiloginDisp *)p)->hblankTask = GFL_USE_AddHBlankTask((u32)WIFILOGIN_DISP_ScanlineEffect,(u32)p,0);
@@ -1091,7 +1104,7 @@ void WIFILOGIN_DISP_CreateActors(u8 *p)
     ((struct WifiloginDisp *)p)->frameTimer = 10;
 }
 
-void WIFILOGIN_DISP_CreateUnit(u8 *p) { CLACT_InitSystem((const struct Cfg *)gClActorInitParam,(u32)d_021D65E4,((struct WifiloginDisp *)p)->heapId); ((struct WifiloginDisp *)p)->unit=CLACT_CreateUnit(40,0,((struct WifiloginDisp *)p)->heapId); ((struct WifiloginDisp *)p)->vblankTask=GFL_USE_AddMainTask((void *)WIFILOGIN_DISP_VBlank,p,0); }
+void WIFILOGIN_DISP_CreateUnit(u8 *p) { CLACT_InitSystem((struct SysInit *)gClActorInitParam,(struct DispVramCfg *)d_021D65E4,((struct WifiloginDisp *)p)->heapId); ((struct WifiloginDisp *)p)->unit=CLACT_CreateUnit(40,0,((struct WifiloginDisp *)p)->heapId); ((struct WifiloginDisp *)p)->vblankTask=GFL_USE_AddMainTask((void *)WIFILOGIN_DISP_VBlank,p,0); }
 
 void WIFILOGIN_DISP_DrawActors(u8 *p) {
     ++((struct WifiloginDisp *)p)->scanline;
@@ -1107,15 +1120,15 @@ void WIFILOGIN_DISP_DeleteActors(u8 *p) {
     int i;
     for (i = 0; i < 5; ++i) {
         if (((struct WifiloginDisp *)p)->actors[i]) {
-            CLACT_DeleteActor((struct Obj *)(((struct WifiloginDisp *)p)->actors[i]));
+            CLACT_DeleteActor((struct Actor *)(((struct WifiloginDisp *)p)->actors[i]));
             ((struct WifiloginDisp *)p)->actors[i] = 0;
         }
     }
     CLACT_ReleasePalette(((struct WifiloginDisp *)p)->paletteHandle);
     CLACT_ReleaseCharacter(((struct WifiloginDisp *)p)->charHandle);
     CLACT_ReleaseCellAnim(((struct WifiloginDisp *)p)->cellAnimHandle);
-    if (((struct WifiloginDisp *)p)->hblankTask) TCB_DeleteTask((struct Node *)(((struct WifiloginDisp *)p)->hblankTask));
-    TCB_DeleteTask((struct Node *)(((struct WifiloginDisp *)p)->vblankTask));
+    if (((struct WifiloginDisp *)p)->hblankTask) TCB_DeleteTask((struct TcbTask *)(((struct WifiloginDisp *)p)->hblankTask));
+    TCB_DeleteTask((struct TcbTask *)(((struct WifiloginDisp *)p)->vblankTask));
     CLACT_DeleteUnit((struct Bank *)(((struct WifiloginDisp *)p)->unit));
     CLACT_ExitSystem();
 }

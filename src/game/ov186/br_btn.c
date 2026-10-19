@@ -79,8 +79,9 @@
 #include "br_types.h"
 
 struct Pair;
+struct Strbuf;
 
-extern void STRBUF_Delete(struct U16Vec *vec);
+extern void STRBUF_Delete(struct Strbuf *strbuf);
 
 struct Grid;
 
@@ -128,10 +129,12 @@ extern void GF_PANIC_Fail(const char *expr, u32 line, const char *file);
 extern void *GFL_HEAP_Alloc(u32 heap, u32 size, int clear, const char *site, u16 tag);
 
 extern void MI_CpuFill8(void *, int, int);
+struct BmpOamSys;
 
-extern void *BMP_OAM_CreateSys(u32 heapId, void *clact);
+extern struct BmpOamSys *BMP_OAM_CreateSys(u32 heapId, void *clact);
+struct PrintQueue;
 
-extern u32 PRINTSYS_QUE_Create(void *p);
+extern struct PrintQueue *PRINTSYS_QUE_Create(unsigned int heap);
 
 extern int *BR_UTIL_CreateTask(int payload, int callback, u32 heap);
 
@@ -143,13 +146,13 @@ extern void BR_UTIL_DeleteTextWin(void *p, int res);
 
 extern u32 GFL_HEAP_Free(void *p);
 
-extern void BMP_OAM_DeleteSys(void *p);
+extern void BMP_OAM_DeleteSys(struct BmpOamSys *sys);
 
-extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
+extern void PRINTSYS_QUE_Delete(struct PrintQueue *queue);
 
 extern void BR_UTIL_RunTask(u8 *p);
 
-extern u32 PRINTSYS_QUE_Main(struct PrintSys *);
+extern u32 PRINTSYS_QUE_Main(struct PrintQueue *queue);
 
 extern void BR_UTIL_FlushWindow(void *p);
 
@@ -159,31 +162,37 @@ extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 
 extern void BR_UTIL_StartEffect(char *,unsigned,const Pair *);
 
-extern void *BR_UTIL_CreateTextWin(int a, void *owner, u16 heap);
+extern void *BR_UTIL_CreateTextWin(void *a, void *owner, u16 heap);
 
 extern void BR_UTIL_SetWindowText(char *p, char *q, void *text);
 
-extern struct U16Vec *STRBUF_Clone(struct U16Vec *src, u32 heapId);
+extern struct Strbuf *STRBUF_Clone(struct Strbuf *src, unsigned int heapId);
+struct MsgBank;
+struct Strbuf;
 
 
 
-extern void *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
+extern struct Strbuf *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
 
 extern struct Actor *CLACT_CreateActor(void *owner, u32 i, u32 j, u32 k, const void *position, u16 f, u16 g);
 
 extern void CLACT_SetActorObjMode(struct Actor *actor, u32 value);
 
 extern struct Bmp *BMP_Create(u32 width, u32 height, u32 depth, u16 heap);
+struct GfFont;
+struct Strbuf;
 
-extern void PRINTSYS_PrintColor(void *,s16,s16,void *,void *,u16);
+extern void PRINTSYS_PrintColor(struct Bmp *bmp, s16 x, s16 y, struct Strbuf *str, struct GfFont *font, u16 color);
 
 extern struct Grid *BMP_OAM_Create(struct Sys *sys, const struct Param *param);
+struct BmpOam;
 
-extern void BMP_OAM_UploadChars(void *o);
+extern void BMP_OAM_UploadChars(struct BmpOam *bmpOam);
+struct BmpOam;
 
-extern void BMP_OAM_SetObjMode(u8 *,u32);
+extern void BMP_OAM_SetObjMode(struct BmpOam *bmpOam, u32 objMode);
 
-extern void BMP_OAM_Delete(struct Grid *);
+extern void BMP_OAM_Delete(struct BmpOam *bmpOam);
 
 extern void BMP_Delete(struct Bmp *);
 
@@ -193,24 +202,24 @@ extern void CLACT_GetActorSurfacePos(struct Actor *actor, struct PtS *out, u16 s
 
 extern void CLACT_AddActorSurfacePos(struct Actor *p, const struct Vec2 *delta, u32 which);
 
-extern void BMP_OAM_SetPos(struct Grid *,short,short);
+extern void BMP_OAM_SetPos(struct BmpOam *bmpOam, short x, short y);
 
-extern void CLACT_SetActorDrawPriority(struct Node *node, u32 val);
+extern void CLACT_SetActorDrawPriority(struct Actor *actor, unsigned int priority);
 
-extern void BMP_OAM_SetDrawPriority(u8 *g, u32 a);
+extern void BMP_OAM_SetDrawPriority(struct BmpOam *bmpOam, unsigned int drawPriority);
 
 /* Callee's complete leaf reads only r0; legacy r1-r3 are unused, unforwarded. */
-extern int CLACT_GetActorDrawPriority(int);
+extern int CLACT_GetActorDrawPriority(struct Actor *actor);
 
-extern void CLACT_SetActorBgPriority(int, unsigned int);
+extern void CLACT_SetActorBgPriority(struct Actor *actor, unsigned int priority);
 
-extern void BMP_OAM_SetBgPriority(u8 *g, u32 a);
+extern void BMP_OAM_SetBgPriority(struct BmpOam *bmpOam, unsigned int bgPriority);
 
-extern unsigned CLACT_GetActorBgPriority(unsigned char *);
+extern unsigned CLACT_GetActorBgPriority(struct Actor *actor);
 
 extern void CLACT_SetActorPaletteOffset(struct Actor *o, u32 v, u32 flag);
 
-extern void BMP_OAM_SetPalette(u8 *g, u32 a);
+extern void BMP_OAM_SetPalette(struct BmpOam *bmpOam, unsigned int palette);
 
 struct BrBtn *BR_BTN_Create(int a, int b, int c, int d, int e, int f, u16 heap);
 
@@ -300,7 +309,7 @@ int BR_BTN_AnimFlyIn(Button *p);
 
 int BR_BTN_AnimMove2(Button *ctx);
 
-void *BR_BTN_CreateFromMessage(void *ctx, int file, unsigned short a, int b, int c, int d, int e, int archive, void *config, unsigned short heap);
+void *BR_BTN_CreateFromMessage(void *ctx, int file, unsigned short a, int b, int c, void *d, int e, int archive, void *config, unsigned short heap);
 
 struct BrButton *BR_BTN_CreateObject(const Point *pt,void *data,u16 a,u32 b,u32 c,void *owner,void *font,const BrBtnSpriteIds *triple,u16 heap);
 
@@ -327,8 +336,9 @@ void BR_BTN_SetObjectPalette(char *p,int n);
 void *BR_BTN_DATA_Create(int *ctx, int heap);
 
 void BR_BTN_DATA_Delete(void *p);
+struct BrBtnTable;
 
-void *BR_BTN_DATA_GetRow(char *ctx, int section, unsigned item);
+void *BR_BTN_DATA_GetRow(struct BrBtnTable *table, int section, unsigned int item);
 
 unsigned short BR_BTN_DATA_GetSectionCount(void *p,int i);
 
@@ -337,16 +347,17 @@ unsigned BR_BTN_DATA_GetMaxSectionCount(void *p);
 int BR_BTN_DATA_GetRowField(void *p,int i);
 
 void *BR_BTN_DATA_CreateLabel(unsigned *const *p,void *record,struct MsgBank *archive,unsigned short heap);
+struct BrRes;
 
-void BR_RES_LoadSprite(char *base, u32 idx, u32 area);
+void BR_RES_LoadSprite(struct BrRes *res, unsigned int spriteIndex, unsigned int heapId);
 
-void BR_RES_ReleaseSprite(char *p,unsigned i);
+void BR_RES_ReleaseSprite(struct BrRes *res, unsigned int spriteIndex);
 
-int BR_RES_GetSprite(char *p,unsigned i,void *out);
+int BR_RES_GetSprite(struct BrRes *res, unsigned int spriteIndex, void *outSprite);
 
-unsigned BR_RES_GetFont(char *p);
+unsigned BR_RES_GetFont(struct BrRes *res);
 
-int BR_RES_GetMsgData(char *p);
+int BR_RES_GetMsgData(struct BrRes *res);
 
 extern char d_02200D18[];
 
@@ -370,7 +381,7 @@ struct BrBtn *BR_BTN_Create(int a, int b, int c, int d, int e, int f, u16 heap)
     p->heap = heap;
     p->resultSet = (struct BrBtnResultSet *)e;
     p->oamSys = BMP_OAM_CreateSys(heap, (void *)b);
-    p->printQue = PRINTSYS_QUE_Create((void *)heap);
+    p->printQue = (unsigned int)PRINTSYS_QUE_Create((unsigned int)heap);
     p->effect = f;
     p->pressed = 1;
     MI_CpuFill8(&tmp, 0, 4);
@@ -378,8 +389,8 @@ struct BrBtn *BR_BTN_Create(int a, int b, int c, int d, int e, int f, u16 heap)
     p->dataTable = BR_BTN_DATA_Create(&tmp, heap);
     if (a >= 10) p->spriteIndex = 2;
     else p->spriteIndex = 0;
-    BR_RES_LoadSprite((char *)p->resBase, p->spriteIndex, heap);
-    BR_RES_LoadSprite((char *)p->resBase, p->spriteIndex + 1, heap);
+    BR_RES_LoadSprite((struct BrRes *)p->resBase, p->spriteIndex, heap);
+    BR_RES_LoadSprite((struct BrRes *)p->resBase, p->spriteIndex + 1, heap);
     p->rowCount = BR_BTN_DATA_GetMaxSectionCount(p->dataTable);
     size = p->rowCount * 0x44;
     p->rowRecords = GFL_HEAP_Alloc(heap, size, 0, d_02200D1C, 0x167);
@@ -389,7 +400,7 @@ struct BrBtn *BR_BTN_Create(int a, int b, int c, int d, int e, int f, u16 heap)
     MI_CpuFill8(p->tailRecords, 0, 0x198);
     p->task = BR_UTIL_CreateTask((int)p, (int)BR_BTN_SetupInput, heap);
     if (p->resultSet->count != 0) {
-        arch = BR_RES_GetMsgData((char *)c);
+        arch = BR_RES_GetMsgData((struct BrRes *)c);
         for (i = 0; i < p->resultSet->count; i++) {
             void *q = BR_BTN_DATA_GetRow(p->dataTable, p->resultSet->rec[i].a, (unsigned short)p->resultSet->rec[i].b);
             void *rec = BR_BTN_DATA_CreateLabel(p->dataTable, q, (struct MsgBank *)arch, (heap & 0x7FFF) | 0x8000);
@@ -403,7 +414,7 @@ struct BrBtn *BR_BTN_Create(int a, int b, int c, int d, int e, int f, u16 heap)
         BR_UTIL_SetTaskStep(p->task, (int)BR_BTN_UpdateCollapse);
         p->resultKind = 2;
     } else {
-        arch = BR_RES_GetMsgData((char *)c);
+        arch = BR_RES_GetMsgData((struct BrRes *)c);
         p->sectionCount = BR_BTN_DATA_GetSectionCount(p->dataTable, a);
         for (i = 0; i < p->sectionCount; i++) {
             void *q = BR_BTN_DATA_GetRow(p->dataTable, a, (unsigned short)i);
@@ -433,15 +444,15 @@ void BR_BTN_Delete(u8 *p)
     for (i = 0; i < ((struct BrBtn *)p)->sectionCount; i++)
         BR_BTN_DeleteRecord((Button *)(((struct BrBtn *)p)->rowRecords + i * 0x44));
     GFL_HEAP_Free((void *)((struct BrBtn *)p)->rowRecords);
-    BR_RES_ReleaseSprite((char *)(((struct BrBtn *)p)->resBase), ((struct BrBtn *)p)->spriteIndex);
-    BR_RES_ReleaseSprite((char *)(((struct BrBtn *)p)->resBase), ((struct BrBtn *)p)->spriteIndex + 1);
+    BR_RES_ReleaseSprite((struct BrRes *)(((struct BrBtn *)p)->resBase), ((struct BrBtn *)p)->spriteIndex);
+    BR_RES_ReleaseSprite((struct BrRes *)(((struct BrBtn *)p)->resBase), ((struct BrBtn *)p)->spriteIndex + 1);
     BR_BTN_DATA_Delete((void *)(((struct BrBtn *)p)->dataTable));
     BMP_OAM_DeleteSys((void *)(((struct BrBtn *)p)->oamSys));
-    PRINTSYS_QUE_Delete((struct PrintSys *)(((struct BrBtn *)p)->printQue));
+    PRINTSYS_QUE_Delete((struct PrintQueue *)(((struct BrBtn *)p)->printQue));
     GFL_HEAP_Free(p);
 }
 
-void BR_BTN_UpdatePrint(char *p) { BR_UTIL_RunTask((u8 *)(((struct BrBtn *)p)->task));PRINTSYS_QUE_Main(*(struct PrintSys * *)&((struct BrBtn *)p)->printQue);if(*(char * *)&((struct BrBtn *)p)->textWin)BR_UTIL_FlushWindow(*(char * *)&((struct BrBtn *)p)->textWin); }
+void BR_BTN_UpdatePrint(char *p) { BR_UTIL_RunTask((u8 *)(((struct BrBtn *)p)->task));PRINTSYS_QUE_Main((struct PrintQueue *)(*(struct PrintSys * *)&((struct BrBtn *)p)->printQue));if(*(char * *)&((struct BrBtn *)p)->textWin)BR_UTIL_FlushWindow(*(char * *)&((struct BrBtn *)p)->textWin); }
 
 /*
  * blocker-leaf: ov183 021DB770; source/unit/shard ownership checked, parent cleared.
@@ -482,10 +493,10 @@ void BR_BTN_BuildSection(struct BrBtn *p,int section,const int *pos)
  int i,bank;
  void *rec,*text;
  for(i=0;i<p->rowCount;i++)BR_BTN_DeleteRecord((Button *)(*(u8 * *)&p->rowRecords+i*0x44));
- bank=BR_RES_GetMsgData(*(char * *)&p->resBase);
+ bank=BR_RES_GetMsgData((struct BrRes *)(*(char * *)&p->resBase));
  p->sectionCount=BR_BTN_DATA_GetSectionCount(p->dataTable,section);
  for(i=0;i<p->sectionCount;i++){
-  rec=BR_BTN_DATA_GetRow(*(char * *)&p->dataTable,section,(u16)i);
+  rec=BR_BTN_DATA_GetRow((struct BrBtnTable *)(*(char * *)&p->dataTable),section,(u16)i);
   text=BR_BTN_DATA_CreateLabel(*(unsigned *const * *)&p->dataTable,rec,(struct MsgBank *)bank,(p->heap&0x7fff)|0x8000);
   BR_BTN_InitRecord((Button *)(*(u8 * *)&p->rowRecords+i*0x44), rec, p->oamData, (void *)(p->oamSys), (char *)(p->resBase), text, p->spriteIndex, p->heap);
   STRBUF_Delete(text);
@@ -712,7 +723,7 @@ void BR_BTN_UpdateExpand(void *p,int *state,struct BrBtn *ctx)
   kind=BR_BTN_GetRowField((Button *)entry, 0);
   value=BR_BTN_GetRowField((Button *)entry, 2);
   if(kind==1){
-   if(!ctx->textWin)ctx->textWin=BR_UTIL_CreateTextWin((int)(ctx->resBase),(void *)(ctx->printQue),ctx->heap);
+   if(!ctx->textWin)ctx->textWin=BR_UTIL_CreateTextWin((void *)((ctx->resBase)),(void *)(ctx->printQue),ctx->heap);
    BR_UTIL_SetWindowText(ctx->textWin,(char *)ctx->resBase,(void *)value);
   }
   *state=3;break;
@@ -773,7 +784,7 @@ void BR_BTN_UpdateTextInput(void *p, int *state, struct BrBtn *ctx)
     case 0:
         value = BR_BTN_GetRowField((Button *)((unsigned)ctx->rowRecords + ctx->selected * 0x44), 6);
         if (ctx->textWin == 0)
-            ctx->textWin = BR_UTIL_CreateTextWin((int)((void *)ctx->resBase), (void *)ctx->printQue, ctx->heap);
+            ctx->textWin = BR_UTIL_CreateTextWin(((void *)ctx->resBase), (void *)ctx->printQue, ctx->heap);
         BR_UTIL_SetWindowText(ctx->textWin, (void *)ctx->resBase, (void *)value);
         *state = 1;
         break;
@@ -851,20 +862,20 @@ void BR_BTN_InitRecord(Button *ctx, void *object, unsigned a, void *b, char *own
     ctx->heap = heap_value;
     ctx->a = a;
     ctx->b = b;
-    ctx->work = STRBUF_Clone((struct U16Vec *)work, heap_value);
+    ctx->work = (struct U16Vec *)STRBUF_Clone((struct Strbuf *)work, heap_value);
     MI_CpuFill8(&config, 0, 8);
     config.x = BR_BTN_DATA_GetRowField(ctx->object, 0);
     config.y = BR_BTN_DATA_GetRowField(ctx->object, 1);
     config.z = BR_BTN_DATA_GetRowField(ctx->object, 4);
     config.flag = 1;
-    BR_RES_GetSprite(owner, ctx->index + 1, info);
-    ctx->result = (char *)BR_BTN_CreateObject((const Point *)&config, ctx->work, 0xa0, ctx->enabled, a, b, (void *)BR_RES_GetFont(owner), (const BrBtnSpriteIds *)info, (unsigned short)((heap & 0x7fff) | 0x8000));
+    BR_RES_GetSprite((struct BrRes *)owner, ctx->index + 1, info);
+    ctx->result = (char *)BR_BTN_CreateObject((const Point *)&config, ctx->work, 0xa0, ctx->enabled, a, b, (void *)BR_RES_GetFont((struct BrRes *)owner), (const BrBtnSpriteIds *)info, (unsigned short)((heap & 0x7fff) | 0x8000));
 }
 
 void BR_BTN_DeleteRecord(Button *p)
 {
     if (p->active != 0) {
-        STRBUF_Delete(p->work);
+        STRBUF_Delete((struct Strbuf *)p->work);
         BR_BTN_DeleteObject(p->result);
         MI_CpuFill8(p, 0, 0x44);
     }
@@ -942,9 +953,9 @@ void BR_BTN_SetMode(Button *ctx, int mode)
     placement.animation = BR_BTN_DATA_GetRowField(ctx->object, 4);
     placement.priority = priority;
     placement.attr = attr;
-    BR_RES_GetSprite(ctx->owner, ctx->index + mode, &config);
-    resource = BR_RES_GetFont(ctx->owner);
-    BR_RES_GetMsgData(ctx->owner);
+    BR_RES_GetSprite((struct BrRes *)ctx->owner, ctx->index + mode, &config);
+    resource = BR_RES_GetFont((struct BrRes *)ctx->owner);
+    BR_RES_GetMsgData((struct BrRes *)ctx->owner);
     BR_BTN_DATA_GetRowField(ctx->object, 3);
     ctx->result = (char *)BR_BTN_CreateObject((const Point *)&placement, ctx->work, 160, mode, ctx->a, ctx->b, (void *)resource, (const BrBtnSpriteIds *)&config, ctx->heap);
 }
@@ -1174,7 +1185,7 @@ int BR_BTN_AnimMove2(Button *ctx)
 /*
  * tail: 021FB3BA..021FB3BC is two zero alignment bytes.
  */
-void *BR_BTN_CreateFromMessage(void *ctx, int file, unsigned short a, int b, int c, int d, int e, int archive, void *config, unsigned short heap)
+void *BR_BTN_CreateFromMessage(void *ctx, int file, unsigned short a, int b, int c, void *d, int e, int archive, void *config, unsigned short heap)
 {
     void *data;
     void *result;
@@ -1212,7 +1223,7 @@ struct BrButton *BR_BTN_CreateObject(const Point *pt,void *data,u16 a,u32 b,u32 
     return p;
 }
 
-void BR_BTN_DeleteObject(char *p) { BMP_OAM_Delete(*(struct Grid * *)&((struct BrButton *)p)->grid);BMP_Delete(*(struct Bmp * *)&((struct BrButton *)p)->bmp);CLACT_DeleteActor(*(struct Actor * *)&((struct BrButton *)p)->actor);GFL_HEAP_Free(p); }
+void BR_BTN_DeleteObject(char *p) { BMP_OAM_Delete((struct BmpOam *)(*(struct Grid * *)&((struct BrButton *)p)->grid));BMP_Delete(*(struct Bmp * *)&((struct BrButton *)p)->bmp);CLACT_DeleteActor(*(struct Actor * *)&((struct BrButton *)p)->actor);GFL_HEAP_Free(p); }
 
 int BR_BTN_HitTestWithSound(unsigned int *obj, int x, int y)
 {
@@ -1252,24 +1263,24 @@ int BR_BTN_TestHitBox(u32 *p, int x, int y)
     return in_range(y, pos.y - 16, pos.y + 16) & hx;
 }
 
-void BR_BTN_SetObjectPos(char *p, short x, int y) { struct Vec2 v;v.x=x;v.y=y;CLACT_AddActorSurfacePos(*(struct Actor * *)&((struct BrButton *)p)->actor,&v,(unsigned short)(((struct BrButton *)p)->surface));BMP_OAM_SetPos(*(struct Grid * *)&((struct BrButton *)p)->grid,v.x+32,v.y-8); }
+void BR_BTN_SetObjectPos(char *p, short x, int y) { struct Vec2 v;v.x=x;v.y=y;CLACT_AddActorSurfacePos(*(struct Actor * *)&((struct BrButton *)p)->actor,&v,(unsigned short)(((struct BrButton *)p)->surface));BMP_OAM_SetPos((struct BmpOam *)(*(struct Grid * *)&((struct BrButton *)p)->grid),v.x+32,v.y-8); }
 
 void BR_BTN_GetObjectPos(char *p,short *x,short *y) { PtS v;CLACT_GetActorSurfacePos(*(struct Actor * *)&((struct BrButton *)p)->actor,&v,(unsigned short)((struct BrButton *)p)->surface);if(x)*x=v.x;if(y)*y=v.y; }
 
 void BR_BTN_SetObjectDrawPriority(int *p, unsigned char b)
 {
-    CLACT_SetActorDrawPriority((struct Node *)p[0], b);
-    BMP_OAM_SetDrawPriority((u8 *)p[1], (unsigned char)(b - 1));
+    CLACT_SetActorDrawPriority((struct Actor *)p[0], b);
+    BMP_OAM_SetDrawPriority((struct BmpOam *)p[1], (unsigned char)(b - 1));
 }
 
-int BR_BTN_GetObjectDrawPriority(char *p) { return CLACT_GetActorDrawPriority((int)((struct BrButton *)p)->actor); }
+int BR_BTN_GetObjectDrawPriority(char *p) { return CLACT_GetActorDrawPriority(((struct BrButton *)p)->actor); }
 
 void BR_BTN_SetObjectBgPriority(int *p, int b)
 {
-    CLACT_SetActorBgPriority(p[0], b);
-    BMP_OAM_SetBgPriority((u8 *)p[1], b);
+    CLACT_SetActorBgPriority((struct Actor *)p[0], b);
+    BMP_OAM_SetBgPriority((struct BmpOam *)p[1], b);
 }
 
-unsigned BR_BTN_GetObjectBgPriority(char *p) { return CLACT_GetActorBgPriority(*(unsigned char * *)&((struct BrButton *)p)->actor); }
+unsigned BR_BTN_GetObjectBgPriority(char *p) { return CLACT_GetActorBgPriority((struct Actor *)(*(unsigned char * *)&((struct BrButton *)p)->actor)); }
 
-void BR_BTN_SetObjectPalette(char *p,int n) { CLACT_SetActorPaletteOffset(((struct BrButton *)p)->actor,(unsigned char)n,0);BMP_OAM_SetPalette(*(unsigned char * *)&((struct BrButton *)p)->grid,(unsigned char)(n+1)); }
+void BR_BTN_SetObjectPalette(char *p,int n) { CLACT_SetActorPaletteOffset(((struct BrButton *)p)->actor,(unsigned char)n,0);BMP_OAM_SetPalette((struct BmpOam *)(*(unsigned char * *)&((struct BrButton *)p)->grid),(unsigned char)(n+1)); }

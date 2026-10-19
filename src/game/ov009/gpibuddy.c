@@ -122,6 +122,7 @@
  */
 #include "../../matched/arm9_sdk/libc/string.h"
 #include "gpi_types.h"
+extern void *__builtin__clear(void *dest, unsigned long size);
 extern int strcmp(const char *s1, const char *s2);
 extern char *strstr(const char *s, const char *t);
 extern int atoi(const char *s);
@@ -162,12 +163,15 @@ extern GPIProfile *gpiProfileListAdd(void **connection, int id);
 extern void gsifree(void *ptr);
 extern char *goastrdup(char *src);
 extern void gsDebugFormat(int theCat, int theType, int theLevel, char *theTokenStr, ...);
-extern void gpiRemoveBuddyStatusInfo(void *buddyStatusInfo);
-extern unsigned long gsiSafeStrcpyA(char *dst, char *src, unsigned long size);
-extern void gpiRemoveBuddyStatus(void *buddyStatus);
-extern void *ArrayNew(int elemSize, int numElemsToAllocate, void (*elemFreeFn)(void *));
+struct GPIBuddyStatusInfo;
+extern void gpiRemoveBuddyStatusInfo(struct GPIBuddyStatusInfo *buddyStatusInfo);
+extern int gsiSafeStrcpyA(char *dst, char *src, unsigned long size);
+struct GPIBuddyStatus;
+extern void gpiRemoveBuddyStatus(struct GPIBuddyStatus *buddyStatus);
+struct DArrayImplementation;
+extern struct DArrayImplementation *ArrayNew(int elemSize, int numElemsToAllocate, void (*elemFreeFn)(void *));
 extern void gpiStatusInfoKeyFree(void *ptr);
-extern int gpiCheckForError(void **connection, char *input, int flag);
+extern int gpiCheckForError(int *connection, char *input, int fatal);
 extern int gpiValueForKeyWithIndex(char *command, char *key, int *index, char *value, int len);
 extern void gpiSetError(void **connection, int code, char *string);
 extern int gpiCallErrorCallback(void **connection, int result, int fatal);
@@ -175,7 +179,7 @@ extern GPIProfile *gpiProfileListAdd(void **connection, int id);
 extern void gpiSetErrorString(void **connection, char *string);
 extern void *gsimalloc(unsigned long size);
 extern void strzcpy(char *dest, char *src, int len);
-extern int gpiAppendStringToBuffer(void **connection, GPIBuffer *buffer, const char *string);
+extern int gpiAppendStringToBuffer(int *connection, int *buffer, char *string);
 extern int gpiAppendIntToBuffer(void **connection, GPIBuffer *buffer, int value);
 extern GPIPeer *gpiGetPeerByProfile(void **connection, int profileid);
 extern int gpiGetProfile(void **connection, int profileid, GPIProfile **pProfile);
@@ -186,18 +190,19 @@ extern void gpiPeerAddOp(GPIPeer *peer, GPIPeerOp *operation);
 extern GPResult gpiPeerAddMessage(void **connection, GPIPeer *peer, int type, char *message);
 extern int gpiSaveKeysToBuffer(void **connection, char **buffer);
 extern void gsifree(void *ptr);
-extern int gpiAddCallback(void **connection, GPICallback callback, void *arg, GPIOperation *operation, int type);
-extern int gpiReadKeyAndValue(void **connection, char *buffer, int *index, char *key, char *value);
+struct GPICallback;
+extern int gpiAddCallback(void **connection, struct GPICallback callback, void *arg, int *operation, int type);
+extern int gpiReadKeyAndValue(int *connection, char *buffer, int *index, char *key, char *value);
 extern void B64Decode(const char *input, char *output, int inlen, int *outlen, int encodingType);
 extern int gpiStatusInfoCheckKey(void **connection, void *keys, char *keyName, char **keyValue);
 extern int gpiStatusInfoAddKey(void **connection, void *keys, char *theKeyName, char *theKeyValue);
 extern int gpiStatusInfoSetKey(void **connection, void *keys, char *keyName, char *newValue);
 extern void gpiPeerRemoveOp(GPIPeer *peer, GPIPeerOp *operation);
 extern int gpiGetProfile(void **connection, int profileid, GPIProfile **pProfile);
-extern int gpiCanFreeProfile(GPIProfile *profile);
+extern int gpiCanFreeProfile(char *p);
 extern void gpiRemoveProfile(void **connection, GPIProfile *profile);
 extern int gpiProfileMap(void **connection, int (*func)(void **, GPIProfile *, void *), void *data);
-extern void ArrayFree(void *array);
+extern void ArrayFree(struct DArrayImplementation *array);
 int gpiSendAuthBuddyRequest(void **connection, GPIProfile *profile);
 int gpiProcessRecvBuddyList(void **connection, char *input);
 int gpiSendServerBuddyMessage(void **connection, int profileid, int type, char *message);
@@ -264,14 +269,14 @@ int gpiSendAuthBuddyRequest(void **connection, GPIProfile *profile)
 {
     GPIConnection *iconnection = (GPIConnection *)*connection;
 
-    gpiAppendStringToBuffer(connection, &iconnection->outputBuffer, gGpiBuddyKeyAuthAdd);
-    gpiAppendStringToBuffer(connection, &iconnection->outputBuffer, gGpiBuddyKeySessKey);
+    gpiAppendStringToBuffer((int *)connection, (int *)(&iconnection->outputBuffer), gGpiBuddyKeyAuthAdd);
+    gpiAppendStringToBuffer((int *)connection, (int *)(&iconnection->outputBuffer), gGpiBuddyKeySessKey);
     gpiAppendIntToBuffer(connection, &iconnection->outputBuffer, *(int *)((char *)iconnection + 0x198));
-    gpiAppendStringToBuffer(connection, &iconnection->outputBuffer, gGpiBuddyKeyFromProfileId);
+    gpiAppendStringToBuffer((int *)connection, (int *)(&iconnection->outputBuffer), gGpiBuddyKeyFromProfileId);
     gpiAppendIntToBuffer(connection, &iconnection->outputBuffer, *(int *)profile);
-    gpiAppendStringToBuffer(connection, &iconnection->outputBuffer, gGpiBuddyKeySig);
-    gpiAppendStringToBuffer(connection, &iconnection->outputBuffer, *(char **)((char *)profile + 0x14));
-    gpiAppendStringToBuffer(connection, &iconnection->outputBuffer, gGpiBuddyKeyFinal);
+    gpiAppendStringToBuffer((int *)connection, (int *)(&iconnection->outputBuffer), gGpiBuddyKeySig);
+    gpiAppendStringToBuffer((int *)connection, (int *)(&iconnection->outputBuffer), *(char **)((char *)profile + 0x14));
+    gpiAppendStringToBuffer((int *)connection, (int *)(&iconnection->outputBuffer), gGpiBuddyKeyFinal);
     return 0;
 }
 
@@ -673,7 +678,7 @@ int gpiProcessRecvBuddyList(void **connection, char *input)
     int profileid;
     GPIConnection *iconnection = (GPIConnection *)*connection;
 
-    if (gpiCheckForError(connection, input, 1))
+    if (gpiCheckForError((int *)connection, input, 1))
         return 4;
 
     if (!gpiValueForKeyWithIndex(input, gGpiBuddyKeyBdy, &index, buffer, sizeof(buffer))) {
@@ -740,15 +745,15 @@ int gpiSendServerBuddyMessage(void **connection, int profileid, int type, char *
 
     iconnection = (GPIConnection *)*connection;
     strzcpy(buffer, message, 3501);
-    gpiAppendStringToBuffer(connection, &iconnection->outputBuffer, gGpiBuddyKeyBm);
+    gpiAppendStringToBuffer((int *)connection, (int *)(&iconnection->outputBuffer), gGpiBuddyKeyBm);
     gpiAppendIntToBuffer(connection, &iconnection->outputBuffer, type);
-    gpiAppendStringToBuffer(connection, &iconnection->outputBuffer, gGpiBuddyKeySessKey);
+    gpiAppendStringToBuffer((int *)connection, (int *)(&iconnection->outputBuffer), gGpiBuddyKeySessKey);
     gpiAppendIntToBuffer(connection, &iconnection->outputBuffer, iconnection->sessKey);
-    gpiAppendStringToBuffer(connection, &iconnection->outputBuffer, gGpiBuddyKeyT);
+    gpiAppendStringToBuffer((int *)connection, (int *)(&iconnection->outputBuffer), gGpiBuddyKeyT);
     gpiAppendIntToBuffer(connection, &iconnection->outputBuffer, profileid);
-    gpiAppendStringToBuffer(connection, &iconnection->outputBuffer, gGpiBuddyKeyMsg);
-    gpiAppendStringToBuffer(connection, &iconnection->outputBuffer, buffer);
-    gpiAppendStringToBuffer(connection, &iconnection->outputBuffer, gGpiBuddyKeyFinal);
+    gpiAppendStringToBuffer((int *)connection, (int *)(&iconnection->outputBuffer), gGpiBuddyKeyMsg);
+    gpiAppendStringToBuffer((int *)connection, (int *)(&iconnection->outputBuffer), buffer);
+    gpiAppendStringToBuffer((int *)connection, (int *)(&iconnection->outputBuffer), gGpiBuddyKeyFinal);
     return 0;
 }
 
@@ -881,7 +886,7 @@ int gpiBuddyHandleKeyReply(void **connection, GPIPeer *peer, char *buffer)
         index = 0;
         checkKey = 0;
 
-        gpiReadKeyAndValue(connection, buffer, &index, keyName, keyVal);
+        gpiReadKeyAndValue((int *)connection, buffer, &index, keyName, keyVal);
         if (strcmp(keyName, gGpiBuddyKeyKeys) != 0) {
             gpiSetError(connection, 1, gGpiBuddyErrorReadingKeys);
             gpiCallErrorCallback(connection, 3, 0);
@@ -911,7 +916,7 @@ int gpiBuddyHandleKeyReply(void **connection, GPIPeer *peer, char *buffer)
             keys = gsimalloc(sizeof(char *) * numKeys);
             values = gsimalloc(sizeof(char *) * numKeys);
             for (i = 0; i < numKeys; i++) {
-                gpiReadKeyAndValue(connection, buffer, &index, keyName, keyVal);
+                gpiReadKeyAndValue((int *)connection, buffer, &index, keyName, keyVal);
                 B64Decode(keyName, decodeKey, (int)strlen((const char *)keyName), &decodedLen, 2);
                 decodeKey[decodedLen] = '\0';
                 B64Decode(keyVal, decodeVal, (int)strlen((const char *)keyVal), &decodedLen, 2);
@@ -981,7 +986,7 @@ int gpiAuthBuddyRequest(void **connection, int profile)
         && pProfile->requestCount <= 0) {
         gsifree(pProfile->authSig);
         pProfile->authSig = 0;
-        if (gpiCanFreeProfile(pProfile))
+        if (gpiCanFreeProfile((char *)pProfile))
             gpiRemoveProfile(connection, pProfile);
     }
 
@@ -1018,12 +1023,12 @@ int gpiDeleteBuddy(void **connection, int profile, int sendServerRequest)
     }
 
     if (sendServerRequest == 1) {
-        gpiAppendStringToBuffer(connection, &iconnection->outputBuffer, gGpiBuddyKeyDelBuddy);
-        gpiAppendStringToBuffer(connection, &iconnection->outputBuffer, gGpiBuddyKeySessKey);
+        gpiAppendStringToBuffer((int *)connection, (int *)(&iconnection->outputBuffer), gGpiBuddyKeyDelBuddy);
+        gpiAppendStringToBuffer((int *)connection, (int *)(&iconnection->outputBuffer), gGpiBuddyKeySessKey);
         gpiAppendIntToBuffer(connection, &iconnection->outputBuffer, iconnection->sessKey);
-        gpiAppendStringToBuffer(connection, &iconnection->outputBuffer, gGpiBuddyKeyDelProfileId);
+        gpiAppendStringToBuffer((int *)connection, (int *)(&iconnection->outputBuffer), gGpiBuddyKeyDelProfileId);
         gpiAppendIntToBuffer(connection, &iconnection->outputBuffer, pProfile->profileId);
-        gpiAppendStringToBuffer(connection, &iconnection->outputBuffer, gGpiBuddyKeyFinal);
+        gpiAppendStringToBuffer((int *)connection, (int *)(&iconnection->outputBuffer), gGpiBuddyKeyFinal);
     }
     gpiBuddyDeletedLocally(connection, profile, 1);
 

@@ -32,23 +32,24 @@ typedef signed int     s32;
 typedef unsigned int   u32;
 
 extern struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
-extern struct GimmickWork *GAME_DATA_GetFieldSave(struct GameData *gameData);
-extern void *GAME_DATA_GetMyPlayerWork(struct GameData *gameData);
-extern void *GIMMICK_WORK_GetWork(struct GimmickWork *gimmick, u32 gimmickId);
-extern u16 *GIMMICK_WORK_GetSubWork(struct GimmickWork *gimmick, u32 gimmickId);
-void GIMMICK_INIT_SetCartLanesFlags(unsigned int gameSystem, int setFirst, int setSecond);
+extern u8 *GAME_DATA_GetFieldSave(struct GameData *gameData);
+struct PlayerWork;
+extern struct PlayerWork *GAME_DATA_GetMyPlayerWork(struct GameData *gameData);
+extern s32 *GIMMICK_WORK_GetWork(struct GimmickWork *gimmick, u32 gimmickId);
+extern u8 *GIMMICK_WORK_GetSubWork(struct GimmickWork *gimmick, u32 gimmickId);
+void GIMMICK_INIT_SetCartLanesFlags(void *gameSystem, int setFirst, int setSecond);
 void GIMMICK_INIT_SetFlagAnimeFlag(struct GameSystem *gameSystem, int enable);
-void GIMMICK_INIT_SetButtonStatesFlags(unsigned int gameSystem, int buttonMask);
-void GIMMICK_INIT_RestorePlateDoorsState(unsigned int gameSystem, unsigned short **foundVars);
+void GIMMICK_INIT_SetButtonStatesFlags(void *gameSystem, int buttonMask);
+void GIMMICK_INIT_RestorePlateDoorsState(void *gameSystem, unsigned short **foundVars);
 
 /* Per switch: the two plates it lights (-1 for none). Per door: the two plates that open it. */
 extern signed char gPlateDoorsSwitchPlates[][2];
 extern unsigned char gPlateDoorsDoorPlates[][2];
 
 /* Marks the first and second flag of gimmick 39 as set. */
-void GIMMICK_INIT_SetCartLanesFlags(unsigned int gameSystem, int setFirst, int setSecond)
+void GIMMICK_INIT_SetCartLanesFlags(void *gameSystem, int setFirst, int setSecond)
 {
-    FieldGimmickCartLanesSave *work = GIMMICK_WORK_GetWork(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData((const struct GameSystem *)gameSystem)), 2);
+    FieldGimmickCartLanesSave *work = (struct FieldGimmickCartLanesSave *)GIMMICK_WORK_GetWork((struct GimmickWork *)GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData((const struct GameSystem *)gameSystem)), 2);
 
     if (setFirst)
         work->laneUnlocked[0] = 1;
@@ -62,7 +63,7 @@ void GIMMICK_INIT_SetFlagAnimeFlag(struct GameSystem *gameSystem, int enable)
     struct GameData *gameData;
     FieldGimmickFlagAnimeSave *work;
     gameData = GAMESYSTEM_GetGameData(gameSystem);
-    work = GIMMICK_WORK_GetWork(GAME_DATA_GetFieldSave(gameData), 3);
+    work = (struct FieldGimmickFlagAnimeSave *)GIMMICK_WORK_GetWork((struct GimmickWork *)GAME_DATA_GetFieldSave(gameData), 3);
     GAME_DATA_GetMyPlayerWork(gameData);
     if (enable) work->flag = 1;
     else work->flag = 0;
@@ -72,9 +73,9 @@ void GIMMICK_INIT_SetFlagAnimeFlag(struct GameSystem *gameSystem, int enable)
 
 
 /* Sets the three flags of gimmick 42 from the low three bits of the mask. */
-void GIMMICK_INIT_SetButtonStatesFlags(unsigned int gameSystem, int buttonMask)
+void GIMMICK_INIT_SetButtonStatesFlags(void *gameSystem, int buttonMask)
 {
-    FieldGimmickButtonStatesSave *work = GIMMICK_WORK_GetWork(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData((const struct GameSystem *)gameSystem)), 4);
+    FieldGimmickButtonStatesSave *work = (struct FieldGimmickButtonStatesSave *)GIMMICK_WORK_GetWork((struct GimmickWork *)GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData((const struct GameSystem *)gameSystem)), 4);
     unsigned char i;
 
     for (i = 0; i < 3; i++)
@@ -93,11 +94,11 @@ void GIMMICK_INIT_SetButtonStatesFlags(unsigned int gameSystem, int buttonMask)
  * sets its script variable and lights its plates, and every door whose two
  * plates are lit opens.  The last door is always open.
  */
-void GIMMICK_INIT_RestorePlateDoorsState(unsigned int gameSystem, unsigned short **foundVars)
+void GIMMICK_INIT_RestorePlateDoorsState(void *gameSystem, unsigned short **foundVars)
 {
-    struct GimmickWork *gimmickSave = GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData((const struct GameSystem *)gameSystem));
-    FieldGimmickPlateDoorsWork *work = GIMMICK_WORK_GetWork(gimmickSave, 6);
-    u16 *progress = GIMMICK_WORK_GetSubWork(gimmickSave, 6);
+    struct GimmickWork *gimmickSave = (struct GimmickWork *)GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData((const struct GameSystem *)gameSystem));
+    FieldGimmickPlateDoorsWork *work = (struct FieldGimmickPlateDoorsWork *)GIMMICK_WORK_GetWork(gimmickSave, 6);
+    u16 *progress = (u16 *)GIMMICK_WORK_GetSubWork(gimmickSave, 6);
     int switchIdx;
     int linkIdx;
     int plateIdx;
@@ -125,9 +126,9 @@ void GIMMICK_INIT_RestorePlateDoorsState(unsigned int gameSystem, unsigned short
 }
 
 /* Sets the three units of gimmick 46 to their starting pose and lever states. */
-void GIMMICK_INIT_ResetRotatingRoomPanels(unsigned int gameSystem)
+void GIMMICK_INIT_ResetRotatingRoomPanels(void *gameSystem)
 {
-    FieldGimmickRotatingRoomSave *work = GIMMICK_WORK_GetWork(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData((const struct GameSystem *)gameSystem)), 10);
+    FieldGimmickRotatingRoomSave *work = (struct FieldGimmickRotatingRoomSave *)GIMMICK_WORK_GetWork((struct GimmickWork *)GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData((const struct GameSystem *)gameSystem)), 10);
     FieldGimmickRotatingRoomUnit *unit = &work->units[0];
 
     unit->pose = 3;

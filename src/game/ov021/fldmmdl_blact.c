@@ -68,30 +68,36 @@
 
 extern int G3D_SYSTEM_TransVramTexture(void *res);
 extern struct BbBoard *BILLBOARD_ACT_GetBoard(struct BbActSys *sys);
-extern u32 G3D_SYSTEM_GetTexVramKey(void *res);
-extern u32 G3D_SYSTEM_GetPlttVramKey(void *res);
+struct G3dResource;
+extern u32 G3D_SYSTEM_GetTexVramKey(struct G3dResource *res);
+extern u32 G3D_SYSTEM_GetPlttVramKey(struct G3dResource *res);
 extern int BILLBOARD_AddImageFromVramKeys(struct BbBoard *board, int texKey, int plttKey, int formatIndex, u32 texFmt, u8 cellWidth, u8 cellHeight);
 extern u32 BILLBOARD_ACT_AddSlot(struct BbActSys *sys, u32 imageId, u32 c);
-extern void G3D_SYSTEM_DeleteResource(void *res);
+extern void G3D_SYSTEM_DeleteResource(struct G3dResource *res);
 extern u16 BILLBOARD_ACT_GetSlotBoardId(struct BbActSys *sys, int slotIndex);
-extern int BILLBOARD_ACT_DeleteSlot(struct BbActSys *sys, int slotIndex);
+extern int BILLBOARD_ACT_DeleteSlot(struct BbActSys *sys, u32 slot);
 extern void BILLBOARD_ReleaseImageVram(struct BbBoard *board, int imageId);
 extern u32 FLDMMDL_SysGetHeapId(MmdlSys *sys);
-extern void FLDMMDL_SysSetBlActCont(MmdlSys *sys, BlactSys *cont);
-extern void BILLBOARD_SetScale(struct BbBoard *board, VecFx32 *scale);
-extern void BILLBOARD_SetPolyIdBase(struct BbBoard *board, u8 *polyIdBase);
+struct MmdlSys;
+extern void FLDMMDL_SysSetBlActCont(struct MmdlSys *sys, void *blActCont);
+struct Blk3;
+extern void BILLBOARD_SetScale(u8 *dst, struct Blk3 *src);
+extern void BILLBOARD_SetPolyIdBase(u8 *dst, u8 *src);
 extern BlactSys *FLDMMDL_SysGetBlActCont(MmdlSys *sys);
 extern u32 GFL_HEAP_Free(void *p);
 extern MmdlSys *FLDMMDL_GetMmdlSys(Mmdl *mmdl);
 extern void FLDMMDL_LoadObjCodeParam(MmdlSys *sys, u32 code, MmdlObjCodeParam *out);
 extern u16 FLDMMDL_GetCachedObjCodeCount(MmdlSys *sys);
-extern void FLDMMDL_GetCachedObjCodeParam(MmdlSys *sys, int index, MmdlObjCodeParam *out);
+extern void FLDMMDL_GetCachedObjCodeParam(struct MmdlSys *sys, u32 no, MmdlObjCodeParam *out);
 extern u16 BILLBOARD_ACT_CreateEntries(struct BbActSys *sys, u16 base, const struct BbActDesc *desc, u32 count, u32 mode);
-extern void BILLBOARD_ACT_SetEntryCommands(struct BbActSys *sys, int entryIndex, void *cmdLists, u16 listCount);
+struct BbActCmd;
+extern void BILLBOARD_ACT_SetEntryCommands(struct BbActSys *sys, s32 entryIndex, struct BbActCmd **cmdLists, u16 listCount);
 extern void BILLBOARD_ACT_SetEntryList(struct BbActSys *sys, int entryIndex, u32 listIndex);
 extern void BILLBOARD_ACT_SetEntryEnabled(struct BbActSys *sys, int entryIndex, u32 enabled);
 extern MmdlObjCodeParam *FLDMMDL_GetObjCodeParam(Mmdl *mmdl);
-extern void FLDMMDL_ACMD_GetDrawPos(Mmdl *mmdl, VecFx32 *out);
+struct MmdlVec;
+struct Mmdl;
+extern void FLDMMDL_ACMD_GetDrawPos(struct Mmdl *mmdl, struct MmdlVec *out);
 extern int BILLBOARD_ACT_SetEntryPaletteFromSlot(struct BbActSys *sys, int entryIndex, int slotIndex);
 extern u32 BILLBOARD_ACT_GetEntrySlotIndex(struct BbActSys *sys, u32 entryIndex);
 extern void BILLBOARD_ACT_DeleteSlots(struct BbActSys *sys, u32 first, u32 count);
@@ -99,9 +105,10 @@ extern int FLDMMDL_CheckSameObjCodeOther(Mmdl *mmdl, u32 code);
 extern u16 FLDMMDL_GetObjCode(Mmdl *mmdl);
 extern void BILLBOARD_ACT_DeleteEntries(struct BbActSys *sys, u16 first, u32 count);
 extern void *GFL_HEAP_Alloc(unsigned int heapId, unsigned int size, int clear, const char *site, unsigned short line);
-extern u16 *FLDMMDL_GetObjCodeParamBlActRes(const MmdlObjCodeParam *param);
+extern void *FLDMMDL_GetObjCodeParamBlActRes(const MmdlObjCodeParam *param);
 extern void *FLDMMDL_SysGetResArcHandle(MmdlSys *sys);
-extern void *G3D_SYSTEM_CreateResourceArcHandle(void *arcHandle, u32 dataId);
+struct ArcHandle;
+extern struct G3dResource *G3D_SYSTEM_CreateResourceArcHandle(struct ArcHandle *arc, u32 dataId);
 extern u16 FLDMMDL_SysGetMmdlMax(MmdlSys *sys);
 extern void FLDMMDL_CallDrawProc(Mmdl *mmdl);
 extern void MI_CpuFill8(void *p, u32 value, u32 size);
@@ -212,9 +219,9 @@ void FLDMMDL_BLACT_Init(MmdlSys *mmdlSys, struct BbActSys *bbdActSys, u32 resMax
     FLDMMDL_BLACT_CreateCodeChange(cont);
     board = BILLBOARD_ACT_GetBoard(bbdActSys);
     scale = sBlactBoardScale;
-    BILLBOARD_SetScale(board, &scale);
+    BILLBOARD_SetScale((u8 *)board, (struct Blk3 *)(&scale));
     polyIdBase = 0;
-    BILLBOARD_SetPolyIdBase(board, &polyIdBase);
+    BILLBOARD_SetPolyIdBase((u8 *)board, &polyIdBase);
 }
 
 void FLDMMDL_BLACT_Exit(MmdlSys *mmdlSys)
@@ -311,7 +318,7 @@ u32 FLDMMDL_BLACT_AddActorMmdl(Mmdl *mmdl, u16 slotIndex)
     MmdlSys *mmdlSys = FLDMMDL_GetMmdlSys(mmdl);
     MmdlObjCodeParam *param = FLDMMDL_GetObjCodeParam(mmdl);
     VecFx32 pos;
-    FLDMMDL_ACMD_GetDrawPos(mmdl, &pos);
+    FLDMMDL_ACMD_GetDrawPos(mmdl, (struct MmdlVec *)(&pos));
     return FLDMMDL_BLACT_AddActorPos(mmdlSys, &pos, param->mdlSize, param->animId, slotIndex);
 }
 
@@ -329,7 +336,7 @@ u32 FLDMMDL_BLACT_AddActorMmdlPalette(Mmdl *mmdl, u16 slotIndex, u16 paletteSlot
     MmdlSys *mmdlSys = FLDMMDL_GetMmdlSys(mmdl);
     MmdlObjCodeParam *param = FLDMMDL_GetObjCodeParam(mmdl);
     VecFx32 pos;
-    FLDMMDL_ACMD_GetDrawPos(mmdl, &pos);
+    FLDMMDL_ACMD_GetDrawPos(mmdl, (struct MmdlVec *)(&pos));
     return FLDMMDL_BLACT_AddActorPosPalette(mmdlSys, &pos, param->mdlSize, param->animId, slotIndex, paletteSlot);
 }
 

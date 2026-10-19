@@ -95,7 +95,8 @@ extern void BG_SYS_ClearMainPlanes(void);
 extern void BG_SYS_ClearSubPlanes(void);
 extern void GF_FONT_InitTextColor(void);
 extern void* GFL_USE_AddMainTask(u32,u32,u32);
-extern void TCB_DeleteTask(struct Node *n);
+struct TcbTask;
+extern void TCB_DeleteTask(struct TcbTask *task);
 extern int CHIHOU_ZUKAN_AWARD_GRAPHIC_DeleteCamera(int*);
 extern void GF_FONT_SetDefaultTextColor(void);
 extern u32 GFL_HEAP_Free(void *p);
@@ -108,7 +109,9 @@ extern void BG_SYS_SetPlaneVisible(u8,u8);
 extern void BG_SYS_FreeLayerBuf(unsigned char);
 extern void BMP_WIN_Exit(void),BG_SYS_Delete(void);
 extern void BG_SYS_Update(void);
-extern void CLACT_InitSystem(const struct Cfg *cfg, unsigned int arg, unsigned int heapId);
+struct DispVramCfg;
+struct SysInit;
+extern void CLACT_InitSystem(struct SysInit *cfg, struct DispVramCfg *res_cfg, unsigned int heapId);
 extern struct Bank *CLACT_CreateUnit(int count, u8 flag, unsigned int heapId);
 extern void CLACT_SetUnitDefaultRenderer(struct Bank *bank);
 extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
@@ -237,7 +240,7 @@ void CHIHOU_ZUKAN_AWARD_GRAPHIC_DrawObjects(void *p){BG_SYS_Update();}
 void CHIHOU_ZUKAN_AWARD_GRAPHIC_SetupClact(unsigned char *p, int a, int b)
 {
     MI_CpuFill8(p, 0, 4);
-    CLACT_InitSystem((const struct Cfg *)0x021BA1E4, a, b);
+    CLACT_InitSystem((struct SysInit *)0x021BA1E4, (struct DispVramCfg *)a, b);
     ((struct ClactCtx *)p)->unit = CLACT_CreateUnit(0x80, 0, b);
     CLACT_SetUnitDefaultRenderer(((struct ClactCtx *)p)->unit);
     BG_SYS_SetMainPlaneVisible(0x10, 1);

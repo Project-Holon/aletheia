@@ -22,6 +22,7 @@
  *   sMusicalProgramFileName  0x02172768  data
  *   MUSICAL_STAGE_SYS_CreateNpcPerformer 0x02156FD0 thumb ov010
  *   MUSICAL_STAGE_SYS_SetPerformerProp 0x0215700C thumb ov010
+ *   _ull_mul                     0x0209C054  arm
  */
 #include "event_ircbattle_shared_types.h"
 #include "musical_event_shared_types.h"
@@ -32,7 +33,7 @@ extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u
 
 extern u32 GFL_HEAP_Free(void *ptr);
 
-extern void *MUSICAL_MCSS_LoadActorData(int heapId);
+extern u32 *MUSICAL_MCSS_LoadActorData(int heapId);
 
 extern unsigned char MUSICAL_MCSS_GetElemA(void *table, int propId);
 

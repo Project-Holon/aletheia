@@ -6,6 +6,7 @@
     python tools/romlink.py --onelink          # link ARM9, ITCM and all overlays in ONE mwldarm run (tools/onelink.py)
     python tools/romlink.py --image-fallback   # a region that did not link keeps its image bytes (listed)
     python tools/romlink.py --out build/rom/aletheia.nds --report build/rom/report.json
+    python tools/romlink.py --version white    # Pokemon White: plain-mode region links (see below)
 
 What it does:
 
@@ -38,6 +39,16 @@ run (docs/restructure/ONELINK.md); each region's image is cut from that one ELF 
 prefix.  A capture newer than every input is reused, and the link is reused when the hashes of
 the captured objects did not change.  Steps 2 to 5 are the same.
 
+--version white builds white.nds.  The layout is build/white/layout/layout.json and the extract
+extract_white/ (both made from the user's White dump by ndsrom.py extract and delink.py).  The regions
+are the plain-mode links of `gamelink.py N --version white` (tools/whitelink.py runs them all) in
+build/gamelink/<region>_white/: their gaps (data, padding, the secure-area filler) are read from
+that extract.  Data mode and ONELINK do not exist for White yet.  Overlay 230 is sealed again by
+ovcrypt.encrypt (the White view).  Header, ARM7, banner, file system, the DSi block (the White
+dump's DSi area is one repeated filler page, there is nothing to re-encrypt) and the game data
+files are taken from the extract.  Output defaults to build/rom/white.nds and
+build/rom/report_white.json.
+
 Nothing is written to src/ or to a tracked file; everything goes to build/.
 """
 import argparse
@@ -62,6 +73,7 @@ AUTO = os.path.join(BUILD, "datac", "autoload")
 ITCM_C = os.path.join(BUILD, "datac", "itcm")
 PACK = os.path.join(BUILD, "rom", "pack")
 PY = sys.executable
+VERSION = "black"       # "white" with --version white (main() sets it)
 
 
 def sh(cmd, **kw):
@@ -69,6 +81,13 @@ def sh(cmd, **kw):
 
 
 def load_layout():
+    if VERSION == "white":
+        with open(os.path.join(BUILD, "white", "layout", "layout.json"), encoding="utf-8") as fh:
+            lay = json.load(fh)
+        lay["extract_dir"] = "extract_white"
+        ext = os.path.join(ROOT, "extract_white")
+        with open(os.path.join(ext, "manifest.json"), encoding="utf-8") as fh:
+            return lay, ext, json.load(fh)
     with open(LAYOUT, encoding="utf-8") as fh:
         lay = json.load(fh)
     ext = os.path.join(ROOT, lay["extract_dir"])
@@ -174,6 +193,8 @@ def relink_all(lay, jobs, only=None):
 
 
 def region_dir(name):
+    if VERSION == "white":
+        return os.path.join(GL, name + "_white")
     return os.path.join(GL if name == "itcm" else GLD, name)
 
 
@@ -364,11 +385,20 @@ def main(argv=None):
                     help="link every region in one mwldarm run (tools/onelink.py) and cut the images from it")
     ap.add_argument("--recapture", action="store_true", help="with --onelink: redo the capture even if it is fresh")
     ap.add_argument("--jobs", type=int, default=8)
+    ap.add_argument("--version", choices=("black", "white"), default="black",
+                    help="the game to build (white: plain-mode region links, extract_white/)")
     ap.add_argument("--image-fallback", action="store_true",
                     help="a region with no usable link keeps its bytes from the image (listed as such)")
-    ap.add_argument("--out", default=os.path.join(BUILD, "rom", "aletheia.nds"))
-    ap.add_argument("--report", default=os.path.join(BUILD, "rom", "report.json"))
+    ap.add_argument("--out", default=None)
+    ap.add_argument("--report", default=None)
     a = ap.parse_args(argv)
+    global VERSION
+    VERSION = a.version
+    white = VERSION == "white"
+    a.out = a.out or os.path.join(BUILD, "rom", "white.nds" if white else "aletheia.nds")
+    a.report = a.report or os.path.join(BUILD, "rom", "report_white.json" if white else "report.json")
+    if white and a.onelink:
+        raise SystemExit("--onelink does not exist for White yet")
 
     import blz
     import build as bld
@@ -377,7 +407,12 @@ def main(argv=None):
     t0 = time.time()
     if a.relink and a.onelink:
         raise SystemExit("--relink and --onelink are different link methods; pick one")
-    if a.relink:
+    if a.relink and white:
+        r = sh([PY, "tools/whitelink.py", "--jobs", str(a.jobs)])
+        print(r.stdout.strip()[-400:])
+        r = sh([PY, "tools/gamelink.py", "arm9_main", "itcm", "--version", "white"])
+        print(r.stdout.strip()[-400:])
+    elif a.relink:
         for line in relink_all(lay, a.jobs):
             print(line)
     one_imgs = None

@@ -65,34 +65,37 @@ extern void SBQueryEngineUpdateServer(SBQueryEngine *engine, SBServer *server, i
 extern void SBQueryEngineRemoveServerFromFIFOs(SBQueryEngine *engine, SBServer *server);
 extern void SBServerListDisconnect(SBServerList *slist);
 extern int ArrayLength(const int *p);
-extern void SBQueryEngineSetPublicIP(int *engine, int publicip);
+struct SBQueryEngine;
+extern void SBQueryEngineSetPublicIP(struct SBQueryEngine *engine, unsigned int publicip);
 extern void *gsimalloc(unsigned long size);
 extern void SBServerListInit(void *slist, char *queryForGamename, char *queryFromGamename, char *queryFromKey,
                           int queryFromVersion, int lanBrowse, void *callback, void *instance);
 extern void SBQueryEngineInit(void *engine, int maxupdates, int queryversion, int lanBrowse,
                           void *callback, void *instance);
 extern void SBServerListCleanup(SBServerList *slist);
-extern void SBEngineCleanup(void *engine);
+struct SBQueryEngine;
+extern void SBEngineCleanup(struct SBQueryEngine *engine);
 extern void NNFreeNegotiateList(void);
 extern void gsifree(void *ptr);
-extern int gsDebugFormat(int index, char *table, int mask, const char *fmt, ...);
-extern unsigned long strlen(const char *s);
+extern void gsDebugFormat(int cat, int type, int level, char *fmt, ...);
+extern int strlen(unsigned char *s);
 extern int OS_SPrintf(char *dst, const char *fmt, ...);
-extern void SBQueryEngineAddQueryKey(char *p, int v);
+extern void SBQueryEngineAddQueryKey(struct SBQueryEngine *engine, unsigned char key);
 extern int SBServerListConnectAndQuery(SBServerList *slist, char *fieldList, char *serverFilter, int options, int maxServers);
 extern void msleep(unsigned int msec);
-extern int inet_addr(int a);
-extern int SBSendMessageToServer(void *slist, unsigned int ip, unsigned short port, char *data, int len);
+extern int inet_addr(char *addrString);
+struct SBServerList;
+extern int SBSendMessageToServer(struct SBServerList *slist, unsigned int ip, unsigned short port, char *data, int len);
 extern int SBSendNatNegotiateCookieToServer(void *slist, unsigned int ip, unsigned short port, int cookie);
 extern int SBServerListFindServer(SBServerList *slist, void *findserver);
 extern void SBServerListRemoveAt(SBServerList *slist, int index);
-extern void NNThink(void *p);
-extern void SBQueryEngineThink(void *p);
+extern void NNThink(void);
+extern void SBQueryEngineThink(struct SBQueryEngine *engine);
 extern int SBListThink(int *p);
-extern void SBEngineHaltUpdates(char *p);
+extern void SBEngineHaltUpdates(struct SBQueryEngine *engine);
 extern void SBServerListClear(SBServerList *slist);
 extern SBServer *SBServerListNth(SBServerList *slist, int index);
-extern void SBServerListCount(char *p);
+extern void SBServerListCount(void *list);
 extern char *strcpy(char *dst, const char *src);
 extern void SBServerListSort(void *slist, int ascending, struct SortInfo sortinfo);
 static void ListCallback(SBServerList *serverlist, int reason, SBServer *server, void *instance);
@@ -171,7 +174,7 @@ static void ListCallback(SBServerList *serverlist, int reason, SBServer *server,
         sb->BrowserCallback(sb, 5, 0, sb->instance);
         break;
     case 6:
-        SBQueryEngineSetPublicIP((int *)(&sb->engine), sb->list.mypublicip);
+        SBQueryEngineSetPublicIP((struct SBQueryEngine *)(&sb->engine), sb->list.mypublicip);
         break;
     case 4:
     case 7:
@@ -272,18 +275,18 @@ int ServerBrowserBeginUpdate2(ServerBrowser *sb, int async, int disconnectOnComp
     char *key;
 
     if (numBasicFields > 40) {
-        gsDebugFormat(4, (char *)4, 2, g_021A81DC);
+        gsDebugFormat((int)4, (int)4, 2, g_021A81DC);
         return 6;
     }
     sb->disconnectFlag = disconnectOnComplete;
     sb->engine.numserverkeys = 0;
     for (i = 0; i < numBasicFields; i++) {
         key = gQr2RegKeys[basicFields[i]];
-        keylen = strlen(key);
+        keylen = strlen((unsigned char *)key);
         if (listLen + keylen + 1 >= 256)
             break;
         listLen += OS_SPrintf(keyList + listLen, g_021A8218, key);
-        SBQueryEngineAddQueryKey((char *)sb, basicFields[i]);
+        SBQueryEngineAddQueryKey((struct SBQueryEngine *)sb, basicFields[i]);
     }
     err = SBServerListConnectAndQuery(&sb->list, keyList, serverFilter, updateOptions, maxServers);
     if (err != 0 || async)
@@ -316,7 +319,7 @@ int ServerBrowserLimitUpdateA(ServerBrowser *sb, int async, int disconnectOnComp
  */
 int ServerBrowserSendMessageToServerA(ServerBrowser *sb, char *ip, unsigned short port, char *data, int len)
 {
-    return SBSendMessageToServer(&sb->list, inet_addr((int)ip),
+    return SBSendMessageToServer(&sb->list, inet_addr(ip),
                          (unsigned short)(((port >> 8) & 0xff) | ((port << 8) & 0xff00)), data, len);
 }
 
@@ -328,7 +331,7 @@ int ServerBrowserSendMessageToServerA(ServerBrowser *sb, char *ip, unsigned shor
  */
 int ServerBrowserSendNatNegotiateCookieToServerA(ServerBrowser *sb, char *ip, unsigned short port, int cookie)
 {
-    return SBSendNatNegotiateCookieToServer(&sb->list, inet_addr((int)ip),
+    return SBSendNatNegotiateCookieToServer(&sb->list, inet_addr(ip),
                          (unsigned short)(((port >> 8) & 0xff) | ((port << 8) & 0xff00)), cookie);
 }
 
@@ -355,8 +358,8 @@ void ServerBrowserRemoveServer(ServerBrowser *sb, SBServer *server)
  */
 int ServerBrowserThink(char *p)
 {
-    NNThink(p);
-    SBQueryEngineThink(p);
+    NNThink();
+    SBQueryEngineThink((struct SBQueryEngine *)p);
     return SBListThink((int *)(p + 0x60));
 }
 
@@ -369,7 +372,7 @@ int ServerBrowserThink(char *p)
 void ServerBrowserHalt(char *p)
 {
     SBServerListDisconnect((SBServerList *)(p + 0x60));
-    SBEngineHaltUpdates(p);
+    SBEngineHaltUpdates((struct SBQueryEngine *)p);
 }
 
 

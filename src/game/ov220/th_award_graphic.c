@@ -84,7 +84,8 @@ extern void BG_SYS_ClearMainPlanes(void);
 extern void BG_SYS_ClearSubPlanes(void);
 extern void GF_FONT_InitTextColor(void);
 extern void *GFL_USE_AddMainTask(void *,void *,int);
-extern void TCB_DeleteTask(struct Node *);
+struct TcbTask;
+extern void TCB_DeleteTask(struct TcbTask *task);
 extern void GF_FONT_SetDefaultTextColor(void);
 extern u32 GFL_HEAP_Free(void *p);
 extern u32 TH_AWARD_GRAPHIC_GetValue(u32*);
@@ -98,7 +99,9 @@ extern void BG_SYS_FreeLayerBuf(u32 i);
 extern void BMP_WIN_Exit(void);
 extern void BG_SYS_Delete(void);
 extern void BG_SYS_Update(void);
-extern void CLACT_InitSystem(const struct Cfg *cfg, unsigned int arg, unsigned int heapId);
+struct DispVramCfg;
+struct SysInit;
+extern void CLACT_InitSystem(struct SysInit *cfg, struct DispVramCfg *res_cfg, unsigned int heapId);
 extern struct Bank *CLACT_CreateUnit(int count, u8 flag, unsigned int heapId);
 extern void CLACT_SetUnitDefaultRenderer(struct Bank *bank);
 extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
@@ -151,7 +154,7 @@ void *TH_AWARD_GRAPHIC_Create(unsigned mode,unsigned heap)
 
 void TH_AWARD_GRAPHIC_Delete(unsigned char *p)
 {
-    TCB_DeleteTask(((struct ThAwardGraphic *)p)->proc);
+    TCB_DeleteTask((struct TcbTask *)(((struct ThAwardGraphic *)p)->proc));
     TH_AWARD_GRAPHIC_DeleteClact((char *)p+4);
     TH_AWARD_GRAPHIC_CleanupBg(p);
     GF_FONT_SetDefaultTextColor();
@@ -214,7 +217,7 @@ void TH_AWARD_GRAPHIC_DrawObjects(void *p){BG_SYS_Update();}
 void TH_AWARD_GRAPHIC_SetupClact(unsigned char *p, int a, int b)
 {
     MI_CpuFill8(p, 0, 4);
-    CLACT_InitSystem((const struct Cfg *)0x021BA40C, a, b);
+    CLACT_InitSystem((struct SysInit *)0x021BA40C, (struct DispVramCfg *)a, b);
     ((struct ClactCtx *)p)->unit = CLACT_CreateUnit(0x80, 0, b);
     CLACT_SetUnitDefaultRenderer(((struct ClactCtx *)p)->unit);
     BG_SYS_SetMainPlaneVisible(0x10, 1);

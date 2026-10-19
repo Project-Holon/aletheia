@@ -88,23 +88,33 @@ typedef struct {
 	unsigned char *data;
 } Buf;
 
+/* SOCLiSocketRecvCommandPipe (socl.h): the 0xf8-byte command pipe, then the consume
+ * state and the UDP data control block (in, out, size, size_max, waiting queue). */
 typedef struct {
-	char pad0[0xfc];
-	unsigned short sendLimit;
-	char pad1[0xc];
-	unsigned short cfg;
-	int exeSocket;
-	int reserved110;
-} SendPipe;
-
-typedef struct {
-	char pad0[0xf8];
-	Buf rbuf2;
-	char pad1[0x4];
-	int reserved104;
-	int reserved108;
-	void *exeSocket;
+	char h[0xf8];
+	long consumed;
+	unsigned short consumedMin;
+	signed char flagNoconsume;
+	unsigned char padding;
+	void *udpIn;
+	void *udpOut;
+	unsigned short udpSize;
+	unsigned short udpSizeMax;
+	void *udpWaitingHead;
+	void *udpWaitingTail;
 } RecvPipe;
+
+/* SOCLiSocketSendCommandPipe (socl.h): the 0xf8-byte command pipe, then the ring
+ * buffer (area, in, out, waiting queue) and exe_socket. */
+typedef struct {
+	char h[0xf8];
+	Buf area;
+	unsigned short in;
+	unsigned short out;
+	void *waitingHead;
+	void *waitingTail;
+	void *exeSocket;
+} SendPipe;
 
 typedef struct Sock {
 	char pad0[0x48];
@@ -114,8 +124,8 @@ typedef struct Sock {
 	Buf b5c;
 	Buf b64;
 	char pad1[0x34];
-	void *pipe_send;
-	void *pipe_recv;
+	void *recv_pipe;
+	void *send_pipe;
 	char pad2[0x6];
 	signed char f_ae;
 	signed char f_af;
@@ -236,18 +246,17 @@ typedef struct {
 extern struct SOCLiCommandPacket *SOCLi_CreateCommandPacket(int (*handler)(void *),
                                                             struct SOCLSocket *socket,
                                                             long flag);
-extern int SOCLi_ExecCommandPacketInCtrlPipe(struct SOCLSocket *socket,
-                                             struct SOCLiCommandPacket *command);
+extern void SOCLi_ExecCommandPacketInCtrlPipe(int socket, int packet);
 extern int SOCLi_CreateSocketCallBack(void *arg);
 extern void CPS_SocRegister(int v);
-extern void CPS_SocDup(void *thread);
+extern void CPS_SocDup(char *dst);
 extern void CPS_SocUse(void);
 extern void CPS_SocDatagramMode(void);
 extern void CPS_SetUdpCallback(int (*callback)(unsigned char *, unsigned long, void *));
 extern int SOCLi_UdpRecvCallback(unsigned char *data, unsigned long len, struct CPSSoc *soc);
 extern unsigned long OS_DisableInterrupts(void);
 extern void MI_CpuFill8(void *dstp, unsigned char data, unsigned long size);
-extern void SOCLi_SocketRegister(int a);
+extern void SOCLi_SocketRegister(void *a);
 extern unsigned long OS_RestoreInterrupts(unsigned long state);
 extern unsigned long SOCLi_RoundUp4(unsigned long size);
 extern void OS_InitMessageQueue(OSMessageQueue *mq, OSMessage *msgArray, s32 msgCount);
@@ -283,7 +292,7 @@ int SOCL_CreateSocket(struct SOCLSocketParam *param)
     if (socket == 0)
         return -0x31;
     command = SOCLi_CreateCommandPacket(SOCLi_CreateSocketCallBack, socket, 1);
-    SOCLi_ExecCommandPacketInCtrlPipe(socket, command);
+    SOCLi_ExecCommandPacketInCtrlPipe((int)socket, (int)command);
     {
         int flag = 0;
 
@@ -322,7 +331,7 @@ int SOCLi_CreateSocketCallBack(void *arg)
 	switch (socket->flag_mode) {
 	case 0:
 	case 4:
-		CPS_SocDup(send_pipe + 0x20);
+		CPS_SocDup((char *)(send_pipe + 0x20));
 		CPS_SocUse();
 		break;
 	case 1:
@@ -353,7 +362,7 @@ void *SOCLi_StartupSocket(void *param)
 	if (socket) {
 		MI_CpuFill8(socket, 0, size);
 		SOCLi_InitSocket((Sock *)socket, (const Param *)param);
-		SOCLi_SocketRegister((int)socket);
+		SOCLi_SocketRegister(socket);
 	}
 	OS_RestoreInterrupts(enable);
 	return socket;
@@ -422,7 +431,7 @@ unsigned long SOCLi_GetSizeCommandPipe(SOCLSocketThreadParam *param)
  * reason: `param->pipe1` and `param->pipe2` are four-byte arrays, and passing
  * them to a `void *` is the error that first shows the qualifier is real.
  *
- * The last byte is a struct offset, not code: `spipe->cfg` is at +0x10a, so
+ * The last byte is a struct offset, not code: `rpipe->udpSizeMax` is at +0x10a, so
  * the run between the u16 at +0xfc and it is 0xc bytes, not 0xa. The 0xf8
  * command pipe behind that header is the one
  * src/matched/ov_sdk/SOCLi_InitCommandPipe.c already pins (queue +0x00,
@@ -438,32 +447,32 @@ unsigned char *SOCLi_InitSocket(Sock *socket, const Param *param)
 	socket->f_af = param->a;
 	socket->f_ae = param->b;
 	if (param->send) {
-		SendPipe *spipe;
-
-		spipe = (SendPipe *)ptr;
-		socket->pipe_send = ptr;
-		spipe->sendLimit = param->sendLimit;
-		ptr = SOCLi_InitCommandPipe(ptr + 0x114, (SOCLSocketCommandPipe *)spipe, (const SOCLSocketThreadParam *)param->pipe1);
-		ptr = SOCLi_InitSocketBuffer(ptr, &socket->b48, param->send);
-		ptr = SOCLi_InitSocketBuffer(ptr, &socket->b5c, param->sendbuf);
-		spipe->cfg = param->cfg;
-		spipe->reserved110 = 0;
-		spipe->exeSocket = 0;
-	}
-	if (param->recv == 0) {
-		socket->pipe_recv = SOCLiUDPSendSocket->pipe_recv;
-	} else {
 		RecvPipe *rpipe;
 
-		socket->pipe_recv = ptr;
 		rpipe = (RecvPipe *)ptr;
-		rpipe->exeSocket = socket;
-		ptr = SOCLi_InitCommandPipe(ptr + 0x110, (SOCLSocketCommandPipe *)rpipe, (const SOCLSocketThreadParam *)param->pipe2);
+		socket->recv_pipe = ptr;
+		rpipe->consumedMin = param->sendLimit;
+		ptr = SOCLi_InitCommandPipe(ptr + 0x114, (SOCLSocketCommandPipe *)rpipe, (const SOCLSocketThreadParam *)param->pipe1);
+		ptr = SOCLi_InitSocketBuffer(ptr, &socket->b48, param->send);
+		ptr = SOCLi_InitSocketBuffer(ptr, &socket->b5c, param->sendbuf);
+		rpipe->udpSizeMax = param->cfg;
+		rpipe->udpWaitingTail = 0;
+		rpipe->udpWaitingHead = 0;
+	}
+	if (param->recv == 0) {
+		socket->send_pipe = SOCLiUDPSendSocket->send_pipe;
+	} else {
+		SendPipe *spipe;
+
+		socket->send_pipe = ptr;
+		spipe = (SendPipe *)ptr;
+		spipe->exeSocket = socket;
+		ptr = SOCLi_InitCommandPipe(ptr + 0x110, (SOCLSocketCommandPipe *)spipe, (const SOCLSocketThreadParam *)param->pipe2);
 		ptr = SOCLi_InitSocketBuffer(ptr, &socket->b54, param->recv);
 		ptr = SOCLi_InitSocketBuffer(ptr, &socket->b64, param->rbuf1);
-		ptr = SOCLi_InitSocketBuffer(ptr, &rpipe->rbuf2, param->rbuf2);
-		rpipe->reserved108 = 0;
-		rpipe->reserved104 = 0;
+		ptr = SOCLi_InitSocketBuffer(ptr, &spipe->area, param->rbuf2);
+		spipe->waitingTail = 0;
+		spipe->waitingHead = 0;
 	}
 	return ptr;
 }

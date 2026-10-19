@@ -27,14 +27,15 @@
  *   DWCi_SETTINGlSetRaku  0x021CF9BC  arm  ov016
  *   DWCi_HEAPlFree2  0x021D647C  arm  ov016
  */
-extern void OS_Terminate(void);
-extern void OS_Sleep(unsigned long msec);
+#include "../arm9/os_terminate_processor.h"
+typedef int BOOL;
+typedef unsigned int u32;
+#include "../arm9/os_thread.h"
 extern void DWCi_RAKUl_memFree(void *ptr);
 extern int ATERMi_ApConfigEnd(void);
-extern void DWCi_HEAPlFree_(void **mem);
+#include "heap.h"
 extern int DWCi_RakurakuATERMi_ApConfigGetResult(int a);
-extern void DWCi_SETTINGlSetRaku(void *param);
-extern void *DWCi_HEAPlAllocEx(unsigned long size, int alignment);
+#include "setting.h"
 void DWCi_RAKUlInit(void);
 void DWCi_RAKUlEnd(void);
 int DWCi_RAKUlGetState(void);
@@ -48,7 +49,6 @@ typedef struct {
 extern int DWCi_RakurakuATERMi_ApConfigStart(int priority, int maxAps, void (*notify)(RakuStatus *), void *(*alloc)(unsigned long), void (*free)(void *), unsigned long stackSize);
 void cbConfig(RakuStatus *status);
 extern RakuStatus *gRakuStatus;
-extern void DWCi_HEAPlFree2(void *mem);
 
 
 /*

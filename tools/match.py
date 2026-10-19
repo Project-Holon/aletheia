@@ -149,13 +149,24 @@ def compile_tu(src, version, flags, thumb, lang, workdir, sdk_include=True,
         cmd += ["-thumb"]
     if lang:
         cmd += ["-lang", lang]
+    if os.environ.get("ALETHEIA_VERSION", "black").lower() == "white":
+        cmd += ["-d", "VERSION=2"]     # src/game/version.h: VERSION_WHITE
     cmd += ["-ir", os.path.dirname(os.path.abspath(src)) or "."]
     if sdk_include and os.path.isdir(SDK_INCLUDE):
         cmd += ["-I+" + SDK_INCLUDE]
     for inc in extra_includes:
         cmd += ["-I+" + inc]
     obj = os.path.join(workdir, "tu.o")
-    cmd += ["-c", "-o", obj, os.path.abspath(src)]
+    csrc = os.path.abspath(src)
+    if os.environ.get("ALETHEIA_VERSION", "black").lower() == "white" and "game" in csrc.replace("\\", "/").split("/"):
+        # White build: address literals in the source are Black addresses (tools/white_map.py)
+        import white_map
+        with open(csrc, encoding="latin1", newline="") as fh:
+            body = white_map.remap_source(fh.read(), csrc)
+        csrc = os.path.join(workdir, os.path.basename(csrc))
+        with open(csrc, "w", encoding="latin1", newline="") as fh:
+            fh.write(body)
+    cmd += ["-c", "-o", obj, csrc]
 
     env = dict(os.environ)
     env.setdefault("MWLibraries", workdir)
@@ -1816,6 +1827,33 @@ def symbol_address(name, decls):
             addr, th = src[name]
             return addr, ("thumb" if th else "arm"), tag
     return None
+
+
+_ADDR_DATA_NAME_RE = re.compile(r"^(?:[gd]_|ov\d+_id$)")
+
+
+def unattested_names(fb, decls):
+    """Sorted names of `fb`'s relocation targets that no source names an address for.
+
+    A target counts when the file's `symbols:` block lists it, its name carries
+    its address (func_XXXXXXXX, d_XXXXXXXX), layout/symbols_sdk.json or the
+    matched manifest has it, or it is a local or a section of the object.  Any
+    other name (a compiler-emitted helper such as `_dfltu` left out of the
+    block) is bound to an address only by the linker driver, which takes the
+    address from the image's own call: the per-file compare then says EXACT
+    for any spelling, and tools/gamelink.py binds the name once per region.
+    docs/COMPILER_NOTES.md section 12."""
+    out = set()
+    secs = getattr(fb, "secs", {}) or {}
+    anon = getattr(fb, "anon", {}) or {}
+    for _off, _rt, name, _add in fb.relocs:
+        if (name in fb.locals or name in secs or name in anon
+                or ANON_NAME_RE.match(name) or name in SECTION_NAMES
+                or _ADDR_DATA_NAME_RE.match(name)):
+            continue
+        if symbol_address(name, decls) is None:
+            out.add(name)
+    return sorted(out)
 
 
 # ---------------------------------------------------------------------------
@@ -7308,6 +7346,11 @@ def entry_from_source(path, header, kind, rel, verify=False):
                 entry["addresses"] = rec
     if runtime_kind:
         entry["functions"] = names
+        # The paired `addresses` list, in `functions` order, from the runtime
+        # table (as a game unit records its members' addresses).
+        by_rt = {n: a for a, n in runtime_addresses().items()}
+        if all(n in by_rt for n in names):
+            entry["addresses"] = ["0x%08X" % by_rt[n] for n in names]
         if covers is not None:
             entry["covers"] = ["0x%08X" % a for a in covers]
     if verify and (sole or sdk_ev):
@@ -9588,6 +9631,21 @@ def cmd_selftest(args):
                 "the entry",
            cmp_case(b"\xAA\xBB\xCC\xDD", [1, 1, 0, 1], b"\x00\xBB\xCC\xDD"),
            "DIFF")
+    # A compiler-emitted helper left out of `symbols:` (COMPILER_NOTES section
+    # 12) gets its address from the image's own call, so the per-file compare
+    # cannot tell a right name from a wrong one: it is reported as unattested.
+    def unatt_case(names, decls):
+        fb = FuncBytes("unatt_selftest", bytes(8), bytearray([1] * 8), False, ".text",
+                       [(i * 4, 28, n, 0) for i, n in enumerate(names)])
+        return unattested_names(fb, decls)
+
+    _decl = {"_dflt": Decl("_dflt", 0x0209B750, "arm", "header")}
+    _check(res, "unattested: a helper with no symbols row is listed",
+           unatt_case(["_dflt", "_dfltu"], {}), ["_dflt", "_dfltu"])
+    _check(res, "unattested: a helper with a symbols row is not listed",
+           unatt_case(["_dflt", "_dfltu"], _decl), ["_dfltu"])
+    _check(res, "unattested: an address-bearing name is not listed",
+           unatt_case(["func_02045A38", "d_0209E090"], {}), [])
     # An empty body (`asm void f(void) {}`) compiles to no bytes.  Zero
     # bytes compared with zero bytes passed vacuously and came out EXACT
     # (src/matched/twl_sdk/func_027073AC.c and two others did): it is EMPTY,

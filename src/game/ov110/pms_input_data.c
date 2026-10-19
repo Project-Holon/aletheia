@@ -50,14 +50,16 @@ extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u
 extern struct PmsWordSys *PMS_WORD_Create(u32 heapId);
 extern void PMS_WORD_Delete(struct PmsWordSys *);
 extern u32 GFL_HEAP_Free(void *p);
-extern void *PMSI_PARAM_GetSaveWork(void *p);
-extern u32 ZUKAN_SAVE_IsSeen(struct PokedexSave *p, u16 id);
-extern int PMSI_PARAM_GetEventFlag(void *);
-extern void *PMSI_PARAM_GetWordSave(void *p);
+struct PmsiParam;
+extern void *PMSI_PARAM_GetSaveWork(struct PmsiParam *obj);
+struct ZukanSave;
+extern u32 ZUKAN_SAVE_IsSeen(struct ZukanSave *pZukan, u16 species);
+extern int PMSI_PARAM_GetEventFlag(struct PmsiParam *obj);
+extern void *PMSI_PARAM_GetWordSave(struct PmsiParam *obj);
 extern u16 PMS_WORD_MakeWordId(u32 idx, u16 add);
 extern int PMS_WORD_CheckFlag(const u32 *p, u32 idx);
-extern int PMSI_PARAM_GetOptionFlag(void *);
-extern void PMS_WORD_GetString(struct PmsWordSys *, int, int);
+extern int PMSI_PARAM_GetOptionFlag(struct PmsiParam *obj);
+extern void PMS_WORD_GetString(struct PmsWordSys *p, u32 id, void *dest);
 
 extern const char d_021C3B80[];
 extern const CategorySource d_021C1E80[];
@@ -81,9 +83,9 @@ void PMS_INPUT_DATA_GetCategoryWordString(struct PmsInputData *d, unsigned int c
 unsigned short PMS_INPUT_DATA_GetCategoryWordId(struct PmsInputData *d, unsigned int category, unsigned int index);
 u32 PMS_INPUT_DATA_FilterWordList(u32 a, u32 b, u32 c);
 const u16 *PMS_INPUT_DATA_SkipRangeEntry(const u16 *rangeEntry);
-u16 PMS_INPUT_DATA_GetInitialWordId(int unused, int initial, int index);
+u16 PMS_INPUT_DATA_GetInitialWordId(struct PmsInputData *unused, int initial, int index);
 void PMS_INPUT_DATA_GetWordString(struct PmsInputData *d, u16 wordId, int mode);
-int PMS_INPUT_DATA_GetInvalidWordId(u32 unused);
+int PMS_INPUT_DATA_GetInvalidWordId(struct PmsInputData *unused);
 
 struct PmsInputData *PMS_INPUT_DATA_Create(u32 heap, void *save)
 {
@@ -285,7 +287,7 @@ void PMS_INPUT_DATA_GetCategoryWordString(struct PmsInputData *d, unsigned int c
 {
     unsigned int start;
     start = d->categoryStart[category];
-    PMS_WORD_GetString(d->wordSys, d->categoryWords[start + index], mode);
+    PMS_WORD_GetString(d->wordSys, d->categoryWords[start + index], (void *)mode);
 }
 
 unsigned short PMS_INPUT_DATA_GetCategoryWordId(struct PmsInputData *d, unsigned int category, unsigned int index)
@@ -306,7 +308,7 @@ const u16 *PMS_INPUT_DATA_SkipRangeEntry(const u16 *rangeEntry)
     return rangeEntry + 2 + (rangeEntry[1] - 1);
 }
 
-u16 PMS_INPUT_DATA_GetInitialWordId(int unused, int initial, int index)
+u16 PMS_INPUT_DATA_GetInitialWordId(struct PmsInputData *unused, int initial, int index)
 {
     const u16 *p = d_021C1C88[initial];
     int n = 0;
@@ -328,10 +330,10 @@ u16 PMS_INPUT_DATA_GetInitialWordId(int unused, int initial, int index)
 
 void PMS_INPUT_DATA_GetWordString(struct PmsInputData *d, u16 wordId, int mode)
 {
-    PMS_WORD_GetString(d->wordSys, wordId, mode);
+    PMS_WORD_GetString(d->wordSys, wordId, (void *)mode);
 }
 
-int PMS_INPUT_DATA_GetInvalidWordId(u32 unused)
+int PMS_INPUT_DATA_GetInvalidWordId(struct PmsInputData *unused)
 {
     return 0xffff;
 }

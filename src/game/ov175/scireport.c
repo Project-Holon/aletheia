@@ -26,6 +26,7 @@
  */
 #include "../../matched/arm9_sdk/libc/string.h"
 #include "sc_types.h"
+extern void *MSL_C_LIB_MemsetPtr(void *dest, int c, unsigned long n);
 
 #define SCI_ROSTER_ROW_SIZE 20 /* connection id (16 bytes) and team index */
 #define SCI_ROSTER_TEAM_OFFSET 16

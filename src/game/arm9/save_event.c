@@ -27,34 +27,38 @@
  *   MYSTATUS_CreateNameStrbuf  0x02008510  thumb
  *   MYSTATUS_GetSex  0x02008550  thumb
  */
+#include "../version.h"
 #include "comm_player_support_shared_types.h"
 #include "save_event_shared_types.h"
 
 extern void STRBUF_Delete(struct Strbuf *str);
 
 extern void GF_STANDARD_GetCachedDate(struct RtcDate *date);
+struct MyStatus;
 
-extern u32 MYSTATUS_GetId(const struct PlayerRecord *record);
+extern u32 MYSTATUS_GetId(struct MyStatus *mystatus);
+struct PokemonParam;
 
-extern struct SaveData *POKE_TOOL_CastToBoxParam(void *gameData);
+extern struct PokemonParam *POKE_TOOL_CastToBoxParam(struct PokemonParam *mon);
+struct BoxPokemon;
 
-extern u32 POKE_TOOL_DecodeBoxParam(struct SaveData *save);
+extern u32 POKE_TOOL_DecodeBoxParam(struct BoxPokemon *box);
 
-extern u32 POKE_TOOL_EncodeBoxParam(struct SaveData *save, u32 savedFlag);
+extern u32 POKE_TOOL_EncodeBoxParam(struct BoxPokemon *box, u32 didDecode);
 
-extern u32 POKE_TOOL_IsBoxOwnedByPlayer(struct SaveData *save, const struct PlayerRecord *record);
+extern u32 POKE_TOOL_IsBoxOwnedByPlayer(struct BoxPokemon *box, struct MyStatus *myStatus);
 
-extern void POKE_TOOL_SetBoxValue(struct SaveData *save, u32 varId, u32 value);
+extern void POKE_TOOL_SetBoxValue(struct BoxPokemon *box, u32 paramId, u32 value);
 
-extern u32 POKE_TOOL_GetBoxValue(struct SaveData *save, u32 varId, u32 defaultValue);
+extern u32 POKE_TOOL_GetBoxValue(struct BoxPokemon *box, u32 paramId, u32 arg);
 
 extern u32 ZONEDATA_IsRawZoneGroup4CTo69(u32 id);
 
-extern struct Strbuf *MYSTATUS_CreateNameStrbuf(const struct PlayerRecord *record, u32 index);
+extern struct Strbuf *MYSTATUS_CreateNameStrbuf(u16 *name, s32 heap_id);
 
-extern u32 MYSTATUS_GetSex(const struct PlayerRecord *record);
+extern u8 MYSTATUS_GetSex(struct MyStatus *mystatus);
 
-extern u32 POKE_TOOL_IsBoxShiny(struct SaveData *save);
+extern u32 POKE_TOOL_IsBoxShiny(struct BoxPokemon *box);
 
 void SAVE_EVENT_Write(void *gameData, u32 mode, const struct PlayerRecord *record, u32 eventId, u16 index);
 
@@ -88,7 +92,7 @@ void SAVE_EVENT_AdvanceStage(struct SaveData *save, u32 stage);
 
 void SAVE_EVENT_Write(void *gameData, u32 mode, const struct PlayerRecord *record, u32 eventId, u16 index)
 {
-    SAVE_EVENT_WriteMode(POKE_TOOL_CastToBoxParam(gameData), mode, record, eventId, index);
+    SAVE_EVENT_WriteMode((struct SaveData *)POKE_TOOL_CastToBoxParam(gameData), mode, record, eventId, index);
 }
 
 /*
@@ -104,7 +108,7 @@ void SAVE_EVENT_Write(void *gameData, u32 mode, const struct PlayerRecord *recor
  */
 void SAVE_EVENT_WriteMode(struct SaveData *save, u32 mode, const struct PlayerRecord *record, u32 eventId, u32 index)
 {
-    u32 savedFlag = POKE_TOOL_DecodeBoxParam(save);
+    u32 savedFlag = POKE_TOOL_DecodeBoxParam((struct BoxPokemon *)save);
 
     switch (mode) {
     case 0:
@@ -120,7 +124,7 @@ void SAVE_EVENT_WriteMode(struct SaveData *save, u32 mode, const struct PlayerRe
         SAVE_EVENT_SetDoneFlag(save);
         break;
     case 2:
-        if (POKE_TOOL_IsBoxOwnedByPlayer(save, record) == 1) {
+        if (POKE_TOOL_IsBoxOwnedByPlayer((struct BoxPokemon *)save, (struct MyStatus *)record) == 1) {
             SAVE_EVENT_WriteEventIdWithDate(save, eventId, 1);
             SAVE_EVENT_StoreRecord(save, record, index);
         } else {
@@ -142,7 +146,7 @@ void SAVE_EVENT_WriteMode(struct SaveData *save, u32 mode, const struct PlayerRe
         SAVE_EVENT_WriteEventIdWithDate(save, eventId, 1);
         break;
     }
-    POKE_TOOL_EncodeBoxParam(save, savedFlag);
+    POKE_TOOL_EncodeBoxParam((struct BoxPokemon *)save, savedFlag);
 }
 
 /* Stores today's RTC date into save variables 0x92 to 0x94. */
@@ -152,19 +156,19 @@ void SAVE_EVENT_StoreTodayDate(struct SaveData *save)
 
     GF_STANDARD_GetCachedDate(&date);
 
-    POKE_TOOL_SetBoxValue(save, 0x92, date.year);
-    POKE_TOOL_SetBoxValue(save, 0x93, date.month);
-    POKE_TOOL_SetBoxValue(save, 0x94, date.day);
+    POKE_TOOL_SetBoxValue((struct BoxPokemon *)save, 0x92, date.year);
+    POKE_TOOL_SetBoxValue((struct BoxPokemon *)save, 0x93, date.month);
+    POKE_TOOL_SetBoxValue((struct BoxPokemon *)save, 0x94, date.day);
 }
 
 void SAVE_EVENT_WriteWithDate(struct SaveData *save, u32 eventId, u32 year, u32 month, u32 day)
 {
-    if (POKE_TOOL_GetBoxValue(save, 0xAA, 0) == 1)
+    if (POKE_TOOL_GetBoxValue((struct BoxPokemon *)save, 0xAA, 0) == 1)
         SAVE_EVENT_StoreVariant(save, eventId, year, month, day, 0);
     else
         SAVE_EVENT_StoreVariant(save, eventId, year, month, day, 1);
     SAVE_EVENT_CopyDoneFlag(save);
-    POKE_TOOL_SetBoxValue(save, 0x6D, 1);
+    POKE_TOOL_SetBoxValue((struct BoxPokemon *)save, 0x6D, 1);
 }
 
 void SAVE_EVENT_ClearVariant(struct SaveData *save, u32 variant)
@@ -194,11 +198,11 @@ void SAVE_EVENT_StoreVariant(struct SaveData *save, u32 eventId, u32 year, u32 m
 {
     u8 base = (variant == 1);
 
-    POKE_TOOL_SetBoxValue(save, base + 0x95, eventId);
+    POKE_TOOL_SetBoxValue((struct BoxPokemon *)save, base + 0x95, eventId);
     base = (u8)(base * 3);
-    POKE_TOOL_SetBoxValue(save, base + 0x8F, year);
-    POKE_TOOL_SetBoxValue(save, base + 0x90, month);
-    POKE_TOOL_SetBoxValue(save, base + 0x91, day);
+    POKE_TOOL_SetBoxValue((struct BoxPokemon *)save, base + 0x8F, year);
+    POKE_TOOL_SetBoxValue((struct BoxPokemon *)save, base + 0x90, month);
+    POKE_TOOL_SetBoxValue((struct BoxPokemon *)save, base + 0x91, day);
 }
 
 /*
@@ -210,11 +214,11 @@ void SAVE_EVENT_CopyVariant(struct SaveData *save, u32 variant)
     u8 base = (variant == 1);
     u32 eventId, year, month, otherVariant, day;
 
-    eventId = POKE_TOOL_GetBoxValue(save, base + 0x95, 0);
+    eventId = POKE_TOOL_GetBoxValue((struct BoxPokemon *)save, base + 0x95, 0);
     base = (u8)(base * 3);
-    year = POKE_TOOL_GetBoxValue(save, base + 0x8F, 0);
-    month = POKE_TOOL_GetBoxValue(save, base + 0x90, 0);
-    day = POKE_TOOL_GetBoxValue(save, base + 0x91, 0);
+    year = POKE_TOOL_GetBoxValue((struct BoxPokemon *)save, base + 0x8F, 0);
+    month = POKE_TOOL_GetBoxValue((struct BoxPokemon *)save, base + 0x90, 0);
+    day = POKE_TOOL_GetBoxValue((struct BoxPokemon *)save, base + 0x91, 0);
 
     otherVariant = (variant == 0);
     SAVE_EVENT_StoreVariant(save, eventId, year, month, day, otherVariant);
@@ -226,22 +230,22 @@ void SAVE_EVENT_CopyVariant(struct SaveData *save, u32 variant)
  */
 void SAVE_EVENT_StoreRecord(struct SaveData *save, const struct PlayerRecord *record, u32 index)
 {
-    struct Strbuf *name = (struct Strbuf *)MYSTATUS_CreateNameStrbuf(record, index);
-    u32 kind = MYSTATUS_GetId(record);
-    u32 key = MYSTATUS_GetSex(record);
+    struct Strbuf *name = (struct Strbuf *)MYSTATUS_CreateNameStrbuf((u16 *)record, index);
+    u32 kind = MYSTATUS_GetId((struct MyStatus *)record);
+    u32 key = MYSTATUS_GetSex((struct MyStatus *)record);
 
-    POKE_TOOL_SetBoxValue(save, 0x8d, (u32)name);
-    POKE_TOOL_SetBoxValue(save, 0x9a, key);
-    POKE_TOOL_SetBoxValue(save, 7, kind);
+    POKE_TOOL_SetBoxValue((struct BoxPokemon *)save, 0x8d, (u32)name);
+    POKE_TOOL_SetBoxValue((struct BoxPokemon *)save, 0x9a, key);
+    POKE_TOOL_SetBoxValue((struct BoxPokemon *)save, 7, kind);
     STRBUF_Delete(name);
 }
 
 /* Copies save variable 0x9e into 0x99. */
 void SAVE_EVENT_CopyDoneFlag(struct SaveData *save)
 {
-    u32 value = POKE_TOOL_GetBoxValue(save, 0x9e, 0);
+    u32 value = POKE_TOOL_GetBoxValue((struct BoxPokemon *)save, 0x9e, 0);
 
-    POKE_TOOL_SetBoxValue(save, 0x99, value);
+    POKE_TOOL_SetBoxValue((struct BoxPokemon *)save, 0x99, value);
 }
 
 /*
@@ -252,12 +256,12 @@ void SAVE_EVENT_CopyDoneFlag(struct SaveData *save)
  */
 void SAVE_EVENT_SetDoneFlag(struct SaveData *save)
 {
-    POKE_TOOL_SetBoxValue(save, 0x77, 0x15);
+    POKE_TOOL_SetBoxValue((struct BoxPokemon *)save, 0x77, PM_VERSION_ID);
 }
 
 int SAVE_EVENT_IsStageDone(void *gameData, int stage)
 {
-    return SAVE_EVENT_CheckStage(POKE_TOOL_CastToBoxParam(gameData), stage);
+    return SAVE_EVENT_CheckStage((struct SaveData *)POKE_TOOL_CastToBoxParam(gameData), stage);
 }
 
 /*
@@ -267,20 +271,20 @@ int SAVE_EVENT_IsStageDone(void *gameData, int stage)
  */
 int SAVE_EVENT_CheckStage(struct SaveData *save, int stage)
 {
-    u32 savedFlag = POKE_TOOL_DecodeBoxParam(save);
-    int variable5 = POKE_TOOL_GetBoxValue(save, 5, 0);
-    int eventId = POKE_TOOL_GetBoxValue(save, 0x96, 0);
-    int done = POKE_TOOL_GetBoxValue(save, 0x6d, 0);
-    int count = POKE_TOOL_IsBoxShiny(save);
+    u32 savedFlag = POKE_TOOL_DecodeBoxParam((struct BoxPokemon *)save);
+    int variable5 = POKE_TOOL_GetBoxValue((struct BoxPokemon *)save, 5, 0);
+    int eventId = POKE_TOOL_GetBoxValue((struct BoxPokemon *)save, 0x96, 0);
+    int done = POKE_TOOL_GetBoxValue((struct BoxPokemon *)save, 0x6d, 0);
+    int count = POKE_TOOL_IsBoxShiny((struct BoxPokemon *)save);
     int anyDate = 0;
 
-    if (POKE_TOOL_GetBoxValue(save, 0x8f, anyDate) != 0
-        || POKE_TOOL_GetBoxValue(save, 0x90, anyDate) != 0
-        || POKE_TOOL_GetBoxValue(save, 0x91, anyDate) != 0
-        || POKE_TOOL_GetBoxValue(save, 0x95, anyDate) != 0) {
+    if (POKE_TOOL_GetBoxValue((struct BoxPokemon *)save, 0x8f, anyDate) != 0
+        || POKE_TOOL_GetBoxValue((struct BoxPokemon *)save, 0x90, anyDate) != 0
+        || POKE_TOOL_GetBoxValue((struct BoxPokemon *)save, 0x91, anyDate) != 0
+        || POKE_TOOL_GetBoxValue((struct BoxPokemon *)save, 0x95, anyDate) != 0) {
         anyDate = 1;
     }
-    POKE_TOOL_EncodeBoxParam(save, savedFlag);
+    POKE_TOOL_EncodeBoxParam((struct BoxPokemon *)save, savedFlag);
 
     switch (stage) {
     case 0:
@@ -335,7 +339,7 @@ int SAVE_EVENT_CheckStage(struct SaveData *save, int stage)
  */
 void SAVE_EVENT_CommitStage(void *gameData, u32 stage)
 {
-    SAVE_EVENT_AdvanceStage(POKE_TOOL_CastToBoxParam(gameData), stage);
+    SAVE_EVENT_AdvanceStage((struct SaveData *)POKE_TOOL_CastToBoxParam(gameData), stage);
 }
 
 /*
@@ -346,17 +350,17 @@ void SAVE_EVENT_CommitStage(void *gameData, u32 stage)
  */
 void SAVE_EVENT_AdvanceStage(struct SaveData *save, u32 stage)
 {
-    u32 savedFlag = POKE_TOOL_DecodeBoxParam(save);
+    u32 savedFlag = POKE_TOOL_DecodeBoxParam((struct BoxPokemon *)save);
 
     if (SAVE_EVENT_CheckStage(save, stage) == 1) {
         switch (stage) {
         case 0:
-            POKE_TOOL_SetBoxValue(save, 0x96, 0x753B);
+            POKE_TOOL_SetBoxValue((struct BoxPokemon *)save, 0x96, 0x753B);
             break;
         case 2:
-            POKE_TOOL_SetBoxValue(save, 0x96, 0x753D);
+            POKE_TOOL_SetBoxValue((struct BoxPokemon *)save, 0x96, 0x753D);
             break;
         }
     }
-    POKE_TOOL_EncodeBoxParam(save, savedFlag);
+    POKE_TOOL_EncodeBoxParam((struct BoxPokemon *)save, savedFlag);
 }

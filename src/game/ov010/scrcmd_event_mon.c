@@ -37,20 +37,25 @@
 #include "scrcmd_research_shared_types.h"
 
 extern void *GAMESYSTEM_GetFieldMap(const struct GameSystem *gameSystem);
+struct FieldMap;
+struct FieldPlayer;
 
-extern void *FIELDMAP_GetFieldPlayer(void *fieldMap);
+extern struct FieldPlayer *FIELDMAP_GetFieldPlayer(struct FieldMap *fieldMap);
 
 extern void *SCRCMD_WORK_GetScriptWork(struct ScrCmdWork *work);
+struct ScrcmdWork;
+struct GameData;
 
-extern void *SCRCMD_WORK_GetGameData(struct ScrCmdWork *work);
+extern struct GameData *SCRCMD_WORK_GetGameData(struct ScrcmdWork *work);
+struct ScriptVm;
 
-extern u16 *SCRIPT_WORK_ReadWorkPointer(struct ScriptContext *ctx, struct ScrCmdWork *work);
+extern u16 *SCRIPT_WORK_ReadWorkPointer(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
 
 extern unsigned int SCRIPT_WORK_ReadWorkValue(struct ScriptContext *ctx, struct ScrCmdWork *work);
 
 extern void *SCRCMD_WORK_GetGameSystem(struct ScrCmdWork *work);
 
-extern int SCRIPT_SYS_CallEvent(void *scriptSystem, void *event);
+extern void SCRIPT_SYS_CallEvent(void *scriptSystem, void *event);
 
 extern void FIELD_PLAYER_GetPos(void *player, FxVec3 *out);
 
@@ -63,14 +68,16 @@ extern void *SP_POKE_GIMMICK_StartWaitAnimeEnd(void *gameSystem, u32 value);
 extern void *SP_POKE_GIMMICK_StartWaitAnimeProgress(void *gameSystem, u32 value);
 
 extern void *GAME_DATA_GetMyParty(const struct GameData *gameData);
+struct Party;
 
-extern u32 POKEPARTY_GetCount(void *party);
+extern u32 POKEPARTY_GetCount(struct Party *party);
+struct PokemonParam;
 
-extern void *POKEPARTY_GetMember(void *party, u32 index);
+extern struct PokemonParam *POKEPARTY_GetMember(struct Party *party, u32 pos);
 
 extern int SAVE_EVENT_IsStageDone(void *mon, int kind);
 
-extern u32 POKE_TOOL_GetPartyValue(void *mon, u32 paramId, u32 arg);
+extern u32 POKE_TOOL_GetPartyValue(struct PokemonParam *pp, u32 paramId, u32 arg);
 
 extern void SAVE_EVENT_CommitStage(void *mon, u32 kind);
 
@@ -177,11 +184,11 @@ int SCRCMD_EVENT_MON_CmdStartSpPokeGimmickStepB(struct ScriptContext *ctx, struc
  */
 int SCRCMD_EVENT_MON_CmdFindEventMonInParty(struct ScriptContext *ctx, struct ScrCmdWork *scrWork)
 {
-    void *party = GAME_DATA_GetMyParty(SCRCMD_WORK_GetGameData(scrWork));
+    void *party = GAME_DATA_GetMyParty(SCRCMD_WORK_GetGameData((struct ScrcmdWork *)scrWork));
     int species = SCRIPT_WORK_ReadWorkValue(ctx, scrWork);
     unsigned int useSignatureMove = SCRIPT_WORK_ReadWorkValue(ctx, scrWork);
-    u16 *outIndex = SCRIPT_WORK_ReadWorkPointer(ctx, scrWork);
-    u16 *outFound = SCRIPT_WORK_ReadWorkPointer(ctx, scrWork);
+    u16 *outIndex = SCRIPT_WORK_ReadWorkPointer((struct ScriptVm *)ctx, (struct ScrcmdWork *)scrWork);
+    u16 *outFound = SCRIPT_WORK_ReadWorkPointer((struct ScriptVm *)ctx, (struct ScrcmdWork *)scrWork);
     int kind;
     int move;
 
@@ -266,7 +273,7 @@ int SCRCMD_EVENT_MON_CmdClearEventMonFlag(struct ScriptContext *ctx, struct ScrC
     int kind;
     void *mon;
 
-    party = GAME_DATA_GetMyParty(SCRCMD_WORK_GetGameData(scrWork));
+    party = GAME_DATA_GetMyParty(SCRCMD_WORK_GetGameData((struct ScrcmdWork *)scrWork));
     species = SCRIPT_WORK_ReadWorkValue(ctx, scrWork);
     partyIndex = SCRIPT_WORK_ReadWorkValue(ctx, scrWork);
     switch (species) {

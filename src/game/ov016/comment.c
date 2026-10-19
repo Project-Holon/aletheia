@@ -28,10 +28,10 @@
 void DWCi_CMNlLoadResource(char *file, void (*func)(void *, unsigned long, unsigned long));
 void *DWCi_FNTlFormBgEx(int lcd, int font);
 unsigned short *DWCi_MSGlGetEx(void *msg, int id, int n, int num);
-unsigned long DWCi_CMNlFontFlag(void);
+int DWCi_CMNlFontFlag(void);
 void DWCi_FNTlDrawRect(void *canvas, int x, int y, int w, int h, int color, unsigned long flag, unsigned short *txt);
-void DWCi_FNTlRenewBg(void *canvas);
-void GXS_LoadBG0Scr(void);
+void DWCi_FNTlRenewBg(int x);
+void GXS_LoadBG0Scr(void *pSrc, unsigned int offset, unsigned int szByte);
 void DWCi_FNTlDeleteBgLcd(int lcd);
 void DWCi_COMMENTlInit(void);
 int DWCi_COMMENTlDispEx(int messageId, int n, int num);
@@ -58,7 +58,7 @@ int DWCi_COMMENTlDispEx(int messageId, int n, int num)
     canvas = DWCi_FNTlFormBgEx(1, 0);
     msg = DWCi_MSGlGetEx(gCommentWork, messageId, n, num);
     DWCi_FNTlDrawRect(canvas, 0x14, 0, 0xd8, 0x40, 2, DWCi_CMNlFontFlag(), msg);
-    DWCi_FNTlRenewBg(canvas);
+    DWCi_FNTlRenewBg((int)canvas);
     Flag = 1;
     return 1;
 }

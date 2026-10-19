@@ -35,18 +35,18 @@ struct HistoryEntry {
     u8 : 3;
     u8 reserved27;                  /* 0x27 */
 };
+struct MyStatus;
 
-extern u8 MYSTATUS_GetNation(const struct PlayerRecord *record);
+extern u8 MYSTATUS_GetNation(struct MyStatus *mystatus);
 
 extern struct HistoryEntry *WIFI_HISTORY_GetEntries(struct HistoryOwner *owner);
 
-extern u32 MYSTATUS_GetId(const struct PlayerRecord *record);
+extern u32 MYSTATUS_GetId(struct MyStatus *mystatus);
+struct WifiHistory;
 
-extern u32 WIFI_HISTORY_MarkCountryVisited(struct HistoryOwner *owner, u32 key);
+extern u32 WIFI_HISTORY_MarkCountryVisited(struct WifiHistory *history, u32 country);
 
-extern void WIFI_HISTORY_IncrementVisitedCountryCount(struct HistoryOwner *owner);
-
-extern u32 _u32_div_f(u32 dividend, u32 divisor);
+extern void WIFI_HISTORY_IncrementVisitedCountryCount(struct WifiHistory *history);
 
 u32 COMM_HISTORY_InsertIfNationSet(struct HistoryOwner *owner, struct HistoryEntry *entry);
 
@@ -86,7 +86,7 @@ u32 SCROLLBAR_GetPosFromValue(u32 total, u32 rate, u32 start, u32 end, u32 margi
  */
 u32 COMM_HISTORY_InsertIfNationSet(struct HistoryOwner *owner, struct HistoryEntry *entry)
 {
-    if (MYSTATUS_GetNation(&entry->record) == 0) {
+    if (MYSTATUS_GetNation((struct MyStatus *)(&entry->record)) == 0) {
         return 0;
     }
     return COMM_HISTORY_InsertOrReplace(owner, entry);
@@ -123,7 +123,7 @@ u32 COMM_HISTORY_InsertOrReplace(struct HistoryOwner *owner, struct HistoryEntry
         return 1;
     }
 
-    value = MYSTATUS_GetNation(&entry->record);
+    value = MYSTATUS_GetNation((struct MyStatus *)(&entry->record));
     if (COMM_HISTORY_CountByKey(table, value) < 5) {
         if (COMM_HISTORY_CountLeadingOccupied(table) >= 0x14)
             COMM_HISTORY_RemoveAt(table, 0);
@@ -182,7 +182,7 @@ u32 COMM_HISTORY_CountByKey(struct HistoryEntry *table, u32 key)
         u32 entryKey;
         if (!table[i].isOccupied)
             break;
-        entryKey = MYSTATUS_GetNation(&table[i].record);
+        entryKey = MYSTATUS_GetNation((struct MyStatus *)(&table[i].record));
         if (entryKey == key)
             count++;
     }
@@ -200,7 +200,7 @@ s32 COMM_HISTORY_FindByKey(struct HistoryEntry *table, u32 key)
     for (i = 0; i < 0x14; i++) {
         u32 entryKey;
         if (!table[i].isOccupied) break;
-        entryKey = MYSTATUS_GetNation(&table[i].record);
+        entryKey = MYSTATUS_GetNation((struct MyStatus *)(&table[i].record));
         if (entryKey == key) return i;
     }
     return 0x14;
@@ -212,17 +212,17 @@ s32 COMM_HISTORY_FindByKey(struct HistoryEntry *table, u32 key)
  */
 s32 COMM_HISTORY_FindByKeys(struct HistoryEntry *table, struct HistoryEntry *entry)
 {
-    u32 keyA = MYSTATUS_GetId(&entry->record);
-    u32 keyB = MYSTATUS_GetNation(&entry->record);
+    u32 keyA = MYSTATUS_GetId((struct MyStatus *)(&entry->record));
+    u32 keyB = MYSTATUS_GetNation((struct MyStatus *)(&entry->record));
     u32 i;
 
     for (i = 0; i < 0x14; i++) {
         u32 candidateA, candidateB;
         if (!table[i].isOccupied)
             break;
-        candidateA = MYSTATUS_GetId(&table[i].record);
+        candidateA = MYSTATUS_GetId((struct MyStatus *)(&table[i].record));
         if (candidateA == keyA) {
-            candidateB = MYSTATUS_GetNation(&table[i].record);
+            candidateB = MYSTATUS_GetNation((struct MyStatus *)(&table[i].record));
             if (candidateB == keyB)
                 return i;
         }
@@ -285,9 +285,9 @@ void COMM_HISTORY_StoreAndNotify(struct HistoryOwner *owner, struct HistoryEntry
 
     COMM_HISTORY_StoreAt(table, entry, mark);
 
-    key = MYSTATUS_GetNation(&entry->record);
-    if (WIFI_HISTORY_MarkCountryVisited(owner, key) != 0)
-        WIFI_HISTORY_IncrementVisitedCountryCount(owner);
+    key = MYSTATUS_GetNation((struct MyStatus *)(&entry->record));
+    if (WIFI_HISTORY_MarkCountryVisited((struct WifiHistory *)owner, key) != 0)
+        WIFI_HISTORY_IncrementVisitedCountryCount((struct WifiHistory *)owner);
 }
 
 /*
@@ -333,25 +333,21 @@ u32 SCROLLBAR_GetValueFromPos(u32 maxValue, u32 value, u32 rangeStart, u32 range
  * bits, scaled by the rate, divided by the total and shifted back down; the
  * quotient joins start and half of margin.
  *
- * The divide is the UNSIGNED runtime entry at 0x0209C2B0 (which
- * layout/runtime_arm9.txt names `_div_by_zero_check`, but the code there is
- * the unsigned divide entry itself; `signed / signed` emits 0x0209C0A4
- * instead).  Declared here under the front end's own name, `_u32_div_f`.
- *
- * Two spellings are load-bearing:
- *   - the quotient must be bound to its own local.  Written inline, the
- *     quotient stays live in r0 and the re-read of `margin` is scheduled
- *     into r1 BEFORE the shift.
- *   - the sum must associate as `(start + scaled) + (margin >> 1)`.  With
- *     `(scaled + start) + (margin >> 1)` the two `adds` land on the other
- *     operand order.
- * Together they put the quotient's high half in r2 and re-read `margin`
- * into r0, which is exactly the original's tail.
+ * The quotient `scaled` is kept in its own local: the image shifts it
+ * into r2 right after the divide, then re-reads `margin`.  With
+ * propagation on, mwcc moves the shift into the return expression and
+ * reads `margin` first; `opt_propagation off` keeps the statement order.
+ * The sum associates as `(start + scaled) + (margin >> 1)`: the other
+ * order swaps the operands of the two `adds`.
  */
+#pragma opt_propagation off
+
 u32 SCROLLBAR_GetPosFromValue(u32 total, u32 rate, u32 start, u32 end, u32 margin)
 {
     u32 span = ((end - start) - margin) << 8;
-    u32 scaled = _u32_div_f(span * rate, total) >> 8;
+    u32 scaled = span * rate / total >> 8;
 
     return (start + scaled) + (margin >> 1);
 }
+
+#pragma opt_propagation reset

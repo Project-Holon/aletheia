@@ -187,16 +187,19 @@ extern void *NNS_G2dGetCellDataByIdx(CellDataBank *pBank, u32 idx);
 extern MultiCellData *NNS_G2dGetMultiCellDataByIdx(MultiCellBank *pBank, u32 idx);
 extern NodeRec *NNSi_G2dGetCellAnimationCurrentSequence(AnimCtrl *pAnimCtrl);
 extern BOOL NNS_G2dTickAnimCtrl(AnimCtrl *pAnimCtrl, fx32 frames);
-extern BOOL NNSi_G2dSetCellAnimationCurrentFrame(AnimCtrl *pAnimCtrl, u32 frameIdx);
-extern int NNS_G2dInitAnimCtrl(AnimCtrl *pAnimCtrl);
-extern void NNS_G2dResetCellAnimation(AnimCtrl *pAnimCtrl);
-extern void NNS_G2dSetCellAnimationBank(AnimCtrl *pAnimCtrl, const AnimSequenceData *pAnimSeq);
-extern BOOL NNS_G2dIsCellAnimationBoundingBox(AnimCtrl *pAnimCtrl);
+extern BOOL NNSi_G2dSetCellAnimationCurrentFrame(void *s, u32 i);
+extern int NNS_G2dInitAnimCtrl(struct AnimCtrl *pAnimCtrl);
+struct NNSG2dAnimController;
+extern void NNS_G2dResetCellAnimation(struct NNSG2dAnimController *pAnimCtrl);
+extern void NNS_G2dSetCellAnimationBank(struct CellAnim *anim, void *bank);
+extern BOOL NNS_G2dIsCellAnimationBoundingBox(struct CellAnim *anim);
 extern void NNS_G2dSetSRTTranslate(SRTControl *pSrtCtrl, s16 x, s16 y);
-extern void NNS_G2dSetSRTRotate(SRTControl *pSrtCtrl, u16 rotZ);
-extern void NNS_G2dSetSRTScale(SRTControl *pSrtCtrl, fx32 scaleX, fx32 scaleY);
-extern void NNSi_G2dSrtcInitControl(SRTControl *pSrtCtrl, u32 mode);
-extern void *NNSi_G2dRequestCellTransferState(u32 stateIdx, u32 srcOffset, u32 szByte);
+struct NNSG2dSRTControl;
+extern void NNS_G2dSetSRTRotate(struct NNSG2dSRTControl *obj, u16 rotZ);
+extern void NNS_G2dSetSRTScale(struct NNSG2dSRTControl *obj, u32 scaleX, u32 scaleY);
+extern void NNSi_G2dSrtcInitControl(struct NNSG2dSRTControl *pSrtCtrl, u32 mode);
+struct CellTransferState;
+extern struct CellTransferState *NNSi_G2dRequestCellTransferState(u32 stateIdx, u32 srcOffset, u32 szByte);
 extern void NNS_G2dSetCellTransferState(u32 stateIdx, u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g);
 void NNSi_G2dInitMCNode(Node *pNode, u32 type);
 void NNSi_G2dRefreshCellAnimation(CellAnim *pCellAnim);
@@ -246,7 +249,7 @@ void NNSi_G2dInitMCNode(Node *pNode, u32 type)
     pNode->pContent = 0;
     pNode->type = type;
     pNode->bVisible = 1;
-    NNSi_G2dSrtcInitControl(&pNode->srtCtrl, 1);
+    NNSi_G2dSrtcInitControl((struct NNSG2dSRTControl *)(&pNode->srtCtrl), 1);
 }
 
 
@@ -273,7 +276,7 @@ void NNSi_G2dRefreshCellAnimation(CellAnim *pCellAnim)
 
     kind = pCellAnim->animCtrl.pAnimSequence->animType & 0xff;
 
-    NNSi_G2dSrtcInitControl(&pCellAnim->srtCtrl, 1);
+    NNSi_G2dSrtcInitControl((struct NNSG2dSRTControl *)(&pCellAnim->srtCtrl), 1);
 
     switch (kind) {
     case 0:
@@ -282,8 +285,8 @@ void NNSi_G2dRefreshCellAnimation(CellAnim *pCellAnim)
         NNS_G2dSetSRTTranslate(&pCellAnim->srtCtrl, pNodeRec->transOnlyX, pNodeRec->transOnlyY);
         break;
     default:
-        NNS_G2dSetSRTScale(&pCellAnim->srtCtrl, pNodeRec->scaleX, pNodeRec->scaleY);
-        NNS_G2dSetSRTRotate(&pCellAnim->srtCtrl, pNodeRec->rotZ);
+        NNS_G2dSetSRTScale((struct NNSG2dSRTControl *)(&pCellAnim->srtCtrl), pNodeRec->scaleX, pNodeRec->scaleY);
+        NNS_G2dSetSRTRotate((struct NNSG2dSRTControl *)(&pCellAnim->srtCtrl), pNodeRec->rotZ);
         NNS_G2dSetSRTTranslate(&pCellAnim->srtCtrl, pNodeRec->transX, pNodeRec->transY);
         break;
     }
@@ -327,8 +330,8 @@ void NNS_G2dInitCellAnimation(CellAnim *pCellAnim, const AnimSequenceData *pAnim
 {
     pCellAnim->pCellDataBank = pCellDataBank;
     pCellAnim->transferStateHandle = -1;
-    NNSi_G2dSrtcInitControl(&pCellAnim->srtCtrl, 1);
-    NNS_G2dInitAnimCtrl(&pCellAnim->animCtrl);
+    NNSi_G2dSrtcInitControl((struct NNSG2dSRTControl *)(&pCellAnim->srtCtrl), 1);
+    NNS_G2dInitAnimCtrl((&pCellAnim->animCtrl));
     NNS_G2dSetCellAnimationSequence(pCellAnim, pAnimSeq);
 }
 
@@ -370,8 +373,8 @@ void NNS_G2dInitCellAnimationVramTransfered(CellAnim *pCellAnim, const AnimSeque
     *(volatile int *)&pCellAnim->transferStateHandle = stateIdx;
     *(CellDataBank *volatile *)&pCellAnim->pCellDataBank = pCellDataBank;
     *(volatile int *)&pCellAnim->transferStateHandle = stateIdx;
-    NNSi_G2dSrtcInitControl(&pCellAnim->srtCtrl, 1);
-    NNS_G2dInitAnimCtrl(&pCellAnim->animCtrl);
+    NNSi_G2dSrtcInitControl((struct NNSG2dSRTControl *)(&pCellAnim->srtCtrl), 1);
+    NNS_G2dInitAnimCtrl((&pCellAnim->animCtrl));
     NNS_G2dSetCellAnimationSequence(pCellAnim, pAnimSeq);
 }
 
@@ -381,7 +384,7 @@ void NNS_G2dInitCellAnimationVramTransfered(CellAnim *pCellAnim, const AnimSeque
 
 void NNS_G2dSetCellAnimationSequence(CellAnim *pCellAnim, const AnimSequenceData *pAnimSeq)
 {
-    NNS_G2dSetCellAnimationBank(&pCellAnim->animCtrl, pAnimSeq);
+    NNS_G2dSetCellAnimationBank((struct CellAnim *)(&pCellAnim->animCtrl), (void *)pAnimSeq);
     NNSi_G2dRefreshCellAnimation(pCellAnim);
 }
 
@@ -433,7 +436,7 @@ void NNS_G2dSetCellAnimationCurrentFrame(CellAnim *pCellAnim, u32 frameIdx)
  */
 void NNS_G2dRestartCellAnimation(CellAnim *pCellAnim)
 {
-    NNS_G2dResetCellAnimation(&pCellAnim->animCtrl);
+    NNS_G2dResetCellAnimation((struct NNSG2dAnimController *)(&pCellAnim->animCtrl));
     pCellAnim->animCtrl.bActive = 1;
     NNSi_G2dRefreshCellAnimation(pCellAnim);
 }
@@ -498,7 +501,7 @@ static inline void SetNodeDataToCellAnim_(CellAnim *pCellAnim, const HierData *p
     if (GetPlayMode(pNodeData) == 1) {
         const u32 animSeqLength = CalcTotal(pAnimSeq);
 
-        if (NNS_G2dIsCellAnimationBoundingBox(&pCellAnim->animCtrl)) {
+        if (NNS_G2dIsCellAnimationBoundingBox((struct CellAnim *)(&pCellAnim->animCtrl))) {
             const u32 frameToMove = (mcTotalFrame % animSeqLength);
             NNS_G2dTickCellAnimation(pCellAnim, (fx32)(frameToMove << 12));
         } else {
@@ -630,7 +633,7 @@ void NNS_G2dSetAnimSequenceToMCAnimation(MultiCellAnim *pMCAnim, const AnimSeque
     u32 kind;
     u32 pMultiCellData;
 
-    NNS_G2dSetCellAnimationBank(&pMCAnim->animCtrl, pAnimSeq);
+    NNS_G2dSetCellAnimationBank((struct CellAnim *)(&pMCAnim->animCtrl), (void *)pAnimSeq);
     pMCAnim->totalFrames = 0;
 
     if (pMCAnim->animCtrl.pActiveCurrent->frames == 0) {
@@ -641,7 +644,7 @@ void NNS_G2dSetAnimSequenceToMCAnimation(MultiCellAnim *pMCAnim, const AnimSeque
     pMultiCellData = (u32)NNS_G2dGetMultiCellDataByIdx(pMCAnim->pMultiCellBank, pNodeRec->index);
     kind = pMCAnim->animCtrl.pAnimSequence->animType & 0xff;
 
-    NNSi_G2dSrtcInitControl(&pMCAnim->srtCtrl, 1);
+    NNSi_G2dSrtcInitControl((struct NNSG2dSRTControl *)(&pMCAnim->srtCtrl), 1);
 
     if (kind == 0) {
         goto done;
@@ -650,8 +653,8 @@ void NNS_G2dSetAnimSequenceToMCAnimation(MultiCellAnim *pMCAnim, const AnimSeque
     if (kind == 2) {
         NNS_G2dSetSRTTranslate(&pMCAnim->srtCtrl, pNodeRec->transOnlyX, pNodeRec->transOnlyY);
     } else {
-        NNS_G2dSetSRTScale(&pMCAnim->srtCtrl, pNodeRec->scaleX, pNodeRec->scaleY);
-        NNS_G2dSetSRTRotate(&pMCAnim->srtCtrl, pNodeRec->rotZ);
+        NNS_G2dSetSRTScale((struct NNSG2dSRTControl *)(&pMCAnim->srtCtrl), pNodeRec->scaleX, pNodeRec->scaleY);
+        NNS_G2dSetSRTRotate((struct NNSG2dSRTControl *)(&pMCAnim->srtCtrl), pNodeRec->rotZ);
         NNS_G2dSetSRTTranslate(&pMCAnim->srtCtrl, pNodeRec->transX, pNodeRec->transY);
     }
 
@@ -726,14 +729,14 @@ void NNS_G2dInitMCAnimation(MultiCellAnim *pMCAnim, void *pBuf, const struct Ani
       pNode->pContent = cell;
       NNS_G2dInitCellAnimation(cell, NNS_G2dGetAnimSequenceByIdx(pAnimBank, 0), pCellDataBank);
     }
-    NNS_G2dInitAnimCtrl(&pMCAnim->animCtrl);
+    NNS_G2dInitAnimCtrl((&pMCAnim->animCtrl));
     pMCAnim->pMultiCellBank = pBank;
-    NNSi_G2dSrtcInitControl(&pMCAnim->srtCtrl, 1);
+    NNSi_G2dSrtcInitControl((struct NNSG2dSRTControl *)(&pMCAnim->srtCtrl), 1);
     pMCAnim->totalFrames = 0;
   }
-  NNS_G2dInitAnimCtrl(&pMCAnim->animCtrl);
+  NNS_G2dInitAnimCtrl((&pMCAnim->animCtrl));
   pMCAnim->pMultiCellBank = pBank;
-  NNSi_G2dSrtcInitControl(&pMCAnim->srtCtrl, 1);
+  NNSi_G2dSrtcInitControl((struct NNSG2dSRTControl *)(&pMCAnim->srtCtrl), 1);
   pMCAnim->totalFrames = 0;
 }
 
@@ -869,7 +872,7 @@ void NNS_G2dTickMCAnimation(MultiCellAnim *pMCAnim, fx32 frames)
     pNodeRec = NNSi_G2dGetCellAnimationCurrentSequence(&pMCAnim->animCtrl);
     pMultiCellData = (int)NNS_G2dGetMultiCellDataByIdx(pMCAnim->pMultiCellBank, pNodeRec->index);
     kind = pMCAnim->animCtrl.pAnimSequence->animType & 0xff;
-    NNSi_G2dSrtcInitControl(&pMCAnim->srtCtrl, 1);
+    NNSi_G2dSrtcInitControl((struct NNSG2dSRTControl *)(&pMCAnim->srtCtrl), 1);
     switch (kind) {
     case 0:
         break;
@@ -877,8 +880,8 @@ void NNS_G2dTickMCAnimation(MultiCellAnim *pMCAnim, fx32 frames)
         NNS_G2dSetSRTTranslate(&pMCAnim->srtCtrl, pNodeRec->transOnlyX, pNodeRec->transOnlyY);
         break;
     default:
-        NNS_G2dSetSRTScale(&pMCAnim->srtCtrl, pNodeRec->scaleX, pNodeRec->scaleY);
-        NNS_G2dSetSRTRotate(&pMCAnim->srtCtrl, pNodeRec->rotZ);
+        NNS_G2dSetSRTScale((struct NNSG2dSRTControl *)(&pMCAnim->srtCtrl), pNodeRec->scaleX, pNodeRec->scaleY);
+        NNS_G2dSetSRTRotate((struct NNSG2dSRTControl *)(&pMCAnim->srtCtrl), pNodeRec->rotZ);
         NNS_G2dSetSRTTranslate(&pMCAnim->srtCtrl, pNodeRec->transX, pNodeRec->transY);
         break;
     }
@@ -922,7 +925,7 @@ void NNS_G2dSetMCAnimationCurrentFrame(MultiCellAnim *pMCAnim, u32 frameIdx)
     pNodeRec = NNSi_G2dGetCellAnimationCurrentSequence(&pMCAnim->animCtrl);
     pMultiCellData = (int)NNS_G2dGetMultiCellDataByIdx(pMCAnim->pMultiCellBank, pNodeRec->index);
     kind = pMCAnim->animCtrl.pAnimSequence->animType & 0xff;
-    NNSi_G2dSrtcInitControl(&pMCAnim->srtCtrl, 1);
+    NNSi_G2dSrtcInitControl((struct NNSG2dSRTControl *)(&pMCAnim->srtCtrl), 1);
     switch (kind) {
     case 0:
         break;
@@ -930,8 +933,8 @@ void NNS_G2dSetMCAnimationCurrentFrame(MultiCellAnim *pMCAnim, u32 frameIdx)
         NNS_G2dSetSRTTranslate(&pMCAnim->srtCtrl, pNodeRec->transOnlyX, pNodeRec->transOnlyY);
         break;
     default:
-        NNS_G2dSetSRTScale(&pMCAnim->srtCtrl, pNodeRec->scaleX, pNodeRec->scaleY);
-        NNS_G2dSetSRTRotate(&pMCAnim->srtCtrl, pNodeRec->rotZ);
+        NNS_G2dSetSRTScale((struct NNSG2dSRTControl *)(&pMCAnim->srtCtrl), pNodeRec->scaleX, pNodeRec->scaleY);
+        NNS_G2dSetSRTRotate((struct NNSG2dSRTControl *)(&pMCAnim->srtCtrl), pNodeRec->rotZ);
         NNS_G2dSetSRTTranslate(&pMCAnim->srtCtrl, pNodeRec->transX, pNodeRec->transY);
         break;
     }

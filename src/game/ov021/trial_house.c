@@ -72,6 +72,7 @@ typedef signed char    s8;
 typedef signed short   s16;
 typedef signed int     s32;
 
+#include "../version.h"
 #include "bsubway_scr_types.h"
 
 /* Opaque types of other files. */
@@ -103,7 +104,7 @@ typedef struct RecordBlock RecordBlock;               /* player record block of 
 
 /* Wireless delivery: game kind sent in the beacon, and frames to wait for senders. */
 #define TRIAL_HOUSE_DELIVERY_GAME_KIND 0x2E
-#define TRIAL_HOUSE_DELIVERY_ACCEPT_MASK 0x200000
+#define TRIAL_HOUSE_DELIVERY_ACCEPT_MASK PM_VERSION_MASK
 #define TRIAL_HOUSE_DELIVERY_HEAP_ID 0x8015
 #define TRIAL_HOUSE_DELIVERY_WAIT_FRAMES 120
 
@@ -197,50 +198,42 @@ typedef struct TrialHouseSaveTaskWork {
 } TrialHouseSaveTaskWork;
 
 extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
-extern u32 KEY_GetTrg(void);
+#include "../arm9/key.h"
 extern void MI_CpuFill8(void *dst, u32 value, u32 size);
-extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *file, u16 line);
-extern u32 GFL_HEAP_Free(void *p);
-extern void *GAME_EVENT_GetWork(GameEvent *event);
-extern GameEvent *GAME_EVENT_Create(GameSystem *gameSystem, void *arg, int (*func)(GameEvent *event, u32 *seq, void *work), u32 workSize);
-extern GameData *GAMESYSTEM_GetGameData(GameSystem *gameSystem);
-extern SaveControl *GAME_DATA_GetSaveControl(GameData *gameData);
-extern FieldMap *GAMESYSTEM_GetFieldMap(GameSystem *gameSystem);
-extern void *POKEPARTY_GetMember(Party *party, u32 index);
-extern u32 POKE_TOOL_GetPartyValue(void *mon, u32 paramId, u32 arg);
+#include "../arm9/gfl_heap_wrap.h"
+#include "../arm9/game_event.h"
+struct GameSystem;
+#include "../arm9/gamesystem.h"
+#include "../arm9/game_data.h"
+struct PokemonParam;
+#include "../arm9/pokeparty.h"
+typedef unsigned long long u64;
+#include "../arm9/poke_tool.h"
 extern u32 BATTLE_EXAMINATION_GetBlockSize(void);
-extern Party *POKEPARTY_Create(u32 heapId);
-extern void POKEPARTY_InitEx(Party *party, s32 capacity);
 extern int SAVE_CONTROL_LoadExtraSaveWithBuffer(SaveControl *saveControl, int blockId, int heapId, void *buf, int size);
 extern TrialHouseDelivery *SAVE_CONTROL_GetExtraSaveRecord(SaveControl *saveControl, u32 blockId, u32 arg);
 extern void SAVE_CONTROL_DeleteExtraSaveBuffered(SaveControl *saveControl, unsigned int blockId);
-extern int BATTLE_EXAMINATION_IsDeliveryValid(TrialHouseDelivery *delivery);
-extern int BATTLE_EXAMINATION_IsDeliveryUnused(TrialHouseDelivery *delivery);
+extern int BATTLE_EXAMINATION_IsDeliveryValid(void *delivery);
+extern int BATTLE_EXAMINATION_IsDeliveryUnused(void *delivery);
 extern BtlInstTrainer *BATTLE_EXAMINATION_GetTrainerSlot(TrialHouseDelivery *delivery, u32 index);
-extern u16 BATTLE_EXAMINATION_GetDeliveryId(TrialHouseDelivery *delivery);
-extern void BATTLE_EXAMINATION_LoadDelivery(GameData *gameData, TrialHouseDelivery *src, u32 heapId);
-extern void BATTLE_EXAMINATION_RefreshMarker(TrialHouseDelivery *delivery);
-extern TrialHouseSave *TRIAL_HOUSE_SAVE_GetFromSave(SaveControl *saveControl);
-extern RecordBlock *RECORD_GetFromSave(SaveControl *saveControl);
-extern void RECORD_SetTrialScore(RecordBlock *record, u32 value);
-extern void RECORD_SetTrialRank(RecordBlock *record, u32 value);
-extern u32 GFL_USE_GetRandom(u32 range);
+extern u16 BATTLE_EXAMINATION_GetDeliveryId(void *delivery);
+extern void BATTLE_EXAMINATION_LoadDelivery(void *gameData, void *dst, u32 heap);
+extern void BATTLE_EXAMINATION_RefreshMarker(void *delivery);
+#include "../arm9/trial_house_savedata.h"
+#include "../arm9/record.h"
+#include "../arm9/gfl_use.h"
 extern int FLD_BTL_INST_TOOL_CreateTrainer(BtlInstTrainer *trainer, u16 trainerIndex, int count, u16 *exclSpecies, u16 *exclItems, BtlInstDraw *draw, u16 heapId);
 extern u16 FLD_BTL_INST_TOOL_LookupKeyValue(u16 trainerType);
 extern GameEvent *FLD_BTL_INST_TOOL_CreateTrainerMsgEvent(GameSystem *gameSystem, BtlInstTrainer *trainers, int index, int mmdlId);
-extern DeliveryBeacon *DELIVERY_BEACON_Create(TrialHouseBeaconParam *param);
+struct DeliveryBeaconParam;
+extern DeliveryBeacon *DELIVERY_BEACON_Create(struct DeliveryBeaconParam *param);
 extern int DELIVERY_BEACON_Start(DeliveryBeacon *beacon);
 extern void DELIVERY_BEACON_RunStep(DeliveryBeacon *beacon);
 extern int DELIVERY_BEACON_HasAnyPiece(DeliveryBeacon *beacon);
 extern int DELIVERY_BEACON_TryComplete(DeliveryBeacon *beacon);
 extern int DELIVERY_BEACON_Delete(DeliveryBeacon *beacon);
-extern int GFL_NET_IsIdle(void);
-extern void GAME_DATA_PartSaveStart(GameData *gameData, u32 blockId);
-extern int GAME_DATA_PartSaveMain(GameData *gameData, int blockId);
-extern FieldSaveAnime *FIELD_SAVEANIME_Create(u32 heapId, FieldMap *fieldMap);
-extern void FIELD_SAVEANIME_Start(FieldSaveAnime *anim);
-extern void FIELD_SAVEANIME_Stop(FieldSaveAnime *anim);
-extern int FIELD_SAVEANIME_Delete(FieldSaveAnime *anim);
+#include "../arm9/net.h"
+#include "field_saveanime.h"
 
 TrialHouseWork *TRIAL_HOUSE_CreateWork(GameSystem *gameSystem);
 void TRIAL_HOUSE_LoadDeliveryState(GameSystem *gameSystem, TrialHouseWork *work);
@@ -255,8 +248,8 @@ GameEvent *TRIAL_HOUSE_CreateTrainerMsgEvent(GameSystem *gameSystem, TrialHouseW
 GameEvent *TRIAL_HOUSE_CreateDeliveryTask(GameSystem *gameSystem, TrialHouseWork *work, u16 *result);
 int TRIAL_HOUSE_DeliveryTaskMain(GameEvent *event, u32 *seq, void *work);
 void TRIAL_HOUSE_ComputeScoreAndRank(GameSystem *gameSystem, TrialHouseWork *work, u16 *outRank, u16 *outScore);
-int TRIAL_HOUSE_GetDeliveryState(int unused, TrialHouseWork *work);
-GameEvent *TRIAL_HOUSE_CreateSaveTask(GameSystem *gameSystem, int unused, int mode);
+int TRIAL_HOUSE_GetDeliveryState(struct GameSystem *unused, TrialHouseWork *work);
+GameEvent *TRIAL_HOUSE_CreateSaveTask(GameSystem *gameSystem, struct TrialHouseWork *unused, int mode);
 int TRIAL_HOUSE_GetRecordSlotsState(GameSystem *gameSystem);
 u8 TRIAL_HOUSE_IsDeliveryIdReceived(TrialHouseSave *save, u32 id);
 void TRIAL_HOUSE_MarkDeliveryIdReceived(TrialHouseSave *save, u32 id);
@@ -484,7 +477,7 @@ int TRIAL_HOUSE_DeliveryTaskMain(GameEvent *event, u32 *seq, void *work)
     gameSystem = task->gameSystem;
     switch (*seq) {
     case 0:
-        task->beacon = DELIVERY_BEACON_Create(&task->param);
+        task->beacon = DELIVERY_BEACON_Create((struct DeliveryBeaconParam *)(&task->param));
         if (DELIVERY_BEACON_Start(task->beacon) == 0) {
             *task->result = TRIAL_HOUSE_DELIVERY_RESULT_FAILED;
             *seq = 4;
@@ -664,13 +657,13 @@ void TRIAL_HOUSE_ComputeScoreAndRank(GameSystem *gameSystem, TrialHouseWork *wor
  * its pointer argument (the second argument register).  Matched to supply the
  * `matched` witness for the pending ov010 caller SCRCMD_TRIALHOUSE_GetSaveState.
  */
-int TRIAL_HOUSE_GetDeliveryState(int unused, TrialHouseWork *work)
+int TRIAL_HOUSE_GetDeliveryState(struct GameSystem *unused, TrialHouseWork *work)
 {
     return work->deliveryState;
 }
 
 /* Starts the task that writes the delivered data to the save (mode 1: mark it used, else erase it). */
-GameEvent *TRIAL_HOUSE_CreateSaveTask(GameSystem *gameSystem, int unused, int mode)
+GameEvent *TRIAL_HOUSE_CreateSaveTask(GameSystem *gameSystem, struct TrialHouseWork *unused, int mode)
 {
     GameEvent *event;
     TrialHouseSaveTaskWork *task;

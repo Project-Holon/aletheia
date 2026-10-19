@@ -65,14 +65,15 @@ extern struct GameEvent *GAME_EVENT_Create(struct GameSystem *gameSystem, void *
 extern struct GameData *GAMESYSTEM_GetGameData(struct GameSystem *gameSystem);
 
 extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gameData);
+struct IntrudeSave;
 
-extern IntrudeOfferLog *INTRUDE_GetFromSave(struct SaveControl *saveControl);
+extern struct IntrudeSave *INTRUDE_GetFromSave(struct SaveControl *saveControl);
 
-extern struct ScriptWork *SCRIPT_SYS_ChangeScriptEvent(struct GameEvent *event, int scriptId, int target, int heapId);
+extern void *SCRIPT_SYS_ChangeScriptEvent(void *event, unsigned short scriptId, void *target, int reserved);
 
-extern void SCRIPT_WORK_SetParams(struct ScriptWork *scriptWork, int scriptParam0, int scriptParam1, int scriptParam2, u16 scriptParam3);
+extern int SCRIPT_WORK_SetParams(struct ScriptWork *scriptWork, int scriptParam0, int scriptParam1, int scriptParam2, u16 scriptParam3);
 
-extern struct WordSet *SCRIPT_WORK_GetWordSet(struct ScriptWork *scriptWork);
+extern void *SCRIPT_WORK_GetWordSet(struct ScriptWork *scriptWork);
 
 extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
 
@@ -171,6 +172,6 @@ struct GameEvent *INTRUDE_StartOfferEvent(struct GameSystem *gameSystem, u32 hea
     struct GameEvent *taskEvent = GAME_EVENT_Create(gameSystem, 0, INTRUDE_OfferEventMain, 0x14);
     IntrudeOfferSlot *offer = GAME_EVENT_GetWork(taskEvent);
 
-    INTRUDE_TakeOfferSlot(INTRUDE_GetFromSave(GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData(gameSystem))), slotIndex, offer);
+    INTRUDE_TakeOfferSlot((struct IntrudeOfferLog *)INTRUDE_GetFromSave(GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData(gameSystem))), slotIndex, offer);
     return taskEvent;
 }

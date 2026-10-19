@@ -27,6 +27,7 @@
  *   SAVE_CONTROL_MainSave  0x02007168  thumb
  *   SAVE_CONTROL_CancelSave  0x020071A8  thumb
  */
+extern int SAVE_CONTROL_CancelSave(struct SaveControl *saveControl);
 
 struct Sub020071E4Ctrl;
 struct Sub02007168;
@@ -154,7 +155,7 @@ int SAVE_CONTROL_INTR_IsPausedOrFinished(SaveControlIntr *intr){if(intr->cancell
  * an empty function called as a no-op by INTRO_CMD_CmdSaveNoOp.  ov088 is the only
  * overlay in the window not overlapping the caller's ov204.
  */
-void SAVE_CONTROL_INTR_NoOp(int intr)
+void SAVE_CONTROL_INTR_NoOp(void *intr)
 {
 }
 

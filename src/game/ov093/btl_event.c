@@ -32,11 +32,13 @@
 typedef signed long long s64;
 
 extern void MI_CpuFill8(void *dst, u8 val, u32 size);
-extern void *BTL_SERVER_FLOW_GetPokeParam(void *context, int pokeId);
-extern int BTL_POKEPARAM_HasSick(void *poke, int condition);
-extern int BTL_POKEPARAM_TestTurnFlag(void *poke, u32 condition);
+extern void *BTL_SERVER_FLOW_GetPokeParam(s32 *flow, s32 pokeId);
+struct BtlPokeParam;
+extern int BTL_POKEPARAM_HasSick(struct BtlPokeParam *bpp, s32 sickIndex);
+extern int BTL_POKEPARAM_TestTurnFlag(struct BtlPokeParam *pp, u32 flag);
 extern int BTL_FIELD_IsStaticSlotInUse(int);
-extern int HAND_WAZA_IsKeptOnSuspend(void *factor, u32 *work);
+struct BtlEventFactor;
+extern int HAND_WAZA_IsKeptOnSuspend(struct BtlEventFactor *factor, u32 *work);
 extern void GF_PANIC_Fail(const char *expr, u32 line, const char *file);
 void BTL_EVENT_InitFactorList(void);
 void BTL_EVENT_ClearSuspendedFlags(void);

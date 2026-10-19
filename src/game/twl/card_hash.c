@@ -30,6 +30,8 @@
  *   MIi_GetControlData  0x0272F804  arm twl
  *   MSL_C_LIB_TwlCall1  0x020911D8  thumb  arm9
  *   MIi_CpuClear32  0x02082A7C  arm  arm9
+ *   _u32_div_f                   0x0209C2B0  arm
+ *   data_0272EB9C                0x0272EB9C  data
  */
 typedef unsigned int u32;
 typedef unsigned char u8;
@@ -105,10 +107,10 @@ extern u32 data_02732E98[], data_02732E34[];
 extern u8 data_0272EB9C[];
 extern void MI_CpuCopy8(const void *src, void *dst, u32 n);
 extern void MIi_CpuClear32(u32 v, void *dst, u32 n);
-extern void MSL_C_LIB_TwlCall3(void *ctx, void *data, u32 len);
-extern void MSL_C_LIB_TwlCall2(void *ctx, void *out);
-extern void MSL_C_LIB_TwlCall1(void *ctx);
-extern int OS_GetBootType(void);
+extern void MSL_C_LIB_TwlCall3(u32 ctx, u32 data, u32 len);
+extern void MSL_C_LIB_TwlCall2(unsigned int ctx, unsigned int digest);
+extern void MSL_C_LIB_TwlCall1(unsigned int ctx);
+extern unsigned short OS_GetBootType(void);
 extern void *CARD_IsPulledOut(void);
 extern void MI_CpuFill(void *p, int v, u32 n);
 extern void OS_Terminate(void);
@@ -150,11 +152,11 @@ void CARDi_CompareHash(const u32 *expect, void *data, u32 len)
     u32 diff = 0;
 
     MI_CpuCopy8(data_02732E98, ctx, 0x64);
-    MSL_C_LIB_TwlCall3(ctx, data, len);
-    MSL_C_LIB_TwlCall2(ctx, digest);
+    MSL_C_LIB_TwlCall3((u32)ctx, (u32)data, len);
+    MSL_C_LIB_TwlCall2((unsigned int)ctx, (unsigned int)digest);
     MI_CpuCopy8(data_02732E34, ctx, 0x64);
-    MSL_C_LIB_TwlCall3(ctx, digest, 0x14);
-    MSL_C_LIB_TwlCall2(ctx, digest);
+    MSL_C_LIB_TwlCall3((u32)ctx, (u32)digest, 0x14);
+    MSL_C_LIB_TwlCall2((unsigned int)ctx, (unsigned int)digest);
     diff |= expect[0] ^ digest[0];
     diff |= expect[1] ^ digest[1];
     diff |= expect[2] ^ digest[2];
@@ -387,10 +389,10 @@ void CARD_InitRomHashContext(CardHash *obj, const RomHdr *hdr, u32 base, u32 siz
         ipad[i] = data_0272EB9C[i] ^ 0x36;
         opad[i] = data_0272EB9C[i] ^ 0x5c;
     }
-    MSL_C_LIB_TwlCall1(data_02732E98);
-    MSL_C_LIB_TwlCall1(data_02732E34);
-    MSL_C_LIB_TwlCall3(data_02732E98, ipad, 0x40);
-    MSL_C_LIB_TwlCall3(data_02732E34, opad, 0x40);
+    MSL_C_LIB_TwlCall1((unsigned int)data_02732E98);
+    MSL_C_LIB_TwlCall1((unsigned int)data_02732E34);
+    MSL_C_LIB_TwlCall3((u32)data_02732E98, (u32)ipad, 0x40);
+    MSL_C_LIB_TwlCall3((u32)data_02732E34, (u32)opad, 0x40);
     obj->readCallback(obj->userData, obj->hash, obj->blockHashOffset, obj->blockHashLength);
     CARDi_CompareHash(hdr->digest, obj->hash, obj->blockHashLength);
     {

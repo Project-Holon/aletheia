@@ -25,6 +25,7 @@
  *   ARC_UTIL_LoadMemberWithSize  0x0204A298  arm
  *   SCRIPT_SYS_CreateScriptEventSimple  0x02158768  thumb  ov010
  *   FLDMMDL_SetStatusBitVanish  0x0216DAC8  thumb  ov010
+ *   _u32_div_f                   0x0209C2B0  arm
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -72,8 +73,9 @@ extern u32 GFL_HEAP_Free(void *mem);
 extern void *GFL_HEAP_Alloc(unsigned int heapId, unsigned int size, int clear, const char *site, unsigned short line);
 extern void MI_CpuFill8(void *dst, u32 value, u32 size);
 extern void *FLDMMDL_SetMoveBit(void *mmdl, u32 bits);
-extern int ARC_UTIL_LoadMemberWithSize(int archive, int member, int decompress, int heapId, u32 *outSize);
-extern void *SCRIPT_SYS_CreateScriptEventSimple(int fieldSys, int scriptId, int target, int reserved);
+extern int ARC_UTIL_LoadMemberWithSize(int archiveID, int memberIdx, int decompress, unsigned short heapID, unsigned int *out);
+struct GameEvent;
+extern struct GameEvent *SCRIPT_SYS_CreateScriptEventSimple(void *fieldSys, unsigned short scriptId, void *target, int reserved);
 extern void FLDMMDL_SetStatusBitVanish(unsigned int *p, unsigned int v);
 void FIELD_RAIL_LOADER_InitSetting(FieldRailSetting *setting);
 FieldRailLoader *FIELD_RAIL_LOADER_Create(u32 heapId);
@@ -153,7 +155,7 @@ FieldRailSetting *FIELD_RAIL_LOADER_GetSetting(FieldRailLoader *loader)
  * code (see misplaced.tsv). */
 int FLDMMDL_CreateTalkScriptEvent(u32 a, u32 b, u32 c, u32 e0, u32 e1, u16 id)
 {
-return (int)SCRIPT_SYS_CreateScriptEventSimple(a, ((c << 16) >> 16), e1, *(u16 *)((u8 *)((u8 *)&e1) + 4));
+return (int)SCRIPT_SYS_CreateScriptEventSimple((void *)a, ((c << 16) >> 16), (void *)e1, *(u16 *)((u8 *)((u8 *)&e1) + 4));
 }
 
 int FLDMMDL_MOVE_VanishProc(void *mmdl, u32 unused1, u32 unused2, u32 unused3)

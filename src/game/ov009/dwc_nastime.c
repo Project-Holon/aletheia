@@ -44,11 +44,11 @@ typedef struct NasTimeDiff_ {
     long long diff;
 } NasTimeDiff;
 
-extern void *strlen(const char *);
+extern int strlen(unsigned char *s);
 extern int RTC_GetDateTime(RTCDate *date, RTCTime *time);
 extern long long RTC_ConvertDateTimeToSecond(RTCDate *date, RTCTime *time);
-extern void strcpy(char *dst, const char *src);
-extern int atoi(const char *s);
+extern char *strcpy(char *dst, const char *src);
+extern int atoi(unsigned int s);
 extern int strcmp(const char *a, const char *b);
 
 extern char gDwcNasTimeSample[];
@@ -67,7 +67,7 @@ int DWC_Auth_SetNasTimeDiff(char *datestr)
     long long serversec;
     char datestr2[30];
 
-    if (strlen(datestr) != strlen(gDwcNasTimeSample) ||
+    if (strlen((unsigned char *)datestr) != strlen((unsigned char *)gDwcNasTimeSample) ||
         datestr[7] != 0x20 || datestr[11] != 0x20 || datestr[16] != 0x20 ||
         datestr[19] != 0x3a || datestr[22] != 0x3a || datestr[25] != 0x20)
         goto fail;
@@ -89,7 +89,7 @@ int DWC_Auth_SetNasTimeDiff(char *datestr)
     datestr2[22] = 0;
     datestr2[25] = 0;
 
-    rtcdate.year = atoi(&datestr2[12]);
+    rtcdate.year = atoi((unsigned int)(&datestr2[12]));
     if (errno == ERANGE)
         goto fail;
     rtcdate.year = rtcdate.year - 2000;
@@ -105,19 +105,19 @@ int DWC_Auth_SetNasTimeDiff(char *datestr)
         goto fail;
 
     errno = 0;
-    rtcdate.day = atoi(&datestr2[5]);
+    rtcdate.day = atoi((unsigned int)(&datestr2[5]));
     if (errno == ERANGE)
         goto fail;
     errno = 0;
-    rtctime.hour = atoi(&datestr2[17]);
+    rtctime.hour = atoi((unsigned int)(&datestr2[17]));
     if (errno == ERANGE)
         goto fail;
     errno = 0;
-    rtctime.minute = atoi(&datestr2[20]);
+    rtctime.minute = atoi((unsigned int)(&datestr2[20]));
     if (errno == ERANGE)
         goto fail;
     errno = 0;
-    rtctime.second = atoi(&datestr2[23]);
+    rtctime.second = atoi((unsigned int)(&datestr2[23]));
     if (errno == ERANGE)
         goto fail;
 

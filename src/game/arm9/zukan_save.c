@@ -60,31 +60,35 @@ struct ZukanSave {
     u8  viewFormFlags[2][9];            /* form shown in the dex, [shiny] */
     u8  languageFlags[0x1B0];           /* 7 language bits per species up to 493 */
     u32 spindaPersonality;              /* +0x4D0, personality of the first Spinda registered */
-};                                      /* 0x4D4 */
+};
+struct GameData;
+struct SaveControl;                                                 
 
-extern void *GAME_DATA_GetSaveControl(struct SaveWork *saveWork);
+extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gd);
 
 extern u32 GFL_HEAP_Free(void *mem);
 
 extern void MI_CpuFill8(void *dest, u8 value, u32 size);
 
-extern void *SAVE_CONTROL_GetBlock(struct Sub020071CCCtrl *ctrl, u32 id);
+extern void *SAVE_CONTROL_GetBlock(struct SaveControl *saveControl, u32 blockId);
+struct PersonalData;
 
-extern void *POKE_PERSONAL_Create(u32 a, int b, u32 c);
+extern struct PersonalData *POKE_PERSONAL_Create(u32 a, int b, u32 c);
 
-extern u32 POKE_PERSONAL_GetParam(const struct Personal *p, u32 field);
+extern u32 POKE_PERSONAL_GetParam(struct PersonalData *data, u32 field);
 
-extern void POKE_PERSONAL_Delete(void *p);
+extern void POKE_PERSONAL_Delete(struct PersonalData *data);
+struct PokemonParam;
 
-extern u32 POKE_TOOL_DecodePartyParam(struct Sav *p);
+extern u32 POKE_TOOL_DecodePartyParam(struct PokemonParam *pp);
 
-extern u32 POKE_TOOL_EncodePartyParam(struct Sav *p, u32 f);
+extern u32 POKE_TOOL_EncodePartyParam(struct PokemonParam *pp, u32 didDecode);
 
-extern u32   POKE_TOOL_GetPartyValue(void *m, u32 field, u32 arg);
+extern u32   POKE_TOOL_GetPartyValue(struct PokemonParam *pp, u32 paramId, u32 arg);
 
-extern u8    POKE_TOOL_GetGender(void *m);
+extern u8    POKE_TOOL_GetGender(struct PokemonParam *pp);
 
-extern u32   POKE_TOOL_IsShiny(void *m);
+extern u32   POKE_TOOL_IsShiny(struct PokemonParam *pp);
 
 extern u16 *POKE_PERSONAL_LoadFormTable(u32 heap, u16 *countOut);
 

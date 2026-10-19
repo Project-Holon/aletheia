@@ -42,19 +42,18 @@ extern struct DArrayImplementation *ArrayNew(int elemSize,
                                              void (*elemFreeFn)(void *));
 extern void ArrayFree(struct DArrayImplementation *array);
 extern void gsifree(void *ptr);
-extern int ArrayLength(struct DArrayImplementation *array);
+extern int ArrayLength(int *array);
 extern int ArraySearch(struct DArrayImplementation *array, void *key,
                        int (*comparator)(void *, void *), int fromIndex,
                        int isSorted);
-extern void ArrayAppend(struct DArrayImplementation *array, void *newElem);
+extern void ArrayAppend(void *p, void *a);
 extern void ArrayReplaceAt(struct DArrayImplementation *array, void *newElem,
                            int n);
-extern void ArrayDeleteAt(struct DArrayImplementation *array, int n);
+extern void ArrayDeleteAt(int a, int b);
 extern void *ArrayNth(struct DArrayImplementation *array, int n);
 extern void ArrayMapBackwards(struct DArrayImplementation *array,
                               void (*fn)(void *, void *), void *clientData);
-extern void *ArrayMapBackwards2(void *elem, int (*fn)(void *, void *),
-                       void *clientData);
+extern void *ArrayMapBackwards2(struct DArrayImplementation *array, int (*fn)(void *, void *), void *clientData);
 struct HashImplementation *TableNew(int elemSize, int nBuckets, int (*hashFn)(void *, int), int (*compFn)(void *, void *), void (*freeFn)(void *));
 struct HashImplementation *TableNew2(int elemSize, int nBuckets, int nChains, int (*hashFn)(void *, int), int (*compFn)(void *, void *), void (*freeFn)(void *));
 void TableFree(struct HashImplementation *table);
@@ -116,7 +115,7 @@ int TableCount(struct HashImplementation *table)
     if (table == 0)
         return 0;
     for (i = 0; i < table->nbuckets; i++)
-        count += ArrayLength(table->buckets[i]);
+        count += ArrayLength((int *)table->buckets[i]);
     return count;
 }
 
@@ -148,7 +147,7 @@ int TableRemove(struct HashImplementation *table, void *delElem)
     itempos = ArraySearch(table->buckets[hash], delElem, table->compfn, 0, 0);
     if (itempos == -1)
         return 0;
-    ArrayDeleteAt(table->buckets[hash], itempos);
+    ArrayDeleteAt((int)table->buckets[hash], itempos);
     return 1;
 }
 

@@ -161,6 +161,14 @@
  *   BG_SYS_Update  0x020419E4  arm  arm9
  *   BG_SYS_FreeLayerBuf  0x020403F4  arm  arm9
  *   BG_SYS_ChangeScrollImmediate  0x02040618  arm  arm9
+ *   _dfix                        0x0209C508  arm
+ *   _dflt                        0x0209B750  arm
+ *   _dmul                        0x0209B2E8  arm
+ *   _fadd                        0x0209C95C  arm
+ *   _fdiv                        0x0209CE10  arm
+ *   _ffix                        0x0209C494  arm
+ *   _fflt                        0x0209BDBC  arm
+ *   _fmul                        0x0209C77C  arm
  */
 #include "research_shared_types.h"
 
@@ -315,21 +323,23 @@ extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
 
 extern u32 BG_SYS_FreeLayerBuf(u32 i);
 
-extern void *ARC_TOOL_CreateHandle(unsigned int id, u32 heap);
+extern void *ARC_TOOL_CreateHandle(unsigned int archiveID, unsigned short heapID);
+struct ArcHandle;
 
-extern void *ARC_TOOL_LoadHandleMember(struct ArcFile *, u32, u32);
+extern void *ARC_TOOL_LoadHandleMember(struct ArcHandle *arc, unsigned int memberIdx, unsigned short heapID);
 
 extern u32 GFL_HEAP_Free(void *p);
 
 extern int NNS_G2dGetUnpackedScreenData(void *, void **);
 
-extern void BG_SYS_DrawTile(u32, u32, u32, u32, u8, u8);
+extern void BG_SYS_DrawTile(unsigned int index, void *src, unsigned char dx, unsigned char dy, unsigned char cw, unsigned char ch);
 
 extern void ARC_TOOL_DeleteHandle(void *);
 
 extern void BG_SYS_FillTileMap(int index, int x0, int y0, int w, int h, int pal);
+struct ResearchCommon;
 
-extern u32 RESEARCH_COMMON_GetHeapId(void *);
+extern u32 RESEARCH_COMMON_GetHeapId(struct ResearchCommon *common);
 
 extern void RESEARCH_COMMON_UpdatePaletteAnime(unsigned);
 
@@ -339,63 +349,69 @@ extern u32 KEY_GetTrg(void);
 
 extern int TOUCHPANEL_HitTrg(const void *);
 
-extern void * RESEARCH_COMMON_GetTouchRects(void *);
+extern void * RESEARCH_COMMON_GetTouchRects(struct ResearchCommon *common);
 
-extern u32 GFL_USE_PlaySeDefaultVolume(u32 a);
+extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 
 extern int FADE_IsActive(void);
 
 extern void RESEARCH_COMMON_StopPaletteAnime(u32 common);
 
 extern void RESEARCH_COMMON_RestorePaletteAnime(u32 common);
+struct RingQueue;
 
-extern void RingQueue_Push(u32, u32);
+extern void RingQueue_Push(struct RingQueue *queue, int value);
 
-extern u32 RingQueue_Pop(struct Ring *r);
+extern u32 RingQueue_Pop(struct RingQueue *queue);
 
-extern u32 RingQueue_IsEmpty();
+extern int RingQueue_IsEmpty(struct RingQueue *queue);
 
-extern u32 RESEARCH_COMMON_GetEntryHandled(void *p);
+extern u32 RESEARCH_COMMON_GetEntryHandled(struct ResearchCommon *common);
 
-extern void RESEARCH_COMMON_SetEntryHandled(u8 *p, u32 v);
+extern void RESEARCH_COMMON_SetEntryHandled(struct ResearchCommon *common, unsigned int value);
+struct BgTextLabel;
 
-extern void BgTextLabel_SetPalette(u8 *p, u8 palette);
+extern void BgTextLabel_SetPalette(struct BgTextLabel *label, unsigned char palette);
 
-extern void RESEARCH_COMMON_StartPaletteAnime(u8 *p, u32 i);
+extern void RESEARCH_COMMON_StartPaletteAnime(struct ResearchCommon *common, unsigned int index);
+struct Actor;
 
-extern void CLACT_SetActorDrawEnable(struct Obj *, unsigned int);
+extern void CLACT_SetActorDrawEnable(struct Actor *actor, unsigned int value);
 
-extern void CLACT_SetActorAutoAnim(struct Obj *p, unsigned int v);
+extern void CLACT_SetActorAutoAnim(struct Actor *actor, unsigned int enable);
 
 extern void FADE_Start(u32 a, s32 b, s32 c, s32 d);
+struct PaletteAnime;
 
-extern void PALETTE_ANIME_Start(u8 *p, u32 b, u16 c);
+extern void PALETTE_ANIME_Start(struct PaletteAnime *anime, unsigned int mode, unsigned short color);
 
-extern void PALETTE_ANIME_Stop(u32 anime);
+extern void PALETTE_ANIME_Stop(struct PaletteAnime *anime);
 
-extern void PALETTE_ANIME_Update(int);
+extern void PALETTE_ANIME_Update(struct PaletteAnime *anime);
 
-extern unsigned RESEARCH_COMMON_GetAppResource(void *);
+extern unsigned RESEARCH_COMMON_GetAppResource(struct ResearchCommon *common);
+struct GameData;
 
-extern u32 GAME_DATA_GetEventWork(const struct BigObj *p);
+extern void *GAME_DATA_GetEventWork(struct GameData *gd);
+struct EventWork;
 
-extern unsigned ZONEDATA_CheckEventFlag(void *,int);
+extern unsigned ZONEDATA_CheckEventFlag(struct EventWork *ev, int flagId);
 
-extern u32 RESEARCH_COMMON_GetInputFlag(void *p);
+extern u32 RESEARCH_COMMON_GetInputFlag(struct ResearchCommon *common);
 
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
 extern struct GfFont *GF_FONT_Create(int archiveId, int fileId, int format, int isFixedWidth, u32 heapId);
 
-extern u32 GF_FONT_Delete(void *ptr);
+extern u32 GF_FONT_Delete(struct GfFont *font);
 
 extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 
-extern u32 MSGDATA_Delete(struct Rec *rec);
+extern u32 MSGDATA_Delete(struct MsgBank *bank);
 
 extern int RingQueue_Create(int capacity, int heapId);
 
-extern void RingQueue_Destroy(void *p);
+extern void RingQueue_Destroy(struct RingQueue *queue);
 
 extern void G2x_SetBlendAlpha_(volatile unsigned *,unsigned,unsigned,unsigned,unsigned);
 
@@ -408,12 +424,13 @@ extern void BG_SYS_Init(u32 layer, u32 value, u32 count, u32 index);
 extern u32 BG_SYS_ClearSlot();
 
 extern void BG_SYS_FreeTiles(u32, u32, u32);
+struct BgTextLabelConfig;
 
-extern struct Record *BgTextLabel_Create(const struct Config *config, u32 a, u32 b, u32 heap);
+extern struct BgTextLabel *BgTextLabel_Create(struct BgTextLabelConfig *config, unsigned int font, unsigned int msgBank, unsigned int heapId);
 
-u32 BgTextLabel_PrintMessage(u32 label, u32 msgIndex);
+u32 BgTextLabel_PrintMessage(struct BgTextLabel *label, unsigned int msgIndex);
 
-extern void BgTextLabel_Destroy(u8 *p);
+extern void BgTextLabel_Destroy(struct BgTextLabel *label);
 
 extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 vram_mode, u16 flags);
 
@@ -435,15 +452,15 @@ extern u32 CLACT_DeleteUnit(struct Bank *bank);
 
 extern struct Obj *CLACT_CreateActor(void *,unsigned int,unsigned int,unsigned int,const void *,u16,u16);
 
-extern void CLACT_DeleteActor(struct Obj *p);
+extern void CLACT_DeleteActor(struct Actor *actor);
 
 extern u32 PALETTE_ANIME_Create(u32 heapId);
 
-extern u32 PALETTE_ANIME_Destroy(void *anime);
+extern u32 PALETTE_ANIME_Destroy(struct PaletteAnime *anime);
 
-extern void PALETTE_ANIME_Bind(void *p, u32 b, u32 c, u32 d);
+extern void PALETTE_ANIME_Bind(struct PaletteAnime *anime, unsigned short *palette, unsigned short *original, int colorCount);
 
-extern int PALETTE_ANIME_Restore(char *p);
+extern int PALETTE_ANIME_Restore(struct PaletteAnime *anime);
 
 extern void CLACT_VBlankSystem(void);
 
@@ -452,16 +469,19 @@ extern int TOUCHPANEL_HitCont(const void *p);
 extern u32 TOUCHPANEL_GetPointCont(u32 *,u32 *);
 
 extern u32 KEY_GetCont(void);
+struct SaveControl;
 
-extern void *GAME_DATA_GetSaveControl(struct Big *);
+extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gd);
 
 extern void *SYMBOL_SAVE_GetBitBlock(void *saveData);
 
 extern int MISC_SAVEDATA_GetStatusByte(int tally, int index);
+struct SymbolBitSave;
 
-extern void SYMBOL_SAVE_SetBitDescriptor(u8 *p, int value, int index);
+extern void SYMBOL_SAVE_SetBitDescriptor(struct SymbolBitSave *save, int value, int index);
+struct BmpOam;
 
-extern void BMP_OAM_SetPalette(u8 *g, u32 a);
+extern void BMP_OAM_SetPalette(struct BmpOam *bmpOam, unsigned int palette);
 
 extern void BG_SYS_MarkTileDirty(u32 layer);
 
@@ -471,7 +491,7 @@ extern u32 BG_SYS_GetChannelScrollX(u8 channel);
 
 extern void CLACT_AddActorSurfacePos(struct Obj *p,const struct Vec2 *delta,u32 which);
 
-extern void BgTextLabel_SetVisible(u8 *p, int visible);
+extern void BgTextLabel_SetVisible(struct BgTextLabel *label, int visible);
 
 extern void BG_SYS_ChangeScroll(unsigned layer,unsigned mode,unsigned value);
 
@@ -488,45 +508,49 @@ extern u32 PALETTE_ANIME_IsRunning();
 
 extern u32 PALANM_TransferPalettes(struct S02021D50 *p);
 
-extern u32 BG_SYS_Update();
+extern void BG_SYS_Update();
+struct ListViewState;
 
-extern u32 ListViewState_GetMode(void *p);
+extern u32 ListViewState_GetMode(struct ListViewState *state);
 
-extern u32 ListViewState_GetScrollX(void *p);
+extern u32 ListViewState_GetScrollX(struct ListViewState *state);
 
-extern u32 ListViewState_GetScrollY(void *p);
+extern u32 ListViewState_GetScrollY(struct ListViewState *state);
 
-extern void ListViewState_SetScrollY(void *, u32);
+extern void ListViewState_SetScrollY(struct ListViewState *state, unsigned int scrollY);
 
-extern void ListViewState_SetScrollX(void *, u32);
+extern void ListViewState_SetScrollX(struct ListViewState *state, unsigned int scrollX);
 
-extern void ListViewState_SetMode(void *, u8);
+extern void ListViewState_SetMode(struct ListViewState *state, unsigned char mode);
 
-extern void BMP_OAM_SetEnabled(u8 *g, u32 a);
+extern void BMP_OAM_SetEnabled(struct BmpOam *bmpOam, unsigned int enabled);
+struct TcbList;
 
-extern u32 GFL_USE_GetMainTaskList(void);
+extern struct TcbList *GFL_USE_GetMainTaskList(void);
 
 extern struct Bmp *BMP_Create(u32 width, u32 height, u32 depth, u16 heap);
 
 extern struct Bmp *BMP_CreateFromArchive(u32,u32,u32,u32);
 
-extern void BMP_Blit(struct Bmp *,struct Bmp *,u32,u32,int,int,u32,u32,u32);
+extern void BMP_Blit(struct Bmp *src, struct Bmp *dst, unsigned int srcX, unsigned int srcY, int dstX, int dstY, unsigned int w, unsigned int h, unsigned short colorKey);
+struct Strbuf;
 
-extern void *MSGDATA_AllocString(struct MsgBank *,u32);
+extern struct Strbuf *MSGDATA_AllocString(struct MsgBank *,u32);
 
-extern void PRINTSYS_PrintColor(void *,s16,s16,void *,void *,u16);
+extern void PRINTSYS_PrintColor(struct Bmp *bmp, short x, short y, struct Strbuf *str, struct GfFont *font, unsigned short color);
 
 extern void BMP_Delete(struct Bmp *p);
+struct BmpOamSys;
 
-extern void *BMP_OAM_CreateSys(unsigned int heapId, void *clact);
+extern struct BmpOamSys *BMP_OAM_CreateSys(unsigned int heapId, void *clact);
 
-extern void BMP_OAM_DeleteSys(void *p);
+extern void BMP_OAM_DeleteSys(struct BmpOamSys *sys);
 
 extern struct Grid *BMP_OAM_Create(struct Sys *,const struct Param *);
 
-extern void BMP_OAM_UploadChars(struct Obj *);
+extern void BMP_OAM_UploadChars(struct BmpOam *bmpOam);
 
-extern void BMP_OAM_Delete(struct Grid *g);
+extern void BMP_OAM_Delete(struct BmpOam *bmpOam);
 
 extern void *PALANM_Create(u32);
 
@@ -537,10 +561,12 @@ extern void PALANM_CopyHwPaletteToSlot(struct PalAnmSlot *, u32, u32, u32);
 extern u32 PALANM_Delete(void *ctx);
 
 extern void PALANM_FreeSlotBuffers(struct PalAnmSlot *slots, u32 idx);
+struct Tcb;
 
-extern int GFL_USE_AddMainTask(void (*)(void), void *, int);
+extern struct Tcb *GFL_USE_AddMainTask(void (*)(void), void *work, unsigned int priority);
+struct TcbTask;
 
-extern void TCB_DeleteTask(struct Node *n);
+extern void TCB_DeleteTask(struct TcbTask *task);
 
 u32 RESEARCH_LIST_Create(u32 owner, u32 listView);
 
@@ -1373,7 +1399,7 @@ void RESEARCH_LIST_UpdateShowEntry(u8 *list)
         RESEARCH_LIST_SetOamEnabled(list, 1, (u8 *)1);
         RESEARCH_LIST_SetOamEnabled(list, 2, (u8 *)1);
         if (((struct ResearchTop *)list)->entryPaletteActive == 0) {
-            BgTextLabel_SetPalette((u8 *)(*(unsigned *)(list + list[0x32] * 4 + 0xb4)), 14);
+            BgTextLabel_SetPalette((struct BgTextLabel *)(*(unsigned *)(list + list[0x32] * 4 + 0xb4)), 14);
             RESEARCH_LIST_ShowEntryPalette((char *)list);
         }
         RESEARCH_LIST_ComputeCenterScroll(list);
@@ -1406,7 +1432,7 @@ void RESEARCH_LIST_UpdateHideEntry(u8 *list)
         RESEARCH_LIST_SetOamEnabled(list, 1, (u8 *)1);
         RESEARCH_LIST_SetOamEnabled(list, 2, (u8 *)1);
         if (((struct ResearchTop *)list)->entryPaletteActive == 0) {
-            BgTextLabel_SetPalette((u8 *)(*(unsigned *)(list + list[0x32] * 4 + 0xb4)), 14);
+            BgTextLabel_SetPalette((struct BgTextLabel *)(*(unsigned *)(list + list[0x32] * 4 + 0xb4)), 14);
             RESEARCH_LIST_ShowEntryPalette((char *)list);
         }
         RESEARCH_LIST_ComputeCenterScroll(list);
@@ -1484,7 +1510,7 @@ void RESEARCH_LIST_UpdateFadeInWait(u8 *list)
         break;
     case 2:
         if (RESEARCH_LIST_IsPaletteFadeDone((unsigned)list)) {
-            BgTextLabel_SetPalette((u8 *)(*(unsigned *)(list + list[0x32] * 4 + 0xb4)), 15);
+            BgTextLabel_SetPalette((struct BgTextLabel *)(*(unsigned *)(list + list[0x32] * 4 + 0xb4)), 15);
             RESEARCH_LIST_SetCommandReady(list);
             RESEARCH_LIST_PushCommand(list, 13);
         }
@@ -1513,7 +1539,7 @@ void RESEARCH_LIST_UpdateFadeOutWait(u8 *list)
         break;
     case 2:
         if (RESEARCH_LIST_IsPaletteFadeDone((unsigned)list)) {
-            BgTextLabel_SetPalette((u8 *)(*(unsigned *)(list + list[0x32] * 4 + 0xb4)), 15);
+            BgTextLabel_SetPalette((struct BgTextLabel *)(*(unsigned *)(list + list[0x32] * 4 + 0xb4)), 15);
             RESEARCH_LIST_SetCommandReady(list);
             RESEARCH_LIST_PushCommand(list, 13);
         }
@@ -1602,7 +1628,7 @@ void RESEARCH_LIST_IncStateTimer(void *list)
 
 void RESEARCH_LIST_PushCommand(u8 *list, u32 command)
 {
-    RingQueue_Push((u32)(((struct ResearchTop *)list)->commandQueue), command);
+    RingQueue_Push((struct RingQueue *)((((struct ResearchTop *)list)->commandQueue)), command);
 }
 
 /*
@@ -1627,7 +1653,7 @@ u32 RESEARCH_LIST_GetEntryHandled(u8 *list)
 
 void RESEARCH_LIST_SetEntryHandled(u8 *list, u32 handled)
 {
-    RESEARCH_COMMON_SetEntryHandled(*(u8 * *)&((struct ResearchTop *)list)->owner, handled);
+    RESEARCH_COMMON_SetEntryHandled((struct ResearchCommon *)(*(u8 * *)&((struct ResearchTop *)list)->owner), handled);
 }
 
 /*
@@ -1654,8 +1680,8 @@ u32 RESEARCH_LIST_GetFadeWaitFrames(u8 *list)
 void RESEARCH_LIST_ProcessCommand(u32 list)
 {
     if (((struct ResearchTop *)list)->commandReady != 0) {
-    if (RingQueue_IsEmpty(((struct ResearchTop *)list)->commandQueue) == 0) {
-    RESEARCH_LIST_SetState((char *)list, RingQueue_Pop((struct Ring *)(((struct ResearchTop *)list)->commandQueue)));
+    if (RingQueue_IsEmpty((struct RingQueue *)(((struct ResearchTop *)list)->commandQueue)) == 0) {
+    RESEARCH_LIST_SetState((char *)list, RingQueue_Pop((struct RingQueue *)(((struct ResearchTop *)list)->commandQueue)));
     }
     }
 }
@@ -1832,7 +1858,7 @@ u8 RESEARCH_LIST_FindSaveIndex(u8 *list)
     int i;
     void *data;
     u8 a, b, c, index;
-    data = SYMBOL_SAVE_GetBitBlock(GAME_DATA_GetSaveControl((struct Big *)RESEARCH_LIST_GetAppResource(list)));
+    data = SYMBOL_SAVE_GetBitBlock(GAME_DATA_GetSaveControl((struct GameData *)RESEARCH_LIST_GetAppResource(list)));
     for (i = 0; i < 3; i++) values[i] = MISC_SAVEDATA_GetStatusByte((int)data, i);
     a = values[0];
     b = values[1];
@@ -1851,10 +1877,10 @@ void RESEARCH_LIST_StoreSaveValues(u8 *list)
     u32 index;
     int data;
     index=RESEARCH_LIST_GetSelectedIndex(list);
-    data=(int)SYMBOL_SAVE_GetBitBlock((void *)((int)GAME_DATA_GetSaveControl((struct Big *)RESEARCH_LIST_GetAppResource(list))));
-    SYMBOL_SAVE_SetBitDescriptor((u8 *)data,d_021C30A8[index],0);
-    SYMBOL_SAVE_SetBitDescriptor((u8 *)data,d_021C3080[index],1);
-    SYMBOL_SAVE_SetBitDescriptor((u8 *)data,d_021C308A[index],2);
+    data=(int)SYMBOL_SAVE_GetBitBlock((void *)((int)GAME_DATA_GetSaveControl((struct GameData *)RESEARCH_LIST_GetAppResource(list))));
+    SYMBOL_SAVE_SetBitDescriptor((struct SymbolBitSave *)data,d_021C30A8[index],0);
+    SYMBOL_SAVE_SetBitDescriptor((struct SymbolBitSave *)data,d_021C3080[index],1);
+    SYMBOL_SAVE_SetBitDescriptor((struct SymbolBitSave *)data,d_021C308A[index],2);
 }
 
 /*
@@ -1879,12 +1905,12 @@ void RESEARCH_LIST_SetSelectionModeField(void *list, u32 mode)
 
 void RESEARCH_LIST_SetEntryPaletteIdle(int list, int slot)
 {
-    BMP_OAM_SetPalette((u8 *)RESEARCH_LIST_GetOamObject((char *)list, slot), 0);
+    BMP_OAM_SetPalette((struct BmpOam *)RESEARCH_LIST_GetOamObject((char *)list, slot), 0);
 }
 
 void RESEARCH_LIST_SetEntryPaletteActive(int list, int slot)
 {
-    BMP_OAM_SetPalette((u8 *)RESEARCH_LIST_GetOamObject((char *)list, slot), 1);
+    BMP_OAM_SetPalette((struct BmpOam *)RESEARCH_LIST_GetOamObject((char *)list, slot), 1);
 }
 
 /*
@@ -2079,14 +2105,14 @@ void RESEARCH_LIST_UpdateEntryActor(u8 *list)
     index=RESEARCH_LIST_FindSaveIndex(list);
     obj=(struct Obj *)RESEARCH_LIST_GetActor(list,2);
     if(index==255) {
-        CLACT_SetActorDrawEnable(obj,0);
+        CLACT_SetActorDrawEnable((struct Actor *)obj,0);
         return;
     }
     point.x=RESEARCH_LIST_GetEntryScreenX(list,(u8)index);
     point.y=RESEARCH_LIST_GetEntryScreenY(list,index)+10;
     CLACT_AddActorSurfacePos(obj,&point,0);
-    CLACT_SetActorAutoAnim(obj,1);
-    CLACT_SetActorDrawEnable(obj,1);
+    CLACT_SetActorAutoAnim((struct Actor *)obj,1);
+    CLACT_SetActorDrawEnable((struct Actor *)obj,1);
 }
 
 int RESEARCH_LIST_PrintCurrentEntry(char *list)
@@ -2099,29 +2125,29 @@ int RESEARCH_LIST_PrintCurrentEntry(char *list)
  */
 int RESEARCH_LIST_PrintEntryLabels(u8 *list, u8 index)
 {
-    BgTextLabel_PrintMessage(((struct ResearchTop *)list)->nameLabelA,d_021C309E[index]);
-    BgTextLabel_PrintMessage(((struct ResearchTop *)list)->nameLabelB,d_021C3094[index]);
-    BgTextLabel_PrintMessage(((struct ResearchTop *)list)->valueLabelA,d_021C30D0[d_021C30A8[index]]);
-    BgTextLabel_PrintMessage(((struct ResearchTop *)list)->valueLabelB,d_021C30D0[d_021C3080[index]]);
-    return BgTextLabel_PrintMessage(((struct ResearchTop *)list)->valueLabelC,d_021C30D0[d_021C308A[index]]);
+    BgTextLabel_PrintMessage((struct BgTextLabel *)(((struct ResearchTop *)list)->nameLabelA),d_021C309E[index]);
+    BgTextLabel_PrintMessage((struct BgTextLabel *)(((struct ResearchTop *)list)->nameLabelB),d_021C3094[index]);
+    BgTextLabel_PrintMessage((struct BgTextLabel *)(((struct ResearchTop *)list)->valueLabelA),d_021C30D0[d_021C30A8[index]]);
+    BgTextLabel_PrintMessage((struct BgTextLabel *)(((struct ResearchTop *)list)->valueLabelB),d_021C30D0[d_021C3080[index]]);
+    return BgTextLabel_PrintMessage((struct BgTextLabel *)(((struct ResearchTop *)list)->valueLabelC),d_021C30D0[d_021C308A[index]]);
 }
 
 void RESEARCH_LIST_HideEntryLabels(u32 list)
 {
-    BgTextLabel_SetVisible((u8 *)(((struct ResearchTop *)list)->nameLabelA), 0);
-    BgTextLabel_SetVisible((u8 *)(((struct ResearchTop *)list)->nameLabelB), 0);
-    BgTextLabel_SetVisible((u8 *)(((struct ResearchTop *)list)->valueLabelA), 0);
-    BgTextLabel_SetVisible((u8 *)(((struct ResearchTop *)list)->valueLabelB), 0);
-    BgTextLabel_SetVisible((u8 *)(((struct ResearchTop *)list)->valueLabelC), 0);
+    BgTextLabel_SetVisible((struct BgTextLabel *)(((struct ResearchTop *)list)->nameLabelA), 0);
+    BgTextLabel_SetVisible((struct BgTextLabel *)(((struct ResearchTop *)list)->nameLabelB), 0);
+    BgTextLabel_SetVisible((struct BgTextLabel *)(((struct ResearchTop *)list)->valueLabelA), 0);
+    BgTextLabel_SetVisible((struct BgTextLabel *)(((struct ResearchTop *)list)->valueLabelB), 0);
+    BgTextLabel_SetVisible((struct BgTextLabel *)(((struct ResearchTop *)list)->valueLabelC), 0);
 }
 
 void RESEARCH_LIST_ShowEntryLabels(u32 list)
 {
-    BgTextLabel_SetVisible((u8 *)(((struct ResearchTop *)list)->nameLabelA), 1);
-    BgTextLabel_SetVisible((u8 *)(((struct ResearchTop *)list)->nameLabelB), 1);
-    BgTextLabel_SetVisible((u8 *)(((struct ResearchTop *)list)->valueLabelA), 1);
-    BgTextLabel_SetVisible((u8 *)(((struct ResearchTop *)list)->valueLabelB), 1);
-    BgTextLabel_SetVisible((u8 *)(((struct ResearchTop *)list)->valueLabelC), 1);
+    BgTextLabel_SetVisible((struct BgTextLabel *)(((struct ResearchTop *)list)->nameLabelA), 1);
+    BgTextLabel_SetVisible((struct BgTextLabel *)(((struct ResearchTop *)list)->nameLabelB), 1);
+    BgTextLabel_SetVisible((struct BgTextLabel *)(((struct ResearchTop *)list)->valueLabelA), 1);
+    BgTextLabel_SetVisible((struct BgTextLabel *)(((struct ResearchTop *)list)->valueLabelB), 1);
+    BgTextLabel_SetVisible((struct BgTextLabel *)(((struct ResearchTop *)list)->valueLabelC), 1);
 }
 
 /*
@@ -2135,13 +2161,13 @@ void RESEARCH_LIST_UpdateScrollbarActor(u32 list)
     u8 s[4];
     u32 scrollbarActor = RESEARCH_LIST_GetActor((void *)list, 0);
     if (RESEARCH_LIST_NeedsScrollbar((void *)list) == 0) {
-    CLACT_SetActorDrawEnable((struct Obj *)scrollbarActor, 0);
+    CLACT_SetActorDrawEnable((struct Actor *)scrollbarActor, 0);
     return;
     }
     ((struct Vec2 *)s)->x = 248;
     ((struct Vec2 *)s)->y = RESEARCH_LIST_GetScrollbarY((void *)list);
     CLACT_AddActorSurfacePos((struct Obj *)scrollbarActor, (const struct Vec2 *)s, 0);
-    CLACT_SetActorDrawEnable((struct Obj *)scrollbarActor, 1);
+    CLACT_SetActorDrawEnable((struct Actor *)scrollbarActor, 1);
 }
 
 /*
@@ -2433,12 +2459,12 @@ u32 RESEARCH_LIST_IsPaletteFadeDone(u32 list)
 
 void RESEARCH_LIST_StartPaletteAnime(u8 **list, u32 slot)
 {
-    RESEARCH_COMMON_StartPaletteAnime(*list, slot);
+    RESEARCH_COMMON_StartPaletteAnime((struct ResearchCommon *)(*list), slot);
 }
 
 void RESEARCH_LIST_StartListPaletteAnime(char *list, int slot)
 {
-    PALETTE_ANIME_Start((u8 *)(*(int *)(list + 0x9c + slot * 4)), d_021C326C[slot].mode, d_021C326C[slot].color);
+    PALETTE_ANIME_Start((struct PaletteAnime *)(*(int *)(list + 0x9c + slot * 4)), d_021C326C[slot].mode, d_021C326C[slot].color);
 }
 
 /*
@@ -2448,7 +2474,7 @@ void RESEARCH_LIST_StartListPaletteAnime(char *list, int slot)
  */
 void RESEARCH_LIST_StopListPaletteAnime(u8 *list, int slot)
 {
-    PALETTE_ANIME_Stop((u32)(*(u32*)(list + (slot)*4 + 156)));
+    PALETTE_ANIME_Stop((struct PaletteAnime *)((*(u32*)(list + (slot)*4 + 156))));
 }
 
 /*
@@ -2469,7 +2495,7 @@ void RESEARCH_LIST_UpdatePaletteAnimes(int *list)
 {
     int i;
     for (i = 0; i < 6; i++)
-        PALETTE_ANIME_Update(list[i + 0x27]);
+        PALETTE_ANIME_Update((struct PaletteAnime *)(list[i + 0x27]));
 }
 
 void RESEARCH_LIST_UpdateCommonPaletteAnime(u8 *list)
@@ -2655,7 +2681,7 @@ u32 RESEARCH_LIST_GetActor(void *list, u32 index)
 
 void RESEARCH_LIST_SetOamEnabled(u8 *list, u32 index, u8 *enabled)
 {
-    BMP_OAM_SetEnabled((u8 *)((u32)(*(u32*)(list + (index)*4 + 304))), (u32)(enabled + 0));
+    BMP_OAM_SetEnabled((struct BmpOam *)((u32)(*(u32*)(list + (index)*4 + 304))), (u32)(enabled + 0));
 }
 
 int RESEARCH_LIST_GetOamObject(char *list, int index)
@@ -2683,7 +2709,7 @@ void RESEARCH_LIST_InitFields(u8 *list)
     list[0x30] = 0;
     ((struct ResearchTop *)list)->selectionMode = 0;
     list[0x31] = 255;
-    ((struct ResearchTop *)list)->paletteAnimOwnerU = GFL_USE_GetMainTaskList();
+    ((struct ResearchTop *)list)->paletteAnimOwnerU = (unsigned int)GFL_USE_GetMainTaskList();
     ((struct ResearchTop *)list)->scrollY = 0;
     ((struct ResearchTop *)list)->prevScrollY = 0;
     ((struct ResearchTop *)list)->animStart = 0;
@@ -2721,7 +2747,7 @@ void RESEARCH_LIST_CountUnlockedEntries(u8 *list)
 {
     void *bitmap;
     int n;
-    bitmap = (void *)GAME_DATA_GetEventWork((const struct BigObj *)RESEARCH_LIST_GetAppResource(list));
+    bitmap = (void *)GAME_DATA_GetEventWork((struct GameData *)RESEARCH_LIST_GetAppResource(list));
     n = 1;
     if (ZONEDATA_CheckEventFlag(bitmap, 240) == 1) n++;
     if (ZONEDATA_CheckEventFlag(bitmap, 241) == 1) n++;
@@ -2780,7 +2806,7 @@ void RESEARCH_LIST_DeleteMessages(int *list)
 {
     int i;
     for (i = 0; i < 2; i++)
-        MSGDATA_Delete((struct Rec *)list[i + 4]);
+        MSGDATA_Delete((struct MsgBank *)list[i + 4]);
 }
 
 void RESEARCH_LIST_CreateCommandQueue(u32 list)
@@ -2877,7 +2903,7 @@ void RESEARCH_LIST_LoadBackground6(char *list)
     arc = ARC_TOOL_CreateHandle(192, (u16)((((struct ResearchTop *)list)->heapId & 0x7FFF) | 0x8000));
     buf = ARC_TOOL_LoadHandleMember(arc, 13, ((struct ResearchTop *)list)->heapId);
     NNS_G2dGetUnpackedScreenData(buf, &screen);
-    BG_SYS_DrawTile(6, (u32)((char *)screen + 12), 0, 0, 32, 24);
+    BG_SYS_DrawTile(6, ((char *)screen + 12), 0, 0, 32, 24);
     BG_SYS_MarkTileDirty(6);
     GFL_HEAP_Free(buf);
     ARC_TOOL_DeleteHandle(arc);
@@ -2906,7 +2932,7 @@ void RESEARCH_LIST_LoadBackground2(char *list)
     arc = ARC_TOOL_CreateHandle(192, (u16)((((struct ResearchTop *)list)->heapId & 0x7FFF) | 0x8000));
     buf = ARC_TOOL_LoadHandleMember(arc, 3, ((struct ResearchTop *)list)->heapId);
     NNS_G2dGetUnpackedScreenData(buf, &screen);
-    BG_SYS_DrawTile(0, (u32)((char *)screen + 12), 0, 0, 32, 24);
+    BG_SYS_DrawTile(0, ((char *)screen + 12), 0, 0, 32, 24);
     BG_SYS_MarkTileDirty(0);
     GFL_HEAP_Free(buf);
     ARC_TOOL_DeleteHandle(arc);
@@ -2928,7 +2954,7 @@ void RESEARCH_LIST_LoadListBackground(struct ResearchTop *list)
     void *res = ARC_TOOL_LoadHandleMember(heap, 5, list->heapId);
     char *q;
     NNS_G2dGetUnpackedScreenData(res, (void **)(&q));
-    BG_SYS_DrawTile(2, (u32)(q + 0xc), 0, 0, 0x20, (u8)v);
+    BG_SYS_DrawTile(2, (q + 0xc), 0, 0, 0x20, (u8)v);
     BG_SYS_MarkTileDirty(2);
     GFL_HEAP_Free(res);
     ARC_TOOL_DeleteHandle(heap);
@@ -2967,8 +2993,8 @@ void RESEARCH_LIST_CreateLabels(struct ResearchTop *list)
         l1.b9 = e->b9;
         l1.b10 = e->b10;
         l1.w = e->w;
-        list->arr[0xdc / 4 - 4 + i] = (u32)BgTextLabel_Create((const struct Config *)(&l1), (u32)list->font, list->arr[e->idx], list->heapId);
-        BgTextLabel_PrintMessage(list->arr[0xdc / 4 - 4 + i], e->arg);
+        list->arr[0xdc / 4 - 4 + i] = (u32)BgTextLabel_Create((struct BgTextLabelConfig *)(&l1), (u32)list->font, list->arr[e->idx], list->heapId);
+        BgTextLabel_PrintMessage((struct BgTextLabel *)(list->arr[0xdc / 4 - 4 + i]), e->arg);
     }
     for (i = 0; i < (int)RESEARCH_LIST_GetEntryCount(list); i++) {
         const struct LabelEntry *e = &d_021C3520[i];
@@ -2985,8 +3011,8 @@ void RESEARCH_LIST_CreateLabels(struct ResearchTop *list)
         l2.b9 = e->b9;
         l2.b10 = e->b10;
         l2.w = e->w;
-        list->arr[0xb4 / 4 - 4 + i] = (u32)BgTextLabel_Create((const struct Config *)(&l2), (u32)list->font, list->arr[e->idx], list->heapId);
-        BgTextLabel_PrintMessage(list->arr[0xb4 / 4 - 4 + i], e->arg);
+        list->arr[0xb4 / 4 - 4 + i] = (u32)BgTextLabel_Create((struct BgTextLabelConfig *)(&l2), (u32)list->font, list->arr[e->idx], list->heapId);
+        BgTextLabel_PrintMessage((struct BgTextLabel *)(list->arr[0xb4 / 4 - 4 + i]), e->arg);
     }
 }
 
@@ -3008,11 +3034,11 @@ void RESEARCH_LIST_DestroyLabels(u8 *list)
 {
     int i;
     for (i = 0; i < 7; i++) {
-        BgTextLabel_Destroy(*(u8 **)(list + i * 4 + 0xDC));
+        BgTextLabel_Destroy((struct BgTextLabel *)(*(u8 **)(list + i * 4 + 0xDC)));
         *(u32 *)(list + i * 4 + 0xDC) = 0;
     }
     for (i = 0; i < (int)RESEARCH_LIST_GetEntryCount(list); i++) {
-        BgTextLabel_Destroy(*(u8 **)(list + i * 4 + 0xB4));
+        BgTextLabel_Destroy((struct BgTextLabel *)(*(u8 **)(list + i * 4 + 0xB4)));
         *(u32 *)(list + i * 4 + 0xB4) = 0;
     }
 }
@@ -3127,7 +3153,7 @@ void RESEARCH_LIST_CreateActors(u8 *list)
         d=RESEARCH_LIST_GetResourceId(list,q->f);
         dest=list+i*4;
         ((struct ResearchTop *)list)->actorHandles[i]=(void *)CLACT_CreateActor((void *)a,b,c,d,&arg,q->g,((struct ResearchTop *)list)->heapId);
-        CLACT_SetActorDrawEnable((struct Obj *)((struct ResearchTop *)list)->actorHandles[i],0);
+        CLACT_SetActorDrawEnable((struct Actor *)((struct ResearchTop *)list)->actorHandles[i],0);
     }
 }
 
@@ -3135,7 +3161,7 @@ void RESEARCH_LIST_DeleteActors(int *list)
 {
     int i;
     for (i = 0; i < 3; i++)
-        CLACT_DeleteActor((struct Obj *)list[i + 0x48]);
+        CLACT_DeleteActor((struct Actor *)list[i + 0x48]);
 }
 
 void RESEARCH_LIST_ClearBmps(void *list)
@@ -3268,8 +3294,8 @@ void RESEARCH_LIST_CreateOamObjects(u8 *list)
         param.f10=q->f10; param.f11=q->f11;
         param.f12=q->f12; param.f14=q->f14;
         *(struct Grid **)(dest+outOff)=BMP_OAM_Create(*(struct Sys **)(list+sysOff),&param);
-        BMP_OAM_SetEnabled(*(u8 **)(dest+callOff),0);
-        BMP_OAM_UploadChars(*(struct Obj **)(dest+uploadOff));
+        BMP_OAM_SetEnabled((struct BmpOam *)(*(u8 **)(dest+callOff)),0);
+        BMP_OAM_UploadChars((struct BmpOam *)(*(struct Obj **)(dest+uploadOff)));
     }
 }
 
@@ -3277,7 +3303,7 @@ void RESEARCH_LIST_DeleteOamObjects(int *list)
 {
     int i;
     for (i = 0; i < 4; i++)
-        BMP_OAM_Delete((struct Grid *)list[i + 0x4C]);
+        BMP_OAM_Delete((struct BmpOam *)list[i + 0x4C]);
 }
 
 void RESEARCH_LIST_ClearPalAnm(void *list)
@@ -3340,14 +3366,14 @@ void RESEARCH_LIST_BindPaletteAnime(int *list)
 {
     int i;
     for (i = 0; i < 6; i++)
-        PALETTE_ANIME_Bind((void *)list[i + 0x27], d_021C3260[i].a, d_021C3260[i].b, d_021C3260[i].c);
+        PALETTE_ANIME_Bind((void *)list[i + 0x27], (unsigned short *)d_021C3260[i].a, (unsigned short *)d_021C3260[i].b, d_021C3260[i].c);
 }
 
 void RESEARCH_LIST_RestorePaletteAnime(int *list)
 {
     int i;
     for (i = 0; i < 6; i++)
-        PALETTE_ANIME_Restore((char *)list[i + 0x27]);
+        PALETTE_ANIME_Restore((struct PaletteAnime *)list[i + 0x27]);
 }
 
 void RESEARCH_LIST_UpdateCenterActor(void *list)
@@ -3357,7 +3383,7 @@ void RESEARCH_LIST_UpdateCenterActor(void *list)
     pos.x = 0x80;
     pos.y = 0x60;
     CLACT_AddActorSurfacePos((struct Obj *)obj, (const struct Vec2 *)(&pos), 0);
-    CLACT_SetActorDrawEnable((struct Obj *)obj, 1);
+    CLACT_SetActorDrawEnable((struct Actor *)obj, 1);
 }
 
 void RESEARCH_LIST_RestartNetwork(u32 list)
@@ -3367,11 +3393,11 @@ void RESEARCH_LIST_RestartNetwork(u32 list)
 
 void RESEARCH_LIST_RegisterVBlank(char *list)
 {
-    ((struct ResearchTop *)list)->vblankNode = GFL_USE_AddMainTask((void (*)(void))RESEARCH_LIST_VBlankHandler, list, 0);
+    ((struct ResearchTop *)list)->vblankNode = (unsigned int)GFL_USE_AddMainTask((void (*)(void))RESEARCH_LIST_VBlankHandler, list, (unsigned int)0);
 }
 
 void RESEARCH_LIST_UnregisterVBlank(u32 list)
 {
-    TCB_DeleteTask((struct Node *)(((struct ResearchTop *)list)->vblankNode));
+    TCB_DeleteTask((struct TcbTask *)(((struct ResearchTop *)list)->vblankNode));
     ((struct ResearchTop *)list)->vblankNode = 0;
 }

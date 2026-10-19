@@ -171,7 +171,7 @@ extern void WCMi_Notify(short result, void *para0, void *para1, long para2);
 extern long WM_Init(void *wmSysBuf, unsigned short dmaNo);
 extern long WM_SetIndCallback(void (*callback)(void *));
 extern void OS_GetMacAddress(unsigned char *macAddress);
-extern void WCMi_CpsifSetMacAddress(unsigned char *macAddress);
+extern void WCMi_CpsifSetMacAddress(void *mac);
 extern int WM_Enable(char *path);
 extern int WM_PowerOff(void (*callback)(void *));
 extern void DC_InvalidateRange(void *startAddr, unsigned long nBytes);
@@ -182,7 +182,7 @@ extern WMStatus *WMi_GetStatusAddress(void);
 extern long WM_Finish(void);
 extern long WM_Disable(void (*callback)(void *));
 extern long WM_Reset(void (*callback)(void *));
-extern WCMCpsifWork *WCMi_GetCpsifWork(void);
+extern void *WCMi_GetCpsifWork(void);
 extern long WM_SetDCFData(void (*callback)(void *), unsigned char *destAdr, unsigned short *sendData, unsigned short sendDataSize);
 extern void OS_SleepThread(void *queue);
 extern unsigned short WM_GetAllowedChannel(void);
@@ -200,10 +200,10 @@ extern void _u32_div_f(void);
 extern unsigned short WCMi_GetNextScanChannel(unsigned short channel);
 extern void DC_StoreRange(void *startAddr, unsigned long nBytes);
 extern long WM_EndScan(void (*callback)(void *));
-extern long WM_StartDCF(void (*callback)(void *), void *recvBuf, unsigned short recvBufSize);
+extern long WM_StartDCF(void (*callback)(void *), struct WMDcfRecvBuf *recvBuf, unsigned short recvBufSize);
 extern void WCMi_ShelterRssi(unsigned char rssi);
 extern void WCMi_CpsifRecvCallback(unsigned char *srcAdrs, unsigned char *destAdrs, unsigned char *data, long length);
-extern long WM_Disconnect(void (*callback)(void *), unsigned long arg);
+extern long WM_Disconnect(void (*callback)(void *), unsigned short aid);
 extern unsigned long WCM_UpdateOption(unsigned long option);
 extern unsigned short WM_GetDispersionScanPeriod(void);
 extern void MI_CpuCopy8(void *srcp, void *dstp, unsigned long size);
@@ -768,7 +768,7 @@ static void WcmWmcbConnect(void *arg)
             }
             if (cb->aid >= 1 && cb->aid <= 0x7d7) {
                 wcmw->aid = cb->aid;
-                wmResult = WM_StartDCF(WcmWmcbStartDCF, wcmw->recvBuf, 0x620);
+                wmResult = WM_StartDCF(WcmWmcbStartDCF, (struct WMDcfRecvBuf *)wcmw->recvBuf, 0x620);
                 switch (wmResult) {
                 case 2:
                     return;

@@ -136,6 +136,7 @@
  */
 #include "gpi_types.h"
 #include "qr2_types.h"
+extern void *__builtin__clear(void *dest, unsigned long size);
 
 #define GPITrue  1
 #define GPIFalse 0
@@ -192,7 +193,8 @@ extern void gpiSetError(void **connection, int code, char *string);
 extern int gpiCallErrorCallback(void **connection, int result, int fatal);
 extern int SetSockBlocking(int sock, int isblocking);
 extern SOCHostEnt *SOC_GetHostByName(char *name);
-extern int connect(int sock, void *addr, int len);
+struct SOCSockAddr;
+extern int connect(int sock, struct SOCSockAddr *addr, int len);
 extern int GOAGetLastError(int sock);
 extern unsigned int current_time(void);
 extern void *MSL_C_LIB_MemsetPtr(void *p, int c, u32 n);
@@ -205,10 +207,10 @@ extern GPResult gpiSendFromBuffer(GPConnection *connection, int sock, GPIBuffer 
 extern GPResult gpiCheckSocketConnect(GPConnection *connection, int sock, int *state);
 extern int gpiAppendStringToBuffer(void **connection, GPIBuffer *buffer, const char *string);
 extern int gpiAppendIntToBuffer(void **connection, GPIBuffer *buffer, int value);
-extern int gpiAppendCharToBuffer(void **connection, GPIBuffer *buffer, int c);
+extern int gpiAppendCharToBuffer(int *connection, int *buffer, int c);
 extern void gpiEncodeString(const char *plaintext, char *encoded);
-extern GPResult gpiRecvToBuffer(GPConnection *connection, int sock, GPIBuffer *buffer,
-                              int *len, GPIBool *connClosed, char *tag);
+struct GPIBuffer;
+extern GPResult gpiRecvToBuffer(int *connection, int sock, struct GPIBuffer *inputBuffer, int *bytesRead, int *connClosed, char *id);
 extern int gpiCheckForError(void **connection, char *input, int flag);
 extern int gpiReadKeyAndValue(void **connection, char *buffer, int *index, char *key, char *value);
 extern int gpiValueForKey(const char *command, const char *key, char *value, int valueLen);
@@ -218,7 +220,7 @@ extern void msleep(u32 ms);
 extern void *gsirealloc(void *ptr, unsigned int size);
 extern void gsifree(void *ptr);
 extern int strcmp(const char *s1, const char *s2);
-extern char *strstr(const char *s1, const char *s2);
+extern unsigned char *strstr(unsigned char *s1, unsigned char *s2);
 extern int atoi(const char *s);
 extern void gpiRemoveOperation(void **connection, GPIOperation *operation);
 int gpiStartProfileSearch(void **connection, GPIOperation *operation);
@@ -364,7 +366,7 @@ int gpiStartProfileSearch(void **connection, GPIOperation *operation)
         address.addr.addr = **(unsigned int **)host->addrList;
         address.port = 0xCD74;
 
-        rcode = connect(data->sock, &address, sizeof(address));
+        rcode = connect(data->sock, (struct SOCSockAddr *)(&address), sizeof(address));
     }
     if (rcode == -1) {
         error = GOAGetLastError(data->sock);
@@ -666,7 +668,7 @@ GPResult gpiProcessSearch(GPConnection *connection, GPIOperation *operation)
                         for (i = 0; i < data->numNamespaces; i++)
                         {
                             if (i > 0)
-                                gpiAppendCharToBuffer(connection, &data->outputBuffer, ',');
+                                gpiAppendCharToBuffer((int *)connection, (int *)(&data->outputBuffer), ',');
                             gpiAppendIntToBuffer(connection, &data->outputBuffer, data->namespaceIDs[i]);
                         }
                     }
@@ -811,7 +813,7 @@ GPResult gpiProcessSearch(GPConnection *connection, GPIOperation *operation)
         }
         else if (operation->state == GPI_WAITING)
         {
-            result = gpiRecvToBuffer(connection, data->sock, &data->inputBuffer, &len, &connClosed, g_0219184C);
+            result = gpiRecvToBuffer((int *)connection, data->sock, &data->inputBuffer, (int *)(&len), (int *)(&connClosed), g_0219184C);
             if (result != GP_NO_ERROR)
             {
                 if (result == GP_NETWORK_ERROR)
@@ -823,7 +825,7 @@ GPResult gpiProcessSearch(GPConnection *connection, GPIOperation *operation)
                 data->remove = GPITrue;
                 CallbackError(connection, GP_NETWORK_ERROR, GP_SEARCH_TIMED_OUT, g_02191848);
             }
-            if (strstr(data->inputBuffer.buffer, g_021918E0) != 0)
+            if (strstr((unsigned char *)data->inputBuffer.buffer, (unsigned char *)g_021918E0) != 0)
             {
                 index = 0;
 

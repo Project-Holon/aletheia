@@ -155,16 +155,18 @@ extern void *FLDMMDL_GetMmdlSys(Mmdl *mmdl);
 extern MmdlObjCodeParam *FLDMMDL_GetObjCodeParam(Mmdl *mmdl);
 extern u32 *FLDMMDL_SetStatusBit(Mmdl *mmdl, u32 bit);
 extern void FLDMMDL_CallMoveInitProc(Mmdl *mmdl);
-extern int FLDMMDL_CheckSysStatusBit(Mmdl *mmdl, unsigned int bit);
+extern u32 FLDMMDL_CheckSysStatusBit(Mmdl *mmdl, unsigned int bit);
 extern u32 FLDMMDL_CheckMoveBit(Mmdl *mmdl, u32 bit);
 extern void FLDMMDL_ACMD_RunCmds(Mmdl *mmdl);
 extern int FLDMMDL_CheckMoveBitMovePause(Mmdl *mmdl);
 extern void FLDMMDL_CallMoveProc(Mmdl *mmdl);
-extern void *FLDMMDL_SysGetNogridMapper(void *mmdlSys);
-extern u32 FIELD_NOGRID_MAPPER_GetAttribute(void *railMapper, RailLocation *location);
+struct MmdlSys;
+extern void *FLDMMDL_SysGetNogridMapper(struct MmdlSys *sys);
+struct FieldNogridMapper;
+extern u32 FIELD_NOGRID_MAPPER_GetAttribute(struct FieldNogridMapper *mapper, RailLocation *location);
 extern u16 FLDMMDL_GetDirDisp(Mmdl *mmdl);
 extern void VEC_Fx16Normalize(s16 *src, s16 *dst);
-extern int FX_Atan2Idx(int y, int x);
+extern u16 FX_Atan2Idx(int y, int x);
 extern int FLDMMDL_CheckMoveBitMove(Mmdl *mmdl);
 extern u16 FLDMMDL_GetMoveCode(Mmdl *mmdl);
 extern void FLDMMDL_OnMoveBitMoveStart(Mmdl *mmdl);
@@ -178,24 +180,29 @@ extern u32 FLDMMDL_GetNowAttr(Mmdl *mmdl);
 extern u32 FLDMMDL_GetOldAttr(Mmdl *mmdl);
 extern u16 MAP_ATTR_GetFlags(u32 attr);
 extern void FLDEFF_GRASS_Start(u32 fldEffCtrl, Mmdl *mmdl, u32 animate, int arg);
-extern void FLDEFF_FOOTMARK_SetMMdl(Mmdl *mmdl, u32 fldEffCtrl, int cycle);
+extern void FLDEFF_FOOTMARK_SetMMdl(struct Mmdl *mmdl, s32 fieldEffectCtrl, s32 type);
 extern int FLDMMDL_SysIsDrawEnable(void *mmdlSys);
 extern void FLDEFF_SHADOW_Start(Mmdl *mmdl, u32 fldEffCtrl);
 extern u32 FLDEFF_KEMURI_StartFacing(Mmdl *mmdl, u32 fldEffCtrl);
 extern int FLDMMDL_CheckMoveBitReflect(Mmdl *mmdl);
 extern int FLDMMDL_MOVE_GetDirMapAttr(Mmdl *mmdl, int dir);
 extern int FLDMMDL_SetMoveBitReflect(Mmdl *mmdl, int on);
-extern void FLDEFF_REFLECT_SetMMdl(void *mmdlSys, Mmdl *mmdl, u32 fldEffCtrl, u32 arg);
-extern void *FLDMMDL_SysGetFieldMap(void *mmdlSys);
-extern u32 FIELDMAP_GetEffect(void *fieldmap);
+extern void FLDEFF_REFLECT_SetMMdl(u32 mmdlSys, u32 mmdl, u32 fieldEffectCtrl, u32 type);
+extern void *FLDMMDL_SysGetFieldMap(struct MmdlSys *sys);
+struct FieldMap;
+struct FieldEffectCont;
+extern struct FieldEffectCont *FIELDMAP_GetEffect(struct FieldMap *fieldMap);
 extern void FLDMMDL_IncAcmdSeq(Mmdl *mmdl);
 extern int FLDMMDL_MOVE_UpdateOldGridPos(Mmdl *mmdl);
 extern void FLDMMDL_SetDirDispCheckPause(Mmdl *mmdl, int dir);
 extern void FLDMMDL_SetDrawStatus(Mmdl *mmdl, u16 drawStatus);
 extern void FLDMMDL_SetDirAll(Mmdl *mmdl, u16 dir);
-extern void FIELD_RAIL_WORK_GetPos();
-extern u8 FIELD_RAIL_WORK_IsMoving(void *railWork);
-extern void FLDMMDL_SetPos();
+struct RailWork;
+extern void FIELD_RAIL_WORK_GetPos(struct RailWork *work, VecFx32 *outPos);
+struct RailWork;
+extern u8 FIELD_RAIL_WORK_IsMoving(struct RailWork *work);
+struct MmdlVec;
+extern void FLDMMDL_SetPos(struct Mmdl *mmdl, struct MmdlVec *pos);
 extern void *FLDMMDL_InitMoveCmdWork(Mmdl *mmdl, int size, int arg);
 extern void *FLDMMDL_GetMoveCmdWork(Mmdl *mmdl);
 extern void GFL_USE_PlaySeDefaultVolume(u32 seNo);
@@ -293,7 +300,7 @@ int FLDMMDL_RAIL_MOVE_AcJumpR16F0(Mmdl *mmdl);
 /* fldmmdl_rail.c */
 void FLDMMDL_RAIL_GetNextLocation(Mmdl *mmdl, RailLocation *location);
 int FLDMMDL_RAIL_GetNowLocation(Mmdl *mmdl, RailLocation *location);
-void *FLDMMDL_RAIL_GetRailWork(Mmdl *mmdl);
+struct RailWork *FLDMMDL_RAIL_GetRailWork(Mmdl *mmdl);
 void FLDMMDL_RAIL_UpdateRailWork(Mmdl *mmdl);
 void FLDMMDL_RAIL_SetMoveRequest(Mmdl *mmdl, u32 dir, u32 frames);
 void FLDMMDL_RAIL_SetGridPosByDir(Mmdl *mmdl, u16 dir);
@@ -566,7 +573,7 @@ void FLDMMDL_RAIL_MOVE_MapAttrReflectProc01(Mmdl *mmdl, u32 attrNow, u32 attrOld
                 fldEffCtrl = FLDMMDL_RAIL_MOVE_GetFldEffCtrl(mmdl);
                 mmdlSys = FLDMMDL_GetMmdlSys(mmdl);
                 FLDMMDL_SetMoveBitReflect(mmdl, 1);
-                FLDEFF_REFLECT_SetMMdl(mmdlSys, mmdl, fldEffCtrl, 1);
+                FLDEFF_REFLECT_SetMMdl((u32)mmdlSys, (u32)mmdl, fldEffCtrl, 1);
             }
         }
     }
@@ -590,7 +597,7 @@ void FLDMMDL_RAIL_MOVE_MapAttrReflectProc2(Mmdl *mmdl, u32 attrNow, u32 attrOld,
 /* Field effect control of the field map that owns the field model. */
 u32 FLDMMDL_RAIL_MOVE_GetFldEffCtrl(Mmdl *mmdl)
 {
-    return FIELDMAP_GetEffect(FLDMMDL_SysGetFieldMap(FLDMMDL_GetMmdlSys(mmdl)));
+    return (u32)FIELDMAP_GetEffect(FLDMMDL_SysGetFieldMap(FLDMMDL_GetMmdlSys(mmdl)));
 }
 
 /* Anime command step: end of the command. */
@@ -656,7 +663,7 @@ int FLDMMDL_RAIL_MOVE_AcWalk1(Mmdl *mmdl)
     railWork = FLDMMDL_RAIL_GetRailWork(mmdl);
     FLDMMDL_RAIL_UpdateRailWork(mmdl);
     FIELD_RAIL_WORK_GetPos(railWork, &pos);
-    FLDMMDL_SetPos(mmdl, &pos);
+    FLDMMDL_SetPos(mmdl, (struct MmdlVec *)(&pos));
     if (FIELD_RAIL_WORK_IsMoving(railWork)) {
         return 0;
     }
@@ -784,7 +791,7 @@ int FLDMMDL_RAIL_MOVE_AcJump1(Mmdl *mmdl)
         railWork = FLDMMDL_RAIL_GetRailWork(mmdl);
         FLDMMDL_RAIL_UpdateRailWork(mmdl);
         FIELD_RAIL_WORK_GetPos(railWork, &pos);
-        FLDMMDL_SetPos(mmdl, &pos);
+        FLDMMDL_SetPos(mmdl, (struct MmdlVec *)(&pos));
         if (work->moveAcc >= 0x10000 && work->frameCount > 0) {
             work->moveAcc = 0;
             FLDMMDL_RAIL_SetMoveRequest(mmdl, work->dir, 8);

@@ -82,6 +82,7 @@
  *   P_STA_OAM_TransferBitmap 0x021DBCF4 thumb ov131
  *   P_STA_OAM_SetBitmapActorsPos 0x021DBE2C thumb ov131
  *   P_STA_RIBBON_GetRibbonInfo 0x021DBF2C thumb ov131
+ *   _u32_div_f                   0x0209C2B0  arm
  */
 
 #include "p_status_types.h"
@@ -232,7 +233,7 @@ enum StaRibbonVramPart {
 extern u32 GFL_HEAP_Free(void *mem);
 extern void CLACT_SetActorAnimSeq(struct Actor *actor, u16 animSeq);
 extern void BG_SYS_PushTile(u32 bgId);
-extern void *ARC_TOOL_CreateHandle(u32 arcId, u32 heapId);
+extern void *ARC_TOOL_CreateHandle(unsigned int archiveID, unsigned short heapID);
 extern int CLACT_RegisterCharacter(void *arc, u32 fileId, u32 a, u32 screen, u16 heapId);
 extern void ARC_TOOL_DeleteHandle(void *arc);
 extern void CLACT_ReleaseCharacter(u32 charRes);
@@ -242,45 +243,48 @@ extern void CLACT_DeleteActor(struct Actor *actor);
 extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern unsigned int MSGDATA_Delete(struct MsgBank *bank);
 extern int TOUCHPANEL_HitTrg(const void *hitTable);
-extern u32 PRINTSYS_QUE_IsFinished(const void *printQue);
+struct PrintQueue;
+extern u32 PRINTSYS_QUE_IsFinished(struct PrintQueue *queue);
 extern unsigned int KEY_GetRepeat(void);
 extern u32 KEY_GetTrg(void);
 extern void GFL_USE_PlaySeDefaultVolume(u32 seId);
-extern u32 POKE_TOOL_GetBoxValue(void *pp, int paramId, void *buf);
-extern void *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
+struct BoxPokemon;
+extern u32 POKE_TOOL_GetBoxValue(struct BoxPokemon *box, unsigned int paramId, unsigned int arg);
+extern struct Strbuf *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
 extern void STRBUF_Delete(struct Strbuf *str);
-extern void PRINTSYS_PrintQueColor(void *printQue, struct Bmp *bmp, u32 x, u32 y, void *str, void *font, u16 colors);
+struct GfFont;
+extern void PRINTSYS_PrintQueColor(struct PrintQueue *queue, struct Bmp *bmp, unsigned int x, short y, struct Strbuf *str, struct GfFont *font, unsigned short color);
 extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *win);
 extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
-extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
+extern void WORDSET_CopyTaggedText(struct WordSet *words, struct Strbuf *dst, struct Strbuf *src);
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 line);
-extern struct BmpWin *BMP_WIN_Create(u32 bgId, u32 x, u32 y, u32 width, u8 height, u8 palette, u8 slot);
+extern struct BmpWin *BMP_WIN_Create(unsigned int bgLayer, unsigned int posX, unsigned int posY, unsigned char width, unsigned char height, unsigned char palette, unsigned char allocDir);
 extern void BMP_WIN_TransferChars(struct BmpWin *win);
 extern void BMP_WIN_MakeScreen(struct BmpWin *win);
 extern u8 BMP_WIN_GetBgLayer(struct BmpWin *win);
 extern void BG_SYS_MarkTileDirty(u32 bgId);
 extern u32 BMP_WIN_Delete(struct BmpWin *win);
-extern struct WordSet *WORDSET_CreateDefault(u32 heapId);
+extern struct WordSet *WORDSET_CreateDefault(unsigned short heapId);
 extern u32 WORDSET_Delete(struct WordSet *ws);
 extern void WORDSET_SetSlotNumber(struct WordSet *ws, u32 index, u32 number, u32 digits, u32 dispType, u32 zeroPad);
 extern int TOUCHPANEL_GetTrg(void);
 extern int TOUCHPANEL_GetCont(void);
 extern void *ARC_UTIL_LoadPaletteDataFromHandle(void *arc, unsigned int fileId, unsigned int a, void **outData, unsigned short heapId);
-extern void BG_SYS_DrawTileEx(u32 bgId, u32 a, u32 b, u32 width, u8 height, u32 src, u8 c, u8 d, u8 e, u8 f);
+extern void BG_SYS_DrawTileEx(unsigned int index, unsigned char dx, unsigned char dy, unsigned char cw, unsigned char ch, void *src, unsigned char sx, unsigned char sy, unsigned char sw, unsigned char sh);
 extern void BG_SYS_DecodeTile(u32 palIndex, const void *src, u32 size);
 extern void CLACT_SetActorPaletteOffset(struct Actor *actor, u32 animSeq, u32 flag);
 extern void CLACT_AddActorSurfacePos(struct Actor *actor, const StaOamPoint *delta, u32 space);
-extern void BG_SYS_SetTileEntry(unsigned int bgId, int a, int b, int c, unsigned char d, unsigned char e, unsigned char f);
+extern void BG_SYS_SetTileEntry(unsigned int layer, unsigned short value, unsigned char x0, unsigned char y0, unsigned char w, unsigned char h, unsigned char mode);
 extern void BG_SYS_ClearLayerEx(int bgId, u16 value);
-extern void *ARC_UTIL_LoadScreenDataFromHandle(void *arc, u32 fileId, u32 a, void **outData, u16 heapId);
+extern void *ARC_UTIL_LoadScreenDataFromHandle(void *arc, u32 memberIdx, u32 heapID, void *unpackedOut, u16 flags);
 extern struct Bmp *BMP_CreateFromVram(void *pixels, u32 width, u32 height, u32 depth, u16 heapId);
 extern void BMP_Delete(struct Bmp *bmp);
 extern void *BMP_GetPixels(const struct Bmp *bmp);
 extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
 extern void GF_FONT_SetTextColor(u32 a, u32 b, u32 c);
-extern void PRINTSYS_Print(struct Bmp *bmp, s16 x, s16 y, void *str, void *font);
+extern void PRINTSYS_Print(struct Bmp *bmp, short x, short y, struct Strbuf *str, struct GfFont *font);
 extern void GF_FONT_SetDefaultTextColor(void);
-extern u32 PRINTSYS_QUE_IsExistTarget(void *printQue, struct Bmp *bmp);
+extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintQueue *queue, struct Bmp *bmp);
 extern void GFL_USE_PlaySeInSlot(u32 seId, int flag);
 extern unsigned int P_STA_RIBBON_GetRibbonDescMsg(int ribbonNo);
 void P_STATUS_SetInputEnable(PStatusWork *wk, int enable);
@@ -314,7 +318,8 @@ void P_STA_RIBBON_PrintDetail(PStatusWork *wk, PStaRibbonWork *work);
 void P_STA_RIBBON_ShowDetail(PStatusWork *wk, PStaRibbonWork *work);
 void P_STA_RIBBON_FreeDetailWindows(PStatusWork *wk, PStaRibbonWork *work);
 void P_STA_RIBBON_HideDetail(PStatusWork *wk, PStaRibbonWork *work);
-StaOamManager *P_STA_OAM_CreateManager(u32 heapId, u32 clunit);
+struct StaOamManager;
+StaOamManager *P_STA_OAM_CreateManager(u32 heapId, void *clunit);
 void P_STA_OAM_DeleteManager(StaOamManager *mgr);
 StaOamBitmapActors *P_STA_OAM_CreateBitmapActors(StaOamManager *mgr, const StaOamBitmapDesc *desc);
 void P_STA_OAM_DeleteBitmapActors(StaOamBitmapActors *actors);
@@ -358,8 +363,8 @@ void P_STA_RIBBON_LoadArcGraphics(PStatusWork *wk, PStaRibbonWork *work, void *a
     work->listPalMem = ARC_UTIL_LoadPaletteDataFromHandle(arc, 67, 0, (void **)&work->listPal, wk->heapId);
     work->detailPalMem = ARC_UTIL_LoadPaletteDataFromHandle(arc, 68, 0, (void **)&work->detailPal, wk->heapId);
     work->titleScrnMem = ARC_UTIL_LoadPaletteDataFromHandle(arc, 69, 0, (void **)&work->titleScrn, wk->heapId);
-    work->iconChrMem = ARC_UTIL_LoadScreenDataFromHandle(arc, 12, 0, (void **)&work->iconChr, wk->heapId);
-    work->oamMgr = P_STA_OAM_CreateManager(wk->heapId, (u32)(wk->clunit));
+    work->iconChrMem = ARC_UTIL_LoadScreenDataFromHandle((void *)arc, (unsigned int)12, (unsigned int)0, &work->iconChr, wk->heapId);
+    work->oamMgr = P_STA_OAM_CreateManager(wk->heapId, (wk->clunit));
 }
 
 void P_STA_RIBBON_FreeArcGraphics(PStatusWork *wk, PStaRibbonWork *work) {
@@ -676,11 +681,11 @@ void P_STA_RIBBON_Show(PStatusWork *wk, PStaRibbonWork *work)
 {
     u8 i;
     u16 ownedIdx;
-    BG_SYS_DrawTileEx(2,0,0,32,24,(u32)work->listScrn->data,0,0,32,32);
+    BG_SYS_DrawTileEx(2,0,0,32,24,work->listScrn->data,0,0,32,32);
     BG_SYS_MarkTileDirty(2);
     BG_SYS_DecodeTile(6,work->listPal->data,work->listPal->dataSize);
     BG_SYS_MarkTileDirty(6);
-    BG_SYS_DrawTileEx(5,0,0,32,3,(u32)work->titleScrn->data,0,0,32,32);
+    BG_SYS_DrawTileEx(5,0,0,32,3,work->titleScrn->data,0,0,32,32);
     BG_SYS_MarkTileDirty(5);
     for(i=0;i<STA_RIBBON_ROW_COUNT;i++) {
         ownedIdx=work->rows[i].ownedIdx;

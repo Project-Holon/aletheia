@@ -296,7 +296,7 @@ typedef enum { GX_SHADING_TOON, GX_SHADING_HIGHLIGHT } GXShading;
 
 extern int GF_OVERLAY_Load(int);
 extern void GFL_HEAP_CreateChildHeap(u32,u32,u32);
-extern void *PROCSYS_AllocProcWork(struct ProcSystem *obj, u32 size, u32 heap);
+extern void *PROCSYS_AllocProcWork(struct Proc *proc, unsigned int size, unsigned int heapId);
 extern void MI_CpuFill8(void*,u32,u32);
 extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
 extern void BG_SYS_SetPriority(int idx, unsigned short val);
@@ -304,84 +304,100 @@ extern void BG_SYS_LoadPlttEntry(u32,u32);
 extern void FADE_Start(u32,int,int,int);
 extern char *BTL_REC_SEL_GRAPHIC_Create(u32,u32);
 extern struct GfFont *GF_FONT_Create(int archiveId, int fileId, int format, int isFixedWidth, u32 heapId);
-extern u32 PRINTSYS_QUE_Create(void*);
-extern void *GAME_DATA_GetMyItem(const struct BigObj *p);
-extern u32 MYITEM_SAVEDATA_HasItem(u8 *base, u16 id, u16 qty, u16 d);
-extern u32 GFL_USE_AddMainTask(void(*)(void*),void*,u32);
+struct PrintQueue;
+extern struct PrintQueue *PRINTSYS_QUE_Create(unsigned int heap);
+struct GameData;
+extern void *GAME_DATA_GetMyItem(struct GameData *gd);
+struct MyItem;
+extern u32 MYITEM_SAVEDATA_HasItem(struct MyItem *bag, unsigned short itemId, unsigned short quantity, unsigned short heapId);
+struct Tcb;
+extern struct Tcb *GFL_USE_AddMainTask(void(*)(void*),void*,u32);
 extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void GFL_NET_RefreshWmIconAtTopRight(u32,u32);
-extern unsigned int MSGDATA_Delete(struct Rec *rec);
-extern void TCB_DeleteTask(struct Node *n);
-extern void PRINTSYS_QUE_Clear(struct PrintSys *p);
-extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
-extern u32 GF_FONT_Delete(void *ptr);
+extern unsigned int MSGDATA_Delete(struct MsgBank *bank);
+struct TcbTask;
+extern void TCB_DeleteTask(struct TcbTask *task);
+extern void PRINTSYS_QUE_Clear(struct PrintQueue *queue);
+extern void PRINTSYS_QUE_Delete(struct PrintQueue *queue);
+extern u32 GF_FONT_Delete(struct GfFont *font);
 extern void BTL_REC_SEL_GRAPHIC_Delete(char *p);
 extern void PROCSYS_FreeProcWork(struct Proc *p);
 extern void GFL_HEAP_DeleteChecked(unsigned int heap);
 extern void GF_OVERLAY_Unload(int handle);
-extern void *GAME_DATA_GetSaveControl(struct Big *p);
+struct SaveControl;
+extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gd);
 extern u32 KEY_GetTrg(void);
 extern int FADE_IsActive(void);
 extern u32 BMP_MENU_ProcessYesNo(u8*);
 extern void BMP_MENU_DeleteYesNo(u8 *o);
 extern void UI_SetInputMode(u8);
-extern u32 BATTLE_REC_VerifyAndCloseSave(void*,u32,u32*,u32);
-extern struct BattleRec *BATTLE_REC_LoadAlloc(void *a, u32 heap, u32 *dp, u32 id);
-extern u8 *BATTLE_REC_GetHeaderOf(struct ObjC4 *p);
-extern unsigned long long BATTLE_REC_GetHeaderParam(u8 *p, int selector, int index);
+extern u32 BATTLE_REC_VerifyAndCloseSave(struct SaveControl *save, unsigned int heap, unsigned int *result, unsigned int id);
+struct BattleRecSave;
+extern struct BattleRecSave *BATTLE_REC_LoadAlloc(struct SaveControl *save, unsigned int heap, unsigned int *result, unsigned int id);
+struct BattleRecHeader;
+extern struct BattleRecHeader *BATTLE_REC_GetHeaderOf(struct BattleRecSave *rec);
+extern unsigned long long BATTLE_REC_GetHeaderParam(struct BattleRecHeader *head, int param, int index);
 extern void BTL_REC_SEL_SetEntryA(void*,char*,u32,u32,u32),BATTLE_REC_Delete(void*);
-extern u32 GFL_USE_GetMainTaskList(void);
-extern u8 *TIME_ICON_Create(void *owner, void *refWin, u8 fillColor, u8 waitInterval, volatile u16 heap);
-extern u32 BATTLE_REC_BeginSave(void*,u16,u32,u32,u32,u16*,u16*);
+struct TcbList;
+extern struct TcbList *GFL_USE_GetMainTaskList(void);
+struct BmpWin;
+struct TimeIcon;
+extern struct TimeIcon *TIME_ICON_Create(struct TcbList *taskList, struct BmpWin *refWin, unsigned char fillColor, unsigned char waitInterval, unsigned short heapId);
+extern u32 BATTLE_REC_BeginSave(struct GameData *gameData, unsigned short heap, unsigned int modeIndex, unsigned int battleCount, unsigned int id, unsigned short *seq, unsigned short *subSeq);
 extern void BATTLE_REC_DecodeWork(void),TIME_ICON_Delete(u8*),GFL_USE_PlaySeDefaultVolume(u32);
-extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
-extern void GFL_NET_HANDLE_SetTimingSyncRange(struct Link *p, u32 lo, u32 hi);
+struct GFLNetHandle;
+extern struct GFLNetHandle *GFL_NET_HANDLE_GetCurrentHandle(void);
+extern void GFL_NET_HANDLE_SetTimingSyncRange(struct GFLNetHandle *handle, unsigned int timingLow, unsigned int timingHigh);
 extern u32 GFL_NET_ERR_GetErrorLevel(void);
-extern u32 GFL_NET_HANDLE_IsTimingSyncRange(struct Link *p, u32 lo, u32 hi);
-extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
+extern u32 GFL_NET_HANDLE_IsTimingSyncRange(struct GFLNetHandle *handle, unsigned int timingLow, unsigned int timingHigh);
+extern u32 PRINTSYS_QUE_Main(struct PrintQueue *queue);
 extern void BTL_REC_SEL_GRAPHIC_Draw(u8*),BTL_REC_SEL_GRAPHIC_Draw3d(u8*),BTL_REC_SEL_GRAPHIC_DrawEnd(char*);
 extern void *GFL_HEAP_Alloc(u32,u32,int,const char*,u16);
 extern void BG_SYS_LoadPltt(u32,void*,u32,u32);
 extern void GFL_HEAP_Free(void *);
 extern void ARC_UTIL_UploadPaletteFromArchiveWhole(u32,u32,u32,u32,u32,u16);
-extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
-extern void *BMP_WIN_GetBmp(struct Descriptor *p);
-extern void BMP_Clear(struct CharBuf *buf, u8 value);
-extern void BMP_WIN_TransferChars(struct Descriptor *d);
-extern void *BMP_MENUWORK_LoadFrameGfx(void*,u32,u32,u32);
-extern struct Tcbl *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
+extern struct BmpWin *BMP_WIN_Create(unsigned int bgLayer, unsigned int posX, unsigned int posY, unsigned char width, unsigned char height, unsigned char palette, unsigned char allocDir);
+struct Bmp;
+extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *win);
+extern void BMP_Clear(struct Bmp *bmp, unsigned char value);
+extern void BMP_WIN_TransferChars(struct BmpWin *win);
+extern void *BMP_MENUWORK_LoadFrameGfx(unsigned int layer, unsigned int palSlot, unsigned int frameId, unsigned short heapId);
+struct TcblSystem;
+extern struct TcblSystem *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
 extern void GF_FONT_SetTextColor(u32,u32,u32);
 extern void BG_SYS_MarkTileDirty(u32);
-extern void PRINTSYS_PrintStreamDelete(struct Rec3 *p);
-extern void STRBUF_Delete(struct U16Vec *vec);
-extern void TCBL_Destroy(struct S02031140 *p);
+struct TextPrinter;
+extern void PRINTSYS_PrintStreamDelete(struct TextPrinter *printer);
+struct Strbuf;
+extern void STRBUF_Delete(struct Strbuf *strbuf);
+extern void TCBL_Destroy(struct TcblSystem *tcbl);
 extern void BG_SYS_FreeTileRun(u32 layer, u32 offset, u32 size);
-extern u32 BMP_WIN_Delete(struct Descriptor *d);
+extern u32 BMP_WIN_Delete(struct BmpWin *win);
 extern void TCBL_Main(struct Tcbl *);
 extern u8 UI_GetFrameRate(void);
-extern void BMP_MENUWORK_DrawWindow(void *win, int commitMode, int tileBase, int palette);
-extern void BMP_WIN_MakeScreen(struct Cfg *);
-extern void BMP_MENUWORK_DrawWindowBorder(void *desc, u32 kind);
-extern unsigned char BMP_WIN_GetBgLayer(struct Descriptor *);
+extern void BMP_MENUWORK_DrawWindow(struct BmpWin *win, int commitMode, unsigned short tileBase, unsigned int palette);
+extern void BMP_WIN_MakeScreen(struct BmpWin *win);
+extern void BMP_MENUWORK_DrawWindowBorder(struct BmpWin *desc, unsigned int commitMode);
+extern unsigned char BMP_WIN_GetBgLayer(struct BmpWin *win);
 extern void *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
 extern signed char MSG_SPEED_GetWait(void);
 extern void*PRINTSYS_PrintStream(unsigned,unsigned,unsigned,unsigned,unsigned,unsigned,unsigned,unsigned,u16,u16);
-extern unsigned PRINTSYS_PrintStreamGetState(void*);
-extern void PRINTSYS_PrintStreamShortWait(struct Rec *p, s32 v);
-extern void PRINTSYS_PrintStreamReleasePause(void*);
+extern unsigned PRINTSYS_PrintStreamGetState(struct TextPrinter *printer);
+extern void PRINTSYS_PrintStreamShortWait(struct TextPrinter *printer, int wait);
+extern void PRINTSYS_PrintStreamReleasePause(struct TextPrinter *printer);
 extern unsigned int KEY_GetCont(void);
 extern int TOUCHPANEL_GetCont(void);
 extern int TOUCHPANEL_GetTrg(void);
-extern void PRINTSYS_PrintQue(struct PrintSys *p, u32 a, u32 b, u32 c, void *s, u32 e);
-extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintSys *,void *);
+extern void PRINTSYS_PrintQue(struct PrintQueue *queue, struct Bmp *bmp, unsigned int x, short y, struct Strbuf *str, struct GfFont *font);
+extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintQueue *queue, struct Bmp *bmp);
 extern unsigned BG_SYS_CreateRun(unsigned,unsigned,unsigned);
 extern struct BmpMenu *BMP_MENU_CreateYesNo(const struct WinDat *,u16,u8,u8,u16);
 extern void PRINTSYS_PrintQueColor(void *, unsigned, unsigned, unsigned, unsigned, unsigned, int);
-extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
-extern struct WordSet *WORDSET_CreateDefault(u32 heap);
+extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
+extern struct WordSet *WORDSET_CreateDefault(unsigned short heapId);
 extern u32 WORDSET_Delete(struct WordSet *p);
 extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
-extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
+extern void WORDSET_CopyTaggedText(struct WordSet *words, struct Strbuf *dst, struct Strbuf *src);
 extern u32 BTL_REC_SEL_GRAPHIC_GetCamera(u8 *);
 extern int POKE_TOOL_GetIconPaletteArcId(void);
 extern u32 POKE_TOOL_CalcGraphicIndex(u32,u32,u32,u32);
@@ -389,14 +405,15 @@ extern int POKE_TOOL_GetIconCellArcId(void);
 extern int POKE_TOOL_GetIconCellEntryId(void);
 extern void UI_SCENE_LoadActorGfx(void*,In*,int,u16);
 extern int UI_SCENE_CreateActor(void*,int,u16,u16,u8,u16);
-extern void CLACT_SetActorBgPriority(int,u32);
-extern void CLACT_SetActorDrawPriority(struct Node *node, u32 val);
-extern void CLACT_SetActorAutoAnim(struct ClactActor *,u32);
+struct Actor;
+extern void CLACT_SetActorBgPriority(struct Actor *actor, unsigned int priority);
+extern void CLACT_SetActorDrawPriority(struct Actor *actor, unsigned int priority);
+extern void CLACT_SetActorAutoAnim(struct Actor *actor, unsigned int enable);
 extern u32 POKE_TOOL_CalcIconPalette(u32,u32,u32,u32);
-extern void CLACT_SetActorPaletteOffset(struct ClactActor *o, u32 v, u32 flag);
-extern void CLACT_DeleteActor(struct ClactActor *p);
+extern void CLACT_SetActorPaletteOffset(struct Actor *actor, unsigned int offset, unsigned int pltt_op);
+extern void CLACT_DeleteActor(struct Actor *actor);
 extern void UI_SCENE_FreeActorGfx(unsigned int *p);
-extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
+extern void *ARC_TOOL_CreateHandle(unsigned int archiveID, unsigned short heapID);
 extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *, unsigned int, unsigned int, unsigned int, unsigned int, unsigned short);
 extern unsigned int ARC_UTIL_RegisterObjCharFromHandle(void *, unsigned int, unsigned int, unsigned int, unsigned int, unsigned short);
 extern void ARC_TOOL_DeleteHandle(void *);
@@ -404,8 +421,9 @@ extern void ARC_UTIL_UploadBgPaletteFromArchive(u32 archiveID, u32 memberIdx, u3
 extern void BG_SYS_ChangeScroll(u32,u32,u32);
 extern void BG_SYS_ChangeScrollImmediate(u32,u32,u32);
 extern void BG_SYS_ClearLayerEx(int channel, u16 val);
-extern u8 *GAME_DATA_GetMyStatus(void *p);
-extern u8 MYSTATUS_GetSex(const struct Sub0200852CObj *obj);
+struct MyStatus;
+extern struct MyStatus *GAME_DATA_GetMyStatus(struct GameData *gd);
+extern u8 MYSTATUS_GetSex(struct MyStatus *mystatus);
 extern void BG_SYS_ClearSubPlanes(void);
 extern void GXS_SetGraphicsMode(u32);
 extern void BG_SYS_ClearSubBgPlanes(void);
@@ -417,7 +435,8 @@ extern void ARC_UTIL_UploadBgPaletteFromHandle(void *,u32,u32,u32,u32,u32,u16);
 extern void BG_SYS_PushTile(u32);
 extern void BG_SYS_FreeLayerBuf(u8);
 extern u32 TCB_GetTaskOffset(u32);
-extern struct Ctx *TCB_Init(u32 capacity, struct Ctx *c);
+struct TcbSystem;
+extern struct TcbSystem *TCB_Init(unsigned int capacity, struct TcbSystem *sys);
 extern void *PALANM_Create(u32);
 extern void PALANM_SetAutoTransfer(struct PalAnmObj *o, int v);
 extern void PALANM_AllocSlotBuffers(struct PalAnmSlot *slots, u32 idx, u32 size, u32 heap);
@@ -425,14 +444,15 @@ extern void PALANM_CopyHwPaletteToSlot(struct PalAnmSlot *slots, u32 bank, u32 o
 extern void PALANM_FreeSlotBuffers(struct PalAnmSlot *,u32);
 extern void PALANM_Delete(void *);
 extern void TCB_Noop(void *);
-extern void TCB_Main(struct Ctx *c);
+extern void TCB_Main(struct TcbSystem *sys);
 extern u32 PALANM_GetFadeRequestBits(const char *);
 extern int PALANM_RequestFade(struct PalAnmObj *,u16,u32,s16,u8,u8,u16,void *);
 extern void PALANM_TransferPalettes(struct S02021D50 *);
 extern void BG_SYS_SetMainPlaneVisible(u32,u32);
 extern void G3X_SetFog(int,int,int,int);
 extern void G3X_SetClearColor(u16,int,int,int,int);
-extern void G3D_SYSTEM_SetLight(u32 idx, const u16 *src);
+struct G3dLight;
+extern void G3D_SYSTEM_SetLight(unsigned int lightIdx, struct G3dLight *light);
 extern void G3D_SYSTEM_SetSwapBuffersMode(u32,u32);
 int BTL_REC_SEL_Create(void *manager,char *state,char * const obj);
 int BTL_REC_SEL_Delete(void *owner,int unused,int state,char *p);
@@ -516,13 +536,13 @@ int BTL_REC_SEL_Create(void *manager,char *state,char * const mgr)
     for(layer=0;layer<=7;layer++)BG_SYS_SetPlaneVisible(layer,0);
     *(void* *)&((struct BtlRecSel *)work)->graphic=BTL_REC_SEL_GRAPHIC_Create(1,((struct BtlRecSel *)work)->heap);
     *(void* *)&((struct BtlRecSel *)work)->font=GF_FONT_Create(23,0,0,0,((struct BtlRecSel *)work)->heap);
-    ((struct BtlRecSel *)work)->printQue[0]=(void *)PRINTSYS_QUE_Create((void*)(u32)((struct BtlRecSel *)work)->heap);
-    ((struct BtlRecSel *)work)->printQue[1]=(void *)PRINTSYS_QUE_Create((void*)(u32)((struct BtlRecSel *)work)->heap);
-    ((struct BtlRecSel *)work)->printQue[2]=(void *)PRINTSYS_QUE_Create((void*)(u32)((struct BtlRecSel *)work)->heap);
-    ((struct BtlRecSel *)work)->printQue[3]=(void *)PRINTSYS_QUE_Create((void*)(u32)((struct BtlRecSel *)work)->heap);
+    ((struct BtlRecSel *)work)->printQue[0]=(void *)PRINTSYS_QUE_Create((unsigned int)(u32)((struct BtlRecSel *)work)->heap);
+    ((struct BtlRecSel *)work)->printQue[1]=(void *)PRINTSYS_QUE_Create((unsigned int)(u32)((struct BtlRecSel *)work)->heap);
+    ((struct BtlRecSel *)work)->printQue[2]=(void *)PRINTSYS_QUE_Create((unsigned int)(u32)((struct BtlRecSel *)work)->heap);
+    ((struct BtlRecSel *)work)->printQue[3]=(void *)PRINTSYS_QUE_Create((unsigned int)(u32)((struct BtlRecSel *)work)->heap);
     ((struct BtlRecSel *)work)->itemCount=MYITEM_SAVEDATA_HasItem(GAME_DATA_GetMyItem(*(void* *)&((struct BtlRecSelMgr *)mgr)->gameData),0x1d1,1,((struct BtlRecSel *)work)->heap);
     ((struct BtlRecSel *)work)->exitRequest=0;
-    ((struct BtlRecSel *)work)->task=GFL_USE_AddMainTask((void (*)(void *))BTL_REC_SEL_VBlank,work,1);
+    ((struct BtlRecSel *)work)->task=(unsigned int)GFL_USE_AddMainTask((void (*)(void *))BTL_REC_SEL_VBlank,work,(unsigned int)1);
     *(void* *)&((struct BtlRecSel *)work)->msgBank=MSGDATA_CreateFromArchive(0,2,19,((struct BtlRecSel *)work)->heap);
     BTL_REC_SEL_InitBgRun((int)mgr,work);BTL_REC_SEL_ClearLayer(mgr,work);BTL_REC_SEL_InitSubBg((void **)mgr,work);
     BTL_REC_SEL_InitWindows(mgr,(struct BtlRecSel *)work);BTL_REC_SEL_DrawWindow((int)mgr,work);BTL_REC_SEL_InitPalette((int)mgr,work);BTL_REC_SEL_CreateWindows((int)mgr,work);
@@ -560,16 +580,16 @@ int BTL_REC_SEL_Delete(void *mgr,int unused,int state,char *work)
     BTL_REC_SEL_DeleteWindows(state,work);
     BTL_REC_SEL_DeleteSubBg(state,work);
     BTL_REC_SEL_DeleteBgRun(state,(u8 *)work);
-    MSGDATA_Delete(*(struct Rec * *)&((struct BtlRecSel *)work)->msgBank);
-    TCB_DeleteTask((struct Node *)(((struct BtlRecSel *)work)->task));
-    PRINTSYS_QUE_Clear((struct PrintSys *)(((struct BtlRecSel *)work)->printQue[3]));
-    PRINTSYS_QUE_Delete((struct PrintSys *)(((struct BtlRecSel *)work)->printQue[3]));
-    PRINTSYS_QUE_Clear((struct PrintSys *)(((struct BtlRecSel *)work)->printQue[2]));
-    PRINTSYS_QUE_Delete((struct PrintSys *)(((struct BtlRecSel *)work)->printQue[2]));
-    PRINTSYS_QUE_Clear((struct PrintSys *)(((struct BtlRecSel *)work)->printQue[1]));
-    PRINTSYS_QUE_Delete((struct PrintSys *)(((struct BtlRecSel *)work)->printQue[1]));
-    PRINTSYS_QUE_Clear((struct PrintSys *)(((struct BtlRecSel *)work)->printQue[0]));
-    PRINTSYS_QUE_Delete((struct PrintSys *)(((struct BtlRecSel *)work)->printQue[0]));
+    MSGDATA_Delete((struct MsgBank *)(*(struct Rec * *)&((struct BtlRecSel *)work)->msgBank));
+    TCB_DeleteTask((struct TcbTask *)(((struct BtlRecSel *)work)->task));
+    PRINTSYS_QUE_Clear((struct PrintQueue *)(((struct BtlRecSel *)work)->printQue[3]));
+    PRINTSYS_QUE_Delete((struct PrintQueue *)(((struct BtlRecSel *)work)->printQue[3]));
+    PRINTSYS_QUE_Clear((struct PrintQueue *)(((struct BtlRecSel *)work)->printQue[2]));
+    PRINTSYS_QUE_Delete((struct PrintQueue *)(((struct BtlRecSel *)work)->printQue[2]));
+    PRINTSYS_QUE_Clear((struct PrintQueue *)(((struct BtlRecSel *)work)->printQue[1]));
+    PRINTSYS_QUE_Delete((struct PrintQueue *)(((struct BtlRecSel *)work)->printQue[1]));
+    PRINTSYS_QUE_Clear((struct PrintQueue *)(((struct BtlRecSel *)work)->printQue[0]));
+    PRINTSYS_QUE_Delete((struct PrintQueue *)(((struct BtlRecSel *)work)->printQue[0]));
     GF_FONT_Delete((void *)((struct BtlRecSel *)work)->font);
     BTL_REC_SEL_GRAPHIC_Delete(*(char * *)&((struct BtlRecSel *)work)->graphic);
     PROCSYS_FreeProcWork(mgr);
@@ -771,7 +791,7 @@ int BTL_REC_SEL_Main(void *unused,u32 *state,const char *mgr,char *work)
         else if(BTL_REC_SEL_WaitPrint((int)mgr,work))done=1;
         if(done){
             if((*(u32*)(mgr+8))){
-                GFL_NET_HANDLE_SetTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),150,43);
+                GFL_NET_HANDLE_SetTimingSyncRange((struct GFLNetHandle *)GFL_NET_HANDLE_GetCurrentHandle(),150,43);
                 (((struct BtlRecSel *)work)->timeIcon)=TIME_ICON_Create((void *)GFL_USE_GetMainTaskList(),(void*)(((struct BtlRecSel *)work)->win1),15,16,((struct BtlRecSel *)work)->heap);
             }
             *state=17;
@@ -779,7 +799,7 @@ int BTL_REC_SEL_Main(void *unused,u32 *state,const char *mgr,char *work)
     case 17:
         done=1;
         if((*(u32*)(mgr+8))){
-            if(!GFL_NET_ERR_GetErrorLevel())done=GFL_NET_HANDLE_IsTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(),150,43);
+            if(!GFL_NET_ERR_GetErrorLevel())done=GFL_NET_HANDLE_IsTimingSyncRange((struct GFLNetHandle *)GFL_NET_HANDLE_GetCurrentHandle(),150,43);
             if(done)TIME_ICON_Delete((u8*)(((struct BtlRecSel *)work)->timeIcon));
         }
         if(done)BTL_REC_SEL_StartFade((char*)state,(int)mgr,work,18,3,0,16,2,0);
@@ -891,8 +911,8 @@ void BTL_REC_SEL_InitWindows(void *unused, struct BtlRecSel *work)
     work->win1=(void *)BMP_WIN_Create(1,1,0x13,0x1e,4,0xc,0);
     BMP_Clear(BMP_WIN_GetBmp(work->win1),0xf);
     BMP_WIN_TransferChars(work->win1);
-    work->frameRun=(u32)BMP_MENUWORK_LoadFrameGfx((void*)1,0xa,0,work->heap);
-    work->tcbl=TCBL_Create(work->heap,work->heap,1,0);
+    work->frameRun=(u32)BMP_MENUWORK_LoadFrameGfx((unsigned int)1,0xa,0,work->heap);
+    work->tcbl=(struct Tcbl *)TCBL_Create(work->heap,work->heap,1,0);
     GF_FONT_SetTextColor(1,2,0xf);
     BG_SYS_MarkTileDirty(1);
     work->printStream=0;
@@ -933,7 +953,7 @@ void BTL_REC_SEL_MainTcbl(int unused,char *work){TCBL_Main(*(struct Tcbl * *)&((
 /*
  * Parameter evidence: original narrows third input to u16 before BMP_MENUWORK_DrawWindow.
  */
-void BTL_REC_SEL_DrawWindow(int unused,char *work){struct Descriptor *d;BMP_MENUWORK_DrawWindow(((struct BtlRecSel *)work)->win1,1,(unsigned short)(((struct BtlRecSel *)work)->frameRun),10);d=*(struct Descriptor * *)&((struct BtlRecSel *)work)->win1;BMP_WIN_TransferChars(d);BMP_WIN_MakeScreen((struct Cfg *)d);BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer(d));}
+void BTL_REC_SEL_DrawWindow(int unused,char *work){struct Descriptor *d;BMP_MENUWORK_DrawWindow((struct BmpWin *)(((struct BtlRecSel *)work)->win1),1,(unsigned short)(((struct BtlRecSel *)work)->frameRun),10);d=*(struct Descriptor * *)&((struct BtlRecSel *)work)->win1;BMP_WIN_TransferChars((struct BmpWin *)d);BMP_WIN_MakeScreen((struct BmpWin *)d);BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer((struct BmpWin *)d));}
 
 
 
@@ -950,9 +970,9 @@ void BTL_REC_SEL_ClearWindowWhite(int unused, char *work)
     struct Descriptor *d;
     BMP_Clear(BMP_WIN_GetBmp(((struct BtlRecSel *)work)->win1), 15);
     d = ((struct BtlRecSel *)work)->win1;
-    BMP_WIN_TransferChars(d);
-    BMP_WIN_MakeScreen((struct Cfg *)d);
-    BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer(d));
+    BMP_WIN_TransferChars((struct BmpWin *)d);
+    BMP_WIN_MakeScreen((struct BmpWin *)d);
+    BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer((struct BmpWin *)d));
 }
 
 
@@ -962,7 +982,7 @@ void BTL_REC_SEL_ClearWindowWhite(int unused, char *work)
 /*
  * Tail: two zero alignment bytes at 021BA106.
  */
-void BTL_REC_SEL_ClearWindowClear(int unused,char *work){struct Descriptor *d;BMP_Clear(BMP_WIN_GetBmp(*(struct Descriptor * *)&((struct BtlRecSel *)work)->win1),0);d=*(struct Descriptor * *)&((struct BtlRecSel *)work)->win1;BMP_WIN_TransferChars(d);BMP_WIN_MakeScreen((struct Cfg *)d);BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer(d));}
+void BTL_REC_SEL_ClearWindowClear(int unused,char *work){struct Descriptor *d;BMP_Clear(BMP_WIN_GetBmp((struct BmpWin *)(*(struct Descriptor * *)&((struct BtlRecSel *)work)->win1)),0);d=*(struct Descriptor * *)&((struct BtlRecSel *)work)->win1;BMP_WIN_TransferChars((struct BmpWin *)d);BMP_WIN_MakeScreen((struct BmpWin *)d);BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer((struct BmpWin *)d));}
 
 
 
@@ -1038,7 +1058,7 @@ void BTL_REC_SEL_PrintQueEntry(void*mgr,char*work,unsigned entry)
     if(*(void* *)&((struct BtlRecSel *)work)->strbuf)STRBUF_Delete(*(void* *)&((struct BtlRecSel *)work)->strbuf);
     *(void* *)&((struct BtlRecSel *)work)->strbuf=MSGDATA_AllocString(*(void* *)&((struct BtlRecSel *)work)->msgBank,entry);
     *(int *)&((struct BtlRecSel *)work)->windowShown=0;
-    PRINTSYS_PrintQue(*(void* *)&((struct BtlRecSel *)work)->printQue[0],(unsigned)BMP_WIN_GetBmp(*(void* *)&((struct BtlRecSel *)work)->win1),0,0,*(void* *)&((struct BtlRecSel *)work)->strbuf,((struct BtlRecSel *)work)->font);
+    PRINTSYS_PrintQue(*(void* *)&((struct BtlRecSel *)work)->printQue[0],BMP_WIN_GetBmp(*(void* *)&((struct BtlRecSel *)work)->win1),0,0,*(void* *)&((struct BtlRecSel *)work)->strbuf,(struct GfFont *)(((struct BtlRecSel *)work)->font));
     BTL_REC_SEL_TryShowEntry((int)mgr,(u8 *)work);
 }
 
@@ -1046,7 +1066,7 @@ void BTL_REC_SEL_PrintQueEntry(void*mgr,char*work,unsigned entry)
 
 
 
-u32 BTL_REC_SEL_TryShowEntry(int unused,u8 *work){struct Descriptor *d;if(((struct BtlRecSel *)work)->windowShown==0){if(PRINTSYS_QUE_IsExistTarget(*(struct PrintSys * *)&((struct BtlRecSel *)work)->printQue[0],BMP_WIN_GetBmp(*(struct Descriptor * *)&((struct BtlRecSel *)work)->win1))==0){d=*(struct Descriptor * *)&((struct BtlRecSel *)work)->win1;BMP_WIN_TransferChars(d);BMP_WIN_MakeScreen((struct Cfg *)d);BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer(d));((struct BtlRecSel *)work)->windowShown=1;}}return ((struct BtlRecSel *)work)->windowShown;}
+u32 BTL_REC_SEL_TryShowEntry(int unused,u8 *work){struct Descriptor *d;if(((struct BtlRecSel *)work)->windowShown==0){if(PRINTSYS_QUE_IsExistTarget((struct PrintQueue *)(*(struct PrintSys * *)&((struct BtlRecSel *)work)->printQue[0]),BMP_WIN_GetBmp((struct BmpWin *)(*(struct Descriptor * *)&((struct BtlRecSel *)work)->win1)))==0){d=*(struct Descriptor * *)&((struct BtlRecSel *)work)->win1;BMP_WIN_TransferChars((struct BmpWin *)d);BMP_WIN_MakeScreen((struct BmpWin *)d);BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer((struct BmpWin *)d));((struct BtlRecSel *)work)->windowShown=1;}}return ((struct BtlRecSel *)work)->windowShown;}
 
 
 
@@ -1146,30 +1166,30 @@ void BTL_REC_SEL_ShowWindows(void *unused,struct BtlRecSel *work)
     struct Descriptor *d;
     for (idx=0;idx<=1;idx++) {
         if (work->winShown[idx]==0) {
-            if (PRINTSYS_QUE_IsExistTarget(*(struct PrintSys * *)&((struct BtlRecSel *)work)->printQue[1],BMP_WIN_GetBmp(work->winHandles[idx]))==0) {
+            if (PRINTSYS_QUE_IsExistTarget((struct PrintQueue *)(*(struct PrintSys * *)&((struct BtlRecSel *)work)->printQue[1]),BMP_WIN_GetBmp(work->winHandles[idx]))==0) {
                 d=work->winHandles[idx];
-                BMP_WIN_TransferChars(d);
-                BMP_WIN_MakeScreen((struct Cfg *)d);
-                BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer(d));
+                BMP_WIN_TransferChars((struct BmpWin *)d);
+                BMP_WIN_MakeScreen((struct BmpWin *)d);
+                BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer((struct BmpWin *)d));
                 work->winShown[idx]=1;
             }
         }
     }
     if (((struct BtlRecSel *)work)->winShown[2]==0) {
-        if (PRINTSYS_QUE_IsExistTarget(*(struct PrintSys * *)&((struct BtlRecSel *)work)->printQue[2],BMP_WIN_GetBmp(work->winHandles[2]))==0) {
+        if (PRINTSYS_QUE_IsExistTarget((struct PrintQueue *)(*(struct PrintSys * *)&((struct BtlRecSel *)work)->printQue[2]),BMP_WIN_GetBmp(work->winHandles[2]))==0) {
             d=work->winHandles[2];
-            BMP_WIN_TransferChars(d);
-            BMP_WIN_MakeScreen((struct Cfg *)d);
-            BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer(d));
+            BMP_WIN_TransferChars((struct BmpWin *)d);
+            BMP_WIN_MakeScreen((struct BmpWin *)d);
+            BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer((struct BmpWin *)d));
             ((struct BtlRecSel *)work)->winShown[2]=1;
         }
     }
     if (((struct BtlRecSel *)work)->winShown[3]==0) {
-        if (PRINTSYS_QUE_IsExistTarget(*(struct PrintSys * *)&((struct BtlRecSel *)work)->printQue[3],BMP_WIN_GetBmp(work->winHandles[3]))==0) {
+        if (PRINTSYS_QUE_IsExistTarget((struct PrintQueue *)(*(struct PrintSys * *)&((struct BtlRecSel *)work)->printQue[3]),BMP_WIN_GetBmp(work->winHandles[3]))==0) {
             d=work->winHandles[3];
-            BMP_WIN_TransferChars(d);
-            BMP_WIN_MakeScreen((struct Cfg *)d);
-            BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer(d));
+            BMP_WIN_TransferChars((struct BmpWin *)d);
+            BMP_WIN_MakeScreen((struct BmpWin *)d);
+            BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer((struct BmpWin *)d));
             ((struct BtlRecSel *)work)->winShown[3]=1;
         }
     }
@@ -1198,7 +1218,7 @@ void BTL_REC_SEL_ClearList(int unused,char*work)
     u8 idx;
     void*h;
     for(idx=0;idx<=1;idx++){
-        PRINTSYS_QUE_Clear((struct PrintSys *)(((struct BtlRecSel *)work)->printQue[1]));
+        PRINTSYS_QUE_Clear((struct PrintQueue *)(((struct BtlRecSel *)work)->printQue[1]));
         BMP_Clear(BMP_WIN_GetBmp(((struct BtlRecSel *)work)->winHandles[idx]),0);
         h=((struct BtlRecSel *)work)->winHandles[idx];
         BMP_WIN_TransferChars(h);
@@ -1233,12 +1253,12 @@ void BTL_REC_SEL_ResetTimer(void*mgr,char*work)
     void*h;
     *(int *)&((struct BtlRecSel *)work)->timerA=0;
     *(int *)&((struct BtlRecSel *)work)->timerB=0;
-    PRINTSYS_QUE_Clear((struct PrintSys *)(((struct BtlRecSel *)work)->printQue[2]));
+    PRINTSYS_QUE_Clear((struct PrintQueue *)(((struct BtlRecSel *)work)->printQue[2]));
     BMP_Clear(BMP_WIN_GetBmp(*(void* *)&((struct BtlRecSel *)work)->winHandles[2]),0);
     h=*(void* *)&((struct BtlRecSel *)work)->winHandles[2];
     BMP_WIN_TransferChars(h);BMP_WIN_MakeScreen(h);BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer(h));
     ((struct BtlRecSel *)work)->winShown[2]=1;
-    PRINTSYS_QUE_Clear((struct PrintSys *)(((struct BtlRecSel *)work)->printQue[3]));
+    PRINTSYS_QUE_Clear((struct PrintQueue *)(((struct BtlRecSel *)work)->printQue[3]));
     BMP_Clear(BMP_WIN_GetBmp(*(void* *)&((struct BtlRecSel *)work)->winHandles[3]),0);
     h=*(void* *)&((struct BtlRecSel *)work)->winHandles[3];
     BMP_WIN_TransferChars(h);BMP_WIN_MakeScreen(h);BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer(h));
@@ -1278,12 +1298,12 @@ void BTL_REC_SEL_DrawCounter(struct BtlRecSelMgr *mgr, struct BtlRecSel *e, unsi
 
     if (mode != e->lastMode) {
         win = (int)BMP_WIN_GetBmp(e->winHandles[2]);
-        BMP_Clear((struct CharBuf *)win, 0);
+        BMP_Clear((struct Bmp *)win, 0);
         win = (int)BMP_WIN_GetBmp(e->winHandles[3]);
-        BMP_Clear((struct CharBuf *)win, 0);
+        BMP_Clear((struct Bmp *)win, 0);
     } else if (v != e->lastValue) {
         win = (int)BMP_WIN_GetBmp(e->winHandles[3]);
-        BMP_Clear((struct CharBuf *)win, 0);
+        BMP_Clear((struct Bmp *)win, 0);
     }
 
     if (mode != e->lastMode) {
@@ -1292,7 +1312,7 @@ void BTL_REC_SEL_DrawCounter(struct BtlRecSelMgr *mgr, struct BtlRecSel *e, unsi
         bmp1 = (int)BMP_WIN_GetBmp(e->winHandles[2]);
         PRINTSYS_PrintQueColor(e->printQue[2], bmp1, 4, 1, strbuf1, e->font, colorFlag);
         e->winShown[2] = 0;
-        STRBUF_Delete((struct U16Vec *)strbuf1);
+        STRBUF_Delete((struct Strbuf *)strbuf1);
     }
 
     if (mode != e->lastMode || v != e->lastValue) {
@@ -1305,8 +1325,8 @@ void BTL_REC_SEL_DrawCounter(struct BtlRecSelMgr *mgr, struct BtlRecSel *e, unsi
         bmp2 = (int)BMP_WIN_GetBmp(e->winHandles[3]);
         PRINTSYS_PrintQueColor(e->printQue[3], bmp2, 2, 2, buf, e->font, colorFlag);
         e->winShown[3] = 0;
-        STRBUF_Delete((struct U16Vec *)buf);
-        STRBUF_Delete((struct U16Vec *)strbuf2);
+        STRBUF_Delete((struct Strbuf *)buf);
+        STRBUF_Delete((struct Strbuf *)strbuf2);
         WORDSET_Delete((struct WordSet *)font);
     }
 
@@ -1397,10 +1417,10 @@ int BTL_REC_SEL_CreateActor(int sceneId,u16 heap,int mode,u8 shade,u32 gfxId0,u3
     info.shading=3;
     UI_SCENE_LoadActorGfx(sceneWork,&info,sceneId,heap);
     actorHandle=UI_SCENE_CreateActor(sceneWork,sceneId,x,y,flag,heap);
-    CLACT_SetActorBgPriority(actorHandle,bgPriority);
-    CLACT_SetActorDrawPriority((struct Node *)actorHandle,drawPriority);
-    CLACT_SetActorAutoAnim((struct ClactActor *)actorHandle,1);
-    CLACT_SetActorPaletteOffset((struct ClactActor *)actorHandle,POKE_TOOL_CalcIconPalette(gfxId0,gfxId1,gfxId2,gfxId3),0);
+    CLACT_SetActorBgPriority((struct Actor *)actorHandle,bgPriority);
+    CLACT_SetActorDrawPriority((struct Actor *)actorHandle,drawPriority);
+    CLACT_SetActorAutoAnim((struct Actor *)actorHandle,1);
+    CLACT_SetActorPaletteOffset((struct Actor *)actorHandle,POKE_TOOL_CalcIconPalette(gfxId0,gfxId1,gfxId2,gfxId3),0);
     return actorHandle;
 }
 
@@ -1485,7 +1505,7 @@ void BTL_REC_SEL_InitSubBg(void **mgrRef,char *work)
     u32 layer;
     u16 heap;
     void *arc;
-    gender=(u8)(u32)MYSTATUS_GetSex((const struct Sub0200852CObj *)GAME_DATA_GetMyStatus(*mgrRef));
+    gender=(u8)(u32)MYSTATUS_GetSex((struct MyStatus *)GAME_DATA_GetMyStatus(*mgrRef));
     *(volatile u16 *)0x04001050=0;
     *(volatile u32 *)0x04001000 &=0xFFFF1FFF;
     *(volatile u32 *)0x04001000 |=0x10000;
@@ -1656,6 +1676,6 @@ void BTL_REC_SEL_InitG3dDisplay(void)
     G3X_SetFog(0,0,0,0);
     G3X_SetClearColor(0,0,32767,63,0);
     *(volatile u32 *)0x04000580=0xBFFF0000;
-    for(light=0;light<4;light++) G3D_SYSTEM_SetLight((u8)light,(const u16 *)(&rects[light]));
+    for(light=0;light<4;light++) G3D_SYSTEM_SetLight((u8)light,(struct G3dLight *)(&rects[light]));
     G3D_SYSTEM_SetSwapBuffersMode(0,0);
 }

@@ -40,12 +40,13 @@ extern u32 GFL_HEAP_Free(void *block);
 extern s32 CLACT_RegisterPaletteEx(void *src, u32 resId, u32 bank, u32 vramOff, u16 reserved, u16 len, u16 flags);
 
 extern int CLACT_RegisterPaletteCompressed(void *src, u32 resId, u32 bank, u32 vramOff, u16 flags);
+struct PalAnmSlot;
 
-extern void PALANM_CopyHwPaletteToSlot(void *palSlots, u32 bank, u32 off, u32 size);
+extern void PALANM_CopyHwPaletteToSlot(struct PalAnmSlot *palSlots, u32 bank, u32 dstOffset, u32 size);
 
 extern void CLACT_ReleasePalette(u32 charOffset);
 
-extern int CLACT_GetPaletteVramAddress(int charOffset, int bank);
+extern int CLACT_GetPaletteVramAddress(u32 idx, u32 alternate);
 
 struct ActorTool *ACTOR_TOOL_Create(u32 heapId, u8 bank0Count, u8 bank1Count);
 

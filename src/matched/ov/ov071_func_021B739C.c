@@ -19,6 +19,11 @@
  *   2 case 5: f78 byte store before `dst = d->text;` and a braced copy body `{*dst=*src;dst++;src++;}`
  *     (10 -> 0 B). Earlier notes tried f78-before-dst alone (38 B) under the old case 4.
  *   The alias is the integrator's call: if a single-name form exists it must keep the separate blx.
+ * note 2026-10-19 (lane ALIAS3): the single-name form exists. Case 4 writes the input-mode call as
+ *   `if(res4==7) UI_SetInputMode(1); else UI_SetInputMode(0);`: 1.1p1 cross-jumps the two calls
+ *   into one blx with the 1/0 set in each arm, and that blx is then not merged into case 3's, so
+ *   case 4 keeps its own blx and branches to the shared `ldr 0x551` tail. The second extern name
+ *   func_020355D8x (change 1 above) is gone.
  * note 2026-10-05 (wave P18 lane 1): 1160 of 1160 bytes, 32 bytes differ (from 1156/706).
  *   Real extent is 1160 B (jump-table state machine), not the 104 B label gap.
  *   Forms that closed most of the gap, in order:
@@ -66,7 +71,6 @@
  *   KEY_GetTrg 0x020362DC arm
  *   TOUCHPANEL_HitTrg 0x02035C08 arm
  *   UI_SetInputMode 0x020355D8 arm
- *   func_020355D8x 0x020355D8 arm
  *   GFL_USE_PlaySeDefaultVolume 0x020061E4 thumb
  *   INTRUDE_COMM_IsSessionActive 0x02175B14 thumb ov011
  *   INTRUDE_COMM_AcceptSession 0x02175B4C thumb ov011
@@ -105,7 +109,6 @@ extern int TOUCHPANEL_GetTrg(void);
 extern u32 KEY_GetTrg(void);
 extern int TOUCHPANEL_HitTrg(const void *);
 extern void UI_SetInputMode(int);
-extern void func_020355D8x(int);
 extern void GFL_USE_PlaySeDefaultVolume(u32);
 extern int INTRUDE_COMM_IsSessionActive(u8 *);
 extern void INTRUDE_COMM_AcceptSession(u8 *,u8 *);
@@ -179,7 +182,7 @@ int MONOLITH_TOOL_SLOT_SELECT_Main(int a,int *state,C *c,D *d)
  case 4: {
   int keys4,res4;
   keys4=KEY_GetTrg();res4=TOUCHPANEL_HitTrg(d_021BA87C);
-  if(res4==7 || (keys4&2)) {func_020355D8x(res4==7);GFL_USE_PlaySeDefaultVolume(0x551);*state=11;}
+  if(res4==7 || (keys4&2)) {if(res4==7) UI_SetInputMode(1); else UI_SetInputMode(0);GFL_USE_PlaySeDefaultVolume(0x551);*state=11;}
   break;}
 
  case 5:

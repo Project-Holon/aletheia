@@ -60,7 +60,7 @@ typedef struct {
 extern NdmaConfig data_02732EFC[];
 extern u32 OS_DisableInterrupts(void);
 extern void OS_RestoreInterrupts(u32);
-extern void OSi_EnterNDmaCallback(u32 ch, void (*cb)(), u32 arg);
+extern void OSi_EnterNDmaCallback(u32 dmaNo, void (*cb)(), void *arg);
 extern void MIi_CpuCopy32(void *dst, const void *src, u32 n);
 
 u32 MIi_GetControlData(u32 type);
@@ -162,7 +162,7 @@ void MIi_NDmaAsync_withConfig_Dev(int mode, int ch, u32 src, u32 dst, u32 fill, 
     irq = OS_DisableInterrupts();
     MIi_Wait(ch);
     if (cb != 0) {
-        OSi_EnterNDmaCallback(ch, cb, arg);
+        OSi_EnterNDmaCallback(ch, cb, (void *)arg);
     }
     if (mode != 0) {
         NDMA[ch].src = src;

@@ -42,10 +42,10 @@ extern u8 *strncpy(u8 *dest, const u8 *src, u32 n);
 extern int strncmp(const unsigned char *s1, const unsigned char *s2, unsigned int n);
 extern int atoi(u32 s);
 extern u8 *strstr(const u8 *s1, const u8 *s2);
-extern int gpiCallErrorCallback(int *connection, int result, int fatal);
+extern int gpiCallErrorCallback(void **connection, int result, int fatal);
 extern int strlen(const u8 *s);
 extern int GSISocketSelect(int theSocket, int *theReadFlag, int *theWriteFlag, int *theExceptFlag);
-extern int gsDebugFormat(int index, char *table, int mask, const char *fmt, ...);
+extern void gsDebugFormat(int cat, int type, int level, char *fmt, ...);
 extern void Util_RandSeed(unsigned int v);
 extern unsigned int Util_RandInt(unsigned int min, unsigned int max);
 extern void B64Encode(const char *input, char *output, int inlen, int encodingType);
@@ -113,7 +113,7 @@ int gpiCheckForError(int *connection, const char *input, int fatal)
         *(char *)ic = 0;
     if (fatal != 0) {
         int b = strstr((const u8 *)input, (const u8 *)gGpiUtilityKeyFatal) != 0;
-        gpiCallErrorCallback(connection, 4, b != 0);
+        gpiCallErrorCallback((void **)connection, 4, b != 0);
     }
     return 1;
 fail:
@@ -192,20 +192,20 @@ int gpiCheckSocketConnect(int *connection, int sock, int *state)
     e[0] = 0;
     r = GSISocketSelect(sock, 0, &e[1], &e[0]);
     if (r == -1) {
-        gsDebugFormat(1, 0, 1, (const char *)((int)gGpiUtilityMsgErrorConnecting));
+        gsDebugFormat(1, 0, 1, (char *)((int)gGpiUtilityMsgErrorConnecting));
         gpiSetError(connection, 5, (int)gGpiUtilityMsgErrorChecking);
-        gpiCallErrorCallback(connection, 3, 1);
+        gpiCallErrorCallback((void **)connection, 3, 1);
         return 3;
     }
     if (r <= 0)
         goto zero;
     if (e[0] != 0) {
-        gsDebugFormat(1, 0, 1, (const char *)((int)gGpiUtilityMsgConnectionRejected));
+        gsDebugFormat(1, 0, 1, (char *)((int)gGpiUtilityMsgConnectionRejected));
         *state = 4;
         return 0;
     }
     if (e[1] != 0) {
-        gsDebugFormat(1, 0, 8, (const char *)((int)gGpiUtilityMsgConnectionAccepted));
+        gsDebugFormat(1, 0, 8, (char *)((int)gGpiUtilityMsgConnectionAccepted));
         *state = 3;
         return 0;
     }
@@ -238,19 +238,19 @@ int gpiReadKeyAndValue(int *connection, const char *buffer, int *index, char *ke
 
     if (*buffer++ != '\\') {
         gpiSetError(connection, 1, (int)gGpiUtilityMsgParseError);
-        gpiCallErrorCallback(connection, 3, 1);
+        gpiCallErrorCallback((void **)connection, 3, 1);
         return 3;
     }
 
     for (i = 0; (c = *buffer++) != '\\'; i++) {
         if (c == 0) {
             gpiSetError(connection, 1, (int)gGpiUtilityMsgParseError);
-            gpiCallErrorCallback(connection, 3, 1);
+            gpiCallErrorCallback((void **)connection, 3, 1);
             return 3;
         }
         if (i == 0x1ff) {
             gpiSetError(connection, 1, (int)gGpiUtilityMsgParseError);
-            gpiCallErrorCallback(connection, 3, 1);
+            gpiCallErrorCallback((void **)connection, 3, 1);
             return 3;
         }
         *key++ = (char)c;
@@ -260,7 +260,7 @@ int gpiReadKeyAndValue(int *connection, const char *buffer, int *index, char *ke
     for (i = 0; ((c = *buffer++) != '\\') && (c != 0); i++) {
         if (i == 0x1ff) {
             gpiSetError(connection, 1, (int)gGpiUtilityMsgParseError);
-            gpiCallErrorCallback(connection, 3, 1);
+            gpiCallErrorCallback((void **)connection, 3, 1);
             return 3;
         }
         *value++ = (char)c;

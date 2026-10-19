@@ -113,12 +113,14 @@
 #include "mus_shot_info_shared_types.h"
 
 extern u32 GFL_HEAP_Free(void *p);
+struct BmpWin;
 
-extern u32 BMP_WIN_Delete(struct Descriptor *d);
+extern u32 BMP_WIN_Delete(struct BmpWin *win);
+struct GfFont;
 
-extern u32 GF_FONT_Delete(void *ptr);
+extern u32 GF_FONT_Delete(struct GfFont *font);
 
-extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
+extern void *ARC_TOOL_CreateHandle(u32 archiveID, u16 heapID);
 
 extern u32 ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 
@@ -196,11 +198,12 @@ typedef struct MusicalMcssWork {
     void *actor;            /* 0x58 */
 } MusicalMcssWork;
 
-extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
+extern struct BmpWin *BMP_WIN_Create(u32 bgLayer, u32 posX, u32 posY, u8 width, u8 height, u8 palette, u8 allocDir);
+struct Bmp;
 
-extern void *BMP_WIN_GetBmp(struct Descriptor *p);
+extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *win);
 
-extern void BMP_Clear(struct CharBuf *buf, u8 value);
+extern void BMP_Clear(struct Bmp *bmp, u8 value);
 
 extern struct GfFont *GF_FONT_Create(int archiveId, int fileId, int format, int isFixedWidth, u32 heapId);
 
@@ -209,26 +212,29 @@ extern u32 ARC_UTIL_UploadPaletteFromArchiveWhole(u32,u32,u32,u32,u32,u16);
 extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 
 extern void *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
+struct Strbuf;
 
-extern void STRBUF_Delete(struct U16Vec *vec);
+extern void STRBUF_Delete(struct Strbuf *strbuf);
 
-extern u32 MSGDATA_Delete(struct Rec *rec);
+extern u32 MSGDATA_Delete(struct MsgBank *bank);
 
-extern void BMP_WIN_TransferChars(struct Descriptor *d);
+extern void BMP_WIN_TransferChars(struct BmpWin *win);
 
-extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
+extern void BMP_WIN_MakeScreen(struct BmpWin *win);
 
 extern void BG_SYS_PushTile(u32);
 
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+struct PrintQueue;
+struct GFont;
 
-extern struct TaskMenuRes *APP_TASKMENU_RES_Create(u16 bgFrame, u16 palNo, u32 font, u32 printQue, u16 heap);
+extern struct TaskMenuRes *APP_TASKMENU_RES_Create(u16 bgFrame, u16 palNo, struct GFont *font, struct PrintQueue *printQue, u16 heapId);
 
 extern void GFL_NET_RefreshWmIconAtTopRight(u32 a, u32 b);
 
 extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
 
-extern u32 APP_TASKMENU_RES_Delete(struct TaskMenuState *s);
+extern void APP_TASKMENU_RES_Delete(struct TaskMenuRes *res);
 
 extern void CLACT_ReleasePalette(u32);
 
@@ -236,7 +242,7 @@ extern void CLACT_ReleaseCharacter(u32);
 
 extern void CLACT_ReleaseCellAnim(u32);
 
-extern void CLACT_DeleteActor(struct Obj *p);
+extern void CLACT_DeleteActor(struct Actor *actor);
 
 extern u32 CLACT_DeleteUnit(struct Bank *bank);
 
@@ -245,10 +251,11 @@ extern void BG_SYS_FreeLayerBuf(u32 i);
 extern void GFL_USE_PlaySeDefaultVolume(u32);
 
 extern u32 WIPE_SYS_EndCheck(void);
+struct TaskMenuWork;
 
-extern void APP_TASKMENU_UpdateMenu(void *);
+extern void APP_TASKMENU_UpdateMenu(struct TaskMenuWork *menu);
 
-extern u32 APP_TASKMENU_IsFinish(struct TaskMenu *m);
+extern u32 APP_TASKMENU_IsFinish(struct TaskMenuWork *menu);
 
 extern u8 APP_TASKMENU_GetCursorPos(const u8 *);
 
@@ -268,23 +275,27 @@ extern u32 KEY_GetTrg(void);
 
 extern int TOUCHPANEL_HitTrg(const void *p);
 
-extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
+extern void CLACT_SetActorAnimSeq(struct Actor *actor, u16 value);
 
-extern void CLACT_SetActorAutoAnim(struct Obj *p, u32 v);
+extern void CLACT_SetActorAutoAnim(struct Actor *actor, u32 enable);
 
 extern u32 CLACT_IsActorAnimActive(struct Actor *a);
+struct TextPrinter;
 
-extern u32 PRINTSYS_PrintStreamGetState(void *);
+extern u32 PRINTSYS_PrintStreamGetState(struct TextPrinter *printer);
 
-extern void PRINTSYS_PrintStreamDelete(struct Rec3 *p);
+extern void PRINTSYS_PrintStreamDelete(struct TextPrinter *printer);
 
-extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
+extern u32 PRINTSYS_QUE_Main(struct PrintQueue *queue);
 
-extern u32 PRINTSYS_QUE_IsFinished(const struct PrintSys *p);
+extern u32 PRINTSYS_QUE_IsFinished(struct PrintQueue *queue);
+struct TcblList;
+struct TimeIcon;
 
-extern u8 *TIME_ICON_CreateNode(u32,void *,u8,u8,u16);
+extern struct TimeIcon *TIME_ICON_CreateNode(struct TcblList *nodeList, struct BmpWin *refWin, u8 fillColor, u8 waitInterval, u16 heapId);
+struct TcblSystem;
 
-extern void TCBL_Main(struct Tcbl *p);
+extern void TCBL_Main(struct TcblSystem *tcbl);
 
 extern void BG_SYS_ChangeScroll(u32,u32,u32);
 
@@ -328,15 +339,15 @@ extern void GF_FONT_SetDefaultTextColor(u32);
 
 extern struct Tcbl *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
 
-extern u32 PRINTSYS_QUE_Create(void *p);
+extern struct PrintQueue *PRINTSYS_QUE_Create(u32 heap);
 
-extern void PRINTSYS_QUE_Clear(struct PrintSys *p);
+extern void PRINTSYS_QUE_Clear(struct PrintQueue *queue);
 
-extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
+extern void PRINTSYS_QUE_Delete(struct PrintQueue *queue);
 
-extern void TIME_ICON_Delete(u8 *);
+extern void TIME_ICON_Delete(struct TimeIcon *icon);
 
-extern void TCBL_Destroy(struct S02031140 *p);
+extern void TCBL_Destroy(struct TcblSystem *tcbl);
 
 extern signed char MSG_SPEED_GetWait(void);
 
@@ -344,9 +355,10 @@ extern u32 PRINTSYS_PrintStream(u32,u32,u32,u32,u32,u32,u32,u32,u16,u16);
 
 extern void BMP_MENUWORK_DrawWindow(void *,int,int,int);
 
-extern void PRINTSYS_PrintQue(struct PrintSys *p, u32 a, u32 b, u32 c, void *s, u32 e);
+extern void PRINTSYS_PrintQue(struct PrintQueue *queue, struct Bmp *bmp, u32 x, s16 y, struct Strbuf *str, struct GfFont *font);
+struct TaskMenuInitWork;
 
-extern struct TaskMenu *APP_TASKMENU_OpenMenu(struct TaskMenuTmpl *tmpl, void *res);
+extern struct TaskMenuWork *APP_TASKMENU_OpenMenu(struct TaskMenuInitWork *init, struct TaskMenuRes *res);
 
 void *MUSICAL_SHOT_INFO_Create(u32 a, u32 b, u32 c, u32 d, H16 heap);
 
@@ -393,7 +405,7 @@ void *MUSICAL_SHOT_INFO_Create(u32 a, u32 b, u32 c, u32 d, H16 heap)
     if (c == 1) *(u32 *)(p + 4) = 0; else *(u32 *)(p + 4) = 1;
     MUSICAL_SHOT_INFO_InitGraphics(p);
     MUSICAL_SHOT_INFO_InitWindows(p);
-    *(u32 *)(p + 0x40) = (u32)APP_TASKMENU_RES_Create(4, 12, *(u32 *)(p + 0x20), *(u32 *)(p + 0x38), *(u16 *)p);
+    *(u32 *)(p + 0x40) = (u32)APP_TASKMENU_RES_Create(4, 12, (struct GFont *)(*(u32 *)(p + 0x20)), (struct PrintQueue *)(*(u32 *)(p + 0x38)), *(u16 *)p);
     GFL_NET_RefreshWmIconAtTopRight(0, *(u16 *)&heap);
     BG_SYS_SetSubPlaneVisible(16, 1);
     return p;
@@ -404,12 +416,12 @@ void *MUSICAL_SHOT_INFO_Create(u32 a, u32 b, u32 c, u32 d, H16 heap)
  */
 void MUSICAL_SHOT_INFO_Delete(u8 *p)
 {
-    APP_TASKMENU_RES_Delete((struct TaskMenuState *)(((MusicalMcssWork *)p)->taskMenuRes));
+    APP_TASKMENU_RES_Delete((struct TaskMenuRes *)(((MusicalMcssWork *)p)->taskMenuRes));
     if (((MusicalMcssWork *)p)->mode==0) {
         CLACT_ReleasePalette(((MusicalMcssWork *)p)->palette);
         CLACT_ReleaseCharacter(((MusicalMcssWork *)p)->character);
         CLACT_ReleaseCellAnim(((MusicalMcssWork *)p)->cellAnim);
-        CLACT_DeleteActor((struct Obj *)(((MusicalMcssWork *)p)->actor));
+        CLACT_DeleteActor((struct Actor *)(((MusicalMcssWork *)p)->actor));
     }
     CLACT_DeleteUnit((struct Bank *)(((MusicalMcssWork *)p)->unit));
     MUSICAL_SHOT_INFO_DeleteWindows(p);
@@ -484,7 +496,7 @@ void MUSICAL_SHOT_INFO_Main(u8 *p)
     PRINTSYS_QUE_Main(((MusicalMcssWork *)p)->printQue.ptr);
     if(((MusicalMcssWork *)p)->queActive==1&&PRINTSYS_QUE_IsFinished(((MusicalMcssWork *)p)->printQue.ptr)==1) {
         ((MusicalMcssWork *)p)->queActive=0;
-        *(u8 * *)&((MusicalMcssWork *)p)->timeIcon.ptr=TIME_ICON_CreateNode(*(u32 *)&((MusicalMcssWork *)p)->tcbl.ptr,((MusicalMcssWork *)p)->win.ptr,15,16,((MusicalMcssWork *)p)->heap);
+        *(u8 * *)&((MusicalMcssWork *)p)->timeIcon.ptr=(u8 *)TIME_ICON_CreateNode((struct TcblList *)(*(u32 *)&((MusicalMcssWork *)p)->tcbl.ptr),((MusicalMcssWork *)p)->win.ptr,15,16,((MusicalMcssWork *)p)->heap);
         BMP_WIN_TransferChars(((MusicalMcssWork *)p)->win.ptr);
     }
     TCBL_Main(((MusicalMcssWork *)p)->tcbl.ptr);
@@ -545,9 +557,9 @@ void MUSICAL_SHOT_INFO_InitBgLayer(const void *a,u32 b,u32 c) { BG_SYS_InitBgLay
 void MUSICAL_SHOT_INFO_InitWindows(u8 *p)
 {
     int zero;
-    ((MusicalMcssWork *)p)->win.val=BMP_WIN_Create(4,1,1,30,4,10,1);
-    BMP_WIN_TransferChars((struct Descriptor *)((MusicalMcssWork *)p)->win.val);
-    BMP_WIN_MakeScreen((struct Cfg *)(((MusicalMcssWork *)p)->win.val));
+    ((MusicalMcssWork *)p)->win.val=(u32)BMP_WIN_Create(4,1,1,30,4,10,1);
+    BMP_WIN_TransferChars((struct BmpWin *)((MusicalMcssWork *)p)->win.val);
+    BMP_WIN_MakeScreen((struct BmpWin *)(((MusicalMcssWork *)p)->win.val));
     BG_SYS_PushTile(4);
     zero=0;
     ((MusicalMcssWork *)p)->font.val=(u32)GF_FONT_Create(23,0,0,0,((MusicalMcssWork *)p)->heap);
@@ -559,15 +571,15 @@ void MUSICAL_SHOT_INFO_InitWindows(u8 *p)
     ((MusicalMcssWork *)p)->strbuf.val=zero;
     ((MusicalMcssWork *)p)->queActive=zero;
     ((MusicalMcssWork *)p)->timeIcon.val=zero;
-    ((MusicalMcssWork *)p)->printQue.val=PRINTSYS_QUE_Create((void *)(((MusicalMcssWork *)p)->heap));
+    ((MusicalMcssWork *)p)->printQue.val=(u32)PRINTSYS_QUE_Create((u32)(((MusicalMcssWork *)p)->heap));
 }
 
 void MUSICAL_SHOT_INFO_DeleteWindows(u8 *p)
 {
-    PRINTSYS_QUE_Clear((struct PrintSys *)(((MusicalMcssWork *)p)->printQue.val));
-    PRINTSYS_QUE_Delete((struct PrintSys *)(((MusicalMcssWork *)p)->printQue.val));
+    PRINTSYS_QUE_Clear((struct PrintQueue *)(((MusicalMcssWork *)p)->printQue.val));
+    PRINTSYS_QUE_Delete((struct PrintQueue *)(((MusicalMcssWork *)p)->printQue.val));
     if (*(u8 * *)&((MusicalMcssWork *)p)->timeIcon.ptr) {
-        TIME_ICON_Delete(*(u8 * *)&((MusicalMcssWork *)p)->timeIcon.ptr);
+        TIME_ICON_Delete((struct TimeIcon *)(*(u8 * *)&((MusicalMcssWork *)p)->timeIcon.ptr));
         *(u32 *)&((MusicalMcssWork *)p)->timeIcon.ptr=0;
     }
     if (((MusicalMcssWork *)p)->printStream.ptr) PRINTSYS_PrintStreamDelete(((MusicalMcssWork *)p)->printStream.ptr);
@@ -589,7 +601,7 @@ void MUSICAL_SHOT_INFO_PrintMessageStream(u8 *p,u32 index)
         STRBUF_Delete(((MusicalMcssWork *)p)->strbuf.ptr);
         *(u32 *)&((MusicalMcssWork *)p)->strbuf.ptr=0;
     }
-    BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)*(u32 *)&((MusicalMcssWork *)p)->win.ptr)),15);
+    BMP_Clear((struct Bmp *)((u32)BMP_WIN_GetBmp((struct BmpWin *)*(u32 *)&((MusicalMcssWork *)p)->win.ptr)),15);
     ((MusicalMcssWork *)p)->strbuf.ptr=MSGDATA_AllocString((struct MsgBank *)(((MusicalMcssWork *)p)->msgBank.val),index);
     t=MSG_SPEED_GetWait();
     *(u32 *)&((MusicalMcssWork *)p)->printStream.ptr=PRINTSYS_PrintStream(*(u32 *)&((MusicalMcssWork *)p)->win.ptr,0,0,*(u32 *)&((MusicalMcssWork *)p)->strbuf.ptr,((MusicalMcssWork *)p)->font.val,t,((MusicalMcssWork *)p)->tcbl.val,2,((MusicalMcssWork *)p)->heap,0);
@@ -603,10 +615,10 @@ void MUSICAL_SHOT_INFO_PrintMessageQueued(u8 *p,u32 index)
         STRBUF_Delete(((MusicalMcssWork *)p)->strbuf.ptr);
         *(u32 *)&((MusicalMcssWork *)p)->strbuf.ptr=0;
     }
-    BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)*(u32 *)&((MusicalMcssWork *)p)->win.ptr)),15);
+    BMP_Clear((struct Bmp *)((u32)BMP_WIN_GetBmp((struct BmpWin *)*(u32 *)&((MusicalMcssWork *)p)->win.ptr)),15);
     ((MusicalMcssWork *)p)->strbuf.ptr=MSGDATA_AllocString((struct MsgBank *)(((MusicalMcssWork *)p)->msgBank.val),index);
-    win=(u32)BMP_WIN_GetBmp((struct Descriptor *)*(u32 *)&((MusicalMcssWork *)p)->win.ptr);
-    PRINTSYS_PrintQue((struct PrintSys *)(((MusicalMcssWork *)p)->printQue.val),win,0,0,((MusicalMcssWork *)p)->strbuf.ptr,((MusicalMcssWork *)p)->font.val);
+    win=(u32)BMP_WIN_GetBmp((struct BmpWin *)*(u32 *)&((MusicalMcssWork *)p)->win.ptr);
+    PRINTSYS_PrintQue((struct PrintQueue *)(((MusicalMcssWork *)p)->printQue.val),(struct Bmp *)win,0,0,((MusicalMcssWork *)p)->strbuf.ptr,(struct GfFont *)(((MusicalMcssWork *)p)->font.val));
     ((MusicalMcssWork *)p)->queActive=1;
     BMP_MENUWORK_DrawWindow(((MusicalMcssWork *)p)->win.ptr,1,1,11);
 }
@@ -629,7 +641,7 @@ void MUSICAL_SHOT_INFO_OpenYesNoMenu(u8 *p)
     menu.b=6;
     menu.c=8;
     menu.d=3;
-    ((MusicalMcssWork *)p)->taskMenu=APP_TASKMENU_OpenMenu((struct TaskMenuTmpl *)(&menu),(void *)(((MusicalMcssWork *)p)->taskMenuRes));
+    ((MusicalMcssWork *)p)->taskMenu=APP_TASKMENU_OpenMenu((struct TaskMenuInitWork *)(&menu),(void *)(((MusicalMcssWork *)p)->taskMenuRes));
     STRBUF_Delete(items[0].data);
     STRBUF_Delete(items[1].data);
 }

@@ -21,7 +21,7 @@
  *   LOADER_DECRYPT_DecodeBlocks  0x02188A48  arm  ov230
  */
 
-extern void LOADER_DECRYPT_DecodeBlocks(void);
+extern void LOADER_DECRYPT_DecodeBlocks(unsigned int *desc);
 
 /* hand-written in the original: position-independent entry reading pc (orr r0, pc, #0), followed by its range table (four biased start/end pairs, then the terminator) */
 asm void LOADER_ENTRY_Start(void)

@@ -49,7 +49,7 @@ struct Hook {
     void *callback;
 };
 
-struct Request {
+struct CARDTransferInfo {
     int command;
     void (*callback)(void *);
     u32 userdata;
@@ -60,23 +60,24 @@ struct Request {
 };
 
 extern struct SysState data_02150200;
-extern struct Request data_02732DA8;
+extern struct CARDTransferInfo data_02732DA8;
 extern void DC_FlushRange(u32, u32);
-extern void CARDi_ReadRomWithDMA(struct Request *);
+struct CARDTransferInfo;
+extern void CARDi_ReadRomWithDMA(struct CARDTransferInfo *info);
 extern void CARD_NotifyRomHashReadAsync(void *);
 extern struct Hook data_02150840;
 extern u32 data_02732DA0, data_02732DA4;
 extern u8 data_02732DC4[];
-extern u32 OS_GetArenaLo(int arena);
-extern u32 OS_GetArenaHi(int arena);
-extern void OS_SetArenaLo(int arena, u32 addr);
+extern u32 OS_GetArenaLo(u32 arenaId);
+extern u32 OS_GetArenaHi(u32 arenaId);
+extern void OS_SetArenaLo(u32 arenaId, u32 newLo);
 extern void *CARD_GetOwnRomHeaderTWL(void);
 extern u32 CARD_CalcRomHashBufferLength(void *hdr);
 extern void OS_Terminate(void);
-extern int OS_GetBootType(void);
+extern u16 OS_GetBootType(void);
 extern int OS_GetLockID(void);
 extern void CARD_LockRom(u16 id);
-extern void CARD_UnlockRom(u16 id);
+extern void CARD_UnlockRom(u32 id);
 extern void OS_ReleaseLockID(u16 id);
 extern int CARDi_ReadRomWithCPU(void *, void *, u32, u32);
 extern void CARD_InitRomHashContext(void *, void *, u32, u32, void *, void *, void *);

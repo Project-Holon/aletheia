@@ -123,10 +123,10 @@ typedef struct {
     u8 data[0x42];
 } GShareData;
 
-extern void DWCi_MOV_MBP_MemInit(void *mw);
-extern u32 OS_GetTick(void);
+extern void DWCi_MOV_MBP_MemInit(int x);
+extern unsigned long long OS_GetTick(void);
 extern int DWCi_BACKUPlRead(void *mem);
-extern void *DWCi_SETTINGlGetMemMap(void);
+extern char *DWCi_SETTINGlGetMemMap(void);
 extern void MB_EndToIdle(void);
 extern void DWCi_MOV_WH_SetGgid(u32 ggid);
 extern u16 WM_GetNextTgid(void);
@@ -136,8 +136,8 @@ extern void DWCi_MOV_MBP_StartDownloadAll(void);
 extern int DWCi_MOV_WH_End(void);
 extern void DWCi_MOV_WH_Finalize(void);
 extern void DWCi_DwcMoveidMB_EndToIdle(void);
-extern MBUserInfo *MB_CommGetChildUser(unsigned short aid);
-extern int DWCi_MOV_WH_GetSystemState(void);
+extern void *MB_CommGetChildUser(unsigned short aid);
+extern u32 DWCi_MOV_WH_GetSystemState(void);
 extern int DWCi_MOV_WH_StartMeasureChannel(void);
 extern u16 DWCi_MOV_WH_GetMeasureChannel(void);
 extern void DWCi_MOV_WH_Reset(void);
@@ -187,7 +187,7 @@ static void Parent_data_receive_progress(void);
 void DWCi_MOVInit(Wk *wm, MovData *md)
 {
     gDwcMoveidWork = wm;
-    DWCi_MOV_MBP_MemInit((char *)wm + 0xb00);
+    DWCi_MOV_MBP_MemInit((int)wm + 0xb00);
     gDwcMoveidWork->moveid_tgid = 0;
     gDwcMoveidWork->moveid_sChannel = 0;
     gDwcMoveidWork->mov_stt = 1;

@@ -39,6 +39,7 @@
  *   DWCi_GetChildInfo  0x021D4138  arm  ov016
  *   MIi_CpuCopy16      0x02082A60  arm
  *   DWCi_HEAPlFree_    0x021D6438  arm  ov016
+ *   MemMovFree                   0x021DE590  data
  */
 typedef struct {
 	int w[7];
@@ -62,7 +63,8 @@ extern unsigned char kDWCi_Language(void);
 extern void DWCi_MOVInit(void *wm, MovData *md);
 extern int DWCi_MOVStartAdmitChild(void);
 extern void OS_Terminate(void);
-extern void *DWCi_TSKlForm(int kind, void (*func)(void *), void *work, unsigned char prio);
+struct TCB;
+extern struct TCB *DWCi_TSKlForm(int kind, void (*func)(void *), void *work, unsigned char prio);
 extern int DWCi_MOVFinalize(void);
 extern int DWCi_MOVStartDownloadandBootChild(void);
 extern void DWCi_MOVFramework(void);

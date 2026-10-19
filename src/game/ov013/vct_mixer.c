@@ -51,6 +51,7 @@
  *   MIi_CpuClearFast 0x02082AC0  arm
  *   VCT_MIXER_Init  0x021B0508  arm ov013
  *   VCT_MIXER_ClearMemberCount  0x021B0600  arm ov013
+ *   _ll_udiv                     0x0209C00C  arm
  */
 #include "vct_types.h"
 
@@ -67,8 +68,9 @@ extern u16 OS_GetTickLo(void);
 extern void VCT_DSP_InitVoiceGateDefaults(void);
 
 extern void VCT_AUDIO_ClearReadyQueue(u32 index);
+struct VctReceiveSource;
 
-extern void VCT_AUDIO_InitReceiveSource(VctReceiveSource *channel, int index, int aid);
+extern void VCT_AUDIO_InitReceiveSource(struct VctReceiveSource *source, unsigned int queueIndex, int peerAid);
 
 extern void VCT_AUDIO_ResetPendingList(void);
 

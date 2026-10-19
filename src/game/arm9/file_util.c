@@ -161,8 +161,9 @@ extern void *ARC_TOOL_LoadHandleMember(struct ArcFile *arc, u32 member, u32 heap
 extern void *ARC_TOOL_LoadMember(u32 archiveId, u32 member, u32 heap);
 
 extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+struct Strbuf;
 
-extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dst);
+extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, struct Strbuf *dest);
 
 extern u32 MSGDATA_Delete(struct MsgBank *bank);
 

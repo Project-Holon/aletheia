@@ -69,12 +69,12 @@ extern int shutdown(int sock, int how);
 extern int closesocketsure(int sock, int *notInCloseSocket);
 extern void ghiFreeBuffer(GHIBuffer *buffer);
 extern void ghiPostCleanupState(GHIConnection *connection);
-extern int gsDebugFormat(int index, char *table, int mask, const char *fmt, ...);
+extern void gsDebugFormat(int cat, int type, int level, char *fmt, ...);
 extern int shutdown(int, int);
 extern int closesocketsure(int, int *);
 extern void gsifree(void *);
 extern void ghiResetBuffer(GHIBuffer *);
-extern int strcspn(const char *s1, const char *s2);
+extern int strcspn(u8 *s, u8 *reject);
 extern char *goastrdup(char *src);
 int ghiFindFreeSlot(void);
 GHIConnection *ghiNewConnection(void);
@@ -96,7 +96,7 @@ extern char sGhttpServerAddressTerminators[];
 
 
 
-extern int strncmp(const char *s1, const char *s2, u32 n);
+extern int strncmp(u8 *s1, u8 *s2, u32 n);
 int ghiFindFreeSlot(void)
 {
     int newLen;
@@ -231,7 +231,7 @@ int ghiCloseConnection(GHIConnection *connection)
     ghiLock();
     if (connection->handle != 0)
     {
-        gsDebugFormat(8, (char *)3, 0x10, sGhttpCancellingThreadAndFreeingMemory);
+        gsDebugFormat((int)8, (int)3, 0x10, sGhttpCancellingThreadAndFreeingMemory);
         gsiCancelResolvingHostname(connection->handle);
         connection->handle = 0;
     }
@@ -357,9 +357,9 @@ void ghiEnumConnections(int (*callback)(GHIConnection *))
  */
 void ghiRedirectConnection(GHIConnection *connection)
 {
-    gsDebugFormat(8, (char *)3, 0x10, sGhttpRedirectingConnection);
+    gsDebugFormat((int)8, (int)3, 0x10, sGhttpRedirectingConnection);
     if (connection->handle != 0) {
-        gsDebugFormat(8, (char *)3, 0x10, sGhttpCancellingThreadAndFreeingMemory);
+        gsDebugFormat((int)8, (int)3, 0x10, sGhttpCancellingThreadAndFreeingMemory);
         gsiCancelResolvingHostname(connection->handle);
         connection->handle = 0;
     }
@@ -391,7 +391,7 @@ void ghiRedirectConnection(GHIConnection *connection)
         if (connection->encryptor.cleanupFunc != 0)
             connection->encryptor.cleanupFunc(connection, &connection->encryptor);
         connection->encryptor.interfaceCreated = 0;
-        if (strncmp((const char *)sGhttpHttps2, (const char *)connection->URL, 8) != 0) {
+        if (strncmp((u8 *)sGhttpHttps2, (u8 *)connection->URL, 8) != 0) {
             connection->encryptor.engine = 0;
             connection->encryptor.mInterface = 0;
         }
@@ -425,14 +425,14 @@ char *ghiGetServerAddressFromUrl(char *serverUrl)
     char tempChar;
     char *serverAddress;
 
-    if (strncmp(serverUrl, sGhttpHttp, 7) == 0)
+    if (strncmp((u8 *)serverUrl, (u8 *)sGhttpHttp, 7) == 0)
         url = serverUrl + 7;
-    else if (strncmp(serverUrl, sGhttpHttps2, 8) == 0)
+    else if (strncmp((u8 *)serverUrl, (u8 *)sGhttpHttps2, 8) == 0)
         url = serverUrl + 8;
     else
         return 0;
 
-    nIndex = strcspn(url, sGhttpServerAddressTerminators);
+    nIndex = strcspn((u8 *)url, (u8 *)sGhttpServerAddressTerminators);
     tempChar = url[nIndex];
     url[nIndex] = 0;
     serverAddress = goastrdup(url);

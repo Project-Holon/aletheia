@@ -176,8 +176,9 @@ extern void GFL_NET_SYSTEM_SetNoChildError(u8 v);
 extern void GFL_NET_SYSTEM_SetNoSend(void);
 
 extern void GFL_NET_SYSTEM_ResetError(void);
+struct NetRingBuff;
 
-void GFL_NET_RING_BUFF_Init(NetRingBuff *ring, u32 buffer, int size);
+void GFL_NET_RING_BUFF_Init(struct NetRingBuff *ring, u8 *buf, s32 size);
 
 void GFL_NET_RING_BUFF_Write(NetRingBuff *r, const u8 *src, int len);
 
@@ -194,12 +195,14 @@ void GFL_NET_RING_BUFF_EndChange(NetRingBuff *r);
 int GFL_NET_QUEUE_IsEmpty(NetQueue *p);
 
 int GFL_NET_QUEUE_Put(NetQueue *queue, u32 command, const u8 *data, u32 size, u32 sendArg, u32 useRing, u32 queueArg);
+struct NetSendBuf;
+struct NetQueue;
 
-int GFL_NET_QUEUE_FillSendBuffer(u32 list, u16 *info);
+int GFL_NET_QUEUE_FillSendBuffer(struct NetQueue *queue, struct NetSendBuf *out);
 
 void GFL_NET_QUEUE_Init(NetQueue *p, u32 n, NetRingBuff *a, u32 b);
 
-int GFL_NET_QUEUE_Reset(NetQueue *p);
+void GFL_NET_QUEUE_Reset(NetQueue *p);
 
 void GFL_NET_QUEUE_Exit(NetQueue *queue);
 
@@ -287,9 +290,9 @@ s32 GFL_NET_SYSTEM_BuildSendPacket(struct NetPacketHeader *header, NetQueue *que
 
 int GFL_NET_SYSTEM_SetSendQueue(u32 command, const void *data, u32 size, u32 sendArg, u32 destNetId, u32 queueArg, u32 noRing);
 
-void GFL_NET_SYSTEM_GetChildRingDataSize(int unusedArg0, int unusedArg1, int unusedArg2, int unusedArg3);
+int GFL_NET_SYSTEM_GetChildRingDataSize(void);
 
-void GFL_NET_SYSTEM_GetParentRingDataSize(int unusedArg0, int unusedArg1, int unusedArg2, int unusedArg3);
+int GFL_NET_SYSTEM_GetParentRingDataSize(void);
 
 void GFL_NET_SYSTEM_DispatchRecv(int command, u32 size, u32 data, struct NetRecvCursor *cursor);
 
@@ -343,7 +346,7 @@ u32 GFL_NET_STATE_GetErrorMode(void);
 
 void GFL_NET_STATE_SetError(int a, u32 b, u32 c, u32 d);
 
-struct NetErrorInfo *GFL_NET_STATE_GetError(void);
+u32 GFL_NET_STATE_GetError(void);
 
 int GFL_NET_SendToHandle(GFLNetHandle *a, u32 b, u32 c, const void *d);
 
@@ -606,23 +609,23 @@ void GFL_NET_SYSTEM_ResetBuffers(void)
     MI_CpuFill8(_pNetSys->recvRingData, 0, _pNetSys->packetBufSize * maxMembers);
     for (i = 0; i < maxMembers; i++) {
         GFL_NET_RING_BUFF_Init(&_pNetSys->recvRing[i],
-              (u32)(_pNetSys->recvRingData + i * _pNetSys->packetBufSize), _pNetSys->packetBufSize);
+              (u8 *)(_pNetSys->recvRingData + i * _pNetSys->packetBufSize), _pNetSys->packetBufSize);
         _pNetSys->recvSeq[i] = 0;
     }
 
     MI_CpuFill8(_pNetSys->mpParentRingData, 0, parentSendSize + parentSendSize);
-    GFL_NET_RING_BUFF_Init(&_pNetSys->mpParentSendRing, (u32)_pNetSys->mpParentRingData, (u32)parentSendSize << 1);
+    GFL_NET_RING_BUFF_Init(&_pNetSys->mpParentSendRing, (u8 *)_pNetSys->mpParentRingData, (u32)parentSendSize << 1);
     for (i = 0; i < parentSendSize; i++)
         _pNetSys->mpParentPacketBuf[i] = 0;
 
     MI_CpuFill8(_pNetSys->sendRingData, 0, childSendSize * 16 - childSendSize);
-    GFL_NET_RING_BUFF_Init(&_pNetSys->sendRing, (u32)_pNetSys->sendRingData, ((u32)childSendSize << 4) - childSendSize);
+    GFL_NET_RING_BUFF_Init(&_pNetSys->sendRing, (u8 *)_pNetSys->sendRingData, ((u32)childSendSize << 4) - childSendSize);
     *_pNetSys->sendPacketBuf = 0xff;
     for (i = 1; i < childSendSize; i++)
         _pNetSys->sendPacketBuf[i] = 0;
 
     MI_CpuFill8(_pNetSys->parentRecvRingData, 0, _pNetSys->packetBufSize + _pNetSys->packetBufSize * 2);
-    GFL_NET_RING_BUFF_Init(&_pNetSys->parentRecvRing, (u32)_pNetSys->parentRecvRingData,
+    GFL_NET_RING_BUFF_Init(&_pNetSys->parentRecvRing, (u8 *)_pNetSys->parentRecvRingData,
                   _pNetSys->packetBufSize * 3);
     for (i = 0; i < GFL_NET_MACHINE_MAX; i++) {
         GFL_NET_SYSTEM_InitRecvState(&_pNetSys->recvCursor[i]);
@@ -676,7 +679,7 @@ void GFL_NET_SYSTEM_ResetRecvBuffer(int netId)
         GF_PANIC_Fail(_FileName, 0x155, _AssertNetIdRange);
     }
     _pNetSys->recvPending[netId] = 0;
-    GFL_NET_RING_BUFF_Init(&_pNetSys->recvRing[netId], (u32)(_pNetSys->recvRingData + netId * _pNetSys->packetBufSize), _pNetSys->packetBufSize);
+    GFL_NET_RING_BUFF_Init(&_pNetSys->recvRing[netId], (u8 *)(_pNetSys->recvRingData + netId * _pNetSys->packetBufSize), _pNetSys->packetBufSize);
     _pNetSys->recvSeq[netId] = 0;
     GFL_NET_SYSTEM_InitRecvState(&_pNetSys->recvCursor[netId]);
 }
@@ -2719,7 +2722,7 @@ int GFL_NET_SYSTEM_RecvChildData(u32 netId, NetPacketHeader *packet, s32 length)
     checksum = GF_STANDARD_CalcCrc16(&packet->size, length - 2);
     if (packet->checksumLow != (u8)checksum || ((checksum & 0xff00) >> 8) != packet->checksumHigh) {
         GFL_NET_SYSTEM_SetError();
-        errorInfo = GFL_NET_STATE_GetError();
+        errorInfo = (struct NetErrorInfo *)GFL_NET_STATE_GetError();
         if (errorInfo->gameCode == 0)
             GFL_NET_STATE_SetError(errorInfo->errorCode, errorInfo->errorType, errorInfo->dwcError, 0x3f2);
         return 0;
@@ -2728,7 +2731,7 @@ int GFL_NET_SYSTEM_RecvChildData(u32 netId, NetPacketHeader *packet, s32 length)
         u8 *recvSeq = _pNetSys->recvSeq;
         if (recvSeq[netId] != 0 && (u8)(packet->seq - 1) != recvSeq[netId]) {
             GFL_NET_SYSTEM_SetError();
-            errorInfo = GFL_NET_STATE_GetError();
+            errorInfo = (struct NetErrorInfo *)GFL_NET_STATE_GetError();
             if (errorInfo->gameCode == 0)
                 GFL_NET_STATE_SetError(errorInfo->errorCode, errorInfo->errorType, errorInfo->dwcError, 0x3f3);
             return 0;
@@ -2805,7 +2808,7 @@ int GFL_NET_SYSTEM_RecvParentData(u32 netId, NetPacketHeader *packet, s32 length
     checksum = GF_STANDARD_CalcCrc16(&packet->size, length - 2);
     if (packet->checksumLow != (u8)checksum || ((checksum & 0xff00) >> 8) != packet->checksumHigh) {
         GFL_NET_SYSTEM_SetError();
-        errorInfo = GFL_NET_STATE_GetError();
+        errorInfo = (struct NetErrorInfo *)GFL_NET_STATE_GetError();
         if (errorInfo->gameCode == 0)
             GFL_NET_STATE_SetError(errorInfo->errorCode, errorInfo->errorType, errorInfo->dwcError, 0x3f2);
         return 0;
@@ -3008,7 +3011,7 @@ body:
 
     span.remaining = (u16)(packetSize - 7);
     span.dest = &header->body[0];
-    if (GFL_NET_QUEUE_FillSendBuffer((u32)queue, (u16 *)(&span)) == 0)
+    if (GFL_NET_QUEUE_FillSendBuffer((struct NetQueue *)queue, (struct NetSendBuf *)(&span)) == 0)
         queue->sendContinued = 1;
 
     if (span.remaining != 0xffff)
@@ -3136,7 +3139,7 @@ int GFL_NET_SYSTEM_SetSendQueue(u32 command, const void *data, u32 size, u32 sen
         return 1;
 
     GFL_NET_SYSTEM_SetError();
-    err = GFL_NET_STATE_GetError();
+    err = (struct NetErrorInfo *)GFL_NET_STATE_GetError();
     if (err->gameCode == 0)
         GFL_NET_STATE_SetError(err->errorCode, err->errorType, err->dwcError, 0x3f4);
     return 0;
@@ -3176,9 +3179,9 @@ int GFL_NET_SYSTEM_SetSendQueue(u32 command, const void *data, u32 size, u32 sen
 
 
 
-void GFL_NET_SYSTEM_GetChildRingDataSize(int unusedArg0, int unusedArg1, int unusedArg2, int unusedArg3)
+int GFL_NET_SYSTEM_GetChildRingDataSize(void)
 {
-    GFL_NET_RING_BUFF_GetDataSize(&_pNetSys->sendRing);
+    return GFL_NET_RING_BUFF_GetDataSize(&_pNetSys->sendRing);
 }
 
 
@@ -3215,9 +3218,9 @@ void GFL_NET_SYSTEM_GetChildRingDataSize(int unusedArg0, int unusedArg1, int unu
 
 
 
-void GFL_NET_SYSTEM_GetParentRingDataSize(int unusedArg0, int unusedArg1, int unusedArg2, int unusedArg3)
+int GFL_NET_SYSTEM_GetParentRingDataSize(void)
 {
-    GFL_NET_RING_BUFF_GetDataSize(&_pNetSys->mpParentSendRing);
+    return GFL_NET_RING_BUFF_GetDataSize(&_pNetSys->mpParentSendRing);
 }
 
 

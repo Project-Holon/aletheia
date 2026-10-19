@@ -129,7 +129,8 @@ struct Node {
 };
 
 struct NodeRec;
-extern void NNS_G2dResetCellAnimation(AnimCtrl *pAnimCtrl);
+struct NNSG2dAnimController;
+extern void NNS_G2dResetCellAnimation(struct NNSG2dAnimController *pAnimCtrl);
 extern s32 abs(s32 x);
 BOOL NNS_G2dGetUnpackedScreenData(void *file, void **out);
 void *NNS_G2dFindBinaryBlock(struct NNSG2dBinaryFileHeader *pHeader, u32 signature);
@@ -140,7 +141,7 @@ struct NodeRec *NNSi_G2dGetCellAnimationCurrentSequence(AnimCtrl *anim);
 BOOL NNS_G2dTickAnimCtrl(AnimCtrl *p, fx32 frames);
 int NNSi_G2dSetCellAnimationCurrentFrame(void *s, u32 i);
 u16 NNSi_G2dGetCellAnimFrameIdx(const struct Node *n);
-int NNS_G2dInitAnimCtrl(int pAnimCtrl);
+int NNS_G2dInitAnimCtrl(struct AnimCtrl *pAnimCtrl);
 void NNSi_G2dResetCellAnimationState(AnimCallBack *callBack);
 
 
@@ -364,7 +365,7 @@ void NNSi_G2dCellAnimationEdgeHandler(AnimCtrl *s)
             }
             mode = getMode(s);
             if (mode == 2 || mode == 4) {
-                NNS_G2dResetCellAnimation(s);
+                NNS_G2dResetCellAnimation((struct NNSG2dAnimController *)s);
             } else {
                 s->bActive = 0;
             }
@@ -375,7 +376,7 @@ void NNSi_G2dCellAnimationEdgeHandler(AnimCtrl *s)
         }
         mode = getMode(s);
         if (mode == 2 || mode == 4) {
-            NNS_G2dResetCellAnimation(s);
+            NNS_G2dResetCellAnimation((struct NNSG2dAnimController *)s);
         } else {
             s->bActive = 0;
         }
@@ -613,7 +614,7 @@ u16 NNSi_G2dGetCellAnimFrameIdx(const struct Node *n)
 
 
 
-int NNS_G2dInitAnimCtrl(int pAnimCtrl)
+int NNS_G2dInitAnimCtrl(struct AnimCtrl *pAnimCtrl)
 {
     AnimCtrl *c = (AnimCtrl *)pAnimCtrl;
     NNSi_G2dResetCellAnimationState(&c->callBack);

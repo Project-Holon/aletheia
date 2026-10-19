@@ -136,8 +136,8 @@ extern void DWCi_SetParam2_(unsigned int a, unsigned int b);
 extern void DWCi_SETTINGlGetSsid(unsigned char *buf);
 extern int DWCi_STRlNLen(unsigned char *s, int maxlen);
 extern void DWCi_HLlLoad(int idx);
-extern bool DWCi_COMMENTlDispEx(int messageId, int n, int num);
-extern bool DWCi_COMMENTlDelete(void);
+extern int DWCi_COMMENTlDispEx(int messageId, int n, int num);
+extern int DWCi_COMMENTlDelete(void);
 extern void DWCi_CMNlStep(int step);
 extern void DWCi_CMNlLoadResource(char *file, void (*func)(void *, unsigned long, unsigned long));
 extern void GX_LoadOBJPltt(void *src, unsigned long offset, unsigned long size);
@@ -145,19 +145,19 @@ extern void *DWCi_FNTlFormBgEx(int lcd, int font);
 extern void DWCi_FNTlDeleteBgLcd(int lcd);
 extern void DWCi_FNTlClear(void *canvas, int color);
 extern void DWCi_FNTlDrawRect(void *canvas, int x, int y, int w, int h, int color, unsigned long flag, unsigned short *txt);
-extern void DWCi_FNTlRenewBg(void *canvas);
+extern void DWCi_FNTlRenewBg(int x);
 extern GXOamAttr *DWCi_CEINlSetExObj(int lcd, int idx);
-extern void DWCi_OBJlDelete(GXOamAttr *obj);
+extern void DWCi_OBJlDelete(unsigned int *obj);
 extern int DWCi_KBlGet(void);
-extern void DWCi_KBlSetErase(bool enable);
+extern void DWCi_KBlSetErase(unsigned char v);
 extern void DWCi_KBlSetInput(bool enable);
 extern void DWCi_KBlEnd(void);
 extern void DWCi_KB10lEnd(void);
-extern bool DWCi_KBlIsInit(void);
+extern int DWCi_KBlIsInit(void);
 extern void DWCi_WINlInitEx(int msg, int type, bool dark, int n, int num);
-extern int DWCi_WINlGet(void);
+extern char DWCi_WINlGet(void);
 extern void DWCi_WINlEnd(void);
-extern bool DWCi_WINlIsInit(void);
+extern int DWCi_WINlIsInit(void);
 extern void DWCi_SNDlPlay(int no);
 extern bool DWCi_EFFlCheck(int lcd);
 extern bool DWCi_EFFlFade(int kind, int lcd, int plane, int frame);
@@ -422,7 +422,7 @@ static void endScene3(void)
     int s;
 
     DWCi_COMMENTlDelete();
-    DWCi_OBJlDelete(scenesetedit32_bss.MemSse->caret);
+    DWCi_OBJlDelete((unsigned int *)scenesetedit32_bss.MemSse->caret);
     DWCi_FNTlDeleteBgLcd(0);
     DWCi_CMNlLoadResource(scenesetedit32_str_20937, GX_LoadOBJPltt);
     DWCi_GXlInvisible(1, 1);
@@ -469,7 +469,7 @@ static void drawSsid(void)
         a.l = X_IPT[x];
         DWCi_FNTlDrawRect(MemSse->canv, a.l, a.t, a.w, a.h, 2, 0x480, buf);
     }
-    DWCi_FNTlRenewBg(MemSse->canv);
+    DWCi_FNTlRenewBg((int)MemSse->canv);
 }
 
 

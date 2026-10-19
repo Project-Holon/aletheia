@@ -34,14 +34,17 @@ extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *win);
 extern u32 GFL_HEAP_Free(void *block);
 
 extern void BMP_WIN_TransferChars(struct BmpWin *win);
+struct Strbuf;
 
-extern void STRBUF_Delete(void *res);
+extern void STRBUF_Delete(struct Strbuf *strbuf);
 
 extern void BMP_Delete(struct Bmp *bmp);
+struct GfFont;
+struct PrintQueue;
 
-extern void PRINTSYS_PrintQue(void *printer, struct Bmp *bmp, u32 x, u32 y, void *text, u32 param);
+extern void PRINTSYS_PrintQue(struct PrintQueue *queue, struct Bmp *bmp, unsigned int x, short y, struct Strbuf *str, struct GfFont *font);
 
-extern void BMP_Blit(struct Bmp *src, struct Bmp *dst, u32 srcX, u32 srcY, int dstX, int dstY, u32 w, u32 h, u32 key);
+extern void BMP_Blit(struct Bmp *src, struct Bmp *dst, unsigned int srcX, unsigned int srcY, int dstX, int dstY, unsigned int w, unsigned int h, unsigned short colorKey);
 
 extern struct Bmp *BMP_CreateFromBuffer(const void *pixels, u32 widthTiles, u32 heightTiles, u32 sizeBytes, u16 heap);
 
@@ -98,7 +101,7 @@ void BMP_CURSOR_Draw(struct MenuCursor *cursor, u32 x, u32 y, struct MenuTarget 
                    void *printer, u32 param)
 {
     if (cursor->mode == 1) {
-        PRINTSYS_PrintQue(printer, BMP_WIN_GetBmp(target->win), (s16)x, (s16)y, cursor->aux, param);
+        PRINTSYS_PrintQue(printer, BMP_WIN_GetBmp(target->win), (s16)x, (s16)y, cursor->aux, (struct GfFont *)param);
         target->dirty = 1;
     } else if (cursor->tile != 0) {
         BMP_Blit(cursor->tile, BMP_WIN_GetBmp(target->win), 0, 0,

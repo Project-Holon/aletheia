@@ -68,7 +68,7 @@ typedef int (*Hook)(char *p, int a1, int a2, int a3, int a4);
 
 extern void gti2CloseSocket(GTI2Socket *socket);
 extern void gti2CloseSocket(GTI2Socket *sock);
-extern FilterCb *ArrayNth(void *array, int n);
+extern void *ArrayNth(struct DArrayImplementation *array, int n);
 int gti2SocketErrorCallback(GTI2Socket *socket);
 int gti2ConnectAttemptCallback(GTI2Socket *sock, GTI2Connection *c, unsigned int ip, unsigned short port, int latency, unsigned char *msg, int len);
 int gti2ConnectedCallback(GTI2Connection *c, int result, unsigned char *msg, int len);

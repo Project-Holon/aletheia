@@ -46,7 +46,7 @@ extern void DWCi_GXlInvisible(int lcd, int plane);
 extern void DWCi_ChangeScene(void (*scene)());
 extern bool DWCi_MOVlIsEnd(void);
 extern void DWCi_FNTlDeleteBgLcd(int lcd);
-extern bool DWCi_COMMENTlDelete(void);
+extern int DWCi_COMMENTlDelete(void);
 extern void DWCi_SetParam_(unsigned int a, unsigned int b);
 extern void DWCi_SceneOptMenu(void);
 void DWCi_SceneOptMovDisconnect(void);

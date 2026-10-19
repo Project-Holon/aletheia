@@ -107,6 +107,7 @@
  *   MAP_ATTR_IsTallGrass  0x021AB140  thumb  ov021
  *   MAP_ATTR_IsAnyDoubleGrass  0x021AB29C  thumb  ov021
  *   MAP_ATTR_GetBattleBackground  0x021AB580  thumb  ov021
+ *   _u32_div_f                   0x0209C2B0  arm
  */
 typedef unsigned char u8;
 
@@ -215,26 +216,28 @@ typedef struct EncountStepWork {
 struct RtcTime { u32 hour; u32 minute; u32 second; };
 
 extern u32 ZONEDATA_CheckEventFlag(struct EventWork *eventWork, s32 flagId);
-extern const u16 *MYSTATUS_GetName(const struct MyStatus *myStatus);
+extern void *MYSTATUS_GetName(void *mystatus);
 extern u8 MYSTATUS_GetSex(const struct MyStatus *myStatus);
 extern u32 GFL_HEAP_Free(void *memory);
 extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gameData);
-extern struct Party *GAME_DATA_GetMyParty(const struct GameData *gameData);
-extern struct EncountSave *MOVE_POKEMON_SAVE_GetBlock(struct SaveControl *saveControl);
+extern void *GAME_DATA_GetMyParty(const struct GameData *gameData);
+extern void *MOVE_POKEMON_SAVE_GetBlock(void *saveControl);
 extern struct MyStatus *GAME_DATA_GetMyStatus(struct GameData *gameData);
 extern u32 MYSTATUS_GetId(const struct MyStatus *myStatus);
 extern struct PokemonParam *POKEPARTY_GetMember(struct Party *party, u32 index);
 extern u32 POKE_TOOL_GetPartyValue(struct PokemonParam *pp, u32 id, u32 arg);
 extern u8 POKE_TOOL_GetNature(struct PokemonParam *pp);
-extern struct EventWork *GAME_DATA_GetEventWork(const struct GameData *gameData);
-extern u32 MOVE_POKEMON_SAVE_IsCooldownDone(struct EncountSave *encountSave);
+extern void *GAME_DATA_GetEventWork(const struct GameData *gameData);
+struct MovePokemonSave;
+extern u32 MOVE_POKEMON_SAVE_IsCooldownDone(struct MovePokemonSave *pSave);
 extern u32 POKEPARTY_GetBattleReadyCount(struct Party *party);
 extern u32 POKEPARTY_FindFirstBattleReady(struct Party *party);
 extern u32 GPOWER_ApplyEncountRate(u32 rate);
 extern void MIi_CpuClear32(u32 data, void *destp, u32 size);
-extern u8 MOVE_POKEMON_SAVE_IsEntryActive(struct EncountSave *encountSave, u32 index);
-extern struct Roamer *MOVE_POKEMON_SAVE_GetEntry(struct EncountSave *encountSave, u32 index);
-extern u32 MOVE_POKEMON_SAVE_GetEntryField(const struct Roamer *roamer, u32 field);
+extern u8 MOVE_POKEMON_SAVE_IsEntryActive(struct MovePokemonSave *pSave, u32 slot);
+struct MovePokemonEntry;
+extern struct MovePokemonEntry *MOVE_POKEMON_SAVE_GetEntry(struct MovePokemonSave *pSave, u32 slot);
+extern u32 MOVE_POKEMON_SAVE_GetEntryField(struct MovePokemonEntry *pEntry, u32 field);
 extern u32 GFL_USE_GetRandomBelow(u32 range);
 extern struct FieldWfbcPeople *FIELD_WFBC_GetPeople(struct FieldWfbc *wfbc, u32 npcId);
 extern u8 *FIELD_WFBC_PEOPLE_GetNpcRecord(struct FieldWfbcPeople *people);
@@ -242,31 +245,32 @@ extern u32 GFL_USE_GetRandom(u32 range);
 extern struct PersonalData *POKE_PERSONAL_Create(unsigned int species, int form, unsigned int heapId);
 extern void POKE_TOOL_SetupPartyParamEx(struct PokemonParam *pp, u16 species, u16 level, unsigned long long otId, u32 ivs, unsigned long long personality);
 extern void POKE_TOOL_SetPartyValue(struct PokemonParam *pp, u32 id, u32 value);
-extern void POKE_TOOL_SetAbility(struct PokemonParam *pp, u32 species, u32 form);
+struct BoxPokemon;
+extern void POKE_TOOL_SetAbility(struct BoxPokemon *box, u32 species, u32 form);
 extern void POKE_TOOL_RecalcParam(struct PokemonParam *pp);
 extern void POKE_PERSONAL_Delete(struct PersonalData *personal);
-extern u8 MOVE_POKEMON_SAVE_GetStartLocation(struct EncountSave *encountSave);
+extern u8 MOVE_POKEMON_SAVE_GetStartLocation(struct MovePokemonSave *pSave);
 extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
 extern void MI_CpuFill8(void *dest, u8 value, u32 size);
 extern u32 POKE_TOOL_GetPersonalParam(u16 species, u16 form, u32 field);
 extern u32 POKE_PERSONAL_GetParam(const struct PersonalData *personal, u32 field);
 extern u32 POKE_PERSONAL_IsFixedGender(u32 genderRatio);
-extern u32 POKE_TOOL_CreatePersonalRnd(u32 otId, int species, int form, int ratioMode, int shinyWanted, int mode);
+extern u32 POKE_TOOL_CreatePersonalRnd(u32 otId, s32 species, u16 form, s32 ratioMode, s32 shinyWanted, s32 mode);
 extern u16 FIELDMAP_GetHeapId(struct FieldMap *fieldMap);
 extern struct GameSystem *FIELDMAP_GetGameSystem(struct FieldMap *fieldMap);
 extern struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
-extern struct EventDataSystem *GAME_DATA_GetEventData(const struct GameData *gameData);
-extern EncountData *EVENTDATA_SYSTEM_GetEncountData(struct EventDataSystem *eventData);
+extern void *GAME_DATA_GetEventData(const struct GameData *gameData);
+extern u32 EVENTDATA_SYSTEM_GetEncountData(u32 systemAddr);
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int fromTop, const char *file, u16 line);
 extern struct FieldPlayer *FIELDMAP_GetFieldPlayer(struct FieldMap *fieldMap);
-extern EncountStepWork *GAME_DATA_GetFieldGimmick(const struct GameData *gameData);
+extern u32 GAME_DATA_GetFieldGimmick(const struct GameData *gameData);
 extern struct WeatherSys *FIELDMAP_GetWeather(struct FieldMap *fieldMap);
 extern u16 WEATHER_GetWeatherId(struct WeatherSys *weatherSys);
-extern struct TrainerRecord *GAME_DATA_GetTrainerRecord(struct GameData *gameData);
+extern void *GAME_DATA_GetTrainerRecord(struct GameData *gameData);
 extern u32 RECORD_AddOne(struct TrainerRecord *record, int recordId);
 extern u16 FIELDMAP_GetZoneId(struct FieldMap *fieldMap);
 extern struct BattleSetupParam *BTL_SETUP_Create(u32 heapId);
-extern int EVENT_BATTLE_CreateScriptedBattle(struct GameSystem *gameSystem, struct FieldMap *fieldMap, struct BattleSetupParam *btlSetup, int isScripted, int triggerMode);
+extern int EVENT_BATTLE_CreateScriptedBattle(s32 gameSystem, s32 battleSrc, s32 btlSetup, s32 returnImmediately, s32 effectId);
 extern void BTL_SETUP_SetStatusFlag(struct BattleSetupParam *btlSetup, int flag);
 extern u8 FIELD_WFBC_IsBackPeople(struct FieldWfbc *wfbc);
 extern u8 ZONEDATA_GetFieldEffectSetId(u32 zoneId);
@@ -281,9 +285,9 @@ extern u32 POKE_TOOL_GetPartyParamSize(void);
 extern u32 POKEPARTY_Add(struct Party *party, const struct PokemonParam *pp);
 extern void BTL_SETUP_SetupWild(struct BattleSetupParam *param, struct GameData *gd, struct Party *wildParty, const struct FieldSituation *sit, u32 rule, u16 heap);
 extern void BTL_SETUP_Clear(struct BattleSetupParam *param);
-extern u32 TPOKE_DATA_GetRecordField(u32 trainerId, u32 field);
+extern u32 TPOKE_DATA_GetRecordField(void *a, unsigned int idx);
 extern u32 TPOKE_DATA_GetTrainerGroup(u32 trainerType);
-extern void BTL_SETUP_SetupTrainerMulti(struct BattleSetupParam *param, struct GameData *gd, const struct FieldSituation *sit, u32 partnerId, u32 trainerId1, u32 trainerId2, u32 heap);
+extern void BTL_SETUP_SetupTrainerMulti(struct BattleSetupParam *param, struct GameData *gd, struct FieldSituation *sit, u32 partnerId, u32 trainerId1, u32 trainerId2, u16 heap);
 extern void BTL_SETUP_SetupTrainerTag(struct BattleSetupParam *param, struct GameData *gd, const struct FieldSituation *sit, u32 trainerId1, u32 trainerId2, u16 heap);
 extern void BTL_SETUP_SetupTrainerDouble(struct BattleSetupParam *param, struct GameData *gd, const struct FieldSituation *sit, u32 trainerId, u16 heap);
 extern void BTL_SETUP_SetupTrainerSingle(struct BattleSetupParam *param, struct GameData *gd, const struct FieldSituation *sit, u32 trainerId, u16 heap);
@@ -457,12 +461,12 @@ struct Roamer *FIELD_ENCOUNT_PickRoamer(EncountData *encountData, FieldEncountPa
     struct Roamer *roamer;
 
     for (i = 0; i < 2; i++) {
-        if (MOVE_POKEMON_SAVE_IsEntryActive(param->encountSave, i) == 0)
+        if (MOVE_POKEMON_SAVE_IsEntryActive((struct MovePokemonSave *)param->encountSave, i) == 0)
             continue;
-        roamer = MOVE_POKEMON_SAVE_GetEntry(param->encountSave, i);
-        if (MOVE_POKEMON_SAVE_GetEntryField(roamer, 1) != zoneId)
+        roamer = (struct Roamer *)MOVE_POKEMON_SAVE_GetEntry((struct MovePokemonSave *)param->encountSave, i);
+        if (MOVE_POKEMON_SAVE_GetEntryField((struct MovePokemonEntry *)roamer, 1) != zoneId)
             continue;
-        if (FIELD_ENCOUNT_IsRepelled(param, MOVE_POKEMON_SAVE_GetEntryField(roamer, 6)) != 0)
+        if (FIELD_ENCOUNT_IsRepelled(param, MOVE_POKEMON_SAVE_GetEntryField((struct MovePokemonEntry *)roamer, 6)) != 0)
             continue;
         candidates[count++] = roamer;
     }
@@ -532,7 +536,7 @@ void FIELD_ENCOUNT_InitWildPokemon(struct PokemonParam *pp, const FieldEncountPa
     POKE_TOOL_SetupPartyParamEx(pp, encMon->species, encMon->level, param->ownerId, 0xFFFFFFFF, personality);
     POKE_TOOL_SetPartyValue(pp, POKE_TOOL_PARAM_FORM, encMon->form);
     if (encMon->hiddenAbility)
-        POKE_TOOL_SetAbility(pp, encMon->species, encMon->form);
+        POKE_TOOL_SetAbility((struct BoxPokemon *)pp, encMon->species, encMon->form);
     if (encMon->heldItem <= 0x272) {
         if (encMon->heldItem != 0)
             POKE_TOOL_SetPartyValue(pp, POKE_TOOL_PARAM_HELD_ITEM, encMon->heldItem);
@@ -553,14 +557,14 @@ void FIELD_ENCOUNT_InitWildPokemon(struct PokemonParam *pp, const FieldEncountPa
  */
 void FIELD_ENCOUNT_InitRoamerPokemon(struct PokemonParam *pp, const FieldEncountParam *param, struct Roamer *roamer)
 {
-    u16 species = MOVE_POKEMON_SAVE_GetEntryField(roamer, 4);
-    u8 level = MOVE_POKEMON_SAVE_GetEntryField(roamer, 6);
-    u32 ivs = MOVE_POKEMON_SAVE_GetEntryField(roamer, 2);
+    u16 species = MOVE_POKEMON_SAVE_GetEntryField((struct MovePokemonEntry *)roamer, 4);
+    u8 level = MOVE_POKEMON_SAVE_GetEntryField((struct MovePokemonEntry *)roamer, 6);
+    u32 ivs = MOVE_POKEMON_SAVE_GetEntryField((struct MovePokemonEntry *)roamer, 2);
 
-    POKE_TOOL_SetupPartyParamEx(pp, species, level, param->ownerId, ivs, MOVE_POKEMON_SAVE_GetEntryField(roamer, 3));
-    POKE_TOOL_SetPartyValue(pp, POKE_TOOL_PARAM_NATURE, MOVE_POKEMON_SAVE_GetEntryField(roamer, 10));
-    POKE_TOOL_SetPartyValue(pp, POKE_TOOL_PARAM_STATUS_CONDITION, MOVE_POKEMON_SAVE_GetEntryField(roamer, 7));
-    POKE_TOOL_SetPartyValue(pp, POKE_TOOL_PARAM_HP, MOVE_POKEMON_SAVE_GetEntryField(roamer, 5));
+    POKE_TOOL_SetupPartyParamEx(pp, species, level, param->ownerId, ivs, MOVE_POKEMON_SAVE_GetEntryField((struct MovePokemonEntry *)roamer, 3));
+    POKE_TOOL_SetPartyValue(pp, POKE_TOOL_PARAM_NATURE, MOVE_POKEMON_SAVE_GetEntryField((struct MovePokemonEntry *)roamer, 10));
+    POKE_TOOL_SetPartyValue(pp, POKE_TOOL_PARAM_STATUS_CONDITION, MOVE_POKEMON_SAVE_GetEntryField((struct MovePokemonEntry *)roamer, 7));
+    POKE_TOOL_SetPartyValue(pp, POKE_TOOL_PARAM_HP, MOVE_POKEMON_SAVE_GetEntryField((struct MovePokemonEntry *)roamer, 5));
     POKE_TOOL_RecalcParam(pp);
 }
 
@@ -953,7 +957,7 @@ FieldEncount *FIELD_ENCOUNT_Create(struct FieldMap *fieldMap)
     encount->gameSystem = gameSystem;
     gameData = GAMESYSTEM_GetGameData(gameSystem);
     encount->gameData = gameData;
-    encount->encountData = EVENTDATA_SYSTEM_GetEncountData(GAME_DATA_GetEventData(gameData));
+    encount->encountData = (struct EncountData *)EVENTDATA_SYSTEM_GetEncountData((u32)GAME_DATA_GetEventData(gameData));
     effectEncount = EFFECT_ENCOUNT_Create(heapId);
     encount->effectEncount = effectEncount;
     EFFECT_ENCOUNT_Init(encount, effectEncount);
@@ -984,7 +988,7 @@ int FIELD_ENCOUNT_CheckWildEncount(FieldEncount *encount, int triggerMode)
     skipRateCheck = 0;
     roamer = 0;
     player = FIELDMAP_GetFieldPlayer(encount->fieldMap);
-    stepWork = GAME_DATA_GetFieldGimmick(encount->gameData);
+    stepWork = (struct EncountStepWork *)GAME_DATA_GetFieldGimmick(encount->gameData);
     if (triggerMode == 1 || triggerMode == 2)
         skipRateCheck = 1;
     else
@@ -1022,7 +1026,7 @@ int FIELD_ENCOUNT_CheckWildEncount(FieldEncount *encount, int triggerMode)
         FIELD_ENCOUNT_SetupWildBattle(encount, &param, btlSetup, 4, mons);
     }
     FIELD_ENCOUNT_ResetStepWork(stepWork, player);
-    return EVENT_BATTLE_CreateScriptedBattle(encount->gameSystem, encount->fieldMap, btlSetup, 0, triggerMode);
+    return EVENT_BATTLE_CreateScriptedBattle((s32)encount->gameSystem, (s32)encount->fieldMap, (s32)btlSetup, 0, triggerMode);
 }
 
 /*
@@ -1071,7 +1075,7 @@ int FIELD_ENCOUNT_StartScriptedWild(FieldEncount *encount, u16 species, u8 level
     if (flags & 0x100) {
         BTL_SETUP_SetStatusFlag(btlSetup, 0x200);
     }
-    return EVENT_BATTLE_CreateScriptedBattle(encount->gameSystem, encount->fieldMap, btlSetup, 1, 0);
+    return EVENT_BATTLE_CreateScriptedBattle((s32)encount->gameSystem, (s32)encount->fieldMap, (s32)btlSetup, 1, 0);
 }
 
 struct BattleSetupParam *FIELD_ENCOUNT_CheckFishingEncount(FieldEncount *encount, int triggerMode)
@@ -1119,7 +1123,7 @@ int FIELD_ENCOUNT_CheckWfbcEncount(FieldEncount *encount, struct FieldWfbc *wfbc
     struct BattleSetupParam *btlSetup;
 
     player = FIELDMAP_GetFieldPlayer(encount->fieldMap);
-    stepWork = GAME_DATA_GetFieldGimmick(encount->gameData);
+    stepWork = (struct EncountStepWork *)GAME_DATA_GetFieldGimmick(encount->gameData);
     FIELD_ENCOUNT_UpdateStepWork(stepWork, player);
     if (FIELD_WFBC_IsBackPeople(wfbc) == 1) {
         return 0;
@@ -1137,7 +1141,7 @@ int FIELD_ENCOUNT_CheckWfbcEncount(FieldEncount *encount, struct FieldWfbc *wfbc
     btlSetup = BTL_SETUP_Create(4);
     FIELD_ENCOUNT_SetupWildBattle(encount, &param, btlSetup, 4, mons);
     FIELD_ENCOUNT_ResetStepWork(stepWork, player);
-    return EVENT_BATTLE_CreateScriptedBattle(encount->gameSystem, encount->fieldMap, btlSetup, 0, 3);
+    return EVENT_BATTLE_CreateScriptedBattle((s32)encount->gameSystem, (s32)encount->fieldMap, (s32)btlSetup, 0, 3);
 }
 
 void FIELD_ENCOUNT_SetFieldSituation(struct FieldSituation *situation, struct GameData *gameData, struct FieldMap *fieldMap)
@@ -1277,7 +1281,7 @@ void FIELD_ENCOUNT_SetupTrainerBattle(FieldEncount *encount, struct BattleSetupP
 
     BTL_SETUP_Clear(btlSetup);
     FIELD_ENCOUNT_SetFieldSituation(&situation, encount->gameData, encount->fieldMap);
-    trainerBgAttr = TPOKE_DATA_GetTrainerGroup(TPOKE_DATA_GetRecordField(trainerId1, 1));
+    trainerBgAttr = TPOKE_DATA_GetTrainerGroup(TPOKE_DATA_GetRecordField((void *)trainerId1, 1));
     if (trainerBgAttr != 0x11) {
         situation.bgAttr = trainerBgAttr;
     }

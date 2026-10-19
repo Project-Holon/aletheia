@@ -24,6 +24,7 @@
  *   ARC_TOOL_LoadMember       0x02048F60  arm
  *   VEC_Fx16Normalize   0x0207CDB8  arm
  *   TIMEZONE_GetLight  0x02011400  thumb
+ *   _u32_div_f                   0x0209C2B0  arm
  */
 #include "field_status_shared_types.h"
 #include "zone_light_shared_types.h"
@@ -44,10 +45,11 @@ extern u32 ZONEDATA_GetLightId(u32 id);
 extern u32 ZONEDATA_GetAreaId(u32 id);
 
 extern void *ZONEDATA_CreateAreaData(u16 heap, u32 zoneLightId, u32 season);
+struct AreaData;
 
-extern u8 ZONEDATA_GetAreaLightType(void *p);
+extern u8 ZONEDATA_GetAreaLightType(struct AreaData *areaData);
 
-extern u32 ZONEDATA_DeleteAreaData(void *a);
+extern u32 ZONEDATA_DeleteAreaData(struct AreaData *areaData);
 
 extern u32 GFL_HEAP_Free(void *p);
 

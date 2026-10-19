@@ -82,12 +82,12 @@ extern int OS_SPrintf(char *dst, const char *fmt, ...);
 extern int send(int sock, char *buffer, int bufferLen, int flags);
 extern int GOAGetLastError(int sock);
 extern void gpiSetError(int *connection, int result, int errorString);
-extern int gpiCallErrorCallback(int *connection, int result, int fatal);
+extern int gpiCallErrorCallback(void **connection, int result, int fatal);
 extern char *gsimalloc(int size);
 extern int gsDebugFormat(int index, char *table, int mask, const char *fmt, ...);
 extern void gsifree(void *p);
-extern int ArrayLength(void *array);
-extern unsigned int gsUdpEngineGetPeerOutBufferFreeSpace(u32 theIp, u16 thePort);
+extern int ArrayLength(int *array);
+extern int gsUdpEngineGetPeerOutBufferFreeSpace(u32 theIp, u16 thePort);
 extern int gsUdpEngineSendMessage(u32 theIp, u16 thePort, char *theHeader,
                                   unsigned char *theMsg, u32 theMsgLen,
                                   int theReliable);
@@ -122,10 +122,10 @@ extern char g_021A45C0[];
 
 
 
-extern int strlen(const char *s);
-extern int strncmp(const char *, const char *, unsigned int);
-extern char *strchr(const char *, int);
-extern int atoi(const char *);
+extern int strlen(unsigned char *s);
+extern int strncmp(unsigned char *s1, unsigned char *s2, unsigned int n);
+extern unsigned char *strchr(unsigned char *s, int c);
+extern int atoi(unsigned int s);
 extern void *memmove(void *dest, const void *src, unsigned int n);
 /*
  * gpiAppendCharToBuffer: append one character to a GPIBuffer (0=data,
@@ -199,7 +199,7 @@ int gpiAppendStringToBufferLen(int *connection, int *buffer, int src, int n)
  */
 int gpiAppendStringToBuffer(int *connection, int *buffer, const char *string)
 {
-    return gpiAppendStringToBufferLen(connection, buffer, (int)string, strlen((const char *)string));
+    return gpiAppendStringToBufferLen(connection, buffer, (int)string, strlen((unsigned char *)string));
 }
 
 
@@ -299,7 +299,7 @@ int gpiSendData(int *connection, int sock, char *buffer, int bufferLen,
             if (id[0] == 'P' && id[1] == 'R')
                 return 3;
             gpiSetError(connection, 5, (int)g_021A44DC);
-            gpiCallErrorCallback(connection, 3, 0);
+            gpiCallErrorCallback((void **)connection, 3, 0);
             return 3;
         }
         *sent = 0;
@@ -374,7 +374,7 @@ int gpiSendOrBufferString(void **connection, struct GPIPeer_s *peer,
                           char *string)
 {
     return gpiSendOrBufferStringLenToPeer(connection, peer, string,
-                                          strlen(string));
+                                          strlen((unsigned char *)string));
 }
 
 
@@ -595,17 +595,17 @@ int gpiReadMessageFromBuffer(int unused, GPIBuffer *inputBuffer, char **message,
     *message = 0;
     if (inputBuffer->len < 5)
         return 0;
-    str = strchr(inputBuffer->buffer, '\n');
+    str = (char *)strchr((unsigned char *)inputBuffer->buffer, '\n');
     if (str != 0) {
-        if (strncmp(str - 5, g_021A45B4, 5) != 0)
+        if (strncmp((unsigned char *)(str - 5), (unsigned char *)g_021A45B4, 5) != 0)
             return 3;
         *str = 0;
         if (!gpiValueForKey(inputBuffer->buffer, g_021A45BC, intValue, 16))
             return 3;
-        *type = atoi(intValue);
+        *type = atoi((unsigned int)intValue);
         if (!gpiValueForKey(inputBuffer->buffer, g_021A45C0, intValue, 16))
             return 3;
-        len = atoi(intValue);
+        len = atoi((unsigned int)intValue);
         if (inputBuffer->len > len + 1 + (str - inputBuffer->buffer)) {
             if (str[len + 1] != 0)
                 return 3;

@@ -101,10 +101,12 @@ struct GameData;
 extern u32 GFL_HEAP_Free(void *work);
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int align, const char *file, u16 line);
 extern void FLDMMDL_SetDirDispCheckPause(Mmdl *mmdl, int dir);
-extern void FLDMMDL_GetPos(const Mmdl *mmdl, VecFx32 *pos);
+struct MmdlVec;
+struct Mmdl;
+extern void FLDMMDL_GetPos(struct Mmdl *mmdl, struct MmdlVec *out);
 extern u16 FLDMMDL_GetDirDisp(const Mmdl *mmdl);
 extern struct MmdlSys *FIELDMAP_GetMmdlSys(FieldMap *fieldMap);
-extern void *FLDMMDL_SysSearchGridPos(struct MmdlSys *mmdlSys, u32 gridX, u32 gridZ, u32 mask);
+extern struct Mmdl *FLDMMDL_SysSearchGridPos(struct MmdlSys *mmdlSys, u32 gridX, u32 gridZ, u32 mask);
 extern u16 FLDMMDL_GetGridNowX(const Mmdl *mmdl);
 extern u16 FLDMMDL_GetGridNowY(const Mmdl *mmdl);
 extern u16 FLDMMDL_GetGridNowZ(const Mmdl *mmdl);
@@ -112,12 +114,13 @@ extern struct GameData *GAMESYSTEM_GetGameData(struct GameSystem *gameSystem);
 extern struct GameSystem *FIELDMAP_GetGameSystem(FieldMap *fieldMap);
 extern Mmdl *FLDMMDL_SysSearchObjId(struct MmdlSys *mmdlSys, u32 objId);
 extern u16 GAME_DATA_GetPlayerPalaceZoneId(const struct PlayerWork *playerWork);
-extern Mmdl *FLDMMDL_AddMmdl(struct MmdlSys *mmdlSys, const FieldPlayerMmdlHeader *header, int zoneId);
+struct MmdlHeader;
+extern Mmdl *FLDMMDL_AddMmdl(struct MmdlSys *sys, struct MmdlHeader *header, s32 zoneId);
 extern void FLDMMDL_SetGridNowX(Mmdl *mmdl, s16 gridX);
 extern void FLDMMDL_SetGridNowY(Mmdl *mmdl, int gridY);
 extern void FLDMMDL_SetGridNowZ(Mmdl *mmdl, int gridZ);
-extern void FLDMMDL_SetPos(Mmdl *mmdl, const VecFx32 *pos);
-extern void FLDMMDL_SetStatusBitZoneDeleteOff(Mmdl *mmdl, u32 flag);
+extern void FLDMMDL_SetPos(struct Mmdl *mmdl, struct MmdlVec *pos);
+extern void FLDMMDL_SetStatusBitZoneDeleteOff(struct Mmdl *mmdl, s32 flag);
 extern int FLDMMDL_CheckPossibleAcmd(Mmdl *mmdl);
 extern int FLDMMDL_CheckEndAcmd(Mmdl *mmdl);
 extern void FLDMMDL_SetGridOldX(Mmdl *mmdl, u16 gridX);
@@ -129,26 +132,33 @@ extern void GAME_DATA_SetPlayerObjectCode(struct PlayerWork *playerWork, u32 for
 extern u16 FLDMMDL_GetObjCode(Mmdl *mmdl);
 extern int FLDMMDL_CallDrawGetProc(Mmdl *mmdl, u32 drawProcParam);
 extern struct MmdlSys *FLDMMDL_GetMmdlSys(Mmdl *mmdl);
-extern u32 FLDMMDL_SysGetBlActCont(struct MmdlSys *mmdlSys);
-extern u32 FLDMMDL_BLACT_GetBbActSys(u32 blActCont);
+extern void *FLDMMDL_SysGetBlActCont(struct MmdlSys *mmdlSys);
+struct BlactSys;
+struct BbActSys;
+extern struct BbActSys *FLDMMDL_BLACT_GetBbActSys(struct BlactSys *cont);
 extern int FLDMMDL_ACMD_CheckAnimePaused(Mmdl *mmdl);
 extern int FLDMMDL_BLACT_GetEntryHookFlag(Mmdl *mmdl);
-extern u32 BILLBOARD_ACT_GetEntryLastCommand(u32 bbActSys, int entryIndex, u16 *out);
+extern u32 BILLBOARD_ACT_GetEntryLastCommand(struct BbActSys *sys, s32 entryIndex, u16 *lastCommand);
 extern void FLDMMDL_BLACT_ChangeObjCode(Mmdl *mmdl, u32 objCode);
-extern int FLDMMDL_SysWaitBlActResLoad(struct MmdlSys *mmdlSys);
+extern void FLDMMDL_SysWaitBlActResLoad(struct MmdlSys *mmdlSys);
 extern void FLDMMDL_ChangeObjCode(Mmdl *mmdl, u32 objCode);
 extern u16 FLDMMDL_GetDirMove(Mmdl *mmdl);
-extern void FIELD_EFFECT_DeleteObject(u32 effect);
-extern void FLDMMDL_SetDrawOffsetOutside(Mmdl *mmdl, const VecFx32 *offset);
-extern u32 FIELDMAP_GetEffect(FieldMap *fieldMap);
+struct FieldEffectObj;
+extern void FIELD_EFFECT_DeleteObject(struct FieldEffectObj *obj);
+extern void FLDMMDL_SetDrawOffsetOutside(struct Mmdl *mmdl, struct MmdlVec *offset);
+struct FieldMap;
+struct FieldEffectCont;
+extern struct FieldEffectCont *FIELDMAP_GetEffect(FieldMap *fieldMap);
 extern u32 FLDEFF_NAMIPOKE_Start(u32 fieldEffect, u32 dir, VecFx32 *pos, Mmdl *mmdl, int flag);
-extern void FLDEFF_BUBBLE_Start(Mmdl *mmdl, u32 fieldEffect);
-extern void FLDEFF_NAMIPOKE_SetWakeEnabled(u32 effect, int enabled);
+struct FieldEffectSys;
+extern void FLDEFF_BUBBLE_Start(struct Mmdl *mmdl, struct FieldEffectSys *fieldEffect);
+extern void FLDEFF_NAMIPOKE_SetWakeEnabled(struct FieldEffectObj *effect, s32 wakeEnabled);
 extern void FLDMMDL_MOVE_AddDirGrid(int dir, s16 *gridX, s16 *gridZ, s16 amount);
 extern void FLDMMDL_DRAW_SetState(Mmdl *mmdl, int state);
 extern u32 GAME_DATA_GetBgmInfo(struct GameData *gameData);
 extern u16 FIELDMAP_GetZoneId(FieldMap *fieldMap);
-extern void FIELD_SOUND_SYSTEM_PostZoneBgmChangeShortFade(u32 bgmId, struct GameData *gameData, u32 zoneId);
+struct FieldSoundSystem;
+extern void FIELD_SOUND_SYSTEM_PostZoneBgmChangeShortFade(struct FieldSoundSystem *fieldSound, struct GameData *gameData, u32 zoneId);
 
 extern u16 FIELD_PLAYER_GetFormObjCode(int sex, int formSlot);
 extern int FIELD_PLAYER_GetObjCodeOfFormCode(int sex, int formCode);
@@ -239,7 +249,7 @@ FieldPlayerCore *FIELD_PLAYER_CORE_Create(struct PlayerWork *playerWork, FieldMa
             header.objCode = FIELD_PLAYER_GetObjCodeOfFormCode(sex, FIELD_PLAYER_CORE_GetFormCode(core));
         else
             header.objCode = objCodeOverride;
-        core->mmdl = FLDMMDL_AddMmdl(mmdlSys, &header, 0);
+        core->mmdl = FLDMMDL_AddMmdl(mmdlSys, (struct MmdlHeader *)(&header), 0);
     } else {
         int gridY;
         int gridZ;
@@ -248,7 +258,7 @@ FieldPlayerCore *FIELD_PLAYER_CORE_Create(struct PlayerWork *playerWork, FieldMa
         FLDMMDL_SetGridNowX(mmdl, (pos->x >> 4) / 4096);
         FLDMMDL_SetGridNowY(mmdl, (s16)gridY);
         FLDMMDL_SetGridNowZ(mmdl, (s16)gridZ);
-        FLDMMDL_SetPos(mmdl, pos);
+        FLDMMDL_SetPos(mmdl, (struct MmdlVec *)pos);
         if (objCodeOverride == 0xFFFF)
             FIELD_PLAYER_CORE_ApplyFormCodeModel(core);
     }
@@ -310,7 +320,7 @@ void FIELD_PLAYER_CORE_UpdateStepPhase(FieldPlayerCore *core)
 
 void FIELD_PLAYER_CORE_GetPos(FieldPlayerCore *core, VecFx32 *out)
 {
-    FLDMMDL_GetPos(core->mmdl, out);
+    FLDMMDL_GetPos(core->mmdl, (struct MmdlVec *)out);
 }
 
 void FIELD_PLAYER_CORE_SetPos(FieldPlayerCore *core, VecFx32 *pos)
@@ -326,7 +336,7 @@ void FIELD_PLAYER_CORE_SetPos(FieldPlayerCore *core, VecFx32 *pos)
     FLDMMDL_SetGridNowX(mmdl, (short)gridX);
     FLDMMDL_SetGridNowY(mmdl, (short)gridY);
     FLDMMDL_SetGridNowZ(mmdl, (short)gridZ);
-    FLDMMDL_SetPos(mmdl, pos);
+    FLDMMDL_SetPos(mmdl, (struct MmdlVec *)pos);
 }
 
 u16 FIELD_PLAYER_CORE_GetDirDisp(FieldPlayerCore *core)
@@ -458,11 +468,11 @@ int FIELD_PLAYER_CORE_CheckAnimePaused(FieldPlayerCore *core)
     u32 bbActSys;
     u32 drawAnimeId;
 
-    bbActSys = FLDMMDL_BLACT_GetBbActSys(FLDMMDL_SysGetBlActCont(FLDMMDL_GetMmdlSys(core->mmdl)));
+    bbActSys = (u32)FLDMMDL_BLACT_GetBbActSys(FLDMMDL_SysGetBlActCont(FLDMMDL_GetMmdlSys(core->mmdl)));
     if (FLDMMDL_ACMD_CheckAnimePaused(core->mmdl) == 1 && FLDMMDL_BLACT_GetEntryHookFlag(core->mmdl) == 1)
         return 1;
     drawAnimeId = FLDMMDL_CallDrawGetProc(core->mmdl, 0);
-    if (drawAnimeId != 0xFFFF && BILLBOARD_ACT_GetEntryLastCommand(bbActSys, (u16)drawAnimeId, &lastCommand) != 0 && lastCommand == (0xFFFF >> 2))
+    if (drawAnimeId != 0xFFFF && (struct BbActSys *)BILLBOARD_ACT_GetEntryLastCommand((struct BbActSys *)bbActSys, (u16)drawAnimeId, &lastCommand) != 0 && lastCommand == (0xFFFF >> 2))
         return 1;
     return 0;
 }
@@ -734,10 +744,10 @@ int FIELD_PLAYER_CORE_FormStepNormal(FieldPlayerCore *core)
     FIELD_PLAYER_CORE_SetFormCode(core, 0);
     FIELD_PLAYER_CORE_PostZoneBgmChange(core);
     if ((rideEffect = FIELD_PLAYER_CORE_GetRideEffect(core)) != 0) {
-        FIELD_EFFECT_DeleteObject(rideEffect);
+        FIELD_EFFECT_DeleteObject((struct FieldEffectObj *)rideEffect);
         FIELD_PLAYER_CORE_SetRideEffect(core, 0);
     }
-    FLDMMDL_SetDrawOffsetOutside(mmdl, &zeroOffset);
+    FLDMMDL_SetDrawOffsetOutside(mmdl, (struct MmdlVec *)(&zeroOffset));
     core->formChangeDone = 1;
     return 0;
 }
@@ -780,9 +790,9 @@ int FIELD_PLAYER_CORE_FormStepSurf(FieldPlayerCore *core)
     }
     FIELD_PLAYER_CORE_PostZoneBgmChange(core);
     if (FIELD_PLAYER_CORE_GetRideEffect(core) == 0) {
-        fieldEffect = FIELDMAP_GetEffect(core->fieldMap);
+        fieldEffect = (u32)FIELDMAP_GetEffect(core->fieldMap);
         dir = FLDMMDL_GetDirDisp(mmdl);
-        FLDMMDL_GetPos(mmdl, &pos);
+        FLDMMDL_GetPos(mmdl, (struct MmdlVec *)(&pos));
         FIELD_PLAYER_CORE_SetRideEffect(core, FLDEFF_NAMIPOKE_Start(fieldEffect, dir, &pos, mmdl, 1));
     }
     core->formChangeDone = 1;
@@ -877,7 +887,7 @@ int FIELD_PLAYER_CORE_FormStepDive(FieldPlayerCore *core)
     u32 dir;
     u32 bubbleEffect;
 
-    bubbleEffect = FIELDMAP_GetEffect(core->fieldMap);
+    bubbleEffect = (u32)FIELDMAP_GetEffect(core->fieldMap);
     sex = FIELD_PLAYER_CORE_GetSex(core);
     mmdl = FIELD_PLAYER_CORE_GetMmdl(core);
     sex = FIELD_PLAYER_GetFormObjCode(sex, 3);
@@ -888,14 +898,14 @@ int FIELD_PLAYER_CORE_FormStepDive(FieldPlayerCore *core)
         FIELD_PLAYER_CORE_SetFormCode(core, FIELD_PLAYER_FORM_CODE_DIVE);
     }
     if (FIELD_PLAYER_CORE_GetRideEffect(core) == 0) {
-        fieldEffect = FIELDMAP_GetEffect(core->fieldMap);
+        fieldEffect = (u32)FIELDMAP_GetEffect(core->fieldMap);
         dir = FLDMMDL_GetDirDisp(mmdl);
-        FLDMMDL_GetPos(mmdl, &pos);
+        FLDMMDL_GetPos(mmdl, (struct MmdlVec *)(&pos));
         FIELD_PLAYER_CORE_SetRideEffect(core, FLDEFF_NAMIPOKE_Start(fieldEffect, dir, &pos, mmdl, 1));
     }
-    FLDEFF_BUBBLE_Start(core->mmdl, bubbleEffect);
+    FLDEFF_BUBBLE_Start(core->mmdl, (struct FieldEffectSys *)bubbleEffect);
     if (core->rideEffect != 0) {
-        FLDEFF_NAMIPOKE_SetWakeEnabled(core->rideEffect, 0);
+        FLDEFF_NAMIPOKE_SetWakeEnabled((struct FieldEffectObj *)core->rideEffect, 0);
     }
     core->formChangeDone = 1;
     return 0;
@@ -937,5 +947,5 @@ void FIELD_PLAYER_CORE_PostZoneBgmChange(FieldPlayerCore *core)
     struct GameData *gameData = GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(core->fieldMap));
     u32 bgmId = GAME_DATA_GetBgmInfo(gameData);
 
-    FIELD_SOUND_SYSTEM_PostZoneBgmChangeShortFade(bgmId, gameData, (u16)(int)FIELDMAP_GetZoneId(core->fieldMap));
+    FIELD_SOUND_SYSTEM_PostZoneBgmChangeShortFade((struct FieldSoundSystem *)bgmId, gameData, (u16)(int)FIELDMAP_GetZoneId(core->fieldMap));
 }

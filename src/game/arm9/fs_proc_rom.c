@@ -276,7 +276,7 @@ extern void FS_NotifyArchiveAsyncEnd(FSArchive *arc, FSResult ret);
 extern void CARDi_ReadRom(u32 dma, const void *src, void *dst, u32 len,
                           void (*callback)(void *), void *arg, int is_async);
 extern void CARD_LockRom(u16 lock_id);
-extern void CARD_UnlockRom(u16 lock_id);
+extern void CARD_UnlockRom(u32 id);
 extern CARDRomHeader *CARD_GetOwnRomHeader(void);
 extern void CARD_Init(void);
 extern s32 OS_GetLockID(void);
@@ -292,7 +292,7 @@ extern u32 OS_DisableInterrupts(void);
 extern u32 OS_RestoreInterrupts(u32 state);
 extern BOOL FS_SuspendArchive(FSArchive *p_arc);
 extern BOOL FS_ResumeArchive(FSArchive *arc);
-extern void FS_LoadArchiveTables(void *arc, void *mem, void *size);
+extern u32 FS_LoadArchiveTables(struct FSArchive *p_arc, void *p_mem, u32 max_size);
 extern BOOL FS_OpenFileDirect(FSFile *file, FSArchive *arc, u32 image_top, u32 image_bottom, u32 id);
 int FSi_IsUnreadableRomOffset(FSArchive *arc, u32 offset);
 FSResult FSi_RomArchiveProc(FSFile *file, FSCommandType cmd);
@@ -486,7 +486,7 @@ u32 FS_SetDefaultDMA(u32 dma_no)
 
 void FS_TryLoadTable(void *p_mem, void *size)
 {
-    FS_LoadArchiveTables(&fsi_arc_rom, p_mem, size);
+    FS_LoadArchiveTables(&fsi_arc_rom, p_mem, (u32)size);
 }
 
 

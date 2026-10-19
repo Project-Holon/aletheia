@@ -21,7 +21,7 @@
 #include "btl_setup_types.h"
 #include "game_data_shared_types.h"
 
-extern struct Config *SYSTEM_DATA_GetConfig(struct SaveControl *save);
+extern struct Config *SYSTEM_DATA_GetConfig(void *save);
 
 extern unsigned int CONFIG_GetTextSpeed(struct Config *config);
 

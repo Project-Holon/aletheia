@@ -103,12 +103,14 @@ typedef struct BgTemplateData { u32 words[8]; } BgTemplateData;
 typedef unsigned char  u8;
 
 #include "zukan_search_types.h"
+extern void GFL_NET_RefreshWmIconAtTopRight(u32 restartParamA, u32 restartParamB);
 
 extern void BG_SYS_ClearGraphicsMemory(u32 keep);
 extern void BG_SYS_SetVramBanks(const struct DispVram *c);
 extern void BG_SYS_Update(void);
 extern void *GFL_USE_AddMainTask(unsigned,unsigned,unsigned);
-extern void TCB_DeleteTask(struct Node *);
+struct TcbTask;
+extern void TCB_DeleteTask(struct TcbTask *task);
 extern void BG_SYS_Create(u16);
 extern void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
 extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
@@ -124,9 +126,11 @@ extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *,u32,u32,u32,u32,u16);
 extern u32 ARC_UTIL_UploadBgCharFromHandle(void *arc, u32 memberIdx, u32 bgId, u32 tileOffset, u32 size, u32 heapID, u16 allocFlags);
 extern void ARC_UTIL_UploadBgPaletteFromHandle(void *,u32,u32,u32,u32,u32,u16);
 extern void ARC_TOOL_DeleteHandle(void *);
-extern void *GAME_DATA_GetSaveControl(struct Big *);
+struct GameData;
+struct SaveControl;
+extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gd);
 extern u32 SAVE_CONTROL_LoadExtraSave(struct Ctrl *,u32,u32);
-extern void *SAVE_CONTROL_GetExtraSaveRecord(struct Sub020073D8Ctrl *,u32,u32);
+extern void *SAVE_CONTROL_GetExtraSaveRecord(struct SaveControl *saveControl, unsigned int slot, unsigned int recordId);
 extern u32 ZUKAN_SKIN_SAVE_GetValidFlag(const void *obj);
 extern void *ZUKAN_SKIN_SAVE_GetTiles(void *),*ZUKAN_SKIN_SAVE_GetPalette(void *);
 extern void BG_SYS_LoadTileData(int index, const void *src, u32 size, u32 tile);
@@ -134,7 +138,7 @@ extern void BG_SYS_LoadPltt(u32,void *,u32,u32);
 extern void DC_FlushRange(void *,unsigned long);
 extern void GX_BeginLoadBGExtPltt(void),GX_LoadBGExtPltt(const void *,u32,u32),GX_EndLoadBGExtPltt(void);
 extern void GXS_BeginLoadBGExtPltt(void),GXS_LoadBGExtPltt(const void *,u32,u32),GXS_EndLoadBGExtPltt(void);
-extern void SAVE_CONTROL_DeleteExtraSave(struct Sub020072A4Ctrl *,u32);
+extern void SAVE_CONTROL_DeleteExtraSave(struct SaveControl *saveControl, unsigned int slot);
 extern void BG_SYS_SetLcdSwap(u32 swap);
 extern void ZUKAN_StartWipeIn(unsigned);
 extern void ZUKAN_SEARCH_SCREEN_UnregisterVBlank(struct ZukanSearchWork *),ZUKAN_SEARCH_SCREEN_DeleteBg(void),BG_SYS_SetMainVisiblePlanes(unsigned),BG_SYS_SetSubVisiblePlanes(unsigned);
@@ -190,7 +194,7 @@ void ZUKAN_SEARCH_SCREEN_RegisterVBlank(struct ZukanSearchWork *p){p->vblankNode
 
 
 
-void ZUKAN_SEARCH_SCREEN_UnregisterVBlank(struct ZukanSearchWork *p){TCB_DeleteTask((struct Node *)p->vblankNode);}
+void ZUKAN_SEARCH_SCREEN_UnregisterVBlank(struct ZukanSearchWork *p){TCB_DeleteTask((struct TcbTask *)p->vblankNode);}
 
 
 

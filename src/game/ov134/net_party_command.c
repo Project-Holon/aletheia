@@ -144,38 +144,47 @@ typedef struct NetPartyWork {
     u16 kind;               /* 0xFC: PROCSYS work kind (4) */
     u8 pad_FE[2];
 } NetPartyWork;
+struct GFLNetHandle;
 
-extern struct NetHandle *GFL_NET_HANDLE_GetCurrentHandle(void);
-extern u32 GFL_NET_GetHandleNetID(struct NetHandle *handle);
-extern void *PROCSYS_AllocProcWork(void *sys, u32 size, u32 heap);
+extern struct GFLNetHandle *GFL_NET_HANDLE_GetCurrentHandle(void);
+extern u32 GFL_NET_GetHandleNetID(struct GFLNetHandle *handle);
+struct Proc;
+extern void *PROCSYS_AllocProcWork(struct Proc *proc, unsigned int size, unsigned int heapId);
 extern void MI_CpuFill8(void *dst, int value, u32 size);
 extern void *PROCSYS_Create(int kind);
-extern void GFL_NET_COMMAND_AddCommandTable(u32 commandBase, const void *table, u32 count, void *work);
+extern void GFL_NET_COMMAND_AddCommandTable(unsigned int groupKey, unsigned int commandList, unsigned int listNum, unsigned int userData);
 extern void PLIST_COMM_End(void *work);
 extern void GF_OVERLAY_Unload(int overlayId);
 extern void PROCSYS_Delete(void *handle);
-extern void PROCSYS_FreeProcWork(void *handle);
-extern void PLIST_COMM_Update(void *work);
+extern void PROCSYS_FreeProcWork(struct Proc *proc);
+struct PartyListCommWork;
+extern void PLIST_COMM_Update(struct PartyListCommWork *work);
 extern int GF_OVERLAY_Load(int overlayId);
 extern void PROCSYS_Push(void *handle, int a, const void *procData, void *work);
 extern u32 PROCSYS_Main(void *handle);
-extern void *POKEPARTY_GetMember(void *party, u32 index);
-extern u32 POKEPARTY_Add(struct Party *party, const struct PartyMon *mon);
+struct PokemonParam;
+extern struct PokemonParam *POKEPARTY_GetMember(struct Party *party, unsigned int pos);
+extern u32 POKEPARTY_Add(struct Party *party, struct PokemonParam *member);
 extern int POKE_REGULATION_GetDataSize(void);
-extern u32 GFL_NET_SendData(struct NetHandle *handle, u32 sendId, u32 command, u32 size, const void *data, u32 c, u32 d, u32 e);
-extern void GFL_NET_HANDLE_SetTimingSyncRange(struct NetHandle *handle, unsigned int syncNo, unsigned int syncGroup);
-extern unsigned int GFL_NET_HANDLE_IsTimingSyncRange(struct NetHandle *handle, unsigned int syncNo, unsigned int syncGroup);
+extern u32 GFL_NET_SendData(struct GFLNetHandle *handle, unsigned int sendId, unsigned int command, unsigned int size, void *data, unsigned int sendFlags, unsigned int skipIfQueued, unsigned int queueMode);
+extern void GFL_NET_HANDLE_SetTimingSyncRange(struct GFLNetHandle *handle, unsigned int timingLow, unsigned int timingHigh);
+extern unsigned int GFL_NET_HANDLE_IsTimingSyncRange(struct GFLNetHandle *handle, unsigned int timingLow, unsigned int timingHigh);
 extern u32 GFL_NET_ERR_GetErrorLevel(void);
 extern int GFL_NET_GetRunState(void);
 extern int DWC_RAPCOMMON_HandleNetError(int a, int b);
-extern void *GAME_DATA_GetSaveControl(void *sys);
-extern void POKE_REGULATION_AdjustPartyLevels(void *regulation, void *party);
+struct GameData;
+struct SaveControl;
+extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gd);
+struct Regulation;
+extern void POKE_REGULATION_AdjustPartyLevels(struct Regulation *reg, struct Party *party);
 extern void *SYSTEM_DATA_GetConfig(void *sys);
-extern void PLIST_COMM_Start(void *work);
-extern u8 *GAME_DATA_GetMyStatus(void *sys);
+extern void PLIST_COMM_Start(struct PartyListCommWork *work);
+struct MyStatus;
+extern struct MyStatus *GAME_DATA_GetMyStatus(struct GameData *gd);
 extern void *ZUKAN_SAVE_GetFromGameData(void *sys);
-extern u32 POKEPARTY_GetCount(void *party);
-extern u32 ZUKAN_SAVE_IsNationalDexEnabled(void *save);
+extern u32 POKEPARTY_GetCount(struct Party *party);
+struct ZukanSave;
+extern u32 ZUKAN_SAVE_IsNationalDexEnabled(struct ZukanSave *pZukan);
 int NET_PARTY_COMMAND_GetEntry(int index, NetPartyEntryTable *table);
 void NET_PARTY_COMMAND_IsHandleFor(u32 value, u32 a, u32 b, u32 c, void *expected);
 int NET_PARTY_COMMAND_Init(void *sys, int unused, const NetPartyArgs *args);
@@ -204,7 +213,7 @@ int NET_PARTY_COMMAND_GetEntry(int index, NetPartyEntryTable *table)
 void NET_PARTY_COMMAND_IsHandleFor(u32 value, u32 a, u32 b, u32 c, void *expected)
 {
     if (expected == GFL_NET_HANDLE_GetCurrentHandle()) {
-        if (value != GFL_NET_GetHandleNetID((struct NetHandle *)GFL_NET_HANDLE_GetCurrentHandle())) return;
+        if (value != GFL_NET_GetHandleNetID((struct GFLNetHandle *)GFL_NET_HANDLE_GetCurrentHandle())) return;
     }
 }
 
@@ -218,7 +227,7 @@ int NET_PARTY_COMMAND_Init(void *sys, int unused, const NetPartyArgs *args)
     *(NetPartyArgs *)(work + 0xd0) = *args;
     ((NetPartyWork *)work)->kind = 4;
     ((NetPartyWork *)work)->procHandle = PROCSYS_Create(((NetPartyWork *)work)->kind);
-    GFL_NET_COMMAND_AddCommandTable(0x2f00, (const void *)sNetPartyCommandTable, 1, work);
+    GFL_NET_COMMAND_AddCommandTable((unsigned int)0x2f00, (unsigned int)sNetPartyCommandTable, (unsigned int)1, (unsigned int)work);
     NET_PARTY_COMMAND_BuildPartyList((NetPartyArgs *)args, work, (NetPartyParam *)(work + 4));
     NET_PARTY_COMMAND_BuildStatusParam((NetPartyArgs *)args, work, (PStatusParam *)(work + 0x9c));
     work[0xc4] = 0;
@@ -257,7 +266,7 @@ int NET_PARTY_COMMAND_Main(void *unused0, void *unused1, u8 *listProc, u8 *work)
             ((NetPartyWork *)work)->elapsedAccum -= 60;
         }
     }
-    PLIST_COMM_Update(work + 4);
+    PLIST_COMM_Update((struct PartyListCommWork *)(work + 4));
     switch (((NetPartyWork *)work)->state) {
     case 0:
         GF_OVERLAY_Load((int)ov91_id);
@@ -290,13 +299,13 @@ int NET_PARTY_COMMAND_Main(void *unused0, void *unused1, u8 *listProc, u8 *work)
     case 7:
         handle = GFL_NET_HANDLE_GetCurrentHandle();
         dataSize = POKE_REGULATION_GetDataSize();
-        if (GFL_NET_SendData((struct NetHandle *)handle, 255, 0x2f00, dataSize, (const void *)*(u32 *)&((NetPartyListProc *)listProc)->destParty, 0, 0, 1) != 0) {
-            GFL_NET_HANDLE_SetTimingSyncRange((struct NetHandle *)GFL_NET_HANDLE_GetCurrentHandle(), 20, 47);
+        if (GFL_NET_SendData((struct GFLNetHandle *)handle, 255, 0x2f00, dataSize, (void *)*(u32 *)&((NetPartyListProc *)listProc)->destParty, 0, 0, 1) != 0) {
+            GFL_NET_HANDLE_SetTimingSyncRange((struct GFLNetHandle *)GFL_NET_HANDLE_GetCurrentHandle(), 20, 47);
             ((NetPartyWork *)work)->state = 8;
         }
         break;
     case 8:
-        if (GFL_NET_HANDLE_IsTimingSyncRange((struct NetHandle *)GFL_NET_HANDLE_GetCurrentHandle(), 20, 47) != 0) return 1;
+        if (GFL_NET_HANDLE_IsTimingSyncRange((struct GFLNetHandle *)GFL_NET_HANDLE_GetCurrentHandle(), 20, 47) != 0) return 1;
         break;
     case 3:
         GF_OVERLAY_Load((int)ov131_id);
@@ -333,7 +342,7 @@ void NET_PARTY_COMMAND_BuildPartyList(NetPartyArgs *args, void *unused, NetParty
     status = args->status;
     save = GAME_DATA_GetSaveControl(args->save);
     param->party = args->party;
-    POKE_REGULATION_AdjustPartyLevels(status, param->party);
+    POKE_REGULATION_AdjustPartyLevels((struct Regulation *)status, param->party);
     param->selectedCount = 0;
     param->listArgB_out = 0;
     param->options = SYSTEM_DATA_GetConfig(save);
@@ -385,7 +394,7 @@ void NET_PARTY_COMMAND_BuildPartyList(NetPartyArgs *args, void *unused, NetParty
     }
     param->receivedCount = 0;
     GF_OVERLAY_Load((int)ov90_id);
-    PLIST_COMM_Start(param);
+    PLIST_COMM_Start((struct PartyListCommWork *)param);
 }
 
 void NET_PARTY_COMMAND_BuildStatusParam(NetPartyArgs *args, void *unused, PStatusParam *statusParam)

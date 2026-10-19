@@ -26,10 +26,11 @@ typedef struct {
 	signed char flag_block;
 	signed char flag_mode;
 } Socket;
+struct SOCLSocket;
 
-extern int SOCL_SocketIsInvalid(Socket *socket);
+extern int SOCL_SocketIsInvalid(struct SOCLSocket *socket);
 extern unsigned long OS_DisableInterrupts(void);
-extern long SOCLi_GetWriteBufferFreeSize(Socket *socket);
+extern long SOCLi_GetWriteBufferFreeSize(struct SOCLSocket *socket);
 extern unsigned long OS_RestoreInterrupts(unsigned long state);
 int SOCL_GetStatus(int s);
 int SOCLi_GetReadBufferOccpiedSize(char *p);
@@ -59,7 +60,7 @@ int SOCL_GetStatus(int s)
 
 	result = 0;
 	socket = (Socket *)s;
-	if (SOCL_SocketIsInvalid(socket)) {
+	if (SOCL_SocketIsInvalid((struct SOCLSocket *)socket)) {
 		result |= 0x80;
 	} else {
 		if (socket->state & 0x40) {
@@ -70,7 +71,7 @@ int SOCL_GetStatus(int s)
 			if (SOCLi_GetReadBufferOccpiedSize((char *)socket) > 0) {
 				result |= 1;
 			}
-			if (SOCLi_GetWriteBufferFreeSize(socket) > 0) {
+			if (SOCLi_GetWriteBufferFreeSize((struct SOCLSocket *)socket) > 0) {
 				result |= 8;
 			}
 			OS_RestoreInterrupts(enable);

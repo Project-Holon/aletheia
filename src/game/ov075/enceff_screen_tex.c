@@ -53,30 +53,34 @@
  * lever: enum Bank preserves the cumulative OR tests; u32 folds the final test.
  */
 typedef enum { BANK_NONE, BANK_A = 1, BANK_B = 2, BANK_C = 4 } Bank;
+struct GameSystem;
+struct GameEvent;
 
-extern struct GameEvent *GAME_EVENT_Create(void *owner, void *arg, GameEventMainFunc main, u32 workSize);
+extern struct GameEvent *GAME_EVENT_Create(struct GameSystem *gameSystem, struct GameEvent *parent, GameEventMainFunc main, u32 workSize);
 extern void *GAME_EVENT_GetWork(struct GameEvent *event);
 extern void MI_CpuFill8(void *dst, int value, u32 size);
 extern void G3i_PerspectiveW_(int a, int b, int c, int d, int e, int f, int g, int h);
 extern void G3X_Reset(void);
 extern void G3i_LookAt_(VecFx32 *eye, VecFx32 *up, VecFx32 *target, int d, int e);
 extern struct GameSystem *GAME_EVENT_GetGameSystem(struct GameEvent *event);
-extern struct FieldMap *GAMESYSTEM_GetFieldMap(const struct GameSystem *gameSystem);
+extern void *GAMESYSTEM_GetFieldMap(const struct GameSystem *gameSystem);
 extern void BG_SYS_SetPriority(int idx, u16 val);
 extern int FIELDMAP_GetDrawMode(struct FieldMap *fieldMap);
 extern void FIELDMAP_SetDrawMode(struct FieldMap *fieldMap, int drawMode);
 extern u16 GX_GetBankForTex(void);
 extern void GX_DisableBankForLCDC(void);
-extern void GX_SetBankForTex(u32 bank);
+extern void GX_SetBankForTex(s32 tex);
 extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
 extern struct EncEff *FIELDMAP_GetEncEff(struct FieldMap *fieldMap);
-extern void *ENCEFF_GetWork(struct EncEff *eff);
+struct EncEffWork;
+extern void *ENCEFF_GetWork(struct EncEffWork *eff);
 extern void GAME_EVENT_CallEvent(struct GameEvent *parent, struct GameEvent *child);
 extern void FADE_Start(u32 flags, s32 start, s32 end, s32 step);
 extern int FADE_IsActive(void);
 extern void GX_SetBankForLCDC(int);
 extern void *GFL_USE_AddMainTask(u32, u32, u32);
-extern void TCB_DeleteTask(void *task);
+struct TcbTask;
+extern void TCB_DeleteTask(struct TcbTask *task);
 struct GameEvent *ENCEFF_StartScreenTexEffectFlash(struct GameSystem *gameSystem, VecFx32 *cameraPos, EncEffScreenTexStartFunc start, EncEffScreenTexDrawFunc draw);
 struct GameEvent *ENCEFF_StartScreenTexEffect(struct GameSystem *gameSystem, VecFx32 *cameraPos, EncEffScreenTexStartFunc start, EncEffScreenTexDrawFunc draw);
 void ENCEFF_DrawScreenTexEffect(EncEffScreenTexWork *work);
@@ -216,7 +220,7 @@ int ENCEFF_ScreenTexFlashEventMain(struct GameEvent *event, int *state, EncEffSc
         BG_SYS_SetPlaneVisible(0, 1);
         FIELDMAP_SetDrawMode(fieldMap, 2);
         child = work->start(gameSystem);
-        work->effectWork = ENCEFF_GetWork(FIELDMAP_GetEncEff(fieldMap));
+        work->effectWork = ENCEFF_GetWork((struct EncEffWork *)(FIELDMAP_GetEncEff(fieldMap)));
         GAME_EVENT_CallEvent(event, child);
         *state = *state + 1;
         break;
@@ -302,7 +306,7 @@ int ENCEFF_ScreenTexEventMain(struct GameEvent *event, int *state, EncEffScreenT
         BG_SYS_SetPlaneVisible(0, 1);
         FIELDMAP_SetDrawMode(fieldMap, 2);
         child = work->start(gameSystem);
-        work->effectWork = ENCEFF_GetWork(FIELDMAP_GetEncEff(fieldMap));
+        work->effectWork = ENCEFF_GetWork((struct EncEffWork *)(FIELDMAP_GetEncEff(fieldMap)));
         GAME_EVENT_CallEvent(event, child);
         *state = *state + 1;
         break;

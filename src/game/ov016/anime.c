@@ -48,8 +48,9 @@ typedef struct {
 
 extern void *DWCi_HEAPlAllocEx(unsigned long size, int alignment);
 extern void *DWCi_CEINlSetExObj(int a, int b);
-extern void *DWCi_TSKlForm(int a, void (*fn)(void), int b, int c);
-extern void DWCi_TSKlDeleteByIndex(unsigned int idx, void *r4);
+struct TCB;
+extern struct TCB *DWCi_TSKlForm(int kind, void (*fn)(void), void *work, u8 prio);
+extern void DWCi_TSKlDeleteByIndex(u32 taskIdx, struct TCB *task);
 extern void DWCi_OBJlDelete(unsigned int *obj);
 extern void DWCi_HEAPlFree_(void **mem);
 extern int FX_ModS32(int a, int b);

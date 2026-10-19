@@ -1110,8 +1110,9 @@ int BOX2_MAIN_IsWrappedDistance(unsigned char *p, unsigned a, unsigned b);
 void BOX2_MAIN_ActivateKeyCursor(BoxTask *p);
 
 unsigned BOX2_MAIN_GetPartyValueAt(void ***p, unsigned short a, unsigned short box, unsigned id, unsigned v);
+struct BoxTask;
 
-void BOX2_MAIN_SetBoxValueAt(int a, int b, int c, int d, int e);
+void BOX2_MAIN_SetBoxValueAt(struct BoxTask *a, int b, int c, int d, int e);
 
 int BOX2_MAIN_GetMonAt(void ***p, int a, unsigned b);
 
@@ -1680,7 +1681,7 @@ unsigned BOX2_MAIN_GetPartyValueAt(void ***task, unsigned short a, unsigned shor
 /*
  * Open the range, then feed the handle to the second call.
  */
-void BOX2_MAIN_SetBoxValueAt(int a, int b, int c, int d, int e)
+void BOX2_MAIN_SetBoxValueAt(struct BoxTask *a, int b, int c, int d, int e)
 {
     int r = BOX2_MAIN_GetMonAt((void ***)a, c, b);
     if (r)

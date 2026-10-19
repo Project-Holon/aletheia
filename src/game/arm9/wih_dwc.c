@@ -101,7 +101,7 @@ struct WihSsidInfo {
 };
 
 /* the connection state block GFL_NET_GetInitParam returns (fields used here) */
-struct GFLNetInitializeStruct {
+struct GFLNetSession {
     u8 unused00[0x62];
     u8 slotCount;
     u8 unused63[4];
@@ -117,8 +117,9 @@ extern void GFL_NET_FreeAligned(void *p);
 extern void GF_OVERLAY_Unload(int handle);
 extern void MI_CpuCopy8(const void *src, void *dest, u32 size);
 extern u32 GF_STANDARD_GetStringLength(const u8 *s);
-extern s32 GF_STANDARD_CompareBytes(const void *a, const void *b, u32 n);
-extern void *GFL_NET_GetInitParam(void);
+extern s32 GF_STANDARD_CompareBytes(u8 *a, u8 *b, u32 n);
+struct GFLNetSession;
+extern struct GFLNetSession *GFL_NET_GetInitParam(void);
 extern int  GFL_NET_GetNegotiationNum(void);
 extern u32 GFL_NET_GetScanResult(u32 slot);
 extern u8   NET_WHPIPE_GetEntryKind(u8 slot);
@@ -127,7 +128,9 @@ extern void NCFG_ReadConfig(u8 *filterState, u32 value);
 extern int  GFL_NET_GetRunState(void);
 extern void OS_GetMacAddress(u8 *mac);
 extern u8 NET_WHPIPE_GetEntryBeaconKind(int slot);
-extern int COMM_PLAYER_SUPPORT_FindPeerRecord(char *record, int key, char *mac);
+struct PlayerLookup;
+struct PeerBook;
+extern int COMM_PLAYER_SUPPORT_FindPeerRecord(struct PeerBook *book, struct PlayerLookup *lookup, u8 *mac);
 extern int UI_Update(int a);
 extern int GFL_USE_PollPowerExit(void);
 extern int GFL_USE_UpdateSound(int a);
@@ -466,7 +469,7 @@ int WIH_DWC_IsSsidInFilterList(struct WihBssDesc *beacon)
 int WIH_DWC_IsOpenTaggedBeacon(const struct WihBssDesc *beacon)
 {
     if (beacon->ssidLength == 8) {
-        if (GF_STANDARD_CompareBytes(sWihBeaconSsidTag, beacon->ssid, 8) != 0) {
+        if (GF_STANDARD_CompareBytes((u8 *)sWihBeaconSsidTag, (u8 *)beacon->ssid, 8) != 0) {
             if ((beacon->capaInfo & 0x10) == 0) {
                 return 1;
             }
@@ -543,7 +546,7 @@ u32 WIH_DWC_IsPrivacyBeacon(const struct WihBssDesc *beacon)
 u32 WIH_DWC_PollStatus(void *searchKey)
 {
     u32 flags = 0;
-    struct GFLNetInitializeStruct *netState = GFL_NET_GetInitParam();
+    struct GFLNetSession *netState = GFL_NET_GetInitParam();
     int slot;
     int beaconIndex;
     struct WihBssDesc *beacon;
@@ -721,7 +724,7 @@ int WIH_DWC_FindSlotByKey(void *searchKey)
         GFL_NET_GetInitParam();
         OS_GetMacAddress(mac);
         for (slot = 0; slot < 0x10; slot++) {
-            if (NET_WHPIPE_GetEntryBeaconKind(slot) == 0x20 && COMM_PLAYER_SUPPORT_FindPeerRecord((void *)GFL_NET_GetScanResult(slot), (int)searchKey, (char *)mac) != 0) {
+            if (NET_WHPIPE_GetEntryBeaconKind(slot) == 0x20 && (struct PlayerLookup *)COMM_PLAYER_SUPPORT_FindPeerRecord((void *)GFL_NET_GetScanResult(slot), (struct PlayerLookup *)searchKey, (u8 *)mac) != 0) {
                 return slot;
             }
         }

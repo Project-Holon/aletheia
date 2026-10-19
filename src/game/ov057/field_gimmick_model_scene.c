@@ -41,14 +41,19 @@
 #include "field_gimmick_model_scene_types.h"
 
 extern u16 FIELDMAP_GetHeapId(struct FieldMap *fieldMap);
-extern void *ARC_TOOL_CreateHandle(u32 archiveId, u32 heapId);
-extern G3dResource *G3D_SYSTEM_CreateResourceArcHandle(void *archiveHandle, u32 fileId);
+extern void *ARC_TOOL_CreateHandle(u32 archiveID, u16 heapID);
+struct ArcHandle;
+struct G3dResource;
+extern G3dResource *G3D_SYSTEM_CreateResourceArcHandle(struct ArcHandle *arc, u32 dataId);
 extern u32 G3D_SYSTEM_CheckResourceType(G3dResource *resource, u32 kind);
 extern int G3D_SYSTEM_TransVramTexture(G3dResource *resource);
 extern G3dRender *G3D_SYSTEM_CreateRender(G3dResource *model, u32 modelIndex, G3dResource *texture);
-extern G3dAnime *G3D_SYSTEM_CreateAnime(G3dRender *render, G3dResource *animeResource, int unused);
+struct G3dRender;
+struct G3dAnime;
+extern G3dAnime *G3D_SYSTEM_CreateAnime(struct G3dRender *render, struct G3dResource *anmRes, u32 anmIdx);
 extern G3dObject *G3D_SYSTEM_CreateObject(G3dRender *render, G3dAnime **animeTable, int animeCount);
-extern u32 G3D_SYSTEM_EnableObjectAnime(G3dObject *object, u32 animeIndex);
+struct G3dObject;
+extern s32 G3D_SYSTEM_EnableObjectAnime(G3dObject *object, u32 animeIndex);
 extern void G3D_SYSTEM_SetSwapBuffersMode(u32 sortMode, u32 bufferMode);
 extern void ARC_TOOL_DeleteHandle(void *archiveHandle);
 extern void G3D_SYSTEM_DeleteObject(G3dObject *object);

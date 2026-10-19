@@ -19,6 +19,7 @@
  *   MI_CpuCopy8  0x02082D44  arm  arm9
  *   DC_InvalidateRange  0x020862B8  arm  arm9
  *   DC_StoreRange  0x020862D4  arm  arm9
+ *   DAT_027341cc                 0x027341CC  data
  */
 typedef unsigned int u32;
 typedef unsigned char u8;
@@ -36,13 +37,13 @@ typedef struct TwlMsg {
     u32 buf;
 } TwlMsg;
 
-extern u32 NWMi_CheckState(u32, u32);
-extern TwlWork *NWMi_GetSystemWork(void);
+extern u32 NWMi_CheckState(unsigned int n, ...);
+extern unsigned int NWMi_GetSystemWork(void);
 extern void DC_InvalidateRange(u8 *, u32);
 extern void DC_StoreRange(const void *, u32);
 extern void NWMi_SetCallbackTable(u32, u32);
 extern void MI_CpuCopy8(const void *, void *, u32);
-extern u32 NWMi_SendCommandDirect(void *, u32);
+extern u32 NWMi_SendCommandDirect(unsigned int command, unsigned int length);
 extern u32 DAT_027341cc[];
 
 u32 NWM_Connect(u32 callback, u32 authMode, const u16 *bssDesc) {
@@ -56,7 +57,7 @@ u32 NWM_Connect(u32 callback, u32 authMode, const u16 *bssDesc) {
     if (r != 0 && r != 2) {
         return r;
     }
-    w = NWMi_GetSystemWork();
+    w = (struct TwlWork *)NWMi_GetSystemWork();
     if (w != 0) {
         DC_InvalidateRange(w->busy + 8, 1);
         busy = (w->busy[8] == 1);
@@ -87,7 +88,7 @@ u32 NWM_Connect(u32 callback, u32 authMode, const u16 *bssDesc) {
     MI_CpuCopy8(bssDesc, DAT_027341cc, bssDesc[0]);
     DC_StoreRange((void *)msg.buf, 0x200);
     DC_StoreRange(&msg, 8);
-    r = NWMi_SendCommandDirect(&msg, 8);
+    r = NWMi_SendCommandDirect((unsigned int)(&msg), 8);
     if (r == 0 || r == 2) {
         r = 2;
     }

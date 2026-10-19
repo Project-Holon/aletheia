@@ -193,19 +193,22 @@ typedef struct StepHandler {
     int (*update)(struct LocalTvtSys *);
 } StepHandler;
 
-extern void *ARC_TOOL_CreateHandle(unsigned int id, unsigned int heap);
+extern void *ARC_TOOL_CreateHandle(unsigned int archiveID, unsigned short heapID);
 
 extern void *GFL_USE_AddMainTask(unsigned,unsigned,unsigned);
+struct GameData;
 
-extern u8 GAME_DATA_GetSeason(const struct BigObj *p);
+extern u8 GAME_DATA_GetSeason(struct GameData *gd);
 
 extern u8 TIMEZONE_GetLight(int row, int col);
 
 extern void GF_STANDARD_GetCachedTime(struct RtcTime *),GFL_NET_RefreshWmIconAtTopRight(unsigned,unsigned);
+struct TcbTask;
 
-extern void TCB_DeleteTask(struct Node *n);
+extern void TCB_DeleteTask(struct TcbTask *task);
+struct Actor;
 
-extern void CLACT_DeleteActor(struct Obj *p);
+extern void CLACT_DeleteActor(struct Actor *actor);
 
 extern void CLACT_ReleasePalette(unsigned int i);
 
@@ -219,7 +222,7 @@ extern void ARC_TOOL_DeleteHandle(void *);
 
 extern unsigned int GFL_HEAP_Free(void *p);
 
-extern void WIPE_SYS_Start(void *,unsigned,unsigned,unsigned,unsigned,unsigned,unsigned);
+extern void WIPE_SYS_Start(void *divisionMode, unsigned int mainPattern, unsigned int subPattern, unsigned short color, unsigned int frames, unsigned int wait, unsigned int heapId);
 
 extern unsigned WIPE_SYS_EndCheck(void);
 
@@ -227,7 +230,7 @@ extern void CLACT_DrawSystem(void);
 
 extern void CLACT_VBlankSystem(void);
 
-extern int GFL_USE_GetRandomBelow(int);
+extern unsigned int GFL_USE_GetRandomBelow(unsigned int range);
 
 extern void BG_SYS_ChangeScrollImmediate(unsigned,unsigned,unsigned);
 
@@ -235,7 +238,7 @@ extern void BG_SYS_ClearMainPlanes(void),BG_SYS_ClearSubPlanes(void);
 
 extern void WIPE_SetBrightnessFadeOut(unsigned int a, unsigned int color);
 
-extern unsigned int WIPE_ResetWndMask(void *win);
+extern void WIPE_ResetWndMask(void *win);
 
 extern void BG_SYS_SetVramBanks(const struct DispVram *c);
 
@@ -244,8 +247,10 @@ extern void BG_SYS_Create(u16),BMP_WIN_Init(u16);
 extern void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
 
 extern void MIi_CpuClear32(int,int,unsigned int);
+struct DispVramCfg;
+struct SysInit;
 
-extern void CLACT_InitSystem(const struct Cfg *cfg, unsigned int arg, unsigned int heapId);
+extern void CLACT_InitSystem(struct SysInit *cfg, struct DispVramCfg *res_cfg, unsigned int heapId);
 
 extern void BG_SYS_SetMainPlaneVisible(unsigned int mask, unsigned int enable);
 
@@ -255,7 +260,7 @@ extern struct Bank *CLACT_CreateUnit(int count, u8 flag, unsigned int heapId);
 
 extern void CLACT_SetUnitDefaultRenderer(struct Bank *bank);
 
-extern void G2x_SetBlendAlpha_(void *,int,int,int,int);
+extern void G2x_SetBlendAlpha_(unsigned int *reg, unsigned int a, unsigned int b, unsigned int c, unsigned int d);
 
 extern void CLACT_ExitSystem(void),BG_SYS_FreeLayerBuf(unsigned),BMP_WIN_Exit(void),BG_SYS_Delete(void);
 
@@ -263,11 +268,12 @@ extern void BG_SYS_InitBgLayer(unsigned,const struct BgTemplate *,unsigned);
 
 extern void BG_SYS_SetPlaneVisible(unsigned,unsigned),BG_SYS_FreeSlot(unsigned),BG_SYS_PushTile(unsigned);
 
-extern void *ARC_UTIL_LoadHandleMember(void *narc, unsigned int fileID, unsigned int decompress, unsigned int heapID);
+extern void *ARC_UTIL_LoadHandleMember(void *narc, unsigned int fileID, unsigned int decompress, unsigned short heapID);
 
 extern void ARC_UTIL_UploadBgPaletteFromHandle(void *,unsigned int,unsigned int,unsigned int,unsigned int,unsigned int,u16);
+struct MyStatus;
 
-extern u8 *GAME_DATA_GetMyStatus(void *p);
+extern struct MyStatus *GAME_DATA_GetMyStatus(struct GameData *gd);
 
 extern int CLACT_RegisterPaletteCompressed(void *,unsigned int,unsigned int,unsigned int,u16);
 
@@ -275,7 +281,7 @@ extern int CLACT_RegisterCharacter(void *,unsigned int,unsigned int,unsigned int
 
 extern s32 CLACT_RegisterCellAnim(void *owner, unsigned int first, unsigned int second, unsigned int mode);
 
-extern u8 MYSTATUS_GetSex(const struct Sub0200852CObj *obj);
+extern u8 MYSTATUS_GetSex(struct MyStatus *mystatus);
 
 extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *,unsigned int,unsigned int,unsigned int,unsigned int,u16);
 
@@ -285,9 +291,9 @@ extern void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 
 extern struct Obj *CLACT_CreateActor(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
 
-extern void CLACT_SetActorDrawEnable(struct Obj *p, unsigned int v);
+extern void CLACT_SetActorDrawEnable(struct Actor *actor, unsigned int value);
 
-extern void CLACT_SetActorAutoAnim(struct Obj *p, unsigned int v);
+extern void CLACT_SetActorAutoAnim(struct Actor *actor, unsigned int enable);
 
 extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, unsigned int which);
 
@@ -306,76 +312,84 @@ extern void ARC_UTIL_UploadPaletteFromArchive(unsigned int archiveID, unsigned i
 extern void ARC_UTIL_UploadPaletteFromArchiveWhole(unsigned int a, unsigned int b, unsigned int c, unsigned int d, unsigned int e, u16 f);
 
 extern void GF_FONT_SetDefaultTextColor(void);
+struct TcblSystem;
 
-extern struct Tcbl *TCBL_Create(u16 heap, u16 tag, unsigned int count, unsigned int workSize);
+extern struct TcblSystem *TCBL_Create(u16 heap, u16 tag, unsigned int count, unsigned int workSize);
+struct PrintQueue;
 
-extern unsigned int PRINTSYS_QUE_Create(void *p);
+extern struct PrintQueue *PRINTSYS_QUE_Create(unsigned int heap);
+struct KeyCursor;
 
-extern unsigned int APP_KEYCURSOR_CreateDefault(int a, int b, int c, unsigned int d);
+extern struct KeyCursor *APP_KEYCURSOR_CreateDefault(unsigned int id, unsigned int isLive, unsigned int isFlip, unsigned short heapId);
 
 extern void GF_FONT_SetTextColor(unsigned int r, unsigned int g, unsigned int b);
 
-extern int APP_KEYCURSOR_Delete(int cursor);
+extern void APP_KEYCURSOR_Delete(struct KeyCursor *cursor);
 
-extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
+extern void PRINTSYS_QUE_Delete(struct PrintQueue *queue);
+struct TextPrinter;
 
-extern void PRINTSYS_PrintStreamDelete(struct Rec3 *p);
+extern void PRINTSYS_PrintStreamDelete(struct TextPrinter *printer);
+struct Strbuf;
 
-extern void STRBUF_Delete(struct U16Vec *vec);
+extern void STRBUF_Delete(struct Strbuf *strbuf);
 
 extern unsigned int WORDSET_Delete(struct WordSet *p);
 
-extern unsigned int MSGDATA_Delete(struct Rec *rec);
+extern unsigned int MSGDATA_Delete(struct MsgBank *bank);
+struct BmpWin;
 
-extern unsigned int BMP_WIN_Delete(struct Descriptor *d);
+extern unsigned int BMP_WIN_Delete(struct BmpWin *win);
 
-extern unsigned int GF_FONT_Delete(void *ptr);
+extern unsigned int GF_FONT_Delete(struct GfFont *font);
 
-extern void TCBL_Destroy(struct Tcbl *p);
+extern void TCBL_Destroy(struct TcblSystem *tcbl);
 
-extern void TCBL_Main(struct Tcbl *p);
+extern void TCBL_Main(struct TcblSystem *tcbl);
 
-extern void APP_KEYCURSOR_Update(struct Ctx *ctx, void *p, void *cell);
+extern void APP_KEYCURSOR_Update(struct KeyCursor *cursor, struct TextPrinter *printStream, void *win);
 
-extern unsigned PRINTSYS_PrintStreamGetState(void *);
+extern unsigned PRINTSYS_PrintStreamGetState(struct TextPrinter *printer);
+struct PrintStreamCtrl;
 
-extern s32 PRINTSYS_CTRL_Update(struct Blk *blk, void *h);
+extern s32 PRINTSYS_CTRL_Update(struct PrintStreamCtrl *ctrl, struct TextPrinter *stream);
 
-extern unsigned int PRINTSYS_QUE_Main(struct PrintSys *ps);
+extern unsigned int PRINTSYS_QUE_Main(struct PrintQueue *queue);
 
-extern void BMP_MENUWORK_DrawWindowBorder(void *desc, unsigned int kind);
+extern void BMP_MENUWORK_DrawWindowBorder(struct BmpWin *desc, unsigned int commitMode);
 
-extern void BMP_WIN_ClearScreen(struct Descriptor *d);
+extern void BMP_WIN_ClearScreen(struct BmpWin *win);
 
 extern void BG_SYS_MarkTileDirty(unsigned);
 
-extern void BMP_MENUWORK_DrawWindow(void *,int,int,int);
+extern void BMP_MENUWORK_DrawWindow(struct BmpWin *win, int commitMode, unsigned short tileBase, unsigned int palette);
+struct Bmp;
 
-extern void BMP_Clear(struct CharBuf *buf, u8 value);
+extern void BMP_Clear(struct Bmp *bmp, unsigned char value);
 
-extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
+extern void BMP_WIN_MakeScreen(struct BmpWin *win);
 
-extern void PRINTSYS_CTRL_Init(u8 *p, unsigned int v);
+extern void PRINTSYS_CTRL_Init(struct PrintStreamCtrl *ctrl, unsigned int inputType);
 
-extern void BMP_WIN_TransferChars(struct Descriptor *d);
+extern void BMP_WIN_TransferChars(struct BmpWin *win);
 
-extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
+extern u8 BMP_WIN_GetBgLayer(struct BmpWin *win);
 
-extern unsigned int BMP_WIN_Create(unsigned int layer, unsigned int a, unsigned int b, unsigned int tiles, u8 c, u8 d, u8 slot);
+extern struct BmpWin *BMP_WIN_Create(unsigned int bgLayer, unsigned int posX, unsigned int posY, unsigned char width, unsigned char height, unsigned char palette, unsigned char allocDir);
 
-extern void *BMP_WIN_GetBmp(struct Descriptor *);
+extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *win);
 
-extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
+extern void WORDSET_CopyTaggedText(struct WordSet *words, struct Strbuf *dst, struct Strbuf *src);
 
-extern void *MSGDATA_AllocString(struct MsgBank *bank, unsigned int index);
+extern struct Strbuf *MSGDATA_AllocString(struct MsgBank *bank, unsigned int index);
 
-extern struct U16Vec *STRBUF_Create(unsigned int capacity, unsigned int heapId);
+extern struct Strbuf *STRBUF_Create(unsigned int capacity, unsigned int heapId);
 
 extern signed char MSG_SPEED_GetWait(void);
 
 extern unsigned PRINTSYS_PrintStream(unsigned,unsigned,unsigned,unsigned,unsigned,unsigned,unsigned,unsigned,u16,u16);
 
-extern struct WordSet *WORDSET_CreateDefault(u32 heap);
+extern struct WordSet *WORDSET_CreateDefault(unsigned short heapId);
 
 extern void WORDSET_SetSlotMyStatus(struct WordSet *p, u32 i, void *a);
 
@@ -385,7 +399,7 @@ extern void *PROCSYS_AllocProcWork(struct Proc *obj, unsigned int size, unsigned
 
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
-extern void *GAME_DATA_Create(u16);
+extern struct GameData *GAME_DATA_Create(u16);
 
 extern unsigned int KEY_GetCont(void);
 
@@ -451,7 +465,7 @@ void LOCAL_TVT_CHARA_Update(u8 *p,u8 *q);
 
 void LOCAL_TVT_CHARA_SetActive(u8 *unused,u8 *q,int unused2);
 
-int LOCAL_TVT_CHARA_IsDone(int unused, char *p);
+int LOCAL_TVT_CHARA_IsDone(u8 *unused, char *p);
 
 void LOCAL_TVT_CHARA_ShowWindow(int a, int *p);
 
@@ -550,7 +564,7 @@ int LOCAL_TVT_SYS_Main(u8 *p)
         ((struct LocalTvtSys *)p)->charaCursor=0;
         ((struct LocalTvtSys *)p)->frameTimer=0;
     }
-    if(((struct LocalTvtSys *)p)->activeChara.ptr!=0 && LOCAL_TVT_CHARA_IsDone((int)p,((struct LocalTvtSys *)p)->activeChara.ptr)==1)
+    if(((struct LocalTvtSys *)p)->activeChara.ptr!=0 && LOCAL_TVT_CHARA_IsDone(p,((struct LocalTvtSys *)p)->activeChara.ptr)==1)
         ((struct LocalTvtSys *)p)->activeChara.ptr=0;
     if(((struct LocalTvtSys *)p)->activeChara.asInt==0) {
         state=((struct LocalTvtSys *)p)->charaCursor;
@@ -613,7 +627,7 @@ void LOCAL_TVT_SYS_SetupDisplay(u8 *p)
     LOCAL_TVT_SYS_SetupBgLayer((const struct BgTemplate *)d_021B73F0,7,0);
     MIi_CpuClear32(0,0x06000000,0x40000);
     c=gClActorInitParam;
-    CLACT_InitSystem((const struct Cfg *)(&c),(unsigned int)d_021B7450,((struct LocalTvtSys *)p)->heapId);
+    CLACT_InitSystem((struct SysInit *)(&c),(struct DispVramCfg *)d_021B7450,((struct LocalTvtSys *)p)->heapId);
     BG_SYS_SetMainPlaneVisible(16,1);
     BG_SYS_SetSubPlaneVisible(16,1);
     ((struct LocalTvtSys *)p)->unit.ptr=CLACT_CreateUnit(16,0,((struct LocalTvtSys *)p)->heapId);
@@ -691,8 +705,8 @@ void LOCAL_TVT_SYS_CreateTextResources(u8 *p)
     ((struct LocalTvtSys *)p)->window.value = 0;
     ((struct LocalTvtSys *)p)->textBuf.value = 0;
     ((struct LocalTvtSys *)p)->wordSet.value = 0;
-    ((struct LocalTvtSys *)p)->printQueue.value = PRINTSYS_QUE_Create((void *)(((struct LocalTvtSys *)p)->heapId));
-    ((struct LocalTvtSys *)p)->keyCursor.value = APP_KEYCURSOR_CreateDefault(0xf, 1, 1, ((struct LocalTvtSys *)p)->heapId);
+    ((struct LocalTvtSys *)p)->printQueue.value = (unsigned int)PRINTSYS_QUE_Create((unsigned int)(((struct LocalTvtSys *)p)->heapId));
+    ((struct LocalTvtSys *)p)->keyCursor.value = (unsigned int)APP_KEYCURSOR_CreateDefault((unsigned int)0xf, (unsigned int)1, (unsigned int)1, ((struct LocalTvtSys *)p)->heapId);
     GF_FONT_SetTextColor(1, 2, 0xf);
 }
 
@@ -701,7 +715,7 @@ void LOCAL_TVT_SYS_CreateTextResources(u8 *p)
  */
 void LOCAL_TVT_SYS_DeleteTextResources(u8 *p)
 {
-    APP_KEYCURSOR_Delete((int)(((struct LocalTvtSys *)p)->keyCursor.ptr));
+    APP_KEYCURSOR_Delete((((struct LocalTvtSys *)p)->keyCursor.ptr));
     PRINTSYS_QUE_Delete(((struct LocalTvtSys *)p)->printQueue.ptr);
     if(((struct LocalTvtSys *)p)->printStream.ptr) PRINTSYS_PrintStreamDelete(((struct LocalTvtSys *)p)->printStream.ptr);
     if(((struct LocalTvtSys *)p)->textBuf.ptr) STRBUF_Delete(((struct LocalTvtSys *)p)->textBuf.ptr);
@@ -721,7 +735,7 @@ void LOCAL_TVT_SYS_UpdateText(u8 *p)
         APP_KEYCURSOR_Update(((struct LocalTvtSys *)p)->keyCursor.ptr,((struct LocalTvtSys *)p)->printStream.ptr,((struct LocalTvtSys *)p)->window.ptr);
         if(PRINTSYS_PrintStreamGetState(((struct LocalTvtSys *)p)->printStream.ptr)!=0) LOCAL_TVT_CHARA_SetState(((struct LocalTvtSys *)p)->chara[((struct LocalTvtSys *)p)->charaIndex],0);
         else LOCAL_TVT_CHARA_SetState(((struct LocalTvtSys *)p)->chara[((struct LocalTvtSys *)p)->charaIndex],1);
-        if(PRINTSYS_CTRL_Update((struct Blk *)(((struct LocalTvtSys *)p)->printCtrl),((struct LocalTvtSys *)p)->printStream.ptr)==1) {
+        if(PRINTSYS_CTRL_Update((struct PrintStreamCtrl *)(((struct LocalTvtSys *)p)->printCtrl),((struct LocalTvtSys *)p)->printStream.ptr)==1) {
             PRINTSYS_PrintStreamDelete(((struct LocalTvtSys *)p)->printStream.ptr);
             ((struct LocalTvtSys *)p)->printStream.ptr=0;
             STRBUF_Delete(((struct LocalTvtSys *)p)->textBuf.ptr);
@@ -752,7 +766,7 @@ void LOCAL_TVT_SYS_CreateTextWindow(u8 *p,int mode)
  BMP_MENUWORK_DrawWindow(((struct LocalTvtSys *)p)->window.ptr,1,1,13);
  BMP_Clear(BMP_WIN_GetBmp(((struct LocalTvtSys *)p)->window.ptr),15);
  BMP_WIN_TransferChars(((struct LocalTvtSys *)p)->window.ptr);BMP_WIN_MakeScreen(((struct LocalTvtSys *)p)->window.ptr);
- BG_SYS_MarkTileDirty(0);PRINTSYS_CTRL_Init(((struct LocalTvtSys *)p)->printCtrl,6);
+ BG_SYS_MarkTileDirty(0);PRINTSYS_CTRL_Init((struct PrintStreamCtrl *)(((struct LocalTvtSys *)p)->printCtrl),6);
 }
 
 void LOCAL_TVT_SYS_DeleteTextWindow(u8 *p)

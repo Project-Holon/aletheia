@@ -57,20 +57,23 @@
 
 extern int  FS_SeekFile(struct FSFile *file, long offset, int origin);
 extern s32  FS_ReadFile(struct FSFile *file, void *buffer, s32 length);
-extern NNSFndHeapHandle NNS_FndCreateFrmHeap(void *start, u32 size, u32 optFlag);
-extern void NNS_FndDestroyFrmHeap(NNSFndHeapHandle heap);
-extern void *NNS_FndGetPrevListObject(NNSFndList *list, void *object);
-extern void NNS_FndRemoveListObject(volatile NNSFndList *list, void *object);
-extern void NNS_FndFreeToFrmHeap(NNSFndHeapHandle heap, int mode);
-extern void *NNS_FndAllocFromFrmHeapEx(NNSFndHeapHandle heap, u32 size, int alignment);
+extern void *NNS_FndCreateFrmHeap(void *start, u32 size, u32 optFlag);
+extern void NNS_FndDestroyFrmHeap(void *heap);
+struct DList;
+extern void *NNS_FndGetPrevListObject(struct DList *list, void *elem);
+extern void NNS_FndRemoveListObject(struct DList *list, void *elem);
+extern void NNS_FndFreeToFrmHeap(void *heap, int flags);
+extern unsigned int NNS_FndAllocFromFrmHeapEx(char *p, int size, int align);
 extern void NNS_FndAppendListObject(NNSFndList *list, void *object);
 extern int  NNS_FndRecordStateForFrmHeap(NNSFndHeapHandle heap, u32 tagName);
 extern int  NNS_FndFreeByStateToFrmHeap(NNSFndHeapHandle heap, u32 tagName);
-extern void NNS_FndInitList(NNSFndList *list, int offset);
+extern void NNS_FndInitList(s32 list, s32 offset);
 extern u32  SND_GetCurrentCommandTag(void);
-extern void SND_FlushCommand(u32 block);
+extern s32 SND_FlushCommand(u32 block);
 extern void SND_WaitForCommandProc(u32 tag);
-extern void SND_AssignWaveArc(u32 bank, u32 waveArcIndex, u32 waveArc);
+struct SNDWaveArc;
+struct SNDBankData;
+extern void SND_AssignWaveArc(struct SNDBankData *bank, s32 index, struct SNDWaveArc *waveArc);
 extern void DC_StoreRange(void *addr, u32 size);
 extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
 extern void MI_CpuFill8(void *dst, u8 value, u32 size);
@@ -78,7 +81,7 @@ extern u32  OS_DisableInterrupts(void);
 extern void OS_RestoreInterrupts(u32 irqState);
 extern void SND_InvalidateSeqData(const void *start, const void *end);
 extern void SND_InvalidateBankData(const void *start, const void *end);
-extern void SND_DestroyBank(void *bank);
+extern void SND_DestroyBank(struct SNDBankData *bank);
 extern void SND_InvalidateWaveData(const void *start, const void *end);
 extern void SND_DestroyWaveArc(SNDWaveArc *waveArc);
 extern u32  SND_GetWaveDataAddress(u32 waveArc, u32 waveNo);
@@ -88,7 +91,8 @@ extern void SND_GetFirstInstDataPos(SNDBankWaveIter *iter, u32 bank, u32 waveArc
 extern u32  SND_GetNextInstData(u32 bank, SNDBankWaveRecord *record, SNDBankWaveIter *iter);
 extern void NNS_SndPlayerSetPlayableSeqCount(int playerNo, int count);
 extern void NNS_SndPlayerSetAllocatableChannel(u32 playerNo, u32 channelMask);
-extern u32  NNS_SndPlayerCreateHeap(int playerNo, u32 heap, void *heapSize);
+struct NNSSndHeap;
+extern u32  NNS_SndPlayerCreateHeap(s32 playerNo, struct NNSSndHeap *heap, u32 size);
 
 extern NNSSndArc *gNNSSndCurrentArc;
 extern SNDWaveArc gNNSSndArcWaveArcHeader;
@@ -486,18 +490,18 @@ void NNS_SndHeapClear(NNSSndHeap *heap)
     NNSiSndHeapBlock *block;
 
     anyCallback = 0;
-    level = NNS_FndGetPrevListObject(&heap->levelList, 0);
+    level = NNS_FndGetPrevListObject((struct DList *)(&heap->levelList), 0);
     while (level != 0) {
-        block = NNS_FndGetPrevListObject(&level->blockList, 0);
+        block = NNS_FndGetPrevListObject((struct DList *)(&level->blockList), 0);
         while (block != 0) {
             if (block->callback != 0) {
                 block->callback((u8 *)block + 0x20, block->size, block->data1, block->data2);
                 anyCallback = 1;
             }
-            block = NNS_FndGetPrevListObject(&level->blockList, block);
+            block = NNS_FndGetPrevListObject((struct DList *)(&level->blockList), block);
         }
-        NNS_FndRemoveListObject(&heap->levelList, level);
-        level = NNS_FndGetPrevListObject(&heap->levelList, 0);
+        NNS_FndRemoveListObject((struct DList *)(&heap->levelList), level);
+        level = NNS_FndGetPrevListObject((struct DList *)(&heap->levelList), 0);
     }
 
     NNS_FndFreeToFrmHeap(heap->handle, 3);
@@ -514,9 +518,9 @@ void *NNS_SndHeapAlloc(NNSSndHeap *heap, u32 size, NNSSndHeapDisposeCallback cal
 {
     NNSiSndHeapBlock *block;
     NNSFndList *blockList;
-    block = NNS_FndAllocFromFrmHeapEx(heap->handle, ((size + 0x1f) & ~0x1fu) + 0x20, 0x20);
+    block = (struct NNSiSndHeapBlock *)NNS_FndAllocFromFrmHeapEx((char *)heap->handle, ((size + 0x1f) & ~0x1fu) + 0x20, 0x20);
     if (block == 0) return 0;
-    blockList = NNS_FndGetPrevListObject(&heap->levelList, 0);
+    blockList = NNS_FndGetPrevListObject((struct DList *)(&heap->levelList), 0);
     block->size = size;
     block->callback = callback;
     block->data1 = data1;
@@ -567,16 +571,16 @@ void NNS_SndHeapLoadState(NNSSndHeap *heap, s32 level)
     if (level == 0) { NNS_SndHeapClear(heap); return; }
 
     while (level < heap->levelList.numObjects) {
-        curLevel = NNS_FndGetPrevListObject(&heap->levelList, 0);
-        block = NNS_FndGetPrevListObject(&curLevel->blockList, block);
+        curLevel = NNS_FndGetPrevListObject((struct DList *)(&heap->levelList), 0);
+        block = NNS_FndGetPrevListObject((struct DList *)(&curLevel->blockList), block);
         while (block != 0) {
             if (block->callback != 0) {
                 block->callback((u8 *)block + 0x20, block->size, block->data1, block->data2);
                 anyCallback = 1;
             }
-            block = NNS_FndGetPrevListObject(&curLevel->blockList, block);
+            block = NNS_FndGetPrevListObject((struct DList *)(&curLevel->blockList), block);
         }
-        NNS_FndRemoveListObject(&heap->levelList, curLevel);
+        NNS_FndRemoveListObject((struct DList *)(&heap->levelList), curLevel);
     }
 
     NNS_FndFreeByStateToFrmHeap(heap->handle, level);
@@ -587,12 +591,12 @@ void NNS_SndHeapLoadState(NNSSndHeap *heap, s32 level)
 
 void NNSi_SndHeapLevelInit(NNSiSndHeapLevel *level)
 {
-    NNS_FndInitList(&level->blockList, 0);
+    NNS_FndInitList((s32)(&level->blockList), 0);
 }
 
 int NNSi_SndHeapInit(NNSSndHeap *heap, NNSFndHeapHandle handle)
 {
-    NNS_FndInitList(&heap->levelList, 0xc);
+    NNS_FndInitList((s32)(&heap->levelList), 0xc);
     heap->handle = handle;
     if (NNSi_SndHeapAllocLevel(heap)) {
         return 1;
@@ -602,7 +606,7 @@ int NNSi_SndHeapInit(NNSSndHeap *heap, NNSFndHeapHandle handle)
 
 int NNSi_SndHeapAllocLevel(NNSSndHeap *heap)
 {
-    NNSiSndHeapLevel *level = NNS_FndAllocFromFrmHeapEx(heap->handle, 0x14, 4);
+    NNSiSndHeapLevel *level = (struct NNSiSndHeapLevel *)NNS_FndAllocFromFrmHeapEx((char *)heap->handle, 0x14, 4);
     if (!level) {
         return 0;
     }
@@ -797,7 +801,7 @@ u32 NNSi_SndArcLoadBank(u32 bankNo, u32 loadFlag, NNSSndHeap *heap, u32 isSetAdd
                 if (NNSi_SndArcLoadBankWaves((SNDWaveArc *)waveArc, bank, (u32)i, waveArcInfo->bits.fileId, heap) == 0) return 9;
             }
             if (bank != 0 && waveArc != 0) {
-                SND_AssignWaveArc(bank, (u32)i, waveArc);
+                SND_AssignWaveArc((struct SNDBankData *)bank, (u32)i, (struct SNDWaveArc *)waveArc);
             }
         }
     }
@@ -989,7 +993,7 @@ void NNSi_SndArcDisposeBank(u8 *buffer, u32 size, NNSSndArc *arc, u32 fileId)
 {
     NNSi_SndArcForgetFileAddress((u32)buffer, arc, fileId);
     SND_InvalidateBankData(buffer, buffer + size);
-    SND_DestroyBank(buffer);
+    SND_DestroyBank((struct SNDBankData *)buffer);
 }
 
 /*
@@ -1134,7 +1138,7 @@ u32 NNS_SndArcPlayerSetup(NNSSndHeap *heap)
         NNS_SndPlayerSetAllocatableChannel(i, info->allocatableChannel);
         if (info->heapSize != 0 && heap != 0) {
             for (j = 0; j < info->playableSeqCount; j++) {
-                if (NNS_SndPlayerCreateHeap(i, (u32)heap, info->heapSize) == 0)
+                if ((struct NNSSndHeap *)NNS_SndPlayerCreateHeap(i, (struct NNSSndHeap *)heap, (u32)info->heapSize) == 0)
                     return 0;
             }
         }

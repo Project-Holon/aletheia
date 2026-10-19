@@ -119,16 +119,18 @@ extern int recv(int sock, char *buf, int len, int flags);
 extern int CanReceiveOnSocket(int sock);
 extern void *memmove(void *dest, const void *src, unsigned int n);
 extern u8 *strcat(u8 *dest, const u8 *src);
-extern char *strstr(const char *s, const char *sub);
+extern unsigned char *strstr(unsigned char *s1, unsigned char *s2);
 extern int strlen(const u8 *s);
 extern int ArrayLength(const int *p);
 extern int *ArrayNth(void *array, int n);
 extern int atoi(u32 s);
 extern int strncmp(const u8 *s1, const u8 *s2, u32 n);
 extern void ArrayDeleteAt(int a, int b);
-extern void ArrayFree(void *array);
-extern void *BucketNew(void *set, char *name, int type, void *initialvalue);
-extern void OS_SPrintf(char *buf, const char *fmt, char *b, int n);
+struct DArrayImplementation;
+extern void ArrayFree(struct DArrayImplementation *array);
+struct bucketset_s;
+extern void *BucketNew(struct bucketset_s *set, char *name, int type, void *initialvalue);
+extern int OS_SPrintf(char *dst, char *fmt, ...);
 
 void CloseStatsConnection(void);
 int IsStatsConnected(void);
@@ -455,7 +457,7 @@ void ProcessGetData(char *buf, int len)
     if (reqindex == -1)
         return;
     length = atoi((u32)value_for_key_safe(buf, gGstatsKeyLength));
-    data = strstr(buf, gGstatsKeyData);
+    data = (char *)strstr((unsigned char *)buf, (unsigned char *)gGstatsKeyData);
     if (data == 0) {
         data = gGstatsEmptyString;
         length = 0;
@@ -573,7 +575,7 @@ char *value_for_key(char *s, char *key)
     gGstatsConn.bufIndex ^= 1;
     strcat((u8 *)keyspec, (const u8 *)key);
     strcat((u8 *)keyspec, (const u8 *)gGstatsKeyBackslash);
-    pos = strstr(s, keyspec);
+    pos = (char *)strstr((unsigned char *)s, (unsigned char *)keyspec);
     if (pos == 0)
         return 0;
     pos += strlen((const u8 *)keyspec);

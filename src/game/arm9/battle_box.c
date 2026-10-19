@@ -65,34 +65,37 @@ struct BattleBoxSave {
 };
 
 extern u32 POKEPARTY_GetCount(struct Party *party);
+struct PokemonParam;
 
-extern struct PokeParam *POKEPARTY_GetMember(struct Party *party, u32 index);
+extern struct PokemonParam *POKEPARTY_GetMember(struct Party *party, u32 index);
+struct BoxPokemon;
 
-extern u32 POKE_TOOL_GetBoxValue(struct BoxMon *mon, u32 param, u32 arg);
+extern u32 POKE_TOOL_GetBoxValue(struct BoxPokemon *box, u32 paramId, u32 arg);
 
 extern void MI_CpuFill8(void *dest, u8 value, u32 size);
 
 extern void *SAVE_CONTROL_GetBlock(struct SaveControl *save, u32 blockId);
 
 extern u32 GFL_HEAP_Free(void *mem);
+struct MsgBank;
 
-extern struct MsgData *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 
-extern void MSGDATA_ReadUnits(struct MsgData *msg, u32 msgIndex, u16 *str, u32 maxLen);
+extern void MSGDATA_ReadUnits(struct MsgBank *bank, u32 msgIndex, u16 *str, u32 maxLen);
 
-extern u32 MSGDATA_Delete(struct MsgData *msg);
+extern u32 MSGDATA_Delete(struct MsgBank *bank);
 
-extern void POKE_TOOL_ClearBoxParam(struct BoxMon *mon);
+extern void POKE_TOOL_ClearBoxParam(struct BoxPokemon *box);
 
 extern struct Party *POKEPARTY_Create(u32 heap);
 
 extern void POKEPARTY_InitEx(struct Party *party, s32 capacity);
 
-extern u32 POKEPARTY_Add(struct Party *party, const struct PokeParam *mon);
+extern u32 POKEPARTY_Add(struct Party *party, struct PokemonParam *member);
 
-extern struct BoxMon *POKE_TOOL_GetBoxParam(struct PokeParam *mon);
+extern struct BoxPokemon *POKE_TOOL_GetBoxParam(struct PokemonParam *pp);
 
-extern struct PokeParam *POKE_TOOL_CreateFromBoxParam(struct BoxMon *mon, u32 heap);
+extern struct PokemonParam *POKE_TOOL_CreateFromBoxParam(struct PokemonParam *src, u16 heapId);
 
 u32 BATTLE_BOX_GetSize(void);
 
@@ -151,12 +154,12 @@ void BATTLE_BOX_Init(struct BattleBoxSave *box)
 
     MI_CpuFill8(box, 0, sizeof(struct BattleBoxSave));
     for (i = 0; i < 6; i++) {
-        POKE_TOOL_ClearBoxParam(&box->group.mon[i]);
+        POKE_TOOL_ClearBoxParam((struct BoxPokemon *)(&box->group.mon[i]));
     }
-    msg = MSGDATA_CreateFromArchive(0, 2, 9, 1);
+    msg = (struct MsgData *)MSGDATA_CreateFromArchive(0, 2, 9, 1);
     if (msg != 0) {
-        MSGDATA_ReadUnits(msg, 6, box->boxName, sizeof(box->boxName));
-        MSGDATA_Delete(msg);
+        MSGDATA_ReadUnits((struct MsgBank *)msg, 6, box->boxName, sizeof(box->boxName));
+        MSGDATA_Delete((struct MsgBank *)msg);
     }
 }
 
@@ -240,10 +243,10 @@ void BATTLE_BOX_StoreParty(struct BoxMonGroup *box, struct Party *party)
     u32 group = 0;
 
     for (i = 0; i < 6; i++)
-        POKE_TOOL_ClearBoxParam(&box->mon[i]);
+        POKE_TOOL_ClearBoxParam((struct BoxPokemon *)(&box->mon[i]));
 
     for (i = 0; i < (u32)POKEPARTY_GetCount(party); i++)
-        BATTLE_BOX_SetMon(box, group, i, POKE_TOOL_GetBoxParam(POKEPARTY_GetMember(party, i)));
+        BATTLE_BOX_SetMon(box, group, i, (struct BoxMon *)POKE_TOOL_GetBoxParam(POKEPARTY_GetMember(party, i)));
 }
 
 /*
@@ -274,7 +277,7 @@ u32 BATTLE_BOX_HasMon(struct BoxMonGroup *box)
 {
     u32 result = 0;
 
-    if (POKE_TOOL_GetBoxValue(BATTLE_BOX_GetMon(box, 0, 0), 0xA9, 0) != 0) {
+    if (POKE_TOOL_GetBoxValue((struct BoxPokemon *)(BATTLE_BOX_GetMon(box, 0, 0)), 0xA9, 0) != 0) {
         result = 1;
     }
     return result;

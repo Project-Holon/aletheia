@@ -38,6 +38,7 @@
  */
 #include "demo3d_graphic_shared_types.h"
 #include "demo3d_data_shared_types.h"
+extern int GFL_USE_PopBgm(void);
 
 extern u32 GFL_HEAP_Free(void *p);
 
@@ -56,7 +57,7 @@ typedef struct {int kind;unsigned time;int values[8];} Record;
 
 extern void GFL_USE_FadeInBgmFull(u32 a);
 
-extern void GFL_USE_SetBgmPaused(void *);
+extern void GFL_USE_SetBgmPaused(unsigned int value);
 
 extern void DEMO3D_DATA_DeleteCapture(int);
 
@@ -67,22 +68,23 @@ extern u32 DEMO3D_DATA_GetExitCommandList(u32 id);
 extern void TCBL_Main(struct Tcbl *p);
 
 extern Record *DEMO3D_DATA_GetCommandList(int);
+struct TcblSystem;
 
-extern struct Tcbl *TCBL_Create(u16 heap, u16 tag, unsigned int count, unsigned int workSize);
+extern struct TcblSystem *TCBL_Create(u16 heap, u16 tag, unsigned int count, unsigned int workSize);
 
 extern struct GfFont *GF_FONT_Create(int,int,int,int,unsigned);
 
-extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
+extern void *ARC_TOOL_CreateHandle(unsigned int archiveID, unsigned short heapID);
 
 extern signed char MSG_SPEED_GetWait(void);
 
-extern void TCBL_DeleteAllTasks(struct Tcbl *p);
+extern void TCBL_DeleteAllTasks(struct TcblSystem *tcbl);
 
 extern void ARC_TOOL_DeleteHandle(void *);
 
-extern u32 GF_FONT_Delete(void *ptr);
+extern u32 GF_FONT_Delete(struct GfFont *font);
 
-extern void TCBL_Destroy(struct S02031140 *p);
+extern void TCBL_Destroy(struct TcblSystem *tcbl);
 
 Demo3dCmdContext *DEMO3D_CMDSYS_Create(char *owner,unsigned heap);
 
@@ -154,16 +156,16 @@ void DEMO3D_CMDSYS_Update(Demo3dCmdContext *p,int time,int flag)
 
 extern void (*d_021C3D00[])(Demo3dCmdContext *, char *, int *);
 
-void DEMO3D_CMDSYS_Init(char *p){((Demo3dCmdContext *)p)->task=TCBL_Create(((Demo3dCmdContext *)p)->heap,((Demo3dCmdContext *)p)->heap,16,128);((Demo3dCmdContext *)p)->text=GF_FONT_Create(23,0,0,0,((Demo3dCmdContext *)p)->heap);((Demo3dCmdContext *)p)->assets=ARC_TOOL_CreateHandle(161,((Demo3dCmdContext *)p)->heap);((Demo3dCmdContext *)p)->flags[0]=MSG_SPEED_GetWait();}
+void DEMO3D_CMDSYS_Init(char *p){((Demo3dCmdContext *)p)->task=(struct Tcbl *)TCBL_Create(((Demo3dCmdContext *)p)->heap,((Demo3dCmdContext *)p)->heap,16,128);((Demo3dCmdContext *)p)->text=GF_FONT_Create(23,0,0,0,((Demo3dCmdContext *)p)->heap);((Demo3dCmdContext *)p)->assets=ARC_TOOL_CreateHandle(161,((Demo3dCmdContext *)p)->heap);((Demo3dCmdContext *)p)->flags[0]=MSG_SPEED_GetWait();}
 
 void DEMO3D_CMDSYS_Release(char *p)
 {
     if(((Demo3dCmdContext *)p)->extra) DEMO3D_DATA_DeleteCapture(((Demo3dCmdContext *)p)->extra);
-    TCBL_DeleteAllTasks(((Demo3dCmdContext *)p)->task);
+    TCBL_DeleteAllTasks((struct TcblSystem *)(((Demo3dCmdContext *)p)->task));
     if(((Demo3dCmdContext *)p)->flags[1]) {
         GFL_USE_PopBgm();GFL_USE_SetBgmPaused(0);GFL_USE_FadeInBgmFull(60);
     }
-    ARC_TOOL_DeleteHandle(((Demo3dCmdContext *)p)->assets);GF_FONT_Delete(((Demo3dCmdContext *)p)->text);TCBL_Destroy((struct S02031140 *)((Demo3dCmdContext *)p)->task);
+    ARC_TOOL_DeleteHandle(((Demo3dCmdContext *)p)->assets);GF_FONT_Delete(((Demo3dCmdContext *)p)->text);TCBL_Destroy((struct TcblSystem *)((Demo3dCmdContext *)p)->task);
 }
 
 int DEMO3D_CMDSYS_Seek(char *p,char *owner,int *index)

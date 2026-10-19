@@ -79,13 +79,15 @@ struct PlayerLocationData {
 #define BLOCK_ID_1C 0x1C
 
 extern void MI_CpuFill8(void *dest, u8 data, u32 size);
+struct FieldStatus;
 
-extern void FIELD_STATUS_SetFlashActive(void *dest, u8 value);
+extern void FIELD_STATUS_SetFlashActive(struct FieldStatus *fs, u8 flashActive);
 
-extern u8 FIELD_STATUS_IsFlashActive(const void *src);
+extern u8 FIELD_STATUS_IsFlashActive(struct FieldStatus *fs);
+struct SaveControl;
 
 /* Save-block lookup: returns the block with the given id. */
-extern void *SAVE_CONTROL_GetBlock(void *save, u32 id);
+extern void *SAVE_CONTROL_GetBlock(struct SaveControl *saveControl, u32 blockId);
 
 struct PlayerLocationData *PLAYER_LOCATION_GetData(void *save);
 
@@ -175,7 +177,7 @@ void PLAYER_LOCATION_CopyRecord(void *save, struct LocationRecord *dest)
  * four-byte leaves in a literal-pool run). */
 void PLAYER_LOCATION_ReadFlashActiveFrom(struct PlayerLocationData *location_data, const void *src)
 {
-    location_data->flashActive = FIELD_STATUS_IsFlashActive(src);
+    location_data->flashActive = FIELD_STATUS_IsFlashActive((struct FieldStatus *)src);
 }
 
 void PLAYER_LOCATION_WriteFlashActiveTo(const struct PlayerLocationData *location_data, void *dest)

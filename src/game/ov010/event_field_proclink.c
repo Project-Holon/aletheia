@@ -324,10 +324,12 @@ extern void GAMESYSTEM_SetCommBlocked(GameSystem *gameSystem, u32 v);
 
 
 extern void GAME_EVENT_CallEvent(GameEvent *parent, GameEvent *child);
-u8 *GAME_DATA_GetMyStatus(const GameData *gameData);
+struct MyStatus;
+struct MyStatus *GAME_DATA_GetMyStatus(const GameData *gameData);
+struct SaveControl;
 
 
-extern void *GAME_DATA_GetSaveControl(const GameData *gameData);
+extern struct SaveControl *GAME_DATA_GetSaveControl(const GameData *gameData);
 extern void GAMESYSTEM_CallProc(GameSystem *gameSystem, u32 overlayId, const void *procData, void *param);
 extern u32 GAMESYSTEM_GetProcStatus(const GameSystem *gameSystem);
 
@@ -344,77 +346,96 @@ extern void MI_CpuFill8();
 
 
 extern u32 ZONEDATA_IsZone96Pair(u32);
-extern void *FIELDMAP_GetMmdlSys(void *fieldMap);
+struct FieldMap;
+struct MmdlSys;
+extern struct MmdlSys *FIELDMAP_GetMmdlSys(struct FieldMap *fieldMap);
 
 
-extern void FLDMMDL_SysPauseMove(void *fieldObjects);
+extern void FLDMMDL_SysPauseMove(struct MmdlSys *sys);
 
 
 extern u16 *GAME_DATA_GetMyPlayerWork(GameData *gameData);
+struct FieldMsgBg;
 
 
-extern void *FIELDMAP_GetMsgBg(void *);
+extern struct FieldMsgBg *FIELDMAP_GetMsgBg(struct FieldMap *fieldMap);
+struct Party;
 
 
-extern u32 POKEPARTY_GetCount(void *party);
+extern u32 POKEPARTY_GetCount(struct Party *party);
 extern void *POKEPARTY_GetMember(void *party, u32 index);
-extern u32 POKE_TOOL_GetPartyValue(void *mon, u32 id, u32 v);
-extern u32 POKE_TOOL_HasRibbonData(void *mon);
+struct PokemonParam;
+extern u32 POKE_TOOL_GetPartyValue(struct PokemonParam *pp, u32 paramId, u32 arg);
+struct BoxPokemon;
+extern u32 POKE_TOOL_HasRibbonData(struct BoxPokemon *box);
 
 
 extern void *GAME_DATA_GetMyItem(const GameData *gameData);
-extern void *MAIL_GetBox(GameData *gameData);
-extern void *ZUKAN_SAVE_GetFromGameData(GameData *gameData);
+struct MailBox;
+extern struct MailBox *MAIL_GetBox(GameData *gameData);
+extern void *ZUKAN_SAVE_GetFromGameData(void *gameData);
 extern u8 GAME_DATA_GetSeason(const GameData *gameData);
 extern void GF_OVERLAY_Unload(int handle);
-extern u32 MAILTOOL_IsMailSent(void *mailParam);
+struct MailArgs;
+extern u32 MAILTOOL_IsMailSent(struct MailArgs *args);
 extern u32 GAME_DATA_GetBgmInfo(const GameData *gameData);
-extern u32 GAMESYSTEM_GetIssSystem(const GameSystem *gameSystem);
+extern void *GAMESYSTEM_GetIssSystem(const GameSystem *gameSystem);
 extern void FIELD_SOUND_SYSTEM_LowerVolume(u8 *a, u32 b);
 extern int FIELD_SOUND_SYSTEM_RestoreVolume(int,int);
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern u32 ZUKAN_SAVE_IsNationalDexEnabled(void *zukanSave);
-extern u8 *GAMESYSTEM_GetMyPlayerWork(const GameSystem *gameSystem);
+struct ZukanSave;
+extern u32 ZUKAN_SAVE_IsNationalDexEnabled(struct ZukanSave *pZukan);
+struct PlayerWork;
+extern struct PlayerWork *GAMESYSTEM_GetMyPlayerWork(const GameSystem *gameSystem);
 extern u16 GAME_DATA_GetPlayerZoneId(const void *playerWork);
 extern u32 ZONEDATA_IsUnionRoom(u32);
-extern BagParam *BAG_PARAM_Create(const GameData *gameData, u8 *itemCheck, int mode, int heapId);
-extern void MYITEM_SAVEDATA_SetLastFieldPocket(void *myItem, u16 pocket);
+struct BigObj;
+extern void *BAG_PARAM_Create(struct BigObj *gameData, u8 *itemCheck, int mode, int heapId);
+struct BagCursor;
+extern void MYITEM_SAVEDATA_SetLastFieldPocket(struct BagCursor *cursor, u16 lastFieldPocket);
 extern u32 FILE_UTIL_IsMailItem(u16 v);
-extern TrainerCardViewWork *TRCARD_SYS_CreateViewWork(GameData *gameData, int mode, int canFly);
+struct ViewWork;
+extern struct ViewWork *TRCARD_SYS_CreateViewWork(void *cardData, u32 heapId, void *profile);
 extern struct EscapeLocation *GAME_DATA_GetEscapeLocation(const GameData *gameData);
 extern u8 FILE_UTIL_GetItemSlot(u16 v);
 extern void *MAILTOOL_CreateWriteArgs(void *a, unsigned b, unsigned c, unsigned d, unsigned heap);
 extern void *MAILTOOL_CreateArgsFromPartyMon(void *a, void *b, unsigned heap);
 extern void *MAILTOOL_CreateArgsFromMail(void *a, void *b, unsigned heap);
-extern int MAILTOOL_StoreMailToPartyMon(void *mailParam, void *mon);
-extern void MAILTOOL_DeleteArgs(void *mailParam);
+extern int MAILTOOL_StoreMailToPartyMon(struct MailArgs *args, void *mon);
+extern void MAILTOOL_DeleteArgs(struct MailArgs *args);
 extern u32 SHINKA_CHECK_CheckEvolution(void *party, void *mon, u32 context, u32 param, u8 timezone, u32 *methodOut, u16 heap);
-extern int REPORT_EVENT_Main(ReportEventWork *work, int *state);
-extern void *FLDMMDL_SysSearchPlayer(void *fieldObjects);
-extern void *FLDMMDL_SysSearchMoveCode(void *fieldObjects, u32 kind);
-extern int FLDMMDL_CheckEndAcmd(void *obj);
-extern char *FLDMMDL_OffMoveBitMovePause(void *object);
-extern int FLDMMDL_CheckMoveBitMove(void *obj);
-extern void FLDMMDL_OnMoveBitMovePause(void *obj);
+struct ReportEventWork;
+extern int REPORT_EVENT_Main(struct ReportEventWork *w, u32 *state);
+struct Mmdl;
+extern struct Mmdl *FLDMMDL_SysSearchPlayer(struct MmdlSys *sys);
+extern struct Mmdl *FLDMMDL_SysSearchMoveCode(struct MmdlSys *sys, u32 moveCode);
+extern int FLDMMDL_CheckEndAcmd(struct Mmdl *mmdl);
+extern void FLDMMDL_OffMoveBitMovePause(struct Mmdl *mmdl);
+extern int FLDMMDL_CheckMoveBitMove(struct Mmdl *mmdl);
+extern void FLDMMDL_OnMoveBitMovePause(struct Mmdl *mmdl);
 extern int FLDMMDL_ACMD_ListCreate(void *object, const char *animName);
-extern void *FIELDMAP_GetFieldPlayer(void *fieldObject);
-extern void *FIELD_PLAYER_GetMmdl(void *object);
-extern u16 FLDMMDL_GetDirDisp(void *object);
-extern void *FLDMMDL_SysSearchObjId(void *fieldObjects, unsigned int objectId);
-extern int FLDMMDL_ACMD_ListCheckEnd();
-extern int FLDMMDL_ACMD_ListDelete();
-extern fx32 FX_Div(fx32 numer, fx32 denom);
-extern void FLDMMDL_SetPos(void *obj, const VecFx32 *pos);
-extern void FLDMMDL_GetPos(void *object, VecFx32 *out);
-extern void FLDMMDL_InitPosition(void *object, int *position, int direction);
+struct FieldPlayer;
+extern struct FieldPlayer *FIELDMAP_GetFieldPlayer(struct FieldMap *fieldMap);
+extern struct Mmdl *FIELD_PLAYER_GetMmdl(struct FieldPlayer *player);
+extern u16 FLDMMDL_GetDirDisp(struct Mmdl *mmdl);
+extern struct Mmdl *FLDMMDL_SysSearchObjId(struct MmdlSys *sys, u32 objId);
+extern int FLDMMDL_ACMD_ListCheckEnd(void *tcb);
+extern void FLDMMDL_ACMD_ListDelete(void *tcb);
+extern u32 FX_Div(u32 numer, u32 denom);
+struct MmdlVec;
+extern void FLDMMDL_SetPos(struct Mmdl *mmdl, struct MmdlVec *pos);
+extern void FLDMMDL_GetPos(struct Mmdl *mmdl, struct MmdlVec *out);
+extern void FLDMMDL_InitPosition(struct Mmdl *mmdl, struct MmdlVec *pos, int dir);
 extern void GFL_USE_PlaySeDefaultVolume(u32 se);
-extern void FLDEFF_KEMURI_Start(u32 object, u32 owner);
-extern u32 FIELDMAP_GetEffect(void *fieldWork);
+struct FieldEffectSys;
+extern void FLDEFF_KEMURI_Start(struct Mmdl *mmdl, struct FieldEffectSys *sys);
+struct FieldEffectCont;
+extern struct FieldEffectCont *FIELDMAP_GetEffect(struct FieldMap *fieldMap);
 extern void VEC_Subtract(const VecFx32 *a, const VecFx32 *b, VecFx32 *out);
 extern void *FLDMMDL_FreeAcmd(void *object);
 extern void GAME_BEACON_SEARCH_SetSimpleEventB(void);
 extern u8 GAMESYSTEM_IsCommBlocked(const GameSystem *gameSystem);
-extern u8 MYSTATUS_GetSex(const u8 *myStatus);
+extern u8 MYSTATUS_GetSex(struct MyStatus *mystatus);
 extern void GF_STANDARD_GetCachedTime(RtcTime *time);
 extern u8 COMM_PLAYER_SUPPORT_GetSeasonFromClock(void);
 extern int FIELD_CLOCK_GetHour(GameData *gameData);
@@ -681,9 +702,9 @@ ZukanParam *EVENT_FIELD_PROCLINK_CreateZukanParam(ProcLinkWork *work, int startS
     gameData = GAMESYSTEM_GetGameData(work->context->gameSystem);
     param->gameData = gameData;
     param->zukanSave = ZUKAN_SAVE_GetFromGameData(gameData);
-    param->myStatus = GAME_DATA_GetMyStatus(param->gameData);
+    param->myStatus = (u8 *)GAME_DATA_GetMyStatus(param->gameData);
     bgmInfo = GAME_DATA_GetBgmInfo(param->gameData);
-    FIELD_SOUND_SYSTEM_LowerVolume((u8 *)bgmInfo, GAMESYSTEM_GetIssSystem(work->context->gameSystem));
+    FIELD_SOUND_SYSTEM_LowerVolume((u8 *)bgmInfo, (unsigned int)GAMESYSTEM_GetIssSystem(work->context->gameSystem));
     if (startSpecies != -1) {
         param->startSpecies = startSpecies;
     } else {
@@ -697,7 +718,7 @@ Bool EVENT_FIELD_PROCLINK_ReturnZukan(ProcLinkWork *work, ZukanParam *param)
 {
     u32 bgmInfo = GAME_DATA_GetBgmInfo(param->gameData);
 
-    FIELD_SOUND_SYSTEM_RestoreVolume(bgmInfo, GAMESYSTEM_GetIssSystem(work->context->gameSystem));
+    FIELD_SOUND_SYSTEM_RestoreVolume(bgmInfo, (int)GAMESYSTEM_GetIssSystem(work->context->gameSystem));
     if (param->result == 0)
         return FALSE;
     else
@@ -841,16 +862,16 @@ BagParam *EVENT_FIELD_PROCLINK_CreateBagParam(ProcLinkWork *work, int lastFieldP
 
     switch (bagMode) {
     case 2:
-        bag = BAG_PARAM_Create(gameData, work->bagItemCheck, EVENT_FIELD_PROCLINK_IsSpecialZone(work->context->gameSystem), 4);
+        bag = BAG_PARAM_Create((struct BigObj *)gameData, work->bagItemCheck, EVENT_FIELD_PROCLINK_IsSpecialZone(work->context->gameSystem), 4);
         if (lastFieldPocket != -1) {
             MYITEM_SAVEDATA_SetLastFieldPocket(bag->saveWork, (u16)lastFieldPocket);
         }
         break;
     case 0:
         if (listResult->command == 3) {
-            bag = BAG_PARAM_Create(gameData, work->bagItemCheck, 2, 4);
+            bag = BAG_PARAM_Create((struct BigObj *)gameData, work->bagItemCheck, 2, 4);
         } else {
-            bag = BAG_PARAM_Create(gameData, work->bagItemCheck, EVENT_FIELD_PROCLINK_IsSpecialZone(work->context->gameSystem), 4);
+            bag = BAG_PARAM_Create((struct BigObj *)gameData, work->bagItemCheck, EVENT_FIELD_PROCLINK_IsSpecialZone(work->context->gameSystem), 4);
         }
         break;
     case 1:
@@ -861,7 +882,7 @@ BagParam *EVENT_FIELD_PROCLINK_CreateBagParam(ProcLinkWork *work, int lastFieldP
     case 7:
     case 8:
     default:
-        bag = BAG_PARAM_Create(gameData, work->bagItemCheck, EVENT_FIELD_PROCLINK_IsSpecialZone(work->context->gameSystem), 4);
+        bag = BAG_PARAM_Create((struct BigObj *)gameData, work->bagItemCheck, EVENT_FIELD_PROCLINK_IsSpecialZone(work->context->gameSystem), 4);
         break;
     }
     return bag;
@@ -952,11 +973,11 @@ void EVENT_FIELD_PROCLINK_CreateTrainerCardView(ProcLinkWork *work, int startPag
     TrainerCardViewWork *viewWork;
 
     bgmInfo = GAME_DATA_GetBgmInfo(gameData);
-    FIELD_SOUND_SYSTEM_LowerVolume((u8 *)bgmInfo, GAMESYSTEM_GetIssSystem(work->context->gameSystem));
+    FIELD_SOUND_SYSTEM_LowerVolume((u8 *)bgmInfo, (unsigned int)GAMESYSTEM_GetIssSystem(work->context->gameSystem));
     if (ZONEDATA_IsUnionRoom(zoneId) != 0 || (int)ZONEDATA_IsZone96Pair((u16)zoneId) != 0) {
         canFly = 0;
     }
-    viewWork = TRCARD_SYS_CreateViewWork(gameData, 4, canFly);
+    viewWork = (struct TrainerCardViewWork *)TRCARD_SYS_CreateViewWork((void *)gameData, 4, (void *)canFly);
     if (startPage != -1) {
         viewWork->startPage = startPage;
     }
@@ -970,7 +991,7 @@ int EVENT_FIELD_PROCLINK_ReturnTrainerCardView(ProcLinkWork *work, TrainerCardVi
 
     gameData = GAMESYSTEM_GetGameData(work->context->gameSystem);
     bgmInfo = GAME_DATA_GetBgmInfo(gameData);
-    FIELD_SOUND_SYSTEM_RestoreVolume(bgmInfo, GAMESYSTEM_GetIssSystem(work->context->gameSystem));
+    FIELD_SOUND_SYSTEM_RestoreVolume(bgmInfo, (int)GAMESYSTEM_GetIssSystem(work->context->gameSystem));
     if (param->result != 1)
         return 0;
     return 1;
@@ -1316,7 +1337,7 @@ GameEvent *EVENT_FIELD_PROCLINK_CreateFreeEvent(GameSystem *gameSystem, void *fi
 
 int EVENT_FIELD_PROCLINK_FreeEventMain(void *event, int *state, ReportEventWork *work)
 {
-    switch (REPORT_EVENT_Main(work, state)) {
+    switch (REPORT_EVENT_Main(work, (u32 *)state)) {
     case 0:
         *work->resultOut = 1;
         return 1;
@@ -1522,8 +1543,8 @@ int EVENT_FIELD_PROCLINK_UpdateAnimNode(ObjAnimWork *work)
     for (i = 0; i < 8; i++) {
         if (work->handles[i] == 0)
             continue;
-        if (FLDMMDL_ACMD_ListCheckEnd(work->handles[i]) == 1) {
-            FLDMMDL_ACMD_ListDelete(work->handles[i]);
+        if (FLDMMDL_ACMD_ListCheckEnd((void *)work->handles[i]) == 1) {
+            FLDMMDL_ACMD_ListDelete((void *)work->handles[i]);
             work->handles[i] = 0;
         } else {
             stillRunning = 1;
@@ -1564,25 +1585,25 @@ int EVENT_FIELD_PROCLINK_HopEventMain(GameEvent *event, u32 *seq, HopWork *work)
         work->frame += 2;
         pos.x += FX_Div(FX_Mul(work->delta.x, work->frame << 12), 15 << 12);
         pos.z += FX_Div(FX_Mul(work->delta.z, work->frame << 12), 15 << 12);
-        FLDMMDL_SetPos(work->object, &pos);
+        FLDMMDL_SetPos(work->object, (struct MmdlVec *)(&pos));
         if (work->frame > 15u)
             (*seq)++;
         break;
     case 1:
-        FLDMMDL_GetPos(work->object, &pos);
+        FLDMMDL_GetPos(work->object, (struct MmdlVec *)(&pos));
         landingY = work->start.y + work->delta.y;
         dropY = pos.y - 0x8000;
         if (dropY > landingY) {
             pos.y = dropY;
-            FLDMMDL_SetPos(work->object, &pos);
+            FLDMMDL_SetPos(work->object, (struct MmdlVec *)(&pos));
         } else {
             pos.y = landingY;
             done = 1;
             pos.x = work->start.x + work->delta.x;
             pos.z = work->start.z + work->delta.z;
-            FLDMMDL_InitPosition(work->object, (int *)(&pos), FLDMMDL_GetDirDisp(work->object));
+            FLDMMDL_InitPosition(work->object, (struct MmdlVec *)(&pos), FLDMMDL_GetDirDisp(work->object));
             GFL_USE_PlaySeDefaultVolume(0x67B);
-            FLDEFF_KEMURI_Start((u32)work->object, (u32)work->owner);
+            FLDEFF_KEMURI_Start((struct Mmdl *)work->object, (struct FieldEffectSys *)work->owner);
         }
         break;
     }
@@ -1633,8 +1654,8 @@ int EVENT_FIELD_PROCLINK_StartHopAnim(void *fieldObject)
 
 int EVENT_FIELD_PROCLINK_IsHopAnimDone(int handle)
 {
-    if (FLDMMDL_ACMD_ListCheckEnd(handle) == 1) {
-        FLDMMDL_ACMD_ListDelete(handle);
+    if (FLDMMDL_ACMD_ListCheckEnd((void *)handle) == 1) {
+        FLDMMDL_ACMD_ListDelete((void *)handle);
         return 1;
     }
     return 0;

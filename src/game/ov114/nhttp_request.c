@@ -52,7 +52,7 @@ extern void *NHTTPi_alloc(unsigned long size, int align);
 extern void NHTTPi_SetError(NHTTPBgnEndInfo *bgnEndInfo_p, int error);
 extern void NHTTPi_memclr(void *p_p, int size);
 extern int NHTTPi_strnlen(char *p_p, int size);
-extern void NHTTPi_memcpy(void *dst_p, void *src_p, int size);
+extern void NHTTPi_memcpy(void *dst, void *src, u32 size);
 extern int NHTTPi_strnicmp(char *p1_p, char *p2_p, int size);
 extern int NHTTPi_strToHex(char *p_p, int len);
 extern int NHTTPi_strtonum(char *p_p, int size);

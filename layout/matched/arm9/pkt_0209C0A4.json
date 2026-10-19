@@ -22,6 +22,11 @@
     "_div_by_zero_check",
     "_u32_div_not_0_f"
    ],
+   "addresses": [
+    "0x0209C0A4",
+    "0x0209C2B0",
+    "0x0209C2B8"
+   ],
    "covers": [
     "0x0209C0A4",
     "0x0209C2B0",

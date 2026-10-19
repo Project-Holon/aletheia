@@ -103,27 +103,35 @@ typedef struct UnionEffDrawStatus {
     s32 rotate[9];     /* 0x18 3x3 matrix */
 } UnionEffDrawStatus;
 
-extern void *GFL_HEAP_Alloc(unsigned int heapId, unsigned int size, int clear, const void *site, unsigned short tag);
+extern void *GFL_HEAP_Alloc(unsigned int heapId, unsigned int size, int clear, char *site, unsigned short tag);
 extern u32 GFL_HEAP_Free(void *p);
 extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
-extern void *G3D_SYSTEM_CreateResourceArcHandle(void *arc, u32 fileId);
-extern int G3D_SYSTEM_TransVramTexture(void *self);
+struct ArcHandle;
+struct G3dResource;
+extern struct G3dResource *G3D_SYSTEM_CreateResourceArcHandle(struct ArcHandle *arc, u32 dataId);
+extern int G3D_SYSTEM_TransVramTexture(struct G3dResource *res);
 extern void GF_PANIC_Fail(const char *expr, u32 line, const char *file);
 extern void ARC_TOOL_DeleteHandle(void *h);
-extern int G3D_SYSTEM_FreeVramTexture(void *p);
-extern void G3D_SYSTEM_DeleteResource(void *p);
+extern int G3D_SYSTEM_FreeVramTexture(struct G3dResource *res);
+extern void G3D_SYSTEM_DeleteResource(struct G3dResource *res);
 extern void MI_CpuFill8(void *p, u32 v, u32 n);
-extern void *G3D_SYSTEM_CreateRender(void *mdlRes, u32 n, void *texRes);
-extern void *G3D_SYSTEM_CreateAnime(void *render, const void *resAnime, int index);
-extern void *G3D_SYSTEM_CreateObject(void *render, void **anime, int animeCount);
-extern u32 G3D_SYSTEM_EnableObjectAnime(void *sys, u32 idx);
-extern void G3D_SYSTEM_DeleteAnime(void *p);
-extern void G3D_SYSTEM_DeleteObject(void *p);
-extern void G3D_SYSTEM_DeleteRender(void *p);
-extern int G3D_SYSTEM_LoopObjectAnimeFrame(void *p, int idx, int amount);
-extern void FLDMMDL_GetPos(const void *a, void *out);
-extern int G3D_SYSTEM_DrawObjectCulling(void *a, void *b);
-extern int FLDMMDL_CheckStatusBitUse(void *mmdl);
+struct G3dRender;
+extern struct G3dRender *G3D_SYSTEM_CreateRender(struct G3dResource *mdlRes, u32 mdlIdx, struct G3dResource *texRes);
+struct G3dAnime;
+extern struct G3dAnime *G3D_SYSTEM_CreateAnime(struct G3dRender *render, struct G3dResource *anmRes, u32 anmIdx);
+struct G3dObject;
+extern struct G3dObject *G3D_SYSTEM_CreateObject(struct G3dRender *render, struct G3dAnime **anmTbl, s32 anmCount);
+extern s32 G3D_SYSTEM_EnableObjectAnime(struct G3dObject *obj, u32 anmIdx);
+extern void G3D_SYSTEM_DeleteAnime(struct G3dAnime *anime);
+extern void G3D_SYSTEM_DeleteObject(struct G3dObject *obj);
+extern void G3D_SYSTEM_DeleteRender(struct G3dRender *render);
+extern int G3D_SYSTEM_LoopObjectAnimeFrame(struct G3dObject *obj, s32 anmIdx, s32 step);
+struct MmdlVec;
+struct Mmdl;
+extern void FLDMMDL_GetPos(struct Mmdl *mmdl, struct MmdlVec *out);
+struct G3dObjectStatus;
+extern int G3D_SYSTEM_DrawObjectCulling(struct G3dObject *obj, struct G3dObjectStatus *status);
+extern int FLDMMDL_CheckStatusBitUse(struct Mmdl *mmdl);
 extern void MTX_Identity33_(void *m);
 UnionEffWork *UNION_EFF_Create(u16 heapId);
 void UNION_EFF_Delete(UnionEffWork *work);
@@ -171,7 +179,7 @@ extern const UnionEffDrawStatus d_02180758;
  */
 UnionEffWork *UNION_EFF_Create(u16 heapId)
 {
-    UnionEffWork *work = GFL_HEAP_Alloc(heapId, sizeof(UnionEffWork), 1, (const char *)d_02180808, 0x8e);
+    UnionEffWork *work = GFL_HEAP_Alloc(heapId, sizeof(UnionEffWork), 1, (char *)d_02180808, 0x8e);
     UNION_EFF_InitAnimGroup(&work->anim, heapId);
     UNION_EFF_InitIconGroup(&work->icon, heapId);
     return work;
@@ -270,7 +278,7 @@ void UNION_EFF_CreateAnimObj(UnionEffAnimGroup *anim, UnionEffObj *obj, void *mm
     obj->serial = serial;
     obj->render = G3D_SYSTEM_CreateRender(anim->resModel, 0, anim->resModel);
     obj->anime = G3D_SYSTEM_CreateAnime(obj->render, anim->resAnime, 0);
-    obj->object = G3D_SYSTEM_CreateObject(obj->render, &obj->anime, 1);
+    obj->object = G3D_SYSTEM_CreateObject(obj->render, (struct G3dAnime **)(&obj->anime), 1);
     G3D_SYSTEM_EnableObjectAnime(obj->object, 0);
 }
 
@@ -291,9 +299,9 @@ void UNION_EFF_UpdateAnimObj(UnionEffObj *obj)
 
 void UNION_EFF_DrawAnimObj(UnionEffObj *obj, UnionEffDrawStatus *status)
 {
-    FLDMMDL_GetPos(obj->mmdl, &status->trans);
+    FLDMMDL_GetPos(obj->mmdl, (struct MmdlVec *)(&status->trans));
     status->trans.y -= 0x6000;
-    G3D_SYSTEM_DrawObjectCulling(obj->object, status);
+    G3D_SYSTEM_DrawObjectCulling(obj->object, (struct G3dObjectStatus *)status);
 }
 
 void UNION_EFF_DeleteAnimGroupObjs(UnionEffAnimGroup *anim)
@@ -404,9 +412,9 @@ void UNION_EFF_UpdateIconObj(UnionEffObj *obj)
 
 void UNION_EFF_DrawIconObj(UnionEffObj *obj, UnionEffDrawStatus *status)
 {
-    FLDMMDL_GetPos(obj->mmdl, &status->trans);
+    FLDMMDL_GetPos(obj->mmdl, (struct MmdlVec *)(&status->trans));
     status->trans.y -= 0x6800;
-    G3D_SYSTEM_DrawObjectCulling(obj->object, status);
+    G3D_SYSTEM_DrawObjectCulling(obj->object, (struct G3dObjectStatus *)status);
 }
 
 void UNION_EFF_DeleteIconGroupObjs(UnionEffIconGroup *icon)

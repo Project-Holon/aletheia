@@ -26,8 +26,8 @@
 
 typedef unsigned int u32;
 
-extern void WIPE_SYS_Start(void *divisionMode, u32 mainPattern, u32 subPattern, u32 color, u32 frames, u32 wait, u32 heapId);
-extern void *ARC_UTIL_LoadPaletteBlockFromHandle(void *arc, u32 memberIdx, u32 unpackedOut, u32 flags);
+extern void WIPE_SYS_Start(void *divisionMode, unsigned int mainPattern, unsigned int subPattern, unsigned short color, unsigned int frames, unsigned int wait, unsigned int heapId);
+extern void *ARC_UTIL_LoadPaletteBlockFromHandle(void *arc, u32 memberIdx, void *unpackedOut, unsigned short flags);
 extern void MIi_CpuCopy32(int, int, int);
 extern u32 GFL_HEAP_Free(void *p);
 extern u32 KEY_GetTrg(void);
@@ -75,7 +75,7 @@ void CDEMO_WIPE_LoadPalette(void *obj, int a, int b)
     int t;
     char *p;
 
-    t = (int)ARC_UTIL_LoadPaletteBlockFromHandle(((struct CdemoState *)obj)->arcHandle, b, (u32)(&ptr), 0x807f);
+    t = (int)ARC_UTIL_LoadPaletteBlockFromHandle((void *)(((struct CdemoState *)obj)->arcHandle), b, (&ptr), 0x807f);
     p = (char *)obj + 8 + a * 0x2004;
     ((struct CdemoPaletteBlock *)p)->count = ((struct CdemoPaletteEntry *)ptr)->size;
     MIi_CpuCopy32(((struct CdemoPaletteEntry *)ptr)->data, (int)p, ((struct CdemoPaletteBlock *)p)->count);

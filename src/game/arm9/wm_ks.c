@@ -18,17 +18,19 @@
 typedef unsigned short u16;
 typedef int BOOL;
 typedef int WMErrCode;
+struct WMDataSharingInfo;
 
-extern WMErrCode WM_StartDataSharing(void *dsInfo, u16 port, u16 aidBitmap, u16 dataLength, BOOL doubleMode);
+extern WMErrCode WM_StartDataSharing(struct WMDataSharingInfo *dsInfo, unsigned short port, unsigned short aidBitmap, unsigned short dataLength, int doubleMode);
+struct WMDataSharingInfo;
 
-extern void WM_EndDataSharing(void);
-void WM_EndKeySharing(void);
+extern WMErrCode WM_EndDataSharing(struct WMDataSharingInfo *dsInfo);
+WMErrCode WM_EndKeySharing(void *dsInfo);
 WMErrCode WM_StartKeySharing(void *dsInfo, u16 port)
 {
     return WM_StartDataSharing(dsInfo, port, 0xFFFF, 2, 1);
 }
 
-void WM_EndKeySharing(void)
+WMErrCode WM_EndKeySharing(void *dsInfo)
 {
-    WM_EndDataSharing();
+    return WM_EndDataSharing(dsInfo);
 }

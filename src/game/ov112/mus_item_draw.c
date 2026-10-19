@@ -115,33 +115,34 @@ extern void NNS_GfdResetVramTransferTaskQueue(void);
 
 extern void BILLBOARD_SetElemPos(u8 *,int,struct Trip *);
 
-extern void BILLBOARD_SetElemScale(struct Manager0204F684 *,int,const s16 *,const s16 *);
+extern void BILLBOARD_SetElemScale(struct BbBoard *board, s32 elemIndex, s16 *scaleX, s16 *scaleY);
 
-extern void BILLBOARD_SetElemRotZ(u8 *,int,u16 *);
+extern void BILLBOARD_SetElemRotZ(struct BbBoard *board, s32 elemIndex, u16 *rotZ);
 
 extern u32 ARC_TOOL_GetArchiveFileCount(u32 a);
 
 extern void BILLBOARD_GetImageSizeFromFlags(int,u16 *,u16 *);
+struct G3dResource;
 
-extern void *G3D_SYSTEM_CreateResourceArc(u32,u32);
+extern struct G3dResource *G3D_SYSTEM_CreateResourceArc(u32,u32);
 
-extern void G3D_SYSTEM_DeleteResource(struct Tagged *p);
+extern void G3D_SYSTEM_DeleteResource(struct G3dResource *res);
 
-extern u32 BILLBOARD_AddImage(struct Desc *desc, u32 resource, u32 formatIndex, u32 sizeCode, u8 columns, u8 rows);
+extern u32 BILLBOARD_AddImage(struct BbBoard *board, struct G3dResource *resource, unsigned int formatIndex, unsigned int sizeCode, unsigned char columns, unsigned char rows);
 
 extern s32 BILLBOARD_AddElem(struct Board *b, u32 id, u16 v12, u16 v14, struct Vec3 *src, u8 k, u32 w, u32 mode);
 
-extern void BILLBOARD_SetElemVisible(void *,u32,u32 *);
+extern void BILLBOARD_SetElemVisible(struct BbBoard *board, u32 elemIndex, u32 *visible);
 
-extern void BILLBOARD_FreeElem(void *,u32);
+extern void BILLBOARD_FreeElem(struct BbBoard *board, u32 elemIndex);
 
 extern void BILLBOARD_ReleaseImageVramIfUsed(struct BbBoard *board, u32 index);
 
-extern void BILLBOARD_SetElemId(void *,u32,u16 *);
+extern void BILLBOARD_SetElemId(struct BbBoard *board, u32 elemIndex, u16 *imageIndex);
 
-extern void BILLBOARD_GetImagePlttVramOffset(int board, int index, int outPlttVramOffset);
+extern void BILLBOARD_GetImagePlttVramOffset(struct BbBoard *board, s32 index, s32 *outPlttVramOffset);
 
-extern void BILLBOARD_GetImagePlttKey(int board, int imageIndex, int outPlttKey);
+extern void BILLBOARD_GetImagePlttKey(struct BbBoard *board, s32 imageIndex, u32 *outPlttKey);
 
 extern s32 NNS_GfdRegisterNewVramTransferTask(void *p, u32 a, u32 b, s32 size);
 
@@ -189,19 +190,19 @@ void MUSICAL_MCSS_CopyElem(void *unused, u8 *s, u8 *d);
 
 void MUSICAL_MCSS_SetElemVisible(u8 *p,u8 *e,u32 value);
 
-void MUSICAL_MCSS_SetElemPos(u32 unused,McssActorElem *p,const int *q);
+void MUSICAL_MCSS_SetElemPos(void *unused, McssActorElem *p, const int *q);
 
 void MUSICAL_MCSS_SetElemScale(u32 unused,u32 p,u32 q);
 
-void MUSICAL_MCSS_SetElemRotZ(u32 unused,u32 p,s16 a,s16 b);
+void MUSICAL_MCSS_SetElemRotZ(void *unused, u8 *p, s16 a, s16 b);
 
-void MUSICAL_MCSS_SetElemRot(u32 unused,u32 p,s16 *a,s16 *b);
+void MUSICAL_MCSS_SetElemRot(void *unused, u8 *p, s16 *a, s16 *b);
 
-void MUSICAL_MCSS_SetElemField(u32 unused,u32 p,u16 v);
+void MUSICAL_MCSS_SetElemField(void *unused, u8 *p, u16 v);
 
 void MUSICAL_MCSS_GetElemField(int unused, u16 *p, u16 *out);
 
-void MUSICAL_MCSS_SetElemFlag(int unused,McssActorElem *s,int flag);
+void MUSICAL_MCSS_SetElemFlag(u8 *unused, McssActorElem *s, int flag);
 
 int MUSICAL_MCSS_GetElemFlag(int unused, McssActorElem *p);
 
@@ -299,7 +300,7 @@ void MUSICAL_MCSS_UpdateObject(McssActorPool *p)
             MUSICAL_MCSS_SetupObject((u8 *)e,&scale.y,&scale.x);
             scale.a=e->a*scale.y;
             scale.b=e->b*scale.x;
-            BILLBOARD_SetElemScale((struct Manager0204F684 *)p->board,e->index,&scale.a,&scale.b);
+            BILLBOARD_SetElemScale((struct BbBoard *)p->board,e->index,&scale.a,&scale.b);
             BILLBOARD_SetElemRotZ(p->board,e->index,&e->angle);
             p->entries[i].bits.dirty=0;
         }
@@ -334,7 +335,7 @@ int MUSICAL_MCSS_ElemKeepsFlippedHeight(u8 *elem) { return MUSICAL_MCSS_ElemData
 
 void *MUSICAL_MCSS_CreateResourceArc(int type) { return G3D_SYSTEM_CreateResourceArc(45,MUSICAL_MCSS_GetArcFileCount(type)); }
 
-void MUSICAL_MCSS_FreeResourceArc(struct Tagged *resourceArc) { G3D_SYSTEM_DeleteResource(resourceArc); }
+void MUSICAL_MCSS_FreeResourceArc(struct Tagged *resourceArc) { G3D_SYSTEM_DeleteResource((struct G3dResource *)resourceArc); }
 
 u16 MUSICAL_MCSS_FindFreeActorIndex(u32 pool) { u16 n; int i; n=((McssActorPool *)pool)->count; for (i=0;i<n;i++) { if (((McssActorPool *)pool)->entries[i].bits.active==0) break; } if (i==n) return 0; return i; }
 
@@ -348,7 +349,7 @@ McssActorElem *MUSICAL_MCSS_AddImage(McssActorPool *pool,int type,u32 id,int *v)
     pool->entries[index].data=MUSICAL_MCSS_GetElemPtr(pool->resource,type);
     data=MUSICAL_MCSS_GetElemSizeFlags((int *)pool->entries[index].data);
     MUSICAL_MCSS_SetupObject((u8 *)(&pool->entries[index]),&pair.y,&pair.x);
-    pool->entries[index].id=BILLBOARD_AddImage(pool->board,id,0,data,pair.y<<5,pair.x<<5);
+    pool->entries[index].id=BILLBOARD_AddImage(pool->board,(struct G3dResource *)id,0,data,pair.y<<5,pair.x<<5);
     pool->entries[index].flags |= 16;
     MUSICAL_MCSS_AddElem((McssActorPool *)pool, index, (int *)v, pair.y, pair.x);
     return &pool->entries[index];
@@ -421,8 +422,8 @@ void MUSICAL_MCSS_TransferVram(char *p, char *e, void *unused)
 {
     u32 first, second;
     if (!((McssActorElem *)e)->bits.vramTransferred) {
-        BILLBOARD_GetImagePlttVramOffset((int)(*(void **)(p+4)),*(u32 *)(e+4),(int)(&first));
-        BILLBOARD_GetImagePlttKey((int)(*(void **)(p+4)),*(u32 *)(e+4),(int)(&second));
+        BILLBOARD_GetImagePlttVramOffset((struct BbBoard *)(*(void **)(p+4)),*(u32 *)(e+4),(s32 *)(&first));
+        BILLBOARD_GetImagePlttKey((struct BbBoard *)(*(void **)(p+4)),*(u32 *)(e+4),(u32 *)(&second));
         NNS_GfdRegisterNewVramTransferTask((void *)1,first,(u32)(p+18),((second & 0xffff0000) >> 16) * 8);
         *(u16 *)e |= 8;
     }
@@ -444,15 +445,15 @@ void MUSICAL_MCSS_CopyElem(void *unused, u8 *s, u8 *d)
 
 void MUSICAL_MCSS_SetElemVisible(u8 *pool,u8 *e,u32 value) { BILLBOARD_SetElemVisible(((McssActorPool *)pool)->board,((McssActorElem *)e)->index,&value); ((McssActorElem *)e)->flags |=2; }
 
-void MUSICAL_MCSS_SetElemPos(u32 unused,McssActorElem *p,const int *q) { p->x=q[0]; p->y=q[1]; p->z=q[2]; p->flags |=2; }
+void MUSICAL_MCSS_SetElemPos(void *unused, McssActorElem *p, const int *q) { p->x=q[0]; p->y=q[1]; p->z=q[2]; p->flags |=2; }
 
 void MUSICAL_MCSS_SetElemScale(u32 unused,u32 elem,u32 q) { ((struct Vec3 *)q)->x=((McssActorElem *)elem)->x; ((struct Vec3 *)q)->y=((McssActorElem *)elem)->y; ((struct Vec3 *)q)->z=((McssActorElem *)elem)->z; }
 
-void MUSICAL_MCSS_SetElemRotZ(u32 unused,u32 elem,s16 a,s16 b) { u16 flags; ((McssActorElem *)elem)->a=a; flags=((McssActorElem *)elem)->flags; ((McssActorElem *)elem)->b=b; ((McssActorElem *)elem)->flags=flags|2; }
+void MUSICAL_MCSS_SetElemRotZ(void *unused, u8 *elem, s16 a, s16 b) { u16 flags; ((McssActorElem *)elem)->a=a; flags=((McssActorElem *)elem)->flags; ((McssActorElem *)elem)->b=b; ((McssActorElem *)elem)->flags=flags|2; }
 
-void MUSICAL_MCSS_SetElemRot(u32 unused,u32 elem,s16 *a,s16 *b) { *a=((McssActorElem *)elem)->a; *b=((McssActorElem *)elem)->b; }
+void MUSICAL_MCSS_SetElemRot(void *unused, u8 *elem, s16 *a, s16 *b) { *a=((McssActorElem *)elem)->a; *b=((McssActorElem *)elem)->b; }
 
-void MUSICAL_MCSS_SetElemField(u32 unused,u32 elem,u16 v) { ((McssActorElem *)elem)->angle=v; ((McssActorElem *)elem)->flags |=2; }
+void MUSICAL_MCSS_SetElemField(void *unused, u8 *elem, u16 v) { ((McssActorElem *)elem)->angle=v; ((McssActorElem *)elem)->flags |=2; }
 
 /*
  * extent: six-byte body, two zero alignment bytes before separately filed 021F4EE8.
@@ -468,7 +469,7 @@ void MUSICAL_MCSS_GetElemField(int unused, u16 *p, u16 *out)
  * leaf: sole overlay blocker of handed ov133 021B8140; explicit unused r0
  * retained from the caller. Twenty-byte body; following getter omitted.
  */
-void MUSICAL_MCSS_SetElemFlag(int unused,McssActorElem *s,int flag)
+void MUSICAL_MCSS_SetElemFlag(u8 *unused, McssActorElem *s, int flag)
 {
     s->bits.rotate=flag;
 }

@@ -94,10 +94,12 @@ extern void BG_SYS_ClearMainPlanes(void);
 extern void BG_SYS_ClearSubPlanes(void);
 
 extern void GF_FONT_InitTextColor(void);
+struct Tcb;
 
-extern int GFL_USE_AddMainTask(void (*)(int, int *), int *, int);
+extern struct Tcb *GFL_USE_AddMainTask(void (*)(int, int *), void *work, unsigned int priority);
+struct TcbTask;
 
-extern void TCB_DeleteTask(struct Node *n);
+extern void TCB_DeleteTask(struct TcbTask *task);
 
 extern void GF_FONT_SetDefaultTextColor(void);
 
@@ -122,8 +124,10 @@ extern void BMP_WIN_Exit(void);
 extern void BG_SYS_Delete(void);
 
 extern void BG_SYS_Update(void);
+struct DispVramCfg;
+struct SysInit;
 
-extern void CLACT_InitSystem(const struct Cfg *cfg, unsigned int arg, unsigned int heapId);
+extern void CLACT_InitSystem(struct SysInit *cfg, struct DispVramCfg *res_cfg, unsigned int heapId);
 
 extern struct Bank *CLACT_CreateUnit(int count, u8 flag, unsigned int heapId);
 
@@ -196,7 +200,7 @@ int *WIFIBATTLEMATCH_GRAPHIC_Create(unsigned swap, u16 heap)
     GF_FONT_InitTextColor();
     WIFIBATTLEMATCH_GRAPHIC_InitBg(p, heap);
     WIFIBATTLEMATCH_GRAPHIC_InitClact(p + 1, (int)d_021E8B2C, heap);
-    ((struct WifibattlematchGraphic *)p)->vblankHandle = GFL_USE_AddMainTask(WIFIBATTLEMATCH_GRAPHIC_VBlank, p, 0);
+    ((struct WifibattlematchGraphic *)p)->vblankHandle = (unsigned int)GFL_USE_AddMainTask(WIFIBATTLEMATCH_GRAPHIC_VBlank, p, (unsigned int)0);
     return p;
 }
 
@@ -205,7 +209,7 @@ int *WIFIBATTLEMATCH_GRAPHIC_Create(unsigned swap, u16 heap)
  */
 void WIFIBATTLEMATCH_GRAPHIC_Delete(char *p)
 {
-    TCB_DeleteTask((struct Node *)((struct WifibattlematchGraphic *)p)->vblankHandle);
+    TCB_DeleteTask((struct TcbTask *)((struct WifibattlematchGraphic *)p)->vblankHandle);
     WIFIBATTLEMATCH_GRAPHIC_DeleteClact((int *)(p + 4));
     WIFIBATTLEMATCH_GRAPHIC_DeleteBg(p);
     GF_FONT_SetDefaultTextColor();
@@ -281,7 +285,7 @@ void WIFIBATTLEMATCH_GRAPHIC_TickDisplay(int *unused)
 void WIFIBATTLEMATCH_GRAPHIC_InitClact(int *p, int b, int c)
 {
     MI_CpuFill8((void *)((int)p), 0, 4);
-    CLACT_InitSystem((const struct Cfg *)d_021E8B10, b, c);
+    CLACT_InitSystem((struct SysInit *)d_021E8B10, (struct DispVramCfg *)b, c);
     p[0] = (int)CLACT_CreateUnit(0x80, 0, c);
     CLACT_SetUnitDefaultRenderer((void *)p[0]);
     BG_SYS_SetMainPlaneVisible(0x10, 1);

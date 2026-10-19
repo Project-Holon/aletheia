@@ -71,35 +71,39 @@
  */
 #include "pdwacc_disp_types.h"
 
-extern void WIPE_SYS_Start(void *, u32, u32, u32, u32, u32, u32);
+extern void WIPE_SYS_Start(void *divisionMode, u32 mainPattern, u32 subPattern, u16 color, u32 frames, u32 wait, u32 heapId);
 
 extern int GFL_NET_GetRunState(void);
+struct TaskMenuWork;
 
-extern u32 APP_TASKMENU_IsFinish(void *m);
+extern u32 APP_TASKMENU_IsFinish(struct TaskMenuWork *menu);
 
-extern u8 APP_TASKMENU_GetCursorPos(const void *menu);
+extern u8 APP_TASKMENU_GetCursorPos(struct TaskMenuWork *menu);
 
-extern void APP_TASKMENU_CloseMenu(void *m);
+extern void APP_TASKMENU_CloseMenu(struct TaskMenuWork *menu);
 
 extern u32 GFL_HEAP_Free(void *p);
 
 extern u32 WIPE_SYS_EndCheck(void);
+struct GameData;
 
-extern int GAME_DATA_SaveMain(void *gameData);
+extern int GAME_DATA_SaveMain(struct GameData *gd);
 
-extern int GAME_DATA_SaveStart(void *gameData);
+extern int GAME_DATA_SaveStart(struct GameData *gd);
+struct SaveControl;
 
-extern void *GAME_DATA_GetSaveControl(void *p);
+extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gd);
+struct Proc;
 
-extern void *PROCSYS_AllocProcWork(void *obj, u32 size, u32 heap);
+extern void *PROCSYS_AllocProcWork(struct Proc *proc, u32 size, u32 heapId);
 
 extern void MI_CpuFill8(void *,u8,u32);
 
-extern void APP_TASKMENU_UpdateMenu(void *);
+extern void APP_TASKMENU_UpdateMenu(struct TaskMenuWork *menu);
 
 extern void WIPE_SetBrightnessFadeOut(unsigned int,unsigned int);
 
-extern void PROCSYS_FreeProcWork(void *p);
+extern void PROCSYS_FreeProcWork(struct Proc *proc);
 
 extern int GF_OVERLAY_Load(int);
 
@@ -107,39 +111,44 @@ extern void GF_OVERLAY_Unload(int);
 
 extern u32 KEY_GetTrg(void);
 
-extern void GAME_DATA_SaveCancel(void *gameData);
+extern void GAME_DATA_SaveCancel(struct GameData *gd);
+struct _NHTTPRapSession;
 
-extern void NHTTP_RAP_DeleteConnection(u8 *p);
+extern void NHTTP_RAP_DeleteConnection(struct _NHTTPRapSession *session_p);
 
-extern void GFL_USE_CancelChangeAndPlayBgm(int, int);
+extern void GFL_USE_CancelChangeAndPlayBgm(u32 bgmNo, u32 trackMask);
+struct GameSyncData;
 
-extern void *GAME_SYNC_GetBlock(void *sys);
+extern struct GameSyncData *GAME_SYNC_GetBlock(struct SaveControl *saveControl);
 
-extern int NHTTP_RAP_GetResultCode(u8 *p);
+extern int NHTTP_RAP_GetResultCode(struct _NHTTPRapSession *session_p);
 
-extern int NHTTP_RAP_PollConnection(u8 *p);
+extern int NHTTP_RAP_PollConnection(struct _NHTTPRapSession *session_p);
 
-extern u8 *NHTTP_RAP_GetRecvBuffer(u8 *p);
+extern char *NHTTP_RAP_GetRecvBuffer(struct _NHTTPRapSession *session_p);
 
-extern int NHTTP_RAP_CreateRequest(int index, u8 *p);
+extern int NHTTP_RAP_CreateRequest(s32 index, struct _NHTTPRapSession *session_p);
+struct _NHTTPConnection;
 
-extern int NHTTP_RAP_GetConnection(char *p);
+extern struct _NHTTPConnection *NHTTP_RAP_GetConnection(struct _NHTTPRapSession *session_p);
 
-extern int NHTTP_RAP_StartConnection(u8 *p);
+extern int NHTTP_RAP_StartConnection(struct _NHTTPRapSession *session_p);
 
 extern int NHTTP_AddPostDataRaw(void *handle, void *value_p, unsigned long length);
+struct CgearSaveBlock;
 
-extern void BLOCK20_SAVEDATA_SetPending(void *obj, u8 value);
+extern void BLOCK20_SAVEDATA_SetPending(struct CgearSaveBlock *block, u8 value);
+struct MyStatus;
 
-extern u8 *GAME_DATA_GetMyStatus(void *p);
+extern struct MyStatus *GAME_DATA_GetMyStatus(struct GameData *gd);
 
-extern u32 MYSTATUS_GetProfileId(const void *obj);
+extern u32 MYSTATUS_GetProfileId(struct MyStatus *mystatus);
 
-extern void *SAVE_CONTROL_GetWorkArea(void *ctrl, int *out);
+extern void *SAVE_CONTROL_GetWorkArea(struct SaveControl *saveControl, u32 *size);
 
-extern void NHTTP_RAP_Destroy(u8 *p);
+extern void NHTTP_RAP_Destroy(struct _NHTTPRapSession *session_p);
 
-extern u8 *NHTTP_RAP_Create(int,int,int);
+extern struct _NHTTPRapSession *NHTTP_RAP_Create(unsigned int heapId, unsigned int gameCode, char *source_p);
 
 extern void DWC_RAP_SetErrorCallback(int,int);
 
@@ -288,7 +297,7 @@ void PDWACC_STATE_StateSaveStart(PdwaccProc *proc) { if(PDWACC_MESSAGE_UpdateStr
 
 void PDWACC_STATE_StateRestartTimeIcon(PdwaccProc *proc) { PDWACC_MESSAGE_PrintStream(proc->message,6); PDWACC_MESSAGE_RestartTimeIcon(proc->message); PDWACC_STATE_ChangeState(proc,PDWACC_STATE_StateSaveStart,0x112); }
 
-void PDWACC_STATE_StateWaitInputClearWindow(PdwaccProc *proc) { if(KEY_GetTrg()) { PDWACC_MESSAGE_ClearWindow(proc->message); BLOCK20_SAVEDATA_SetPending(GAME_SYNC_GetBlock(proc->saveControl),1); PDWACC_STATE_ChangeState(proc,PDWACC_STATE_StateRestartTimeIcon,0x11a); } }
+void PDWACC_STATE_StateWaitInputClearWindow(PdwaccProc *proc) { if(KEY_GetTrg()) { PDWACC_MESSAGE_ClearWindow(proc->message); BLOCK20_SAVEDATA_SetPending((struct CgearSaveBlock *)GAME_SYNC_GetBlock(proc->saveControl),1); PDWACC_STATE_ChangeState(proc,PDWACC_STATE_StateRestartTimeIcon,0x11a); } }
 
 void PDWACC_STATE_StateWaitInputPrintNumbers(PdwaccProc *proc) { if(KEY_GetTrg()) { PDWACC_MESSAGE_PrintNumberWindows(proc->message,proc->profileId,proc->profileId); PDWACC_MESSAGE_PrintInWindow(proc->message,9); PDWACC_STATE_ChangeState(proc,PDWACC_STATE_StateWaitInputClearWindow,0x12a); } }
 
@@ -334,7 +343,7 @@ void PDWACC_STATE_StateReceiveResponse(PdwaccProc *proc)
 {
     int *response;
     if (GFL_NET_GetRunState() && !PDWACC_STATE_HandleHttpError(proc,NHTTP_RAP_GetResultCode(proc->connection)) && !NHTTP_RAP_PollConnection(proc->connection)) {
-        response = (int *)(char *)NHTTP_RAP_GetRecvBuffer((u8 *)(proc->connection));
+        response = (int *)(char *)NHTTP_RAP_GetRecvBuffer((struct _NHTTPRapSession *)(proc->connection));
         PDWACC_MESSAGE_ClearStream(proc->message);
         if (*response == 2) { PDWACC_STATE_ChangeState(proc,PDWACC_STATE_StatePrintNumbersMessage,0x1d4); return; }
         if (*response == 0) { PDWACC_STATE_ChangeState(proc,PDWACC_STATE_StatePrintNumbersMessage,0x1d7); return; }
@@ -355,7 +364,7 @@ void PDWACC_STATE_StateSendRequest(PdwaccProc *proc)
     unsigned workArea;
     if (GFL_NET_GetRunState()) {
         if (NHTTP_RAP_CreateRequest(9,proc->connection)) {
-            workArea = (unsigned int)SAVE_CONTROL_GetWorkArea(proc->saveControl,&workAreaSize);
+            workArea = (unsigned int)SAVE_CONTROL_GetWorkArea(proc->saveControl,(u32 *)(&workAreaSize));
             NHTTP_AddPostDataRaw((void *)NHTTP_RAP_GetConnection(proc->connection),(void *)workArea,0x80000);
             if (!NHTTP_RAP_StartConnection(proc->connection)) {
                 PDWACC_STATE_ChangeState(proc,PDWACC_STATE_StateReceiveResponse,0x1f6);
@@ -385,9 +394,9 @@ int PDWACC_STATE_ProcInit(void *procSys,int unused,PdwaccProcParam *param)
     proc->heap=param->heap;
     proc->saveControl=GAME_DATA_GetSaveControl(param->gameData);
     proc->gameData=param->gameData;
-    proc->profileId=MYSTATUS_GetProfileId((const void *)GAME_DATA_GetMyStatus(param->gameData));
+    proc->profileId=MYSTATUS_GetProfileId((struct MyStatus *)GAME_DATA_GetMyStatus(param->gameData));
     if(GFL_NET_GetRunState()) {
-        proc->connection=NHTTP_RAP_Create(param->heap,proc->profileId,param->connectionArg);
+        proc->connection=NHTTP_RAP_Create(param->heap,proc->profileId,(char *)param->connectionArg);
         DWC_RAP_SetErrorCallback((int)PDWACC_STATE_DestroyHttpConnection,(int)proc);
     }
     proc->disp=PDWACC_DISP_Init(proc->heap);

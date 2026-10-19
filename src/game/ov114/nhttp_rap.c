@@ -49,6 +49,7 @@
  *   STD_CopyString  0x0208CADC  arm  arm9
  *   GFL_HEAP_Alloc  0x02030734  arm  arm9
  */
+#include "../version.h"
 #include "nhttp_types.h"
 #include "nhttp_rap_types.h"
 
@@ -60,11 +61,11 @@ extern int NHTTP_Startup(void *(*alloc)(unsigned long, int), void (*free)(void *
 
 extern NHTTPConnection *NHTTP_CreateConnection(char *url_p, int method, char *buf_p, u32 len, int (*callback)(NHTTPConnection *, int, void *), void *userParam_p);
 
-extern int NHTTP_SetRootCA(NHTTPConnection *connection_p, void *rootCA_p, int rootCALen);
+extern int NHTTP_SetRootCA(void *handle_p, void *rootCA_p, int rootCALen);
 
 extern int NHTTP_AddHeaderField(NHTTPConnection *connection_p, const char *label_p, const char *value_p);
 
-extern int NHTTP_SetBasicAuthorization(NHTTPConnection *connection_p, char *username_p, char *password_p);
+extern int NHTTP_SetBasicAuthorization(void *handle_p, char *username_p, char *password_p);
 
 extern void GF_PANIC_Fail(const char *,u32,const char *);
 
@@ -72,7 +73,7 @@ extern void MI_CpuFill8(void *,int,unsigned);
 
 extern int STD_TSNPrintf(char *,int,const char *,...);
 
-extern int NHTTP_StartConnection(NHTTPConnection *connection_p);
+extern int NHTTP_StartConnection(void *handle);
 
 extern void GFL_NET_STATE_SetError(int a, u32 b, u32 c, u32 d);
 
@@ -82,9 +83,9 @@ extern void NHTTP_Cleanup(void);
 
 extern int NHTTP_GetConnectionError(NHTTPConnection *connection_p);
 
-extern int NHTTP_GetConnectionProgress(NHTTPConnection *connection_p, int *received_p, int *contentLength_p);
+extern int NHTTP_GetConnectionProgress(void *handle, u32 *received_p, u32 *contentlen_p);
 
-extern int NHTTP_GetHeaderAll(NHTTPConnection *connection_p, char **value_pp);
+extern int NHTTP_GetHeaderAll(void *handle_p, char **value_pp);
 
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
@@ -96,13 +97,13 @@ extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
 
 extern u32 NHTTP_GetError(void);
 
-extern int NHTTP_AddPostDataRaw(NHTTPConnection *connection_p, void *value_p, unsigned long length);
+extern int NHTTP_AddPostDataRaw(void *handle_p, void *value_p, u32 length);
 
 extern char *STD_CopyString(char *, const char *);
 
 extern void GFL_NET_FreeAligned(void *);
 
-extern int NHTTP_GetResultCode(NHTTPConnection *connection_p);
+extern int NHTTP_GetResultCode(void *handle_p);
 
 extern void CRYPTO_SetMemAllocator(void *(*alloc)(int), void (*free)(void *), int arg);
 
@@ -192,7 +193,7 @@ int NHTTP_RAP_CreateRequest(int index, NHTTPRapSession *session_p)
     if(session_p==0) return 0;
     MI_CpuFill8(session_p->url,0,4);
     if(index==4) STD_TSNPrintf(session_p->url,400,sNHTTPRapRequestTable[index].urlFormat,session_p->source_p+69);
-    else STD_TSNPrintf(session_p->url,400,sNHTTPRapRequestTable[index].urlFormat,session_p->gameCode,21,2,1,session_p->source_p+69);
+    else STD_TSNPrintf(session_p->url,400,sNHTTPRapRequestTable[index].urlFormat,session_p->gameCode,PM_VERSION_ID,2,1,session_p->source_p+69);
     connection_p=NHTTP_CreateConnection(session_p->url,sNHTTPRapRequestTable[index].method,session_p->recvBuf,1024,NHTTP_RAP_ConnectionCallback,session_p);
     if(connection_p==0) GF_PANIC_Fail(sNHTTPRapStrings,0,sNHTTPRapStrings);
     if(connection_p==0) return 0;
@@ -266,7 +267,7 @@ int NHTTP_RAP_PollConnection(NHTTPRapSession *session_p)
     if (session_p->connection_p == 0) return 0;
     result = NHTTP_GetConnectionError(session_p->connection_p);
     if (result == 15) {
-        NHTTP_GetConnectionProgress(session_p->connection_p, &received, &contentLength);
+        NHTTP_GetConnectionProgress(session_p->connection_p, (u32 *)(&received), (u32 *)(&contentLength));
     } else {
         int error = NHTTP_GetConnectionError(session_p->connection_p);
         if (error == 0) NHTTP_GetHeaderAll(session_p->connection_p, (char **)(&headerAll));

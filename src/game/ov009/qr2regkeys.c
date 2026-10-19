@@ -21,7 +21,7 @@
  *   gQr2RegKeysDebugRegistered  0x021A80CC  data
  */
 extern int strcmp(const char *a, const char *b);
-extern int gsDebugFormat(int index, char *table, int mask, const char *fmt, ...);
+extern void gsDebugFormat(int cat, int type, int level, char *fmt, ...);
 int qr2_internal_is_master_only_key(char *keyname);
 void qr2_register_keyA(int keyid, char *key);
 extern char *gQr2RegKeys[254];
@@ -46,11 +46,11 @@ int qr2_internal_is_master_only_key(char *keyname)
  */
 void qr2_register_keyA(int keyid, char *key)
 {
-    gsDebugFormat(3, (char *)4, 0x40, gQr2RegKeysDebugRegister);
+    gsDebugFormat((int)3, (int)4, 0x40, gQr2RegKeysDebugRegister);
     if (keyid < 0x32 || keyid > 0xfe) {
-        gsDebugFormat(3, (char *)4, 2, gQr2RegKeysDebugInvalid, keyid, key);
+        gsDebugFormat((int)3, (int)4, 2, gQr2RegKeysDebugInvalid, keyid, key);
         return;
     }
-    gsDebugFormat(3, (char *)4, 0x10, gQr2RegKeysDebugRegistered, keyid, key);
+    gsDebugFormat((int)3, (int)4, 0x10, gQr2RegKeysDebugRegistered, keyid, key);
     gQr2RegKeys[keyid] = key;
 }

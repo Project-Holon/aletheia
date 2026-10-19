@@ -149,6 +149,7 @@
  *   FIELD_MSGBG_SetAutoMode  0x021904DC  thumb  ov021
  */
 
+#include "../version.h"
 #include "../arm9/script_vm_types.h"
 #include "field_msgbg_types.h"
 #include "../ov010/script_work_types.h"
@@ -245,11 +246,11 @@ extern ScriptFieldParam *SCRIPT_WORK_ResetFieldParam(ScriptWork *scriptWork);
 extern u16 SCRIPT_WORK_ReadWorkValue(ScriptVm *vm, ScrcmdWork *cmdWork);
 extern u16 SCRCMD_WORK_GetHeapId(ScrcmdWork *cmdWork);
 extern GameSystem *SCRCMD_WORK_GetGameSystem(ScrcmdWork *cmdWork);
-extern void SCRIPT_SYS_CallEvent(ScriptWork *scriptWork, GameEvent *event);
+extern void SCRIPT_SYS_CallEvent(void *scriptWork, void *task);
 extern u16 *SCRIPT_WORK_ReadWorkPointer(ScriptVm *vm, ScrcmdWork *cmdWork);
 extern u16 FLDMMDL_GetObjId(Mmdl *mmdl);
 extern GameData *SCRCMD_WORK_GetGameData(ScrcmdWork *cmdWork);
-extern FieldMap *GAMESYSTEM_GetFieldMap(GameSystem *gameSystem);
+extern void *GAMESYSTEM_GetFieldMap(GameSystem *gameSystem);
 extern u16 VM_ReadU16(ScriptVm *vm);
 extern void SCRIPT_WORK_SetCheckFlag(int checkFlag);
 extern void VM_SetWait(ScriptVm *vm, ScrcmdWaitFn waitFn);
@@ -257,7 +258,8 @@ extern void SCRIPT_WORK_ResetCheckFlag(int checkFlag);
 extern void GFL_USE_PlaySeDefaultVolume(u32 seNo);
 extern GameEvent *GAME_EVENT_Create(GameSystem *gameSystem, GameEvent *parent, GameEventProc proc, unsigned int workSize);
 extern void *GAME_EVENT_GetWork(GameEvent *event);
-extern WordSet *SCRIPT_WORK_GetWordSet(ScriptWork *scriptWork);
+struct ScriptWork;
+extern void *SCRIPT_WORK_GetWordSet(ScriptWork *scriptWork);
 extern void WORDSET_SetSlotNumber(WordSet *wordSet, u32 index, u32 number, u32 digits, u32 dispType, u32 codeType);
 extern FieldPlayer *FIELDMAP_GetFieldPlayer(FieldMap *fieldMap);
 extern void SCRCMD_WORK_SetWaitCount(ScrcmdWork *cmdWork, unsigned short count);
@@ -269,44 +271,48 @@ extern int FIELD_MSGBG_DeleteMenuFunc(FieldMenuFunc *menu);
 extern void SCRCMD_WORK_StartMenu(ScrcmdWork *cmdWork);
 extern int SCRCMD_WORK_WaitMenuOrCancel(ScrcmdWork *cmdWork);
 extern int SCRCMD_WORK_WaitMenu(ScrcmdWork *cmdWork);
-extern u16 *SCRIPT_WORK_GetWorkPtr(ScriptWork *scriptWork, GameData *gameData, unsigned int varId);
+extern u16 *SCRIPT_WORK_GetWorkPtr(struct ScriptWork *work, void *gameData, u32 id);
 extern u32 SCRCMD_WORK_InitMenu(ScrcmdWork *cmdWork, u32 x, u32 y, u32 cursorPos, u32 cancelable, u32 alignRight, u16 *result, WordSet *wordSet, MsgData *msgData);
 extern MsgData *SCRCMD_WORK_GetMsgData(ScrcmdWork *cmdWork);
 extern Strbuf *SCRIPT_WORK_GetMsgBuffer(ScriptWork *scriptWork);
-extern Strbuf *SCRIPT_WORK_GetTempBuffer(ScriptWork *scriptWork);
+extern void *SCRIPT_WORK_GetTempBuffer(ScriptWork *scriptWork);
 extern void SCRCMD_WORK_AddMenuItem(ScrcmdWork *cmdWork, int msgId, int helpMsgId, int itemValue, Strbuf *str, Strbuf *tmp);
 extern int SCRIPT_WORK_CheckFlag(int checkFlag);
-extern void *SCRCMD_WORK_GetMsgWindow(ScrcmdWork *cmdWork);
+struct FieldMsgWindow;
+extern struct FieldMsgWindow *SCRCMD_WORK_GetMsgWindow(ScrcmdWork *cmdWork);
 extern void FIELD_MSGBG_ClearInfoSysWin(FieldSysWin *sysWin);
 extern u32 SCRCMD_WORK_GetWindowState(ScrcmdWork *cmdWork);
 extern FieldSysWin *FIELD_MSGBG_CreateInfoSysWin(FieldMsgBg *msgBg, MsgData *msgData, u32 y);
 extern void SCRCMD_WORK_SetWindowState(ScrcmdWork *cmdWork, u32 windowState);
 extern u32 SCRCMD_WORK_SetMsgWindow(ScrcmdWork *cmdWork, void *msgWin);
 extern int FIELD_MSGBG_DeleteInfoSysWin(FieldSysWin *sysWin);
-extern TimeIcon *SCRCMD_WORK_GetTimeIcon(ScrcmdWork *cmdWork);
+extern void *SCRCMD_WORK_GetTimeIcon(ScrcmdWork *cmdWork);
 extern void TIME_ICON_Delete(TimeIcon *timeIcon);
-extern void SCRCMD_WORK_SetTimeIcon(ScrcmdWork *cmdWork, TimeIcon *timeIcon);
+extern void SCRCMD_WORK_SetTimeIcon(struct ScrcmdWork *work, void *window);
 extern u32 FIELD_MSGBG_InfoSysWinMain(FieldSysWin *sysWin);
 extern void FIELD_MSGBG_InfoSysWinPrintStr(FieldSysWin *sysWin, u32 x, u16 y, Strbuf *str);
-extern void MSGDATA_ReadString(MsgData *msgData, u32 msgId, Strbuf *dest);
+struct MsgBank;
+extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, struct Strbuf *dest);
 extern void WORDSET_CopyTaggedText(WordSet *wordSet, Strbuf *dest, Strbuf *src);
 extern void FIELD_MSGBG_InfoSysWinPrintStrNow(FieldSysWin *sysWin, u32 x, int y, Strbuf *str);
 extern u16 FIELDMAP_GetHeapId(FieldMap *fieldMap);
 extern BmpWin *FIELD_MSGBG_GetInfoSysWinBmpWin(FieldSysWin *sysWin);
-extern MainTaskList *GFL_USE_GetMainTaskList(void);
+struct TcbList;
+extern struct TcbList *GFL_USE_GetMainTaskList(void);
 extern TimeIcon *TIME_ICON_Create(MainTaskList *taskList, BmpWin *bmpWin, u32 x, u32 y, u32 heapId);
 extern PlayerWork *GAME_DATA_GetMyPlayerWork(GameData *gameData);
 extern FieldMsgWin *FIELDMAP_GetInfoWindow(FieldMap *fieldMap);
-extern MsgData *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
-extern MoneyData *GAME_DATA_GetMiscSave(GameData *gameData);
-extern u32 MISC_GetMoney(MoneyData *moneyData);
+extern void *GAME_DATA_GetMiscSave(GameData *gameData);
+struct MiscSave;
+extern u32 MISC_GetMoney(struct MiscSave *beacon);
 extern int FIELD_MSGBG_DeleteMsgWin(FieldMsgWin *msgWin);
 extern FieldMsgWin *FIELD_MSGBG_CreateMsgWin(FieldMsgBg *msgBg, MsgData *msgData, u16 x, u16 y, u16 width, u16 height);
 extern void FIELDMAP_SetInfoWindow(FieldMap *fieldMap, FieldMsgWin *msgWin);
 extern void FIELD_MSGBG_MsgWinPrintStr(FieldMsgWin *msgWin, int x, int y, Strbuf *str);
 extern void STRBUF_Delete(Strbuf *str);
-extern u32 MSGDATA_Delete(MsgData *msgData);
+extern u32 MSGDATA_Delete(struct MsgBank *bank);
 extern void FIELD_MSGBG_ClearMsgWin(FieldMsgWin *msgWin);
 extern void G3D_CAMERA_Reset(G3dCamera *camera);
 extern void G3D_CAMERA_GetCamTarget(G3dCamera *camera, VecFx32 *out);
@@ -320,13 +326,16 @@ extern void MTX_LookAt(VecFx32 *eye, VecFx32 *up, VecFx32 *target, MtxFx43 *out)
 extern void MI_Copy36B(MtxFx43 *src, MtxFx33 *dest);
 extern void MTX_Inverse33(MtxFx33 *src, MtxFx33 *dest);
 extern void MTX_MultVec33(VecFx32 *vec, MtxFx33 *mtx, VecFx32 *out);
-extern void FLDMMDL_GetPos(const Mmdl *mmdl, VecFx32 *out);
-extern u32 FIELD_MSGBG_WaitTalkWinClose(FieldTalkWin *talkWin);
+struct MmdlVec;
+extern void FLDMMDL_GetPos(struct Mmdl *mmdl, struct MmdlVec *out);
+struct FieldTalkWin;
+extern s32 FIELD_MSGBG_WaitTalkWinClose(FieldTalkWin *talkWin);
 extern int FIELD_MSGBG_DeleteTalkWin(FieldTalkWin *talkWin);
 extern int FIELD_MSGBG_ClearTalkWin(FieldTalkWin *talkWin);
 extern FieldTalkWin *FIELD_MSGBG_AddTalkWin(FieldMsgBg *msgBg, int index, VecFx32 *pos, Strbuf *str, u32 winType, u32 tailType);
-extern MmdlSys *SCRCMD_WORK_GetOccupyInfo(ScrcmdWork *cmdWork);
-extern BalloonWinWork *SCRCMD_WORK_GetWordSetWork(ScrcmdWork *cmdWork);
+struct OccupyInfo;
+extern struct OccupyInfo *SCRCMD_WORK_GetOccupyInfo(ScrcmdWork *cmdWork);
+extern u8 *SCRCMD_WORK_GetWordSetWork(ScrcmdWork *cmdWork);
 extern Mmdl *FLDMMDL_SysSearchObjId(MmdlSys *mmdlSys, u32 objId);
 extern FieldCamera *FIELDMAP_GetCamera(FieldMap *fieldMap);
 extern G3dCamera *FIELD_CAMERA_GetG3dCamera(FieldCamera *fieldCamera);
@@ -335,9 +344,9 @@ extern u32 FIELD_MSGBG_TalkWinPrintStr(FieldTalkWin *talkWin, Strbuf *str);
 extern void MI_CpuFill8(void *dest, int value, int size);
 extern void SCRCMD_WORK_SetWindowKind(ScrcmdWork *cmdWork, u8 windowKind);
 extern u32 FIELD_MSGBG_TalkWinMain(FieldTalkWin *talkWin);
-extern Mmdl *SCRIPT_WORK_GetTargetObj(ScriptWork *scriptWork);
+extern void *SCRIPT_WORK_GetTargetObj(ScriptWork *scriptWork);
 extern u8 MYSTATUS_GetSex(const MyStatus *myStatus);
-extern void TPOKE_DATA_ReadRecordString(int key1, int key2, Strbuf *dest, u32 heapId);
+extern void TPOKE_DATA_ReadRecordString(s32 key, s32 want, void *dest, u32 heap);
 extern u32 FIELD_MSGBG_PlainWinMain(FieldPlainWin *plainWin);
 extern void FIELD_MSGBG_ClearPlainWin(FieldPlainWin *plainWin);
 extern FieldPlainWin *FIELD_MSGBG_CreatePlainWin(FieldMsgBg *msgBg, MsgData *msgData, u32 winType, u16 x, u16 y, u16 width, u16 height);
@@ -350,8 +359,8 @@ extern int FIELD_MSGBG_ExistsSubMsgWin(FieldMsgBg *msgBg);
 extern void FIELD_MSGBG_DeleteAllSubMsgWin(FieldMsgBg *msgBg);
 extern u32 FIELD_MSGBG_BgWinMain(FieldBgWin *bgWin, Strbuf *str);
 extern void FIELD_MSGBG_DeleteBgWin(FieldBgWin *bgWin);
-extern GfFont *SCRIPT_WORK_GetMsgData(ScriptWork *scriptWork);
-extern void SCRIPT_WORK_SetMsgData(ScriptWork *scriptWork, GfFont *font);
+extern void *SCRIPT_WORK_GetMsgData(ScriptWork *scriptWork);
+extern void SCRIPT_WORK_SetMsgData(struct ScriptWork *work, void *msgData);
 extern u32 GF_FONT_Delete(GfFont *font);
 extern FieldBgWin *FIELD_MSGBG_CreateBgWin(FieldMsgBg *msgBg, int winType);
 extern GfFont *GF_FONT_Create(int archiveId, int fileId, int format, int isFixedWidth, u32 heapId);
@@ -662,7 +671,7 @@ void SCRCMD_MSGWIN_OpenInfoSysWin(ScrcmdWork *cmdWork, u32 windowKind)
 
     winY = 1;
     if (SCRIPT_WORK_CheckFlag(SCRIPT_FLAG_INFO_SYS_WIN)) {
-        FIELD_MSGBG_ClearInfoSysWin(SCRCMD_WORK_GetMsgWindow(cmdWork));
+        FIELD_MSGBG_ClearInfoSysWin((struct FieldSysWin *)SCRCMD_WORK_GetMsgWindow(cmdWork));
         return;
     }
     fieldParam = SCRIPT_WORK_ResetFieldParam(SCRCMD_WORK_GetScriptWork(cmdWork));
@@ -709,7 +718,7 @@ void SCRCMD_MSGWIN_CloseInfoSysWin(ScrcmdWork *cmdWork)
     TimeIcon *timeIcon;
 
     if (SCRIPT_WORK_CheckFlag(SCRIPT_FLAG_INFO_SYS_WIN)) {
-        FIELD_MSGBG_DeleteInfoSysWin(SCRCMD_WORK_GetMsgWindow(cmdWork));
+        FIELD_MSGBG_DeleteInfoSysWin((struct FieldSysWin *)SCRCMD_WORK_GetMsgWindow(cmdWork));
         timeIcon = SCRCMD_WORK_GetTimeIcon(cmdWork);
         if (timeIcon) {
             TIME_ICON_Delete(timeIcon);
@@ -723,7 +732,7 @@ void SCRCMD_MSGWIN_CloseInfoSysWin(ScrcmdWork *cmdWork)
 
 int SCRCMD_MSGWIN_WaitInfoSysWin(ScriptVm *vm, ScrcmdWork *cmdWork)
 {
-if (FIELD_MSGBG_InfoSysWinMain(SCRCMD_WORK_GetMsgWindow(cmdWork)) == 1) {
+if (FIELD_MSGBG_InfoSysWinMain((struct FieldSysWin *)SCRCMD_WORK_GetMsgWindow(cmdWork)) == 1) {
     return 1;
 }
 return 0;
@@ -740,7 +749,7 @@ int SCRCMD_MSGWIN_CmdInfoSysWinMsg(ScriptVm *vm, ScrcmdWork *cmdWork)
     msgId = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
     SCRCMD_MSGWIN_OpenInfoSysWin(cmdWork, (u8)VM_ReadU16(vm));
     str = SCRCMD_MSGWIN_ExpandMessage(cmdWork, scriptWork, msgId);
-    FIELD_MSGBG_InfoSysWinPrintStr(SCRCMD_WORK_GetMsgWindow(cmdWork), 0, 0, str);
+    FIELD_MSGBG_InfoSysWinPrintStr((struct FieldSysWin *)SCRCMD_WORK_GetMsgWindow(cmdWork), 0, 0, str);
     VM_SetWait(vm, SCRCMD_MSGWIN_WaitInfoSysWin);
     return 1;
 }
@@ -763,9 +772,9 @@ int SCRCMD_MSGWIN_CmdInfoSysWinMsgNow(ScriptVm *vm, ScrcmdWork *cmdWork)
     msgData = SCRCMD_WORK_GetMsgData(cmdWork);
     wordSet = SCRIPT_WORK_GetWordSet(scriptWork);
     tempBuffer = SCRIPT_WORK_GetTempBuffer(scriptWork);
-    MSGDATA_ReadString(msgData, msgId, tempBuffer);
+    MSGDATA_ReadString((struct MsgBank *)msgData, msgId, tempBuffer);
     WORDSET_CopyTaggedText(wordSet, str, tempBuffer);
-    sysWin = SCRCMD_WORK_GetMsgWindow(cmdWork);
+    sysWin = (struct FieldSysWin *)SCRCMD_WORK_GetMsgWindow(cmdWork);
     FIELD_MSGBG_ClearInfoSysWin(sysWin);
     FIELD_MSGBG_InfoSysWinPrintStrNow(sysWin, 0, 0, str);
     return 0;
@@ -788,8 +797,8 @@ int SCRCMD_MSGWIN_CmdSetTimeIcon(ScriptVm *vm, ScrcmdWork *cmdWork)
         SCRCMD_WORK_SetTimeIcon(cmdWork, 0);
     }
     if (noTimeIcon == 0) {
-        BmpWin *bmpWin = FIELD_MSGBG_GetInfoSysWinBmpWin(SCRCMD_WORK_GetMsgWindow(cmdWork));
-        SCRCMD_WORK_SetTimeIcon(cmdWork, TIME_ICON_Create(GFL_USE_GetMainTaskList(), bmpWin, 0xf, 0x10, heapId));
+        BmpWin *bmpWin = FIELD_MSGBG_GetInfoSysWinBmpWin((struct FieldSysWin *)SCRCMD_WORK_GetMsgWindow(cmdWork));
+        SCRCMD_WORK_SetTimeIcon(cmdWork, TIME_ICON_Create((struct MainTaskList *)GFL_USE_GetMainTaskList(), bmpWin, 0xf, 0x10, heapId));
     }
     return 0;
 }
@@ -843,7 +852,7 @@ int SCRCMD_MSGWIN_CmdOpenMoneyWin(ScriptVm *vm, ScrcmdWork *cmdWork)
     wordSet = SCRIPT_WORK_GetWordSet(scriptWork);
     tempBuffer = SCRIPT_WORK_GetTempBuffer(scriptWork);
     heapId = FIELDMAP_GetHeapId(fieldMap);
-    msgData = MSGDATA_CreateFromArchive(0, 3, 0x9e, heapId);
+    msgData = (struct MsgData *)MSGDATA_CreateFromArchive(0, 3, 0x9e, heapId);
     str = STRBUF_Create(0x80, heapId);
     money = MISC_GetMoney(GAME_DATA_GetMiscSave(gameData));
     if (oldWin != 0)
@@ -851,11 +860,11 @@ int SCRCMD_MSGWIN_CmdOpenMoneyWin(ScriptVm *vm, ScrcmdWork *cmdWork)
     moneyWin = FIELD_MSGBG_CreateMsgWin(msgBg, msgData, (u16)(x - 9), (u16)y, 9, 2);
     FIELDMAP_SetInfoWindow(fieldMap, moneyWin);
     WORDSET_SetSlotNumber(wordSet, 2, money, 7, 1, 1);
-    MSGDATA_ReadString(msgData, 1, tempBuffer);
+    MSGDATA_ReadString((struct MsgBank *)msgData, 1, tempBuffer);
     WORDSET_CopyTaggedText(wordSet, str, tempBuffer);
     FIELD_MSGBG_MsgWinPrintStr(moneyWin, 0, 0, str);
     STRBUF_Delete(str);
-    MSGDATA_Delete(msgData);
+    MSGDATA_Delete((struct MsgBank *)msgData);
     return 0;
 }
 
@@ -882,15 +891,15 @@ int SCRCMD_MSGWIN_CmdUpdateMoneyWin(ScriptVm *vm, ScrcmdWork *cmdWork)
     wordSet = SCRIPT_WORK_GetWordSet(scriptWork);
     tempBuffer = SCRIPT_WORK_GetTempBuffer(scriptWork);
     heapId = FIELDMAP_GetHeapId(fieldMap);
-    msgData = MSGDATA_CreateFromArchive(0, 3, 0x9e, heapId);
+    msgData = (struct MsgData *)MSGDATA_CreateFromArchive(0, 3, 0x9e, heapId);
     str = STRBUF_Create(0x80, heapId);
     WORDSET_SetSlotNumber(wordSet, 2, MISC_GetMoney(GAME_DATA_GetMiscSave(gameData)), 7, 1, 1);
-    MSGDATA_ReadString(msgData, 1, tempBuffer);
+    MSGDATA_ReadString((struct MsgBank *)msgData, 1, tempBuffer);
     WORDSET_CopyTaggedText(wordSet, str, tempBuffer);
     FIELD_MSGBG_ClearMsgWin(moneyWin);
     FIELD_MSGBG_MsgWinPrintStr(moneyWin, 0, 0, str);
     STRBUF_Delete(str);
-    MSGDATA_Delete(msgData);
+    MSGDATA_Delete((struct MsgBank *)msgData);
     return 0;
 }
 
@@ -1053,7 +1062,7 @@ int SCRCMD_MSGWIN_GetBalloonSide(Mmdl *playerMmdl, const VecFx32 *targetPos)
     VecFx32 playerPos;
     int placement = 2;
 
-    FLDMMDL_GetPos(playerMmdl, &playerPos);
+    FLDMMDL_GetPos(playerMmdl, (struct MmdlVec *)(&playerPos));
     if (targetPos->z < playerPos.z)
         placement = 1;
     return placement;
@@ -1072,7 +1081,7 @@ int SCRCMD_MSGWIN_GetBalloonSide(Mmdl *playerMmdl, const VecFx32 *targetPos)
  */
 int SCRCMD_MSGWIN_WaitTalkWinClose(ScriptVm *vm, ScrcmdWork *cmdWork)
 {
-if (FIELD_MSGBG_WaitTalkWinClose(SCRCMD_WORK_GetMsgWindow(cmdWork)) == 1) {
+if (FIELD_MSGBG_WaitTalkWinClose((struct FieldTalkWin *)SCRCMD_WORK_GetMsgWindow(cmdWork)) == 1) {
     SCRCMD_WORK_SetMsgWindow(cmdWork, 0);
     SCRIPT_WORK_ResetCheckFlag(SCRIPT_FLAG_TALK_WIN);
     return 1;
@@ -1084,7 +1093,7 @@ return 0;
 void SCRCMD_MSGWIN_StartCloseTalkWin(ScriptVm *vm, ScrcmdWork *cmdWork)
 {
     if (SCRIPT_WORK_CheckFlag(SCRIPT_FLAG_TALK_WIN) != 0) {
-        FIELD_MSGBG_DeleteTalkWin(SCRCMD_WORK_GetMsgWindow(cmdWork));
+        FIELD_MSGBG_DeleteTalkWin((struct FieldTalkWin *)SCRCMD_WORK_GetMsgWindow(cmdWork));
         VM_SetWait(vm, SCRCMD_MSGWIN_WaitTalkWinClose);
     }
 }
@@ -1095,7 +1104,7 @@ void SCRCMD_MSGWIN_CloseTalkWin(ScrcmdWork *cmdWork)
     u32 checkFlag = SCRIPT_FLAG_TALK_WIN;
 
     if (SCRIPT_WORK_CheckFlag(checkFlag)) {
-        FIELD_MSGBG_ClearTalkWin(SCRCMD_WORK_GetMsgWindow(cmdWork));
+        FIELD_MSGBG_ClearTalkWin((struct FieldTalkWin *)SCRCMD_WORK_GetMsgWindow(cmdWork));
         SCRCMD_WORK_SetMsgWindow(cmdWork, 0);
         SCRIPT_WORK_ResetCheckFlag(checkFlag);
     }
@@ -1111,13 +1120,13 @@ void SCRCMD_MSGWIN_OpenTalkWin(ScrcmdWork *cmdWork, FieldMsgBg *msgBg, int talkI
 
 void SCRCMD_MSGWIN_UpdateBalloonPos(ScrcmdWork *cmdWork, int forceUpdate)
 {
-    MmdlSys *mmdlSys = SCRCMD_WORK_GetOccupyInfo(cmdWork);
-    BalloonWinWork *balloon = SCRCMD_WORK_GetWordSetWork(cmdWork);
+    MmdlSys *mmdlSys = (struct MmdlSys *)SCRCMD_WORK_GetOccupyInfo(cmdWork);
+    BalloonWinWork *balloon = (struct BalloonWinWork *)SCRCMD_WORK_GetWordSetWork(cmdWork);
     Mmdl *mmdl = FLDMMDL_SysSearchObjId(mmdlSys, balloon->objId);
     VecFx32 mmdlPos;
     if (mmdl != 0) {
         FLDMMDL_GetDirDisp(mmdl);
-        FLDMMDL_GetPos(mmdl, &mmdlPos);
+        FLDMMDL_GetPos(mmdl, (struct MmdlVec *)(&mmdlPos));
         if (forceUpdate == 1 || mmdlPos.x != balloon->mmdlPos.x || mmdlPos.y != balloon->mmdlPos.y || mmdlPos.z != balloon->mmdlPos.z) {
             FieldCamera *fieldCamera;
             G3dCamera *g3dCamera;
@@ -1153,7 +1162,7 @@ int SCRCMD_MSGWIN_OpenBalloonWinMsg(ScrcmdWork *cmdWork, u16 objId, u16 msgFileI
     scriptWork = SCRCMD_WORK_GetScriptWork(cmdWork);
     scriptMsgData = SCRCMD_WORK_GetMsgData(cmdWork);
     fieldParam = SCRIPT_WORK_ResetFieldParam(scriptWork);
-    mmdlSys = SCRCMD_WORK_GetOccupyInfo(cmdWork);
+    mmdlSys = (struct MmdlSys *)SCRCMD_WORK_GetOccupyInfo(cmdWork);
     playerMmdl = FLDMMDL_SysSearchObjId(mmdlSys, 0xff);
     targetMmdl = FLDMMDL_SysSearchObjId(mmdlSys, objId);
     if (targetMmdl == 0) {
@@ -1163,22 +1172,22 @@ int SCRCMD_MSGWIN_OpenBalloonWinMsg(ScrcmdWork *cmdWork, u16 objId, u16 msgFileI
     wordSet = SCRIPT_WORK_GetWordSet(scriptWork);
     tempBuffer = SCRIPT_WORK_GetTempBuffer(scriptWork);
     if (msgFileId == 0x400) {
-        MSGDATA_ReadString(scriptMsgData, msgId, tempBuffer);
+        MSGDATA_ReadString((struct MsgBank *)scriptMsgData, msgId, tempBuffer);
     } else {
-        fileMsgData = MSGDATA_CreateFromArchive(0, 3, msgFileId, SCRCMD_WORK_GetHeapId(cmdWork));
-        MSGDATA_ReadString(fileMsgData, msgId, tempBuffer);
-        MSGDATA_Delete(fileMsgData);
+        fileMsgData = (struct MsgData *)MSGDATA_CreateFromArchive(0, 3, msgFileId, SCRCMD_WORK_GetHeapId(cmdWork));
+        MSGDATA_ReadString((struct MsgBank *)fileMsgData, msgId, tempBuffer);
+        MSGDATA_Delete((struct MsgBank *)fileMsgData);
     }
     WORDSET_CopyTaggedText(wordSet, msgBuffer, tempBuffer);
-    balloon = SCRCMD_WORK_GetWordSetWork(cmdWork);
+    balloon = (struct BalloonWinWork *)SCRCMD_WORK_GetWordSetWork(cmdWork);
     if (SCRIPT_WORK_CheckFlag(SCRIPT_FLAG_TALK_WIN) != 0) {
-        FIELD_MSGBG_TalkWinPrintStr(SCRCMD_WORK_GetMsgWindow(cmdWork), msgBuffer);
+        FIELD_MSGBG_TalkWinPrintStr((struct FieldTalkWin *)SCRCMD_WORK_GetMsgWindow(cmdWork), msgBuffer);
     } else {
         MI_CpuFill8(balloon, 0, 0x28);
         balloon->objId = objId;
         if (windowKind == 0) {
             SCRCMD_WORK_GetWindowState(cmdWork);
-            FLDMMDL_GetPos(targetMmdl, &targetPos);
+            FLDMMDL_GetPos(targetMmdl, (struct MmdlVec *)(&targetPos));
             windowState = SCRCMD_MSGWIN_GetBalloonSide(playerMmdl, &targetPos);
         }
         SCRCMD_MSGWIN_GetBalloonTailParams(windowState, &talkIndex, &tailType);
@@ -1197,7 +1206,7 @@ int SCRCMD_MSGWIN_WaitBalloonWin(ScriptVm *vm, ScrcmdWork *cmdWork)
     FieldTalkWin *talkWin;
     int done;
 
-    talkWin = SCRCMD_WORK_GetMsgWindow(cmdWork);
+    talkWin = (struct FieldTalkWin *)SCRCMD_WORK_GetMsgWindow(cmdWork);
     SCRCMD_MSGWIN_UpdateBalloonPos(cmdWork, 0);
     done = 0;
     if (FIELD_MSGBG_TalkWinMain(talkWin) == 1) {
@@ -1269,8 +1278,13 @@ int SCRCMD_MSGWIN_CmdBalloonWinMsgSkipArg(ScriptVm *vm, ScrcmdWork *cmdWork)
 {
     u16 msgFileId, msgId, objId, windowKind, winType;
     msgFileId = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
+#if VERSION == VERSION_WHITE
+    msgId = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
+    SCRIPT_WORK_ReadWorkValue(vm, cmdWork);       /* the skipped argument is the third one in White */
+#else
     SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
     msgId = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
+#endif
     objId = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
     windowKind = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
     winType = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
@@ -1326,17 +1340,17 @@ int SCRCMD_MSGWIN_CmdBalloonWinSavedText(ScriptVm *vm, ScrcmdWork *cmdWork)
         return 1;
     }
     TPOKE_DATA_ReadRecordString(key1, key2, msgBuffer, SCRCMD_WORK_GetHeapId(cmdWork));
-    if (FLDMMDL_SysSearchObjId(SCRCMD_WORK_GetOccupyInfo(cmdWork), objId) == 0) {
+    if (FLDMMDL_SysSearchObjId((struct MmdlSys *)SCRCMD_WORK_GetOccupyInfo(cmdWork), objId) == 0) {
         objId = 0xff;
     }
-    balloon = SCRCMD_WORK_GetWordSetWork(cmdWork);
+    balloon = (struct BalloonWinWork *)SCRCMD_WORK_GetWordSetWork(cmdWork);
     talkIndex = 0;
     MI_CpuFill8(balloon, 0, 0x28);
     balloon->objId = objId;
     fieldPlayer = FIELDMAP_GetFieldPlayer(fieldParam->fieldSystem);
-    mmdlSys = SCRCMD_WORK_GetOccupyInfo(cmdWork);
+    mmdlSys = (struct MmdlSys *)SCRCMD_WORK_GetOccupyInfo(cmdWork);
     playerMmdl = FIELD_PLAYER_GetMmdl(fieldPlayer);
-    FLDMMDL_GetPos(FLDMMDL_SysSearchObjId(mmdlSys, balloon->objId), &targetPos);
+    FLDMMDL_GetPos(FLDMMDL_SysSearchObjId(mmdlSys, balloon->objId), (struct MmdlVec *)(&targetPos));
     placement = SCRCMD_MSGWIN_GetBalloonSide(playerMmdl, &targetPos);
     if (placement != 1) {
         talkIndex = 1;
@@ -1352,7 +1366,7 @@ int SCRCMD_MSGWIN_CmdBalloonWinSavedText(ScriptVm *vm, ScrcmdWork *cmdWork)
 
 int SCRCMD_MSGWIN_WaitPlainWin(ScriptVm *vm, ScrcmdWork *cmdWork)
 {
-if (FIELD_MSGBG_PlainWinMain(SCRCMD_WORK_GetMsgWindow(cmdWork)) == 1) {
+if (FIELD_MSGBG_PlainWinMain((struct FieldPlainWin *)SCRCMD_WORK_GetMsgWindow(cmdWork)) == 1) {
     return 1;
 }
 return 0;
@@ -1382,7 +1396,7 @@ int SCRCMD_MSGWIN_OpenPlainWinMsg(ScriptVm *vm, ScrcmdWork *cmdWork, int winType
         winY = 0x13;
     }
     if (SCRIPT_WORK_CheckFlag(SCRIPT_FLAG_PLAIN_WIN) != 0) {
-        plainWin = SCRCMD_WORK_GetMsgWindow(cmdWork);
+        plainWin = (struct FieldPlainWin *)SCRCMD_WORK_GetMsgWindow(cmdWork);
         FIELD_MSGBG_ClearPlainWin(plainWin);
     } else {
         plainWin = FIELD_MSGBG_CreatePlainWin(fieldParam->mapSystem, 0, winType, 1, winY, 0x1e, 4);
@@ -1399,7 +1413,7 @@ void SCRCMD_MSGWIN_ClosePlainWin(ScrcmdWork *cmdWork)
 {
     int checkFlag = SCRIPT_FLAG_PLAIN_WIN;
     if (SCRIPT_WORK_CheckFlag(SCRIPT_FLAG_PLAIN_WIN) != 0) {
-        FIELD_MSGBG_DeletePlainWin(SCRCMD_WORK_GetMsgWindow(cmdWork));
+        FIELD_MSGBG_DeletePlainWin((struct FieldPlainWin *)SCRCMD_WORK_GetMsgWindow(cmdWork));
         SCRCMD_WORK_SetMsgWindow(cmdWork, 0);
         SCRIPT_WORK_ResetCheckFlag(checkFlag);
     }
@@ -1451,7 +1465,7 @@ int SCRCMD_MSGWIN_CmdAddSubWinMsg(ScriptVm *vm, ScrcmdWork *cmdWork)
     msgData = SCRCMD_WORK_GetMsgData(cmdWork);
     wordSet = SCRIPT_WORK_GetWordSet(scriptWork);
     tempBuffer = SCRIPT_WORK_GetTempBuffer(scriptWork);
-    MSGDATA_ReadString(msgData, msgId, tempBuffer);
+    MSGDATA_ReadString((struct MsgBank *)msgData, msgId, tempBuffer);
     WORDSET_CopyTaggedText(wordSet, str, tempBuffer);
     FIELD_MSGBG_GetStrSizeChars(fieldParam->mapSystem, str, &width, &height);
     textWidth = width;
@@ -1503,7 +1517,7 @@ int SCRCMD_MSGWIN_WaitBgWin(ScriptVm *vm, ScrcmdWork *cmdWork)
 {
     Strbuf *tempBuffer = SCRIPT_WORK_GetMsgBuffer(SCRCMD_WORK_GetScriptWork(cmdWork));
 
-    if (FIELD_MSGBG_BgWinMain(SCRCMD_WORK_GetMsgWindow(cmdWork), tempBuffer) == 1) {
+    if (FIELD_MSGBG_BgWinMain((struct FieldBgWin *)SCRCMD_WORK_GetMsgWindow(cmdWork), tempBuffer) == 1) {
         return 1;
     }
     return 0;
@@ -1515,7 +1529,7 @@ void SCRCMD_MSGWIN_CloseBgWin(ScrcmdWork *cmdWork)
     ScriptWork *scriptWork = SCRCMD_WORK_GetScriptWork(cmdWork);
     GfFont *font;
     if (SCRIPT_WORK_CheckFlag(SCRIPT_FLAG_BG_WIN) != 0) {
-        FIELD_MSGBG_DeleteBgWin(SCRCMD_WORK_GetMsgWindow(cmdWork));
+        FIELD_MSGBG_DeleteBgWin((struct FieldBgWin *)SCRCMD_WORK_GetMsgWindow(cmdWork));
         font = SCRIPT_WORK_GetMsgData(scriptWork);
         SCRIPT_WORK_SetMsgData(scriptWork, 0);
         if (font != 0) {
@@ -1545,7 +1559,7 @@ int SCRCMD_MSGWIN_CmdBgWinMsg(ScriptVm *vm, ScrcmdWork *cmdWork)
     msgBuffer = SCRIPT_WORK_GetMsgBuffer(scriptWork);
     wordSet = SCRIPT_WORK_GetWordSet(scriptWork);
     tempBuffer = SCRIPT_WORK_GetTempBuffer(scriptWork);
-    MSGDATA_ReadString(msgData, msgId, tempBuffer);
+    MSGDATA_ReadString((struct MsgBank *)msgData, msgId, tempBuffer);
     WORDSET_CopyTaggedText(wordSet, msgBuffer, tempBuffer);
     VM_SetWait(vm, SCRCMD_MSGWIN_WaitBgWin);
     SCRIPT_WORK_SetCheckFlag(SCRIPT_FLAG_BG_WIN);
@@ -1576,7 +1590,7 @@ int SCRCMD_MSGWIN_CmdBgWinMsgFont(ScriptVm *vm, ScrcmdWork *cmdWork)
     msgBuffer = SCRIPT_WORK_GetMsgBuffer(scriptWork);
     wordSet = SCRIPT_WORK_GetWordSet(scriptWork);
     tempBuffer = SCRIPT_WORK_GetTempBuffer(scriptWork);
-    MSGDATA_ReadString(msgData, msgId, tempBuffer);
+    MSGDATA_ReadString((struct MsgBank *)msgData, msgId, tempBuffer);
     WORDSET_CopyTaggedText(wordSet, msgBuffer, tempBuffer);
     VM_SetWait(vm, SCRCMD_MSGWIN_WaitBgWin);
     SCRIPT_WORK_SetCheckFlag(SCRIPT_FLAG_BG_WIN);
@@ -1603,7 +1617,7 @@ void SCRCMD_MSGWIN_CloseSpWin(ScrcmdWork *cmdWork)
     u32 checkFlag = SCRIPT_FLAG_SP_WIN;
 
     if (SCRIPT_WORK_CheckFlag(checkFlag)) {
-        FIELD_MSGBG_DeleteSpWin(SCRCMD_WORK_GetMsgWindow(cmdWork));
+        FIELD_MSGBG_DeleteSpWin((struct FieldSpWin *)SCRCMD_WORK_GetMsgWindow(cmdWork));
         SCRCMD_WORK_SetMsgWindow(cmdWork, 0);
         SCRIPT_WORK_ResetCheckFlag(checkFlag);
     }
@@ -1612,7 +1626,7 @@ void SCRCMD_MSGWIN_CloseSpWin(ScrcmdWork *cmdWork)
 
 int SCRCMD_MSGWIN_WaitSpWin(ScriptVm *vm, ScrcmdWork *cmdWork)
 {
-if (FIELD_MSGBG_SpWinWaitKey(SCRCMD_WORK_GetMsgWindow(cmdWork)) == 1) {
+if (FIELD_MSGBG_SpWinWaitKey((struct FieldSpWin *)SCRCMD_WORK_GetMsgWindow(cmdWork)) == 1) {
     return 1;
 }
 return 0;
@@ -1755,7 +1769,7 @@ Strbuf *SCRCMD_MSGWIN_ExpandMessage(ScrcmdWork *cmdWork, ScriptWork *scriptWork,
     msgBuffer = SCRIPT_WORK_GetMsgBuffer(scriptWork);
     wordSet = SCRIPT_WORK_GetWordSet(scriptWork);
     tempBuffer = SCRIPT_WORK_GetTempBuffer(scriptWork);
-    MSGDATA_ReadString(msgData, msgId, tempBuffer);
+    MSGDATA_ReadString((struct MsgBank *)msgData, msgId, tempBuffer);
     WORDSET_CopyTaggedText(wordSet, msgBuffer, tempBuffer);
     return msgBuffer;
 }

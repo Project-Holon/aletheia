@@ -85,7 +85,7 @@ extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site,
 
 extern struct MyStatus *GAME_DATA_GetMyStatus(struct GameData *gameData);
 
-extern const u16 *MYSTATUS_GetName(const struct MyStatus *status);
+extern void *MYSTATUS_GetName(void *mystatus);
 
 extern u32 MYSTATUS_GetId(const struct MyStatus *status);
 

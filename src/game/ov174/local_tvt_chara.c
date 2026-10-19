@@ -65,6 +65,7 @@
  */
 
 #include "local_tvt_sys_shared_types.h"
+extern void BG_SYS_PushTile(u32 index);
 
 /* Opaque CLACT sprite actor, shared with the actor library. */
 struct ClactActor;
@@ -123,8 +124,9 @@ typedef struct {
 
 /* Compile-time check of the allocation size used in LOCAL_TVT_CHARA_Create. */
 typedef char LocalTvtChara_size_check[(sizeof(struct LocalTvtChara)==0x3C)?1:-1];
+struct Actor;
 
-extern void CLACT_DeleteActor(struct ClactActor *p);
+extern void CLACT_DeleteActor(struct Actor *actor);
 
 extern void CLACT_ReleasePalette(u32 i);
 
@@ -134,9 +136,11 @@ extern void CLACT_ReleaseCellAnim(u32 i);
 
 extern u32 GFL_HEAP_Free(void *p);
 
-extern int GFL_USE_GetRandomBelow(int);
+extern unsigned int GFL_USE_GetRandomBelow(unsigned int range);
+struct GameData;
+struct MyStatus;
 
-extern u8 *GAME_DATA_GetMyStatus(void *p);
+extern struct MyStatus *GAME_DATA_GetMyStatus(struct GameData *gd);
 
 extern int CLACT_RegisterPaletteCompressed(void *,u32,u32,u32,u16);
 
@@ -144,19 +148,20 @@ extern int CLACT_RegisterCharacter(void *,u32,u32,u32,u16);
 
 extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 
-extern u8 MYSTATUS_GetSex(const struct Sub0200852CObj *obj);
+extern u8 MYSTATUS_GetSex(struct MyStatus *mystatus);
 
 extern void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 
 extern struct ClactActor *CLACT_CreateActor(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
 
-extern void CLACT_SetActorDrawEnable(struct ClactActor *p, u32 v);
+extern void CLACT_SetActorDrawEnable(struct Actor *actor, unsigned int value);
 
-extern void CLACT_SetActorAutoAnim(struct ClactActor *p, u32 v);
+extern void CLACT_SetActorAutoAnim(struct Actor *actor, unsigned int enable);
 
-extern void CLACT_RestartActorAnim(struct ClactActor *a);
+extern void CLACT_RestartActorAnim(struct Actor *actor);
+struct Strbuf;
 
-extern void STRBUF_Delete(struct U16Vec *vec);
+extern void STRBUF_Delete(struct Strbuf *strbuf);
 
 extern unsigned int WORDSET_Delete(struct WordSet *p);
 
@@ -166,47 +171,49 @@ extern void BG_SYS_MarkTileDirty(unsigned);
 
 extern void BMP_Clear(struct Bmp *buf, u8 value);
 
-extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
+extern void BMP_WIN_MakeScreen(struct BmpWin *win);
 
 extern void BMP_WIN_TransferChars(struct BmpWin *d);
 
-extern struct BmpWin *BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
+extern struct BmpWin *BMP_WIN_Create(unsigned int bgLayer, unsigned int posX, unsigned int posY, unsigned char width, unsigned char height, unsigned char palette, unsigned char allocDir);
 
 extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *);
 
-extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
+extern void WORDSET_CopyTaggedText(struct WordSet *words, struct Strbuf *dst, struct Strbuf *src);
 
-extern void *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
+extern struct Strbuf *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
 
-extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
+extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
 
-extern struct WordSet *WORDSET_CreateDefault(u32 heap);
+extern struct WordSet *WORDSET_CreateDefault(unsigned short heapId);
 
 extern void WORDSET_SetSlotMyStatus(struct WordSet *p, u32 i, void *a);
 
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+struct PrintQueue;
 
-extern u32 PRINTSYS_QUE_IsFinished(const struct PrintSys *p);
+extern u32 PRINTSYS_QUE_IsFinished(struct PrintQueue *queue);
 
 extern unsigned GFL_USE_GetRandom(unsigned);
 
-extern void CLACT_StartActorAnim(struct ClactActor *a);
+extern void CLACT_StartActorAnim(struct Actor *actor);
 
-extern void CLACT_StopActorAnim(struct ClactActor *a);
+extern void CLACT_StopActorAnim(struct Actor *actor);
 
-extern u32 CLACT_IsActorAnimActive(struct ClactActor *a);
+extern u32 CLACT_IsActorAnimActive(struct Actor *actor);
 
-extern u16 CLACT_GetActorAnimSeqCount(struct ClactActor *p);
+extern u16 CLACT_GetActorAnimSeqCount(struct Actor *actor);
 
 extern void ARC_UTIL_UploadPaletteFromHandle(void *arc, u32 memberIdx, u32 kind, u32 offset, u32 dest, u32 size, u16 flags);
 
-extern void *ARC_UTIL_LoadBgCharDataFromHandle(void *archive, unsigned id, unsigned flags, void *out, unsigned short heapId);
+extern void *ARC_UTIL_LoadBgCharDataFromHandle(void *arc, u32 memberIdx, u32 heapID, void *unpackedOut, u16 flags);
 
 extern void MIi_CpuCopy32(int, int, int);
+struct GfFont;
 
-extern u32 PRINTSYS_MeasureWidestLine(struct StrObj *s, u32 a, u32 b);
+extern u32 PRINTSYS_MeasureWidestLine(struct Strbuf *text, struct GfFont *font, unsigned int spacing);
 
-extern void PRINTSYS_PrintQueColor(void *,u32,u32,u32,u32,u32,u16);
+extern void PRINTSYS_PrintQueColor(struct PrintQueue *queue, struct Bmp *bmp, unsigned int x, short y, struct Strbuf *str, struct GfFont *font, unsigned short color);
 
 char *LOCAL_TVT_CHARA_Create(char *p,int index);
 
@@ -216,7 +223,7 @@ void LOCAL_TVT_CHARA_Update(u8 *p,u8 *q);
 
 void LOCAL_TVT_CHARA_SetActive(u8 *unused,u8 *q,int unused2);
 
-int LOCAL_TVT_CHARA_IsDone(int unused, char *p);
+int LOCAL_TVT_CHARA_IsDone(u8 *unused, char *p);
 
 void LOCAL_TVT_CHARA_SetupPalette(char *p,u8 *q);
 
@@ -257,7 +264,7 @@ char *LOCAL_TVT_CHARA_Create(char *p,int index)
     ((struct LocalTvtChara *)q)->flag=0;
     ((struct LocalTvtChara *)q)->active=0;
     ((struct LocalTvtChara *)q)->animTimer=GFL_USE_GetRandomBelow(0x4b);
-    if(((struct LocalTvtChara *)q)->charId==0 && MYSTATUS_GetSex((const struct Sub0200852CObj *)GAME_DATA_GetMyStatus(((struct LocalTvtSysMode *)((struct LocalTvtSys *)p)->modeData)->gameData))==1) ((struct LocalTvtChara *)q)->charId=5;
+    if(((struct LocalTvtChara *)q)->charId==0 && MYSTATUS_GetSex((struct MyStatus *)GAME_DATA_GetMyStatus(((struct LocalTvtSysMode *)((struct LocalTvtSys *)p)->modeData)->gameData))==1) ((struct LocalTvtChara *)q)->charId=5;
     LOCAL_TVT_CHARA_SetupActors((u8 *)p,(u8 *)q);
     LOCAL_TVT_CHARA_SetupPalette(p,(u8 *)q);
     LOCAL_TVT_CHARA_DrawLabel((u8 *)p,(u8 *)q);
@@ -268,7 +275,7 @@ char *LOCAL_TVT_CHARA_Create(char *p,int index)
     return q;
 }
 
-void LOCAL_TVT_CHARA_Delete(unsigned char *unused,char *p) {CLACT_DeleteActor(((struct LocalTvtChara *)p)->actorA);CLACT_DeleteActor(((struct LocalTvtChara *)p)->actorB);CLACT_ReleasePalette(((struct LocalTvtChara *)p)->paletteHandle);CLACT_ReleaseCharacter(((struct LocalTvtChara *)p)->charHandle);CLACT_ReleaseCellAnim(((struct LocalTvtChara *)p)->cellHandle);BMP_WIN_Delete(((struct LocalTvtChara *)p)->window);if(((struct LocalTvtChara *)p)->gfx.handlePtr)GFL_HEAP_Free(((struct LocalTvtChara *)p)->gfx.handlePtr);GFL_HEAP_Free(p);}
+void LOCAL_TVT_CHARA_Delete(unsigned char *unused,char *p) {CLACT_DeleteActor((struct Actor *)(((struct LocalTvtChara *)p)->actorA));CLACT_DeleteActor((struct Actor *)(((struct LocalTvtChara *)p)->actorB));CLACT_ReleasePalette(((struct LocalTvtChara *)p)->paletteHandle);CLACT_ReleaseCharacter(((struct LocalTvtChara *)p)->charHandle);CLACT_ReleaseCellAnim(((struct LocalTvtChara *)p)->cellHandle);BMP_WIN_Delete(((struct LocalTvtChara *)p)->window);if(((struct LocalTvtChara *)p)->gfx.handlePtr)GFL_HEAP_Free(((struct LocalTvtChara *)p)->gfx.handlePtr);GFL_HEAP_Free(p);}
 
 void LOCAL_TVT_CHARA_Update(u8 *p,u8 *q)
 {
@@ -325,15 +332,15 @@ void LOCAL_TVT_CHARA_Update(u8 *p,u8 *q)
     }
     ((struct LocalTvtChara *)q)->animTimer+=(u16)(GFL_USE_GetRandom(2)+1);
     if(((struct LocalTvtChara *)q)->animTimer>=150) {
-        CLACT_StartActorAnim(((struct LocalTvtChara *)q)->actorA);
-        CLACT_RestartActorAnim(((struct LocalTvtChara *)q)->actorA);
+        CLACT_StartActorAnim((struct Actor *)(((struct LocalTvtChara *)q)->actorA));
+        CLACT_RestartActorAnim((struct Actor *)(((struct LocalTvtChara *)q)->actorA));
         ((struct LocalTvtChara *)q)->animTimer=0;
     }
     if(((struct LocalTvtChara *)q)->active==1 || ((struct LocalTvtChara *)q)->counter!=0) {
-        if(CLACT_IsActorAnimActive(((struct LocalTvtChara *)q)->actorB)==0) CLACT_StartActorAnim(((struct LocalTvtChara *)q)->actorB);
+        if(CLACT_IsActorAnimActive((struct Actor *)(((struct LocalTvtChara *)q)->actorB))==0) CLACT_StartActorAnim((struct Actor *)(((struct LocalTvtChara *)q)->actorB));
     } else {
-        if(CLACT_IsActorAnimActive(((struct LocalTvtChara *)q)->actorB)==1 && CLACT_GetActorAnimSeqCount(((struct LocalTvtChara *)q)->actorB)==0)
-            CLACT_StopActorAnim(((struct LocalTvtChara *)q)->actorB);
+        if(CLACT_IsActorAnimActive((struct Actor *)(((struct LocalTvtChara *)q)->actorB))==1 && CLACT_GetActorAnimSeqCount((struct Actor *)(((struct LocalTvtChara *)q)->actorB))==0)
+            CLACT_StopActorAnim((struct Actor *)(((struct LocalTvtChara *)q)->actorB));
     }
     if(((struct LocalTvtChara *)q)->counter!=0) (((struct LocalTvtChara *)q)->counter)--;
 }
@@ -346,7 +353,7 @@ void LOCAL_TVT_CHARA_SetActive(u8 *unused,u8 *q,int unused2)
     ((struct LocalTvtChara *)q)->state.value=1;
 }
 
-int LOCAL_TVT_CHARA_IsDone(int unused, char *p)
+int LOCAL_TVT_CHARA_IsDone(u8 *unused, char *p)
 {
     return ((struct LocalTvtChara *)p)->state.value == 5;
 }
@@ -389,17 +396,17 @@ void LOCAL_TVT_CHARA_SetupActors(u8 *p, u8 *q)
     if (((struct LocalTvtSys *)p)->charaCount == 2) req.y += 56;
     req.id = 0;
     ((struct LocalTvtChara *)q)->actorA = CLACT_CreateActor(((struct LocalTvtSys *)p)->unit.ptr, ((struct LocalTvtChara *)q)->charHandle, ((struct LocalTvtChara *)q)->paletteHandle, ((struct LocalTvtChara *)q)->cellHandle, &req, 0, ((struct LocalTvtSys *)p)->heapId);
-    CLACT_SetActorDrawEnable(((struct LocalTvtChara *)q)->actorA, 1);
-    CLACT_SetActorAutoAnim(((struct LocalTvtChara *)q)->actorA, 1);
-    CLACT_StopActorAnim(((struct LocalTvtChara *)q)->actorA);
+    CLACT_SetActorDrawEnable((struct Actor *)(((struct LocalTvtChara *)q)->actorA), 1);
+    CLACT_SetActorAutoAnim((struct Actor *)(((struct LocalTvtChara *)q)->actorA), 1);
+    CLACT_StopActorAnim((struct Actor *)(((struct LocalTvtChara *)q)->actorA));
     req.id = 1;
     ((struct LocalTvtChara *)q)->actorB = CLACT_CreateActor(((struct LocalTvtSys *)p)->unit.ptr, ((struct LocalTvtChara *)q)->charHandle, ((struct LocalTvtChara *)q)->paletteHandle, ((struct LocalTvtChara *)q)->cellHandle, &req, 0, ((struct LocalTvtSys *)p)->heapId);
-    CLACT_SetActorDrawEnable(((struct LocalTvtChara *)q)->actorB, 1);
-    CLACT_SetActorAutoAnim(((struct LocalTvtChara *)q)->actorB, 1);
-    CLACT_StopActorAnim(((struct LocalTvtChara *)q)->actorB);
+    CLACT_SetActorDrawEnable((struct Actor *)(((struct LocalTvtChara *)q)->actorB), 1);
+    CLACT_SetActorAutoAnim((struct Actor *)(((struct LocalTvtChara *)q)->actorB), 1);
+    CLACT_StopActorAnim((struct Actor *)(((struct LocalTvtChara *)q)->actorB));
 }
 
-void LOCAL_TVT_CHARA_LoadPalette(char *p, char *q, int id) {((struct LocalTvtChara *)q)->gfx.handlePtr=ARC_UTIL_LoadBgCharDataFromHandle(((struct LocalTvtSys *)p)->arcHandle,id,0,&((struct LocalTvtChara *)q)->tileSrc,((struct LocalTvtSys *)p)->heapId);}
+void LOCAL_TVT_CHARA_LoadPalette(char *p, char *q, int id) {((struct LocalTvtChara *)q)->gfx.handlePtr=ARC_UTIL_LoadBgCharDataFromHandle((void *)(((struct LocalTvtSys *)p)->arcHandle),(unsigned int)id,(unsigned int)0,(&((struct LocalTvtChara *)q)->tileSrc),((struct LocalTvtSys *)p)->heapId);}
 
 void LOCAL_TVT_CHARA_CopyTiles(int a, int *b, int c, int d, int e)
 {
@@ -416,12 +423,12 @@ void LOCAL_TVT_CHARA_DrawLabel(u8 *p,u8 *q)
     ((struct LocalTvtChara *)q)->window=BMP_WIN_Create(0,(u8)(d_021B7380[((struct LocalTvtChara *)q)->index].x+2),(u8)(d_021B7380[((struct LocalTvtChara *)q)->index].y+1),12,2,12,1);
     BMP_Clear(BMP_WIN_GetBmp(((struct LocalTvtChara *)q)->window),0);
     BMP_WIN_TransferChars(((struct LocalTvtChara *)q)->window);
-    BMP_WIN_MakeScreen((struct Cfg *)((struct LocalTvtChara *)q)->window);
+    BMP_WIN_MakeScreen((struct BmpWin *)((struct LocalTvtChara *)q)->window);
     BG_SYS_PushTile(0);
     s=MSGDATA_AllocString(((struct LocalTvtSys *)p)->msgBankA.ptr, ((struct LocalTvtChara *)q)->charId);
     if(((struct LocalTvtChara *)q)->charId==0 || ((struct LocalTvtChara *)q)->charId==5){
         dst=STRBUF_Create(128,((struct LocalTvtSys *)p)->heapId);
-        save=GAME_DATA_GetMyStatus(((struct LocalTvtSysMode *)((struct LocalTvtSys *)p)->modeData)->gameData);
+        save=(unsigned char *)GAME_DATA_GetMyStatus(((struct LocalTvtSysMode *)((struct LocalTvtSys *)p)->modeData)->gameData);
         ws=WORDSET_CreateDefault(((struct LocalTvtSys *)p)->heapId);
         WORDSET_SetSlotMyStatus(ws,0,save);
         WORDSET_CopyTaggedText(ws,dst,s);
@@ -429,19 +436,19 @@ void LOCAL_TVT_CHARA_DrawLabel(u8 *p,u8 *q)
         WORDSET_Delete(ws);
         s=dst;
     }
-    ((struct LocalTvtChara *)q)->labelWidth=PRINTSYS_MeasureWidestLine(s,((struct LocalTvtSys *)p)->font.value,0);
-    PRINTSYS_PrintQueColor(((struct LocalTvtSys *)p)->printQueue.ptr,(u32)BMP_WIN_GetBmp(((struct LocalTvtChara *)q)->window),(short)((96-((struct LocalTvtChara *)q)->labelWidth)/2+1),1,(u32)s,((struct LocalTvtSys *)p)->font.value,0x3c00);
-    PRINTSYS_PrintQueColor(((struct LocalTvtSys *)p)->printQueue.ptr,(u32)BMP_WIN_GetBmp(((struct LocalTvtChara *)q)->window),(short)((96-((struct LocalTvtChara *)q)->labelWidth)/2-1),1,(u32)s,((struct LocalTvtSys *)p)->font.value,0x3c00);
-    PRINTSYS_PrintQueColor(((struct LocalTvtSys *)p)->printQueue.ptr,(u32)BMP_WIN_GetBmp(((struct LocalTvtChara *)q)->window),(short)((96-((struct LocalTvtChara *)q)->labelWidth)/2),2,(u32)s,((struct LocalTvtSys *)p)->font.value,0x3c00);
-    PRINTSYS_PrintQueColor(((struct LocalTvtSys *)p)->printQueue.ptr,(u32)BMP_WIN_GetBmp(((struct LocalTvtChara *)q)->window),(short)((96-((struct LocalTvtChara *)q)->labelWidth)/2),0,(u32)s,((struct LocalTvtSys *)p)->font.value,0x3c00);
-    PRINTSYS_PrintQueColor(((struct LocalTvtSys *)p)->printQueue.ptr,(u32)BMP_WIN_GetBmp(((struct LocalTvtChara *)q)->window),(short)((96-((struct LocalTvtChara *)q)->labelWidth)/2),1,(u32)s,((struct LocalTvtSys *)p)->font.value,0x400);
+    ((struct LocalTvtChara *)q)->labelWidth=PRINTSYS_MeasureWidestLine(s,(struct GfFont *)(((struct LocalTvtSys *)p)->font.value),0);
+    PRINTSYS_PrintQueColor(((struct LocalTvtSys *)p)->printQueue.ptr,BMP_WIN_GetBmp(((struct LocalTvtChara *)q)->window),(short)((96-((struct LocalTvtChara *)q)->labelWidth)/2+1),1,s,(struct GfFont *)(((struct LocalTvtSys *)p)->font.value),0x3c00);
+    PRINTSYS_PrintQueColor(((struct LocalTvtSys *)p)->printQueue.ptr,BMP_WIN_GetBmp(((struct LocalTvtChara *)q)->window),(short)((96-((struct LocalTvtChara *)q)->labelWidth)/2-1),1,s,(struct GfFont *)(((struct LocalTvtSys *)p)->font.value),0x3c00);
+    PRINTSYS_PrintQueColor(((struct LocalTvtSys *)p)->printQueue.ptr,BMP_WIN_GetBmp(((struct LocalTvtChara *)q)->window),(short)((96-((struct LocalTvtChara *)q)->labelWidth)/2),2,s,(struct GfFont *)(((struct LocalTvtSys *)p)->font.value),0x3c00);
+    PRINTSYS_PrintQueColor(((struct LocalTvtSys *)p)->printQueue.ptr,BMP_WIN_GetBmp(((struct LocalTvtChara *)q)->window),(short)((96-((struct LocalTvtChara *)q)->labelWidth)/2),0,s,(struct GfFont *)(((struct LocalTvtSys *)p)->font.value),0x3c00);
+    PRINTSYS_PrintQueColor(((struct LocalTvtSys *)p)->printQueue.ptr,BMP_WIN_GetBmp(((struct LocalTvtChara *)q)->window),(short)((96-((struct LocalTvtChara *)q)->labelWidth)/2),1,s,(struct GfFont *)(((struct LocalTvtSys *)p)->font.value),0x400);
     STRBUF_Delete(s);
     ((struct LocalTvtChara *)q)->flag=1;
 }
 
 void LOCAL_TVT_CHARA_ShowWindow(int a, int *p)
 {
-    BMP_WIN_MakeScreen((struct Cfg *)(((struct LocalTvtChara *)p)->window));
+    BMP_WIN_MakeScreen((struct BmpWin *)(((struct LocalTvtChara *)p)->window));
     BG_SYS_MarkTileDirty(0);
 }
 

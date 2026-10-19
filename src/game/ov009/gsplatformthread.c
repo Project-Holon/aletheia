@@ -22,9 +22,10 @@
  */
 extern unsigned long OS_DisableInterrupts_IrqAndFiq(void);
 extern unsigned long OS_RestoreInterrupts_IrqAndFiq(unsigned long state);
-extern void OS_InitMutex(void *criticalSection);
-extern void OS_LockMutex(void *criticalSection);
-extern void OS_UnlockMutex(void *criticalSection);
+struct OSMutex;
+extern void OS_InitMutex(struct OSMutex *mutex);
+extern void OS_LockMutex(struct OSMutex *mutex);
+extern void OS_UnlockMutex(struct OSMutex *mutex);
 extern long long atoll(unsigned int string);
 unsigned int gsiInterlockedIncrement(unsigned int *value);
 unsigned int gsiInterlockedDecrement(unsigned int *value);

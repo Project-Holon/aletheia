@@ -115,7 +115,7 @@ struct Ov016Bits8 {
 
 extern int OS_IsRunOnTwl(void);
 extern char *DWC_Auth_GetCustomNas(void);
-extern void DWC_Auth_SetCustomNas(int v);
+extern void DWC_Auth_SetCustomNas(char *v);
 extern void DWCi_SNDlInit(void);
 extern void DWCi_IPTlUpdate();
 extern void DWCi_TSKlAct(int kind);
@@ -149,7 +149,7 @@ extern void GXx_SetMasterBrightness_(vu16 *reg, int brightness);
 extern void G2x_SetBlendBrightness_(u32 addr, int plane, int brightness);
 extern void GX_SetBankForSubBG(int sub_bg);
 extern void GX_SetBankForSubOBJ(int sub_obj);
-extern void GXS_SetGraphicsMode(int bgMode);
+extern void GXS_SetGraphicsMode(u32 mode);
 extern void DWCi_FNTlInit(void);
 extern void DWCi_OBJlInit(void);
 extern void DWCi_OVRlInit(void);
@@ -202,7 +202,7 @@ int DWC_StartUtility(void *work, int language, int param)
     if (!checkParam(language, param))
         return -1;
     tempNasUrl = DWC_Auth_GetCustomNas();
-    DWC_Auth_SetCustomNas((int)sDwcutilMainTable);
+    DWC_Auth_SetCustomNas(sDwcutilMainTable);
     gDwcutilMainWork.end = 0;
     initGame();
     initGraph();
@@ -218,7 +218,7 @@ int DWC_StartUtility(void *work, int language, int param)
         OS_WaitVBlankIntr();
     } while (!gDwcutilMainWork.end);
     procEnd();
-    DWC_Auth_SetCustomNas((int)tempNasUrl);
+    DWC_Auth_SetCustomNas(tempNasUrl);
     return result;
 }
 

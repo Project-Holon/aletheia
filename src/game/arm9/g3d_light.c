@@ -49,11 +49,12 @@ struct LightSlot {
     u16           color;
 };
 
-extern void *GFL_HEAP_Alloc(u16 heapID, u32 size, int clear, const char *file, int line);
+extern void *GFL_HEAP_Alloc(unsigned int heapId, unsigned int size, int clear, char *site, unsigned short tag);
 
 extern u32 GFL_HEAP_Free(void *p);
+struct G3dLight;
 
-void G3D_SYSTEM_SetLight(u32 idx, const u16 *src);
+void G3D_SYSTEM_SetLight(u32 lightIdx, struct G3dLight *light);
 
 struct LightSlotValue *G3D_LIGHT_CreateSlots(const struct LightSetDesc *s, u16 heap);
 
@@ -110,7 +111,7 @@ struct LightSlotValue *G3D_LIGHT_CreateSlots(const struct LightSetDesc *set, u16
     int i;
 
     slots = (struct LightSlotValue *)GFL_HEAP_Alloc(heapID, 0x20, 1,
-                                            g3d_light_file, 43);
+                                            (char *)g3d_light_file, 43);
     for (i = 0; i < set->count; i++) {
         struct LightSlotDesc *desc = &set->recs[i];
         u32 slot = desc->slot;
@@ -165,7 +166,7 @@ void G3D_LIGHT_ApplySlots(struct LightSlot *slots)
     int i;
 
     for (i = 0; i < 4; i++) {
-        G3D_SYSTEM_SetLight((u8)i, (const u16 *)(&slots[i]));
+        G3D_SYSTEM_SetLight((u8)i, (struct G3dLight *)(&slots[i]));
     }
 }
 

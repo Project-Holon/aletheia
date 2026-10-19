@@ -53,11 +53,12 @@ struct DWCAuthWiFiId {
 	int useA;
 };
 
-extern void DWC_Auth_SetCustomNas(int v);
+extern void DWC_Auth_SetCustomNas(char *v);
 extern void MI_CpuFill8(void *dst, int data, unsigned long size);
 extern void MI_CpuCopy8(void *src, void *dst, unsigned long size);
 extern unsigned long long OS_GetTick(void);
-extern int DWC_Auth_Create(struct DWCAuthParam *param, void *http);
+struct DWCHttp;
+extern int DWC_Auth_Create(DWCAuthParam *param, struct DWCHttp *http);
 extern void DWC_Auth_Abort(void);
 extern void DWC_Auth_Destroy(void);
 extern int DWC_Auth_GetError(void);
@@ -93,13 +94,13 @@ int DWCi_Auth_InitInterface(int authServer)
 {
 	switch (authServer) {
 	case 0:
-		DWC_Auth_SetCustomNas((int)gDwcAuthNasUrlTest);
+		DWC_Auth_SetCustomNas(gDwcAuthNasUrlTest);
 		break;
 	case 2:
-		DWC_Auth_SetCustomNas((int)gDwcAuthNasUrlDev);
+		DWC_Auth_SetCustomNas(gDwcAuthNasUrlDev);
 		break;
 	case 1:
-		DWC_Auth_SetCustomNas((int)gDwcAuthNasUrlProd);
+		DWC_Auth_SetCustomNas(gDwcAuthNasUrlProd);
 		break;
 	default:
 		return 0;
@@ -134,7 +135,7 @@ int DWCi_Auth_StartAuthentication(unsigned short *ingamesn, char *gsbrcd, unsign
 	gDwcAuthParam.free = deallocator;
 	gDwcAuthState.tick = OS_GetTick();
 	gDwcAuthState.userid = userid;
-	if (DWC_Auth_Create(&gDwcAuthParam, gDwcAuthResultBuf) == 0)
+	if (DWC_Auth_Create(&gDwcAuthParam, (struct DWCHttp *)gDwcAuthResultBuf) == 0)
 		return 1;
 	return 0;
 }
@@ -159,7 +160,7 @@ void DWCi_Auth_ProcessAuthentication(void)
         if (result.returncode == 0x4e22) {
             DWC_Auth_Destroy();
             DWCi_Auth_InitAdapterParam();
-            if (DWC_Auth_Create(&gDwcAuthParam, gDwcAuthResultBuf) == 0) {
+            if (DWC_Auth_Create(&gDwcAuthParam, (struct DWCHttp *)gDwcAuthResultBuf) == 0) {
                 return;
             }
             returnCode = -20100;

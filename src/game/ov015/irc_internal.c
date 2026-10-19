@@ -44,7 +44,7 @@ typedef struct IRCParam {
 extern unsigned long long OS_GetTick(void);
 extern long OS_GetLockID(void);
 extern void OS_ReleaseLockID(unsigned short lockID);
-extern void CARD_LockBackup(u16 id);
+extern void CARD_LockBackup(int owner);
 extern long OS_LockCard(u16 id);
 extern void OS_UnLockCard();
 extern void CARD_UnlockBackup(u16 id);

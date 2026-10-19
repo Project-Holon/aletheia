@@ -191,17 +191,21 @@ extern void GF_OVERLAY_Unload(s32 handle);
 extern int GF_OVERLAY_Load(s32 handle);
 extern void BATTLE_REC_FreeWork(void);
 extern void BATTLE_REC_AllocWork(u32 heap);
-extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
-extern void GFL_NET_StartTimingSync(int a, int b);
-extern int  GFL_NET_CheckTimingSync(int a, int b);
+struct GFLNetHandle;
+extern struct GFLNetHandle *GFL_NET_HANDLE_GetCurrentHandle(void);
+extern void GFL_NET_StartTimingSync(struct GFLNetHandle *handle, unsigned short tag);
+extern unsigned int GFL_NET_CheckTimingSync(struct GFLNetHandle *handle, unsigned int timingNo);
 extern void BATTLE_REC_LoadToolOverlay(void);
 extern void BATTLE_REC_UnloadToolOverlay(void);
 extern u32 BATTLE_REC_IsVersionSupported(u32 v);
-extern void BATTLE_REC_TOOL_PackSetup(void *p);
+struct BattleSetupParam;
+extern void BATTLE_REC_TOOL_PackSetup(struct BattleSetupParam *setup);
 extern struct Desc *GAME_EVENT_Create(void *owner, void *a, void *b, u32 size);
-extern void *GAME_EVENT_GetWork(struct Obj *p);
-void *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
-void GAMESYSTEM_CallProc(struct ProcHandle *gameSystem, u32 overlayId, void *procData, void *procArgs);
+struct GameEvent;
+extern void *GAME_EVENT_GetWork(struct GameEvent *event);
+struct GameData;
+struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
+void GAMESYSTEM_CallProc(struct GameSystem *gameSystem, u32 overlayId, void *procData, void *param);
 u32 GAMESYSTEM_GetProcStatus(const struct GameSystem *gameSystem);
 int EVENT_BATTLE_REC_SAVE_ProcInit(void *procsysOwner);
 int EVENT_BATTLE_REC_SAVE_ProcExit(void *procWork, int unused, char *taskWork, int *procsys);
@@ -293,11 +297,11 @@ u32 EVENT_BATTLE_REC_SAVE_ProcMain(void *event, int *stage, BattleRecordWork *wo
             *stage = 2;
         break;
     case 2:
-        GFL_NET_StartTimingSync((int)GFL_NET_HANDLE_GetCurrentHandle(), 0xC9);
+        GFL_NET_StartTimingSync(GFL_NET_HANDLE_GetCurrentHandle(), 0xC9);
         *stage = 3;
         break;
     case 3:
-        if (GFL_NET_CheckTimingSync((int)GFL_NET_HANDLE_GetCurrentHandle(), 0xC9) == 0)
+        if (GFL_NET_CheckTimingSync(GFL_NET_HANDLE_GetCurrentHandle(), 0xC9) == 0)
             break;
         *stage = 4;
         break;
@@ -324,11 +328,11 @@ u32 EVENT_BATTLE_REC_SAVE_ProcMain(void *event, int *stage, BattleRecordWork *wo
         GF_OVERLAY_Load((u32)ov093_id);
         ctx->cmdTableAdded = 1;
         GFL_NET_COMMAND_AddCommandTable(0x100, (u32)d_021F03C4, 9, 0);
-        GFL_NET_StartTimingSync((int)GFL_NET_HANDLE_GetCurrentHandle(), 0xC8);
+        GFL_NET_StartTimingSync(GFL_NET_HANDLE_GetCurrentHandle(), 0xC8);
         *stage = 7;
         break;
     case 7:
-        if (GFL_NET_CheckTimingSync((int)GFL_NET_HANDLE_GetCurrentHandle(), 0xC8) == 0)
+        if (GFL_NET_CheckTimingSync(GFL_NET_HANDLE_GetCurrentHandle(), 0xC8) == 0)
             break;
         *stage = 8;
         break;
@@ -347,18 +351,18 @@ u32 EVENT_BATTLE_REC_SAVE_ProcMain(void *event, int *stage, BattleRecordWork *wo
         *stage = 11;
         break;
     case 11:
-        GFL_NET_StartTimingSync((int)GFL_NET_HANDLE_GetCurrentHandle(), 0xCA);
+        GFL_NET_StartTimingSync(GFL_NET_HANDLE_GetCurrentHandle(), 0xCA);
         *stage = 12;
         break;
     case 12:
-        if (GFL_NET_CheckTimingSync((int)GFL_NET_HANDLE_GetCurrentHandle(), 0xCA) == 0)
+        if (GFL_NET_CheckTimingSync(GFL_NET_HANDLE_GetCurrentHandle(), 0xCA) == 0)
             break;
         GFL_NET_COMMAND_DeleteCommandTable(0x100);
         ctx->cmdTableAdded = 0;
         GF_OVERLAY_Unload((u32)ov093_id);
         ctx->overlayLoaded = 0;
         BATTLE_REC_LoadToolOverlay();
-        BATTLE_REC_TOOL_PackSetup(work->info);
+        BATTLE_REC_TOOL_PackSetup((struct BattleSetupParam *)work->info);
         BATTLE_REC_UnloadToolOverlay();
         *stage = 13;
         break;

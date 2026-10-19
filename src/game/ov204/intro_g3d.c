@@ -54,6 +54,11 @@
  *   MCSS_TOOL_MakeAddWorkFromPP  0x02017100  thumb  arm9
  *   POKE_TOOL_Create  0x020173F0  thumb  arm9
  *   GFL_USE_PlaySeDefaultVolume  0x020061E4  thumb  arm9
+ *   _fadd                        0x0209C95C  arm
+ *   _ffix                        0x0209C494  arm
+ *   _ffltu                       0x0209BE04  arm
+ *   _fsub                        0x0209CB8C  arm
+ *   _ull_mul                     0x0209C054  arm
  */
 #include "intro_types.h"
 
@@ -99,44 +104,48 @@ typedef struct IntroG3dWork {
     unsigned int animFrame;     /* 0x28: animation frame */
     unsigned char pad_2C[4];    /* 0x2C: allocation tail, never touched */
 } IntroG3dWork;
+struct PokemonParam;
 
-extern void *POKE_TOOL_Create(unsigned short, unsigned short, unsigned long long, unsigned short);
+extern struct PokemonParam *POKE_TOOL_Create(unsigned short, unsigned short, unsigned long long, unsigned short);
+struct McssAddWork;
 
-extern void MCSS_TOOL_MakeAddWorkFromPP(void *p, struct Stats *out, u32 lvl);
+extern void MCSS_TOOL_MakeAddWorkFromPP(void *pp, struct McssAddWork *out, unsigned int direction);
 
 extern u32 GFL_HEAP_Free(void *p);
+struct McssSys;
+struct McssWork;
 
-extern struct Rec *MCSS_Add(struct Obj *obj, u32 x, u32 y, u32 z, const struct Sub150 *src);
+extern struct McssWork *MCSS_Add(struct McssSys *sys, int x, int y, int z, struct McssAddWork *addWork);
 
-extern void MCSS_SetScale(void *p, u32 *src);
+extern void MCSS_SetScale(struct McssWork *work, unsigned int *src);
 
-extern void MCSS_SetAnmStopFlag(void *);
+extern void MCSS_SetAnmStopFlag(struct McssWork *work);
 
 extern unsigned int GF_STANDARD_Rand(void);
 
 extern void MCSS_SetAnimCallback(void *, void *, void (*)(void *, void *), int);
 
-extern void MCSS_ResetVanishFlag(void *);
+extern void MCSS_ResetVanishFlag(struct McssWork *work);
 
-extern void MCSS_SetVanishFlag(void *);
+extern void MCSS_SetVanishFlag(struct McssWork *work);
 
-extern void MCSS_SetAnimeIndex(void *, unsigned int);
+extern void MCSS_SetAnimeIndex(struct McssWork *work, unsigned int animeIndex);
 
-extern void MCSS_ResetAnmStopFlag(void *);
+extern void MCSS_ResetAnmStopFlag(struct McssWork *work);
 
-extern void G2x_SetBlendAlpha_(void *,int,int,int,int);
+extern void G2x_SetBlendAlpha_(unsigned int *reg, unsigned int a, unsigned int b, unsigned int c, unsigned int d);
 
-extern void MCSS_SetAlpha(char *p, int v);
+extern void MCSS_SetAlpha(struct McssWork *work, int alpha);
 
-extern void MCSS_SetMepachiFlag(void *);
+extern void MCSS_SetMepachiFlag(struct McssWork *work);
 
-extern void MCSS_ResetMepachiFlag(void *);
+extern void MCSS_ResetMepachiFlag(struct McssWork *work);
 
-extern void MCSS_RestartAnime(void *);
+extern void MCSS_RestartAnime(struct McssWork *work);
 
-extern void MCSS_GetPosition(void *p, u32 *out);
+extern void MCSS_GetPosition(struct McssWork *work, unsigned int *out);
 
-extern void MCSS_SetPosition(void *p, u32 *src);
+extern void MCSS_SetPosition(struct McssWork *work, unsigned int *src);
 
 extern void *GFL_HEAP_Alloc(u32,u32,int,const char *,u16);
 
@@ -147,28 +156,31 @@ extern void *G3D_CAMERA_Create(u32,u32,u32,u32,u32,u32,u32,u32,Vec3 *,Vec3 *,Vec
 extern u16 G3D_UTIL_AddUnit(void *,const void *);
 
 extern u32 G3D_UTIL_GetObject(u8 *util, int i);
+struct G3dObject;
 
-extern u32 G3D_SYSTEM_EnableObjectAnime(struct G3dSys *sys, u32 idx);
+extern int G3D_SYSTEM_EnableObjectAnime(struct G3dObject *obj, unsigned int anmIdx);
 
-extern int G3D_SYSTEM_DisableObjectAnime(struct Owner *owner, u32 index);
+extern int G3D_SYSTEM_DisableObjectAnime(struct G3dObject *obj, unsigned int anmIdx);
 
-extern void G3D_CAMERA_Delete(void *);
+extern unsigned int G3D_CAMERA_Delete(void *);
 
 extern void G3D_UTIL_RemoveUnit(struct Ctx *,u32);
 
 extern void G3D_UTIL_Delete(struct Rec *);
+struct G3dCamera;
 
-extern void G3D_CAMERA_Reset(struct Light *l);
+extern void G3D_CAMERA_Reset(struct G3dCamera *camera);
 
 extern void MTX_Identity33_(void *);
+struct G3dObjectStatus;
 
-extern void G3D_SYSTEM_DrawObject(void *obj, struct Arg *status);
+extern void G3D_SYSTEM_DrawObject(struct G3dObject *obj, struct G3dObjectStatus *status);
 
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 
-extern int G3D_SYSTEM_IncObjectAnimeFrame(void *, int, int);
+extern int G3D_SYSTEM_IncObjectAnimeFrame(struct G3dObject *obj, int anmIdx, int step);
 
-extern u32 G3D_SYSTEM_SetObjectAnimeFrame(struct AnmCtl *c, u16 idx, s32 *frame);
+extern int G3D_SYSTEM_SetObjectAnimeFrame(struct G3dObject *obj, unsigned short anmIdx, int *frame);
 
 void INTRO_G3D_AddPokemonSlot(char *p, unsigned int a, unsigned int b, unsigned int c, unsigned int species, unsigned char i);
 
@@ -224,9 +236,9 @@ void INTRO_G3D_AddPokemonSlot(char *p, unsigned int a, unsigned int b, unsigned 
     char data[36];
     IntroVec pos = gIntroG3dDefaultPos;
     void *tmp = POKE_TOOL_Create((unsigned short)species, 0, 0, work->heapId);
-    MCSS_TOOL_MakeAddWorkFromPP(tmp, (struct Stats *)data, 0);
+    MCSS_TOOL_MakeAddWorkFromPP(tmp, (struct McssAddWork *)data, 0);
     GFL_HEAP_Free(tmp);
-    work->slots[i].object = MCSS_Add(work->sys, a, b, c, (const struct Sub150 *)data);
+    work->slots[i].object = MCSS_Add(work->sys, a, b, c, (struct McssAddWork *)data);
     MCSS_SetScale(work->slots[i].object, (u32 *)(&pos));
     MCSS_SetAnmStopFlag(work->slots[i].object);
     work->slots[i].animFinished = 0;
@@ -277,7 +289,7 @@ void INTRO_G3D_SetSlotAlpha(u8 *p, u8 index, u32 alpha)
     IntroMcssWork *work = (IntroMcssWork *)p;
     G2x_SetBlendAlpha_((void *)0x04000050,1,9,0,0);
     if(alpha>31)alpha=31;
-    MCSS_SetAlpha((char *)work->slots[index].object,(u8)alpha);
+    MCSS_SetAlpha((struct McssWork *)work->slots[index].object,(u8)alpha);
 }
 
 void INTRO_G3D_SetSlotMepachi(u8 *p, u8 index, int flag)
@@ -391,7 +403,7 @@ void INTRO_G3D_Draw(char *p)
         t.scale[1] = 4096;
         t.scale[2] = 4096;
         MTX_Identity33_(t.matrix);
-        G3D_SYSTEM_DrawObject((void *)G3D_UTIL_GetObject(work->util, work->unitId), (struct Arg *)(&t));
+        G3D_SYSTEM_DrawObject((void *)G3D_UTIL_GetObject(work->util, work->unitId), (struct G3dObjectStatus *)(&t));
     }
 }
 

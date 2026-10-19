@@ -62,7 +62,8 @@ typedef struct SickAddStringEntry {
 } SickAddStringEntry;
 
 extern int BTL_POKEPARAM_CalcSickDamage(struct BtlPokeParam *bpp, int sickKind);
-extern void BTL_SERVER_FLOW_ProcSickDamage(struct BtlServerFlow *flow, struct BtlPokeParam *bpp, int sickKind, int damage);
+struct BtlServerFlow;
+extern void BTL_SERVER_FLOW_ProcSickDamage(struct BtlServerFlow *flow, u8 *poke, u32 sickKind, u32 baseDamage);
 void BTL_SICK_ProcAddedOrTurnEnd(struct BtlPokeParam *bpp, int sickKind, union SickCont cont, int isAdded);
 void BTL_SICK_ProcTurnEnd(struct BtlServerFlow *flow, struct BtlPokeParam *bpp, int pokeId, int sickKind);
 int BTL_SICK_BuildDamageMessage(BtlStrParam *message, struct BtlPokeParam *bpp, int sickKind);
@@ -116,7 +117,7 @@ void BTL_SICK_ProcTurnEnd(struct BtlServerFlow *flow, struct BtlPokeParam *bpp, 
         return;
     damage = BTL_POKEPARAM_CalcSickDamage(bpp, sickKind);
     if (damage != 0)
-        BTL_SERVER_FLOW_ProcSickDamage(flow, bpp, sickKind, damage);
+        BTL_SERVER_FLOW_ProcSickDamage(flow, (u8 *)bpp, sickKind, damage);
     switch (sickKind) {
     case 0x14:
         BTL_SICK_TickPerishSong(flow, bpp, pokeId);

@@ -111,6 +111,7 @@ FNT_MAIN_ENTRY_SIZE = 8
 RESIDUE_COALESCE_GAP = 64  # merge residue runs closer together than this
 
 EXPECTED_GAMECODE = b"IRBO"
+KNOWN_GAMECODES = (b"IRBO", b"IRAO")      # Pokemon Black and Pokemon White (USA)
 
 # characters Windows refuses in a filename, plus the path separators
 _UNSAFE_RE = re.compile(rb'[\x00-\x1f<>:"/\\|?*]')
@@ -386,10 +387,10 @@ def cmd_extract(args):
 
     # --- header sanity -----------------------------------------------------
     gamecode = rom[0x0C:0x10]
-    if gamecode != EXPECTED_GAMECODE:
+    if gamecode not in KNOWN_GAMECODES:
         raise RomError(
-            f"unexpected game code {gamecode!r}; expected "
-            f"{EXPECTED_GAMECODE!r} (Pokemon Black USA/EUR)"
+            f"unexpected game code {gamecode!r}; expected one of "
+            f"{KNOWN_GAMECODES!r} (Pokemon Black or White, USA)"
         )
     unit_code = rom[0x12]
     is_twl = bool(unit_code & 0x02)

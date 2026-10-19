@@ -54,11 +54,12 @@ struct Sub0200852CObj;
 extern void *GFL_HEAP_Alloc(u32 heap, u32 size, int clear, const char *file, unsigned short line);
 extern u32 GFL_NET_IsParentAid(void);
 extern void MI_CpuFill8(void *p, int v, int n);
-extern void OS_GetMacAddress(void *p);
-extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
-extern u32 GFL_NET_GetHandleNetID(struct Link *p);
+extern void OS_GetMacAddress(u8 *macAddress);
+struct GFLNetHandle;
+extern struct GFLNetHandle *GFL_NET_HANDLE_GetCurrentHandle(void);
+extern u32 GFL_NET_GetHandleNetID(struct GFLNetHandle *handle);
 extern u32 GFL_HEAP_Free(void *p);
-extern u32 MATH_CountPopulation(u32 a);
+extern u8 MATH_CountPopulation(u32 a);
 extern u32 GFL_NET_ERR_GetErrorLevel(void);
 extern void UNION_COMM_RequestShutdown(UnionRoomWork *work);
 extern int UNION_COMM_IsResetting(UnionRoomWork *work);
@@ -66,13 +67,15 @@ extern u32 GFL_NET_IsConnectMember(u32 index);
 extern int UNION_COMMAND_SendAppNotice(u32 sendMask, u8 value);
 extern u32 UNION_COMMAND_SendAppSetting(void *p, u32 a);
 extern u32 UNION_COMMAND_SendAppQuitAccept(u32 a);
-extern u32 UNION_COMMAND_SendAppData(u32 a, void *p);
+struct UnionAppMessage;
+extern u32 UNION_COMMAND_SendAppData(u32 sendMask, struct UnionAppMessage *message);
 extern void UNION_COMM_RemoveMember(UnionConnectInfo *connect, const u8 *mac);
 extern void MI_CpuCopy8(const void *src, void *dst, u32 len);
-extern u8 MYSTATUS_GetSex(const struct Sub0200852CObj *obj);
-extern u8 MYSTATUS_GetTrainerView(const struct Sub0200852CObj *obj);
+struct MyStatus;
+extern u8 MYSTATUS_GetSex(struct MyStatus *mystatus);
+extern u8 MYSTATUS_GetTrainerView(struct MyStatus *mystatus);
 extern int UNION_COMM_AddMember(UnionConnectInfo *connect, const u8 *mac, u32 trainerView, u32 sex);
-extern void GFL_NET_SetAcceptConnection(u32 unused, void *arg);
+extern void GFL_NET_SetAcceptConnection(void *unusedArg, void *eventArg);
 extern int GFL_NET_GetRunState(void);
 UnionAppWork *UNION_APP_Create(UnionRoomWork *work, int heapId, int maxMembers, UnionAppStatusCopy *myStatus);
 void UNION_APP_Delete(UnionAppWork *app);
@@ -97,7 +100,7 @@ int UNION_APP_HasMembers(UnionAppWork *app);
 int UNION_APP_IsAllEntriesReceived(UnionAppWork *app);
 void UNION_APP_QueueJoinConfirm(UnionAppWork *app, int netId);
 void UNION_APP_OnMemberDropped(UnionAppWork *app, int netId);
-unsigned int UNION_APP_GetSettingSize(unsigned int entry);
+unsigned int UNION_APP_GetSettingSize(struct GFLNetHandle *entry);
 void UNION_APP_AddSelfToJoined(UnionAppWork *app);
 int UNION_APP_IsClosed(UnionAppWork *app);
 void UNION_APP_SetCallbacks(UnionAppWork *app, UnionAppMemberCallback joinCallback, UnionAppMemberCallback leaveCallback, void *callbackArg);
@@ -128,7 +131,7 @@ UnionAppWork *UNION_APP_Create(UnionRoomWork *work, int heapId, int maxMembers, 
     MI_CpuFill8(&entry, 0, sizeof(UnionAppEntry));
     entry.status = *myStatus;
     OS_GetMacAddress(entry.mac);
-    UNION_APP_SetMemberEntry(app, work, GFL_NET_GetHandleNetID((struct Link *)((u32)GFL_NET_HANDLE_GetCurrentHandle())), &entry);
+    UNION_APP_SetMemberEntry(app, work, GFL_NET_GetHandleNetID((struct GFLNetHandle *)((u32)GFL_NET_HANDLE_GetCurrentHandle())), &entry);
     UNION_APP_Close(app);
     UNION_APP_SetReady(app);
     return app;
@@ -289,8 +292,8 @@ void UNION_APP_SendOwnEntry(UnionAppWork *app)
 {
     u32 myNetId;
     if (app->dataSendBits != 0) {
-        myNetId = GFL_NET_GetHandleNetID((struct Link *)GFL_NET_HANDLE_GetCurrentHandle());
-        if (UNION_COMMAND_SendAppData(app->dataSendBits, &app->entry[myNetId]) == 1) app->dataSendBits = 0;
+        myNetId = GFL_NET_GetHandleNetID((struct GFLNetHandle *)GFL_NET_HANDLE_GetCurrentHandle());
+        if (UNION_COMMAND_SendAppData(app->dataSendBits, (struct UnionAppMessage *)(&app->entry[myNetId])) == 1) app->dataSendBits = 0;
     }
 }
 
@@ -423,9 +426,9 @@ void UNION_APP_SetMemberEntry(UnionAppWork *app, UnionRoomWork *work, u32 netId,
     UnionMySituation *situation = &work->mySituation;
     app->entry[netId] = *src;
     app->entryReceivedBits |= (u8)(1 << netId);
-    if (netId != GFL_NET_GetHandleNetID((struct Link *)GFL_NET_HANDLE_GetCurrentHandle())) {
-        u32 trainerView = MYSTATUS_GetTrainerView((const struct Sub0200852CObj *)src);
-        u32 sex = MYSTATUS_GetSex((const struct Sub0200852CObj *)src);
+    if (netId != GFL_NET_GetHandleNetID((struct GFLNetHandle *)GFL_NET_HANDLE_GetCurrentHandle())) {
+        u32 trainerView = MYSTATUS_GetTrainerView((struct MyStatus *)src);
+        u32 sex = MYSTATUS_GetSex((struct MyStatus *)src);
         UNION_COMM_AddMember(&situation->connect, src->mac, trainerView, (u8)sex);
     }
 }
@@ -472,7 +475,7 @@ void UNION_APP_OnMemberDropped(UnionAppWork *app, int netId)
 /*
  * Unlabelled size-return leaf. Extent follower 021840AC already filed separately.
  */
-unsigned int UNION_APP_GetSettingSize(unsigned int entry)
+unsigned int UNION_APP_GetSettingSize(struct GFLNetHandle *entry)
 {
     return 4;
 }
@@ -480,7 +483,7 @@ unsigned int UNION_APP_GetSettingSize(unsigned int entry)
 
 void UNION_APP_AddSelfToJoined(UnionAppWork *app)
 {
-    app->joinedBits = app->joinedBits | (u8)(1 << GFL_NET_GetHandleNetID((struct Link *)((u32)GFL_NET_HANDLE_GetCurrentHandle())));
+    app->joinedBits = app->joinedBits | (u8)(1 << GFL_NET_GetHandleNetID((struct GFLNetHandle *)((u32)GFL_NET_HANDLE_GetCurrentHandle())));
 }
 
 
@@ -523,7 +526,7 @@ void UNION_APP_SetCallbacks(UnionAppWork *app, UnionAppMemberCallback joinCallba
 int UNION_APP_Close(UnionAppWork *app)
 {
     if (app->pendingBits == 0) {
-        GFL_NET_SetAcceptConnection((u32)GFL_NET_HANDLE_GetCurrentHandle(), 0);
+        GFL_NET_SetAcceptConnection(GFL_NET_HANDLE_GetCurrentHandle(), 0);
         app->phase = UNION_APP_PHASE_CLOSED;
         return 1;
     }
@@ -537,7 +540,7 @@ int UNION_APP_Close(UnionAppWork *app)
  */
 void UNION_APP_Open(UnionAppWork *app)
 {
-    GFL_NET_SetAcceptConnection((u32)GFL_NET_HANDLE_GetCurrentHandle(), (void *)1);
+    GFL_NET_SetAcceptConnection(GFL_NET_HANDLE_GetCurrentHandle(), (void *)1);
     app->phase = UNION_APP_PHASE_OPEN;
 }
 
@@ -545,7 +548,7 @@ void UNION_APP_Open(UnionAppWork *app)
 void UNION_APP_OpenLimited(UnionAppWork *app, int maxCount)
 {
     if (GFL_NET_GetRunState()) {
-        GFL_NET_SetAcceptConnection((int)GFL_NET_HANDLE_GetCurrentHandle(), (void *)1);
+        GFL_NET_SetAcceptConnection(GFL_NET_HANDLE_GetCurrentHandle(), (void *)1);
         app->phase = UNION_APP_PHASE_LIMITED;
         app->limitedMax = maxCount;
         app->limitedCount = 0;

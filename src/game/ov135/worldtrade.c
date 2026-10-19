@@ -189,7 +189,7 @@ extern int GF_OVERLAY_Load(s32 handle);
 
 extern void GFL_HEAP_CreateChildHeap(u32 a, u32 b, u32 c);
 
-extern void *PROCSYS_AllocProcWork(struct ProcSystem *obj, u32 size, u32 heap);
+extern void *PROCSYS_AllocProcWork(struct Proc *proc, unsigned int size, unsigned int heapId);
 
 extern void MI_CpuFill8(void *p, u32 v, u32 n);
 
@@ -200,8 +200,9 @@ extern void *PROCSYS_Create(int heapId);
 extern u32 TCB_GetTaskOffset(u32 n);
 
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+struct TcbSystem;
 
-extern struct Ctx *TCB_Init(u32 capacity, struct Ctx *c);
+extern struct TcbSystem *TCB_Init(unsigned int capacity, struct TcbSystem *sys);
 
 extern void WORLDTRADE_ADAPTER_InitPrinter(void *ctx, u32 arg);
 
@@ -211,7 +212,7 @@ extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fi
 
 extern void BG_SYS_ClearGraphicsMemory(u32 keep);
 
-extern void GFL_USE_SetBgmPaused(void *p);
+extern void GFL_USE_SetBgmPaused(unsigned int value);
 
 extern void GFL_USE_CancelChangeAndStopBgm(void);
 
@@ -225,7 +226,7 @@ extern void DPW_TR_Main(void);
 
 extern u32 PROCSYS_Main(void *);
 
-extern void TCB_Main(struct Ctx *c);
+extern void TCB_Main(struct TcbSystem *sys);
 
 extern void WORLDTRADE_ADAPTER_UpdatePrinter(void *);
 
@@ -263,9 +264,11 @@ extern void BG_SYS_SetVramBanks(const struct DispVram *c);
 
 extern void GF_PANIC_Fail(const char *expr, u32 line, const char *file);
 
-extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
+extern void *ARC_TOOL_CreateHandle(unsigned int archiveID, unsigned short heapID);
+struct DispVramCfg;
+struct SysInit;
 
-extern void CLACT_InitSystem(const struct Cfg *cfg, u32 arg, u32 heapId);
+extern void CLACT_InitSystem(struct SysInit *cfg, struct DispVramCfg *res_cfg, unsigned int heapId);
 
 extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 
@@ -277,37 +280,43 @@ extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 
 extern void ARC_TOOL_DeleteHandle(void *h);
 
-extern void *ARC_UTIL_LoadPaletteBlockFromArchive(u32 archiveID, u32 memberIdx, u32 unpackedOut, u32 flags);
+extern void *ARC_UTIL_LoadPaletteBlockFromArchive(u32 archiveID, u32 memberIdx, void *unpackedOut, u16 flags);
 
 extern void DC_FlushRange(void *p, u32 size);
 
 extern void GX_LoadOBJPltt(const void *src, u32 offset, u32 size);
+struct MyStatus;
 
-extern u8 MYSTATUS_GetSex(const struct Sub0200852CObj *obj);
+extern u8 MYSTATUS_GetSex(struct MyStatus *mystatus);
 
 extern s32 CLACT_RegisterPaletteEx(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
 
 extern void BG_SYS_SetMainPlaneVisible(u32 a, u32 b);
 
 extern void BG_SYS_SetSubPlaneVisible(u32 a, u32 b);
+struct PrintQueue;
+struct GFont;
 
-extern struct TaskMenuRes *APP_TASKMENU_RES_Create(u16 bgFrame, u16 palNo, u32 font, u32 printQue, u16 heap);
+extern struct TaskMenuRes *APP_TASKMENU_RES_Create(unsigned short bgFrame, unsigned short palNo, struct GFont *font, struct PrintQueue *printQue, unsigned short heapId);
+struct TaskMenuInitWork;
+struct TaskMenuWork;
 
-extern struct TaskMenu *APP_TASKMENU_OpenMenu(struct TaskMenuTmpl *tmpl, void *res);
+extern struct TaskMenuWork *APP_TASKMENU_OpenMenu(struct TaskMenuInitWork *init, struct TaskMenuRes *res);
+struct Strbuf;
 
-extern void *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
+extern struct Strbuf *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
 
-extern void STRBUF_Delete(struct U16Vec *vec);
+extern void STRBUF_Delete(struct Strbuf *strbuf);
 
-extern void APP_TASKMENU_CloseMenu(struct TaskMenu *m);
+extern void APP_TASKMENU_CloseMenu(struct TaskMenuWork *menu);
 
-extern u32 APP_TASKMENU_RES_Delete(struct TaskMenuState *s);
+extern void APP_TASKMENU_RES_Delete(struct TaskMenuRes *res);
 
-extern void APP_TASKMENU_UpdateMenu(void *);
+extern void APP_TASKMENU_UpdateMenu(struct TaskMenuWork *menu);
 
-extern u32 APP_TASKMENU_IsFinish(struct TaskMenu *m);
+extern u32 APP_TASKMENU_IsFinish(struct TaskMenuWork *menu);
 
-extern u8 APP_TASKMENU_GetCursorPos(const u8 *);
+extern u8 APP_TASKMENU_GetCursorPos(struct TaskMenuWork *menu);
 
 extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
 
@@ -326,16 +335,19 @@ extern void CLACT_ReleaseCellAnim(u32 v);
 extern u32 CLACT_DeleteUnit(struct Bank *bank);
 
 extern void CLACT_ExitSystem(void);
+struct TcbList;
 
-extern u32 GFL_USE_GetMainTaskList(void);
+extern struct TcbList *GFL_USE_GetMainTaskList(void);
+struct BmpWin;
+struct TimeIcon;
 
-extern u8 *TIME_ICON_Create(void *owner, void *refWin, u8 fillColor, u8 waitInterval, volatile u16 heap);
+extern struct TimeIcon *TIME_ICON_Create(struct TcbList *taskList, struct BmpWin *refWin, unsigned char fillColor, unsigned char waitInterval, unsigned short heapId);
 
-extern void TIME_ICON_Delete(u8 *p);
+extern void TIME_ICON_Delete(struct TimeIcon *icon);
 
-extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
+extern void BMP_WIN_MakeScreen(struct BmpWin *win);
 
-extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
+extern u8 BMP_WIN_GetBgLayer(struct BmpWin *win);
 
 extern void BG_SYS_PushTile(u32 v);
 
@@ -356,16 +368,19 @@ extern void BMP_WIN_Init(u16 heapId);
 extern void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
 
 extern void *GFL_USE_AddMainTask(void *callback, void *ctx, int priority);
+struct TcbTask;
 
-extern void TCB_DeleteTask(struct Node *n);
+extern void TCB_DeleteTask(struct TcbTask *task);
 
 extern void BMP_WIN_Exit(void);
 
 extern void BG_SYS_Delete(void);
+struct GameSystem;
+struct GameData;
 
-extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
+extern struct GameData *GAMESYSTEM_GetGameData(struct GameSystem *gameSystem);
 
-extern void GAME_DATA_SaveCancel(char *p);
+extern void GAME_DATA_SaveCancel(struct GameData *gd);
 
 extern void GFL_NET_ERR_HaltWithMessage(u32 c);
 
@@ -391,7 +406,7 @@ void WORLDTRADE_InitClactSystem(Work *p, u32 mode);
 
 void WORLDTRADE_SetPlaneVisibleAll(Work *p);
 
-void WORLDTRADE_OpenTaskMenuYesNoDefault(u32 a, u32 b, u32 c, u32 d, u8 e);
+void WORLDTRADE_OpenTaskMenuYesNoDefault(Work *a, u32 b, u32 c, u32 d, u8 e);
 
 void WORLDTRADE_OpenTaskMenuYesNo(Work *p,int b,int unused,int a,int c,u8 flag);
 
@@ -665,7 +680,7 @@ void WORLDTRADE_InitClactSystem(Work *p, u32 mode)
     u32 chr;
 
     arc = ARC_TOOL_CreateHandle(0x60, 0x48);
-    CLACT_InitSystem((const struct Cfg *)d_02202BE0, mode, 0x48);
+    CLACT_InitSystem((struct SysInit *)d_02202BE0, (struct DispVramCfg *)mode, 0x48);
     p->res_res.unit = (u32)CLACT_CreateUnit(0x60, 0, 0x48);
     p->res_res.mainChar = CLACT_RegisterCharacter(arc, 0x11, 1, 0, 0x48);
     p->res_res.mainPlt = CLACT_RegisterPalette(arc, 8, 0, 0, 0x48);
@@ -677,7 +692,7 @@ void WORLDTRADE_InitClactSystem(Work *p, u32 mode)
     p->res_res.slotCell = CLACT_RegisterCellAnim(arc, 0x25, 0x26, 0x48);
     ARC_TOOL_DeleteHandle(arc);
 
-    buf = ARC_UTIL_LoadPaletteBlockFromArchive(7, 0, (u32)(&pd), 0x48);
+    buf = ARC_UTIL_LoadPaletteBlockFromArchive(7, 0, (&pd), 0x48);
     DC_FlushRange(pd->data, 0x60);
     GX_LoadOBJPltt(pd->data, 0xA0, 0x60);
     d = pd->data;
@@ -719,7 +734,7 @@ void WORLDTRADE_SetPlaneVisibleAll(Work *p)
 /*
  * Forward four register arguments plus a zero and the u8 stack argument.
  */
-void WORLDTRADE_OpenTaskMenuYesNoDefault(u32 work, u32 y, u32 unused, u32 plttIdx, u8 flag)
+void WORLDTRADE_OpenTaskMenuYesNoDefault(Work *work, u32 y, u32 unused, u32 plttIdx, u8 flag)
 {
     WORLDTRADE_OpenTaskMenuYesNo((Work *)work, y, unused, plttIdx, 0, flag);
 }
@@ -731,7 +746,7 @@ void WORLDTRADE_OpenTaskMenuYesNo(Work *p,int y,int unused,int plttIdx,int bgLay
     int on;
     if (p->taskMenuRes) GF_PANIC_Fail(str_02203B08,0,str_02203B08);
     if (p->taskMenu) GF_PANIC_Fail(str_02203B08,0,str_02203B08);
-    p->taskMenuRes=APP_TASKMENU_RES_Create((u8)bgLayer,(u8)plttIdx,p->uiResA,p->uiResB,0x48);
+    p->taskMenuRes=APP_TASKMENU_RES_Create((u8)bgLayer,(u8)plttIdx,(struct GFont *)p->uiResA,(struct PrintQueue *)p->uiResB,0x48);
     items=data_02202BC8;
     on=0;
     MI_CpuFill8(&menu,0,20);
@@ -745,7 +760,7 @@ void WORLDTRADE_OpenTaskMenuYesNo(Work *p,int y,int unused,int plttIdx,int bgLay
     menu.b=y;
     menu.c=8;
     menu.d=3;
-    p->taskMenu=APP_TASKMENU_OpenMenu((struct TaskMenuTmpl *)(&menu),p->taskMenuRes);
+    p->taskMenu=APP_TASKMENU_OpenMenu((struct TaskMenuInitWork *)(&menu),p->taskMenuRes);
     STRBUF_Delete(items.item[0].text);
     STRBUF_Delete(items.item[1].text);
     if (flag) {
@@ -765,7 +780,7 @@ void WORLDTRADE_OpenTaskMenuList(Work *p, u16 bgLayer, int count, int y)
     int i;
     if (p->taskMenuRes) GF_PANIC_Fail(str_02203B08,0,str_02203B08);
     if (p->taskMenu) GF_PANIC_Fail(str_02203B08,0,str_02203B08);
-    p->taskMenuRes=APP_TASKMENU_RES_Create(bgLayer,10,p->uiResA,p->uiResB,0x48);
+    p->taskMenuRes=APP_TASKMENU_RES_Create(bgLayer,10,(struct GFont *)p->uiResA,(struct PrintQueue *)p->uiResB,0x48);
     items=data_02202C2C;
     MI_CpuFill8(&menu,0,20);
     if ((u32)count>3) GF_PANIC_Fail(str_02203B08,0,str_02203B08);
@@ -778,7 +793,7 @@ void WORLDTRADE_OpenTaskMenuList(Work *p, u16 bgLayer, int count, int y)
     menu.b=y;
     menu.c=13;
     menu.d=3;
-    p->taskMenu=APP_TASKMENU_OpenMenu((struct TaskMenuTmpl *)(&menu),p->taskMenuRes);
+    p->taskMenu=APP_TASKMENU_OpenMenu((struct TaskMenuInitWork *)(&menu),p->taskMenuRes);
     WORLDTRADE_SetBrightnessIn(1);
 }
 
@@ -926,10 +941,10 @@ void WORLDTRADE_CreateTimeIcon(Work *p)
 void WORLDTRADE_DeleteTimeIcon(Work *p)
 {
     if (p->timeIcon != 0) {
-        TIME_ICON_Delete((u8 *)(p->timeIcon));
+        TIME_ICON_Delete((struct TimeIcon *)(p->timeIcon));
         p->timeIcon = 0;
-        BMP_WIN_MakeScreen((struct Cfg *)(p->frame));
-        BG_SYS_PushTile(BMP_WIN_GetBgLayer((struct Descriptor *)(p->frame)));
+        BMP_WIN_MakeScreen((struct BmpWin *)(p->frame));
+        BG_SYS_PushTile(BMP_WIN_GetBgLayer((struct BmpWin *)(p->frame)));
     }
 }
 
@@ -1014,6 +1029,6 @@ void WORLDTRADE_ExitPlanes(Work *p)
 
 void WORLDTRADE_CancelSave(Work *p)
 {
-    GAME_DATA_SaveCancel(GAMESYSTEM_GetGameData((const struct Ctx *)p->ctx->gameData));
+    GAME_DATA_SaveCancel(GAMESYSTEM_GetGameData((struct GameSystem *)p->ctx->gameData));
     GFL_NET_ERR_HaltWithMessage(0x29);
 }

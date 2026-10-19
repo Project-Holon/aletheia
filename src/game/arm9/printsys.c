@@ -206,11 +206,11 @@ extern u8    BMP_GetTileBytes(struct Bmp *bmp);
 
 extern void *BMP_GetPixels(const struct Bmp *bmp);
 
-extern void  BMP_Blit(struct Bmp *src, struct Bmp *dst, u32 srcX, u32 srcY, int dstX, int dstY, u32 width, u32 height, u32 colorKey);
+extern void  BMP_Blit(struct Bmp *src, struct Bmp *dst, u32 srcX, u32 srcY, s32 dstX, s32 dstY, u32 w, u32 h, u16 colorKey);
 
-extern void  GF_FONT_ReadGlyph(struct GfFont *font, u16 code, void *dst, void *metrics);
+extern void  GF_FONT_ReadGlyph(struct GfFont *font, u16 ch, void *dst, u8 *metrics);
 
-extern void  BMP_BlitPaletteOffset(struct Bmp *src, u32 dst, u32 srcX, u32 srcY, u32 dstX, u32 dstY, u32 width, u32 height, u16 colorKey, u16 shift);
+extern void  BMP_BlitPaletteOffset(struct Bmp *src, struct Bmp *dst, u32 srcX, u32 srcY, u32 dstX, u32 dstY, u32 w, u32 h, u16 colorKey, u16 paletteBase);
 
 u32 PRINTSYS_MeasureTextWidth(u16 *cursor, struct GfFont *font, u32 spacing, u16 **next);
 
@@ -219,12 +219,13 @@ extern u16   BMP_GetWidth(const struct Bmp *bmp);
 extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *win);
 
 extern struct TcblNode *TCBL_AddTask(struct Tcbl *tcbl, void *func, u32 workSize, u32 priority);
+struct TcblTask;
 
-extern void *TCBL_GetWork(struct TcblNode *task);
+extern void *TCBL_GetWork(struct TcblTask *task);
 
 void PRINTSYS_Task(void *task, struct TextPrinter *printer);
 
-extern void  TCBL_DeleteTask(struct TcblNode *task);
+extern void  TCBL_DeleteTask(struct TcblTask *task);
 
 extern signed char MSG_SPEED_GetWaitForSpeed(u32 speed);
 
@@ -952,7 +953,7 @@ void PRINTSYS_PutGlyph4bpp(struct Bmp *bmp, s32 x, s32 y, struct GfFont *font, u
 void PRINTSYS_PutGlyph8bpp(struct Bmp *bmp, s32 x, s32 y, struct GfFont *font, u16 code, const u8 *glyphInfo)
 {
     GF_FONT_ReadGlyph(font, code, BMP_GetPixels(_pGlyphBmp), (void *)glyphInfo);
-    BMP_BlitPaletteOffset(_pGlyphBmp, (u32)bmp, 0, 0, x + glyphInfo[0], y, glyphInfo[1], glyphInfo[3], 0xF, 0);
+    BMP_BlitPaletteOffset((struct Bmp *)_pGlyphBmp, (struct Bmp *)bmp, 0, 0, x + glyphInfo[0], y, glyphInfo[1], glyphInfo[3], 0xF, 0);
 }
 
 /*
@@ -1143,7 +1144,7 @@ struct TextPrinter *PRINTSYS_PrintStreamCallBack(struct BmpWin *win, s16 x, s16 
 
     bmp = BMP_WIN_GetBmp(win);
     task = TCBL_AddTask(tcbl, (void *)PRINTSYS_Task, 0x50, priority);
-    printer = TCBL_GetWork(task);
+    printer = TCBL_GetWork((struct TcblTask *)task);
 
     printer->task = task;
     PRINTSYS_SetupJob(&printer->ctx, font, bmp, x, y);
@@ -1255,7 +1256,7 @@ void PRINTSYS_PrintStreamReleasePause(struct TextPrinter *printer)
 void PRINTSYS_PrintStreamDelete(struct TextPrinter *printer)
 {
     if (printer->task != 0) {
-        TCBL_DeleteTask(printer->task);
+        TCBL_DeleteTask((struct TcblTask *)printer->task);
         printer->task = 0;
     }
 }
@@ -1324,7 +1325,7 @@ typedef signed short   s16;
 
 extern u16 BMP_GetHeight(const struct Bmp *bmp);
 
-extern void BMP_FillRect(struct Bmp *bmp, u32 x, u32 y, u32 width, u32 height, u32 fillColor);
+extern void BMP_FillRect(struct Bmp *bmp, u32 x, u32 y, u32 w, u16 h, u8 value);
 
 extern void BMP_Clear(struct Bmp *bmp, u8 fillColor);
 

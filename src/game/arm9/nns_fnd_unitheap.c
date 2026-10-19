@@ -57,7 +57,7 @@ extern void NNS_FndFreeToExpHeap(struct ExpHeap *heap, void *block);
 
 extern u32 NNS_FndAllocFromFrmHeapEx(char *p, int size, int align);
 
-extern void *OS_AllocFromHeap(int id, int heap, unsigned long size);
+extern void *OS_AllocFromHeap(s32 id, s32 heap, s32 size);
 
 extern void OS_FreeToHeap(int id, int heap, void *ptr);
 

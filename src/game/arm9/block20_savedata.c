@@ -93,7 +93,8 @@ struct CgearSaveBlock {
 };
 
 extern void *SAVE_CONTROL_GetBlock(struct SaveControl *saveControl, u32 id);
-extern void *GAME_DATA_GetSaveControl(struct Big *p);
+struct GameData;
+extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gd);
 extern u32 POKE_TOOL_GetPartyParamSize(void);
 extern void  MI_CpuFill8(void *dest, u8 data, u32 size);
 extern void  MI_CpuCopy8(const void *src, void *dest, u32 size);

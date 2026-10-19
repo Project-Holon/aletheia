@@ -148,7 +148,7 @@ extern u8 BTL_MAIN_GetFacingPos(int rule, u32 basePos);
 extern u32 BTL_MAIN_GetOwnClientId(struct BtlMain *main);
 extern u32 BTL_MAIN_GetOwnPartnerClient(struct BtlMain *main);
 extern u8 BTL_MAIN_GetOwnOpponentClient(struct BtlMain *main, int nth);
-extern u8 *BTL_MAIN_GetPosTable(void);
+extern u8 *BTL_MAIN_GetPosTable(int tableIndex);
 
 /* Services of the poke container and the parties. */
 extern struct BtlPokeParam *BTL_SIDE_GetPokeAtPos(struct BtlPokeCon *pokeCon, u32 slot);
@@ -156,7 +156,7 @@ extern struct BtlParty *BTL_SIDE_GetSlotOfClientThunk(struct BtlPokeCon *pokeCon
 extern struct BtlPokeParam *BTL_SLOT_GetPokeParam(struct BtlParty *party, u8 index);
 extern u8 BTL_SLOT_GetCount(struct BtlParty *party);
 extern u8 BTL_SLOT_GetRotateSrcIndex(u8 rotateKind);
-extern int BTL_CLIENT_GetClientId(void);
+extern int BTL_CLIENT_GetClientId(struct BtlClient *client);
 extern u8 BTL_CLIENT_GetFieldCountdownByte(struct BtlClient *client);
 
 /* Services of the poke parameter. */
@@ -215,7 +215,7 @@ extern const char *const gBtlvScdTargetRegionsSingleA[][15];
 extern const char *const gBtlvScdTargetRegionsDoubleA[][15];
 extern const char *const gBtlvScdTargetRegionsDoubleB[][15];
 
-BtlvAuxView *BTLV_SCD_Create(struct BtlvCore *core, struct BtlMain *mainModule, struct BtlPokeCon *pokeCon, int taskList, void *fontMain, struct BtlClient *client, int viewParam, u16 heapId);
+BtlvAuxView *BTLV_SCD_Create(struct BtlvCore *core, struct BtlMain *mainModule, struct BtlPokeCon *pokeCon, void *taskList, void *fontMain, struct BtlClient *client, int viewParam, u16 heapId);
 void BTLV_SCD_CreateInput(BtlvAuxView *view);
 void BTLV_SCD_StartInputSlideIn(BtlvAuxView *view, u32 mode);
 void BTLV_SCD_StartInputSlideOut(BtlvAuxView *view);
@@ -263,7 +263,8 @@ void BTLV_SCD_BuildTargetSet(BtlvTargetSet *targets, BtlvAuxView *view);
 void BTLV_SCD_ShowRotateScreen(BtlvAuxView *view, void *payload);
 int BTLV_SCD_PollTouchKey(BtlvAuxView *view, u8 *outKey);
 void BTLV_SCD_CloseInputScreen(BtlvAuxView *view);
-void BTLV_SCD_OpenChoiceScreen(BtlvAuxView *view, int value);
+struct BtlvYesNoWork;
+void BTLV_SCD_OpenChoiceScreen(BtlvAuxView *view, struct BtlvYesNoWork *value);
 int BTLV_SCD_PollChoiceScreen(BtlvAuxView *view, u32 *outChoice);
 u8 *BTLV_SCD_GetInputFlags(BtlvAuxView *view);
 void BTLV_SCD_BeginCloseSequence(BtlvAuxView *view);
@@ -272,7 +273,7 @@ void BTLV_SCD_ShowCounterScreen(BtlvAuxView *view, void *payload);
 void BTLV_SCD_PollCounterTouch(BtlvAuxView *view);
 
 /* Creates the view: allocates it, takes the party of the local client and resets the task stack. */
-BtlvAuxView *BTLV_SCD_Create(struct BtlvCore *core, struct BtlMain *mainModule, struct BtlPokeCon *pokeCon, int taskList, void *fontMain, struct BtlClient *client, int viewParam, u16 heapId)
+BtlvAuxView *BTLV_SCD_Create(struct BtlvCore *core, struct BtlMain *mainModule, struct BtlPokeCon *pokeCon, void *taskList, void *fontMain, struct BtlClient *client, int viewParam, u16 heapId)
 {
     BtlvAuxView *view;
 
@@ -283,7 +284,7 @@ BtlvAuxView *BTLV_SCD_Create(struct BtlvCore *core, struct BtlMain *mainModule, 
     view->heapId = heapId;
     view->fontMain = fontMain;
     view->client = client;
-    view->ownParty = BTL_SIDE_GetSlotOfClientThunk(pokeCon, BTL_CLIENT_GetClientId());
+    view->ownParty = BTL_SIDE_GetSlotOfClientThunk(pokeCon, BTL_CLIENT_GetClientId(client));
     view->msgBuffer = STRBUF_Create(0x80, heapId);
     view->cursorIndex = 0;
     view->viewParam = viewParam;
@@ -935,8 +936,7 @@ int BTLV_SCD_OpenTargetMenuStep(int *state, BtlvAuxView *view)
     if (BTL_MAIN_GetRule(view->mainModule) == 2) {
         targetPos = 6;
         if (view->targets.count != 0) {
-            BTL_MAIN_GetTrainerSlotOfPoke(view->mainModule, view->pokeCon, BTL_POKEPARAM_GetPokeId(view->pokeParam));
-            targetPos = BTL_MAIN_GetPosTable()[4];
+            targetPos = BTL_MAIN_GetPosTable(BTL_MAIN_GetTrainerSlotOfPoke(view->mainModule, view->pokeCon, BTL_POKEPARAM_GetPokeId(view->pokeParam)))[4];
         }
         BTL_ACTION_SetFight(view->action, (u16)view->action->fight.moveId, targetPos);
         view->targetChosen = 1;
@@ -1069,7 +1069,7 @@ void BTLV_SCD_CloseInputScreen(BtlvAuxView *view)
 }
 
 /* Shows the choice screen with a value and resets its step. */
-void BTLV_SCD_OpenChoiceScreen(BtlvAuxView *view, int value)
+void BTLV_SCD_OpenChoiceScreen(BtlvAuxView *view, struct BtlvYesNoWork *value)
 {
     BTLV_INPUT_ChangeScreen(view->input, BTLV_INPUT_SCREEN_CHOICE, (void *)value);
     view->choiceStep = 0;

@@ -21,6 +21,7 @@
  *   GSMD5Final   0x02184A34 arm ov009
  *   GSMD5Print   0x02185854 arm ov009
  *   MSL_C_LIB_MemsetPtr  0x020923B0  arm  arm9
+ *   memcpy                       0x02092344  arm
  */
 #define S11 7
 #define S12 12

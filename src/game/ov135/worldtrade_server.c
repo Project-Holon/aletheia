@@ -144,6 +144,7 @@
  *   WORLDTRADE_ADAPTER_CreateMail 0x0220254C thumb ov135
  *   GFL_USE_GetRandom  0x020056EC  thumb  arm9
  */
+#include "../version.h"
 #include "worldtrade_types.h"
 
 extern void MI_CpuFill8(void *p, u32 v, u32 n);
@@ -153,19 +154,23 @@ extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fi
 extern u32 GFL_HEAP_Free(void *p);
 
 extern void GF_PANIC_Fail(const char *expr, u32 line, const char *file);
+struct Strbuf;
 
-extern void *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
+extern struct Strbuf *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
 
-extern void STRBUF_Delete(struct U16Vec *vec);
+extern void STRBUF_Delete(struct Strbuf *strbuf);
+struct BmpWin;
 
-extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
+extern void BMP_WIN_MakeScreen(struct BmpWin *win);
 
-extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
+extern u8 BMP_WIN_GetBgLayer(struct BmpWin *win);
 
 extern void BG_SYS_SetSubVisiblePlanes(u32 a);
 
 struct Ctx;
-extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
+struct GameSystem;
+struct GameData;
+extern struct GameData *GAMESYSTEM_GetGameData(struct GameSystem *gameSystem);
 
 extern void WORLDTRADE_ENTER_RestartNetTimeout(u8 *);
 
@@ -183,30 +188,33 @@ extern void ARC_UTIL_UploadPaletteFromArchiveWhole(u32 a, u32 b, u32 c, u32 d, u
 
 extern void BMP_MENUWORK_LoadCharAndPltt(u32 a, u32 b, u32 c, u32 d, u16 e);
 
-extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
+extern struct BmpWin *BMP_WIN_Create(unsigned int bgLayer, unsigned int posX, unsigned int posY, unsigned char width, unsigned char height, unsigned char palette, unsigned char allocDir);
+struct Bmp;
 
-extern void *BMP_WIN_GetBmp(struct Descriptor *p);
+extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *win);
 
-extern void BMP_Clear(struct CharBuf *buf, u8 value);
+extern void BMP_Clear(struct Bmp *bmp, unsigned char value);
 
-extern void BMP_WIN_TransferChars(struct Descriptor *d);
+extern void BMP_WIN_TransferChars(struct BmpWin *win);
 
-extern u32 BMP_WIN_Delete(struct Descriptor *d);
+extern u32 BMP_WIN_Delete(struct BmpWin *win);
 
-extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
+extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
 
 extern u32 KEY_GetTrg(void);
 
 extern int TOUCHPANEL_GetTrg(void);
+struct WorldTradeData;
 
 
-extern void WORLDTRADE_CopyPokemon(void *sys, void *mon);
+extern void WORLDTRADE_CopyPokemon(struct WorldTradeData *trade, void *outPokemon);
 
 extern u32 POKE_TOOL_GetPartyParamSize(void);
 
 extern void WORLDTRADE_AdvanceScreenId(Work *p);
+struct MyStatus;
 
-extern u32 MYSTATUS_GetProfileId(const struct Sub0200852CObj *obj);
+extern u32 MYSTATUS_GetProfileId(struct MyStatus *mystatus);
 
 extern s32 DPW_TR_GetAsyncResult(void);
 
@@ -238,7 +246,7 @@ typedef struct {
 
 extern void *WORLDTRADE_NoOp(void *);
 
-extern int WIPE_SYS_Start(void *,u32,u32,u32,u32,u32,u32);
+extern void WIPE_SYS_Start(void *divisionMode, unsigned int mainPattern, unsigned int subPattern, unsigned short color, unsigned int frames, unsigned int wait, unsigned int heapId);
 
 extern void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
 
@@ -248,17 +256,18 @@ extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
 
 extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 
-extern void WORLDTRADE_SetNextState(void *p, u32 a, u32 b);
+extern void WORLDTRADE_SetNextState(Work *p, u32 state, u32 returnState);
 
-extern void WORLDTRADE_SetStateAndReturn(void *p, u32 a, u32 b);
+extern void WORLDTRADE_SetStateAndReturn(Work *p, u32 nextScreenId, u32 kind);
 
 extern void GFL_USE_PlaySeDefaultVolume(unsigned);
+struct PokemonParam;
 
 
 
 
 
-extern u32 POKE_TOOL_GetPartyValue(void *mon, u32 id, u32 v);
+extern u32 POKE_TOOL_GetPartyValue(struct PokemonParam *pp, unsigned int paramId, unsigned int arg);
 
 extern int GXx_GetMasterBrightness_(vu16 *reg);
 
@@ -278,40 +287,44 @@ extern void DPW_TR_End(u8 *p);
 extern void WORLDTRADE_INPUT_PrintStringPlain(u32 a, u32 b, u32 c, u32 d, u16 e);
 
 extern void WORLDTRADE_CreateTimeIcon(Work *p);
+struct PartyPokemon;
 
-extern void POKE_TOOL_CopyPartyPokemon(const struct RecDC *, struct RecDC *);
+extern void POKE_TOOL_CopyPartyPokemon(struct PartyPokemon *src, struct PartyPokemon *dest);
 
 extern u32 NATION_AREA_SanitizeNation(u32, u32, u32);
 
 extern u32 NATION_AREA_SanitizeArea(u32, u32, u32);
+struct _NHTTPRapSession;
 
-extern u8 *NHTTP_RAP_Create(int, int, int);
+extern struct _NHTTPRapSession *NHTTP_RAP_Create(unsigned int heapId, unsigned int gameCode, char *source_p);
 
-extern void NHTTP_RAP_AllocPostData(u8 *, int, int, int);
+extern void NHTTP_RAP_AllocPostData(struct _NHTTPRapSession *session_p, int alignment, int size, int id);
 
-extern void NHTTP_RAP_AppendPostData(u8 *, int, int);
+extern void NHTTP_RAP_AppendPostData(struct _NHTTPRapSession *session_p, void *src_p, int size);
 
-extern int NHTTP_RAP_CreatePostRequest(u8 *);
+extern int NHTTP_RAP_CreatePostRequest(struct _NHTTPRapSession *session_p);
 
-extern int NHTTP_RAP_StartConnection(u8 *);
+extern int NHTTP_RAP_StartConnection(struct _NHTTPRapSession *session_p);
 
-extern int NHTTP_RAP_GetResultCode(u8 *p);
+extern int NHTTP_RAP_GetResultCode(struct _NHTTPRapSession *session_p);
 
-extern int NHTTP_RAP_PollConnection(u8 *p);
+extern int NHTTP_RAP_PollConnection(struct _NHTTPRapSession *session_p);
 
-extern u8 *NHTTP_RAP_GetRecvBuffer(u8 *p);
+extern char *NHTTP_RAP_GetRecvBuffer(struct _NHTTPRapSession *session_p);
 
-extern void NHTTP_RAP_DeleteConnection(u8 *p);
+extern void NHTTP_RAP_DeleteConnection(struct _NHTTPRapSession *session_p);
 
-extern void NHTTP_RAP_FreePostData(u8 *p);
+extern void NHTTP_RAP_FreePostData(struct _NHTTPRapSession *session_p);
 
-extern void NHTTP_RAP_Destroy(u8 *p);
+extern void NHTTP_RAP_Destroy(struct _NHTTPRapSession *session_p);
+struct _NHTTPRapRecordList;
 
-extern int NHTTP_RAP_RecordList_GetCount(u8 *p);
+extern int NHTTP_RAP_RecordList_GetCount(struct _NHTTPRapRecordList *list_p);
 
-extern u32 NHTTP_RAP_RecordList_GetValue(u32 p, u32 i);
+extern u32 NHTTP_RAP_RecordList_GetValue(struct _NHTTPRapRecordList *list_p, unsigned int index);
+struct _NHTTPRapRecord;
 
-extern u8 *NHTTP_RAP_RecordList_GetRecord(u8 *p, u32 i);
+extern struct _NHTTPRapRecord *NHTTP_RAP_RecordList_GetRecord(struct _NHTTPRapRecordList *list_p, unsigned int index);
 
 extern void GFL_NET_ERR_RaiseFatal(u32 id);
 
@@ -319,9 +332,9 @@ extern void MI_CpuCopy8(const void *src, void *dst, u32 n);
 
 extern void STRBUF_SetStringN(struct Strbuf *,const u16 *,u32);
 
-extern u16 *STRBUF_GetChars(struct U16Vec *);
+extern u16 *STRBUF_GetChars(struct Strbuf *strbuf);
 
-extern u16 STRBUF_GetLength(struct U16Vec *);
+extern u16 STRBUF_GetLength(struct Strbuf *strbuf);
 
 extern u16 STRBUF_GetEosChar(void);
 
@@ -329,9 +342,9 @@ extern int DWC_CheckProfanityExAsync(unsigned short **words, int wordsnum, char 
 
 extern int DWC_CheckProfanityProcess(void);
 
-extern u32 MSGDATA_Delete(struct Rec *rec);
+extern u32 MSGDATA_Delete(struct MsgBank *bank);
 
-extern void DPW_TR_UploadAsync(u8 *dst, u8 *src, u32 n);
+extern void DPW_TR_UploadAsync(void *tradeData, void *wantedData, int wantedLen);
 
 extern u32 RECORD_AddOne(struct Sub02008C20Obj *obj, int i);
 
@@ -343,33 +356,38 @@ extern u16 WORLDTRADE_GetReturnBox(struct RegB *p);
 
 extern void DPW_TR_UploadFinishAsync(u8 *p);
 
-extern void DPW_TR_TradeAsync(u32, const void *, u32, const void *, u32);
+extern void DPW_TR_TradeAsync(unsigned int uploadFlag, void *tradeData, unsigned char *resultBuf, void *wantedData, unsigned int wantedLen);
 
 extern void DPW_TR_TradeFinishAsync(u8 *p);
 
 extern void DPW_TR_ReturnAsync(u8 *p);
 
-extern u16 WORLDTRADE_GetIsDeposited(const struct Rec0200AD8C *p);
+extern u16 WORLDTRADE_GetIsDeposited(struct WorldTradeData *trade);
 
 extern void WORDSET_SetSlotMonNickname(struct WordSet *p, u32 i, void *mon);
 
-extern void WORLDTRADE_SetIsDeposited(struct Rec0200AD94 *p, u16 v);
+extern void WORLDTRADE_SetIsDeposited(struct WorldTradeData *trade, unsigned short isDeposited);
 
 extern void *MET_TRAINERS_GetFromSave(void *);
+struct MetTrainersSave;
 
-extern void MET_TRAINERS_Insert(struct L0200ED54 *l, u32 val);
+extern void MET_TRAINERS_Insert(struct MetTrainersSave *list, unsigned int value);
 
 extern void *WORLDTRADE_DEMO_CreateMyStatusFromEntry(void *);
+struct SaveControl;
+struct TradeHistory;
 
-extern void *TRADE_HISTORY_GetFromSave(void *);
+extern struct TradeHistory *TRADE_HISTORY_GetFromSave(struct SaveControl *save);
 
-extern void TRADE_HISTORY_AddPartner(struct Sub02009D9CObj *obj, struct Sub0200852CObj *p);
+extern void TRADE_HISTORY_AddPartner(struct TradeHistory *history, struct MyStatus *status);
 
 extern void *memset(void *, int, u32);
 
-extern void MYSTATUS_Copy(void *src, void *dst);
+extern void MYSTATUS_Copy(struct MyStatus *src, struct MyStatus *dest);
+struct HistoryEntry;
+struct HistoryOwner;
 
-extern u32 COMM_HISTORY_InsertIfNationSet(u32 owner, u32 entry);
+extern u32 COMM_HISTORY_InsertIfNationSet(struct HistoryOwner *owner, struct HistoryEntry *entry);
 
 extern void DPW_TR_CancelAsync(void);
 
@@ -377,11 +395,11 @@ extern void DPW_TR_DeleteAsync(u8 *p);
 
 extern u32 WORLDTRADE_INPUT_PrintStringTop(u8 *p, u32 a, u32 b, u32 c, u32 d);
 
-extern int GAME_DATA_SaveStart(int gd);
+extern int GAME_DATA_SaveStart(struct GameData *gd);
 
 extern u32 GFL_USE_GetRandom(u32 v);
 
-extern int GAME_DATA_SaveMain(u8 *p);
+extern int GAME_DATA_SaveMain(struct GameData *gd);
 
 void WORLDTRADE_SUBLCD_UpdateSlotAnims(Work *p);
 
@@ -630,12 +648,12 @@ void WORLDTRADE_SERVER_LoadBgGraphics(Work *p)
 void WORLDTRADE_SERVER_CreateWindows(Work *p)
 {
     u32 w;
-    p->frame = BMP_WIN_Create(0, 2, 0x13, 0x1b, 4, 0xd, 1);
-    BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)p->frame)), 0);
+    p->frame = (unsigned int)BMP_WIN_Create((unsigned int)0, (unsigned int)2, (unsigned int)0x13, 0x1b, 4, 0xd, 1);
+    BMP_Clear((struct Bmp *)((u32)BMP_WIN_GetBmp((struct BmpWin *)p->frame)), 0);
     w = p->frame;
-    BMP_WIN_TransferChars((struct Descriptor *)w);
-    BMP_WIN_MakeScreen((struct Cfg *)w);
-    BG_SYS_PushTile(BMP_WIN_GetBgLayer((struct Descriptor *)w));
+    BMP_WIN_TransferChars((struct BmpWin *)w);
+    BMP_WIN_MakeScreen((struct BmpWin *)w);
+    BG_SYS_PushTile(BMP_WIN_GetBgLayer((struct BmpWin *)w));
 }
 
 /*
@@ -644,7 +662,7 @@ void WORLDTRADE_SERVER_CreateWindows(Work *p)
 void WORLDTRADE_SERVER_DeleteWindows(Work *p)
 {
     WORLDTRADE_ADAPTER_DeletePrintStream((struct Obj *)((u8 *)p + 0xfa0));
-    BMP_WIN_Delete((struct Descriptor *)p->d40);
+    BMP_WIN_Delete((struct BmpWin *)p->d40);
 }
 
 /*
@@ -660,7 +678,7 @@ void WORLDTRADE_SERVER_CreateStrings(Work *p)
  */
 void WORLDTRADE_SERVER_DeleteStrings(Work *p)
 {
-    STRBUF_Delete((struct U16Vec *)((*(unsigned int *)&p->str)));
+    STRBUF_Delete((struct Strbuf *)((*(unsigned int *)&p->str)));
 }
 
 int WORLDTRADE_SERVER_StartRequest(Work *p)
@@ -709,14 +727,14 @@ int WORLDTRADE_SERVER_SendUploadRequest(Work *p)
 {
     u8 *mon=(u8 *)p+0xE4;
     int ready;
-    POKE_TOOL_CopyPartyPokemon((const struct RecDC *)mon, *(struct RecDC * *)&p->tradeMon);
+    POKE_TOOL_CopyPartyPokemon((struct PartyPokemon *)mon, (struct PartyPokemon *)(*(struct RecDC * *)&p->tradeMon));
     ((u8 *)p)[0x204]=NATION_AREA_SanitizeNation(((u8 *)p)[0x204],((u8 *)p)[0x205],((u8 *)p)[0x209]);
     ((u8 *)p)[0x205]=NATION_AREA_SanitizeArea(((u8 *)p)[0x204],((u8 *)p)[0x205],((u8 *)p)[0x209]);
-    *(u8 * *)&p->wm=NHTTP_RAP_Create(0x48,MYSTATUS_GetProfileId(p->ctx->myStatus),(int)((u8 *)p+0x116C));
-    NHTTP_RAP_AllocPostData(*(u8 * *)&p->wm,0x48,POKE_TOOL_GetPartyParamSize(),1);
-    NHTTP_RAP_AppendPostData(*(u8 * *)&p->wm,(int)mon,POKE_TOOL_GetPartyParamSize());
-    if(NHTTP_RAP_CreatePostRequest(*(u8 * *)&p->wm)==0) GF_PANIC_Fail(str_02203F58,0,str_02203F58);
-    ready=NHTTP_RAP_StartConnection(*(u8 **)((u8 *)p+0x10E0))==0;
+    *(u8 * *)&p->wm=(unsigned char *)NHTTP_RAP_Create(0x48,MYSTATUS_GetProfileId(p->ctx->myStatus),(char *)(((u8 *)p+0x116C)));
+    NHTTP_RAP_AllocPostData((struct _NHTTPRapSession *)(*(u8 * *)&p->wm),0x48,POKE_TOOL_GetPartyParamSize(),1);
+    NHTTP_RAP_AppendPostData((struct _NHTTPRapSession *)(*(u8 * *)&p->wm),mon,POKE_TOOL_GetPartyParamSize());
+    if(NHTTP_RAP_CreatePostRequest((struct _NHTTPRapSession *)(*(u8 * *)&p->wm))==0) GF_PANIC_Fail(str_02203F58,0,str_02203F58);
+    ready=NHTTP_RAP_StartConnection((struct _NHTTPRapSession *)(*(u8 **)((u8 *)p+0x10E0)))==0;
     if(ready==0) GF_PANIC_Fail(str_02203F58,0,str_02203F58);
     p->state=3;
     return 2;
@@ -772,7 +790,7 @@ int WORLDTRADE_SERVER_PollUploadResponse(Work *p)
             return 2;
         case 200:
             p->valid = NHTTP_RAP_RecordList_GetCount(rec);
-            p->count_u = NHTTP_RAP_RecordList_GetValue((u32)rec, 0);
+            p->count_u = NHTTP_RAP_RecordList_GetValue(rec, 0);
             MI_CpuCopy8(NHTTP_RAP_RecordList_GetRecord(rec, 1), p->buf_b128, 0x80);
             NHTTP_RAP_FreePostData(p->wm);
             NHTTP_RAP_Destroy(p->wm);
@@ -816,12 +834,12 @@ int WORLDTRADE_SERVER_StartNameCheck(u8 *p)
     u16 *text;
     u32 i;
     u16 c;
-    s=STRBUF_Create(8,0x48);
+    s=(struct U16Vec *)STRBUF_Create(8,0x48);
     STRBUF_SetStringN((struct Strbuf *)s,(u16 *)(p+0x1F4),8);
     MI_CpuFill8(p+0x1300,0,0x28);
     ((Work *)p)->reserved1324=0x48;
-    text=STRBUF_GetChars(s);
-    for(i=0;i<STRBUF_GetLength(s)+1;i++) {
+    text=STRBUF_GetChars((struct Strbuf *)s);
+    for(i=0;i<STRBUF_GetLength((struct Strbuf *)s)+1;i++) {
         c=*(u16 *)((u32)text+i*2);
         if(c==STRBUF_GetEosChar()) *(u16 *)((u32)p+i*2+0x1300)=0;
         else *(u16 *)((u32)p+i*2+0x1300)=c;
@@ -829,7 +847,7 @@ int WORLDTRADE_SERVER_StartNameCheck(u8 *p)
     ((Work *)p)->profanityWords=(u32)(p+0x1300);
     ((Work *)p)->badWordCountU=0;
     DWC_CheckProfanityExAsync((short unsigned int **)(p+0x1318),1,0,0,(char *)(p+0x131C),(int *)(p+0x1320),0x80);
-    STRBUF_Delete(s);
+    STRBUF_Delete((struct Strbuf *)s);
     ((Work *)p)->state=5;
     ((Work *)p)->timer=0;
     return 2;
@@ -850,7 +868,7 @@ int WORLDTRADE_SERVER_WaitNameCheck(u8 *p)
         if (positive) {
             dst = (u16 *)(p + 0x1f4);
             bank = MSGDATA_CreateFromArchive(0, 2, 0x51, 0x48);
-            str = MSGDATA_AllocString(bank, 0xf);
+            str = MSGDATA_AllocString(bank, MSG_PROFANITY_NOTICE);
             MSGDATA_Delete(bank);
             text = STRBUF_GetChars(str);
             for (i = 0; i < 7 && (u32)i < STRBUF_GetLength(str); i++) dst[i] = text[i];
@@ -1181,7 +1199,7 @@ int WORLDTRADE_SERVER_WaitUploadFinishB(Work *p)
 
 int WORLDTRADE_SERVER_StartTrade(Work *p)
 {
-    DPW_TR_TradeAsync(*(u32 *)((u8 *)p + (*(unsigned int *)&p->cur) * 0x128 + 0x314), (u8 *)p + 0xe4, (u32)((u8 *)p + 0xa24), (u8 *)p + 0x10ec, 0x80);
+    DPW_TR_TradeAsync(*(u32 *)((u8 *)p + (*(unsigned int *)&p->cur) * 0x128 + 0x314), (u8 *)p + 0xe4, ((u8 *)p + 0xa24), (u8 *)p + 0x10ec, 0x80);
     WORLDTRADE_ADAPTER_SetPair(p, 0x12, 0x14);
     p->state = 0x11;
     p->timer = 0;
@@ -1482,7 +1500,7 @@ void WORLDTRADE_SERVER_RecordTradeResult(Work *p, void *mon, Entry *ent, void *o
     GFL_HEAP_Free(copy);
     copy = WORLDTRADE_DEMO_CreateMyStatusFromEntry(ent);
     memset(&rec, 0, sizeof(rec));
-    MYSTATUS_Copy(copy, &rec);
+    MYSTATUS_Copy((struct MyStatus *)copy, (struct MyStatus *)(&rec));
     if (old != 0) species = POKE_TOOL_GetPartyValue(old, 5, 0);
     else species = *(u16 *)&((Deposit *)ent)->have.species;
     rec.old_species = species;
@@ -1490,7 +1508,7 @@ void WORLDTRADE_SERVER_RecordTradeResult(Work *p, void *mon, Entry *ent, void *o
     rec.x = ent->greetingSet;
     rec.flags = (rec.flags & ~7) | (ent->ratingLevel & 7);
     rec.y = ent->visitedCountryCount;
-    COMM_HISTORY_InsertIfNationSet((u32)(p->ctx->wifiHistory), (u32)(&rec));
+    COMM_HISTORY_InsertIfNationSet((p->ctx->wifiHistory), (struct HistoryEntry *)((&rec)));
     GFL_HEAP_Free(copy);
 }
 
@@ -1872,7 +1890,7 @@ int WORLDTRADE_SERVER_StateOpenSavePrompt(Work *p)
  */
 int WORLDTRADE_SERVER_StartSave(Work *p)
 {
-    GAME_DATA_SaveStart((int)GAMESYSTEM_GetGameData((const struct Ctx *)(*(u32 *)((*(unsigned int *)&p->ctx) + 0x40))));
+    GAME_DATA_SaveStart(GAMESYSTEM_GetGameData((struct GameSystem *)(*(u32 *)((*(unsigned int *)&p->ctx) + 0x40))));
     p->state = 0x23;
     (*(unsigned int *)&p->cnt) = GFL_USE_GetRandom(0x3c) + 2;
     return 2;
@@ -1889,7 +1907,7 @@ int WORLDTRADE_SERVER_StateCountdown(Work *p)
 
 int WORLDTRADE_SERVER_WaitSave(Work *p)
 {
-    if (GAME_DATA_SaveMain(GAMESYSTEM_GetGameData((const struct Ctx *)(*(u32 *)((*(unsigned int *)&p->ctx) + 0x40)))) == 1) {
+    if (GAME_DATA_SaveMain(GAMESYSTEM_GetGameData((struct GameSystem *)(*(u32 *)((*(unsigned int *)&p->ctx) + 0x40)))) == 1) {
         p->state = p->stateAfterSaveWait;
     }
     return 2;
@@ -1900,7 +1918,7 @@ int WORLDTRADE_SERVER_WaitSave(Work *p)
  */
 int WORLDTRADE_SERVER_StateSaveGame(Work *p)
 {
-    if (GAME_DATA_SaveMain(GAMESYSTEM_GetGameData((const struct Ctx *)(*(u32 *)((*(unsigned int *)&p->ctx) + 0x40)))) == 2) {
+    if (GAME_DATA_SaveMain(GAMESYSTEM_GetGameData((struct GameSystem *)(*(u32 *)((*(unsigned int *)&p->ctx) + 0x40)))) == 2) {
         p->state = p->stateAfterSave;
         WORLDTRADE_DeleteTimeIcon(p);
     }
@@ -1912,14 +1930,14 @@ int WORLDTRADE_SERVER_StateSaveGame(Work *p)
  */
 int WORLDTRADE_SERVER_StartSaveB(Work *p)
 {
-    GAME_DATA_SaveStart((int)GAMESYSTEM_GetGameData((const struct Ctx *)(*(u32 *)((*(unsigned int *)&p->ctx) + 0x40))));
+    GAME_DATA_SaveStart(GAMESYSTEM_GetGameData((struct GameSystem *)(*(u32 *)((*(unsigned int *)&p->ctx) + 0x40))));
     p->state = 0x27;
     return 2;
 }
 
 int WORLDTRADE_SERVER_WaitSaveB(Work *p)
 {
-    if (GAME_DATA_SaveMain(GAMESYSTEM_GetGameData((const struct Ctx *)(p->ctx->gameData))) == 2) {
+    if (GAME_DATA_SaveMain(GAMESYSTEM_GetGameData((struct GameSystem *)(p->ctx->gameData))) == 2) {
         WORLDTRADE_SetStateAndReturn(p, 1, 0);
         WORLDTRADE_DeleteTimeIcon(p);
         WORLDTRADE_INPUT_PrintStringPlain((u32)p, (u32)(p->bank), (*(unsigned int *)&p->mode), 1, 0xF0F);

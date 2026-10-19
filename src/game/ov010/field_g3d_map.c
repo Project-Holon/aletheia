@@ -78,25 +78,30 @@ typedef struct FieldG3dMapGlbState {
 
 extern u32 GFL_HEAP_Free(void *p);
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 line);
-extern int G3D_SYSTEM_GetResourceSize(void);
+extern u32 G3D_SYSTEM_GetResourceSize(void);
 extern ArcFile *ARC_TOOL_CreateHandle(unsigned int id, unsigned int heapId);
-extern void ARC_TOOL_DeleteHandle(ArcFile *archive);
-extern void ARC_TOOL_ReadHandleMemberRange(ArcFile *archive, u32 member, u32 offset, u32 size, void *dst);
-extern void G3D_SYSTEM_InitResourceByKind(void *record, u32 mode, u32 value);
-extern u32 ARC_TOOL_GetHandleMemberSize(ArcFile *archive, u32 member);
-extern void ARC_TOOL_ReadHandle(ArcFile *archive, u32 size, void *dst);
+extern void ARC_TOOL_DeleteHandle(void *handle);
+struct ArcHandle;
+extern void ARC_TOOL_ReadHandleMemberRange(struct ArcHandle *arc, u32 memberIdx, u32 offset, u32 size, void *dst);
+struct G3dResource;
+extern void G3D_SYSTEM_InitResourceByKind(struct G3dResource *res, u32 kind, void *file);
+extern u32 ARC_TOOL_GetHandleMemberSize(struct ArcHandle *arc, u32 memberIdx);
+struct ArcHandleRaw;
+extern void ARC_TOOL_ReadHandle(struct ArcHandleRaw *arc, u32 size, void *dst);
 extern void NNS_G3dGlbBaseTrans(void *p);
 extern void MI_Copy36B(void *a, void *b);
 extern void NNS_G3dGlbBaseScale(void *p);
 extern void NNS_G3dGlbFlush(void);
 extern void NNS_G3dGeBufferOP_N(u32 cmd, const void *params, u32 n);
 extern void G3D_SYSTEM_DrawRenderObj(FieldG3dMapRenderObj *renderObj);
-extern void *G3D_SYSTEM_GetObjectRender(void *res);
+struct G3dObject;
+struct G3dRender;
+extern struct G3dRender *G3D_SYSTEM_GetObjectRender(struct G3dObject *obj);
 extern FieldG3dMapRenderObj *G3D_SYSTEM_GetRenderObj(void *res);
 extern void VEC_Add(const FieldG3dMapVec *a, const FieldG3dMapVec *b, FieldG3dMapVec *dst);
 extern void MTX_RotY33_(void *m, short sinv, short cosv);
 extern void VEC_Subtract(const FieldG3dMapVec *pos, const FieldG3dMapVec *origin, FieldG3dMapVec *out);
-extern void *G3D_SYSTEM_GetResourceFile(void *handle);
+extern void *G3D_SYSTEM_GetResourceFile(struct G3dResource *res);
 extern int NNS_G3dGetMdlSet(int pFile);
 extern unsigned char *NNS_G3dGetTex(unsigned char *p);
 extern void NNS_G3dBindMdlTex(void *a, void *b);
@@ -104,7 +109,7 @@ extern void NNS_G3dBindMdlPltt(void *a, void *b);
 extern void NNS_G3dRenderObjInit(void *a, void *b);
 extern void NNS_G3dGeFlushBuffer(void);
 extern int G3X_GetBoxTestResult(int *result);
-extern void ARC_TOOL_ReadHandleMember(ArcFile *archive, u32 member, void *dst);
+extern void ARC_TOOL_ReadHandleMember(struct ArcHandle *arc, u32 memberIdx, void *dst);
 FieldG3dMap *FIELD_G3D_MAP_Create(const FieldG3dMapConfig *cfg, u32 heapId);
 void FIELD_G3D_MAP_Destroy(FieldG3dMap *map);
 void FIELD_G3D_MAP_Update(FieldG3dMap *map);
@@ -120,7 +125,7 @@ void FIELD_G3D_MAP_SetPlacement(FieldG3dMap *map, FieldG3dMapPlacement *src, u32
 void FIELD_G3D_MAP_ClearPlacement(FieldG3dMap *map, u32 index);
 FieldG3dMapPlacement *FIELD_G3D_MAP_GetPlacement(FieldG3dMap *map, u32 index);
 void FIELD_G3D_MAP_StartLoad(FieldG3dMap *map, u32 memberIndex);
-void FIELD_G3D_MAP_Unload(FieldG3dMap *map, int unused);
+void FIELD_G3D_MAP_Unload(FieldG3dMap *map);
 void FIELD_G3D_MAP_SetVisible(FieldG3dMap *map, u16 visible);
 u16 FIELD_G3D_MAP_IsVisible(FieldG3dMap *map);
 void FIELD_G3D_MAP_SetPos(FieldG3dMap *map, const FieldG3dMapVec *pos);
@@ -129,7 +134,7 @@ u16 *FIELD_G3D_MAP_GetActiveRef(FieldG3dMap *map, u16 **out);
 void FIELD_G3D_MAP_GetBuffer(FieldG3dMap *map, u8 **out);
 void FIELD_G3D_MAP_GetMemberIndex(FieldG3dMap *map, u32 *out);
 void FIELD_G3D_MAP_GetTotalBytes(FieldG3dMap *map, u32 *out);
-void FIELD_G3D_MAP_SetModelRes(FieldG3dMap *map, u32 value);
+void FIELD_G3D_MAP_SetModelRes(FieldG3dMap *map, u8 *value);
 void FIELD_G3D_MAP_ClearModelRes(FieldG3dMap *map);
 void *FIELD_G3D_MAP_GetModelRes(FieldG3dMap *map);
 void FIELD_G3D_MAP_ClearTextureRes(FieldG3dMap *map);
@@ -147,7 +152,7 @@ void FIELD_G3D_MAP_QueryPlane(u32 *plane, FieldG3dMap *map, const FieldG3dMapVec
 void FIELD_G3D_MAP_ClearPlacements(FieldG3dMap *map);
 void FIELD_G3D_MAP_Reset(FieldG3dMap *map);
 void FIELD_G3D_MAP_InitRenderObj(FieldG3dMapRenderObj *renderObj, void *modelRes, void *textureRes);
-FieldG3dMapRenderObj *FIELD_G3D_MAP_ClearRenderObjModel(FieldG3dMapRenderObj *renderObj, int unused);
+FieldG3dMapRenderObj *FIELD_G3D_MAP_ClearRenderObjModel(FieldG3dMapRenderObj *renderObj);
 int FIELD_G3D_MAP_TestModelBox(FieldG3dMapModel *model);
 u32 FIELD_G3D_MAP_RunBoxTest(const short *box);
 void *FIELD_G3D_MAP_PickTextureRes(FieldG3dMap *map);
@@ -395,12 +400,12 @@ void FIELD_G3D_MAP_StartLoad(FieldG3dMap *map, u32 memberIndex)
     int typeIndex;
     const FieldG3dMapType *tableTmp;
 
-    FIELD_G3D_MAP_ClearRenderObjModel(map->renderObjRef, memberIndex);
+    FIELD_G3D_MAP_ClearRenderObjModel(map->renderObjRef);
     FIELD_G3D_MAP_ClearModelRes(map);
     FIELD_G3D_MAP_ClearTextureRes(map);
     FIELD_G3D_MAP_ClearPlacements(map);
     map->memberIndex = memberIndex;
-    ARC_TOOL_ReadHandleMemberRange(map->archive, memberIndex, 0, 2, &key);
+    ARC_TOOL_ReadHandleMemberRange((struct ArcHandle *)map->archive, memberIndex, 0, 2, &key);
     tableTmp = map->typeTable;
     typeTable = map->typeTable;
     typeIndex = FIELD_G3D_MAP_FindTypeIndex(&key, tableTmp);
@@ -410,9 +415,9 @@ void FIELD_G3D_MAP_StartLoad(FieldG3dMap *map, u32 memberIndex)
 }
 
 /* Unload the current member: clear the render object, both resource records and the load state. */
-void FIELD_G3D_MAP_Unload(FieldG3dMap *map, int unused)
+void FIELD_G3D_MAP_Unload(FieldG3dMap *map)
 {
-    FIELD_G3D_MAP_ClearRenderObjModel(map->renderObjRef, unused);
+    FIELD_G3D_MAP_ClearRenderObjModel(map->renderObjRef);
     FIELD_G3D_MAP_ClearModelRes(map);
     FIELD_G3D_MAP_ClearTextureRes(map);
     FIELD_G3D_MAP_ResetLoadState(map);
@@ -471,9 +476,9 @@ void FIELD_G3D_MAP_GetTotalBytes(FieldG3dMap *map, u32 *out)
 }
 
 /* Unlabelled leaf: tail call that fills the model resource record. */
-void FIELD_G3D_MAP_SetModelRes(FieldG3dMap *map, u32 value)
+void FIELD_G3D_MAP_SetModelRes(FieldG3dMap *map, u8 *value)
 {
-    G3D_SYSTEM_InitResourceByKind(map->modelRes, 1, value);
+    G3D_SYSTEM_InitResourceByKind(map->modelRes, 1, (void *)value);
 }
 
 /* Empty the model resource record. */
@@ -539,9 +544,9 @@ void FIELD_G3D_MAP_BeginChunkedLoad(FieldG3dMap *map, u32 member)
         return;
     }
     dst = map->buffer + map->bufferOffset;
-    map->totalBytes = ARC_TOOL_GetHandleMemberSize(map->archive, member);
+    map->totalBytes = ARC_TOOL_GetHandleMemberSize((struct ArcHandle *)map->archive, member);
     map->loadedBytes = 0;
-    ARC_TOOL_ReadHandleMemberRange(map->archive, member, 0, map->chunkSize, dst);
+    ARC_TOOL_ReadHandleMemberRange((struct ArcHandle *)map->archive, member, 0, map->chunkSize, dst);
     map->bufferOffset = map->bufferOffset + map->chunkSize;
     map->loadedBytes = map->loadedBytes + map->chunkSize;
 }
@@ -563,12 +568,12 @@ int FIELD_G3D_MAP_ReadNextChunk(FieldG3dMap *map)
         return 0;
     remaining = total - loaded;
     if (remaining > map->chunkSize) {
-        ARC_TOOL_ReadHandle(map->archive, map->chunkSize, buffer + offset);
+        ARC_TOOL_ReadHandle((struct ArcHandleRaw *)map->archive, map->chunkSize, buffer + offset);
         map->bufferOffset = map->bufferOffset + map->chunkSize;
         map->loadedBytes = map->loadedBytes + map->chunkSize;
         return 1;
     }
-    ARC_TOOL_ReadHandle(map->archive, remaining, buffer + offset);
+    ARC_TOOL_ReadHandle((struct ArcHandleRaw *)map->archive, remaining, buffer + offset);
     map->bufferOffset = map->bufferOffset + remaining;
     return 0;
 }
@@ -765,7 +770,7 @@ void FIELD_G3D_MAP_InitRenderObj(FieldG3dMapRenderObj *renderObj, void *modelRes
 }
 
 /* Clear the model of the render object; returns the render object. */
-FieldG3dMapRenderObj *FIELD_G3D_MAP_ClearRenderObjModel(FieldG3dMapRenderObj *renderObj, int unused)
+FieldG3dMapRenderObj *FIELD_G3D_MAP_ClearRenderObjModel(FieldG3dMapRenderObj *renderObj)
 {
     renderObj->model = 0;
     return renderObj;
@@ -847,8 +852,8 @@ void FIELD_G3D_MAP_ReadWhole(FieldG3dMap *map, u32 member)
     u32 size;
 
     dst = map->buffer;
-    size = ARC_TOOL_GetHandleMemberSize(map->archive, member);
-    ARC_TOOL_ReadHandleMember(map->archive, member, dst);
+    size = ARC_TOOL_GetHandleMemberSize((struct ArcHandle *)map->archive, member);
+    ARC_TOOL_ReadHandleMember((struct ArcHandle *)map->archive, member, dst);
     map->totalBytes = size;
     map->bufferOffset = size;
     map->loadedBytes = size;

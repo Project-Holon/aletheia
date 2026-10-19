@@ -257,65 +257,74 @@ typedef struct BrProcOwner {
 
 extern void GFL_HEAP_CreateChildHeap(u32,u32,u32),MI_CpuFill8(void *,int,unsigned);
 
-extern void *PROCSYS_AllocProcWork(struct BrProcWorkOwner *obj, u32 size, u32 heap);
+extern void *PROCSYS_AllocProcWork(struct Proc *proc, unsigned int size, unsigned int heapId);
 
 extern void *BR_GRAPHIC_Create(unsigned mode, int setting, unsigned heap);
+struct GameData;
 
-extern void *GAME_DATA_GetMiscSave(int *);
+extern void *GAME_DATA_GetMiscSave(struct GameData *gd);
 
 extern void *BR_RES_Create(unsigned,unsigned,unsigned);
+struct MiscSave;
 
-extern u8 MISC_GetRecorderFlag(struct Blk34 *p);
+extern u8 MISC_GetRecorderFlag(struct MiscSave *beacon);
 
 extern void BR_RES_LoadBgGraphics(void *ctx, unsigned kind, unsigned short heap);
+struct BrFade;
 
-extern int *BR_FADE_Create(unsigned);
+extern struct BrFade *BR_FADE_Create(unsigned);
 
 extern void BR_FADE_CaptureHwPalettes(char *),BR_FADE_SetBlendColor(int *,int),BR_FADE_BlendFull(char *,int);
+struct BrRes;
 
-extern int BR_RES_GetCurrentSetParam(char *);
+extern int BR_RES_GetCurrentSetParam(struct BrRes *res);
+struct BrGraphic;
 
-extern u32 BR_GRAPHIC_GetActorUnit(u8 *p);
+extern u32 BR_GRAPHIC_GetActorUnit(struct BrGraphic *gfx);
+struct Bank;
+struct BrSidebar;
 
-extern char *BR_SIDEBAR_Create(int,int,char *,unsigned);
+extern struct BrSidebar *BR_SIDEBAR_Create(struct Bank *unit, int unused, struct BrRes *res, unsigned short heapId);
+struct BrNet;
 
-extern char *BR_NET_Create(void *owner, void *arg, u32 heap);
+extern struct BrNet *BR_NET_Create(struct GameData *gameData, void *profileSource, unsigned int heapId);
 
 extern int GF_OVERLAY_Load(int),GFL_NET_GetRunState(void);
 
 extern void GFL_NET_RefreshWmIconAtTopRight(u32,u32);
 
-extern u32 GAME_DATA_GetBgmInfo(const struct BigObj *p);
+extern u32 GAME_DATA_GetBgmInfo(struct GameData *gd);
+struct FieldSoundSystem;
 
-extern void FIELD_SOUND_SYSTEM_FadeVolume(struct SoundSys *sys, u8 level, u16 frames);
+extern void FIELD_SOUND_SYSTEM_FadeVolume(struct FieldSoundSystem *s, unsigned char level, unsigned short frames);
 
-extern void GFL_USE_CancelChangeAndPlayBgm(u32,u16);
+extern void GFL_USE_CancelChangeAndPlayBgm(unsigned int bgmNo, unsigned int trackMask);
 
-extern void BR_SIDEBAR_ResetPositions(char *p);
+extern void BR_SIDEBAR_ResetPositions(struct BrSidebar *sidebar);
 
-extern void BR_SIDEBAR_StartWobble(char *p);
+extern void BR_SIDEBAR_StartWobble(struct BrSidebar *sidebar);
 
 extern void BR_FADE_SetBlendLevel(int,int,int);
 
-extern int BR_NET_IsFatal(char *);
+extern int BR_NET_IsFatal(struct BrNet *net);
 
-extern void BR_NET_Destroy(char *p);
+extern void BR_NET_Destroy(struct BrNet *net);
 
 extern void GF_OVERLAY_Unload(int);
 
-extern void BR_SIDEBAR_Destroy(char *p, char *ctx);
+extern void BR_SIDEBAR_Destroy(struct BrSidebar *sidebar, struct BrRes *res);
 
-extern void BR_FADE_Delete(char *p);
+extern void BR_FADE_Delete(struct BrFade *fade);
 
-extern int BR_RES_GetPalSet(char *p);
+extern int BR_RES_GetPalSet(struct BrRes *res);
 
-extern void MISC_SetRecorderFlag(struct Blk34 *p, u32 v);
+extern void MISC_SetRecorderFlag(struct MiscSave *beacon, unsigned int flag);
 
-extern void BR_RES_ApplyBgSet(int,unsigned);
+extern void BR_RES_ApplyBgSet(void *unusedA, u32 palSet);
 
-extern void BR_RES_Delete(char *p);
+extern void BR_RES_Delete(struct BrRes *res);
 
-extern void BR_GRAPHIC_Destroy(char *);
+extern void BR_GRAPHIC_Destroy(struct BrGraphic *gfx);
 
 extern void PROCSYS_FreeProcWork(struct Proc *p);
 
@@ -327,41 +336,47 @@ extern int FADE_IsActive(void);
 
 extern void BR_FADE_Update(struct BrFade *);
 
-extern void BR_SIDEBAR_Update(char *p);
+extern void BR_SIDEBAR_Update(struct BrSidebar *sidebar);
 
-extern void BR_GRAPHIC_Draw(char *);
+extern void BR_GRAPHIC_Draw(struct BrGraphic *gfx);
 
-extern void BR_NET_Main(char *p);
+extern void BR_NET_Main(struct BrNet *net);
 
 extern void GF_PANIC_Fail(const char *expr, u32 line, const char *file);
+struct SaveControl;
 
-extern void *GAME_DATA_GetSaveControl(struct Big *p);
+extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gd);
+struct BattleRecSave;
 
-extern struct BrBattleRecWork *BATTLE_REC_GetWork(void);
+extern struct BattleRecSave *BATTLE_REC_GetWork(void);
 
-extern u32 BATTLE_REC_Load(void *a, u16 heap, u32 *dp, u32 id);
+extern u32 BATTLE_REC_Load(struct SaveControl *save, unsigned short heap, unsigned int *result, unsigned int id);
 
 extern void GDS_PROFILE_Init(struct GdsProfile *p, void *sys);
 
-extern void *SAVE_CONTROL_GetBlock(struct Sub020071CCCtrl *, unsigned int);
+extern void *SAVE_CONTROL_GetBlock(struct SaveControl *saveControl, unsigned int blockId);
 
 extern void *LIVEBATTLEMATCH_SAVE_GetFromSave(void *p);
 
 extern int LIVEBATTLEMATCH_SAVE_GetStats2(int);
+struct BattleRecHeader;
 
-extern u8 *BATTLE_REC_GetHeader(void);
+extern struct BattleRecHeader *BATTLE_REC_GetHeader(void);
+struct MusicalSave;
 
-extern void *MUSICAL_SAVE_GetFromSave(void *);
+extern struct MusicalSave *MUSICAL_SAVE_GetFromSave(struct SaveControl *save);
+struct Strbuf;
 
-extern void STRBUF_Delete(struct U16Vec *vec);
+extern void STRBUF_Delete(struct Strbuf *strbuf);
 
 extern void *GDS_PROFILE_CreateNameStr(const void *,u32);
+struct StoredMon;
 
-extern u32 GDS_PROFILE_GetEggFlag(struct RecGet *p);
+extern u32 GDS_PROFILE_GetEggFlag(struct StoredMon *p);
 
-extern u32 MUSICAL_SAVE_IsShowActive(struct Bits *p);
+extern u32 MUSICAL_SAVE_IsShowActive(struct MusicalSave *musical);
 
-extern unsigned long long BATTLE_REC_GetHeaderParam(u8 *p, int selector, int index);
+extern unsigned long long BATTLE_REC_GetHeaderParam(struct BattleRecHeader *head, int param, int index);
 
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
@@ -489,27 +504,27 @@ int BR_PROC_SYS_Init(void *obj,int unused,char *q)
     if(**(int * *)&((struct BrProcGameState *)(*(char * *)&((struct BrProcSys *)p)->gameState))->shared!=2) flag=zero;
     enabled=1;
     ((struct BrProcSys *)p)->graphic=BR_GRAPHIC_Create(flag,1,0x5a);
-    mode=MISC_GetRecorderFlag(GAME_DATA_GetMiscSave(*(int * *)&((struct BrProcShared *)(*(char * *)&((struct BrProcGameState *)(*(char * *)&((struct BrProcSys *)p)->gameState))->shared))->saveControl));
+    mode=MISC_GetRecorderFlag(GAME_DATA_GetMiscSave((struct GameData *)(*(int * *)&((struct BrProcShared *)(*(char * *)&((struct BrProcGameState *)(*(char * *)&((struct BrProcSys *)p)->gameState))->shared))->saveControl)));
     if(**(int * *)&((struct BrProcGameState *)(*(char * *)&((struct BrProcSys *)p)->gameState))->shared) enabled=0;
     ((struct BrProcSys *)p)->resources=BR_RES_Create(mode,enabled,0x5a);
     BR_RES_LoadBgGraphics((void *)(*(int *)&((struct BrProcSys *)p)->resources),0,0x5a);
     BR_RES_LoadBgGraphics((void *)(*(int *)&((struct BrProcSys *)p)->resources),1,0x5a);
     ((struct BrProcSys *)p)->proc=BR_PROC_SYS_Create(0,(void *)d_02200254,0xd,(unsigned)p,(unsigned *)(((struct BrProcGameState *)(*(char * *)&((struct BrProcSys *)p)->gameState))->data+0x1728),0x5a);
-    *(int * *)&((struct BrProcSys *)p)->fade=BR_FADE_Create(0x5a);
+    *(int * *)&((struct BrProcSys *)p)->fade=(int *)BR_FADE_Create(0x5a);
     BR_FADE_CaptureHwPalettes(*(char * *)&((struct BrProcSys *)p)->fade);
-    BR_FADE_SetBlendColor(*(int * *)&((struct BrProcSys *)p)->fade,BR_RES_GetCurrentSetParam(*(char * *)&((struct BrProcSys *)p)->resources));
+    BR_FADE_SetBlendColor(*(int * *)&((struct BrProcSys *)p)->fade,BR_RES_GetCurrentSetParam((struct BrRes *)(*(char * *)&((struct BrProcSys *)p)->resources)));
     if(!((struct BrProcGameState *)(*(char * *)&((struct BrProcSys *)p)->gameState))->flag) BR_FADE_BlendFull(*(char * *)&((struct BrProcSys *)p)->fade,3);
-    *(char * *)&((struct BrProcSys *)p)->sidebar=BR_SIDEBAR_Create(BR_GRAPHIC_GetActorUnit((u8 *)(*(int *)&((struct BrProcSys *)p)->graphic)),*(int *)&((struct BrProcSys *)p)->fade,*(char * *)&((struct BrProcSys *)p)->resources,0x5a);
+    *(char * *)&((struct BrProcSys *)p)->sidebar=(char *)BR_SIDEBAR_Create((struct Bank *)BR_GRAPHIC_GetActorUnit((struct BrGraphic *)(*(int *)&((struct BrProcSys *)p)->graphic)),*(int *)&((struct BrProcSys *)p)->fade,(struct BrRes *)(*(char * *)&((struct BrProcSys *)p)->resources),0x5a);
     BR_PROC_SYS_LoadRecords((char *)(((struct BrProcGameState *)(*(char * *)&((struct BrProcSys *)p)->gameState))->data+0x1748),1,(void *)(((struct BrProcShared *)(*(char * *)&((struct BrProcGameState *)(*(char * *)&((struct BrProcSys *)p)->gameState))->shared))->saveControl),0x5a);
     if(**(int * *)&((struct BrProcGameState *)(*(char * *)&((struct BrProcSys *)p)->gameState))->shared) {
         ((struct BrProcSys *)p)->net=BR_NET_Create((void *)(((struct BrProcShared *)(*(char * *)&((struct BrProcGameState *)(*(char * *)&((struct BrProcSys *)p)->gameState))->shared))->saveControl),(void *)(((struct BrProcShared *)(*(char * *)&((struct BrProcGameState *)(*(char * *)&((struct BrProcSys *)p)->gameState))->shared))->netArg),0x5a);
     } else GF_OVERLAY_Load((int)ov125_id);
     if(GFL_NET_GetRunState()) GFL_NET_RefreshWmIconAtTopRight(0,0x5a);
     if(!**(int * *)&((struct BrProcGameState *)(*(char * *)&((struct BrProcSys *)p)->gameState))->shared) {
-        if(((struct BrProcGameState *)(*(char * *)&((struct BrProcSys *)p)->gameState))->flag!=1) FIELD_SOUND_SYSTEM_FadeVolume((void *)GAME_DATA_GetBgmInfo((const struct BigObj *)(((struct BrProcShared *)(*(char * *)&((struct BrProcGameState *)(*(char * *)&((struct BrProcSys *)p)->gameState))->shared))->saveControl)),0x40,0);
+        if(((struct BrProcGameState *)(*(char * *)&((struct BrProcSys *)p)->gameState))->flag!=1) FIELD_SOUND_SYSTEM_FadeVolume((void *)GAME_DATA_GetBgmInfo((struct GameData *)(((struct BrProcShared *)(*(char * *)&((struct BrProcGameState *)(*(char * *)&((struct BrProcSys *)p)->gameState))->shared))->saveControl)),0x40,0);
     } else GFL_USE_CancelChangeAndPlayBgm(0x484,0xffff);
     if(((struct BrProcGameState *)(*(char * *)&((struct BrProcSys *)p)->gameState))->flag==1) {
-        BR_SIDEBAR_ResetPositions((char *)(*(int *)&((struct BrProcSys *)p)->sidebar));BR_SIDEBAR_StartWobble((char *)(*(int *)&((struct BrProcSys *)p)->sidebar));
+        BR_SIDEBAR_ResetPositions((struct BrSidebar *)(*(int *)&((struct BrProcSys *)p)->sidebar));BR_SIDEBAR_StartWobble((struct BrSidebar *)(*(int *)&((struct BrProcSys *)p)->sidebar));
         BR_FADE_SetBlendLevel(*(int *)&((struct BrProcSys *)p)->fade,3,0);
     }
     return 1;
@@ -518,24 +533,24 @@ int BR_PROC_SYS_Init(void *obj,int unused,char *q)
 int BR_PROC_SYS_Exit(int sys,int unused,int unused2,int *p)
 {
     int *nested=(int *)((int *)p[6])[3];
-    if(nested[0]==0) FIELD_SOUND_SYSTEM_FadeVolume((struct SoundSys *)GAME_DATA_GetBgmInfo((const struct BigObj *)nested[1]),0x7f,0);
+    if(nested[0]==0) FIELD_SOUND_SYSTEM_FadeVolume((struct FieldSoundSystem *)GAME_DATA_GetBgmInfo((struct GameData *)nested[1]),0x7f,0);
     if(p[5]) {
-        if(BR_NET_IsFatal((char *)p[5])) ((int *)((int *)p[6])[3])[3]=2;
-        BR_NET_Destroy((char *)p[5]); p[5]=0;
+        if(BR_NET_IsFatal((struct BrNet *)p[5])) ((int *)((int *)p[6])[3])[3]=2;
+        BR_NET_Destroy((struct BrNet *)p[5]); p[5]=0;
     } else GF_OVERLAY_Unload((int)ov125_id);
-    BR_SIDEBAR_Destroy((char *)p[4],(char *)p[1]);
-    BR_FADE_Delete((char *)p[3]);
+    BR_SIDEBAR_Destroy((struct BrSidebar *)p[4],(struct BrRes *)p[1]);
+    BR_FADE_Delete((struct BrFade *)p[3]);
     BR_PROC_SYS_Delete((int *)p[2]);
     nested=(int *)((int *)p[6])[3];
     if(nested[0]==0) {
-        int a=(int)GAME_DATA_GetMiscSave((int *)nested[1]);
-        int b=BR_RES_GetPalSet((char *)p[1]);
-        MISC_SetRecorderFlag((struct Blk34 *)a,(unsigned char)b);
+        int a=(int)GAME_DATA_GetMiscSave((struct GameData *)nested[1]);
+        int b=BR_RES_GetPalSet((struct BrRes *)p[1]);
+        MISC_SetRecorderFlag((struct MiscSave *)a,(unsigned char)b);
     }
-    BR_RES_ApplyBgSet(p[1],0);
-    BR_RES_ApplyBgSet(p[1],1);
-    BR_RES_Delete((char *)p[1]);
-    BR_GRAPHIC_Destroy((char *)p[0]);
+    BR_RES_ApplyBgSet((void *)p[1],0);
+    BR_RES_ApplyBgSet((void *)p[1],1);
+    BR_RES_Delete((struct BrRes *)p[1]);
+    BR_GRAPHIC_Destroy((struct BrGraphic *)p[0]);
     PROCSYS_FreeProcWork((struct Proc *)sys);
     GFL_HEAP_DeleteChecked(0x5a);
     return 1;
@@ -549,10 +564,10 @@ int BR_PROC_SYS_Main(int sys,int *state,int unused,int *p)
     case 2: if(!FADE_IsActive()) *state=3; break;
     case 3:
         BR_FADE_Update((struct BrFade *)p[3]);
-        BR_SIDEBAR_Update((char *)p[4]);
+        BR_SIDEBAR_Update((struct BrSidebar *)p[4]);
         BR_PROC_SYS_RunSlot((char *)p[2]);
-        BR_GRAPHIC_Draw((char *)p[0]);
-        if(p[5]) BR_NET_Main((char *)p[5]);
+        BR_GRAPHIC_Draw((struct BrGraphic *)p[0]);
+        if(p[5]) BR_NET_Main((struct BrNet *)p[5]);
         if(BR_PROC_SYS_IsDone((int *)p[2])) *state=4;
         break;
     case 4: FADE_Start(3,0,16,0); *state=5; break;
@@ -570,7 +585,7 @@ void BR_PROC_SYS_BuildBasicRecord(int *out,int *source,int unused,int type)
     out[3]=source[1];
     out[2]=source[3];
     out[4]=source[2];
-    out[1]=BR_GRAPHIC_GetActorUnit((u8 *)source[0]);
+    out[1]=BR_GRAPHIC_GetActorUnit((struct BrGraphic *)source[0]);
     out[5]=source[4];
     if(type==1) out[0]=1;
     else if(((int *)source[6])[1]==0) out[0]=0;
@@ -624,7 +639,7 @@ void BR_PROC_SYS_BuildChoiceRecord(int *out,int *source,int *ctx,int type)
     out[6]=source[1];
     out[4]=source[3];
     out[7]=source[2];
-    out[5]=BR_GRAPHIC_GetActorUnit((u8 *)source[0]);
+    out[5]=BR_GRAPHIC_GetActorUnit((struct BrGraphic *)source[0]);
     out[8]=*(int *)((char *)source[6]+8)+0x1748;
 }
 
@@ -644,7 +659,7 @@ void BR_PROC_SYS_BuildBattleRecord(int *out,int *source,const char *ctx,int type
     void *sys;
     unsigned a,b;
     out[4]=source[1];out[3]=source[3];out[5]=source[2];
-    out[6]=BR_GRAPHIC_GetActorUnit((u8 *)source[0]);
+    out[6]=BR_GRAPHIC_GetActorUnit((struct BrGraphic *)source[0]);
     out[9]=source[5];
     out[10]=(*(int **)((char *)source[6]+12))[1];
     out[11]=*(int *)((char *)source[6]+8)+0x1720;
@@ -694,12 +709,12 @@ void BR_PROC_SYS_SetPendingFlag(u32 *a, u32 *b) { if (*a == 1) *(u32 *)b[6] = 1;
 void BR_PROC_SYS_BuildProfileRecord(char *r5, int *r4)
 {
     int x;
-    x = (int)GAME_DATA_GetSaveControl((struct Big *)(*(int *)(*(int *)(((struct BrProcSrcRecord *)r4)->handle + 0xC) + 4)));
+    x = (int)GAME_DATA_GetSaveControl((struct GameData *)(*(int *)(*(int *)(((struct BrProcSrcRecord *)r4)->handle + 0xC) + 4)));
     ((struct BrProcOutRecord *)r5)->value1 = r4[1];
     ((struct BrProcOutRecord *)r5)->kind = r4[3];
     ((struct BrProcOutRecord *)r5)->value2 = r4[2];
-    ((struct BrProcOutRecord *)r5)->actor = BR_GRAPHIC_GetActorUnit((u8 *)r4[0]);
-    ((struct BrProcOutRecord *)r5)->value3 = (int)SAVE_CONTROL_GetBlock((struct Sub020071CCCtrl *)x, 0x3a);
+    ((struct BrProcOutRecord *)r5)->actor = BR_GRAPHIC_GetActorUnit((struct BrGraphic *)r4[0]);
+    ((struct BrProcOutRecord *)r5)->value3 = (int)SAVE_CONTROL_GetBlock((struct SaveControl *)x, 0x3a);
     ((struct BrProcOutRecord *)r5)->owner = *(int *)(*(int *)(((struct BrProcSrcRecord *)r4)->handle + 0xC) + 4);
 }
 
@@ -714,11 +729,11 @@ void BR_PROC_SYS_NoopB(void) {}
 void BR_PROC_SYS_BuildProfileRecord2(char *r5, int *r4)
 {
     int x;
-    x = (int)GAME_DATA_GetSaveControl((struct Big *)(*(int *)(*(int *)(((struct BrProcSrcRecord *)r4)->handle + 0xC) + 4)));
+    x = (int)GAME_DATA_GetSaveControl((struct GameData *)(*(int *)(*(int *)(((struct BrProcSrcRecord *)r4)->handle + 0xC) + 4)));
     ((struct BrProcOutRecord *)r5)->value1 = r4[1];
     ((struct BrProcOutRecord *)r5)->actor = r4[3];
     ((struct BrProcOutRecord *)r5)->value2 = r4[2];
-    ((struct BrProcOutRecord *)r5)->kind = BR_GRAPHIC_GetActorUnit((u8 *)r4[0]);
+    ((struct BrProcOutRecord *)r5)->kind = BR_GRAPHIC_GetActorUnit((struct BrGraphic *)r4[0]);
     ((struct BrProcOutRecord *)r5)->value3 = *(int *)(*(int *)(((struct BrProcSrcRecord *)r4)->handle + 0xC) + 4);
     ((struct BrProcOutRecord *)r5)->owner = LIVEBATTLEMATCH_SAVE_GetStats2((int)LIVEBATTLEMATCH_SAVE_GetFromSave((void *)x));
 }
@@ -753,7 +768,7 @@ void BR_PROC_SYS_BuildTypeRecord(int *out, int *source, const int *ctx, int type
     out[4] = source[1];
     out[2] = source[3];
     out[5] = source[2];
-    out[3] = BR_GRAPHIC_GetActorUnit((u8 *)source[0]);
+    out[3] = BR_GRAPHIC_GetActorUnit((struct BrGraphic *)source[0]);
     out[6] = source[5];
 }
 
@@ -764,7 +779,7 @@ void BR_PROC_SYS_NoopD(void)
 /*
  * extent: empty-return follower 0x021F9750; trailing two-byte padding.
  */
-void BR_PROC_SYS_CopyRecord1(char *p,char *q) { ((struct BrProcOutRecord *)p)->value1=((struct BrProcSrcRecord *)q)->value1;((struct BrProcOutRecord *)p)->kind=((struct BrProcSrcRecord *)q)->kind;((struct BrProcOutRecord *)p)->value2=((struct BrProcSrcRecord *)q)->value2;((struct BrProcOutRecord *)p)->actor=BR_GRAPHIC_GetActorUnit((u8 *)(((struct BrProcSrcRecord *)q)->actor));((struct BrProcOutRecord *)p)->value3=((struct BrProcShared *)(*(char * *)&((struct BrProcSrcHandle *)(*(char * *)&((struct BrProcSrcRecord *)q)->handle))->shared))->saveControl; }
+void BR_PROC_SYS_CopyRecord1(char *p,char *q) { ((struct BrProcOutRecord *)p)->value1=((struct BrProcSrcRecord *)q)->value1;((struct BrProcOutRecord *)p)->kind=((struct BrProcSrcRecord *)q)->kind;((struct BrProcOutRecord *)p)->value2=((struct BrProcSrcRecord *)q)->value2;((struct BrProcOutRecord *)p)->actor=BR_GRAPHIC_GetActorUnit((struct BrGraphic *)(((struct BrProcSrcRecord *)q)->actor));((struct BrProcOutRecord *)p)->value3=((struct BrProcShared *)(*(char * *)&((struct BrProcSrcHandle *)(*(char * *)&((struct BrProcSrcRecord *)q)->handle))->shared))->saveControl; }
 
 void BR_PROC_SYS_NoopE(void) {}
 
@@ -773,7 +788,7 @@ void BR_PROC_SYS_CopyRecord2(int *out,int *source)
     out[2]=source[1];
     out[0]=source[3];
     out[3]=source[2];
-    out[1]=BR_GRAPHIC_GetActorUnit((u8 *)source[0]);
+    out[1]=BR_GRAPHIC_GetActorUnit((struct BrGraphic *)source[0]);
 }
 
 /*
@@ -783,7 +798,7 @@ void BR_PROC_SYS_NoopF(void)
 {
 }
 
-void BR_PROC_SYS_CopyRecord3(char *p,char *q) { ((struct BrProcOutRecord *)p)->value1=((struct BrProcSrcRecord *)q)->value1;((struct BrProcOutRecord *)p)->kind=((struct BrProcSrcRecord *)q)->kind;((struct BrProcOutRecord *)p)->value2=((struct BrProcSrcRecord *)q)->value2;((struct BrProcOutRecord *)p)->actor=BR_GRAPHIC_GetActorUnit((u8 *)(((struct BrProcSrcRecord *)q)->actor));((struct BrProcOutRecord *)p)->value3=((struct BrProcSrcRecord *)q)->value3;((struct BrProcOutRecord *)p)->owner=((struct BrProcShared *)(*(char * *)&((struct BrProcSrcHandle *)(*(char * *)&((struct BrProcSrcRecord *)q)->handle))->shared))->saveControl; }
+void BR_PROC_SYS_CopyRecord3(char *p,char *q) { ((struct BrProcOutRecord *)p)->value1=((struct BrProcSrcRecord *)q)->value1;((struct BrProcOutRecord *)p)->kind=((struct BrProcSrcRecord *)q)->kind;((struct BrProcOutRecord *)p)->value2=((struct BrProcSrcRecord *)q)->value2;((struct BrProcOutRecord *)p)->actor=BR_GRAPHIC_GetActorUnit((struct BrGraphic *)(((struct BrProcSrcRecord *)q)->actor));((struct BrProcOutRecord *)p)->value3=((struct BrProcSrcRecord *)q)->value3;((struct BrProcOutRecord *)p)->owner=((struct BrProcShared *)(*(char * *)&((struct BrProcSrcHandle *)(*(char * *)&((struct BrProcSrcRecord *)q)->handle))->shared))->saveControl; }
 
 /*
  * extent: empty-return follower 0x021F979C; trailing two-byte padding.
@@ -797,7 +812,7 @@ void BR_PROC_SYS_BuildRecord(int *out,int *source,int *ctx,int type)
         out[3]=source[1];
         out[1]=source[3];
         out[4]=source[2];
-        out[2]=BR_GRAPHIC_GetActorUnit((u8 *)source[0]);
+        out[2]=BR_GRAPHIC_GetActorUnit((struct BrGraphic *)source[0]);
         out[5]=(*(int **)((char *)source[6]+0xc))[1];
         out[6]=*(int *)((char *)source[6]+8)+0x1748;
     } else {
@@ -820,7 +835,7 @@ void BR_PROC_SYS_BuildRecord2(int *out,int *source,const char *ctx,int type)
     out[0]=source[3];
     out[3]=source[5];
     out[4]=source[2];
-    result=BR_GRAPHIC_GetActorUnit((u8 *)source[0]);
+    result=BR_GRAPHIC_GetActorUnit((struct BrGraphic *)source[0]);
     a=((struct BrProcParam *)ctx)->value2;
     out[1]=result;
     b=((struct BrProcParam *)ctx)->value1;
@@ -838,7 +853,7 @@ void BR_PROC_SYS_LoadBattleRecord(Top *p, Top *q)
     if (p->hasRecord == 0)
         return;
     BR_PROC_SYS_LoadRecords((char *)q->gameState->data + 0x1748, 0, (void *)q->gameState->shared->saveControl, 0x5a);
-    BATTLE_REC_Load((void *)((int)GAME_DATA_GetSaveControl((struct Big *)q->gameState->shared->saveControl)), 0x805a, (u32 *)buf, p->recordId);
+    BATTLE_REC_Load((void *)((int)GAME_DATA_GetSaveControl((struct GameData *)q->gameState->shared->saveControl)), 0x805a, (u32 *)buf, p->recordId);
 }
 
 void BR_PROC_SYS_CopyWordsA(BrProcWords *a, BrProcWordsSrc *b) { a->wc = b->w4; a->w0 = b->wc; a->w10 = b->w8; a->w8 = b->w0; a->w14 = b->w14; a->w4 = b->w10; a->w18 = b->w18->q->v; }

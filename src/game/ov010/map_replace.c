@@ -96,20 +96,28 @@ typedef struct WarpDataEntry {
     u16 entryZoneId;        /* zone whose entry sets arriveFlag */
     char pad0A[10];
 } WarpDataEntry;
-extern u32 GAME_DATA_GetEventWork(const struct BigObj *p);
-extern void ZONEDATA_SetEventFlag(char *, int);
-extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
+struct GameData;
+extern void *GAME_DATA_GetEventWork(struct GameData *gd);
+struct EventWork;
+extern void ZONEDATA_SetEventFlag(struct EventWork *ev, int flagId);
+struct GameSystem;
+extern struct GameData *GAMESYSTEM_GetGameData(struct GameSystem *gameSystem);
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32 GFL_HEAP_Free(void *p);
 extern void *ARC_TOOL_CreateHandle(unsigned int id, unsigned int heap);
-extern u32 ARC_TOOL_GetHandleMemberSize(struct ArcFile *arc, u32 member);
-extern void ARC_TOOL_ReadHandleMemberRange(struct ArcFile *arc, u32 member, u32 offset, u32 size, void *dst);
+struct ArcHandle;
+extern u32 ARC_TOOL_GetHandleMemberSize(struct ArcHandle *arc, u32 memberIdx);
+extern void ARC_TOOL_ReadHandleMemberRange(struct ArcHandle *arc, u32 memberIdx, u32 offset, u32 size, void *dst);
 extern void ARC_TOOL_DeleteHandle(void *arc);
 int MAP_REPLACE_GetFlagIndex(int selector);
-extern u32 GAMESYSTEM_GetGameComm(const struct Ctx *p);
-extern int COMM_PLAYER_SUPPORT_GetInfoCode(void *info);
-extern int INTRUDE_COMM_GetAreaOwnerVersion(void *p);
-extern u32 ZONEDATA_GetEventWorkAddress(u32 a, u32 b);
+struct GameComm;
+extern struct GameComm *GAMESYSTEM_GetGameComm(struct GameSystem *gameSystem);
+struct PlayerInfo;
+extern int COMM_PLAYER_SUPPORT_GetInfoCode(struct PlayerInfo *info);
+struct GameComm;
+extern int INTRUDE_COMM_GetAreaOwnerVersion(struct GameComm *comm);
+struct EventWork;
+extern u16 *ZONEDATA_GetEventWorkAddress(struct EventWork *ev, u32 workId);
 void MAP_REPLACE_SetupFlags(u8 *variant, int gameSystem);
 MapReplaceFlagEntry *MAP_REPLACE_FindFlagEntry(int unused, int flagNo);
 /* * generated: lane O24 (ov010 leaf/wrapper sweep) * * Constant leaf: `movs r0, N; bx lr`. * * Addresses are Black-image addresses. --region ov010 is required: this * address is only ov010 in the overlay that defines it. * * Verified with: * python tools/match.py one --src src/matched/MAP_REPLACE_GetDefaultWarpId.c \ * --func MAP_REPLACE_GetDefaultWarpId --addr 0x02159F80 --region ov010 --cc dsi/1.1p1 --thumb */ int MAP_REPLACE_GetDefaultWarpId(void);
@@ -129,7 +137,7 @@ MapReplace *MAP_REPLACE_Create(int heapId, int gameSystem)
     MapReplace *replace = GFL_HEAP_Alloc(heapId, sizeof(MapReplace), 1, d_021728BC, 0x77);
     replace->heapId = heapId;
     replace->arc = ARC_TOOL_CreateHandle(10, heapId);
-    replace->recordCount = (u16)ARC_TOOL_GetHandleMemberSize(replace->arc, 0) / sizeof(MapReplaceRecord);
+    replace->recordCount = (u16)ARC_TOOL_GetHandleMemberSize((struct ArcHandle *)replace->arc, 0) / sizeof(MapReplaceRecord);
     MAP_REPLACE_SetupFlags(replace->variant, gameSystem);
     return replace;
 }
@@ -143,7 +151,7 @@ u32 MAP_REPLACE_GetRecordCount(MapReplace *replace) { return replace->recordCoun
 /* Read record `index` into replace->record and return its matrix id. */
 u32 MAP_REPLACE_LoadRecord(MapReplace *replace, int index)
 {
-    ARC_TOOL_ReadHandleMemberRange(replace->arc, 0, index * sizeof(MapReplaceRecord), sizeof(MapReplaceRecord), &replace->record);
+    ARC_TOOL_ReadHandleMemberRange((struct ArcHandle *)replace->arc, 0, index * sizeof(MapReplaceRecord), sizeof(MapReplaceRecord), &replace->record);
     return replace->record.matrixId;
 }
 
@@ -211,8 +219,8 @@ int MAP_REPLACE_GetFlagIndex(int selector)
 
 void MAP_REPLACE_SetupFlags(u8 *variant, int gameSystem)
 {
-    int eventWork = GAME_DATA_GetEventWork(GAMESYSTEM_GetGameData((const struct Ctx *)gameSystem));
-    int fieldMap = GAMESYSTEM_GetGameComm((const struct Ctx *)gameSystem);
+    int eventWork = (int)GAME_DATA_GetEventWork(GAMESYSTEM_GetGameData((struct GameSystem *)gameSystem));
+    int fieldMap = (int)GAMESYSTEM_GetGameComm((struct GameSystem *)gameSystem);
     int infoCode = COMM_PLAYER_SUPPORT_GetInfoCode((void *)gameSystem);
     int i;
     variant[0] = infoCode;
@@ -220,7 +228,7 @@ void MAP_REPLACE_SetupFlags(u8 *variant, int gameSystem)
     variant[2] = (variant[1] == 0) ? 0 : infoCode + 1;
     for (i = 0; i < 10; i++) {
         MapReplaceFlagEntry *entry = &d_02170FB0[i];
-        u16 *work = (u16 *)ZONEDATA_GetEventWorkAddress(eventWork, entry->workId);
+        u16 *work = (u16 *)ZONEDATA_GetEventWorkAddress((struct EventWork *)eventWork, entry->workId);
         if (*work == entry->value)
             variant[3 + i] = 1;
         else
@@ -251,7 +259,7 @@ void MAP_REPLACE_SetFlag(int gameData, int flagNo, int set)
     MapReplaceFlagEntry *entry = MAP_REPLACE_FindFlagEntry(gameData, flagNo);
     u16 *work;
     if (entry) {
-        work = (u16 *)ZONEDATA_GetEventWorkAddress(GAME_DATA_GetEventWork((const struct BigObj *)gameData), entry->workId);
+        work = (u16 *)ZONEDATA_GetEventWorkAddress((struct EventWork *)(GAME_DATA_GetEventWork((struct GameData *)gameData)), entry->workId);
         if (set)
             *work = entry->value;
         else
@@ -266,7 +274,7 @@ int MAP_REPLACE_CheckFlag(int gameData, int flagNo)
     MapReplaceFlagEntry *entry = MAP_REPLACE_FindFlagEntry(gameData, flagNo);
     u16 *work;
     if (entry) {
-        work = (u16 *)ZONEDATA_GetEventWorkAddress(GAME_DATA_GetEventWork((const struct BigObj *)gameData), entry->workId);
+        work = (u16 *)ZONEDATA_GetEventWorkAddress((struct EventWork *)(GAME_DATA_GetEventWork((struct GameData *)gameData)), entry->workId);
         if (entry->value == *work)
             return 1;
         else
@@ -381,7 +389,7 @@ void MAP_REPLACE_SetArriveFlag(void *gameData, int zoneId)
     for (i = 0; i < 17; i++) {
         entry = &d_02170FEC[i];
         if (zoneId == entry->entryZoneId && entry->setsFlagOnEntry) {
-            ZONEDATA_SetEventFlag((char *)GAME_DATA_GetEventWork(gameData), entry->arriveFlag);
+            ZONEDATA_SetEventFlag((struct EventWork *)GAME_DATA_GetEventWork(gameData), entry->arriveFlag);
             return;
         }
     }

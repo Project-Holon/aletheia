@@ -121,26 +121,34 @@ extern int GFL_NET_GetRunState(void);
 extern int GFL_NET_Exit(int);
 extern void *GFL_HEAP_Alloc(u32, u32, int, const char *, u16);
 extern int GFL_HEAP_Free();
-extern void *GAMESYSTEM_GetGameData(const void *p);
-extern void *GAME_DATA_GetEventWork(const void *p);
+struct GameSystem;
+struct GameData;
+extern struct GameData *GAMESYSTEM_GetGameData(struct GameSystem *gameSystem);
+extern void *GAME_DATA_GetEventWork(struct GameData *gd);
 int GFL_NET_IsSessionNull();
-extern void *GAME_EVENT_GetGameSystem(GameEvent *event);
+extern struct GameSystem *GAME_EVENT_GetGameSystem(GameEvent *event);
 extern void *GAME_EVENT_GetWork(GameEvent *event);
 extern void GAME_EVENT_CallEvent(GameEvent *parent, GameEvent *child);
-extern int GAME_EVENT_ChangeEvent();
+extern void GAME_EVENT_ChangeEvent(struct GameEvent *now, struct GameEvent *next);
 extern int VM_Control(ScriptVm *vm);
-extern u8 *GAMESYSTEM_GetMyPlayerWork(const void *p);
-extern u16 GAME_DATA_GetPlayerZoneId(const void *p);
-extern GameEvent *GAME_EVENT_Create(void *owner, void *a, int (*eventFunc)(void *, int *, ScriptEventWork *), unsigned int size);
+struct PlayerWork;
+extern struct PlayerWork *GAMESYSTEM_GetMyPlayerWork(struct GameSystem *gameSystem);
+extern u16 GAME_DATA_GetPlayerZoneId(struct PlayerWork *player);
+extern GameEvent *GAME_EVENT_Create(struct GameSystem *gameSystem, struct GameEvent *parent, int (*eventFunc)(void *, int *, ScriptEventWork *), unsigned int workSize);
 extern int ZONEDATA_ResetEventFlagRange(void *eventFlags, int first, int last);
 extern int ZONEDATA_ClearEventWorkRange(void *eventFlags, int first, int last);
-extern void *GAME_DATA_GetEventData(const void *p);
-extern void *EVENTDATA_SYSTEM_GetSpecialScriptData(void *p);
-extern u16 *ZONEDATA_GetEventWorkAddress(void *eventFlags, u32 id);
-extern void *SCRCMD_WORK_Create(const ScriptVmStart *, int heapId);
+extern void *GAME_DATA_GetEventData(struct GameData *gameData);
+struct EventDataSystem;
+extern u32 EVENTDATA_SYSTEM_GetSpecialScriptData(struct EventDataSystem *system);
+struct EventWork;
+extern u16 *ZONEDATA_GetEventWorkAddress(struct EventWork *ev, u32 workId);
+struct ScrcmdWorkParam;
+struct ScrcmdWork;
+extern struct ScrcmdWork *SCRCMD_WORK_Create(struct ScrcmdWorkParam *param, int heapId);
 extern ScriptVm *VM_Create(u32 heapId, const ScriptVmParams *params);
 extern void VM_Init(ScriptVm *vm, void *user);
-extern void SCRCMD_WORK_LoadMsgData(void *startData, unsigned textBank, unsigned textMsgId);
+struct ScrcmdWork;
+extern void SCRCMD_WORK_LoadMsgData(struct ScrcmdWork *work, u32 arcId, u32 fileId);
 extern void VM_Start(ScriptVm *vm, u8 *pc);
 extern u32 VM_GetU32(ScriptVm *vm);
 extern void *VM_GetContext(ScriptVm *vm);
@@ -150,14 +158,14 @@ extern void GF_PANIC_Fail(const char *expr, u32 line, const char *file);
 extern u32 ZONEDATA_GetScriptArcId(u32 id);
 extern u16 ZONEDATA_GetMsgArcId(u16);
 extern void *ARC_UTIL_LoadMember(int archive, int fileId, int a, int heapId);
-extern int GFL_NET_ClearExitFlag();
-extern int GFL_NET_IRC_WIRELESS_Exit();
+extern void GFL_NET_ClearExitFlag();
+extern void GFL_NET_IRC_WIRELESS_Exit();
 extern u32 GFL_NET_Main(void);
-extern int GFL_USE_PollPowerExit();
-extern void *GAMESYSTEM_GetFieldMap(const void *p);
-extern u32 SCRCMD_WORK_GetCallMode(void *p);
-extern u32 SCRCMD_WORK_GetCallParam(void *p);
-extern void *SCRCMD_WORK_GetGameSystem(void *work);
+extern void GFL_USE_PollPowerExit();
+extern void *GAMESYSTEM_GetFieldMap(struct GameSystem *gameSystem);
+extern u32 SCRCMD_WORK_GetCallMode(struct ScrcmdWork *work);
+extern u32 SCRCMD_WORK_GetCallParam(struct ScrcmdWork *work);
+extern struct GameSystem *SCRCMD_WORK_GetGameSystem(struct ScrcmdWork *work);
 extern void VM_SetHook(ScriptVm *vm, ScriptHookFn hook, void *hookArg);
 GameEvent *SCRIPT_SYS_CreateScriptEventSimple(void *fieldSys, u16 scriptId, void *target, int reserved);
 void *SCRIPT_SYS_CallScriptEvent(void *parentEvent, u16 scriptId, void *target, void *parentWork, u16 reserved);
@@ -200,10 +208,12 @@ int SCRIPT_SYS_IsChildScript(int mode);
 void SCRIPT_SYS_ForceExitNet(void);
 int SCRIPT_SYS_CheckCommandPermit(ScriptVm *vm, void *cmdWork, void *fieldSys, u32 cmdIndex);
 void SCRIPT_SYS_SetCommandCheck(ScriptVm *vm);
-void *SCRIPT_WORK_Create(u16 heapId, void *fieldSys, GameEvent *event, u16 scriptId, void *parentWork, int mode);
-int SCRIPT_WORK_Delete(void *scriptWork);
-void *SCRIPT_WORK_GetEvent(void *p);
-void SCRIPT_WORK_SetTargetObj(void *scriptWork, void *target);
+struct ScriptWork;
+struct ScriptWork *SCRIPT_WORK_Create(unsigned short heapId, void *gameSystem, void *event, unsigned short scriptId, int targetObjParam, struct ScriptWork *parentWork);
+int SCRIPT_WORK_Delete(struct ScriptWork *work);
+struct ScriptWork;
+void *SCRIPT_WORK_GetEvent(struct ScriptWork *work);
+void SCRIPT_WORK_SetTargetObj(struct ScriptWork *work, void *targetObj);
 extern const char d_02172888[];
 extern const ScriptCmdFn d_0217062C[];
 extern int d_021705D8;
@@ -391,7 +401,7 @@ GameEvent *SCRIPT_SYS_CreateScriptEvent(void *fieldSys, int reserved, u16 script
     GameEvent *event = GAME_EVENT_Create(fieldSys, 0, SCRIPT_SYS_EventMain, 8);
     ScriptEventWork *eventWork = GAME_EVENT_GetWork(event);
     eventWork->scriptSys = SCRIPT_SYS_Create(4);
-    eventWork->scriptWork = SCRIPT_WORK_Create(4, fieldSys, event, scriptId, parentWork, 0);
+    eventWork->scriptWork = SCRIPT_WORK_Create(4, fieldSys, event, scriptId, (int)parentWork, 0);
     SCRIPT_WORK_SetTargetObj(eventWork->scriptWork, target);
     SCRIPT_SYS_AddScript(eventWork->scriptWork, SCRIPT_SYS_GetZoneId(fieldSys), scriptId);
     return event;
@@ -465,7 +475,7 @@ void SCRIPT_SYS_RunScriptNow(void *fieldSys, void *scriptWork, u16 scriptId, int
     void *tempWork = 0;
     ScriptVm *vm;
     if (scriptWork == 0) {
-        tempWork = SCRIPT_WORK_Create(4, fieldSys, (GameEvent *)tempWork, scriptId, tempWork, mode);
+        tempWork = SCRIPT_WORK_Create(4, fieldSys, (GameEvent *)tempWork, scriptId, (int)tempWork, (struct ScriptWork *)mode);
         scriptWork = tempWork;
     }
     vm = SCRIPT_SYS_CreateVm(4, scriptWork, SCRIPT_SYS_GetZoneId(fieldSys), scriptId, mode);
@@ -478,7 +488,7 @@ void SCRIPT_SYS_RunScriptNow(void *fieldSys, void *scriptWork, u16 scriptId, int
 
 
 int SCRIPT_SYS_RunSpecialScript(void *fieldSys, int reserved, int key, int mode) {
-    u16 scriptId = SCRIPT_SYS_FindSpecialScript(EVENTDATA_SYSTEM_GetSpecialScriptData(GAME_DATA_GetEventData(GAMESYSTEM_GetGameData(fieldSys))), key);
+    u16 scriptId = SCRIPT_SYS_FindSpecialScript((u8 *)EVENTDATA_SYSTEM_GetSpecialScriptData(GAME_DATA_GetEventData(GAMESYSTEM_GetGameData(fieldSys))), key);
     if (scriptId == 0xffff) return 0;
     SCRIPT_SYS_RunScriptNow(fieldSys, 0, scriptId, mode);
     return 1;
@@ -510,7 +520,7 @@ void SCRIPT_SYS_RunZoneChangeScript(void *fieldSys, int reserved)
 void *SCRIPT_SYS_CreateSceneChangeEvent(void *fieldSys, int reserved)
 {
     void *eventWork = GAMESYSTEM_GetGameData(fieldSys);
-    u16 scriptId = SCRIPT_SYS_FindSceneScript(eventWork, EVENTDATA_SYSTEM_GetSpecialScriptData(GAME_DATA_GetEventData(eventWork)), 1);
+    u16 scriptId = SCRIPT_SYS_FindSceneScript(eventWork, (u8 *)EVENTDATA_SYSTEM_GetSpecialScriptData(GAME_DATA_GetEventData(eventWork)), 1);
     if (scriptId == 0xffff) return 0;
     return SCRIPT_SYS_CreateScriptEventSimple(fieldSys, scriptId, 0, reserved);
 }
@@ -558,7 +568,7 @@ u16 SCRIPT_SYS_FindSceneScript(const void *eventWork, const u8 *list, u32 key)
   if (key == 0)
     return 0xFFFF;
   p += key;
-  eventFlags = GAME_DATA_GetEventWork(eventWork);
+  eventFlags = (struct GameData *)GAME_DATA_GetEventWork((struct GameData *)eventWork);
   for (;; p += 6)
   {
     u16 workId = RD16(p);
@@ -590,7 +600,7 @@ ScriptVm *SCRIPT_SYS_CreateVm(u16 heapId, void *scriptWork, u16 zoneId, u16 scri
     start.mode = mode;
     start.isChild = isChild;
     start.scriptWork = scriptWork;
-    startData = SCRCMD_WORK_Create(&start, heapId);
+    startData = SCRCMD_WORK_Create((struct ScrcmdWorkParam *)(&start), heapId);
     params.stackCap = 0x100;
     params.ringCap = 0x40;
     params.cmds = d_0217062C;

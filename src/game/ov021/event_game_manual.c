@@ -52,7 +52,8 @@ extern struct GameEvent *GAME_EVENT_Create(struct GameSystem *gameSystem, void *
 extern void *GAME_EVENT_GetWork(struct GameEvent *event);
 extern void GAME_EVENT_CallEvent(struct GameEvent *event, struct GameEvent *next);
 extern void *GAMESYSTEM_GetFieldMap(const struct GameSystem *gameSystem);
-extern struct GameEvent *FIELD_STATUS_CreateSubProcEvent(struct GameSystem *gameSystem, void *fieldMap, int overlayId, const void *procData, void *param);
+struct FieldMap;
+extern struct GameEvent *FIELD_STATUS_CreateSubProcEvent(struct GameSystem *gameSystem, struct FieldMap *fieldMap, u32 overlayId, void *procData, void *procWork);
 struct GameEvent *EVENT_GAME_MANUAL_Create(struct GameSystem *gameSystem, u16 *resultOut);
 u32 EVENT_GAME_MANUAL_Main(struct GameEvent *event, u32 *seq, EventGameManualWork *work);
 void EVENT_GAME_MANUAL_SetResult(EventGameManualWork *work);

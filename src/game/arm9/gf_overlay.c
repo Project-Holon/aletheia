@@ -73,11 +73,12 @@ struct OverlayInfo {
 
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *file, u16 line);
 extern void  MIi_CpuClear32(u32 data, void *dest, u32 size);
-extern int FS_UnloadOverlay(u32 target, u32 id);
+extern int FS_UnloadOverlay(s32 target, u32 id);
 extern void GF_PANIC_Fail(const char *file, u32 line, const char *expr);
-extern int FS_SetDefaultDMA(int dma);
-extern int FS_LoadOverlay(int target, s32 handle);
-extern int FS_LoadOverlayInfo(struct OverlayInfo *info, u32 target, u32 id);
+extern u32 FS_SetDefaultDMA(u32 dma_no);
+extern int FS_LoadOverlay(s32 target, u32 id);
+struct FSOverlayInfo;
+extern int FS_LoadOverlayInfo(struct FSOverlayInfo *p_ovi, u32 target, u32 id);
 
 void GF_OVERLAY_Init(u32 heapId, int mainCount, int itcmCount, int twlCount);
 void GF_OVERLAY_ReleaseSlot(struct OverlaySlot *slot);
@@ -413,7 +414,7 @@ int GF_OVERLAY_GetArea(u32 id)
     struct OverlayInfo overlayInfo;
     u32 twlBase;
 
-    FS_LoadOverlayInfo(&overlayInfo, 0, id);
+    FS_LoadOverlayInfo((struct FSOverlayInfo *)(&overlayInfo), 0, id);
 
     id = overlayInfo.ramAddress;
     if (id <= 0x02000000 && id >= 0x01000000) {
@@ -447,7 +448,7 @@ int GF_OVERLAY_GetRamRange(u32 id, u32 *start, u32 *end)
     struct OverlayInfo overlayInfo;
     u32 ramStart;
 
-    if (FS_LoadOverlayInfo(&overlayInfo, 0, id) == 0) {
+    if (FS_LoadOverlayInfo((struct FSOverlayInfo *)(&overlayInfo), 0, id) == 0) {
         return 0;
     }
 

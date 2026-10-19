@@ -45,6 +45,7 @@
  *   NATION_AREA_SanitizeNation  0x02025C1C  thumb
  *   NATION_AREA_SanitizeArea  0x02025C30  thumb
  */
+#include "../version.h"
 struct GameSys;
 struct ProgressBlock;
 struct MyStatus;
@@ -185,12 +186,16 @@ extern u32 GFL_HEAP_Free(void *p);
 extern void OS_GetOwnerInfo(void *info);
 extern u16   STRBUF_GetEosChar(void);
 extern u16 GF_STANDARD_CalcCrc16(const u8 *src, u32 len);
-extern void *GAME_DATA_GetSaveControl(struct GameSys *p);
-extern u8 *GAME_DATA_GetMyStatus(void *p);
-extern void *GAME_DATA_GetMiscSave(int *p);
-extern struct SaveDataObj *WIFI_HISTORY_GetBlock(void *sys);
+struct GameData;
+struct SaveControl;
+extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gd);
+extern struct MyStatus *GAME_DATA_GetMyStatus(struct GameData *gd);
+extern void *GAME_DATA_GetMiscSave(struct GameData *gd);
+struct WifiHistory;
+extern struct WifiHistory *WIFI_HISTORY_GetBlock(struct SaveControl *saveControl);
 extern void *GREETING_SAVEDATA_GetFromSaveThunk(u32 a);
-extern void GREETING_SAVEDATA_GetSentence(struct RecordData *src, int idx, struct RecordData *dst);
+struct QuadRecord;
+extern void GREETING_SAVEDATA_GetSentence(struct QuadRecord *src, s32 idx, struct QuadRecord *dst);
 extern const void *MYSTATUS_GetName(const void *p);
 extern void WORDSET_CopyString(const u16 *src, u16 *dst, u32 n);
 extern u32 MYSTATUS_GetId(const struct MyStatus *obj);
@@ -198,7 +203,8 @@ extern u8 MYSTATUS_GetSex(const struct MyStatus *obj);
 extern u8 MYSTATUS_GetTrainerView(const struct MyStatus *obj);
 extern u8 MYSTATUS_GetNation(const struct MyStatus *obj);
 extern u8 MYSTATUS_GetArea(const struct MyStatus *obj);
-extern void MISC_GetMonRecord(const struct ProgressBlock *p, u32 *a, u32 *b, u32 *c, u32 *d);
+struct MiscSave;
+extern void MISC_GetMonRecord(struct MiscSave *misc, u32 *species, u32 *form, u32 *isEgg, u32 *gender);
 extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
 extern void STRBUF_SetStringN(struct Strbuf *strbuf, const u16 *src, u32 length);
 extern int POKE_TOOL_FilterSpecies(u16 a, int b);
@@ -390,10 +396,10 @@ void GDS_PROFILE_Init(struct GdsProfile *profile, void *sys)
     for (i = 0; i < 0x28; i++) {
         profile->record[i] = STRBUF_GetEosChar();
     }
-    GREETING_SAVEDATA_GetSentence(recordEnv, 0, (struct RecordData *)profile->record);
+    GREETING_SAVEDATA_GetSentence((struct QuadRecord *)recordEnv, 0, (struct QuadRecord *)profile->record);
     profile->birthMonth = info.birthMonth;
     profile->trainerSprite = MYSTATUS_GetTrainerView(trainerRec);
-    profile->gameVersion = 0x15;
+    profile->gameVersion = PM_VERSION_ID;
     profile->language = 2;
     profile->checksum = GF_STANDARD_CalcCrc16((const u8 *)profile, 0x7C);
 }

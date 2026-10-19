@@ -50,15 +50,22 @@ typedef struct DoorAnimeWork {
 
 extern int GFL_USE_GetSeSlot(u32 seqNo);
 extern struct Desc *GAME_EVENT_Create(void *owner, void *a, void *b, u32 size);
-extern void *GAME_EVENT_GetWork(struct Obj *p);
-extern void *FIELDMAP_GetFieldPlayer(struct FieldMap *p);
+struct GameEvent;
+extern void *GAME_EVENT_GetWork(struct GameEvent *event);
+struct FieldPlayer;
+extern struct FieldPlayer *FIELDMAP_GetFieldPlayer(struct FieldMap *p);
 extern void FIELD_PLAYER_GetPos(unsigned char *p, struct VecFx32 *out);
-extern u32 FIELDMAP_GetG3dMapper(u8 *p);
+struct FieldG3dMapper;
+extern struct FieldG3dMapper *FIELDMAP_GetG3dMapper(struct FieldMap *fieldMap);
 extern int GFL_USE_IsSeSlotBusy(u32 slot);
 extern void GFL_USE_PlaySeDefaultVolume(u32 id);
-extern u32 FIELD_G3D_MAPPER_GetBuildModel(u8 *p);
-extern int FIELD_BUILDMODEL_GetFirstEntryInRect(int a, int b, int c);
-extern void FIELD_BUILDMODEL_PlayEntryAnim(unsigned char *p, int b, int i, int c);
+struct FieldBuildModel;
+extern struct FieldBuildModel *FIELD_G3D_MAPPER_GetBuildModel(struct FieldG3dMapper *mapper);
+struct BuildModelRect;
+struct BuildModelMan;
+struct BuildModelEntry;
+extern struct BuildModelEntry *FIELD_BUILDMODEL_GetFirstEntryInRect(struct BuildModelMan *man, int kind, struct BuildModelRect *rect);
+extern void FIELD_BUILDMODEL_PlayEntryAnim(struct BuildModelMan *man, struct BuildModelEntry *entry, int slot, int mode);
 int FIELD_DOOR_ANIME_OpenTask(u32 task, u32 *seq, DoorAnimeWork *work);
 u32 FIELD_DOOR_ANIME_StartOpen(u32 prio, u32 gameSys, u32 fieldmap);
 int FIELD_DOOR_ANIME_SetOpenTask(u32 task, u32 *seq, DoorAnimeWork *work);
@@ -81,16 +88,16 @@ int FIELD_DOOR_ANIME_OpenTask(u32 task, u32 *seq, DoorAnimeWork *work)
     switch (seq[0]) {
     case 0:
         GFL_USE_PlaySeDefaultVolume(SE_DOOR_OPEN);
-        FIELD_PLAYER_GetPos(FIELDMAP_GetFieldPlayer((struct FieldMap *)work->fieldmap), (struct VecFx32 *)pos);
+        FIELD_PLAYER_GetPos((u8 *)FIELDMAP_GetFieldPlayer((struct FieldMap *)work->fieldmap), (struct VecFx32 *)pos);
         area[0] = pos[2] - 0x10000;
         area[1] = pos[2] + 0x10000;
         area[2] = pos[0] - 0x10000;
         area[3] = pos[0] + 0x10000;
-        bmodelMan = FIELD_G3D_MAPPER_GetBuildModel((u8 *)FIELDMAP_GetG3dMapper((void *)work->fieldmap));
-        door = FIELD_BUILDMODEL_GetFirstEntryInRect(bmodelMan, 4, (int)area);
+        bmodelMan = (unsigned int)FIELD_G3D_MAPPER_GetBuildModel((struct FieldG3dMapper *)FIELDMAP_GetG3dMapper((void *)work->fieldmap));
+        door = (unsigned int)FIELD_BUILDMODEL_GetFirstEntryInRect((struct BuildModelMan *)bmodelMan, 4, (struct BuildModelRect *)area);
         if (door != 0) {
             work->door = door;
-            FIELD_BUILDMODEL_PlayEntryAnim((unsigned char *)bmodelMan, door, 0, 0);
+            FIELD_BUILDMODEL_PlayEntryAnim((struct BuildModelMan *)bmodelMan, (struct BuildModelEntry *)door, 0, 0);
         }
         seq[0]++;
         break;
@@ -102,8 +109,8 @@ int FIELD_DOOR_ANIME_OpenTask(u32 task, u32 *seq, DoorAnimeWork *work)
     case 2:
         GFL_USE_PlaySeDefaultVolume(SE_DOOR_HOLD);
         if (work->door != 0) {
-            bmodelMan = FIELD_G3D_MAPPER_GetBuildModel((u8 *)FIELDMAP_GetG3dMapper((void *)work->fieldmap));
-            FIELD_BUILDMODEL_PlayEntryAnim((unsigned char *)bmodelMan, work->door, 1, 2);
+            bmodelMan = (unsigned int)FIELD_G3D_MAPPER_GetBuildModel((struct FieldG3dMapper *)FIELDMAP_GetG3dMapper((void *)work->fieldmap));
+            FIELD_BUILDMODEL_PlayEntryAnim((struct BuildModelMan *)bmodelMan, (struct BuildModelEntry *)work->door, 1, 2);
         }
         seq[0]++;
         break;
@@ -116,7 +123,7 @@ int FIELD_DOOR_ANIME_OpenTask(u32 task, u32 *seq, DoorAnimeWork *work)
 u32 FIELD_DOOR_ANIME_StartOpen(u32 prio, u32 gameSys, u32 fieldmap)
 {
     u32 task = (u32)GAME_EVENT_Create((void *)gameSys, (void *)prio, FIELD_DOOR_ANIME_OpenTask, 0x14);
-    DoorAnimeWork *work = GAME_EVENT_GetWork((struct Obj *)task);
+    DoorAnimeWork *work = GAME_EVENT_GetWork((struct GameEvent *)task);
     work->gameSys = gameSys;
     work->fieldmap = fieldmap;
     work->door = 0;
@@ -133,16 +140,16 @@ int FIELD_DOOR_ANIME_SetOpenTask(u32 task, u32 *seq, DoorAnimeWork *work)
 
     switch (seq[0]) {
     case 0:
-        FIELD_PLAYER_GetPos(FIELDMAP_GetFieldPlayer((struct FieldMap *)work->fieldmap), (struct VecFx32 *)pos);
+        FIELD_PLAYER_GetPos((u8 *)FIELDMAP_GetFieldPlayer((struct FieldMap *)work->fieldmap), (struct VecFx32 *)pos);
         area[0] = pos[2] - 0x10000;
         area[1] = pos[2] + 0x10000;
         area[2] = pos[0] - 0x10000;
         area[3] = pos[0] + 0x10000;
-        bmodelMan = FIELD_G3D_MAPPER_GetBuildModel((u8 *)FIELDMAP_GetG3dMapper((void *)work->fieldmap));
-        door = FIELD_BUILDMODEL_GetFirstEntryInRect(bmodelMan, 4, (int)area);
+        bmodelMan = (unsigned int)FIELD_G3D_MAPPER_GetBuildModel((struct FieldG3dMapper *)FIELDMAP_GetG3dMapper((void *)work->fieldmap));
+        door = (unsigned int)FIELD_BUILDMODEL_GetFirstEntryInRect((struct BuildModelMan *)bmodelMan, 4, (struct BuildModelRect *)area);
         if (door != 0) {
             work->door = door;
-            FIELD_BUILDMODEL_PlayEntryAnim((unsigned char *)bmodelMan, door, 1, 2);
+            FIELD_BUILDMODEL_PlayEntryAnim((struct BuildModelMan *)bmodelMan, (struct BuildModelEntry *)door, 1, 2);
         }
         seq[0]++;
         break;
@@ -155,7 +162,7 @@ int FIELD_DOOR_ANIME_SetOpenTask(u32 task, u32 *seq, DoorAnimeWork *work)
 u32 FIELD_DOOR_ANIME_StartSetOpen(u32 prio, u32 gameSys, u32 fieldmap)
 {
     u32 task = (u32)GAME_EVENT_Create((void *)gameSys, (void *)prio, FIELD_DOOR_ANIME_SetOpenTask, 0x14);
-    DoorAnimeWork *work = GAME_EVENT_GetWork((struct Obj *)task);
+    DoorAnimeWork *work = GAME_EVENT_GetWork((struct GameEvent *)task);
     work->gameSys = gameSys;
     work->fieldmap = fieldmap;
     work->door = 0;
@@ -174,16 +181,16 @@ int FIELD_DOOR_ANIME_CloseTask(u32 task, u32 *seq, DoorAnimeWork *work)
     case 0:
         if (work->silent == 0)
             GFL_USE_PlaySeDefaultVolume(SE_DOOR_CLOSE);
-        FIELD_PLAYER_GetPos(FIELDMAP_GetFieldPlayer((struct FieldMap *)work->fieldmap), (struct VecFx32 *)pos);
+        FIELD_PLAYER_GetPos((u8 *)FIELDMAP_GetFieldPlayer((struct FieldMap *)work->fieldmap), (struct VecFx32 *)pos);
         area[0] = pos[2] - 0x10000;
         area[1] = pos[2] + 0x10000;
         area[2] = pos[0] - 0x10000;
         area[3] = pos[0] + 0x10000;
-        bmodelMan = FIELD_G3D_MAPPER_GetBuildModel((u8 *)FIELDMAP_GetG3dMapper((void *)work->fieldmap));
-        door = FIELD_BUILDMODEL_GetFirstEntryInRect(bmodelMan, 4, (int)area);
+        bmodelMan = (unsigned int)FIELD_G3D_MAPPER_GetBuildModel((struct FieldG3dMapper *)FIELDMAP_GetG3dMapper((void *)work->fieldmap));
+        door = (unsigned int)FIELD_BUILDMODEL_GetFirstEntryInRect((struct BuildModelMan *)bmodelMan, 4, (struct BuildModelRect *)area);
         if (door != 0) {
             work->door = door;
-            FIELD_BUILDMODEL_PlayEntryAnim((unsigned char *)bmodelMan, door, 2, 0);
+            FIELD_BUILDMODEL_PlayEntryAnim((struct BuildModelMan *)bmodelMan, (struct BuildModelEntry *)door, 2, 0);
         }
         seq[0]++;
         break;
@@ -205,7 +212,7 @@ int FIELD_DOOR_ANIME_CloseTask(u32 task, u32 *seq, DoorAnimeWork *work)
 u32 FIELD_DOOR_ANIME_StartClose(u32 prio, u32 gameSys, u32 fieldmap, u32 silent)
 {
     u32 task = (u32)GAME_EVENT_Create((void *)gameSys, (void *)prio, FIELD_DOOR_ANIME_CloseTask, 0x14);
-    DoorAnimeWork *work = GAME_EVENT_GetWork((struct Obj *)task);
+    DoorAnimeWork *work = GAME_EVENT_GetWork((struct GameEvent *)task);
     work->gameSys = gameSys;
     work->fieldmap = fieldmap;
     work->door = 0;

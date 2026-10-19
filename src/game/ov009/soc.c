@@ -152,7 +152,7 @@ extern void MI_CpuFill8(void *dstp, unsigned char data, unsigned long size);
 extern int STD_CopyLString(char *destp, const char *srcp, int siz);
 extern unsigned long SOCL_GetHostID(void);
 extern int SOCL_SetResolver(unsigned long dns1, unsigned long dns2);
-extern int SOCL_Startup(void *socl_config);
+extern int SOCL_Startup(SOCLConfig *socl_config);
 extern unsigned long SOCL_InetAtoH(char *hostname);
 extern void MI_CpuCopy8(void *srcp, void *dstp, unsigned long size);
 extern int OS_SNPrintf(char *dst, unsigned long len, char *fmt, ...);

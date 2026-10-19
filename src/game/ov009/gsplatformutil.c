@@ -85,7 +85,7 @@ typedef struct {
 } B64StreamData;
 
 extern int OS_SPrintf(char *dst, char *fmt, ...);
-extern int gsDebugFormat(int index, char *table, int mask, const char *fmt, ...);
+extern void gsDebugFormat(int cat, int type, int level, char *fmt, ...);
 extern struct SOCHostEnt *SOC_GetHostByName(char *name);
 extern void gsifree(void *p);
 extern int strlen(char *s);
@@ -152,7 +152,7 @@ int gsiStartResolvingHostname(char *hostname, struct GSIResolveHostnameInfo **ha
     struct GSIResolveHostnameInfo *info;
     struct SOCHostEnt *SOCHostEnt;
 
-    gsDebugFormat(8, (char *)3, 16, gGsResolveDebugFmt);
+    gsDebugFormat((int)8, (int)3, 16, gGsResolveDebugFmt);
     SOCHostEnt = SOC_GetHostByName(hostname);
     if (SOCHostEnt == 0)
         return -1;

@@ -168,60 +168,69 @@ extern void BG_SYS_MarkTileDirty(u32);
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *sitePath, u16 tag);
 
 extern u32 GFL_HEAP_Free(void *p);
+struct WordSet;
 
-extern struct WordSet *WORDSET_CreateDefault(u32 heap);
+extern struct WordSet *WORDSET_CreateDefault(unsigned short heapId);
+struct PrintQueue;
 
-extern u32 PRINTSYS_QUE_Create(void *p);
+extern struct PrintQueue *PRINTSYS_QUE_Create(unsigned int heap);
+struct TcblSystem;
 
-extern struct Tcbl *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
+extern struct TcblSystem *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
 
 extern void ARC_UTIL_UploadPaletteFromArchiveWhole(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 
 extern void BMP_MENUWORK_LoadCharAndPltt(u32 a, u32 b, u32 c, u32 d, u16 e);
 
 extern struct GfFont *GF_FONT_Create(int archiveId, int fileId, int format, int isFixedWidth, u32 heapId);
+struct Strbuf;
 
-extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
+extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
+struct BmpWin;
 
-extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
+extern struct BmpWin *BMP_WIN_Create(unsigned int bgLayer, unsigned int posX, unsigned int posY, unsigned char width, unsigned char height, unsigned char palette, unsigned char allocDir);
+struct Bmp;
 
-extern void *BMP_WIN_GetBmp(struct Descriptor *p);
+extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *win);
 
-extern void BMP_Clear(struct CharBuf *buf, u8 value);
+extern void BMP_Clear(struct Bmp *bmp, unsigned char value);
 
-extern void BMP_WIN_TransferChars(struct Descriptor *d);
+extern void BMP_WIN_TransferChars(struct BmpWin *win);
 
-extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
+extern void BMP_WIN_MakeScreen(struct BmpWin *win);
 
-extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
+extern u8 BMP_WIN_GetBgLayer(struct BmpWin *win);
+struct KeyCursor;
 
-extern void *APP_KEYCURSOR_CreateDefault(u32,u32,u32,u32);
+extern struct KeyCursor *APP_KEYCURSOR_CreateDefault(unsigned int id, unsigned int isLive, unsigned int isFlip, unsigned short heapId);
+struct TimeIcon;
 
-extern struct Obj *TIME_ICON_Alloc(u32 heap);
+extern struct TimeIcon *TIME_ICON_Alloc(u32 heap);
 
-extern int APP_KEYCURSOR_Delete(int);
+extern void APP_KEYCURSOR_Delete(struct KeyCursor *cursor);
 
-extern void STRBUF_Delete(struct U16Vec *);
+extern void STRBUF_Delete(struct Strbuf *strbuf);
 
-extern unsigned int GF_FONT_Delete(void *ptr);
+extern unsigned int GF_FONT_Delete(struct GfFont *font);
+struct TextPrinter;
 
-extern void PRINTSYS_PrintStreamDelete(struct Rec3 *p);
+extern void PRINTSYS_PrintStreamDelete(struct TextPrinter *printer);
 
-extern unsigned int BMP_WIN_Delete(struct Descriptor *d);
+extern unsigned int BMP_WIN_Delete(struct BmpWin *win);
 
-extern void TCBL_Destroy(struct S02031140 *);
+extern void TCBL_Destroy(struct TcblSystem *tcbl);
 
-extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
+extern void PRINTSYS_QUE_Delete(struct PrintQueue *queue);
 
-extern unsigned int MSGDATA_Delete(struct Rec *rec);
+extern unsigned int MSGDATA_Delete(struct MsgBank *bank);
 
 extern unsigned int WORDSET_Delete(struct WordSet *p);
 
 extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 
-extern void TCBL_Main(struct Tcbl*);
+extern void TCBL_Main(struct TcblSystem *tcbl);
 
-extern u32 PRINTSYS_QUE_Main(struct PrintSys*);
+extern u32 PRINTSYS_QUE_Main(struct PrintQueue *queue);
 
 extern signed char MSG_SPEED_GetWait(void);
 
@@ -233,17 +242,17 @@ extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 
 extern void *PRINTSYS_PrintStream(unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned short, unsigned short);
 
-extern void BMP_MENUWORK_DrawWindow(void *, int, int, int);
+extern void BMP_MENUWORK_DrawWindow(struct BmpWin *win, int commitMode, unsigned short tileBase, unsigned int palette);
 
-extern void BMP_MENUWORK_DrawWindowBorder(void*,u32);
+extern void BMP_MENUWORK_DrawWindowBorder(struct BmpWin *desc, unsigned int commitMode);
 
-extern u32 PRINTSYS_PrintStreamGetState(void *p);
+extern u32 PRINTSYS_PrintStreamGetState(struct TextPrinter *printer);
 
-extern void PRINTSYS_PrintStreamShortWait(struct Rec *p, s32 v);
+extern void PRINTSYS_PrintStreamShortWait(struct TextPrinter *printer, int wait);
 
-extern void PRINTSYS_PrintStreamReleasePause(void *p);
+extern void PRINTSYS_PrintStreamReleasePause(struct TextPrinter *printer);
 
-extern void APP_KEYCURSOR_Update(struct Ctx *ctx, void *p, void *cell);
+extern void APP_KEYCURSOR_Update(struct KeyCursor *cursor, struct TextPrinter *printStream, void *win);
 
 extern unsigned int KEY_GetCont(void);
 
@@ -254,26 +263,29 @@ extern void *MI_CpuFill8(void *,int,u32);
 extern void *BMP_MENUWORK_Create(u32,u32);
 
 extern void BMP_MENUWORK_AddStrItem(struct Slot *table, u32 a, u32 b, u32 tag);
+struct MenuTemplate;
+struct BmpMenuList;
 
-extern struct Obj *BMP_MENULIST_Create(struct Src *src, u16 a, u16 b, u32 heap);
+extern struct BmpMenuList *BMP_MENULIST_Create(struct MenuTemplate *menuTemplate, unsigned short scroll, unsigned short row, unsigned int heap);
 
-extern void BMP_MENULIST_ResetCursorTile(struct Obj *p, int heap);
+extern void BMP_MENULIST_ResetCursorTile(struct BmpMenuList *menu, int heap);
 
 extern void BG_SYS_PushTile(u32 index);
 
-extern void BMP_MENULIST_SetCancelDisabled(u8 *p, u32 v);
+extern void BMP_MENULIST_SetCancelDisabled(struct BmpMenuList *menu, unsigned int disabled);
 
-extern void BMP_MENULIST_Delete(struct Obj *o, u16 *a, u16 *b);
+extern void BMP_MENULIST_Delete(struct BmpMenuList *menu, unsigned short *outScroll, unsigned short *outRow);
 
 extern u32 BMP_MENUWORK_Delete(void *p);
 
-extern int BMP_MENULIST_Main(struct Obj *);
+extern int BMP_MENULIST_Main(struct BmpMenuList *menu);
+struct TcbList;
 
-extern u32 GFL_USE_GetMainTaskList(void);
+extern struct TcbList *GFL_USE_GetMainTaskList(void);
 
-extern void TIME_ICON_Start(u8 *,u32,u32,u8,u8);
+extern void TIME_ICON_Start(struct TimeIcon *icon, struct TcbList *taskList, struct BmpWin *refWin, unsigned char fillColor, unsigned char waitInterval);
 
-extern void TIME_ICON_Delete(u8 *);
+extern void TIME_ICON_Delete(struct TimeIcon *icon);
 
 char *INTRO_MSG_Create(u16 heap);
 
@@ -316,7 +328,7 @@ char *INTRO_MSG_Create(u16 heap)
     p=GFL_HEAP_Alloc(heap,72,1,gIntroSite,129);
     p->heapId=heap;
     p->wordSet=WORDSET_CreateDefault(heap);
-    p->printSys=(void *)PRINTSYS_QUE_Create((void *)heap);
+    p->printSys=(void *)PRINTSYS_QUE_Create((unsigned int)heap);
     p->tcbl=TCBL_Create(p->heapId,p->heapId,2,0);
     ARC_UTIL_UploadPaletteFromArchiveWhole(23,5,0,320,32,heap);
     BMP_MENUWORK_LoadCharAndPltt(1,7,9,0,heap);
@@ -338,16 +350,16 @@ void INTRO_MSG_Delete(char *p)
 {
     IntroMsgWork *work = (IntroMsgWork *)p;
     INTRO_MSG_DeleteTimeIcon((u8 *)p);
-    APP_KEYCURSOR_Delete((int)work->keyCursor);
-    STRBUF_Delete((struct U16Vec *)work->strbuf1);
-    STRBUF_Delete((struct U16Vec *)work->strbuf2);
+    APP_KEYCURSOR_Delete(work->keyCursor);
+    STRBUF_Delete((struct Strbuf *)work->strbuf1);
+    STRBUF_Delete((struct Strbuf *)work->strbuf2);
     GF_FONT_Delete(work->font);
     if (work->printStream != 0)
-        PRINTSYS_PrintStreamDelete((struct Rec3 *)work->printStream);
-    BMP_WIN_Delete((struct Descriptor *)work->textWin);
+        PRINTSYS_PrintStreamDelete((struct TextPrinter *)work->printStream);
+    BMP_WIN_Delete((struct BmpWin *)work->textWin);
     if (work->menuWin)
-        BMP_WIN_Delete((struct Descriptor *)work->menuWin);
-    TCBL_Destroy((struct S02031140 *)work->tcbl);
+        BMP_WIN_Delete((struct BmpWin *)work->menuWin);
+    TCBL_Destroy((struct TcblSystem *)work->tcbl);
     PRINTSYS_QUE_Delete(work->printSys);
     if (work->msgBank)
         MSGDATA_Delete(work->msgBank);
@@ -397,12 +409,12 @@ int INTRO_MSG_UpdatePrint(char *a)
 {
     IntroMsgWork *work = (IntroMsgWork *)a;
     if (work->printStream != 0) {
-        APP_KEYCURSOR_Update((struct Ctx *)work->keyCursor, work->printStream,
+        APP_KEYCURSOR_Update((struct KeyCursor *)work->keyCursor, work->printStream,
                       work->textWin);
 
         switch (PRINTSYS_PrintStreamGetState(work->printStream)) {
         case 2:
-            PRINTSYS_PrintStreamDelete((struct Rec3 *)work->printStream);
+            PRINTSYS_PrintStreamDelete((struct TextPrinter *)work->printStream);
             work->printStream = 0;
             return 1;
         case 1:
@@ -414,7 +426,7 @@ int INTRO_MSG_UpdatePrint(char *a)
             break;
         case 0:
             if ((KEY_GetCont() & 3) != 0 || TOUCHPANEL_GetCont() != 0)
-                PRINTSYS_PrintStreamShortWait((struct Rec *)work->printStream, 0);
+                PRINTSYS_PrintStreamShortWait((struct TextPrinter *)work->printStream, 0);
             break;
         }
         return 0;
@@ -488,7 +500,7 @@ void INTRO_MSG_CreateMenuList(char *p,u32 *entries,u32 count,int flag)
     config.mode3=0;config.lineGap=0;config.pageKeys=1;config.mode6=0;config.cursorOff=0;
     config.userData=0;config.cursorW=16;config.rowH=16;config.pad24=0;
     config.target=INTRO_MSG_InitMenuDesc(p,(int)obj);config.printer=work->printSys;config.font=work->font;
-    *(void **)state=BMP_MENULIST_Create((struct Src *)(&config),0,0,heap);
+    *(void **)state=BMP_MENULIST_Create((struct MenuTemplate *)(&config),0,0,heap);
     BMP_MENULIST_ResetCursorTile(*(void **)state,(u32)heap);
     BMP_WIN_TransferChars(obj);BMP_WIN_MakeScreen(obj);BG_SYS_PushTile((u8)BMP_WIN_GetBgLayer(obj));
     BMP_MENUWORK_DrawWindow(obj,1,7,9);
@@ -521,7 +533,7 @@ void INTRO_MSG_DrawMenuList(char *p)
 void INTRO_MSG_MainMenuList(u8 *p)
 {
     char *q=(char *)p+36;
-    *(int *)(q + 8)=BMP_MENULIST_Main(*(struct Obj * *)q);
+    *(int *)(q + 8)=BMP_MENULIST_Main((struct BmpMenuList *)(*(struct Obj * *)q));
 }
 
 /*
@@ -545,11 +557,11 @@ int INTRO_MSG_GetWordSet(u8 *p)
 void INTRO_MSG_StartTimeIcon(u8 *p)
 {
     IntroMsgWork *work = (IntroMsgWork *)p;
-    TIME_ICON_Start((u8 *)work->timeIcon,GFL_USE_GetMainTaskList(),(u32)work->textWin,15,16);
+    TIME_ICON_Start((struct TimeIcon *)work->timeIcon,GFL_USE_GetMainTaskList(),work->textWin,15,16);
 }
 
 void INTRO_MSG_DeleteTimeIcon(u8 *p)
 {
     IntroMsgWork *work = (IntroMsgWork *)p;
-    if(work->timeIcon!=0){TIME_ICON_Delete((u8 *)work->timeIcon);work->timeIcon=0;}
+    if(work->timeIcon!=0){TIME_ICON_Delete((struct TimeIcon *)work->timeIcon);work->timeIcon=0;}
 }

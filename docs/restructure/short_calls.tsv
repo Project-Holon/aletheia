@@ -1,68 +1,68 @@
 # Calls that pass fewer arguments than the callee's definition takes (found while porting, 2026-10-19).
 # On the DS the missing values ride in r0-r3 from the caller; on a host the callee reads garbage. Some are unused parameters (harmless); each needs a look.
-# Columns: file  callee  counts
-src/game/arm9/billboard_act.c	BILLBOARD_Draw	called with 1, defined 3
-src/game/arm9/clact.c	GX_SetBankForLCDC	called with 0, defined 1
-src/game/arm9/dwc_ac_close.c	WCM_EndSearchAsync	called with 0, defined 2
-src/game/arm9/dwc_ac_retry.c	WCM_EndSearchAsync	called with 0, defined 2
-src/game/arm9/dwc_ac_search.c	WCM_EndSearchAsync	called with 0,1, defined 2
-src/game/arm9/fx_mtx43.c	MTX_RotAxis33	called with 2, defined 4
-src/game/arm9/iss_sys.c	ISS_SWITCH_SYS_ZoneChange	called with 1, defined 2
-src/game/arm9/net.c	GFL_NET_HANDLE_IsTimingSync	called with 0, defined 2
-src/game/arm9/net_lower_data.c	GFL_NET_SYSTEM_GetChildRingDataSize	called with 0, defined 4
-src/game/arm9/net_lower_data.c	GFL_NET_SYSTEM_GetParentRingDataSize	called with 0, defined 4
-src/game/arm9/pokegra.c	CLACT_TransferPalette	called with 3, defined 4
-src/game/arm9/save_control.c	BACKUP_SYSTEM_GetDiffSize	called with 1, defined 3
-src/game/arm9/wm_ks.c	WM_EndDataSharing	called with 0, defined 1
-src/game/ov009/dwc_main.c	GOAGetLastError	called with 0, defined 1
-src/game/ov009/dwc_match.c	NNThink	called with 0, defined 1
-src/game/ov009/gpi.c	srand	called with 0, defined 1
-src/game/ov009/gsplatformsocket.c	SOC_Recv	called with 0, defined 4
-src/game/ov009/gsplatformsocket.c	SOC_Send	called with 0, defined 4
-src/game/ov009/gsplatformsocket.c	SOC_Socket	called with 0, defined 2
-src/game/ov009/gt2main.c	gti2RejectConnection	called with 0, defined 3
-src/game/ov009/qr2.c	NNThink	called with 0, defined 1
-src/game/ov010/trcard_sys.c	GREETING_SAVEDATA_GetFromSave	called with 0, defined 1
-src/game/ov011/intrude_comm.c	EVENT_FIELD_PROCLINK_SetReturnSlotIfOffline	called with 2, defined 3
-src/game/ov014/net_devwireless.c	NET_WHPIPE_HasBeaconBeenSent	called with 0, defined 1
-src/game/ov021/entrance_camera.c	FIELD_CAMERA_ANIME_Delete	called with 0, defined 1
-src/game/ov021/field_event_check.c	EFFECT_ENCOUNT_UpdateOccupiedSpot	called with 0, defined 1
-src/game/ov021/field_event_check.c	FIELD_GIMMICK_SOUND_OBJS_RaiseBgmVolume	called with 0, defined 2
-src/game/ov021/field_g3d_mapper.c	FIELD_G3D_MAP_Unload	called with 1, defined 2
-src/game/ov021/field_msgbg.c	TALKMSGWIN_IsFree	called with 2, defined 4
-src/game/ov021/field_player.c	FIELD_PLAYER_NOGRID_GetRailPos	called with 1, defined 2
-src/game/ov021/field_player_grid_event.c	FLDMMDL_StoreMovedPos	called with 1, defined 2
-src/game/ov021/field_subscreen.c	BEACON_VIEW_CreateLeaveEvent	called with 1, defined 2
-src/game/ov021/field_subscreen.c	BEACON_VIEW_Update	called with 1, defined 2
-src/game/ov021/field_subscreen.c	C_GEAR_POWER_ONOFF_Update	called with 1, defined 2
-src/game/ov021/field_subscreen.c	DOWSING_Update	called with 1, defined 2
-src/game/ov021/field_subscreen.c	DOWSING_UpdateDisplay	called with 1, defined 2
-src/game/ov021/field_subscreen.c	ZONEDATA_IsZone34	called with 0, defined 1
-src/game/ov021/fieldmap.c	ENCEFF_RunUpdate	called with 1, defined 4
-src/game/ov021/fieldmap.c	EVENT_COMM_COMMON_CmdCallMissionInfoEvent	called with 1, defined 2
-src/game/ov021/fieldmap.c	FIELD_EFFECT_Delete	called with 1, defined 4
-src/game/ov021/fldmmdl_acmd.c	FLDMMDL_DRAW_CheckBlactReady	called with 1, defined 2
-src/game/ov021/ircbattlemenu.c	SAVE_CONTROL_WouldOverwriteSave	called with 0, defined 1
-src/game/ov021/scrcmd_misc.c	MISC_GetBadge	called with 1, defined 2
-src/game/ov021/scrcmd_pokemon_fld.c	BOX_SAVEDATA_GetCurrentBox	called with 0, defined 1
-src/game/ov021/scrcmd_proc_fld.c	CLACT_TransferPalette	called with 3, defined 4
-src/game/ov021/scrcmd_proc_fld.c	MISC_CountBadges	called with 0, defined 1
-src/game/ov093/btl_server_flow.c	HAND_POS_IsRegistered	called with 1, defined 2
-src/game/ov095/btlv_scd.c	BTL_CLIENT_GetClientId	called with 0, defined 1
-src/game/ov095/btlv_scd.c	BTL_MAIN_GetPosTable	called with 0, defined 1
-src/game/ov107/mb_util_msg.c	TALKMSGWIN_DrawWindowFrame	called with 3, defined 4
-src/game/ov110/pms_input_view.c	PMSIV_MENU_FinishPress	called with 2, defined 3
-src/game/ov110/pms_select_graphic.c	APP_TASKMENU_UpdateMenu	called with 0, defined 1
-src/game/ov114/nhttp_response.c	NHTTPi_IsCreateCommThreadMessageQueueOff	called with 0, defined 1
-src/game/ov121/mystery.c	CLACT_TransferPalette	called with 3, defined 4
-src/game/ov121/mystery_album.c	CLACT_TransferPalette	called with 3, defined 4
-src/game/ov131/p_sta_sub.c	CLACT_TransferPalette	called with 3, defined 4
-src/game/ov170/box2_seq.c	CLACT_TransferPalette	called with 3, defined 4
-src/game/ov170/box2_ui.c	CURSOR_MOVE_Delete	called with 0, defined 1
-src/game/ov175/wifibattlematch_net.c	WIFILIST_GetWork	called with 0, defined 1
-src/game/ov180/hall_of_fame_sprites.c	CLACT_TransferPalette	called with 3, defined 4
-src/game/ov203/demo3d.c	DEMO3D_ENGINE_Delete	called with 1, defined 4
-src/game/ov210/zknsearch_main.c	CURSOR_MOVE_Delete	called with 0, defined 1
-src/game/ov223/psel_graphic.c	PSEL_UpdateActorPosition	called with 1, defined 2
-src/game/ov225/manual_list.c	APP_TASKMENU_WIN_DeleteNoClear	called with 0, defined 1
-src/game/twl/nwmif.c	NWM_LoadDevice	called with 1, defined 2
+# Columns: file  callee  counts  status
+src/game/arm9/billboard_act.c	BILLBOARD_Draw	called with 1, defined 3	done: passes camera and light (the caller's own parameters)
+src/game/arm9/clact.c	GX_SetBankForLCDC	called with 0, defined 1	done: passes saved_state (value already in r0)
+src/game/arm9/dwc_ac_close.c	WCM_EndSearchAsync	called with 0, defined 2	done: unused parameters removed from the definition and the call
+src/game/arm9/dwc_ac_retry.c	WCM_EndSearchAsync	called with 0, defined 2	done: unused parameters removed from the definition and the call
+src/game/arm9/dwc_ac_search.c	WCM_EndSearchAsync	called with 0,1, defined 2	done: unused parameters removed from the definition and the call
+src/game/arm9/fx_mtx43.c	MTX_RotAxis33	called with 2, defined 4	done: MTX_RotAxis43 takes and passes sinVal, cosVal
+src/game/arm9/iss_sys.c	ISS_SWITCH_SYS_ZoneChange	called with 1, defined 2	done: passes zoneId
+src/game/arm9/net.c	GFL_NET_HANDLE_IsTimingSync	called with 0, defined 2	done: GFL_NET_CheckTimingSync takes (handle, timingNo) and forwards them
+src/game/arm9/net_lower_data.c	GFL_NET_SYSTEM_GetChildRingDataSize	called with 0, defined 4	done: definition is int f(void) returning the size
+src/game/arm9/net_lower_data.c	GFL_NET_SYSTEM_GetParentRingDataSize	called with 0, defined 4	done: definition is int f(void) returning the size
+src/game/arm9/pokegra.c	CLACT_TransferPalette	called with 3, defined 4	done: the definition takes 3 parameters (idx, dest, count); the slot offset is a named local `off` added as an integer, which gives the original's r4/r5 colours; this file's extern still has its old parameter types (file held by another lane): align it to (u32 idx, struct PaletteData *dest, u32 count)
+src/game/arm9/save_control.c	BACKUP_SYSTEM_GetDiffSize	called with 1, defined 3	done: SAVE_CONTROL_GetDiffSize takes and forwards the two out pointers
+src/game/arm9/wm_ks.c	WM_EndDataSharing	called with 0, defined 1	done: WM_EndKeySharing takes and forwards dsInfo
+src/game/ov009/dwc_main.c	GOAGetLastError	called with 0, defined 1	done: passes gt2GetSocketSOCKET(socket)
+src/game/ov009/dwc_match.c	NNThink	called with 0, defined 1	done: unused parameter removed from the definition and sb_serverbrowsing call
+src/game/ov009/gpi.c	srand	called with 0, defined 1	done: passes current_time() (gpi.c, gt2auth.c)
+src/game/ov009/gsplatformsocket.c	SOC_Recv	called with 0, defined 4	done: forwards sock, buffer, len, flags
+src/game/ov009/gsplatformsocket.c	SOC_Send	called with 0, defined 4	done: forwards sock, buffer, bufferLen, flags
+src/game/ov009/gsplatformsocket.c	SOC_Socket	called with 0, defined 2	done: forwards pf, type
+src/game/ov009/gt2main.c	gti2RejectConnection	called with 0, defined 3	done: gt2Reject takes and forwards (connection, message, len)
+src/game/ov009/qr2.c	NNThink	called with 0, defined 1	done: unused parameter removed from the definition and sb_serverbrowsing call
+src/game/ov010/trcard_sys.c	GREETING_SAVEDATA_GetFromSave	called with 0, defined 1	done: passes GAME_DATA_GetSaveControl(...) result
+src/game/ov011/intrude_comm.c	EVENT_FIELD_PROCLINK_SetReturnSlotIfOffline	called with 2, defined 3	done: passes data as the slot argument
+src/game/ov014/net_devwireless.c	NET_WHPIPE_HasBeaconBeenSent	called with 0, defined 1	done: wrapper takes and forwards its argument
+src/game/ov021/entrance_camera.c	FIELD_CAMERA_ANIME_Delete	called with 0, defined 1	done: passes work->anime
+src/game/ov021/field_event_check.c	EFFECT_ENCOUNT_UpdateOccupiedSpot	called with 0, defined 1	done: passes encount
+src/game/ov021/field_event_check.c	FIELD_GIMMICK_SOUND_OBJS_RaiseBgmVolume	called with 0, defined 2	open: the callee is CROWD_DrawProc(CrowdWork *work) in ov055 (0x021F3B10: r0 += 0x348, tail call to CROWD_CloseAllChatterSlots), not ov053's RaiseBgmVolume: the call is guarded by FIELDMAP_GetZoneEffectWork() != 0, and only ov055 (CROWD_Init/CROWD_Exit) sets that work, so ov055 is the loaded overlay; it takes one parameter, the zone effect work already in r0 (r1 holds 0x150 left by the getter, unused). Fix: call CROWD_DrawProc(zoneEffectWork) with the getter result in a local; RunGrid and RunRail compile to the same bytes. File held by another lane, not applied
+src/game/ov021/field_g3d_mapper.c	FIELD_G3D_MAP_Unload	called with 1, defined 2	done: dead parameter removed from Unload and ClearRenderObjModel
+src/game/ov021/field_msgbg.c	TALKMSGWIN_IsFree	called with 2, defined 4	done: dead parameters removed from the definition
+src/game/ov021/field_player.c	FIELD_PLAYER_NOGRID_GetRailPos	called with 1, defined 2	done: FIELD_PLAYER_GetNogridRailPos takes and forwards outPos
+src/game/ov021/field_player_grid_event.c	FLDMMDL_StoreMovedPos	called with 1, defined 2	done: dead parameter removed from StoreMovedPos and GetMovedPosSlot
+src/game/ov021/field_subscreen.c	BEACON_VIEW_CreateLeaveEvent	called with 1, defined 2	done (HOST2)
+src/game/ov021/field_subscreen.c	BEACON_VIEW_Update	called with 1, defined 2	done (HOST2)
+src/game/ov021/field_subscreen.c	C_GEAR_POWER_ONOFF_Update	called with 1, defined 2	done (HOST2)
+src/game/ov021/field_subscreen.c	DOWSING_Update	called with 1, defined 2	done (HOST2)
+src/game/ov021/field_subscreen.c	DOWSING_UpdateDisplay	called with 1, defined 2	done (HOST2)
+src/game/ov021/field_subscreen.c	ZONEDATA_IsZone34	called with 0, defined 1	done (HOST2)
+src/game/ov021/fieldmap.c	ENCEFF_RunUpdate	called with 1, defined 4	done (HOST2)
+src/game/ov021/fieldmap.c	EVENT_COMM_COMMON_CmdCallMissionInfoEvent	called with 1, defined 2	done (HOST2)
+src/game/ov021/fieldmap.c	FIELD_EFFECT_Delete	called with 1, defined 4	done (HOST2)
+src/game/ov021/fldmmdl_acmd.c	FLDMMDL_DRAW_CheckBlactReady	called with 1, defined 2	done (HOST2)
+src/game/ov021/ircbattlemenu.c	SAVE_CONTROL_WouldOverwriteSave	called with 0, defined 1	done (HOST2)
+src/game/ov021/scrcmd_misc.c	MISC_GetBadge	called with 1, defined 2	done (HOST2)
+src/game/ov021/scrcmd_pokemon_fld.c	BOX_SAVEDATA_GetCurrentBox	called with 0, defined 1	done (HOST2)
+src/game/ov021/scrcmd_proc_fld.c	CLACT_TransferPalette	called with 3, defined 4	done: the definition takes 3 parameters (idx, dest, count); the slot offset is a named local `off` added as an integer, which gives the original's r4/r5 colours; extern aligned to the definition
+src/game/ov021/scrcmd_proc_fld.c	MISC_CountBadges	called with 0, defined 1	done (HOST2)
+src/game/ov093/btl_server_flow.c	HAND_POS_IsRegistered	called with 1, defined 2	done (HOST2)
+src/game/ov095/btlv_scd.c	BTL_CLIENT_GetClientId	called with 0, defined 1	done: passes client
+src/game/ov095/btlv_scd.c	BTL_MAIN_GetPosTable	called with 0, defined 1	done: passes the BTL_MAIN_GetTrainerSlotOfPoke result
+src/game/ov107/mb_util_msg.c	TALKMSGWIN_DrawWindowFrame	called with 3, defined 4	done (HOST2)
+src/game/ov110/pms_input_view.c	PMSIV_MENU_FinishPress	called with 2, defined 3	done (HOST2)
+src/game/ov110/pms_select_graphic.c	APP_TASKMENU_UpdateMenu	called with 0, defined 1	done (HOST2)
+src/game/ov114/nhttp_response.c	NHTTPi_IsCreateCommThreadMessageQueueOff	called with 0, defined 1	done (HOST2)
+src/game/ov121/mystery.c	CLACT_TransferPalette	called with 3, defined 4	done: the definition takes 3 parameters (idx, dest, count); the slot offset is a named local `off` added as an integer, which gives the original's r4/r5 colours; this file's extern still has its old parameter types (file held by another lane): align it to (u32 idx, struct PaletteData *dest, u32 count)
+src/game/ov121/mystery_album.c	CLACT_TransferPalette	called with 3, defined 4	done: the definition takes 3 parameters (idx, dest, count); the slot offset is a named local `off` added as an integer, which gives the original's r4/r5 colours; this file's extern still has its old parameter types (file held by another lane): align it to (u32 idx, struct PaletteData *dest, u32 count)
+src/game/ov131/p_sta_sub.c	CLACT_TransferPalette	called with 3, defined 4	done: the definition takes 3 parameters (idx, dest, count); the slot offset is a named local `off` added as an integer, which gives the original's r4/r5 colours; extern aligned to the definition
+src/game/ov170/box2_seq.c	CLACT_TransferPalette	called with 3, defined 4	done: the definition takes 3 parameters (idx, dest, count); the slot offset is a named local `off` added as an integer, which gives the original's r4/r5 colours; extern aligned to the definition
+src/game/ov170/box2_ui.c	CURSOR_MOVE_Delete	called with 0, defined 1	done (HOST2)
+src/game/ov175/wifibattlematch_net.c	WIFILIST_GetWork	called with 0, defined 1	done (HOST2)
+src/game/ov180/hall_of_fame_sprites.c	CLACT_TransferPalette	called with 3, defined 4	done: the definition takes 3 parameters (idx, dest, count); the slot offset is a named local `off` added as an integer, which gives the original's r4/r5 colours; extern aligned to the definition
+src/game/ov203/demo3d.c	DEMO3D_ENGINE_Delete	called with 1, defined 4	done (HOST2)
+src/game/ov210/zknsearch_main.c	CURSOR_MOVE_Delete	called with 0, defined 1	done (HOST2)
+src/game/ov223/psel_graphic.c	PSEL_UpdateActorPosition	called with 1, defined 2	done (HOST2)
+src/game/ov225/manual_list.c	APP_TASKMENU_WIN_DeleteNoClear	called with 0, defined 1	done (HOST2)
+src/game/twl/nwmif.c	NWM_LoadDevice	called with 1, defined 2	done (HOST2)

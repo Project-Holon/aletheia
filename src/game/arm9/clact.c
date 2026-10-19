@@ -225,7 +225,7 @@ typedef struct {
 } UserExtBlock;
 
 /* Head of an NNS G2d data bank (cell, animation or multi-cell). */
-struct G2dDataBank {
+struct MultiCellBank {
     u16           count;              /* 0x00 */
     u8            pad_02[0x0e];
     UserExtBlock *mc_user_ext;        /* 0x10 */
@@ -236,23 +236,23 @@ struct G2dDataBank {
 struct CellSlot {
     void               *cell_file;    /* 0x00 */
     void               *anim_file;    /* 0x04 */
-    struct G2dDataBank *cell_bank;    /* 0x08 */
-    struct G2dDataBank *anim_bank;    /* 0x0c */
+    struct MultiCellBank *cell_bank;    /* 0x08 */
+    struct MultiCellBank *anim_bank;    /* 0x0c */
     u32                 free;         /* 0x10 */
 };
 
 /* Per-actor animation controller, 0x7c. */
 struct AnimCtl {
     u32                 kind;         /* 0x00 */
-    struct G2dDataBank *cell_bank;    /* 0x04 */
-    struct G2dDataBank *anim_bank;    /* 0x08 */
+    struct MultiCellBank *cell_bank;    /* 0x04 */
+    struct MultiCellBank *anim_bank;    /* 0x08 */
     u8                  anim[0x30];   /* 0x0c */
     u32                 cur_cell;     /* 0x3c */
     u8                  xfer_state[0x24]; /* 0x40 */
     u32                 xfer_handle;  /* 0x64 */
     u8                  pad_68[8];
-    struct G2dDataBank *mc_bank;      /* 0x70 */
-    struct G2dDataBank *mc_anim_bank; /* 0x74 */
+    struct MultiCellBank *mc_bank;      /* 0x70 */
+    struct MultiCellBank *mc_anim_bank; /* 0x74 */
     void               *mc_work;      /* 0x78 */
 };
 
@@ -285,10 +285,10 @@ struct ActorReq {
     u16                 pltt_idx;     /* 0x02 */
     struct CharSlot    *char_slot;    /* 0x04 */
     struct PlttSlot    *pltt_slot;    /* 0x08 */
-    struct G2dDataBank *cell_bank;    /* 0x0c */
-    struct G2dDataBank *anim_bank;    /* 0x10 */
-    struct G2dDataBank *mc_bank;      /* 0x14 */
-    struct G2dDataBank *mc_anim_bank; /* 0x18 */
+    struct MultiCellBank *cell_bank;    /* 0x0c */
+    struct MultiCellBank *anim_bank;    /* 0x10 */
+    struct MultiCellBank *mc_bank;      /* 0x14 */
+    struct MultiCellBank *mc_anim_bank; /* 0x18 */
     const struct CharData *xfer_chars; /* 0x1c */
 };
 
@@ -561,25 +561,31 @@ extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site,
 extern void  MI_CpuFill8(void *dst, int fill, u32 size);
 extern u32 GFL_HEAP_Free(void *p);
 extern void NNS_G2dUpdateCellTransferStateManager(void);
-extern int VMAN_IsHandleInvalid(struct VramBlock *p);
-extern void VMAN_Free(struct VramAllocator *owner, struct VramBlock *p);
+struct VmanHandle;
+extern int VMAN_IsHandleInvalid(struct VmanHandle *handle);
+struct VmanBank;
+extern void VMAN_Free(struct VmanBank *bank, struct VmanHandle *handle);
 extern int NNSi_G2dIsVramHandleSet(const u32 *p, u32 i);
 extern int NNSi_G2dGetVramHandleValue(int *p, int i);
 extern void DC_FlushRange(void *a, u32 b);
-extern void GX_LoadOBJ(void *a, void *b, u32 c);
-extern void GXS_LoadOBJ(void *a, void *b, u32 c);
+extern void GX_LoadOBJ(void *pSrc, unsigned int offset, unsigned int szByte);
+extern void GXS_LoadOBJ(void *pSrc, unsigned int offset, unsigned int szByte);
 extern void *ARC_TOOL_LoadHandleMember(struct ArcFile *arc, u32 member, u32 heap);
 extern int NNSi_G2dIsVramHandleSetEx(char *p, int i);
 extern int NNSi_G2dGetVramHandleEx(char *p, int i);
-extern void GX_LoadOBJPltt(void *dest, void *src, u32 size);
-extern void GXS_LoadOBJPltt(void *dest, void *src, u32 size);
-extern u16 NNSi_G2dGetCellAnimFrameIdx(const struct AnimCtrl *n);
+extern void GX_LoadOBJPltt(void *pSrc, unsigned int offset, unsigned int szByte);
+extern void GXS_LoadOBJPltt(void *pSrc, unsigned int offset, unsigned int szByte);
+struct Node;
+extern u16 NNSi_G2dGetCellAnimFrameIdx(struct Node *n);
 extern void NNS_G2dInitOamManagerModule(void);
 extern unsigned int NNSi_G2dReserveOamManagerSpan(void *p, int a, int b, int which);
-extern void NNS_G2dApplyOamManagerToHW(struct OamManager *pMan, u32 bound);
-extern void NNS_G2dResetOamManagerBuffer(struct OamManager *pMan);
-extern void NNS_G2dInitRenderer(struct Renderer *o);
-extern void NNS_G2dSetRendererTargetSurface(struct Renderer *pRend, struct Surface *pNew);
+struct NNSG2dOamManagerInstance;
+extern void NNS_G2dApplyOamManagerToHW(struct NNSG2dOamManagerInstance *pMan, unsigned int bound);
+extern void NNS_G2dResetOamManagerBuffer(struct NNSG2dOamManagerInstance *pMan);
+struct NNSG2dRendererInstance;
+extern void NNS_G2dInitRenderer(struct NNSG2dRendererInstance *pRend);
+struct NNSG2dRenderSurface;
+extern void NNS_G2dSetRendererTargetSurface(struct NNSG2dRendererInstance *pRend, struct NNSG2dRenderSurface *pNew);
 extern void NNS_G2dInitRenderSurface(struct Surface *p);
 extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
 extern u32  NNSi_G2dEntryOamManagerOam(struct OamManager *win, struct OamEntry *entry, u32 mode);
@@ -589,56 +595,70 @@ extern void GF_PANIC_Fail(const char *file, u32 line, const char *expr);
 extern void NNSi_G2dInitVramHandle(u32 *p);
 extern void NNSi_G2dInitVramHandleEx(u32 *p);
 extern void NNSi_G2dSetRndCoreImageProxyVeneer(int *pRnd, int pImgProxy, int pPltProxy);
-extern void NNS_G2dBeginRendering(struct Renderer *obj);
+extern void NNS_G2dBeginRendering(struct NNSG2dRendererInstance *obj);
 extern void NNS_G2dEndRendering();
-extern void NNS_G2dSetRndCoreAffineOverwriteMode(struct Renderer *p, u32 mode);
-extern void NNS_G2dSetRndCoreFlipMode(struct Renderer *p, u32 h, u32 v);
+struct NNSG2dRndCoreInstance;
+extern void NNS_G2dSetRndCoreAffineOverwriteMode(struct NNSG2dRndCoreInstance *pRnd, unsigned int mode);
+extern void NNS_G2dSetRndCoreFlipMode(struct NNSG2dRndCoreInstance *pRnd, int bFlipH, int bFlipV);
 extern void NNS_G2dTranslate(s32 x, s32 y, s32 z);
 extern void NNS_G2dScale(s32 x, s32 y, s32 z);
 extern void NNS_G2dRotZ(s32 a, s32 b);
 extern void NNSi_G2dRendererDrawCellZOffset(void *pCell);
 extern void NNSi_G2dRendererDrawCellTransformedZOffset(void *p);
-extern void NNSi_G2dRendererDrawMultiCellTransformed(struct MultiCellAnim *c);
-extern struct AnimSequence *NNS_G2dGetAnimSequenceByIdx(struct G2dDataBank *bank, u32 idx);
-extern void NNS_G2dInitCellAnimation(char *self, int pAnimSeq, struct G2dDataBank *c);
+struct MultiCellDrawCmd;
+extern void NNSi_G2dRendererDrawMultiCellTransformed(struct MultiCellDrawCmd *c);
+struct AnimBank;
+struct AnimSequenceData;
+extern struct AnimSequenceData *NNS_G2dGetAnimSequenceByIdx(struct AnimBank *bank, unsigned int idx);
+struct CellDataBank;
+extern void NNS_G2dInitCellAnimation(struct CellAnim *pCellAnim, struct AnimSequenceData *pAnimSeq, struct CellDataBank *pCellDataBank);
 extern int NNSi_G2dGetCellTransferStateIndex(void);
-extern void NNS_G2dInitCellAnimationVramTransfered(char *self, int pAnimSeq, struct G2dDataBank *c, int d, int e, int f, int g, int h, int i, int j);
-extern int NNS_G2dGetMCWorkAreaSize(struct G2dDataBank *mc_bank, u32 b);
-extern void NNS_G2dInitMCAnimation(char *o, void *buf, void *set, void *pCellDataBank, struct G2dDataBank *bank, int kind);
-extern void NNS_G2dSetAnimSequenceToMCAnimation(struct MultiCellAnim *o, void *bank);
+extern void NNS_G2dInitCellAnimationVramTransfered(struct CellAnim *pCellAnim, struct AnimSequenceData *pAnimSeq, struct CellDataBank *pCellDataBank, unsigned int stateIdx, unsigned int a, unsigned int b, unsigned int c, unsigned int d, unsigned int e, unsigned int f);
+struct MultiCellBank;
+extern int NNS_G2dGetMCWorkAreaSize(struct MultiCellBank *pBank, u32 kind);
+struct MultiCellBank;
+extern void NNS_G2dInitMCAnimation(struct MultiCellAnim *pMCAnim, void *pBuf, struct AnimBank *pAnimBank, struct CellDataBank *pCellDataBank, struct MultiCellBank *pBank, int kind);
+extern void NNS_G2dSetAnimSequenceToMCAnimation(struct MultiCellAnim *pMCAnim, struct AnimSequenceData *pAnimSeq);
 extern void NNSi_G2dResetCellTransferState(u32 idx);
-extern void  NNS_G2dSetCellAnimationSequence(u8 *r, void *v);
+extern void  NNS_G2dSetCellAnimationSequence(struct CellAnim *pCellAnim, struct AnimSequenceData *pAnimSeq);
 extern void NNS_G2dTickCellAnimation(struct CellAnim *anim, s32 frames);
-extern void NNS_G2dTickMCAnimation(char *self, int frames);
+extern void NNS_G2dTickMCAnimation(struct MultiCellAnim *pMCAnim, int frames);
 extern void NNS_G2dSetCellAnimationCurrentFrame(struct CellAnim *anim, u32 i);
-extern void NNS_G2dSetMCAnimationCurrentFrame(char *self, unsigned int i);
-extern void NNS_G2dSetCellAnimationSpeed(struct MultiCellAnim *mca, u32 value);
-extern void NNS_G2dSetMCAnimationSpeed(u8 *o, void *arg);
+extern void NNS_G2dSetMCAnimationCurrentFrame(struct MultiCellAnim *pMCAnim, unsigned int frameIdx);
+extern void NNS_G2dSetCellAnimationSpeed(struct CellAnim *pCellAnim, int speed);
+extern void NNS_G2dSetMCAnimationSpeed(struct MultiCellAnim *pMCAnim, int speed);
 extern void NNS_G2dRestartCellAnimation(struct CellAnim *anim);
-extern void NNSi_G2dSetMCInstanceCurrentFrameZero(struct CellXferState *x);
-extern void NNS_G2dSetCellAnimationParam(int anim, int type, int param, int func);
+struct MCInstance;
+extern void NNSi_G2dSetMCInstanceCurrentFrameZero(struct MCInstance *pMCInst);
+extern void NNS_G2dSetCellAnimationParam(struct CellAnim *anim, int type, int param, int func);
 extern void NNS_G2dSetCellAnimationParamTagged(struct CellAnim *anim, u32 a, u32 b, u16 tag);
 extern struct VramAllocator *VMAN_Create(u32 heapId, u32 kind, u32 flags, u32 base, u32 b);
-extern void VMAN_Delete(struct VramAllocator *obj);
+extern void VMAN_Delete(struct VmanBank *bank);
 extern void MI_UncompressLZ8(const void *src, void *dest);
-extern void  VMAN_InvalidateHandle(struct VramBlock *p);
-extern int VMAN_Alloc(u8 *p, u32 a, void **out);
-extern u32 VMAN_GetOffset(struct VramAllocator *a, u32 *b);
-extern void NNSi_G2dLoadVramResourceMain(struct Res *r, u32 dst, int mode, struct ImageProxy *out);
-extern void NNSi_G2dLoadVramResourceSub(struct Res *r, u32 dst, int mode, struct ImageProxy *out);
-extern void NNSi_G2dSetupVramResource(struct Res *r, u32 dst, int mode, struct ImageProxy *out);
+extern void  VMAN_InvalidateHandle(struct VmanHandle *handle);
+extern int VMAN_Alloc(struct VmanBank *bank, unsigned int size, struct VmanHandle *out);
+extern u32 VMAN_GetOffset(struct VmanBank *bank, unsigned int *units_ptr);
+struct VramHandle;
+struct VramResource;
+extern void NNSi_G2dLoadVramResourceMain(struct VramResource *r, unsigned int dst, int mode, struct VramHandle *out);
+extern void NNSi_G2dLoadVramResourceSub(struct VramResource *r, unsigned int dst, int mode, struct VramHandle *out);
+extern void NNSi_G2dSetupVramResource(struct VramResource *r, unsigned int dst, int mode, struct VramHandle *out);
 extern s32 NNS_G2dGetUnpackedPaletteCompressInfo(struct NitroFileHeader *file, void **out);
 extern s32 NNS_G2dGetUnpackedPaletteData(struct NitroFileHeader *file, void **out);
-extern void NNSi_G2dLoadVramResourceBySel(struct PaletteData *s, u32 size, int mode,
-                         struct PlttSlot *ent);
+struct VramHandleSel;
+struct VramResourceSel;
+extern void NNSi_G2dLoadVramResourceBySel(struct VramResourceSel *self, unsigned int offset, int sel, struct VramHandleSel *out);
 extern u16 GX_GetBankForOBJExtPltt(void);
 extern u16 GX_GetBankForSubOBJExtPltt(void);
-extern void GX_SetBankForLCDC(void);
+extern void GX_SetBankForLCDC(int banks);
 extern void GX_SetBankForOBJExtPltt(int objExtPltt);
 extern void GX_SetBankForSubOBJExtPltt(int sub_objExtPltt);
-extern void NNSi_G2dLoadVramResourceList(struct PaletteData *self, struct PaletteCompInfo *list, u32 base, int sel, struct PaletteProxy *out);
-extern int NNS_G2dGetUnpackedCellBank(int a, struct G2dDataBank **out);
-extern s32 NNS_G2dGetUnpackedAnimBankEx(void *handle, struct G2dDataBank **slot);
+struct VramHandleList;
+struct VramResourceIndices;
+struct VramResourceList;
+extern void NNSi_G2dLoadVramResourceList(struct VramResourceList *self, struct VramResourceIndices *list, unsigned int base, int sel, struct VramHandleList *out);
+extern int NNS_G2dGetUnpackedCellBank(int a, struct MultiCellBank **out);
+extern s32 NNS_G2dGetUnpackedAnimBankEx(void *handle, struct MultiCellBank **slot);
 extern s32 NNS_G2dGetUnpackedCharacterData(struct NitroFileHeader *file, void **out);
 extern void  SYSTEMFONT_Load(u32 a);
 void CLACT_InitSystem(const struct SysInit *cfg, const struct DispVramCfg *res_cfg, u32 heapId);
@@ -657,7 +677,7 @@ s32 CLACT_RegisterPalette(void *archive, u32 file_idx, u32 vram_mode, u32 vram_o
 s32 CLACT_RegisterPaletteEx(void *archive, u32 file_idx, u32 vram_mode, u32 vram_offset, u16 first_color, u16 color_count, u16 heap_id);
 int CLACT_RegisterPaletteCompressed(void *archive, u32 file_idx, u32 vram_mode, u32 vram_offset, u16 heap_id);
 void CLACT_ReleasePalette(u32 idx);
-void CLACT_TransferPalette(u32 idx, struct PaletteData *dest, u32 count, u32 size);
+void CLACT_TransferPalette(u32 idx, struct PaletteData *dest, u32 count);
 void CLACT_GetPaletteProxy(u32 idx, struct PaletteProxy *dest);
 int CLACT_GetPaletteVramAddress(u32 idx, u32 alternate);
 s32 CLACT_RegisterCellAnim(void *archive, u32 cell_file_idx, u32 anim_file_idx, u32 heap_id);
@@ -784,7 +804,7 @@ void CLACT_UpdateActorAutoAnim(struct Actor *actor);
 void CLACT_ApplyActorInit(struct Actor *actor, const struct ActorInit *init, u32 space);
 void CLACT_ApplyActorResources(struct Actor *actor, const struct ActorReq *req);
 void CLACT_GetSurfaceOrigin(struct Actor *actor, u32 surface_idx, u16 *out);
-void CLACT_InitActorRequest(struct ActorReq *req, u16 char_idx, u16 pltt_idx, struct CharSlot *char_slot, struct PlttSlot *pltt_slot, void *cell_bank, struct G2dDataBank *anim_bank);
+void CLACT_InitActorRequest(struct ActorReq *req, u16 char_idx, u16 pltt_idx, struct CharSlot *char_slot, struct PlttSlot *pltt_slot, void *cell_bank, struct MultiCellBank *anim_bank);
 struct Actor *CLACT_CreateActorCore(struct Unit *unit, const struct ActorInit *init, struct ActorReq *req, u32 space, u16 heap_id);
 struct Actor *CLACT_CreateActorFull(struct Unit *unit, const struct ActorInit *init, struct ActorReq *req, u32 space, u16 heap_id);
 void CLACT_InitAnimCtl(struct AnimCtl *anim_ctl, void *req, u32 heap_id);
@@ -1200,12 +1220,12 @@ void CLACT_ReleaseCharacter(u32 idx)
 {
     void *payload;
 
-    if (VMAN_IsHandleInvalid((struct VramBlock *)(&g_ClactSystem->res.chars[idx].main_block)) == 0) {
-        VMAN_Free(g_ClactSystem->res.vram_main, (struct VramBlock *)(&g_ClactSystem->res.chars[idx].main_block));
+    if (VMAN_IsHandleInvalid((struct VmanHandle *)(&g_ClactSystem->res.chars[idx].main_block)) == 0) {
+        VMAN_Free((struct VmanBank *)g_ClactSystem->res.vram_main, (struct VmanHandle *)(&g_ClactSystem->res.chars[idx].main_block));
     }
 
-    if (VMAN_IsHandleInvalid((struct VramBlock *)(&g_ClactSystem->res.chars[idx].sub_block)) == 0) {
-        VMAN_Free(g_ClactSystem->res.vram_sub, (struct VramBlock *)(&g_ClactSystem->res.chars[idx].sub_block));
+    if (VMAN_IsHandleInvalid((struct VmanHandle *)(&g_ClactSystem->res.chars[idx].sub_block)) == 0) {
+        VMAN_Free((struct VmanBank *)g_ClactSystem->res.vram_sub, (struct VmanHandle *)(&g_ClactSystem->res.chars[idx].sub_block));
     }
 
     payload = g_ClactSystem->res.chars[idx].data;
@@ -1229,14 +1249,14 @@ void CLACT_TransferCharacter(int idx, struct CharData *char_data)
     if (NNSi_G2dIsVramHandleSet((const u32 *)((u32)g_ClactSystem->res.chars + (idx << 6)), 1) != 0) {
         void *vram_addr = (void *)NNSi_G2dGetVramHandleValue((int *)((u32)g_ClactSystem->res.chars + (idx << 6)), 1);
         DC_FlushRange((void *)char_data->raw, char_data->size);
-        GX_LoadOBJ((void *)char_data->raw, vram_addr, char_data->size);
+        GX_LoadOBJ((void *)char_data->raw, (unsigned int)vram_addr, char_data->size);
     }
     if (NNSi_G2dIsVramHandleSet((const u32 *)((u32)g_ClactSystem->res.chars + (idx << 6)), 2) == 0)
         return;
     {
         void *vram_addr = (void *)NNSi_G2dGetVramHandleValue((int *)((u32)g_ClactSystem->res.chars + (idx << 6)), 2);
         DC_FlushRange((void *)char_data->raw, char_data->size);
-        GXS_LoadOBJ((void *)char_data->raw, vram_addr, char_data->size);
+        GXS_LoadOBJ((void *)char_data->raw, (unsigned int)vram_addr, char_data->size);
     }
 }
 
@@ -1248,7 +1268,7 @@ void CLACT_TransferCharacterPart(int idx, void *src, u32 size, int offset, int t
         if (NNSi_G2dIsVramHandleSet((const u32 *)((u32)g_ClactSystem->res.chars + (idx << 6)), 1) != 0) {
             void *vram_addr = (void *)NNSi_G2dGetVramHandleValue((int *)((u32)g_ClactSystem->res.chars + (idx << 6)), 1);
             DC_FlushRange(src, size);
-            GX_LoadOBJ(src, (char *)vram_addr + offset, size);
+            GX_LoadOBJ(src, (unsigned int)vram_addr + offset, size);
         }
     }
     if (target == 1 || target == 2) {
@@ -1257,7 +1277,7 @@ void CLACT_TransferCharacterPart(int idx, void *src, u32 size, int offset, int t
         {
             void *vram_addr = (void *)NNSi_G2dGetVramHandleValue((int *)((u32)g_ClactSystem->res.chars + (idx << 6)), 2);
             DC_FlushRange(src, size);
-            GXS_LoadOBJ(src, (char *)vram_addr + offset, size);
+            GXS_LoadOBJ(src, (unsigned int)vram_addr + offset, size);
         }
     }
 }
@@ -1454,35 +1474,39 @@ void CLACT_ReleasePalette(u32 idx)
  * overwritten by the predicated `ldreq`, so the guard has to be written as
  * a plain `if` after the shift, not as a ternary around it.
  *
- * `size` has to be spelled as a fourth parameter that the body immediately
- * overwrites, not as a local: as a local it takes r4 and the `idx * 0x18`
- * temporary takes r5, which is the original's assignment exactly swapped
- * and the only difference in the whole function.  The image says the
- * fourth argument is not actually passed: the one call site, the `blx` at
- * 0x0202DAD2, sets r0, r1 and r2 and leaves r3 alone.  So read the fourth
- * parameter as a register-allocation device for this rewrite, not as
- * evidence about the function's real arity.
+ * The slot offset `idx * 0x18` is a named local `off`, declared before
+ * `size` and assigned after the guard, and added to the table base as an
+ * integer.  Written as `&pltts[idx]`, the offset becomes a CSE temporary,
+ * which mwcc numbers before every named local: `size` then takes r4 and the
+ * offset r5, the original's assignment swapped.  The named `off` keeps its
+ * own register (declared first, it is coloured first and takes r4), and the
+ * integer add keeps expression propagation from folding it back into each
+ * use.  All seven callers pass three arguments.
  */
-void CLACT_TransferPalette(u32 idx, struct PaletteData *dest, u32 count, u32 size)
+void CLACT_TransferPalette(u32 idx, struct PaletteData *dest, u32 count)
 {
+    u32 off;
+    u32 size;
+
     size = count << 5;
 
     if (count == 0) {
         size = dest->size;
     }
+    off = idx * sizeof(struct PlttSlot);
 
-    if (NNSi_G2dIsVramHandleSetEx((char *)(&g_ClactSystem->res.pltts[idx]), 1) != 0) {
-        void *src = (void *)NNSi_G2dGetVramHandleEx((char *)(&g_ClactSystem->res.pltts[idx]), 1);
+    if (NNSi_G2dIsVramHandleSetEx((char *)((u32)g_ClactSystem->res.pltts + off), 1) != 0) {
+        void *src = (void *)NNSi_G2dGetVramHandleEx((char *)((u32)g_ClactSystem->res.pltts + off), 1);
 
         DC_FlushRange((void *)dest->raw, size);
-        GX_LoadOBJPltt((void *)dest->raw, src, size);
+        GX_LoadOBJPltt((void *)dest->raw, (unsigned int)src, size);
     }
 
-    if (NNSi_G2dIsVramHandleSetEx((char *)(&g_ClactSystem->res.pltts[idx]), 2) != 0) {
-        void *src = (void *)NNSi_G2dGetVramHandleEx((char *)(&g_ClactSystem->res.pltts[idx]), 2);
+    if (NNSi_G2dIsVramHandleSetEx((char *)((u32)g_ClactSystem->res.pltts + off), 2) != 0) {
+        void *src = (void *)NNSi_G2dGetVramHandleEx((char *)((u32)g_ClactSystem->res.pltts + off), 2);
 
         DC_FlushRange((void *)dest->raw, size);
-        GXS_LoadOBJPltt((void *)dest->raw, src, size);
+        GXS_LoadOBJPltt((void *)dest->raw, (unsigned int)src, size);
     }
 }
 
@@ -2786,7 +2810,7 @@ void CLACT_SetActorAnimIndex(struct Actor *actor, u32 anim_idx)
  */
 u16 CLACT_GetActorAnimSeqCount(struct Actor *actor)
 {
-    return NNSi_G2dGetCellAnimFrameIdx(CLACT_GetAnimObject(&actor->ctl));
+    return NNSi_G2dGetCellAnimFrameIdx((struct Node *)(CLACT_GetAnimObject(&actor->ctl)));
 }
 
 
@@ -3429,7 +3453,7 @@ void CLACT_ApplyOamManager(struct OamManager *oam_manager)
         return;
     }
 
-    NNS_G2dApplyOamManagerToHW(oam_manager, oam_manager->bound);
+    NNS_G2dApplyOamManagerToHW((struct NNSG2dOamManagerInstance *)oam_manager, oam_manager->bound);
 }
 
 
@@ -3454,7 +3478,7 @@ void CLACT_ResetOamManager(struct OamManager *oam_manager)
         return;
     }
 
-    NNS_G2dResetOamManagerBuffer(oam_manager);
+    NNS_G2dResetOamManagerBuffer((struct NNSG2dOamManagerInstance *)oam_manager);
 }
 
 
@@ -3477,13 +3501,13 @@ void CLACT_InitRenderer(struct Renderer *renderer, const struct SurfaceInit *ini
 {
     u32 i;
 
-    NNS_G2dInitRenderer(renderer);
+    NNS_G2dInitRenderer((struct NNSG2dRendererInstance *)renderer);
     renderer->active = 1;
     renderer->surfaces = GFL_HEAP_Alloc(heap_id, count * sizeof(struct Surface), 0, s_clact_c, 0xfc7);
     renderer->n_surfaces = count;
     for (i = 0; i < count; i++) {
         CLACT_InitSurface(&renderer->surfaces[i], &inits[i]);
-        NNS_G2dSetRendererTargetSurface(renderer, &renderer->surfaces[i]);
+        NNS_G2dSetRendererTargetSurface((struct NNSG2dRendererInstance *)renderer, (struct NNSG2dRenderSurface *)(&renderer->surfaces[i]));
     }
 }
 
@@ -4681,7 +4705,7 @@ void CLACT_DrawActor(struct Actor *actor, struct Renderer *renderer)
         return;
 
     NNSi_G2dSetRndCoreImageProxyVeneer((int *)renderer, (int)&actor->image, (int)&actor->palette);
-    NNS_G2dBeginRendering(renderer);
+    NNS_G2dBeginRendering((struct NNSG2dRendererInstance *)renderer);
     CLACT_SetupActorDraw(actor, renderer);
     CLACT_SetPaletteBaseOffsets((u32)&actor->palette, (u8)actor->pltt_offset, actor->pltt_op);
     CLACT_ApplyActorTransform(actor);
@@ -4717,12 +4741,12 @@ void CLACT_SetupActorDraw(struct Actor *actor, struct Renderer *renderer)
     int inv_mask;
     u8  mode_bits;
 
-    NNS_G2dSetRndCoreAffineOverwriteMode(renderer, actor->affine_mode);
+    NNS_G2dSetRndCoreAffineOverwriteMode((struct NNSG2dRndCoreInstance *)renderer, actor->affine_mode);
 
     if (actor->affine_mode == 0) {
         flip_x = CLACT_GetActorFlip(actor, 0);
         flip_y = CLACT_GetActorFlip(actor, 1);
-        NNS_G2dSetRndCoreFlipMode(renderer, flip_y, flip_x);
+        NNS_G2dSetRndCoreFlipMode((struct NNSG2dRndCoreInstance *)renderer, flip_y, flip_x);
     }
 
     mode_bits = actor->mode;
@@ -4810,7 +4834,7 @@ void CLACT_ApplyActorTransform(struct Actor *actor)
         NNSi_G2dRendererDrawCellTransformedZOffset(actor->ctl.anim);
         break;
     case 2:
-        NNSi_G2dRendererDrawMultiCellTransformed((struct MultiCellAnim *)actor->ctl.anim);
+        NNSi_G2dRendererDrawMultiCellTransformed((struct MultiCellDrawCmd *)actor->ctl.anim);
         break;
     }
 }
@@ -4962,7 +4986,7 @@ void CLACT_GetSurfaceOrigin(struct Actor *actor, u32 surface_idx, u16 *out)
  *   python tools/match.py one --src src/matched/CLACT_InitActorRequest.c \
  *       --func CLACT_InitActorRequest --addr 0x0204CFA4 --cc 1.1p1 --arm
  */
-void CLACT_InitActorRequest(struct ActorReq *req, u16 char_idx, u16 pltt_idx, struct CharSlot *char_slot, struct PlttSlot *pltt_slot, void *cell_bank, struct G2dDataBank *anim_bank)
+void CLACT_InitActorRequest(struct ActorReq *req, u16 char_idx, u16 pltt_idx, struct CharSlot *char_slot, struct PlttSlot *pltt_slot, void *cell_bank, struct MultiCellBank *anim_bank)
 {
     req->char_idx = char_idx;
     req->pltt_idx = pltt_idx;
@@ -5184,7 +5208,7 @@ void CLACT_InitCellAnimCtl(struct AnimCtl *anim_ctl, const struct ActorReq *req)
 {
     anim_ctl->cell_bank = req->cell_bank;
     anim_ctl->anim_bank = req->anim_bank;
-    NNS_G2dInitCellAnimation((char *)anim_ctl->anim, (int)NNS_G2dGetAnimSequenceByIdx(anim_ctl->anim_bank, 0), anim_ctl->cell_bank);
+    NNS_G2dInitCellAnimation((struct CellAnim *)anim_ctl->anim, NNS_G2dGetAnimSequenceByIdx((struct AnimBank *)anim_ctl->anim_bank, 0), (struct CellDataBank *)anim_ctl->cell_bank);
 }
 
 
@@ -5213,18 +5237,18 @@ void CLACT_InitMultiCellAnimCtl(struct AnimCtl *anim_ctl, const struct ActorReq 
     const struct CharData *chars;
 
     {
-        struct G2dDataBank *anim_bank = req->anim_bank;
+        struct MultiCellBank *anim_bank = req->anim_bank;
         void *cell_bank = req->cell_bank;
         anim_ctl->cell_bank = cell_bank;
         anim_ctl->anim_bank = anim_bank;
     }
     anim_ctl->xfer_handle = NNSi_G2dGetCellTransferStateIndex();
     chars = req->xfer_chars;
-    anim_data = (u32)NNS_G2dGetAnimSequenceByIdx(anim_ctl->anim_bank, zero);
+    anim_data = (u32)NNS_G2dGetAnimSequenceByIdx((struct AnimBank *)anim_ctl->anim_bank, zero);
     main_vram_addr = NNSi_G2dGetVramHandleValue((int *)req->char_slot, 1);
     two = 2;
     sub_vram_addr = NNSi_G2dGetVramHandleValue((int *)req->char_slot, two);
-    NNS_G2dInitCellAnimationVramTransfered((char *)anim_ctl->anim, anim_data, anim_ctl->cell_bank, anim_ctl->xfer_handle,
+    NNS_G2dInitCellAnimationVramTransfered((struct CellAnim *)anim_ctl->anim, (struct AnimSequenceData *)anim_data, (struct CellDataBank *)anim_ctl->cell_bank, anim_ctl->xfer_handle,
                   two - 3, main_vram_addr, sub_vram_addr, (int)chars->raw, zero, chars->size);
 }
 
@@ -5259,8 +5283,8 @@ void CLACT_InitVramAnimCtl(struct AnimCtl *anim_ctl, const struct ActorReq *req,
     anim_ctl->mc_anim_bank = req->mc_anim_bank;
 
     anim_ctl->mc_work = GFL_HEAP_Alloc(heap_id, NNS_G2dGetMCWorkAreaSize(req->mc_bank, 1), 0, s_clact_c, 0x171d);
-    NNS_G2dInitMCAnimation((char *)anim_ctl->anim, anim_ctl->mc_work, anim_ctl->anim_bank, anim_ctl->cell_bank, anim_ctl->mc_bank, 1);
-    NNS_G2dSetAnimSequenceToMCAnimation((struct MultiCellAnim *)anim_ctl->anim, NNS_G2dGetAnimSequenceByIdx(anim_ctl->mc_anim_bank, 0));
+    NNS_G2dInitMCAnimation((struct MultiCellAnim *)anim_ctl->anim, anim_ctl->mc_work, (struct AnimBank *)anim_ctl->anim_bank, (struct CellDataBank *)anim_ctl->cell_bank, (struct MultiCellBank *)anim_ctl->mc_bank, 1);
+    NNS_G2dSetAnimSequenceToMCAnimation((struct MultiCellAnim *)anim_ctl->anim, NNS_G2dGetAnimSequenceByIdx((struct AnimBank *)anim_ctl->mc_anim_bank, 0));
 }
 
 
@@ -5402,7 +5426,7 @@ void CLACT_SetAnimSeq(struct AnimCtl *anim_ctl, u32 anim_seq)
  */
 void CLACT_SetCellAnimSeq(struct AnimCtl *anim_ctl, u32 idx)
 {
-    NNS_G2dSetCellAnimationSequence(anim_ctl->anim, NNS_G2dGetAnimSequenceByIdx(anim_ctl->anim_bank, idx));
+    NNS_G2dSetCellAnimationSequence((struct CellAnim *)anim_ctl->anim, NNS_G2dGetAnimSequenceByIdx((struct AnimBank *)anim_ctl->anim_bank, idx));
 }
 
 
@@ -5422,7 +5446,7 @@ void CLACT_SetCellAnimSeq(struct AnimCtl *anim_ctl, u32 idx)
  */
 void CLACT_SetMultiCellAnimSeq(struct AnimCtl *anim_ctl, u32 idx)
 {
-    NNS_G2dSetCellAnimationSequence(anim_ctl->anim, NNS_G2dGetAnimSequenceByIdx(anim_ctl->anim_bank, idx));
+    NNS_G2dSetCellAnimationSequence((struct CellAnim *)anim_ctl->anim, NNS_G2dGetAnimSequenceByIdx((struct AnimBank *)anim_ctl->anim_bank, idx));
 }
 
 
@@ -5442,7 +5466,7 @@ void CLACT_SetMultiCellAnimSeq(struct AnimCtl *anim_ctl, u32 idx)
  */
 void CLACT_SetVramAnimSeq(struct AnimCtl *anim_ctl, u32 idx)
 {
-    NNS_G2dSetAnimSequenceToMCAnimation((struct MultiCellAnim *)anim_ctl->anim, NNS_G2dGetAnimSequenceByIdx(anim_ctl->mc_anim_bank, idx));
+    NNS_G2dSetAnimSequenceToMCAnimation((struct MultiCellAnim *)anim_ctl->anim, NNS_G2dGetAnimSequenceByIdx((struct AnimBank *)anim_ctl->mc_anim_bank, idx));
 }
 
 
@@ -5511,7 +5535,7 @@ void CLACT_AddMultiCellAnimFrame(struct AnimCtl *anim_ctl, s32 frames)
 
 void CLACT_AddVramAnimFrame(struct AnimCtl *anim_ctl, s32 frames)
 {
-    NNS_G2dTickMCAnimation((char *)anim_ctl->anim, frames);
+    NNS_G2dTickMCAnimation((struct MultiCellAnim *)anim_ctl->anim, frames);
 }
 
 
@@ -5750,7 +5774,7 @@ void CLACT_SetMultiCellAnimIndex(u8 *anim_base, u32 frame)
  */
 void CLACT_SetVramAnimIndex(struct AnimCtl *anim_ctl, u32 frame)
 {
-    NNS_G2dSetMCAnimationCurrentFrame((char *)anim_ctl->anim, frame);
+    NNS_G2dSetMCAnimationCurrentFrame((struct MultiCellAnim *)anim_ctl->anim, frame);
 }
 
 
@@ -5803,7 +5827,7 @@ void CLACT_SetAnimSpeed(struct AnimCtl *anim_ctl, u32 frames)
 
 void CLACT_SetCellAnimSpeed(struct AnimCtl *anim_ctl, u32 value)
 {
-    NNS_G2dSetCellAnimationSpeed((struct MultiCellAnim *)(anim_ctl->anim), value);
+    NNS_G2dSetCellAnimationSpeed((struct CellAnim *)(anim_ctl->anim), value);
 }
 
 
@@ -5817,7 +5841,7 @@ void CLACT_SetCellAnimSpeed(struct AnimCtl *anim_ctl, u32 value)
 
 void CLACT_SetMultiCellAnimSpeed(struct AnimCtl *anim_ctl, u32 value)
 {
-    NNS_G2dSetCellAnimationSpeed((struct MultiCellAnim *)(anim_ctl->anim), value);
+    NNS_G2dSetCellAnimationSpeed((struct CellAnim *)(anim_ctl->anim), value);
 }
 
 
@@ -5851,7 +5875,7 @@ void CLACT_SetMultiCellAnimSpeed(struct AnimCtl *anim_ctl, u32 value)
  */
 void CLACT_SetVramAnimSpeed(struct AnimCtl *anim_ctl, u32 target)
 {
-    NNS_G2dSetMCAnimationSpeed((anim_ctl->anim), (void *)target);
+    NNS_G2dSetMCAnimationSpeed((struct MultiCellAnim *)((anim_ctl->anim)), (int)target);
 }
 
 
@@ -5929,7 +5953,7 @@ void CLACT_ResetMultiCellAnim(u8 *anim_base)
 void CLACT_ResetVramAnim(void *anim_base)
 {
     CLACT_ResetCellAnim(anim_base);
-    NNSi_G2dSetMCInstanceCurrentFrameZero((struct CellXferState *)((u8 *)anim_base + 0x40));
+    NNSi_G2dSetMCInstanceCurrentFrameZero((struct MCInstance *)((u8 *)anim_base + 0x40));
 }
 
 
@@ -6103,10 +6127,10 @@ void CLACT_ApplyAnimCommand(struct AnimCtl *anim_ctl, const struct Cmd *cmd)
 
     switch (cmd->op) {
     case 0:
-        NNS_G2dSetCellAnimationParam((int)anim_ctrl, 1, cmd->param, cmd->func);
+        NNS_G2dSetCellAnimationParam(anim_ctrl, 1, cmd->param, cmd->func);
         break;
     case 2:
-        NNS_G2dSetCellAnimationParam((int)anim_ctrl, 3, cmd->param, cmd->func);
+        NNS_G2dSetCellAnimationParam(anim_ctrl, 3, cmd->param, cmd->func);
         break;
     case 1:
         NNS_G2dSetCellAnimationParamTagged(anim_ctrl, cmd->param, cmd->func, cmd->tag);
@@ -6140,7 +6164,7 @@ void CLACT_ApplyAnimCommand(struct AnimCtl *anim_ctl, const struct Cmd *cmd)
  */
 void CLACT_ResetAnimCommand(struct AnimCtl *anim_ctl)
 {
-    NNS_G2dSetCellAnimationParam((int)CLACT_GetAnimCtrl(anim_ctl), 0, 0, 0);
+    NNS_G2dSetCellAnimationParam((struct CellAnim *)(CLACT_GetAnimCtrl(anim_ctl)), 0, 0, 0);
 }
 
 
@@ -6271,8 +6295,8 @@ void CLACT_ExitResources(struct Res *res)
     CLACT_FreeCharacterTable(res->chars);
     CLACT_FreePaletteTable(res->pltts);
     CLACT_FreeCellAnimTable(res->cells);
-    VMAN_Delete(res->vram_sub);
-    VMAN_Delete(res->vram_main);
+    VMAN_Delete((struct VmanBank *)res->vram_sub);
+    VMAN_Delete((struct VmanBank *)res->vram_main);
 
     res->vram_main    = 0;
     res->vram_sub = 0;
@@ -6414,8 +6438,8 @@ void *CLACT_AllocCharacterTable(u32 heapId, u32 count)
     for (i = 0; i < count; i++) {
         struct CharSlot *slot = &slots[i];
         slot->free = 1;
-        VMAN_InvalidateHandle(&slot->main_block);
-        VMAN_InvalidateHandle(&slot->sub_block);
+        VMAN_InvalidateHandle((struct VmanHandle *)(&slot->main_block));
+        VMAN_InvalidateHandle((struct VmanHandle *)(&slot->sub_block));
     }
 
     return slots;
@@ -6471,31 +6495,31 @@ void CLACT_SetupCharacterVram(struct Res *res, u32 idx, struct CharData *char_da
     NNSi_G2dInitVramHandle((u32 *)slot);
 
     if (CLACT_IsVramTypeCompatible(vram_mode, 0) != 0) {
-        if (VMAN_Alloc((u8 *)res->vram_main, vram_size, (void **)&slot->main_block) != 0) {
-            vram_offset = VMAN_GetOffset((struct VramAllocator *)res->vram_main, (u32 *)&slot->main_block);
+        if (VMAN_Alloc((struct VmanBank *)res->vram_main, vram_size, (struct VmanHandle *)&slot->main_block) != 0) {
+            vram_offset = VMAN_GetOffset((struct VmanBank *)res->vram_main, (u32 *)&slot->main_block);
             vram_kind = 1;
             CLACT_UpdateObjMapping((struct CharData *)char_data, (int)vram_kind);
             if (has_override != 0) {
-                NNSi_G2dSetupVramResource((struct Res *)char_data, vram_offset, (int)vram_kind, (struct ImageProxy *)slot);
+                NNSi_G2dSetupVramResource((struct VramResource *)char_data, vram_offset, (int)vram_kind, (struct VramHandle *)slot);
             } else if (char_data->mapping != 0) {
-                NNSi_G2dLoadVramResourceMain((struct Res *)char_data, vram_offset, (int)vram_kind, (struct ImageProxy *)slot);
+                NNSi_G2dLoadVramResourceMain((struct VramResource *)char_data, vram_offset, (int)vram_kind, (struct VramHandle *)slot);
             } else {
-                NNSi_G2dLoadVramResourceSub((struct Res *)char_data, vram_offset, (int)vram_kind, (struct ImageProxy *)slot);
+                NNSi_G2dLoadVramResourceSub((struct VramResource *)char_data, vram_offset, (int)vram_kind, (struct VramHandle *)slot);
             }
         }
     }
 
     if (CLACT_IsVramTypeCompatible(vram_mode, 1) != 0) {
-        if (VMAN_Alloc((u8 *)res->vram_sub, vram_size, (void **)&slot->sub_block) != 0) {
-            vram_offset = VMAN_GetOffset((struct VramAllocator *)res->vram_sub, (u32 *)&slot->sub_block);
+        if (VMAN_Alloc((struct VmanBank *)res->vram_sub, vram_size, (struct VmanHandle *)&slot->sub_block) != 0) {
+            vram_offset = VMAN_GetOffset((struct VmanBank *)res->vram_sub, (u32 *)&slot->sub_block);
             vram_kind = 2;
             CLACT_UpdateObjMapping((struct CharData *)char_data, (int)vram_kind);
             if (has_override != 0) {
-                NNSi_G2dSetupVramResource((struct Res *)char_data, vram_offset, (int)vram_kind, (struct ImageProxy *)slot);
+                NNSi_G2dSetupVramResource((struct VramResource *)char_data, vram_offset, (int)vram_kind, (struct VramHandle *)slot);
             } else if (char_data->mapping != 0) {
-                NNSi_G2dLoadVramResourceMain((struct Res *)char_data, vram_offset, (int)vram_kind, (struct ImageProxy *)slot);
+                NNSi_G2dLoadVramResourceMain((struct VramResource *)char_data, vram_offset, (int)vram_kind, (struct VramHandle *)slot);
             } else {
-                NNSi_G2dLoadVramResourceSub((struct Res *)char_data, vram_offset, (int)vram_kind, (struct ImageProxy *)slot);
+                NNSi_G2dLoadVramResourceSub((struct VramResource *)char_data, vram_offset, (int)vram_kind, (struct VramHandle *)slot);
             }
         }
     }
@@ -6666,14 +6690,14 @@ void CLACT_TransferPaletteData(struct Res *res, int idx, void *file, void *vram_
 
     if (CLACT_IsVramTypeCompatible((u32)vram_mode, 0)) {
         saved_state = GX_GetBankForOBJExtPltt();
-        if (extended) GX_SetBankForLCDC();
-        NNSi_G2dLoadVramResourceBySel(pltt_data, vram_offset, 1, (struct PlttSlot *)(slots + slot_off));
+        if (extended) GX_SetBankForLCDC(saved_state);
+        NNSi_G2dLoadVramResourceBySel((struct VramResourceSel *)pltt_data, vram_offset, 1, (struct VramHandleSel *)(slots + slot_off));
         if (extended) GX_SetBankForOBJExtPltt(saved_state);
     }
     if (CLACT_IsVramTypeCompatible((u32)vram_mode, 1)) {
         saved_state = GX_GetBankForSubOBJExtPltt();
-        if (extended) GX_SetBankForLCDC();
-        NNSi_G2dLoadVramResourceBySel(pltt_data, vram_offset, 2, (struct PlttSlot *)(slots + slot_off));
+        if (extended) GX_SetBankForLCDC(saved_state);
+        NNSi_G2dLoadVramResourceBySel((struct VramResourceSel *)pltt_data, vram_offset, 2, (struct VramHandleSel *)(slots + slot_off));
         if (extended) GX_SetBankForSubOBJExtPltt(saved_state);
     }
 
@@ -6731,14 +6755,14 @@ void CLACT_TransferPaletteDataEx(struct Res *res, int idx, void *file, void *vra
 
     if (CLACT_IsVramTypeCompatible((u32)vram_mode, 0)) {
         saved_state = GX_GetBankForOBJExtPltt();
-        if (extended) GX_SetBankForLCDC();
-        NNSi_G2dLoadVramResourceList(pltt_data, pltt_hdr, vram_offset, 1, (struct PaletteProxy *)slot);
+        if (extended) GX_SetBankForLCDC(saved_state);
+        NNSi_G2dLoadVramResourceList(pltt_data, pltt_hdr, vram_offset, 1, (struct VramHandleList *)slot);
         if (extended) GX_SetBankForOBJExtPltt(saved_state);
     }
     if (CLACT_IsVramTypeCompatible((u32)vram_mode, 1)) {
         saved_state = GX_GetBankForSubOBJExtPltt();
-        if (extended) GX_SetBankForLCDC();
-        NNSi_G2dLoadVramResourceList(pltt_data, pltt_hdr, vram_offset, 2, (struct PaletteProxy *)slot);
+        if (extended) GX_SetBankForLCDC(saved_state);
+        NNSi_G2dLoadVramResourceList(pltt_data, pltt_hdr, vram_offset, 2, (struct VramHandleList *)slot);
         if (extended) GX_SetBankForSubOBJExtPltt(saved_state);
     }
 

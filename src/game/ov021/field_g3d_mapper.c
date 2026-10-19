@@ -115,14 +115,15 @@ extern int FX_ModS32(int a, int b);
 extern struct GameSystem *FIELDMAP_GetGameSystem(FieldMap *fieldMap);
 extern struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
 extern u32 GAME_DATA_GetFieldWork(const struct GameData *gameData);
-extern void *GFL_HEAP_Alloc(u16 heapId, u32 size, u32 clear, const void *site, u32 line);
+extern void *GFL_HEAP_Alloc(unsigned int heapId, unsigned int size, int clear, char *site, unsigned short tag);
 extern u32 GFL_HEAP_Free(void *p);
 extern G3dResource *G3D_SYSTEM_CreateResourceArc(u32 archiveId, u32 memberId);
-extern u32 G3D_SYSTEM_TransVramTextureAndCut(G3dResource *res);
+struct G3dResource;
+extern s32 G3D_SYSTEM_TransVramTextureAndCut(G3dResource *res);
 extern int G3D_SYSTEM_FreeVramTexture(G3dResource *res);
 extern void G3D_SYSTEM_DeleteResource(G3dResource *res);
 extern void *G3D_SYSTEM_GetResourceFile(G3dResource *res);
-extern G3dResTexView *NNS_G3dGetTex(void *file);
+extern u8 *NNS_G3dGetTex(u8 *pFile);
 extern void PALANM_ConvertGrayTable(u16 *palette, int count, const u8 *tintTable);
 extern u16 MAP_MATRIX_GetWidth(const struct MapMatrix *matrix);
 extern u16 MAP_MATRIX_GetHeight(const struct MapMatrix *matrix);
@@ -134,10 +135,11 @@ extern FieldG3dMap *FIELD_G3D_MAP_Create(const FieldG3dMapConfig *config, u32 he
 extern void FIELD_G3D_MAP_Destroy(FieldG3dMap *map);
 extern void FIELD_G3D_MAP_Update(FieldG3dMap *map);
 extern int FIELD_G3D_MAP_WaitLoad(FieldG3dMap *map);
-extern int FIELD_G3D_MAP_DrawWithModels(FieldG3dMap *map, struct G3dCamera *camera);
+struct FieldG3dMap;
+extern int FIELD_G3D_MAP_DrawWithModels(struct FieldG3dMap *map, s32 arg);
 extern void FIELD_G3D_MAP_OpenArchive(FieldG3dMap *map, int archiveId, int heapId);
 extern void FIELD_G3D_MAP_CloseArchive(FieldG3dMap *map);
-extern void FIELD_G3D_MAP_SetAltTextureRes(FieldG3dMap *map, G3dResource *textureRes);
+extern void FIELD_G3D_MAP_SetAltTextureRes(struct FieldG3dMap *map, void *textureRes);
 extern void FIELD_G3D_MAP_ClearAltTextureRes(FieldG3dMap *map);
 extern void FIELD_G3D_MAP_SetPlacedModels(FieldG3dMap *map, FieldG3dMapModelSet *placedModels);
 extern void FIELD_G3D_MAP_ClearPlacedModels(FieldG3dMap *map);
@@ -145,36 +147,43 @@ extern void FIELD_G3D_MAP_StartLoad(FieldG3dMap *map, u32 memberIndex);
 extern void FIELD_G3D_MAP_Unload(FieldG3dMap *map);
 extern void FIELD_G3D_MAP_SetVisible(FieldG3dMap *map, u16 visible);
 extern u16 FIELD_G3D_MAP_IsVisible(FieldG3dMap *map);
-extern void FIELD_G3D_MAP_SetPos(FieldG3dMap *map, const VecFx32 *pos);
-extern void FIELD_G3D_MAP_GetPos(FieldG3dMap *map, VecFx32 *dst);
+struct FieldG3dMapVec;
+extern void FIELD_G3D_MAP_SetPos(struct FieldG3dMap *map, struct FieldG3dMapVec *pos);
+extern void FIELD_G3D_MAP_GetPos(struct FieldG3dMap *map, struct FieldG3dMapVec *dst);
 extern u16 *FIELD_G3D_MAP_GetActiveRef(FieldG3dMap *map, u16 **out);
-extern void FIELD_G3D_MAP_GetTotalBytes(FieldG3dMap *map, int *out);
+extern void FIELD_G3D_MAP_GetTotalBytes(struct FieldG3dMap *map, u32 *out);
 extern FieldG3dMapRenderObj *FIELD_G3D_MAP_GetRenderObj(FieldG3dMap *map);
 extern int FIELD_G3D_MAP_CanQueryHits(FieldG3dMap *map);
-extern void FIELD_G3D_MAP_QueryHits(FieldG3dMapHitList *out, FieldG3dMap *map, const VecFx32 *pos, u32 gridSize);
-extern void FIELD_G3D_MAP_QueryPlane(u32 *plane, FieldG3dMap *map, const VecFx32 *pos, u32 gridSize);
+struct FieldG3dMapHitList;
+extern void FIELD_G3D_MAP_QueryHits(struct FieldG3dMapHitList *out, struct FieldG3dMap *map, struct FieldG3dMapVec *pos, u32 gridSize);
+extern void FIELD_G3D_MAP_QueryPlane(u32 *plane, struct FieldG3dMap *map, struct FieldG3dMapVec *pos, u32 gridSize);
 
 extern int MAP_ATTR_IsPresent(u32 attr);
-extern struct FieldGroundAnime *FIELD_GROUND_ANIME_Create(const FieldG3dMapperGroundAnimeParam *param, G3dResource *textureRes, u32 heapId);
-extern struct FieldGroundAnime *FIELD_GROUND_ANIME_GetAnmEntry(struct FieldGroundAnime *groundAnime, int slotIndex);
-extern void FIELD_GROUND_ANIME_UnbindAnm(struct FieldGroundAnime *slot);
-extern void FIELD_GROUND_ANIME_Delete(struct FieldGroundAnime *groundAnime);
+struct GroundAnimeDesc;
+extern struct FieldGroundAnime *FIELD_GROUND_ANIME_Create(struct GroundAnimeDesc *desc, void *modelRes, u16 heapId);
+struct GroundAnmEntry;
+extern struct GroundAnmEntry *FIELD_GROUND_ANIME_GetAnmEntry(struct FieldGroundAnime *groundAnime, int slotIndex);
+extern void FIELD_GROUND_ANIME_UnbindAnm(struct GroundAnmEntry *entry);
+extern s32 FIELD_GROUND_ANIME_Delete(struct FieldGroundAnime *groundAnime);
 extern void FIELD_GROUND_ANIME_Update(struct FieldGroundAnime *groundAnime);
 extern struct FieldWfbc *FIELD_WFBC_Create(u32 heapId);
 extern u32 FIELD_WFBC_Delete(struct FieldWfbc *wfbc);
 extern int FIELD_WFBC_SetUp(struct FieldWfbc *wfbc, void *wfbcData, u32 param, u32 heapId);
-extern struct HeightEx *HEIGHT_EX_CreateTable(int capacity, u8 heapId);
-extern void HEIGHT_EX_FreeTable(struct HeightEx *heightEx);
-extern u32 HEIGHT_EX_GetAreaCount(struct HeightEx *heightEx);
-extern int HEIGHT_EX_IsPointInAreaAt(int blockX, int blockZ, struct HeightEx *heightEx, u8 index);
-extern int HEIGHT_EX_GetAreaHeight(u8 index, struct HeightEx *heightEx);
-extern int HEIGHT_EX_GetAreaAttr(u8 index, struct HeightEx *heightEx);
-extern struct FieldBuildModel *FIELD_BUILDMODEL_Create(u16 heapId, FieldG3dMapper *mapper, u16 param);
-extern void FIELD_BUILDMODEL_Delete(struct FieldBuildModel *buildModel);
-extern void FIELD_BUILDMODEL_UpdateSeason(struct FieldBuildModel *buildModel);
-extern void FIELD_BUILDMODEL_DrawNodes(struct FieldBuildModel *buildModel);
-extern void FIELD_BUILDMODEL_UnregisterObject(struct FieldBuildModel *buildModel, FieldG3dMap *map);
-extern FieldG3dMapModelSet *FIELD_BUILDMODEL_GetHandleTable(struct FieldBuildModel *buildModel);
+struct HeightExTable;
+extern struct HeightExTable *HEIGHT_EX_CreateTable(u32 count, u32 heapId);
+extern void HEIGHT_EX_FreeTable(struct HeightExTable *table);
+extern s32 HEIGHT_EX_GetAreaCount(struct HeightExTable *table);
+extern int HEIGHT_EX_IsPointInAreaAt(s32 x, s32 z, struct HeightExTable *table, u8 index);
+extern int HEIGHT_EX_GetAreaHeight(u8 index, struct HeightExTable *table);
+extern int HEIGHT_EX_GetAreaAttr(u8 index, struct HeightExTable *table);
+struct BuildModelMan;
+extern struct BuildModelMan *FIELD_BUILDMODEL_Create(u16 heapId, void *fieldMap, u16 dateKey);
+extern void FIELD_BUILDMODEL_Delete(struct BuildModelMan *man);
+extern void FIELD_BUILDMODEL_UpdateSeason(struct BuildModelMan *man);
+extern void FIELD_BUILDMODEL_DrawNodes(struct BuildModelMan *man);
+extern void FIELD_BUILDMODEL_UnregisterObject(struct BuildModelMan *man, void *object);
+struct BuildModelHandleTable;
+extern struct BuildModelHandleTable *FIELD_BUILDMODEL_GetHandleTable(struct BuildModelMan *man);
 
 extern const char gFieldG3dMapperSrcName[];
 extern FieldG3dMapType gFieldG3dMapperMapTypeTable[];
@@ -258,7 +267,7 @@ static inline void SetVecFx32(VecFx32 *dst, s32 x, s32 y, s32 z)
 
 FieldG3dMapper *FIELD_G3D_MAPPER_Create(u16 heapId, u16 buildModelParam)
 {
-    FieldG3dMapper *mapper = GFL_HEAP_Alloc(heapId, 0x74, 1, gFieldG3dMapperSrcName, 0xf9);
+    FieldG3dMapper *mapper = GFL_HEAP_Alloc(heapId, 0x74, 1, (char *)gFieldG3dMapperSrcName, 0xf9);
     mapper->heapId = heapId;
     mapper->focusPos.x = 0;
     mapper->focusPos.y = 0;
@@ -273,19 +282,19 @@ FieldG3dMapper *FIELD_G3D_MAPPER_Create(u16 heapId, u16 buildModelParam)
     mapper->mapArchiveId = -1;
     mapper->drawReserve = 0;
     mapper->groundAnime = 0;
-    mapper->buildModel = FIELD_BUILDMODEL_Create(mapper->heapId, mapper, buildModelParam);
+    mapper->buildModel = (struct FieldBuildModel *)FIELD_BUILDMODEL_Create(mapper->heapId, mapper, buildModelParam);
     mapper->wfbc = FIELD_WFBC_Create(heapId);
-    mapper->heightEx = HEIGHT_EX_CreateTable(0x10, (u8)heapId);
+    mapper->heightEx = (struct HeightEx *)HEIGHT_EX_CreateTable(0x10, (u8)heapId);
     return mapper;
 }
 
 int FIELD_G3D_MAPPER_Delete(FieldG3dMapper *mapper)
 {
-    HEIGHT_EX_FreeTable(mapper->heightEx);
+    HEIGHT_EX_FreeTable((struct HeightExTable *)mapper->heightEx);
     FIELD_G3D_MAPPER_ReleaseBlocks(mapper);
     FIELD_WFBC_Delete(mapper->wfbc);
     if (mapper->buildModel != 0) {
-        FIELD_BUILDMODEL_Delete(mapper->buildModel);
+        FIELD_BUILDMODEL_Delete((struct BuildModelMan *)mapper->buildModel);
         mapper->buildModel = 0;
     }
     return GFL_HEAP_Free(mapper);
@@ -365,7 +374,7 @@ int FIELD_G3D_MAPPER_UpdateStep(FieldG3dMapper *mapper)
     cellX = FX_Div(mapper->focusPos.x, mapper->cellSize);
     cellZ = FX_Div(mapper->focusPos.z, mapper->cellSize);
     mapper->focusCell = (cellX >> 12) + (cellZ >> 12) * mapper->gridWidth;
-    FIELD_BUILDMODEL_UpdateSeason(mapper->buildModel);
+    FIELD_BUILDMODEL_UpdateSeason((struct BuildModelMan *)mapper->buildModel);
     if (mapper->groundAnime != 0)
         FIELD_GROUND_ANIME_Update(mapper->groundAnime);
     return busy;
@@ -395,19 +404,19 @@ void FIELD_G3D_MAPPER_Draw(FieldG3dMapper *mapper, struct G3dCamera *camera, int
         if (FIELD_G3D_MAPPER_GetDrawSlot(mapper, i, pass, &slotIndex)) {
             int drawn;
             drawnCount = &mapper->drawnCount;
-            FIELD_G3D_MAP_GetPos(mapper->slots[slotIndex].map, &mapPos);
+            FIELD_G3D_MAP_GetPos(mapper->slots[slotIndex].map, (struct FieldG3dMapVec *)(&mapPos));
             drawPos.x = mapPos.x + mapper->originOffset.x;
             drawPos.y = mapPos.y + mapper->originOffset.y;
             drawPos.z = mapPos.z + mapper->originOffset.z;
-            FIELD_G3D_MAP_SetPos(mapper->slots[slotIndex].map, &drawPos);
-            drawn = FIELD_G3D_MAP_DrawWithModels(mapper->slots[slotIndex].map, camera);
-            FIELD_G3D_MAP_SetPos(mapper->slots[slotIndex].map, &mapPos);
+            FIELD_G3D_MAP_SetPos(mapper->slots[slotIndex].map, (struct FieldG3dMapVec *)(&drawPos));
+            drawn = FIELD_G3D_MAP_DrawWithModels(mapper->slots[slotIndex].map, (s32)camera);
+            FIELD_G3D_MAP_SetPos(mapper->slots[slotIndex].map, (struct FieldG3dMapVec *)(&mapPos));
             if (drawn != 0 && mapper->drawnCount < mapper->slotCount)
                 *drawnCount = *drawnCount + 1;
         }
     }
     if (pass == 1)
-        FIELD_BUILDMODEL_DrawNodes(mapper->buildModel);
+        FIELD_BUILDMODEL_DrawNodes((struct BuildModelMan *)mapper->buildModel);
 }
 
 /*
@@ -451,7 +460,7 @@ int FIELD_G3D_MAPPER_AppendMatrix(FieldMap *fieldMap, FieldG3dMapper *mapper, st
     if (newCount > 900 || newWidth > 30 || newDepth > 30)
         return 0;
 
-    newGrid = GFL_HEAP_Alloc((u16)((mapper->heapId & 0x7FFF) | 0x8000), newCount * 4, 0, gFieldG3dMapperSrcName, 0x25F);
+    newGrid = GFL_HEAP_Alloc((u16)((mapper->heapId & 0x7FFF) | 0x8000), newCount * 4, 0, (char *)gFieldG3dMapperSrcName, 0x25F);
     for (row = 0; row < mapper->gridDepth; row++) {
         for (col = 0; col < mapper->gridWidth; col++)
             newGrid[row * newWidth + col] = mapper->blockGrid[row * mapper->gridWidth + col];
@@ -540,9 +549,9 @@ void FIELD_G3D_MAPPER_Setup(FieldG3dMapper *mapper, const FieldG3dMapperSetup *s
     config.placementCountB = 0;
     config.extraParam0 = 0x1000000;
     config.extraParam1 = 0x400000;
-    mapper->slots = GFL_HEAP_Alloc(mapper->heapId, mapper->slotCount * sizeof(FieldG3dMapperSlot), 1, gFieldG3dMapperSrcName, 0x306);
-    mapper->cells = GFL_HEAP_Alloc(mapper->heapId, mapper->slotCount * sizeof(FieldG3dMapperCell), 1, gFieldG3dMapperSrcName, 0x307);
-    mapper->drawOrder = GFL_HEAP_Alloc(mapper->heapId, mapper->slotCount, 1, gFieldG3dMapperSrcName, 0x308);
+    mapper->slots = GFL_HEAP_Alloc(mapper->heapId, mapper->slotCount * sizeof(FieldG3dMapperSlot), 1, (char *)gFieldG3dMapperSrcName, 0x306);
+    mapper->cells = GFL_HEAP_Alloc(mapper->heapId, mapper->slotCount * sizeof(FieldG3dMapperCell), 1, (char *)gFieldG3dMapperSrcName, 0x307);
+    mapper->drawOrder = GFL_HEAP_Alloc(mapper->heapId, mapper->slotCount, 1, (char *)gFieldG3dMapperSrcName, 0x308);
     for (i = 0; i < mapper->slotCount; i++) {
         FIELD_G3D_MAPPER_ResetCell(&mapper->slots[i].cell);
         FIELD_G3D_MAPPER_InitSlotRes(&mapper->slots[i].res, mapper, i, mapper->heapId);
@@ -552,7 +561,7 @@ void FIELD_G3D_MAPPER_Setup(FieldG3dMapper *mapper, const FieldG3dMapperSetup *s
         FIELD_G3D_MAP_OpenArchive(map, mapper->mapArchiveId, mapper->heapId);
         if (mapper->textureRes != 0)
             FIELD_G3D_MAP_SetAltTextureRes(map, mapper->textureRes);
-        FIELD_G3D_MAP_SetPlacedModels(map, FIELD_BUILDMODEL_GetHandleTable(mapper->buildModel));
+        FIELD_G3D_MAP_SetPlacedModels(map, (struct FieldG3dMapModelSet *)FIELD_BUILDMODEL_GetHandleTable((struct BuildModelMan *)mapper->buildModel));
     }
 }
 
@@ -591,7 +600,7 @@ void FIELD_G3D_MAPPER_ReleaseBlocks(FieldG3dMapper *mapper)
  */
 int FIELD_G3D_MAPPER_TintTexture(G3dResource *res, const u8 *tintTable)
 {
-    G3dResTexView *tex = NNS_G3dGetTex(G3D_SYSTEM_GetResourceFile(res));
+    G3dResTexView *tex = (struct G3dResTexView *)NNS_G3dGetTex(G3D_SYSTEM_GetResourceFile(res));
     if (tex != 0) {
         u32 size = tex->plttSize << 3;
         u32 offset = tex->plttDataOffset;
@@ -653,7 +662,7 @@ int FIELD_G3D_MAPPER_GetFocusSlot(FieldG3dMapper *mapper)
             int maxX;
             int minZ;
             int maxZ;
-            FIELD_G3D_MAP_GetPos(mapper->slots[i].map, &slotPos);
+            FIELD_G3D_MAP_GetPos(mapper->slots[i].map, (struct FieldG3dMapVec *)(&slotPos));
             half = mapper->cellSize / 2;
             centerX = slotPos.x;
             centerZ = slotPos.z;
@@ -899,7 +908,7 @@ int FIELD_G3D_MAPPER_ApplyLayout(FieldG3dMapper *mapper, FieldG3dMapperCell *new
                 if (gridIndex == FIELD_G3D_MAPPER_GetCellGridIndex(&newCells[j]) && !moved) {
                     VecFx32 cellPos;
                     FIELD_G3D_MAPPER_GetCellPos(&newCells[j], &cellPos);
-                    FIELD_G3D_MAP_SetPos(mapper->slots[i].map, &cellPos);
+                    FIELD_G3D_MAP_SetPos(mapper->slots[i].map, (struct FieldG3dMapVec *)(&cellPos));
                     FIELD_G3D_MAPPER_ResetCell(&newCells[j]);
                     moved = 1;
                 }
@@ -907,7 +916,7 @@ int FIELD_G3D_MAPPER_ApplyLayout(FieldG3dMapper *mapper, FieldG3dMapperCell *new
             if (!moved) {
                 FIELD_G3D_MAPPER_ResetCell(&mapper->slots[i].cell);
                 FIELD_G3D_MAP_SetVisible(mapper->slots[i].map, 0);
-                FIELD_BUILDMODEL_UnregisterObject(mapper->buildModel, mapper->slots[i].map);
+                FIELD_BUILDMODEL_UnregisterObject((struct BuildModelMan *)mapper->buildModel, mapper->slots[i].map);
                 FIELD_G3D_MAPPER_ReleaseGroundAnimeSlot(&mapper->slots[i].res.groundAnimeSlot);
                 FIELD_G3D_MAP_Unload(mapper->slots[i].map);
             }
@@ -924,7 +933,7 @@ int FIELD_G3D_MAPPER_ApplyLayout(FieldG3dMapper *mapper, FieldG3dMapperCell *new
                     FIELD_G3D_MAPPER_GetCellPos(&newCells[i], &cellPos);
                     if (mapModelIndex != -1) {
                         FIELD_G3D_MAP_StartLoad(mapper->slots[j].map, mapModelIndex);
-                        FIELD_G3D_MAP_SetPos(mapper->slots[j].map, &cellPos);
+                        FIELD_G3D_MAP_SetPos(mapper->slots[j].map, (struct FieldG3dMapVec *)(&cellPos));
                         FIELD_G3D_MAP_SetVisible(mapper->slots[j].map, 1);
                     }
                     mapper->slots[j].cell = newCells[i];
@@ -1007,7 +1016,7 @@ int FIELD_G3D_MAPPER_QueryHits(FieldG3dMapper *mapper, const VecFx32 *pos, Field
             int maxX;
             int minZ;
             int maxZ;
-            FIELD_G3D_MAP_GetPos(mapper->slots[i].map, &slotPos);
+            FIELD_G3D_MAP_GetPos(mapper->slots[i].map, (struct FieldG3dMapVec *)(&slotPos));
             centerX = slotPos.x;
             centerZ = slotPos.z;
             minX = centerX - half;
@@ -1016,7 +1025,7 @@ int FIELD_G3D_MAPPER_QueryHits(FieldG3dMapper *mapper, const VecFx32 *pos, Field
             maxZ = centerZ + half;
             if (pos->x >= minX && pos->x < maxX && pos->z >= minZ && pos->z < maxZ) {
                 u32 j;
-                FIELD_G3D_MAP_QueryHits(&slotHits, mapper->slots[i].map, pos, mapper->cellSize);
+                FIELD_G3D_MAP_QueryHits(&slotHits, mapper->slots[i].map, (struct FieldG3dMapVec *)pos, mapper->cellSize);
                 if (slotHits.count != 0) {
                     if (n + slotHits.count >= 16)
                         break;
@@ -1073,7 +1082,7 @@ int FIELD_G3D_MAPPER_QueryNearestHit(FieldG3dMapper *mapper, const VecFx32 *pos,
 int FIELD_G3D_MAPPER_QuerySlotPlane(FieldG3dMapper *mapper, int slotIndex, const VecFx32 *pos, FieldG3dMapHit *outHit)
 {
     u32 plane[0x41];
-    FIELD_G3D_MAP_QueryPlane(plane, mapper->slots[slotIndex].map, pos, mapper->cellSize);
+    FIELD_G3D_MAP_QueryPlane(plane, mapper->slots[slotIndex].map, (struct FieldG3dMapVec *)pos, mapper->cellSize);
     outHit->depth = plane[2];
     outHit->height = plane[3];
     return 1;
@@ -1163,7 +1172,7 @@ struct FieldGroundAnime *FIELD_G3D_MAPPER_CreateGroundAnime(int slotCount, G3dRe
         gFieldG3dMapperGroundAnimeParam.useFlags = (gFieldG3dMapperGroundAnimeParam.useFlags & 0xffff00ff) | 0x100;
         gFieldG3dMapperGroundAnimeParam.secondId = secondId;
     }
-    return FIELD_GROUND_ANIME_Create(&g_021DD9E0, textureRes, (u16)heapId);
+    return FIELD_GROUND_ANIME_Create((struct GroundAnimeDesc *)(&g_021DD9E0), textureRes, (u16)heapId);
 }
 
 /*
@@ -1230,7 +1239,7 @@ u16 FIELD_G3D_MAPPER_SlotResGetHeapId(FieldG3dMapperSlotRes *res)
  */
 void FIELD_G3D_MAPPER_InitSlotRes(FieldG3dMapperSlotRes *res, FieldG3dMapper *mapper, int slotIndex, int heapId)
 {
-    res->groundAnimeSlot = FIELD_GROUND_ANIME_GetAnmEntry(mapper->groundAnime, slotIndex);
+    res->groundAnimeSlot = (struct FieldGroundAnime *)FIELD_GROUND_ANIME_GetAnmEntry(mapper->groundAnime, slotIndex);
     res->buildModel = mapper->buildModel;
     res->wfbc = mapper->wfbc;
     res->slotIndex = slotIndex;
@@ -1240,7 +1249,7 @@ void FIELD_G3D_MAPPER_InitSlotRes(FieldG3dMapperSlotRes *res, FieldG3dMapper *ma
 void FIELD_G3D_MAPPER_FreeGroundAnimeSlot(struct FieldGroundAnime **slot)
 {
     if (*slot != 0) {
-        FIELD_GROUND_ANIME_UnbindAnm(*slot);
+        FIELD_GROUND_ANIME_UnbindAnm((struct GroundAnmEntry *)(*slot));
         *slot = 0;
     }
 }
@@ -1248,7 +1257,7 @@ void FIELD_G3D_MAPPER_FreeGroundAnimeSlot(struct FieldGroundAnime **slot)
 void FIELD_G3D_MAPPER_ReleaseGroundAnimeSlot(struct FieldGroundAnime **slot)
 {
     if (*slot != 0)
-        FIELD_GROUND_ANIME_UnbindAnm(*slot);
+        FIELD_GROUND_ANIME_UnbindAnm((struct GroundAnmEntry *)(*slot));
 }
 
 /*
@@ -1327,7 +1336,7 @@ void FIELD_G3D_MAPPER_AppendHeightExHits(const FieldG3dMapper *mapper, const Vec
     FieldG3dMapperHitHead head = gFieldG3dMapperDefaultHitHead;
     int added = 0;
     int base = list->count;
-    int boxCount = HEIGHT_EX_GetAreaCount(mapper->heightEx);
+    int boxCount = HEIGHT_EX_GetAreaCount((struct HeightExTable *)mapper->heightEx);
     int blockZ;
     int blockX;
     int i;
@@ -1335,7 +1344,7 @@ void FIELD_G3D_MAPPER_AppendHeightExHits(const FieldG3dMapper *mapper, const Vec
     blockX = pos->x / 0x10000;
     blockZ = pos->z / 0x10000;
     for (i = 0; i < boxCount; i++) {
-        if (HEIGHT_EX_IsPointInAreaAt(blockX, blockZ, mapper->heightEx, i)) {
+        if (HEIGHT_EX_IsPointInAreaAt(blockX, blockZ, (struct HeightExTable *)mapper->heightEx, i)) {
             int hitIndex = base + ++added - 1;
             FieldG3dMapHit *hit;
             if (hitIndex >= 0x10)
@@ -1343,8 +1352,8 @@ void FIELD_G3D_MAPPER_AppendHeightExHits(const FieldG3dMapper *mapper, const Vec
             hit = &list->hits[hitIndex];
             /* stand-in: the 6-byte head is copied as one struct; three halfword stores change the bytes */
             *(FieldG3dMapperHitHead *)hit = head;
-            hit->depth = HEIGHT_EX_GetAreaAttr(i, mapper->heightEx);
-            hit->height = HEIGHT_EX_GetAreaHeight(i, mapper->heightEx);
+            hit->depth = HEIGHT_EX_GetAreaAttr(i, (struct HeightExTable *)mapper->heightEx);
+            hit->height = HEIGHT_EX_GetAreaHeight(i, (struct HeightExTable *)mapper->heightEx);
         }
     }
     list->count += (u16)added;
@@ -1389,10 +1398,10 @@ void FIELD_G3D_MAPPER_InsertDrawOrder(FieldG3dMapper *mapper, FieldG3dMap *map, 
         return;
     if (FIELD_G3D_MAP_IsVisible(map) == 0)
         return;
-    FIELD_G3D_MAP_GetTotalBytes(map, &bytes);
+    FIELD_G3D_MAP_GetTotalBytes(map, (u32 *)(&bytes));
     budgetLeft = mapper->drawBudget - bytes;
     for (i = mapper->sortedCount; i > 0; i--) {
-        FIELD_G3D_MAP_GetTotalBytes(mapper->slots[mapper->drawOrder[i - 1]].map, &otherBytes);
+        FIELD_G3D_MAP_GetTotalBytes(mapper->slots[mapper->drawOrder[i - 1]].map, (u32 *)(&otherBytes));
         otherLeft = mapper->drawBudget - otherBytes;
         if (otherLeft >= 0 && budgetLeft >= otherLeft)
             break;
@@ -1423,7 +1432,7 @@ void FIELD_G3D_MAPPER_CountFittingSlots(FieldG3dMapper *mapper)
             u8 *fitCount = &mapper->fitCount;
             int slotIndex = mapper->drawOrder[i];
             if (slotIndex == 0xFF) break;
-            FIELD_G3D_MAP_GetTotalBytes(mapper->slots[slotIndex].map, &bytes);
+            FIELD_G3D_MAP_GetTotalBytes(mapper->slots[slotIndex].map, (u32 *)(&bytes));
             sum += bytes;
             if (mapper->drawBudget < sum) break;
             *fitCount = *fitCount + 1;

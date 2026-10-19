@@ -20,10 +20,11 @@
 #include "greeting_savedata_shared_types.h"
 
 extern void MI_CpuFill8(void *dst, unsigned char val, unsigned long size);
+struct SaveControl;
 
-extern void *SAVE_CONTROL_GetBlock(struct Sub020071CCCtrl *ctrl, u32 id);
+extern void *SAVE_CONTROL_GetBlock(struct SaveControl *saveControl, u32 blockId);
 
-extern void *SAVE_CONTROL_GetBlock(struct Sub020071CCCtrl *ctrl, u32 id);
+extern void *SAVE_CONTROL_GetBlock(struct SaveControl *saveControl, u32 blockId);
 
 u32 TRIAL_HOUSE_SAVE_GetSize(void);
 

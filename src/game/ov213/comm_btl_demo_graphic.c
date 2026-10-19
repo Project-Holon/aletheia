@@ -106,7 +106,8 @@ extern void BG_SYS_ClearMainPlanes(void);
 extern void BG_SYS_ClearSubPlanes(void);
 extern void GF_FONT_InitTextColor(void);
 extern void *GFL_USE_AddMainTask(void *callback,void *ctx,int priority);
-extern void TCB_DeleteTask(struct Node *);
+struct TcbTask;
+extern void TCB_DeleteTask(struct TcbTask *task);
 extern void GF_FONT_SetDefaultTextColor(void);
 extern u32 GFL_HEAP_Free(void *p);
 extern void BG_SYS_Create(unsigned);
@@ -119,7 +120,9 @@ extern void BG_SYS_FreeLayerBuf(u32 i);
 extern void BMP_WIN_Exit(void);
 extern void BG_SYS_Delete(void);
 extern void BG_SYS_Update(void);
-extern void CLACT_InitSystem(const struct Cfg *cfg, unsigned int arg, unsigned int heapId);
+struct DispVramCfg;
+struct SysInit;
+extern void CLACT_InitSystem(struct SysInit *cfg, struct DispVramCfg *res_cfg, unsigned int heapId);
 extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 extern void CLACT_SetUnitDefaultRenderer(struct Bank *bank);
 extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
@@ -134,7 +137,8 @@ extern u32 *G3D_CAMERA_Create(u32 a,u32 b,u32 c,u32 d,u32 e,u32 f,u32 g,u32 h,Ve
 extern u32 G3D_CAMERA_Delete(void *ptr);
 extern void G3D_SYSTEM_Exit(int);
 extern void G3D_SYSTEM_DrawStart(void);
-extern void G3D_CAMERA_Reset(struct Light *l);
+struct G3dCamera;
+extern void G3D_CAMERA_Reset(struct G3dCamera *camera);
 extern void G3D_SYSTEM_ApplyLookAt(void);
 extern void G3D_SYSTEM_DrawEnd(void);
 void *COMM_BTL_DEMO_GRAPHIC_Create(unsigned mode,unsigned heap);
@@ -193,7 +197,7 @@ void *COMM_BTL_DEMO_GRAPHIC_Create(unsigned mode,unsigned heap)
 
 void COMM_BTL_DEMO_GRAPHIC_Delete(unsigned char *p)
 {
-    TCB_DeleteTask((struct Node *)((struct CommBtlDemoGraphic *)p)->vblankHandle);
+    TCB_DeleteTask((struct TcbTask *)((struct CommBtlDemoGraphic *)p)->vblankHandle);
     COMM_BTL_DEMO_GRAPHIC_DeleteG3d((int *)(p + 8));
     COMM_BTL_DEMO_GRAPHIC_DeleteClact(p + 4);
     COMM_BTL_DEMO_GRAPHIC_DeleteBg(p);
@@ -260,7 +264,7 @@ void COMM_BTL_DEMO_GRAPHIC_TickDisplay(void *work){BG_SYS_Update();}
 void COMM_BTL_DEMO_GRAPHIC_InitClact(void **out, int a, int b)
 {
     MI_CpuFill8(out, 0, 4);
-    CLACT_InitSystem((const struct Cfg *)(&d_021BB18C), a, b);
+    CLACT_InitSystem((struct SysInit *)(&d_021BB18C), (struct DispVramCfg *)a, b);
     *out = CLACT_CreateUnit(0x80, 0, b);
     CLACT_SetUnitDefaultRenderer(*out);
     BG_SYS_SetMainPlaneVisible(0x10, 1);
@@ -307,7 +311,7 @@ void COMM_BTL_DEMO_GRAPHIC_DeleteG3d(int *p)
 void COMM_BTL_DEMO_GRAPHIC_DrawG3d(int *p)
 {
     G3D_SYSTEM_DrawStart();
-    G3D_CAMERA_Reset((struct Light *)(*p));
+    G3D_CAMERA_Reset((struct G3dCamera *)(*p));
     G3D_SYSTEM_ApplyLookAt();
 }
 

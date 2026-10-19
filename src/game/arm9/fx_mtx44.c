@@ -46,9 +46,9 @@ typedef union {
 } MtxFx43;
 
 void FX_InvAsync(fx32 denom);
-fx64c FX_GetDivResultFx64c(void);
-fx32 FX_Div(fx32 numer, fx32 denom);
-fx32 FX_GetDivResult(void);
+u64 FX_GetDivResultFx64c(void);
+u32 FX_Div(u32 numer, u32 denom);
+u32 FX_GetDivResult(void);
 asm void MTX_Identity44_(MtxFx44 *pDst);
 asm void MTX_Copy44To43_(MtxFx44 *pSrc, MtxFx43 *pDst);
 void MTX_Concat44(const MtxFx44 *a, const MtxFx44 *b, MtxFx44 *ab);

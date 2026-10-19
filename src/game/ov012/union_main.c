@@ -51,8 +51,9 @@ extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *file, u
 extern int UNION_SCENE_IsScenePending(UnionRoomWork *work);
 
 extern struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
+struct ColosseumWork;
 
-extern void COLOSSEUM_Delete(ColosseumWork *colosseum, struct GameSystem *gameSystem);
+extern void COLOSSEUM_Delete(struct ColosseumWork *work, void *gameSystem);
 
 extern struct GameComm *GAMESYSTEM_GetGameComm(struct GameSystem *gameSystem);
 
@@ -62,13 +63,14 @@ extern void GF_PANIC_Fail(const char *expr, u32 line, const char *file);
 
 extern struct MyStatus *GAME_DATA_GetMyStatus(struct GameData *gameData);
 
-extern void GAME_COMM_Start(struct GameComm *gameComm, u32 kind, void *parentWork);
+extern void GAME_COMM_Start(struct GameComm *comm, u32 kind, u32 param);
 
 extern void GAME_BEACON_SEARCH_SetFieldEvent(void);
 
 extern void *GAME_COMM_GetWork(struct GameComm *gameComm);
+struct FieldMap;
 
-extern struct GameSystem *FIELDMAP_GetGameSystem(void *fieldMap);
+extern struct GameSystem *FIELDMAP_GetGameSystem(struct FieldMap *fieldMap);
 
 extern u8 GAMESYSTEM_GetFieldMapState(struct GameSystem *gameSystem);
 
@@ -84,19 +86,20 @@ extern u32 GAMESYSTEM_IsFieldMapActive(struct GameSystem *gameSystem);
 
 extern void *GAMESYSTEM_GetFieldMap(struct GameSystem *gameSystem);
 
-extern int FIELDMAP_IsReady(void *fieldMap);
+extern int FIELDMAP_IsReady(struct FieldMap *fieldMap);
 
-extern void FIELDMAP_CTRL_GRID_SetBusy(void *fieldMap, unsigned int enable);
+extern void FIELDMAP_CTRL_GRID_SetBusy(struct FieldMap *fieldMap, u32 busy);
 
-extern u16 FIELDMAP_GetZoneId(void *fieldMap);
+extern u16 FIELDMAP_GetZoneId(struct FieldMap *fieldMap);
 
 extern u32 ZONEDATA_IsUnionRoom(u32 zoneId);
 
 extern void UNION_CHARA_RefreshParentMarks(UnionRoomWork *work, struct GameData *gameData, void *fieldMap);
+struct CommPlayerWork;
 
-extern void COMM_PLAYER_Resume(void *commPlayer);
+extern void COMM_PLAYER_Resume(struct CommPlayerWork *work);
 
-extern void COMM_PLAYER_Suspend(void *commPlayer);
+extern void COMM_PLAYER_Suspend(struct CommPlayerWork *work);
 
 void UNION_MAIN_StartComm(struct GameSystem *gameSystem);
 
@@ -139,7 +142,7 @@ void UNION_MAIN_StartComm(struct GameSystem *gameSystem)
     parent->gameComm = gameComm;
     parent->gameData = gameData;
     parent->gameSystem = gameSystem;
-    GAME_COMM_Start(gameComm, 3, parent);
+    GAME_COMM_Start(gameComm, (u32)3, (u32)parent);
     GAME_BEACON_SEARCH_SetFieldEvent();
 }
 

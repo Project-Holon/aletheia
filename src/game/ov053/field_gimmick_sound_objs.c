@@ -91,11 +91,7 @@ extern G3dUtilSetup sSoundObjsUnitSetup;
 extern FieldGimmickSoundObjsWaitMembers sSoundObjsWaitMembers;
 struct FieldCamera;
 struct FieldPlayer;
-extern int GFL_USE_GetSeSlot(u32 seId);
-extern int GFL_USE_IsSeSlotBusy(u32 slot);
-extern void GFL_USE_StopSeSlot(int slot);
-extern void GFL_USE_SetSeSlotVolume(int slot, u32 volume);
-extern void GFL_USE_PlaySeDefaultVolume(u32 seId);
+#include "../arm9/gfl_use.h"
 extern void FIELD_CAMERA_GetEyeRaw(struct FieldCamera *camera, VecFx32 *eye);
 extern int FIELD_PLAYER_GetFormSlot(struct FieldPlayer *fieldPlayer);
 

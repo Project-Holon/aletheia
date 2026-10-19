@@ -429,13 +429,16 @@ typedef struct IrcRankingWork {
 } IrcRankingWork;
 
 extern void GFL_HEAP_CreateChildHeap(u32, u32, u32);
-extern void *PROCSYS_AllocProcWork(struct ProcSys *procSys, u32 size, u32 heapId);
-extern struct GameData *GAMESYSTEM_GetGameData(void *param);
+struct Proc;
+extern void *PROCSYS_AllocProcWork(struct Proc *proc, unsigned int size, unsigned int heapId);
+struct GameSystem;
+extern struct GameData *GAMESYSTEM_GetGameData(struct GameSystem *gameSystem);
 extern struct GameData *GAME_DATA_Create(u16);
-extern struct PrintQue *PRINTSYS_QUE_Create(u32 heapId);
+struct PrintQueue;
+extern struct PrintQueue *PRINTSYS_QUE_Create(u32 heapId);
 extern struct GfFont *GF_FONT_Create(int archiveId, int fileId, int format, int isFixedWidth, u32 heapId);
 extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern struct BmpOamSys *BMP_OAM_CreateSys(unsigned int heapId, struct ClactUnit *unit);
+extern struct BmpOamSys *BMP_OAM_CreateSys(unsigned int heapId, void *clact);
 extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
 extern int CLACT_RegisterPaletteCompressed(void *archive, u32 file_idx, u32 vram_mode, u32 vram_offset, u16 heap_id);
 extern void ARC_TOOL_DeleteHandle(void *);
@@ -443,11 +446,11 @@ extern void CLACT_ReleasePalette(u32 i);
 extern void BMP_OAM_DeleteSys(struct BmpOamSys *sys);
 extern u32 MSGDATA_Delete(struct MsgBank *bank);
 extern u32 GF_FONT_Delete(struct GfFont *font);
-extern void PRINTSYS_QUE_Delete(struct PrintQue *printQue);
+extern void PRINTSYS_QUE_Delete(struct PrintQueue *queue);
 extern void GAME_DATA_Delete(struct GameData *gameData);
-extern void PROCSYS_FreeProcWork(struct ProcSys *procSys);
+extern void PROCSYS_FreeProcWork(struct Proc *proc);
 extern void GFL_HEAP_DeleteChecked(unsigned int heap);
-extern u32 PRINTSYS_QUE_Main(struct PrintQue *printQue);
+extern u32 PRINTSYS_QUE_Main(struct PrintQueue *queue);
 extern void MI_CpuFill8(void *, unsigned char, unsigned int);
 extern void FADE_Start(u32 a, s32 b, s32 c, s32 d);
 extern int FADE_IsActive(void);
@@ -465,12 +468,13 @@ extern void ARC_UTIL_UploadBgPaletteFromHandle(void *a, u32 b, u32 c, u32 d, u32
 extern void BG_SYS_Init(u32, u32, u32, u32);
 extern u32 ARC_UTIL_RegisterObjCharFromHandle(void *arc, u32 memberIdx, u32 bgId, u32 size, u32 heapID, u32 flags);
 extern void ARC_UTIL_UploadPaletteFromArchiveWhole(u32, u32, u32, u32, u32, u32);
-extern struct BmpWin *BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
+extern struct BmpWin *BMP_WIN_Create(unsigned int bgLayer, unsigned int posX, unsigned int posY, unsigned char width, unsigned char height, unsigned char palette, unsigned char allocDir);
 extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *win);
 extern void BMP_Clear(struct Bmp *bmp, u8 value);
 extern struct Strbuf *MSGDATA_AllocString(struct MsgBank *, u32);
 extern struct IrcRankSave *IRC_RANKING_GetFromSave(struct SaveControl *save);
-extern void *GAME_DATA_GetMyStatus(struct GameData *gameData);
+struct MyStatus;
+extern struct MyStatus *GAME_DATA_GetMyStatus(struct GameData *gameData);
 extern void STRBUF_Delete(struct Strbuf *strbuf);
 extern void BMP_WIN_TransferChars(struct BmpWin *win);
 extern void BMP_WIN_MakeScreen(struct BmpWin *win);
@@ -482,7 +486,9 @@ extern void BG_SYS_FreeLayerBuf(u32 i);
 extern void BMP_WIN_Exit(void);
 extern void BG_SYS_Delete(void);
 extern void BG_SYS_Update(void);
-extern void CLACT_InitSystem(const struct ClactSysInit *sysInit, const struct DispVramConfig *vramConfig, unsigned int heapId);
+struct DispVramCfg;
+struct SysInit;
+extern void CLACT_InitSystem(struct SysInit *cfg, struct DispVramCfg *res_cfg, unsigned int heapId);
 extern struct ClactUnit *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 extern void CLACT_SetUnitDefaultRenderer(struct ClactUnit *unit);
 extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
@@ -492,19 +498,22 @@ extern void CLACT_ExitSystem(void);
 extern void CLACT_DrawSystem(void);
 extern void CLACT_VBlankSystem(void);
 extern void BG_SYS_ClearGraphicsMemory(u32);
-extern void BG_SYS_SetVramBanks(const struct DispVramConfig *c);
+struct DispVram;
+extern void BG_SYS_SetVramBanks(struct DispVram *banks);
 extern void BG_SYS_SetLcdSwap(u32);
 extern void BG_SYS_ResetSubDisplay(void);
 extern void BG_SYS_ClearMainPlanes(void);
 extern void GF_FONT_InitTextColor(void);
-extern void *GFL_USE_AddMainTask(void (*taskFunc)(void *task, void *taskWork), void *taskWork, int priority);
-extern void TCB_DeleteTask(void *task);
-extern struct WordSet *WORDSET_CreateDefault(u32 heap);
+struct Tcb;
+extern struct Tcb *GFL_USE_AddMainTask(void (*taskFunc)(void *task, void *taskWork), void *work, unsigned int priority);
+struct TcbTask;
+extern void TCB_DeleteTask(struct TcbTask *task);
+extern struct WordSet *WORDSET_CreateDefault(unsigned short heapId);
 extern int POKE_TOOL_GetIconPaletteArcId(void);
 extern void BG_SYS_ChangeScrollImmediate(u32 layer, u32 a, u32 b);
 extern u32 WORDSET_Delete(struct WordSet *p);
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
-extern void BG_SYS_SetTileEntry(u32, int, int, int, u8, u8, u8);
+extern void BG_SYS_SetTileEntry(unsigned int layer, unsigned short value, unsigned char x0, unsigned char y0, unsigned char w, unsigned char h, unsigned char mode);
 extern struct Bmp *BMP_Create(u32 width, u32 height, u32 depth, u16 heap);
 extern struct Strbuf *STRBUF_Create(int capacity, u16 heapId);
 extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, struct Strbuf *dest);
@@ -519,30 +528,31 @@ extern int CLACT_RegisterCharacter(void *, u32, u32, u32, u16);
 extern int CLACT_RegisterCellAnim(void *, u32, u32, u32);
 extern struct ClactActor *CLACT_CreateActor(struct ClactUnit *unit, u32 charRes, u32 palRes, u32 cellRes, const ActorInitParam *param, u16 space, u16 heapId);
 extern u32 POKE_TOOL_CalcIconPalette(u32 species, u32 form, u32 female, u32 isEgg);
-extern void CLACT_SetActorPaletteOffset(struct ClactActor *actor, u32 v, u32 flag);
-extern void CLACT_SetActorDrawEnable(struct ClactActor *actor, u32 v);
-extern void CLACT_DeleteActor(struct ClactActor *actor);
+struct Actor;
+extern void CLACT_SetActorPaletteOffset(struct Actor *actor, unsigned int offset, unsigned int pltt_op);
+extern void CLACT_SetActorDrawEnable(struct Actor *actor, unsigned int value);
+extern void CLACT_DeleteActor(struct Actor *actor);
 extern void CLACT_ReleaseCharacter(u32);
 extern void CLACT_ReleaseCellAnim(u32);
 extern void BMP_Delete(struct Bmp *bmp);
 extern void CLACT_GetActorSurfacePos(struct ClactActor *actor, OamPos *out, u16 space);
 extern void CLACT_AddActorSurfacePos(struct ClactActor *actor, OamPos *delta, u16 space);
-extern void *ARC_UTIL_LoadPaletteDataFromArchive(u32 arcId, u32 fileId, u32 flag, void **outData, u16 heapId);
+extern void *ARC_UTIL_LoadPaletteDataFromArchive(u32 archiveID, u32 memberIdx, u32 heapID, void *unpackedOut, u16 flags);
 extern u32 GFL_HEAP_Free(void *p);
-extern void BG_SYS_DrawTile(u32 bgId, const void *src, u32 dx, u32 y, u8 width, u8 height);
+extern void BG_SYS_DrawTile(unsigned int index, void *src, unsigned char dx, unsigned char dy, unsigned char cw, unsigned char ch);
 extern void BG_SYS_FillTileMap(u32, u8, u8, u8, u8, u8);
 extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gameData);
 extern s32 IRC_RANKING_GetEntryCount(struct IrcRankSave *rank);
 extern void *GFL_HEAP_Alloc(u32, u32, int, const char *, u16);
 extern u8 IRC_RANKING_GetLastSlot(struct IrcRankSave *rank);
 extern struct IrcRankEntry *IRC_RANKING_GetEntry(struct IrcRankSave *rank, u32 index);
-extern void STRBUF_SetString(struct Strbuf *o, const struct IrcRankEntry *src);
+extern void STRBUF_SetString(struct Strbuf *strbuf, unsigned short *srcChars);
 extern u8 IRC_RANKING_GetEntryScore(struct IrcRankSave *rank, u32 index);
 extern u16 IRC_RANKING_GetEntryMeetCount(struct IrcRankSave *rank, u32 index);
 extern u32 IRC_RANKING_GetEntryGender(struct IrcRankSave *rank, u32 index);
-extern void IRC_RANKING_GetEntryProfile(struct IrcRankSave *rank, u32, u16 *, u8 *, u8 *, u8 *);
-extern u32 TOUCHPANEL_GetPointTrg(int *outX, int *outY);
-extern u32 TOUCHPANEL_GetPointCont(int *outX, int *outY);
+extern void IRC_RANKING_GetEntryProfile(struct IrcRankEntry *entries, unsigned int index, unsigned short *outWord, unsigned char *outByte, unsigned char *outBits, unsigned char *outFlag);
+extern u32 TOUCHPANEL_GetPointTrg(unsigned int *x, unsigned int *y);
+extern u32 TOUCHPANEL_GetPointCont(unsigned int *x, unsigned int *y);
 extern u32 KEY_GetTrg(void);
 extern unsigned int KEY_GetCont(void);
 extern int TOUCHPANEL_GetCont(void);
@@ -557,8 +567,8 @@ extern void *BMP_GetPixels(const struct Bmp *bmp);
 extern void MIi_CpuCopy32(const void *src, void *dst, u32 size);
 extern struct BmpOam *BMP_OAM_Create(struct BmpOamSys *sys, const BmpOamParam *param);
 extern void BMP_OAM_Delete(struct BmpOam *oam);
-extern void PRINTSYS_PrintQueColor(struct PrintQue *printQue, struct Bmp *bmp, s16 x, s16 y, struct Strbuf *text, struct GfFont *font, u16 color);
-extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintQue *printQue, struct Bmp *bmp);
+extern void PRINTSYS_PrintQueColor(struct PrintQueue *queue, struct Bmp *bmp, unsigned int x, short y, struct Strbuf *str, struct GfFont *font, unsigned short color);
+extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintQueue *queue, struct Bmp *bmp);
 extern void BMP_OAM_UploadChars(struct BmpOam *oam);
 
 int IRC_RANKING_ProcInit(struct ProcSys *procSys, u32 unused, void **args);
@@ -648,11 +658,11 @@ int IRC_RANKING_ProcInit(struct ProcSys *procSys, u32 unused, void **args) {
     IrcRankingLabelPos pos;
     int i;
     GFL_HEAP_CreateChildHeap(1, IRC_RANKING_HEAP_ID, 6 << 16);
-    work = PROCSYS_AllocProcWork(procSys, sizeof(IrcRankingWork), IRC_RANKING_HEAP_ID);
+    work = PROCSYS_AllocProcWork((struct Proc *)procSys, sizeof(IrcRankingWork), IRC_RANKING_HEAP_ID);
     MI_CpuFill8(work, 0, sizeof(IrcRankingWork));
     if (*args) work->gameData = GAMESYSTEM_GetGameData(*args);
     else work->gameData = GAME_DATA_Create(1);
-    work->printQue = PRINTSYS_QUE_Create(IRC_RANKING_HEAP_ID);
+    work->printQue = (struct PrintQue *)PRINTSYS_QUE_Create(IRC_RANKING_HEAP_ID);
     work->font = GF_FONT_Create(23, 0, 0, 0, IRC_RANKING_HEAP_ID);
     work->msgBank = MSGDATA_CreateFromArchive(0, 2, 50, IRC_RANKING_HEAP_ID);
     work->rankData = IRC_RANKING_DataCreate(work->gameData, IRC_RANKING_HEAP_ID);
@@ -689,9 +699,9 @@ int IRC_RANKING_ProcExit(struct ProcSys *procSys, int unused, int *exitMode, Irc
     IRC_RANKING_ListExit(&work->list);
     IRC_RANKING_InertiaExit(&work->inertia); IRC_RANKING_InputExit(&work->input); IRC_RANKING_SeqClear(&work->seq);
     BMP_OAM_DeleteSys(work->bmpOamSys); IRC_RANKING_DisplayExit(&work->display); IRC_RANKING_DataDelete(work->rankData);
-    MSGDATA_Delete(work->msgBank); GF_FONT_Delete(work->font); PRINTSYS_QUE_Delete(work->printQue);
+    MSGDATA_Delete(work->msgBank); GF_FONT_Delete(work->font); PRINTSYS_QUE_Delete((struct PrintQueue *)work->printQue);
     if (*exitMode == 0) GAME_DATA_Delete(work->gameData);
-    PROCSYS_FreeProcWork(procSys); GFL_HEAP_DeleteChecked(IRC_RANKING_HEAP_ID); return 1;
+    PROCSYS_FreeProcWork((struct Proc *)procSys); GFL_HEAP_DeleteChecked(IRC_RANKING_HEAP_ID); return 1;
 }
 
 /* Proc main: runs the current sequence step, draws, and flushes the print queue and the labels; returns 1 once the sequence is done. */
@@ -700,7 +710,7 @@ int IRC_RANKING_ProcMain(int a, int b, int c, IrcRankingWork *work)
     int i;
     IRC_RANKING_SeqRun(&work->seq);
     IRC_RANKING_Draw(work);
-    PRINTSYS_QUE_Main(work->printQue);
+    PRINTSYS_QUE_Main((struct PrintQueue *)work->printQue);
     for (i = 0; i < 4; i++) IRC_RANKING_LabelUpdate(work->labels[i]);
     if (IRC_RANKING_SeqIsDone(&work->seq)) return 1;
     return 0;
@@ -890,7 +900,7 @@ u32 IRC_RANKING_GfxGetCharRegion(IrcRankingGfx *gfx, u32 isMain)
 
 void IRC_RANKING_ClactInit(IrcRankingClact *clact, const struct DispVramConfig *vramConfig, int heapId) {
     MI_CpuFill8(clact, 0, sizeof(IrcRankingClact));
-    CLACT_InitSystem(&gIrcRankingClactSysInit, vramConfig, heapId);
+    CLACT_InitSystem((struct SysInit *)(&gIrcRankingClactSysInit), (struct DispVramCfg *)vramConfig, heapId);
     clact->unit = CLACT_CreateUnit(128, 0, heapId);
     CLACT_SetUnitDefaultRenderer(clact->unit);
     BG_SYS_SetMainPlaneVisible(16, 1);
@@ -932,7 +942,7 @@ void IRC_RANKING_DisplayInit(IrcRankingDisplay *display, struct GameData *gameDa
     REG_DISPCNT &= ~0xe000;
     REG_DISPCNT_SUB &= ~0xe000;
     BG_SYS_ClearGraphicsMemory(0);
-    BG_SYS_SetVramBanks(&gIrcRankingVramConfig);
+    BG_SYS_SetVramBanks((struct DispVram *)(&gIrcRankingVramConfig));
     BG_SYS_SetLcdSwap(1);
     BG_SYS_ResetSubDisplay();
     BG_SYS_ClearMainPlanes();
@@ -1231,16 +1241,16 @@ void IRC_RANKING_RowInit(IrcRankingRow *row, const IrcRankingItem *item, struct 
         if (i == 0) { param.y = mainY; palRes = palResMain; } else { param.y = subY; palRes = palResSub; }
         row->iconY[i] = param.y;
         row->iconActors[i] = CLACT_CreateActor(unit, row->iconCharRes, palRes, row->iconCellRes, &param, i, heapId);
-        CLACT_SetActorPaletteOffset(row->iconActors[i], POKE_TOOL_CalcIconPalette(item->species, item->form, item->gender, item->isEgg), 0);
-        if (param.y > -16 && param.y < 208) CLACT_SetActorDrawEnable(row->iconActors[i], 1);
-        else CLACT_SetActorDrawEnable(row->iconActors[i], 0);
+        CLACT_SetActorPaletteOffset((struct Actor *)row->iconActors[i], POKE_TOOL_CalcIconPalette(item->species, item->form, item->gender, item->isEgg), 0);
+        if (param.y > -16 && param.y < 208) CLACT_SetActorDrawEnable((struct Actor *)row->iconActors[i], 1);
+        else CLACT_SetActorDrawEnable((struct Actor *)row->iconActors[i], 0);
     }
 }
 
 void IRC_RANKING_RowExit(IrcRankingRow *row)
 {
     int i;
-    for (i = 0; i < 2; i++) CLACT_DeleteActor(row->iconActors[i]);
+    for (i = 0; i < 2; i++) CLACT_DeleteActor((struct Actor *)row->iconActors[i]);
     CLACT_ReleaseCharacter(row->iconCharRes);
     CLACT_ReleaseCellAnim(row->iconCellRes);
     BMP_Delete(row->textBmp);
@@ -1266,8 +1276,8 @@ void IRC_RANKING_RowSetScroll(IrcRankingRow *row, int scroll) {
         CLACT_GetActorSurfacePos(row->iconActors[i], &pos, i);
         pos.y = offsets[i] + row->iconY[i];
         CLACT_AddActorSurfacePos(row->iconActors[i], &pos, i);
-        if (pos.y > -16 && pos.y < 208) CLACT_SetActorDrawEnable(row->iconActors[i], 1);
-        else CLACT_SetActorDrawEnable(row->iconActors[i], 0);
+        if (pos.y > -16 && pos.y < 208) CLACT_SetActorDrawEnable((struct Actor *)row->iconActors[i], 1);
+        else CLACT_SetActorDrawEnable((struct Actor *)row->iconActors[i], 0);
     }
 }
 
@@ -1281,7 +1291,7 @@ void IRC_RANKING_LoadRowScreens(u16 *screens, IrcRankingGfx *gfx, u16 heapId) {
     MI_CpuFill8(screens, 0, ROW_SCREEN_BYTES);
     charRegionMain = IRC_RANKING_GfxGetCharRegion(gfx, 1);
     charRegionSub = IRC_RANKING_GfxGetCharRegion(gfx, 0);
-    allocation = ARC_UTIL_LoadPaletteDataFromArchive(77, 5, 0, &screenFile, heapId);
+    allocation = ARC_UTIL_LoadPaletteDataFromArchive((unsigned int)77, (unsigned int)5, (unsigned int)0, (&screenFile), heapId);
     table = (const u16 *)((u8 *)screenFile + 12);
     for (i = 0; i < 3; i++) {
         for (j = 0; j < 32; j++) {
@@ -1318,7 +1328,7 @@ IrcRankingData *IRC_RANKING_DataCreate(struct GameData *gameData, u16 heapId) {
         for (i = 0; i < out->count; i++) {
             item = &out->items[i];
             item->name = STRBUF_Create(8, heapId);
-            STRBUF_SetString(item->name, IRC_RANKING_GetEntry(save, i));
+            STRBUF_SetString(item->name, (unsigned short *)(IRC_RANKING_GetEntry(save, i)));
             item->score = IRC_RANKING_GetEntryScore(save, i);
             item->meetCount = IRC_RANKING_GetEntryMeetCount(save, i);
             if (item->score < prevScore) item->rank = i + 1;
@@ -1340,7 +1350,7 @@ IrcRankingData *IRC_RANKING_DataCreate(struct GameData *gameData, u16 heapId) {
                     v = 0; if (gender == 0) v = 5; item->rowStyle = v + 1;
                 }
             }
-            IRC_RANKING_GetEntryProfile(save, i, &item->species, &item->form, &item->gender, &item->isEgg);
+            IRC_RANKING_GetEntryProfile((struct IrcRankEntry *)save, i, &item->species, &item->form, &item->gender, &item->isEgg);
             prevScore = item->score; rank = item->rank;
         }
     }
@@ -1385,13 +1395,13 @@ void IRC_RANKING_InputExit(IrcRankingInput *input)
 void IRC_RANKING_InputUpdate(IrcRankingInput *input) {
     int x, y;
     int d;
-    if (TOUCHPANEL_GetPointTrg(&x, &y)) {
+    if (TOUCHPANEL_GetPointTrg((unsigned int *)(&x), (unsigned int *)(&y))) {
         input->start.x = x; input->start.y = y;
         input->current.x = x; input->current.y = y;
         input->prev.x = x; input->prev.y = y;
         input->delta.x = 0; input->delta.y = 0;
         input->holdFrames = 0;
-    } else if (TOUCHPANEL_GetPointCont(&x, &y)) {
+    } else if (TOUCHPANEL_GetPointCont((unsigned int *)(&x), (unsigned int *)(&y))) {
         d = y - input->start.y;
         if (d < 0) d = -d;
         if (d >= 1) {
@@ -1594,7 +1604,7 @@ void IRC_RANKING_LabelSetText(IrcRankingLabel *label, struct MsgBank *msgBank, u
     BMP_Clear(label->bmp, label->printColor & 31);
     MSGDATA_ReadString(msgBank, msgId, label->text);
     IRC_RANKING_LabelCalcTextPos(label, font, &pos);
-    PRINTSYS_PrintQueColor(label->printQue, label->bmp, (short)pos.x, (short)pos.y, label->text, font, label->printColor);
+    PRINTSYS_PrintQueColor((struct PrintQueue *)label->printQue, label->bmp, (short)pos.x, (short)pos.y, label->text, font, label->printColor);
     label->pending = 1;
 }
 
@@ -1612,7 +1622,7 @@ void IRC_RANKING_LabelSetAlign(IrcRankingLabel *label, u32 offsetX, u32 offsetY,
 
 int IRC_RANKING_LabelUpdate(IrcRankingLabel *label)
 {
-    if (label->pending && !PRINTSYS_QUE_IsExistTarget(label->printQue, label->bmp)) {
+    if (label->pending && !PRINTSYS_QUE_IsExistTarget((struct PrintQueue *)label->printQue, label->bmp)) {
         BMP_OAM_UploadChars(label->oam);
         label->pending = 0;
     }

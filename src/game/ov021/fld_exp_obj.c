@@ -59,11 +59,11 @@ extern void G3D_SYSTEM_DrawObject(struct G3dObject *obj, G3dObjectStatus *status
 extern int G3D_SYSTEM_LoopObjectAnimeFrame(struct G3dObject *obj, int anmIdx, fx32 step);
 extern int G3D_SYSTEM_IncObjectAnimeFrame(struct G3dObject *obj, int anmIdx, fx32 step);
 extern u32 G3D_SYSTEM_SetObjectAnimeFrame(struct G3dObject *obj, u32 anmIdx, fx32 *frame);
-extern u32 G3D_SYSTEM_GetObjectAnimeFrame(struct G3dObject *obj, u32 anmIdx, fx32 *frame);
-extern u32 G3D_SYSTEM_EnableObjectAnime(struct G3dObject *obj, u32 anmIdx);
+extern s32 G3D_SYSTEM_GetObjectAnimeFrame(struct G3dObject *obj, u32 anmIdx, fx32 *frame);
+extern s32 G3D_SYSTEM_EnableObjectAnime(struct G3dObject *obj, u32 anmIdx);
 extern int G3D_SYSTEM_DisableObjectAnime(struct G3dObject *obj, u32 anmIdx);
 extern NNSG3dAnmObj *G3D_SYSTEM_GetAnimeObj(struct G3dAnime *anime);
-extern void *ARC_TOOL_CreateHandle(u32 archiveId, u32 heapId);
+extern void *ARC_TOOL_CreateHandle(u32 archiveID, u16 heapID);
 extern u16 G3D_UTIL_AddUnitFromArchive(struct G3dUtil *util, const G3dUtilSetup *setup, void *archive);
 extern void ARC_TOOL_DeleteHandle(void *archive);
 

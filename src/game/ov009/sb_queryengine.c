@@ -48,6 +48,7 @@
  *   ParseSingleQR2Reply      0x0219d9d8  arm
  */
 #include "sb_server_types.h"
+extern void *__memcpy(void *dest, const void *src, unsigned long n);
 
 struct SOCSockAddrIn {
     unsigned char len;
@@ -61,14 +62,14 @@ typedef unsigned int   u32;
 typedef unsigned char  u8;
 
 extern unsigned int current_time(void);
-extern int sendto(int sock, char *buf, int len, int flags,
-                  struct SOCSockAddrIn *addr, int tolen);
+struct SOCSockAddr;
+extern int sendto(int sock, char *buf, int len, int flags, struct SOCSockAddr *addr, int tolen);
 extern void FIFOAddRear(SBServerFIFO *fifo, SBServer *server);
 extern void SocketStartUp(void);
 extern int socket(int pf, int type, int protocol);
 extern void FIFOClear(SBServerFIFO *fifo);
 extern int closesocket(int sock);
-extern void QEStartQuery(SBQueryEngine *engine, SBServer *server);
+static void QEStartQuery(SBQueryEngine *engine, SBServer *server);
 extern int atoi(u32 s);
 int FIFORemove(SBServerFIFO *fifo, SBServer *server);
 extern int NTSLengthSB(char *buf, int len);
@@ -77,11 +78,10 @@ extern void SBServerAddKeyValue(SBServer *server, char *keyname, char *value);
 extern int strncmp(const u8 *s1, const u8 *s2, u32 n);
 extern void SBServerParseQR2FullKeysSplit(SBServer *server, char *data, int len);
 extern void SBServerParseQR2FullKeysSingle(SBServer *server, char *data, int len);
-extern char *strstr(const char *haystack, const char *needle);
+extern u8 *strstr(u8 *s1, u8 *s2);
 extern void SBServerParseKeyVals(SBServer *server, char *keyvals);
 extern int CanReceiveOnSocket(int sock);
-extern int recvfrom(int sock, char *buf, int len, int flags,
-                    struct SOCSockAddrIn *addr, int *fromlen);
+extern int recvfrom(int sock, char *buf, int len, int flags, struct SOCSockAddr *addr, int *fromlen);
 extern void ParseSingleQR2Reply(SBQueryEngine *engine,
                                 SBServer *server, char *data, int len);
 void FIFOAddFront(SBServerFIFO *fifo, SBServer *server);
@@ -274,7 +274,7 @@ send:
         saddr.addr = server->publicip;
         saddr.port = server->publicport;
     }
-    sendto(engine->querysock, (char *)queryBuffer, queryLen, 0, &saddr, 8);
+    sendto(engine->querysock, (char *)queryBuffer, queryLen, 0, (struct SOCSockAddr *)(&saddr), 8);
     querySuccess = 1;
 
 done:
@@ -427,7 +427,7 @@ void ParseSingleQR2Reply(SBQueryEngine *engine, SBServer *server, char *data, in
 static void ParseSingleGOAReply(SBQueryEngine *engine,
                                 SBServer *server, char *data, int len)
 {
-    int isfinal = strstr(data, gSbQueryFinal) != 0;
+    int isfinal = strstr((u8 *)data, (u8 *)gSbQueryFinal) != 0;
     unsigned char flags;
 
     SBServerParseKeyVals(server, data);
@@ -469,7 +469,7 @@ static void ProcessIncomingReplies(SBQueryEngine *engine, int icmpSocket)
 
     for (;;)
     {
-        i = recvfrom(recvSock, indata, 0x7ff, 0, &saddr, &saddrlen);
+        i = recvfrom(recvSock, indata, 0x7ff, 0, (struct SOCSockAddr *)(&saddr), &saddrlen);
         if (i == -1)
             return;
         indata[i] = 0;

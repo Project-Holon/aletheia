@@ -33,7 +33,7 @@ typedef unsigned char  u8;
 extern int DWCi_EFFlFade(int kind, int lcd, int plane, int frame);
 extern void DWCi_ChangeScene(unsigned int v);
 extern int DWCi_EFFlCheck(int lcd);
-extern void DWCi_TSKlOperate(u32 index, u8 val);
+extern void DWCi_TSKlOperate(int kind, unsigned char flag);
 extern void DWCi_CEINlRelease(int lcd);
 extern void DWCi_HLlEnd(void);
 extern void DWCi_FOCUSlEnd(void);

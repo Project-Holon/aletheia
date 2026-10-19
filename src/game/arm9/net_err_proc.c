@@ -71,12 +71,14 @@ typedef struct NetSaveDeleteWork {
     u8  pad00[0x44];
     u32 gameData;   /* 0x44: GameData pointer, released before the reset */
 } NetSaveDeleteWork;
+struct GameData;
 
-extern void GAME_DATA_Delete(unsigned char *p);
+extern void GAME_DATA_Delete(struct GameData *gameData);
 
 extern void GFL_HEAP_DeleteChecked(unsigned int heapId);
+struct Proc;
 
-extern void PROCSYS_FreeProcWork(struct ProcSysProc *p);
+extern void PROCSYS_FreeProcWork(struct Proc *proc);
 
 extern void  BG_SYS_SetMainVisiblePlanes(u32 a);
 
@@ -84,7 +86,7 @@ extern void  BG_SYS_SetSubVisiblePlanes(u32 a);
 
 extern void  GFL_HEAP_CreateChildHeap(u32 a, u32 heap, u32 size);
 
-extern void *PROCSYS_AllocProcWork(struct ProcSysParent *obj, u32 size, u32 heap);
+extern void *PROCSYS_AllocProcWork(struct Proc *proc, u32 size, u32 heapId);
 
 extern void  MI_CpuFill8(void *dst, int val, unsigned n);
 
@@ -114,7 +116,8 @@ extern u8 d_0220B294[];
 
 extern u8 gNetSaveRetryProc[];
 
-int GFL_NET_SAVE_DeleteScreenWork(int proc, int seq, int pwork, int work){ int t3; GAME_DATA_Delete((unsigned char *)((NetSaveDeleteWork *)(char *)(work))->gameData); PROCSYS_FreeProcWork((struct ProcSysProc *)((proc + 0) + 0)); GFL_HEAP_DeleteChecked(0x67); t3 = OS_ResetSystem((int)0); return 1; }
+extern void OS_ResetSystem(u32 parameter);
+int GFL_NET_SAVE_DeleteScreenWork(int proc, int seq, int pwork, int work){ GAME_DATA_Delete((struct GameData *)((NetSaveDeleteWork *)(char *)(work))->gameData); PROCSYS_FreeProcWork((struct Proc *)((proc + 0) + 0)); GFL_HEAP_DeleteChecked(0x67); OS_ResetSystem(0); return 1; }
 
 /*
  * The save-screen constructor of the net_save.c family (see
@@ -282,7 +285,7 @@ int GFL_NET_SAVE_ScreenExit(struct ProcSysProc *proc, u32 *seq, void *param, Net
 int GFL_NET_SAVE_ScreenExit(struct ProcSysProc *proc, u32 *seq, void *param, NetSaveScreenWork *work)
 {
     PROCSYS_Delete((struct ProcSys *)work->proc);
-    PROCSYS_FreeProcWork(proc);
+    PROCSYS_FreeProcWork((struct Proc *)proc);
     GFL_HEAP_DeleteChecked(0x5b);
     return 1;
 }

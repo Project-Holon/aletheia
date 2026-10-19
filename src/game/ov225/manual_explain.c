@@ -101,8 +101,9 @@ extern void MANUAL_COMMON_SetTouchbarSelection(char *, unsigned, unsigned);
 extern int MANUAL_COMMON_GetDefaultId(void *);
 
 extern void MANUAL_COMMON_SetScreenId(char *,u32);
+struct TcbTask;
 
-extern void TCB_DeleteTask(struct Node *);
+extern void TCB_DeleteTask(struct TcbTask *task);
 
 extern void MANUAL_COMMON_UpdateTouchbar(char *);
 
@@ -117,32 +118,39 @@ extern u32 ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, 
 extern u32 ARC_UTIL_UploadBgPaletteAddFromHandleExt(void *arc, u32 memberIdx, u32 channel, u32 offset, u32 add, u32 size, u32 heapID, u16 flags);
 
 extern void BG_SYS_MarkTileDirty(u32);
+struct BmpWin;
 
-extern u32 BMP_WIN_Create(u32 layer,u32 a,u32 b,u32 tiles,u8 c,u8 d,u8 slot);
+extern struct BmpWin *BMP_WIN_Create(u32 bgLayer, u32 posX, u32 posY, u8 width, u8 height, u8 palette, u8 allocDir);
+struct Bmp;
 
-extern void *BMP_WIN_GetBmp(struct Descriptor *p);
+extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *win);
+struct Bmp;
 
-extern void BMP_Clear(struct CharBuf *p,u8 value);
+extern void BMP_Clear(struct Bmp *bmp, u8 value);
 
-extern void BMP_WIN_TransferChars(struct Descriptor *p);
+extern void BMP_WIN_TransferChars(struct BmpWin *win);
+struct Strbuf;
 
-extern void *MSGDATA_AllocString(struct MsgBank *p,u32 index);
+extern struct Strbuf *MSGDATA_AllocString(struct MsgBank *p,u32 index);
+struct GfFont;
+struct PrintQueue;
 
-extern void PRINTSYS_PrintQueColor(void *p,u32 a,u32 b,u32 c,u32 d,u32 e,u16 f);
+extern void PRINTSYS_PrintQueColor(struct PrintQueue *queue, struct Bmp *bmp, unsigned int x, short y, struct Strbuf *str, struct GfFont *font, unsigned short color);
 
-extern void STRBUF_Delete(struct U16Vec *p);
+extern void STRBUF_Delete(struct Strbuf *strbuf);
+struct PrintQueue;
 
-extern void PRINTSYS_QUE_Clear(struct PrintSys *);
+extern void PRINTSYS_QUE_Clear(struct PrintQueue *queue);
 
-extern void BMP_WIN_ClearScreen(struct Descriptor *);
+extern void BMP_WIN_ClearScreen(struct BmpWin *win);
 
-extern u32 BMP_WIN_Delete(struct Descriptor *d);
+extern u32 BMP_WIN_Delete(struct BmpWin *win);
 
-extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintSys *p,void *value);
+extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintQueue *queue, struct Bmp *bmp);
 
-extern void BMP_WIN_MakeScreen(struct Cfg *p);
+extern void BMP_WIN_MakeScreen(struct BmpWin *win);
 
-extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
+extern u8 BMP_WIN_GetBgLayer(struct BmpWin *win);
 
 
 char *MANUAL_CATEGORY_CreateOption(char *p, char *data);
@@ -195,7 +203,7 @@ char *MANUAL_CATEGORY_CreateOption(char *p, char *data)
     return q;
 }
 
-void MANUAL_CATEGORY_DeleteOption(char *p) { MANUAL_COMMON_SetScreenId(*(char * *)&((struct ManualOptionWork *)p)->data,MANUAL_COMMON_GetDefaultId(((struct ManualData *)(*(char * *)&((struct ManualOptionWork *)p)->data))->assets)); TCB_DeleteTask(*(struct Node * *)&((struct ManualOptionWork *)p)->task); GFL_HEAP_Free(p); }
+void MANUAL_CATEGORY_DeleteOption(char *p) { MANUAL_COMMON_SetScreenId(*(char * *)&((struct ManualOptionWork *)p)->data,MANUAL_COMMON_GetDefaultId(((struct ManualData *)(*(char * *)&((struct ManualOptionWork *)p)->data))->assets)); TCB_DeleteTask((struct TcbTask *)(*(struct Node * *)&((struct ManualOptionWork *)p)->task)); GFL_HEAP_Free(p); }
 
 int MANUAL_CATEGORY_UpdateOption(char *p)
 {
@@ -280,9 +288,9 @@ void MANUAL_CATEGORY_CreateOptionSlots(u8 *p)
     for(index=0;index<3;index++) {
         record=&gManualCategorySlotRecords[index];
         slot=p+index*4;
-        *(u32 *)&((struct ManualOptionWork *)slot)->bg=BMP_WIN_Create(record->v[0],record->v[1],record->v[2],record->v[3],record->v[4],record->v[5],record->v[6]);
-        BMP_Clear((struct CharBuf *)BMP_WIN_GetBmp(*(struct Descriptor * *)&((struct ManualOptionWork *)slot)->bg),0);
-        BMP_WIN_TransferChars(*(struct Descriptor * *)&((struct ManualOptionWork *)slot)->bg);
+        *(u32 *)&((struct ManualOptionWork *)slot)->bg=(u32)BMP_WIN_Create(record->v[0],record->v[1],record->v[2],record->v[3],record->v[4],record->v[5],record->v[6]);
+        BMP_Clear((struct Bmp *)BMP_WIN_GetBmp((struct BmpWin *)(*(struct Descriptor * *)&((struct ManualOptionWork *)slot)->bg)),0);
+        BMP_WIN_TransferChars((struct BmpWin *)(*(struct Descriptor * *)&((struct ManualOptionWork *)slot)->bg));
         ((struct ManualOptionWork *)slot)->flag[0]=0;
     }
     owner=*(u8 * *)&((struct ManualOptionWork *)p)->data;
@@ -290,13 +298,13 @@ void MANUAL_CATEGORY_CreateOptionSlots(u8 *p)
     *(u32 *)&((struct ManualOptionWork *)p)->que[1]=(u32)((struct ManualData *)owner)->printQue[0];
     ((struct ManualOptionWork *)p)->que[2]=((struct ManualData *)owner)->printQue[1];
     string=(struct U16Vec *)MSGDATA_AllocString(*(struct MsgBank * *)&((struct ManualData *)owner)->bank[1],((struct ManualOptionOwner *)(*(u8 * *)&((struct ManualOptionWork *)p)->owner))->selectedId);
-    PRINTSYS_PrintQueColor(((struct ManualOptionWork *)p)->que[1],(u32)BMP_WIN_GetBmp(*(struct Descriptor * *)&((struct ManualOptionWork *)p)->bg[1]),0,1,(u32)string,(u32)((struct ManualData *)(*(u8 * *)&((struct ManualOptionWork *)p)->data))->font,0x3C40);
-    STRBUF_Delete(string);
+    PRINTSYS_PrintQueColor((struct PrintQueue *)(((struct ManualOptionWork *)p)->que[1]),BMP_WIN_GetBmp((struct BmpWin *)(*(struct Descriptor * *)&((struct ManualOptionWork *)p)->bg[1])),0,1,(struct Strbuf *)string,((struct ManualData *)(*(u8 * *)&((struct ManualOptionWork *)p)->data))->font,0x3C40);
+    STRBUF_Delete((struct Strbuf *)string);
     ((struct ManualOptionWork *)p)->flag[1]=1;
     MANUAL_CATEGORY_UpdateOptionSlots(p);
 }
 
-void MANUAL_CATEGORY_DeleteOptionSlots(char *p) { u8 i; for(i=0;i<3;i++) { ((struct ManualOptionWork *)p)->flag[i]=0; PRINTSYS_QUE_Clear(((struct ManualOptionWork *)p)->que[i]); BMP_WIN_ClearScreen((struct Descriptor *)((struct ManualOptionWork *)p)->bg[i]); BMP_WIN_Delete((struct Descriptor *)((struct ManualOptionWork *)p)->bg[i]); } BG_SYS_MarkTileDirty(5); }
+void MANUAL_CATEGORY_DeleteOptionSlots(char *p) { u8 i; for(i=0;i<3;i++) { ((struct ManualOptionWork *)p)->flag[i]=0; PRINTSYS_QUE_Clear((struct PrintQueue *)(((struct ManualOptionWork *)p)->que[i])); BMP_WIN_ClearScreen((struct BmpWin *)((struct ManualOptionWork *)p)->bg[i]); BMP_WIN_Delete((struct BmpWin *)((struct ManualOptionWork *)p)->bg[i]); } BG_SYS_MarkTileDirty(5); }
 
 void MANUAL_CATEGORY_UpdateOptionSlots(u8 *p)
 {
@@ -306,11 +314,11 @@ void MANUAL_CATEGORY_UpdateOptionSlots(u8 *p)
     for(index=0;index<3;index++) {
         slot=p+index*4;
         if(((struct ManualOptionWork *)slot)->flag[0]!=0) {
-            if(PRINTSYS_QUE_IsExistTarget(*(struct PrintSys * *)&((struct ManualOptionWork *)slot)->que[0],BMP_WIN_GetBmp(*(struct Descriptor * *)&((struct ManualOptionWork *)slot)->bg))==0) {
+            if(PRINTSYS_QUE_IsExistTarget((struct PrintQueue *)(*(struct PrintSys * *)&((struct ManualOptionWork *)slot)->que[0]),BMP_WIN_GetBmp((struct BmpWin *)(*(struct Descriptor * *)&((struct ManualOptionWork *)slot)->bg)))==0) {
                 descriptor=*(struct Descriptor * *)&((struct ManualOptionWork *)slot)->bg;
-                BMP_WIN_TransferChars(descriptor);
-                BMP_WIN_MakeScreen((struct Cfg *)descriptor);
-                BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer(descriptor));
+                BMP_WIN_TransferChars((struct BmpWin *)descriptor);
+                BMP_WIN_MakeScreen((struct BmpWin *)descriptor);
+                BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer((struct BmpWin *)descriptor));
                 ((struct ManualOptionWork *)slot)->flag[0]=0;
             }
         }
@@ -321,12 +329,12 @@ void MANUAL_CATEGORY_DrawOption(char *p)
 {
     void *r;
 
-    PRINTSYS_QUE_Clear(((struct ManualOptionWork *)p)->que[2]);
+    PRINTSYS_QUE_Clear((struct PrintQueue *)(((struct ManualOptionWork *)p)->que[2]));
     BMP_Clear(BMP_WIN_GetBmp(((struct ManualOptionWork *)p)->bg[2]), 0);
     r = MSGDATA_AllocString(((struct ManualData *)(*(char * *)&((struct ManualOptionWork *)p)->data))->bank[1],
                       *(u16 *)(*(char * *)&((struct ManualOptionWork *)p)->owner + (((struct ManualOptionWork *)p)->cursor << 2) + 6));
-    PRINTSYS_PrintQueColor(((struct ManualOptionWork *)p)->que[2], (u32)BMP_WIN_GetBmp(((struct ManualOptionWork *)p)->bg[2]),
-                  4, 6, (u32)r, (u32)((struct ManualData *)(*(char * *)&((struct ManualOptionWork *)p)->data))->font, 0x440);
+    PRINTSYS_PrintQueColor((struct PrintQueue *)(((struct ManualOptionWork *)p)->que[2]), BMP_WIN_GetBmp(((struct ManualOptionWork *)p)->bg[2]),
+                  4, 6, r, ((struct ManualData *)(*(char * *)&((struct ManualOptionWork *)p)->data))->font, 0x440);
     STRBUF_Delete(r);
     ((struct ManualOptionWork *)p)->flag[2] = 1;
     MANUAL_CATEGORY_UpdateOptionSlots((u8 *)p);

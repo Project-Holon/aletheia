@@ -49,7 +49,7 @@ extern void GX_ResetBankForSubOBJ(void);
 
 extern void GX_SetBankForSubBG(int sub_bg);
 
-extern void GX_SetBankForLCDC(u32 v);
+extern void GX_SetBankForLCDC(s32 lcdc);
 
 extern void GX_SetGraphicsMode(int dispMode, int bgMode, int bg0_2d3d);
 

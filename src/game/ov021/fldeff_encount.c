@@ -144,11 +144,11 @@ typedef struct EncountWork {
 
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *file, u16 line);
 extern u32 GFL_HEAP_Free(void *p);
-extern FieldMap *FIELD_EFFECT_GetFieldMap(FieldEffectSys *fieldEffect);
-extern ArcHandle *FIELD_EFFECT_GetArcHandle(FieldEffectSys *fieldEffect);
+extern u32 FIELD_EFFECT_GetFieldMap(FieldEffectSys *fieldEffect);
+extern u32 FIELD_EFFECT_GetArcHandle(FieldEffectSys *fieldEffect);
 extern u8 FIELD_EFFECT_GetModelBaseOffset(FieldEffectSys *fieldEffect);
 extern u8 FIELD_EFFECT_GetModelBaseOffsetAlt(FieldEffectSys *fieldEffect);
-extern void *FIELD_EFFECT_GetResource(FieldEffectSys *fieldEffect, u32 effectId);
+extern s32 FIELD_EFFECT_GetResource(struct FieldEffectSys *sys, s32 id);
 extern FieldEffectObj *FIELD_EFFECT_AddObject(FieldEffectSys *fieldEffect, const FieldEffectObjFuncs *funcs, const VecFx32 *pos, u32 mode, void *param, u32 priority);
 extern void FIELD_EFFECT_UpdateObject(FieldEffectObj *effect);
 extern int FIELD_EFFECT_GetObjectMode(FieldEffectObj *effect);
@@ -157,9 +157,9 @@ extern void FIELD_EFFECT_GetObjectPos(FieldEffectObj *effect, VecFx32 *out);
 extern void FIELD_EFFECT_SetObjectPos(FieldEffectObj *effect, const VecFx32 *pos);
 extern void *FIELD_EFFECT_GetObjectWork(FieldEffectObj *effect);
 extern G3dRender *G3D_SYSTEM_CreateRender(G3dResource *mdlRes, u32 mdlIdx, G3dResource *texRes);
-extern G3dAnime *G3D_SYSTEM_CreateAnime(G3dRender *render, const G3dResource *anmRes, int anmIdx);
+extern G3dAnime *G3D_SYSTEM_CreateAnime(struct G3dRender *render, struct G3dResource *anmRes, u32 anmIdx);
 extern G3dObject *G3D_SYSTEM_CreateObject(G3dRender *render, G3dAnime **anmTbl, int anmCount);
-extern u32 G3D_SYSTEM_EnableObjectAnime(G3dObject *obj, u32 anmIdx);
+extern s32 G3D_SYSTEM_EnableObjectAnime(G3dObject *obj, u32 anmIdx);
 extern void G3D_SYSTEM_DeleteAnime(G3dAnime *anime);
 extern void G3D_SYSTEM_DeleteObject(G3dObject *obj);
 extern void G3D_SYSTEM_DeleteRender(G3dRender *render);
@@ -167,15 +167,19 @@ extern G3dResource *G3D_SYSTEM_CreateResourceArcHandle(ArcHandle *arc, u32 fileI
 extern int G3D_SYSTEM_TransVramTexture(G3dResource *res);
 extern void G3D_SYSTEM_DeleteResource(G3dResource *res);
 extern int G3D_SYSTEM_FreeVramTexture(G3dResource *res);
-extern int FIELDMAP_GetMoveKind(FieldMap *fieldMap);
-extern void *FIELDMAP_GetMmdlSys(FieldMap *fieldMap);
+extern u32 FIELDMAP_GetMoveKind(FieldMap *fieldMap);
+struct MmdlSys;
+extern struct MmdlSys *FIELDMAP_GetMmdlSys(FieldMap *fieldMap);
 extern int FIELDMAP_IsReady(FieldMap *fieldMap);
 extern void *MI_CpuFill8(void *dst, u8 value, unsigned size);
 extern int G3D_SYSTEM_LoopObjectAnimeFrame(G3dObject *obj, int anmIdx, int step);
-extern u32 G3D_SYSTEM_GetObjectAnimeFrame(G3dObject *obj, u32 anmIdx, s32 *frame);
-extern int EFFECT_ENCOUNT_GetSpotDistance(EncountSys *encount, short *out);
-extern SoundSys *GAME_DATA_GetBgmInfo(const void *gameData);
-extern void FIELD_SOUND_SYSTEM_ClaimSlotWithOwner(SoundSys *soundSys, u32 id, u32 volume);
+extern s32 G3D_SYSTEM_GetObjectAnimeFrame(G3dObject *obj, u32 anmIdx, s32 *frame);
+struct FieldEncount;
+extern int EFFECT_ENCOUNT_GetSpotDistance(struct FieldEncount *encount, s16 *out);
+struct GameData;
+extern u32 GAME_DATA_GetBgmInfo(struct GameData *gd);
+struct FieldSoundSystem;
+extern void FIELD_SOUND_SYSTEM_ClaimSlotWithOwner(struct FieldSoundSystem *s, u32 soundId, u32 owner);
 
 EncountModelSet *FLDEFF_ENCOUNT_CreateKind0(FieldEffectSys *fieldEffect, int heapId);
 EncountModelSet *FLDEFF_ENCOUNT_CreateKind1(FieldEffectSys *fieldEffect, int heapId);
@@ -264,7 +268,7 @@ void FLDEFF_ENCOUNT_LoadKind(EncountModelSet *set, u32 kind)
     ArcHandle *arc;
 
     set->desc = sEncountModelDescs[kind];
-    arc = FIELD_EFFECT_GetArcHandle(set->fieldEffect);
+    arc = (struct ArcHandle *)FIELD_EFFECT_GetArcHandle(set->fieldEffect);
     if (kind == 0) {
         FLDEFF_ENCOUNT_LoadKind0Models(set, &set->desc, arc);
     } else {
@@ -369,12 +373,12 @@ FieldEffectObj *FLDEFF_ENCOUNT_Start(EncountSys *encount, FieldEffectSys *fieldE
     EncountModelSet *res;
     EncountStartParam param;
 
-    fieldMap = FIELD_EFFECT_GetFieldMap(fieldEffect);
+    fieldMap = (struct FieldMap *)FIELD_EFFECT_GetFieldMap(fieldEffect);
     if (FIELDMAP_GetMoveKind(fieldMap) != 0) {
         return 0;
     }
     kind = sEncountResourceIndex[setIndex];
-    res = FIELD_EFFECT_GetResource(fieldEffect, kind + FLDEFF_ID_ENCOUNT_FIRST);
+    res = (struct EncountModelSet *)FIELD_EFFECT_GetResource(fieldEffect, kind + FLDEFF_ID_ENCOUNT_FIRST);
     if (res == 0) {
         return 0;
     }
@@ -430,7 +434,7 @@ void FLDEFF_ENCOUNT_Update(FieldEffectObj *effect, EncountWork *work)
     int i;
     EncountModelSet *set = work->param.res;
 
-    if (FIELDMAP_IsReady(FIELD_EFFECT_GetFieldMap(set->fieldEffect)) != 0 && work->paused == 0) {
+    if (FIELDMAP_IsReady((struct FieldMap *)FIELD_EFFECT_GetFieldMap(set->fieldEffect)) != 0 && work->paused == 0) {
         FLDEFF_ENCOUNT_PlaySound(work, set);
         for (i = 0; i < set->desc.animeCount; i++) {
             G3D_SYSTEM_LoopObjectAnimeFrame(set->draw[work->param.setIndex].object, (u16)i, 0x1000);
@@ -455,14 +459,14 @@ void FLDEFF_ENCOUNT_PlaySound(EncountWork *work, EncountModelSet *set)
 
     strength = 0;
     G3D_SYSTEM_GetObjectAnimeFrame(set->draw[work->param.setIndex].object, 0, &frame);
-    if (frame == 0 && EFFECT_ENCOUNT_GetSpotDistance(work->encount, (short *)&strength) != 0) {
+    if (frame == 0 && EFFECT_ENCOUNT_GetSpotDistance((struct FieldEncount *)work->encount, (short *)&strength) != 0) {
         strength = strength / 5;
         if (strength > 3)
             strength = 3;
         volume = sEncountVolumes[strength];
         seId = set->desc.seId;
-        soundSys = GAME_DATA_GetBgmInfo(work->encount->gameData);
-        FIELD_SOUND_SYSTEM_ClaimSlotWithOwner(soundSys, seId, volume);
+        soundSys = (struct SoundSys *)GAME_DATA_GetBgmInfo((struct GameData *)work->encount->gameData);
+        FIELD_SOUND_SYSTEM_ClaimSlotWithOwner((struct FieldSoundSystem *)soundSys, seId, volume);
     }
 }
 

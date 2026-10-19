@@ -60,8 +60,9 @@ struct IntrudeSave {
 extern void MI_CpuFill8(void *dest, u8 value, u32 size);
 
 extern void *SAVE_CONTROL_GetBlock(struct SaveControl *save, u32 blockId);
+struct IntrudeSaveSlot;
 
-extern void INTRUDE_COMM_ResetOutcomes(struct IntrudeOccupy *occupy);
+extern void INTRUDE_COMM_ResetOutcomes(struct IntrudeSaveSlot *save);
 
 extern u16 STRBUF_GetEosChar(void);
 
@@ -155,7 +156,7 @@ void INTRUDE_Init(struct IntrudeSave *intrude)
 void INTRUDE_InitOccupy(struct IntrudeSave *intrude)
 {
     MI_CpuFill8(&intrude->occupy, 0, sizeof(intrude->occupy));
-    INTRUDE_COMM_ResetOutcomes(&intrude->occupy);
+    INTRUDE_COMM_ResetOutcomes((struct IntrudeSaveSlot *)(&intrude->occupy));
 }
 
 u16 INTRUDE_GetMissionScore(struct IntrudeSave *intrude)

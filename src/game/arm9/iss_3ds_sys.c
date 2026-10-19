@@ -24,6 +24,12 @@
  *   GFL_HEAP_Alloc  0x02030734  arm
  *   GFL_HEAP_Free  0x020307B0  arm
  *   ARC_TOOL_CreateHandle  0x020490F4  arm
+ *   GFL_USE_SetBgmTrackParams    0x02005EE0  thumb
+ *   _fdiv                        0x0209CE10  arm
+ *   _ffix                        0x0209C494  arm
+ *   _fflt                        0x0209BDBC  arm
+ *   _fmul                        0x0209C77C  arm
+ *   _u32_div_f                   0x0209C2B0  arm
  */
 #include "iss_sys_shared_types.h"
 
@@ -46,11 +52,12 @@ extern void ISS_3DS_SYS_UpdateImpl(struct Iss3dsSound *sys);
 
 extern void ISS_3DS_SYS_OnZoneChangeImpl(struct Iss3dsSound *sys);
 
-extern void *ARC_TOOL_CreateHandle(u32 archiveId, u32 heapId);
+extern void *ARC_TOOL_CreateHandle(u32 archiveID, u16 heapID);
 
 extern u16 ARC_TOOL_GetHandleFileCount(void *arc);
+struct ArcHandle;
 
-extern void ARC_TOOL_ReadHandleMember(void *arc, u32 member, void *dst);
+extern void ARC_TOOL_ReadHandleMember(struct ArcHandle *arc, u32 memberIdx, void *dst);
 
 extern void ARC_TOOL_DeleteHandle(void *arc);
 

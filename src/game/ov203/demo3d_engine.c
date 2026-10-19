@@ -143,10 +143,11 @@ extern int TIMEZONE_GetTimeZoneOfHour(int row, int col);
 extern fx32 FX_Div(fx32, fx32);
 
 extern void *G3D_CAMERA_Create(int, int, int, int, int, int, int, int, VecFx32 *, VecFx32 *, VecFx32 *, int);
+struct G3dCamera;
 
-extern void G3D_CAMERA_GetNearClipAlt(struct Light *l, u32 *out);
+extern void G3D_CAMERA_GetNearClipAlt(struct G3dCamera *camera, unsigned int *out);
 
-extern void G3D_CAMERA_GetFarClipAlt(struct Light *l, u32 *out);
+extern void G3D_CAMERA_GetFarClipAlt(struct G3dCamera *camera, unsigned int *out);
 
 extern void DOUBLE3DDISP_Init(u32);
 
@@ -159,15 +160,17 @@ extern void ICA_ANIME_SetFrame(struct IcaAnime *p, signed int v);
 extern u32 G3D_UTIL_Create(u16, u16, u32);
 
 extern u16 G3D_UTIL_AddUnit(u32, void *);
+struct G3dObject;
 
 
-extern int G3D_SYSTEM_GetObjectAnimeCount(int *p);
+extern unsigned short G3D_SYSTEM_GetObjectAnimeCount(struct G3dObject *obj);
 
-extern u32 G3D_SYSTEM_EnableObjectAnime(struct G3dSys *sys, u32 idx);
+extern int G3D_SYSTEM_EnableObjectAnime(struct G3dObject *obj, unsigned int anmIdx);
 
-extern u32 G3D_SYSTEM_SetObjectAnimeFrame(struct AnmCtl *c, u16 idx, s32 *frame);
+extern int G3D_SYSTEM_SetObjectAnimeFrame(struct G3dObject *obj, unsigned short anmIdx, int *frame);
+struct Demo3dCmdContext;
 
-extern u32 DEMO3D_CMDSYS_Create(struct Ctx *, u32);
+extern struct Demo3dCmdContext *DEMO3D_CMDSYS_Create(char *owner, unsigned int heap);
 
 extern void DEMO3D_CMDSYS_Delete(char *p);
 
@@ -183,25 +186,26 @@ extern void G3D_UTIL_Delete(struct Rec *p);
 
 extern u32 DOUBLE3DDISP_GetMode(void);
 
-extern void G3D_CAMERA_SetNearClipAlt(struct Light *,u32);
+extern void G3D_CAMERA_SetNearClipAlt(struct G3dCamera *camera, unsigned int v);
 
-extern void G3D_CAMERA_SetFarClipAlt(struct Light *,u32);
+extern void G3D_CAMERA_SetFarClipAlt(struct G3dCamera *camera, unsigned int v);
 
 extern u32 ICA_ANIME_GetFrame(struct IcaAnime *p);
 
-extern void DEMO3D_CMDSYS_Update(void *,int,int);
+extern void DEMO3D_CMDSYS_Update(struct Demo3dCmdContext *p, int time, int flag);
 
 extern u32 ICA_ANIME_IncFrameNoLoop(struct IcaAnime *,int);
 
-extern void ICA_ANIME_SetCameraStatus(void *,void *);
+extern void ICA_ANIME_SetCameraStatus(void *camera, struct IcaAnime *anime);
 
 extern u32 G3D_UTIL_GetObject(u8 *,int);
 
-extern int G3D_SYSTEM_LoopObjectAnimeFrame(void *,int,int);
+extern int G3D_SYSTEM_LoopObjectAnimeFrame(struct G3dObject *obj, int anmIdx, int step);
 
-extern void G3D_CAMERA_Reset(struct Light *);
+extern void G3D_CAMERA_Reset(struct G3dCamera *camera);
+struct G3dObjectStatus;
 
-extern void G3D_SYSTEM_DrawObject(void *,struct Arg *);
+extern void G3D_SYSTEM_DrawObject(struct G3dObject *obj, struct G3dObjectStatus *status);
 
 extern void DOUBLE3DDISP_SetDrawDone(void);
 
@@ -209,11 +213,11 @@ extern u32 ICA_ANIME_GetFrameNum(struct IcaAnime *p);
 
 extern void ZONEDATA_GetTimeLightColors(u32,u32,u32,u32,u32,u16 *,u16);
 
-extern void G3X_SetEdgeColorTable(const u16 *);
+extern void G3X_SetEdgeColorTable(void *src);
 
 extern void G3X_SetFog(BOOL,GXFogBlend,GXFogSlope,int);
 
-extern void G3X_SetFogTable(const u32 *);
+extern void G3X_SetFogTable(void *src);
 
 extern void G3X_SetClearColor(u16,int,int,int,BOOL);
 
@@ -221,7 +225,7 @@ extern void G3X_SetDisp1DotDepth(int);
 
 extern void G3D_SYSTEM_SetSwapBuffersMode(u32,u32);
 
-extern void *ICA_ANIME_CreateStream(u32 heap, u32 arcId, u32 dataId, u32 bufFrameNum);
+extern struct IcaAnime *ICA_ANIME_CreateStream(u32 heap, u32 arcId, u32 dataId, u32 bufFrameNum);
 
 void DEMO3D_GRAPHIC_UpdateLookAt(Demo3dGraphic *p);
 
@@ -235,7 +239,7 @@ void DEMO3D_GRAPHIC_DeleteCamera(void *p);
 
 struct Ctx *DEMO3D_ENGINE_Create(void *owner, struct Cfg *cfg, u16 heap);
 
-void DEMO3D_ENGINE_Delete(struct Ctx *ctx, int b, int c, u32 d);
+void DEMO3D_ENGINE_Delete(struct Ctx *ctx);
 
 void DEMO3D_ENGINE_SetClipPlanes(struct Ctx *p, struct Light *q);
 
@@ -372,22 +376,22 @@ struct Ctx *DEMO3D_ENGINE_Create(void *owner, struct Cfg *cfg, u16 heap)
     DEMO3D_DATA_Delete(e);
     for (j = 0; j < ctx->count; j++) {
         h = G3D_UTIL_GetObject((u8 *)ctx->table, (u16)ctx->indices[j]);
-        cnt = G3D_SYSTEM_GetObjectAnimeCount((int *)h);
+        cnt = G3D_SYSTEM_GetObjectAnimeCount((struct G3dObject *)h);
         for (k = 0; k < cnt; k++) {
             if (ctx->data.frame)
                 r = (0.5f + (float)(ctx->data.frame << 12));
             else
                 r = ((float)(ctx->data.frame << 12) - 0.5f);
             ang = (int)r;
-            G3D_SYSTEM_EnableObjectAnime((struct G3dSys *)h, (u16)k);
-            G3D_SYSTEM_SetObjectAnimeFrame((struct AnmCtl *)h, k, &ang);
+            G3D_SYSTEM_EnableObjectAnime((struct G3dObject *)h, (u16)k);
+            G3D_SYSTEM_SetObjectAnimeFrame((struct G3dObject *)h, k, &ang);
         }
     }
-    ctx->cmdSys = DEMO3D_CMDSYS_Create(ctx, heap);
+    ctx->cmdSys = (unsigned int)DEMO3D_CMDSYS_Create((char *)ctx, (unsigned int)heap);
     return ctx;
 }
 
-void DEMO3D_ENGINE_Delete(struct Ctx *ctx, int b, int c, u32 d)
+void DEMO3D_ENGINE_Delete(struct Ctx *ctx)
 {
     unsigned i;
     DEMO3D_CMDSYS_Delete((char *)ctx->cmdSys);
@@ -419,8 +423,8 @@ void DEMO3D_ENGINE_SetClipPlanes(struct Ctx *p,struct Light *q)
     int x;
     if(DOUBLE3DDISP_GetMode()==0)x=*(short *)((char *)p->cam+0x20);
     else x=*(short *)((char *)p->cam+0x22);
-    G3D_CAMERA_SetNearClipAlt(q,x+p->nearClip);
-    G3D_CAMERA_SetFarClipAlt(q,x+p->farClip);
+    G3D_CAMERA_SetNearClipAlt((struct G3dCamera *)q,x+p->nearClip);
+    G3D_CAMERA_SetFarClipAlt((struct G3dCamera *)q,x+p->farClip);
 }
 
 int DEMO3D_ENGINE_Update(const struct Ctx *ctx, u32 frames)
@@ -445,7 +449,7 @@ int DEMO3D_ENGINE_Update(const struct Ctx *ctx, u32 frames)
     G3D_CAMERA_Reset(ctx->light);
     DEMO3D_GRAPHIC_UpdateLookAt((Demo3dGraphic *)ctx->graphic);
     for(i=0;i<ctx->count;i++) {
-        G3D_SYSTEM_DrawObject((void *)G3D_UTIL_GetObject((u8 *)ctx->table,ctx->indices[i]),(struct Arg *)ctx->scale);
+        G3D_SYSTEM_DrawObject((void *)G3D_UTIL_GetObject((u8 *)ctx->table,ctx->indices[i]),(struct G3dObjectStatus *)ctx->scale);
     }
     DEMO3D_GRAPHIC_EndDraw((Demo3dGraphic *)ctx->graphic);
     if(ctx->animeOn != 0) DOUBLE3DDISP_SetDrawDone();
@@ -495,7 +499,7 @@ void DEMO3D_ENGINE_SetupLighting(struct Ctx *ctx,struct Config *cfg,const struct
     Test(record->test,((struct Record *)ctx->cam)->ref);
     Blend(record->blend);
     Edge(record->edge);
-    if(record->edge) G3X_SetEdgeColorTable(record->edgecolors);
+    if(record->edge) G3X_SetEdgeColorTable((void *)record->edgecolors);
     G3X_SetFog(record->fog,(GXFogBlend)record->mode,(GXFogSlope)record->slope,record->offset);
     if(record->fog) {
         *(volatile u32 *)0x04000358=record->fogcolor|(record->fogalpha<<16);

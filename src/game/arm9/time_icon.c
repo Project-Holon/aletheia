@@ -74,12 +74,17 @@ struct TimeIcon {
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
 extern u32 GFL_HEAP_Free(void *p);
+struct TcbSystem;
+struct TcbTask;
 
-extern struct Tcb *TCB_AddTask(struct TcbList *list, void (*callback)(struct Tcb *, void *), void *work, u32 priority);
+extern struct TcbTask *TCB_AddTask(struct TcbSystem *sys, void (*callback)(struct Tcb *, void *), void *work, unsigned int priority);
+struct TcblSystem;
+struct TcblTask;
 
-extern struct TcblNode *TCBL_AddTask(struct TcblList *list, void (*callback)(struct TcblNode *, void *), u32 size, u32 flags);
+extern struct TcblTask *TCBL_AddTask(struct TcblSystem *tcbl, void (*callback)(struct TcblNode *, void *), unsigned int workSize, unsigned int priority);
+struct TcblTask;
 
-extern void *TCBL_GetWork(struct TcblNode *node);
+extern void *TCBL_GetWork(struct TcblTask *task);
 
 extern u32 GFL_USE_GetRandom(u32 range);
 
@@ -112,12 +117,13 @@ extern void BMP_Clear(struct Bmp *bmp, u8 value);
 extern void BMP_WIN_TransferChars(struct BmpWin *win);
 
 extern u32 BMP_WIN_Delete(struct BmpWin *win);
+struct TcbTask;
 
-extern void TCB_DeleteTask(struct Tcb *tcb);
+extern void TCB_DeleteTask(struct TcbTask *task);
 
-extern void TCBL_DeleteTask(struct TcblNode *node);
+extern void TCBL_DeleteTask(struct TcblTask *task);
 
-extern void BMP_Blit(struct Bmp *src, struct Bmp *dst, u32 srcX, u32 srcY, int dstX, int dstY, u32 w, u32 h, u32 colorKey);
+extern void BMP_Blit(struct Bmp *src, struct Bmp *dst, u32 srcX, u32 srcY, s32 dstX, s32 dstY, u32 w, u32 h, u16 colorKey);
 
 struct TimeIcon *TIME_ICON_Create(struct TcbList *taskList, struct BmpWin *refWin, u8 fillColor, u8 waitInterval, volatile u16 heapId);
 
@@ -156,7 +162,7 @@ struct TimeIcon *TIME_ICON_Create(struct TcbList *taskList, struct BmpWin *refWi
     icon = GFL_HEAP_Alloc(heapId, sizeof(struct TimeIcon), 0, time_icon_File, 0x49);
     TIME_ICON_Init(icon, refWin, fillColor, waitInterval, heapId);
     if (taskList != 0) {
-        icon->task = TCB_AddTask(taskList, TIME_ICON_TaskMain, icon, 0);
+        icon->task = (struct Tcb *)TCB_AddTask((struct TcbSystem *)taskList, TIME_ICON_TaskMain, icon, 0);
     } else {
         icon->task = 0;
     }
@@ -177,8 +183,8 @@ struct TimeIcon *TIME_ICON_CreateNode(struct TcblList *nodeList, struct BmpWin *
     struct TcblNode *node;
     struct TimeIcon *icon;
 
-    node = TCBL_AddTask(nodeList, TIME_ICON_NodeMain, 0x1c, 0);
-    icon = TCBL_GetWork(node);
+    node = (struct TcblNode *)TCBL_AddTask((struct TcblSystem *)nodeList, TIME_ICON_NodeMain, 0x1c, 0);
+    icon = TCBL_GetWork((struct TcblTask *)node);
     TIME_ICON_Init(icon, refWin, fillColor, waitInterval, heapId);
     icon->node = node;
     icon->task = 0;
@@ -257,7 +263,7 @@ void TIME_ICON_Start(struct TimeIcon *icon, struct TcbList *taskList, struct Bmp
     BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer(icon->win));
 
     icon->node = 0;
-    icon->task = TCB_AddTask(taskList, TIME_ICON_TaskMain, icon, 0);
+    icon->task = (struct Tcb *)TCB_AddTask((struct TcbSystem *)taskList, TIME_ICON_TaskMain, icon, 0);
     icon->isActive = 1;
 }
 
@@ -281,13 +287,13 @@ void TIME_ICON_Delete(struct TimeIcon *icon)
     BMP_Delete(icon->sheet);
 
     if (icon->task != 0) {
-        TCB_DeleteTask(icon->task);
+        TCB_DeleteTask((struct TcbTask *)icon->task);
         GFL_HEAP_Free(icon);
         return;
     }
 
     if (icon->node != 0)
-        TCBL_DeleteTask(icon->node);
+        TCBL_DeleteTask((struct TcblTask *)icon->node);
 }
 
 /* Task callback of an icon created with a task list. */

@@ -93,9 +93,10 @@ typedef struct ExtraEntryDef {
     int valueD;
 } ExtraEntryDef;
 
-extern void GF_STANDARD_GetCachedDate(struct RtcDate *date);
+typedef int s32;
+#include "../arm9/gf_standard.h"
 extern int DAILY_LAYOUT_DealCells(CellDeck *deck);
-extern u32 GFL_USE_GetRandom(u32 range);
+#include "../arm9/gfl_use.h"
 void DAILY_LAYOUT_Generate(DailyLayoutWork *work);
 void DAILY_LAYOUT_PickDistinct(int poolSize, int pickCount, unsigned char *scratch, unsigned char *picks);
 void DAILY_LAYOUT_ResetDeck(CellDeck *deck);

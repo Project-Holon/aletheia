@@ -119,6 +119,7 @@
  *   ARC_UTIL_UploadBgPaletteAddFromHandle  0x02049990  arm  arm9
  */
 #include "ctvt_types.h"
+#include "../version.h"
 
 /* ARM9 library. */
 extern void *GFL_HEAP_Alloc(unsigned int heapId, unsigned int size, int clear, const char *site, unsigned short tag);
@@ -246,7 +247,11 @@ CtvtDrawScene *CTVT_DRAW_Create(CtvtWork *work, u16 heapId)
     scene->stampKind = 3;
     scene->toolMode = 0;
     scene->drawTool = 0;
+#if VERSION == VERSION_WHITE
+    scene->penColor = 0xFFFF;       /* White starts with a white pen, Black with a black one */
+#else
     scene->penColor = 0x8000;
+#endif
     return scene;
 }
 

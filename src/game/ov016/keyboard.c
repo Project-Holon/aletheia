@@ -130,33 +130,35 @@ typedef struct { MEMKB *MemKb; } KEYBOARD_BSS;
 
 extern void DWCi_TSKlChangeFunc(void *task, void (*func)(void *));
 extern void DWCi_TSKlDelete(int kind, void *task);
-extern void *DWCi_TSKlForm(int kind, void (*func)(void *, void *), void *work, unsigned char prio);
+struct TCB;
+extern struct TCB *DWCi_TSKlForm(int kind, void (*func)(void *, void *), void *work, unsigned char prio);
 extern GXOamAttr *DWCi_CEINlSetExObj(int lcd, int idx);
 extern void *DWCi_CEINlSetExCell(int lcd, int idx, bool head);
 extern void DWCi_CEINlSet(int lcd, int idx, GXOamAttr *obj);
-extern void *DWCi_CELLlForm(int lcd, int num, bool head);
-extern void DWCi_CELLlDelete(void *cell);
+extern void *DWCi_CELLlForm(int lcd, int num, int head);
+struct CellInfo;
+extern void DWCi_CELLlDelete(struct CellInfo *p);
 extern GXOamAttr *DWCi_CELLlGetObj(void *cell, int idx);
 extern void DWCi_CELLlGetPosition(void *cell, int idx, int *x, int *y);
 extern void DWCi_CELLlSetPosition(void *cell, int idx, int x, int y);
 extern void DWCi_CELLlSetEffect(void *cell, int idx, int effect, int affine);
-extern void DWCi_CELLlSetPalette(void *cell, int idx, int mode, int plt);
+extern void DWCi_CELLlSetPalette(unsigned char *obj, int idx, unsigned int v, unsigned int w);
 extern void DWCi_CELLlSetPriority(void *cell, int idx, int priority);
 extern void DWCi_Coord2Rect(COORD *coord, COORD *size, RECT *rect);
-extern void *DWCi_FNTlFormEx(int lcd, int width, int height, bool head, int *obj, int font);
+extern void *DWCi_FNTlFormEx(int lcd, int width, int height, int head, int *obj, int font);
 extern void DWCi_FNTlDelete(void *canvas);
 extern void DWCi_FNTlDisp(void *canvas, int x, int y, void *cell, int prio);
 extern void DWCi_FNTlDrawRect(void *canvas, int x, int y, int w, int h, int color, unsigned long flag, unsigned short *txt);
 extern void *DWCi_HEAPlAllocEx(unsigned long size, int alignment);
 extern void DWCi_HEAPlFree_(void **mem);
-extern void DWCi_OBJlDelete(GXOamAttr *obj);
-extern void DWCi_SNDlPlay(int no);
-extern bool DWCi_IPTlCheckRelease(unsigned short input);
-extern bool DWCi_IPTlCheckRepeat(unsigned short input);
-extern bool DWCi_IPTlCheckTrigger(unsigned short input);
-extern bool DWCi_TPlCheck(RECT *r);
-extern bool DWCi_TPlCheckRelease(RECT *r);
-extern bool DWCi_TPlCheckTrigger(RECT *r);
+extern void DWCi_OBJlDelete(unsigned int *obj);
+extern void DWCi_SNDlPlay(unsigned int v);
+extern int DWCi_IPTlCheckRelease(unsigned int f);
+extern int DWCi_IPTlCheckRepeat(unsigned int f);
+extern int DWCi_IPTlCheckTrigger(unsigned int f);
+extern int DWCi_TPlCheck(unsigned short *a);
+extern int DWCi_TPlCheckRelease(unsigned short *a);
+extern int DWCi_TPlCheckTrigger(unsigned short *a);
 extern long FX_ModS32(long a, long b);
 void DWCi_KBlInit(void);
 void DWCi_KBlEnd(void);
@@ -460,12 +462,12 @@ static void touchTriger(void)
     int i;
     RECT r;
 
-    if (!DWCi_TPlCheckTrigger(&DWCi_R_SCR))
+    if (!DWCi_TPlCheckTrigger((unsigned short *)(&DWCi_R_SCR)))
         return;
     MemKb->push = -1;
     for (i = 0; i < 47; i++) {
         DWCi_Coord2Rect((COORD *)&C_KEY[i], (COORD *)&keyboard_rodata.S_KEY, &r);
-        if (DWCi_TPlCheckTrigger(&r)) {
+        if (DWCi_TPlCheckTrigger((unsigned short *)(&r))) {
             if (!MemKb->inputFlag) {
                 DWCi_SNDlPlay(9);
                 return;
@@ -477,7 +479,7 @@ static void touchTriger(void)
     }
     for (i = 0; i < 4; i++) {
         DWCi_Coord2Rect((COORD *)&keyboard_rodata.C_SKEY[i], (COORD *)&keyboard_rodata.S_SKEY[i], &r);
-        if (DWCi_TPlCheckTrigger(&r)) {
+        if (DWCi_TPlCheckTrigger((unsigned short *)(&r))) {
             if ((i == 3 && !MemKb->eraseFlag) || (i == 2 && !MemKb->inputFlag)) {
                 DWCi_SNDlPlay(9);
                 return;
@@ -489,7 +491,7 @@ static void touchTriger(void)
     }
     for (i = 0; i < 2; i++) {
         DWCi_Coord2Rect((COORD *)&keyboard_rodata.C_BTN[i], (COORD *)&keyboard_rodata.S_BTN, &r);
-        if (DWCi_TPlCheckTrigger(&r)) {
+        if (DWCi_TPlCheckTrigger((unsigned short *)(&r))) {
             DWCi_SNDlPlay(0);
             MemKb->push = i + 51;
             return;
@@ -504,11 +506,11 @@ static void touchRelease(void)
     RECT r;
 
     MemKb->input = 0;
-    if (!DWCi_TPlCheckRelease(&DWCi_R_SCR))
+    if (!DWCi_TPlCheckRelease((unsigned short *)(&DWCi_R_SCR)))
         return;
     for (i = 0; i < 47; i++) {
         DWCi_Coord2Rect((COORD *)&C_KEY[i], (COORD *)&keyboard_rodata.S_KEY, &r);
-        if (DWCi_TPlCheckRelease(&r)) {
+        if (DWCi_TPlCheckRelease((unsigned short *)(&r))) {
             if (MemKb->push != i)
                 return;
             MemKb->input = keyboard_data.KEY_OUT[MemKb->page][i];
@@ -521,7 +523,7 @@ static void touchRelease(void)
     }
     for (i = 2; i < 4; i++) {
         DWCi_Coord2Rect((COORD *)&keyboard_rodata.C_SKEY[i], (COORD *)&keyboard_rodata.S_SKEY[i], &r);
-        if (DWCi_TPlCheckRelease(&r)) {
+        if (DWCi_TPlCheckRelease((unsigned short *)(&r))) {
             if (MemKb->push != i + 47)
                 return;
             MemKb->input = keyboard_rodata.SKEY_OUT[i];
@@ -534,7 +536,7 @@ static void touchRelease(void)
     }
     for (i = 0; i < 2; i++) {
         DWCi_Coord2Rect((COORD *)&keyboard_rodata.C_BTN[i], (COORD *)&keyboard_rodata.S_BTN, &r);
-        if (DWCi_TPlCheckRelease(&r)) {
+        if (DWCi_TPlCheckRelease((unsigned short *)(&r))) {
             if (MemKb->push != i + 51)
                 return;
             MemKb->input = keyboard_rodata.BTN_OUT[i];
@@ -544,7 +546,7 @@ static void touchRelease(void)
         }
     }
     DWCi_Coord2Rect((COORD *)&keyboard_rodata.C_SKEY[0], (COORD *)&keyboard_rodata.S_SKEY[0], &r);
-    if (DWCi_TPlCheckRelease(&r)) {
+    if (DWCi_TPlCheckRelease((unsigned short *)(&r))) {
         if (MemKb->push != 47)
             return;
         pushCaps();
@@ -553,7 +555,7 @@ static void touchRelease(void)
         return;
     }
     DWCi_Coord2Rect((COORD *)&keyboard_rodata.C_SKEY[1], (COORD *)&keyboard_rodata.S_SKEY[1], &r);
-    if (DWCi_TPlCheckRelease(&r)) {
+    if (DWCi_TPlCheckRelease((unsigned short *)(&r))) {
         if (MemKb->push != 48)
             return;
         pushShift();
@@ -582,10 +584,10 @@ static void touch(void)
     int i;
     RECT r;
 
-    if (DWCi_TPlCheck(&DWCi_R_SCR)) {
+    if (DWCi_TPlCheck((unsigned short *)(&DWCi_R_SCR))) {
         for (i = 0; i < 47; i++) {
             DWCi_Coord2Rect((COORD *)&C_KEY[i], (COORD *)&keyboard_rodata.S_KEY, &r);
-            if (DWCi_TPlCheck(&r)) {
+            if (DWCi_TPlCheck((unsigned short *)(&r))) {
                 if (MemKb->push != i)
                     goto out;
                 exchangeBack(i);
@@ -594,7 +596,7 @@ static void touch(void)
         }
         for (i = 2; i < 4; i++) {
             DWCi_Coord2Rect((COORD *)&keyboard_rodata.C_SKEY[i], (COORD *)&keyboard_rodata.S_SKEY[i], &r);
-            if (DWCi_TPlCheck(&r)) {
+            if (DWCi_TPlCheck((unsigned short *)(&r))) {
                 if (MemKb->push != i + 47)
                     goto out;
                 exchangeBack(i + 47);
@@ -615,7 +617,7 @@ static void touch(void)
         }
         for (i = 0; i < 2; i++) {
             DWCi_Coord2Rect((COORD *)&keyboard_rodata.C_BTN[i], (COORD *)&keyboard_rodata.S_BTN, &r);
-            if (DWCi_TPlCheck(&r)) {
+            if (DWCi_TPlCheck((unsigned short *)(&r))) {
                 if (MemKb->push != i + 51)
                     goto out;
                 exchangeBack(i + 51);
@@ -1020,8 +1022,8 @@ static void taskEnd5(void *task)
     for (i = 0; i < 2; i++)
         DWCi_CELLlDelete(keyboard_bss.MemKb->button[i]);
     for (i = 0; i < 4; i++)
-        DWCi_OBJlDelete(keyboard_bss.MemKb->skey[i]);
+        DWCi_OBJlDelete((unsigned int *)keyboard_bss.MemKb->skey[i]);
     for (i = 0; i < 47; i++)
-        DWCi_OBJlDelete(keyboard_bss.MemKb->key[i]);
+        DWCi_OBJlDelete((unsigned int *)keyboard_bss.MemKb->key[i]);
     DWCi_HEAPlFree_((void **)&MemKb);
 }

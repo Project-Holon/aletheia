@@ -59,9 +59,9 @@
  *   NNS_G2dRestartMCAnimation  0x02064CBC  arm
  *   NNSi_G2dLoadVramResourceSub  0x02063A54  arm
  *   NNSi_G2dLoadVramResourceBySel  0x02063E54  arm
- *   _s32_to_double  0x0209B750  arm
+ *   _dflt           0x0209B750  arm
  *   pow   0x0209AB80  arm
- *   _d2s            0x0209C508  arm
+ *   _dfix           0x0209C508  arm
  *   POKEGRA_GetArcID  0x0202D060  thumb
  *   POKEGRA_GetCbrArcIndex  0x0202D09C  thumb
  *   POKEGRA_GetPalArcIndex  0x0202D0D4  thumb
@@ -99,6 +99,10 @@
  *   ARC_UTIL_LoadBgCharDataFromArchive  0x02049DB4  arm
  *   ARC_UTIL_LoadBgCharDataFromHandle  0x02049DF4  arm
  *   ARC_UTIL_LoadPaletteBlockFromHandle  0x02049F78  arm
+ *   _fadd                        0x0209C95C  arm
+ *   _ffix                        0x0209C494  arm
+ *   _fflt                        0x0209BDBC  arm
+ *   _fsub                        0x0209CB8C  arm
  */
 #include "field_status_shared_types.h"
 #include "zone_light_shared_types.h"
@@ -292,9 +296,9 @@ typedef struct McssCellHeader {
 /* Texture image proxy: VRAM addresses (3D, main, sub; -1 is unset) and the texture parameters. */
 typedef struct McssTexImage {
     u32 vramAddr[3];                    /* 0x00 */
-    u32 sizeS;                          /* 0x0C */
-    u32 sizeT;                          /* 0x10 */
-    u32 fmt;                            /* 0x14 */
+    GXTexSizeS sizeS;                   /* 0x0C */
+    GXTexSizeT sizeT;                   /* 0x10 */
+    GXTexFmt fmt;                       /* 0x14 */
     u32 byteSize;                       /* 0x18 */
     u32 pltt0;                          /* 0x1C */
 } McssTexImage;
@@ -449,24 +453,27 @@ extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u
 
 extern void NNSi_G2dInitVramHandleEx(u32 *proxy);
 
-extern void *ARC_UTIL_LoadPaletteBlockFromArchive(u32 arcId, u32 member, McssPlttData **out, u32 heap);
+extern void *ARC_UTIL_LoadPaletteBlockFromArchive(u32 archiveID, u32 memberIdx, void *unpackedOut, u16 flags);
 
 extern void *GFL_USE_AddMainTask(void *fn, void *work, u32 priority);
 
 extern void MCSS_CloseHandle(McssSys *sys);
+struct TcblSystem;
 
-extern void *TCBL_IsDeletePending(void *task);
+extern u32 TCBL_IsDeletePending(struct TcblSystem *tcbl);
+struct TcbTask;
 
 
-extern void TCB_DeleteTask(void *task);
+extern void TCB_DeleteTask(struct TcbTask *task);
 
 extern void MCSS_Del(McssSys *sys, McssWork *work);
+struct MultiCellAnim;
 
-extern void NNS_G2dTickMCAnimation(McssAnimCtrl *ctrl, fx32 speed);
+extern void NNS_G2dTickMCAnimation(struct MultiCellAnim *pMCAnim, s32 frames);
 
 extern void MCSS_RestartAnime(McssWork *work);
 
-extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
+extern void *ARC_TOOL_CreateHandle(u32 archiveID, u16 heapID);
 
 extern void  ARC_TOOL_DeleteHandle(void *arcHandle);
 
@@ -491,7 +498,7 @@ extern void G3_RotX(fx32 s, fx32 c);
 
 extern void G3_RotZ(fx32 s, fx32 c);
 
-extern void G3_MultMtx44(const MtxFx44 *m);
+extern void G3_MultMtx44(void *m);
 
 extern u32 FX_Div(u32 value, u32 divisor);
 
@@ -499,14 +506,16 @@ extern void G3i_OrthoW_(fx32 t, fx32 b, fx32 l, fx32 r, fx32 n, fx32 f,
                           fx32 scaleW, int draw, void *mtx);
 
 extern void MCSS_DeleteTextureTask(void *taskHandle);
+struct CellAnim;
 
-extern void NNS_G2dSetCellAnimationParam(int anim, int type, int param, int func);
+extern void NNS_G2dSetCellAnimationParam(struct CellAnim *anim, s32 type, s32 param, s32 func);
 
 extern void NNSi_G2dMCEnumAnimBank(void *, void *, unsigned);
+struct AnimSequenceData;
 
-extern void *NNS_G2dGetAnimSequenceByIdx(struct AnimBank *bank, u32 idx);
+extern struct AnimSequenceData *NNS_G2dGetAnimSequenceByIdx(struct AnimBank *bank, u32 idx);
 
-extern void NNS_G2dSetAnimSequenceToMCAnimation(McssAnimCtrl *ctrl, void *seq);
+extern void NNS_G2dSetAnimSequenceToMCAnimation(struct MultiCellAnim *pMCAnim, struct AnimSequenceData *pAnimSeq);
 
 extern void *TCB_AddTask(void *taskSys, void *callback, void *work, int priority);
 
@@ -514,7 +523,7 @@ extern void  PALANM_BlendColors(void *src, void *dst, u16 count, int fadeLevel, 
 
 extern void  MIi_CpuCopy16(const void *src, void *dst, u32 size);
 
-extern void NNS_G2dRestartMCAnimation(McssAnimCtrl *ctrl);
+extern void NNS_G2dRestartMCAnimation(struct MultiCellAnim *pMCAnim);
 
 extern void *ARC_UTIL_LoadCellBankFromArchive(u32 arcId, u32 member, u32 flag, void *out, u32 heap);
 
@@ -524,37 +533,40 @@ extern void *ARC_UTIL_LoadAnimBankFromArchive(u32 arcId, u32 member, u32 flag, v
 
 extern void *ARC_UTIL_LoadMultiAnimBankFromArchive(u32 arcId, u32 member, u32 flag, void *out, u32 heap);
 
-extern void *ARC_UTIL_LoadBgCharDataFromArchive(u32 arcId, u32 member, u32 flag, McssTransTask *out, u16 heap);
+extern void *ARC_UTIL_LoadBgCharDataFromArchive(u32 archiveID, u32 memberIdx, u32 heapID, void *unpackedOut, u16 flags);
 
 extern void NNSi_G2dInitVramHandle(u32 *vramAddr);
 
-extern void *ARC_UTIL_LoadCellBankFromHandle(void *arcHandle, u32 member, u32 flag, void *out, u16 heap);
+extern void *ARC_UTIL_LoadCellBankFromHandle(void *arc, u32 memberIdx, u32 heapID, u32 unpackedOut, u16 flags);
 
-extern void *ARC_UTIL_LoadMultiCellBankFromHandle(void *arcHandle, u32 member, u32 flag, void *out, u16 heap);
+extern void *ARC_UTIL_LoadMultiCellBankFromHandle(void *arc, u32 memberIdx, u32 heapID, u32 unpackedOut, u16 flags);
 
-extern void *ARC_UTIL_LoadAnimBankFromHandle(void *arcHandle, u32 member, u32 flag, void *out, u16 heap);
+extern void *ARC_UTIL_LoadAnimBankFromHandle(void *arc, u32 memberIdx, u32 heapID, u32 unpackedOut, u16 flags);
 
-extern void *ARC_UTIL_LoadMultiAnimBankFromHandle(void *arcHandle, u32 member, u32 flag, void *out, u16 heap);
+extern void *ARC_UTIL_LoadMultiAnimBankFromHandle(void *arc, u32 memberIdx, u32 heapID, u32 unpackedOut, u16 flags);
+struct ArcHandle;
 
-extern void *ARC_TOOL_LoadHandleMember(void *arcHandle, u32 member, u32 heap);
+extern void *ARC_TOOL_LoadHandleMember(struct ArcHandle *arc, u32 memberIdx, u16 heapID);
 
-extern void *ARC_UTIL_LoadBgCharDataFromHandle(void *arcHandle, u32 member, u32 flag, McssTransTask *out, u16 heap);
+extern void *ARC_UTIL_LoadBgCharDataFromHandle(void *arc, u32 memberIdx, u32 heapID, void *unpackedOut, u16 flags);
 
-extern void *ARC_UTIL_LoadPaletteBlockFromHandle(void *arcHandle, u32 member, McssPlttData **out, u32 heap);
+extern void *ARC_UTIL_LoadPaletteBlockFromHandle(void *arc, u32 memberIdx, void *unpackedOut, u16 flags);
+struct VramHandle;
+struct VramResource;
 
-extern void NNSi_G2dLoadVramResourceSub(McssTexData *tex, u32 dst, int mode, McssTexImage *out);
+extern void NNSi_G2dLoadVramResourceSub(struct VramResource *r, u32 dst, s32 mode, struct VramHandle *out);
+struct VramHandleSel;
+struct VramResourceSel;
 
-extern void NNSi_G2dLoadVramResourceBySel(McssPlttData *pltt, u32 dst, int mode, McssPlttProxy *out);
+extern void NNSi_G2dLoadVramResourceBySel(struct VramResourceSel *self, u32 offset, s32 sel, struct VramHandleSel *out);
+struct MultiCellBank;
 
-extern int NNS_G2dGetMCWorkAreaSize(void *multiCellBank, int kind);
+extern int NNS_G2dGetMCWorkAreaSize(struct MultiCellBank *pBank, u32 kind);
+struct CellDataBank;
 
-extern void NNS_G2dInitMCAnimation(McssAnimCtrl *ctrl, void *animWork, void *cellAnimBank, void *cellBank, void *multiCellBank, int kind);
-
-extern double _s32_to_double(s32 v);
+extern void NNS_G2dInitMCAnimation(struct MultiCellAnim *pMCAnim, void *pBuf, struct AnimBank *pAnimBank, struct CellDataBank *pCellDataBank, struct MultiCellBank *pBank, s32 kind);
 
 extern double pow(double base, double exponent);
-
-extern s32 _d2s(double d);
 
 extern int POKEGRA_GetArcID(void);
 
@@ -572,7 +584,7 @@ extern s32 POKEGRA_GetMAnmArcIndex(u32 arcId, u32 species, u32 form, u32 gender,
 
 extern s32 POKEGRA_GetNcecArcIndex(u32 arcId, u32 species, u32 form, u32 gender, u32 isShiny, u32 direction, u32 isEgg);
 
-extern u32 POKEGRA_GetTrainerArcID(u32 a);
+extern u32 POKEGRA_GetTrainerArcID(void *isBack);
 
 extern u32 POKEGRA_GetTrainerCbrArcIndex(u32 id, u32 flags);
 
@@ -773,14 +785,16 @@ void MCSS_TOOL_DrawSpindaSpots(u8 *pixels, u32 personality);
 int MCSS_TOOL_SetAnimeStopCallback(McssWork *work);
 
 void MCSS_TOOL_AnimeStopCallback(McssWork *work);
+struct PokemonParam;
 
-u32 POKE_TOOL_GetPartyValue(void *p, u32 id, u32 v);
+u32 POKE_TOOL_GetPartyValue(struct PokemonParam *pp, u32 paramId, u32 arg);
+struct BoxPokemon;
 
-u32 POKE_TOOL_GetBoxValue(void *p, u32 id, u32 v);
+u32 POKE_TOOL_GetBoxValue(struct BoxPokemon *box, u32 paramId, u32 arg);
 
-u32 POKE_TOOL_IsBoxShiny(void *p);
+u32 POKE_TOOL_IsBoxShiny(struct BoxPokemon *box);
 
-void *POKE_TOOL_GetBoxParam(void *p);
+struct BoxPokemon *POKE_TOOL_GetBoxParam(struct PokemonParam *pp);
 
 extern const char sFileMcss[];
 
@@ -821,7 +835,7 @@ McssSys *MCSS_Init(u32 maxCount, u32 heapId)
     task->sys = sys;
     task->plttProxyOut = &sys->shadowPltt;
     task->plttDest = 0x1100;
-    task->plttBuf = ARC_UTIL_LoadPaletteBlockFromArchive(0xb, 0x58, &task->plttData, (u16)subHeapId);
+    task->plttBuf = ARC_UTIL_LoadPaletteBlockFromArchive((u32)0xb, (u32)0x58, (&task->plttData), (u16)subHeapId);
     sys->shadowPlttTask = GFL_USE_AddMainTask((void *)MCSS_TransTextureTask, task, 0);
     return sys;
 }
@@ -842,7 +856,7 @@ void MCSS_Exit(McssSys *sys)
 
     MCSS_CloseHandle(sys);
     if (sys->shadowPlttTask != 0) {
-        McssTransTask *task = TCBL_IsDeletePending(sys->shadowPlttTask);
+        McssTransTask *task = (struct McssTransTask *)TCBL_IsDeletePending(sys->shadowPlttTask);
 
         GFL_HEAP_Free(task->plttData->data);
         GFL_HEAP_Free(task->plttData);
@@ -905,12 +919,12 @@ void MCSS_Main(McssSys *sys)
         if (sys->works[i] == 0)
             continue;
         if (sys->works[i]->flags.bits.anmStopFlag == 0)
-            NNS_G2dTickMCAnimation(&sys->works[i]->animCtrl, sys->works[i]->animeSpeed);
+            NNS_G2dTickMCAnimation((struct MultiCellAnim *)(&sys->works[i]->animCtrl), sys->works[i]->animeSpeed);
         if (sys->works[i]->flags.bits.paletteFadeFlag != 0)
             MCSS_UpdatePaletteFade(sys, sys->works[i]);
         if (sys->works[i]->requestFlags.bits.stopAtStart == 1) {
             MCSS_RestartAnime(sys->works[i]);
-            NNS_G2dTickMCAnimation(&sys->works[i]->animCtrl, 0);
+            NNS_G2dTickMCAnimation((struct MultiCellAnim *)(&sys->works[i]->animCtrl), 0);
             sys->works[i]->requestFlags.raw &= ~1u;
         }
     }
@@ -2052,7 +2066,7 @@ u8 MCSS_GetStopCellFlags(McssWork *work)
  */
 int MCSS_SetAnimCallback(McssWork *work, u32 callback, u32 callbackWork, u32 unusedArg)
 {
-    NNS_G2dSetCellAnimationParam((int)&work->animCtrl, 1, callback, callbackWork);
+    NNS_G2dSetCellAnimationParam((struct CellAnim *)&work->animCtrl, 1, callback, callbackWork);
 }
 
 void MCSS_SetCellCallback(McssWork *work, unsigned flags, void *callback)
@@ -2201,7 +2215,7 @@ void MCSS_SetAnimeIndex(McssWork *work, u32 animeIndex)
     }
 
     MCSS_InitAnimCtrl(work, 1);
-    NNS_G2dSetAnimSequenceToMCAnimation(&work->animCtrl, seq);
+    NNS_G2dSetAnimSequenceToMCAnimation((struct MultiCellAnim *)(&work->animCtrl), seq);
     work->requestFlags.raw &= ~1u;
 }
 
@@ -2413,7 +2427,7 @@ void MCSS_CreatePaletteCopyTask(McssSys *sys, McssWork *work)
  */
 void MCSS_RestartAnime(McssWork *work)
 {
-    NNS_G2dRestartMCAnimation(&work->animCtrl);
+    NNS_G2dRestartMCAnimation((struct MultiCellAnim *)(&work->animCtrl));
 }
 
 /*
@@ -2528,9 +2542,9 @@ void MCSS_LoadResource(McssSys *sys, u32 index, const McssAddWork *addWork)
     task->plttDest = sys->plttTransAdrs + (index << 5);
     task->work = work;
 
-    task->texBuf = ARC_UTIL_LoadBgCharDataFromArchive(addWork->arcId, addWork->textureMember, 1, task,
+    task->texBuf = ARC_UTIL_LoadBgCharDataFromArchive((u32)addWork->arcId, (u32)addWork->textureMember, (u32)1, task,
                                  (u16)(((u16)work->heapId & 0x7FFF) | 0x8000));
-    task->plttBuf = ARC_UTIL_LoadPaletteBlockFromArchive(addWork->arcId, addWork->paletteMember, &task->plttData,
+    task->plttBuf = ARC_UTIL_LoadPaletteBlockFromArchive((u32)addWork->arcId, (u32)addWork->paletteMember, (&task->plttData),
                                   (u16)(((u16)work->heapId & 0x7FFF) | 0x8000));
 
     work->plttOriginal = GFL_HEAP_Alloc(heap,
@@ -2579,15 +2593,15 @@ void MCSS_LoadResourceShared(McssSys *sys, u32 index, const McssAddWork *addWork
     NNSi_G2dInitVramHandle((u32 *)&work->texImage);
     NNSi_G2dInitVramHandleEx((u32 *)&work->plttProxy);
 
-    work->cellFile = ARC_UTIL_LoadCellBankFromHandle(arcHandle, addWork->cellMember, 0,
-                                   &work->cellBank,
+    work->cellFile = ARC_UTIL_LoadCellBankFromHandle(arcHandle, (u32)addWork->cellMember, (u32)0,
+                                   (u32)(&work->cellBank),
                                    (u16)work->heapId);
-    work->cellAnimFile = ARC_UTIL_LoadMultiCellBankFromHandle(arcHandle, addWork->cellAnimMember, 1, &work->cellAnimBank,
+    work->cellAnimFile = ARC_UTIL_LoadMultiCellBankFromHandle(arcHandle, (u32)addWork->cellAnimMember, (u32)1, (u32)(&work->cellAnimBank),
                                        (u16)work->heapId);
     flag = 1;
-    work->multiCellFile = ARC_UTIL_LoadAnimBankFromHandle(arcHandle, addWork->multiCellMember, 0, &work->multiCellBank,
+    work->multiCellFile = ARC_UTIL_LoadAnimBankFromHandle(arcHandle, (u32)addWork->multiCellMember, (u32)0, (u32)(&work->multiCellBank),
                                         (u16)work->heapId);
-    work->multiCellAnimFile = ARC_UTIL_LoadMultiAnimBankFromHandle(arcHandle, addWork->multiCellAnimMember, 0, &work->multiCellAnimBank,
+    work->multiCellAnimFile = ARC_UTIL_LoadMultiAnimBankFromHandle(arcHandle, (u32)addWork->multiCellAnimMember, (u32)0, (u32)(&work->multiCellAnimBank),
                                             (u16)work->heapId);
     MCSS_SetAnimeIndex(work, 0);
 
@@ -2608,9 +2622,9 @@ void MCSS_LoadResourceShared(McssSys *sys, u32 index, const McssAddWork *addWork
     task->plttDest = sys->plttTransAdrs + (index << 5);
     task->work = work;
 
-    task->texBuf = ARC_UTIL_LoadBgCharDataFromHandle(arcHandle, addWork->textureMember, 1, task,
+    task->texBuf = ARC_UTIL_LoadBgCharDataFromHandle((void *)arcHandle, (u32)addWork->textureMember, (u32)1, task,
                                  (u16)(((u16)work->heapId & 0x7FFF) | 0x8000));
-    task->plttBuf = ARC_UTIL_LoadPaletteBlockFromHandle(arcHandle, addWork->paletteMember, &task->plttData,
+    task->plttBuf = ARC_UTIL_LoadPaletteBlockFromHandle((void *)arcHandle, (u32)addWork->paletteMember, (&task->plttData),
                                   (u16)(((u16)work->heapId & 0x7FFF) | 0x8000));
 
     work->plttOriginal = GFL_HEAP_Alloc((u16)work->heapId,
@@ -2648,7 +2662,7 @@ void MCSS_TransTextureTask(void *taskHandle, McssTransTask *task)
             return;
     }
     if (task->texBuf != 0) {
-        NNSi_G2dLoadVramResourceSub(task->texData, task->texDest, 0, task->texImageOut);
+        NNSi_G2dLoadVramResourceSub((struct VramResource *)task->texData, task->texDest, 0, (struct VramHandle *)task->texImageOut);
         GFL_HEAP_Free(task->texBuf);
         if (task->work->flags.bits.mosaic == 0) {
             task->texBuf = 0;
@@ -2658,7 +2672,7 @@ void MCSS_TransTextureTask(void *taskHandle, McssTransTask *task)
     if (task->work != 0)
         task->work->flags.raw |= 0x2000;
     if (task->plttBuf != 0) {
-        NNSi_G2dLoadVramResourceBySel(task->plttData, task->plttDest, 0, task->plttProxyOut);
+        NNSi_G2dLoadVramResourceBySel((struct VramResourceSel *)task->plttData, task->plttDest, 0, (struct VramHandleSel *)task->plttProxyOut);
         GFL_HEAP_Free(task->plttBuf);
     }
     if (task->work != 0)
@@ -2678,7 +2692,7 @@ void MCSS_TransPaletteTask(void *taskHandle, McssTransTask *task)
             return;
     }
     NNSi_G2dInitVramHandleEx((u32 *)task->plttProxyOut);
-    NNSi_G2dLoadVramResourceBySel(task->plttData, task->plttDest, 0, task->plttProxyOut);
+    NNSi_G2dLoadVramResourceBySel((struct VramResourceSel *)task->plttData, task->plttDest, 0, (struct VramHandleSel *)task->plttProxyOut);
     if (task->work != 0) {
         if (task->work->fadeTask == taskHandle)
             task->work->fadeTask = 0;
@@ -2714,7 +2728,7 @@ void MCSS_InitAnimCtrl(McssWork *work, int kind)
     work->animWork = GFL_HEAP_Alloc((unsigned short)work->heapId,
                                    NNS_G2dGetMCWorkAreaSize(work->multiCellBank, kind),
                                    0, sFileMcss, 0x970);
-    NNS_G2dInitMCAnimation(&work->animCtrl, work->animWork, work->cellAnimBank,
+    NNS_G2dInitMCAnimation((struct MultiCellAnim *)(&work->animCtrl), work->animWork, work->cellAnimBank,
                   work->cellBank, work->multiCellBank, kind);
 }
 
@@ -2889,7 +2903,7 @@ void MCSS_FreeResource(McssWork *work)
 
 void MCSS_DeleteTextureTask(void *taskHandle)
 {
-    McssTransTask *task = TCBL_IsDeletePending(taskHandle);
+    McssTransTask *task = (struct McssTransTask *)TCBL_IsDeletePending(taskHandle);
 
     if (task->texBuf != 0) {
         GFL_HEAP_Free(task->texBuf);
@@ -2903,7 +2917,7 @@ void MCSS_DeleteTextureTask(void *taskHandle)
 
 void MCSS_DeletePaletteTask(void *taskHandle)
 {
-    McssTransTask *task = TCBL_IsDeletePending(taskHandle);
+    McssTransTask *task = (struct McssTransTask *)TCBL_IsDeletePending(taskHandle);
     GFL_HEAP_Free(task->plttData->data);
     GFL_HEAP_Free(task->plttData);
     GFL_HEAP_Free(task);
@@ -2961,7 +2975,7 @@ void MCSS_ApplyMosaic(McssWork *work, McssTransTask *task)
   {
     return;
   }
-  rowBytes = _d2s(pow(2.0, _s32_to_double(work->texImage.sizeS + 2)));
+  rowBytes = (s32) pow(2.0, (double) (work->texImage.sizeS + 2));
   pixels = task->texData->rawData;
   cellIdx = 0;
   while (((u32) cellIdx) < work->cellHeader->cellCount)
@@ -3325,7 +3339,7 @@ void MCSS_TOOL_MakeAddWorkFromParam(u32 species, u32 form, u32 gender, u32 isShi
  */
 void MCSS_TOOL_MakeAddWorkFromTrainer(void *trainerClass, McssAddWork *out, void *trainerGender)
 {
-    out->arcId = POKEGRA_GetTrainerArcID((u32)trainerGender);
+    out->arcId = POKEGRA_GetTrainerArcID(trainerGender);
     out->textureMember = POKEGRA_GetTrainerCbrArcIndex((u32)trainerClass, (u32)trainerGender);
     out->paletteMember = POKEGRA_GetTrainerPalArcIndex((u32)trainerClass, (u32)trainerGender);
     out->cellMember = POKEGRA_GetTrainerCelArcIndex((u32)trainerClass, (u32)trainerGender);

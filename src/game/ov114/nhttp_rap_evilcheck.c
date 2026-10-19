@@ -29,6 +29,7 @@
  *   MYSTATUS_GetNation  0x0200856C  thumb  arm9
  *   MYSTATUS_GetArea  0x02008570  thumb  arm9
  */
+#include "../version.h"
 #include "nhttp_types.h"
 #include "nhttp_rap_types.h"
 
@@ -43,12 +44,13 @@ extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u
 extern u32 GFL_HEAP_Free(void *p);
 
 extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
+struct MyStatus;
 
-extern u8 MYSTATUS_GetNation(const struct MYSTATUS *mystatus_p);
+extern u8 MYSTATUS_GetNation(struct MyStatus *mystatus);
 
-extern u8 MYSTATUS_GetArea(const struct MYSTATUS *mystatus_p);
+extern u8 MYSTATUS_GetArea(struct MyStatus *mystatus);
 
-extern u32 MYSTATUS_GetId(const struct MYSTATUS *mystatus_p);
+extern u32 MYSTATUS_GetId(struct MyStatus *mystatus);
 
 extern const void *MYSTATUS_GetName(const void *p);
 
@@ -69,6 +71,7 @@ void NHTTP_RAP_InitTrainerInfo(NHTTPRapTrainerInfo *info_p, const struct MYSTATU
 extern u16 sNHTTPRapCryptoHeapId;
 
 extern char sNHTTPRapEvilCheckEmptyString[], sNHTTPRapEvilCheckFileName[];
+struct OSMutex;
 
 /*
  * Allocates and zeroes an elemSize*count byte scratch block from tag 0xb9.
@@ -108,11 +111,11 @@ void NHTTP_RAP_EvilCheckCryptoFree(void *block)
 void NHTTP_RAP_InitTrainerInfo(NHTTPRapTrainerInfo *info_p, const struct MYSTATUS *mystatus_p)
 {
     MI_CpuFill8(info_p, 0, 0x64);
-    info_p->packetType = 0x15;
+    info_p->packetType = PM_VERSION_ID;
     info_p->version = 2;
-    info_p->language = MYSTATUS_GetNation(mystatus_p);
-    info_p->romVersion = MYSTATUS_GetArea(mystatus_p);
-    info_p->trainerId = MYSTATUS_GetId(mystatus_p);
+    info_p->language = MYSTATUS_GetNation((struct MyStatus *)mystatus_p);
+    info_p->romVersion = MYSTATUS_GetArea((struct MyStatus *)mystatus_p);
+    info_p->trainerId = MYSTATUS_GetId((struct MyStatus *)mystatus_p);
     WORDSET_CopyString(MYSTATUS_GetName(mystatus_p), info_p->name, 8);
     info_p->reserved18 = 0;
     info_p->reserved24 = 0;
@@ -121,9 +124,9 @@ void NHTTP_RAP_InitTrainerInfo(NHTTPRapTrainerInfo *info_p, const struct MYSTATU
 
 #pragma thumb off
 
-extern void OS_InitMutex(int *mutex_p);
+extern void OS_InitMutex(struct OSMutex *mutex);
 
-extern void OS_LockMutex(int *mutex_p);
+extern void OS_LockMutex(struct OSMutex *mutex);
 
 void NHTTPi_InitMutex(int *mutex_p);
 
@@ -131,7 +134,7 @@ void NHTTPi_LockMutexThunk(int *mutex_p);
 
 void NHTTPi_InitMutex(int *mutex_p)
 {
-    OS_InitMutex(mutex_p);
+    OS_InitMutex((struct OSMutex *)mutex_p);
 }
 
 /*
@@ -141,5 +144,5 @@ void NHTTPi_InitMutex(int *mutex_p)
  */
 void NHTTPi_LockMutexThunk(int *mutex_p)
 {
-    OS_LockMutex(mutex_p);
+    OS_LockMutex((struct OSMutex *)mutex_p);
 }

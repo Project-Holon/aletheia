@@ -312,7 +312,7 @@ extern char *FS_GetArchiveName(FSArchive *arc);
 extern int STD_GetStringLength(const char *str);
 extern BOOL FSi_IsUnreadableRomOffset(FSArchive *arc, u32 offset);
 extern void MI_CpuFill8(void *dstp, u8 data, u32 size);
-extern const CARDRomHeader *CARD_GetRomHeader(void);
+extern void *CARD_GetRomHeader(void);
 extern BOOL FS_MountArchive(FSArchive *arc, void *userdata, const FSArchiveInterface *vtbl, u32 reserved);
 extern BOOL FS_UnmountArchive(FSArchive *arc);
 extern BOOL FS_OpenFileDirect(FSFile *file, FSArchive *arc, u32 image_top, u32 image_bottom, u32 id);

@@ -238,52 +238,60 @@ typedef struct GateCameraEventWork {
 } GateCameraEventWork;
 
 extern void FIELD_GIMMICK_GATE_LogMessage(GateWork *work, int kind, int param);
-extern struct EventWork *GAME_DATA_GetEventWork(struct GameData *gameData);
+struct GameData;
+extern void *GAME_DATA_GetEventWork(struct GameData *gameData);
 extern void ZONEDATA_ResetEventFlag(struct EventWork *eventWork, int flagId);
 extern int FIELD_GIMMICK_GATE_HasMessagesToShow(GateWork *work);
-extern int FIELD_GIMMICK_GATE_HasNewsEntry(GateWork *work);
+extern int FIELD_GIMMICK_GATE_HasNewsEntry(void *frienddata);
 extern struct WordSet *WORDSET_CreateDefault(u32 heapId);
 extern int RTC_GetDate(RtcDate *date);
 extern void WORDSET_SetSlotNumber(struct WordSet *wordSet, u32 index, u32 number, u32 keta, u32 dispType, u32 codeType);
 extern void WORDSET_SetSlotMonth(struct WordSet *wordSet, u32 index, u32 month);
 extern u32 WORDSET_Delete(struct WordSet *wordSet);
 extern struct WordSet *WORDSET_Create(u32 wordMax, u32 bufLen, u16 heapId);
-extern struct MsgData *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+struct MsgBank;
+extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern u32 ZONEDATA_GetPlaceNameId(u32 placeId);
-extern struct Strbuf *MSGDATA_AllocString(struct MsgData *msgData, u32 index);
+extern struct Strbuf *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
 extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
 extern void WORDSET_SetSlotTag(struct WordSet *wordSet, u32 index, const struct Strbuf *str, u32 sex, u32 singular, u32 lang);
 extern void WORDSET_CopyTaggedText(struct WordSet *wordSet, struct Strbuf *dst, struct Strbuf *src);
 extern void STRBUF_Delete(struct Strbuf *str);
-extern u32 MSGDATA_Delete(struct MsgData *msgData);
+extern u32 MSGDATA_Delete(struct MsgBank *bank);
 extern u16 FIELD_ENCOUNT_GetSwarmZoneId(struct GameData *gameData);
 extern u8 GAME_DATA_GetSeason(struct GameData *gameData);
 extern int FIELD_GIMMICK_GATE_IsExtraSaveListOn(GateWork *work);
 extern void FIELD_GIMMICK_GATE_ReadExtraSaveValues(GateWork *work, u32 *outIds, int *outCount);
 extern void FIELD_GIMMICK_GATE_ReadSaveBlockValues(GateWork *work, u32 *outIds, int *outCount);
 extern void WORDSET_SetSlotSpeciesName(struct WordSet *wordSet, u32 index, u16 value);
-extern void *GAME_DATA_GetMyStatus(struct GameData *gameData);
+struct MyStatus;
+extern struct MyStatus *GAME_DATA_GetMyStatus(struct GameData *gameData);
 extern void WORDSET_SetSlotMyStatus(struct WordSet *wordSet, u32 index, void *myStatus);
 extern GateNewsEntry *FIELD_GIMMICK_GATE_FindNewsEntry(GateWork *work);
 extern GateNewsEntry *FIELD_GIMMICK_GATE_FindListNewsEntry(GateWork *work);
 extern int FIELDMAP_GetZoneWeatherId(struct FieldMap *fieldMap, int placeId);
-extern void *GAME_DATA_GetSaveControl(struct GameData *gameData);
-extern struct EncounterState *MOVE_POKEMON_SAVE_GetBlock(void *saveControl);
-extern int MOVE_POKEMON_HasActiveEntry(struct EncounterState *state);
+struct SaveControl;
+extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gameData);
+extern void *MOVE_POKEMON_SAVE_GetBlock(void *saveControl);
+struct MovePokemonSave;
+extern int MOVE_POKEMON_HasActiveEntry(struct MovePokemonSave *block);
 extern u32 GPOWER_GetSpecialPowerId(void);
-extern u32 MOVE_POKEMON_GetEntryZoneId(struct EncounterState *state, u32 slot);
-extern struct ScriptWork *SCRCMD_WORK_GetScriptWork(struct ScrCmdWork *cmdWork);
-extern struct GameSystem *SCRCMD_WORK_GetGameSystem(struct ScrCmdWork *cmdWork);
-extern struct FieldMap *GAMESYSTEM_GetFieldMap(struct GameSystem *gameSystem);
-extern unsigned int SCRIPT_WORK_ReadWorkValue(struct ScriptContext *ctx, struct ScrCmdWork *cmdWork);
+extern u32 MOVE_POKEMON_GetEntryZoneId(struct MovePokemonSave *block, u32 slot);
+struct ScrcmdWork;
+extern struct ScriptWork *SCRCMD_WORK_GetScriptWork(struct ScrcmdWork *work);
+extern struct GameSystem *SCRCMD_WORK_GetGameSystem(struct ScrcmdWork *work);
+extern void *GAMESYSTEM_GetFieldMap(struct GameSystem *gameSystem);
+struct ScriptVm;
+extern unsigned int SCRIPT_WORK_ReadWorkValue(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
 extern void GFL_USE_PlaySeDefaultVolume(u32 seId);
-extern void SCRIPT_SYS_CallEvent(struct ScriptWork *scriptWork, struct GameEvent *event);
+extern void SCRIPT_SYS_CallEvent(void *scriptWork, void *task);
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern struct GfFont *GF_FONT_Create(int archiveId, int fileId, int format, int isFixedWidth, u32 heapId);
 extern unsigned int GF_FONT_Delete(struct GfFont *font);
 extern u32 GFL_HEAP_Free(void *p);
-extern u32 G3D_SYSTEM_SetObjectAnimeFrame(G3dObject *obj, u16 animIndex, s32 *frame);
-extern u32 G3D_SYSTEM_EnableObjectAnime(G3dObject *obj, u32 animIndex);
+struct G3dObject;
+extern s32 G3D_SYSTEM_SetObjectAnimeFrame(G3dObject *obj, u16 animIndex, s32 *frame);
+extern s32 G3D_SYSTEM_EnableObjectAnime(G3dObject *obj, u32 animIndex);
 extern int G3D_SYSTEM_DisableObjectAnime(G3dObject *obj, u32 animIndex);
 extern u32 PRINTSYS_MeasureWidestLine(struct Strbuf *str, struct GfFont *font, u32 spacing);
 extern G3dRender *G3D_SYSTEM_GetObjectRender(G3dObject *obj);
@@ -291,9 +299,10 @@ extern G3dResource *G3D_SYSTEM_GetRenderTexRes(G3dRender *render);
 extern struct ElboardText *EL_SCOREBOARD_CreateLamp(G3dResource *texRes, const char *textureName, const char *paletteName, struct Strbuf *str, u16 width, u16 flag, u16 heapId);
 extern G3dAnime *G3D_SYSTEM_GetObjectAnime(G3dObject *obj, int animIndex);
 extern NNSG3dAnmObj *G3D_SYSTEM_GetAnimeObj(G3dAnime *anime);
-extern u32 G3D_SYSTEM_ResetObjectAnimeFrame(G3dObject *obj, u16 animIndex);
-extern void EL_SCOREBOARD_DeleteLamp(struct ElboardText *text);
-extern void EL_SCOREBOARD_TickLamp(struct ElboardText *text);
+extern s32 G3D_SYSTEM_ResetObjectAnimeFrame(G3dObject *obj, u16 animIndex);
+struct ElLamp;
+extern void EL_SCOREBOARD_DeleteLamp(struct ElLamp *lamp);
+extern void EL_SCOREBOARD_TickLamp(struct ElLamp *lamp);
 extern int G3D_SYSTEM_IncObjectAnimeFrame(G3dObject *obj, int animIndex, int step);
 extern void ARC_TOOL_ReadMemberRange(void *dst, u32 archiveId, u32 memberIndex, u32 mode, u32 size);
 extern struct FieldCamera *FIELDMAP_GetCamera(struct FieldMap *fieldMap);
@@ -303,15 +312,15 @@ extern u16 FIELD_CAMERA_GetYaw(struct FieldCamera *camera);
 extern u32 FIELD_CAMERA_GetDistance(struct FieldCamera *camera);
 extern void FIELD_CAMERA_GetTargetShift(struct FieldCamera *camera, VecFx32 *outTarget);
 extern u8 FIELD_GIMMICK_GATE_GetBoardFacing(struct FieldMap *fieldMap);
-extern struct FieldTask *FIELD_TASK_CreateCameraDistanceTween(struct FieldMap *fieldMap, u16 frames, u32 distance);
+extern struct FieldTask *FIELD_TASK_CreateCameraDistanceTween(struct FieldMap *fieldMap, u16 frames, s32 targetDistance);
 extern struct FieldTask *FIELD_TASK_CreateCameraPitchTween(struct FieldMap *fieldMap, u16 frames, u16 pitch);
 extern struct FieldTask *FIELD_TASK_CreateCameraYawTween(struct FieldMap *fieldMap, u16 frames, u16 yaw);
-extern struct FieldTask *FIELD_TASK_CreateCameraTargetTween(struct FieldMap *fieldMap, u16 frames, VecFx32 *target);
-extern void FIELD_TASK_MANAGER_AddTask(struct FieldTaskManager *taskManager, struct FieldTask *task, u32 flag);
+extern struct FieldTask *FIELD_TASK_CreateCameraTargetTween(struct FieldMap *fieldMap, u32 frames, VecFx32 *to);
+extern void FIELD_TASK_MANAGER_AddTask(struct FieldTaskManager *manager, struct FieldTask *task, struct FieldTask *prerequisite);
 extern int FIELD_TASK_MANAGER_IsEmpty(struct FieldTaskManager *taskManager);
 extern u32 KEY_GetTrg(void);
 typedef int (*GameEventFunc)(struct GameEvent *event, int *seq, void *work);
-extern struct GameEvent *GAME_EVENT_Create(struct GameSystem *gameSystem, void *parent, GameEventFunc func, u32 workSize);
+extern struct GameEvent *GAME_EVENT_Create(struct GameSystem *gameSystem, struct GameEvent *parent, GameEventFunc func, u32 workSize);
 extern void *GAME_EVENT_GetWork(struct GameEvent *event);
 void GIMMICK_OBJ_ELBOARD_AddMessage(GateWork *work, ElboardMessage *msg, int kind, GateNewsEntry *entry);
 void GIMMICK_OBJ_ELBOARD_FillMessages(GateWork *work);
@@ -506,16 +515,16 @@ void GIMMICK_OBJ_ELBOARD_AddPlaceListMessage(GateWork *work)
     GIMMICK_OBJ_ELBOARD_CollectHighlights(work, &highlights);
     bufLen = 0x100;
     words = WORDSET_Create(4, bufLen, work->heapId);
-    placeNames = MSGDATA_CreateFromArchive(0, 2, 0x59, work->heapId);
-    boardText = MSGDATA_CreateFromArchive(0, 2, 0x26, work->heapId);
+    placeNames = (struct MsgData *)MSGDATA_CreateFromArchive(0, 2, 0x59, work->heapId);
+    boardText = (struct MsgData *)MSGDATA_CreateFromArchive(0, 2, 0x26, work->heapId);
     for (i = 0; i < 4; i++) {
         if (highlights.placeId[i] == ELBOARD_NO_PLACE)
             continue;
         kindIndex = highlights.kind[i];
-        placeName = MSGDATA_AllocString(placeNames, ZONEDATA_GetPlaceNameId(highlights.placeId[i]));
-        labelText = MSGDATA_AllocString(boardText, gElboardLabelMsgId[kindIndex]);
+        placeName = MSGDATA_AllocString((struct MsgBank *)placeNames, ZONEDATA_GetPlaceNameId(highlights.placeId[i]));
+        labelText = MSGDATA_AllocString((struct MsgBank *)boardText, gElboardLabelMsgId[kindIndex]);
         pairWords = WORDSET_Create(2, bufLen, work->heapId);
-        pairTemplate = MSGDATA_AllocString(boardText, 0xc0);
+        pairTemplate = MSGDATA_AllocString((struct MsgBank *)boardText, 0xc0);
         pairText = STRBUF_Create(0x40, work->heapId);
         WORDSET_SetSlotTag(pairWords, 0, placeName, 0, 1, 0);
         WORDSET_SetSlotTag(pairWords, 1, labelText, 0, 1, 0);
@@ -527,8 +536,8 @@ void GIMMICK_OBJ_ELBOARD_AddPlaceListMessage(GateWork *work)
         STRBUF_Delete(labelText);
         STRBUF_Delete(pairText);
     }
-    MSGDATA_Delete(boardText);
-    MSGDATA_Delete(placeNames);
+    MSGDATA_Delete((struct MsgBank *)boardText);
+    MSGDATA_Delete((struct MsgBank *)placeNames);
     switch (GIMMICK_OBJ_ELBOARD_CountHighlights(&highlights)) {
     case 0:
         break;
@@ -572,11 +581,11 @@ void GIMMICK_OBJ_ELBOARD_AddLastPlaceMessage(GateWork *work)
     if (placeId == 0x159 && GAME_DATA_GetSeason(work->gameData) == 3)
         return;
     words = WORDSET_CreateDefault(work->heapId);
-    placeNames = MSGDATA_CreateFromArchive(0, 2, 0x59, work->heapId);
-    placeName = MSGDATA_AllocString(placeNames, ZONEDATA_GetPlaceNameId(placeId));
+    placeNames = (struct MsgData *)MSGDATA_CreateFromArchive(0, 2, 0x59, work->heapId);
+    placeName = MSGDATA_AllocString((struct MsgBank *)placeNames, ZONEDATA_GetPlaceNameId(placeId));
     WORDSET_SetSlotTag(words, 0, placeName, 0, 1, 0);
     STRBUF_Delete(placeName);
-    MSGDATA_Delete(placeNames);
+    MSGDATA_Delete((struct MsgBank *)placeNames);
     msg.animIndex = gElboardLayout.animIndex[2];
     msg.textureName = gElboardLayout.textureName[2];
     msg.paletteName = gElboardLayout.paletteName[2];
@@ -896,7 +905,7 @@ void GIMMICK_OBJ_ELBOARD_CollectGPowerHighlight(GateWork *work, ElboardHighlight
 
     encounter = MOVE_POKEMON_SAVE_GetBlock(GAME_DATA_GetSaveControl(work->gameData));
     GIMMICK_OBJ_ELBOARD_ClearHighlights(out);
-    if (MOVE_POKEMON_HasActiveEntry(encounter)) {
+    if (MOVE_POKEMON_HasActiveEntry((struct MovePokemonSave *)encounter)) {
         placeId = GPOWER_GetSpecialPowerId();
         switch (placeId) {
         case 0x14:
@@ -914,7 +923,7 @@ void GIMMICK_OBJ_ELBOARD_CollectGPowerHighlight(GateWork *work, ElboardHighlight
             kind = 7;
             break;
         }
-        placeId = MOVE_POKEMON_GetEntryZoneId(encounter, (unsigned char)slot);
+        placeId = MOVE_POKEMON_GetEntryZoneId((struct MovePokemonSave *)encounter, (unsigned char)slot);
         if (placeId != 0xFFFF) {
             out->placeId[0] = placeId;
             out->kind[0] = kind;
@@ -931,10 +940,10 @@ int GIMMICK_OBJ_ELBOARD_CmdStartCameraEvent(struct ScriptContext *ctx, struct Sc
     struct FieldMap *fieldMap;
     int frames;
 
-    scriptWork = SCRCMD_WORK_GetScriptWork(cmdWork);
-    gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
+    scriptWork = SCRCMD_WORK_GetScriptWork((struct ScrcmdWork *)cmdWork);
+    gameSystem = SCRCMD_WORK_GetGameSystem((struct ScrcmdWork *)cmdWork);
     fieldMap = GAMESYSTEM_GetFieldMap(gameSystem);
-    frames = (int)SCRIPT_WORK_ReadWorkValue(ctx, cmdWork);
+    frames = (int)SCRIPT_WORK_ReadWorkValue((struct ScriptVm *)ctx, (struct ScrcmdWork *)cmdWork);
     GFL_USE_PlaySeDefaultVolume(0x547);
     SCRIPT_SYS_CallEvent(scriptWork, GIMMICK_OBJ_ELBOARD_CreateCameraEvent(gameSystem, fieldMap, frames));
     return 1;
@@ -1105,19 +1114,19 @@ ElboardLine *GIMMICK_OBJ_ELBOARD_CreateLine(GimmickObjElboard *board, const Elbo
     fx32 animFrames;
 
     line = GFL_HEAP_Alloc(board->heapId, 0x24, 0, gElboardFileName, 0x180);
-    msgData = MSGDATA_CreateFromArchive(0, (u16)msg->arcId, (u16)msg->fileId, board->heapId);
+    msgData = (struct MsgData *)MSGDATA_CreateFromArchive(0, (u16)msg->arcId, (u16)msg->fileId, board->heapId);
     if (msg->wordSet != 0) {
         str = STRBUF_Create(0xC0, board->heapId);
-        tmp = MSGDATA_AllocString(msgData, msg->msgId);
+        tmp = MSGDATA_AllocString((struct MsgBank *)msgData, msg->msgId);
         WORDSET_CopyTaggedText(msg->wordSet, str, tmp);
         GFL_HEAP_Free(tmp);
     } else {
-        str = MSGDATA_AllocString(msgData, msg->msgId);
+        str = MSGDATA_AllocString((struct MsgBank *)msgData, msg->msgId);
     }
     width = PRINTSYS_MeasureWidestLine(str, board->font, 1);
     line->text = EL_SCOREBOARD_CreateLamp(G3D_SYSTEM_GetRenderTexRes(G3D_SYSTEM_GetObjectRender(board->render)), msg->textureName, msg->paletteName, str, board->leadChars * 14, 1, board->heapId);
     GFL_HEAP_Free(str);
-    MSGDATA_Delete(msgData);
+    MSGDATA_Delete((struct MsgBank *)msgData);
     animFrames = G3D_SYSTEM_GetAnimeObj(G3D_SYSTEM_GetObjectAnime(board->render, msg->animIndex))->resAnm->numFrame << 12;
     leadWidth = board->leadChars * 13;
     totalWidth = leadWidth + width;
@@ -1140,7 +1149,7 @@ ElboardLine *GIMMICK_OBJ_ELBOARD_CreateLine(GimmickObjElboard *board, const Elbo
 
 void GIMMICK_OBJ_ELBOARD_DeleteLine(ElboardLine *line)
 {
-    EL_SCOREBOARD_DeleteLamp(line->text);
+    EL_SCOREBOARD_DeleteLamp((struct ElLamp *)line->text);
     GFL_HEAP_Free(line);
 }
 
@@ -1162,7 +1171,7 @@ void GIMMICK_OBJ_ELBOARD_UpdateLine(GimmickObjElboard *board, ElboardLine *line,
     int newElapsed;
 
     if (line->isPlaying == 1) {
-        EL_SCOREBOARD_TickLamp(line->text);
+        EL_SCOREBOARD_TickLamp((struct ElLamp *)line->text);
         G3D_SYSTEM_IncObjectAnimeFrame(line->render, line->animIndex, step);
         newElapsed = line->elapsed + step;
         line->elapsed = newElapsed;

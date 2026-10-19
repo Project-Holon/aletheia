@@ -82,16 +82,15 @@ extern void MIi_CpuClearFast(unsigned long data, void *destp, unsigned long size
 extern void MIi_CpuCopyFast(void *srcp, void *destp, unsigned long size);
 extern void MI_CpuCopy(void *srcp, void *destp, unsigned long size);
 extern int Yos_BitWrite(u8 *dst, unsigned long *ptr, unsigned long num, unsigned long size);
-extern void Yos_JpegEncoderForwardDct(unsigned char *data, long *qtable, short *output);
+static void Yos_JpegEncoderForwardDct(unsigned char *data, long *qtable, short *output);
 extern void MI_CpuFill8(void *dstp, u8 data, u32 size);
 extern int OS_IsRunOnTwl(void);
 extern void AESi_Init(void);
-extern int AESi_SignForJpeg(u8 *sign, u8 *dst, u32 ptr);
+extern int AESi_SignForJpeg(unsigned char *sign, unsigned int data, unsigned int length);
 extern void MI_CpuCopy8(void *srcp, void *dstp, u32 size);
 extern unsigned long _u32_div_f(unsigned long a, unsigned long b);
-extern unsigned long SSP_ExifEncode(u8 *l_dst, unsigned long width, unsigned long height,
-                                    u8 *thumb_src, unsigned long thumb_size);
-extern unsigned long Yos_JPEGEncode(void *src, unsigned char *dst, unsigned long limit, unsigned char *wrk, unsigned long width, unsigned long height, unsigned long quality, unsigned long sampling, int thumb, unsigned char *thumb_src, unsigned long thumb_size, void (*func)(void *, unsigned long, unsigned long, void *));
+extern unsigned long SSP_ExifEncode(int dstBuffer, int width, int height, unsigned char *thumbSrc, unsigned int thumbSize);
+static unsigned long Yos_JPEGEncode(void *src, unsigned char *dst, unsigned long limit, unsigned char *wrk, unsigned long width, unsigned long height, unsigned long quality, unsigned long sampling, int thumb, unsigned char *thumb_src, unsigned long thumb_size, void (*func)(void *, unsigned long, unsigned long, void *));
 void Yos_BitInit(void);
 int Yos_JpegEncoderHuffmanEncoderPrintTable(u8 *huff, u8 *dst, u32 *pos);
 int Yos_JpegEncoderHuffmanEncoderOutputSize(unsigned char *p);
@@ -796,7 +795,7 @@ static int SSPi_JpegEncoderDoSign(u8 *dst, unsigned long ptr)
     MI_CpuFill8(dst + offset, 0, 0x1c);
     if (OS_IsRunOnTwl())
         AESi_Init();
-    if (AESi_SignForJpeg(sign, dst, ptr) != 1)
+    if (AESi_SignForJpeg(sign, (unsigned int)dst, ptr) != 1)
         return 0;
     MI_CpuCopy8(sign, dst + offset, 0x1c);
     return 1;
@@ -1134,7 +1133,7 @@ static unsigned long Yos_JPEGEncode(void *src, u8 *dst, unsigned long limit, u8 
         dst[0xd] = samplingy | (samplingx << 4);
         ptr = 25;
     } else {
-        ptr = SSP_ExifEncode(dst, width, height, thumb_src, thumb_size);
+        ptr = SSP_ExifEncode((int)dst, width, height, thumb_src, thumb_size);
         if (ptr + 0x17 >= gWriteLimit)
             return 0;
         MI_CpuCopy8(jfif, dst + ptr, 0x17);

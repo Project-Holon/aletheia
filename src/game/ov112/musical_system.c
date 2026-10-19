@@ -35,7 +35,7 @@
 
 extern u32 GFL_HEAP_Free(void *p);
 
-extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
+extern void *ARC_TOOL_CreateHandle(u32 archiveID, u16 heapID);
 
 struct ArcFile;
 
@@ -56,24 +56,26 @@ typedef struct McssDistSave {
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
 extern void ARC_TOOL_DeleteHandle(void *);
+struct PokemonParam;
 
-extern u32 POKE_TOOL_GetPartyValue(void *,u32,u32);
+extern u32 POKE_TOOL_GetPartyValue(struct PokemonParam *pp, u32 paramId, u32 arg);
 
-extern u32 POKE_TOOL_IsShiny(void *);
+extern u32 POKE_TOOL_IsShiny(struct PokemonParam *pp);
 
 extern struct MusicalDist *MUSICAL_DIST_SAVE_Create(void *sys, u32 heap);
 
-extern u32 MUSICAL_DIST_SAVE_GetPayload(struct Blk2C *p);
+extern u32 MUSICAL_DIST_SAVE_GetPayload(struct MusicalDist *dist);
 
-extern u32 MUSICAL_DIST_SAVE_GetPayloadSize(struct Blk2C *p);
+extern u32 MUSICAL_DIST_SAVE_GetPayloadSize(struct MusicalDist *dist);
 
-extern void *ARC_TOOL_CreateHandleFromMemory(void *buf, u32 size, u32 heap);
+extern void *ARC_TOOL_CreateHandleFromMemory(void *buf, u32 size, u16 heapID);
 
 extern void *ARC_UTIL_LoadHandleMemberWithSize(void *narc, int fileId, int decompress, u32 heapId, u32 *out_size);
+struct ArcHandle;
 
-extern u32 ARC_TOOL_GetHandleMemberSize(struct ArcFile *arc, u32 member);
+extern u32 ARC_TOOL_GetHandleMemberSize(struct ArcHandle *arc, u32 memberIdx);
 
-extern void ARC_TOOL_ReadHandleMember(struct ArcFile *arc, u32 member, void *dst);
+extern void ARC_TOOL_ReadHandleMember(struct ArcHandle *arc, u32 memberIdx, void *dst);
 
 extern void MUSICAL_DIST_SAVE_Delete(struct MusicalDist *p);
 

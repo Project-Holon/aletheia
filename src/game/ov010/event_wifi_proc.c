@@ -67,11 +67,14 @@ typedef struct WifiProcWork {
     u32 exitKind;                   /* 0x28: picks the closing screen */
     u8 pad2C[0x34 - 0x2C];
 } WifiProcWork;
+struct GameComm;
+struct IntrudeCommSys;
 
-extern int INTRUDE_COMM_GetWorkIfRunning(struct GameComm *gameComm);
+extern struct IntrudeCommSys *INTRUDE_COMM_GetWorkIfRunning(struct GameComm *gameComm);
+struct GameEvent;
 
 /* game system, game event, game data */
-extern struct GameEvent *GAME_EVENT_Create(struct GameSystem *gameSystem, void *parent, EventTaskFn taskFn, u32 workSize);
+extern struct GameEvent *GAME_EVENT_Create(struct GameSystem *gameSystem, struct GameEvent *parent, EventTaskFn taskFn, unsigned int workSize);
 
 extern void *GAME_EVENT_GetWork(struct GameEvent *event);
 
@@ -83,7 +86,7 @@ extern void GAME_EVENT_CallProc(struct GameEvent *event, u32 overlayId, const vo
 
 extern struct GameData *GAMESYSTEM_GetGameData(struct GameSystem *gameSystem);
 
-extern struct FieldMap *GAMESYSTEM_GetFieldMap(struct GameSystem *gameSystem);
+extern void *GAMESYSTEM_GetFieldMap(struct GameSystem *gameSystem);
 
 extern struct GameComm *GAMESYSTEM_GetGameComm(struct GameSystem *gameSystem);
 
@@ -117,26 +120,27 @@ extern void GFL_USE_CancelChangeAndPlayBgm(u32 bgmNo, u32 volume);
 extern void GFL_USE_FadeInBgmFull(u32 frames);
 
 /* field events and field */
-extern struct GameEvent *EVENT_FIELDMAP_CONTROL_StartFadeOut(struct GameSystem *gameSystem, struct FieldMap *fieldMap, u32 a, u32 b);
+extern struct GameEvent *EVENT_FIELDMAP_CONTROL_StartFadeOut(struct GameSystem *gameSystem, struct FieldMap *fieldMap, s32 effect, s32 skipWait);
 
 extern struct GameEvent *FIELD_STATUS_CreateFieldCloseEvent(struct GameSystem *gameSystem, struct FieldMap *fieldMap);
 
 extern struct GameEvent *FIELD_STATUS_CreateFieldOpenEvent(struct GameSystem *gameSystem);
 
-extern struct GameEvent *EVENT_FIELDMAP_CONTROL_StartFadeIn(struct GameSystem *gameSystem, struct FieldMap *fieldMap, u32 a, u32 b, u32 c, u32 d, u32 e);
+extern struct GameEvent *EVENT_FIELDMAP_CONTROL_StartFadeIn(struct GameSystem *gameSystem, struct FieldMap *fieldMap, s32 effect, s32 skipWait, s32 restoreBg, u8 seasonShown, u8 seasonTarget);
 
-extern struct GameEvent *INTRUDE_SUBDISP_CreateTownWarpEvent(struct GameSystem *gameSystem, struct FieldMap *fieldMap, u32 a, u32 b);
+extern void *INTRUDE_SUBDISP_CreateTownWarpEvent(void *gameSystem, void *fieldMap, u16 zoneId, s32 mode);
 
-extern struct GameEvent *INTRUDE_SUBDISP_CreateGuideScriptEvent(struct GameSystem *gameSystem);
+extern void *INTRUDE_SUBDISP_CreateGuideScriptEvent(void *gameSystem);
 
 extern struct GameEvent *EVENT_COMM_COMMON_CreateReturnPalaceEvent(struct GameSystem *gameSystem);
 
 extern struct GameEvent *EVENT_MAPCHANGE_CreateSituationWarpArrivalEvent(struct GameSystem *gameSystem);
 
 extern struct GameEvent *EVENT_MAPCHANGE_CreateByMode(struct GameSystem *gameSystem, u32 initParam);
+struct FieldSubscreen;
 
-/* field map link and moving models */
-extern struct FieldCommLink *FIELDMAP_GetSubscreen(struct FieldMap *fieldMap);
+                                      
+extern struct FieldSubscreen *FIELDMAP_GetSubscreen(struct FieldMap *fieldMap);
 
 extern unsigned char ov020_id[];
 

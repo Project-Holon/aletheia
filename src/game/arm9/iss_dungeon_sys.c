@@ -68,16 +68,17 @@ typedef struct IssDungeonSys {
 } IssDungeonSys;
 
 extern void GFL_USE_SetBgmTrackParams(u32 a, u32 b, u32 c, u32 d);
+struct SndHandle;
 
-extern u32 *GFL_USE_GetBgmHandle(void);
+extern struct SndHandle *GFL_USE_GetBgmHandle(void);
 
-extern void NNS_SndHandleSetTrackPitch(struct Obj *o, u32 v, u32 w);
+extern void NNS_SndHandleSetTrackPitch(struct SndHandle *handle, u32 trackMask, u32 value);
 
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
 extern u32 ARC_TOOL_GetArchiveFileCount(u32 a);
 
-extern void ARC_TOOL_ReadMemberRange(void *dst, u32 archive_id, u32 member, u32 mode, u32 *size_out);
+extern void ARC_TOOL_ReadMemberRange(void *dst, u32 archiveID, u32 memberIdx, u32 offset, u32 size);
 
 extern u32 GFL_HEAP_Free(void *p);
 
@@ -124,7 +125,7 @@ void ISS_DUNGEON_SYS_ApplyTrack(DungeonSoundRecord *record, u32 trackIndex)
     u32 offset = trackIndex << 1;
 
     GFL_USE_SetBgmTrackParams(0xffff, *(u16 *)((u8 *)record + 0xc + offset), 0xffffffff, 0);
-    NNS_SndHandleSetTrackPitch((struct Obj *)GFL_USE_GetBgmHandle(), 0xfcff, (u32)*(short *)((u8 *)record + 4 + offset));
+    NNS_SndHandleSetTrackPitch((struct SndHandle *)GFL_USE_GetBgmHandle(), 0xfcff, (u32)*(short *)((u8 *)record + 4 + offset));
 }
 
 /*
@@ -142,7 +143,7 @@ DungeonSoundTable *ISS_DUNGEON_SYS_CreateTable(u32 heapId)
                                          (const void *)0x020A7718, 0x79);
 
     for (i = 0; (int)i < (int)table->count; i++) {
-        ARC_TOOL_ReadMemberRange((u8 *)table->records + i * 0x1c, 0x92, i, 0, (u32 *)0x1c);
+        ARC_TOOL_ReadMemberRange((u8 *)table->records + i * 0x1c, (u32)0x92, (u32)i, (u32)0, (u32)0x1c);
     }
     return table;
 }

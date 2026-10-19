@@ -36,6 +36,11 @@
  *   BG_SYS_SetTileEntry 0x02041300 arm
  *   BG_SYS_MarkTileDirty 0x02041B6C arm
  *   d_021FDC16 0x021FDC16 data a2
+ *   _fdiv                        0x0209CE10  arm
+ *   _ffix                        0x0209C494  arm
+ *   _fflt                        0x0209BDBC  arm
+ *   _ffltu                       0x0209BE04  arm
+ *   _fsub                        0x0209CB8C  arm
  */
 #include "ov132_types.h"
 #include "sta_acting_shared_types.h"
@@ -50,8 +55,9 @@ extern u32 GFL_HEAP_Free(void *p);
 extern u16 STA_ACTING_GetCameraPos(void *p);
 
 extern unsigned GFL_USE_GetRandomBelow(unsigned);
+struct MusicalShowProgram;
 
-extern u8 MUSICAL_PROGRAM_GetCategoryBonus(u8 *, int);
+extern u8 MUSICAL_PROGRAM_GetCategoryBonus(struct MusicalShowProgram *program, int index);
 
 extern u16 STA_ACTING_GetCameraScrollX(u8 *p);
 
@@ -174,7 +180,7 @@ void STA_ACT_AUDIENCE_SetupRecords(char *p, char *input)
     int off;
     u8 *rec;
     for (i = 0; i < 4; i++) {
-        b[i] = MUSICAL_PROGRAM_GetCategoryBonus(*(u8 **)(input + 0x14), i);
+        b[i] = MUSICAL_PROGRAM_GetCategoryBonus((struct MusicalShowProgram *)(*(u8 **)(input + 0x14)), i);
         sum = sum + b[i];
     }
     for (i = 0; i < 4; i++) {

@@ -45,6 +45,10 @@
  *   VEC_Add 0x0207C9D0 arm
  *   VM_GetU32 0x0201134C thumb
  *   STA_ACTING_GetElapsedTicks 0x021F9E44 thumb ov132
+ *   _fadd                        0x0209C95C  arm
+ *   _ffix                        0x0209C494  arm
+ *   _fflt                        0x0209BDBC  arm
+ *   _fsub                        0x0209CB8C  arm
  */
 #include "ov132_types.h"
 #include "sta_acting_shared_types.h"
@@ -67,20 +71,21 @@ extern u32 GFL_HEAP_Free(void *p);
 extern void *STA_ACTING_GetActorSystem(char *p);
 
 extern u32 TCB_GetTaskOffset(u32);
+struct TcbSystem;
 
-extern struct Ctx *TCB_Init(u32 capacity, struct Ctx *c);
+extern struct TcbSystem *TCB_Init(unsigned int capacity, struct TcbSystem *sys);
 
 extern void NNS_FndInitList(int list, int offset);
 
 extern struct ScriptVm *VM_End(struct ScriptVm *vm);
 
-extern void VM_Delete(void *);
+extern void VM_Delete(struct ScriptVm *vm);
 
 extern void *NNS_FndGetNextListObject(struct DList *list, void *elem);
 
 extern void TCB_Noop(void *);
 
-extern void TCB_Main(struct Ctx *c);
+extern void TCB_Main(struct TcbSystem *sys);
 
 extern struct ScriptVm *VM_Create(u32 heapId, const struct ScriptVmParams *params);
 
@@ -91,8 +96,9 @@ extern void VM_Start(struct ScriptVm *vm, u8 *pc);
 extern int VM_Control(struct ScriptVm *vm);
 
 extern struct Node *TCB_AddTask(struct Ctx *c, u32 a, u32 b, u32 key);
+struct NNSFndList;
 
-extern void NNS_FndAppendListObject(void *, void *);
+extern void NNS_FndAppendListObject(struct NNSFndList *list, void *object);
 
 extern void NNS_FndRemoveListObject(volatile struct DList *list, void *elem);
 
@@ -100,7 +106,7 @@ extern void VEC_MultAdd(int, void *, void *, void *);
 
 extern void VEC_Add(const Vec *, const Vec *, Vec *);
 
-extern u32 VM_GetU32(struct Cursor *p);
+extern u32 VM_GetU32(struct ScriptVm *vm);
 
 u32 STA_ACTING_GetElapsedTicks(u8 *p);
 
@@ -285,7 +291,7 @@ void *STA_ACT_SCRIPT_AddTask(char *p, u32 taskFunc, u32 arg, u32 key)
     ((struct ScriptTaskNode *)q)->task = TCB_AddTask(((struct ScriptSystem *)p)->tcb, taskFunc, arg, key);
     if (((struct ScriptTaskNode *)q)->task != 0) {
         ((struct ScriptTaskNode *)q)->arg = (void *)arg;
-        NNS_FndAppendListObject(p + 0x38, q);
+        NNS_FndAppendListObject((struct NNSFndList *)(p + 0x38), q);
         return q;
     }
     GFL_HEAP_Free(q);

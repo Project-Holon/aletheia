@@ -23,7 +23,7 @@
 #define NHTTPi_TOLOWER(c) ((((c) >= 'A') & ((c) <= 'Z')) ? (c) + 0x20 : (c))
 
 
-extern void NHTTPi_memcpy(void *dst_p, void *src_p, int size);
+extern void NHTTPi_memcpy(void *dst, void *src, u32 size);
 extern int NHTTPi_SocRecv(NHTTPMutexInfo *mutexInfo_p,
         NHTTPReq *req_p, int socket, char *buf_p, int len, int flags);
 int NHTTPi_isRecvBufFull(NHTTPRes *res_p, u32 pos);

@@ -127,6 +127,7 @@
  *   gpiFreeInfoCache  0x0218D71C  arm   ov009
  *   gsifree                          0x0217EAE0 arm
  */
+extern void *__builtin__clear(void *dest, unsigned long size);
 typedef unsigned char  u8;
 
 typedef unsigned short u16;

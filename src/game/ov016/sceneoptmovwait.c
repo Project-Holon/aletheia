@@ -95,7 +95,7 @@ extern void DWCi_BTNlEnd(void);
 extern int DWCi_BTNlIsEnd();
 extern void DWCi_ANIMElEnd();
 extern void DWCi_FNTlDeleteBgLcd(int a);
-extern void DWCi_COMMENTlDelete();
+extern int DWCi_COMMENTlDelete();
 extern void DWCi_GXlInvisible(int lcd, int plane);
 extern void DWCi_SetParam_(unsigned int a, unsigned int b);
 extern void DWCi_SceneOptMenu();

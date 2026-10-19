@@ -25,6 +25,13 @@
  *   nan 0x02091374 arm arm9
  *   MSL_C_LIB_StrReadProc 0x020946D8 arm arm9
  *   __dec2num 0x0209739C arm arm9
+ *   _dgr                         0x0209B864  arm
+ *   _dls                         0x0209B9A0  arm
+ *   _dneq                        0x0209BAC8  arm
+ *   _dsub                        0x0209AF34  arm
+ *   _f2d                         0x0209BD38  arm
+ *   _fsub                        0x0209CB8C  arm
+ *   _u32_div_f                   0x0209C2B0  arm
  */
 #include "msl_crt_shared_types.h"
 #include "msl_stdio_shared_types.h"

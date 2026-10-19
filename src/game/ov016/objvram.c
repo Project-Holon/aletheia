@@ -51,18 +51,12 @@ typedef unsigned short u16;
 
 typedef unsigned long u32;
 
-extern void *DWCi_HEAPlAllocEx(unsigned long size, int align);
-extern void *DWCi_QUElFormEx(long size, void *data, long dsize);
-extern struct ListCB *DWCi_LSTlForm(void);
-extern void DWCi_LSTlPushFront(char *p, void *ob);
-extern void DWCi_LSTlPushBack(char *p, void *ob);
-extern void *DWCi_QUElPopBack(void *queue);
-extern u32 OS_DisableIrqMask(u32 intr);
-extern void DWCi_LSTlInsert(void *pos, void *ob);
-extern void OS_Terminate(void);
-extern u32 OS_EnableIrqMask(u32 intr);
-extern void DWCi_LSTlErase(void *ob);
-extern void DWCi_QUElPushBack(void *que, void *data);
+#include "heap.h"
+#include "deque.h"
+#include "list.h"
+typedef unsigned int OSIrqMask;
+#include "../arm9/os_interrupt.h"
+#include "../arm9/os_terminate_processor.h"
 void DWCi_OVRlInit(void);
 void *DWCi_OVRlAlloc(int lcd, int num, int head, int *name);
 void DWCi_OVRlFree(void *ovram);

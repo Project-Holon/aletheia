@@ -136,7 +136,7 @@ extern void PRINTSYS_PrintColor(struct Bmp *bmp, u32 x, u32 y, const void *text,
 
 extern u8 BMP_WIN_GetWidth(struct BmpWin *win);
 
-extern void BMP_FillRect(struct Bmp *bmp, u32 x, u32 y, u32 w, u32 h, u32 color);
+extern void BMP_FillRect(struct Bmp *bmp, u32 x, u32 y, u32 w, u16 h, u8 value);
 
 extern u16 BMP_GetWidth(const struct Bmp *bmp);
 

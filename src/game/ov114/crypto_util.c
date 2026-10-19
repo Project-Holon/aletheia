@@ -19,7 +19,7 @@
  */
 #include "crypto_types.h"
 
-extern void *OS_AllocFromHeap(int arenaId, int heap, unsigned long size);
+extern void *OS_AllocFromHeap(int id, int heap, int size);
 extern void OS_FreeToHeap(int arenaId, int heap, void *ptr);
 void *CRYPTOi_MyAlloc(unsigned long size);
 void CRYPTOi_MyFree(void *ptr);

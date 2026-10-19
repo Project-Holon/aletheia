@@ -89,22 +89,24 @@
 
 extern s32 FX_Div(s32 numerator, s32 denominator);
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void GFL_HEAP_Free(void *p);
-extern struct Tcbl *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
-extern void TCBL_Main(struct Tcbl *tcbl);
+extern u32 GFL_HEAP_Free(void *p);
+struct TcblSystem;
+extern struct TcblSystem *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
+extern void TCBL_Main(struct TcblSystem *tcbl);
 extern void NNS_G3dGeFlushBuffer(void);
-extern void TCBL_Destroy(struct Tcbl *tcbl);
-extern void NNS_G3dWorldPosToScrPos(const VecFx32 *worldPos, int *screenX, int *screenY);
-extern void PRINTSYS_PrintStreamDelete(struct PrintStream *stream);
+extern void TCBL_Destroy(struct TcblSystem *tcbl);
+extern s32 NNS_G3dWorldPosToScrPos(const VecFx32 *worldPos, int *screenX, int *screenY);
+struct TextPrinter;
+extern void PRINTSYS_PrintStreamDelete(struct TextPrinter *printer);
 extern struct PrintStream *PRINTSYS_PrintStream(struct BmpWin *bmpWin, u32 x, u32 y, struct Strbuf *str, struct GfFont *font,
                                          u32 wait, struct Tcbl *tcbl, u32 tcblPri, u32 heapId, u32 clearColor);
 extern void BG_SYS_PushTile(u32 bgLayer);
-extern void BMP_WIN_Delete(struct BmpWin *bmpWin);
+extern u32 BMP_WIN_Delete(struct BmpWin *bmpWin);
 extern struct BmpWin *BMP_WIN_Create(u32 bgFrame, u32 x, u32 y, u32 width, u8 height, u8 palette, u8 slotId);
 extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *bmpWin);
 extern void BMP_Clear(struct Bmp *bmp, u8 color);
 extern void BMP_WIN_TransferChars(struct BmpWin *bmpWin);
-extern int NNS_G3dScrPosToWorldLine(int screenX, int screenY, VecFx32 *out, int mode);
+extern int NNS_G3dScrPosToWorldLine(s32 px, s32 py, VecFx32 *pNear, VecFx32 *pFar);
 extern u8 BMP_WIN_GetPosX(struct BmpWin *bmpWin);
 extern u8 BMP_WIN_GetPosY(struct BmpWin *bmpWin);
 extern u8 BMP_WIN_GetDispWidth(struct BmpWin *bmpWin);
@@ -116,16 +118,16 @@ extern int VEC_Mag(const VecFx32 *v);
 extern void G3D_CAMERA_SetEye(struct G3dCamera *camera, const VecFx32 *eye);
 extern void G3D_CAMERA_SetCamUp(struct G3dCamera *camera, const VecFx32 *vec);
 extern void G3D_CAMERA_SetCamTarget(struct G3dCamera *camera, const VecFx32 *vec);
-extern void G3D_CAMERA_SetNear(struct G3dCamera *camera, const s32 *scale);
+extern void G3D_CAMERA_SetNear(struct G3dCamera *camera, u32 *in);
 extern void G3D_CAMERA_Reset(struct G3dCamera *camera);
 extern void G3i_LookAt_(const VecFx32 *eye, const VecFx32 *up, const VecFx32 *target, int a, int b);
 extern void G3D_CAMERA_GetEye(struct G3dCamera *camera, VecFx32 *out);
 extern void G3D_CAMERA_GetCamUp(struct G3dCamera *camera, VecFx32 *out);
 extern void G3D_CAMERA_GetCamTarget(struct G3dCamera *camera, VecFx32 *out);
-extern void G3D_CAMERA_GetNear(struct G3dCamera *camera, s32 *out);
+extern void G3D_CAMERA_GetNear(struct G3dCamera *camera, u32 *out);
 extern void BG_SYS_ClearSlot(u32 bgLayer);
 extern void ARC_UTIL_UploadPaletteFromArchiveWhole(u32 arcId, u32 fileId, u32 palBase, u32 byteOffset, u32 byteSize, u16 heapId);
-extern u32 ARC_UTIL_UploadBgCharFromArchive(u32 arcId, u32 fileId, u32 layer, u32 tileOffset, u32 flagA, u32 flagB, u16 heapId);
+extern u32 ARC_UTIL_UploadBgCharFromArchive(void *archiveID, void *memberIdx, void *bgId, void *tileOffset, unsigned int size, unsigned int heapID, unsigned short allocFlags);
 extern void GX_BeginLoadTex(void);
 extern void DC_FlushRange(void *p, u32 size);
 extern void GX_LoadTex(void *src, u32 offset, u32 size);
@@ -134,7 +136,7 @@ extern void GX_BeginLoadTexPltt(void);
 extern void GX_LoadTexPltt(void *src, u32 offset, u32 size);
 extern void GX_EndLoadTexPltt(void);
 extern void BMP_WIN_MakeScreen(struct BmpWin *bmpWin);
-extern void BG_SYS_SetTileEntry(u8 layer, u16 tile, u8 x, u8 y, u8 w, u8 h, u8 mode);
+extern void BG_SYS_SetTileEntry(u32 layer, u16 value, u8 x0, u8 y0, u8 w, u8 h, u8 mode);
 extern void BMP_WIN_ClearScreen(struct BmpWin *bmpWin);
 
 TalkMsgWinSys *TALKMSGWIN_Create(const TalkMsgWinParam *param);
@@ -154,13 +156,13 @@ void TALKMSGWIN_SetupAutoBalloon(TalkMsgWinSys *sys, int index, const VecFx32 *p
 void TALKMSGWIN_Release(TalkMsgWinSys *sys, int index);
 void TALKMSGWIN_Open(TalkMsgWinSys *sys, int index);
 void TALKMSGWIN_Close(TalkMsgWinSys *sys, int index);
-u32 TALKMSGWIN_IsFree(TalkMsgWinSys *sys, u32 index, u32 unused1, u32 unused2);
+u32 TALKMSGWIN_IsFree(TalkMsgWinSys *sys, u32 index);
 int TALKMSGWIN_IsShown(TalkMsgWinSys *sys, int index);
 struct PrintStream *TALKMSGWIN_GetPrintStream(TalkMsgWinSys *sys, u32 index);
 struct BmpWin *TALKMSGWIN_GetBmpWin(TalkMsgWinSys *sys, u32 index);
 void TALKMSGWIN_Reprint(TalkMsgWinSys *sys, int index, struct Strbuf *str, u32 wait);
 struct BmpWin *TALKMSGWIN_AddFrameWindow(TalkMsgWinSys *sys, u8 x, u8 y, u8 width, u8 height, u32 frameType);
-void TALKMSGWIN_DrawWindowFrame(TalkMsgWinSys *sys, struct BmpWin *bmpWin, u32 frameType, u32 unused);
+void TALKMSGWIN_DrawWindowFrame(TalkMsgWinSys *sys, struct BmpWin *bmpWin, u32 frameType);
 void TALKMSGWIN_ClearWindowFrame(TalkMsgWinSys *sys, struct BmpWin *bmpWin);
 void TALKMSGWIN_DeleteFrameWindow(TalkMsgWinSys *sys, struct BmpWin *bmpWin);
 TalkMsgWin *TALKMSGWIN_InitEntry(TalkMsgWin *win);
@@ -211,7 +213,7 @@ TalkMsgWinSys *TALKMSGWIN_Create(const TalkMsgWinParam *param)
 
     sys = GFL_HEAP_Alloc(param->heapId, sizeof(TalkMsgWinSys), 1, sTalkMsgWinFileName, 0xec);
     sys->param = *param;
-    sys->tcbl = TCBL_Create(param->heapId, param->heapId, TALKMSGWIN_MAX, 0x20);
+    sys->tcbl = (struct Tcbl *)TCBL_Create(param->heapId, param->heapId, TALKMSGWIN_MAX, 0x20);
     for (i = 0; i < TALKMSGWIN_MAX; i++)
         TALKMSGWIN_InitEntry(&sys->windows[i]);
     sys->texKey = d_020A8140(0x20, 0, 0);
@@ -230,7 +232,7 @@ void TALKMSGWIN_Update(TalkMsgWinSys *sys)
 {
     int i;
 
-    TCBL_Main(sys->tcbl);
+    TCBL_Main((struct TcblSystem *)sys->tcbl);
     TALKMSGWIN_SaveCamera(sys);
     TALKMSGWIN_SetupCamera(sys, 0);
     for (i = 0; i < TALKMSGWIN_MAX; i++) {
@@ -268,7 +270,7 @@ void TALKMSGWIN_Delete(TalkMsgWinSys *sys)
         TALKMSGWIN_ReleaseEntry(sys, &sys->windows[i]);
     d_020A814C(sys->plttKey);
     d_020A8144(sys->texKey);
-    TCBL_Destroy(sys->tcbl);
+    TCBL_Destroy((struct TcblSystem *)sys->tcbl);
     GFL_HEAP_Free(sys);
 }
 
@@ -360,7 +362,7 @@ void TALKMSGWIN_Close(TalkMsgWinSys *sys, int index)
     TALKMSGWIN_RequestClose(&sys->windows[index]);
 }
 
-u32 TALKMSGWIN_IsFree(TalkMsgWinSys *sys, u32 index, u32 unused1, u32 unused2)
+u32 TALKMSGWIN_IsFree(TalkMsgWinSys *sys, u32 index)
 {
     if (sys->windows[index].state == TALKMSGWIN_STATE_FREE) {
         return 1;
@@ -390,7 +392,7 @@ void TALKMSGWIN_Reprint(TalkMsgWinSys *sys, int index, struct Strbuf *str, u32 w
 
     win = &sys->windows[index];
     if (win->printStream != 0) {
-        PRINTSYS_PrintStreamDelete(win->printStream);
+        PRINTSYS_PrintStreamDelete((struct TextPrinter *)win->printStream);
         win->printStream = 0;
     }
     if (str != 0) {
@@ -412,7 +414,7 @@ struct BmpWin *TALKMSGWIN_AddFrameWindow(TalkMsgWinSys *sys, u8 x, u8 y, u8 widt
     return bmpWin;
 }
 
-void TALKMSGWIN_DrawWindowFrame(TalkMsgWinSys *sys, struct BmpWin *bmpWin, u32 frameType, u32 unused)
+void TALKMSGWIN_DrawWindowFrame(TalkMsgWinSys *sys, struct BmpWin *bmpWin, u32 frameType)
 {
     TALKMSGWIN_DrawFrameByType(&sys->param, bmpWin, frameType, 0);
 }
@@ -503,7 +505,7 @@ void TALKMSGWIN_ReleaseEntry(TalkMsgWinSys *sys, TalkMsgWin *win)
 {
     if (TALKMSGWIN_IsEntryFree(win) == 0) {
         if (win->printStream != 0) {
-            PRINTSYS_PrintStreamDelete(win->printStream);
+            PRINTSYS_PrintStreamDelete((struct TextPrinter *)win->printStream);
             win->printStream = 0;
         }
         TALKMSGWIN_ClearFrame(&sys->param, win->bmpWin);
@@ -1018,7 +1020,7 @@ void TALKMSGWIN_SetupCamera(TalkMsgWinSys *sys, int useCameraObject)
         G3D_CAMERA_SetEye(sys->param.camera, &eye);
         G3D_CAMERA_SetCamUp(sys->param.camera, &up);
         G3D_CAMERA_SetCamTarget(sys->param.camera, &target);
-        G3D_CAMERA_SetNear(sys->param.camera, &scale);
+        G3D_CAMERA_SetNear(sys->param.camera, (u32 *)(&scale));
         G3D_CAMERA_Reset(sys->param.camera);
         return;
     }
@@ -1031,7 +1033,7 @@ void TALKMSGWIN_SaveCamera(TalkMsgWinSys *sys)
     G3D_CAMERA_GetEye(sys->param.camera, &sys->savedEye);
     G3D_CAMERA_GetCamUp(sys->param.camera, &sys->savedUp);
     G3D_CAMERA_GetCamTarget(sys->param.camera, &sys->savedTarget);
-    G3D_CAMERA_GetNear(sys->param.camera, &sys->savedScale);
+    G3D_CAMERA_GetNear(sys->param.camera, (u32 *)(&sys->savedScale));
 }
 
 /* Restores the field camera state saved by TALKMSGWIN_SaveCamera. */
@@ -1040,7 +1042,7 @@ void TALKMSGWIN_RestoreCamera(TalkMsgWinSys *sys)
     G3D_CAMERA_SetEye(sys->param.camera, &sys->savedEye);
     G3D_CAMERA_SetCamUp(sys->param.camera, &sys->savedUp);
     G3D_CAMERA_SetCamTarget(sys->param.camera, &sys->savedTarget);
-    G3D_CAMERA_SetNear(sys->param.camera, &sys->savedScale);
+    G3D_CAMERA_SetNear(sys->param.camera, (u32 *)(&sys->savedScale));
     G3D_CAMERA_Reset(sys->param.camera);
 }
 
@@ -1065,7 +1067,7 @@ u32 TALKMSGWIN_LoadFrameGraphics(TalkMsgWinSys *sys, TalkMsgWinParam *param)
         break;
     }
     ARC_UTIL_UploadPaletteFromArchiveWhole(5, 0, screenSelect, param->framePalette << 5, 0x20, param->heapId);
-    return ARC_UTIL_UploadBgCharFromArchive(5, 5, param->bgLayer, param->frameBaseTile, 0, 0, param->heapId);
+    return ARC_UTIL_UploadBgCharFromArchive((void *)5, (void *)5, (void *)param->bgLayer, (void *)param->frameBaseTile, 0, 0, param->heapId);
 }
 
 /* Uploads the balloon texture and palette into the VRAM blocks of the system's keys. */
@@ -1104,7 +1106,7 @@ void TALKMSGWIN_ReloadFrameGraphics(TalkMsgWinSys *sys)
         break;
     }
     ARC_UTIL_UploadPaletteFromArchiveWhole(5, 0, screenSelect, (u32)sys->param.framePalette << 5, 0x20, sys->param.heapId);
-    ARC_UTIL_UploadBgCharFromArchive(5, 5, sys->param.bgLayer, sys->param.frameBaseTile, 0, 0, sys->param.heapId);
+    ARC_UTIL_UploadBgCharFromArchive((void *)5, (void *)5, (void *)sys->param.bgLayer, (void *)sys->param.frameBaseTile, 0, 0, sys->param.heapId);
 }
 
 /*

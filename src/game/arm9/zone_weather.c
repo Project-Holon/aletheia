@@ -51,32 +51,37 @@ struct RtcDate {
     u32 day;
     u32 week;
 };
+struct GameSystem;
+struct GameData;
 
-extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
+extern struct GameData *GAMESYSTEM_GetGameData(struct GameSystem *gameSystem);
 
-extern u32 GAME_DATA_GetMusicalWork(const struct BigObj *p);
+extern u32 GAME_DATA_GetMusicalWork(struct GameData *gd);
 
-extern u32 MOVE_POKEMON_FindEntryByZone(void *a, u16 b);
+extern s32 MOVE_POKEMON_FindEntryByZone(struct GameData *gameData, s32 zoneId);
+struct CalenderWork;
 
-extern u32 CALENDER_GetWeatherThunk(void *arg, unsigned int b);
+extern u32 CALENDER_GetWeatherThunk(struct CalenderWork *calender, u32 zoneId);
 
 extern u32 ZONEDATA_GetWeatherId(u32 id);
 
-extern void GAME_DATA_SetWeatherId(struct BigObj *p, u8 v);
+extern void GAME_DATA_SetWeatherId(struct GameData *gd, u8 value);
 
-extern int MOVE_POKEMON_IsAnyEntryActive(int gameData);
+extern int MOVE_POKEMON_IsAnyEntryActive(struct GameData *gameData);
 
-extern u8 GAME_DATA_GetWeatherId(const struct BigObj *p);
+extern u8 GAME_DATA_GetWeatherId(struct GameData *gd);
 
-extern u32 GAME_DATA_GetEventWork(const struct BigObj *p);
+extern void *GAME_DATA_GetEventWork(struct GameData *gd);
+struct GameComm;
 
-extern u32 GAMESYSTEM_GetGameComm(const struct Ctx *p);
+extern struct GameComm *GAMESYSTEM_GetGameComm(struct GameSystem *gameSystem);
 
 extern int ZONEDATA_IsZoneGroup118To13C(u32 key);
+struct EventWork;
 
-extern u32 ZONEDATA_CheckEventFlag(void *bitmap, s32 id);
+extern u32 ZONEDATA_CheckEventFlag(struct EventWork *ev, s32 flagId);
 
-extern s32 INTRUDE_COMM_GetAreaOwnerVersion(u32 a);
+extern s32 INTRUDE_COMM_GetAreaOwnerVersion(struct GameComm *comm);
 
 extern u32 GPOWER_GetSpecialPowerId(void);
 
@@ -114,7 +119,7 @@ extern struct Pair gTbl_0209FFF4[];
 u32 WEATHER_GetZoneWeatherId(void *fieldSys, u32 zoneId)
 {
     u32 ctx = (u32)GAMESYSTEM_GetGameData(fieldSys);
-    u32 saved = GAME_DATA_GetMusicalWork((const struct BigObj *)ctx);
+    u32 saved = GAME_DATA_GetMusicalWork((struct GameData *)ctx);
     u32 r;
 
     r = MOVE_POKEMON_FindEntryByZone((void *)ctx, (u16)zoneId);
@@ -139,14 +144,16 @@ u32 WEATHER_GetZoneWeatherId(void *fieldSys, u32 zoneId)
     return (u8)ZONEDATA_GetWeatherId((u16)zoneId);
 }
 
-int WEATHER_IsSeasonSynced(int gameData){ int season, clockSeason; season = GAME_DATA_GetSeason(gameData); clockSeason = COMM_PLAYER_SUPPORT_GetSeasonFromClock((int)season); if ((unsigned int)((season + 0)) == (unsigned int)(clockSeason)) {  return 1; } else {  return 0; } }
+extern u8 GAME_DATA_GetSeason(struct GameData *gd);
+extern u8 COMM_PLAYER_SUPPORT_GetSeasonFromClock(void);
+int WEATHER_IsSeasonSynced(int gameData){ int season, clockSeason; season = GAME_DATA_GetSeason((struct GameData *)gameData); clockSeason = COMM_PLAYER_SUPPORT_GetSeasonFromClock(); if ((unsigned int)((season + 0)) == (unsigned int)(clockSeason)) {  return 1; } else {  return 0; } }
 
 void WEATHER_StoreZoneWeatherId(struct Ctx *fieldSys, u32 zoneId)
 {
-    struct BigObj *obj = GAMESYSTEM_GetGameData(fieldSys);
+    struct BigObj *obj = (struct BigObj *)GAMESYSTEM_GetGameData((struct GameSystem *)fieldSys);
     u32 r = WEATHER_GetZoneWeatherId(fieldSys, zoneId);
 
-    GAME_DATA_SetWeatherId(obj, (u8)r);
+    GAME_DATA_SetWeatherId((struct GameData *)obj, (u8)r);
 }
 
 /*
@@ -178,19 +185,19 @@ void WEATHER_RefreshStoredWeatherId(u8 *gameData, int zoneId)
     u32 v;
     u16 r;
 
-    v = MOVE_POKEMON_FindEntryByZone(gameData, (u16)zoneId);
-    r = (u16)(u32)GAME_DATA_GetWeatherId((const struct BigObj *)gameData);
+    v = MOVE_POKEMON_FindEntryByZone((struct GameData *)gameData, (u16)zoneId);
+    r = (u16)(u32)GAME_DATA_GetWeatherId((struct GameData *)gameData);
     if (v != 0xffff) {
-        GAME_DATA_SetWeatherId((struct BigObj *)gameData, (u8)v);
+        GAME_DATA_SetWeatherId((struct GameData *)gameData, (u8)v);
         return;
     }
     if ((u32)(r - 6) > 1) {
         return;
     }
-    if (MOVE_POKEMON_IsAnyEntryActive((int)gameData) != 1) {
+    if (MOVE_POKEMON_IsAnyEntryActive((struct GameData *)gameData) != 1) {
         return;
     }
-    GAME_DATA_SetWeatherId((struct BigObj *)gameData, (u8)ZONEDATA_GetWeatherId((u16)zoneId));
+    GAME_DATA_SetWeatherId((struct GameData *)gameData, (u8)ZONEDATA_GetWeatherId((u16)zoneId));
 }
 
 /*
@@ -206,18 +213,18 @@ s32 WEATHER_GetAreaOwnerWeather(void *fieldSys, u32 gameData, u32 zoneId)
     u32 areaOwner;
     u32 i;
 
-    eventWork = GAME_DATA_GetEventWork((const struct BigObj *)gameData);
-    areaOwner = GAMESYSTEM_GetGameComm(fieldSys);
+    eventWork = (u32)GAME_DATA_GetEventWork((struct GameData *)gameData);
+    areaOwner = (u32)GAMESYSTEM_GetGameComm(fieldSys);
     if (ZONEDATA_IsZoneGroup118To13C((u16)zoneId) == 0 || areaOwner == 0) {
         goto done;
     }
     for (i = 0; i < 0x19; i++) {
         if (zoneId == gTbl_0209FFF4[i].a) {
             if (ZONEDATA_CheckEventFlag((void *)eventWork, gTbl_0209FFF4[i].b) == 0) {
-                if (INTRUDE_COMM_GetAreaOwnerVersion(areaOwner) == 0x14) return 0xd;
+                if (INTRUDE_COMM_GetAreaOwnerVersion((struct GameComm *)areaOwner) == 0x14) return 0xd;
                 return 0xe;
             }
-            if (INTRUDE_COMM_GetAreaOwnerVersion(areaOwner) == 0x14) return 0xa;
+            if (INTRUDE_COMM_GetAreaOwnerVersion((struct GameComm *)areaOwner) == 0x14) return 0xa;
             return 0xb;
         }
     }
@@ -227,7 +234,7 @@ done:
 
 s32 WEATHER_GetSpecialPowerWeather(void *fieldSys, u32 gameData, u32 zoneId)
 {
-    u32 eventWork = GAME_DATA_GetEventWork((const struct BigObj *)gameData);
+    u32 eventWork = (u32)GAME_DATA_GetEventWork((struct GameData *)gameData);
 
     if (zoneId == 0x151) {
         if (ZONEDATA_CheckEventFlag((void *)eventWork, 0x96f) != 0) {

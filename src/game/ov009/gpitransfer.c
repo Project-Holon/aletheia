@@ -31,9 +31,10 @@ struct GPITransferID {
     int c;
 };
 
-extern int gpiPeerStartTransferMessage(void **connection, void *peer, int type, struct GPITransferID *transferID);
+extern int gpiPeerStartTransferMessage(void **connection, struct GPIPeer *peer, int type, struct GPITransferID *transferID);
 extern int OS_SPrintf(char *dst, char *fmt, ...);
-extern int gpiSendOrBufferString(void **connection, void *peer, char *string);
+struct GPIPeer_s;
+extern int gpiSendOrBufferString(void **connection, struct GPIPeer_s *peer, char *string);
 extern int gpiPeerFinishTransferMessage(void **connection, struct GPIPeer *peer, char *message, int len);
 extern int gpiValueForKey(const char *command, const char *key, char *value, int valueLen);
 extern int STD_TSScanf(char *src, char *fmt, ...);

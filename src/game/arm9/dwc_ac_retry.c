@@ -148,7 +148,7 @@ extern void *DWCi_AC_GetMemPtr(u32 name);
 
 extern s32 WCM_GetPhase(void);
 extern void DWCi_AC_SearchReStart(u8 phase);
-extern s32 WCM_EndSearchAsync(void);
+extern long WCM_EndSearchAsync(void);
 extern s32 WCM_DisconnectAsync(void);
 extern s32 WCM_TerminateAsync(void);
 extern void DWCi_AC_SetError(int error);

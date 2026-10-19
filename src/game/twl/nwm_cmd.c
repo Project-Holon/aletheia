@@ -26,10 +26,11 @@ typedef signed int s32;
 
 extern u32 NWMi_GetSystemWork(void);
 extern void DC_StoreRange(u16 *, u32);
-extern s32 PXI_SendWordByFifo(u32, u16 *, u32);
-extern void OS_SendMessage(u32, u16 *, u32);
+extern s32 PXI_SendWordByFifo(s32 fifotag, u32 data, s32 err);
+struct OSMessageQueue;
+extern s32 OS_SendMessage(struct OSMessageQueue *mq, void *msg, s32 flags);
 extern void MI_CpuCopy8(u32, u16 *, u32);
-extern u32 OS_ReceiveMessage(u32, u16 **, u32);
+extern s32 OS_ReceiveMessage(struct OSMessageQueue *mq, void **msg, s32 flags);
 extern void DC_InvalidateRange(void *, u32);
 void NWMi_SetCallbackTable(u32 index, u32 callback);
 void NWMi_SetReceiveCallbackTable(u32 index, u32 callback);
@@ -68,8 +69,8 @@ u32 NWMi_SendCommand(u16 apiid, u16 argc, ...) {
         ((u32 *)msg)[1 + i] = *(u32 *)((ap += 4) - 4);
     }
     DC_StoreRange(msg, 0x100);
-    res = PXI_SendWordByFifo(0x16, msg, 0);
-    OS_SendMessage(base + 0x2000, msg, 1);
+    res = PXI_SendWordByFifo(0x16, (u32)msg, 0);
+    OS_SendMessage((struct OSMessageQueue *)(base + 0x2000), msg, 1);
     ret = 6;
     if (res >= 0) {
         ret = 2;
@@ -88,8 +89,8 @@ u32 NWMi_SendCommandDirect(u32 command, u32 length) {
     }
     MI_CpuCopy8(command, msg, length);
     DC_StoreRange(msg, length);
-    res = PXI_SendWordByFifo(0x16, msg, 0);
-    OS_SendMessage(base + 0x2000, msg, 1);
+    res = PXI_SendWordByFifo(0x16, (u32)msg, 0);
+    OS_SendMessage((struct OSMessageQueue *)(base + 0x2000), msg, 1);
     ret = 6;
     if (res >= 0) {
         ret = 2;
@@ -102,13 +103,13 @@ u16 *NwmGetCommandBuffer4Arm7(void) {
     u32 base = NWMi_GetSystemWork();
 
     do {
-        if (OS_ReceiveMessage(base + 0x2000, &msg, 0) == 0) {
+        if (OS_ReceiveMessage((struct OSMessageQueue *)(base + 0x2000), (void **)(&msg), 0) == 0) {
             return 0;
         }
         DC_InvalidateRange((void *)base, 0x2000);
         DC_InvalidateRange(msg, 2);
         if (!(*msg & 0x8000)) {
-            OS_SendMessage(base + 0x2000, msg, 1);
+            OS_SendMessage((struct OSMessageQueue *)(base + 0x2000), msg, 1);
             msg = 0;
         }
     } while (msg == 0);

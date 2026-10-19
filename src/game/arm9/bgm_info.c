@@ -31,7 +31,7 @@ struct BgmInfoTable {
     u16 *bgmId;
     u8  *issMode;
 };
-extern void ARC_TOOL_ReadMemberRange(void *dst, u32 archiveId, u32 member, u32 offset, u32 *size);
+extern void ARC_TOOL_ReadMemberRange(void *dst, u32 archiveID, u32 memberIdx, u32 offset, u32 size);
 void BGM_INFO_Load(struct BgmInfoTable *table, u32 heapId);
 struct BgmInfoTable *BGM_INFO_Create(u32 heapId);
 extern const char bgm_info_File[];
@@ -113,14 +113,14 @@ void BGM_INFO_Load(struct BgmInfoTable *table, u32 heapId)
     int offset;
 
     offset = 0;
-    ARC_TOOL_ReadMemberRange(table, 0x57, 0, offset, (u32 *)1);
+    ARC_TOOL_ReadMemberRange(table, (u32)0x57, (u32)0, (u32)offset, (u32)1);
     offset++;
     table->bgmId = GFL_HEAP_Alloc(heapId, table->count * 2, 0, bgm_info_File,
                                0xAF);
     table->issMode = GFL_HEAP_Alloc(heapId, table->count, 0, bgm_info_File, 0xB0);
     for (i = 0; i < table->count; i++) {
-        ARC_TOOL_ReadMemberRange(&table->bgmId[i], 0x57, 0, offset, (u32 *)2);
-        ARC_TOOL_ReadMemberRange(&table->issMode[i], 0x57, 0, offset + 2, (u32 *)1);
+        ARC_TOOL_ReadMemberRange(&table->bgmId[i], (u32)0x57, (u32)0, (u32)offset, (u32)2);
+        ARC_TOOL_ReadMemberRange(&table->issMode[i], (u32)0x57, (u32)0, (u32)(offset + 2), (u32)1);
         offset += 3;
     }
 }

@@ -9,9 +9,11 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * accepted 2026-10-05 by the user: case 8's ternary arm calls GFL_USE_PlaySeDefaultVolume under a second name
- *   (func_020061E4_2, same address), a plausible original mistake (two declarations of one
- *   sound routine); with two symbols mwcc does not cross-jump the two calls.
+ * closed 2026-10-19 (lane ALIAS3): one name for GFL_USE_PlaySeDefaultVolume. Case 8 is an
+ *   if/else whose arms each end `flag = 1; p->f10 = 1;` and the != 3 arm calls the sound in a
+ *   nested if/else: 1.1p1 cross-jumps the nested pair (the ternary-like shape) but the outer
+ *   arms differ after the call, so the two outer bls stay apart. The second extern name
+ *   (func_020061E4_2) used before is gone. The notes below are the earlier search.
  * final retry: Wave76 R17, four fixed-flag one compiles, no sweeps/permuter.
  *   Stored-fC-dependent else sound gives 508/233; comma-expression flag
  *   arm retains 508/5; enum command 508/5; signed-short sound formal 508/5.
@@ -102,7 +104,6 @@
  *   TOUCHBAR_IsButtonToggled  0x021B65A8  thumb  ov067
  *   GAME_DATA_SetRecentId  0x02012BE0  thumb
  *   gOptionMenuConfirmRect     0x021BB550  data  a4
- *   func_020061E4_2  0x020061E4  thumb
  *   gOptionMenuCancelRect     0x021BB560  data  ov068  a4
  */
 
@@ -131,7 +132,6 @@ extern void OPTION_MENU_GetInputPoint(const u8 *p, int which, int *out);
 extern int  OPTION_MENU_IsPointInRect(int *rect, void *b);
 extern void func_02040588(unsigned char which, unsigned char enable);
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
-extern void func_020061E4_2(int id);
 extern u8 func_020355C4(void);
 extern void UI_SetInputMode(u8 v);
 extern void APP_TASKMENU_WIN_SetActive(struct Obj *obj, u32 a);
@@ -210,13 +210,18 @@ void OPTION_MENU_UpdateButtons(W *p, void *obj, void *arg)
         break;
     case 8:
         if (p->fC != 3) {
-            func_020061E4_2(p->fC == 1 ? 0x551 : 0x54c);
+            if (p->fC == 1)
+                GFL_USE_PlaySeDefaultVolume(0x551);
+            else
+                GFL_USE_PlaySeDefaultVolume(0x54c);
+            flag = 1;
+            p->f10 = 1;
         } else {
             p->fC = 0;
             GFL_USE_PlaySeDefaultVolume(0x54c);
+            flag = 1;
+            p->f10 = 1;
         }
-        flag = 1;
-        p->f10 = 1;
         break;
     case 9:
         GFL_USE_PlaySeDefaultVolume(0x551);

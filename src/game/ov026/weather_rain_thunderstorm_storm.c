@@ -69,6 +69,7 @@
  *   MI_CpuFill8 0x02082BCC arm
  *   gWeatherLightningPatternChance     0x021EFCF9  data  a1
  *   gWeatherLightningReturnFrames     0x021EFD1C  data  a1
+ *   _u32_div_f                   0x0209C2B0  arm
  */
 #include "weather_rain_thunderstorm_storm_types.h"
 

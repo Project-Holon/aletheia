@@ -117,20 +117,22 @@ typedef struct IaigiriTaskWork {
 extern u16 FLDMMDL_GetDirDisp(const Mmdl *mmdl);
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *file, u16 line);
 extern u32 GFL_HEAP_Free(void *p);
-extern ArcHandle *FIELD_EFFECT_GetArcHandle(FieldEffectSys *fieldEffect);
+extern u32 FIELD_EFFECT_GetArcHandle(FieldEffectSys *fieldEffect);
 extern G3dResource *G3D_SYSTEM_CreateResourceArcHandle(ArcHandle *arc, u32 fileId);
 extern int G3D_SYSTEM_TransVramTexture(G3dResource *res);
 extern G3dRender *G3D_SYSTEM_CreateRender(G3dResource *mdlRes, u32 mdlIdx, G3dResource *texRes);
-extern G3dAnime *G3D_SYSTEM_CreateAnime(G3dRender *render, const G3dResource *anmRes, int anmIdx);
+extern G3dAnime *G3D_SYSTEM_CreateAnime(struct G3dRender *render, struct G3dResource *anmRes, u32 anmIdx);
 extern G3dObject *G3D_SYSTEM_CreateObject(G3dRender *render, G3dAnime **anmTbl, int anmCount);
-extern u32 G3D_SYSTEM_EnableObjectAnime(G3dObject *obj, u32 anmIdx);
+extern s32 G3D_SYSTEM_EnableObjectAnime(G3dObject *obj, u32 anmIdx);
 extern void G3D_SYSTEM_DeleteAnime(G3dAnime *anime);
 extern void G3D_SYSTEM_DeleteObject(G3dObject *obj);
 extern void G3D_SYSTEM_DeleteRender(G3dRender *render);
 extern int G3D_SYSTEM_FreeVramTexture(G3dResource *res);
 extern void G3D_SYSTEM_DeleteResource(G3dResource *res);
-extern void FLDMMDL_GetPos(const Mmdl *mmdl, VecFx32 *out);
-extern void *FIELD_EFFECT_GetResource(FieldEffectSys *fieldEffect, u32 effectId);
+struct MmdlVec;
+struct Mmdl;
+extern void FLDMMDL_GetPos(struct Mmdl *mmdl, struct MmdlVec *out);
+extern s32 FIELD_EFFECT_GetResource(struct FieldEffectSys *sys, s32 id);
 extern void FIELD_EFFECT_AddObject(FieldEffectSys *fieldEffect, const FieldEffectObjFuncs *funcs, const VecFx32 *pos, u32 mode, void *param, u32 priority);
 extern void *FIELD_EFFECT_GetObjectParam(FieldEffectObj *effect);
 extern void FIELD_EFFECT_SetObjectPos(FieldEffectObj *effect, const VecFx32 *pos);
@@ -186,7 +188,7 @@ void FLDEFF_IAIGIRI_Delete(FieldEffectSys *fieldEffect, IaigiriRes *res)
 
 void FLDEFF_IAIGIRI_LoadResources(IaigiriRes *res)
 {
-    ArcHandle *arc = FIELD_EFFECT_GetArcHandle(res->fieldEffect);
+    ArcHandle *arc = (struct ArcHandle *)FIELD_EFFECT_GetArcHandle(res->fieldEffect);
     int i;
     res->model = G3D_SYSTEM_CreateResourceArcHandle(arc, IAIGIRI_MODEL_FILE);
     G3D_SYSTEM_TransVramTexture(res->model);
@@ -219,7 +221,7 @@ void FLDEFF_IAIGIRI_Start(const Mmdl *mmdl, FieldEffectSys *fieldEffect)
     VecFx32 pos;
     IaigiriStartParam param;
 
-    FLDMMDL_GetPos(mmdl, &pos);
+    FLDMMDL_GetPos((struct Mmdl *)mmdl, (struct MmdlVec *)(&pos));
     switch (FLDMMDL_GetDirDisp(mmdl)) {
     case IAIGIRI_DIR_UP:
         pos.z -= IAIGIRI_TILE_SIZE;
@@ -234,7 +236,7 @@ void FLDEFF_IAIGIRI_Start(const Mmdl *mmdl, FieldEffectSys *fieldEffect)
         pos.x += IAIGIRI_TILE_SIZE;
         break;
     }
-    param.res = FIELD_EFFECT_GetResource(fieldEffect, FLDEFF_ID_IAIGIRI);
+    param.res = (struct IaigiriRes *)FIELD_EFFECT_GetResource(fieldEffect, FLDEFF_ID_IAIGIRI);
     param.pos = pos;
     FIELD_EFFECT_AddObject(fieldEffect, &sIaigiriFuncs, 0, 0, &param, 0);
 }

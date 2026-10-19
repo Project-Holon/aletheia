@@ -63,13 +63,14 @@ typedef signed int     s32;
 typedef unsigned long long u64;
 
 extern u32 MUS_COMM_FUNC_SendCommandWait(int unused, int kind, u32 value, u32 id);
-extern struct Entry *GFL_NET_HANDLE_GetNetHandle(s32 idx);
-extern u32 GFL_NET_SendData(u32 entry, u32 sendID, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h);
+struct GFLNetHandle;
+extern struct GFLNetHandle *GFL_NET_HANDLE_GetNetHandle(s32 idx);
+extern u32 GFL_NET_SendData(struct GFLNetHandle *handle, unsigned int sendId, unsigned int command, unsigned int size, void *data, unsigned int sendFlags, unsigned int skipIfQueued, unsigned int queueMode);
 extern void STA_SLOT_Noop(int buffer, int size, int kind);
 extern u32 GF_STANDARD_Rand(void);
-extern void MUS_COMM_FUNC_SendCommand(int unused, int kind, u32 value, u32 id);
-extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
-extern u32 GFL_NET_GetHandleNetID(struct Link *);
+extern void MUS_COMM_FUNC_SendCommand(char *unused, s32 kind, u32 value, u32 id);
+extern struct GFLNetHandle *GFL_NET_HANDLE_GetCurrentHandle(void);
+extern u32 GFL_NET_GetHandleNetID(struct GFLNetHandle *handle);
 extern void MUS_COMM_FUNC_SetTimingSync(int,int);
 u32 STA_NET_FindRecValueByKey(struct Ctx *p, u8 key);
 void STA_NET_BeginTransfer(StaNetWork *s);
@@ -175,7 +176,7 @@ int STA_NET_SendChunk(char *p,u32 chunk)
     n=0x3800;
     s=*(char * *)&((struct HostEntry *)q)->chunkBuffer+chunk*0x3800;
     if((chunk+1)*0x3800>((struct HostEntry *)q)->chunkSize) n=((struct HostEntry *)q)->chunkSize%0x3800U;
-    return GFL_NET_SendData((u32)GFL_NET_HANDLE_GetNetHandle(0xff),0xff,0x1105,n,(u32)s,0,1,1);
+    return GFL_NET_SendData(GFL_NET_HANDLE_GetNetHandle(0xff),0xff,0x1105,n,s,0,1,1);
 }
 
 void STA_NET_AdvanceChunk(int unused,int unused1,int unused2,char *p)
@@ -234,7 +235,7 @@ int STA_NET_SendSlot1Command(u8 *p)
     u32 id;
     STA_SLOT_Noop(q[1], q[8], 2);
     id = (u32)GFL_NET_HANDLE_GetNetHandle(255);
-    return GFL_NET_SendData(id, 255, 0x1106, (*(u32 **)(p + 0x140))[8], (*(u32 **)(p + 0x140))[1], 1, 0, 1);
+    return GFL_NET_SendData((struct GFLNetHandle *)id, 255, 0x1106, (*(u32 **)(p + 0x140))[8], (void *)((*(u32 **)(p + 0x140))[1]), 1, 0, 1);
 }
 
 void STA_NET_SetSlot1Done(void *unused, void *unused1, void *unused2, u8 *p)
@@ -256,7 +257,7 @@ int STA_NET_SendSlot2Command(u8 *p)
     u32 id;
     STA_SLOT_Noop(q[2], q[9], 1);
     id = (u32)GFL_NET_HANDLE_GetNetHandle(255);
-    return GFL_NET_SendData(id, 255, 0x1107, (*(u32 **)(p + 0x140))[9], (*(u32 **)(p + 0x140))[2], 1, 0, 1);
+    return GFL_NET_SendData((struct GFLNetHandle *)id, 255, 0x1107, (*(u32 **)(p + 0x140))[9], (void *)((*(u32 **)(p + 0x140))[2]), 1, 0, 1);
 }
 
 void STA_NET_SetSlot2Done(void *unused, void *unused1, void *unused2, u8 *p)
@@ -278,7 +279,7 @@ int STA_NET_SendSlot3Command(u8 *p)
     u32 id;
     STA_SLOT_Noop(q[3], q[10], 0);
     id = (u32)GFL_NET_HANDLE_GetNetHandle(255);
-    return GFL_NET_SendData(id, 255, 0x1108, (*(u32 **)(p + 0x140))[10], (*(u32 **)(p + 0x140))[3], 1, 0, 1);
+    return GFL_NET_SendData((struct GFLNetHandle *)id, 255, 0x1108, (*(u32 **)(p + 0x140))[10], (void *)((*(u32 **)(p + 0x140))[3]), 1, 0, 1);
 }
 
 void STA_NET_SetSlot3Done(void *unused, void *unused1, void *unused2, u8 *p)
@@ -339,10 +340,10 @@ int STA_NET_SendRandomOrder(u8 *p)
 
 void STA_NET_SendKindA(char *p, int value)
 {
-    MUS_COMM_FUNC_SendCommand((int)p, 0xa, value, 0xff);
+    MUS_COMM_FUNC_SendCommand(p, 0xa, value, 0xff);
 }
 
-u32 STA_NET_GetCurrentSlotValue(char *p) {return *(u8 *)((u32)p+GFL_NET_GetHandleNetID((struct Link *)GFL_NET_HANDLE_GetCurrentHandle())*0x30+0x72);}
+u32 STA_NET_GetCurrentSlotValue(char *p) {return *(u8 *)((u32)p+GFL_NET_GetHandleNetID((struct GFLNetHandle *)GFL_NET_HANDLE_GetCurrentHandle())*0x30+0x72);}
 
 u8 STA_NET_GetSlotValueByIndex(char *p, int index) {return *(u8 *)((u32)p+index*0x30+0x72);}
 

@@ -48,6 +48,7 @@
  *   sBtlvTimerColumnX 0x0220ABC8 data a4
  *   sBtlvTimerSpriteZ 0x0220ABE0 data a4
  *   sBtlvTimerWarningSeconds  0x0220ABB8  data  a4
+ *   _ll_udiv                     0x0209C00C  arm
  */
 #include "btlv_effvm_types.h"
 #include "btlv_effect_shared_types.h"
@@ -55,9 +56,10 @@
 
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
-extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
+extern void *ARC_TOOL_CreateHandle(u32 archiveID, u16 heapID);
+struct PalAnmSlot;
 
-extern int BTLV_EFFECT_GetPalanm(void);
+extern struct PalAnmSlot *BTLV_EFFECT_GetPalanm(void);
 
 extern void *BTLV_EFFECT_GetOwner(void);
 
@@ -85,7 +87,7 @@ extern s32 CLACT_RegisterPalette(void *archive, u32 resId, u32 vramType, u32 col
 
 extern int CLACT_GetPaletteVramAddress(u32 paletteId, u32 alternate);
 
-extern void PALANM_CopyHwPaletteToSlot(struct PalAnimSlot *slots, u32 bank, u32 offset, u32 size);
+extern void PALANM_CopyHwPaletteToSlot(struct PalAnmSlot *palSlots, u32 bank, u32 dstOffset, u32 size);
 
 extern void ARC_TOOL_DeleteHandle(void *archive);
 
@@ -100,22 +102,25 @@ extern u32 CLACT_DeleteUnit(struct ClactUnit *unit);
 extern u32 GFL_HEAP_Free(void *block);
 
 extern struct ClactActor *CLACT_CreateActor(void *, unsigned int, unsigned int, unsigned int, const void *, unsigned short, unsigned short);
+struct Actor;
 
-extern void CLACT_SetActorAutoAnim(struct ClactActor *actor, u32 enable);
+extern void CLACT_SetActorAutoAnim(struct Actor *actor, u32 enable);
 
 extern u64 OS_GetTick(void);
+struct TcbSystem;
+struct TcbTask;
 
-extern void *TCB_AddTask(void *, void (*)(void *, void *), void *, u32);
+extern struct TcbTask *TCB_AddTask(struct TcbSystem *sys, void (*)(void *, void *), void *work, u32 priority);
 
-extern void CLACT_DeleteActor(struct ClactActor *actor);
+extern void CLACT_DeleteActor(struct Actor *actor);
 
-extern void TCB_DeleteTask(struct Task *task);
+extern void TCB_DeleteTask(struct TcbTask *task);
 
 extern void CLACT_SetUnitDrawEnable(struct ClactUnit *unit, u32 mode);
 
-extern void CLACT_SetActorAnimSeq(struct ClactActor *actor, u16 animSeq);
+extern void CLACT_SetActorAnimSeq(struct Actor *actor, u16 value);
 
-extern void CLACT_SetActorDrawEnable(struct ClactActor *actor, u32 enable);
+extern void CLACT_SetActorDrawEnable(struct Actor *actor, u32 value);
 
 BtlvTimer *BTLV_TIMER_Create(u16 heapId);
 
@@ -206,7 +211,7 @@ void BTLV_TIMER_Start(BtlvTimer *timer, int secondsPlayer, int secondsEnemy)
                 pos.y = y;
                 pos.z = zRow[slot];
                 timer->side[side].actor[slot] = CLACT_CreateActor((void *)*(u32 *)((char *)timer + unitOffset), timer->charResId, timer->paletteResId, timer->cellResId, &pos, 0, timer->heapId);
-                CLACT_SetActorAutoAnim(timer->side[side].actor[slot], 1);
+                CLACT_SetActorAutoAnim((struct Actor *)timer->side[side].actor[slot], 1);
             }
         }
     }
@@ -218,7 +223,7 @@ void BTLV_TIMER_Start(BtlvTimer *timer, int secondsPlayer, int secondsEnemy)
     timer->startTick[0] = timer->startTick[1];
     BTLV_TIMER_SetVisible(timer, 0, 0, 0);
     BTLV_TIMER_SetVisible(timer, 1, 0, 0);
-    timer->tickTask = TCB_AddTask(BTLV_EFFECT_GetOwner(), (void (*)(void *, void *))BTLV_TIMER_TickTask, timer, 0);
+    timer->tickTask = (struct Task *)TCB_AddTask(BTLV_EFFECT_GetOwner(), (void (*)(void *, void *))BTLV_TIMER_TickTask, timer, 0);
 }
 
 void BTLV_TIMER_DeleteActors(BtlvTimer *timer)
@@ -229,17 +234,17 @@ void BTLV_TIMER_DeleteActors(BtlvTimer *timer)
     for (side = 0; side < 2; side++) {
         for (slot = 0; slot < 6; slot++) {
             if (timer->side[side].actor[slot] != 0) {
-                CLACT_DeleteActor(timer->side[side].actor[slot]);
+                CLACT_DeleteActor((struct Actor *)timer->side[side].actor[slot]);
                 timer->side[side].actor[slot] = 0;
             }
         }
     }
     if (timer->tickTask != 0) {
-        TCB_DeleteTask(timer->tickTask);
+        TCB_DeleteTask((struct TcbTask *)timer->tickTask);
         timer->tickTask = 0;
     }
     if (timer->spareTask != 0) {
-        TCB_DeleteTask(timer->spareTask);
+        TCB_DeleteTask((struct TcbTask *)timer->spareTask);
         timer->spareTask = 0;
     }
 }
@@ -286,29 +291,29 @@ void BTLV_TIMER_Redraw(BtlvTimer *timer, int side)
     secondOnes = seconds % 10;
     if (remaining == warningSeconds.v[side])
         timer->animBase[side] = 13;
-    CLACT_SetActorAnimSeq(timer->side[side].actor[BTLV_TIMER_SLOT_ICON], iconOffset + timer->animBase[side]);
+    CLACT_SetActorAnimSeq((struct Actor *)timer->side[side].actor[BTLV_TIMER_SLOT_ICON], iconOffset + timer->animBase[side]);
     if (minuteTens == 0) {
-        CLACT_SetActorDrawEnable(timer->side[side].actor[BTLV_TIMER_SLOT_MINUTE_TENS], 0);
+        CLACT_SetActorDrawEnable((struct Actor *)timer->side[side].actor[BTLV_TIMER_SLOT_MINUTE_TENS], 0);
     } else {
-        CLACT_SetActorDrawEnable(timer->side[side].actor[BTLV_TIMER_SLOT_MINUTE_TENS], 1);
-        CLACT_SetActorAnimSeq(timer->side[side].actor[BTLV_TIMER_SLOT_MINUTE_TENS], minuteTens + 3 + timer->animBase[side]);
+        CLACT_SetActorDrawEnable((struct Actor *)timer->side[side].actor[BTLV_TIMER_SLOT_MINUTE_TENS], 1);
+        CLACT_SetActorAnimSeq((struct Actor *)timer->side[side].actor[BTLV_TIMER_SLOT_MINUTE_TENS], minuteTens + 3 + timer->animBase[side]);
     }
     if (minuteTens == 0 && minuteOnes == 0) {
-        CLACT_SetActorDrawEnable(timer->side[side].actor[BTLV_TIMER_SLOT_MINUTE_ONES], 0);
-        CLACT_SetActorDrawEnable(timer->side[side].actor[BTLV_TIMER_SLOT_COLON], 0);
+        CLACT_SetActorDrawEnable((struct Actor *)timer->side[side].actor[BTLV_TIMER_SLOT_MINUTE_ONES], 0);
+        CLACT_SetActorDrawEnable((struct Actor *)timer->side[side].actor[BTLV_TIMER_SLOT_COLON], 0);
     } else {
-        CLACT_SetActorDrawEnable(timer->side[side].actor[BTLV_TIMER_SLOT_MINUTE_ONES], 1);
-        CLACT_SetActorDrawEnable(timer->side[side].actor[BTLV_TIMER_SLOT_COLON], 1);
-        CLACT_SetActorAnimSeq(timer->side[side].actor[BTLV_TIMER_SLOT_MINUTE_ONES], minuteOnes + 3 + timer->animBase[side]);
-        CLACT_SetActorAnimSeq(timer->side[side].actor[BTLV_TIMER_SLOT_COLON], timer->animBase[side] + 2);
+        CLACT_SetActorDrawEnable((struct Actor *)timer->side[side].actor[BTLV_TIMER_SLOT_MINUTE_ONES], 1);
+        CLACT_SetActorDrawEnable((struct Actor *)timer->side[side].actor[BTLV_TIMER_SLOT_COLON], 1);
+        CLACT_SetActorAnimSeq((struct Actor *)timer->side[side].actor[BTLV_TIMER_SLOT_MINUTE_ONES], minuteOnes + 3 + timer->animBase[side]);
+        CLACT_SetActorAnimSeq((struct Actor *)timer->side[side].actor[BTLV_TIMER_SLOT_COLON], timer->animBase[side] + 2);
     }
     if (minuteTens == 0 && minuteOnes == 0 && secondTens == 0) {
-        CLACT_SetActorDrawEnable(timer->side[side].actor[BTLV_TIMER_SLOT_SECOND_TENS], 0);
+        CLACT_SetActorDrawEnable((struct Actor *)timer->side[side].actor[BTLV_TIMER_SLOT_SECOND_TENS], 0);
     } else {
-        CLACT_SetActorDrawEnable(timer->side[side].actor[BTLV_TIMER_SLOT_SECOND_TENS], 1);
-        CLACT_SetActorAnimSeq(timer->side[side].actor[BTLV_TIMER_SLOT_SECOND_TENS], secondTens + 3 + timer->animBase[side]);
+        CLACT_SetActorDrawEnable((struct Actor *)timer->side[side].actor[BTLV_TIMER_SLOT_SECOND_TENS], 1);
+        CLACT_SetActorAnimSeq((struct Actor *)timer->side[side].actor[BTLV_TIMER_SLOT_SECOND_TENS], secondTens + 3 + timer->animBase[side]);
     }
-    CLACT_SetActorAnimSeq(timer->side[side].actor[BTLV_TIMER_SLOT_SECOND_ONES], secondOnes + 3 + timer->animBase[side]);
+    CLACT_SetActorAnimSeq((struct Actor *)timer->side[side].actor[BTLV_TIMER_SLOT_SECOND_ONES], secondOnes + 3 + timer->animBase[side]);
 }
 
 /*

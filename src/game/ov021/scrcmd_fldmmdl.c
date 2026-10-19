@@ -136,18 +136,20 @@ extern ScriptWork *SCRCMD_WORK_GetScriptWork(ScrcmdWork *cmdWork);
 extern GameSystem *SCRCMD_WORK_GetGameSystem(ScrcmdWork *cmdWork);
 extern GameData *SCRCMD_WORK_GetGameData(ScrcmdWork *cmdWork);
 extern ScriptFieldParam *SCRIPT_WORK_ResetFieldParam(ScriptWork *scriptWork);
-extern Mmdl *SCRIPT_WORK_GetTargetObj(ScriptWork *scriptWork);
-extern void SCRIPT_SYS_CallEvent(ScriptWork *scriptWork, GameEvent *event);
-extern u16 SCRIPT_WORK_ReadWorkValue(ScriptVm *vm, ScrcmdWork *cmdWork);
+struct ScriptWork;
+extern void *SCRIPT_WORK_GetTargetObj(ScriptWork *scriptWork);
+extern void SCRIPT_SYS_CallEvent(void *scriptWork, void *task);
+struct ScriptVm;
+extern unsigned int SCRIPT_WORK_ReadWorkValue(ScriptVm *vm, ScrcmdWork *cmdWork);
 extern u16 *SCRIPT_WORK_ReadWorkPointer(ScriptVm *vm, ScrcmdWork *cmdWork);
 extern void SCRCMD_WORK_AddAnimeTask(ScrcmdWork *cmdWork, AnimeTask *animeTask);
 extern u32 SCRCMD_WORK_CheckAnimeTasks(ScrcmdWork *cmdWork);
 extern u16 VM_ReadU16(ScriptVm *vm);
 extern u32 VM_GetU32(ScriptVm *vm);
 extern void VM_SetWait(ScriptVm *vm, int (*waitFunc)(ScriptVm *vm, ScrcmdWork *cmdWork));
-extern FieldMap *GAMESYSTEM_GetFieldMap(GameSystem *gameSystem);
-extern EventDataSystem *GAME_DATA_GetEventData(const GameData *gameData);
-extern EventWork *GAME_DATA_GetEventWork(const GameData *gameData);
+extern void *GAMESYSTEM_GetFieldMap(GameSystem *gameSystem);
+extern void *GAME_DATA_GetEventData(const GameData *gameData);
+extern void *GAME_DATA_GetEventWork(const GameData *gameData);
 extern PlayerWork *GAME_DATA_GetMyPlayerWork(const GameData *gameData);
 extern u16 GAME_DATA_GetPlayerZoneId(const PlayerWork *playerWork);
 extern void GFL_USE_PlaySeDefaultVolume(u32 seId);
@@ -158,9 +160,12 @@ extern int FLDMMDL_CheckEndAcmd(Mmdl *mmdl);
 extern void FLDMMDL_ChangeMoveCode(Mmdl *mmdl, int moveCode);
 extern u16 FLDMMDL_GetObjId(Mmdl *mmdl);
 extern u16 FLDMMDL_GetMoveCode(Mmdl *mmdl);
-extern u32 FLDMMDL_GetRealObjCode(EventWork *eventWork, u32 spriteId);
+extern u32 FLDMMDL_GetRealObjCode(void *evWork, u32 objCode);
 extern Mmdl *FLDMMDL_AddMmdlParam(MmdlSys *sys, s16 gridX, s16 gridZ, int dir, int objId, int objCode, int moveCode, int zoneId);
-extern Mmdl *FLDMMDL_AddMmdlHeaderById(MmdlSys *sys, const void *header, int zoneId, int count, EventWork *eventWork, u32 objId);
+struct MmdlHeader;
+struct MmdlSys;
+struct Mmdl;
+extern Mmdl *FLDMMDL_AddMmdlHeaderById(struct MmdlSys *sys, struct MmdlHeader *header, s32 zoneId, s32 count, void *evWork, u32 objId);
 extern void FLDMMDL_OnMoveBitMovePause(Mmdl *mmdl);
 extern void FLDMMDL_DeleteMmdl(Mmdl *mmdl);
 extern void FLDMMDL_InitGridPosition(Mmdl *mmdl, s16 gridX, s16 gridY, s16 gridZ, u32 dir);
@@ -177,16 +182,17 @@ extern Mmdl *FLDMMDL_SysSearchGridPosHeight(MmdlSys *sys, u32 gridX, u32 gridZ, 
 extern Mmdl *FLDMMDL_SysSearchMoveCode(MmdlSys *sys, u32 moveCode);
 extern Mmdl *FLDMMDL_SysSearchObjId(MmdlSys *sys, u32 objId);
 extern Mmdl *FLDMMDL_SysSearchPlayer(MmdlSys *sys);
-extern void FLDMMDL_GetPos(const Mmdl *mmdl, VecFx32 *out);
-extern void FLDMMDL_SetPos(Mmdl *mmdl, const VecFx32 *pos);
-extern void FLDMMDL_SetDrawOffset(Mmdl *mmdl, const VecFx32 *offset);
+struct MmdlVec;
+extern void FLDMMDL_GetPos(struct Mmdl *mmdl, struct MmdlVec *out);
+extern void FLDMMDL_SetPos(struct Mmdl *mmdl, struct MmdlVec *pos);
+extern void FLDMMDL_SetDrawOffset(struct Mmdl *mmdl, struct MmdlVec *offset);
 extern int FLDMMDL_MOVE_GetMapHeight(Mmdl *mmdl, VecFx32 *pos, int *outHeight);
 extern u16 FLDMMDL_MOVE_GetDirTableValue(int index);
 extern u16 EVENTDATA_SYSTEM_GetNpcCount(EventDataSystem *eventData);
-extern void *EVENTDATA_SYSTEM_GetNpcHeaders(EventDataSystem *eventData);
-extern EventRec *EVENTDATA_SYSTEM_SearchPosEvent(EventDataSystem *eventData, EventWork *eventWork, const VecFx32 *pos, int mode);
-extern GameEvent *EVENT_FIELD_PROCLINK_CreateObjAnimEvent(GameSystem *gameSystem, FieldMap *fieldMap, int objId, const void *acmdList);
-extern GameEvent *EVENT_FIELD_PROCLINK_CreateHopEvent(GameSystem *gameSystem, Mmdl *mmdl, VecFx32 *start, VecFx32 *target);
+extern unsigned int EVENTDATA_SYSTEM_GetNpcHeaders(EventDataSystem *eventData);
+extern EventRec *EVENTDATA_SYSTEM_SearchPosEvent(struct EventDataSystem *system, void *eventWork, int *pos, int mode);
+extern GameEvent *EVENT_FIELD_PROCLINK_CreateObjAnimEvent(struct GameSystem *gameSystem, void *source, int fieldObjectId, char *animName);
+extern GameEvent *EVENT_FIELD_PROCLINK_CreateHopEvent(struct GameSystem *gameSystem, void *object, VecFx32 *start, VecFx32 *target);
 extern u16 FIELDMAP_GetZoneId(FieldMap *fieldMap);
 extern MmdlSys *FIELDMAP_GetMmdlSys(FieldMap *fieldMap);
 extern FieldPlayer *FIELDMAP_GetFieldPlayer(FieldMap *fieldMap);
@@ -206,7 +212,7 @@ extern Mmdl *FIELD_PLAYER_SearchFrontMmdlHeight(FieldPlayer *player, u32 limit);
 extern void FIELD_RAIL_WORK_GetLocationParts(RailWork *work, u16 *outRailIndex, u16 *outLineGrid, u16 *outWidthGrid);
 extern void FIELD_RAIL_WORK_SetLineLocation(RailWork *work, u32 railIndex, u32 lineGrid, int widthPos);
 extern void FIELD_RAIL_WORK_GetLocation(RailWork *work, RailLocation *outLocation);
-extern GameEvent *RAIL_SLIPDOWN_Start(GameSystem *gameSystem, FieldMap *fieldMap, Mmdl *mmdl);
+extern void *RAIL_SLIPDOWN_Start(void *a, unsigned int b, unsigned int c);
 extern FieldTask *FIELD_TASK_CreateMmdlPosOffsetTween(FieldMap *fieldMap, int frames, const VecFx32 *offset, Mmdl *mmdl);
 extern FieldTask *FIELD_TASK_CreateMmdlDrawOffsetTween(FieldMap *fieldMap, int frames, const VecFx32 *offset, Mmdl *mmdl);
 extern FieldTask *FIELD_TASK_CreateMmdlSpinLinear(FieldMap *fieldMap, u16 frames, int spins, Mmdl *mmdl);
@@ -448,7 +454,7 @@ int SCRCMD_FLDMMDL_AddPartyFollowerMmdl(ScriptVm *vm, ScrcmdWork *cmdWork)
     objId = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
     if (count != 0) {
         eventWork = GAME_DATA_GetEventWork(gameData);
-        mmdl = FLDMMDL_AddMmdlHeaderById(mmdlSys, EVENTDATA_SYSTEM_GetNpcHeaders(eventData), zoneId, count, eventWork, objId);
+        mmdl = FLDMMDL_AddMmdlHeaderById(mmdlSys, (struct MmdlHeader *)EVENTDATA_SYSTEM_GetNpcHeaders(eventData), zoneId, count, eventWork, objId);
         if (mmdl != 0) {
             FLDMMDL_OnMoveBitMovePause(mmdl);
         }
@@ -812,7 +818,7 @@ int SCRCMD_FLDMMDL_TurnPlayerToFrontEvent(ScriptVm *vm, ScrcmdWork *cmdWork)
     FIELD_PLAYER_GetPos(player, &pos);
     for (i = 0; i < 4; i++) {
         facing = facingCodes.codes[i];
-        if (EVENTDATA_SYSTEM_SearchPosEvent(eventData, eventWork, &pos, facing) != 0) {
+        if (EVENTDATA_SYSTEM_SearchPosEvent(eventData, eventWork, (int *)(&pos), facing) != 0) {
             found = facing;
             break;
         }
@@ -830,7 +836,7 @@ int SCRCMD_FLDMMDL_TurnPlayerToFrontEvent(ScriptVm *vm, ScrcmdWork *cmdWork)
         } else {
             return 0;
         }
-        SCRIPT_SYS_CallEvent(scriptWork, EVENT_FIELD_PROCLINK_CreateObjAnimEvent(gameSystem, fieldMap, 0xff, turnList));
+        SCRIPT_SYS_CallEvent(scriptWork, EVENT_FIELD_PROCLINK_CreateObjAnimEvent(gameSystem, fieldMap, 0xff, (char *)turnList));
         return 1;
     }
     return 0;
@@ -888,7 +894,7 @@ int SCRCMD_FLDMMDL_StartMmdlMoveToGrid(ScriptVm *vm, ScrcmdWork *cmdWork)
     mmdlSys = SCRCMD_WORK_GetOccupyInfo(cmdWork);
     gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
     mmdl = FLDMMDL_SysSearchObjId(mmdlSys, objId);
-    FLDMMDL_GetPos(mmdl, &start);
+    FLDMMDL_GetPos(mmdl, (struct MmdlVec *)(&start));
     target.x = (gridX << 16) + 0x8000;
     target.y = gridY << 16;
     target.z = (gridZ << 16) + 0x8000;
@@ -951,7 +957,7 @@ int SCRCMD_FLDMMDL_StartMmdlRailSlipDown(ScriptVm *vm, ScrcmdWork *cmdWork)
     scriptWork = SCRCMD_WORK_GetScriptWork(cmdWork);
     mmdlSys = SCRCMD_WORK_GetOccupyInfo(cmdWork);
     mmdl = FLDMMDL_SysSearchObjId(mmdlSys, SCRIPT_WORK_ReadWorkValue(vm, cmdWork));
-    event = RAIL_SLIPDOWN_Start(gameSystem, SCRIPT_WORK_ResetFieldParam(scriptWork)->fieldSystem, mmdl);
+    event = RAIL_SLIPDOWN_Start(gameSystem, (unsigned int)(SCRIPT_WORK_ResetFieldParam(scriptWork)->fieldSystem), (unsigned int)mmdl);
     SCRIPT_SYS_CallEvent(scriptWork, event);
     return 1;
 }
@@ -1057,9 +1063,9 @@ int SCRCMD_FLDMMDL_StartMmdlDropIn(ScriptVm *vm, ScrcmdWork *cmdWork)
     FLDMMDL_MOVE_GetMapHeight(mmdl, &pos, &groundHeight);
     pos.y = groundHeight;
     FLDMMDL_InitGridPosition(mmdl, gridX, (pos.y >> 4) / 0x1000, gridZ, dir);
-    FLDMMDL_SetPos(mmdl, &pos);
+    FLDMMDL_SetPos(mmdl, (struct MmdlVec *)(&pos));
     dropOffset = gScrcmdFldmmdlDropInDrawOffset;
-    FLDMMDL_SetDrawOffset(mmdl, &dropOffset);
+    FLDMMDL_SetDrawOffset(mmdl, (struct MmdlVec *)(&dropOffset));
     FIELD_TASK_MANAGER_AddTask(taskManager, FIELD_TASK_CreatePlayerDrop(fieldMap, mmdl, 0x28, 0xfa), 0);
     return 0;
 }

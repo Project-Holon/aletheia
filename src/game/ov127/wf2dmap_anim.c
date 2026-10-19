@@ -33,9 +33,10 @@ typedef struct Wf2dmapAnimTarget {
     unsigned int animSeq;
     short animMode;
 } Wf2dmapAnimTarget;
+struct Actor;
 
-extern void CLACT_AddActorAnimFrame(struct Obj *p, u32 arg);
-extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
+extern void CLACT_AddActorAnimFrame(struct Actor *actor, u32 frames);
+extern void CLACT_SetActorAnimSeq(struct Actor *actor, u16 value);
 
 void WF2DMAP_ANIM_ApplyActorAnim(u8 *p)
 {

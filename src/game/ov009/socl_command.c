@@ -103,7 +103,7 @@ int SOCLi_StartupCommandPacketQueue(int packetCount)
  */
 int SOCLi_CleanupCommandPacketQueue(void)
 {
-	if (gSoclCmdQueue.queueRead < gSoclCmdQueue.queueWrite)
+	if (gSoclCmdQueue.usedCount < gSoclCmdQueue.msgCount)
 		return -1;
 	gSoclConfig->free(gSoclCmdQueue.packets);
 	gSoclCmdQueue.packets = 0;

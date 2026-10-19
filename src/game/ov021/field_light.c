@@ -38,6 +38,7 @@
  *   VEC_Normalize  0x0207CCA4  arm
  *   FX_SinCosTable_  0x020A1B38  data  a2
  *   FIELD_FOG_SetColorRgb  0x021A01C4  thumb  ov021
+ *   _u32_div_f                   0x0209C2B0  arm
  */
 #define GX_RGB(r, g, b) ((u16)(((r) << 0) | ((g) << 5) | ((b) << 10)))
 

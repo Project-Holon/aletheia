@@ -48,6 +48,7 @@
  *   G3X_GetVectorMtx  0x0207DCC8  arm
  *   G3_LoadMtx43  0x0207D8E0  arm
  *   NNS_G3dGeResetGX  0x0206DE88  arm
+ *   NNS_G3dGlb                   0x02148B4C  data
  */
 #include "nns_g3d_sbc_types.h"
 
@@ -78,8 +79,8 @@ extern void MIi_CpuClear32(u32 value, void *pDst, u32 size);
 extern void MI_Zero36B(void *pDst);
 extern void VEC_Normalize(const VecFx32 *pSrc, VecFx32 *pDst);
 extern void VEC_CrossProduct(const VecFx32 *pA, const VecFx32 *pB, VecFx32 *pAxB);
-extern void G3_MultMtx43(const MtxFx43 *pMtx);
-extern void G3_MultMtx33(const MtxFx33 *pMtx);
+extern void G3_MultMtx43(void *m);
+extern void G3_MultMtx33(void *m);
 extern int  G3X_GetVectorMtx(MtxFx33 *pMtx);
 extern void G3_LoadMtx43(const void *pMtx);
 extern void NNS_G3dGeResetGX(void *pPosVecMtx, void *pVecMtx);
@@ -1077,7 +1078,7 @@ void NNSi_G3dFuncSbc_NODEMIX(NNSG3dRS *pRS, u32 opt)
             NNSi_G3dBitVecSet(pRS->isEvpCached, idxNode);
             REG_MTX_RESTORE = p[0];
             REG_MTX_MODE = 1;
-            G3_MultMtx43(&evpMtx[idxNode].invM);
+            G3_MultMtx43((void *)(&evpMtx[idxNode].invM));
         }
 
         if (i != 0) {
@@ -1096,7 +1097,7 @@ void NNSi_G3dFuncSbc_NODEMIX(NNSG3dRS *pRS, u32 opt)
             while (G3X_GetClipMtx(pM))
                 ;
             REG_MTX_MODE = 2;
-            G3_MultMtx33(&evpMtx[idxNode].invN);
+            G3_MultMtx33((void *)(&evpMtx[idxNode].invN));
         }
 
         w = p[2] << 4;

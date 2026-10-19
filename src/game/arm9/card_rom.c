@@ -224,7 +224,7 @@ typedef struct CARDRomHeader
     u32 rom_size;
 } CARDRomHeader;
 
-extern CARDRomHeaderTWL *CARD_GetOwnRomHeaderTWL(void);
+extern void *CARD_GetOwnRomHeaderTWL(void);
 extern BOOL OS_IsRunOnTwl(void);
 extern u16 OS_GetBootType(void);
 extern BOOL CARDi_IsNormalMode(void);
@@ -248,7 +248,7 @@ extern void CARDi_RefreshRom(u32 warn_mask);
 extern void CARDi_EndTask(CARDiCommon *p);
 extern void *OS_GetDTCMAddress(void);
 extern void CARD_CheckEnabled(void);
-extern int CARDi_GetAccessLevel(void);
+extern u32 CARDi_GetAccessLevel(void);
 extern void OS_Terminate(void);
 extern BOOL CARDi_WaitForTask(CARDiCommon *p, BOOL restart, MIDmaCallback callback, void *callback_arg);
 extern const CARDDmaInterface *CARDi_GetDmaInterface(u32 channel);

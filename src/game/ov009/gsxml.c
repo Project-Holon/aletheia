@@ -100,6 +100,7 @@
  *   gsLargeIntReverseBytes  0x0217E934  arm
  */
 #include "../../matched/arm9_sdk/libc/strncmp/string.h"
+extern void *__builtin__clear(void *dest, unsigned long size);
 
 #define isdigit(c) (((c) < 0 || (c) >= 0x80) ? 0 : (gCtypeMap[c] & 0x8))
 
@@ -118,6 +119,8 @@ typedef struct GSIXmlString {
     char *string;                   /* 0x00 */
     int length;                     /* 0x04 */
 } GSIXmlString;
+static int gsiXmlUtilGrowBuffer(GSIXmlStreamWriter *stream);
+static int gsiXmlUtilTagMatches(char *matchtag, GSIXmlString *xmlstr);
 
 typedef struct GSIXmlElement {
     GSIXmlString name;              /* 0x00 */
@@ -180,14 +183,15 @@ extern int gsXmlMoveToStart(void *stream);
 extern void gsiXmlUtilElementFree(void *elem);
 extern void gsiXmlUtilAttributeFree(void *elem);
 static int gsiXmlUtilParseElement(GSIXmlStreamReader *stream, char *buffer, int len, int *pos, int parentIndex);
-extern void ArrayClear(void *array);
+struct DArrayImplementation;
+extern void ArrayClear(struct DArrayImplementation *array);
 extern int gsiXmlUtilParseName(void *stream, char *buffer, int len, int *pos, GSIXmlString *strOut);
 extern int gsiXmlUtilParseString(void *stream, char *buffer, int len, int *pos, GSIXmlString *strOut);
 extern int gsiXmlUtilParseValue(void *stream, char *buffer, int len, int *pos, GSIXmlString *strOut);
 extern int ArrayLength(void *array);
 extern void ArrayAppend(void *array, void *newElem);
 extern void ArrayReplaceAt(void *array, void *newElem, int n);
-extern int gsiXmlUtilSkipWhiteSpace(void *, char *, int, int *);
+static int gsiXmlUtilSkipWhiteSpace(void *, char *, int, int *);
 extern int gsiXmlUtilDecodeString(char *buffer, int *len);
 extern int STD_TSScanf(const char *src, const char *fmt, ...);
 extern void *MSL_C_LIB_MemsetPtr(void *dst, int c, unsigned int n);
@@ -1540,7 +1544,7 @@ int gsXmlMoveToChild(void *stream, char *matchtag)
     for (i = reader->index + 1; i < ArrayLength(reader->elements); i++)
     {
         searchElem = (GSIXmlElement *)ArrayNth(reader->elements, i);
-        if (searchElem->parentIndex == reader->index && gsiXmlUtilTagMatches(matchtag, searchElem))
+        if (searchElem->parentIndex == reader->index && gsiXmlUtilTagMatches(matchtag, (GSIXmlString *)searchElem))
         {
             reader->index = i;
             reader->readIndex = -1;
@@ -1633,7 +1637,7 @@ int gsXmlReadChildAsHexBinary(void *stream, char *matchtag, unsigned char *value
     i = reader->readIndex + 1;
     while (i < ArrayLength(reader->elements)) {
         searchValueElem = (GSIXmlElement *)ArrayNth(reader->elements, i);
-        if (searchValueElem->parentIndex == reader->index && gsiXmlUtilTagMatches(matchtag, searchValueElem)) {
+        if (searchValueElem->parentIndex == reader->index && gsiXmlUtilTagMatches(matchtag, (GSIXmlString *)searchValueElem)) {
             writepos = 0;
             temp = 0;
             readpos = 0;
@@ -1694,7 +1698,7 @@ int gsXmlReadChildAsBase64Binary(void *stream, char *matchtag, unsigned char *va
     while (i < ArrayLength(reader->elements))
     {
         searchValueElem = (GSIXmlElement *)ArrayNth(reader->elements, i);
-        if (searchValueElem->parentIndex == reader->index && gsiXmlUtilTagMatches(matchtag, searchValueElem))
+        if (searchValueElem->parentIndex == reader->index && gsiXmlUtilTagMatches(matchtag, (GSIXmlString *)searchValueElem))
         {
             if (valueOut != 0)
             {
@@ -1741,7 +1745,7 @@ int gsXmlReadChildAsInt(void *stream, char *matchtag, int *valueOut)
     while (i < ArrayLength(reader->elements))
     {
         searchValueElem = (GSIXmlElement *)ArrayNth(reader->elements, i);
-        if (searchValueElem->parentIndex == reader->index && gsiXmlUtilTagMatches(matchtag, searchValueElem))
+        if (searchValueElem->parentIndex == reader->index && gsiXmlUtilTagMatches(matchtag, (GSIXmlString *)searchValueElem))
         {
             reader->readIndex = i;
             if (searchValueElem->value.string == 0)
@@ -1777,7 +1781,7 @@ int gsXmlReadChildAsInt64(void *stream, char *matchtag, long long *valueOut)
     while (i < ArrayLength(reader->elements))
     {
         searchValueElem = (GSIXmlElement *)ArrayNth(reader->elements, i);
-        if (searchValueElem->parentIndex == reader->index && gsiXmlUtilTagMatches(matchtag, searchValueElem))
+        if (searchValueElem->parentIndex == reader->index && gsiXmlUtilTagMatches(matchtag, (GSIXmlString *)searchValueElem))
         {
             reader->readIndex = i;
             if (searchValueElem->value.string == 0)
@@ -1814,7 +1818,7 @@ int gsXmlReadChildAsDateTimeElement(void *stream, char *matchtag, long *valueOut
     while (i < ArrayLength(reader->elements))
     {
         searchValueElem = (GSIXmlElement *)ArrayNth(reader->elements, i);
-        if (searchValueElem->parentIndex == reader->index && gsiXmlUtilTagMatches(matchtag, searchValueElem))
+        if (searchValueElem->parentIndex == reader->index && gsiXmlUtilTagMatches(matchtag, (GSIXmlString *)searchValueElem))
         {
             reader->readIndex = i;
             if (searchValueElem->value.string == 0)
@@ -1857,7 +1861,7 @@ int gsXmlReadChildAsFloat(void *stream, char *matchtag, float *valueOut)
     while (i < ArrayLength(reader->elements))
     {
         searchValueElem = (GSIXmlElement *)ArrayNth(reader->elements, i);
-        if (searchValueElem->parentIndex == reader->index && gsiXmlUtilTagMatches(matchtag, searchValueElem))
+        if (searchValueElem->parentIndex == reader->index && gsiXmlUtilTagMatches(matchtag, (GSIXmlString *)searchValueElem))
         {
             reader->readIndex = i;
             if (searchValueElem->value.string == 0)

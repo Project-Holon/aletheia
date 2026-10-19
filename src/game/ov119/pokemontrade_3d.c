@@ -110,6 +110,14 @@
  *   gTouchbarTemplate 0x021E7C0C data a4
  *   POKETRADE_SAVE_Init3DProjection 0x021E2B14 thumb ov119
  *   POKETRADE_SAVE_Free3DLightSet 0x021E2B68 thumb ov119
+ *   _fadd                        0x0209C95C  arm
+ *   _ffix                        0x0209C494  arm
+ *   _fflt                        0x0209BDBC  arm
+ *   _fgr                         0x0209BBB0  arm
+ *   _fmul                        0x0209C77C  arm
+ *   _fsub                        0x0209CB8C  arm
+ *   _u32_div_f                   0x0209C2B0  arm
+ *   _ll_udiv                     0x0209C00C  arm
  */
 #include "pokemontrade_types.h"
 
@@ -120,12 +128,13 @@ extern void MI_CpuFill8(void *,int,int);
 extern void DWC_RAP_SetVchatTalkLock(int);
 
 extern void G3D_SYSTEM_DrawStart(void);
+struct G3dCamera;
 
-extern void G3D_CAMERA_Reset(struct Light *l);
+extern void G3D_CAMERA_Reset(struct G3dCamera *camera);
 
 extern void G3D_SYSTEM_ApplyLookAt(void);
 
-extern void *ARC_TOOL_CreateHandle(unsigned int id, unsigned int heap);
+extern void *ARC_TOOL_CreateHandle(u32 archiveID, u16 heapID);
 
 extern void ARC_TOOL_DeleteHandle(void *);
 
@@ -208,16 +217,19 @@ typedef struct { u32 f0, f4; u16 f8, fA, fC, fE, f10, f12; u32 f14, f18, f1C; } 
 typedef struct { Element e[4]; } ElementTemplate;
 
 typedef struct { void *f0; u32 f4; int f8; u32 fC, f10, f14; int f18, f1C; } TouchbarConfig;
+struct PokemonParam;
 
-extern u32 POKE_TOOL_GetPartyValue(void *,u32,u32);
+extern u32 POKE_TOOL_GetPartyValue(struct PokemonParam *pp, u32 paramId, u32 arg);
 
 extern u32 GFL_HEAP_Free(void *p);
 
 extern void MI_CpuCopy8(const void *,void *,unsigned);
+struct McssWork;
 
-extern void MCSS_SetVanishFlag(void *);
+extern void MCSS_SetVanishFlag(struct McssWork *work);
+struct IcaAnime;
 
-extern void *ICA_ANIME_CreateStream(u32,u32,u32,u32);
+extern struct IcaAnime *ICA_ANIME_CreateStream(u32,u32,u32,u32);
 
 extern void ICA_ANIME_SetFrame(struct IcaAnime *p, int v);
 
@@ -226,20 +238,22 @@ extern void ICA_ANIME_Delete(struct IcaAnime *p);
 extern void PARTICLE_InitManager(u32 heap);
 
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+struct ParticleSys;
 
-extern int PARTICLE_CreateSystemDefault(int a, int b, int c, int d);
+extern struct ParticleSys *PARTICLE_CreateSystemDefault(u32 workBuf, u32 workSize, u32 withCamera, u32 heapId);
 
-extern int PARTICLE_LoadArchiveMember(u32 a, u32 b, u32 c);
+extern void *PARTICLE_LoadArchiveMember(u32 a, u32 b, u32 c);
 
 extern void OS_WaitInterrupt(int clear, u32 flags);
+struct TcbList;
 
-extern u32 GFL_USE_GetMainTaskList(void);
+extern struct TcbList *GFL_USE_GetMainTaskList(void);
 
-extern void PARTICLE_SetupSystemBorrowed(void *p, unsigned int block, unsigned int applyNow, unsigned int taskMgr);
+extern void PARTICLE_SetupSystemBorrowed(struct ParticleSys *sys, void *block, unsigned int applyNow, unsigned int taskMgr);
 
 extern void PARTICLE_ExitManager(void);
 
-extern void PARTICLE_SetupSystem(void *, void *, int, int);
+extern void PARTICLE_SetupSystem(struct ParticleSys *sys, void *block, u32 applyNow, u32 taskMgr);
 
 extern void *G3D_UTIL_Create(u16,u16,u16);
 
@@ -252,52 +266,58 @@ extern void G3D_UTIL_Delete(struct Rec *p);
 extern u16 G3D_UTIL_AddUnit(void *,const G3dUnitEntry *);
 
 extern u32 G3D_UTIL_GetObject(u8 *util, int i);
+struct G3dObject;
 
-extern int G3D_SYSTEM_GetObjectAnimeCount(int *p);
+extern unsigned short G3D_SYSTEM_GetObjectAnimeCount(struct G3dObject *obj);
 
-extern u32 G3D_SYSTEM_EnableObjectAnime(struct G3dSys *sys, u32 idx);
+extern int G3D_SYSTEM_EnableObjectAnime(struct G3dObject *obj, unsigned int anmIdx);
 
 extern void G3D_UTIL_RemoveUnit(struct Ctx *c, u32 i);
 
-extern int G3D_SYSTEM_LoopObjectAnimeFrame(void *a, int idx, int amount);
+extern int G3D_SYSTEM_LoopObjectAnimeFrame(struct G3dObject *obj, int anmIdx, int step);
 
 extern int PARTICLE_DrawAllSystems(void);
 
 extern int PARTICLE_UpdateAllSystems(void);
+struct G3dObjectStatus;
+struct G3dObject;
 
-extern void G3D_SYSTEM_DrawObject(void *obj, struct Arg *status);
+extern void G3D_SYSTEM_DrawObject(struct G3dObject *obj, struct G3dObjectStatus *status);
 
 extern u32 ICA_ANIME_IncFrameLoop(struct IcaAnime *p, int v);
 
-extern u8 POKE_TOOL_GetGender(void *p);
+extern u8 POKE_TOOL_GetGender(struct PokemonParam *pp);
 
-extern u16 MCSS_GetSizeX(void *p);
+extern u16 MCSS_GetSizeX(struct McssWork *work);
 
-extern short MCSS_GetOfsX(void *p);
+extern short MCSS_GetOfsX(struct McssWork *work);
 
-extern void MCSS_SetOfsPosition(void *p, u32 *src);
+extern void MCSS_SetOfsPosition(struct McssWork *work, u32 *src);
+struct PersonalData;
 
-extern void *POKE_PERSONAL_Create(unsigned int species, int form, unsigned int heap);
+extern struct PersonalData *POKE_PERSONAL_Create(unsigned int species, int form, unsigned int heap);
 
-extern u32 POKE_PERSONAL_GetParam(const struct Personal *p, u32 field);
+extern u32 POKE_PERSONAL_GetParam(struct PersonalData *data, u32 field);
 
-extern void POKE_PERSONAL_Delete(void *h);
+extern void POKE_PERSONAL_Delete(struct PersonalData *data);
+struct McssSys;
 
-extern void *MCSS_TOOL_AddPokeMcss(void *sys, void *pp, u32 direction, u32 x, u32 y, u32 z);
+extern struct McssWork *MCSS_TOOL_AddPokeMcss(struct McssSys *sys, void *pp, unsigned int direction, int x, int y, int z);
 
-extern int MCSS_TOOL_SetAnimeStopCallback(int work);
+extern int MCSS_TOOL_SetAnimeStopCallback(struct McssWork *work);
 
-extern void MCSS_SetScale(void *p, u32 *src);
+extern void MCSS_SetScale(struct McssWork *work, unsigned int *src);
 
-extern void MCSS_SetShadowVanishFlag(char *p, int v);
+extern void MCSS_SetShadowVanishFlag(struct McssWork *work, int flag);
+struct McssSys;
 
-extern void MCSS_Del(void *sys, void *obj);
+extern void MCSS_Del(struct McssSys *sys, struct McssWork *work);
 
 extern void GX_BeginLoadTex(void);
 
 extern void DC_FlushRange(void *, int);
 
-extern void GX_LoadTex(void *, int, int);
+extern void GX_LoadTex(void *pSrc, u32 destSlotAddr, u32 szByte);
 
 extern void GX_EndLoadTex(void);
 
@@ -311,13 +331,13 @@ extern void G3i_LookAt_(const VecFx32 *,const VecFx32 *,const VecFx32 *,int,MtxF
 
 extern u8 POKETRADE_PROC_GetStoredBoxIndex(u8 *);
 
-extern void *ARC_UTIL_LoadPaletteBlockFromHandle(void *arc, u32 memberIdx, u32 unpackedOut, u32 flags);
+extern void *ARC_UTIL_LoadPaletteBlockFromHandle(void *arc, u32 memberIdx, void *unpackedOut, u16 flags);
 
 extern void MI_CpuMove(const void *, void *, int);
 
 extern void GX_BeginLoadTexPltt(void);
 
-extern void GX_LoadTexPltt(const void *, int, int);
+extern void GX_LoadTexPltt(void *pSrc, u32 destSlotAddr, u32 szByte);
 
 extern void GX_EndLoadTexPltt(void);
 
@@ -501,8 +521,8 @@ void POKETRADE_3D_SetupParticleSystemsLow(ParticleManager *p) {
     for(i=0;i<4;i++) {
         int x;
         OS_WaitInterrupt(1,1);
-        x=GFL_USE_GetMainTaskList();
-        PARTICLE_SetupSystemBorrowed(p->system[i],(unsigned int)p->archiveMember,1,x);
+        x=(int)GFL_USE_GetMainTaskList();
+        PARTICLE_SetupSystemBorrowed(p->system[i],p->archiveMember,1,x);
     }
 }
 
@@ -512,7 +532,7 @@ void POKETRADE_3D_SetupParticleSystemsHigh(ParticleManager *p)
 
     for (i = 4; i < 9; i++) {
         OS_WaitInterrupt(1, 1);
-        PARTICLE_SetupSystemBorrowed(p->system[i], (unsigned int)p->archiveMember, 1, GFL_USE_GetMainTaskList());
+        PARTICLE_SetupSystemBorrowed(p->system[i], p->archiveMember, 1, (unsigned int)GFL_USE_GetMainTaskList());
     }
 }
 
@@ -659,7 +679,7 @@ void POKETRADE_3D_Draw3DScene(char *p)
         PARTICLE_UpdateAllSystems();
     }
     if (((TradeWork *)p)->g3dUnitHandle != 0xFFFF)
-        G3D_SYSTEM_DrawObject((void *)G3D_UTIL_GetObject(((TradeWork *)p)->g3dUtil, ((TradeWork *)p)->g3dUnitHandle), (struct Arg *)buf);
+        G3D_SYSTEM_DrawObject((void *)G3D_UTIL_GetObject(((TradeWork *)p)->g3dUtil, ((TradeWork *)p)->g3dUnitHandle), (struct G3dObjectStatus *)buf);
     if (((TradeWork *)p)->particleManager != 0) {
         if (((TradeWork *)p)->particleManager->icaStream[0] != 0) {
             if (((TradeWork *)p)->particleManager->streamFrame[0] == 0)
@@ -744,7 +764,7 @@ void POKETRADE_3D_AddPokemonMcss(TradeWork *p, int idx, int side, void *mon, int
         p->mcssPokemon[idx] = MCSS_TOOL_AddPokeMcss(p->mcssSystem, mon, 1, t.v[idx], -0x1C000, 0);
     if (p->tradeState == 2)
         DWC_RAP_SetVchatTalkLock(0);
-    MCSS_TOOL_SetAnimeStopCallback((int)p->mcssPokemon[idx]);
+    (struct McssWork *)MCSS_TOOL_SetAnimeStopCallback((struct McssWork *)p->mcssPokemon[idx]);
     MCSS_SetScale(p->mcssPokemon[idx], (u32 *)(&v));
     MCSS_SetShadowVanishFlag(p->mcssPokemon[idx], 1);
     POKETRADE_3D_SetMcssOffsetForSpecies(p->mcssPokemon[idx], (int *)(&v), side, mon);
@@ -928,7 +948,7 @@ void POKETRADE_3D_DrawCubeFace(int z,int index,u16 a,int b)
     REG(0x04000448)=1;
 }
 
-static inline fx32 fraction(int x,int y) { return (fx32)(((long long)x*65536)/y); }
+static inline fx32 fraction(int x,int y) { return (fx32)((unsigned long long)((long long)x*65536)/y); }
 
 /*
  * lever: separate x+=48 and remainder assignments restore numerator register setup.
@@ -986,7 +1006,7 @@ void POKETRADE_3D_LoadTexturePalette(char *p)
     void *descriptor;
     char *data;
     v = ARC_TOOL_CreateHandle(0x74, ((TradeWork *)p)->heapId);
-    allocation = ARC_UTIL_LoadPaletteBlockFromHandle(v, 0x48, (u32)(&descriptor), ((TradeWork *)p)->heapId);
+    allocation = ARC_UTIL_LoadPaletteBlockFromHandle((void *)v, 0x48, (&descriptor), ((TradeWork *)p)->heapId);
     data = ((IcaTexture *)descriptor)->data;
     DC_FlushRange(data + 32, 32);
     MI_CpuMove(data + 32, data + 34, 30);

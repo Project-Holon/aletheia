@@ -25,6 +25,8 @@
  *   OSi_SyncWithOtherProc  0x02084AB0  arm  arm9
  *   PMi_InsertList  0x0208C6FC  arm  arm9
  *   PM_SendUtilityCommand  0x0208BC8C  arm  arm9
+ *   PMi_PostExitCallbackList  0x02732FAC  data
+ *   PMi_ResetLocked  0x02732FA8  data
  */
 
 typedef unsigned char u8;
@@ -58,7 +60,7 @@ extern void PMi_DeleteList(PMiGenCallbackInfo **listp, PMiGenCallbackInfo *info)
 extern u32 d_020A8724[];
 extern PMiGenCallbackInfo *d_02732FA4;
 extern PMiGenCallbackInfo *PMi_PostExitCallbackList;
-extern u32 data_02732FA8;
+extern u32 PMi_ResetLocked;
 extern void OSi_SyncWithOtherProc(int direction, volatile u8 *p);
 extern u32 OS_DisableInterrupts(void);
 extern void OS_RestoreInterrupts(u32 state);
@@ -219,11 +221,11 @@ void PMi_CallPostExitCallbackAndReset(int flag)
 int PMi_TryLockForReset(void)
 {
     u32 state = OS_DisableInterrupts();
-    if (data_02732FA8 != 0) {
+    if (PMi_ResetLocked != 0) {
         OS_RestoreInterrupts(state);
         return 0;
     }
-    data_02732FA8 = 1;
+    PMi_ResetLocked = 1;
     OS_RestoreInterrupts(state);
     return 1;
 }

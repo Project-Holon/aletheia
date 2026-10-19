@@ -21,6 +21,7 @@
  *   LIVEBATTLEMATCH_SAVE_GetOpponentMac  0x0200E938  thumb
  *   GF_STANDARD_CompareBytes  0x0203EFC8  arm
  *   BSUBWAY_SAVEDATA_InitStats  0x0200DFCC  thumb
+ *   _u32_div_f                   0x0209C2B0  arm
  */
 #include "misc_savedata_shared_types.h"
 #include "greeting_savedata_shared_types.h"
@@ -28,10 +29,11 @@
 typedef signed int     s32;
 
 extern void MI_CpuFill8(void *dst, unsigned char val, unsigned long size);
+struct SaveControl;
 
-extern void *SAVE_CONTROL_GetBlock(struct Sub020071CCCtrl *ctrl, u32 id);
+extern void *SAVE_CONTROL_GetBlock(struct SaveControl *saveControl, u32 blockId);
 
-extern void  OS_GetMacAddress(void *obj);
+extern void  OS_GetMacAddress(u8 *macAddress);
 
 extern void MI_CpuCopy8(const void *src, void *dest, u32 size);
 
@@ -39,7 +41,7 @@ extern s32 GF_STANDARD_CompareBytes(const u8 *a, const u8 *b, u32 n);
 
 extern void BSUBWAY_SAVEDATA_InitStats(void *p);
 
-extern void *SAVE_CONTROL_GetBlock(struct Sub020071CCCtrl *ctrl, u32 id);
+extern void *SAVE_CONTROL_GetBlock(struct SaveControl *saveControl, u32 blockId);
 
 void LIVEBATTLEMATCH_SAVE_InitRecord(void *obj);
 

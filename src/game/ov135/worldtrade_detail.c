@@ -112,15 +112,18 @@ extern void MI_CpuFill8(void *p, u32 v, u32 n);
 
 extern u32 GFL_HEAP_Free(void *p);
 
-extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
+extern void *ARC_TOOL_CreateHandle(u32 archiveID, u16 heapID);
+struct MsgBank;
+struct Strbuf;
 
-extern void *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
+extern struct Strbuf *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
 
-extern void STRBUF_Delete(struct U16Vec *vec);
+extern void STRBUF_Delete(struct Strbuf *strbuf);
+struct BmpWin;
 
-extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
+extern void BMP_WIN_MakeScreen(struct BmpWin *win);
 
-extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
+extern u8 BMP_WIN_GetBgLayer(struct BmpWin *win);
 
 extern void BG_SYS_SetSubVisiblePlanes(u32 a);
 
@@ -144,44 +147,49 @@ extern u32 ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, 
 
 extern void ARC_UTIL_UploadBgPaletteFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 
-extern struct Obj *CLACT_CreateActor(void *, unsigned int, unsigned int, unsigned int, const void *, unsigned short, unsigned short);
+extern struct Actor *CLACT_CreateActor(void *, unsigned int, unsigned int, unsigned int, const void *, unsigned short, unsigned short);
+struct Actor;
 
-extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
+extern void CLACT_SetActorAnimSeq(struct Actor *actor, u16 value);
 
-extern void CLACT_DeleteActor(struct Obj *p);
+extern void CLACT_DeleteActor(struct Actor *actor);
 
 extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
+struct Bmp;
 
-extern void *BMP_WIN_GetBmp(struct Descriptor *p);
+extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *p);
+struct Bmp;
 
-extern void BMP_Clear(struct CharBuf *buf, u8 value);
+extern void BMP_Clear(struct Bmp *bmp, u8 value);
 
-extern void BMP_WIN_TransferChars(struct Descriptor *d);
+extern void BMP_WIN_TransferChars(struct BmpWin *d);
 
-extern u32 BMP_WIN_Delete(struct Descriptor *d);
+extern u32 BMP_WIN_Delete(struct BmpWin *win);
 
-extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
+extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
 
 extern u32 KEY_GetTrg(void);
 
 extern void BMP_MENUWORK_AddMsgItem(struct Slot *table, u32 a, u32 b, u32 tag, u32 heap);
 
 extern u32 BMP_MENUWORK_Delete(void *p);
+struct BoxPokemon;
 
-extern u32 POKE_TOOL_GetBoxValue(void *p, u32 id, u32 v);
+extern u32 POKE_TOOL_GetBoxValue(struct BoxPokemon *box, u32 paramId, u32 arg);
 
 extern u32 POKEPARTY_GetCount(void *p);
 
 extern int TOUCHPANEL_GetTrg(void);
+struct WordSet;
 
 
-extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
+extern void WORDSET_CopyTaggedText(struct WordSet *words, struct Strbuf *dst, struct Strbuf *src);
 
 
 
 extern void BG_SYS_PushTile(u32 index);
 
-extern void BMP_MENUWORK_DrawWindow(void *win, int commitMode, int tileBase, int palette);
+extern void BMP_MENUWORK_DrawWindow(struct BmpWin *win, s32 commitMode, u16 tileBase, u32 palette);
 
 extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 
@@ -201,9 +209,9 @@ typedef struct {
     void *data;
 } PalFile;
 
-extern void CLACT_SetActorDrawEnable(struct Obj *obj, unsigned int on);
+extern void CLACT_SetActorDrawEnable(struct Actor *actor, u32 value);
 
-extern void CLACT_SetActorAutoAnim(struct Obj *,u32);
+extern void CLACT_SetActorAutoAnim(struct Actor *actor, u32 enable);
 
 extern void *WORLDTRADE_NoOp(void *);
 
@@ -225,11 +233,11 @@ extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type
 
 extern void ARC_TOOL_DeleteHandle(void *);
 
-extern void CLACT_SetActorBgPriority(void *, int);
+extern void CLACT_SetActorBgPriority(struct Actor *actor, u32 priority);
 
-extern void WORLDTRADE_SetNextState(void *p, u32 a, u32 b);
+extern void WORLDTRADE_SetNextState(Work *p, u32 state, u32 returnState);
 
-extern void WORLDTRADE_SetStateAndReturn(void *p, u32 a, u32 b);
+extern void WORLDTRADE_SetStateAndReturn(Work *p, u32 nextScreenId, u32 kind);
 
 extern void GFL_USE_PlaySeDefaultVolume(unsigned);
 
@@ -243,7 +251,7 @@ extern int WORLDTRADE_UpdateTaskMenuYesNo(char *p);
 
 extern void WORLDTRADE_CloseTaskMenu(char *p);
 
-extern void BMP_MENUWORK_DrawWindowBorder(void *p, unsigned kind);
+extern void BMP_MENUWORK_DrawWindowBorder(struct BmpWin *desc, u32 commitMode);
 
 extern void WORLDTRADE_OpenTaskMenuList(Work *p, u16 a, int count, int b);
 
@@ -264,8 +272,9 @@ extern void FILE_UTIL_ReadString(void *dst, u32 entry, u32 heap);
 extern void WORLDTRADE_INPUT_PrintStringAlignedLine(void *p, void *b, u32 c, u32 d, u32 e, u16 f, void *g);
 
 extern void STRBUF_SetString(struct Strbuf *o, const u16 *src);
+struct PokemonParam;
 
-extern u32 POKE_TOOL_GetPartyValue(void *mon, u32 id, u32 v);
+extern u32 POKE_TOOL_GetPartyValue(struct PokemonParam *pp, u32 paramId, u32 arg);
 
 extern u32 POKEGRA_LoadCharDataPP(void *outCharData, void *mon, u32 dir, u32 heapId);
 
@@ -275,7 +284,7 @@ extern void GX_LoadOBJ(void *src, u32 dst, u32 n);
 
 extern int POKEGRA_GetArcID(void);
 
-extern u32 POKE_TOOL_IsShiny(void *mon);
+extern u32 POKE_TOOL_IsShiny(struct PokemonParam *pp);
 
 extern s32 POKEGRA_GetPalArcIndex(u32 arcId, u32 monsNo, u32 formNo, u32 sex, u32 s5, u32 s6, u32 s7);
 
@@ -348,7 +357,7 @@ u32 WORLDTRADE_ADAPTER_IsStreamBusy(PrintStreamCtx *p);
 
 u32 WORLDTRADE_ADAPTER_QueuePrintDefaultColor(void *p,u8 b,void *s,u32 x,u32 y,void *out);
 
-void WORLDTRADE_ADAPTER_DeletePrintStream(struct Obj *p);
+void WORLDTRADE_ADAPTER_DeletePrintStream(struct Actor *p);
 
 extern void (*g_02203CF0[])(u8 *);
 
@@ -477,7 +486,7 @@ void WORLDTRADE_DETAIL_CreateActors(Work *p)
  */
 void WORLDTRADE_DETAIL_DeleteActors(Work *p)
 {
-    CLACT_DeleteActor((struct Obj *)((*(unsigned int *)&p->obj)));
+    CLACT_DeleteActor((struct Actor *)((*(unsigned int *)&p->obj)));
 }
 
 void WORLDTRADE_DETAIL_CreateWindows(Work *p)
@@ -485,23 +494,23 @@ void WORLDTRADE_DETAIL_CreateWindows(Work *p)
     int i;
     u32 w;
     p->frame=BMP_WIN_Create(2,(u8)2,(u8)21,(u8)27,2,13,(u16)1);
-    BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)p->frame)),0);
+    BMP_Clear((struct Bmp *)((u32)BMP_WIN_GetBmp((struct BmpWin *)p->frame)),0);
     w=p->frame;
-    BMP_WIN_TransferChars((struct Descriptor *)w);
-    BMP_WIN_MakeScreen((struct Cfg *)w);
-    BG_SYS_PushTile(BMP_WIN_GetBgLayer((struct Descriptor *)w));
+    BMP_WIN_TransferChars((struct BmpWin *)w);
+    BMP_WIN_MakeScreen((struct BmpWin *)w);
+    BG_SYS_PushTile(BMP_WIN_GetBgLayer((struct BmpWin *)w));
     p->side=BMP_WIN_Create(2,(u8)21,(u8)15,(u8)10,4,13,(u16)1);
     w=p->side;
-    BMP_WIN_TransferChars((struct Descriptor *)w);
-    BMP_WIN_MakeScreen((struct Cfg *)w);
-    BG_SYS_PushTile(BMP_WIN_GetBgLayer((struct Descriptor *)w));
+    BMP_WIN_TransferChars((struct BmpWin *)w);
+    BMP_WIN_MakeScreen((struct BmpWin *)w);
+    BG_SYS_PushTile(BMP_WIN_GetBgLayer((struct BmpWin *)w));
     for(i=0;i<14;i++) {
         p->item_u14[i]=BMP_WIN_Create(3,(u8)tbl_0220351C[i].x,(u8)tbl_0220351C[i].y,(u8)tbl_0220351C[i].w,tbl_0220351C[i].h,13,(u16)1);
-        BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)p->item_u14[i])),0);
+        BMP_Clear((struct Bmp *)((u32)BMP_WIN_GetBmp((struct BmpWin *)p->item_u14[i])),0);
         w=p->item_u14[i];
-        BMP_WIN_TransferChars((struct Descriptor *)w);
-        BMP_WIN_MakeScreen((struct Cfg *)w);
-        BG_SYS_PushTile(BMP_WIN_GetBgLayer((struct Descriptor *)w));
+        BMP_WIN_TransferChars((struct BmpWin *)w);
+        BMP_WIN_MakeScreen((struct BmpWin *)w);
+        BG_SYS_PushTile(BMP_WIN_GetBgLayer((struct BmpWin *)w));
     }
     WORLDTRADE_TITLE_CreateMenuWindow(p,2);
 }
@@ -512,7 +521,7 @@ void WORLDTRADE_DETAIL_CreateWindows(Work *p)
 void WORLDTRADE_DETAIL_DeleteWindows(char *p)
 {
     int i;
-    WORLDTRADE_ADAPTER_DeletePrintStream((struct Obj *)(p + 0xfa0));
+    WORLDTRADE_ADAPTER_DeletePrintStream((struct Actor *)(p + 0xfa0));
     BMP_WIN_Delete(((Work *)p)->msgWin);
     BMP_WIN_Delete(((Work *)p)->d40);
     BMP_WIN_Delete(((Work *)p)->side_p2[0]);
@@ -531,7 +540,7 @@ void WORLDTRADE_DETAIL_CreateStrings(Work *p)
     }
 }
 
-void WORLDTRADE_DETAIL_DeleteStrings(Work *p) {int i;for(i=0;i<10;i++) STRBUF_Delete(*(struct U16Vec **)((unsigned)(char *)p+i*4+0xb90));STRBUF_Delete(*(struct U16Vec * *)&p->str);STRBUF_Delete(*(struct U16Vec * *)&p->titleStr);}
+void WORLDTRADE_DETAIL_DeleteStrings(Work *p) {int i;for(i=0;i<10;i++) STRBUF_Delete(*(struct Strbuf **)((unsigned)(char *)p+i*4+0xb90));STRBUF_Delete(*(struct Strbuf * *)&p->str);STRBUF_Delete(*(struct Strbuf * *)&p->titleStr);}
 
 int WORLDTRADE_DETAIL_StateStart(Work *p) {p->state=1;return 2;}
 
@@ -665,14 +674,14 @@ void WORLDTRADE_DETAIL_PrintMessage(u8 *p, u32 msgId, u32 unused1, u32 unused2, 
     WORDSET_SetSlotMonSpeciesName(((Work *)p)->words, 0, (void *)mon);
     v = (u32)MSGDATA_AllocString((struct MsgBank *)(*(u32 *)&((Work *)p)->bank_u), msgId);
     WORDSET_CopyTaggedText((struct WordSet *)(*(u32 *)&((Work *)p)->words), (void *)(((Work *)p)->str), (void *)v);
-    BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)((Work *)p)->frame)), 0xf);
+    BMP_Clear((struct Bmp *)((u32)BMP_WIN_GetBmp((struct BmpWin *)((Work *)p)->frame)), 0xf);
     BMP_MENUWORK_DrawWindow((void *)(((Work *)p)->frame), 0, 1, 0xe);
     h = ((Work *)p)->frame;
-    BMP_WIN_TransferChars((struct Descriptor *)h);
-    BMP_WIN_MakeScreen((struct Cfg *)h);
-    BG_SYS_PushTile(BMP_WIN_GetBgLayer((struct Descriptor *)h));
+    BMP_WIN_TransferChars((struct BmpWin *)h);
+    BMP_WIN_MakeScreen((struct BmpWin *)h);
+    BG_SYS_PushTile(BMP_WIN_GetBgLayer((struct BmpWin *)h));
     WORLDTRADE_ADAPTER_QueuePrintDefaultColor((void *)(((Work *)p)->frame), 0, (void *)(((Work *)p)->str), 0, 0, p + 0xfa0);
-    STRBUF_Delete((struct U16Vec *)v);
+    STRBUF_Delete((struct Strbuf *)v);
 }
 
 /*

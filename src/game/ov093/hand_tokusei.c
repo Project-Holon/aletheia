@@ -261,6 +261,7 @@
  */
 #include "btl_action_word_types.h"
 #include "hand_tokusei_types.h"
+extern int ITEM_IsBerry(u32 colorCode);
 
 extern struct BtlEventFactor *BTL_EVENT_FindFactor(int factorType, int pokeId);
 
@@ -463,14 +464,15 @@ extern int HAND_COMMON_IsMoveTarget(int pokeId);
 int BTL_POKEPARAM_GetStatStageRoom(struct BtlPokeParam *pokeParam, int rankKind);
 
 extern int BTL_SERVER_FLOW_CheckShowdownThunk(struct BtlServerFlow *flow);
+union BtlSickCont;
 
-extern void BTL_CALC_MakeSickContFromKind(int sickKind, struct BtlPokeParam *attacker, union SickCont *out);
+extern void BTL_CALC_MakeSickContFromKind(s32 kind, struct BtlPokeParam *attacker, union BtlSickCont *out);
 
 extern u32 BTL_CALC_Random(u32 range);
 
 extern int BTL_SICKCONT_IsKind1Index15(union SickCont sickCont);
 
-extern int BTL_ID_IsAbilityTraceBlocked(u16 abilityId);
+extern int BTL_ID_IsAbilityTraceBlocked(u32 abilityId);
 
 extern int BTL_MAIN_IsPosInTable(int mask, u32 slot);
 
@@ -488,22 +490,22 @@ extern u8 WAZA_TOOL_GetType(u16 moveId);
 
 extern int BTL_CALC_GetTypeAffinityVsPair(int attackType, int defenderTypes);
 
-extern void HAND_COMMON_EventSetFlagIfAttacker(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int pokeId, int unusedArg);
+extern void HAND_COMMON_EventSetFlagIfAttacker(s32 unusedArg0, s32 unusedArg1, s32 pokeId, s32 unusedArg2);
 
 /* Ability handlers: Run Away, Mold Breaker (and Turboblaze, Teravolt), Forecast, Storm Drain, Lightning Rod. */
-extern int HAND_COMMON_EventTrySetFlagIfAttacker(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int pokeId);
+extern int HAND_COMMON_EventTrySetFlagIfAttacker(s32 unusedArg0, s32 unusedArg1, s32 pokeId);
 
-extern int BTL_ID_IsAbilityIgnoredByMoldBreaker(unsigned short abilityId);
+extern int BTL_ID_IsAbilityIgnoredByMoldBreaker(u32 abilityId);
 
-extern int BTL_ID_IsGemIgnoredMove(int moveId);
+extern int BTL_ID_IsGemIgnoredMove(u32 moveId);
 
-extern int BTL_SERVER_FLOW_CheckAllyMoveAutoHitById(struct BtlServerFlow *flow, int attackerId, int defenderId, int moveId);
+extern int BTL_SERVER_FLOW_CheckAllyMoveAutoHitById(struct BtlServerFlow *flow, s32 attackerId, s32 defenderId, void *moveId);
 
-extern int BTL_ID_IsPressureNoExtraPpMove(int moveId);
+extern int BTL_ID_IsPressureNoExtraPpMove(u32 moveId);
 
 extern u16 BTL_POKEPARAM_GetConsumedItem(struct BtlPokeParam *bpp);
 
-extern int BTLV_CORE_CheckEitherSlotPair(struct BtlServerFlow *flow, int pokeIdA, int pokeIdB);
+extern int BTLV_CORE_CheckEitherSlotPair(void *party, s32 slotA, s32 slotB);
 
 extern int BTL_POKEPARAM_CanChangeStatStage(struct BtlPokeParam *bpp, int statId, int direction);
 
@@ -3093,7 +3095,7 @@ void HAND_TOKUSEI_CuteCharmOnDamageReaction(int myHandle, struct BtlServerFlow *
         defenderGender = BTL_POKEPARAM_GetValue(defender, BPP_VALUE_GENDER);
         attackerGender = BTL_POKEPARAM_GetValue(attacker, BPP_VALUE_GENDER);
         if (defenderGender != BTL_GENDER_NONE && attackerGender != BTL_GENDER_NONE && defenderGender != attackerGender) {
-            BTL_CALC_MakeSickContFromKind(BTL_SICK_INFATUATION, defender, &sickCont);
+            BTL_CALC_MakeSickContFromKind(BTL_SICK_INFATUATION, defender, (union BtlSickCont *)(&sickCont));
             HAND_TOKUSEI_TryAddContactSick(flow, pokeId, BTL_SICK_INFATUATION, sickCont, 0x1e);
         }
     }
@@ -3285,7 +3287,7 @@ void HAND_TOKUSEI_SynchronizeOnSickAdded(int myHandle, struct BtlServerFlow *flo
     if (sickKind == BTL_SICK_POISON && BTL_SICKCONT_IsKind1Index15(inflictedCont))
         record->sickCont.raw = inflictedCont.raw;
     else
-        BTL_CALC_MakeSickContFromKind(sickKind, self, &record->sickCont);
+        BTL_CALC_MakeSickContFromKind(sickKind, self, (union BtlSickCont *)(&record->sickCont));
     record->suppressMessage = 1;
     BTL_SERVER_FLOW_CommitCmdRecord(flow, record);
     BTL_SERVER_FLOW_PushCmdRecord(flow, HANDEX_ABILITY_WINDOW_OUT, pokeId);
@@ -4170,7 +4172,7 @@ BtlEventHandler *HAND_TOKUSEI_GetBadDreamsHandlers(int *handlerCount) { *handler
 /* Run Away: the first handler of its table; belongs to hand_tokusei_021db0e4.c. */
 void HAND_TOKUSEI_RunAwayCheckEscape(struct BtlEventFactor *factor, struct BtlServerFlow *flow, int pokeId, int unusedArg)
 {
-    HAND_COMMON_EventSetFlagIfAttacker(factor, flow, pokeId, unusedArg);
+    HAND_COMMON_EventSetFlagIfAttacker((s32)factor, (s32)flow, pokeId, unusedArg);
 }
 
 /* Run Away: after the escape check passes, show the escape message with its sound. */
@@ -4178,7 +4180,7 @@ void HAND_TOKUSEI_RunAway_ShowEscapeMessage(struct BtlEventFactor *factor, struc
 {
     HandExMessage *msg;
 
-    if (HAND_COMMON_EventTrySetFlagIfAttacker(factor, flow, pokeId) != 0) {
+    if (HAND_COMMON_EventTrySetFlagIfAttacker((s32)factor, (s32)flow, pokeId) != 0) {
         msg = BTL_SERVER_FLOW_AllocCmdRecord(flow, HANDEX_MESSAGE, pokeId);
         msg->header |= BTL_CMD_FLAG_FROM_ABILITY;
         BTL_SERVER_FLOW_InitMsgRecord(&msg->message, 1, 0x48);
@@ -4423,7 +4425,7 @@ int HAND_TOKUSEI_CheckRedirectMoveType(struct BtlServerFlow *flow, int pokeId, i
     attackerId = BTL_EVENT_GetVar(BTL_EVAR_ATTACKER_ID);
     if (attackerId != pokeId && typeId == BTL_EVENT_GetVar(BTL_EVAR_MOVE_TYPE)) {
         moveId = BTL_EVENT_GetVar(BTL_EVAR_MOVE_ID);
-        if (BTL_SERVER_FLOW_CheckAllyMoveAutoHitById(flow, attackerId, pokeId, moveId) == 0 && BTL_ID_IsGemIgnoredMove(moveId) == 0) {
+        if (BTL_SERVER_FLOW_CheckAllyMoveAutoHitById(flow, attackerId, pokeId, (void *)moveId) == 0 && BTL_ID_IsGemIgnoredMove(moveId) == 0) {
             targetId = BTL_EVENT_GetVar(BTL_EVAR_DEFENDER_ID);
             if (BTL_EVENT_OverwriteVar(BTL_EVAR_DEFENDER_ID, pokeId) != 0 && targetId != pokeId)
                 return 1;

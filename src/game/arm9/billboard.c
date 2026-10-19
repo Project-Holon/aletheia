@@ -367,7 +367,7 @@ void BILLBOARD_GetImageSizeFromFlags(s32 flags, u16 *a, u16 *b)
 
 struct G3dResource;      /* loaded NitroSystem file (g3d_system_types.h) */
 
-struct Camera;
+struct G3dCamera;
 
 struct LightSlot;
 
@@ -417,7 +417,7 @@ extern u32 G3D_SYSTEM_GetTexVramKey(struct G3dResource *resource);
 extern u32 G3D_SYSTEM_GetPlttVramKey(struct G3dResource *resource);
 
 
-extern void *G3D_SYSTEM_CreateResourceArc(u32 arcId, u32 dataId);
+extern struct G3dResource *G3D_SYSTEM_CreateResourceArc(u32 arcId, u32 dataId);
 
 extern void *G3D_SYSTEM_GetResourceFile(struct G3dResource *resource);
 
@@ -452,14 +452,16 @@ extern fx32 FX_Div(fx32 numer, fx32 denom);
 extern void G3_MultTransMtx33(const MtxFx33 *mtx, const VecFx32 *trans);
 
 extern void G3_RotZ(fx32 s, fx32 c);
+struct G3dCamera;
 
-extern void G3D_CAMERA_GetEye(struct Camera *cam, VecFx32 *out);
+extern void G3D_CAMERA_GetEye(struct G3dCamera *camera, VecFx32 *out);
 
-extern void G3D_CAMERA_GetCamUp(struct Camera *cam, VecFx32 *out);
+extern void G3D_CAMERA_GetCamUp(struct G3dCamera *camera, VecFx32 *out);
 
-extern void G3D_CAMERA_GetCamTarget(struct Camera *cam, VecFx32 *out);
+extern void G3D_CAMERA_GetCamTarget(struct G3dCamera *camera, VecFx32 *out);
+struct Rgb555;
 
-extern void G3D_LIGHT_GetDirection(struct LightSlot *lights, u8 lightIndex, VecFx16 *outVector);
+extern void G3D_LIGHT_GetDirection(struct LightSlot *slots, u8 i, struct Rgb555 *out);
 
 extern void G3D_LIGHT_GetColor(struct LightSlot *lights, u8 lightIndex, u16 *outColor);
 
@@ -527,7 +529,7 @@ void BILLBOARD_SetElemFlipT(struct BbBoard *board, u32 elemIndex, u32 *flipT);
 
 void BILLBOARD_SetElemRotZ(struct BbBoard *board, int elemIndex, u16 *rotZ);
 
-void BILLBOARD_Draw(struct BbBoard *board, struct Camera *camera, struct LightSlot *lights);
+void BILLBOARD_Draw(struct BbBoard *board, struct G3dCamera *camera, struct LightSlot *lights);
 
 extern const u32 gTexSizeTbl[];
 
@@ -1167,7 +1169,7 @@ static inline void MTX_RotY33(MtxFx33 *pDst, fx32 sinVal, fx32 cosVal) { MTX_Rot
  * scale, s1/s0/t1/t0, i, j, nx/ny/nz fixes the remaining spill slots.
  * G3D_LIGHT_GetDirection/CCC take a u8 index here (`and r1, r8, #0xff`).
  */
-void BILLBOARD_Draw(struct BbBoard *board, struct Camera *camera, struct LightSlot *lights)
+void BILLBOARD_Draw(struct BbBoard *board, struct G3dCamera *camera, struct LightSlot *lights)
 {
     MtxFx33 facing[4];
     VecFx32 cameraPos;
@@ -1223,7 +1225,7 @@ void BILLBOARD_Draw(struct BbBoard *board, struct Camera *camera, struct LightSl
 
     if (lights != 0) {
         for (lightIndex = 0; lightIndex < 4; lightIndex++) {
-            G3D_LIGHT_GetDirection(lights, lightIndex, &lightVec);
+            G3D_LIGHT_GetDirection(lights, lightIndex, (struct Rgb555 *)(&lightVec));
             G3D_LIGHT_GetColor(lights, lightIndex, &lightColor);
             G3_LightVector(lightIndex, lightVec.x, lightVec.y, lightVec.z);
             G3_LightColor(lightIndex, lightColor);

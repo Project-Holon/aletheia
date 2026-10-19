@@ -156,7 +156,7 @@
  *   INTRUDE_FIELD_Update  0x0217AE20  thumb  ov018
  *   FIELD_SUBSCREEN_Main  0x021A0D68  thumb  ov021
  *   FIELD_GIMMICK_RunMapCallback  0x021BE258  thumb  ov021
- *   EVENT_COMM_COMMON_CmdCallMissionInfoEvent  0x0217F914  thumb  ov018
+ *   UNION_EFF_Main  0x0217F914  thumb  ov019
  *   TCB_Main  0x02030D28  arm
  *   FIELD_TASK_MANAGER_Update  0x021C6D90  thumb  ov021
  *   GAME_DATA_GetEventState  0x02012ED0  thumb
@@ -442,24 +442,28 @@ unsigned short GAME_DATA_GetPlayerZoneId(const struct PlayerWork *x);
 int FIELDMAP_GetHeapSizeForMapType(int x);
 void GFL_HEAP_CreateChildHeap(unsigned int src, unsigned int dst, unsigned int size);
 void GFL_HEAP_RegisterBlockHeap(void *a, u32 b, u32 c);
-void *PROCSYS_AllocProcWork(struct GfProc *proc, u32 size, u32 heapId);
+struct Proc;
+void *PROCSYS_AllocProcWork(struct Proc *proc, u32 size, u32 heapId);
 void GAMESYSTEM_SetFieldMap(struct GameSystem *p, void *v);
 unsigned int GAMESYSTEM_IsAlwaysNetFlagSet(const struct GameSystem *x);
 struct GameComm *GAMESYSTEM_GetGameComm(const struct GameSystem *gameSystem);
 u32 GAME_COMM_GetKind(struct GameComm *gameComm);
 void GAME_COMM_RequestExitNoCallback(struct GameComm *gameComm);
-void PROCSYS_FreeProcWork(struct GfProc *proc);
+void PROCSYS_FreeProcWork(struct Proc *proc);
 void GFL_HEAP_DeleteChecked(unsigned int heap);
 void *GFL_HEAP_Alloc(unsigned int heapId, unsigned int size, int clear, const char *site, u16 tag);
 struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *p);
 u32 ZONEDATA_GetAreaId(u32 id);
-int COMM_PLAYER_SUPPORT_GetInfoCode(void *info);
+struct PlayerInfo;
+int COMM_PLAYER_SUPPORT_GetInfoCode(struct PlayerInfo *info);
 struct AreaData *ZONEDATA_CreateAreaData(int heapId, int areaId, int infoCode);
 u32 ZONEDATA_DeleteAreaData(struct AreaData *areaData);
 u32 GFL_HEAP_Free(void *p);
-void GFL_NET_WM_ICON_SetDefaultPos(unsigned short a, unsigned int b);
+void GFL_NET_WM_ICON_SetDefaultPos(u16 x, u16 y);
 extern void BG_SYS_SetVramBanks(const struct DispVram *c);
-extern void CLACT_InitSystem(const struct Cfg *cfg, u32 arg, u32 heapId);
+struct DispVramCfg;
+struct SysInit;
+extern void CLACT_InitSystem(struct SysInit *cfg, struct DispVramCfg *res_cfg, u32 heapId);
 extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
 extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
 extern void BMP_WIN_Init(u16 heapId);
@@ -467,51 +471,73 @@ extern void GF_FONT_InitTextColor(void);
 extern void G3D_SYSTEM_Init(u32 texMode, u32 texSize, u32 plttMode, u32 plttSize,
                           u32 fifoSize, u32 heap, void (*setup)(void));
 extern u8 GAME_DATA_GetSeason(const struct GameData *p);
-extern struct FieldG3dMapper *FIELD_G3D_MAPPER_Create(int heapId, int b);
-extern struct GFL_TCB *GFL_USE_AddMainTask(void (*cb)(struct GFL_TCB *, void *), void *work, int pri);
+struct FieldG3dMapper;
+extern struct FieldG3dMapper *FIELD_G3D_MAPPER_Create(u16 heapId, u16 buildModelParam);
+struct Tcb;
+extern struct Tcb *GFL_USE_AddMainTask(void (*cb)(struct GFL_TCB *, void *), void *work, u32 priority);
 extern u32 TCB_GetTaskOffset(u32 idx);
-extern struct TcblSys *TCB_Init(u32 capacity, void *work);
+struct TcbSystem;
+extern struct TcbSystem *TCB_Init(u32 capacity, struct TcbSystem *sys);
 extern struct FieldTaskManager *FIELD_TASK_MANAGER_Create(int n, int heapId);
-extern void *FLD_VREQ_Create(u32 heap);
+struct FldVReq;
+extern struct FldVReq *FLD_VREQ_Create(u32 heap);
 extern u32 ZONEDATA_IsUnionRoom(u32 id);
 extern u32 ZONEDATA_IsZone96Pair(u32 id);
 extern int GF_OVERLAY_Load(int id);
-extern void UI_ChangeFrameRate(u32 a);
-extern void FIELD_MAP_CHANGE_Empty(struct GameData *gameData, u16 zoneId);
+extern void UI_ChangeFrameRate(u8 value);
+extern void FIELD_MAP_CHANGE_Empty(struct GameData *system, u16 zoneId);
 extern struct FieldMsgBg *FIELD_MSGBG_Create(u16 heapId, struct G3dCamera *g3dCamera);
-extern struct FieldPlaceName *FIELD_PLACE_NAME_Create(struct GameSystem *gameSystem, int heapId, struct FieldMsgBg *msgBg);
-extern struct FieldStatus *GAME_DATA_GetMoveModelSys(const struct GameData *gameData);
+struct FieldMsgContext;
+struct FieldPlaceName;
+extern struct FieldPlaceName *FIELD_PLACE_NAME_Create(struct GameSystem *gameSystem, u32 heapId, struct FieldMsgContext *msgContext);
+extern void *GAME_DATA_GetMoveModelSys(const struct GameData *gameData);
 extern u16 FIELD_STATUS_GetMapEffectMask(struct FieldStatus *o);
-extern struct FieldSkillMapEff *FIELDSKILL_MAPEFF_Create(int flags, u16 heapId);
+struct FieldSkillMapEff;
+extern struct FieldSkillMapEff *FIELDSKILL_MAPEFF_Create(u32 flags, u32 heapId);
 extern u8 ZONEDATA_GetCameraId(u32 id);
 extern struct FieldCamera *FIELD_CAMERA_Create(int settingId, int mode, struct G3dCamera *g3dCamera, const VecFx32 *target, u16 heapId);
-extern struct FldSceneArea *FLD_SCENEAREA_Create(u16 heapId, struct FieldCamera *camera, void *work);
-extern struct FldSceneAreaLoader *FLD_SCENEAREA_LOADER_Create(u16 heapId);
-extern struct FieldNogridMapper *FIELD_NOGRID_MAPPER_Create(u32 heapId, struct FieldCamera *camera, struct FldSceneArea *sceneArea, struct FldSceneAreaLoader *loader);
-extern struct FieldPalaceSys *FIELD_PALACE_SYS_Create(u16 heapId, struct GameSystem *gameSystem, FieldMap *fieldMap, u16 zoneId);
-extern void *FIELD_G3D_MAPPER_GetBuildModel(struct FieldG3dMapper *g3dMapper);
-extern struct MapMatrix *GAME_DATA_GetFieldWork(const struct GameData *gameData);
-extern void *FIELD_PALACE_SYS_GetPalTable(struct FieldPalaceSys *palaceSys);
-extern void FIELD_BUILDMODEL_LoadArea(void *buildModel, int zoneId, struct AreaData *areaData, void *palTable);
-extern void FIELD_G3DOBJ_SetPalTable(struct FieldG3dObjCtrl *g3dObjCtrl, void *palTable);
-extern void ZONEDATA_SetExitLocation(FieldMapLocation *location, u16 zoneId, int b, int c, int d, int x, int y, int z);
-extern void FIELD_G3D_MAPPER_Setup(struct FieldG3dMapper *g3dMapper, const FieldMapMapperParam *param, void *palTable);
+struct FldSceneArea;
+extern struct FldSceneArea *FLD_SCENEAREA_Create(s32 heapId, void *camera, void *fieldMap);
+struct FldSceneAreaLoader;
+extern struct FldSceneAreaLoader *FLD_SCENEAREA_LOADER_Create(s32 heapId);
+struct FieldNogridMapper;
+extern struct FieldNogridMapper *FIELD_NOGRID_MAPPER_Create(u32 heapId, u32 fieldCamera, struct FldSceneArea *sceneArea, struct FldSceneAreaLoader *sceneAreaLoader);
+struct FieldPalaceSys;
+extern struct FieldPalaceSys *FIELD_PALACE_SYS_Create(u16 heapId, struct GameSystem *gameSystem, void *fieldMap, u16 zoneId);
+struct FieldBuildModel;
+extern struct FieldBuildModel *FIELD_G3D_MAPPER_GetBuildModel(struct FieldG3dMapper *g3dMapper);
+extern u32 GAME_DATA_GetFieldWork(const struct GameData *gameData);
+extern u8 *FIELD_PALACE_SYS_GetPalTable(struct FieldPalaceSys *palaceSys);
+struct BuildModelMan;
+extern void FIELD_BUILDMODEL_LoadArea(struct BuildModelMan *man, s32 areaId, s32 mapHeader, s32 extraResource);
+struct FieldG3dObjCtrl;
+extern void FIELD_G3DOBJ_SetPalTable(struct FieldG3dObjCtrl *ctrl, u8 *palTable);
+struct Location;
+extern void ZONEDATA_SetExitLocation(struct Location *loc, u16 zoneId, u16 exitId, u16 dir, u16 exitOffset, u32 x, u32 y, u32 z);
+struct FieldG3dMapperSetup;
+extern void FIELD_G3D_MAPPER_Setup(struct FieldG3dMapper *mapper, struct FieldG3dMapperSetup *setup, u8 *tintTable);
 extern int ZONEDATA_GetSpecialKind(u16 key);
 extern void FIELD_NOGRID_MAPPER_LoadDataFromArc(struct FieldNogridMapper *nogridMapper, u32 kind, u32 heapId);
-extern struct FieldEffectCont *FIELD_EFFECT_Create(FieldMap *fieldMap, int b, u16 heapId);
-extern void FIELD_EFFECT_InitObjectSystem(struct FieldEffectCont *effect, int n);
-extern void FIELD_EFFECT_SetPaletteTable(struct FieldEffectCont *effect, void *palTable);
-extern void FIELD_EFFECT_LoadResources(struct FieldEffectCont *effect, int *arr, int n);
-extern struct UnionEff *UNION_EFF_Create(u16 heapId);
+struct FieldEffectSys;
+extern struct FieldEffectSys *FIELD_EFFECT_Create(void *fieldmap, s32 resourceCount, u16 heapId);
+extern void FIELD_EFFECT_InitObjectSystem(struct FieldEffectSys *sys, s32 objectCount);
+extern void FIELD_EFFECT_SetPaletteTable(struct FieldEffectSys *sys, u32 paletteTable);
+extern void FIELD_EFFECT_LoadResources(struct FieldEffectSys *sys, s32 *ids, s32 count);
+struct UnionEffWork;
+extern struct UnionEffWork *UNION_EFF_Create(u16 heapId);
 extern u32 GAME_DATA_GetPlayerDirectionType(const struct PlayerWork *p);
 extern u32 GAME_DATA_GetPlayerObjectCode(const struct PlayerWork *p);
 extern u32 ZONEDATA_IsBikeEnabled(u32 id);
 extern void GAME_DATA_SetPlayerObjectCode(struct PlayerWork *p, u32 v);
-extern void *GAME_DATA_GetMyStatus(struct GameData *gameData);
-extern u8 MYSTATUS_GetSex(const void *myStatus);
-extern struct FieldPlayer *FIELD_PLAYER_Create(struct PlayerWork *playerWork, FieldMap *fieldMap, const VecFx32 *pos, int sex, u16 heapId);
+struct MyStatus;
+extern struct MyStatus *GAME_DATA_GetMyStatus(struct GameData *gameData);
+extern u8 MYSTATUS_GetSex(struct MyStatus *mystatus);
+struct FieldMap;
+struct FieldPlayer;
+extern struct FieldPlayer *FIELD_PLAYER_Create(struct PlayerWork *playerWork, struct FieldMap *fieldMap, VecFx32 *pos, u32 sex, u16 heapId);
 extern void FIELD_G3D_MAPPER_SetFocusPos(struct FieldG3dMapper *g3dMapper, const VecFx32 *pos);
-extern struct FldExpObjCnt *FLD_EXP_OBJ_Create(int a, int b, u16 heapId);
+struct FldExpObjCnt;
+extern struct FldExpObjCnt *FLD_EXP_OBJ_Create(u32 resCount, u32 objCount, u32 heapId);
 extern struct FieldFog *FIELD_FOG_Create(u16 heapId);
 extern struct FieldZoneFog *FIELD_ZONEFOG_Create(u16 heapId);
 extern u32 ZONEDATA_GetFogId(u32 id);
@@ -519,39 +545,48 @@ extern int ZONEDATA_GetLightId(unsigned short id);
 extern void FIELD_ZONEFOG_SetUp(struct FieldZoneFog *zoneFog, u32 id, u32 c, u8 d);
 extern u8 ZONEDATA_GetAreaLightType(struct AreaData *areaData);
 extern u32 GF_STANDARD_GetSecondsOfDay(void);
-extern struct FieldLight *FIELD_LIGHT_Create(u32 a, u32 b, u32 c, struct FieldFog *fog, struct G3dLightSlots *g3dLight, u16 heapId);
+struct LightSlot;
+extern struct FieldLight *FIELD_LIGHT_Create(u32 tableId, u32 seconds, u32 season, void *fog, struct LightSlot *slots, u16 heapId);
 extern u32 GAME_DATA_GetBgmInfo(const struct GameData *p);
 extern struct WeatherSys *WEATHER_Create(struct FieldCamera *camera, struct FieldLight *light, struct FieldFog *fog, struct FieldZoneFog *zoneFog, int weatherParam, int zoneId, int heapId);
 extern u8 GAME_DATA_GetWeatherId(const struct GameData *p);
 extern void WEATHER_SetImmediate(struct WeatherSys *weather, int a, int f);
 extern void FIELD_GIMMICK_Setup(FieldMap *fieldMap);
 extern u8 GAME_DATA_GetSubscreenType(const struct GameData *p);
-extern struct FieldSubscreen *FIELD_SUBSCREEN_Create(u32 heapId, FieldMap *fieldMap, u32 c);
+struct FieldSubscreen;
+extern struct FieldSubscreen *FIELD_SUBSCREEN_Create(u32 heapId, void *fieldMap, u32 mode);
 extern struct FieldEncount *FIELD_ENCOUNT_Create(FieldMap *fieldMap);
-extern void GAME_COMM_CallHandler(struct GameComm *gameComm, FieldMap *fieldMap);
-extern struct FieldmapFunc *FIELD_SUBPROC_MGR_Create(FieldMap *fieldMap, int b, int n);
+extern void GAME_COMM_CallHandler(struct GameComm *comm, u32 arg);
+struct FieldSubprocMgr;
+extern struct FieldSubprocMgr *FIELD_SUBPROC_MGR_Create(void *fieldSys, s32 heapId, s32 capacity);
 extern struct FldParticle *FLD_PARTICLE_Create(u32 a);
 extern struct Fld3dCi *FLD3D_CI_Create(u32 a, struct FldParticle *particle);
-extern struct EncEff *ENCEFF_Create(u32 heapId, FieldMap *fieldMap);
-extern void *GAME_DATA_GetSaveControl(struct GameData *gameData);
-extern void *DAYCARE_GetFromSave(void *sys);
-extern struct Sodateya *SODATEYA_Create(u16 heapId, FieldMap *fieldMap, void *b);
+struct FieldMap;
+struct EncEffWork;
+extern struct EncEffWork *ENCEFF_Create(u32 heapId, FieldMap *fieldMap);
+struct SaveControl;
+extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gameData);
+struct DaycareSave;
+extern struct DaycareSave *DAYCARE_GetFromSave(struct SaveControl *save);
+struct SodateyaWork;
+extern struct SodateyaWork *SODATEYA_Create(u32 heapId, void *fieldMap, void *dayCare);
 extern void FIELD_G3D_MAPPER_UpdateBlocking(struct FieldG3dMapper *g3dMapper);
-extern int FLDMMDL_UpdateSysProc(struct MmdlSys *mmdlSys);
-extern int FLDMMDL_BLACT_RegisterLoadedRes(struct MmdlSys *mmdlSys);
+struct MmdlSys;
+extern void FLDMMDL_UpdateSysProc(struct MmdlSys *mmdlSys);
+extern void FLDMMDL_BLACT_RegisterLoadedRes(struct MmdlSys *mmdlSys);
 extern int FLDMMDL_BLACT_IsReservePending(struct MmdlSys *mmdlSys);
 extern int WEATHER_IsTaskActive(struct WeatherSys *weather);
-extern void WEATHER_Update(struct WeatherSys *weather, int heapId);
+extern void WEATHER_Update(struct WeatherSys *sys, u16 frames);
 extern void CLACT_DrawSystem(void);
 extern void FIELD_MSGBG_Main(struct FieldMsgBg *msgBg);
-extern void FIELD_EFFECT_Update(struct FieldEffectCont *effect);
-extern void FIELD_SUBPROC_MGR_RunUpdate(struct FieldmapFunc *mapFunc);
+extern void FIELD_EFFECT_Update(struct FieldEffectSys *sys);
+extern void FIELD_SUBPROC_MGR_RunUpdate(struct FieldSubprocMgr *mgr);
 extern u8 FIELD_STATUS_GetContinueFlag(struct FieldStatus *o);
 extern int GFL_USE_IsLoaderBusy(void);
 extern u8 FIELD_STATUS_GetFieldInitFlag(struct FieldStatus *o);
-extern void SCRIPT_SYS_RunFieldInitScript(struct GameSystem *gameSystem, int heapId);
+extern void SCRIPT_SYS_RunFieldInitScript(void *fieldSys, s32 reserved);
 extern void FIELD_STATUS_SetFieldInitFlag(struct FieldStatus *o, u8 v);
-extern void SCRIPT_SYS_RunFieldRecoverScript(struct GameSystem *gameSystem, int heapId);
+extern void SCRIPT_SYS_RunFieldRecoverScript(void *fieldSys, s32 reserved);
 extern void FIELD_STATUS_SetContinueFlag(struct FieldStatus *o, u8 v);
 extern void GAMESYSTEM_SetEventCreator(struct GameSystem *gameSystem, FieldMapEventCheckFunc checkFunc, FieldMap *fieldMap);
 extern void GAME_DATA_SetWalkCountEnabled(struct GameData *p, u8 v);
@@ -559,7 +594,8 @@ extern int FIELD_EVENT_CHECK_CheckCommEvents(struct GameSystem *gameSystem, void
 extern int FIELD_EVENT_CHECK_RunRail(struct GameSystem *gameSystem, void *work);
 extern int FIELD_EVENT_CHECK_Run(struct GameSystem *gameSystem, void *work);
 extern int FIELD_EVENT_CHECK_RunGrid(struct GameSystem *gameSystem, void *work);
-extern u32 GAMESYSTEM_GetEvent(const struct GameSystem *p);
+struct GameEvent;
+extern struct GameEvent *GAMESYSTEM_GetEvent(const struct GameSystem *p);
 extern u8 FIELD_STATUS_SwapSeasonDispFlag(struct FieldStatus *o, u8 v);
 extern u8 GAME_DATA_IsSaving(const struct GameData *gameData);
 extern void UI_ResetFrameCounter(void);
@@ -568,15 +604,16 @@ extern void FIELD_CLOCK_Update(struct GameData *gameData);
 extern void FIELD_PLACE_NAME_Main(struct FieldPlaceName *placeName);
 extern void FIELDSKILL_MAPEFF_Update(struct FieldSkillMapEff *mapEff);
 extern void FIELD_PLAYER_SaveToPlayerWork(struct FieldPlayer *player);
-extern void UNION_MAIN_UpdateField(struct GameComm *gameComm, FieldMap *fieldMap);
+extern void UNION_MAIN_UpdateField(struct GameComm *gameComm, void *fieldMap);
 extern void INTRUDE_FIELD_Update(FieldMap *fieldMap, struct GameSystem *gameSystem, struct FieldPlayer *player);
 extern void FIELD_SUBSCREEN_Main(struct FieldSubscreen *subscreen);
 extern void FIELD_GIMMICK_RunMapCallback(FieldMap *fieldMap);
-extern void EVENT_COMM_COMMON_CmdCallMissionInfoEvent(struct UnionEff *unionEff);
-extern void TCB_Main(struct TcblSys *c);
+extern void UNION_EFF_Main(struct UnionEffWork *work);
+extern void TCB_Main(struct TcbSystem *sys);
 extern void FIELD_TASK_MANAGER_Update(struct FieldTaskManager *taskManager);
 extern u32 *GAME_DATA_GetEventState(struct GameData *gameData);
-extern void PLEASURE_BOAT_AckEvent(u32 a);
+struct PleasureBoatWork;
+extern void PLEASURE_BOAT_AckEvent(struct PleasureBoatWork *work);
 void G3D_SYSTEM_ResetDrawCounts(void);
 unsigned int KEY_GetCont(void);
 extern void FIELD_CAMERA_Main(struct FieldCamera *camera, u32 b);
@@ -584,19 +621,19 @@ extern void GAME_DATA_ResetWalkCount(struct GameData *p);
 extern void FIELD_G3D_MAPPER_StepBlocks(struct FieldG3dMapper *g3dMapper);
 extern void FIELD_SUBSCREEN_MainNoTransition(struct FieldSubscreen *subscreen);
 extern void FIELD_PLACE_NAME_Draw(struct FieldPlaceName *placeName);
-extern int ENCEFF_Delete(struct EncEff *encEff);
+extern int ENCEFF_Delete(struct EncEffWork *eff);
 extern void FLD3D_CI_Delete(struct Fld3dCi *fld3dCi);
-extern void FLD_PARTICLE_Delete(struct FldParticle *particle);
-extern void FIELD_SUBPROC_MGR_Delete(struct FieldmapFunc *mapFunc);
-extern void GAME_COMM_CallKindNotify(struct GameComm *gameComm, FieldMap *fieldMap);
+extern u32 FLD_PARTICLE_Delete(struct FldParticle *particle);
+extern void FIELD_SUBPROC_MGR_Delete(struct FieldSubprocMgr *mgr);
+extern void GAME_COMM_CallKindNotify(struct GameComm *comm, u32 arg);
 extern void FIELD_PLACE_NAME_Delete(struct FieldPlaceName *placeName);
 extern void FIELD_GIMMICK_Exit(FieldMap *fieldMap);
 extern void FLD_EXP_OBJ_Delete(struct FldExpObjCnt *expObj);
 extern void FIELD_ENCOUNT_Delete(struct FieldEncount *encount);
 extern u8 FIELD_SUBSCREEN_Delete(struct FieldSubscreen *subscreen);
 extern void GAME_DATA_SetSubscreenType(struct GameData *p, u32 v);
-extern void FIELD_EFFECT_Delete(struct FieldEffectCont *effect);
-extern void UNION_EFF_Delete(struct UnionEff *unionEff);
+extern s32 FIELD_EFFECT_Delete(struct FieldEffectSys *sys);
+extern void UNION_EFF_Delete(struct UnionEffWork *work);
 extern void WEATHER_Delete(struct WeatherSys *weather);
 extern void FIELD_LIGHT_Delete(struct FieldLight *light);
 extern int FIELD_ZONEFOG_Delete(struct FieldZoneFog *zoneFog);
@@ -610,10 +647,11 @@ extern int FIELD_PLAYER_Delete(struct FieldPlayer *player);
 extern void FIELD_G3D_MAPPER_ReleaseBlocks(struct FieldG3dMapper *g3dMapper);
 extern int FIELD_MSGBG_DeleteMsgWin(struct FieldMsgWin *infoWindow);
 extern void FIELD_MSGBG_Delete(struct FieldMsgBg *msgBg);
-extern void SODATEYA_Delete(struct Sodateya *sodateya);
+extern void SODATEYA_Delete(void *work);
 extern void FIELDSKILL_MAPEFF_Delete(struct FieldSkillMapEff *mapEff);
 extern void TCB_Noop(struct TcblSys *tcblSys);
-extern void TCB_DeleteTask(struct GFL_TCB *tcb);
+struct TcbTask;
+extern void TCB_DeleteTask(struct TcbTask *task);
 extern void CLACT_ExitSystem(void);
 extern void BMP_WIN_Exit(void);
 extern void GF_OVERLAY_Unload(s32 handle);
@@ -626,8 +664,9 @@ extern int FIELD_PLAYER_StepFormChange(struct FieldPlayer *player);
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern void *GAME_DATA_GetTrainerRecord(struct GameData *gameData);
 extern u32 RECORD_AddOne(void *record, int i);
-extern u8 WEATHER_GetZoneWeatherId(void *fieldSys, u32 zoneId);
-extern u32 FIELDMAP_CTRL_HYBRID_GetMode(u8 *p);
+extern u32 WEATHER_GetZoneWeatherId(void *fieldSys, u32 zoneId);
+struct FieldMapCtrlHybridWork;
+extern u32 FIELDMAP_CTRL_HYBRID_GetMode(struct FieldMapCtrlHybridWork *work);
 extern void BG_SYS_Create(u16 heap);
 extern void BG_SYS_LoadPltt(u32 a, void *b, u32 c, u32 d);
 extern u32 BG_SYS_SetLcdSwap(u32 swap);
@@ -648,14 +687,18 @@ extern void G3X_SetClearColor(u16 rgb, int alpha, int depth, int polygonID, int 
 extern void G3X_SetEdgeColorTable(void *a);
 extern void G3D_SYSTEM_SetSwapBuffersMode(u32 a, u32 b);
 extern struct BbActSys *BILLBOARD_ACT_Create(u16 slotCount, u16 entryCount, void (*transCallback)(int, int, void *, int), int heapId);
-extern void *BILLBOARD_ACT_GetBoard(struct BbActSys *bbdAct);
+struct BbBoard;
+extern struct BbBoard *BILLBOARD_ACT_GetBoard(struct BbActSys *bbdAct);
 extern void BILLBOARD_SetQuadShape(u8 *dst, u8 val);
 extern void BILLBOARD_SetImageOffset(u8 *dst, int a, int b);
-extern void BILLBOARD_SetScale(void *board, const VecFx32 *scale);
+struct Blk3;
+extern void BILLBOARD_SetScale(u8 *dst, struct Blk3 *src);
 extern void BILLBOARD_SetPolyIdBase(u8 *dst, u8 *src);
-extern struct FieldG3dObjCtrl *FIELD_G3DOBJ_Create(u16 heapId, int a, int b);
+extern struct FieldG3dObjCtrl *FIELD_G3DOBJ_Create(u32 heapId, u32 resCount, u32 objCount);
 extern struct G3dCamera *G3D_CAMERA_Create(int, int, int, int, int, int, int, int, void *, void *, void *, int);
-extern struct G3dLightSlots *G3D_LIGHT_CreateSlots(const struct LightSet *s, u32 heapId);
+struct LightSetDesc;
+struct LightSlotValue;
+extern struct LightSlotValue *G3D_LIGHT_CreateSlots(struct LightSetDesc *set, u16 heapID);
 extern void G3D_CAMERA_Reset(struct G3dCamera *g3dCamera);
 extern void G3D_LIGHT_ApplySlots(struct G3dLightSlots *g3dLight);
 extern void BILLBOARD_ACT_UpdateEntries(struct BbActSys *bbdAct);
@@ -670,11 +713,11 @@ void G3D_SYSTEM_DrawStart(void);
 void G3D_SYSTEM_ApplyLookAt(void);
 void G3D_SYSTEM_DrawEnd(int x);
 extern u32 G3D_CAMERA_Delete(void *ptr);
-extern u32 G3D_LIGHT_DeleteSlots(struct G3dLightSlots *g3dLight);
+extern u32 G3D_LIGHT_DeleteSlots(void *slots);
 extern void BILLBOARD_ACT_Delete(struct BbActSys *o);
 extern int FIELD_G3DOBJ_Delete(struct FieldG3dObjCtrl *g3dObjCtrl);
 int GFL_USE_IsCardIrqEnabled(void);
-int FLDMMDL_UpdateSysBlAct(struct MmdlSys *mmdlSys);
+void FLDMMDL_UpdateSysBlAct(struct MmdlSys *mmdlSys);
 void FIELD_G3DOBJ_Update(struct FieldG3dObjCtrl *g3dObjCtrl);
 void CLACT_VBlankSystem(void);
 void FLD_VREQ_VBlank(struct FldVReq *vreq);
@@ -683,27 +726,29 @@ extern u8 ZONEDATA_GetAreaEdgeMarkType(struct AreaData *areaData);
 extern u32 ZONEDATA_IsRawZoneGroup121To13C(u32 a);
 extern void ARC_TOOL_ReadMember(void *a, u32 b, u32 c);
 extern u8 ZONEDATA_GetAreaBillboardColor(struct AreaData *areaData);
-extern void *FIELD_BBD_COLOR_Create(u32 heapId);
-extern void FIELD_BBD_COLOR_Load(void *bbdColor, u32 b);
-extern void FIELD_BBD_COLOR_Apply(void *bbdColor, void *board);
-extern int FIELD_BBD_COLOR_Delete(void *a);
-extern struct MmdlSys *GAME_DATA_GetOccupyInfo(const struct GameData *gameData);
-extern void FLDMMDL_SetupSysProc(struct MmdlSys *mmdlSys, int heapId, struct GameData *gameData, FieldMap *fieldMap, struct FieldG3dMapper *g3dMapper, struct FieldNogridMapper *nogridMapper);
+struct FieldBbdColor;
+extern struct FieldBbdColor *FIELD_BBD_COLOR_Create(u32 heapId);
+extern void FIELD_BBD_COLOR_Load(struct FieldBbdColor *bbdColor, u32 colorId);
+extern void FIELD_BBD_COLOR_Apply(struct FieldBbdColor *bbdColor, void *bbdSys);
+extern int FIELD_BBD_COLOR_Delete(struct FieldBbdColor *bbdColor);
+extern void *GAME_DATA_GetOccupyInfo(const struct GameData *gameData);
+extern void FLDMMDL_SetupSysProc(struct MmdlSys *sys, s32 heapId, void *gameData, void *fieldMap, void *g3dMapper, void *nogridMapper);
 extern void FLDMMDL_BLACT_Init(struct MmdlSys *mmdlSys, struct BbActSys *bbdAct, u32 c);
 extern void FLDMMDL_BLACT_AddCachedRes(struct MmdlSys *mmdlSys);
-extern u8 INTRUDE_FIELD_GetHostGender(void *gameComm);
+extern u8 INTRUDE_FIELD_GetHostGender(struct GameComm *gameComm);
 extern int FIELD_PLAYER_GetObjCodeOfFormCode(int i, int v);
 extern void FLDMMDL_BLACT_AddResByCode(struct MmdlSys *mmdlSys, u32 b);
-extern void FLDMMDL_G3DOBJ_Create(struct MmdlSys *mmdlSys, struct FieldG3dObjCtrl *g3dObjCtrl);
-extern void *FIELD_CAMERA_GetViewYawPtr(struct FieldCamera *camera);
-extern void FLDMMDL_SetAreaIdRef(struct MmdlSys *mmdlSys, void *areaIdRef);
+extern void FLDMMDL_G3DOBJ_Create(s32 mmdlSys, s32 objCtrl);
+extern u16 *FIELD_CAMERA_GetViewYawPtr(struct FieldCamera *camera);
+extern void FLDMMDL_SetAreaIdRef(struct MmdlSys *sys, u16 *areaIdRef);
 extern void FLDMMDL_SysPopAll(struct MmdlSys *mmdlSys);
-extern void FLDMMDL_SysSetDrawEnable(struct MmdlSys *mmdlSys, unsigned int v);
-extern int FLDMMDL_DeleteSysProc(struct MmdlSys *mmdlSys);
+extern void FLDMMDL_SysSetDrawEnable(struct MmdlSys *sys, s32 flag);
+extern void FLDMMDL_DeleteSysProc(struct MmdlSys *mmdlSys);
 extern void FLDMMDL_SysPushAll(struct MmdlSys *mmdlSys);
 extern void *GAME_DATA_GetEventData(const struct GameData *gameData);
-extern u32 EVENTDATA_SYSTEM_IsEncountDataLoaded(u8 *p);
-extern void EVENTDATA_SYSTEM_LoadEncountData(void *eventData, int zoneId, int encountParam);
+struct EventDataSystem;
+extern u32 EVENTDATA_SYSTEM_IsEncountDataLoaded(struct EventDataSystem *system);
+extern void EVENTDATA_SYSTEM_LoadEncountData(struct EventDataSystem *system, s32 zoneId, s32 encountParam);
 extern struct PlayerWork *GAME_DATA_GetMyPlayerWork(struct GameData *gameData);
 extern VecFx32 *GAME_DATA_GetPlayerPosition(struct PlayerWork *playerWork);
 extern void ZONEDATA_GetLocationVec(const FieldMapLocation *location, VecFx32 *out);
@@ -712,23 +757,24 @@ extern int MAP_MATRIX_IsInRangeByPos(struct MapMatrix *mapMatrix, int x, int z);
 extern int MAP_MATRIX_GetZoneIdByPos(struct MapMatrix *mapMatrix, int x, int z);
 extern void EFFECT_ENCOUNT_Reset(struct FieldEncount *encount);
 extern void FLDMMDL_SysDeleteZoneChangeMmdl(struct MmdlSys *mmdlSys);
-extern void EVENTDATA_SYSTEM_Clear(char *p);
-extern void EVENTDATA_SYSTEM_LoadEventData(void *system, u16 zoneId, u8 unused);
-extern void FIELD_MAP_CHANGE_ApplyZoneHeader(void *a, void *b);
-extern void FIELD_PLACE_NAME_OnZoneChange(void *p, int v);
+extern void EVENTDATA_SYSTEM_Clear(struct EventDataSystem *system);
+extern void EVENTDATA_SYSTEM_LoadEventData(struct EventDataSystem *system, u16 zoneId, u8 unused);
+extern void FIELD_MAP_CHANGE_ApplyZoneHeader(struct GameData *gameData, void *zoneHeader);
+extern void FIELD_PLACE_NAME_OnZoneChange(struct FieldPlaceName *placeName, s32 zoneId);
 extern void GAME_BEACON_SetZone(u32 zoneId, struct GameData *gameData);
 extern void MAP_REPLACE_SetArriveFlag(void *a, int b);
-extern void SCRIPT_SYS_RunZoneChangeScript(void *fieldSys, void *reserved);
-extern void INTRUDE_COMM_ClearHoldMode(void *a);
-u16 EVENTDATA_SYSTEM_GetNpcCount(u8 *p);
-u32 GAME_DATA_GetEventWork(const struct GameData *p);
-void *EVENTDATA_SYSTEM_GetNpcHeaders(void *eventData);
-void FLDMMDL_AddMmdlHeaderList(struct MmdlSys *mmdlSys, void *headers, u32 b, u32 n, u32 c);
-extern u32 GAMESYSTEM_GetIssSystem(struct GameSystem *gameSystem);
+extern void SCRIPT_SYS_RunZoneChangeScript(void *fieldSys, s32 reserved);
+extern void INTRUDE_COMM_ClearHoldMode(struct GameComm *comm);
+u16 EVENTDATA_SYSTEM_GetNpcCount(struct EventDataSystem *system);
+void *GAME_DATA_GetEventWork(const struct GameData *p);
+u32 EVENTDATA_SYSTEM_GetNpcHeaders(struct EventDataSystem *system);
+struct MmdlHeader;
+void FLDMMDL_AddMmdlHeaderList(struct MmdlSys *sys, struct MmdlHeader *header, s32 zoneId, u32 count, void *evWork);
+extern void *GAMESYSTEM_GetIssSystem(struct GameSystem *gameSystem);
 extern void ISS_SYS_ChangeZone(u32 a, u16 b);
 extern void FIELD_SOUND_SYSTEM_PostZoneBgmChange(void *a, void *b, u16 c);
 int WEATHER_StoreZoneWeatherId(struct GameSystem *gameSystem, int zoneId);
-void WEATHER_RequestChange(struct WeatherSys *weather, int k);
+void WEATHER_RequestChange(struct WeatherSys *sys, u16 weatherId);
 void FIELD_ZONEFOG_Clear(struct FieldZoneFog *zoneFog);
 extern struct PlayerWork *GAME_DATA_SetPlayerZoneId(struct PlayerWork *p, u16 v);
 unsigned short ZONEDATA_GetCameraAreaId(unsigned short id);
@@ -736,25 +782,27 @@ void FIELD_CAMERA_LoadAreas(struct FieldCamera *camera, u32 a, u32 b);
 void FIELD_CAMERA_ClearAreas(struct FieldCamera *camera);
 extern int ZONEDATA_IsZoneInTableDFC0(int v);
 extern u32 FIELD_STATUS_GetMapMode(struct FieldStatus *o);
-extern u8 *GAME_DATA_GetSecondUnionInfo(void *p);
-extern void *GAME_DATA_GetUnionInfo(struct GameData *gameData, u32 idx);
+struct UnionInfo;
+extern struct UnionInfo *GAME_DATA_GetSecondUnionInfo(struct GameData *gameData);
+extern u8 *GAME_DATA_GetUnionInfo(struct GameData *gameData, u32 idx);
 extern int FIELD_G3D_MAPPER_SetupWfbc(struct FieldG3dMapper *g3dMapper, void *wfbcData, u32 c);
-extern void *FIELD_G3D_MAPPER_GetWfbc(struct FieldG3dMapper *g3dMapper);
-extern void FIELD_WFBC_DisableUnusedConnects(void *buildModel, void *eventData, int skip, u32 heapId);
-extern void FIELD_WFBC_SetUpCamera(void *buildModel, struct FieldCamera *camera, int b);
-extern void FIELD_WFBC_SetMmdlSys(void *buildModel, struct MmdlSys *mmdlSys);
+struct FieldWfbc;
+extern struct FieldWfbc *FIELD_G3D_MAPPER_GetWfbc(struct FieldG3dMapper *g3dMapper);
+extern void FIELD_WFBC_DisableUnusedConnects(struct FieldWfbc *wfbc, struct EventDataSystem *eventData, s32 skip, u32 heapId);
+extern void FIELD_WFBC_SetUpCamera(struct FieldWfbc *wfbc, s32 camera, s32 heapId);
+extern void FIELD_WFBC_SetMmdlSys(struct FieldWfbc *wfbc, struct MmdlSys *mmdlSys);
 extern int ZONEDATA_GetSecondSpecialKind(u16 id);
 extern int ZONEDATA_HasSpecialKind(int zoneId);
-extern void FLD_SCENEAREA_ClearData(void *p);
-extern void FLD_SCENEAREA_LOADER_Unload(void *p);
-extern void FLD_SCENEAREA_LOADER_Load(void *p, int a, int b, int c);
+extern void FLD_SCENEAREA_ClearData(struct FldSceneArea *sceneArea);
+extern void FLD_SCENEAREA_LOADER_Unload(struct FldSceneAreaLoader *loader);
+extern void FLD_SCENEAREA_LOADER_Load(struct FldSceneAreaLoader *loader, s32 arcIndex, s32 fileId, s32 heapId);
 extern u32 FLD_SCENEAREA_LOADER_GetRecs(struct FldSceneAreaLoader *sceneAreaLoader);
 extern u32 FLD_SCENEAREA_LOADER_GetRecCount(struct FldSceneAreaLoader *sceneAreaLoader);
 extern int FLD_SCENEAREA_LOADER_GetCallbacks(void *p);
 extern void FLD_SCENEAREA_SetData(void *p, int a, int b, int c);
 extern u32 GFL_NET_ERR_GetErrorLevel(void);
-extern u32 GAME_COMM_GetLastKind(void *obj);
-extern u32 GAME_COMM_IsTransition(void *obj);
+extern u32 GAME_COMM_GetLastKind(struct GameComm *comm);
+extern u32 GAME_COMM_IsTransition(struct GameComm *comm);
 extern u32 FIELD_G3D_MAPPER_Draw(struct FieldG3dMapper *g3dMapper, struct G3dCamera *g3dCamera, int m);
 extern void FIELD_FOG_Reflect(struct FieldFog *fog, u32 fogEnable, u32 fogSlope, u32 fogOffset);
 extern void FIELD_LIGHT_Reflect(struct FieldLight *light, int force);
@@ -765,21 +813,21 @@ extern u32 NNS_G3dGlbFlush(void);
 extern void FIELD_EFFECT_Draw(struct FieldEffectCont *effect);
 extern void FIELD_G3DOBJ_DrawAll(struct FieldG3dObjCtrl *g3dObjCtrl);
 extern void BILLBOARD_ACT_Draw(struct BbActSys *bbdAct, struct G3dCamera *g3dCamera, struct G3dLightSlots *g3dLight);
-extern void UNION_EFF_Draw(struct UnionEff *unionEff);
-extern void FIELD_SUBPROC_MGR_RunDraw(struct FieldmapFunc *mapFunc);
+extern void UNION_EFF_Draw(struct UnionEffWork *work);
+extern void FIELD_SUBPROC_MGR_RunDraw(struct FieldSubprocMgr *mgr);
 extern void WEATHER_Draw(struct WeatherSys *weather);
 extern void FLD_EXP_OBJ_Draw(struct FldExpObjCnt *expObj);
 extern void FLD_PARTICLE_Exit(void);
 extern void FLD3D_CI_DrawEffect(struct Fld3dCi *fld3dCi);
-void ENCEFF_RunUpdate(struct EncEff *encEff);
+void ENCEFF_RunUpdate(struct EncEffWork *eff);
 extern u32 TIMEZONE_GetNowTimeZone(u32);
-extern void *FIELD_CAMERA_GetViewPitchPtr(struct FieldCamera *camera);
+extern u16 *FIELD_CAMERA_GetViewPitchPtr(struct FieldCamera *camera);
 extern u8 ZONEDATA_GetMapChangeType(u32 id);
 extern u32 ZONEDATA_GetMapType(u32 id);
 extern unsigned short MAP_MATRIX_GetWidth(struct MapMatrix *mapMatrix);
 extern unsigned short MAP_MATRIX_GetHeight(struct MapMatrix *mapMatrix);
 extern int MAP_MATRIX_GetCount(struct MapMatrix *mapMatrix);
-extern void *MAP_MATRIX_GetMapGrid(struct MapMatrix *mapMatrix);
+extern u32 *MAP_MATRIX_GetMapGrid(struct MapMatrix *mapMatrix);
 extern u16 ZONEDATA_GetAreaTexSetId(struct AreaData *areaData);
 extern u32 ZONEDATA_GetAreaItaAnimeId(struct AreaData *areaData);
 extern u32 ZONEDATA_GetAreaItpAnimeId(struct AreaData *areaData);
@@ -952,7 +1000,7 @@ int FIELDMAP_ProcInit(struct GfProc *proc, int *seq, struct GameSystem *gameSyst
         GFL_HEAP_CreateChildHeap(0x89, 0x93, 0x7400);
         GFL_HEAP_CreateChildHeap(0x89, 0x96, 0x500);
         {
-            FieldMapProcWork *work = PROCSYS_AllocProcWork(proc, sizeof(FieldMapProcWork), 0x15);
+            FieldMapProcWork *work = PROCSYS_AllocProcWork((struct Proc *)proc, sizeof(FieldMapProcWork), 0x15);
             FieldMap *fieldMap = FIELDMAP_Create(gameSystem, 0x15);
             work->fieldMap = fieldMap;
             GAMESYSTEM_SetFieldMap(gameSystem, fieldMap);
@@ -986,7 +1034,7 @@ int FIELDMAP_ProcExit(struct GfProc *proc, int *seq, struct GameSystem *gameSyst
 {
     FIELDMAP_Delete(work->fieldMap);
     GAMESYSTEM_SetFieldMap(gameSystem, 0);
-    PROCSYS_FreeProcWork(proc);
+    PROCSYS_FreeProcWork((struct Proc *)proc);
     GFL_HEAP_DeleteChecked(0x96);
     GFL_HEAP_DeleteChecked(0x92);
     GFL_HEAP_DeleteChecked(0x93);
@@ -1007,7 +1055,7 @@ FieldMap *FIELDMAP_Create(struct GameSystem *gameSystem, int heapId)
     fieldMap->zoneId = GAME_DATA_GetPlayerZoneId(GAMESYSTEM_GetMyPlayerWork(gameSystem));
     {
         int areaId = ZONEDATA_GetAreaId(fieldMap->zoneId);
-        fieldMap->areaData = ZONEDATA_CreateAreaData(heapId, areaId, COMM_PLAYER_SUPPORT_GetInfoCode(gameSystem));
+        fieldMap->areaData = ZONEDATA_CreateAreaData(heapId, areaId, COMM_PLAYER_SUPPORT_GetInfoCode((struct PlayerInfo *)gameSystem));
     }
     fieldMap->ctrlFuncs = FIELDMAP_GetCtrlFuncs(fieldMap->zoneId);
     return fieldMap;
@@ -1027,7 +1075,7 @@ int FIELDMAP_SeqInitSystem(struct GameSystem *gameSystem, FieldMap *fieldMap)
     u16 heapId = fieldMap->heapId;
     BG_SYS_SetVramBanks((const struct DispVram *)sVramBankSetup);
     FIELDMAP_InitBgSystem(fieldMap);
-    CLACT_InitSystem((const struct Cfg *)sClactSetup, (u32)sVramBankSetup, 0x89);
+    CLACT_InitSystem((struct SysInit *)sClactSetup, (struct DispVramCfg *)sVramBankSetup, 0x89);
     BG_SYS_SetMainPlaneVisible(0x10, 1);
     BG_SYS_SetSubPlaneVisible(0x10, 1);
     BMP_WIN_Init(heapId);
@@ -1035,9 +1083,9 @@ int FIELDMAP_SeqInitSystem(struct GameSystem *gameSystem, FieldMap *fieldMap)
     G3D_SYSTEM_Init(0, 3, 0, 1, 0x1000, fieldMap->heapId, FIELDMAP_SetupG3d);
     FIELDMAP_CreateG3dResources(fieldMap);
     fieldMap->g3dMapper = FIELD_G3D_MAPPER_Create(fieldMap->heapId, GAME_DATA_GetSeason(fieldMap->gameData));
-    fieldMap->vblankTcb = GFL_USE_AddMainTask(FIELDMAP_VBlankTask, fieldMap, 0);
+    fieldMap->vblankTcb = (struct GFL_TCB *)GFL_USE_AddMainTask(FIELDMAP_VBlankTask, fieldMap, 0);
     fieldMap->tcblWork = GFL_HEAP_Alloc(heapId, TCB_GetTaskOffset(0x20), 0, sFieldMapSourceName, 0x26B);
-    fieldMap->tcblSys = TCB_Init(0x20, fieldMap->tcblWork);
+    fieldMap->tcblSys = (struct TcblSys *)TCB_Init(0x20, fieldMap->tcblWork);
     fieldMap->taskManager = FIELD_TASK_MANAGER_Create(0xA, fieldMap->heapId);
     fieldMap->vreq = FLD_VREQ_Create(fieldMap->heapId);
     GF_OVERLAY_Load((ZONEDATA_IsUnionRoom(fieldMap->zoneId) == 1 || ZONEDATA_IsZone96Pair(fieldMap->zoneId) == 1) ? (int)abs_id_19 : (int)abs_id_18);
@@ -1056,7 +1104,7 @@ int FIELDMAP_SeqCreateSubsystems(struct GameSystem *gameSystem, FieldMap *fieldM
         msgBg = FIELD_MSGBG_Create(fieldMap->heapId, fieldMap->g3dCamera);
         fieldMap->infoWindow = 0;
         fieldMap->msgBg = msgBg;
-        fieldMap->placeName = FIELD_PLACE_NAME_Create(gameSystem, 0x93, msgBg);
+        fieldMap->placeName = FIELD_PLACE_NAME_Create(gameSystem, 0x93, (struct FieldMsgContext *)msgBg);
         fieldMap->mapEff = FIELDSKILL_MAPEFF_Create(FIELD_STATUS_GetMapEffectMask(GAME_DATA_GetMoveModelSys(fieldMap->gameData)), fieldMap->heapId);
         fieldMap->camera = FIELD_CAMERA_Create(ZONEDATA_GetCameraId(fieldMap->zoneId), 0, fieldMap->g3dCamera, &fieldMap->nowPos, fieldMap->heapId);
         fieldMap->sceneArea = FLD_SCENEAREA_Create(fieldMap->heapId, fieldMap->camera, fieldMap);
@@ -1066,22 +1114,22 @@ int FIELDMAP_SeqCreateSubsystems(struct GameSystem *gameSystem, FieldMap *fieldM
     case 1: {
         void *buildModel;
         void *palTable;
-        fieldMap->nogridMapper = FIELD_NOGRID_MAPPER_Create(fieldMap->heapId, fieldMap->camera, fieldMap->sceneArea, fieldMap->sceneAreaLoader);
+        fieldMap->nogridMapper = FIELD_NOGRID_MAPPER_Create((u32)fieldMap->heapId, (u32)fieldMap->camera, fieldMap->sceneArea, fieldMap->sceneAreaLoader);
         fieldMap->palaceSys = FIELD_PALACE_SYS_Create(fieldMap->heapId, gameSystem, fieldMap, fieldMap->zoneId);
         buildModel = FIELD_G3D_MAPPER_GetBuildModel(fieldMap->g3dMapper);
-        FIELDMAP_SetupMapperParam(fieldMap->zoneId, fieldMap->areaData, &fieldMap->mapperParam, GAME_DATA_GetFieldWork(fieldMap->gameData));
+        FIELDMAP_SetupMapperParam(fieldMap->zoneId, fieldMap->areaData, &fieldMap->mapperParam, (struct MapMatrix *)GAME_DATA_GetFieldWork(fieldMap->gameData));
         GAMESYSTEM_GetGameComm(fieldMap->gameSystem);
         palTable = FIELD_PALACE_SYS_GetPalTable(fieldMap->palaceSys);
-        FIELD_BUILDMODEL_LoadArea(buildModel, fieldMap->zoneId, fieldMap->areaData, palTable);
+        FIELD_BUILDMODEL_LoadArea(buildModel, (s32)fieldMap->zoneId, (s32)fieldMap->areaData, (s32)palTable);
         FIELD_G3DOBJ_SetPalTable(fieldMap->g3dObjCtrl, palTable);
         FIELDMAP_SetupWfbc(gameData, fieldMap, fieldMap->zoneId);
         break;
     }
     case 2: {
         int specialKind;
-        ZONEDATA_SetExitLocation(&fieldMap->location, fieldMap->zoneId, 0, 0, 0, fieldMap->nowPos.x, fieldMap->nowPos.y, fieldMap->nowPos.z);
+        ZONEDATA_SetExitLocation((struct Location *)(&fieldMap->location), fieldMap->zoneId, 0, 0, 0, fieldMap->nowPos.x, fieldMap->nowPos.y, fieldMap->nowPos.z);
         GAMESYSTEM_GetGameComm(fieldMap->gameSystem);
-        FIELD_G3D_MAPPER_Setup(fieldMap->g3dMapper, &fieldMap->mapperParam, FIELD_PALACE_SYS_GetPalTable(fieldMap->palaceSys));
+        FIELD_G3D_MAPPER_Setup(fieldMap->g3dMapper, (struct FieldG3dMapperSetup *)(&fieldMap->mapperParam), FIELD_PALACE_SYS_GetPalTable(fieldMap->palaceSys));
         specialKind = ZONEDATA_GetSpecialKind(fieldMap->zoneId);
         if (specialKind != -1) {
             FIELD_NOGRID_MAPPER_LoadDataFromArc(fieldMap->nogridMapper, specialKind, fieldMap->heapId);
@@ -1092,12 +1140,12 @@ int FIELDMAP_SeqCreateSubsystems(struct GameSystem *gameSystem, FieldMap *fieldM
     }
     case 3:
         FIELDMAP_SetupMmdlSys(fieldMap);
-        fieldMap->effect = FIELD_EFFECT_Create(fieldMap, 0x18, fieldMap->heapId);
-        FIELD_EFFECT_InitObjectSystem(fieldMap->effect, 0x5e);
-        FIELD_EFFECT_SetPaletteTable(fieldMap->effect, FIELD_PALACE_SYS_GetPalTable(fieldMap->palaceSys));
-        FIELD_EFFECT_LoadResources(fieldMap->effect, sFieldEffectTaskTable, sFieldEffectTaskCount);
+        fieldMap->effect = (struct FieldEffectCont *)FIELD_EFFECT_Create(fieldMap, 0x18, fieldMap->heapId);
+        FIELD_EFFECT_InitObjectSystem((struct FieldEffectSys *)fieldMap->effect, 0x5e);
+        FIELD_EFFECT_SetPaletteTable((struct FieldEffectSys *)fieldMap->effect, (u32)FIELD_PALACE_SYS_GetPalTable(fieldMap->palaceSys));
+        FIELD_EFFECT_LoadResources((struct FieldEffectSys *)fieldMap->effect, sFieldEffectTaskTable, sFieldEffectTaskCount);
         if (ZONEDATA_IsUnionRoom(fieldMap->zoneId) == 1 || ZONEDATA_IsZone96Pair(fieldMap->zoneId) == 1) {
-            fieldMap->unionEff = UNION_EFF_Create(fieldMap->heapId);
+            fieldMap->unionEff = (struct UnionEff *)UNION_EFF_Create(fieldMap->heapId);
         }
         break;
     case 4: {
@@ -1125,9 +1173,9 @@ int FIELDMAP_SeqCreateSubsystems(struct GameSystem *gameSystem, FieldMap *fieldM
         FIELD_ZONEFOG_SetUp(fieldMap->zoneFog, value, ZONEDATA_GetLightId(fieldMap->zoneId), 1);
         value = ZONEDATA_GetAreaLightType(fieldMap->areaData);
         season = GF_STANDARD_GetSecondsOfDay();
-        fieldMap->light = FIELD_LIGHT_Create(value, season, COMM_PLAYER_SUPPORT_GetInfoCode(gameSystem), fieldMap->fog, fieldMap->g3dLight, fieldMap->heapId);
+        fieldMap->light = FIELD_LIGHT_Create(value, season, COMM_PLAYER_SUPPORT_GetInfoCode((struct PlayerInfo *)gameSystem), fieldMap->fog, (struct LightSlot *)fieldMap->g3dLight, fieldMap->heapId);
         value = GAME_DATA_GetBgmInfo(fieldMap->gameData);
-        fieldMap->weather = WEATHER_Create(fieldMap->camera, fieldMap->light, fieldMap->fog, fieldMap->zoneFog, value, COMM_PLAYER_SUPPORT_GetInfoCode(gameSystem), 0x92);
+        fieldMap->weather = WEATHER_Create(fieldMap->camera, fieldMap->light, fieldMap->fog, fieldMap->zoneFog, value, COMM_PLAYER_SUPPORT_GetInfoCode((struct PlayerInfo *)gameSystem), 0x92);
         WEATHER_SetImmediate(fieldMap->weather, (u16)((int)GAME_DATA_GetWeatherId(fieldMap->gameData)), 0x92);
         FIELD_GIMMICK_Setup(fieldMap);
         break;
@@ -1137,12 +1185,12 @@ int FIELDMAP_SeqCreateSubsystems(struct GameSystem *gameSystem, FieldMap *fieldM
         break;
     case 6:
         fieldMap->encount = FIELD_ENCOUNT_Create(fieldMap);
-        GAME_COMM_CallHandler(GAMESYSTEM_GetGameComm(gameSystem), fieldMap);
-        fieldMap->mapFunc = FIELD_SUBPROC_MGR_Create(fieldMap, fieldMap->heapId, 0x20);
+        GAME_COMM_CallHandler(GAMESYSTEM_GetGameComm(gameSystem), (u32)fieldMap);
+        fieldMap->mapFunc = (struct FieldmapFunc *)FIELD_SUBPROC_MGR_Create(fieldMap, fieldMap->heapId, 0x20);
         fieldMap->particle = FLD_PARTICLE_Create(0x50);
         fieldMap->fld3dCi = FLD3D_CI_Create(0x50, fieldMap->particle);
-        fieldMap->encEff = ENCEFF_Create(fieldMap->heapId, fieldMap);
-        fieldMap->sodateya = SODATEYA_Create(fieldMap->heapId, fieldMap, DAYCARE_GetFromSave(GAME_DATA_GetSaveControl(fieldMap->gameData)));
+        fieldMap->encEff = (struct EncEff *)ENCEFF_Create(fieldMap->heapId, fieldMap);
+        fieldMap->sodateya = (struct Sodateya *)SODATEYA_Create(fieldMap->heapId, fieldMap, DAYCARE_GetFromSave(GAME_DATA_GetSaveControl(fieldMap->gameData)));
         FIELDMAP_SetupSceneArea(fieldMap, fieldMap->zoneId);
         busy = 0;
         break;
@@ -1171,8 +1219,8 @@ int FIELDMAP_SeqStart(struct GameSystem *gameSystem, FieldMap *fieldMap)
         CLACT_DrawSystem();
         if (fieldMap->msgBg != 0)
             FIELD_MSGBG_Main(fieldMap->msgBg);
-        FIELD_EFFECT_Update(fieldMap->effect);
-        FIELD_SUBPROC_MGR_RunUpdate(fieldMap->mapFunc);
+        FIELD_EFFECT_Update((struct FieldEffectSys *)fieldMap->effect);
+        FIELD_SUBPROC_MGR_RunUpdate((struct FieldSubprocMgr *)fieldMap->mapFunc);
         fieldMap->subSeq++;
     case 1:
         if (FIELD_STATUS_GetContinueFlag(GAME_DATA_GetMoveModelSys(fieldMap->gameData)) == 1
@@ -1234,19 +1282,19 @@ int FIELDMAP_SeqUpdate(struct GameSystem *gameSystem, FieldMap *fieldMap)
         *(volatile u16 *)0x04000204 = *(volatile u16 *)0x04000204 | 0x8000;
     }
     FIELD_GIMMICK_RunMapCallback(fieldMap);
-    FIELD_EFFECT_Update(fieldMap->effect);
+    FIELD_EFFECT_Update((struct FieldEffectSys *)fieldMap->effect);
     if (fieldMap->unionEff != 0)
-        EVENT_COMM_COMMON_CmdCallMissionInfoEvent(fieldMap->unionEff);
-    FIELD_SUBPROC_MGR_RunUpdate(fieldMap->mapFunc);
+        UNION_EFF_Main((struct UnionEffWork *)fieldMap->unionEff);
+    FIELD_SUBPROC_MGR_RunUpdate((struct FieldSubprocMgr *)fieldMap->mapFunc);
     if (fieldMap->msgBg != 0)
         FIELD_MSGBG_Main(fieldMap->msgBg);
-    TCB_Main(fieldMap->tcblSys);
+    TCB_Main((struct TcbSystem *)fieldMap->tcblSys);
     FIELD_TASK_MANAGER_Update(fieldMap->taskManager);
     if (fieldMap->targetPos != 0)
         fieldMap->nowPos = *fieldMap->targetPos;
     FIELD_G3D_MAPPER_SetFocusPos(fieldMap->g3dMapper, &fieldMap->nowPos);
     FIELDMAP_UpdateG3d(fieldMap);
-    PLEASURE_BOAT_AckEvent(*GAME_DATA_GetEventState(fieldMap->gameData));
+    PLEASURE_BOAT_AckEvent((struct PleasureBoatWork *)(*GAME_DATA_GetEventState(fieldMap->gameData)));
     CLACT_DrawSystem();
     FIELDMAP_UpdateCameraAndDraw(fieldMap);
     return 0;
@@ -1286,22 +1334,22 @@ int FIELDMAP_SeqUpdateTop(struct GameSystem *gameSystem, FieldMap *fieldMap)
 
 int FIELDMAP_SeqDeleteSubsystems(struct GameSystem *gameSystem, FieldMap *fieldMap)
 {
-    ENCEFF_Delete(fieldMap->encEff);
+    ENCEFF_Delete((struct EncEffWork *)fieldMap->encEff);
     FLD3D_CI_Delete(fieldMap->fld3dCi);
     FLD_PARTICLE_Delete(fieldMap->particle);
     GAMESYSTEM_SetEventCreator(gameSystem, 0, 0);
     FIELD_PLAYER_SaveToPlayerWork(fieldMap->player);
-    FIELD_SUBPROC_MGR_Delete(fieldMap->mapFunc);
-    GAME_COMM_CallKindNotify(GAMESYSTEM_GetGameComm(gameSystem), fieldMap);
+    FIELD_SUBPROC_MGR_Delete((struct FieldSubprocMgr *)fieldMap->mapFunc);
+    GAME_COMM_CallKindNotify(GAMESYSTEM_GetGameComm(gameSystem), (u32)fieldMap);
     if (fieldMap->placeName != 0)
         FIELD_PLACE_NAME_Delete(fieldMap->placeName);
     FIELD_GIMMICK_Exit(fieldMap);
     FLD_EXP_OBJ_Delete(fieldMap->expObj);
     FIELD_ENCOUNT_Delete(fieldMap->encount);
     GAME_DATA_SetSubscreenType(GAMESYSTEM_GetGameData(gameSystem), FIELD_SUBSCREEN_Delete(fieldMap->subscreen));
-    FIELD_EFFECT_Delete(fieldMap->effect);
+    FIELD_EFFECT_Delete((struct FieldEffectSys *)fieldMap->effect);
     if (fieldMap->unionEff != 0) {
-        UNION_EFF_Delete(fieldMap->unionEff);
+        UNION_EFF_Delete((struct UnionEffWork *)fieldMap->unionEff);
         fieldMap->unionEff = 0;
     }
     WEATHER_Delete(fieldMap->weather);
@@ -1337,7 +1385,7 @@ int FIELDMAP_SeqExitSystem(struct GameSystem *gameSystem, FieldMap *fieldMap)
     FLD_VREQ_Delete(fieldMap->vreq);
     fieldMap->vreq = 0;
     FIELD_TASK_MANAGER_Delete(fieldMap->taskManager);
-    TCB_DeleteTask(fieldMap->vblankTcb);
+    TCB_DeleteTask((struct TcbTask *)fieldMap->vblankTcb);
     FIELD_G3D_MAPPER_Delete(fieldMap->g3dMapper);
     FIELDMAP_DeleteG3dResources(fieldMap);
     CLACT_ExitSystem();
@@ -1674,7 +1722,7 @@ void FIELDMAP_CreateG3dResources(FieldMap *fieldMap)
     fieldMap->groundBbdAct = BILLBOARD_ACT_Create(0x1E, 0x28, FIELDMAP_BbdActTransCallback, fieldMap->heapId);
     board = BILLBOARD_ACT_GetBoard(fieldMap->groundBbdAct);
     groundScale = sGroundBbdScale;
-    BILLBOARD_SetScale(board, &groundScale);
+    BILLBOARD_SetScale(board, (struct Blk3 *)(&groundScale));
     groundDrawFlag = 0;
     BILLBOARD_SetPolyIdBase(board, &groundDrawFlag);
     FIELDMAP_SetupBbdColor(fieldMap);
@@ -1683,7 +1731,7 @@ void FIELDMAP_CreateG3dResources(FieldMap *fieldMap)
     cameraUp = sCameraUp;
     fieldMap->g3dCamera = G3D_CAMERA_Create(0, d_020A1EB8[6], d_020A1EB8[7], 0x1555, 0, 0x1000, 0x400000, 0,
                                         &sCameraPos, &cameraUp, &sCameraTarget, heapId);
-    fieldMap->g3dLight = G3D_LIGHT_CreateSlots((const struct LightSet *)sLightSetup, fieldMap->heapId);
+    fieldMap->g3dLight = (struct G3dLightSlots *)G3D_LIGHT_CreateSlots((struct LightSetDesc *)sLightSetup, fieldMap->heapId);
     G3D_CAMERA_Reset(fieldMap->g3dCamera);
     G3D_LIGHT_ApplySlots(fieldMap->g3dLight);
 }
@@ -1802,7 +1850,7 @@ void FIELDMAP_SetupMmdlSys(FieldMap *fieldMap)
         sex = MYSTATUS_GetSex(GAME_DATA_GetMyStatus(gameData));
     }
     FLDMMDL_BLACT_AddResByCode(mmdlSys, FIELD_PLAYER_GetObjCodeOfFormCode(sex, 0));
-    FLDMMDL_G3DOBJ_Create(fieldMap->mmdlSys, fieldMap->g3dObjCtrl);
+    FLDMMDL_G3DOBJ_Create((s32)fieldMap->mmdlSys, (s32)fieldMap->g3dObjCtrl);
     FLDMMDL_SetAreaIdRef(fieldMap->mmdlSys, FIELD_CAMERA_GetViewYawPtr(fieldMap->camera));
     FLDMMDL_SysPopAll(fieldMap->mmdlSys);
     FLDMMDL_SysSetDrawEnable(mmdlSys, FIELDMAP_IsMmdlDrawEnabled(fieldMap->zoneId));
@@ -1857,7 +1905,7 @@ u32 FIELDMAP_CheckZoneBoundary(FieldMap *fieldMap)
     int zoneId;
 
     location = &fieldMap->location;
-    mapMatrix = GAME_DATA_GetFieldWork(fieldMap->gameData);
+    mapMatrix = (struct MapMatrix *)GAME_DATA_GetFieldWork(fieldMap->gameData);
     ZONEDATA_GetLocationVec(location, &pos);
     if (MAP_MATRIX_IsInRangeByPos(mapMatrix, pos.x, pos.z) == 1) {
         zoneId = MAP_MATRIX_GetZoneIdByPos(mapMatrix, pos.x, pos.z);
@@ -1880,7 +1928,7 @@ void FIELDMAP_ChangeZone(FieldMap *fieldMap)
     gameData = GAMESYSTEM_GetGameData(fieldMap->gameSystem);
     eventData = GAME_DATA_GetEventData(gameData);
     mmdlSys = fieldMap->mmdlSys;
-    mapMatrix = GAME_DATA_GetFieldWork(fieldMap->gameData);
+    mapMatrix = (struct MapMatrix *)GAME_DATA_GetFieldWork(fieldMap->gameData);
     GFL_NET_SetDeviceModeIfRunning(2);
     EFFECT_ENCOUNT_Reset(fieldMap->encount);
     ZONEDATA_GetLocationVec(location, &pos);
@@ -1902,7 +1950,7 @@ void FIELDMAP_ChangeZone(FieldMap *fieldMap)
     location->zoneId = (s16)zoneId;
     GAME_BEACON_SetZone((u16)zoneId, gameData);
     MAP_REPLACE_SetArriveFlag(gameData, zoneId);
-    SCRIPT_SYS_RunZoneChangeScript(fieldMap->gameSystem, (void *)4);
+    SCRIPT_SYS_RunZoneChangeScript(fieldMap->gameSystem, (s32)4);
     *(volatile u16 *)0x04000204 = *(volatile u16 *)0x04000204 & ~0x8000;
     FIELDMAP_AddZoneNpcs(gameData, mmdlSys, eventData, zoneId);
     *(volatile u16 *)0x04000204 = *(volatile u16 *)0x04000204 | 0x8000;
@@ -1914,8 +1962,8 @@ void FIELDMAP_AddZoneNpcs(struct GameData *gameData, struct MmdlSys *mmdlSys, vo
     int npcCount = EVENTDATA_SYSTEM_GetNpcCount(eventData);
     int eventWork;
     if (npcCount != 0) {
-        eventWork = GAME_DATA_GetEventWork(gameData);
-        FLDMMDL_AddMmdlHeaderList(mmdlSys, EVENTDATA_SYSTEM_GetNpcHeaders(eventData), zoneId, npcCount, eventWork);
+        eventWork = (s32)GAME_DATA_GetEventWork(gameData);
+        FLDMMDL_AddMmdlHeaderList(mmdlSys, (struct MmdlHeader *)EVENTDATA_SYSTEM_GetNpcHeaders(eventData), zoneId, npcCount, (void *)eventWork);
     }
 }
 
@@ -1995,7 +2043,7 @@ void FIELDMAP_SetupWfbc(struct GameData *gameData, FieldMap *fieldMap, u16 zoneI
         FIELD_G3D_MAPPER_SetupWfbc(fieldMap->g3dMapper, wfbcData, mapMode);
         buildModel = FIELD_G3D_MAPPER_GetWfbc(fieldMap->g3dMapper);
         FIELD_WFBC_DisableUnusedConnects(buildModel, GAME_DATA_GetEventData(gameData), mapMode, fieldMap->heapId);
-        FIELD_WFBC_SetUpCamera(buildModel, fieldMap->camera, fieldMap->heapId);
+        FIELD_WFBC_SetUpCamera(buildModel, (s32)fieldMap->camera, fieldMap->heapId);
         FIELD_WFBC_SetMmdlSys(buildModel, GAME_DATA_GetOccupyInfo(fieldMap->gameData));
     }
 }
@@ -2114,7 +2162,7 @@ void FIELDMAP_Draw3dNormal(FieldMap *fieldMap)
     BILLBOARD_ACT_Draw(fieldMap->mmdlBbdAct, fieldMap->g3dCamera, fieldMap->g3dLight);
     BILLBOARD_ACT_Draw(fieldMap->groundBbdAct, fieldMap->g3dCamera, fieldMap->g3dLight);
     if (fieldMap->unionEff != 0)
-        UNION_EFF_Draw(fieldMap->unionEff);
+        UNION_EFF_Draw((struct UnionEffWork *)fieldMap->unionEff);
     proj = savedProj;
     proj.m[3][2] += FX_MUL(proj.m[2][2], fieldMap->projDepthOffset / 2);
     MIi_CpuCopyFast(&proj, &g_DefaultProjectionMtx, 0x40);
@@ -2124,7 +2172,7 @@ void FIELDMAP_Draw3dNormal(FieldMap *fieldMap)
     MIi_CpuCopyFast(&savedProj, &g_DefaultProjectionMtx, 0x40);
     SCREENTEX_CameraState.flag &= ~0x50;
     NNS_G3dGlbFlush();
-    FIELD_SUBPROC_MGR_RunDraw(fieldMap->mapFunc);
+    FIELD_SUBPROC_MGR_RunDraw((struct FieldSubprocMgr *)fieldMap->mapFunc);
     WEATHER_Draw(fieldMap->weather);
     FLD_EXP_OBJ_Draw(fieldMap->expObj);
     FLD_PARTICLE_Exit();
@@ -2141,7 +2189,7 @@ void FIELDMAP_Draw3dParticle(FieldMap *fieldMap)
 void FIELDMAP_Draw3dEncEff(FieldMap *fieldMap)
 {
     G3X_SetClearColor(0x4210, 0x1F, 0x7FFF, 0, 0);
-    ENCEFF_RunUpdate(fieldMap->encEff);
+    ENCEFF_RunUpdate((struct EncEffWork *)fieldMap->encEff);
 }
 
 int FIELDMAP_GetDrawMode(FieldMap *fieldMap)

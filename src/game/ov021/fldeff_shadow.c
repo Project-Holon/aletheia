@@ -96,31 +96,38 @@ typedef struct FldeffShadowWork {
 } FldeffShadowWork;
 
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int align, const char *file, u16 line);
-extern void FLDMMDL_GetPos(const Mmdl *mmdl, VecFx32 *out);
+struct MmdlVec;
+struct Mmdl;
+extern void FLDMMDL_GetPos(struct Mmdl *mmdl, struct MmdlVec *out);
 extern const MmdlObjCodeParam *FLDMMDL_GetObjCodeParam(const Mmdl *mmdl);
 extern struct BbActSys *FIELDMAP_GetEffectBbdAct(struct FieldMap *fieldmap);
 extern struct BbBoard *BILLBOARD_ACT_GetBoard(struct BbActSys *act);
 extern u32 GFL_HEAP_Free(void *block);
-extern void *G3D_SYSTEM_CreateResourceArcHandle(int arcHandle, u32 id);
+struct ArcHandle;
+struct G3dResource;
+extern struct G3dResource *G3D_SYSTEM_CreateResourceArcHandle(struct ArcHandle *arc, u32 dataId);
 extern u16 BILLBOARD_ACT_CreateSlots(struct BbActSys *act, const struct BbActRec *recs, u32 count);
 extern void BILLBOARD_ACT_DeleteSlots(struct BbActSys *act, u32 first, u32 count);
-extern int FLDMMDL_GetCheckInfo(const Mmdl *mmdl, u16 *out);
+struct MmdlCheckInfo;
+extern void FLDMMDL_GetCheckInfo(struct Mmdl *mmdl, struct MmdlCheckInfo *info);
 extern u16 BILLBOARD_ACT_CreateEntries(struct BbActSys *act, u16 baseSlot, const struct BbActDesc *desc, u32 count, u32 mode);
 extern void BILLBOARD_SetElemPolyId(struct BbBoard *board, int elemId, u8 *polyId);
 extern void BILLBOARD_ACT_DeleteEntries(struct BbActSys *act, u16 first, u32 count);
-extern int FLDMMDL_CheckCheckInfo(const Mmdl *mmdl, const u16 *info);
-extern void *FLDMMDL_GetMmdlSys(const Mmdl *mmdl);
-extern int FLDMMDL_SysIsDrawEnable(void *mmdlSys);
+extern int FLDMMDL_CheckCheckInfo(struct Mmdl *mmdl, struct MmdlCheckInfo *info);
+struct MmdlSys;
+extern struct MmdlSys *FLDMMDL_GetMmdlSys(const Mmdl *mmdl);
+extern int FLDMMDL_SysIsDrawEnable(struct MmdlSys *sys);
 extern int FLDMMDL_CheckStatusBitVanish(const Mmdl *mmdl);
 extern u32 FLDMMDL_CheckMoveBit(const Mmdl *mmdl, u32 bit);
-extern void FLDMMDL_GetModelOffset(const Mmdl *mmdl, VecFx32 *out);
+extern void FLDMMDL_GetModelOffset(struct Mmdl *mmdl, struct MmdlVec *offset);
 extern void VEC_Add(const VecFx32 *a, const VecFx32 *b, VecFx32 *out);
-extern void FLDMMDL_GetDrawOffset(const Mmdl *mmdl, VecFx32 *out);
+extern void FLDMMDL_GetDrawOffset(struct Mmdl *mmdl, struct MmdlVec *out);
 extern void BILLBOARD_SetElemVisible(struct BbBoard *board, u32 elemId, u32 *visible);
 extern void BILLBOARD_SetElemPos(struct BbBoard *board, int elemId, const VecFx32 *pos);
-struct FieldMap *FIELD_EFFECT_GetFieldMap(FieldEffectSys *sys);
-int FIELD_EFFECT_GetArcHandle(FieldEffectSys *sys);
-void *FIELD_EFFECT_GetResource(FieldEffectSys *sys, int id);
+struct FieldEffectSys;
+u32 FIELD_EFFECT_GetFieldMap(FieldEffectSys *sys);
+u32 FIELD_EFFECT_GetArcHandle(FieldEffectSys *sys);
+s32 FIELD_EFFECT_GetResource(FieldEffectSys *sys, int id);
 void FIELD_EFFECT_AddObject(FieldEffectSys *sys, const FieldEffectObjFuncs *funcs, const VecFx32 *pos, u32 mode, void *param, u32 priority);
 void FIELD_EFFECT_DeleteObject(FieldEffectObj *obj);
 void FIELD_EFFECT_UpdateObject(FieldEffectObj *obj);
@@ -146,7 +153,7 @@ FldeffShadow *FLDEFF_SHADOW_Create(FieldEffectSys *sys, int heapId)
     shadow = GFL_HEAP_Alloc(heapId, sizeof(FldeffShadow), 1, d_021DE028, 0x5c);
     shadow->fieldEffect = sys;
     shadow->baseOffset = gFldeffShadowBaseOffset;
-    shadow->billboardAct = FIELDMAP_GetEffectBbdAct(FIELD_EFFECT_GetFieldMap(sys));
+    shadow->billboardAct = FIELDMAP_GetEffectBbdAct((struct FieldMap *)FIELD_EFFECT_GetFieldMap(sys));
     shadow->board = BILLBOARD_ACT_GetBoard(shadow->billboardAct);
     FLDEFF_SHADOW_CreateSlot(shadow);
     return shadow;
@@ -180,7 +187,7 @@ void FLDEFF_SHADOW_CreateSlot(FldeffShadow *shadow)
 {
     struct BbActRec rec;
 
-    rec.resource = (u32)G3D_SYSTEM_CreateResourceArcHandle(FIELD_EFFECT_GetArcHandle(shadow->fieldEffect), 0x2f);
+    rec.resource = (u32)G3D_SYSTEM_CreateResourceArcHandle((struct ArcHandle *)(FIELD_EFFECT_GetArcHandle(shadow->fieldEffect)), 0x2f);
     rec.format = 2;
     rec.sizeS = 0x11;
     rec.sizeT = 0x10;
@@ -216,7 +223,7 @@ void FLDEFF_SHADOW_Start(Mmdl *mmdl, FieldEffectSys *sys)
 {
     FldeffShadowParam param;
 
-    param.shadow = FIELD_EFFECT_GetResource(sys, FLDEFF_ID_SHADOW);
+    param.shadow = (struct FldeffShadow *)FIELD_EFFECT_GetResource(sys, FLDEFF_ID_SHADOW);
     param.mmdl = mmdl;
     FIELD_EFFECT_AddObject(sys, &gFldeffShadowObjFuncs, 0, 0, &param, 0);
 }
@@ -238,7 +245,7 @@ void FLDEFF_SHADOW_Init(FieldEffectObj *obj, FldeffShadowWork *work)
 
     work->shadow = param->shadow;
     work->mmdl = param->mmdl;
-    FLDMMDL_GetCheckInfo(param->mmdl, work->mmdlCheck);
+    FLDMMDL_GetCheckInfo(param->mmdl, (struct MmdlCheckInfo *)work->mmdlCheck);
     desc.slot = 0;
     desc.width = FLDEFF_SHADOW_ENTRY_SIZE;
     desc.height = FLDEFF_SHADOW_ENTRY_SIZE;
@@ -286,7 +293,7 @@ void FLDEFF_SHADOW_Exit(FieldEffectObj *obj, FldeffShadowWork *work)
 /* Shadow effect: update, ends the effect when the model is gone and tracks if it hides the shadow. */
 void FLDEFF_SHADOW_Update(FieldEffectObj *obj, FldeffShadowWork *work)
 {
-    if (FLDMMDL_CheckCheckInfo(work->mmdl, work->mmdlCheck) == 0) {
+    if (FLDMMDL_CheckCheckInfo(work->mmdl, (struct MmdlCheckInfo *)work->mmdlCheck) == 0) {
         FIELD_EFFECT_DeleteObject(obj);
         return;
     }
@@ -318,11 +325,11 @@ void FLDEFF_SHADOW_Draw(FieldEffectObj *obj, FldeffShadowWork *work)
     const MmdlObjCodeParam *codeParam = FLDMMDL_GetObjCodeParam(work->mmdl);
     if (work->hidden == 0) {
         show = 1;
-        FLDMMDL_GetPos(work->mmdl, &pos);
-        FLDMMDL_GetModelOffset(work->mmdl, &offset);
+        FLDMMDL_GetPos(work->mmdl, (struct MmdlVec *)(&pos));
+        FLDMMDL_GetModelOffset(work->mmdl, (struct MmdlVec *)(&offset));
         VEC_Add(&pos, &offset, &pos);
         if ((u8)(codeParam->drawProcNo + 246) <= 1) {
-            FLDMMDL_GetDrawOffset(work->mmdl, &offset);
+            FLDMMDL_GetDrawOffset(work->mmdl, (struct MmdlVec *)(&offset));
             if (codeParam->mdlSize == 0)
                 offset.y = -0x800;
             VEC_Add(&pos, &offset, &pos);

@@ -215,8 +215,8 @@ struct Tcbl;
 struct Proc;
 struct WordSet;
 struct PrintSys;
-struct Obj;
-struct BeaconMenuConfig;
+struct BmpMenuList;
+struct MenuTemplate;
 struct Descriptor;
 struct CharBuf;
 struct MsgBank;
@@ -263,7 +263,7 @@ typedef struct {int words[9];} Matrix;
 struct BeaconWinLayout {unsigned x,y,z;};
 
 
-struct BeaconMenuConfig {u32 w[13];};
+struct MenuTemplate {u32 w[13];};
 
 typedef struct {u32 bank,id;} BeaconMenuItem;
 
@@ -400,27 +400,37 @@ typedef struct {
     void *object[6];             /* 0xC3A4 */
 } BeaconDetailWork;
 
+extern void G3D_CAMERA_GetEye(void *camera, void *out);
+extern void G3D_CAMERA_GetCamTarget(void *camera, void *out);
 extern void GFL_HEAP_CreateChildHeap(u32 a, u32 b, u32 c);
 extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
 extern void MI_CpuFill8(void *,u32,u32);
-extern void *GAME_DATA_GetSaveControl(struct Big *p);
-extern u8 *GAME_DATA_GetMyStatus(void *p);
-extern struct Sub02009470Obj *WIFI_HISTORY_GetBlock(void *sys);
-extern u8 MYSTATUS_GetNation(const struct Sub0200852CObj *obj);
-extern u8 MYSTATUS_GetArea(const struct Sub0200852CObj *obj);
-extern u8 WIFI_HISTORY_GetMode(const struct Sub02009470Obj *obj);
+struct GameData;
+struct SaveControl;
+extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gd);
+struct MyStatus;
+extern struct MyStatus *GAME_DATA_GetMyStatus(struct GameData *gd);
+struct WifiHistory;
+extern struct WifiHistory *WIFI_HISTORY_GetBlock(struct SaveControl *saveControl);
+extern u8 MYSTATUS_GetNation(struct MyStatus *mystatus);
+extern u8 MYSTATUS_GetArea(struct MyStatus *mystatus);
+extern u8 WIFI_HISTORY_GetMode(struct WifiHistory *history);
 extern struct WordSet *WORDSET_Create(u32 n, u32 size, u16 heap);
 extern void BG_SYS_SetLcdSwap(u32);
-extern struct Tcbl *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
-extern u32 APP_KEYCURSOR_CreateDefault(u32,u32,u32,u16);
-extern u32 PRINTSYS_QUE_Create(void *);
+struct TcblSystem;
+extern struct TcblSystem *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
+struct KeyCursor;
+extern struct KeyCursor *APP_KEYCURSOR_CreateDefault(u32,u32,u32,u16);
+struct PrintQueue;
+extern struct PrintQueue *PRINTSYS_QUE_Create(unsigned int heap);
 extern void GFL_NET_RefreshWmIconAtTopRight(u32 a, u32 b);
 extern void BG_SYS_SetSubPlaneVisible(u32,u32);
-extern void TCBL_Main(struct Tcbl *p);
-extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
-extern void APP_TASKMENU_WIN_SetActive(struct Obj*,u32);
-extern void APP_TASKMENU_WIN_SetDecide(char*,int);
-extern void APP_TASKMENU_WIN_Update(u8*);
+extern void TCBL_Main(struct TcblSystem *tcbl);
+extern u32 PRINTSYS_QUE_Main(struct PrintQueue *queue);
+struct TaskMenuWin;
+extern void APP_TASKMENU_WIN_SetActive(struct TaskMenuWin *win, unsigned int isActive);
+extern void APP_TASKMENU_WIN_SetDecide(struct TaskMenuWin *win, int isDecide);
+extern void APP_TASKMENU_WIN_Update(struct TaskMenuWin *win);
 extern u32 KEY_GetTrg(void);
 extern u32 KEY_GetCont(void);
 extern int TOUCHPANEL_HitCont(const void *a);
@@ -428,18 +438,21 @@ extern u32 TOUCHPANEL_GetPointCont(u32 *outA, u32 *outB);
 extern int TOUCHPANEL_GetTrg(void);
 extern u32 TOUCHPANEL_GetPointTrg(u32 *outA, u32 *outB);
 extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u16 fileId, u16 heapId);
-extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
+extern void *ARC_TOOL_CreateHandle(unsigned int archiveID, unsigned short heapID);
 extern void ARC_TOOL_DeleteHandle(void *);
 extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
-extern void BMP_Clear(struct CharBuf *, u8);
-extern void BMP_WIN_TransferChars(struct Descriptor *);
-extern void *BMP_WIN_GetBmp(struct Descriptor *);
-extern u32 MSGDATA_Delete(struct Rec *rec);
-extern void WIPE_SYS_Start(void *divisionMode, u32 mainPattern, u32 subPattern, u32 color, u32 frames, u32 wait, u32 heapId);
+struct Bmp;
+extern void BMP_Clear(struct Bmp *bmp, unsigned char value);
+struct BmpWin;
+extern void BMP_WIN_TransferChars(struct BmpWin *win);
+extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *win);
+extern u32 MSGDATA_Delete(struct MsgBank *bank);
+extern void WIPE_SYS_Start(void *divisionMode, unsigned int mainPattern, unsigned int subPattern, unsigned short color, unsigned int frames, unsigned int wait, unsigned int heapId);
 extern u32 WIPE_SYS_EndCheck(void);
-extern u32 PRINTSYS_QUE_IsFinished(const struct PrintSys *p);
-extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintSys *p, void *v);
-extern s32 BMP_MENULIST_Main(struct Obj *o);
+extern u32 PRINTSYS_QUE_IsFinished(struct PrintQueue *queue);
+extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintQueue *queue, struct Bmp *bmp);
+struct BmpMenuList;
+extern s32 BMP_MENULIST_Main(struct BmpMenuList *menu);
 extern void *BMP_MENU_CreateYesNo(const void *a, int b, int c, int d, u16 heap);
 extern u32 BMP_MENU_ProcessYesNo(u8 *p);
 extern int NATION_AREA_GetDefaultNation(void);
@@ -447,11 +460,11 @@ extern int NATION_AREA_GetAreaTable(u32 key, u32 *outWord, u32 *outByte);
 extern u32 NATION_AREA_GetAreaMsgBank(u32 a);
 extern void WIFI_HISTORY_InitLanguageRegion(u32 a, u32 b, u32 c, u32 d);
 extern void GAME_BEACON_SetNationArea(u8 a, u8 b);
-extern u32 APP_TASKMENU_WIN_IsFinish(u8 *p);
+extern u32 APP_TASKMENU_WIN_IsFinish(struct TaskMenuWin *win);
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern void PRINTSYS_QUE_Clear(struct PrintSys *),PRINTSYS_QUE_Delete(struct PrintSys *);
-extern int APP_KEYCURSOR_Delete(int);
-extern void TCBL_Destroy(struct S02031140 *);
+extern void APP_KEYCURSOR_Delete(struct KeyCursor *cursor);
+extern void TCBL_Destroy(struct TcblSystem *tcbl);
 extern unsigned WORDSET_Delete(struct WordSet *);
 extern void BEACON_DETAIL_ExitGraphics(int),PROCSYS_FreeProcWork(struct Proc *),GFL_HEAP_DeleteChecked(unsigned int);
 extern void GX_SetBankForLCDC(unsigned),MIi_CpuClearFast(unsigned,void *,unsigned),GX_DisableBankForLCDC(void);
@@ -466,11 +479,11 @@ extern void *ARC_UTIL_LoadHandleMemberWithSize(void *,int,int,u32,u32 *);
 extern u32 GFL_HEAP_Free(void *p);
 extern int NATION_AREA_GetNationRecordCount(void);
 extern u32 NATION_AREA_GetAreaListArcMember(u32),NATION_AREA_GetNationIdByIndex(u32);
-extern u32 WIFI_HISTORY_GetCountryRegionState(const struct Sub02009470Obj *obj, int row, int col);
+extern u32 WIFI_HISTORY_GetCountryRegionState(struct WifiHistory *history, int country, int region);
 extern u32 NATION_AREA_FindRecordIndex(u32);
 extern int TOUCHPANEL_HitTrg(const void *);
-extern u32 BMP_WIN_Create(u32,u32,u32,u32,u8,u8,u8);
-extern void BMP_WIN_MakeScreen(struct BeaconLightCfg*);
+extern struct BmpWin *BMP_WIN_Create(unsigned int bgLayer, unsigned int posX, unsigned int posY, unsigned char width, unsigned char height, unsigned char palette, unsigned char allocDir);
+extern void BMP_WIN_MakeScreen(struct BmpWin *win);
 extern struct GfFont *GF_FONT_Create(int archiveId, int fileId, int format, int isFixedWidth, u32 heapId);
 extern void GF_FONT_GetTextColor(u8 *,u8 *,u8 *),GF_FONT_SetTextColor(u32,u32,u32);
 extern void BG_SYS_InitBgLayer(u32,const struct BgTemplate *,u32),BG_SYS_ClearSlot(u32);
@@ -481,55 +494,66 @@ extern void BMP_MENUWORK_LoadCharAndPltt(u32,u32,u32,u32,u16);
 extern void ARC_UTIL_UploadPaletteFromArchiveWhole(u32,u32,u32,u32,u32,u16);
 extern void BG_SYS_InitRun(u8 layer, u32 size, u32 offset, u32 heapId);
 extern void BG_SYS_LoadPlttEntry(u32,u32);
-extern void *MSGDATA_AllocString(struct MsgBank *,unsigned);
-extern struct TaskMenuRes *APP_TASKMENU_RES_Create(u16,u16,unsigned,unsigned,u16);
-extern unsigned APP_TASKMENU_WIN_Create(unsigned,unsigned,unsigned,unsigned,u8,u16);
-extern void APP_TASKMENU_WIN_Delete(u8*);
+struct Strbuf;
+extern struct Strbuf *MSGDATA_AllocString(struct MsgBank *,unsigned);
+struct GFont;
+extern struct TaskMenuRes *APP_TASKMENU_RES_Create(unsigned short bgFrame, unsigned short palNo, struct GFont *font, struct PrintQueue *printQue, unsigned short heapId);
+struct TaskMenuItem;
+extern struct TaskMenuWin *APP_TASKMENU_WIN_Create(struct TaskMenuRes *res, struct TaskMenuItem *item, unsigned short charPosX, unsigned short charPosY, unsigned char width, unsigned short heapId);
+extern void APP_TASKMENU_WIN_Delete(struct TaskMenuWin *win);
 extern void BG_SYS_MarkTileDirty(u32);
-extern u32 APP_TASKMENU_RES_Delete(struct TaskMenuState *s);
-extern void STRBUF_Delete(struct U16Vec *);
-extern u32 BMP_WIN_Delete(struct Descriptor *d);
+extern void APP_TASKMENU_RES_Delete(struct TaskMenuRes *res);
+extern void STRBUF_Delete(struct Strbuf *strbuf);
+extern u32 BMP_WIN_Delete(struct BmpWin *win);
 extern void BG_SYS_FreeLayerBuf(unsigned);
-extern u32 GF_FONT_Delete(void *ptr);
+extern u32 GF_FONT_Delete(struct GfFont *font);
 extern void PRINTSYS_PrintQue(struct PrintSys *,unsigned,unsigned,unsigned,void *,unsigned);
 extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
 extern void MSGDATA_ReadString(struct MsgBank *,u32,void *);
 extern signed char MSG_SPEED_GetWait(void);
 extern u32 PRINTSYS_PrintStream(u32,u32,u32,u32,u32,u32,u32,u32,u16,u16);
-extern u32 PRINTSYS_PrintStreamGetState(void *);
-extern void APP_KEYCURSOR_Update(struct Ctx *,void *,void *);
-extern void PRINTSYS_PrintStreamShortWait(struct Rec *,int);
-extern void PRINTSYS_PrintStreamReleasePause(void *);
-extern void PRINTSYS_PrintStreamDelete(struct Rec3 *);
+struct TextPrinter;
+extern u32 PRINTSYS_PrintStreamGetState(struct TextPrinter *printer);
+extern void APP_KEYCURSOR_Update(struct KeyCursor *cursor, struct TextPrinter *printStream, void *win);
+extern void PRINTSYS_PrintStreamShortWait(struct TextPrinter *printer, int wait);
+extern void PRINTSYS_PrintStreamReleasePause(struct TextPrinter *printer);
+extern void PRINTSYS_PrintStreamDelete(struct TextPrinter *printer);
 extern void *BMP_MENUWORK_Create(u32,u32);
 extern void BMP_MENUWORK_AddMsgItem(struct Slot *table, u32 a, u32 b, u32 tag, u32 heap);
-extern u32 GF_FONT_GetLineHeight(struct Font *);
-extern struct Obj *BMP_MENULIST_Create(struct BeaconMenuConfig *src, u16 a, u16 b, u32 heap);
-extern void BMP_MENULIST_ResetCursorTile(struct Obj *,int);
-extern void BMP_MENUWORK_DrawWindow(void *,int,int,int);
-extern void BMP_MENUWORK_DrawWindowBorder(void*,u32);
-extern void BMP_MENULIST_Delete(struct Obj*,u16*,u16*);
+extern u32 GF_FONT_GetLineHeight(struct GfFont *font);
+struct MenuTemplate;
+extern struct BmpMenuList *BMP_MENULIST_Create(struct MenuTemplate *menuTemplate, u16 scroll, u16 row, u32 heap);
+extern void BMP_MENULIST_ResetCursorTile(struct BmpMenuList *menu, s32 heap);
+extern void BMP_MENUWORK_DrawWindow(struct BmpWin *win, int commitMode, unsigned short tileBase, unsigned int palette);
+extern void BMP_MENUWORK_DrawWindowBorder(struct BmpWin *desc, unsigned int commitMode);
+extern void BMP_MENULIST_Delete(struct BmpMenuList *menu, unsigned short *outScroll, unsigned short *outRow);
 extern u32 BMP_MENUWORK_Delete(void *p);
 extern void WORDSET_SetSlotFromMsgE7(struct WordSet *,unsigned,unsigned),WORDSET_SetSlotFromKeyedMessage(struct WordSet *,unsigned,unsigned,unsigned);
 extern void MSGDATA_ReadString(struct MsgBank *,unsigned,void *),WORDSET_CopyTaggedText(struct WordSet *,void *,void *);
 extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
 extern void *G3D_SYSTEM_CreateResourceArc(unsigned,unsigned),*G3D_SYSTEM_CreateRender(void *,unsigned,void *),*G3D_SYSTEM_CreateObject(unsigned,unsigned *,int);
-extern int G3D_SYSTEM_TransVramTexture(int *);
+struct G3dResource;
+extern int G3D_SYSTEM_TransVramTexture(struct G3dResource *res);
 extern u32 G3D_CAMERA_Delete(void *ptr);
-extern void G3D_LIGHT_DeleteSlots(void *);
-extern void G3D_SYSTEM_DeleteObject(struct Rec *p);
-extern void G3D_SYSTEM_DeleteRender(struct Rec *p);
-extern int G3D_SYSTEM_FreeVramTexture(u32 *);
-extern void G3D_SYSTEM_DeleteResource(struct Tagged *p);
+extern unsigned int G3D_LIGHT_DeleteSlots(void *);
+struct G3dObject;
+extern void G3D_SYSTEM_DeleteObject(struct G3dObject *obj);
+struct G3dRender;
+extern void G3D_SYSTEM_DeleteRender(struct G3dRender *render);
+extern int G3D_SYSTEM_FreeVramTexture(struct G3dResource *res);
+extern void G3D_SYSTEM_DeleteResource(struct G3dResource *res);
 extern void *G3D_CAMERA_Create(unsigned,unsigned,unsigned,unsigned,unsigned,unsigned,unsigned,unsigned,BeaconVec3 *,BeaconVec3 *,BeaconVec3 *,u16);
-extern void G3D_CAMERA_Reset(struct Light *l);
+struct G3dCamera;
+extern void G3D_CAMERA_Reset(struct G3dCamera *camera);
 extern void G3D_CAMERA_SetEye(void *, BeaconVec3 *);
 extern void G3D_CAMERA_SetCamTarget(void *, BeaconVec3 *);
-extern void G3D_CAMERA_SetFovySin(struct Light *l, u32 v);
-extern void G3D_CAMERA_SetFovyCos(struct Light *l, u32 v);
-extern void G3D_CAMERA_SetNear(struct Light *l, const u32 *in);
-extern void G3D_CAMERA_SetFar(struct Light *l, const u32 *in);
-extern struct LightSlot *G3D_LIGHT_CreateSlots(const struct LightSet *s, u32 heap);
+extern void G3D_CAMERA_SetFovySin(struct G3dCamera *camera, unsigned int v);
+extern void G3D_CAMERA_SetFovyCos(struct G3dCamera *camera, unsigned int v);
+extern void G3D_CAMERA_SetNear(struct G3dCamera *camera, unsigned int *in);
+extern void G3D_CAMERA_SetFar(struct G3dCamera *camera, unsigned int *in);
+struct LightSetDesc;
+struct LightSlotValue;
+extern struct LightSlotValue *G3D_LIGHT_CreateSlots(struct LightSetDesc *set, unsigned short heapID);
 extern void G3D_LIGHT_ApplySlots(struct LightSlot *slots);
 extern void MTX_RotY33_(Matrix *,int,int),MTX_RotX33_(Matrix *,int,int),MTX_RotZ33_(Matrix *,int,int);
 extern void MTX_Concat33(const Matrix *,const Matrix *,Matrix *);
@@ -539,7 +563,8 @@ extern void G3D_SYSTEM_DrawStart(void);
 extern void G3D_SYSTEM_DrawEnd(void);
 extern void G3D_SYSTEM_ApplyLookAt(void);
 extern void MTX_Identity33_(M33 *);
-extern void G3D_SYSTEM_DrawObject(void *obj, struct Arg *status);
+struct G3dObjectStatus;
+extern void G3D_SYSTEM_DrawObject(struct G3dObject *obj, struct G3dObjectStatus *status);
 extern unsigned BEACON_DETAIL_GetRecordIndex(unsigned),NATION_AREA_GetAreaMsgBankByIndex(unsigned);
 extern u16 GF_STANDARD_DegToAngle(int x);
 extern int FX_Sqrt(int x);
@@ -567,10 +592,10 @@ void BEACON_DETAIL_DeleteMainScreen(char *p);
 void BEACON_DETAIL_DrawTextRecord(char *p,BeaconMessage *out,struct Descriptor *d,void *text,u8 x,u8 y);
 int BEACON_DETAIL_PrintMessage(char *p,u32 message,int force);
 void BEACON_DETAIL_OnMessageDone(int a, int b, int c);
-void BEACON_DETAIL_CreateMenuList(char *p,const unsigned char *descriptor,const struct BeaconMenuConfig *source,const BeaconMenuItem *entries);
-void BEACON_DETAIL_SetupMenuList(char *p,const struct BeaconMenuConfig *source,unsigned count);
+void BEACON_DETAIL_CreateMenuList(char *p,const unsigned char *descriptor,const struct MenuTemplate *source,const BeaconMenuItem *entries);
+void BEACON_DETAIL_SetupMenuList(char *p,const struct MenuTemplate *source,unsigned count);
 void BEACON_DETAIL_CreateMenuItems(u8 *p, const u8 *a, u32 b, u32 c);
-void BEACON_DETAIL_CreateMenuItemsFromIds(char *p,const unsigned char *descriptor,const struct BeaconMenuConfig *cfg,unsigned file,const unsigned char *ids,unsigned count);
+void BEACON_DETAIL_CreateMenuItemsFromIds(char *p,const unsigned char *descriptor,const struct MenuTemplate *cfg,unsigned file,const unsigned char *ids,unsigned count);
 void BEACON_DETAIL_CloseMenu(u8*p);
 void BEACON_DETAIL_DrawCurrentArea(char *p);
 void BEACON_DETAIL_DrawEntryDetail(char *p,unsigned key,unsigned member);
@@ -595,7 +620,7 @@ int BEACON_DETAIL_CalcDistance(int *p, int *q);
 extern const u8 GAME_LANGUAGE_Code;
 extern const u8 d_02185DE6[];
 extern const u8 d_02185DB6[];
-extern const struct BeaconMenuConfig d_02185E98;
+extern const struct MenuTemplate d_02185E98;
 extern const u8 d_02185E28[];
 extern const u8 d_02185DB0[];
 extern const u8 d_02185DC4[];
@@ -654,8 +679,8 @@ int BEACON_DETAIL_Init(void *obj,void *unused,void *ctx)
     ((BeaconDetailWork *)p)->drawState=0;
     BG_SYS_SetLcdSwap(0);
     ((BeaconDetailWork *)p)->tcbl=TCBL_Create((u16)(((BeaconDetailWork *)p)->heapId),((BeaconDetailWork *)p)->heapId,0x20,0x20);
-    ((BeaconDetailWork *)p)->keyCursor.id=APP_KEYCURSOR_CreateDefault(0xf,1,0,((BeaconDetailWork *)p)->heapId);
-    ((BeaconDetailWork *)p)->printQue.id=PRINTSYS_QUE_Create((void *)(u16)((BeaconDetailWork *)p)->heapId);
+    ((BeaconDetailWork *)p)->keyCursor.id=(int)APP_KEYCURSOR_CreateDefault(0xf,1,0,((BeaconDetailWork *)p)->heapId);
+    ((BeaconDetailWork *)p)->printQue.id=(unsigned int)PRINTSYS_QUE_Create((unsigned int)(u16)((BeaconDetailWork *)p)->heapId);
     GFL_NET_RefreshWmIconAtTopRight(1,(u16)(((BeaconDetailWork *)p)->heapId));
     BG_SYS_SetSubPlaneVisible(0x10,1);
     BEACON_DETAIL_LoadRecords(p);
@@ -848,7 +873,7 @@ int BEACON_DETAIL_Update(u8 *p, int *state)
         break;
     case 3:
         if (BEACON_DETAIL_PrintMessage((char *)p, 1, 1) == 1) {
-            BEACON_DETAIL_CreateMenuList((char *)p, d_02185DB6, (const struct BeaconMenuConfig *)&d_02185E98, (const BeaconMenuItem *)d_02185E28);
+            BEACON_DETAIL_CreateMenuList((char *)p, d_02185DB6, (const struct MenuTemplate *)&d_02185E98, (const BeaconMenuItem *)d_02185E28);
             *state = 4;
         }
         break;
@@ -936,7 +961,7 @@ int BEACON_DETAIL_Update(u8 *p, int *state)
     case 10:
         ((BeaconDetailWork *)p)->selArea = 0;
         NATION_AREA_GetAreaTable((u32)((u32)((BeaconDetailWork *)p)->selNation), (u32 *)(&ids), &count);
-        BEACON_DETAIL_CreateMenuItemsFromIds((char *)p, d_02185DC4, (const struct BeaconMenuConfig *)((const struct BeaconMenuConfig *)d_02185ECC), NATION_AREA_GetAreaMsgBank((u32)((u32)((BeaconDetailWork *)p)->selNation)), ids, count);
+        BEACON_DETAIL_CreateMenuItemsFromIds((char *)p, d_02185DC4, (const struct MenuTemplate *)((const struct MenuTemplate *)d_02185ECC), NATION_AREA_GetAreaMsgBank((u32)((u32)((BeaconDetailWork *)p)->selNation)), ids, count);
         *state = 0xB;
         break;
     case 11:
@@ -1126,7 +1151,7 @@ int BEACON_DETAIL_Exit(struct Proc *controller,void *unused1,void *unused2,char 
     PRINTSYS_QUE_Delete(((BeaconDetailWork *)p)->printQue.ptr);
     BG_SYS_SetPlaneVisible(6,0);BG_SYS_SetPlaneVisible(2,0);BG_SYS_SetPlaneVisible(7,0);BG_SYS_SetPlaneVisible(3,0);
     BG_SYS_SetLcdSwap(1);
-    APP_KEYCURSOR_Delete(((BeaconDetailWork *)p)->keyCursor.id);
+    APP_KEYCURSOR_Delete((struct KeyCursor *)(((BeaconDetailWork *)p)->keyCursor.id));
     TCBL_Destroy(((BeaconDetailWork *)p)->tcbl);
     BEACON_DETAIL_ExitGraphics(WORDSET_Delete(((BeaconDetailWork *)p)->wordSet));
     PROCSYS_FreeProcWork(controller);GFL_HEAP_DeleteChecked((u16)heap);
@@ -1409,7 +1434,7 @@ void BEACON_DETAIL_CalcTouchDelta(const char *p,int x,int y,int *xflag,int *xdis
 
 
 
-u32 BEACON_DETAIL_CreateBmpWin(const u8 *p,int flag){u32 q;q=BMP_WIN_Create(p[0],p[1],p[2],p[3],p[4],p[5],1);BMP_Clear((struct CharBuf*)BMP_WIN_GetBmp((struct Descriptor*)q),15);if(flag==1)BMP_WIN_MakeScreen((struct BeaconLightCfg*)q);return q;}
+u32 BEACON_DETAIL_CreateBmpWin(const u8 *p,int flag){u32 q;q=(unsigned int)BMP_WIN_Create((unsigned int)p[0],(unsigned int)p[1],(unsigned int)p[2],p[3],p[4],p[5],1);BMP_Clear((struct Bmp *)BMP_WIN_GetBmp((struct BmpWin *)q),15);if(flag==1)BMP_WIN_MakeScreen((struct BmpWin *)q);return q;}
 
 
 
@@ -1468,7 +1493,7 @@ void BEACON_DETAIL_CreateTaskMenu(char *p)
 {
     ((BeaconDetailWork *)p)->strbufA=MSGDATA_AllocString(*(struct MsgBank * *)&((BeaconDetailWork *)p)->msgBank.ptr,13);
     ((BeaconDetailWork *)p)->strbufB=MSGDATA_AllocString(*(struct MsgBank * *)&((BeaconDetailWork *)p)->msgBank.ptr,16);
-    *(struct TaskMenuRes * *)&((BeaconDetailWork *)p)->taskMenu.ptr=APP_TASKMENU_RES_Create(2,9,((BeaconDetailWork *)p)->font.id,((BeaconDetailWork *)p)->printQue.id,(u16)((BeaconDetailWork *)p)->heapId);
+    *(struct TaskMenuRes * *)&((BeaconDetailWork *)p)->taskMenu.ptr=APP_TASKMENU_RES_Create(2,9,(struct GFont *)(((BeaconDetailWork *)p)->font.id),(struct PrintQueue *)(((BeaconDetailWork *)p)->printQue.id),(u16)((BeaconDetailWork *)p)->heapId);
     ((BeaconDetailWork *)p)->winData[0].text=((BeaconDetailWork *)p)->strbufA;
     ((BeaconDetailWork *)p)->winData[0].tag=0x39e3;((BeaconDetailWork *)p)->winData[0].value=0;
     ((BeaconDetailWork *)p)->winData[1].text=((BeaconDetailWork *)p)->strbufB;
@@ -1485,7 +1510,7 @@ void BEACON_DETAIL_CreateTaskMenu(char *p)
 void BEACON_DETAIL_CreateTaskMenuWin(char *p,int i)
 {
     if(*(unsigned *)&((BeaconDetailWork *)p)->win[i]==0){
-        *(unsigned *)&((BeaconDetailWork *)p)->win[i]=APP_TASKMENU_WIN_Create(((BeaconDetailWork *)p)->taskMenu.id,(unsigned)&((BeaconDetailWork *)p)->winData[i],(u8)d_02185E40[i].x,(u8)d_02185E40[i].y,(u8)d_02185E40[i].z,(u16)((BeaconDetailWork *)p)->heapId);
+        *(unsigned *)&((BeaconDetailWork *)p)->win[i]=(unsigned int)APP_TASKMENU_WIN_Create((struct TaskMenuRes *)(((BeaconDetailWork *)p)->taskMenu.id),(struct TaskMenuItem *)(&((BeaconDetailWork *)p)->winData[i]),(u8)d_02185E40[i].x,(u8)d_02185E40[i].y,(u8)d_02185E40[i].z,(u16)((BeaconDetailWork *)p)->heapId);
     }
 }
 
@@ -1508,10 +1533,10 @@ void BEACON_DETAIL_DeleteTaskMenuWin(u8 *p,u32 i){u32 off=i*4;u8 *slots=(u8 *)((
 void BEACON_DETAIL_DeleteMainScreen(char *p)
 {
     BEACON_DETAIL_DeleteTaskMenuWin((u8 *)p,0);BEACON_DETAIL_DeleteTaskMenuWin((u8 *)p,1);
-    APP_TASKMENU_RES_Delete(*(struct TaskMenuState * *)&((BeaconDetailWork *)p)->taskMenu.ptr);
-    STRBUF_Delete(*(struct U16Vec * *)&((BeaconDetailWork *)p)->strbufA);STRBUF_Delete(*(struct U16Vec * *)&((BeaconDetailWork *)p)->strbufB);
+    APP_TASKMENU_RES_Delete((struct TaskMenuRes *)(*(struct TaskMenuState * *)&((BeaconDetailWork *)p)->taskMenu.ptr));
+    STRBUF_Delete((struct Strbuf *)(*(struct U16Vec * *)&((BeaconDetailWork *)p)->strbufA));STRBUF_Delete((struct Strbuf *)(*(struct U16Vec * *)&((BeaconDetailWork *)p)->strbufB));
     ((BeaconDetailWork *)p)->win[0]=0;((BeaconDetailWork *)p)->win[1]=0;
-    BMP_WIN_Delete(*(struct Descriptor * *)&((BeaconDetailWork *)p)->bmp1C);
+    BMP_WIN_Delete((struct BmpWin *)(*(struct Descriptor * *)&((BeaconDetailWork *)p)->bmp1C));
     BG_SYS_FreeLayerBuf(2);BG_SYS_FreeLayerBuf(6);BG_SYS_FreeLayerBuf(3);BG_SYS_FreeLayerBuf(7);
     GF_FONT_Delete(((BeaconDetailWork *)p)->font.ptr);
     GF_FONT_SetTextColor(((BeaconDetailWork *)p)->textColorR,((BeaconDetailWork *)p)->textColorG,((BeaconDetailWork *)p)->textColorB);
@@ -1529,7 +1554,7 @@ void BEACON_DETAIL_DrawTextRecord(char *p,BeaconMessage *out,struct Descriptor *
     struct PrintSys *print;
     out->bmp=d;out->active=0;
     print=*(struct PrintSys * *)&((BeaconDetailWork *)p)->printQue.ptr;
-    PRINTSYS_PrintQue(print,(unsigned)BMP_WIN_GetBmp(d),x,y,text,((BeaconDetailWork *)p)->font.id);
+    PRINTSYS_PrintQue(print,(unsigned)BMP_WIN_GetBmp((struct BmpWin *)d),x,y,text,((BeaconDetailWork *)p)->font.id);
     out->active=1;
 }
 
@@ -1625,7 +1650,7 @@ int BEACON_DETAIL_PrintMessage(char *p,u32 message,int force)
         APP_KEYCURSOR_Update(((BeaconDetailWork *)p)->keyCursor.ptr,(void *)((BeaconDetailWork *)p)->printHandle,((BeaconDetailWork *)p)->bmp1C);
         switch(mode) {
         case 0:
-            if(KEY_GetCont()&1)PRINTSYS_PrintStreamShortWait((struct Rec *)((BeaconDetailWork *)p)->printHandle,0);
+            if(KEY_GetCont()&1)PRINTSYS_PrintStreamShortWait((struct TextPrinter *)((BeaconDetailWork *)p)->printHandle,0);
             break;
         case 1:
             if((((BeaconDetailWork *)p)->keyTrg&1)||(((BeaconDetailWork *)p)->keyTrg&2)) {
@@ -1639,7 +1664,7 @@ int BEACON_DETAIL_PrintMessage(char *p,u32 message,int force)
     case 2:
         if(force!=0 || (((BeaconDetailWork *)p)->keyTrg&1)) {
             STRBUF_Delete(((BeaconDetailWork *)p)->printBuf);
-            PRINTSYS_PrintStreamDelete((struct Rec3 *)((BeaconDetailWork *)p)->printHandle);
+            PRINTSYS_PrintStreamDelete((struct TextPrinter *)((BeaconDetailWork *)p)->printHandle);
             ((BeaconDetailWork *)p)->printState=0;
             result=1;
         }
@@ -1670,10 +1695,10 @@ void BEACON_DETAIL_OnMessageDone(int a, int b, int c)
 /*
  * prototype: retain 1F878 fifth u16 stack argument loaded by this caller, absent from legacy callee declaration; 1FF30 heap explicitly narrowed in caller.
  */
-void BEACON_DETAIL_CreateMenuList(char *p,const unsigned char *descriptor,const struct BeaconMenuConfig *source,const BeaconMenuItem *entries)
+void BEACON_DETAIL_CreateMenuList(char *p,const unsigned char *descriptor,const struct MenuTemplate *source,const BeaconMenuItem *entries)
 {
     int i;
-    struct BeaconMenuConfig cfg;
+    struct MenuTemplate cfg;
     *(struct Descriptor * *)&((BeaconDetailWork *)p)->bmp18=(struct Descriptor *)BEACON_DETAIL_CreateBmpWin(descriptor,1);
     ((BeaconDetailWork *)p)->menuWork=BMP_MENUWORK_Create(*(u16 *)&source->w[4],((BeaconDetailWork *)p)->heapId);
     for(i=0;i<*(u16 *)&source->w[4];i++)
@@ -1685,13 +1710,13 @@ void BEACON_DETAIL_CreateMenuList(char *p,const unsigned char *descriptor,const 
     cfg.w[3]=(u32)((BeaconDetailWork *)p)->bmp18;
     cfg.w[1]=(u32)BEACON_DETAIL_OnMessageDone;
     *(u16 *)((char *)&cfg+32)=12;
-    *(u16 *)((char *)&cfg+34)=GF_FONT_GetLineHeight(*(struct Font * *)&((BeaconDetailWork *)p)->font.ptr);
+    *(u16 *)((char *)&cfg+34)=GF_FONT_GetLineHeight((struct GfFont *)(*(struct Font * *)&((BeaconDetailWork *)p)->font.ptr));
     cfg.w[9]=((BeaconDetailWork *)p)->msgBank.id;
     cfg.w[10]=(u32)(p+0xC078);
     cfg.w[11]=((BeaconDetailWork *)p)->printQue.id;
     cfg.w[12]=*(u32 *)&((BeaconDetailWork *)p)->font.ptr;
-    *(struct Obj * *)&((BeaconDetailWork *)p)->menuList=BMP_MENULIST_Create((struct BeaconMenuConfig *)&cfg, 0, 0, (u16)(((BeaconDetailWork *)p)->heapId));
-    BMP_MENULIST_ResetCursorTile(*(struct Obj * *)&((BeaconDetailWork *)p)->menuList,((BeaconDetailWork *)p)->heapId);
+    *(struct BmpMenuList * *)&((BeaconDetailWork *)p)->menuList=BMP_MENULIST_Create((struct MenuTemplate *)&cfg, 0, 0, (u16)(((BeaconDetailWork *)p)->heapId));
+    BMP_MENULIST_ResetCursorTile(*(struct BmpMenuList * *)&((BeaconDetailWork *)p)->menuList,((BeaconDetailWork *)p)->heapId);
     BMP_MENUWORK_DrawWindow(((BeaconDetailWork *)p)->bmp18,0,34,7);
     BMP_WIN_TransferChars(((BeaconDetailWork *)p)->bmp18);
 }
@@ -1705,9 +1730,9 @@ void BEACON_DETAIL_CreateMenuList(char *p,const unsigned char *descriptor,const 
  * prototype: 20CF8 legacy one parameter; original also visibly sets r1
  * to full-width heap, retained as a second input even though body ignores it.
  */
-void BEACON_DETAIL_SetupMenuList(char *p,const struct BeaconMenuConfig *source,unsigned count)
+void BEACON_DETAIL_SetupMenuList(char *p,const struct MenuTemplate *source,unsigned count)
 {
-    struct BeaconMenuConfig cfg;
+    struct MenuTemplate cfg;
     ((BeaconDetailWork *)p)->msg78.bmp=((BeaconDetailWork *)p)->bmp18;((BeaconDetailWork *)p)->msg78.active=0;
     cfg=*source;
     cfg.w[0]=*(unsigned *)&((BeaconDetailWork *)p)->menuWork;
@@ -1715,14 +1740,14 @@ void BEACON_DETAIL_SetupMenuList(char *p,const struct BeaconMenuConfig *source,u
     cfg.w[3]=*(unsigned *)&((BeaconDetailWork *)p)->bmp18;
     cfg.w[1]=(unsigned)BEACON_DETAIL_OnMessageDone;
     *(u16 *)((char *)&cfg+32)=12;
-    *(u16 *)((char *)&cfg+34)=GF_FONT_GetLineHeight(*(struct Font * *)&((BeaconDetailWork *)p)->font.ptr);
+    *(u16 *)((char *)&cfg+34)=GF_FONT_GetLineHeight((struct GfFont *)(*(struct Font * *)&((BeaconDetailWork *)p)->font.ptr));
     cfg.w[10]=(unsigned)(p+0xc078);
     cfg.w[11]=((BeaconDetailWork *)p)->printQue.id;
     cfg.w[12]=*(unsigned *)&((BeaconDetailWork *)p)->font.ptr;
-    *(struct Obj * *)&((BeaconDetailWork *)p)->menuList=BMP_MENULIST_Create((struct BeaconMenuConfig *)&cfg, 0, 0, (u16)((BeaconDetailWork *)p)->heapId);
-    BMP_MENULIST_ResetCursorTile(*(struct Obj * *)&((BeaconDetailWork *)p)->menuList,((BeaconDetailWork *)p)->heapId);
+    *(struct BmpMenuList * *)&((BeaconDetailWork *)p)->menuList=BMP_MENULIST_Create((struct MenuTemplate *)&cfg, 0, 0, (u16)((BeaconDetailWork *)p)->heapId);
+    BMP_MENULIST_ResetCursorTile(*(struct BmpMenuList * *)&((BeaconDetailWork *)p)->menuList,((BeaconDetailWork *)p)->heapId);
     BMP_MENUWORK_DrawWindow(((BeaconDetailWork *)p)->bmp18,0,34,7);
-    BMP_WIN_TransferChars(*(struct Descriptor * *)&((BeaconDetailWork *)p)->bmp18);
+    BMP_WIN_TransferChars((struct BmpWin *)(*(struct Descriptor * *)&((BeaconDetailWork *)p)->bmp18));
 }
 
 
@@ -1848,7 +1873,7 @@ void BEACON_DETAIL_CreateMenuItems(u8 *p, const u8 *a, u32 b, u32 c)
         BMP_MENUWORK_AddMsgItem(((BeaconDetailWork *)p)->menuWork, (u32)t, menuMsgIdGet(i), d_02185F7C[i], (u16)((BeaconDetailWork *)p)->heapId);
     }
     MSGDATA_Delete(t);
-    BEACON_DETAIL_SetupMenuList((char *)p, (const struct BeaconMenuConfig *)b, 0x82);
+    BEACON_DETAIL_SetupMenuList((char *)p, (const struct MenuTemplate *)b, 0x82);
 }
 
 
@@ -1860,7 +1885,7 @@ void BEACON_DETAIL_CreateMenuItems(u8 *p, const u8 *a, u32 b, u32 c)
  * prototype: 45B38 third/fourth original inputs explicitly narrowed u16;
  * 1F878 retains original fifth stack heap input absent from legacy source.
  */
-void BEACON_DETAIL_CreateMenuItemsFromIds(char *p,const unsigned char *descriptor,const struct BeaconMenuConfig *cfg,unsigned file,const unsigned char *ids,unsigned count)
+void BEACON_DETAIL_CreateMenuItemsFromIds(char *p,const unsigned char *descriptor,const struct MenuTemplate *cfg,unsigned file,const unsigned char *ids,unsigned count)
 {
     struct MsgBank *bank;
     unsigned i;
@@ -1868,15 +1893,15 @@ void BEACON_DETAIL_CreateMenuItemsFromIds(char *p,const unsigned char *descripto
     bank=MSGDATA_CreateFromArchive(0,2,(u16)file,(u16)(((BeaconDetailWork *)p)->heapId));
     *(BeaconMenuWork * *)&((BeaconDetailWork *)p)->menuWork=BMP_MENUWORK_Create(130,((BeaconDetailWork *)p)->heapId);
     for(i=0;i<count;i++)BMP_MENUWORK_AddMsgItem(((BeaconDetailWork *)p)->menuWork,(unsigned)bank,ids[i],ids[i],(u16)((BeaconDetailWork *)p)->heapId);
-    MSGDATA_Delete((struct Rec *)bank);
-    BEACON_DETAIL_SetupMenuList(p, (const struct BeaconMenuConfig *)cfg, count);
+    MSGDATA_Delete((struct MsgBank *)bank);
+    BEACON_DETAIL_SetupMenuList(p, (const struct MenuTemplate *)cfg, count);
 }
 
 
 
 
 
-void BEACON_DETAIL_CloseMenu(u8*p){BMP_MENUWORK_DrawWindowBorder(*(void* *)&((BeaconDetailWork *)p)->bmp18,0);BMP_WIN_Delete(*(struct Descriptor* *)&((BeaconDetailWork *)p)->bmp18);BMP_MENULIST_Delete(*(struct Obj* *)&((BeaconDetailWork *)p)->menuList,0,0);BMP_MENUWORK_Delete(*(void* *)&((BeaconDetailWork *)p)->menuWork);}
+void BEACON_DETAIL_CloseMenu(u8*p){BMP_MENUWORK_DrawWindowBorder(*(void* *)&((BeaconDetailWork *)p)->bmp18,0);BMP_WIN_Delete((struct BmpWin *)(*(struct Descriptor* *)&((BeaconDetailWork *)p)->bmp18));BMP_MENULIST_Delete((struct BmpMenuList *)(*(struct BmpMenuList* *)&((BeaconDetailWork *)p)->menuList),0,0);BMP_MENUWORK_Delete(*(void* *)&((BeaconDetailWork *)p)->menuWork);}
 
 
 
@@ -1896,9 +1921,9 @@ void BEACON_DETAIL_DrawCurrentArea(char *p)
     MSGDATA_ReadString(*(struct MsgBank * *)&((BeaconDetailWork *)p)->msgBank.ptr,14,src);
     WORDSET_CopyTaggedText(*(struct WordSet * *)&((BeaconDetailWork *)p)->wordSet,dst,src);
     BEACON_DETAIL_DrawTextRecord(p,&((BeaconDetailWork *)p)->msg44,*(struct Descriptor * *)&((BeaconDetailWork *)p)->bmp40,dst,0,0);
-    STRBUF_Delete(src);STRBUF_Delete(dst);
+    STRBUF_Delete((struct Strbuf *)src);STRBUF_Delete((struct Strbuf *)dst);
     BMP_MENUWORK_DrawWindow(((BeaconDetailWork *)p)->bmp40,0,34,7);
-    BMP_WIN_TransferChars(*(struct Descriptor * *)&((BeaconDetailWork *)p)->bmp40);
+    BMP_WIN_TransferChars((struct BmpWin *)(*(struct Descriptor * *)&((BeaconDetailWork *)p)->bmp40));
 }
 
 
@@ -2116,7 +2141,7 @@ void BEACON_DETAIL_DrawCurrentInfo(char *p)
         BMP_Clear(BMP_WIN_GetBmp(((BeaconDetailWork *)p)->bmp1C),15);
         MSGDATA_ReadString(((BeaconDetailWork *)p)->msgBank.ptr,15,buffer);
         BEACON_DETAIL_DrawTextRecord(p,&((BeaconDetailWork *)p)->msg20,((BeaconDetailWork *)p)->bmp1C,buffer,0,0);
-        STRBUF_Delete(buffer);
+        STRBUF_Delete((struct Strbuf *)buffer);
     } else {
         struct U16Vec *first,*second;
         if(BEACON_DETAIL_FindNearestRecord(p,&selected)) {
@@ -2127,8 +2152,8 @@ void BEACON_DETAIL_DrawCurrentInfo(char *p)
             if(((BeaconDetailWork *)p)->records[selected].b!=0)
                 BEACON_DETAIL_DrawTextRecord(p,&((BeaconDetailWork *)p)->msg20,((BeaconDetailWork *)p)->bmp1C,second,0,16);
             BEACON_DETAIL_DrawTextRecord(p,&((BeaconDetailWork *)p)->msg20,((BeaconDetailWork *)p)->bmp1C,first,0,0);
-            STRBUF_Delete(second);
-            STRBUF_Delete(first);
+            STRBUF_Delete((struct Strbuf *)second);
+            STRBUF_Delete((struct Strbuf *)first);
             ((BeaconDetailWork *)p)->angleX=((BeaconDetailWork *)p)->records[selected].x;
             ((BeaconDetailWork *)p)->angleY=((BeaconDetailWork *)p)->records[selected].y;
         } else ((BeaconDetailWork *)p)->detailOpen=0;
@@ -2144,13 +2169,13 @@ void BEACON_DETAIL_Create3DObjects(char *p, void *arc)
     unsigned i;
     char *row;
     ((BeaconDetailWork *)p)->resArc[0]=G3D_SYSTEM_CreateResourceArc(197,0);
-    G3D_SYSTEM_TransVramTexture(*(int * *)&((BeaconDetailWork *)p)->resArc[0]);
+    G3D_SYSTEM_TransVramTexture((struct G3dResource *)(*(int * *)&((BeaconDetailWork *)p)->resArc[0]));
     ((BeaconDetailWork *)p)->render[0]=G3D_SYSTEM_CreateRender(((BeaconDetailWork *)p)->resArc[0],0,((BeaconDetailWork *)p)->resArc[0]);
     ((BeaconDetailWork *)p)->object[0]=G3D_SYSTEM_CreateObject(*(unsigned *)&((BeaconDetailWork *)p)->render[0],0,0);
     for(i=0;i<4;i++) {
         row=p+d_02185E18[i].index*4;
         ((BeaconDetailWork *)row)->resArc[1]=G3D_SYSTEM_CreateResourceArc(197,d_02185E18[i].member);
-        G3D_SYSTEM_TransVramTexture(*(int * *)&((BeaconDetailWork *)row)->resArc[1]);
+        G3D_SYSTEM_TransVramTexture((struct G3dResource *)(*(int * *)&((BeaconDetailWork *)row)->resArc[1]));
         ((BeaconDetailWork *)row)->render[1]=G3D_SYSTEM_CreateRender(((BeaconDetailWork *)row)->resArc[1],0,((BeaconDetailWork *)row)->resArc[1]);
         ((BeaconDetailWork *)row)->object[1]=G3D_SYSTEM_CreateObject(*(unsigned *)&((BeaconDetailWork *)row)->render[1],0,0);
     }
@@ -2175,7 +2200,7 @@ void BEACON_DETAIL_Delete3DObjects(char *p)
         row=p+d_02185E18[i].index*4;
         G3D_SYSTEM_DeleteObject(*(void **)(row+0xC3A8));
         G3D_SYSTEM_DeleteRender(*(void **)(row+0xC390));
-        G3D_SYSTEM_FreeVramTexture(*(u32 **)(row+0xC378));
+        G3D_SYSTEM_FreeVramTexture((struct G3dResource *)(*(u32 **)(row+0xC378)));
         G3D_SYSTEM_DeleteResource(*(void **)(row+0xC378));
     }
     ((BeaconDetailWork *)p)->object[0]=0;
@@ -2249,7 +2274,7 @@ void BEACON_DETAIL_SetupCamera(char *p)
 
 void BEACON_DETAIL_CreateLight(char *p)
 {
-    ((BeaconDetailWork *)p)->lightSet = G3D_LIGHT_CreateSlots((const struct LightSet *)d_02185DD4, (unsigned short)((BeaconDetailWork *)p)->heapId);
+    ((BeaconDetailWork *)p)->lightSet = G3D_LIGHT_CreateSlots((struct LightSetDesc *)d_02185DD4, (unsigned short)((BeaconDetailWork *)p)->heapId);
     G3D_LIGHT_ApplySlots(((BeaconDetailWork *)p)->lightSet);
 }
 
@@ -2436,10 +2461,10 @@ void BEACON_DETAIL_Draw3D(char *p)
         s.a = ((BeaconDetailWork *)p)->light0;
         MTX_Identity33_(&m);
         s.b = ((BeaconDetailWork *)p)->light2;
-        G3D_SYSTEM_DrawObject((void *)((u32)((BeaconDetailWork *)p)->object[5]), (struct Arg *)(&s));
+        G3D_SYSTEM_DrawObject((void *)((u32)((BeaconDetailWork *)p)->object[5]), (struct G3dObjectStatus *)(&s));
         s.b = ((BeaconDetailWork *)p)->light1;
         BEACON_DETAIL_SetupCalc((Matrix *)&m, ((BeaconDetailWork *)p)->angles);
-        G3D_SYSTEM_DrawObject((void *)((u32)((BeaconDetailWork *)p)->object[0]), (struct Arg *)(&s));
+        G3D_SYSTEM_DrawObject((void *)((u32)((BeaconDetailWork *)p)->object[0]), (struct G3dObjectStatus *)(&s));
         s2.a = ((BeaconDetailWork *)p)->light0;
         s2.b = ((BeaconDetailWork *)p)->light2;
         for (i = 0; i < ((BeaconDetailWork *)p)->recordCount; i++) {
@@ -2447,7 +2472,7 @@ void BEACON_DETAIL_Draw3D(char *p)
             MTX_Concat33((const Matrix *)&((BeaconDetailWork *)p)->records[i].matrix, (const Matrix *)&m, (Matrix *)&m2);
             f = ((BeaconDetailWork *)p)->records[i].state;
             if (f != 0)
-                G3D_SYSTEM_DrawObject((void *)((u32)((BeaconDetailWork *)p)->object[f+1]), (struct Arg *)(&s2));
+                G3D_SYSTEM_DrawObject((void *)((u32)((BeaconDetailWork *)p)->object[f+1]), (struct G3dObjectStatus *)(&s2));
         }
         G3D_SYSTEM_DrawEnd();
         break;

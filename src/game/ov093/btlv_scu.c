@@ -234,6 +234,7 @@
  */
 #include "btlv_scu_types.h"
 #include "btlv_core_types.h"
+extern int FADE_IsActive(void);
 
 #define BTLV_SCU_SE_PLATE_SLIDE 0x573
 #define BTLV_SCU_SE_PLATE_FADE 0x54d
@@ -302,85 +303,95 @@ extern u32 BTL_CLIENT_IsMainStepActive(struct BtlClient *client);
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern void *GFL_HEAP_Alloc(u32, u32, int, const char *, u16);
 extern struct MsgBuf *STRBUF_Create(int, int);
-extern struct PrintSys *PRINTSYS_QUE_Create(u32 heapId);
+struct PrintQueue;
+extern struct PrintQueue *PRINTSYS_QUE_Create(u32 heapId);
 extern void BG_SYS_InitBgLayer(u32, const struct BgTemplate *, u32);
-extern int BTLV_EFFECT_GetPalanm(void);
+extern struct PalAnmSlot *BTLV_EFFECT_GetPalanm(void);
 extern void PALANM_LoadArcPaletteToSlotAt(struct PalAnmSlot *slots, u32 arcId, u32 fileId, u32 tag, u32 idx, u32 count, u16 off, u16 srcOff);
 extern void PALANM_CopyToSlot(struct PalAnmSlot *slots, const void *src, u32 idx, u32 off, u16 size);
-extern void BG_SYS_SetTileEntry(u32, int, int, int, u8, u8, u8);
+extern void BG_SYS_SetTileEntry(u32 layer, u16 value, u8 x0, u8 y0, u8 w, u8 h, u8 mode);
 extern void BG_SYS_Init(u32, u32, u32, u32);
 extern void ARC_UTIL_UploadBgPaletteFromArchive(u32 archiveID, u32 memberIdx, u32 channel, u32 offset, u32 size, u32 heapID, u16 flags);
-extern struct BmpWin *BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
-extern struct CharBuf *BMP_WIN_GetBmp(struct BmpWin *win);
+struct BmpWin;
+extern struct BmpWin *BMP_WIN_Create(u32 bgLayer, u32 posX, u32 posY, u8 width, u8 height, u8 palette, u8 allocDir);
+struct Bmp;
+extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *win);
 extern void BMP_WIN_MakeScreen(struct BmpWin *win);
 extern void BMP_WIN_DrawFrame(struct BmpWin *win, u16 base, u32 pal);
-extern void BMP_Clear(struct CharBuf *buf, u8 value);
+extern void BMP_Clear(struct Bmp *bmp, u8 value);
 extern void BMP_WIN_TransferChars(struct BmpWin *win);
 extern void BG_SYS_PushTile(u32 index);
 extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
 extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
-extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
+extern void *ARC_TOOL_CreateHandle(u32 archiveID, u16 heapID);
 extern u32 ARC_UTIL_RegisterObjCharFromHandle(void *arc, u32 memberIdx, u32 bgId, u32 size, u32 heapID, u16 flags);
 extern void ARC_TOOL_DeleteHandle(void *h);
 extern u32 BMP_WIN_Delete(struct BmpWin *win);
 extern void BG_SYS_FreeLayerBuf(u32 i);
-extern void PRINTSYS_QUE_Delete(struct PrintSys *printer);
-extern void STRBUF_Delete(struct MsgBuf *buf);
+extern void PRINTSYS_QUE_Delete(struct PrintQueue *queue);
+struct Strbuf;
+extern void STRBUF_Delete(struct Strbuf *strbuf);
 extern u32 GFL_HEAP_Free(void *p);
 extern u32 ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void BG_SYS_ClearSlot(u32 i);
-extern int BTL_MAIN_GetCompetitor(struct BtlContext *);
-extern u32 BTL_MAIN_GetRule(struct BtlContext *);
-extern int BTL_MAIN_IsMultiMode(struct BtlContext *);
+struct BtlMain;
+extern u32 BTL_MAIN_GetCompetitor(struct BtlMain *main);
+extern u32 BTL_MAIN_GetRule(struct BtlMain *main);
+extern int BTL_MAIN_IsMultiMode(struct BtlMain *main);
 extern int GXx_GetMasterBrightness_(volatile u16 *);
 extern void FADE_Start(u32 a, s32 b, s32 c, s32 d);
-extern u8 BTL_MAIN_GetSlotFromViewPos(struct BtlContext *, u8 side);
-extern struct BtlPokeParam *BTL_SIDE_GetPokeAtPos(struct BtlMonTable *table, u8 monIdx);
-extern void *BTL_POKEPARAM_GetDisplayMon(struct BtlPokeParam *mon);
+extern u8 BTL_MAIN_GetSlotFromViewPos(struct BtlMain *main, u8 slot);
+extern u8 *BTL_SIDE_GetPokeAtPos(struct BtlMain **side, u8 position);
+struct PokemonParam;
+extern struct PokemonParam *BTL_POKEPARAM_GetDisplayMon(struct BtlPokeParam *mon);
 extern void BTLV_EFFECT_SetPokeSpriteKey(void *sprite, int side);
 extern int BTLV_EFFECT_IsBusy(void);
 extern u8 BTL_POKEPARAM_GetPokeId(struct BtlPokeParam *mon);
 extern void BTLV_EFFECT_StartEffectOnPoke(int, u32);
 extern void BTL_MSG_FormatArgs(struct MsgBuf *buf, u32 msgId, u32 argCount, ...);
 extern void BTLV_EFFECT_StartEffect(u32);
-extern int BTL_MAIN_CheckSetupStatusFlag(struct BtlContext *, int mask);
-extern u8 BTL_MAIN_GetSlotClientIdThunk(struct BtlContext *, int i);
-extern u16 BTL_MAIN_GetTrainerType(struct BtlContext *, int);
+extern int BTL_MAIN_CheckSetupStatusFlag(struct BtlMain *main, s32 mask);
+extern u8 BTL_MAIN_GetSlotClientIdThunk(struct BtlMain *main, s32 slot);
+extern u16 BTL_MAIN_GetTrainerType(struct BtlMain *main, s32 slot);
 extern void BTLV_EFFECT_AddPokeSprite(int, u32, u32, u32, u32);
-extern void BTLV_EFFECT_CreatePartyBallBar(u32 *);
-extern u8 BTL_MAIN_GetOwnClientId(struct BtlContext *);
+struct BtlvPartyBallBarParam;
+extern void BTLV_EFFECT_CreatePartyBallBar(struct BtlvPartyBallBarParam *param);
+extern u8 BTL_MAIN_GetOwnClientId(struct BtlMain *main);
 extern void BTLV_EFFECT_DeletePartyBallBar(u32);
 extern int BTLV_EFFECT_IsPartyBallBarActive(u32);
-extern u8 BTL_MAIN_GetClientTrainerIndex(struct BtlContext *, u32, u8);
-extern u8 BTL_MAIN_GetEnemyLanePosFromWork(struct BtlContext *, u32 v, int k);
-extern u8 BTL_MAIN_GetViewPosOfSlot(struct BtlContext *, u32);
-extern u8 BTL_MAIN_GetOwnOpponentClient(struct BtlContext *ctx, int index);
-extern u32 BTL_MAIN_GetOpponentClient(struct BtlContext *ctx, int clientId, int index);
+extern u8 BTL_MAIN_GetClientTrainerIndex(struct BtlMain *main, u32 clientId, u8 nth);
+extern u8 BTL_MAIN_GetEnemyLanePosFromWork(struct BtlMain *main, u32 basePos, s32 lane);
+extern u8 BTL_MAIN_GetViewPosOfSlot(struct BtlMain *main, u32 slot);
+extern u8 BTL_MAIN_GetOwnOpponentClient(struct BtlMain *main, s32 nth);
+extern u32 BTL_MAIN_GetOpponentClient(struct BtlMain *main, s32 clientId, s32 nth);
 extern int BTL_POKEPARAM_IsFainted(struct BtlPokeParam *mon);
-extern u8 BTL_MAIN_GetOwnPartnerClient(struct BtlContext *ctx);
-extern u8 BTL_MAIN_IsOwnClientSecondTeam(struct BtlContext *ctx);
-extern int BTL_MAIN_IsTrainerSlotNpc(struct BtlContext *ctx, int clientId);
+extern u8 BTL_MAIN_GetOwnPartnerClient(struct BtlMain *main);
+extern u8 BTL_MAIN_IsOwnClientSecondTeam(struct BtlMain *main);
+extern int BTL_MAIN_IsTrainerSlotNpc(struct BtlMain *main, s32 slot);
 extern void GF_FONT_SetTextColor(u32 r, u32 g, u32 b);
-extern void PRINTSYS_Print(void *bmp, s16 x, s16 y, struct MsgBuf *str, void *font);
-extern int BTL_MAIN_GetTextSpeedFrames(struct BtlContext *ctx);
+struct GfFont;
+extern void PRINTSYS_Print(struct Bmp *bmp, s16 x, s16 y, struct Strbuf *str, struct GfFont *font);
+extern int BTL_MAIN_GetTextSpeedFrames(struct BtlMain *main);
 extern struct PrintStream *PRINTSYS_PrintStreamCallBack(struct BmpWin *win, s16 x, s16 y, struct MsgBuf *str, void *font, s32 speed, void *taskSys, u32 reserved, u32 heapId, u16 color, u32 callback);
-extern void PRINTSYS_PrintStreamStop(struct PrintStream *stream);
-extern u8 BTL_MAIN_GetCommPos(struct BtlContext *ctx);
-extern void PRINTSYS_PrintStreamRun(struct PrintStream *stream);
-extern u32 PRINTSYS_PrintStreamIsOverrideSpeed(struct PrintStream *stream);
-extern void PRINTSYS_PrintStreamSetSpeed(struct PrintStream *stream, s32 speed);
+struct TextPrinter;
+extern void PRINTSYS_PrintStreamStop(struct TextPrinter *printer);
+extern u8 BTL_MAIN_GetCommPos(struct BtlMain *main);
+extern void PRINTSYS_PrintStreamRun(struct TextPrinter *printer);
+extern u32 PRINTSYS_PrintStreamIsOverrideSpeed(struct TextPrinter *printer);
+extern void PRINTSYS_PrintStreamSetSpeed(struct TextPrinter *printer, s32 wait);
 extern signed char MSG_SPEED_GetWaitForSpeed(u32 idx);
-extern void PRINTSYS_PrintStreamResetSpeed(struct PrintStream *stream);
-extern u32 PRINTSYS_PrintStreamGetState(struct PrintStream *stream);
+extern void PRINTSYS_PrintStreamResetSpeed(struct TextPrinter *printer);
+extern u32 PRINTSYS_PrintStreamGetState(struct TextPrinter *printer);
 extern u32 KEY_GetCont(void);
 extern int TOUCHPANEL_GetCont(void);
 extern u32 KEY_GetTrg(void);
 extern int TOUCHPANEL_GetTrg(void);
 extern void GF_FONT_SetDefaultTextColor(void);
-extern void PRINTSYS_PrintStreamDelete(struct PrintStream *stream);
-extern void PRINTSYS_PrintStreamReleasePause(struct PrintStream *stream);
+extern void PRINTSYS_PrintStreamDelete(struct TextPrinter *printer);
+extern void PRINTSYS_PrintStreamReleasePause(struct TextPrinter *printer);
 extern int GFL_USE_IsSeqPlaying(u32 a);
-extern void BTLV_EFFECT_StartEffectWithRequest(const BtlvScuWazaRequest *req);
+struct BtlvEffScriptRequest;
+extern void BTLV_EFFECT_StartEffectWithRequest(struct BtlvEffScriptRequest *request);
 extern void GFL_USE_StopAllSe(void);
 extern int BTL_POKEPARAM_GetValue(struct BtlPokeParam *mon, int valueId);
 extern void BTLV_EFFECT_GaugeStartHpChangeAnimated(u32 viewPos, u32 value);
@@ -390,22 +401,25 @@ extern int BTLV_EFFECT_GaugeIsAnimating(void);
 extern void BTLV_EFFECT_GaugeDeleteSlot(u32 viewPos);
 extern void BTLV_EFFECT_StartPokeAppearEffect(int viewPos);
 extern void BTLV_EFFECT_DeletePokeSprite(int viewPos);
-extern void *TCBL_AddTask(void *taskSys, TcblTaskFn proc, u32 workSize, u32 priority);
-extern void *TCBL_GetWork(void *task);
-extern void TCBL_DeleteTask(void *task);
-extern struct BtlPokeParam *BTL_SIDE_GetClientPoke(struct BtlMonTable *table, u32 clientId, u8 partyIdx);
+struct TcblSystem;
+struct TcblTask;
+extern struct TcblTask *TCBL_AddTask(struct TcblSystem *tcbl, TcblTaskFn proc, u32 workSize, u32 priority);
+extern void *TCBL_GetWork(struct TcblTask *task);
+extern void TCBL_DeleteTask(struct TcblTask *task);
+struct BtlSide;
+extern struct BtlPokeParam *BTL_SIDE_GetClientPoke(struct BtlSide *side, u32 clientId, u8 nth);
 extern void BTLV_EFFECT_SetLowHpBgmSuppressed(u32 hide);
-extern void *BTL_POKEPARAM_GetMon(struct BtlPokeParam *mon);
+extern struct PokemonParam *BTL_POKEPARAM_GetMon(struct BtlPokeParam *mon);
 extern void BTLV_EFFECT_StartHitTask(void *mon, int viewPos);
 extern void BTLV_EFFECT_ResetPokeSprite(void *mon, int viewPos);
-extern void BTLV_EFFECT_GaugeInitSlotFromBattlePoke(struct BtlContext *ctx, struct BtlPokeParam *mon, u32 viewPos);
-extern void G2x_SetBlendAlpha_(int reg, int mode, int planes, int evA, int evB);
-extern unsigned int BTL_MAIN_GetRuleSlotSpan(struct BtlContext *ctx);
+extern void BTLV_EFFECT_GaugeInitSlotFromBattlePoke(struct BtlMain *battleMain, struct BtlPokeParam *battlePoke, u32 slotIdx);
+extern void G2x_SetBlendAlpha_(u32 *reg, u32 a, u32 b, u32 c, u32 d);
+extern unsigned int BTL_MAIN_GetRuleSlotSpan(struct BtlMain *main);
 extern u8 BTL_MAIN_GetPosParity(u32 viewPos);
-extern int BTL_MAIN_IsLocalSide(struct BtlContext *ctx, u8 parity);
+extern int BTL_MAIN_IsLocalSide(struct BtlMain *main, u8 side);
 extern void BTLV_EFFECT_TimerSetVisible(u32 target, u32 hideFlag, u32 param);
-extern int BTLV_EFFECT_ResumeVmWait(void);
-extern void *ARC_UTIL_LoadBgCharDataFromArchive(u32 arcId, u32 fileId, u32 zero, BtlvScuNameGfx **out, u16 heapId);
+extern void BTLV_EFFECT_ResumeVmWait(void);
+extern void *ARC_UTIL_LoadBgCharDataFromArchive(u32 archiveID, u32 memberIdx, u32 heapID, void *unpackedOut, u16 flags);
 extern struct Bmp *BMP_Create(u32 width, u32 height, u32 depth, u16 heapId);
 extern void BMP_Delete(struct Bmp *bmp);
 extern void BTLV_EFFECT_SetPokeEffectValue(int viewPos, u32 speciesId);
@@ -417,24 +431,25 @@ extern int PALANM_RequestFade(void *slots, u16 mode, u16 mask, s16 start, u8 end
 extern u32 PALANM_GetFadeRequestBits(const char *slots);
 extern u32 BMP_GetByteSize(const struct Bmp *bmp);
 extern void MIi_CpuCopy32(const void *src, void *dst, u32 size);
-extern u32 PRINTSYS_InitCallerSuppliedArray(struct MsgBuf *buf, void *font, u32 start, u32 *widths, u32 max);
-extern u32 PRINTSYS_MeasureWidestLine(struct MsgBuf *buf, void *font, u32 start);
-extern u32 PRINTSYS_CopyLine(struct MsgBuf *src, struct MsgBuf *dst, u32 line);
+extern u32 PRINTSYS_InitCallerSuppliedArray(struct Strbuf *text, struct GfFont *font, u32 spacing, u32 *widths, u32 maxLines);
+extern u32 PRINTSYS_MeasureWidestLine(struct Strbuf *text, struct GfFont *font, u32 spacing);
+extern u32 PRINTSYS_CopyLine(struct Strbuf *src, struct Strbuf *dst, u32 lineNumber);
 extern void MI_CpuFill8(void *dst, u8 value, u32 size);
-extern void *BTL_SIDE_GetSlotOfClientThunk(struct BtlMonTable *monTable, int clientIndex);
-extern u8 BTL_SLOT_GetCount(void *party);
-extern void *BTL_SLOT_GetPokeParam(void *party, u32 index);
-extern int BTL_POKEPARAM_GetMajorStatusIndex(void *mon);
-extern int BTL_POKEPARAM_IsAbleToBattle(void *mon);
+struct BtlSideSlot;
+extern struct BtlSideSlot *BTL_SIDE_GetSlotOfClientThunk(struct BtlSide *side, s32 clientId);
+extern u8 BTL_SLOT_GetCount(struct BtlSideSlot *slot);
+extern struct BtlPokeParam *BTL_SLOT_GetPokeParam(struct BtlSideSlot *slot, u32 index);
+extern int BTL_POKEPARAM_GetMajorStatusIndex(struct BtlPokeParam *bpp);
+extern int BTL_POKEPARAM_IsAbleToBattle(struct BtlPokeParam *pp);
 extern u8 BMP_WIN_GetBgLayer(struct BmpWin *win);
-extern void BTL_POKEPARAM_ReadStatsFromMon(void **source, u16 *out);
+extern void BTL_POKEPARAM_ReadStatsFromMon(struct PokemonParam **monPtr, u16 *stats);
 extern u8 BMP_WIN_GetWidth(struct BmpWin *win);
 extern u8 BMP_WIN_GetHeight(struct BmpWin *win);
 extern u8 BMP_WIN_GetPosX(struct BmpWin *win);
 extern u8 BMP_WIN_GetPosY(struct BmpWin *win);
-void BTL_MSG_GetUiString(struct MsgBuf *textBuf, u32 msgId);
-void BTL_MSG_BuildBallStatusOpen(struct MsgBuf *textBuf, u32 ball0, u32 ball1, u32 ball2, u32 ball3, u32 ball4, u32 ball5);
-void BTL_MSG_BuildBallStatusRefresh(struct MsgBuf *textBuf, u32 ball0, u32 ball1, u32 ball2, u32 ball3, u32 ball4, u32 ball5);
+void BTL_MSG_GetUiString(struct Strbuf *dest, u32 msgId);
+void BTL_MSG_BuildBallStatusOpen(struct Strbuf *dest, u32 ball0, u32 ball1, u32 ball2, u32 ball3, u32 ball4, u32 ball5);
+void BTL_MSG_BuildBallStatusRefresh(struct Strbuf *dest, u32 ball0, u32 ball1, u32 ball2, u32 ball3, u32 ball4, u32 ball5);
 void BTLV_SCU_PlaySeUnlessMainStep(struct BtlvCore *core, int a);
 void BTLV_SCU_InitMessage(struct BtlvMessage *msg, int kind, int id);
 void BTLV_SCU_AppendMessageArg(struct BtlvMessage *msg, u32 val);
@@ -505,7 +520,8 @@ void BTLV_SCU_HideMonPair(BtlvScu *scu, int slotA, int slotB);
 int BTLV_SCU_ShowMonPair(BtlvScu *scu, int slotA, int slotB);
 void BTLV_SCU_HideMon(BtlvScu *scu, int slotIdx);
 int BTLV_SCU_ShowMon(BtlvScu *scu, int slotIdx);
-void BTLV_SCU_StartPosCueEffect(int unused, int viewPos);
+struct BtlvScu;
+void BTLV_SCU_StartPosCueEffect(struct BtlvScu *unused, int viewPos);
 int BTLV_SCU_IsPosCueEffectDone(int unused, int viewPos);
 void BTLV_SCU_StartMonFormChange(BtlvScu *scu, u8 slotIdx, u32 flag);
 u32 BTLV_SCU_IsMonFormChangeDone(BtlvScu *scu);
@@ -649,7 +665,7 @@ BtlvScu *BTLV_SCU_Create(struct BtlvCore *core, struct BtlContext *context, stru
     scu->wordBuf1 = STRBUF_Create(0x180, heapId);
     scu->busyFlag = 0;
     scu->nameGfxFile = 0;
-    scu->printer = PRINTSYS_QUE_Create(scu->heapId);
+    scu->printer = (struct PrintSys *)PRINTSYS_QUE_Create(scu->heapId);
     scu->msgWinCopy = scu->msgWin;
     scu->lineIndex = 0;
     return scu;
@@ -676,14 +692,14 @@ void BTLV_SCU_SetupDisplay(BtlvScu *scu)
     ARC_UTIL_UploadBgPaletteFromArchive(0xb, 0xd7, 2, 0, 0, 0, scu->heapId);
     ARC_UTIL_UploadBgPaletteFromArchive(0xb, 0xd8, 3, 0, 0, 0, scu->heapId);
     scu->msgWin = BMP_WIN_Create(1, 1, 0x13, 0x1e, 4, 0, 0);
-    scu->msgWinChars = BMP_WIN_GetBmp(scu->msgWin);
+    scu->msgWinChars = (struct CharBuf *)BMP_WIN_GetBmp(scu->msgWin);
     BMP_WIN_MakeScreen(scu->msgWin);
     BMP_WIN_DrawFrame(scu->msgWin, frameTile, 0);
-    BMP_Clear(scu->msgWinChars, 0xc);
+    BMP_Clear((struct Bmp *)scu->msgWinChars, 0xc);
     BMP_WIN_TransferChars(scu->msgWin);
     scu->nameTile = BTLV_SCU_LoadArcTiles(scu, 0xb, 0xdd, 3);
     scu->nameWin = BMP_WIN_Create(3, 0x15, 0x25, 0xa, 0xc, 3, 0);
-    scu->nameWinChars = BMP_WIN_GetBmp(scu->nameWin);
+    scu->nameWinChars = (struct CharBuf *)BMP_WIN_GetBmp(scu->nameWin);
     BTLV_SCU_InitMsgWinFade(&scu->slide, scu->msgWin);
     BTLV_SCU_InitMonSlots(scu);
     BTLV_SCU_InitNamePlates(scu, scu->msgTile);
@@ -728,18 +744,18 @@ void BTLV_SCU_Delete(BtlvScu *scu)
     BG_SYS_FreeLayerBuf(2);
     BG_SYS_FreeLayerBuf(3);
     if (scu->printer != 0) {
-        PRINTSYS_QUE_Delete(scu->printer);
+        PRINTSYS_QUE_Delete((struct PrintQueue *)scu->printer);
         scu->printer = 0;
     }
     if (scu->wordBuf1 != 0) {
-        STRBUF_Delete(scu->wordBuf1);
+        STRBUF_Delete((struct Strbuf *)scu->wordBuf1);
         scu->wordBuf1 = 0;
     }
     if (scu->wordBuf0 != 0) {
-        STRBUF_Delete(scu->wordBuf0);
+        STRBUF_Delete((struct Strbuf *)scu->wordBuf0);
         scu->wordBuf0 = 0;
     }
-    STRBUF_Delete(scu->textBuf);
+    STRBUF_Delete((struct Strbuf *)scu->textBuf);
     GFL_HEAP_Free(scu);
 }
 
@@ -783,10 +799,10 @@ static inline void BTLV_SCU_SetProc(BtlvScu *scu, BtlvScuProc proc)
 
 void BTLV_SCU_StartEntryScene(BtlvScu *scu, u32 quickMode)
 {
-    int battleType = BTL_MAIN_GetCompetitor(scu->context);
+    int battleType = BTL_MAIN_GetCompetitor((struct BtlMain *)scu->context);
     scu->phase = 0;
     scu->quickMode = quickMode;
-    switch (BTL_MAIN_GetRule(scu->context)) {
+    switch (BTL_MAIN_GetRule((struct BtlMain *)scu->context)) {
     case 0:
         switch (battleType) {
         default: case 0: case 4: BTLV_SCU_SetProc(scu, BTLV_SCU_ProcEntrySingleWild); return;
@@ -797,11 +813,11 @@ void BTLV_SCU_StartEntryScene(BtlvScu *scu, u32 quickMode)
         switch (battleType) {
         case 0: BTLV_SCU_SetProc(scu, BTLV_SCU_ProcEntryDoubleWild); return;
         case 3:
-            if (!BTL_MAIN_IsMultiMode(scu->context)) BTLV_SCU_SetProc(scu, BTLV_SCU_ProcEntryDoubleLinkLocal);
+            if (!BTL_MAIN_IsMultiMode((struct BtlMain *)scu->context)) BTLV_SCU_SetProc(scu, BTLV_SCU_ProcEntryDoubleLinkLocal);
             else BTLV_SCU_SetProc(scu, BTLV_SCU_ProcEntryDoubleLinkComm);
             return;
         case 1: case 2:
-            if (!BTL_MAIN_IsMultiMode(scu->context)) BTLV_SCU_SetProc(scu, BTLV_SCU_ProcEntryDoubleTrainerLocal);
+            if (!BTL_MAIN_IsMultiMode((struct BtlMain *)scu->context)) BTLV_SCU_SetProc(scu, BTLV_SCU_ProcEntryDoubleTrainerLocal);
             else BTLV_SCU_SetProc(scu, BTLV_SCU_ProcEntryDoubleTrainerComm);
             return;
         }
@@ -860,8 +876,8 @@ int BTLV_SCU_ProcQuickEntry(BtlvScu *scu, int *state, u8 *sides, u8 count)
         u8 monIdx;
         for (i = 0; i < count; i++) {
             side = sides[i];
-            monIdx = BTL_MAIN_GetSlotFromViewPos(scu->context, side);
-            BTLV_EFFECT_SetPokeSpriteKey(BTL_POKEPARAM_GetDisplayMon(BTL_SIDE_GetPokeAtPos(scu->monTable, monIdx)), side);
+            monIdx = BTL_MAIN_GetSlotFromViewPos((struct BtlMain *)scu->context, side);
+            BTLV_EFFECT_SetPokeSpriteKey(BTL_POKEPARAM_GetDisplayMon((struct BtlPokeParam *)BTL_SIDE_GetPokeAtPos((struct BtlMain **)scu->monTable, monIdx)), side);
             BTLV_SCU_ShowMonSlot(&scu->monSlots[monIdx]);
         }
         *state = *state + 1;
@@ -911,8 +927,8 @@ int BTLV_SCU_ProcEntrySingleWild(int *state, BtlvScu *scu)
     switch (*state) {
     case 0:
         intro->single.side = 1;
-        intro->single.monIdx = BTL_MAIN_GetSlotFromViewPos(scu->context, intro->single.side);
-        intro->single.mon = BTL_SIDE_GetPokeAtPos(scu->monTable, intro->single.monIdx);
+        intro->single.monIdx = BTL_MAIN_GetSlotFromViewPos((struct BtlMain *)scu->context, intro->single.side);
+        intro->single.mon = (struct BtlPokeParam *)BTL_SIDE_GetPokeAtPos((struct BtlMain **)scu->monTable, intro->single.monIdx);
         intro->single.monId = BTL_POKEPARAM_GetPokeId(intro->single.mon);
         BTLV_SCU_StartMsgWinFadeOut(&scu->slide);
         (*state)++;
@@ -941,7 +957,7 @@ int BTLV_SCU_ProcEntrySingleWild(int *state, BtlvScu *scu)
         break;
     case 4:
         if (BTLV_SCU_UpdateMsgWinFade(&scu->slide)) {
-            if (BTL_MAIN_GetCompetitor(scu->context) == 4) BTLV_EFFECT_StartEffect(0x23c);
+            if (BTL_MAIN_GetCompetitor((struct BtlMain *)scu->context) == 4) BTLV_EFFECT_StartEffect(0x23c);
             else BTLV_EFFECT_StartEffect(0x232);
             (*state)++;
         }
@@ -949,8 +965,8 @@ int BTLV_SCU_ProcEntrySingleWild(int *state, BtlvScu *scu)
     case 5:
         if (!BTLV_EFFECT_IsBusy()) {
             intro->single.side = 0;
-            intro->single.monIdx = BTL_MAIN_GetSlotFromViewPos(scu->context, intro->single.side);
-            intro->single.mon = BTL_SIDE_GetPokeAtPos(scu->monTable, intro->single.monIdx);
+            intro->single.monIdx = BTL_MAIN_GetSlotFromViewPos((struct BtlMain *)scu->context, intro->single.side);
+            intro->single.mon = (struct BtlPokeParam *)BTL_SIDE_GetPokeAtPos((struct BtlMain **)scu->monTable, intro->single.monIdx);
             intro->single.monId = BTL_POKEPARAM_GetPokeId(intro->single.mon);
             BTLV_EFFECT_SetPokeSpriteKey(BTL_POKEPARAM_GetDisplayMon(intro->single.mon), intro->single.side);
             BTLV_EFFECT_StartEffect(0x234);
@@ -983,16 +999,16 @@ int BTLV_SCU_ProcEntrySingleWild(int *state, BtlvScu *scu)
 
 int BTLV_SCU_GetEntryMessageId(BtlvScu *scu)
 {
-    if (BTL_MAIN_CheckSetupStatusFlag(scu->context, 4) != 0) {
+    if (BTL_MAIN_CheckSetupStatusFlag((struct BtlMain *)scu->context, 4) != 0) {
         return 6;
     }
-    if (BTL_MAIN_CheckSetupStatusFlag(scu->context, 8) != 0) {
+    if (BTL_MAIN_CheckSetupStatusFlag((struct BtlMain *)scu->context, 8) != 0) {
         return 3;
     }
-    if (BTL_MAIN_CheckSetupStatusFlag(scu->context, 0x80) != 0) {
+    if (BTL_MAIN_CheckSetupStatusFlag((struct BtlMain *)scu->context, 0x80) != 0) {
         return 4;
     }
-    if (BTL_MAIN_CheckSetupStatusFlag(scu->context, 0x10) != 0) {
+    if (BTL_MAIN_CheckSetupStatusFlag((struct BtlMain *)scu->context, 0x10) != 0) {
         return 5;
     }
     return 1;
@@ -1009,13 +1025,13 @@ int BTLV_SCU_ProcEntrySingleTrainer(int *state, BtlvScu *scu)
     if (scu->quickMode) return BTLV_SCU_ProcQuickEntrySingle(scu, state);
     switch (*state) {
     case 0:
-        side = BTL_MAIN_GetSlotFromViewPos(scu->context, 1);
-        trainerIdx = BTL_MAIN_GetSlotClientIdThunk(scu->context, side);
-        BTLV_EFFECT_AddPokeSprite(BTL_MAIN_GetTrainerType(scu->context, trainerIdx), 9, 0, 0, 0);
+        side = BTL_MAIN_GetSlotFromViewPos((struct BtlMain *)scu->context, 1);
+        trainerIdx = BTL_MAIN_GetSlotClientIdThunk((struct BtlMain *)scu->context, side);
+        BTLV_EFFECT_AddPokeSprite(BTL_MAIN_GetTrainerType((struct BtlMain *)scu->context, trainerIdx), 9, 0, 0, 0);
         intro->single.side = 1;
         intro->single.trainerIdx = trainerIdx;
         intro->single.monIdx = side;
-        intro->single.mon = BTL_SIDE_GetPokeAtPos(scu->monTable, intro->single.monIdx);
+        intro->single.mon = (struct BtlPokeParam *)BTL_SIDE_GetPokeAtPos((struct BtlMain **)scu->monTable, intro->single.monIdx);
         intro->single.monId = BTL_POKEPARAM_GetPokeId(intro->single.mon);
         BTLV_SCU_StartMsgWinFadeOut(&scu->slide);
         (*state)++;
@@ -1030,7 +1046,7 @@ int BTLV_SCU_ProcEntrySingleTrainer(int *state, BtlvScu *scu)
     case 2:
         if (!BTLV_EFFECT_IsBusy()) {
             BTLV_SCU_GetBallStates(scu, introArgs, intro->single.trainerIdx, 4, 1);
-            BTLV_EFFECT_CreatePartyBallBar(introArgs);
+            BTLV_EFFECT_CreatePartyBallBar((struct BtlvPartyBallBarParam *)introArgs);
             BTL_MSG_FormatArgs(scu->textBuf, 7, 1, intro->single.trainerIdx);
             BTLV_SCU_StartMessage(scu, scu->textBuf, 0x50, 0);
             (*state)++;
@@ -1061,8 +1077,8 @@ int BTLV_SCU_ProcEntrySingleTrainer(int *state, BtlvScu *scu)
         break;
     case 6:
         if (BTLV_SCU_UpdateMsgWinFade(&scu->slide) && !BTLV_EFFECT_IsBusy()) {
-            BTLV_SCU_GetBallStates(scu, sendOutArgs, BTL_MAIN_GetOwnClientId(scu->context), 4, 0);
-            BTLV_EFFECT_CreatePartyBallBar(sendOutArgs);
+            BTLV_SCU_GetBallStates(scu, sendOutArgs, BTL_MAIN_GetOwnClientId((struct BtlMain *)scu->context), 4, 0);
+            BTLV_EFFECT_CreatePartyBallBar((struct BtlvPartyBallBarParam *)sendOutArgs);
             (*state)++;
         }
         break;
@@ -1074,8 +1090,8 @@ int BTLV_SCU_ProcEntrySingleTrainer(int *state, BtlvScu *scu)
     case 8:
         if (!BTLV_EFFECT_IsBusy() && !BTLV_EFFECT_IsPartyBallBarActive(0)) {
             intro->single.side = 0;
-            intro->single.monIdx = BTL_MAIN_GetSlotFromViewPos(scu->context, intro->single.side);
-            intro->single.mon = BTL_SIDE_GetPokeAtPos(scu->monTable, intro->single.monIdx);
+            intro->single.monIdx = BTL_MAIN_GetSlotFromViewPos((struct BtlMain *)scu->context, intro->single.side);
+            intro->single.mon = (struct BtlPokeParam *)BTL_SIDE_GetPokeAtPos((struct BtlMain **)scu->monTable, intro->single.monIdx);
             intro->single.monId = BTL_POKEPARAM_GetPokeId(intro->single.mon);
             BTLV_EFFECT_SetPokeSpriteKey(BTL_POKEPARAM_GetDisplayMon(intro->single.mon), intro->single.side);
             BTLV_EFFECT_StartEffect(0x234);
@@ -1113,7 +1129,7 @@ int BTLV_SCU_ProcEntrySingleLink(int *state, BtlvScu *scu)
     if (scu->quickMode != 0)
         return BTLV_SCU_ProcQuickEntrySingle(scu, state);
     if (scu->phase < 3) {
-        if (gBtlvScuSingleLinkPhases[scu->phase][BTL_MAIN_GetOwnClientId(scu->context)](scu, state) != 0) {
+        if (gBtlvScuSingleLinkPhases[scu->phase][BTL_MAIN_GetOwnClientId((struct BtlMain *)scu->context)](scu, state) != 0) {
             scu->phase = scu->phase + 1;
             *state = 0;
         }
@@ -1138,26 +1154,26 @@ int BTLV_SCU_ProcEntryDoubleWild(int *state, BtlvScu *scu)
     if (scu->quickMode) return BTLV_SCU_ProcQuickEntryDouble(scu, state);
     switch (*state) {
     case 0:
-        side = BTL_MAIN_GetClientTrainerIndex(scu->context, scu->clientIndex, 0);
-        intro->dbl.monIdx[0] = BTL_MAIN_GetEnemyLanePosFromWork(scu->context, side, 0);
-        intro->dbl.mon[0] = BTL_SIDE_GetPokeAtPos(scu->monTable, intro->dbl.monIdx[0]);
+        side = BTL_MAIN_GetClientTrainerIndex((struct BtlMain *)scu->context, scu->clientIndex, 0);
+        intro->dbl.monIdx[0] = BTL_MAIN_GetEnemyLanePosFromWork((struct BtlMain *)scu->context, side, 0);
+        intro->dbl.mon[0] = (struct BtlPokeParam *)BTL_SIDE_GetPokeAtPos((struct BtlMain **)scu->monTable, intro->dbl.monIdx[0]);
         intro->dbl.monId[0] = BTL_POKEPARAM_GetPokeId(intro->dbl.mon[0]);
-        intro->dbl.monIdx[1] = BTL_MAIN_GetEnemyLanePosFromWork(scu->context, side, 1);
-        intro->dbl.mon[1] = BTL_SIDE_GetPokeAtPos(scu->monTable, intro->dbl.monIdx[1]);
+        intro->dbl.monIdx[1] = BTL_MAIN_GetEnemyLanePosFromWork((struct BtlMain *)scu->context, side, 1);
+        intro->dbl.mon[1] = (struct BtlPokeParam *)BTL_SIDE_GetPokeAtPos((struct BtlMain **)scu->monTable, intro->dbl.monIdx[1]);
         intro->dbl.monId[1] = BTL_POKEPARAM_GetPokeId(intro->dbl.mon[1]);
         BTLV_SCU_StartMsgWinFadeOut(&scu->slide);
         (*state)++;
         break;
     case 1:
         if (BTLV_SCU_UpdateMsgWinFade(&scu->slide)) {
-            side = BTL_MAIN_GetViewPosOfSlot(scu->context, intro->dbl.monIdx[0]);
+            side = BTL_MAIN_GetViewPosOfSlot((struct BtlMain *)scu->context, intro->dbl.monIdx[0]);
             BTLV_EFFECT_SetPokeSpriteKey(BTL_POKEPARAM_GetDisplayMon(intro->dbl.mon[0]), side);
             (*state)++;
         }
         break;
     case 2:
         if (!BTLV_EFFECT_IsBusy()) {
-            side = BTL_MAIN_GetViewPosOfSlot(scu->context, intro->dbl.monIdx[1]);
+            side = BTL_MAIN_GetViewPosOfSlot((struct BtlMain *)scu->context, intro->dbl.monIdx[1]);
             BTLV_EFFECT_SetPokeSpriteKey(BTL_POKEPARAM_GetDisplayMon(intro->dbl.mon[1]), side);
             BTLV_EFFECT_StartEffectOnPoke(side, 0x231);
             BTLV_SCU_StartBrightnessFade(2);
@@ -1189,10 +1205,10 @@ int BTLV_SCU_ProcEntryDoubleWild(int *state, BtlvScu *scu)
         if (!BTLV_EFFECT_IsBusy()) {
             intro->dbl.side[0] = 2;
             intro->dbl.side[1] = 4;
-            intro->dbl.localSide = BTL_MAIN_GetOwnClientId(scu->context);
+            intro->dbl.localSide = BTL_MAIN_GetOwnClientId((struct BtlMain *)scu->context);
             for (i = 0; i < 2; i++) {
-                intro->dbl.monIdx[i] = BTL_MAIN_GetSlotFromViewPos(scu->context, intro->dbl.side[i]);
-                intro->dbl.mon[i] = BTL_SIDE_GetPokeAtPos(scu->monTable, intro->dbl.monIdx[i]);
+                intro->dbl.monIdx[i] = BTL_MAIN_GetSlotFromViewPos((struct BtlMain *)scu->context, intro->dbl.side[i]);
+                intro->dbl.mon[i] = (struct BtlPokeParam *)BTL_SIDE_GetPokeAtPos((struct BtlMain **)scu->monTable, intro->dbl.monIdx[i]);
                 if (intro->dbl.mon[i]) intro->dbl.monId[i] = BTL_POKEPARAM_GetPokeId(intro->dbl.mon[i]);
             }
             BTLV_EFFECT_SetPokeSpriteKey(BTL_POKEPARAM_GetDisplayMon(intro->dbl.mon[0]), intro->dbl.side[0]);
@@ -1268,7 +1284,7 @@ int BTLV_SCU_ProcEntryDoubleLinkLocal(int *state, BtlvScu *scu)
     if (scu->quickMode != 0)
         return BTLV_SCU_ProcQuickEntryDouble(scu, state);
     if (scu->phase < 3) {
-        if (gBtlvScuDoubleLinkLocalPhases[scu->phase][BTL_MAIN_GetOwnClientId(scu->context)](scu, state) != 0) {
+        if (gBtlvScuDoubleLinkLocalPhases[scu->phase][BTL_MAIN_GetOwnClientId((struct BtlMain *)scu->context)](scu, state) != 0) {
             scu->phase = scu->phase + 1;
             *state = 0;
         }
@@ -1329,7 +1345,7 @@ int BTLV_SCU_ProcEntryTripleLink(int *state, BtlvScu *scu)
     if (scu->quickMode != 0)
         return BTLV_SCU_ProcQuickEntryTriple(scu, state);
     if (scu->phase < 3) {
-        if (gBtlvScuEntryTripleLinkPhases[scu->phase][BTL_MAIN_GetOwnClientId(scu->context)](scu, state) != 0) {
+        if (gBtlvScuEntryTripleLinkPhases[scu->phase][BTL_MAIN_GetOwnClientId((struct BtlMain *)scu->context)](scu, state) != 0) {
             scu->phase = scu->phase + 1;
             *state = 0;
         }
@@ -1343,7 +1359,7 @@ int BTLV_SCU_ProcEntryTripleLink(int *state, BtlvScu *scu)
 /* Trainer intro against the first opponent client (single trainer). */
 int BTLV_SCU_PhaseTrainerIntro(BtlvScu *scu, int *state)
 {
-    return BTLV_SCU_RunTrainerIntroOne(scu, state, BTL_MAIN_GetOwnOpponentClient(scu->context, 0));
+    return BTLV_SCU_RunTrainerIntroOne(scu, state, BTL_MAIN_GetOwnOpponentClient((struct BtlMain *)scu->context, 0));
 }
 
 
@@ -1351,8 +1367,8 @@ int BTLV_SCU_PhaseTrainerIntro(BtlvScu *scu, int *state)
 /* Trainer intro against two opponent clients, or one when both are the same client. */
 int BTLV_SCU_PhaseTrainerIntroComm(BtlvScu *scu, int *state)
 {
-    u8 clientA = BTL_MAIN_GetOwnOpponentClient(scu->context, 0);
-    u8 clientB = BTL_MAIN_GetOwnOpponentClient(scu->context, 1);
+    u8 clientA = BTL_MAIN_GetOwnOpponentClient((struct BtlMain *)scu->context, 0);
+    u8 clientB = BTL_MAIN_GetOwnOpponentClient((struct BtlMain *)scu->context, 1);
     if (clientA != clientB)
         return BTLV_SCU_RunTrainerIntroTwo(scu, state, clientA, clientB);
     return BTLV_SCU_RunTrainerIntroOne(scu, state, clientA);
@@ -1368,7 +1384,7 @@ int BTLV_SCU_RunTrainerIntroOne(BtlvScu *scu, int *state, u16 trainerClient)
     switch (*state) {
     case 0:
         st->trainers.side[1] = 9;
-        BTLV_EFFECT_AddPokeSprite(BTL_MAIN_GetTrainerType(scu->context, trainerClient), st->trainers.side[1], 0, 0, 0);
+        BTLV_EFFECT_AddPokeSprite(BTL_MAIN_GetTrainerType((struct BtlMain *)scu->context, trainerClient), st->trainers.side[1], 0, 0, 0);
         BTLV_SCU_StartMsgWinFadeOut(&scu->slide);
         (*state)++;
         break;
@@ -1381,10 +1397,10 @@ int BTLV_SCU_RunTrainerIntroOne(BtlvScu *scu, int *state, u16 trainerClient)
         break;
     case 2:
         if (!BTLV_EFFECT_IsBusy()) {
-            if (BTL_MAIN_GetCompetitor(scu->context) != 3) msgId = 7;
+            if (BTL_MAIN_GetCompetitor((struct BtlMain *)scu->context) != 3) msgId = 7;
             else msgId = 8;
             BTLV_SCU_GetBallStates(scu, ballStates, trainerClient, 4, 1);
-            BTLV_EFFECT_CreatePartyBallBar(ballStates);
+            BTLV_EFFECT_CreatePartyBallBar((struct BtlvPartyBallBarParam *)ballStates);
             BTL_MSG_FormatArgs(scu->textBuf, (u16)msgId, 1, trainerClient);
             BTLV_SCU_StartMessage(scu, scu->textBuf, 0x50, 0);
             (*state)++;
@@ -1415,8 +1431,8 @@ int BTLV_SCU_RunTrainerIntroTwo(BtlvScu *scu, int *state, u16 trainerClientA, u1
     case 0:
         st->trainers.side[0] = 11;
         st->trainers.side[1] = 13;
-        BTLV_EFFECT_AddPokeSprite(BTL_MAIN_GetTrainerType(scu->context, trainerClientA), st->trainers.side[0], 0, 0, 0);
-        BTLV_EFFECT_AddPokeSprite(BTL_MAIN_GetTrainerType(scu->context, trainerClientB), st->trainers.side[1], 0, 0, 0);
+        BTLV_EFFECT_AddPokeSprite(BTL_MAIN_GetTrainerType((struct BtlMain *)scu->context, trainerClientA), st->trainers.side[0], 0, 0, 0);
+        BTLV_EFFECT_AddPokeSprite(BTL_MAIN_GetTrainerType((struct BtlMain *)scu->context, trainerClientB), st->trainers.side[1], 0, 0, 0);
         BTLV_SCU_StartMsgWinFadeOut(&scu->slide);
         (*state)++;
         break;
@@ -1429,10 +1445,10 @@ int BTLV_SCU_RunTrainerIntroTwo(BtlvScu *scu, int *state, u16 trainerClientA, u1
         break;
     case 2:
         if (!BTLV_EFFECT_IsBusy()) {
-            if (BTL_MAIN_GetCompetitor(scu->context) != 3) msgId = 9;
+            if (BTL_MAIN_GetCompetitor((struct BtlMain *)scu->context) != 3) msgId = 9;
             else msgId = 10;
             BTLV_SCU_GetBallStates(scu, ballStates, trainerClientA, trainerClientB, 1);
-            BTLV_EFFECT_CreatePartyBallBar(ballStates);
+            BTLV_EFFECT_CreatePartyBallBar((struct BtlvPartyBallBarParam *)ballStates);
             BTL_MSG_FormatArgs(scu->textBuf, (u16)msgId, 2, trainerClientA, trainerClientB);
             BTLV_SCU_StartMessage(scu, scu->textBuf, 0x50, 0);
             (*state)++;
@@ -1461,9 +1477,9 @@ int BTLV_SCU_PhaseOpponentSendOutSingle(BtlvScu *scu, int *state)
     switch (*state) {
     case 0:
         st->single.side = 1;
-        st->single.opponentClient = BTL_MAIN_GetOpponentClient(scu->context, BTL_MAIN_GetOwnClientId(scu->context), 0);
-        st->single.monIdx = BTL_MAIN_GetSlotFromViewPos(scu->context, st->single.side);
-        st->single.mon = BTL_SIDE_GetPokeAtPos(scu->monTable, st->single.monIdx);
+        st->single.opponentClient = BTL_MAIN_GetOpponentClient((struct BtlMain *)scu->context, BTL_MAIN_GetOwnClientId((struct BtlMain *)scu->context), 0);
+        st->single.monIdx = BTL_MAIN_GetSlotFromViewPos((struct BtlMain *)scu->context, st->single.side);
+        st->single.mon = (struct BtlPokeParam *)BTL_SIDE_GetPokeAtPos((struct BtlMain **)scu->monTable, st->single.monIdx);
         st->single.monId = BTL_POKEPARAM_GetPokeId(st->single.mon);
         BTL_MSG_FormatArgs(scu->textBuf, BTLV_SCU_GetSendOutMessageId(scu, 1), 2, st->single.opponentClient, st->single.monId);
         BTLV_SCU_StartMessage(scu, scu->textBuf, 0x50, 0);
@@ -1498,8 +1514,8 @@ int BTLV_SCU_PhaseOpponentSendOutSingle(BtlvScu *scu, int *state)
 /* Opponent sends out two monsters: one trainer, or two when the opponent clients differ. */
 int BTLV_SCU_PhaseOpponentSendOutDouble(BtlvScu *scu, int *state)
 {
-    u8 clientA = BTL_MAIN_GetOwnOpponentClient(scu->context, 0);
-    u8 clientB = BTL_MAIN_GetOwnOpponentClient(scu->context, 1);
+    u8 clientA = BTL_MAIN_GetOwnOpponentClient((struct BtlMain *)scu->context, 0);
+    u8 clientB = BTL_MAIN_GetOwnOpponentClient((struct BtlMain *)scu->context, 1);
     if (clientA != clientB)
         return BTLV_SCU_RunOpponentSendOutDoubleTwoTrainers(scu, state, clientA, clientB);
     return BTLV_SCU_RunOpponentSendOutDoubleOneTrainer(scu, state, clientA);
@@ -1518,8 +1534,8 @@ int BTLV_SCU_RunOpponentSendOutDoubleOneTrainer(BtlvScu *scu, int *state, u8 tra
         st->pair.clientId = trainerClient;
         st->pair.aliveCount = 0;
         for (i = 0; i < 2; i++) {
-            st->pair.monIdx[i] = BTL_MAIN_GetSlotFromViewPos(scu->context, st->pair.side[i]);
-            st->pair.mon[i] = BTL_SIDE_GetPokeAtPos(scu->monTable, st->pair.monIdx[i]);
+            st->pair.monIdx[i] = BTL_MAIN_GetSlotFromViewPos((struct BtlMain *)scu->context, st->pair.side[i]);
+            st->pair.mon[i] = (struct BtlPokeParam *)BTL_SIDE_GetPokeAtPos((struct BtlMain **)scu->monTable, st->pair.monIdx[i]);
             st->pair.monId[i] = BTL_POKEPARAM_GetPokeId(st->pair.mon[i]);
             if (!BTL_POKEPARAM_IsFainted(st->pair.mon[i])) st->pair.aliveCount++;
         }
@@ -1564,12 +1580,12 @@ int BTLV_SCU_RunOpponentSendOutDoubleTwoTrainers(BtlvScu *scu, int *state, u16 c
     switch (*state) {
     case 0:
         st->pair.side[0] = 3;
-        st->pair.monIdx[0] = BTL_MAIN_GetSlotFromViewPos(scu->context, st->pair.side[0]);
-        st->pair.mon[0] = BTL_SIDE_GetPokeAtPos(scu->monTable, st->pair.monIdx[0]);
+        st->pair.monIdx[0] = BTL_MAIN_GetSlotFromViewPos((struct BtlMain *)scu->context, st->pair.side[0]);
+        st->pair.mon[0] = (struct BtlPokeParam *)BTL_SIDE_GetPokeAtPos((struct BtlMain **)scu->monTable, st->pair.monIdx[0]);
         st->pair.monId[0] = BTL_POKEPARAM_GetPokeId(st->pair.mon[0]);
         st->pair.side[1] = 5;
-        st->pair.monIdx[1] = BTL_MAIN_GetSlotFromViewPos(scu->context, st->pair.side[1]);
-        st->pair.mon[1] = BTL_SIDE_GetPokeAtPos(scu->monTable, st->pair.monIdx[1]);
+        st->pair.monIdx[1] = BTL_MAIN_GetSlotFromViewPos((struct BtlMain *)scu->context, st->pair.side[1]);
+        st->pair.mon[1] = (struct BtlPokeParam *)BTL_SIDE_GetPokeAtPos((struct BtlMain **)scu->monTable, st->pair.monIdx[1]);
         st->pair.monId[1] = BTL_POKEPARAM_GetPokeId(st->pair.mon[1]);
         BTL_MSG_FormatArgs(scu->textBuf, BTLV_SCU_GetSendOutMessageId(scu, 1), 2, clientA, st->pair.monId[0]);
         BTLV_SCU_StartMessage(scu, scu->textBuf, 0x50, 0);
@@ -1624,10 +1640,10 @@ int BTLV_SCU_PhaseOpponentSendOutTriple(BtlvScu *scu, int *state)
         st->triple.side[1] = 5;
         st->triple.side[2] = 7;
         st->triple.aliveCount = 0;
-        st->triple.clientId = BTL_MAIN_GetOpponentClient(scu->context, BTL_MAIN_GetOwnClientId(scu->context), 0);
+        st->triple.clientId = BTL_MAIN_GetOpponentClient((struct BtlMain *)scu->context, BTL_MAIN_GetOwnClientId((struct BtlMain *)scu->context), 0);
         for (i = 0; i < 3; i++) {
-            st->triple.monIdx[i] = BTL_MAIN_GetSlotFromViewPos(scu->context, st->triple.side[i]);
-            st->triple.mon[i] = BTL_SIDE_GetPokeAtPos(scu->monTable, st->triple.monIdx[i]);
+            st->triple.monIdx[i] = BTL_MAIN_GetSlotFromViewPos((struct BtlMain *)scu->context, st->triple.side[i]);
+            st->triple.mon[i] = (struct BtlPokeParam *)BTL_SIDE_GetPokeAtPos((struct BtlMain **)scu->monTable, st->triple.monIdx[i]);
             st->triple.monId[i] = BTL_POKEPARAM_GetPokeId(st->triple.mon[i]);
             if (!BTL_POKEPARAM_IsFainted(st->triple.mon[i])) st->triple.aliveCount++;
         }
@@ -1672,9 +1688,9 @@ int BTLV_SCU_PhaseOwnSendOutSingle(BtlvScu *scu, int *state)
     u32 ballStates[7];
     switch (*state) {
     case 0:
-        st->single.trainerIdx = BTL_MAIN_GetOwnClientId(scu->context);
+        st->single.trainerIdx = BTL_MAIN_GetOwnClientId((struct BtlMain *)scu->context);
         BTLV_SCU_GetBallStates(scu, ballStates, st->single.trainerIdx, 4, 0);
-        BTLV_EFFECT_CreatePartyBallBar(ballStates);
+        BTLV_EFFECT_CreatePartyBallBar((struct BtlvPartyBallBarParam *)ballStates);
         (*state)++;
         break;
     case 1:
@@ -1686,9 +1702,9 @@ int BTLV_SCU_PhaseOwnSendOutSingle(BtlvScu *scu, int *state)
     case 2:
         if (!BTLV_EFFECT_IsBusy() && !BTLV_EFFECT_IsPartyBallBarActive(0)) {
             st->single.side = 0;
-            st->single.trainerIdx = BTL_MAIN_GetOwnClientId(scu->context);
-            st->single.monIdx = BTL_MAIN_GetSlotFromViewPos(scu->context, st->single.side);
-            st->single.mon = BTL_SIDE_GetPokeAtPos(scu->monTable, st->single.monIdx);
+            st->single.trainerIdx = BTL_MAIN_GetOwnClientId((struct BtlMain *)scu->context);
+            st->single.monIdx = BTL_MAIN_GetSlotFromViewPos((struct BtlMain *)scu->context, st->single.side);
+            st->single.mon = (struct BtlPokeParam *)BTL_SIDE_GetPokeAtPos((struct BtlMain **)scu->monTable, st->single.monIdx);
             st->single.monId = BTL_POKEPARAM_GetPokeId(st->single.mon);
             BTLV_EFFECT_SetPokeSpriteKey(BTL_POKEPARAM_GetDisplayMon(st->single.mon), st->single.side);
             BTLV_EFFECT_StartEffect(0x234);
@@ -1721,8 +1737,8 @@ int BTLV_SCU_PhaseOwnSendOutSingle(BtlvScu *scu, int *state)
 /* Own side sends out two monsters: alone, or with a partner client when one exists. */
 int BTLV_SCU_PhaseOwnSendOutDouble(BtlvScu *scu, int *state)
 {
-    u8 ownClient = BTL_MAIN_GetOwnClientId(scu->context);
-    u8 partnerClient = BTL_MAIN_GetOwnPartnerClient(scu->context);
+    u8 ownClient = BTL_MAIN_GetOwnClientId((struct BtlMain *)scu->context);
+    u8 partnerClient = BTL_MAIN_GetOwnPartnerClient((struct BtlMain *)scu->context);
     if (partnerClient == 4)
         return BTLV_SCU_RunOwnSendOutDoubleSolo(scu, state, ownClient);
     return BTLV_SCU_RunOwnSendOutDoublePartner(scu, state, ownClient, partnerClient);
@@ -1743,7 +1759,7 @@ int BTLV_SCU_RunOwnSendOutDoubleSolo(BtlvScu *scu, int *state, u8 ownClient)
     case 0:
         st->pair.clientId = ownClient;
         BTLV_SCU_GetBallStates(scu, ballStates, st->pair.clientId, 4, 0);
-        BTLV_EFFECT_CreatePartyBallBar(ballStates);
+        BTLV_EFFECT_CreatePartyBallBar((struct BtlvPartyBallBarParam *)ballStates);
         (*state)++;
         break;
     case 1:
@@ -1757,10 +1773,10 @@ int BTLV_SCU_RunOwnSendOutDoubleSolo(BtlvScu *scu, int *state, u8 ownClient)
             st->pair.side[0] = 2;
             st->pair.side[1] = 4;
             st->pair.aliveCount = 0;
-            st->pair.clientId = BTL_MAIN_GetOwnClientId(scu->context);
+            st->pair.clientId = BTL_MAIN_GetOwnClientId((struct BtlMain *)scu->context);
             for (i = 0; i < 2U; i++) {
-                st->pair.monIdx[i] = BTL_MAIN_GetSlotFromViewPos(scu->context, st->pair.side[i]);
-                st->pair.mon[i] = BTL_SIDE_GetPokeAtPos(scu->monTable, st->pair.monIdx[i]);
+                st->pair.monIdx[i] = BTL_MAIN_GetSlotFromViewPos((struct BtlMain *)scu->context, st->pair.side[i]);
+                st->pair.mon[i] = (struct BtlPokeParam *)BTL_SIDE_GetPokeAtPos((struct BtlMain **)scu->monTable, st->pair.monIdx[i]);
                 if (st->pair.mon[i]) {
                     st->pair.monId[i] = BTL_POKEPARAM_GetPokeId(st->pair.mon[i]);
                     if (!BTL_POKEPARAM_IsFainted(st->pair.mon[i])) st->pair.aliveCount++;
@@ -1808,7 +1824,7 @@ int BTLV_SCU_RunOwnSendOutDoublePartner(BtlvScu *scu, int *state, u32 ownClient,
     case 0:
         if (ownClient < partnerClient) BTLV_SCU_GetBallStates(scu, ballStates, ownClient, partnerClient, 0);
         else BTLV_SCU_GetBallStates(scu, ballStates, partnerClient, ownClient, 0);
-        BTLV_EFFECT_CreatePartyBallBar(ballStates);
+        BTLV_EFFECT_CreatePartyBallBar((struct BtlvPartyBallBarParam *)ballStates);
         (*state)++;
         break;
     case 1:
@@ -1821,14 +1837,14 @@ int BTLV_SCU_RunOwnSendOutDoublePartner(BtlvScu *scu, int *state, u32 ownClient,
         if (!BTLV_EFFECT_IsBusy() && !BTLV_EFFECT_IsPartyBallBarActive(0)) {
             st->pair.side[0] = 2;
             st->pair.side[1] = 4;
-            st->pair.clientId = BTL_MAIN_GetOwnClientId(scu->context);
-            partnerMonIdx = BTL_MAIN_IsOwnClientSecondTeam(scu->context) ^ 1;
+            st->pair.clientId = BTL_MAIN_GetOwnClientId((struct BtlMain *)scu->context);
+            partnerMonIdx = BTL_MAIN_IsOwnClientSecondTeam((struct BtlMain *)scu->context) ^ 1;
             for (i = 0; i < 2U; i++) {
-                st->pair.monIdx[i] = BTL_MAIN_GetSlotFromViewPos(scu->context, st->pair.side[i]);
-                st->pair.mon[i] = BTL_SIDE_GetPokeAtPos(scu->monTable, st->pair.monIdx[i]);
+                st->pair.monIdx[i] = BTL_MAIN_GetSlotFromViewPos((struct BtlMain *)scu->context, st->pair.side[i]);
+                st->pair.mon[i] = (struct BtlPokeParam *)BTL_SIDE_GetPokeAtPos((struct BtlMain **)scu->monTable, st->pair.monIdx[i]);
                 st->pair.monId[i] = BTL_POKEPARAM_GetPokeId(st->pair.mon[i]);
             }
-            msgId = BTL_MAIN_IsTrainerSlotNpc(scu->context, partnerClient) ? 14 : 17;
+            msgId = BTL_MAIN_IsTrainerSlotNpc((struct BtlMain *)scu->context, partnerClient) ? 14 : 17;
             BTL_MSG_FormatArgs(scu->textBuf, (u16)msgId, 2, partnerClient, st->pair.monId[partnerMonIdx]);
             BTLV_SCU_StartMessage(scu, scu->textBuf, 0x50, 0);
             (*state)++;
@@ -1843,7 +1859,7 @@ int BTLV_SCU_RunOwnSendOutDoublePartner(BtlvScu *scu, int *state, u32 ownClient,
         break;
     case 4:
         if (BTLV_SCU_UpdateMsgWinFade(&scu->slide)) {
-            ownMonIdx = BTL_MAIN_IsOwnClientSecondTeam(scu->context);
+            ownMonIdx = BTL_MAIN_IsOwnClientSecondTeam((struct BtlMain *)scu->context);
             BTLV_EFFECT_SetPokeSpriteKey(BTL_POKEPARAM_GetDisplayMon(st->pair.mon[0]), st->pair.side[0]);
             BTLV_EFFECT_SetPokeSpriteKey(BTL_POKEPARAM_GetDisplayMon(st->pair.mon[1]), st->pair.side[1]);
             BTLV_EFFECT_StartEffect(0x234);
@@ -1880,9 +1896,9 @@ int BTLV_SCU_PhaseOwnSendOutTriple(BtlvScu *scu, int *state)
     u16 msgId;
     switch (*state) {
     case 0:
-        st->triple.clientId = BTL_MAIN_GetOwnClientId(scu->context);
+        st->triple.clientId = BTL_MAIN_GetOwnClientId((struct BtlMain *)scu->context);
         BTLV_SCU_GetBallStates(scu, ballStates, st->triple.clientId, 4, 0);
-        BTLV_EFFECT_CreatePartyBallBar(ballStates);
+        BTLV_EFFECT_CreatePartyBallBar((struct BtlvPartyBallBarParam *)ballStates);
         (*state)++;
         break;
     case 1:
@@ -1897,10 +1913,10 @@ int BTLV_SCU_PhaseOwnSendOutTriple(BtlvScu *scu, int *state)
             st->triple.side[1] = 4;
             st->triple.side[2] = 6;
             st->triple.aliveCount = 0;
-            st->triple.clientId = BTL_MAIN_GetOwnClientId(scu->context);
+            st->triple.clientId = BTL_MAIN_GetOwnClientId((struct BtlMain *)scu->context);
             for (i = 0; i < 3U; i++) {
-                st->triple.monIdx[i] = BTL_MAIN_GetSlotFromViewPos(scu->context, st->triple.side[i]);
-                st->triple.mon[i] = BTL_SIDE_GetPokeAtPos(scu->monTable, st->triple.monIdx[i]);
+                st->triple.monIdx[i] = BTL_MAIN_GetSlotFromViewPos((struct BtlMain *)scu->context, st->triple.side[i]);
+                st->triple.mon[i] = (struct BtlPokeParam *)BTL_SIDE_GetPokeAtPos((struct BtlMain **)scu->monTable, st->triple.monIdx[i]);
                 st->triple.monId[i] = BTL_POKEPARAM_GetPokeId(st->triple.mon[i]);
                 if (!BTL_POKEPARAM_IsFainted(st->triple.mon[i])) st->triple.aliveCount++;
             }
@@ -1947,7 +1963,7 @@ u16 BTLV_SCU_GetSendOutMessageId(BtlvScu *scu, int monCount)
 {
     int r;
 
-    switch (BTL_MAIN_GetCompetitor(scu->context)) {
+    switch (BTL_MAIN_GetCompetitor((struct BtlMain *)scu->context)) {
     case 0:
     default:
         r = 1;
@@ -2000,9 +2016,9 @@ u16 BTLV_SCU_GetSendOutMessageId(BtlvScu *scu, int monCount)
 /* Prints a message into the message window at once. */
 void BTLV_SCU_PrintMessageInstant(BtlvScu *scu, struct MsgBuf *str)
 {
-    BMP_Clear(scu->msgWinChars, 0xc);
+    BMP_Clear((struct Bmp *)scu->msgWinChars, 0xc);
     GF_FONT_SetTextColor(1, 9, 0xc);
-    PRINTSYS_Print(scu->msgWinChars, 0, 0, str, scu->fontMain);
+    PRINTSYS_Print((struct Bmp *)scu->msgWinChars, 0, 0, (struct Strbuf *)str, scu->fontMain);
     BMP_WIN_TransferChars(scu->msgWin);
     scu->msgStep = 0;
     scu->msgWait = 0;
@@ -2019,14 +2035,14 @@ void BTLV_SCU_StartMessage(BtlvScu *scu, struct MsgBuf *str, u16 wait, u32 callb
 {
     struct PrintStream *stream;
 
-    BMP_Clear(scu->msgWinChars, 0xc);
+    BMP_Clear((struct Bmp *)scu->msgWinChars, 0xc);
     GF_FONT_SetTextColor(1, 9, 0xc);
     stream = PRINTSYS_PrintStreamCallBack(scu->msgWin, 0, 0, str, scu->fontMain,
-                      BTL_MAIN_GetTextSpeedFrames(scu->context),
+                      BTL_MAIN_GetTextSpeedFrames((struct BtlMain *)scu->context),
                       scu->taskSys, 0,
                       scu->heapId, 0xc, callback);
     scu->msgStream = stream;
-    PRINTSYS_PrintStreamStop(stream);
+    PRINTSYS_PrintStreamStop((struct TextPrinter *)stream);
     scu->msgStep = 0;
     scu->msgKeepText = 0;
     if (wait == 0xff) {
@@ -2071,22 +2087,22 @@ int BTLV_SCU_UpdateMessage(BtlvScu *scu)
             break;
         }
         if (scu->msgStream != 0)
-            PRINTSYS_PrintStreamRun(scu->msgStream);
+            PRINTSYS_PrintStreamRun((struct TextPrinter *)scu->msgStream);
         scu->msgStep = scu->msgStep + 1;
     case 2:
         if (scu->msgStream != 0) {
-            if (BTL_MAIN_GetCommPos(scu->context) == 0) {
+            if (BTL_MAIN_GetCommPos((struct BtlMain *)scu->context) == 0) {
                 if ((KEY_GetCont() & 3) != 0 || TOUCHPANEL_GetCont() != 0) {
-                    if (PRINTSYS_PrintStreamIsOverrideSpeed(scu->msgStream) == 0)
-                        PRINTSYS_PrintStreamSetSpeed(scu->msgStream, MSG_SPEED_GetWaitForSpeed(2));
+                    if (PRINTSYS_PrintStreamIsOverrideSpeed((struct TextPrinter *)scu->msgStream) == 0)
+                        PRINTSYS_PrintStreamSetSpeed((struct TextPrinter *)scu->msgStream, MSG_SPEED_GetWaitForSpeed(2));
                 } else {
-                    if (PRINTSYS_PrintStreamIsOverrideSpeed(scu->msgStream) != 0)
-                        PRINTSYS_PrintStreamResetSpeed(scu->msgStream);
+                    if (PRINTSYS_PrintStreamIsOverrideSpeed((struct TextPrinter *)scu->msgStream) != 0)
+                        PRINTSYS_PrintStreamResetSpeed((struct TextPrinter *)scu->msgStream);
                 }
             }
-            scu->msgStreamState = PRINTSYS_PrintStreamGetState(scu->msgStream);
+            scu->msgStreamState = PRINTSYS_PrintStreamGetState((struct TextPrinter *)scu->msgStream);
             if (scu->msgStreamState != 0) {
-                if (BTL_MAIN_GetCommPos(scu->context) == 0)
+                if (BTL_MAIN_GetCommPos((struct BtlMain *)scu->context) == 0)
                     scu->msgStep = 3;
                 else
                     scu->msgStep = 4;
@@ -2118,12 +2134,12 @@ int BTLV_SCU_UpdateMessage(BtlvScu *scu)
     case 5:
         if (scu->msgStreamState == 2) {
             GF_FONT_SetDefaultTextColor();
-            PRINTSYS_PrintStreamDelete(scu->msgStream);
+            PRINTSYS_PrintStreamDelete((struct TextPrinter *)scu->msgStream);
             scu->msgStream = 0;
             scu->msgStep = 6;
             break;
         }
-        PRINTSYS_PrintStreamReleasePause(scu->msgStream);
+        PRINTSYS_PrintStreamReleasePause((struct TextPrinter *)scu->msgStream);
         GFL_USE_PlaySeDefaultVolume(BTLV_SCU_SE_MSG_ADVANCE);
         scu->msgStep = 2;
         scu->msgWait = scu->msgWaitReload;
@@ -2172,7 +2188,7 @@ int BTLV_SCU_ProcWazaEffect(int *state, BtlvScu *scu)
         break;
     case 1:
         if (BTLV_SCU_UpdateMsgWinFade(&scu->slide) != 0) {
-            BTLV_EFFECT_StartEffectWithRequest(&scu->intro.waza);
+            BTLV_EFFECT_StartEffectWithRequest((struct BtlvEffScriptRequest *)(&scu->intro.waza));
             goto next;
         }
         break;
@@ -2220,8 +2236,8 @@ void BTLV_SCU_StartMonDamageAnim(BtlvScu *scu, u8 slotIdx, u16 motionId, int ins
 {
     int value;
     u32 viewPos;
-    value = BTL_POKEPARAM_GetValue(BTL_SIDE_GetPokeAtPos(scu->monTable, slotIdx), 0xd);
-    viewPos = BTL_MAIN_GetViewPosOfSlot(scu->context, slotIdx);
+    value = BTL_POKEPARAM_GetValue((struct BtlPokeParam *)BTL_SIDE_GetPokeAtPos((struct BtlMain **)scu->monTable, slotIdx), 0xd);
+    viewPos = BTL_MAIN_GetViewPosOfSlot((struct BtlMain *)scu->context, slotIdx);
     if (instant == 0) {
         BTLV_EFFECT_GaugeStartHpChangeAnimated(viewPos, value);
         BTLV_EFFECT_StartDamageTintTask(viewPos, motionId);
@@ -2246,7 +2262,7 @@ int BTLV_SCU_IsMonDamageAnimDone(void)
 /* Starts a motion on the monster of a slot. */
 void BTLV_SCU_StartMonMotion(BtlvScu *scu, u8 slotIdx, u32 motionId)
 {
-    BTLV_EFFECT_StartDamageTintTask(BTL_MAIN_GetViewPosOfSlot(scu->context, slotIdx), motionId);
+    BTLV_EFFECT_StartDamageTintTask(BTL_MAIN_GetViewPosOfSlot((struct BtlMain *)scu->context, slotIdx), motionId);
 }
 
 
@@ -2264,7 +2280,7 @@ int BTLV_SCU_IsMonMotionDone(BtlvScu *scu)
 /* Hides the sprite of a slot and starts its exit motion (flag selects the variant). */
 void BTLV_SCU_StartMonExit(BtlvScu *scu, int slotIdx, u32 flag)
 {
-    u8 viewPos = BTL_MAIN_GetViewPosOfSlot(scu->context, slotIdx);
+    u8 viewPos = BTL_MAIN_GetViewPosOfSlot((struct BtlMain *)scu->context, slotIdx);
     BTLV_EFFECT_GaugeDeleteSlot(viewPos);
     if (flag == 0)
         BTLV_EFFECT_StartPokeAppearEffect(viewPos);
@@ -2287,8 +2303,8 @@ int BTLV_SCU_IsMonExitDone(void)
 /* Loads the sprite of the monster in a slot and shows the slot. */
 void BTLV_SCU_LoadAndShowMon(BtlvScu *scu, u8 slotIdx)
 {
-    u8 viewPos = BTL_MAIN_GetViewPosOfSlot(scu->context, slotIdx);
-    BTLV_EFFECT_SetPokeSpriteKey(BTL_POKEPARAM_GetDisplayMon(BTL_SIDE_GetPokeAtPos(scu->monTable, slotIdx)), viewPos);
+    u8 viewPos = BTL_MAIN_GetViewPosOfSlot((struct BtlMain *)scu->context, slotIdx);
+    BTLV_EFFECT_SetPokeSpriteKey(BTL_POKEPARAM_GetDisplayMon((struct BtlPokeParam *)BTL_SIDE_GetPokeAtPos((struct BtlMain **)scu->monTable, slotIdx)), viewPos);
     BTLV_SCU_ShowMonSlot(&scu->monSlots[slotIdx]);
 }
 
@@ -2373,8 +2389,8 @@ void BTLV_SCU_StartMonSendOut(BtlvScu *scu, u8 slotIdx, int clientId, u8 partyId
     work->counter = &scu->sendOutTaskCount;
     work->step = 0;
     (*work->counter)++;
-    mon = BTL_SIDE_GetClientPoke(scu->monTable, clientId, partyIdx);
-    viewPos = BTL_MAIN_GetViewPosOfSlot(scu->context, slotIdx);
+    mon = BTL_SIDE_GetClientPoke((struct BtlSide *)scu->monTable, clientId, partyIdx);
+    viewPos = BTL_MAIN_GetViewPosOfSlot((struct BtlMain *)scu->context, slotIdx);
     BTLV_EFFECT_SetPokeSpriteKey(BTL_POKEPARAM_GetDisplayMon(mon), viewPos);
     if (quiet == 0)
         BTLV_EFFECT_StartEffectOnPoke(viewPos, BTLV_SCU_EFFECT_SEND_OUT);
@@ -2410,8 +2426,8 @@ void BTLV_SCU_TaskMonSendOut(void *task, void *workPtr)
 /* Starts the HP gauge update of a slot (animated unless instant). */
 void BTLV_SCU_StartHpGaugeUpdate(BtlvScu *scu, u8 slotIdx, int instant)
 {
-    int value = BTL_POKEPARAM_GetValue(BTL_SIDE_GetPokeAtPos(scu->monTable, slotIdx), 0xd);
-    u8 viewPos = BTL_MAIN_GetViewPosOfSlot(scu->context, slotIdx);
+    int value = BTL_POKEPARAM_GetValue((struct BtlPokeParam *)BTL_SIDE_GetPokeAtPos((struct BtlMain **)scu->monTable, slotIdx), 0xd);
+    u8 viewPos = BTL_MAIN_GetViewPosOfSlot((struct BtlMain *)scu->context, slotIdx);
     if (instant != 0)
         BTLV_EFFECT_GaugeStartHpChangeInstant(viewPos, value);
     else
@@ -2471,7 +2487,7 @@ int BTLV_SCU_ShowMon(BtlvScu *scu, int slotIdx)
 
 
 /* Starts the cue effect at a view position. */
-void BTLV_SCU_StartPosCueEffect(int unused, int viewPos)
+void BTLV_SCU_StartPosCueEffect(struct BtlvScu *unused, int viewPos)
 {
     BTLV_EFFECT_StartEffectOnPoke(viewPos, BTLV_SCU_EFFECT_POS_CUE);
 }
@@ -2497,7 +2513,7 @@ void BTLV_SCU_StartMonFormChange(BtlvScu *scu, u8 slotIdx, u32 flag)
         work->scu = scu;
         work->slotIdx = slotIdx;
         work->flag = flag;
-        work->viewPos = BTL_MAIN_GetViewPosOfSlot(scu->context, slotIdx);
+        work->viewPos = BTL_MAIN_GetViewPosOfSlot((struct BtlMain *)scu->context, slotIdx);
         work->counter = &scu->monTaskCount;
         work->step = 0;
         (*work->counter)++;
@@ -2518,7 +2534,7 @@ void BTLV_SCU_TaskMonFormChange(void *task, void *workPtr)
     void *mon;
     switch (work->step) {
     case 0:
-        mon = BTL_POKEPARAM_GetMon(BTL_SIDE_GetPokeAtPos(work->scu->monTable, work->slotIdx));
+        mon = BTL_POKEPARAM_GetMon((struct BtlPokeParam *)BTL_SIDE_GetPokeAtPos((struct BtlMain **)work->scu->monTable, work->slotIdx));
         if (work->flag == 0)
             BTLV_EFFECT_StartHitTask(mon, work->viewPos);
         else
@@ -2528,8 +2544,8 @@ void BTLV_SCU_TaskMonFormChange(void *task, void *workPtr)
         break;
     case 1:
         if (BTLV_EFFECT_IsBusy() == 0) {
-            BTLV_EFFECT_GaugeInitSlotFromBattlePoke(work->scu->context,
-                          BTL_SIDE_GetPokeAtPos(work->scu->monTable, work->slotIdx), work->viewPos);
+            BTLV_EFFECT_GaugeInitSlotFromBattlePoke((struct BtlMain *)work->scu->context,
+                          (struct BtlPokeParam *)BTL_SIDE_GetPokeAtPos((struct BtlMain **)work->scu->monTable, work->slotIdx), work->viewPos);
             (*work->counter)--;
             TCBL_DeleteTask(task);
         }
@@ -2544,8 +2560,8 @@ void BTLV_SCU_StartMonGraphicSwapFrom(BtlvScu *scu, u32 destPos, u32 srcPos, u32
 {
     struct BtlvScuGraphicSwapTask *work;
     work = TCBL_GetWork(TCBL_AddTask(scu->taskSys, BTLV_SCU_TaskMonGraphicSwap, 0x18, 1));
-    work->mon = BTL_POKEPARAM_GetMon(BTL_SIDE_GetPokeAtPos(scu->monTable,
-                                              BTL_MAIN_GetSlotFromViewPos(scu->context, srcPos)));
+    work->mon = BTL_POKEPARAM_GetMon((struct BtlPokeParam *)BTL_SIDE_GetPokeAtPos((struct BtlMain **)scu->monTable,
+                                              BTL_MAIN_GetSlotFromViewPos((struct BtlMain *)scu->context, srcPos)));
     work->scu = scu;
     work->viewPos = destPos;
     work->counter = &scu->monTaskCount;
@@ -2561,8 +2577,8 @@ void BTLV_SCU_StartMonGraphicSwap(BtlvScu *scu, u32 viewPos, u32 flag)
 {
     struct BtlvScuGraphicSwapTask *work;
     work = TCBL_GetWork(TCBL_AddTask(scu->taskSys, BTLV_SCU_TaskMonGraphicSwap, 0x18, 1));
-    work->mon = BTL_POKEPARAM_GetMon(BTL_SIDE_GetPokeAtPos(scu->monTable,
-                                              BTL_MAIN_GetSlotFromViewPos(scu->context, viewPos)));
+    work->mon = BTL_POKEPARAM_GetMon((struct BtlPokeParam *)BTL_SIDE_GetPokeAtPos((struct BtlMain **)scu->monTable,
+                                              BTL_MAIN_GetSlotFromViewPos((struct BtlMain *)scu->context, viewPos)));
     work->scu = scu;
     work->viewPos = viewPos;
     work->counter = &scu->monTaskCount;
@@ -2608,7 +2624,7 @@ void BTLV_SCU_InitMsgWinFade(BtlvScuWinSlide *fade, struct BmpWin *win)
     fade->state = 0;
     fade->evA = 0x1f000;
     fade->evB = 0x7000;
-    G2x_SetBlendAlpha_(REG_BLDCNT, 2, 0x3d, 0x1f, 7);
+    G2x_SetBlendAlpha_((u32 *)REG_BLDCNT, 2, 0x3d, 0x1f, 7);
 }
 
 
@@ -2688,7 +2704,7 @@ int BTLV_SCU_UpdateMsgWinFade(BtlvScuWinSlide *fade)
         }
         break;
     }
-    G2x_SetBlendAlpha_(REG_BLDCNT, 2, 0x3d, (u8)(fade->evA >> 12), (u8)(fade->evB >> 12));
+    G2x_SetBlendAlpha_((u32 *)REG_BLDCNT, 2, 0x3d, (u8)(fade->evA >> 12), (u8)(fade->evB >> 12));
     return 0;
 }
 
@@ -2745,8 +2761,8 @@ void BTLV_SCU_InitMonSlots(BtlvScu *scu)
         scu->monSlots[i].isActive = 0;
         scu->monSlots[i].mon = 0;
     }
-    if (BTL_MAIN_GetRule(scu->context) != 3) {
-        count = BTL_MAIN_GetRuleSlotSpan(scu->context);
+    if (BTL_MAIN_GetRule((struct BtlMain *)scu->context) != 3) {
+        count = BTL_MAIN_GetRuleSlotSpan((struct BtlMain *)scu->context);
     } else {
         count = 5;
     }
@@ -2771,7 +2787,7 @@ void BTLV_SCU_ResetMonSlots(BtlvScu *scu)
 void BTLV_SCU_InitMonSlot(BtlvScuMonSlot *slot, BtlvScu *owner, u8 slotIdx)
 {
     slot->slotIdx = slotIdx;
-    slot->viewPos = BTL_MAIN_GetViewPosOfSlot(owner->context, slotIdx);
+    slot->viewPos = BTL_MAIN_GetViewPosOfSlot((struct BtlMain *)owner->context, slotIdx);
     slot->owner = owner;
     slot->isShown = 0;
     slot->isActive = 1;
@@ -2810,9 +2826,9 @@ void BTLV_SCU_HideMonSlot(BtlvScuMonSlot *slot)
 void BTLV_SCU_ShowMonSlot(BtlvScuMonSlot *slot)
 {
     if (slot->isActive != 0) {
-        slot->mon = BTL_SIDE_GetPokeAtPos(slot->owner->monTable, slot->slotIdx);
+        slot->mon = (struct BtlPokeParam *)BTL_SIDE_GetPokeAtPos((struct BtlMain **)slot->owner->monTable, slot->slotIdx);
         if (BTL_POKEPARAM_IsFainted(slot->mon) == 0) {
-            BTLV_EFFECT_GaugeInitSlotFromBattlePoke(slot->owner->context, slot->mon, slot->viewPos);
+            BTLV_EFFECT_GaugeInitSlotFromBattlePoke((struct BtlMain *)slot->owner->context, slot->mon, slot->viewPos);
             slot->isShown = 1;
         }
     }
@@ -2828,7 +2844,7 @@ void BTLV_SCU_ShowMonSlot(BtlvScuMonSlot *slot)
  */
 BtlvScuPlateSide BTLV_SCU_GetNamePlateSide(struct BtlContext *ctx, u32 viewPos)
 {
-    if (BTL_MAIN_IsLocalSide(ctx, BTL_MAIN_GetPosParity(viewPos)) != 0)
+    if (BTL_MAIN_IsLocalSide((struct BtlMain *)ctx, BTL_MAIN_GetPosParity(viewPos)) != 0)
         return BTLV_SCU_PLATE_LOCAL;
     return BTLV_SCU_PLATE_OPPOSING;
 }
@@ -2895,7 +2911,7 @@ void BTLV_SCU_ProcNamePlateMosaicAt(BtlvScu *scu, u32 viewPos)
 void BTLV_SCU_InitNamePlates(BtlvScu *scu, u32 tile)
 {
     u32 i;
-    scu->nameGfxFile = ARC_UTIL_LoadBgCharDataFromArchive(0xb, 0xd5, 0, &scu->nameGfx, scu->heapId);
+    scu->nameGfxFile = ARC_UTIL_LoadBgCharDataFromArchive((u32)0xb, (u32)0xd5, (u32)0, (&scu->nameGfx), scu->heapId);
     for (i = 0; i < 2; i++) {
         scu->namePlates[i].scu = scu;
         scu->namePlates[i].sideIdx = i;
@@ -2941,7 +2957,7 @@ void BTLV_SCU_PrepareNamePlate(BtlvScuNamePlate *plate, u8 viewPos, int closeLat
     struct BtlPokeParam *mon;
     u16 speciesId;
     u8 pokeId;
-    mon = BTL_SIDE_GetPokeAtPos(plate->scu->monTable, viewPos);
+    mon = (struct BtlPokeParam *)BTL_SIDE_GetPokeAtPos((struct BtlMain **)plate->scu->monTable, viewPos);
     speciesId = BTL_POKEPARAM_GetValue(mon, 0x10);
     pokeId = BTL_POKEPARAM_GetPokeId(mon);
     if (plate->isShown) {
@@ -3061,7 +3077,7 @@ void BTLV_SCU_DrawNamePlate(BtlvScuNamePlate *plate)
     MIi_CpuCopy32(plate->scu->nameGfx->pixels + plate->sideIdx * 0x900, pixels, size);
     GF_FONT_SetTextColor(1, 2, 0);
     BTL_MSG_FormatArgs(scu->wordBuf0, 0x67, 2, plate->pokeId, plate->speciesId);
-    if ((u8)PRINTSYS_InitCallerSuppliedArray(scu->wordBuf0, scu->fontSub, 0, widths, 2) > 1) {
+    if ((u8)PRINTSYS_InitCallerSuppliedArray((struct Strbuf *)scu->wordBuf0, scu->fontSub, 0, widths, 2) > 1) {
         width = widths[0];
         edge = width + 8;
         right = 0x84 - widths[1];
@@ -3077,14 +3093,14 @@ void BTLV_SCU_DrawNamePlate(BtlvScuNamePlate *plate)
         left = left - width;
         if (left < 0) left = 0;
         if (right < 0) right = 0;
-        PRINTSYS_CopyLine(scu->wordBuf0, scu->wordBuf1, 0);
-        PRINTSYS_Print(plate->bmp, left, 7, scu->wordBuf1, scu->fontSub);
-        PRINTSYS_CopyLine(scu->wordBuf0, scu->wordBuf1, 1);
-        PRINTSYS_Print(plate->bmp, right, 18, scu->wordBuf1, scu->fontSub);
+        PRINTSYS_CopyLine((struct Strbuf *)scu->wordBuf0, (struct Strbuf *)scu->wordBuf1, 0);
+        PRINTSYS_Print(plate->bmp, left, 7, (struct Strbuf *)scu->wordBuf1, scu->fontSub);
+        PRINTSYS_CopyLine((struct Strbuf *)scu->wordBuf0, (struct Strbuf *)scu->wordBuf1, 1);
+        PRINTSYS_Print(plate->bmp, right, 18, (struct Strbuf *)scu->wordBuf1, scu->fontSub);
     } else {
-        center = (0x88 - PRINTSYS_MeasureWidestLine(scu->wordBuf0, scu->fontSub, 0)) / 2;
+        center = (0x88 - PRINTSYS_MeasureWidestLine((struct Strbuf *)scu->wordBuf0, scu->fontSub, 0)) / 2;
         if ((int)center < 0) center = 0;
-        PRINTSYS_Print(plate->bmp, center, 18, scu->wordBuf0, scu->fontSub);
+        PRINTSYS_Print(plate->bmp, center, 18, (struct Strbuf *)scu->wordBuf0, scu->fontSub);
     }
 }
 
@@ -3113,7 +3129,7 @@ void BTLV_SCU_RefreshNamePlate(BtlvScuNamePlate *plate, u8 viewPos)
     struct BtlPokeParam *mon;
     u16 speciesId;
     u8 pokeId;
-    mon = BTL_SIDE_GetPokeAtPos(plate->scu->monTable, viewPos);
+    mon = (struct BtlPokeParam *)BTL_SIDE_GetPokeAtPos((struct BtlMain **)plate->scu->monTable, viewPos);
     speciesId = BTL_POKEPARAM_GetValue(mon, 0x10);
     pokeId = BTL_POKEPARAM_GetPokeId(mon);
     if (speciesId != plate->speciesId || pokeId != plate->pokeId) {
@@ -3207,10 +3223,10 @@ void BTLV_SCU_GetBallStates(BtlvScu *scu, u32 *outStates, u32 clientA, u32 clien
     s8 slot;
     void *mon;
     MI_CpuFill8(outStates, 0, 28);
-    partyLists[0] = BTL_SIDE_GetSlotOfClientThunk(scu->monTable, clientA);
+    partyLists[0] = BTL_SIDE_GetSlotOfClientThunk((struct BtlSide *)scu->monTable, clientA);
     partyCounts[0] = BTL_SLOT_GetCount(partyLists[0]);
     if (clientB < 4) {
-        partyLists[1] = BTL_SIDE_GetSlotOfClientThunk(scu->monTable, clientB);
+        partyLists[1] = BTL_SIDE_GetSlotOfClientThunk((struct BtlSide *)scu->monTable, clientB);
         partyCounts[1] = BTL_SLOT_GetCount(partyLists[1]);
         if (partyCounts[0] > 3) partyCounts[0] = 3;
         if (partyCounts[1] > 3) partyCounts[1] = 3;
@@ -3233,7 +3249,7 @@ void BTLV_SCU_GetBallStates(BtlvScu *scu, u32 *outStates, u32 clientA, u32 clien
 /* Print the wait message (message id 0xF) in the message window. */
 void BTLV_SCU_PrintWaitMessage(BtlvScu *scu)
 {
-    BTL_MSG_GetUiString(scu->textBuf, 0xf);
+    BTL_MSG_GetUiString((struct Strbuf *)scu->textBuf, 0xf);
     BTLV_SCU_StartMessage(scu, scu->textBuf, 0, 0);
 }
 
@@ -3260,7 +3276,7 @@ void BTLV_SCU_StartFadeIn(void)
 /* Clear the message window and fade the screen out. */
 void BTLV_SCU_ClearWaitWindow(BtlvScu *scu)
 {
-    BMP_Clear(scu->msgWinChars, 12);
+    BMP_Clear((struct Bmp *)scu->msgWinChars, 12);
     BMP_WIN_TransferChars(scu->msgWin);
     FADE_Start(1, 16, 0, -3);
 }
@@ -3371,13 +3387,13 @@ int BTLV_SCU_StepBallWindowOpen(int *state, BtlvScu *scu)
         GF_FONT_SetTextColor(1, 9, 12);
         BMP_WIN_MakeScreen(scu->nameWin);
         BMP_WIN_DrawFrame(scu->nameWin, scu->nameTile, 3);
-        BMP_Clear(scu->nameWinChars, 12);
+        BMP_Clear((struct Bmp *)scu->nameWinChars, 12);
         BG_SYS_PushTile(BMP_WIN_GetBgLayer(scu->nameWin));
         (*state)++;
         break;
     case 1:
-        BTL_MSG_BuildBallStatusOpen(scu->textBuf, scu->ballStates.ball[0], scu->ballStates.ball[1], scu->ballStates.ball[2], scu->ballStates.ball[3], scu->ballStates.ball[4], scu->ballStates.ball[5]);
-        PRINTSYS_Print(scu->nameWinChars, 0, 0, scu->textBuf, scu->fontMain);
+        BTL_MSG_BuildBallStatusOpen((struct Strbuf *)scu->textBuf, scu->ballStates.ball[0], scu->ballStates.ball[1], scu->ballStates.ball[2], scu->ballStates.ball[3], scu->ballStates.ball[4], scu->ballStates.ball[5]);
+        PRINTSYS_Print((struct Bmp *)scu->nameWinChars, 0, 0, (struct Strbuf *)scu->textBuf, scu->fontMain);
         (*state)++;
         break;
     case 2:
@@ -3402,10 +3418,10 @@ int BTLV_SCU_StepBallWindowRefresh(int *state, BtlvScu *scu)
 {
     switch (*state) {
     case 0:
-        BTL_POKEPARAM_ReadStatsFromMon(scu->partySource, &scu->ballStates.sideFlag);
-        BTL_MSG_BuildBallStatusRefresh(scu->textBuf, scu->ballStates.ball[0], scu->ballStates.ball[1], scu->ballStates.ball[2], scu->ballStates.ball[3], scu->ballStates.ball[4], scu->ballStates.ball[5]);
-        BMP_Clear(scu->nameWinChars, 12);
-        PRINTSYS_Print(scu->nameWinChars, 0, 0, scu->textBuf, scu->fontMain);
+        BTL_POKEPARAM_ReadStatsFromMon((struct PokemonParam **)scu->partySource, &scu->ballStates.sideFlag);
+        BTL_MSG_BuildBallStatusRefresh((struct Strbuf *)scu->textBuf, scu->ballStates.ball[0], scu->ballStates.ball[1], scu->ballStates.ball[2], scu->ballStates.ball[3], scu->ballStates.ball[4], scu->ballStates.ball[5]);
+        BMP_Clear((struct Bmp *)scu->nameWinChars, 12);
+        PRINTSYS_Print((struct Bmp *)scu->nameWinChars, 0, 0, (struct Strbuf *)scu->textBuf, scu->fontMain);
         (*state)++;
         break;
     case 1:

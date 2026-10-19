@@ -121,11 +121,11 @@ typedef struct tagDWCWiFiInfo {
 } DWCWiFiInfo;
 
 extern int atoi(const char *s);
-extern int memcmp(const void *a, const void *b, unsigned long n);
+extern int memcmp(unsigned char *s1, unsigned char *s2, unsigned int n);
 extern int DWCi_AUTH_GetNewWiFiInfo(DWCWiFiInfo *wifiinfo);
-extern int DWCi_BACKUPlRead(DWCMemMap *mem);
+extern int DWCi_BACKUPlRead(void *mem);
 extern int DWCi_BACKUPlWritePage(DWCMemMap *data, int *page, void *work);
-extern int DWCi_STRlNLen(char *s, int maxlen);
+extern int DWCi_STRlNLen(unsigned char *s, int maxlen);
 extern int OS_SPrintf(char *dst, const char *fmt, ...);
 extern unsigned char *DWCi_BACKUPlConvWifiInfo(DWCWiFiInfo *info);
 extern unsigned char DWCi_BACKUPlConvMaskCidr(unsigned char *mask);
@@ -250,7 +250,7 @@ void DWCi_SETTINGlSetWep(unsigned char *wep)
     int len;
 
     MI_CpuFill8(MemSet->temp.ap.wep[0], 0, 16);
-    len = DWCi_STRlNLen((char *)wep, 32);
+    len = DWCi_STRlNLen((unsigned char *)wep, 32);
     switch (len) {
     case 0:
     case 10:
@@ -390,11 +390,11 @@ void DWCi_SETTINGlSetSetting(int idx)
     info = &MemSet->map.page[idx].ap;
     MemSet->temp.ap = *info;
     MemSet->temp.idx = idx;
-    if (memcmp(info->ip, SETTING_NONE, 4))
+    if (memcmp((unsigned char *)info->ip, (unsigned char *)SETTING_NONE, 4))
         MemSet->temp.ipAuto = 0;
     else
         MemSet->temp.ipAuto = 1;
-    if (memcmp(info->dns[0], SETTING_NONE, 4) != 0 || memcmp(info->dns[1], SETTING_NONE, 4) != 0)
+    if (memcmp((unsigned char *)info->dns[0], (unsigned char *)SETTING_NONE, 4) != 0 || memcmp((unsigned char *)info->dns[1], (unsigned char *)SETTING_NONE, 4) != 0)
         MemSet->temp.dnsAuto = 0;
     else
         MemSet->temp.dnsAuto = 1;

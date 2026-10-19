@@ -79,7 +79,7 @@ extern int OS_IsRunOnTwl(void);
 extern void MI_CpuCopy8(void *srcp, void *dstp, unsigned long size);
 extern void MI_CpuFill8(void *dstp, unsigned char data, unsigned long size);
 extern void AESi_Init(void);
-extern int AESi_VerifySignForJpeg(void *sign, void *data, unsigned long size);
+extern int AESi_VerifySignForJpeg(unsigned char *sign, unsigned int data, unsigned int length);
 extern int SSPiDecodeSignCheckMode;
 extern short mtx[5][64];
 extern u8 jw[6144];
@@ -1226,7 +1226,7 @@ int SSP_StartJpegDecoder(unsigned char *data, unsigned long size, void *dst,
             MI_CpuFill8(data + offset, 0, 0x1c);
             if (OS_IsRunOnTwl())
                 AESi_Init();
-            aesResult = AESi_VerifySignForJpeg(sign, data, size);
+            aesResult = AESi_VerifySignForJpeg(sign, (unsigned int)data, size);
             MI_CpuCopy8(sign, data + offset, 0x1c);
             if (aesResult != 1)
                 return 0;

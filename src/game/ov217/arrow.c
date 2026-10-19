@@ -34,18 +34,25 @@
  *   CLACT_SetActorAnimSeq 0x0204B878 arm
  *   CLACT_StartActorAnim 0x0204B95C arm
  *   CLACT_StopActorAnim  0x0204B974  arm  arm9
+ *   _fadd                        0x0209C95C  arm
+ *   _fdiv                        0x0209CE10  arm
+ *   _ffixu                       0x0209C4C8  arm
+ *   _fflt                        0x0209BDBC  arm
+ *   _fmul                        0x0209C77C  arm
+ *   _fsub                        0x0209CB8C  arm
  */
 #include "arrow.h"
 
 extern u32 GFL_HEAP_Free(void *mem);
+struct Actor;
 
-extern void CLACT_SetActorDrawEnable(struct ClactActor *actor, unsigned int enable);
+extern void CLACT_SetActorDrawEnable(struct Actor *actor, unsigned int value);
 
 extern struct ClactUnit *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 
 extern u32 CLACT_DeleteUnit(struct ClactUnit *unit);
 
-extern void CLACT_DeleteActor(struct ClactActor *actor);
+extern void CLACT_DeleteActor(struct Actor *actor);
 
 extern struct ClactActor *CLACT_CreateActor(void *unit, unsigned int charId, unsigned int palId, unsigned int cellId, const struct ActorHeader *header, unsigned short priority, unsigned short heapId);
 
@@ -53,19 +60,19 @@ extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u
 
 extern void CLACT_AddActorSurfacePos(struct ClactActor *actor, const struct SurfacePos *pos, u32 space);
 
-extern void CLACT_SetActorAnimSeq(struct ClactActor *actor, u16 seq);
+extern void CLACT_SetActorAnimSeq(struct Actor *actor, unsigned short value);
 
-extern void CLACT_SetActorAnimFrame(struct ClactActor *actor, u32 frame);
+extern void CLACT_SetActorAnimFrame(struct Actor *actor, unsigned int frame);
 
-extern void CLACT_SetActorAnimLoopCount(struct ClactActor *actor, u32 count);
+extern void CLACT_SetActorAnimLoopCount(struct Actor *actor, unsigned int loop_limit);
 
-extern void CLACT_SetActorAutoAnim(struct ClactActor *actor, u32 enable);
+extern void CLACT_SetActorAutoAnim(struct Actor *actor, unsigned int enable);
 
-extern void CLACT_SetActorAutoAnimSpeed(struct ClactActor *actor, u32 speed);
+extern void CLACT_SetActorAutoAnimSpeed(struct Actor *actor, unsigned int speed);
 
-extern void CLACT_StartActorAnim(struct ClactActor *actor);
+extern void CLACT_StartActorAnim(struct Actor *actor);
 
-extern void CLACT_StopActorAnim(struct ClactActor *actor);
+extern void CLACT_StopActorAnim(struct Actor *actor);
 
 struct Arrow *ARROW_Create(u32 heapId, const struct ArrowResources *resources);
 
@@ -235,19 +242,19 @@ void ARROW_ShowPart(struct Arrow *arrow, int index)
     case ARROW_PART_CORNER_BOTTOM: animSeq = arrow->resources.animSeq[3]; break;
     }
     CLACT_AddActorSurfacePos(actor, &point, arrow->resources.space);
-    CLACT_SetActorAnimSeq(actor, animSeq);
-    CLACT_SetActorAnimFrame(actor, 0);
-    CLACT_SetActorAnimLoopCount(actor, 1);
-    CLACT_SetActorAutoAnim(actor, 1);
-    CLACT_SetActorAutoAnimSpeed(actor, 0x12000);
-    CLACT_StartActorAnim(actor);
-    CLACT_SetActorDrawEnable(actor, 1);
+    CLACT_SetActorAnimSeq((struct Actor *)actor, animSeq);
+    CLACT_SetActorAnimFrame((struct Actor *)actor, 0);
+    CLACT_SetActorAnimLoopCount((struct Actor *)actor, 1);
+    CLACT_SetActorAutoAnim((struct Actor *)actor, 1);
+    CLACT_SetActorAutoAnimSpeed((struct Actor *)actor, 0x12000);
+    CLACT_StartActorAnim((struct Actor *)actor);
+    CLACT_SetActorDrawEnable((struct Actor *)actor, 1);
 }
 
 /* Stops the animation of one part. */
 void ARROW_StopPart(struct Arrow *arrow, u32 index)
 {
-    CLACT_StopActorAnim(arrow->parts[index].actor);
+    CLACT_StopActorAnim((struct Actor *)arrow->parts[index].actor);
 }
 
 /* Hides the actor of every part. */
@@ -256,7 +263,7 @@ void ARROW_HideAll(struct Arrow *arrow)
     s32 i;
     s32 n = arrow->partCount;
     for (i = 0; i < n; i++)
-        CLACT_SetActorDrawEnable(arrow->parts[i].actor, 0);
+        CLACT_SetActorDrawEnable((struct Actor *)arrow->parts[i].actor, 0);
 }
 
 /*
@@ -412,7 +419,7 @@ void ARROW_DeleteActors(struct Arrow *arrow)
 {
     int i;
     for (i = 0; i < ARROW_MAX_PARTS; i++)
-        CLACT_DeleteActor(arrow->parts[i].actor);
+        CLACT_DeleteActor((struct Actor *)arrow->parts[i].actor);
 }
 
 /* Copies the resource description into the arrow. */

@@ -49,11 +49,13 @@ typedef struct {
 } Cmd;
 
 extern int SOCL_SocketIsInvalid(struct SOCLSocket *socket);
-extern void *SOCLi_CreateCommandPacket(int (*handler)(void *), void *socket, long flag);
+struct SOCLiCommandPacket;
+extern struct SOCLiCommandPacket *SOCLi_CreateCommandPacket(int (*handler)(void *), struct SOCLSocket *socket, int flag);
 extern int SOCLi_ExecCommandPacketInRecvPipe(void *socket, void *command);
-extern void OS_LockMutex(void *mutex);
+struct OSMutex;
+extern void OS_LockMutex(struct OSMutex *mutex);
 extern void CPS_SetSsl(int mode);
-extern void OS_UnlockMutex(void *mutex);
+extern void OS_UnlockMutex(struct OSMutex *mutex);
 int SOCL_EnableSsl(int s, void *con);
 int SOCLi_ExecEnableSslCommand(void *socket, void *con);
 int SOCLi_EnableSslCallBack(void *arg);
@@ -103,7 +105,7 @@ int SOCLi_ExecEnableSslCommand(void *socket, void *con)
 {
 	int *command;
 
-	command = SOCLi_CreateCommandPacket(SOCLi_EnableSslCallBack, socket, 1);
+	command = (int *)SOCLi_CreateCommandPacket(SOCLi_EnableSslCallBack, socket, 1);
 	if (command == 0) {
 		return -33;
 	}
@@ -122,7 +124,7 @@ int SOCLi_EnableSslCallBack(void *arg)
 	SOCLRecvPipe *recv_pipe = socket->recvPipe;
 	Cps *cpsoc = recv_pipe->cpsoc;
 
-	OS_LockMutex(recv_pipe->mutex);
+	OS_LockMutex((struct OSMutex *)recv_pipe->mutex);
 	if (cpacket->con != 0) {
 		cpsoc->ssl = cpacket->con;
 		CPS_SetSsl(1);
@@ -132,6 +134,6 @@ int SOCLi_EnableSslCallBack(void *arg)
 		CPS_SetSsl(0);
 		cpsoc->ssl = 0;
 	}
-	OS_UnlockMutex(recv_pipe->mutex);
+	OS_UnlockMutex((struct OSMutex *)recv_pipe->mutex);
 	return 0;
 }

@@ -51,42 +51,50 @@
 struct GameSystem;
 struct GameData;
 struct EventData;
+struct FieldMap;
 
-extern u16 FIELDMAP_GetHeapId(void *fieldMap);
-extern void *FIELDMAP_GetExpObj(void *fieldMap);
-extern FieldGimmickConnectMarkersWork *FIELDMAP_AllocCommonWork(void *fieldMap, int id, int heapId, int size);
-extern void FLD_EXP_OBJ_AddUnitFromArchive(void *expObj, void *unitDesc, int b);
+extern u16 FIELDMAP_GetHeapId(struct FieldMap *fieldMap);
+struct FldExpObjCnt;
+extern struct FldExpObjCnt *FIELDMAP_GetExpObj(struct FieldMap *fieldMap);
+extern void *FIELDMAP_AllocCommonWork(struct FieldMap *fieldMap, int id, int heapId, int size);
+struct G3dUtilSetup;
+extern void FLD_EXP_OBJ_AddUnitFromArchive(struct FldExpObjCnt *cnt, struct G3dUtilSetup *setup, unsigned short unitIdx);
 extern void FLD_EXP_OBJ_SetModelHidden(void *expObj, int unit, int model, int hidden);
 extern VecFx32 *FLD_EXP_OBJ_GetModelStatus(void *expObj, unsigned unit, u16 model);
 extern void *FLD_EXP_OBJ_GetAnime(void *expObj, int unit, unsigned int model, int animeIdx);
 extern void FLD_EXP_OBJ_SetAnimeEnabled(void *expObj, int unit, u16 model, u16 animeIdx, int enabled);
-extern void FLD_EXP_OBJ_SetAnimePaused(u8 *anime, int paused);
-extern void FLD_EXP_OBJ_SetAnimeLoop(u8 *anime, int loop);
+struct FldExpObjAnime;
+extern void FLD_EXP_OBJ_SetAnimePaused(struct FldExpObjAnime *anime, int paused);
+extern void FLD_EXP_OBJ_SetAnimeLoop(struct FldExpObjAnime *anime, int loop);
 extern void FIELD_GIMMICK_CONNECT_MARKERS_PlaceMarkers(FieldGimmickConnectMarkersWork *work, void *fieldMap);
-extern u16 FIELDMAP_GetZoneId(void *fieldMap);
-extern void FLD_EXP_OBJ_RemoveUnit(void *expObj, unsigned short unit);
-extern void FIELDMAP_FreeCommonWork(void *fieldMap, int id);
-extern void *FIELDMAP_GetFieldPlayer(void *fieldMap);
-extern struct GameSystem *FIELDMAP_GetGameSystem(void *fieldMap);
+extern u16 FIELDMAP_GetZoneId(struct FieldMap *fieldMap);
+extern void FLD_EXP_OBJ_RemoveUnit(struct FldExpObjCnt *cnt, unsigned short unitIdx);
+extern void FIELDMAP_FreeCommonWork(struct FieldMap *fieldMap, int id);
+struct FieldMap;
+struct FieldPlayer;
+extern struct FieldPlayer *FIELDMAP_GetFieldPlayer(struct FieldMap *fieldMap);
+extern struct GameSystem *FIELDMAP_GetGameSystem(struct FieldMap *fieldMap);
 extern struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
-extern struct EventData *GAME_DATA_GetEventData(const struct GameData *gameData);
-extern FieldGimmickConnectMarkersWork *FIELDMAP_GetCommonWork(void *fieldMap, int idx);
-extern void FLD_EXP_OBJ_UpdateAnimes(void *expObj);
-extern int FLD_EXP_OBJ_IsAnimeStopped(u8 *anime);
-extern u16 FIELD_PLAYER_GetDirDisp(void *player);
-extern void FIELD_PLAYER_GetPosInDir(void *player, int dir, VecFx32 *out);
-extern int EVENTDATA_SYSTEM_CheckAutoPosEvent(struct EventData *eventData, VecFx32 *pos);
-extern void FLD_EXP_OBJ_SetAnimeFrame(void *expObj, int unit, int model, int animeIdx, int frame);
-extern u32 FIELD_PLAYER_GetStepKind(void *player);
-extern u32 FIELD_PLAYER_GetStepPhase(void *player);
+extern void *GAME_DATA_GetEventData(const struct GameData *gameData);
+extern void *FIELDMAP_GetCommonWork(struct FieldMap *fieldMap, int id);
+extern void FLD_EXP_OBJ_UpdateAnimes(struct FldExpObjCnt *cnt);
+extern int FLD_EXP_OBJ_IsAnimeStopped(struct FldExpObjAnime *anime);
+extern u16 FIELD_PLAYER_GetDirDisp(struct FieldPlayer *player);
+extern void FIELD_PLAYER_GetPosInDir(struct FieldPlayer *player, int dir, int *out);
+struct EventDataSystem;
+extern int EVENTDATA_SYSTEM_CheckAutoPosEvent(struct EventDataSystem *system, int *pos);
+extern void FLD_EXP_OBJ_SetAnimeFrame(struct FldExpObjCnt *cnt, int unitIdx, int modelIdx, int animeIdx, int frame);
+extern u32 FIELD_PLAYER_GetStepKind(struct FieldPlayer *player);
+extern u32 FIELD_PLAYER_GetStepPhase(struct FieldPlayer *player);
 void FIELD_GIMMICK_CONNECT_MARKERS_Init(void *fieldMap);
 void FIELD_GIMMICK_CONNECT_MARKERS_Exit(void *fieldMap);
 void FIELD_GIMMICK_CONNECT_MARKERS_Update(void *fieldMap);
 int FIELD_GIMMICK_CONNECT_MARKERS_IsPlayerStepReady(FieldGimmickConnectMarkersWork *unusedWork, void *player);
 extern char gConnectMarkersUnitSetup[];
 struct ConnectData;
-extern u16 EVENTDATA_SYSTEM_GetConnectCount(struct EventData *eventData);
-extern struct ConnectData *EVENTDATA_SYSTEM_GetConnectData(struct EventData *eventData, unsigned index);
+struct EventDataSystem;
+extern u16 EVENTDATA_SYSTEM_GetConnectCount(struct EventDataSystem *system);
+extern struct ConnectData *EVENTDATA_SYSTEM_GetConnectData(struct EventDataSystem *system, u32 index);
 extern u8 EVENTDATA_SYSTEM_GetConnectExitType(struct ConnectData *connect);
 extern void EVENTDATA_SYSTEM_GetConnectCenterPosThunk(struct ConnectData *connect, VecFx32 *out);
 
@@ -101,15 +109,15 @@ void FIELD_GIMMICK_CONNECT_MARKERS_Init(void *fieldMap)
     heapId = FIELDMAP_GetHeapId(fieldMap);
     expObj = FIELDMAP_GetExpObj(fieldMap);
     work = FIELDMAP_AllocCommonWork(fieldMap, 0, heapId, sizeof(FieldGimmickConnectMarkersWork));
-    FLD_EXP_OBJ_AddUnitFromArchive(expObj, gConnectMarkersUnitSetup, 0);
+    FLD_EXP_OBJ_AddUnitFromArchive(expObj, (struct G3dUtilSetup *)gConnectMarkersUnitSetup, 0);
     for (model = 0; model < FIELD_GIMMICK_CONNECT_MARKERS_MODEL_COUNT; model++) {
         FLD_EXP_OBJ_SetModelHidden(expObj, 0, (u16)model, 1);
     }
     work->effectPos = FLD_EXP_OBJ_GetModelStatus(expObj, 0, FIELD_GIMMICK_CONNECT_MARKERS_EFFECT_MODEL);
     anime = FLD_EXP_OBJ_GetAnime(expObj, 0, FIELD_GIMMICK_CONNECT_MARKERS_EFFECT_MODEL, 0);
     FLD_EXP_OBJ_SetAnimeEnabled(expObj, 0, FIELD_GIMMICK_CONNECT_MARKERS_EFFECT_MODEL, 0, 1);
-    FLD_EXP_OBJ_SetAnimePaused(anime, 1);
-    FLD_EXP_OBJ_SetAnimeLoop(anime, 0);
+    FLD_EXP_OBJ_SetAnimePaused((struct FldExpObjAnime *)anime, 1);
+    FLD_EXP_OBJ_SetAnimeLoop((struct FldExpObjAnime *)anime, 0);
     FIELD_GIMMICK_CONNECT_MARKERS_PlaceMarkers(work, fieldMap);
     work->zoneId = FIELDMAP_GetZoneId(fieldMap);
 }
@@ -141,24 +149,24 @@ void FIELD_GIMMICK_CONNECT_MARKERS_Update(void *fieldMap)
     }
     anime = FLD_EXP_OBJ_GetAnime(expObj, 0, FIELD_GIMMICK_CONNECT_MARKERS_EFFECT_MODEL, 0);
     FLD_EXP_OBJ_UpdateAnimes(expObj);
-    if (work->effectActive != 0 && FLD_EXP_OBJ_IsAnimeStopped(anime) != 0) {
+    if (work->effectActive != 0 && FLD_EXP_OBJ_IsAnimeStopped((struct FldExpObjAnime *)anime) != 0) {
         FLD_EXP_OBJ_SetModelHidden(expObj, 0, FIELD_GIMMICK_CONNECT_MARKERS_EFFECT_MODEL, 1);
         work->effectActive = 0;
     }
     if (FIELD_GIMMICK_CONNECT_MARKERS_IsPlayerStepReady(work, player) == 0) {
         return;
     }
-    FIELD_PLAYER_GetPosInDir(player, FIELD_PLAYER_GetDirDisp(player), &pos);
+    FIELD_PLAYER_GetPosInDir(player, FIELD_PLAYER_GetDirDisp(player), (int *)(&pos));
     pos.x -= 0x8000;
     pos.z -= 0x8000;
-    if (EVENTDATA_SYSTEM_CheckAutoPosEvent(eventData, &pos) == 0) {
+    if (EVENTDATA_SYSTEM_CheckAutoPosEvent((struct EventDataSystem *)eventData, (int *)(&pos)) == 0) {
         return;
     }
     work->effectActive = 1;
     FLD_EXP_OBJ_SetModelHidden(expObj, 0, FIELD_GIMMICK_CONNECT_MARKERS_EFFECT_MODEL, 0);
     anime = FLD_EXP_OBJ_GetAnime(expObj, 0, FIELD_GIMMICK_CONNECT_MARKERS_EFFECT_MODEL, 0);
     FLD_EXP_OBJ_SetAnimeFrame(expObj, 0, FIELD_GIMMICK_CONNECT_MARKERS_EFFECT_MODEL, 0, 0);
-    FLD_EXP_OBJ_SetAnimePaused(anime, 0);
+    FLD_EXP_OBJ_SetAnimePaused((struct FldExpObjAnime *)anime, 0);
     *work->effectPos = pos;
 }
 
@@ -184,14 +192,14 @@ void FIELD_GIMMICK_CONNECT_MARKERS_PlaceMarkers(FieldGimmickConnectMarkersWork *
     VecFx32 pos;
 
     eventData = GAME_DATA_GetEventData(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap)));
-    connectCount = EVENTDATA_SYSTEM_GetConnectCount(eventData);
+    connectCount = EVENTDATA_SYSTEM_GetConnectCount((struct EventDataSystem *)eventData);
     FIELDMAP_GetHeapId(fieldMap);
     expObj = FIELDMAP_GetExpObj(fieldMap);
     for (i = 0; i < FIELD_GIMMICK_CONNECT_MARKERS_MARKER_MAX; i++) {
         FLD_EXP_OBJ_SetModelHidden(expObj, 0, (u16)(i + 1), 1);
     }
     for (i = 0; i < connectCount; i++) {
-        connect = EVENTDATA_SYSTEM_GetConnectData(eventData, (u16)i);
+        connect = EVENTDATA_SYSTEM_GetConnectData((struct EventDataSystem *)eventData, (u16)i);
         if (connect != 0 && EVENTDATA_SYSTEM_GetConnectExitType(connect) == FIELD_GIMMICK_CONNECT_MARKERS_MARKER_EXIT_TYPE) {
             EVENTDATA_SYSTEM_GetConnectCenterPosThunk(connect, &pos);
             if (FIELDMAP_GetZoneId(fieldMap) == FIELD_GIMMICK_CONNECT_MARKERS_LOWERED_ZONE_ID) {

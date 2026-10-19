@@ -68,7 +68,7 @@ typedef struct {
 
 struct SOCSockAddr;
 
-extern int inet_addr(int a);
+extern int inet_addr(char *addrString);
 extern struct SOCHostEnt *SOC_GetHostByName(char *name);
 extern int sendto(int sock, char *buf, int len, int flags, struct SOCSockAddr *addr, int tolen);
 extern unsigned int current_time(void);
@@ -80,9 +80,9 @@ extern int socket(int pf, int type, int protocol);
 extern int strlen(const u8 *s);
 extern void *memcpy(void *dst, const void *src, unsigned long n);
 static void SendPacket(void);
-extern int memcmp(const u8 *a, const u8 *b, int n);
+extern int memcmp(unsigned char *s1, unsigned char *s2, unsigned int n);
 extern int CanReceiveOnSocket(int sock);
-extern int recvfrom(int sock, char *buf, int len, int flags, void *addr, int *fromlen);
+extern int recvfrom(int sock, char *buf, int len, int flags, struct SOCSockAddr *addr, int *fromlen);
 extern int HandlePacket(char *packet, int len, struct SOCSockAddrIn *address, int *disabledservices);
 extern int closesocket(int sock);
 extern char gGsAvailabilityGameName[];
@@ -100,7 +100,7 @@ static int get_sockaddrin(char *hostname, int port, struct SOCSockAddrIn *saddr)
     struct SOCHostEnt *host;
     saddr->family = 2;
     saddr->port = (unsigned short)((((unsigned short)port >> 8) & 0xff) | (((unsigned short)port << 8) & 0xff00));
-    saddr->addr = inet_addr((int)hostname);
+    saddr->addr = inet_addr(hostname);
     if (saddr->addr == 0xFFFFFFFF) {
         host = SOC_GetHostByName(hostname);
         if (host == 0) return 0;
@@ -157,11 +157,11 @@ int HandlePacket(char *packet, int len, struct SOCSockAddrIn *address, int *disa
     int bitfield;
     if (len < 7)
         return 1;
-    if (memcmp((const u8 *)(&address->addr), (const u8 *)&gGsAvailableCheck.address.addr, 4) != 0)
+    if (memcmp((unsigned char *)(&address->addr), (unsigned char *)&gGsAvailableCheck.address.addr, 4) != 0)
         return 1;
     if (address->port != gGsAvailableCheck.address.port)
         return 1;
-    if (memcmp((const u8 *)packet, (const u8 *)gGsAvailableMagic, 3) != 0)
+    if (memcmp((unsigned char *)packet, (unsigned char *)gGsAvailableMagic, 3) != 0)
         return 1;
     bitfield = (packet[3] << 24) & 0xff000000;
     bitfield |= (packet[4] << 16) & 0xff0000;
@@ -186,7 +186,7 @@ int GSIAvailableCheckThink(void)
         return 1;
     }
     if (CanReceiveOnSocket(gGsAvailableCheck.sock)) {
-        rcode = recvfrom(gGsAvailableCheck.sock, packet, 64, 0, &address, &len);
+        rcode = recvfrom(gGsAvailableCheck.sock, packet, 64, 0, (struct SOCSockAddr *)(&address), &len);
         if (HandlePacket(packet, rcode, &address, &disabledservices) == 0) {
             closesocket(gGsAvailableCheck.sock);
             if (disabledservices & 1) {

@@ -66,7 +66,9 @@
  *   GF_OVERLAY_Unload  0x02034A5C  arm
  *   GFL_USE_AddHBlankTask  0x02005624  thumb
  *   ov231_id       0x000000E7  data
+ *   _u32_div_f                   0x0209C2B0  arm
  */
+#include "../version.h"
 #include "game_beacon_types.h"
 #include "game_comm_shared_types.h"
 
@@ -133,7 +135,7 @@ extern void NET_WHPIPE_PublishBeacon(void);
 
 extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gameData);
 
-extern struct QuestionnaireSave *SYMBOL_SAVE_GetBitBlock(struct SaveControl *save);
+extern void *SYMBOL_SAVE_GetBitBlock(void *saveData);
 
 extern int   MISC_SAVEDATA_GetStatusByte(struct QuestionnaireSave *questionnaire, int slot);
 
@@ -141,13 +143,14 @@ extern u32   QUESTIONNAIRE_GetAnswerMax(u8 questionId);
 
 extern u32   SYMBOL_SAVE_ReadBitField(const u8 *answers, u8 questionId);
 
-extern u32 MISC_SAVEDATA_IsTallyFull(struct QuestionnaireSave *questionnaire, u32 questionId, u32 answer);
+extern u32 MISC_SAVEDATA_IsTallyFull(u8 *tally, u32 fieldId, u32 index);
 
-extern void MISC_SAVEDATA_AddHalfwordClamped(struct QuestionnaireSave *questionnaire, int questionId, int counted);
+extern void MISC_SAVEDATA_AddHalfwordClamped(s8 *tally, s32 index, s32 delta);
 
-extern void MISC_SAVEDATA_AddTallyValue(struct QuestionnaireSave *questionnaire, u32 questionId, u32 answer, int count);
+extern void MISC_SAVEDATA_AddTallyValue(u8 *tally, u32 fieldId, u32 index, s32 delta);
+struct SymbolBitSave;
 
-extern const u8 *SYMBOL_SAVE_GetQuestionnaireBits(struct QuestionnaireSave *questionnaire);
+extern const u8 *SYMBOL_SAVE_GetQuestionnaireBits(struct SymbolBitSave *save);
 
 extern struct MiscSave *MISC_GetBlock(struct SaveControl *save);
 
@@ -163,9 +166,10 @@ extern u32 MISC_GetThanksCount(struct MiscSave *misc);
 
 extern u16 *MISC_GetGreetMessage(struct MiscSave *misc);
 
-extern struct PmsSave *GREETING_SAVEDATA_GetFromSaveThunk(struct SaveControl *save);
+extern void *GREETING_SAVEDATA_GetFromSaveThunk(u32 saveData);
+struct QuadRecord;
 
-extern void GREETING_SAVEDATA_GetSentence(struct PmsSave *pmsSave, int index, GameBeaconPms *dst);
+extern void GREETING_SAVEDATA_GetSentence(struct QuadRecord *src, s32 idx, struct QuadRecord *dst);
 
 extern struct PlayerWork *GAME_DATA_GetMyPlayerWork(struct GameData *gameData);
 
@@ -187,7 +191,7 @@ extern u8 MYSTATUS_GetNation(const struct MyStatus *status);
 
 extern u8 MYSTATUS_GetArea(const struct MyStatus *status);
 
-extern u16 *MYSTATUS_GetName(const struct MyStatus *status);
+extern void *MYSTATUS_GetName(void *mystatus);
 
 extern u16   STRBUF_GetEosChar(void);
 
@@ -265,9 +269,9 @@ void GAME_BEACON_SetPokeGet(u16 monsNo);
 
 void GAME_BEACON_SetSpecialPokeGet(u16 monsNo);
 
-void GAME_BEACON_SetPokeLevelUp(u16 nickname);
+void GAME_BEACON_SetPokeLevelUp(struct Strbuf *nickname);
 
-void GAME_BEACON_SetPokeEvolution(u16 monsNo, u16 nickname);
+void GAME_BEACON_SetPokeEvolution(u16 monsNo, struct Strbuf *nickname);
 
 void GAME_BEACON_SetPlayTime(u32 playHours);
 
@@ -470,9 +474,9 @@ void GAME_BEACON_AddLog(GameBeaconWork *work, const GameBeaconInfo *info)
         questionId = MISC_SAVEDATA_GetStatusByte(questionnaire, i);
         if (questionId != 0xff) {
             answer = GAME_BEACON_GetAnswer(info, questionId);
-            if (answer != 0 && MISC_SAVEDATA_IsTallyFull(questionnaire, questionId, answer) == 0) {
-                MISC_SAVEDATA_AddHalfwordClamped(questionnaire, questionId, 1);
-                MISC_SAVEDATA_AddTallyValue(questionnaire, questionId, answer, 1);
+            if (answer != 0 && MISC_SAVEDATA_IsTallyFull((u8 *)questionnaire, questionId, answer) == 0) {
+                MISC_SAVEDATA_AddHalfwordClamped((s8 *)questionnaire, questionId, 1);
+                MISC_SAVEDATA_AddTallyValue((u8 *)questionnaire, questionId, answer, 1);
                 work->questionnaireUpdated = 1;
             }
         }
@@ -518,7 +522,7 @@ int GAME_BEACON_ReceiveInfo(const GameBeaconInfo *info)
     signed char newest;
     signed char oldest;
 
-    if ((info->versionBit & 2) == 0) {
+    if ((info->versionBit & PM_VERSION_BIT) == 0) {
         return hit;
     }
     action = info->action;
@@ -722,7 +726,7 @@ void GAME_BEACON_BuildMyInfo(GameBeaconInfo *info, struct GameData *gameData)
     myStatus = GAME_DATA_GetMyStatus(gameData);
     save = GAME_DATA_GetSaveControl(gameData);
     misc = MISC_GetBlock(save);
-    pmsSave = GREETING_SAVEDATA_GetFromSaveThunk(save);
+    pmsSave = GREETING_SAVEDATA_GetFromSaveThunk((u32)save);
     OS_GetOwnerInfo(&ownerInfo);
     info->versionBit = 0xff;
     info->zoneId = GAME_DATA_GetPlayerZoneId(GAME_DATA_GetMyPlayerWork(gameData));
@@ -739,7 +743,7 @@ void GAME_BEACON_BuildMyInfo(GameBeaconInfo *info, struct GameData *gameData)
     } else {
         info->trainerView = MYSTATUS_GetTrainerView(myStatus) - 8;
     }
-    info->pmVersion = 0x15;
+    info->pmVersion = PM_VERSION_ID;
     info->language = 2;
     info->nation = MYSTATUS_GetNation(myStatus);
     info->area = MYSTATUS_GetArea(myStatus);
@@ -750,7 +754,7 @@ void GAME_BEACON_BuildMyInfo(GameBeaconInfo *info, struct GameData *gameData)
     info->playHours = PLAYTIME_GetHours(playTime);
     info->playMinutes = PLAYTIME_GetMinutes(playTime);
     MI_CpuCopy8(SYMBOL_SAVE_GetQuestionnaireBits(SYMBOL_SAVE_GetBitBlock(save)), info->questionnaire, sizeof(info->questionnaire));
-    GREETING_SAVEDATA_GetSentence(pmsSave, 0, &pms);
+    GREETING_SAVEDATA_GetSentence((struct QuadRecord *)pmsSave, 0, (struct QuadRecord *)(&pms));
     GAME_BEACON_SetMyPms(&pms);
     eomCode = STRBUF_GetEosChar();
     codes = MYSTATUS_GetName(myStatus);
@@ -978,9 +982,8 @@ static void GAME_BEACON_WritePokeGet(GameBeaconRecord *own, u16 monsNo);
  * and 0x23, one 16-bit argument at +0x32 or +0x34, then tail-call
  * GAME_BEACON_ResetDetails (details type back to 5).  The 0x10 writer instead
  * tail-calls GAME_BEACON_CopyStrbufCodes(nickname, +0x34) and skips GAME_BEACON_ResetDetails; the
- * 0x11 writer does both.  The nickname argument is declared u16 although
- * it is a string pointer; the caller's narrowing is in the bytes, so the
- * cast stays.  The play time setter takes a u32: GAME_BEACON_Update passes its
+ * 0x11 writer does both.  The nickname argument is a Strbuf pointer.
+ * The play time setter takes a u32: GAME_BEACON_Update passes its
  * s32 without narrowing.
  *
  * Verified with:
@@ -1019,9 +1022,9 @@ static void GAME_BEACON_WriteSpecialPokeGet(GameBeaconRecord *own, u16 monsNo)
     GAME_BEACON_ResetDetails(&own->info);
 }
 
-static void GAME_BEACON_WritePokeLevelUp(GameBeaconRecord *own, u16 nickname);
+static void GAME_BEACON_WritePokeLevelUp(GameBeaconRecord *own, struct Strbuf *nickname);
 
-void GAME_BEACON_SetPokeLevelUp(u16 nickname)
+void GAME_BEACON_SetPokeLevelUp(struct Strbuf *nickname)
 {
     if (GAME_BEACON_CheckActionPriority(0x10)) {
         GAME_BEACON_WritePokeLevelUp(&GAME_BEACON_Work->own, nickname);
@@ -1029,15 +1032,15 @@ void GAME_BEACON_SetPokeLevelUp(u16 nickname)
     }
 }
 
-static void GAME_BEACON_WritePokeLevelUp(GameBeaconRecord *own, u16 nickname)
+static void GAME_BEACON_WritePokeLevelUp(GameBeaconRecord *own, struct Strbuf *nickname)
 {
     own->info.action = 0x10;
-    GAME_BEACON_CopyStrbufCodes((const struct Strbuf *)nickname, own->info.actionData.nickname);
+    GAME_BEACON_CopyStrbufCodes(nickname, own->info.actionData.nickname);
 }
 
-static void GAME_BEACON_WritePokeEvolution(GameBeaconRecord *own, u16 monsNo, u16 nickname);
+static void GAME_BEACON_WritePokeEvolution(GameBeaconRecord *own, u16 monsNo, struct Strbuf *nickname);
 
-void GAME_BEACON_SetPokeEvolution(u16 monsNo, u16 nickname)
+void GAME_BEACON_SetPokeEvolution(u16 monsNo, struct Strbuf *nickname)
 {
     if (GAME_BEACON_CheckActionPriority(0x11)) {
         GAME_BEACON_WritePokeEvolution(&GAME_BEACON_Work->own, monsNo, nickname);
@@ -1045,11 +1048,11 @@ void GAME_BEACON_SetPokeEvolution(u16 monsNo, u16 nickname)
     }
 }
 
-static void GAME_BEACON_WritePokeEvolution(GameBeaconRecord *own, u16 monsNo, u16 nickname)
+static void GAME_BEACON_WritePokeEvolution(GameBeaconRecord *own, u16 monsNo, struct Strbuf *nickname)
 {
     own->info.action = 0x11;
     own->info.actionArg = monsNo;
-    GAME_BEACON_CopyStrbufCodes((const struct Strbuf *)nickname, own->info.actionData.nickname);
+    GAME_BEACON_CopyStrbufCodes(nickname, own->info.actionData.nickname);
     GAME_BEACON_ResetDetails(&own->info);
 }
 

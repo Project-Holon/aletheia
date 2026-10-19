@@ -182,32 +182,40 @@ extern void G3D_UTIL_Delete(void *gfxUnits);
 extern u32 G3D_UTIL_AddUnit(u32, u32);
 
 extern u32 MTX_Identity33_(u32);
+struct G3dCamera;
 
-void G3D_CAMERA_Reset(void *camera);
+void G3D_CAMERA_Reset(struct G3dCamera *camera);
 
 u32 G3D_UTIL_GetUnitObjIdx(void *gfxUnits, int index);
 
 u32 G3D_UTIL_GetUnitObjCount(void *gfxUnits, int index);
 
 u32 G3D_UTIL_GetObject(void *gfxUnits, int index);
+struct G3dObjectStatus;
+struct G3dObject;
 
-void G3D_SYSTEM_DrawObject(void *object, G3dObjectStatus *status);
+void G3D_SYSTEM_DrawObject(struct G3dObject *obj, struct G3dObjectStatus *status);
 
 u32 GFL_HEAP_GetAllocatableSize(int a);
 
 extern void *GAME_EVENT_Create(void *gameSystem, void *parent, void *func, u32 workSize);
+struct GameEvent;
 
-extern void *GAME_EVENT_GetWork(void *event);
+extern void *GAME_EVENT_GetWork(struct GameEvent *event);
+struct GameSystem;
+struct GameData;
 
-void *GAMESYSTEM_GetGameData(const void *p);
+struct GameData *GAMESYSTEM_GetGameData(struct GameSystem *gameSystem);
 
-void *GAME_DATA_GetMyParty(const void *p);
+void *GAME_DATA_GetMyParty(struct GameData *gd);
+struct Party;
+struct PokemonParam;
 
-extern void *POKEPARTY_GetMember(void *p, u32 idx);
+extern struct PokemonParam *POKEPARTY_GetMember(struct Party *party, u32 pos);
 
-u32 POKE_TOOL_GetPartyValue(void *p, u32 id, u32 v);
+u32 POKE_TOOL_GetPartyValue(struct PokemonParam *pp, u32 paramId, u32 arg);
 
-u32 POKE_TOOL_IsShiny(void *p);
+u32 POKE_TOOL_IsShiny(struct PokemonParam *pp);
 
 int GF_OVERLAY_Load(signed int id);
 
@@ -224,27 +232,31 @@ typedef struct Fld3dCiNameRow {
 
 const Fld3dCiNameRow *FLD3D_CI_GetNameRow(int index);
 
-extern void *GAME_EVENT_GetGameSystem(void *event);
+extern struct GameSystem *GAME_EVENT_GetGameSystem(struct GameEvent *event);
 
-extern void *GAMESYSTEM_GetFieldMap(const void *p);
+extern void *GAMESYSTEM_GetFieldMap(struct GameSystem *gameSystem);
+struct FieldMap;
+struct MmdlSys;
 
-extern void *FIELDMAP_GetMmdlSys(unsigned char *p);
+extern struct MmdlSys *FIELDMAP_GetMmdlSys(struct FieldMap *fieldMap);
 
-extern void FLDMMDL_SysPauseMove(void *o);
+extern void FLDMMDL_SysPauseMove(struct MmdlSys *sys);
 
-extern void GAME_EVENT_CallEvent(void *event, void *child);
+extern void GAME_EVENT_CallEvent(struct GameEvent *parent, struct GameEvent *child);
+struct FieldPlayer;
 
-extern void *FIELDMAP_GetFieldPlayer(void *p);
+extern struct FieldPlayer *FIELDMAP_GetFieldPlayer(struct FieldMap *fieldMap);
+struct Mmdl;
 
-extern void *FIELD_PLAYER_GetMmdl(unsigned char *p);
+extern struct Mmdl *FIELD_PLAYER_GetMmdl(struct FieldPlayer *player);
 
-extern void FLDMMDL_SetStatusBitVanish(unsigned int *p, unsigned int v);
+extern void FLDMMDL_SetStatusBitVanish(struct Mmdl *mmdl, s32 flag);
 
-extern void *FLDMMDL_SysSearchObjId(void *map, u32 id);
+extern struct Mmdl *FLDMMDL_SysSearchObjId(struct MmdlSys *sys, u32 objId);
 
-extern void FLDMMDL_DeleteMmdl(u32 a);
+extern void FLDMMDL_DeleteMmdl(struct Mmdl *mmdl);
 
-extern void FIELDMAP_SetUpdateStopped(u8 *p, u32 v);
+extern void FIELDMAP_SetUpdateStopped(struct FieldMap *fieldMap, s32 stopped);
 
 extern void BG_SYS_SetPriority(int idx, unsigned short val);
 
@@ -252,7 +264,7 @@ extern void BG_SYS_SetGraphicsMode(void *dispConfig);
 
 extern void GX_SetBankForBG(int a);
 
-extern void G2x_SetBlendAlpha_(int, int, int, int, int);
+extern void G2x_SetBlendAlpha_(u32 *reg, u32 a, u32 b, u32 c, u32 d);
 
 extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
 
@@ -262,11 +274,11 @@ extern int FIELD_FOG_SetFlag(u32 a, u32 b);
 
 extern void *GFL_HEAP_GetHeapHead(u32 heapId);
 
-extern void FIELDMAP_SetDrawMode(u8 *p, u32 v);
+extern void FIELDMAP_SetDrawMode(struct FieldMap *fieldMap, s32 drawMode);
 
 extern int GFL_USE_IsLoaderBusy(void);
 
-extern void FLDMMDL_SetDirDispCheckPause(int mmdl, int dir);
+extern void FLDMMDL_SetDirDispCheckPause(struct Mmdl *mmdl, s32 dir);
 
 extern void G3X_SetClearColor(u16 rgb, int alpha, int depth, int polygonID, int fog);
 
@@ -275,26 +287,28 @@ extern u32 FIELDMAP_GetLight(u8 *p);
 extern void FIELD_LIGHT_Reflect(u8 *p, int force);
 
 extern void *GFL_USE_AddMainTask(void *callback, void *ctx, int priority);
+struct FieldMsgBg;
 
-extern u32 FIELDMAP_GetMsgBg(u8 *p);
+extern struct FieldMsgBg *FIELDMAP_GetMsgBg(struct FieldMap *fieldMap);
+struct FieldPlaceName;
 
-extern u32 FIELDMAP_GetPlaceName(u8 *p);
+extern struct FieldPlaceName *FIELDMAP_GetPlaceName(struct FieldMap *fieldMap);
 
-extern void FIELD_MSGBG_ReloadBg(char *p);
+extern void FIELD_MSGBG_ReloadBg(struct FieldMsgBg *msgBg);
 
-extern void FIELD_PLACE_NAME_RestoreWindow(u8 *p);
+extern void FIELD_PLACE_NAME_RestoreWindow(struct FieldPlaceName *placeName);
 
-extern void FIELD_MSGBG_RequestSysFrame(u8 *p);
+extern void FIELD_MSGBG_RequestSysFrame(struct FieldMsgBg *msgBg);
 
-extern void BG_SYS_FreeSlot(int);
+extern void BG_SYS_FreeSlot(u8 idx);
 
-extern u32 *FLDMMDL_SysResumeMove(void *c);
+extern void FLDMMDL_SysResumeMove(struct MmdlSys *sys);
 
-int G3D_SYSTEM_GetObjectAnimeCount(G3dObject *object);
+u16 G3D_SYSTEM_GetObjectAnimeCount(G3dObject *object);
 
 int G3D_SYSTEM_IncObjectAnimeFrame(G3dObject *object, int animIndex, int amount);
 
-u32 G3D_SYSTEM_EnableObjectAnime(G3dObject *object, u32 animIndex);
+s32 G3D_SYSTEM_EnableObjectAnime(G3dObject *object, u32 animIndex);
 
 u16 PARTICLE_RESOURCE_GetType(void *res);
 
@@ -304,9 +318,10 @@ int PARTICLE_StartEffectWithCallback(int *p, int a, int b, int c);
 
 extern void ARC_TOOL_ReadMember(void *dst, u32 archive_id, u32 member);
 
-extern void GX_SetBankForLCDC(u32 a);
+extern void GX_SetBankForLCDC(s32 lcdc);
+struct TcbTask;
 
-extern void TCB_DeleteTask(void *n);
+extern void TCB_DeleteTask(struct TcbTask *task);
 
 extern u8 BG_SYS_GetPriority(u32 layer);
 
@@ -314,13 +329,14 @@ u32 BG_SYS_GetMainVisiblePlanes(void);
 
 extern void BG_SYS_SetMainVisiblePlanes(u32 a);
 
-extern void *GAME_EVENT_GetParent(void *event);
+extern struct GameEvent *GAME_EVENT_GetParent(struct GameEvent *event);
 
-void BMP_Delete(void *bmp);
+void BMP_Delete(struct Bmp *bmp);
+struct SaveBlock;
 
-void PM_VOICE_GetPerapVoiceSave(void **out);
+void PM_VOICE_GetPerapVoiceSave(struct SaveBlock **out);
 
-unsigned int PM_VOICE_Play(unsigned int species, unsigned int form, unsigned int pan, unsigned int dual, unsigned int volumeBiasB, unsigned int frequencyOffsetB, unsigned int reverse, unsigned int recordedVoice);
+unsigned int PM_VOICE_Play(unsigned int species, unsigned int form, unsigned int pan, unsigned int dual, unsigned int volumeBiasB, unsigned int frequencyOffsetB, unsigned int reverse, void **recordedVoice);
 
 int PM_VOICE_IsAnyActive(void);
 
@@ -333,10 +349,11 @@ void PM_VOICE_StopAll(void);
 extern struct Bmp *BMP_Create(u32 width, u32 height, u32 depth, u16 heap);
 
 extern u32 G3D_UTIL_GetResource(void *gfxUnits, int index);
+struct G3dResource;
 
-extern u32 G3D_SYSTEM_GetTexVramKey(void *texBlock);
+extern u32 G3D_SYSTEM_GetTexVramKey(struct G3dResource *res);
 
-extern u32 G3D_SYSTEM_GetPlttVramKey(void *texBlock);
+extern u32 G3D_SYSTEM_GetPlttVramKey(struct G3dResource *res);
 
 extern int POKEGRA_GetArcID(void);
 
@@ -344,9 +361,9 @@ extern s32 POKEGRA_GetCgrArcIndex(u32 arcId, u32 monsNo, u32 formNo, u32 sex, u3
 
 extern s32 POKEGRA_GetPalArcIndex(u32 arcId, u32 monsNo, u32 formNo, u32 sex, u32 s5, u32 s6, u32 s7);
 
-extern void *ARC_UTIL_LoadScreenDataFromArchive(u32 archiveID, u32 memberIdx, u32 heapID, u32 unpackedOut, u16 flags);
+extern void *ARC_UTIL_LoadScreenDataFromArchive(u32 archiveID, u32 memberIdx, u32 heapID, void *unpackedOut, u16 flags);
 
-extern void *ARC_UTIL_LoadPaletteBlockFromArchive(u32 archiveID, u32 memberIdx, u32 unpackedOut, u32 flags);
+extern void *ARC_UTIL_LoadPaletteBlockFromArchive(u32 archiveID, u32 memberIdx, void *unpackedOut, u16 flags);
 
 extern void *BMP_GetPixels(const struct Bmp *bmp);
 
@@ -362,49 +379,55 @@ void FADE_Start(u32 a, s32 b, s32 c, s32 d);
 
 int FADE_IsActive(void);
 
-extern void *G3D_SYSTEM_GetResourceFile(void *p);
+extern void *G3D_SYSTEM_GetResourceFile(struct G3dResource *res);
 
 extern unsigned char *NNS_G3dGetTex(unsigned char *p);
 
-extern void *ARC_UTIL_LoadBgCharDataFromArchive(u32 archiveID, u32 memberIdx, u32 heapID, u32 unpackedOut, u16 flags);
+extern void *ARC_UTIL_LoadBgCharDataFromArchive(u32 archiveID, u32 memberIdx, u32 heapID, void *unpackedOut, u16 flags);
+struct MyStatus;
 
-extern void *GAME_DATA_GetMyStatus(void *gameData);
+extern struct MyStatus *GAME_DATA_GetMyStatus(struct GameData *gd);
 
-extern u8 MYSTATUS_GetSex(const void *playerStatus);
+extern u8 MYSTATUS_GetSex(struct MyStatus *mystatus);
 
 extern void G3D_SYSTEM_SetSwapBuffersMode(u32 a, u32 b);
 
 extern int NNS_G3dGetResDataByName(void *dict, Fld3dCiNameKey *key);
 
 extern int STD_GetStringLength(const char *s);
+struct MsgBank;
 
-extern void *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+struct WordSet;
 
-extern void *WORDSET_CreateDefault(u32 heap);
+extern struct WordSet *WORDSET_CreateDefault(u16 heapId);
 
 extern void *STRBUF_Create(u32 size, u16 heap);
+struct Strbuf;
 
-extern void *MSGDATA_AllocString(void *bank, u32 index);
+extern struct Strbuf *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
 
-extern void WORDSET_SetSlotMyStatus(void *wordSet, u32 index, void *playerStatus);
+extern void WORDSET_SetSlotMyStatus(struct WordSet *words, u32 slot, void *source);
 
-extern void WORDSET_CopyTaggedText(void *ws, void *dst, void *src);
+extern void WORDSET_CopyTaggedText(struct WordSet *words, struct Strbuf *dst, struct Strbuf *src);
 
-extern void STRBUF_Delete(void *vec);
+extern void STRBUF_Delete(struct Strbuf *strbuf);
 
-extern u32 WORDSET_Delete(void *p);
+extern u32 WORDSET_Delete(struct WordSet *words);
 
-extern void WORDSET_AppendUnpackedString(void *dst, void *src);
+extern void WORDSET_AppendUnpackedString(struct Strbuf *dst, struct Strbuf *src);
+struct GfFont;
 
-extern void *GF_FONT_Create(int archiveId, int fileId, int format, int isFixedWidth, u32 heapId);
+extern struct GfFont *GF_FONT_Create(int archiveId, int fileId, int format, int isFixedWidth, u32 heapId);
 
-extern u32 PRINTSYS_MeasureWidestLine(void *s, u32 a, u32 b);
+extern u32 PRINTSYS_MeasureWidestLine(struct Strbuf *text, struct GfFont *font, unsigned int spacing);
 
-extern u32 GF_FONT_Delete(void *ptr);
+extern u32 GF_FONT_Delete(struct GfFont *font);
+struct TexKey;
 
-extern int TEXT_TEXTURE_LoadTexPlttByName(void *texBlock, const char *texName, void *palette, const char *plttName, u32 text, u16 xOffset, u16 yPos, u16 color, u16 heap, void *texKey);
+extern int TEXT_TEXTURE_LoadTexPlttByName(void *file, char *texName, void *extra, char *plttName, unsigned int text, unsigned short xPos, unsigned short yPos, unsigned short color, unsigned short heap, struct TexKey *out);
 
-extern u32 MSGDATA_Delete(void *rec);
+extern u32 MSGDATA_Delete(struct MsgBank *bank);
 
 extern int GX_ResetBankForBG(void);
 
@@ -774,7 +797,7 @@ int FLD3D_CI_EventMain(void *event, int *state, Fld3dCiEventWork *work)
         if (ci->sequenceId == 0x11) {
             u32 mmdl = (u32)FLDMMDL_SysSearchObjId(FIELDMAP_GetMmdlSys(fieldMap), (u16)ci->arg.pokemon.species);
             if (mmdl)
-                FLDMMDL_DeleteMmdl(mmdl);
+                FLDMMDL_DeleteMmdl((struct Mmdl *)mmdl);
             break;
         }
     case 2:
@@ -791,7 +814,7 @@ int FLD3D_CI_EventMain(void *event, int *state, Fld3dCiEventWork *work)
         BG_SYS_SetGraphicsMode(&bgMode);
         *(vu16 *)0x0400000C = (*(vu16 *)0x0400000C & 0x43) | 0x4084;
         GX_SetBankForBG(8);
-        G2x_SetBlendAlpha_(0x04000050, 0, 4, 0, 0);
+        G2x_SetBlendAlpha_((u32 *)0x04000050, 0, 4, 0, 0);
         BG_SYS_SetPlaneVisible(2, 1);
         FIELD_FOG_SetFlag(FIELDMAP_GetFog(fieldMap), 0);
         (*state)++;
@@ -845,7 +868,7 @@ int FLD3D_CI_EventMain(void *event, int *state, Fld3dCiEventWork *work)
         if (FLD3D_CI_IsAltFadeSequence(ci->sequenceId)) {
             void *mmdlSys = FIELD_PLAYER_GetMmdl(FIELDMAP_GetFieldPlayer(fieldMap));
             FLDMMDL_SetStatusBitVanish(mmdlSys, 0);
-            FLDMMDL_SetDirDispCheckPause((int)mmdlSys, 1);
+            FLDMMDL_SetDirDispCheckPause((struct Mmdl *)mmdlSys, 1);
             FIELDMAP_SetUpdateStopped(fieldMap, 0);
         } else {
             BG_SYS_SetPlaneVisible(0, 0);
@@ -864,11 +887,11 @@ int FLD3D_CI_EventMain(void *event, int *state, Fld3dCiEventWork *work)
         if (ci->displayRestoreDone == 0)
             break;
         GFL_HEAP_GetHeapHead(ci->heapId);
-        modelSys = FIELDMAP_GetMsgBg(fieldMap);
-        particleSys = FIELDMAP_GetPlaceName(fieldMap);
-        FIELD_MSGBG_ReloadBg((char *)modelSys);
-        FIELD_PLACE_NAME_RestoreWindow((u8 *)particleSys);
-        FIELD_MSGBG_RequestSysFrame((u8 *)modelSys);
+        modelSys = (u32)FIELDMAP_GetMsgBg(fieldMap);
+        particleSys = (u32)FIELDMAP_GetPlaceName(fieldMap);
+        FIELD_MSGBG_ReloadBg((struct FieldMsgBg *)modelSys);
+        FIELD_PLACE_NAME_RestoreWindow((struct FieldPlaceName *)particleSys);
+        FIELD_MSGBG_RequestSysFrame((struct FieldMsgBg *)modelSys);
         *(vu16 *)0x0400000C = (*(vu16 *)0x0400000C & 0x43) | 0x1f18;
         BG_SYS_FreeSlot(2);
         FLD3D_CI_RestoreLayerPriorities(ci);
@@ -1251,8 +1274,8 @@ int FLD3D_CI_PokemonFinishStep(void *event, Fld3dCi *ci)
         (pokemon->cryDelay)--;
         if (pokemon->cryDelay == 0) {
             if (pokemon->species == 0x1b9) {
-                PM_VOICE_GetPerapVoiceSave((void **)voiceBuf);
-                pokemon->cryHandle = PM_VOICE_Play(pokemon->species, pokemon->form, 0x40, 0, 0, 0, 0, (unsigned int)voiceBuf);
+                PM_VOICE_GetPerapVoiceSave((struct SaveBlock **)voiceBuf);
+                pokemon->cryHandle = PM_VOICE_Play(pokemon->species, pokemon->form, 0x40, 0, 0, 0, 0, (void **)voiceBuf);
             } else {
                 pokemon->cryHandle = PM_VOICE_Play(pokemon->species, pokemon->form, 0x40, 0, 0, 0, 0, 0);
             }
@@ -1313,8 +1336,8 @@ void FLD3D_CI_LoadPokemonIconTexture(Fld3dCi *ci)
     plttFile = POKEGRA_GetPalArcIndex(POKEGRA_GetArcID(), args[0], args[1], args[2], args[3], 0, args[4]);
     ci->chr = 0;
     ci->pltt = 0;
-    ci->chrRes = ARC_UTIL_LoadScreenDataFromArchive(POKEGRA_GetArcID(), chrFile, 1, (u32)(&ci->chr), heapId);
-    ci->plttRes = ARC_UTIL_LoadPaletteBlockFromArchive(POKEGRA_GetArcID(), plttFile, (u32)(&ci->pltt), heapId);
+    ci->chrRes = ARC_UTIL_LoadScreenDataFromArchive(POKEGRA_GetArcID(), chrFile, 1, (&ci->chr), heapId);
+    ci->plttRes = ARC_UTIL_LoadPaletteBlockFromArchive(POKEGRA_GetArcID(), plttFile, (&ci->pltt), heapId);
     chrSrc = ci->chr->raw;
     tileBuf = BMP_GetPixels(ci->canvas);
     MIi_CpuClear32(0, tileBuf, 0x2000);
@@ -1437,8 +1460,8 @@ void FLD3D_CI_LoadNameTexture(Fld3dCi *ci, const char *texName, const char *pltt
     plttOffset = FLD3D_CI_FindPalette(modelRes, plttName);
     ci->chr = 0;
     ci->pltt = 0;
-    ci->chrRes = ARC_UTIL_LoadBgCharDataFromArchive(0xb4, chrFile, 1, (u32)(&ci->chr), heapId);
-    ci->plttRes = ARC_UTIL_LoadPaletteBlockFromArchive(0xb4, plttFile, (u32)(&ci->pltt), heapId);
+    ci->chrRes = ARC_UTIL_LoadBgCharDataFromArchive(0xb4, chrFile, 1, (&ci->chr), heapId);
+    ci->plttRes = ARC_UTIL_LoadPaletteBlockFromArchive(0xb4, plttFile, (&ci->pltt), heapId);
     chrSrc = ci->chr->raw;
     tileBuf = BMP_GetPixels(ci->canvas);
     MIi_CpuClear32(0, tileBuf, 0x2000);
@@ -1633,17 +1656,17 @@ void FLD3D_CI_DrawMessageTexture(void *playerStatus, Fld3dCi *ci, const char *te
     xOffset = 0;
     if (centered != 0) {
         font = GF_FONT_Create(0x17, 0, 0, 0, heapId);
-        xOffset = PRINTSYS_MeasureWidestLine(text, (u32)font, 0);
+        xOffset = PRINTSYS_MeasureWidestLine(text, font, 0);
         GF_FONT_Delete(font);
         xOffset = 0x3c - xOffset;
         if (xOffset < 0)
             xOffset = 0;
     }
-    ci->plttRes = ARC_UTIL_LoadPaletteBlockFromArchive(0x17, 5, (u32)(&ci->pltt), heapId);
+    ci->plttRes = ARC_UTIL_LoadPaletteBlockFromArchive(0x17, 5, (&ci->pltt), heapId);
     palette = ci->pltt->raw;
     palette[1] = 0x7FFF;
     palette[2] = 0;
-    TEXT_TEXTURE_LoadTexPlttByName(texBlock, texName, palette, plttName, (u32)text, xOffset, 0, 0x440, heapId, texKey);
+    TEXT_TEXTURE_LoadTexPlttByName(texBlock, (char *)texName, palette, (char *)plttName, (u32)text, xOffset, 0, 0x440, heapId, (struct TexKey *)texKey);
     GFL_HEAP_Free(ci->plttRes);
     GFL_HEAP_Free(text);
     MSGDATA_Delete(msgBank);

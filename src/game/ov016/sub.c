@@ -90,7 +90,7 @@ extern void GX_SetBankForSubOBJExtPltt(int sub_objExtPltt);
 extern void GX_SetBankForLCDC(int lcdc);
 extern void MIi_CpuClearFast(unsigned long data, void *destp, unsigned long size);
 extern unsigned long PM_GetLEDPattern(int *patternBuf);
-extern unsigned long PMi_SendLEDPatternCommand(int pattern);
+extern unsigned long PMi_SendLEDPatternCommand(unsigned int pattern);
 void DWCi_ClearVram(void);
 void DWCi_RepairVram(void);
 void DWCi_SetLedWireless(void);

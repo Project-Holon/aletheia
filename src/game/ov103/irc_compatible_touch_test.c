@@ -340,14 +340,18 @@ typedef struct IrcTouchWork {
 } IrcTouchWork;
 
 extern void GFL_HEAP_CreateChildHeap(u32 parentId, u32 heapId, u32 size);
-extern void *PROCSYS_AllocProcWork(void *proc, u32 size, u32 heapId);
+struct Proc;
+extern void *PROCSYS_AllocProcWork(struct Proc *proc, u32 size, u32 heapId);
 extern void MI_CpuFill8(void *dest, int value, u32 size);
-extern u32 GAMESYSTEM_GetGameComm(void *gameSystem);
-extern void BMP_MENUWORK_DrawWindow(void *bmpWin, int commitMode, int tileBase, int palette);
+struct GameSystem;
+struct GameComm;
+extern struct GameComm *GAMESYSTEM_GetGameComm(struct GameSystem *gameSystem);
+struct BmpWin;
+extern void BMP_MENUWORK_DrawWindow(struct BmpWin *win, s32 commitMode, u16 tileBase, u32 palette);
 extern void BG_SYS_ChangeScale(u32 which, u32 op, u32 value);
 extern void BG_SYS_ChangeCenter(u32 which, u32 op, u16 value);
 extern void COMPATIBLE_IRC_SYS_SetOwnValue(IrcSys *sys, int value);
-extern void PROCSYS_FreeProcWork(void *proc);
+extern void PROCSYS_FreeProcWork(struct Proc *proc);
 extern void GFL_HEAP_DeleteChecked(unsigned heapId);
 extern void FADE_Start(u32, int, int, int);
 extern int FADE_IsActive(void);
@@ -357,8 +361,10 @@ extern void BG_SYS_SetVramBanks(const void *config);
 extern int BG_SYS_SetLcdSwap(int);
 extern int BG_SYS_ResetSubDisplay(int);
 extern void BG_SYS_ClearMainPlanes(int);
-extern unsigned GFL_USE_AddMainTask(void (*task)(unsigned, void *), void *work, unsigned priority);
-extern void TCB_DeleteTask(unsigned task);
+struct Tcb;
+extern struct Tcb *GFL_USE_AddMainTask(void (*task)(unsigned, void *), void *work, unsigned priority);
+struct TcbTask;
+extern void TCB_DeleteTask(struct TcbTask *task);
 extern void BG_SYS_Create(u16);
 extern void BMP_WIN_Init(u16);
 extern void BG_SYS_SetGraphicsMode(const void *config);
@@ -372,14 +378,16 @@ extern void ARC_UTIL_UploadBgPaletteFromHandle(void *, u32, u32, u32, u32, u32, 
 extern void BG_SYS_Init(u32, u32, u32, u32);
 extern u32 ARC_UTIL_RegisterObjCharFromHandle(void *, u32, u32, u32, u32, u16);
 extern void ARC_TOOL_DeleteHandle(void *);
-extern void G2x_SetBlendAlpha_(int, int, int, int, int);
+extern void G2x_SetBlendAlpha_(u32 *reg, u32 a, u32 b, u32 c, u32 d);
 extern void BG_SYS_FreeTileRun(u32 layer, u32 offset, u32 size);
-extern void BG_SYS_FreeTiles(int, int, int);
+extern void BG_SYS_FreeTiles(u32 idx, u32 count, u32 tile);
 extern void BG_SYS_FreeLayerBuf(u8);
 extern void BMP_WIN_Exit(void);
 extern void BG_SYS_Delete(void);
 extern void BG_SYS_Update(void);
-extern void CLACT_InitSystem(const void *config, u32 arg, u32 heapId);
+struct DispVramCfg;
+struct SysInit;
+extern void CLACT_InitSystem(struct SysInit *cfg, struct DispVramCfg *res_cfg, u32 heapId);
 extern void *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 extern void CLACT_SetUnitDefaultRenderer(void *unit);
 extern void BG_SYS_SetMainPlaneVisible(u32, u32);
@@ -388,12 +396,13 @@ extern int CLACT_RegisterPalette(void *a, u32 b, u32 c, u32 d, u16 g);
 extern int CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 vram_mode, u16 flags);
 extern int CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 extern void *CLACT_CreateActor(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
-extern void CLACT_SetActorDrawEnable(void *, unsigned int);
-extern void CLACT_SetActorBgPriority(void *, u32);
-extern void CLACT_SetActorAutoAnim(void *, u32);
-extern void CLACT_SetActorAnimSeq(void *actor, u16 seq);
-extern void CLACT_DeleteActor(void *actor);
-extern void CLACT_ReleasePalette(int);
+struct Actor;
+extern void CLACT_SetActorDrawEnable(struct Actor *actor, u32 value);
+extern void CLACT_SetActorBgPriority(struct Actor *actor, u32 priority);
+extern void CLACT_SetActorAutoAnim(struct Actor *actor, u32 enable);
+extern void CLACT_SetActorAnimSeq(struct Actor *actor, u16 value);
+extern void CLACT_DeleteActor(struct Actor *actor);
+extern void CLACT_ReleasePalette(u32 idx);
 extern void CLACT_ReleaseCharacter(int);
 extern void CLACT_ReleaseCellAnim(int);
 extern int CLACT_DeleteUnit(void *unit);
@@ -402,81 +411,102 @@ extern void CLACT_DrawSystem(void);
 extern void CLACT_VBlankSystem(void);
 extern void G3D_SYSTEM_Init(int, int, int, int, int, int, void (*setupDisplay)(void));
 extern void *G3D_CAMERA_Create(int, int, int, int, int, int, int, int, void *, void *, void *, int);
-extern void G3D_CAMERA_Delete(void *);
+extern u32 G3D_CAMERA_Delete(void *);
 extern void G3D_SYSTEM_Exit(void);
 extern void G3D_SYSTEM_DrawStart(void);
-extern void G3D_CAMERA_Reset(void *);
+struct G3dCamera;
+extern void G3D_CAMERA_Reset(struct G3dCamera *camera);
 extern void G3D_SYSTEM_ApplyLookAt(void);
 extern void G3D_SYSTEM_DrawEnd(void);
 extern void G3X_SetFog(int, int, int, int);
 extern void G3X_SetClearColor(u16 rgb, int alpha, int depth, int polygonID, int fog);
-extern void G3D_SYSTEM_SetLight(u32 idx, const u16 *src);
+struct G3dLight;
+extern void G3D_SYSTEM_SetLight(u32 lightIdx, struct G3dLight *light);
 extern void G3D_SYSTEM_SetSwapBuffersMode(u32 a, u32 b);
-extern void *G3D_SYSTEM_CreateResourceArcHandle(void *, u16);
-extern int G3D_SYSTEM_CheckResourceType(void *, int);
-extern void G3D_SYSTEM_TransVramTexture(void *);
-extern void *G3D_SYSTEM_CreateRender(void *, unsigned, void *);
+struct ArcHandle;
+struct G3dResource;
+extern struct G3dResource *G3D_SYSTEM_CreateResourceArcHandle(struct ArcHandle *arc, u32 dataId);
+extern u32 G3D_SYSTEM_CheckResourceType(struct G3dResource *res, u32 kind);
+extern s32 G3D_SYSTEM_TransVramTexture(struct G3dResource *res);
+struct G3dRender;
+extern struct G3dRender *G3D_SYSTEM_CreateRender(struct G3dResource *mdlRes, u32 mdlIdx, struct G3dResource *texRes);
 extern int *G3D_SYSTEM_GetRenderObj(void *);
-extern void *G3D_SYSTEM_CreateAnime(void *, const void *, int);
-extern void *G3D_SYSTEM_CreateObject(void *, void *, int);
+struct G3dAnime;
+extern struct G3dAnime *G3D_SYSTEM_CreateAnime(struct G3dRender *render, struct G3dResource *anmRes, u32 anmIdx);
+struct G3dObject;
+extern struct G3dObject *G3D_SYSTEM_CreateObject(struct G3dRender *render, struct G3dAnime **anmTbl, s32 anmCount);
 extern void G3D_SYSTEM_EnableObjectAnime(void *, u16);
 extern void NNS_G3dMdlSetMdlPolygonIDAll(int, int);
 extern void MTX_Identity33_(void *matrix);
-extern void G3D_SYSTEM_DeleteObject(void *);
-extern void G3D_SYSTEM_DeleteAnime(void *);
-extern void G3D_SYSTEM_DeleteRender(void *);
-extern void G3D_SYSTEM_DeleteResource(void *);
-extern int G3D_SYSTEM_LoopObjectAnimeFrame(void *a, int idx, int amount);
-extern void G3D_SYSTEM_GetObjectAnimeFrame(void *object, int index, int *frame);
-extern void G3D_SYSTEM_DrawObject(void *object, void *transform);
-extern u32 G3D_SYSTEM_ResetObjectAnimeFrame(void *object, u16 idx);
+extern void G3D_SYSTEM_DeleteObject(struct G3dObject *obj);
+extern void G3D_SYSTEM_DeleteAnime(struct G3dAnime *anime);
+extern void G3D_SYSTEM_DeleteRender(struct G3dRender *render);
+extern void G3D_SYSTEM_DeleteResource(struct G3dResource *res);
+extern int G3D_SYSTEM_LoopObjectAnimeFrame(struct G3dObject *obj, s32 anmIdx, s32 step);
+extern s32 G3D_SYSTEM_GetObjectAnimeFrame(struct G3dObject *obj, u32 anmIdx, s32 *frame);
+struct G3dObjectStatus;
+extern void G3D_SYSTEM_DrawObject(struct G3dObject *obj, struct G3dObjectStatus *status);
+extern s32 G3D_SYSTEM_ResetObjectAnimeFrame(struct G3dObject *obj, u16 anmIdx);
 extern void GF_FONT_InitTextColor(void);
-extern void *GF_FONT_Create(int archiveId, int fileId, int format, int isFixedWidth, u32 heapId);
-extern void *PRINTSYS_QUE_Create(u32 heapId);
-extern void *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+struct GfFont;
+extern struct GfFont *GF_FONT_Create(int archiveId, int fileId, int format, int isFixedWidth, u32 heapId);
+struct PrintQueue;
+extern struct PrintQueue *PRINTSYS_QUE_Create(u32 heapId);
+struct MsgBank;
+extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void *WORDSET_CreateDefault(u32 heap);
-extern u32 WORDSET_Delete(void *wordSet);
-extern void MSGDATA_Delete(void *msgData);
-extern void PRINTSYS_QUE_Delete(void *printQueue);
-extern void GF_FONT_Delete(void *font);
-extern u32 PRINTSYS_QUE_Main(void *printQueue);
-extern void *BMP_WIN_Create(u32, u32, u32, u32, u8, u8, u8);
-extern void *STRBUF_Create(u32 capacity, u32 heapId);
-extern void BMP_WIN_TransferChars(void *bmpWin);
-extern void BMP_WIN_MakeScreen(void *bmpWin);
-extern u8 BMP_WIN_GetBgLayer(void *bmpWin);
+struct WordSet;
+extern u32 WORDSET_Delete(struct WordSet *words);
+extern u32 MSGDATA_Delete(struct MsgBank *bank);
+extern void PRINTSYS_QUE_Delete(struct PrintQueue *queue);
+extern u32 GF_FONT_Delete(struct GfFont *font);
+extern u32 PRINTSYS_QUE_Main(struct PrintQueue *queue);
+extern struct BmpWin *BMP_WIN_Create(u32 bgLayer, u32 posX, u32 posY, u8 width, u8 height, u8 palette, u8 allocDir);
+struct Strbuf;
+extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
+extern void BMP_WIN_TransferChars(struct BmpWin *win);
+extern void BMP_WIN_MakeScreen(struct BmpWin *win);
+extern u8 BMP_WIN_GetBgLayer(struct BmpWin *win);
 extern void BG_SYS_PushTile(u8 index);
-extern void *BMP_WIN_GetBmp(void *bmpWin);
-extern void BMP_Clear(void *bmp, u8 value);
-extern void MSGDATA_ReadString(void *msgData, u32 msgId, void *dest);
-extern void PRINTSYS_QUE_Clear(void *printQueue);
+struct Bmp;
+extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *win);
+extern void BMP_Clear(struct Bmp *bmp, u8 value);
+extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, struct Strbuf *dest);
+extern void PRINTSYS_QUE_Clear(struct PrintQueue *queue);
 extern void PRINTSYS_PrintQue(void *printQueue, void *bmp, s16 x, s16 y, void *strBuf, void *font);
-extern void STRBUF_Delete(void *strBuf);
-extern void BMP_WIN_Delete(void *bmpWin);
-extern int PRINTSYS_QUE_IsExistTarget(void *printQueue, void *bmp);
-extern u8 BMP_WIN_GetWidth(void *bmpWin);
-extern int BMP_WIN_GetHeight(void *bmpWin);
-extern int PRINTSYS_MeasureWidestLine(void *strBuf, void *font, int margin);
-extern int PRINTSYS_CountLines(void *strBuf, void *font);
+extern void STRBUF_Delete(struct Strbuf *strbuf);
+extern u32 BMP_WIN_Delete(struct BmpWin *win);
+extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintQueue *queue, struct Bmp *bmp);
+extern u8 BMP_WIN_GetWidth(struct BmpWin *win);
+extern u8 BMP_WIN_GetHeight(struct BmpWin *win);
+extern u32 PRINTSYS_MeasureWidestLine(struct Strbuf *text, struct GfFont *font, u32 spacing);
+extern u32 PRINTSYS_CountLines(struct Strbuf *text, struct GfFont *font);
 extern void PRINTSYS_PrintQueColor(void *printQueue, void *bmp, s16 x, s16 y, void *strBuf, void *font, int color);
-extern void WORDSET_SetSlotMyStatus(void *wordSet, u32 index, const u8 *myStatus);
-extern void *MSGDATA_AllocString(void *msgData, u32 msgId);
-extern void WORDSET_CopyTaggedText(void *wordSet, void *dest, void *src);
+extern void WORDSET_SetSlotMyStatus(struct WordSet *words, u32 slot, void *source);
+extern struct Strbuf *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
+extern void WORDSET_CopyTaggedText(struct WordSet *words, struct Strbuf *dst, struct Strbuf *src);
 extern void GFL_USE_StopAllSe(void);
 extern void GFL_USE_PlaySeDefaultVolume(u32 seId);
 extern int COMPATIBLE_IRC_SYS_GetValueDifference(IrcSys *sys);
 extern int COMPATIBLE_IRC_SYS_StepShareValue(IrcSys *sys, int value);
 extern int COMPATIBLE_IRC_SYS_SendOwnValue(IrcSys *sys);
-extern void *GAMESYSTEM_GetGameData(void *gameSystem);
-extern void *GAME_DATA_GetSaveControl(void *gameData);
-extern void *IRC_RANKING_GetFromSave(void *saveControl);
-extern u32 MYSTATUS_GetId(const u8 *myStatus);
-extern int IRC_RANKING_HasEntry(void *records, u32 value);
-extern void COMPATIBLE_IRC_SYS_AddCommandTable(IrcSys *sys, int commandBase, const void *commandTable, int count, void *userData);
-extern void COMPATIBLE_IRC_SYS_DeleteCommandTable(IrcSys *sys, int commandBase);
-extern void *GFL_NET_HANDLE_GetCurrentHandle(void);
-extern u32 GFL_NET_GetHandleNetID(void *handle);
-extern u32 COMPATIBLE_IRC_SYS_SendData(IrcSys *sys, u32 commandBase, u32 size, void *data, u8 isParent, u32 e, u32 f, u32 g);
+struct GameData;
+extern struct GameData *GAMESYSTEM_GetGameData(struct GameSystem *gameSystem);
+struct SaveControl;
+extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gd);
+struct IrcRankSave;
+extern struct IrcRankSave *IRC_RANKING_GetFromSave(struct SaveControl *save);
+struct MyStatus;
+extern u32 MYSTATUS_GetId(struct MyStatus *mystatus);
+struct IrcRankEntry;
+extern int IRC_RANKING_HasEntry(struct IrcRankEntry *entries, u32 trainerId);
+struct IrcSys;
+extern void COMPATIBLE_IRC_SYS_AddCommandTable(struct IrcSys *sys, u32 a, u32 b, u32 c, u32 d);
+extern void COMPATIBLE_IRC_SYS_DeleteCommandTable(struct IrcSys *sys, u32 a);
+struct GFLNetHandle;
+extern struct GFLNetHandle *GFL_NET_HANDLE_GetCurrentHandle(void);
+extern u32 GFL_NET_GetHandleNetID(struct GFLNetHandle *handle);
+extern u32 COMPATIBLE_IRC_SYS_SendData(struct IrcSys *sys, u32 commandId, u32 size, u32 data, u8 target, u32 e, u32 f, u32 g);
 extern u16 GFL_NET_SYSTEM_GetCurrentAid(void);
 extern void NNS_G3dScrPosToWorldLine(int x, int y, IrcVec3 *origin, IrcVec3 *target);
 extern void VEC_Subtract(IrcVec3 *a, IrcVec3 *b, IrcVec3 *out);
@@ -484,16 +514,16 @@ extern void VEC_Normalize(IrcVec3 *in, IrcVec3 *out);
 extern void VEC_MultAdd(int scale, IrcVec3 *dir, IrcVec3 *origin, IrcVec3 *out);
 extern u32 TOUCHPANEL_GetPointTrg(u32 *outX, u32 *outY);
 extern u32 TOUCHPANEL_GetPointCont(u32 *outX, u32 *outY);
-extern void *ARC_UTIL_LoadHandleMember(void *arc, u32 memberId, u32 compressed, u32 flags);
+extern void *ARC_UTIL_LoadHandleMember(void *narc, u32 fileID, u32 decompress, u16 heapID);
 extern int NNS_G2dGetUnpackedScreenData(void *file, void **out);
 extern u8 BG_SYS_GetColorMode(int channel);
 extern u32 BG_SYS_GetBuf(int channel);
-extern void BG_SYS_DrawTileEx(u32 index, u32 dx, u32 dy, u32 cw, u8 ch, u32 src, u8 sx, u8 sy, u8 sw, u8 sh);
+extern void BG_SYS_DrawTileEx(u32 index, u8 dx, u8 dy, u8 cw, u8 ch, void *src, u8 sx, u8 sy, u8 sw, u8 sh);
 extern void BG_SYS_FillTileMap(u8, u8, u8, u8, u8, u8);
 extern u32 GFL_HEAP_Free(void *p);
-extern void BG_SYS_SetTileEntry(u8, u8, u8, u8, u8, u8, u8);
+extern void BG_SYS_SetTileEntry(u32 layer, u16 value, u8 x0, u8 y0, u8 w, u8 h, u8 mode);
 extern void BG_SYS_MarkTileDirty(u32 bit);
-extern void CLACT_SetActorPaletteOffset(void *actor, u32 offset, u32 flag);
+extern void CLACT_SetActorPaletteOffset(struct Actor *actor, u32 offset, u32 pltt_op);
 
 extern u8 IRC_COMPATIBLE_TOUCH_TEST_VramBankConfig[];
 extern u32 IRC_COMPATIBLE_TOUCH_TEST_BgDisplayConfig[], IRC_COMPATIBLE_TOUCH_TEST_BgLayerIds[], IRC_COMPATIBLE_TOUCH_TEST_BgLayerTypes[];
@@ -700,12 +730,12 @@ void IRC_COMPATIBLE_TOUCH_TEST_InitScene(IrcTouchWork *work, u16 heapId)
     IRC_COMPATIBLE_TOUCH_TEST_InitBackgrounds(&work->bgCharRange, heapId);
     IRC_COMPATIBLE_TOUCH_TEST_Init3D(&work->scene, heapId);
     IRC_COMPATIBLE_TOUCH_TEST_InitMarkers(&work->markers, &work->scene, heapId);
-    work->vblankTask = GFL_USE_AddMainTask(IRC_COMPATIBLE_TOUCH_TEST_VBlankTask, work, 0);
+    work->vblankTask = (u32)GFL_USE_AddMainTask(IRC_COMPATIBLE_TOUCH_TEST_VBlankTask, work, 0);
 }
 
 void IRC_COMPATIBLE_TOUCH_TEST_ExitScene(IrcTouchWork *work)
 {
-    TCB_DeleteTask(work->vblankTask);
+    TCB_DeleteTask((struct TcbTask *)work->vblankTask);
     IRC_COMPATIBLE_TOUCH_TEST_ExitMarkers(&work->markers);
     IRC_COMPATIBLE_TOUCH_TEST_Exit3D(&work->scene);
     IRC_COMPATIBLE_TOUCH_TEST_ExitBackgrounds(&work->bgCharRange);
@@ -770,7 +800,7 @@ void IRC_COMPATIBLE_TOUCH_TEST_InitBackgrounds(u32 *charRange, u16 heapId)
     BG_SYS_Init(5, 0, 1, 0);
     *charRange = ARC_UTIL_RegisterObjCharFromHandle(arc, 49, 5, 0, 0, heapId);
     ARC_TOOL_DeleteHandle(arc);
-    G2x_SetBlendAlpha_(0x04000050, 5, 12, 13, 8);
+    G2x_SetBlendAlpha_((u32 *)0x04000050, 5, 12, 13, 8);
 }
 
 void IRC_COMPATIBLE_TOUCH_TEST_ExitBackgrounds(u32 *charRange)
@@ -792,7 +822,7 @@ void IRC_COMPATIBLE_TOUCH_TEST_InitSprites(IrcTouchSprites *sprites, const void 
     int i;
     u16 position[4];
     MI_CpuFill8(sprites, 0, 0x94);
-    CLACT_InitSystem(gClActorInitParam, (u32)config, heapId);
+    CLACT_InitSystem((struct SysInit *)gClActorInitParam, (struct DispVramCfg *)config, heapId);
     sprites->res.unit = CLACT_CreateUnit(128, 0, heapId);
     CLACT_SetUnitDefaultRenderer(sprites->res.unit);
     BG_SYS_SetMainPlaneVisible(16, 1);
@@ -890,7 +920,7 @@ void IRC_COMPATIBLE_TOUCH_TEST_Setup3DDisplay(void)
     G3X_SetFog(0, 0, 0, 0);
     G3X_SetClearColor(0, 0, 0x7fff, 63, 0);
     REG_GX_VIEWPORT = 0xbfff0000;
-    for (i = 0; i < 4; i++) G3D_SYSTEM_SetLight((u8)i, (const u16 *)(IRC_COMPATIBLE_TOUCH_TEST_Lights + i * 8));
+    for (i = 0; i < 4; i++) G3D_SYSTEM_SetLight((u8)i, (struct G3dLight *)(IRC_COMPATIBLE_TOUCH_TEST_Lights + i * 8));
     G3D_SYSTEM_SetSwapBuffersMode(1, 0);
 }
 
@@ -913,7 +943,7 @@ void IRC_COMPATIBLE_TOUCH_TEST_InitModel(IrcModel *model, void *arc, const u16 *
             model->animResource[i] = G3D_SYSTEM_CreateResourceArcHandle(arc, fileIds[i + 1]);
             model->anime[i] = G3D_SYSTEM_CreateAnime(model->render, model->animResource[i], 0);
         }
-        model->object = G3D_SYSTEM_CreateObject(model->render, model->anime, 2);
+        model->object = G3D_SYSTEM_CreateObject(model->render, (struct G3dAnime **)model->anime, 2);
         for (j = 0; j < 2; j++) G3D_SYSTEM_EnableObjectAnime(model->object, j);
         NNS_G3dMdlSetMdlPolygonIDAll(renderObj[1], polygonId);
     }
@@ -951,7 +981,7 @@ void IRC_COMPATIBLE_TOUCH_TEST_DrawModel(IrcModel *model)
         atStart = 0;
         if (frame == 0) atStart = 1;
         model->looped = atStart;
-        G3D_SYSTEM_DrawObject(model->object, &model->transform);
+        G3D_SYSTEM_DrawObject(model->object, (struct G3dObjectStatus *)(&model->transform));
     }
 }
 
@@ -1113,7 +1143,7 @@ void IRC_COMPATIBLE_TOUCH_TEST_PrintMessageWithName(IrcWindow *win, IrcTextSyste
     BMP_Clear(BMP_WIN_GetBmp(win->bmpWin), win->fillColor);
     wordSet = IRC_COMPATIBLE_TOUCH_TEST_TextGetWordSet(text);
     msgData = IRC_COMPATIBLE_TOUCH_TEST_TextGetMsgData(text);
-    WORDSET_SetSlotMyStatus(wordSet, 0, profile->myStatus);
+    WORDSET_SetSlotMyStatus(wordSet, 0, (void *)profile->myStatus);
     message = MSGDATA_AllocString(msgData, msgId);
     WORDSET_CopyTaggedText(wordSet, win->strBuf, message);
     STRBUF_Delete(message);
@@ -1340,7 +1370,7 @@ void IRC_COMPATIBLE_TOUCH_TEST_HandleScoring(IrcTouchWork *work, u16 *state)
         if (work->args->gameSystem) {
             void *records;
             records = IRC_RANKING_GetFromSave(GAME_DATA_GetSaveControl(GAMESYSTEM_GetGameData(work->args->gameSystem)));
-            own.bonus = IRC_RANKING_HasEntry(records, MYSTATUS_GetId(work->args->profile->myStatus)) == 0;
+            own.bonus = IRC_RANKING_HasEntry(records, MYSTATUS_GetId((struct MyStatus *)work->args->profile->myStatus)) == 0;
         }
         if (IRC_COMPATIBLE_TOUCH_TEST_SendDrawing(&work->exchange, &own)) *state = 3;
         break;
@@ -1403,7 +1433,7 @@ void IRC_COMPATIBLE_TOUCH_TEST_InitExchange(IrcDrawingExchange *exchange, IrcSys
 {
     MI_CpuFill8(exchange, 0, 0x294);
     exchange->sys = sys;
-    COMPATIBLE_IRC_SYS_AddCommandTable(sys, 0xe00, IRC_COMPATIBLE_TOUCH_TEST_ExchangeCommandTable, 1, exchange);
+    COMPATIBLE_IRC_SYS_AddCommandTable(sys, (u32)0xe00, (u32)IRC_COMPATIBLE_TOUCH_TEST_ExchangeCommandTable, (u32)1, (u32)exchange);
 }
 
 void IRC_COMPATIBLE_TOUCH_TEST_ExitExchange(IrcDrawingExchange *exchange)
@@ -1420,7 +1450,7 @@ int IRC_COMPATIBLE_TOUCH_TEST_SendDrawing(IrcDrawingExchange *exchange, const Ir
         exchange->state = 1;
         break;
     case 1:
-        if (COMPATIBLE_IRC_SYS_SendData(exchange->sys, 0xe00, 0xd8, &exchange->outgoing, (u8)(GFL_NET_GetHandleNetID(GFL_NET_HANDLE_GetCurrentHandle()) == 0), 0, 0, 1))
+        if (COMPATIBLE_IRC_SYS_SendData(exchange->sys, (u32)0xe00, (u32)0xd8, (u32)(&exchange->outgoing), (u8)(GFL_NET_GetHandleNetID(GFL_NET_HANDLE_GetCurrentHandle()) == 0), 0, 0, 1))
             exchange->state = 2;
         break;
     case 2:
@@ -1606,7 +1636,7 @@ void IRC_COMPATIBLE_TOUCH_TEST_LoadScreenBlock(void *arc, int memberId, int bgLa
         for (t = 0; t < (srcWidth * srcHeight); t++) screen[t] += (u16)tileOffset;
     }
     if (BG_SYS_GetBuf((u8)bgLayer)) {
-        BG_SYS_DrawTileEx((u8)bgLayer, dstX, dstY, dstWidth, dstHeight, (u32)(data + 12), srcX, srcY, srcWidth, srcHeight);
+        BG_SYS_DrawTileEx((u8)bgLayer, dstX, dstY, dstWidth, dstHeight, (void *)(data + 12), srcX, srcY, srcWidth, srcHeight);
         BG_SYS_FillTileMap(bgLayer, dstX, dstY, dstWidth, dstHeight, palette);
         BG_SYS_PushTile(bgLayer);
     }

@@ -39,7 +39,9 @@ extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u
 extern u32 GFL_HEAP_Free(void *p);
 extern int ARC_UTIL_LoadMember(int archiveID, int memberIdx, int decompress, int heapID);
 extern void MI_CpuCopy8(void *src, void *dst, int n);
-extern void FIELD_BUILDMODEL_RegisterObject(u32 a, u32 b, u32 *c, u32 d);
+struct BuildModelObjectDesc;
+struct BuildModelMan;
+extern void FIELD_BUILDMODEL_RegisterObject(struct BuildModelMan *man, int mapObject, struct BuildModelObjectDesc *desc, int index);
 u32 *LAND_DATA_PATCH_Create(u32 patchId, u32 heapId);
 void LAND_DATA_PATCH_Delete(void **patch);
 void LAND_DATA_PATCH_OverwriteAttr(u32 patch, u8 *mapAttr, u32 srcX, u32 srcY, u32 dstX, u32 dstY, u32 width, u32 height);
@@ -88,7 +90,7 @@ u32 LAND_DATA_PATCH_AddBuildModels(u32 patch, u32 bmodelMan, u32 mapIndex, u32 f
         MI_CpuCopy8(entries + i * 4, entry, 0x10);
         entry[0] += offsetX << 16;
         entry[2] -= offsetZ << 16;
-        FIELD_BUILDMODEL_RegisterObject(bmodelMan, mapIndex, entry, firstIndex + i);
+        FIELD_BUILDMODEL_RegisterObject((struct BuildModelMan *)bmodelMan, mapIndex, (struct BuildModelObjectDesc *)entry, firstIndex + i);
     }
     return firstIndex + models[0];
 }

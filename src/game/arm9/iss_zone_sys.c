@@ -36,6 +36,7 @@
  *   GFL_HEAP_Alloc  0x02030734  arm
  *   GFL_HEAP_Free  0x020307B0  arm
  *   ARC_TOOL_CreateHandle  0x020490F4  arm
+ *   ARC_TOOL_GetHandleFileCount  0x0204961C  arm
  */
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -121,9 +122,10 @@ extern s32  VEC_DotProduct(const struct Vec *a, const struct Vec *b);
 extern void GFL_USE_SetBgmTrackParams(u32 trackMask, u32 paramKind, u32 unused, u32 value);
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 line);
 extern u32 GFL_HEAP_Free(void *p);
-extern void *ARC_TOOL_CreateHandle(u32 archiveId, u32 heapId);
+extern void *ARC_TOOL_CreateHandle(u32 archiveID, u16 heapID);
 extern u16 ARC_TOOL_GetHandleFileCount(void *archive);
-extern void ARC_TOOL_ReadHandleMemberRange(struct ArcFile *arc, u32 member, u32 offset, u32 size, void *dst);
+struct ArcHandle;
+extern void ARC_TOOL_ReadHandleMemberRange(struct ArcHandle *arc, u32 memberIdx, u32 offset, u32 size, void *dst);
 extern void   ARC_TOOL_DeleteHandle(void *archive);
 extern void GFL_USE_SetBgmTrackVolume(u32 trackMask, u32 volume);
 struct IssZone *ISS_ZONE_SYS_Create(u32 heapId);

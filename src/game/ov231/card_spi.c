@@ -51,7 +51,7 @@ typedef struct {
 } CardSpiTransfer;
 
 extern u64 OS_GetTick(void);
-extern void CARD_LockBackup(u16 a);
+extern void CARD_LockBackup(int owner);
 extern int OS_LockCard(unsigned short lockID);
 extern void OS_UnLockCard(u16 a);
 extern void CARD_UnlockBackup(u16 a);

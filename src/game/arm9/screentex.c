@@ -76,23 +76,24 @@ typedef struct {
 
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
-extern int G3D_SYSTEM_GetResourceSize(void);
+extern u32 G3D_SYSTEM_GetResourceSize(void);
 
 extern void MI_CpuCopy8(const void *src, void *dst, u32 n);
+struct G3dResource;
 
-extern void G3D_SYSTEM_InitResourceByKind(void *control, u32 kind, u32 value);
+extern void G3D_SYSTEM_InitResourceByKind(struct G3dResource *res, u32 kind, void *file);
 
 extern unsigned char *NNS_G3dGetTex(unsigned char *p);
 
-extern int NNS_G3dTexGetRequiredSize(int p);
+extern int NNS_G3dTexGetRequiredSize(void *pTex);
 
 extern u16 GX_GetBankForTex(void);
 
 extern void NNS_G3dTexSetTexKey(char *p, int a, int b);
 
-extern void GX_SetBankForLCDC(u32 a);
+extern void GX_SetBankForLCDC(int lcdc);
 
-extern void GX_SetBankForTex(u32 a);
+extern void GX_SetBankForTex(int tex);
 
 extern void MIi_CpuCopyFast(u32 src, u32 dst, u32 size);
 
@@ -101,8 +102,10 @@ extern void OS_WaitVBlankIntr(void);
 extern void GX_DisableBankForLCDC(void);
 
 extern int GX_ResetBankForTex(void);
+struct G3dObjectStatus;
+struct G3dObject;
 
-extern void G3D_SYSTEM_DrawObject(void *dst, const u32 *params);
+extern void G3D_SYSTEM_DrawObject(struct G3dObject *obj, struct G3dObjectStatus *status);
 
 extern void MTX_PerspectiveW(fx32 a, fx32 b, fx32 c, fx32 d, fx32 e, fx32 f, void *g);
 
@@ -115,7 +118,7 @@ void *SCREENTEX_Create(u32 heapId, u32 slotCount);
 
 void SCREENTEX_CaptureDisplay(u32 captureIndex, u32 copyIndex);
 
-void SCREENTEX_SetupCamera(u32 dst);
+void SCREENTEX_SetupCamera(void *dst);
 
 extern char SCREENTEX_WorkTemplate[];
 
@@ -182,9 +185,9 @@ void *SCREENTEX_Create(u32 heapId, u32 slotCount)
     control = GFL_HEAP_Alloc(heapId, G3D_SYSTEM_GetResourceSize(), 0, screentex_File, 0x3b);
     work = GFL_HEAP_Alloc(heapId, 0x8c, 0, screentex_File, 0x3c);
     MI_CpuCopy8(SCREENTEX_WorkTemplate, work, 0x8c);
-    G3D_SYSTEM_InitResourceByKind(control, 2, (u32)work);
+    G3D_SYSTEM_InitResourceByKind(control, 2, (void *)work);
     texHeader = NNS_G3dGetTex(work);
-    texSize = NNS_G3dTexGetRequiredSize((int)texHeader);
+    texSize = NNS_G3dTexGetRequiredSize(texHeader);
     vramBanks = GX_GetBankForTex();
     slotBits = 0;
     switch (slotCount) {
@@ -290,7 +293,7 @@ static inline void MTX_Perspective(fx32 fovySin, fx32 fovyCos, fx32 aspect,
  *   python tools/match.py one --src src/matched/SCREENTEX_SetupCamera.c \
  *       --func SCREENTEX_SetupCamera --addr 0x0202E688 --cc 1.1p1 --thumb
  */
-void SCREENTEX_SetupCamera(u32 dst)
+void SCREENTEX_SetupCamera(void *dst)
 {
     VecFx32 cam = SCREENTEX_CameraPosition;
     VecFx32 up = { 0, 0, 0 };
@@ -306,5 +309,5 @@ void SCREENTEX_SetupCamera(u32 dst)
     MTX_LookAt(&cam, &tgt, &up, g_renderStateDrawParams);
     SCREENTEX_CameraState[31] &= ~0xe8u;
     MTX_RotX33_(&block.rotation, SCREENTEX_RotationSinCos[0], SCREENTEX_RotationSinCos[1]);
-    G3D_SYSTEM_DrawObject((void *)dst, block.params);
+    G3D_SYSTEM_DrawObject((void *)dst, (struct G3dObjectStatus *)block.params);
 }

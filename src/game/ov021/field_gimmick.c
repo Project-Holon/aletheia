@@ -37,7 +37,7 @@ typedef struct FieldMap FieldMap;
 
 extern struct GameSystem *FIELDMAP_GetGameSystem(struct FieldMap *fieldMap);
 extern struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
-extern struct GimmickWork *GAME_DATA_GetFieldSave(struct GameData *gameData);
+extern unsigned char *GAME_DATA_GetFieldSave(struct GameData *gameData);
 extern s32 GIMMICK_WORK_GetId(struct GimmickWork *gimmick);
 extern int GF_OVERLAY_Load(int overlayId);
 extern void GF_OVERLAY_Unload(int overlayId);
@@ -57,7 +57,7 @@ void FIELD_GIMMICK_Setup(FieldMap *fieldMap)
 {
     int gimmickId;
 
-    gimmickId = GIMMICK_WORK_GetId(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))));
+    gimmickId = GIMMICK_WORK_GetId((struct GimmickWork *)GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))));
     if (gimmickId != -1) {
         if (gFieldGimmickOverlayIds[gimmickId] != 0) {
             GF_OVERLAY_Load((int)gFieldGimmickOverlayIds[gimmickId]);
@@ -73,7 +73,7 @@ void FIELD_GIMMICK_Exit(FieldMap *fieldMap)
 {
     int gimmickId;
 
-    gimmickId = GIMMICK_WORK_GetId(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))));
+    gimmickId = GIMMICK_WORK_GetId((struct GimmickWork *)GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))));
     if (gimmickId != -1) {
         if (gFieldGimmickExitFuncs[gimmickId] != 0) {
             gFieldGimmickExitFuncs[gimmickId](fieldMap);
@@ -91,14 +91,14 @@ void FIELD_GIMMICK_RunMapCallback(struct FieldMap *fieldMap)
 {
     int gimmickId;
 
-    gimmickId = GIMMICK_WORK_GetId(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))));
+    gimmickId = GIMMICK_WORK_GetId((struct GimmickWork *)GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))));
     if (gimmickId != -1 && gFieldGimmickCallbackTbl[gimmickId] != 0)
         gFieldGimmickCallbackTbl[gimmickId](fieldMap);
 }
 
 int FIELD_GIMMICK_IsGimmickId(struct FieldMap *fieldMap, int gimmickId)
 {
-    if (gimmickId == GIMMICK_WORK_GetId(GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))))) {
+    if (gimmickId == GIMMICK_WORK_GetId((struct GimmickWork *)GAME_DATA_GetFieldSave(GAMESYSTEM_GetGameData(FIELDMAP_GetGameSystem(fieldMap))))) {
         return 1;
     }
     return 0;

@@ -46,7 +46,7 @@ extern int  CARDi_RequestStreamCommand(u32 src, u32 dst, u32 len, void *callback
                                        void *arg, int is_async, int req_type,
                                        int req_retry, int req_mode);
 extern int  CARD_WaitBackupAsync(void);
-extern u32  CARD_GetResultCode(void);
+extern int CARD_GetResultCode(void);
 extern u32  CARD_TryWaitBackupAsync(void);
 extern void CARD_CancelBackupAsync(void);
 int FLASH_ACCESS_Identify(u32 unused_arg);

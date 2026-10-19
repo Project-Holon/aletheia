@@ -78,15 +78,16 @@ typedef struct {
 
 extern int SOCL_SocketIsInvalid(struct SOCLSocket *socket);
 extern int SOCL_SocketIsInvalid(struct SOCLSocket *socket);
-extern int SOCLi_ExecBindCommand(struct SOCLSocket *socket);
+static int SOCLi_ExecBindCommand(struct SOCLSocket *socket);
 extern struct SOCLiCommandPacket *SOCLi_CreateCommandPacket(int (*handler)(void *),
                                                             struct SOCLSocket *socket,
                                                             long flag);
 extern int SOCLi_ExecCommandPacketInRecvPipe(struct SOCLSocket *socket,
                                              struct SOCLiCommandPacket *command);
 extern int SOCLi_BindCallBack(void *arg);
-extern void OS_LockMutex(void *mutex);
-extern void OS_UnlockMutex(void *mutex);
+struct OSMutex;
+extern void OS_LockMutex(struct OSMutex *mutex);
+extern void OS_UnlockMutex(struct OSMutex *mutex);
 extern void CPS_SocBind(unsigned short local_port, unsigned short remote_port, unsigned long remote_ip);
 extern unsigned long CPS_TcpConnect(void);
 int SOCL_Bind(int s, unsigned short local_port);
@@ -219,13 +220,13 @@ int SOCLi_BindCallBack(void *arg)
 	socket = cpacket->socket;
 	retcode = 0;
 	recv_pipe = socket->recv_pipe;
-	OS_LockMutex(recv_pipe->mutex);
+	OS_LockMutex((struct OSMutex *)recv_pipe->mutex);
 	CPS_SocBind(cpacket->local_port, cpacket->remote_port, cpacket->remote_ip);
 	recv_pipe->result = retcode;
 	if (cpacket->type == 0 || cpacket->type == 4) {
 		retcode = CPS_TcpConnect();
 	}
-	OS_UnlockMutex(recv_pipe->mutex);
+	OS_UnlockMutex((struct OSMutex *)recv_pipe->mutex);
 	if (retcode != 0) {
 		socket->flags |= 0x40;
 		return -76;

@@ -31,8 +31,9 @@ typedef struct { MemScr *scr; void *src; void *dst; } ScreenBss;
 
 extern void *DWCi_HEAPlAllocEx(unsigned long size, int alignment);
 extern void MIi_CpuCopyFast(void *srcp, void *destp, unsigned long size);
-extern void *DWCi_TSKlForm(int kind, void (*func)(void *), void *work, unsigned char prio);
-extern void DWCi_TSKlDeleteByIndex(unsigned int idx, void *r4);
+struct TCB;
+extern struct TCB *DWCi_TSKlForm(int kind, void (*func)(void *), void *work, unsigned char prio);
+extern void DWCi_TSKlDeleteByIndex(unsigned int taskIdx, struct TCB *task);
 extern void DWCi_HEAPlFree_(void **mem);
 extern void MIi_CpuCopy16(void *srcp, void *destp, unsigned long size);
 extern void DC_FlushRange(void *startAddr, unsigned long nBytes);

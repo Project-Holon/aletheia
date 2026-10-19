@@ -205,6 +205,7 @@
  *   MYSTERY_UTIL_MarkTaskDone 0x021DA8B8 thumb ov121
  *   PRINTSYS_MeasureWidestLine  0x0201D304  thumb  arm9
  *   PRINTSYS_CountLines  0x0201D42C  thumb  arm9
+ *   _u32_div_f                   0x0209C2B0  arm
  */
 #include "mystery_net_types.h"
 #include "mystery_album_types.h"
@@ -439,6 +440,7 @@ struct MysteryAlbumView {
     void *bmpList;
 };
 
+int MYSTERY_ALBUM_PathAnimStep(MysteryAlbumPathAnim *anim, u16 *outFrameId, MysteryAlbumPathPoint *outPosition);
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const void *site, u16 tag);
 
 extern void MI_CpuFill8(void *dst,int value,u32 size);
@@ -697,7 +699,8 @@ void MYSTERY_UTIL_DeleteMenu(u8 *p);
 
 int MYSTERY_UTIL_UpdateMenu(char *p);
 
-void *MYSTERY_UTIL_CreateWindowList(void *a,const char *desc,u32 n,u16 b,u8 c,u32 d,u16 e,int f,u16 heap);
+struct MsgBank;
+void *MYSTERY_UTIL_CreateWindowList(void *a,const char *desc,u32 n,u16 b,u8 c,u32 d,struct MsgBank *e,int f,u16 heap);
 
 void MYSTERY_UTIL_DeleteWindowList(u8 *p);
 
@@ -2515,7 +2518,7 @@ void MYSTERY_ALBUM_StepIntro(MysteryAlbum *album)
     case 5:
         soundDone=1;
         done=1;
-        done&=MYSTERY_ALBUM_PathAnimStep(&album->pathAnim,&pathOut,position);
+        done&=MYSTERY_ALBUM_PathAnimStep(&album->pathAnim,(u16 *)&pathOut,(MysteryAlbumPathPoint *)position);
         pathOut.x=position[0];
         pathOut.y=position[1];
         CLACT_AddActorSurfacePos(ui->cursorActor,(MysteryAlbumPoint16 *)&pathOut.x,ui->screenId);
@@ -2571,7 +2574,8 @@ extern void *ARC_UTIL_LoadScreenDataFromHandle(void *arc, u32 fileId, u32 compre
 
 extern void CLACT_TransferCharacterPart(int,void *,u32,int,int);
 
-extern void CLACT_TransferPalette(u32,void *,u32);
+struct PaletteData;
+extern void CLACT_TransferPalette(u32 idx, struct PaletteData *dest, u32 count);
 
 extern void MIi_CpuClear16(u32 value,void *dst,u32 size);
 
@@ -2693,7 +2697,7 @@ void MYSTERY_ALBUM_SetupIcons(MysteryAlbum *album,MysteryAlbumUi *ui,u16 heapId)
     CLACT_AddActorSurfacePos(ui->iconActor, (const MysteryAlbumPoint16 *)&iconPos, ui->screenId);
     CLACT_SetActorDrawEnable(ui->iconActor,1);
     if (MYSTERY_ALBUM_GetEntryKind(album)==1) {
-        CLACT_TransferPalette(ui->paletteHandle,*(void **)((char *)album->paletteRes+12),1);
+        CLACT_TransferPalette(ui->paletteHandle,*(struct PaletteData **)((char *)album->paletteRes+12),1);
         MI_CpuCopy8(*(void **)((char *)album->paletteRes+12),ui->palImage,32);
         MIi_CpuClear16(0,ui->palBlack,32);
         CLACT_TransferCharacterPart(ui->bgHandleB,*(void **)((char *)album->bgDataRes+20),0x1200,0,ui->screenId);

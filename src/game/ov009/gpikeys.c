@@ -51,19 +51,21 @@ typedef struct GPIConnection {
 typedef unsigned char  u8;
 
 extern void gsifree(void *ptr);
-extern void *ArrayNew(int elemSize, int numElems, void (*freeFn)(void *));
+struct DArrayImplementation;
+extern struct DArrayImplementation *ArrayNew(int elemSize, int numElems, void (*freeFn)(void *));
 extern void gpiSetErrorString(int *p, int b);
-extern void ArrayFree(void *array);
+struct DArrayImplementation;
+extern void ArrayFree(struct DArrayImplementation *array);
 extern int strcmp(const char *s1, const char *s2);
 extern char *goastrdup(char *src);
-extern void ArrayInsertSorted(void *array, void *newElem, int (*comparator)(void *, void *));
-extern int ArraySearch(void *array, void *key, int (*comparator)(void *, void *), int fromIndex, int isSorted);
-extern void *ArrayNth(void *array, int n);
+extern void ArrayInsertSorted(struct DArrayImplementation *array, void *newElem, int (*comparator)(void *, void *));
+extern int ArraySearch(struct DArrayImplementation *array, void *key, int (*comparator)(void *, void *), int fromIndex, int isSorted);
+extern void *ArrayNth(struct DArrayImplementation *array, int n);
 extern int ArrayLength(const int *p);
 extern int OS_SPrintf(char *dst, const char *fmt, ...);
 extern int strlen(const u8 *s);
 extern void *gsimalloc(unsigned long size);
-extern int gsDebugFormat(int index, char *table, int mask, const char *fmt, ...);
+extern void gsDebugFormat(int cat, int type, int level, char *fmt, ...);
 extern u8 *strcat(u8 *dest, const u8 *src);
 extern void B64Encode(const char *input, char *output, int inlen, int encodingType);
 /*
@@ -293,7 +295,7 @@ int gpiSaveKeysToBuffer(void **connection, char **buffer)
 
     *buffer = (char *)gsimalloc((unsigned long)strlen((const u8 *)keysHeader) + sizeKeys + 1);
     if (*buffer == 0) {
-        gsDebugFormat(1, (char *)2, 1, gGpiKeysDebugSaveOom);
+        gsDebugFormat((int)1, (int)2, 1, gGpiKeysDebugSaveOom);
         gpiSetErrorString((int *)connection, (int)gGpiKeysErrorOutOfMemory);
         return 1;
     }

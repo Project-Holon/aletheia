@@ -66,7 +66,7 @@ struct B_PlistHost {
  * as the original wrote it so the codegen does not move.
  */
 struct B_PlistSlot {
-    union { void *ptr; u32 species; } u00;   /* 0x00 mon species id */
+    void *mon;                                /* 0x00 mon (party member) the row shows */
     u16   pad04;                              /* 0x04 */
     u16   attack;                             /* 0x06 */
     u16   active;                             /* 0x08 nonzero when the slot holds a mon */
@@ -103,22 +103,22 @@ struct B_PlistWork {
     void *task;                 /* 0x0028 task installed by TCB_AddTask */
     void *palAnmSlot;           /* 0x002C */
     u8    pad30[0x1A4];         /* 0x0030 */
-    union { void *tcbl; u32 tcblWord; } u1D4; /* 0x01D4 tile-cache block */
-    union { void *palAnm; u32 palAnmWord; } u1D8; /* 0x01D8 */
+    void *tcbl; /* 0x01D4 tile-cache block */
+    void *palAnm; /* 0x01D8 */
     u8    pad1DC[0x1C9C];       /* 0x01DC */
     u16   palette[16];          /* 0x1E78 palette data copied into a PALANM slot */
     u8    animStep;             /* 0x1E98 palette animation step */
     u8    animTimer;            /* 0x1E99 palette animation timer */
     u8    animKind;             /* 0x1E9A palette animation kind */
     struct { u8 low : 4; u8 mode : 3; u8 active : 1; } animFlags; /* 0x1E9B */
-    union { void *fontSmall; u32 fontSmallWord; } u1E9C; /* 0x1E9C GF_FONT_Create_EC64 result */
+    void *fontSmall; /* 0x1E9C GF_FONT_Create_EC64 result */
     void *msgBank;              /* 0x1EA0 message bank */
     void *wordSet;              /* 0x1EA4 WORDSET used to format text */
-    union { void *strBuf; u32 strBufWord; } u1EA8; /* 0x1EA8 string buffer the formatted text goes to */
-    union { void *printQue; u32 printQueWord; } u1EAC; /* 0x1EAC print queue */
-    union { void *printStream; int printStreamWord; } u1EB0; /* 0x1EB0 */
+    void *strBuf; /* 0x1EA8 string buffer the formatted text goes to */
+    void *printQue; /* 0x1EAC print queue */
+    void *printStream; /* 0x1EB0 */
     int   printStreamFlags;     /* 0x1EB4 */
-    union { u32 unitId; void *unitPtr; } u1EB8; /* 0x1EB8 actor unit */
+    void *unit; /* 0x1EB8 actor unit */
     u8    pad1EBC[0x18];        /* 0x1EBC */
     void *resHandle;            /* 0x1ED4 */
     u8    pad1ED8[0x30];        /* 0x1ED8 */
@@ -126,13 +126,13 @@ struct B_PlistWork {
     u8    pad1F0C[0x54];        /* 0x1F0C */
     struct B_PlistWin win[B_PLIST_WIN_COUNT]; /* 0x1F60 text windows */
     u8    pad2018[0x158];       /* 0x2018 */
-    union { u32 word; void *ptr; } u2170; /* 0x2170 */
+    void *bmpWin; /* 0x2170 */
     u8    winCount;             /* 0x2174 */
-    union {                     /* 0x2175 */
-        struct { u8 low : 5; u8 high : 3; } bc;      /* low 5 bits, top 3 bits */
-        struct { u8 low : 6; u8 bit : 1; u8 high : 1; } f060; /* main Flag view */
-        struct { u8 low : 7; u8 flip : 1; } e8b4;    /* low 7 bits, flip bit */
-        struct { u8 low : 5; u8 flip : 1; u8 high : 2; } e9a0; /* low 5, flip bit, top 2 */
+    struct {                    /* 0x2175 */
+        u8 low : 5;             /* bit 0 toggled by the first window creation */
+        u8 flipA : 1;           /* bit 5 */
+        u8 flipB : 1;           /* bit 6 */
+        u8 flipC : 1;           /* bit 7 */
     } winFlags;
     u8    pad2176;              /* 0x2176 */
     struct { u8 step : 4; u8 flags : 4; } stateFlags; /* 0x2177 */
@@ -140,9 +140,9 @@ struct B_PlistWork {
     u32   nextState;            /* 0x217C */
     u8    mode;                 /* 0x2180 */
     u8    pad2181[3];           /* 0x2181 */
-    union { u32 word; void *ptr; } u2184; /* 0x2184 window/mode handle */
-    union { u32 word; void *ptr; } u2188; /* 0x2188 B_APP_TOOL actor handle */
-    union { u32 word; int ival; void *ptr; } u218C; /* 0x218C */
+    void *cursorMove; /* 0x2184 window/mode handle */
+    void *appTool; /* 0x2188 B_APP_TOOL actor handle */
+    int   syncRequested; /* 0x218C */
     u8    flag2190;             /* 0x2190 */
     u8    flag2191;             /* 0x2191 */
     u8    flag2192;             /* 0x2192 */

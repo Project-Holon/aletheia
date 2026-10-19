@@ -79,7 +79,7 @@
  *   EVENT_BATTLE_CallAndInvert  0x0216E680  thumb  ov010
  *   EVENT_BATTLE_IntegrityProbeA  0x0216F064  thumb  ov010
  *   EVENT_BATTLE_IntegrityProbeB  0x0216F070  thumb  ov010
- *   EVENT_BATTLE_IntegrityProbeC  0x0216F07C  thumb  ov010
+ *   EVENT_BATTLE_IntegrityDecoyC  0x0216F07C  thumb  ov010
  *   FIELDMAP_GetEncEff  0x02189A08  thumb  ov021
  *   func_021882DC  0x021882DC  arm  ov230d
  *   func_02188354  0x02188354  arm  ov230d
@@ -160,7 +160,7 @@ extern int EVENT_BATTLE_FreeBtlSetup(int a0);
 extern int EVENT_BATTLE_CallAndInvert(int a0);
 extern int EVENT_BATTLE_IntegrityProbeA(int a0);
 extern int EVENT_BATTLE_IntegrityProbeB(int a0);
-extern int EVENT_BATTLE_IntegrityProbeC(int a0);
+extern int EVENT_BATTLE_IntegrityDecoyC(int a0);
 extern int FIELDMAP_GetEncEff(unsigned char *p);
 extern u32 func_021882DC(void (*a)(void), void (*b)(void), u32 c);
 extern u32 func_02188354(void (*a)(void), void (*b)(void), u32 c);
@@ -225,7 +225,7 @@ int EVENT_BATTLE_ProcBattleTask(void *evt, u32 *state, Work *w)
     case 7: {
         int ok;
 
-        if (func_02188390((void (*)(void))EVENT_BATTLE_CallAndInvert, (void (*)(void))EVENT_BATTLE_IntegrityProbeC, 0) == ~(u32)EVENT_BATTLE_IntegrityProbeC)
+        if (func_02188390((void (*)(void))EVENT_BATTLE_CallAndInvert, (void (*)(void))EVENT_BATTLE_IntegrityDecoyC, 0) == ~(u32)EVENT_BATTLE_IntegrityDecoyC)
             ok = 1;
         else
             ok = 0;

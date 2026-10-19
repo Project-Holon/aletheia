@@ -421,6 +421,10 @@
  *   BOX2_MAIN_StateMachineDragNoBar 0x021E0FD8 thumb ov170
  *   BOX2_MAIN_StateMachineReturnHeld 0x021E122C thumb ov170
  *   ARC_UTIL_LoadScreenDataFromHandle  0x02049E74  arm  arm9
+ *   _fadd                        0x0209C95C  arm
+ *   _ffix                        0x0209C494  arm
+ *   _fsub                        0x0209CB8C  arm
+ *   _u32_div_f                   0x0209C2B0  arm
  */
 #include "box2_types.h"
 
@@ -1264,7 +1268,8 @@ extern void *ARC_UTIL_LoadPaletteBlockFromArchive(u32 archiveID, u32 memberIdx, 
 
 extern u16 CLACT_GetActorPaletteIndex(u8 *p);
 
-extern void CLACT_TransferPalette(void *dst, void *src, unsigned flag);
+struct PaletteData;
+extern void CLACT_TransferPalette(u32 idx, struct PaletteData *dest, u32 count);
 
 extern int CLACT_GetActorDrawPriority(int actor);
 
@@ -1698,7 +1703,7 @@ void BOX2_SEQ_DrawItemEntry(char *p, unsigned char *e, int i);
 
 void BOX2_SEQ_DrawMsgEntry(char *p, BoxSeqEntry *e, int i);
 
-void BOX2_SEQ_DeleteTextEntries(BoxTask *p, int a);
+void BOX2_SEQ_DeleteTextEntries(BoxTask *p, void *a);
 
 void BOX2_SEQ_ClearTextWin(Work *w);
 
@@ -2551,7 +2556,7 @@ int BOX2_SEQ_CreateBox2Main(u8 *task)
     *(volatile u16 *)0x04001050=0;
     BG_SYS_SetLcdSwap(0);
     GFL_HEAP_CreateChildHeap(1,0x4C,0x80000);
-    ((char *)((BoxTask *)(task))->work)=GFL_HEAP_Alloc(0x4C,0xA19C,1,str_021F140C,0x2B5);
+    ((BoxTask *)(task))->work=GFL_HEAP_Alloc(0x4C,0xA19C,1,str_021F140C,0x2B5);
     *(void **)(((char *)((BoxTask *)(task))->work)+0x1B0)=ARC_TOOL_CreateHandle(7,0x4C);
     KEY_GetRepeatSpeed((u32 *)(((char *)((BoxTask *)(task))->work)+0x4C),(u32 *)(((char *)((BoxTask *)(task))->work)+0x50));
     KEY_SetRepeatSpeed(6,6);
@@ -8980,7 +8985,7 @@ void BOX2_SEQ_DrawMsgEntry(char *work, BoxSeqEntry *e, int i)
 
 
 
-void BOX2_SEQ_DeleteTextEntries(BoxTask *task, int a)
+void BOX2_SEQ_DeleteTextEntries(BoxTask *task, void *a)
 {
     BOX2_SEQ_FillTextWinEntry((unsigned char *)((char *)task->work), (BoxSeqEntry *)a, 1);
     BOX2_SEQ_FillTextWin((char *)task->work, (void **)a, 2);
@@ -10281,7 +10286,7 @@ void BOX2_SEQ_SetSlotCharacter(char *w, unsigned item)
     CLACT_TransferCharacter(CLACT_GetActorCharacterIndex(((BoxWork *)w)->cursorActor), a);
     GFL_HEAP_Free((void *)q);
     q = ARC_UTIL_LoadPaletteBlockFromArchive(FILE_UTIL_GetItemCount(), FILE_UTIL_Get(item, 2), (u32)(&b), 0x4C);
-    CLACT_TransferPalette((void *)CLACT_GetActorPaletteIndex(((BoxWork *)w)->cursorActor), b, 1);
+    CLACT_TransferPalette(CLACT_GetActorPaletteIndex(((BoxWork *)w)->cursorActor), b, 1);
     GFL_HEAP_Free((void *)q);
 }
 

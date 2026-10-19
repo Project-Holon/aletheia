@@ -102,6 +102,7 @@
  *   GAME_EVENT_CallProc 0x02012444 thumb
  *   d_021BA39C 0x021BA39C data ov220 a4
  *   ov220_id 0x000000DC data
+ *   _u32_div_f                   0x0209C2B0  arm
  */
 #include "field_event_types.h"
 #include "fld_btl_inst_tool_shared_types.h"
@@ -137,9 +138,9 @@ typedef struct FldMmdl FldMmdl;
 
 typedef struct FldMmdlSys FldMmdlSys;
 
-typedef struct FldMsgBalloon FldMsgBalloon;
+typedef struct FieldTalkWin FldMsgBalloon;
 
-typedef struct FldMsgBalloonSys FldMsgBalloonSys;
+typedef struct FieldMsgBg FldMsgBalloonSys;
 
 typedef struct NetHandle NetHandle;
 
@@ -378,17 +379,18 @@ extern void MI_CpuFill8(void *dst, u8 val, u32 size);
 
 extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
 
-extern PokemonParam *GFL_HEAP_Alloc(u32 heapKind, u32 size, int unused, const char *file, u16 line);
+extern void *GFL_HEAP_Alloc(u32 heapKind, u32 size, int unused, const char *file, u16 line);
 
-extern void GFL_HEAP_Free(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 
-extern FieldMap *GAMESYSTEM_GetFieldMap(GameSystem *gameSystem);
+extern void *GAMESYSTEM_GetFieldMap(GameSystem *gameSystem);
 
 extern GameData *GAMESYSTEM_GetGameData(GameSystem *gameSystem);
 
 extern MyStatus *GAME_DATA_GetMyStatus(GameData *gameData);
+struct GFLNetHandle;
 
-extern NetHandle *GFL_NET_HANDLE_GetCurrentHandle(void);
+extern struct GFLNetHandle *GFL_NET_HANDLE_GetCurrentHandle(void);
 
 extern u8 MYSTATUS_GetSex(const MyStatus *myStatus);
 
@@ -402,9 +404,9 @@ extern GameEvent *GAME_EVENT_Create(GameSystem *gameSystem, GameEvent *parent, G
 
 extern void *GAME_EVENT_GetWork(GameEvent *event);
 
-extern void POKE_REGULATION_LoadInto(int regulationId, Regulation *dest);
+extern void POKE_REGULATION_LoadInto(int memberId, void *dst);
 
-extern ZukanSave *ZUKAN_SAVE_GetFromGameData(GameData *gameData);
+extern void *ZUKAN_SAVE_GetFromGameData(void *gameData);
 
 extern u32 POKEPARTY_GetCount(Party *party);
 
@@ -416,7 +418,7 @@ extern void GAME_EVENT_CallEvent(GameEvent *event, GameEvent *child);
 
 extern GameEvent *FIELD_STATUS_CreateFieldCloseEvent(GameSystem *gameSystem, FieldMap *fieldMap);
 
-extern GameEvent *FIELD_STATUS_CreateSubProcListEvent(GameSystem *gameSystem, FieldMap *fieldMap, PokeListParam *listParam, PStatusParam *statusParam);
+extern void *FIELD_STATUS_CreateSubProcListEvent(void *anime, int slot, int config, int target);
 
 extern GameEvent *FIELD_STATUS_CreateFieldOpenEvent(GameSystem *gameSystem);
 
@@ -425,58 +427,69 @@ extern GameEvent *EVENT_FIELDMAP_CONTROL_StartFadeIn(GameSystem *gameSystem, Fie
 extern u32 POKEPARTY_GetCapacity(Party *party);
 
 extern u32 POKEPARTY_Add(Party *party, const PokemonParam *mon);
+struct FieldMsgBg;
 
-extern FldMsgBalloonSys *FIELDMAP_GetMsgBg(FieldMap *fieldMap);
+extern struct FieldMsgBg *FIELDMAP_GetMsgBg(FieldMap *fieldMap);
 
 extern Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
+struct MsgBank;
 
-extern MsgData *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 
-extern void MSGDATA_ReadString(MsgData *msgData, u32 index, Strbuf *dest);
+extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, struct Strbuf *dest);
 
-extern void MSGDATA_Delete(MsgData *msgData);
+extern u32 MSGDATA_Delete(struct MsgBank *bank);
 
-extern Strbuf *PMSI_PARAM_ToString(PmsData *pms, unsigned int heapId);
+extern void *PMSI_PARAM_ToString(PmsData *pms, unsigned int heapId);
+struct GameData;
 
-extern FldMmdlSys *GAME_DATA_GetOccupyInfo(GameData *gameData);
+extern void *GAME_DATA_GetOccupyInfo(GameData *gameData);
+struct MmdlSys;
+struct Mmdl;
 
-extern FldMmdl *FLDMMDL_SysSearchObjId(FldMmdlSys *mmdlSys, u32 id);
+extern struct Mmdl *FLDMMDL_SysSearchObjId(struct MmdlSys *sys, u32 objId);
+struct MmdlVec;
 
-extern void FLDMMDL_GetPos(const FldMmdl *mmdl, VecFx32 *pos);
+extern void FLDMMDL_GetPos(struct Mmdl *mmdl, struct MmdlVec *out);
+struct FieldTalkWin;
 
-extern FldMsgBalloon *FIELD_MSGBG_AddTalkWin(FldMsgBalloonSys *sys, int a, VecFx32 *pos, Strbuf *msg, u32 b, u32 c);
+extern struct FieldTalkWin *FIELD_MSGBG_AddTalkWin(struct FieldMsgBg *msgBg, int index, VecFx32 *pos, struct Strbuf *str, u32 winType, u32 tailType);
+struct FieldTalkWin;
 
-extern int FIELD_MSGBG_TalkWinMain();
+extern u32 FIELD_MSGBG_TalkWinMain(struct FieldTalkWin *talkWin);
 
 extern u32 KEY_GetTrg(void);
 
-extern int FIELD_MSGBG_DeleteTalkWin();
+extern int FIELD_MSGBG_DeleteTalkWin(struct FieldTalkWin *talkWin);
 
-extern int FIELD_MSGBG_WaitTalkWinClose();
+extern int FIELD_MSGBG_WaitTalkWinClose(struct FieldTalkWin *talkWin);
 
-extern int STRBUF_Delete();
+extern void STRBUF_Delete(struct Strbuf *strbuf);
+struct FieldSituation;
 
-extern void FIELD_ENCOUNT_SetFieldSituation(BtlFieldSituation *out, GameData *gameData, FieldMap *fieldMap);
+extern void FIELD_ENCOUNT_SetFieldSituation(struct FieldSituation *situation, struct GameData *gameData, struct FieldMap *fieldMap);
+struct BattleSetupParam;
 
-extern BtlSetup *BTL_SETUP_Create(u32 heapId);
+extern struct BattleSetupParam *BTL_SETUP_Create(u32 heapId);
 
-extern void BTL_SETUP_SetupTrainerSingle(BtlSetup *bs, GameData *gameData, BtlFieldSituation *situation, u32 a, u16 heapId);
+extern void BTL_SETUP_SetupTrainerSingle(struct BattleSetupParam *param, struct GameData *gd, struct FieldSituation *sit, u32 trainerId, u16 heap);
 
-extern void BTL_SETUP_SetupTrainerDouble(BtlSetup *bs, GameData *gameData, BtlFieldSituation *situation, u32 a, u16 heapId);
+extern void BTL_SETUP_SetupTrainerDouble(struct BattleSetupParam *param, struct GameData *gd, struct FieldSituation *sit, u32 trainerId, u16 heap);
 
-extern void BTL_SETUP_SetupTrainerMulti(BtlSetup *bs, GameData *gameData, BtlFieldSituation *situation, u32 a, u32 b, u32 c, u32 heapId);
+extern void BTL_SETUP_SetupTrainerMulti(struct BattleSetupParam *param, struct GameData *gd, struct FieldSituation *sit, u32 partnerId, u32 trainerId1, u32 trainerId2, u16 heap);
 
-extern void BTL_SETUP_SetupCommAiMulti(BtlSetup *bs, GameData *gameData, NetHandle *handle, u32 a, u8 playerPos, u32 b, u32 c, u16 heapId);
+extern void BTL_SETUP_SetupCommAiMulti(struct BattleSetupParam *param, struct GameData *gd, u32 netHandle, u8 commPos, u8 netId, u32 trainerId1, u32 trainerId2, u16 heap);
 
-extern void BTL_SETUP_AllocRecordBuffer(BtlSetup *bs, u32 heapId);
+extern void BTL_SETUP_AllocRecordBuffer(struct BattleSetupParam *param, u32 heap);
 
 extern void POKEPARTY_InitEx(Party *party, int capacity);
 
 extern u32 POKE_TOOL_GetPartyParamSize(void);
 
 extern void POKE_TOOL_ClearPartyParam(PokemonParam *mon);
+struct PartyPokemon;
 
-extern void POKE_TOOL_CopyPartyPokemon(const PokemonParam *src, PokemonParam *dest);
+extern void POKE_TOOL_CopyPartyPokemon(struct PartyPokemon *src, struct PartyPokemon *dest);
 
 extern void POKE_TOOL_SetLevelAndRecalc(PokemonParam *mon, u32 level);
 
@@ -484,15 +497,15 @@ extern void STRBUF_SetString(Strbuf *dest, const u16 *src);
 
 extern void PMSI_PARAM_ClearSentence(PmsData *pms);
 
-extern void BTL_SETUP_ChangeToSubway(BtlSetup *bs);
+extern void BTL_SETUP_ChangeToSubway(struct BattleSetupParam *param);
 
-extern u32 POKE_TOOL_CreatePersonalRnd(u32 otId, int species, int form, int a, int b, int c);
+extern u32 POKE_TOOL_CreatePersonalRnd(unsigned int otId, int species, unsigned short form, int ratioMode, int shinyWanted, int mode);
 
 extern u32 POKE_TOOL_GetPersonalParam(u16 species, u16 form, u32 paramId);
 
-extern MsgData *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 
-extern void MSGDATA_ReadUnits(MsgData *msgData, u32 msgIndex, u16 *dest, u32 maxLen);
+extern void MSGDATA_ReadUnits(struct MsgBank *bank, u32 msgIndex, u16 *str, u32 maxLen);
 
 extern void POKE_TOOL_SetupPartyParamEx(PokemonParam *mon, u16 species, u16 level, unsigned long long otId, u32 ivs, unsigned long long pid);
 
@@ -511,13 +524,14 @@ extern void *ARC_UTIL_LoadMember(int archiveId, int member, int flag, int heapId
 extern u32 GFL_USE_GetRandom(u32 range);
 
 
-extern Strbuf *MSGDATA_AllocString(MsgData *msgData, u32 index);
+extern Strbuf *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
 
 extern void STRBUF_ToChars(Strbuf *strbuf, u16 *dest, u32 maxLen);
 
 extern GameEvent *FIELD_SUBSCREEN_RequestModeWithCallback(FieldMap *fieldMap, u32 a, u32 callback, u32 callbackArg);
+struct FieldSubscreen;
 
-extern int FIELDMAP_GetSubscreen(FieldMap *fieldMap);
+extern struct FieldSubscreen *FIELDMAP_GetSubscreen(FieldMap *fieldMap);
 
 extern GameComm *GAMESYSTEM_GetGameComm(GameSystem *gameSystem);
 
@@ -529,19 +543,23 @@ extern void GAMESYSTEM_SetAlwaysNetFlag(GameSystem *gameSystem, unsigned int fla
 
 extern u32 GAMESYSTEM_TryStartAutoComm(GameSystem *gameSystem);
 
-extern Party *GAME_DATA_GetMyParty(GameData *gameData);
+extern void *GAME_DATA_GetMyParty(GameData *gameData);
 
 extern SaveControl *GAME_DATA_GetSaveControl(GameData *gameData);
+struct SaveControl;
+struct BattleBoxSave;
 
-extern void *BATTLE_BOX_GetFromSave(SaveControl *saveControl);
+extern struct BattleBoxSave *BATTLE_BOX_GetFromSave(SaveControl *saveControl);
+struct BoxMonGroup;
+struct Party;
 
-extern Party *BATTLE_BOX_CreateParty(void *a, int b);
+extern Party *BATTLE_BOX_CreateParty(struct BoxMonGroup *box, int heap);
 
-extern int EVENT_BATTLE_CreateForcedWinTask(GameSystem *gameSystem, FieldMap *fieldMap, BtlSetup *bs);
+extern int EVENT_BATTLE_CreateForcedWinTask(void *gameSystem, void *battleSrc, void *btlSetup);
 
-extern TrialHouseSave *TRIAL_HOUSE_SAVE_GetFromSave(SaveControl *saveControl);
+extern void *TRIAL_HOUSE_SAVE_GetFromSave(void *saveData);
 
-extern void GAME_EVENT_CallProc(GameEvent *event, u32 overlayId, u32 procTemplate, void *procParam);
+extern void GAME_EVENT_CallProc(struct GameEvent *parent, u32 overlayId, void *procData, void *param);
 
 extern const char d_02172A2C[];
 
@@ -690,7 +708,7 @@ int FLD_BTL_INST_TOOL_PokeListEventMain(GameEvent *event, u32 *seq, PartySelectE
         (*seq)++;
         break;
     case 2:
-        GAME_EVENT_CallEvent(event, FIELD_STATUS_CreateSubProcListEvent(gameSystem, work->fieldMap, &work->listParam, &work->statusParam));
+        GAME_EVENT_CallEvent(event, FIELD_STATUS_CreateSubProcListEvent(gameSystem, (int)work->fieldMap, (int)(&work->listParam), (int)(&work->statusParam)));
         (*seq)++;
         break;
     case 3:
@@ -735,20 +753,20 @@ GameEvent *FLD_BTL_INST_TOOL_CreateTrainerMsgEvent(GameSystem *gameSystem, BtlIn
     TrainerMsgEventWork *work;
 
     gameData = GAMESYSTEM_GetGameData(gameSystem);
-    balloonSys = FIELDMAP_GetMsgBg(GAMESYSTEM_GetFieldMap(gameSystem));
+    balloonSys = (struct FieldMsgBg *)FIELDMAP_GetMsgBg(GAMESYSTEM_GetFieldMap(gameSystem));
     event = GAME_EVENT_Create(gameSystem, 0, (GameEventFunc)FLD_BTL_INST_TOOL_TrainerMsgEventMain, 0x1c);
     work = GAME_EVENT_GetWork(event);
     work->gameSystem = gameSystem;
     if (trainers->introMsg.sentenceType == 0xFFFF) {
         MsgData *msgData;
         work->message = STRBUF_Create(0x5c, 4);
-        msgData = MSGDATA_CreateFromArchive(0, 2, 0xb8, 4);
-        MSGDATA_ReadString(msgData, trainers->introMsg.sentenceId, work->message);
-        MSGDATA_Delete(msgData);
+        msgData = (struct MsgData *)MSGDATA_CreateFromArchive(0, 2, 0xb8, 4);
+        MSGDATA_ReadString((struct MsgBank *)msgData, trainers->introMsg.sentenceId, work->message);
+        MSGDATA_Delete((struct MsgBank *)msgData);
     } else {
         work->message = PMSI_PARAM_ToString(&trainers[index].introMsg, 4);
     }
-    FLDMMDL_GetPos(FLDMMDL_SysSearchObjId(GAME_DATA_GetOccupyInfo(gameData), mmdlId), &work->trainerPos);
+    FLDMMDL_GetPos(FLDMMDL_SysSearchObjId(GAME_DATA_GetOccupyInfo(gameData), mmdlId), (struct MmdlVec *)(&work->trainerPos));
     work->balloon = FIELD_MSGBG_AddTalkWin(balloonSys, 1, &work->trainerPos, work->message, 0, 0);
     return event;
 }
@@ -761,17 +779,17 @@ int FLD_BTL_INST_TOOL_TrainerMsgEventMain(GameEvent *event, int *seq, TrainerMsg
 {
     switch (*seq) {
     case 0:
-        if (FIELD_MSGBG_TalkWinMain(work->balloon) == 1)
+        if (FIELD_MSGBG_TalkWinMain((struct FieldTalkWin *)work->balloon) == 1)
             (*seq)++;
         break;
     case 1:
         if ((KEY_GetTrg() & 3) != 0) {
-            FIELD_MSGBG_DeleteTalkWin(work->balloon);
+            FIELD_MSGBG_DeleteTalkWin((struct FieldTalkWin *)work->balloon);
             (*seq)++;
         }
         break;
     case 2:
-        if (FIELD_MSGBG_WaitTalkWinClose(work->balloon) == 1) {
+        if (FIELD_MSGBG_WaitTalkWinClose((struct FieldTalkWin *)work->balloon) == 1) {
             STRBUF_Delete(work->message);
             return 1;
         }
@@ -812,32 +830,32 @@ BtlSetup *FLD_BTL_INST_TOOL_CreateBtlSetup(GameSystem *gameSystem, Party *player
 
     gameData = GAMESYSTEM_GetGameData(gameSystem);
     mode = battleMode;
-    FIELD_ENCOUNT_SetFieldSituation(&situation, gameData, GAMESYSTEM_GetFieldMap(gameSystem));
-    bs = BTL_SETUP_Create(4);
+    FIELD_ENCOUNT_SetFieldSituation((struct FieldSituation *)(&situation), gameData, GAMESYSTEM_GetFieldMap(gameSystem));
+    bs = (struct BtlSetup *)BTL_SETUP_Create(4);
     switch (mode) {
     case 0:
     case 4:
     case 5:
-        BTL_SETUP_SetupTrainerSingle(bs, gameData, &situation, 0, 4);
+        BTL_SETUP_SetupTrainerSingle((struct BattleSetupParam *)bs, gameData, (struct FieldSituation *)(&situation), 0, 4);
         break;
     case 1:
     case 6:
-        BTL_SETUP_SetupTrainerDouble(bs, gameData, &situation, 0, 4);
+        BTL_SETUP_SetupTrainerDouble((struct BattleSetupParam *)bs, gameData, (struct FieldSituation *)(&situation), 0, 4);
         break;
     case 2:
     case 7:
-        BTL_SETUP_SetupTrainerMulti(bs, gameData, &situation, 0, 0, 0, 4);
+        BTL_SETUP_SetupTrainerMulti((struct BattleSetupParam *)bs, gameData, (struct FieldSituation *)(&situation), 0, 0, 0, 4);
         break;
     case 3:
     case 8:
-        netHandle = GFL_NET_HANDLE_GetCurrentHandle();
+        netHandle = (struct NetHandle *)GFL_NET_HANDLE_GetCurrentHandle();
         playerPos = 0;
         if (GFL_NET_SYSTEM_GetCurrentAid() != 0)
             playerPos = 2;
-        BTL_SETUP_SetupCommAiMulti(bs, gameData, netHandle, 1, playerPos, 0, 0, 4);
+        BTL_SETUP_SetupCommAiMulti((struct BattleSetupParam *)bs, gameData, (u32)netHandle, 1, playerPos, 0, 0, 4);
         break;
     }
-    BTL_SETUP_AllocRecordBuffer(bs, 4);
+    BTL_SETUP_AllocRecordBuffer((struct BattleSetupParam *)bs, 4);
 
     client = BTL_CLIENT_PLAYER;
     i = 0;
@@ -849,7 +867,7 @@ BtlSetup *FLD_BTL_INST_TOOL_CreateBtlSetup(GameSystem *gameSystem, Party *player
     POKE_TOOL_ClearPartyParam(tempMon);
     for (; i < monCount; i++) {
         srcMon = POKEPARTY_GetMember(playerParty, i);
-        POKE_TOOL_CopyPartyPokemon(srcMon, tempMon);
+        POKE_TOOL_CopyPartyPokemon((struct PartyPokemon *)srcMon, (struct PartyPokemon *)tempMon);
         if (POKE_TOOL_GetPartyValue(srcMon, 0x9E, 0) != 0x32)
             POKE_TOOL_SetLevelAndRecalc(tempMon, 0x32);
         POKEPARTY_Add(party, tempMon);
@@ -927,7 +945,7 @@ BtlSetup *FLD_BTL_INST_TOOL_CreateBtlSetup(GameSystem *gameSystem, Party *player
         }
         GFL_HEAP_Free(tempMon);
     }
-    BTL_SETUP_ChangeToSubway(bs);
+    BTL_SETUP_ChangeToSubway((struct BattleSetupParam *)bs);
     return bs;
 }
 
@@ -1000,9 +1018,9 @@ u32 FLD_BTL_INST_TOOL_BuildBattleMon(BattleMon *out, u32 memberId, u32 otId, u32
         out->ability = POKE_TOOL_GetPersonalParam(out->species, 0, 0x1A);
     }
     out->friendship = friendship;
-    speciesNames = MSGDATA_CreateFromArchive(0, 2, 0x46, heapId);
-    MSGDATA_ReadUnits(speciesNames, out->species, out->nick, 11);
-    MSGDATA_Delete(speciesNames);
+    speciesNames = (struct MsgData *)MSGDATA_CreateFromArchive(0, 2, 0x46, heapId);
+    MSGDATA_ReadUnits((struct MsgBank *)speciesNames, out->species, out->nick, 11);
+    MSGDATA_Delete((struct MsgBank *)speciesNames);
     return pid;
 }
 
@@ -1165,7 +1183,7 @@ int FLD_BTL_INST_TOOL_CreateTrainer(BtlInstTrainer *trainer, u16 trainerIndex, i
  */
 BtlInstGroup *FLD_BTL_INST_TOOL_InitTrainerHeader(BtlInstTrainer *trainer, int trainerIndex, int heapId)
 {
-    MsgData *nameBank = MSGDATA_CreateFromArchive(0, 2, 11, heapId);
+    MsgData *nameBank = (struct MsgData *)MSGDATA_CreateFromArchive(0, 2, 11, heapId);
     BtlInstGroup *group;
     Strbuf *name;
     MI_CpuFill8(trainer, 0, 0x120);
@@ -1174,10 +1192,10 @@ BtlInstGroup *FLD_BTL_INST_TOOL_InitTrainerHeader(BtlInstTrainer *trainer, int t
     trainer->introMsg.sentenceType = 0xFFFF;
     trainer->introMsg.sentenceId = trainerIndex * 3;
     trainer->trainerType = group->trainerType;
-    name = MSGDATA_AllocString(nameBank, trainerIndex);
+    name = MSGDATA_AllocString((struct MsgBank *)nameBank, trainerIndex);
     STRBUF_ToChars(name, trainer->name, 16);
     STRBUF_Delete(name);
-    MSGDATA_Delete(nameBank);
+    MSGDATA_Delete((struct MsgBank *)nameBank);
     return group;
 }
 
@@ -1328,7 +1346,7 @@ void FLD_BTL_INST_TOOL_SetDoneFlag(int *doneFlag)
 int FLD_BTL_INST_TOOL_CommResetEventMain(GameEvent *event, int *step, CommResetWork *work)
 {
     GameSystem *gameSystem = work->gameSystem;
-    int fieldMapId = FIELDMAP_GetSubscreen(GAMESYSTEM_GetFieldMap(gameSystem));
+    int fieldMapId = (int)FIELDMAP_GetSubscreen(GAMESYSTEM_GetFieldMap(gameSystem));
     GameComm *gameComm = GAMESYSTEM_GetGameComm(gameSystem);
     CommResetStep current = (CommResetStep)*step;
     switch (current) {
@@ -1416,7 +1434,7 @@ GameEvent *FLD_BTL_INST_TOOL_CreatePartySelectStepEvent(GameSystem *gameSystem, 
         work->tempParty = 0;
         party = GAME_DATA_GetMyParty(gameData);
     } else {
-        party = BATTLE_BOX_CreateParty(BATTLE_BOX_GetFromSave(GAME_DATA_GetSaveControl(gameData)), 5);
+        party = BATTLE_BOX_CreateParty((struct BoxMonGroup *)(BATTLE_BOX_GetFromSave(GAME_DATA_GetSaveControl(gameData))), 5);
         work->tempParty = party;
     }
     work->party = party;
@@ -1540,7 +1558,7 @@ int FLD_BTL_INST_TOOL_TrialHouseAwardEventMain(GameEvent *event, int *step)
     work = GAME_EVENT_GetWork(event);
     switch (*step) {
     case 0:
-        GAME_EVENT_CallProc(event, (unsigned int)ov220_id, (unsigned int)d_021BA39C, &work->param);
+        GAME_EVENT_CallProc(event, (unsigned int)ov220_id, (void *)d_021BA39C, &work->param);
         (*step)++;
         break;
     case 1:

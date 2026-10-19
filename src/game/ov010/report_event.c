@@ -228,56 +228,63 @@ enum {
 };
 
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *file, u16 line);
-extern void GFL_HEAP_Free(void *p);
+extern u32 GFL_HEAP_Free(void *p);
 extern GameData *GAMESYSTEM_GetGameData(GameSystem *gameSystem);
-extern FieldAvatar *FIELDMAP_GetFieldPlayer(FieldMap *fieldMap);
-extern FieldMmdl *FIELD_PLAYER_GetMmdl(FieldAvatar *avatar);
+struct FieldPlayer;
+extern struct FieldPlayer *FIELDMAP_GetFieldPlayer(FieldMap *fieldMap);
+struct Mmdl;
+extern struct Mmdl *FIELD_PLAYER_GetMmdl(struct FieldPlayer *player);
 extern MyStatus *GAME_DATA_GetMyStatus(GameData *gameData);
 extern Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
-extern MsgData *MSGDATA_CreateFromArchive(u32 type, u32 arcId, u32 fileId, u32 heapId);
-extern void MSGDATA_ReadString(MsgData *msgData, u32 index, Strbuf *dest);
-extern void MSGDATA_Delete(MsgData *msgData);
+struct MsgBank;
+extern struct MsgBank *MSGDATA_CreateFromArchive(u32 type, u32 arcId, u32 fileId, u32 heapId);
+extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, struct Strbuf *dest);
+extern u32 MSGDATA_Delete(struct MsgBank *bank);
 extern u32 KEY_GetTrg(void);
 extern void STRBUF_Delete(Strbuf *str);
-extern Strbuf *MSGDATA_AllocString(MsgData *msgData, u32 index);
-extern FieldCommLink *FIELDMAP_GetSubscreen(FieldMap *fieldMap);
-extern TrainerRecord *GAME_DATA_GetTrainerRecord(GameData *gameData);
-extern int FIELD_SUBSCREEN_RequestMode(FieldCommLink *link, u32 mode);
-extern int FIELD_SUBSCREEN_IsIdle(FieldCommLink *link);
-extern int FIELD_SUBSCREEN_IsReportReady(FieldCommLink *link);
-extern void FIELD_SUBSCREEN_PrepareReportSave(FieldCommLink *link);
-extern int FIELD_SUBSCREEN_CheckReportSaveCounter(FieldCommLink *link);
-extern void FIELD_SUBSCREEN_StartReportSaveAnim(FieldCommLink *link);
-extern void FIELD_SUBSCREEN_StopReportSaveAnim(FieldCommLink *link);
-extern int FIELD_SUBSCREEN_IsReportSaveAnimDone(FieldCommLink *link);
-extern void FIELD_SUBSCREEN_ResumeField(FieldCommLink *link, u32 heapId);
+extern Strbuf *MSGDATA_AllocString(struct MsgBank *bank, unsigned int index);
+struct FieldSubscreen;
+extern struct FieldSubscreen *FIELDMAP_GetSubscreen(FieldMap *fieldMap);
+extern void *GAME_DATA_GetTrainerRecord(GameData *gameData);
+extern int FIELD_SUBSCREEN_RequestMode(struct FieldSubscreen *work, u32 mode);
+extern int FIELD_SUBSCREEN_IsIdle(struct FieldSubscreen *work);
+extern int FIELD_SUBSCREEN_IsReportReady(struct FieldSubscreen *work);
+extern void FIELD_SUBSCREEN_PrepareReportSave(struct FieldSubscreen *work);
+extern int FIELD_SUBSCREEN_CheckReportSaveCounter(struct FieldSubscreen *work);
+extern void FIELD_SUBSCREEN_StartReportSaveAnim(struct FieldSubscreen *work);
+extern void FIELD_SUBSCREEN_StopReportSaveAnim(struct FieldSubscreen *work);
+extern int FIELD_SUBSCREEN_IsReportSaveAnimDone(struct FieldSubscreen *work);
+extern void FIELD_SUBSCREEN_ResumeField(struct FieldSubscreen *work, u32 heapId);
 extern TcblSystem *TCBL_Create(u16 heapId, u16 tag, u32 taskCount, u32 workSize);
-extern AppKeyCursor *APP_KEYCURSOR_CreateDefault(u32 id, u32 isLive, u32 isFlip, u32 heapId);
-extern PrintQue *PRINTSYS_QUE_Create(u32 heapId);
+struct KeyCursor;
+extern struct KeyCursor *APP_KEYCURSOR_CreateDefault(u32 id, u32 isLive, u32 isFlip, u16 heapId);
+struct PrintQueue;
+extern struct PrintQueue *PRINTSYS_QUE_Create(u32 heapId);
 extern int SAVE_CONTROL_WouldOverwriteSave(SaveControl *saveControl);
 extern void BMP_MENUWORK_DrawWindowBorder(BmpWin *bmpWin, u32 kind);
 extern u32 RECORD_AddOne(TrainerRecord *record, int id);
-extern TcblSystem *GFL_USE_GetMainTaskList(void);
-extern TimeIcon *TIME_ICON_Create(TcblSystem *tcbl, BmpWin *bmpWin, u8 color, u8 priority, u16 heapId);
+struct TcbList;
+extern struct TcbList *GFL_USE_GetMainTaskList(void);
+extern TimeIcon *TIME_ICON_Create(struct TcbList *taskList, struct BmpWin *refWin, u8 fillColor, u8 waitInterval, u16 heapId);
 extern int GAME_DATA_SaveStart(GameData *gameData);
 extern int GAME_DATA_SaveMain(GameData *gameData);
 extern void TIME_ICON_Delete(TimeIcon *timeIcon);
 extern void GFL_USE_PlaySeDefaultVolume(u32 seNo);
-extern WordSet *WORDSET_CreateDefault(u32 heapId);
-extern void WORDSET_SetSlotMyStatus(WordSet *wordSet, u32 index, MyStatus *myStatus);
+extern WordSet *WORDSET_CreateDefault(u16 heapId);
+extern void WORDSET_SetSlotMyStatus(struct WordSet *words, u32 slot, void *source);
 extern void WORDSET_CopyTaggedText(WordSet *wordSet, Strbuf *dest, Strbuf *src);
-extern void WORDSET_Delete(WordSet *wordSet);
+extern u32 WORDSET_Delete(WordSet *wordSet);
 extern int GFL_USE_IsSeqPlaying(u32 seNo);
-extern void PRINTSYS_QUE_Delete(PrintQue *printQue);
-extern void APP_KEYCURSOR_Delete(AppKeyCursor *keyCursor);
+extern void PRINTSYS_QUE_Delete(struct PrintQueue *queue);
+extern void APP_KEYCURSOR_Delete(struct KeyCursor *cursor);
 extern void TCBL_Destroy(TcblSystem *tcbl);
-extern BmpWin *BMP_WIN_Create(u32 bgLayer, u32 posX, u32 posY, u32 width, u8 height, u8 palette, u8 charOffset);
-extern void BMP_MENUWORK_LoadCharAndPltt(u32 bgLayer, u32 charOffset, u32 palette, u32 type, u32 heapId);
-extern void ARC_UTIL_UploadPaletteFromArchiveWhole(u32 arcId, u32 fileId, u32 palType, u32 offset, u32 size, u32 heapId);
-extern void BMP_WIN_Delete(BmpWin *bmpWin);
+extern BmpWin *BMP_WIN_Create(u32 bgLayer, u32 posX, u32 posY, u8 width, u8 height, u8 palette, u8 allocDir);
+extern void BMP_MENUWORK_LoadCharAndPltt(u32 layer, u32 tileOffset, u32 palSlot, u32 frameId, u16 heapId);
+extern void ARC_UTIL_UploadPaletteFromArchiveWhole(u32 archiveID, u32 memberIdx, u32 kind, u32 dest, u32 size, u16 flags);
+extern u32 BMP_WIN_Delete(BmpWin *bmpWin);
 extern Bmp *BMP_WIN_GetBmp(BmpWin *bmpWin);
 extern void BMP_Clear(Bmp *bmp, u8 value);
-extern void BMP_MENUWORK_DrawWindow(BmpWin *bmpWin, int commitMode, int tileBase, int palette);
+extern void BMP_MENUWORK_DrawWindow(struct BmpWin *win, int commitMode, unsigned short tileBase, unsigned int palette);
 extern u32 FIELD_MSGBG_GetFont(FieldMsgContext *msgContext);
 extern signed char MSG_SPEED_GetWait(void);
 extern PrintStream *PRINTSYS_PrintStream(BmpWin *bmpWin, u32 x, u32 y, Strbuf *str, u32 font, u32 speed, TcblSystem *tcbl, u32 priority, u16 heapId, u32 clearColor);
@@ -285,36 +292,42 @@ extern void BMP_WIN_TransferChars(BmpWin *bmpWin);
 extern void BMP_WIN_MakeScreen(BmpWin *bmpWin);
 extern u8 BMP_WIN_GetBgLayer(BmpWin *bmpWin);
 extern void BG_SYS_MarkTileDirty(u32 bit);
-extern u32 PRINTSYS_PrintStreamGetState(PrintStream *stream);
-extern void PRINTSYS_PrintStreamShortWait(PrintStream *stream, int wait);
-extern void PRINTSYS_PrintStreamReleasePause(PrintStream *stream);
-extern void PRINTSYS_PrintStreamDelete(PrintStream *stream);
+struct TextPrinter;
+extern u32 PRINTSYS_PrintStreamGetState(struct TextPrinter *printer);
+extern void PRINTSYS_PrintStreamShortWait(struct TextPrinter *printer, int wait);
+extern void PRINTSYS_PrintStreamReleasePause(struct TextPrinter *printer);
+struct TextPrinter;
+extern void PRINTSYS_PrintStreamDelete(struct TextPrinter *printer);
 extern int TOUCHPANEL_GetTrg(void);
 extern u32 KEY_GetCont(void);
 extern void TCBL_Main(TcblSystem *tcbl);
-extern void APP_KEYCURSOR_Update(AppKeyCursor *keyCursor, PrintStream *stream, BmpWin *bmpWin);
-extern void PRINTSYS_PrintQue(PrintQue *printQue, Bmp *bmp, u32 x, u32 y, Strbuf *str, u32 font);
-extern void PRINTSYS_QUE_Main(PrintQue *printQue);
-extern u32 PRINTSYS_QUE_IsExistTarget(PrintQue *printQue, Bmp *bmp);
-extern u32 PRINTSYS_QUE_IsFinished(const PrintQue *printQue);
-extern u32 FIELD_MSGBG_GetPrintQue(FieldMsgContext *msgContext);
-extern TaskMenuRes *APP_TASKMENU_RES_Create(u16 bgFrame, u16 palNo, u32 font, u32 printQue, u16 heapId);
+extern void APP_KEYCURSOR_Update(struct KeyCursor *cursor, struct TextPrinter *printStream, void *win);
+struct GfFont;
+extern void PRINTSYS_PrintQue(struct PrintQueue *queue, struct Bmp *bmp, unsigned int x, short y, struct Strbuf *str, struct GfFont *font);
+extern unsigned int PRINTSYS_QUE_Main(struct PrintQueue *queue);
+extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintQueue *queue, struct Bmp *bmp);
+extern u32 PRINTSYS_QUE_IsFinished(struct PrintQueue *queue);
+struct FieldMsgBg;
+extern struct PrintQue *FIELD_MSGBG_GetPrintQue(struct FieldMsgBg *msgBg);
+struct GFont;
+extern TaskMenuRes *APP_TASKMENU_RES_Create(u16 bgFrame, u16 palNo, struct GFont *font, struct PrintQueue *printQue, u16 heapId);
 extern void APP_TASKMENU_RES_Delete(TaskMenuRes *res);
 extern TaskMenuWork *APP_TASKMENU_OpenMenuFastDecide(TaskMenuInitWork *init, TaskMenuRes *res);
 extern void APP_TASKMENU_UpdateMenu(TaskMenuWork *menu);
 extern u32 APP_TASKMENU_IsFinish(TaskMenuWork *menu);
 extern u8 APP_TASKMENU_GetCursorPos(const TaskMenuWork *menu);
 extern void APP_TASKMENU_CloseMenu(TaskMenuWork *menu);
-extern int FIELD_PLAYER_CheckNotWaterForm(FieldAvatar *avatar);
-extern int FIELD_PLAYER_StartFormChange(FieldAvatar *avatar, u32 code);
-extern int FIELD_PLAYER_StepFormChange(FieldAvatar *avatar);
-extern int FIELD_PLAYER_CheckAnimePaused(FieldAvatar *avatar);
-extern char *FLDMMDL_OffMoveBitMovePause(FieldMmdl *mmdl);
-extern u32 *FLDMMDL_ClearStatusBit(FieldMmdl *mmdl, u32 bits);
+extern int FIELD_PLAYER_CheckNotWaterForm(struct FieldPlayer *player);
+extern void FIELD_PLAYER_StartFormChange(struct FieldPlayer *player, u32 mask);
+extern int FIELD_PLAYER_StepFormChange(struct FieldPlayer *player);
+extern int FIELD_PLAYER_CheckAnimePaused(struct FieldPlayer *player);
+extern void FLDMMDL_OffMoveBitMovePause(struct Mmdl *mmdl);
+extern void FLDMMDL_ClearStatusBit(struct Mmdl *mmdl, u32 bit);
 extern SaveEffect *FIELD_SAVEANIME_Create(u32 heapId, FieldMap *fieldMap);
 extern int FIELD_SAVEANIME_Start(SaveEffect *effect);
-extern int FIELD_SAVEANIME_Stop(SaveEffect *effect);
-extern int FIELD_SAVEANIME_Delete(SaveEffect *effect);
+struct FieldSaveAnime;
+extern void FIELD_SAVEANIME_Stop(struct FieldSaveAnime *work);
+extern int FIELD_SAVEANIME_Delete(struct FieldSaveAnime *work);
 extern const char d_02172A50[];
 
 int REPORT_EVENT_Main(ReportEventWork *w, u32 *state);
@@ -357,11 +370,11 @@ int REPORT_EVENT_Main(ReportEventWork *w, u32 *state)
         if (FIELD_SUBSCREEN_IsIdle(FIELDMAP_GetSubscreen(w->fieldMap)) == 1
             && FIELD_SUBSCREEN_IsReportReady(FIELDMAP_GetSubscreen(w->fieldMap)) == 1) {
             w->res = GFL_HEAP_Alloc(w->heapId, 0x50, 0, d_02172A50, 0x9F);
-            w->res->msgData = MSGDATA_CreateFromArchive(0, 3, 0x9E, w->heapId);
+            w->res->msgData = (struct MsgData *)MSGDATA_CreateFromArchive(0, 3, 0x9E, w->heapId);
             w->res->message = STRBUF_Create(0x200, w->heapId);
             w->res->tcbl = TCBL_Create(w->heapId, w->heapId, 1, 4);
-            w->res->keyCursor = APP_KEYCURSOR_CreateDefault(0xF, 1, 1, w->heapId);
-            w->res->printQue = PRINTSYS_QUE_Create(w->heapId);
+            w->res->keyCursor = (struct AppKeyCursor *)APP_KEYCURSOR_CreateDefault(0xF, 1, 1, w->heapId);
+            w->res->printQue = (struct PrintQue *)PRINTSYS_QUE_Create(w->heapId);
             w->res->waitFrames = 0;
             REPORT_EVENT_CreateMessageWindow(w);
             REPORT_EVENT_CreateMenuResources(w);
@@ -446,7 +459,7 @@ int REPORT_EVENT_Main(ReportEventWork *w, u32 *state)
             REPORT_EVENT_StopSaveEffect(w);
             REPORT_EVENT_EndAvatarAnim(w);
             wordSet = WORDSET_CreateDefault(w->heapId);
-            message = MSGDATA_AllocString(w->res->msgData, REPORT_EVENT_MSG_SAVED);
+            message = MSGDATA_AllocString((struct MsgBank *)w->res->msgData, REPORT_EVENT_MSG_SAVED);
             WORDSET_SetSlotMyStatus(wordSet, 0, GAME_DATA_GetMyStatus(GAMESYSTEM_GetGameData(w->gameSystem)));
             WORDSET_CopyTaggedText(wordSet, w->res->message, message);
             STRBUF_Delete(message);
@@ -509,11 +522,11 @@ void REPORT_EVENT_Free(ReportEventWork *w)
 {
     REPORT_EVENT_DeleteMenuResources(w);
     REPORT_EVENT_DeleteMessageWindow(w);
-    PRINTSYS_QUE_Delete(w->res->printQue);
-    APP_KEYCURSOR_Delete(w->res->keyCursor);
+    PRINTSYS_QUE_Delete((struct PrintQueue *)w->res->printQue);
+    APP_KEYCURSOR_Delete((struct KeyCursor *)w->res->keyCursor);
     TCBL_Destroy(w->res->tcbl);
     STRBUF_Delete(w->res->message);
-    MSGDATA_Delete(w->res->msgData);
+    MSGDATA_Delete((struct MsgBank *)w->res->msgData);
     GFL_HEAP_Free(w->res);
 }
 
@@ -535,7 +548,7 @@ void REPORT_EVENT_DeleteMessageWindow(ReportEventWork *w)
 /* Reads message msgIndex into the text buffer and starts printing it. */
 void REPORT_EVENT_PrintMessage(ReportEventWork *w, u32 msgIndex)
 {
-    MSGDATA_ReadString(w->res->msgData, msgIndex, w->res->message);
+    MSGDATA_ReadString((struct MsgBank *)w->res->msgData, msgIndex, w->res->message);
     REPORT_EVENT_StartPrintStream(w);
 }
 
@@ -561,23 +574,23 @@ void REPORT_EVENT_StartPrintStream(ReportEventWork *w)
 /* Advances the print stream; A, B or a touch speeds it up and continues after a pause. Returns 0 once it has finished. */
 int REPORT_EVENT_UpdatePrintStream(ReportEventWork *w)
 {
-    switch (PRINTSYS_PrintStreamGetState(w->res->printStream)) {
+    switch (PRINTSYS_PrintStreamGetState((struct TextPrinter *)w->res->printStream)) {
     case 0:
         if (TOUCHPANEL_GetTrg() == 1 || (KEY_GetCont() & 3) != 0)
-            PRINTSYS_PrintStreamShortWait(w->res->printStream, 0);
+            PRINTSYS_PrintStreamShortWait((struct TextPrinter *)w->res->printStream, 0);
         w->res->printWait = 0;
         break;
     case 1:
         if (w->res->printWait == 0) {
             if (TOUCHPANEL_GetTrg() == 1 || (KEY_GetTrg() & 3) != 0) {
                 GFL_USE_PlaySeDefaultVolume(0x547);
-                PRINTSYS_PrintStreamReleasePause(w->res->printStream);
+                PRINTSYS_PrintStreamReleasePause((struct TextPrinter *)w->res->printStream);
                 w->res->printWait = 1;
             }
         }
         break;
     case 2:
-        PRINTSYS_PrintStreamDelete(w->res->printStream);
+        PRINTSYS_PrintStreamDelete((struct TextPrinter *)w->res->printStream);
         w->res->printWait = 0;
         return 0;
     }
@@ -588,11 +601,11 @@ int REPORT_EVENT_UpdatePrintStream(ReportEventWork *w)
 int REPORT_EVENT_UpdateMessage(ReportEventWork *w)
 {
     TCBL_Main(w->res->tcbl);
-    APP_KEYCURSOR_Update(w->res->keyCursor, w->res->printStream, w->res->window.bmpWin);
+    APP_KEYCURSOR_Update((struct KeyCursor *)w->res->keyCursor, (struct TextPrinter *)w->res->printStream, w->res->window.bmpWin);
     if (REPORT_EVENT_UpdatePrintStream(w) == 0)
         return 0;
     TCBL_Main(w->res->tcbl);
-    APP_KEYCURSOR_Update(w->res->keyCursor, w->res->printStream, w->res->window.bmpWin);
+    APP_KEYCURSOR_Update((struct KeyCursor *)w->res->keyCursor, (struct TextPrinter *)w->res->printStream, w->res->window.bmpWin);
     return REPORT_EVENT_UpdatePrintStream(w);
 }
 
@@ -607,11 +620,11 @@ void REPORT_EVENT_QueueMessage(ReportEventWork *w, u32 msgIndex)
 
     BMP_Clear(BMP_WIN_GetBmp(w->res->window.bmpWin), 15);
     BMP_MENUWORK_DrawWindow(w->res->window.bmpWin, 2, 1, 13);
-    message = MSGDATA_AllocString(w->res->msgData, msgIndex);
+    message = MSGDATA_AllocString((struct MsgBank *)w->res->msgData, msgIndex);
     font = FIELD_MSGBG_GetFont(w->msgContext);
     window = &w->res->window;
     printQue = w->res->printQue;
-    PRINTSYS_PrintQue(printQue, BMP_WIN_GetBmp(window->bmpWin), 0, 0, message, font);
+    PRINTSYS_PrintQue((struct PrintQueue *)printQue, BMP_WIN_GetBmp(window->bmpWin), 0, 0, message, (struct GfFont *)font);
     window->queuePending = 1;
     STRBUF_Delete(message);
     bmpWin = w->res->window.bmpWin;
@@ -626,14 +639,14 @@ int REPORT_EVENT_UpdateMessageQueue(ReportEventWork *w)
     ReportEventWindow *window;
     PrintQue *printQue;
 
-    PRINTSYS_QUE_Main(w->res->printQue);
+    PRINTSYS_QUE_Main((struct PrintQueue *)w->res->printQue);
     printQue = w->res->printQue;
     window = &w->res->window;
-    if (window->queuePending != 0 && PRINTSYS_QUE_IsExistTarget(printQue, BMP_WIN_GetBmp(window->bmpWin)) == 0) {
+    if (window->queuePending != 0 && PRINTSYS_QUE_IsExistTarget((struct PrintQueue *)printQue, BMP_WIN_GetBmp(window->bmpWin)) == 0) {
         BMP_WIN_TransferChars(window->bmpWin);
         window->queuePending = 0;
     }
-    return PRINTSYS_QUE_IsFinished(w->res->printQue);
+    return PRINTSYS_QUE_IsFinished((struct PrintQueue *)w->res->printQue);
 }
 
 /* Loads the yes and no strings and creates the task menu resources. */
@@ -642,16 +655,16 @@ void REPORT_EVENT_CreateMenuResources(ReportEventWork *w)
     MsgData *msgData;
     u32 font;
 
-    msgData = MSGDATA_CreateFromArchive(0, 2, 0xA8, w->heapId);
-    w->res->menuItems[0].str = MSGDATA_AllocString(msgData, 8);
+    msgData = (struct MsgData *)MSGDATA_CreateFromArchive(0, 2, 0xA8, w->heapId);
+    w->res->menuItems[0].str = MSGDATA_AllocString((struct MsgBank *)msgData, 8);
     w->res->menuItems[0].msgColor = 0x39E3;
     w->res->menuItems[0].type = 0;
-    w->res->menuItems[1].str = MSGDATA_AllocString(msgData, 9);
+    w->res->menuItems[1].str = MSGDATA_AllocString((struct MsgBank *)msgData, 9);
     w->res->menuItems[1].msgColor = 0x39E3;
     w->res->menuItems[1].type = 0;
-    MSGDATA_Delete(msgData);
+    MSGDATA_Delete((struct MsgBank *)msgData);
     font = FIELD_MSGBG_GetFont(w->msgContext);
-    w->res->taskMenuRes = APP_TASKMENU_RES_Create(6, 14, font, FIELD_MSGBG_GetPrintQue(w->msgContext), w->heapId);
+    w->res->taskMenuRes = APP_TASKMENU_RES_Create(6, 14, (struct GFont *)font, (struct PrintQueue *)FIELD_MSGBG_GetPrintQue((struct FieldMsgBg *)w->msgContext), w->heapId);
 }
 
 /* Deletes the task menu resources and the two menu strings. */
@@ -700,13 +713,13 @@ void REPORT_EVENT_BeginAvatarAnim(ReportEventWork *w)
     FieldAvatar *avatar;
     FieldMmdl *mmdl;
 
-    avatar = FIELDMAP_GetFieldPlayer(w->fieldMap);
-    if (FIELD_PLAYER_CheckNotWaterForm(avatar) == 1) {
-        mmdl = FIELD_PLAYER_GetMmdl(avatar);
-        FIELD_PLAYER_StartFormChange(avatar, REPORT_EVENT_AVATAR_BEGIN);
-        FLDMMDL_OffMoveBitMovePause(mmdl);
-        FLDMMDL_ClearStatusBit(mmdl, 0x10);
-        FIELD_PLAYER_StepFormChange(avatar);
+    avatar = (struct FieldAvatar *)FIELDMAP_GetFieldPlayer(w->fieldMap);
+    if (FIELD_PLAYER_CheckNotWaterForm((struct FieldPlayer *)avatar) == 1) {
+        mmdl = (struct FieldMmdl *)FIELD_PLAYER_GetMmdl((struct FieldPlayer *)avatar);
+        FIELD_PLAYER_StartFormChange((struct FieldPlayer *)avatar, REPORT_EVENT_AVATAR_BEGIN);
+        FLDMMDL_OffMoveBitMovePause((struct Mmdl *)mmdl);
+        FLDMMDL_ClearStatusBit((struct Mmdl *)mmdl, 0x10);
+        FIELD_PLAYER_StepFormChange((struct FieldPlayer *)avatar);
     }
 }
 
@@ -715,10 +728,10 @@ void REPORT_EVENT_EndAvatarAnim(ReportEventWork *w)
 {
     FieldAvatar *avatar;
 
-    avatar = FIELDMAP_GetFieldPlayer(w->fieldMap);
-    if (FIELD_PLAYER_CheckNotWaterForm(avatar) == 1) {
-        FIELD_PLAYER_StartFormChange(avatar, REPORT_EVENT_AVATAR_END);
-        FIELD_PLAYER_StepFormChange(avatar);
+    avatar = (struct FieldAvatar *)FIELDMAP_GetFieldPlayer(w->fieldMap);
+    if (FIELD_PLAYER_CheckNotWaterForm((struct FieldPlayer *)avatar) == 1) {
+        FIELD_PLAYER_StartFormChange((struct FieldPlayer *)avatar, REPORT_EVENT_AVATAR_END);
+        FIELD_PLAYER_StepFormChange((struct FieldPlayer *)avatar);
     }
 }
 
@@ -727,10 +740,10 @@ int REPORT_EVENT_IsAvatarRequestDone(ReportEventWork *w)
 {
     FieldAvatar *avatar;
 
-    avatar = FIELDMAP_GetFieldPlayer(w->fieldMap);
-    if (FIELD_PLAYER_CheckNotWaterForm(avatar) == 0)
+    avatar = (struct FieldAvatar *)FIELDMAP_GetFieldPlayer(w->fieldMap);
+    if (FIELD_PLAYER_CheckNotWaterForm((struct FieldPlayer *)avatar) == 0)
         return 1;
-    if (FIELD_PLAYER_StepFormChange(avatar) == 1)
+    if (FIELD_PLAYER_StepFormChange((struct FieldPlayer *)avatar) == 1)
         return 1;
     return 0;
 }
@@ -741,10 +754,10 @@ int REPORT_EVENT_IsAvatarRequestDone(ReportEventWork *w)
  */
 int REPORT_EVENT_IsAvatarReady(ReportEventWork *w)
 {
-    FieldAvatar *avatar = FIELDMAP_GetFieldPlayer(w->fieldMap);
+    FieldAvatar *avatar = (struct FieldAvatar *)FIELDMAP_GetFieldPlayer(w->fieldMap);
 
-    if (FIELD_PLAYER_CheckNotWaterForm(avatar) == 1)
-        return FIELD_PLAYER_CheckAnimePaused(avatar);
+    if (FIELD_PLAYER_CheckNotWaterForm((struct FieldPlayer *)avatar) == 1)
+        return FIELD_PLAYER_CheckAnimePaused((struct FieldPlayer *)avatar);
 
     return 1;
 }
@@ -759,6 +772,6 @@ int REPORT_EVENT_StartSaveEffect(ReportEventWork *w)
 /* Stops and frees the save effect object. */
 int REPORT_EVENT_StopSaveEffect(ReportEventWork *w)
 {
-    FIELD_SAVEANIME_Stop(w->res->saveEffect);
-    return FIELD_SAVEANIME_Delete(w->res->saveEffect);
+    FIELD_SAVEANIME_Stop((struct FieldSaveAnime *)w->res->saveEffect);
+    return FIELD_SAVEANIME_Delete((struct FieldSaveAnime *)w->res->saveEffect);
 }

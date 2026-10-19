@@ -108,6 +108,11 @@
  *   APP_ICON_GetStatusIconAnim  0x020276C4  thumb  arm9
  *   APP_ICON_GetBallThrowCellFileId  0x02027720  thumb  arm9
  *   APP_ICON_GetBallThrowAnimFileId  0x0202772C  thumb  arm9
+ *   _fadd                        0x0209C95C  arm
+ *   _fflt                        0x0209BDBC  arm
+ *   _ffltu                       0x0209BE04  arm
+ *   _fsub                        0x0209CB8C  arm
+ *   _u32_div_f                   0x0209C2B0  arm
  */
 
 #include "p_status_types.h"
@@ -233,7 +238,8 @@ struct TouchHitTable { StaTouchRect rect[3]; };
 extern u32 GFL_HEAP_Free(void *p);
 extern u32 TOUCHPANEL_GetPointCont(u32 *x, u32 *y);
 extern void CLACT_SetActorAnimSeq(struct Actor *actor, u16 anim);
-extern void G3D_CAMERA_Reset(void *camera);
+struct G3dCamera;
+extern void G3D_CAMERA_Reset(struct G3dCamera *camera);
 extern void ARC_UTIL_UploadBgPaletteFromHandle(void *arc, u32 fileId, u32 a, u32 b, u32 c, u32 d, u16 heapId);
 extern u32 APP_ICON_GetArchiveId(void);
 extern int APP_ICON_GetBallThrowCellFileId(int ballId);
@@ -241,66 +247,74 @@ extern int APP_ICON_GetBallThrowAnimFileId(int ballId);
 extern struct Actor *CLACT_CreateActor(void *unit, unsigned int chrRes, unsigned int plttRes, unsigned int cellRes, const void *pos, u16 space, u16 heapId);
 extern void CLACT_SetActorDrawEnable(struct Actor *actor, u32 enable);
 extern void CLACT_DeleteActor(struct Actor *actor);
-extern u32 POKE_TOOL_GetBoxValue(void *mon, int paramId, void *out);
-extern struct Strbuf *MSGDATA_AllocString(struct MsgData *msgData, u32 index);
+extern u32 POKE_TOOL_GetBoxValue(struct BoxPokemon *box, unsigned int paramId, unsigned int arg);
+struct MsgBank;
+extern struct Strbuf *MSGDATA_AllocString(struct MsgBank *bank, unsigned int index);
 extern void STRBUF_Delete(struct Strbuf *str);
-extern void PRINTSYS_PrintQueColor(void *printQue, struct Bmp *bmp, u32 x, u32 y, struct Strbuf *str, void *font, u16 color);
+struct GfFont;
+struct PrintQueue;
+extern void PRINTSYS_PrintQueColor(struct PrintQueue *queue, struct Bmp *bmp, unsigned int x, short y, struct Strbuf *str, struct GfFont *font, unsigned short color);
 extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *win);
 extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
 extern void WORDSET_CopyTaggedText(struct WordSet *wordSet, struct Strbuf *dst, struct Strbuf *src);
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void MCSS_ResetVanishFlag(void *mcss);
-extern void MCSS_SetVanishFlag(void *mcss);
-extern void MCSS_SetOfsPosition(void *mcss, const VecFx32 *src);
-extern void MCSS_SetOfsScale(void *mcss, const VecFx32 *src);
-extern void G3D_CAMERA_SetEye(void *camera, const VecFx32 *pos);
-extern int POKEPARTY_GetSlotFlag(void *party, u32 pos);
-extern struct PokePersonal *POKE_PERSONAL_Create(u32 species, int form, u32 heapId);
-extern u32 POKE_PERSONAL_GetParam(const struct PokePersonal *personal, u32 field);
-extern void POKE_PERSONAL_Delete(struct PokePersonal *personal);
-extern struct BmpWin *BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
+struct McssWork;
+extern void MCSS_ResetVanishFlag(struct McssWork *work);
+extern void MCSS_SetVanishFlag(struct McssWork *work);
+extern void MCSS_SetOfsPosition(struct McssWork *work, unsigned int *src);
+extern void MCSS_SetOfsScale(struct McssWork *work, unsigned int *src);
+extern void G3D_CAMERA_SetEye(struct G3dCamera *camera, VecFx32 *in);
+struct Party;
+extern int POKEPARTY_GetSlotFlag(struct Party *party, unsigned int pos);
+struct PersonalData;
+extern struct PersonalData *POKE_PERSONAL_Create(u32 species, int form, u32 heapId);
+extern u32 POKE_PERSONAL_GetParam(struct PersonalData *data, unsigned int field);
+extern void POKE_PERSONAL_Delete(struct PersonalData *data);
+extern struct BmpWin *BMP_WIN_Create(unsigned int bgLayer, unsigned int posX, unsigned int posY, unsigned char width, unsigned char height, unsigned char palette, unsigned char allocDir);
 extern void BMP_WIN_TransferChars(struct BmpWin *win);
 extern void BMP_WIN_MakeScreen(struct BmpWin *win);
 extern u8 BMP_WIN_GetBgLayer(struct BmpWin *win);
 extern void BG_SYS_MarkTileDirty(u32 flag);
-extern void *ARC_UTIL_LoadPaletteBlockFromArchive(u32 arcId, u32 fileId, u32 out, u32 heapId);
-extern void *ARC_UTIL_LoadBgCharDataFromArchive(u32 arcId, u32 fileId, u32 a, u32 out, u16 heapId);
-extern void CLACT_TransferPalette(u32 plttRes, void *pltt, u32 a);
+extern void *ARC_UTIL_LoadPaletteBlockFromArchive(u32 archiveID, u32 memberIdx, void *unpackedOut, u16 flags);
+extern void *ARC_UTIL_LoadBgCharDataFromArchive(u32 archiveID, u32 memberIdx, u32 heapID, void *unpackedOut, u16 flags);
+struct PaletteData;
+extern void CLACT_TransferPalette(u32 idx, struct PaletteData *dest, u32 count);
 extern void CLACT_TransferCharacter(int chrRes, void *chr);
 extern u32 POKERUS_IsBoxCured(struct BoxPokemon *mon);
 extern u32 POKE_TOOL_IsBoxShiny(struct BoxPokemon *mon);
 extern u32 POKE_TOOL_GetStatusCondition(struct PokemonParam *pp);
 extern int APP_ICON_GetStatusIconAnim(struct PokemonParam *pp);
 extern u32 POKERUS_IsBoxInfected(struct BoxPokemon *mon);
-extern void POKEPARTY_SetSlotFlag(void *party, u32 pos, u32 showFront);
+extern void POKEPARTY_SetSlotFlag(struct Party *party, unsigned int pos, unsigned int set);
 extern u32 BMP_WIN_Delete(struct BmpWin *win);
-extern struct WordSet *WORDSET_CreateDefault(u32 heapId);
+extern struct WordSet *WORDSET_CreateDefault(unsigned short heapId);
 extern void WORDSET_SetSlotTag(struct WordSet *wordSet, u32 index, const struct Strbuf *src, u32 a, u32 b, u32 c);
 extern u32 WORDSET_Delete(struct WordSet *wordSet);
 extern u32 POKE_TOOL_CalcBoxLevel(struct BoxPokemon *mon);
 extern void WORDSET_SetSlotNumber(struct WordSet *wordSet, u32 index, u32 number, u32 digits, u32 a, u32 b);
 extern void WORDSET_SetSlotFromMsg36(struct WordSet *wordSet, u32 index, u32 itemId);
-extern void MCSS_ResetAnmStopFlag(void *mcss);
-extern void MCSS_SetPosition(void *mcss, const VecFx32 *src);
+extern void MCSS_ResetAnmStopFlag(struct McssWork *work);
+extern void MCSS_SetPosition(struct McssWork *work, unsigned int *src);
 extern int _ffix(float);
-extern void MCSS_SetAnmStopFlag(void *mcss);
+extern void MCSS_SetAnmStopFlag(struct McssWork *work);
 extern int TOUCHPANEL_GetTrg(void);
 extern int TOUCHPANEL_GetCont(void);
 extern int TOUCHPANEL_HitCont(const struct TouchHitTable *table);
-extern void *MCSS_TOOL_AddPokeMcss(void *mcssSys, void *mon, u32 face, u32 a, u32 b, u32 c);
-extern void MCSS_SetShadowAlpha(void *mcss, int value);
-extern void MCSS_SetShadowRotateX(void *mcss, u16 value);
+struct McssSys;
+extern struct McssWork *MCSS_TOOL_AddPokeMcss(struct McssSys *sys, void *pp, unsigned int direction, int x, int y, int z);
+extern void MCSS_SetShadowAlpha(struct McssWork *work, int alpha);
+extern void MCSS_SetShadowRotateX(struct McssWork *work, unsigned short rotX);
 extern void MCSS_TOOL_SetAnimeStopCallback(void *mcss);
-extern void MCSS_SetShadowScale(void *mcss, const VecFx32 *src);
-extern void MCSS_Del(void *mcssSys, void *mcss);
+extern void MCSS_SetShadowScale(struct McssWork *work, unsigned int *src);
+extern void MCSS_Del(struct McssSys *sys, struct McssWork *work);
 extern void VEC_Add(const VecFx32 *a, const VecFx32 *b, VecFx32 *out);
-extern void MCSS_SetShadowOffset(void *mcss, const VecFx32 *src);
+extern void MCSS_SetShadowOffset(struct McssWork *work, int *src);
 void *P_STATUS_GetPokePara(PStatusWork *wk);
 int P_STATUS_GetPokeParaSource(PStatusWork *wk);
 void *P_STA_SUB_Create(PStatusWork *wk);
 void P_STA_SUB_Delete(PStatusWork *wk, PStaSubWork *work);
 void P_STA_SUB_Main(PStatusWork *wk, PStaSubWork *work);
-void P_STA_SUB_LoadArcGraphics(PStatusWork *wk, int unused, void *arc);
+void P_STA_SUB_LoadArcGraphics(PStatusWork *wk, struct PStaSubWork *unused, void *arc);
 void P_STA_SUB_Exit(PStatusWork *wk, PStaSubWork *work);
 void P_STA_SUB_CreateObjects(PStatusWork *wk, PStaSubWork *work);
 void P_STA_SUB_DeleteObjects(PStatusWork *wk, PStaSubWork *work);
@@ -397,9 +411,9 @@ void P_STA_SUB_Main(PStatusWork *wk, PStaSubWork *work) {
             if (work->isStaticSprite == 1) ofsPos.y = 0;
             P_STA_SUB_SetPetOffset(wk, work, ofsPos.y);
         }
-        MCSS_SetOfsPosition(work->mcss[STA_SUB_MCSS_FRONT], &ofsPos);
-        MCSS_SetOfsPosition(work->mcss[STA_SUB_MCSS_BACK], &ofsPos);
-        MCSS_SetOfsScale(work->mcss[STA_SUB_MCSS_FRONT], &scale);
+        MCSS_SetOfsPosition(work->mcss[STA_SUB_MCSS_FRONT], (unsigned int *)(&ofsPos));
+        MCSS_SetOfsPosition(work->mcss[STA_SUB_MCSS_BACK], (unsigned int *)(&ofsPos));
+        MCSS_SetOfsScale(work->mcss[STA_SUB_MCSS_FRONT], (unsigned int *)(&scale));
         G3D_CAMERA_SetEye(wk->camera, &cameraPos);
         G3D_CAMERA_Reset(wk->camera);
     } else if (state == STA_SUB_FLIP_TO_BACK) {
@@ -418,11 +432,11 @@ void P_STA_SUB_Main(PStatusWork *wk, PStaSubWork *work) {
             cameraPos.x = cameraXTbl.frame[step];
             G3D_CAMERA_SetEye(wk->camera, &cameraPos);
             G3D_CAMERA_Reset(wk->camera);
-            MCSS_SetOfsScale(work->mcss[STA_SUB_MCSS_FRONT], &scale);
+            MCSS_SetOfsScale(work->mcss[STA_SUB_MCSS_FRONT], (unsigned int *)(&scale));
         } else {
             MCSS_SetVanishFlag(work->mcss[STA_SUB_MCSS_FRONT]);
             MCSS_ResetVanishFlag(work->mcss[STA_SUB_MCSS_BACK]);
-            MCSS_SetOfsScale(work->mcss[STA_SUB_MCSS_BACK], &scale);
+            MCSS_SetOfsScale(work->mcss[STA_SUB_MCSS_BACK], (unsigned int *)(&scale));
             G3D_CAMERA_SetEye(wk->camera, &cameraPos);
             G3D_CAMERA_Reset(wk->camera);
             work->showFront = 0;
@@ -432,7 +446,7 @@ void P_STA_SUB_Main(PStatusWork *wk, PStaSubWork *work) {
     }
 }
 
-void P_STA_SUB_LoadArcGraphics(PStatusWork *wk, int unused, void *arc)
+void P_STA_SUB_LoadArcGraphics(PStatusWork *wk, struct PStaSubWork *unused, void *arc)
 {
     ARC_UTIL_UploadBgPaletteFromHandle(arc, 0x3e, 2, 0, 0, 0, wk->heapId);
 }
@@ -492,10 +506,10 @@ void P_STA_SUB_InitWindows(PStatusWork *wk, PStaSubWork *work) {
     if (wk->isEgg == 0) {
         species = POKE_TOOL_GetBoxValue(mon, 5, 0);
         form = POKE_TOOL_GetBoxValue(mon, 111, 0);
-        personal = POKE_PERSONAL_Create((unsigned short)species, (unsigned short)form, wk->heapId);
-        if (POKE_PERSONAL_GetParam(personal, 16) == 1) work->isStaticSprite = 1; else work->isStaticSprite = 0;
-        work->personalAttr38 = POKE_PERSONAL_GetParam(personal, 38);
-        POKE_PERSONAL_Delete(personal);
+        personal = (struct PokePersonal *)POKE_PERSONAL_Create((unsigned short)species, (unsigned short)form, wk->heapId);
+        if (POKE_PERSONAL_GetParam((struct PersonalData *)personal, 16) == 1) work->isStaticSprite = 1; else work->isStaticSprite = 0;
+        work->personalAttr38 = POKE_PERSONAL_GetParam((struct PersonalData *)personal, 38);
+        POKE_PERSONAL_Delete((struct PersonalData *)personal);
     } else {
         work->isStaticSprite = 0;
         work->personalAttr38 = 0;
@@ -540,11 +554,11 @@ void P_STA_SUB_Refresh(PStatusWork *wk, PStaSubWork *work)
     BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer(win));
     ballId = POKE_TOOL_GetBoxValue(mon, 0x98, 0);
     ballArc = APP_ICON_GetArchiveId();
-    ballBuf = ARC_UTIL_LoadPaletteBlockFromArchive(ballArc, APP_ICON_GetBallThrowCellFileId(ballId), (u32)&ballPltt, wk->heapId);
+    ballBuf = ARC_UTIL_LoadPaletteBlockFromArchive(ballArc, APP_ICON_GetBallThrowCellFileId(ballId), &ballPltt, wk->heapId);
     CLACT_TransferPalette(wk->objRes[1], ballPltt, 1);
     GFL_HEAP_Free(ballBuf);
     ballArc = APP_ICON_GetArchiveId();
-    ballBuf = ARC_UTIL_LoadBgCharDataFromArchive(ballArc, APP_ICON_GetBallThrowAnimFileId(ballId), 0, (u32)&ballChr, wk->heapId);
+    ballBuf = ARC_UTIL_LoadBgCharDataFromArchive(ballArc, APP_ICON_GetBallThrowAnimFileId(ballId), 0, &ballChr, wk->heapId);
     CLACT_TransferCharacter((int)wk->objRes[14], ballChr);
     GFL_HEAP_Free(ballBuf);
     CLACT_SetActorDrawEnable(work->ballObj, 1);
@@ -563,9 +577,9 @@ void P_STA_SUB_Refresh(PStatusWork *wk, PStaSubWork *work)
         VecFx32 scale = d_021DC21C;
         VecFx32 ofsPos = {0, 0, 0};
         VecFx32 baseOfs = d_021DC1B0;
-        MCSS_SetOfsPosition(work->mcss[STA_SUB_MCSS_FRONT], &ofsPos);
+        MCSS_SetOfsPosition(work->mcss[STA_SUB_MCSS_FRONT], (unsigned int *)(&ofsPos));
         P_STA_SUB_ApplyMcssOffset(wk, work, &baseOfs);
-        MCSS_SetOfsScale(work->mcss[STA_SUB_MCSS_FRONT], &scale);
+        MCSS_SetOfsScale(work->mcss[STA_SUB_MCSS_FRONT], (unsigned int *)(&scale));
         G3D_CAMERA_SetEye(wk->camera, &cameraPos);
         G3D_CAMERA_Reset(wk->camera);
         work->flipState = STA_SUB_FLIP_IDLE;
@@ -574,9 +588,9 @@ void P_STA_SUB_Refresh(PStatusWork *wk, PStaSubWork *work)
         VecFx32 scale = d_021DC18C;
         VecFx32 ofsPos = {0, 0, 0};
         VecFx32 baseOfs = d_021DC1BC;
-        MCSS_SetOfsPosition(work->mcss[STA_SUB_MCSS_FRONT], &ofsPos);
+        MCSS_SetOfsPosition(work->mcss[STA_SUB_MCSS_FRONT], (unsigned int *)(&ofsPos));
         P_STA_SUB_ApplyMcssOffset(wk, work, &baseOfs);
-        MCSS_SetOfsScale(work->mcss[STA_SUB_MCSS_BACK], &scale);
+        MCSS_SetOfsScale(work->mcss[STA_SUB_MCSS_BACK], (unsigned int *)(&scale));
         G3D_CAMERA_SetEye(wk->camera, &cameraPos);
         G3D_CAMERA_Reset(wk->camera);
         work->flipState = STA_SUB_FLIP_BACK;
@@ -592,8 +606,8 @@ void P_STA_SUB_Refresh(PStatusWork *wk, PStaSubWork *work)
     }
     {
         VecFx32 zero = {0, 0, 0};
-        MCSS_SetOfsPosition(work->mcss[STA_SUB_MCSS_FRONT], &zero);
-        MCSS_SetOfsPosition(work->mcss[STA_SUB_MCSS_BACK], &zero);
+        MCSS_SetOfsPosition(work->mcss[STA_SUB_MCSS_FRONT], (unsigned int *)(&zero));
+        MCSS_SetOfsPosition(work->mcss[STA_SUB_MCSS_BACK], (unsigned int *)(&zero));
         work->horizStroke.turnCount = 0;
         work->horizStroke.age = 0;
         work->vertStroke.turnCount = 0;
@@ -625,7 +639,7 @@ void P_STA_SUB_PrintWindows(PStatusWork *wk, PStaSubWork *work, void *mon)
     wordSet = WORDSET_CreateDefault(wk->heapId);
     buf = STRBUF_Create(32, wk->heapId);
     name = STRBUF_Create(32, wk->heapId);
-    POKE_TOOL_GetBoxValue(mon, 115, name);
+    POKE_TOOL_GetBoxValue(mon, (unsigned int)115, (unsigned int)name);
     WORDSET_SetSlotTag(wordSet, 0, name, 0, 1, 2);
     text = MSGDATA_AllocString(wk->msgData, 0);
     WORDSET_CopyTaggedText(wordSet, buf, text);
@@ -783,8 +797,8 @@ int P_STA_SUB_PetWiggle(PStatusWork *wk, PStaSubWork *work)
         pos.x -= (u32)_ffix(f);
         break;
     }
-    MCSS_SetPosition(work->mcss[STA_SUB_MCSS_FRONT], &pos);
-    MCSS_SetOfsPosition(work->mcss[STA_SUB_MCSS_FRONT], &ofsPos);
+    MCSS_SetPosition(work->mcss[STA_SUB_MCSS_FRONT], (unsigned int *)(&pos));
+    MCSS_SetOfsPosition(work->mcss[STA_SUB_MCSS_FRONT], (unsigned int *)(&ofsPos));
     ++work->petFrame;
     if (work->petFrame > 15) {
         work->petFrame = 0;
@@ -806,7 +820,7 @@ int P_STA_SUB_PetHop(PStatusWork *wk, PStaSubWork *work) {
         ofsPos.y = (sample << 5) + (int)f;
         P_STA_SUB_SetPetOffset(wk, work, ofsPos.y);
     }
-    MCSS_SetOfsPosition(work->mcss[STA_SUB_MCSS_FRONT], &ofsPos);
+    MCSS_SetOfsPosition(work->mcss[STA_SUB_MCSS_FRONT], (unsigned int *)(&ofsPos));
     ++work->petFrame;
     if (work->petFrame > 20) { work->petFrame = 0; return 1; }
     return 0;
@@ -845,7 +859,7 @@ int P_STA_SUB_PetRise(PStatusWork *wk, PStaSubWork *work, int isRising)
     else f = (float)(height * 4096) - 0.5f;
     ofsPos.y += (int)f / 16;
     P_STA_SUB_SetPetOffset(wk, work, ofsPos.y);
-    MCSS_SetOfsPosition(work->mcss[STA_SUB_MCSS_FRONT], &ofsPos);
+    MCSS_SetOfsPosition(work->mcss[STA_SUB_MCSS_FRONT], (unsigned int *)(&ofsPos));
     MCSS_SetAnmStopFlag(work->mcss[STA_SUB_MCSS_FRONT]);
     if (work->petHeight == 0 && work->petHeightTarget == 0) return 1;
     return 0;
@@ -1036,15 +1050,15 @@ void P_STA_SUB_CreateMcss(PStatusWork *wk, PStaSubWork *work, void *mon)
     work->mcss[STA_SUB_MCSS_FRONT] = MCSS_TOOL_AddPokeMcss(wk->mcssSys, pp, 0, 0xd8000, 0x48000, 0);
     MCSS_SetShadowAlpha(work->mcss[STA_SUB_MCSS_FRONT], 2);
     MCSS_SetShadowRotateX(work->mcss[STA_SUB_MCSS_FRONT], 0xd555);
-    MCSS_SetOfsScale(work->mcss[STA_SUB_MCSS_FRONT], &frontScale);
+    MCSS_SetOfsScale(work->mcss[STA_SUB_MCSS_FRONT], (unsigned int *)(&frontScale));
     MCSS_TOOL_SetAnimeStopCallback(work->mcss[STA_SUB_MCSS_FRONT]);
-    MCSS_SetShadowScale(work->mcss[STA_SUB_MCSS_FRONT], &extraOfs);
+    MCSS_SetShadowScale(work->mcss[STA_SUB_MCSS_FRONT], (unsigned int *)(&extraOfs));
     work->mcss[STA_SUB_MCSS_BACK] = MCSS_TOOL_AddPokeMcss(wk->mcssSys, pp, 1, 0xd8000, 0x48000, 0);
     MCSS_SetShadowAlpha(work->mcss[STA_SUB_MCSS_BACK], 2);
     MCSS_SetShadowRotateX(work->mcss[STA_SUB_MCSS_BACK], 0xd555);
-    MCSS_SetOfsScale(work->mcss[STA_SUB_MCSS_BACK], &backScale);
+    MCSS_SetOfsScale(work->mcss[STA_SUB_MCSS_BACK], (unsigned int *)(&backScale));
     MCSS_TOOL_SetAnimeStopCallback(work->mcss[STA_SUB_MCSS_BACK]);
-    MCSS_SetShadowScale(work->mcss[STA_SUB_MCSS_BACK], &extraOfs);
+    MCSS_SetShadowScale(work->mcss[STA_SUB_MCSS_BACK], (unsigned int *)(&extraOfs));
     P_STA_SUB_SetPetOffset(wk, work, 0);
     P_STA_SUB_ApplyMcssOffset(wk, work, &baseOfs);
     if (work->showFront == 1) {
@@ -1078,8 +1092,8 @@ void P_STA_SUB_SetPetOffset(PStatusWork *wk, PStaSubWork *work, int radius) {
 void P_STA_SUB_ApplyMcssOffset(PStatusWork *wk, PStaSubWork *work, VecFx32 *baseOfs) {
     VecFx32 sum;
     VEC_Add(baseOfs, &work->petOffset, &sum);
-    MCSS_SetShadowOffset(work->mcss[STA_SUB_MCSS_FRONT], &sum);
-    MCSS_SetShadowOffset(work->mcss[STA_SUB_MCSS_BACK], &sum);
+    MCSS_SetShadowOffset(work->mcss[STA_SUB_MCSS_FRONT], (int *)(&sum));
+    MCSS_SetShadowOffset(work->mcss[STA_SUB_MCSS_BACK], (int *)(&sum));
 }
 
 void P_STA_SUB_GetSpeciesAdjust(PStatusWork *wk, PStaSubWork *work, VecFx32 *extraOfs, VecFx32 *frontScale) {

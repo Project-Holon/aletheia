@@ -168,19 +168,20 @@ typedef struct GPConnectResponseArg {
 extern unsigned int rand();
 extern u8 *strncpy(u8 *dest, const u8 *src, u32 n);
 extern int gsUdpEngineIsInitialized(void);
-extern int gsDebugFormat(int index, char *table, int mask, const char *fmt, ...);
+extern void gsDebugFormat(int cat, int type, int level, char *fmt, ...);
 extern int gsUdpEngineInitialize(unsigned short thePort, int theIncomingBufSize, int theOutgoingBufSize, void (*theAppNetworkError)(int, void *), void (*theAppConnected)(unsigned int, unsigned short, int, int, void *), void (*theAppClosed)(unsigned int, unsigned short, int, void *), void (*theAppPing)(unsigned int, unsigned short, unsigned int, void *), void (*theAppReceive)(unsigned int, unsigned short, unsigned char *, unsigned int, int, void *), int (*theAppUnownMsg)(unsigned int, unsigned short, unsigned char *, unsigned int, void *), void (*theAppConnectAttempt)(unsigned int, unsigned short, int, unsigned char *, unsigned int, void *), void *theAppUserData);
 extern void gpiSetError(int *connection, int result, int errorString);
-extern int gpiCallErrorCallback(int *connection, int result, int fatal);
+extern int gpiCallErrorCallback(void **connection, int result, int fatal);
 extern unsigned short gsUdpEngineGetLocalPort(void);
 extern int gsUdpEngineAddMsgHandler(char *theInitMsg, char *theHeader, void (*theMsgHandlerError)(int, void *), void (*theMsgHandlerConnected)(unsigned int, unsigned short, int, int, void *), void (*theMsgHandlerClosed)(unsigned int, unsigned short, int, void *), void (*theMsgHandlerPing)(unsigned int, unsigned short, unsigned int, void *), void (*theMsgHandlerRecv)(unsigned int, unsigned short, unsigned char *, unsigned int, int, void *), void *theUserData);
 extern int socket(int pf, int type, int protocol);
 extern int SetSockBlocking(int sock, int isblocking);
-extern int inet_addr(int a);
+extern int inet_addr(char *addrString);
 extern SOCHostEnt *SOC_GetHostByName(char *name);
-extern int connect(int sock, void *addr, int len);
+struct SOCSockAddr;
+extern int connect(int sock, struct SOCSockAddr *addr, int len);
 extern int GOAGetLastError(int sock);
-extern void gpiPeerLeftCallback(void);
+extern void gpiPeerLeftCallback(u32 ip, u16 port, void *unused, void **connection);
 extern void gpiPeerPingReplyCallback(void);
 extern void gpiPeerMessageCallback(unsigned int ip, unsigned short port, unsigned char *message, int messageLength, int unused, void *userData);
 extern void gpiPeerAcceptedCallback(unsigned int ip, unsigned short port, int unused, int rejected, void *userData);
@@ -208,15 +209,19 @@ extern void gpiRemoveProfileByID(void **connection, int profileid);
 extern int gpiValueForKey(const char *command, const char *key, char *value, int valueLen);
 extern int atoi(u32 s);
 extern int strncmp(const u8 *s1, const u8 *s2, u32 n);
-extern int memcmp(const u8 *a, const u8 *b, int n);
+extern int memcmp(unsigned char *s1, unsigned char *s2, unsigned int n);
 extern GPIProfile *gpiProfileListAdd(void **connection, int id);
-extern int gpiAddCallback(void **connection, GPICallback callback, void *arg, GPIOperation *operation, int type);
+struct GPICallback;
+extern int gpiAddCallback(void **connection, struct GPICallback callback, void *arg, int *operation, int type);
 extern void gpiRemoveOperation(void **connection, struct GPIOperation *operation);
 extern int gpiCheckSocketConnect(int *connection, int sock, int *state);
 extern void gsifree(void *ptr);
-extern void ArrayFree(void *array);
-extern void gpiRemoveProfile(const int *p, void *profile);
-extern int gpiSendFromBuffer(void **connection, int sock, GPIBuffer *outputBuffer, int *connClosed, int clipSentData, char *id);
+struct DArrayImplementation;
+extern void ArrayFree(struct DArrayImplementation *array);
+struct GPIProfile;
+extern void gpiRemoveProfile(void **connection, struct GPIProfile *profile);
+struct GPIBuffer;
+extern int gpiSendFromBuffer(int *connection, int sock, struct GPIBuffer *outputBuffer, int *connClosed, int clipSentData, char *id);
 extern int shutdown(int sock, int how);
 extern int closesocket(int sock);
 extern int gsUdpEngineRemoveMsgHandler(char *theHeader);
@@ -347,7 +352,7 @@ int gpiStartConnect(void **connection, GPIOperation *operation)
             if (anError != 0) {
                 gsDebugFormat(1, 0, 1, g_021A46A0);
                 gpiSetError((int *)connection, 8, (int)g_021A46D4);
-                gpiCallErrorCallback((int *)connection, 3, 1);
+                gpiCallErrorCallback((void **)connection, 3, 1);
                 return 3;
             }
         }
@@ -363,7 +368,7 @@ int gpiStartConnect(void **connection, GPIOperation *operation)
                             (void *)gpiPeerPingReplyCallback, (void *)gpiPeerMessageCallback, connection);
     if (anError != 0) {
         gpiSetError((int *)connection, 8, (int)g_021A4734);
-        gpiCallErrorCallback((int *)connection, 3, 1);
+        gpiCallErrorCallback((void **)connection, 3, 1);
         return 3;
     }
 
@@ -373,14 +378,14 @@ int gpiStartConnect(void **connection, GPIOperation *operation)
     iconnection->cmSocket = socket(2, 1, 0);
     if (iconnection->cmSocket == -1) {
         gpiSetError((int *)connection, 5, (int)g_021A4760);
-        gpiCallErrorCallback((int *)connection, 3, 1);
+        gpiCallErrorCallback((void **)connection, 3, 1);
         return 3;
     }
 
     rcode = SetSockBlocking(iconnection->cmSocket, 0);
     if (!rcode) {
         gpiSetError((int *)connection, 5, (int)g_021A4788);
-        gpiCallErrorCallback((int *)connection, 3, 1);
+        gpiCallErrorCallback((void **)connection, 3, 1);
         return 3;
     }
 
@@ -390,25 +395,25 @@ int gpiStartConnect(void **connection, GPIOperation *operation)
         p[1] = 0;
     }
     address.family = 2;
-    if (inet_addr((int)g_021A45D8) == 0xFFFFFFFF) {
+    if (inet_addr(g_021A45D8) == 0xFFFFFFFF) {
         host = SOC_GetHostByName(g_021A45D8);
         if (host == 0) {
             gpiSetError((int *)connection, 5, (int)g_021A47BC);
-            gpiCallErrorCallback((int *)connection, 3, 1);
+            gpiCallErrorCallback((void **)connection, 3, 1);
             return 3;
         }
         address.addr = *(unsigned int *)host->addrList[0];
     } else {
-        address.addr = inet_addr((int)g_021A45D8);
+        address.addr = inet_addr(g_021A45D8);
     }
     address.port = 0xcc74;
 
-    rcode = connect(iconnection->cmSocket, &address, sizeof(address));
+    rcode = connect(iconnection->cmSocket, (struct SOCSockAddr *)(&address), sizeof(address));
     if (rcode == -1) {
         error = GOAGetLastError(iconnection->cmSocket);
         if (error != -6 && error != -26 && error != -76) {
             gpiSetError((int *)connection, 5, (int)g_021A47F0);
-            gpiCallErrorCallback((int *)connection, 3, 1);
+            gpiCallErrorCallback((void **)connection, 3, 1);
             return 3;
         }
     }
@@ -672,7 +677,7 @@ int gpiProcessConnect(void **connection, GPIOperation *operation, char *input)
         }
         gpiSetError((int *)connection, iconnection->errorCode, (int)iconnection->errorString);
         __result__ = 4;
-        gpiCallErrorCallback((int *)connection, __result__, 1);
+        gpiCallErrorCallback((void **)connection, __result__, 1);
         return __result__;
     }
 
@@ -683,13 +688,13 @@ int gpiProcessConnect(void **connection, GPIOperation *operation, char *input)
         if (strncmp((const u8 *)input, (const u8 *)g_021A49A4, 5) != 0) {
             gpiSetError((int *)connection, 1, (int)g_021A49AC);
             __result__ = 3;
-            gpiCallErrorCallback((int *)connection, __result__, 1);
+            gpiCallErrorCallback((void **)connection, __result__, 1);
             return __result__;
         }
         if (!gpiValueForKey(input, g_021A489C, data->serverChallenge, sizeof(data->serverChallenge))) {
             gpiSetError((int *)connection, 1, (int)g_021A49AC);
             __result__ = 3;
-            gpiCallErrorCallback((int *)connection, __result__, 1);
+            gpiCallErrorCallback((void **)connection, __result__, 1);
             return __result__;
         }
         if (data->newuser) {
@@ -708,20 +713,20 @@ int gpiProcessConnect(void **connection, GPIOperation *operation, char *input)
         if (strncmp((const u8 *)input, (const u8 *)g_021A49DC, 5) != 0) {
             gpiSetError((int *)connection, 1, (int)g_021A49AC);
             __result__ = 3;
-            gpiCallErrorCallback((int *)connection, __result__, 1);
+            gpiCallErrorCallback((void **)connection, __result__, 1);
             return __result__;
         }
         if (!gpiValueForKey(input, g_021A48D0, buffer, sizeof(buffer))) {
             gpiSetError((int *)connection, 1, (int)g_021A49E4);
             __result__ = 3;
-            gpiCallErrorCallback((int *)connection, __result__, 1);
+            gpiCallErrorCallback((void **)connection, __result__, 1);
             return __result__;
         }
         iconnection->userid = atoi((u32)buffer);
         if (!gpiValueForKey(input, g_021A48DC, buffer, sizeof(buffer))) {
             gpiSetError((int *)connection, 1, (int)g_021A49E4);
             __result__ = 3;
-            gpiCallErrorCallback((int *)connection, __result__, 1);
+            gpiCallErrorCallback((void **)connection, __result__, 1);
             return __result__;
         }
         iconnection->profileid = atoi((u32)buffer);
@@ -734,27 +739,27 @@ int gpiProcessConnect(void **connection, GPIOperation *operation, char *input)
         if (strncmp((const u8 *)input, (const u8 *)g_021A4A14, 5) != 0) {
             gpiSetError((int *)connection, 1, (int)g_021A49AC);
             __result__ = 3;
-            gpiCallErrorCallback((int *)connection, __result__, 1);
+            gpiCallErrorCallback((void **)connection, __result__, 1);
             return __result__;
         }
         if (!gpiValueForKey(input, g_021A4A1C, buffer, sizeof(buffer))) {
             gpiSetError((int *)connection, 1, (int)g_021A49E4);
             __result__ = 3;
-            gpiCallErrorCallback((int *)connection, __result__, 1);
+            gpiCallErrorCallback((void **)connection, __result__, 1);
             return __result__;
         }
         iconnection->sessKey = atoi((u32)buffer);
         if (!gpiValueForKey(input, g_021A48D0, buffer, sizeof(buffer))) {
             gpiSetError((int *)connection, 1, (int)g_021A49E4);
             __result__ = 3;
-            gpiCallErrorCallback((int *)connection, __result__, 1);
+            gpiCallErrorCallback((void **)connection, __result__, 1);
             return __result__;
         }
         iconnection->userid = atoi((u32)buffer);
         if (!gpiValueForKey(input, g_021A48DC, buffer, sizeof(buffer))) {
             gpiSetError((int *)connection, 1, (int)g_021A49E4);
             __result__ = 3;
-            gpiCallErrorCallback((int *)connection, __result__, 1);
+            gpiCallErrorCallback((void **)connection, __result__, 1);
             return __result__;
         }
         iconnection->profileid = atoi((u32)buffer);
@@ -785,13 +790,13 @@ int gpiProcessConnect(void **connection, GPIOperation *operation, char *input)
         if (!gpiValueForKey(input, g_021A4A30, buffer, sizeof(buffer))) {
             gpiSetError((int *)connection, 1, (int)g_021A49E4);
             __result__ = 3;
-            gpiCallErrorCallback((int *)connection, __result__, 1);
+            gpiCallErrorCallback((void **)connection, __result__, 1);
             return __result__;
         }
-        if (memcmp((const u8 *)check, (const u8 *)buffer, 32) != 0) {
+        if (memcmp((unsigned char *)check, (unsigned char *)buffer, 32) != 0) {
             gpiSetError((int *)connection, 0x108, (int)g_021A4A38);
             __result__ = 3;
-            gpiCallErrorCallback((int *)connection, __result__, 1);
+            gpiCallErrorCallback((void **)connection, __result__, 1);
             return __result__;
         }
 
@@ -815,7 +820,7 @@ int gpiProcessConnect(void **connection, GPIOperation *operation, char *input)
             arg->profile = iconnection->profileid;
             arg->result = 0;
             strzcpy(arg->uniquenick, (int)uniquenick, 21);
-            __result__ = gpiAddCallback(connection, callback, arg, operation, 0);
+            __result__ = gpiAddCallback(connection, callback, arg, (int *)operation, 0);
             if (__result__ != 0)
                 return __result__;
         }
@@ -844,7 +849,7 @@ int gpiCheckConnect(void **connection)
         return result;
     if (state == 4) {
         gpiSetError((int *)connection, 0x107, (int)g_021A4A58);
-        gpiCallErrorCallback((int *)connection, 4, 1);
+        gpiCallErrorCallback((void **)connection, 4, 1);
         return 4;
     }
     if (state == 0)
@@ -897,7 +902,7 @@ int gpiDisconnectCleanupProfile(GPIConnection **connection, GPIProfile *profile)
     profile->peerSig = 0;
     profile->requestCount = 0;
     if (profile->cache == 0 || (iconnection->infoCachingBuddyAndBlockOnly == 1 && profile->buddyOrBlockCache == 0)) {
-        gpiRemoveProfile((const int *)connection, profile);
+        gpiRemoveProfile((void **)connection, profile);
         return 0;
     }
     return 1;
@@ -924,7 +929,7 @@ void gpiDisconnect(void **connection, int tellServer)
             gpiAppendIntToBuffer((int *)connection, (int *)(&iconnection->outputBuffer), iconnection->sessKey);
             gpiAppendStringToBuffer((int *)connection, (int *)(&iconnection->outputBuffer), g_021A495C);
         }
-        gpiSendFromBuffer(connection, iconnection->cmSocket, &iconnection->outputBuffer, &connClosed, 1, g_021A4A94);
+        gpiSendFromBuffer((int *)connection, iconnection->cmSocket, &iconnection->outputBuffer, &connClosed, 1, g_021A4A94);
         if (iconnection->cmSocket != -1) {
             shutdown(iconnection->cmSocket, 2);
             closesocket(iconnection->cmSocket);
@@ -982,13 +987,13 @@ int gpiProcessRemoteAuthResponse(void **connection, char *input)
         return 4;
     if (!gpiValueForKey(iconnection->inputBuffer, g_021A492C, buffer, 512)) {
         gpiSetError((int *)connection, 1, (int)g_021A49AC);
-        gpiCallErrorCallback((int *)connection, 3, 1);
+        gpiCallErrorCallback((void **)connection, 3, 1);
         return 3;
     }
     iconnection->namespaceID = atoi((u32)buffer);
     if (!gpiValueForKey(iconnection->inputBuffer, g_021A48E8, buffer, 512)) {
         gpiSetError((int *)connection, 1, (int)g_021A49AC);
-        gpiCallErrorCallback((int *)connection, 3, 1);
+        gpiCallErrorCallback((void **)connection, 3, 1);
         return 3;
     }
     iconnection->partnerID = atoi((u32)buffer);

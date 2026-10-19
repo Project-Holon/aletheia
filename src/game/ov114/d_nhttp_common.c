@@ -51,8 +51,9 @@ extern void NHTTPi_InitBgnEndInfo(NHTTPBgnEndInfo *);
 extern void NHTTPi_InitListInfo(NHTTPListInfo *);
 extern void NHTTPi_InitRequestInfo(NHTTPReqInfo *);
 extern void NHTTPi_InitThreadInfo(NHTTPThreadInfo *);
-extern void NHTTPi_LockMutexThunk(NHTTPMutexInfo *mutexInfo_p);
-extern void OS_UnlockMutex(void *mutexInfo_p);
+extern void NHTTPi_LockMutexThunk(int *mutex_p);
+struct OSMutex;
+extern void OS_UnlockMutex(struct OSMutex *mutex);
 NHTTPStaticResource *NHTTPi_GetStaticResource(void);
 void NHTTPi_WaitForCompletion(NHTTPWaiter *waiter_p);
 void NHTTPi_NotifyCompletion(NHTTPWaiter *waiter_p);
@@ -507,7 +508,7 @@ void NHTTPi_exitLockReqList(void)
  */
 void NHTTPi_lockReqList(NHTTPMutexInfo *mutexInfo_p)
 {
-    NHTTPi_LockMutexThunk(mutexInfo_p);
+    NHTTPi_LockMutexThunk((int *)mutexInfo_p);
 }
 
 
@@ -517,7 +518,7 @@ void NHTTPi_lockReqList(NHTTPMutexInfo *mutexInfo_p)
  */
 void NHTTPi_unlockReqList(NHTTPMutexInfo *mutexInfo_p)
 {
-    OS_UnlockMutex(mutexInfo_p);
+    OS_UnlockMutex((struct OSMutex *)mutexInfo_p);
 }
 
 

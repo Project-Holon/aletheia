@@ -56,10 +56,10 @@ struct FieldMap;
 
 extern struct ScriptWork *SCRCMD_WORK_GetScriptWork(struct ScrcmdWork *cmdWork);
 extern u16 SCRIPT_WORK_ReadWorkValue(ScriptVm *vm, struct ScrcmdWork *cmdWork);
-extern void SCRIPT_SYS_CallEvent(struct ScriptWork *scriptWork, struct GameEvent *event);
+extern void SCRIPT_SYS_CallEvent(void *scriptWork, void *task);
 extern struct GameSystem *SCRCMD_WORK_GetGameSystem(struct ScrcmdWork *cmdWork);
 extern u16 *SCRIPT_WORK_ReadWorkPointer(ScriptVm *vm, struct ScrcmdWork *cmdWork);
-extern struct FieldMap *GAMESYSTEM_GetFieldMap(struct GameSystem *gameSystem);
+extern void *GAMESYSTEM_GetFieldMap(struct GameSystem *gameSystem);
 extern u16 VM_ReadU16(ScriptVm *vm);
 extern struct GameEvent *FIELD_GIMMICK_CART_LANES_CreateSwitchEvent(struct GameSystem *gameSystem, u32 switchId);
 extern void FIELD_GIMMICK_CART_LANES_UnlockLaneFromScript(struct GameSystem *gameSystem, u32 laneId);
@@ -67,19 +67,19 @@ extern void FIELD_GIMMICK_CART_LANES_TransferSound(struct GameSystem *gameSystem
 extern void FIELD_GIMMICK_FLAG_ANIME_SetFlag(struct FieldMap *fieldMap);
 extern int FIELD_GIMMICK_FLAG_ANIME_GetFlag(struct FieldMap *fieldMap);
 extern struct GameEvent *FIELD_GIMMICK_FLAG_ANIME_CreateEvent(struct GameSystem *gameSystem, u32 eventId);
-extern struct GameEvent *FIELD_GIMMICK_BUTTON_STATES_CreateStateEvent(struct GameSystem *gameSystem, u8 stateId, u32 setFlag);
+extern struct GameEvent *FIELD_GIMMICK_BUTTON_STATES_CreateStateEvent(struct GameSystem *gameSystem, u32 stateModel, u32 showLastFrame);
 extern struct GameEvent *FIELD_GIMMICK_BUTTON_STATES_CreateOneShotEvent(struct GameSystem *gameSystem, u32 eventId);
 extern struct GameEvent *FIELD_GIMMICK_CART_LANES_UnlockLane(struct GameSystem *gameSystem, u16 laneId);
-extern struct GameEvent *FIELD_GIMMICK_PLATE_DOORS_StartPlateEvent(struct GameSystem *gameSystem, int plateId);
-extern struct GameEvent *FIELD_GIMMICK_PLATE_DOORS_StartScriptedEvent(struct GameSystem *gameSystem, int eventId);
-extern struct GameEvent *FIELD_GIMMICK_LIFT_ELEVATOR_CallLiftEvent(struct GameSystem *gameSystem, int liftId);
+extern void *FIELD_GIMMICK_PLATE_DOORS_StartPlateEvent(void *gameSystem, int plateIdx);
+extern void *FIELD_GIMMICK_PLATE_DOORS_StartScriptedEvent(void *gameSystem, int variant);
+extern void *FIELD_GIMMICK_LIFT_ELEVATOR_CallLiftEvent(void *gameSystem, int liftIndex);
 extern struct GameEvent *FIELD_GIMMICK_LIFT_ELEVATOR_CallElevatorEvent(struct GameSystem *gameSystem, u32 elevatorFlag);
 extern struct GameEvent *FIELD_GIMMICK_LIFT_CallEvent(struct GameSystem *gameSystem, u32 liftFlag);
-extern void FIELD_GIMMICK_LIFT_ELEVATOR_SnapElevatorToTop(struct GameSystem *gameSystem);
-extern void FIELD_GIMMICK_LIFT_SnapLiftToBottom(struct GameSystem *gameSystem);
+extern void FIELD_GIMMICK_LIFT_ELEVATOR_SnapElevatorToTop(void *gameSystem);
+extern void FIELD_GIMMICK_LIFT_SnapLiftToBottom(void *gameSystem);
 extern struct GameEvent *FIELD_GIMMICK_SWITCH_TOGGLE_StartSecondarySwitchEvent(struct GameSystem *gameSystem, int switchId);
 extern void FIELD_GIMMICK_SWITCH_TOGGLE_ReplacePlayerIfRequirementMet(struct GameSystem *gameSystem, int requirementId);
-extern struct GameEvent *FIELD_GIMMICK_PLATE_DOORS_StartDoorEvent(struct GameSystem *gameSystem, int doorId, int doorState);
+extern int FIELD_GIMMICK_PLATE_DOORS_StartDoorEvent(int gameSystem, int cellX, int cellZ);
 extern struct GameEvent *FIELD_GIMMICK_ROTATING_ROOM_StartHopEvent(struct GameSystem *gameSystem, int hopId);
 extern struct GameEvent *FIELD_GIMMICK_ROTATING_ROOM_StartLeverEvent(struct GameSystem *gameSystem, int leverId, int leverState);
 extern struct GameEvent *FIELD_GIMMICK_ROTATING_ROOM_StartRotateEvent(struct GameSystem *gameSystem, u32 rotateId);
@@ -378,7 +378,7 @@ int SCRCMD_FIELD_GIMMICK_PLATE_DOORS_StartDoorEvent(ScriptVm *vm, struct ScrcmdW
     struct GameSystem *gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
     int doorId = VM_ReadU16(vm);
     int doorState = VM_ReadU16(vm);
-    struct GameEvent *event = FIELD_GIMMICK_PLATE_DOORS_StartDoorEvent(gameSystem, doorId, doorState);
+    struct GameEvent *event = (struct GameEvent *)FIELD_GIMMICK_PLATE_DOORS_StartDoorEvent((int)gameSystem, doorId, doorState);
 
     if (event == 0) {
         return 1;

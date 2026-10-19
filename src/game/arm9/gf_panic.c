@@ -81,7 +81,7 @@ struct PanicHandlers {
 
 extern int GX_ResetBankForBG(void);
 
-extern void GX_SetBankForBG(u32 enable);
+extern void GX_SetBankForBG(int bg);
 
 extern void GX_SetGraphicsMode(int dispMode, int bgMode, int bg0_2d3d);
 
@@ -91,11 +91,11 @@ extern void TEXTPRINT_Init(u32 fontId);
 
 extern struct Bmp *BMP_Create(u32 width, u32 height, u32 depth, u16 heapId);
 
-extern void BMP_Clear(struct CharBuf *buf, u8 fillValue);
+extern void BMP_Clear(struct Bmp *bmp, u8 value);
 
 extern void TEXTPRINT_PrintText(const char *text, struct DebugConsole *console);
 
-extern u16 *G2_GetBG0ScrPtr(void);
+extern void *G2_GetBG0ScrPtr(void);
 
 extern void *BMP_GetPixels(const struct Bmp *bmp);
 

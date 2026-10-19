@@ -127,9 +127,11 @@ extern u32 GFL_HEAP_Free(void *p);
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site,
                           u16 tag);
 extern void *ARC_TOOL_CreateHandle(unsigned int id, unsigned int heap);
-extern u32 ARC_TOOL_GetHandleMemberOffset(struct ArcFile *arc, u32 member);
+struct ArcHandle;
+extern u32 ARC_TOOL_GetHandleMemberOffset(struct ArcHandle *arc, u32 memberIdx);
 extern void ARC_TOOL_DeleteHandle(void *handle);
-extern void ARC_TOOL_ReadHandle(struct ArcFile *arc, u32 size, void *dst);
+struct ArcHandleRaw;
+extern void ARC_TOOL_ReadHandle(struct ArcHandleRaw *arc, u32 size, void *dst);
 extern void ARC_TOOL_SeekHandle(void *stream, u32 pos);
 extern void STRBUF_Clear(struct Strbuf *vec);
 extern void MI_CpuCopy8(const void *src, void *dest, u32 size);

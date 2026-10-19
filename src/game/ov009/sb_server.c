@@ -67,6 +67,7 @@
  */
 #include "../../matched/arm9_sdk/libc/string.h"
 #include "sb_server_types.h"
+static int StringHash(char *s, int numbuckets);
 
 struct HashImplementation;
 typedef struct SBKeyValuePair {
@@ -89,10 +90,9 @@ extern struct HashImplementation *TableNew2(int elemSize, int nBuckets,
     void (*freeFn)(void *));
 extern int TableCount(struct HashImplementation *table);
 extern void TableFree(struct HashImplementation *table);
-extern char *SBRefStr(SBServerList *slist, char *str);
+extern char *SBRefStr(void *slist, char *str);
 extern void TableEnter(struct HashImplementation *table, void *newElem);
-extern void gsDebugFormat(int theCat, int theType, unsigned char theLevel,
-                          char *theTokenStr, ...);
+extern void gsDebugFormat(int cat, int type, int level, char *fmt, ...);
 extern int OS_SPrintf(char *dst, char *fmt, ...);
 extern void *TableLookup(struct HashImplementation *table, void *elemKey);
 extern char *SBServerGetStringValueA(SBServer *server, char *keyname,
@@ -101,11 +101,11 @@ extern double atof(char *s);
 extern int qr2_internal_is_master_only_key(char *keyname);
 extern int NTSLengthSB(char *buf, int len);
 extern unsigned int _u32_div_f(unsigned int a, unsigned int b);
-extern void SBReleaseStr(SBServerList *slist, char *str);
+extern void SBReleaseStr(void *slist, char *str);
 extern int strcmp_nocase(char *a, char *b);
 extern void *gsimalloc(unsigned long size);
-extern int KeyValCompareKey(void *a, void *b);
-extern void KeyValFree(void *elem);
+static int KeyValCompareKey(void *a, void *b);
+static void KeyValFree(void *elem);
 extern int KeyValHashKey(void *elem, int numbuckets);
 int RefStringHash(void *elem, int numbuckets);
 int RefStringCompare(void *entry1, void *entry2);
@@ -133,7 +133,8 @@ void SBServerParseQR2FullKeysSingle(SBServer *server, char *data, int len);
 void SBServerParseQR2FullKeysSplit(SBServer *server, char *data, int len);
 int KeyValHashKey(void *elem, int numbuckets);
 int SBServerGetPing(const SBServer *server);
-SBServer *SBAllocServer(int unused, unsigned int publicip, unsigned short publicport);
+struct SBServerList;
+SBServer *SBAllocServer(struct SBServerList *unused, unsigned int publicip, unsigned short publicport);
 void SBServerSetFlags(SBServer *server, unsigned char flags);
 void SBServerSetPrivateAddr(char *p, int v, unsigned short w);
 void SBServerSetICMPIP(SBServer *server, unsigned int icmpIp);
@@ -158,7 +159,7 @@ extern unsigned char __lower_mapC[];
 
 extern int strcmp(const char *a, const char *b);
 extern int atoi(u32 s);
-extern int strnicmp(const char *s1, const char *s2, unsigned int n);
+extern int strnicmp(unsigned char *s1, unsigned char *s2, int n);
 int RefStringHash(void *elem, int numbuckets)
 {
     return StringHash(*(char **)elem, numbuckets);
@@ -537,7 +538,7 @@ void SBServerParseQR2FullKeysSplit(SBServer *server, char *data, int len)
     k = data;
     data += dlen;
     len -= dlen;
-    if (strnicmp(g_021A816C, k, strlen(g_021A816C)) != 0)
+    if (strnicmp((unsigned char *)g_021A816C, (unsigned char *)k, strlen(g_021A816C)) != 0)
         return;
 
     if (len < 1)
@@ -672,7 +673,7 @@ int SBServerGetPing(const SBServer *server)
 }
 
 
-SBServer *SBAllocServer(int unused, unsigned int publicip, unsigned short publicport)
+SBServer *SBAllocServer(struct SBServerList *unused, unsigned int publicip, unsigned short publicport)
 {
     SBServer *server;
 

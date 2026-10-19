@@ -75,7 +75,8 @@ void WEATHER_TASK_ResetLight(WeatherTaskSys *task, int phase);
 u8 *WEATHER_TASK_GetParticleWork(WeatherParticle *particle);
 struct Actor *WEATHER_TASK_GetParticleActor(WeatherParticle *particle);
 void WEATHER_TASK_GetParticlePos(WeatherParticle *particle, WeatherScreenPos *out);
-void WEATHER_TASK_SetParticlePosWrapped(WeatherParticle *particle, const WeatherScreenPos *pos);
+struct WeatherParticle;
+void WEATHER_TASK_SetParticlePosWrapped(struct WeatherParticle *particle, u16 *src);
 void WEATHER_TASK_RemoveParticle(WeatherParticle *particle);
 WeatherParticle *WEATHER_TASK_AddParticle(WeatherTaskSys *task, int reserved);
 u16 ZONEDATA_GetLightTableMember(u32 weatherId);
@@ -228,7 +229,7 @@ void WEATHER_SANDSTORM_UpdateParticle(WeatherParticle *particle)
             work->speedX = work->speedX + work->speedXStep;
         if (work->age++ > work->lifetime)
             work->expired = 1;
-        WEATHER_TASK_SetParticlePosWrapped(particle, &pos);
+        WEATHER_TASK_SetParticlePosWrapped(particle, (u16 *)(&pos));
     } else {
         WEATHER_TASK_RemoveParticle(particle);
     }
@@ -270,7 +271,7 @@ void WEATHER_SANDSTORM_SpawnParticles(WeatherTaskSys *task, s32 count, u32 heapI
         CLACT_SetActorAnimIndex(actor, (u16)spriteSize);
         pos.x = -6 - GFL_USE_GetRandom(24);
         pos.y = GFL_USE_GetRandom(192) - 64;
-        WEATHER_TASK_SetParticlePosWrapped(particle, &pos);
+        WEATHER_TASK_SetParticlePosWrapped(particle, (u16 *)(&pos));
     }
 }
 

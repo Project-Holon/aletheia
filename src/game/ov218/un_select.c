@@ -283,20 +283,22 @@ typedef char UnSelectRecord_SizeCheck[sizeof(struct UnSelectRecord) == 0x234 ? 1
 extern int FRAME_LIST_UpdateInit(struct FrameList *p);
 extern void FADE_Start(unsigned int, int, int, int);
 extern int FADE_IsActive(void);
-extern void TCB_DeleteTask(struct Node *);
-extern void UI_SCENE_Delete(void *);
-extern u32 APP_TASKMENU_RES_Delete(struct TaskMenuState *s);
+struct TcbTask;
+extern void TCB_DeleteTask(struct TcbTask *task);
+extern void UI_SCENE_Delete(struct UiScene *scene);
+struct TaskMenuRes;
+extern void APP_TASKMENU_RES_Delete(struct TaskMenuRes *res);
 extern void UN_SELECT_GRAPHIC_Delete(char *);
 extern void PROCSYS_FreeProcWork(struct Proc *);
 extern void GFL_HEAP_DeleteChecked(unsigned int heap);
 extern void GF_OVERLAY_Unload(int);
 extern int UI_SCENE_Step(struct UiScene *);
 extern void UN_SELECT_GRAPHIC_Update(char *);
-extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
+extern void *ARC_TOOL_CreateHandle(unsigned int archiveID, unsigned short heapID);
 extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern u32 ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void ARC_UTIL_UploadBgPaletteFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
-extern void *ARC_UTIL_LoadBgCharDataFromHandle(void *arc, u32 memberIdx, u32 heapID, u32 unpackedOut, u16 flags);
+extern void *ARC_UTIL_LoadBgCharDataFromHandle(void *arc, u32 memberIdx, u32 heapID, void *unpackedOut, u16 flags);
 extern void BG_SYS_LoadTileData(int index, const void *src, u32 size, u32 tile);
 extern u32 GFL_HEAP_Free(void *p);
 extern void ARC_TOOL_DeleteHandle(void *);
@@ -306,51 +308,59 @@ extern void TOUCHBAR_SetAllButtonsBgPriority(u8 *, u32);
 extern void TOUCHBAR_SetButtonSound(unsigned char *p, unsigned int id, int v);
 extern void TOUCHBAR_Delete(u8 *);
 extern void TOUCHBAR_Update(struct TouchBar *p);
-extern void *MSGDATA_AllocString(struct MsgBank *, u32);
-extern void STRBUF_Delete(struct U16Vec *);
-extern struct TaskMenu *APP_TASKMENU_OpenMenu(struct TaskMenuTmpl *, void *);
-extern void APP_TASKMENU_CloseMenu(struct TaskMenu *);
-extern void APP_TASKMENU_UpdateMenu(Obj *);
+struct Strbuf;
+extern struct Strbuf *MSGDATA_AllocString(struct MsgBank *, u32);
+extern void STRBUF_Delete(struct Strbuf *strbuf);
+struct TaskMenuInitWork;
+struct TaskMenuWork;
+extern struct TaskMenuWork *APP_TASKMENU_OpenMenu(struct TaskMenuInitWork *init, struct TaskMenuRes *res);
+extern void APP_TASKMENU_CloseMenu(struct TaskMenuWork *menu);
+extern void APP_TASKMENU_UpdateMenu(struct TaskMenuWork *menu);
 extern void BRIGHTNESS_ChangeReset(u32 mask);
 extern int BRIGHTNESS_ChangeRequest(int a, int b, int c, int d, int e);
 extern void *GFL_HEAP_Alloc(u32,u32,int,const char *,u16);
 extern void ARC_UTIL_UploadPaletteFromArchiveWhole(u32,u32,u32,u32,u32,u16);
 extern void BMP_MENUWORK_LoadCharAndPltt(u32,u32,u32,u32,u16);
-extern struct WordSet *WORDSET_CreateDefault(u32 heap);
+extern struct WordSet *WORDSET_CreateDefault(unsigned short heapId);
 extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern u32 PRINTSYS_QUE_Create(void *p);
+struct PrintQueue;
+extern struct PrintQueue *PRINTSYS_QUE_Create(unsigned int heap);
 extern struct GfFont *GF_FONT_Create(int archiveId, int fileId, int format, int isFixedWidth, u32 heapId);
-extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
-extern struct Tcbl *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
-extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
-extern void *BMP_WIN_GetBmp(struct Descriptor *p);
-extern void BMP_Clear(struct CharBuf *buf, u8 value);
+extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
+struct TcblSystem;
+extern struct TcblSystem *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
+struct BmpWin;
+extern struct BmpWin *BMP_WIN_Create(unsigned int bgLayer, unsigned int posX, unsigned int posY, unsigned char width, unsigned char height, unsigned char palette, unsigned char allocDir);
+struct Bmp;
+extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *win);
+extern void BMP_Clear(struct Bmp *bmp, unsigned char value);
 extern void GF_FONT_SetTextColor(u32,u32,u32);
 extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
-extern void PRINTSYS_Print(void *,short,short,void *,void *);
-extern void BMP_WIN_TransferChars(struct Descriptor *d);
-extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
-extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
+extern void PRINTSYS_Print(struct Bmp *bmp, short x, short y, struct Strbuf *str, struct GfFont *font);
+extern void BMP_WIN_TransferChars(struct BmpWin *win);
+extern void BMP_WIN_MakeScreen(struct BmpWin *win);
+extern u8 BMP_WIN_GetBgLayer(struct BmpWin *win);
 extern void BG_SYS_MarkTileDirty(u32);
-extern void PRINTSYS_PrintStreamDelete(struct Rec3 *);
-extern unsigned int BMP_WIN_Delete(struct Descriptor *d);
-extern unsigned int MSGDATA_Delete(struct Rec *rec);
-extern void PRINTSYS_QUE_Delete(struct PrintSys *);
-extern unsigned int GF_FONT_Delete(void *ptr);
-extern void TCBL_Destroy(struct S02031140 *);
+struct TextPrinter;
+extern void PRINTSYS_PrintStreamDelete(struct TextPrinter *printer);
+extern unsigned int BMP_WIN_Delete(struct BmpWin *win);
+extern unsigned int MSGDATA_Delete(struct MsgBank *bank);
+extern void PRINTSYS_QUE_Delete(struct PrintQueue *queue);
+extern unsigned int GF_FONT_Delete(struct GfFont *font);
+extern void TCBL_Destroy(struct TcblSystem *tcbl);
 extern unsigned int WORDSET_Delete(struct WordSet *p);
-extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
-extern void TCBL_Main(struct Tcbl *p);
+extern u32 PRINTSYS_QUE_Main(struct PrintQueue *queue);
+extern void TCBL_Main(struct TcblSystem *tcbl);
 extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
 extern void TOUCHBAR_PrintAligned(u8 *p, void *a, u16 b, u16 c, u32 s0, u32 s1, u16 s2, u32 s3);
-extern u32 PRINTSYS_CountLine(struct StrObj *s);
+extern u32 PRINTSYS_CountLine(struct Strbuf *text);
 extern signed char MSG_SPEED_GetWait(void);
 extern u32 PRINTSYS_PrintStream(u32, u32, u32, u32, u32, u32, u32, u32, u16, u16);
 extern void BMP_MENUWORK_DrawWindow(void *, int, int, int);
-extern unsigned int PRINTSYS_PrintStreamGetState(void *);
-extern void PRINTSYS_PrintStreamReleasePause(void *);
-extern void PRINTSYS_PrintStreamShortWait(struct Rec *, int);
+extern unsigned int PRINTSYS_PrintStreamGetState(struct TextPrinter *printer);
+extern void PRINTSYS_PrintStreamReleasePause(struct TextPrinter *printer);
+extern void PRINTSYS_PrintStreamShortWait(struct TextPrinter *printer, int wait);
 extern u32 KEY_GetTrg(void);
 extern unsigned int KEY_GetCont(void);
 extern int TOUCHPANEL_GetTrg(void);
@@ -359,56 +369,60 @@ extern void GFL_USE_PlaySeDefaultVolume(unsigned int);
 void UN_SELECT_DrawFrameListRow();
 void UN_SELECT_DrawMessage(char *p, u32 id);
 int UN_SELECT_UpdateMessage(char *p);
-extern void BMP_MENUWORK_DrawWindowBorder(void *,u32);
-extern u32 FRAME_LIST_GetItemValue(char *p, int index);
-extern unsigned FRAME_LIST_GetPrinter(char *p);
-extern int FRAME_LIST_GetScrollBarTop(u8 *);
-extern int FRAME_LIST_GetSelectedIndex(char *);
-extern int FRAME_LIST_GetCursor(char *);
-extern struct FrameList *FRAME_LIST_Create(struct Tmpl *tmpl, u32 heap);
-extern void FRAME_LIST_CopyMapToBuffer(u8 *p, u32 a, u32 b, u32 c, u32 index);
-extern void FRAME_LIST_LoadPalettes(u8 *p, u8 *a, u32 b, u32 c, u32 d);
-extern void FRAME_LIST_AddItem(char *ctx, unsigned first, unsigned second);
+extern void BMP_MENUWORK_DrawWindowBorder(struct BmpWin *desc, unsigned int commitMode);
+extern u32 FRAME_LIST_GetItemValue(struct FrameList *list, int index);
+extern struct PrintSys *FRAME_LIST_GetPrinter(struct FrameList *list);
+extern int FRAME_LIST_GetScrollBarTop(struct FrameList *list);
+extern int FRAME_LIST_GetSelectedIndex(struct FrameList *list);
+extern int FRAME_LIST_GetCursor(struct FrameList *list);
+struct FrameListParams;
+extern struct FrameList *FRAME_LIST_Create(struct FrameListParams *params, unsigned int heapId);
+extern void FRAME_LIST_CopyMapToBuffer(struct FrameList *list, void *source, unsigned int fileIndex, unsigned int memberIndex, unsigned int mapSlot);
+extern void FRAME_LIST_LoadPalettes(struct FrameList *list, unsigned char *palettes, unsigned int firstSlot, unsigned int srcSlot, unsigned int slotCount);
+extern void FRAME_LIST_AddItem(struct FrameList *list, unsigned int mapIndex, unsigned int value);
 extern void FRAME_LIST_Delete(struct FrameList *);
 extern int GF_OVERLAY_Load(int);
 extern void GFL_HEAP_CreateChildHeap(u32,u32,u32);
 extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
 extern void GXx_SetMasterBrightness_(volatile u16 *reg, int brightness);
 extern char *UN_SELECT_GRAPHIC_Create(unsigned swap, unsigned heap);
-extern void *UI_SCENE_Create(u32,void *,u8,u16,void *);
+struct UiSceneEntry;
+extern struct UiScene *UI_SCENE_Create(unsigned int heapId, struct UiSceneEntry *entries, unsigned char param, unsigned short sceneIndex, void *userData);
 extern u32 UN_SELECT_GRAPHIC_GetActor(char *p);
-extern struct TaskMenuState *APP_TASKMENU_RES_Create(u16 bgFrame, u16 palNo, u32 font, u32 printQue, u16 heap);
+struct GFont;
+extern struct TaskMenuRes *APP_TASKMENU_RES_Create(unsigned short bgFrame, unsigned short palNo, struct GFont *font, struct PrintQueue *printQue, unsigned short heapId);
 extern void G2x_SetBlendAlpha_(u32 *,u32,u32,u32,u32);
 extern void *GFL_USE_AddHBlankTask(u32 a, u32 b, u32 c);
 extern void GFL_NET_RefreshWmIconAtTopRight(u32,u32);
 extern int FRAME_LIST_Update(struct FrameList *p);
-extern void FRAME_LIST_SetRowPalette(u8 *p, int a, u32 b);
-extern void UI_SCENE_SetNextScene(unsigned char *,int);
+extern void FRAME_LIST_SetRowPalette(struct FrameList *list, int row, unsigned int pltt);
+extern void UI_SCENE_SetNextScene(struct UiScene *scene, int nextSceneIndex);
 extern int TOUCHBAR_GetPressedButtonIdIfDone(unsigned char *);
-extern unsigned UI_SCENE_GetPhaseFrame(const unsigned char *p);
-extern void UI_SCENE_AdvancePhaseFrame(u8 *a);
+extern unsigned UI_SCENE_GetPhaseFrame(struct UiScene *scene);
+extern void UI_SCENE_AdvancePhaseFrame(struct UiScene *scene);
 extern int BRIGHTNESS_IsFinished(int a);
 extern void WORDSET_SetSlotFromMsgE7(struct WordSet *p, u32 i, u32 n);
-extern u32 APP_TASKMENU_IsFinish(struct TaskMenu *m);
-extern unsigned char APP_TASKMENU_GetCursorPos(const unsigned char *);
+extern u32 APP_TASKMENU_IsFinish(struct TaskMenuWork *menu);
+extern unsigned char APP_TASKMENU_GetCursorPos(struct TaskMenuWork *menu);
 extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 vram_mode, u16 flags);
 extern s32 CLACT_RegisterPalette(void *a, u32 b, u32 c, u32 d, u16 g);
 extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 extern void CLACT_ReleaseCharacter(u32);
 extern void CLACT_ReleasePalette(u32);
 extern void CLACT_ReleaseCellAnim(u32);
-extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
+extern void CLACT_SetActorDrawEnable(struct Actor *actor, unsigned int value);
 extern void CLACT_SetActorObjMode(struct Actor *actor, u32 value);
-extern void CLACT_DeleteActor(struct Obj *p);
+extern void CLACT_DeleteActor(struct Actor *actor);
 extern u32 CLACT_CreateActor(u32,u32,u32,u32,u32,u16,u16);
-extern void CLACT_SetActorAutoAnim(struct Obj *,u32);
-extern u32 CLACT_GetActorDrawEnable(struct Obj *p);
+extern void CLACT_SetActorAutoAnim(struct Actor *actor, unsigned int enable);
+extern u32 CLACT_GetActorDrawEnable(struct Actor *actor);
 extern void CLACT_GetActorSurfacePos(struct Actor *actor, struct PtS *out, u32 space);
 extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct PtS *delta, u32 which);
 extern void BG_SYS_SetMainPlaneVisible(unsigned, unsigned);
 extern void G3X_SetFog(int, FogMode, FogSlope, int);
 extern void G3X_SetClearColor(unsigned short, int, int, int, int);
-extern void G3D_SYSTEM_SetLight(u32 idx, const u16 *src);
+struct G3dLight;
+extern void G3D_SYSTEM_SetLight(unsigned int lightIdx, struct G3dLight *light);
 extern void G3D_SYSTEM_SetSwapBuffersMode(unsigned, unsigned);
 int UN_SELECT_SceneCreate(void *owner,int *state,char *input,u8 *p);
 int UN_SELECT_SceneDelete(struct Proc *ctx, int *state, void *unused, char *p);
@@ -568,9 +582,9 @@ void UN_SELECT_LoadBg(u8 *p, u16 heap)
     ARC_UTIL_UploadBgCharFromHandle(h, 0xc, 4, 0, 0x200, 0, heap);
     ARC_UTIL_UploadBgPaletteFromHandle(h, 6, 7, 0, 0, 0, heap);
     ARC_UTIL_UploadBgPaletteFromHandle(h, 0xd, 4, 0, 0, 0, heap);
-    w1 = ARC_UTIL_LoadBgCharDataFromHandle(h, 0, 0, (u32)((void **)&o1), heap);
+    w1 = ARC_UTIL_LoadBgCharDataFromHandle((void *)h, 0, 0, ((void **)&o1), heap);
     ARC_UTIL_UploadBgPaletteFromHandle(h, 5, 3, 0, 0, 0, heap);
-    w2 = ARC_UTIL_LoadBgCharDataFromHandle(h, 0, 0, (u32)((void **)&o2), heap);
+    w2 = ARC_UTIL_LoadBgCharDataFromHandle((void *)h, 0, 0, ((void **)&o2), heap);
     ARC_UTIL_UploadBgCharFromHandle(h, 2, 2, 0, 0, 0, heap);
     ARC_UTIL_UploadBgCharFromHandle(h, 2, 6, 0, 0, 0, heap);
     for (i = 0; i < 0x82; i++) {
@@ -662,9 +676,9 @@ struct TaskMenu *UN_SELECT_OpenTaskMenu(void *arg, struct MsgBank *bank, u32 hea
     config.pad10[1] = 18;
     config.unk12 = 13;
     config.unk13 = 3;
-    menu = APP_TASKMENU_OpenMenu(&config, arg);
+    menu = (struct TaskMenu *)APP_TASKMENU_OpenMenu((struct TaskMenuInitWork *)(&config), arg);
     for (i = 0; i < 2; i++)
-        STRBUF_Delete((struct U16Vec *)items[i].text);
+        STRBUF_Delete((struct Strbuf *)items[i].text);
     return menu;
 }
 
@@ -674,7 +688,7 @@ struct TaskMenu *UN_SELECT_OpenTaskMenu(void *arg, struct MsgBank *bank, u32 hea
 
 void UN_SELECT_CloseTaskMenu(struct TaskMenu *p)
 {
-    APP_TASKMENU_CloseMenu(p);
+    APP_TASKMENU_CloseMenu((struct TaskMenuWork *)p);
 }
 
 
@@ -683,7 +697,7 @@ void UN_SELECT_CloseTaskMenu(struct TaskMenu *p)
 
 void UN_SELECT_UpdateTaskMenu(Obj *p)
 {
-    APP_TASKMENU_UpdateMenu(p);
+    APP_TASKMENU_UpdateMenu((struct TaskMenuWork *)p);
 }
 
 
@@ -726,7 +740,7 @@ void *UN_SELECT_Create(u16 heap)
     BMP_MENUWORK_LoadCharAndPltt(0,1,15,0,heap);
     ((struct UnSelectRecord *)p)->wordSet=WORDSET_CreateDefault(heap);
     ((struct UnSelectRecord *)p)->msgBank.ptr=MSGDATA_CreateFromArchive(0,2,229,heap);
-    ((struct UnSelectRecord *)p)->printQue.ptr=(void *)PRINTSYS_QUE_Create((void *)heap);
+    ((struct UnSelectRecord *)p)->printQue.ptr=(void *)PRINTSYS_QUE_Create((unsigned int)heap);
     ((struct UnSelectRecord *)p)->font.ptr=GF_FONT_Create(23,0,0,0,heap);
     ((struct UnSelectRecord *)p)->text=STRBUF_Create(1600,heap);
     ((struct UnSelectRecord *)p)->taggedText=STRBUF_Create(1600,heap);
@@ -792,7 +806,7 @@ void UN_SELECT_DrawFrameListRow(p, a, b, cd)
     WORDSET_CopyTaggedText(*(void **)(p + 0x14), *(void **)(p + 0x1C), *(void **)(p + 0x18));
     TOUCHBAR_PrintAligned(a, b, 0, 12, *(u32 *)(p + 0x1C), c, 0x39E0, 0);
     p += 0x2C;
-    if (PRINTSYS_CountLine((struct StrObj *)(*(u32 *)(p + d * 4))) > 1) r = 4;
+    if (PRINTSYS_CountLine((struct Strbuf *)(*(u32 *)(p + d * 4))) > 1) r = 4;
     TOUCHBAR_PrintAligned(a, b, 0x1E, r, *(u32 *)(p + d * 4), c, 0x39E0, 0);
 }
 
@@ -801,15 +815,15 @@ void UN_SELECT_DrawMessage(char *p, u32 id)
 {
     int value = MSG_SPEED_GetWait();
     struct Descriptor *obj = ((struct UnSelectRecord *)p)->window;
-    BMP_Clear(BMP_WIN_GetBmp(obj), 15);
+    BMP_Clear(BMP_WIN_GetBmp((struct BmpWin *)obj), 15);
     GF_FONT_SetTextColor(1, 2, 15);
     MSGDATA_ReadString(((struct UnSelectRecord *)p)->msgBank.ptr, id, ((struct UnSelectRecord *)p)->text);
     WORDSET_CopyTaggedText(((struct UnSelectRecord *)p)->wordSet, ((struct UnSelectRecord *)p)->taggedText, ((struct UnSelectRecord *)p)->text);
     ((struct UnSelectRecord *)p)->printStream.handle = PRINTSYS_PrintStream((u32)obj, 4, 0, (u32)((struct UnSelectRecord *)p)->taggedText, ((struct UnSelectRecord *)p)->font.handle, value, ((struct UnSelectRecord *)p)->tcbl.handle, 65535, ((struct UnSelectRecord *)p)->heapId, 15);
     BMP_MENUWORK_DrawWindow(((struct UnSelectRecord *)p)->window, 2, 1, 15);
-    BMP_WIN_TransferChars(obj);
-    BMP_WIN_MakeScreen((struct Cfg *)obj);
-    BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer(obj));
+    BMP_WIN_TransferChars((struct BmpWin *)obj);
+    BMP_WIN_MakeScreen((struct BmpWin *)obj);
+    BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer((struct BmpWin *)obj));
 }
 
 
@@ -887,8 +901,8 @@ void UN_SELECT_UpdateFrameList(u8 *p, u32 a, u32 b, u8 *c, u32 d)
 {
     u32 t;
     UN_SELECT_SetActorVisible((char *)p);
-    FRAME_LIST_GetItemValue((char *)((struct UnSelectWork *)p)->frameList, a);
-    t = FRAME_LIST_GetPrinter((char *)((struct UnSelectWork *)p)->frameList);
+    FRAME_LIST_GetItemValue((struct FrameList *)((struct UnSelectWork *)p)->frameList, a);
+    t = (unsigned int)FRAME_LIST_GetPrinter((struct FrameList *)((struct UnSelectWork *)p)->frameList);
     UN_SELECT_DrawFrameListRow((u8 *)((struct UnSelectWork *)p)->record, b, t, UN_SELECT_GetMsgData((u8 *)((struct UnSelectWork *)p)->record), a);
     if (UN_SELECT_ContainsItem((char *)p, a)) {
         UN_SELECT_SetActorPos((u32)p, d, (u32)(c + 0x14));
@@ -945,10 +959,10 @@ void UN_SELECT_CreateFrameList(char *p)
             } else d_021BB060.start=i;
         }
     }
-    ((struct UnSelectWork *)p)->frameList=FRAME_LIST_Create((struct Tmpl *)(&template_021BB060),((struct UnSelectWork *)p)->heapId);
+    ((struct UnSelectWork *)p)->frameList=FRAME_LIST_Create((struct FrameListParams *)(&template_021BB060),((struct UnSelectWork *)p)->heapId);
     archive=ARC_TOOL_CreateHandle(193,((struct UnSelectWork *)p)->heapId);
-    FRAME_LIST_CopyMapToBuffer(((struct UnSelectWork *)p)->frameList,(u32)archive,3,0,0);
-    FRAME_LIST_CopyMapToBuffer(((struct UnSelectWork *)p)->frameList,(u32)archive,4,0,1);
+    FRAME_LIST_CopyMapToBuffer(((struct UnSelectWork *)p)->frameList,archive,3,0,0);
+    FRAME_LIST_CopyMapToBuffer(((struct UnSelectWork *)p)->frameList,archive,4,0,1);
     FRAME_LIST_LoadPalettes(((struct UnSelectWork *)p)->frameList,archive,1,2,3);
     ARC_TOOL_DeleteHandle(archive);
     bank=MSGDATA_CreateFromArchive(0,2,229,((struct UnSelectWork *)p)->heapId);
@@ -999,13 +1013,13 @@ char *UN_SELECT_CreateSceneWork(void *owner,char *input)
     GXx_SetMasterBrightness_((u16 *)0x0400006c,-16);
     GXx_SetMasterBrightness_((u16 *)0x0400106c,-16);
     ((struct UnSelectWork *)p)->graphic=UN_SELECT_GRAPHIC_Create(0,((struct UnSelectWork *)p)->heapId);
-    ((struct UnSelectWork *)p)->uiScene=UI_SCENE_Create(((struct UnSelectWork *)p)->heapId,d_021BAB20,3,0,p);
+    ((struct UnSelectWork *)p)->uiScene=UI_SCENE_Create(((struct UnSelectWork *)p)->heapId,(struct UiSceneEntry *)d_021BAB20,3,0,p);
     UN_SELECT_LoadBg((u8 *)p,((struct UnSelectWork *)p)->heapId);
     ((struct UnSelectWork *)p)->record=UN_SELECT_Create(((struct UnSelectWork *)p)->heapId);
     ((struct UnSelectWork *)p)->touchBar=UN_SELECT_CreateTouchBar(UN_SELECT_GRAPHIC_GetActor(((struct UnSelectWork *)p)->graphic),((struct UnSelectWork *)p)->heapId);
     a=(u32)UN_SELECT_GetMsgData(((struct UnSelectWork *)p)->record);
     b=(u32)UN_SELECT_GetPrintQue(((struct UnSelectWork *)p)->record);
-    ((struct UnSelectWork *)p)->taskMenuState=APP_TASKMENU_RES_Create(1,11,a,b,((struct UnSelectWork *)p)->heapId);
+    ((struct UnSelectWork *)p)->taskMenuState=APP_TASKMENU_RES_Create(1,11,(struct GFont *)a,(struct PrintQueue *)b,((struct UnSelectWork *)p)->heapId);
     UN_SELECT_LoadActors(p);
     UN_SELECT_CreateFrameList(p);
     UN_SELECT_SetupActors(p);
@@ -1062,7 +1076,7 @@ int UN_SELECT_SceneStepList(unsigned char *task,char *p)
             ((struct UnSelectWork *)p)->selectedIndex=selected;
             FRAME_LIST_SetRowPalette(((struct UnSelectWork *)p)->frameList,(unsigned short)FRAME_LIST_GetCursor(((struct UnSelectWork *)p)->frameList),3);
             GFL_USE_PlaySeDefaultVolume(1356);
-            UI_SCENE_SetNextScene(task,*((struct UnSelectWork *)p)->input==131-selected ? 2 : 1);
+            UI_SCENE_SetNextScene((struct UiScene *)task,*((struct UnSelectWork *)p)->input==131-selected ? 2 : 1);
             return 1;
         }
     }
@@ -1071,7 +1085,7 @@ int UN_SELECT_SceneStepList(unsigned char *task,char *p)
     case -1:case 0:case 2:case 3:case 4:case 5:break;
     case 1:
         UN_SELECT_SetMode((u8 *)p,1);
-        UI_SCENE_SetNextScene(task,65534);
+        UI_SCENE_SetNextScene((struct UiScene *)task,65534);
         return 1;
     }
     return 0;
@@ -1089,11 +1103,11 @@ int UN_SELECT_IsMessageDone(void) { return 1; }
 
 u32 UN_SELECT_SceneStepMessage(u8 *a, u8 *b)
 {
-    switch (UI_SCENE_GetPhaseFrame(a)) {
+    switch (UI_SCENE_GetPhaseFrame((struct UiScene *)a)) {
     case 0:
         UN_SELECT_InitRecord();
     tail:
-        UI_SCENE_AdvancePhaseFrame(a);
+        UI_SCENE_AdvancePhaseFrame((struct UiScene *)a);
         break;
     case 1:
         if (FADE_IsActive() == 1) break;
@@ -1125,13 +1139,13 @@ int UN_SELECT_SceneStepMenu(unsigned char *task, char *ctx)
             UN_SELECT_RequestBrightness();
             UN_SELECT_DrawWindowBorder(((struct UnSelectWork *)ctx)->record);
             UN_SELECT_CloseTaskMenu(((struct UnSelectWork *)ctx)->taskMenu);
-            UI_SCENE_SetNextScene(task, 65534);
+            UI_SCENE_SetNextScene((struct UiScene *)task, 65534);
             break;
         case 1:
             UN_SELECT_RequestBrightness();
             UN_SELECT_DrawWindowBorder(((struct UnSelectWork *)ctx)->record);
             UN_SELECT_CloseTaskMenu(((struct UnSelectWork *)ctx)->taskMenu);
-            UI_SCENE_SetNextScene(task, 0);
+            UI_SCENE_SetNextScene((struct UiScene *)task, 0);
             break;
         }
         return 1;
@@ -1151,11 +1165,11 @@ int UN_SELECT_IsFadeDone(void){if(FADE_IsActive()==1 || BRIGHTNESS_IsFinished(1)
 
 int UN_SELECT_SceneStepFade(unsigned char *task, char *ctx)
 {
-    switch (UI_SCENE_GetPhaseFrame(task)) {
+    switch (UI_SCENE_GetPhaseFrame((struct UiScene *)task)) {
     case 0:
         UN_SELECT_InitRecord();
 advance:
-        UI_SCENE_AdvancePhaseFrame(task);
+        UI_SCENE_AdvancePhaseFrame((struct UiScene *)task);
         break;
     case 1:
         if (FADE_IsActive() == 1)
@@ -1188,7 +1202,7 @@ int UN_SELECT_SceneStepMenuOut(unsigned char *task, char *ctx)
 {
     UN_SELECT_RequestBrightness();
     UN_SELECT_DrawWindowBorder(((struct UnSelectWork *)ctx)->record);
-    UI_SCENE_SetNextScene(task, 0);
+    UI_SCENE_SetNextScene((struct UiScene *)task, 0);
     return 1;
 }
 
@@ -1294,7 +1308,7 @@ void UN_SELECT_DeleteActor(char *p)
 
 
 
-struct Obj *UN_SELECT_CreateActor(u32 owner,char *p){struct Obj *r;r=(struct Obj *)CLACT_CreateActor(owner,((struct Config *)p)->c,((struct Config *)p)->d,((struct Config *)p)->e,(u32)p,((struct Config *)p)->g,122);CLACT_SetActorAutoAnim(r,1);return r;}
+struct Obj *UN_SELECT_CreateActor(u32 owner,char *p){struct Obj *r;r=(struct Obj *)CLACT_CreateActor(owner,((struct Config *)p)->c,((struct Config *)p)->d,((struct Config *)p)->e,(u32)p,((struct Config *)p)->g,122);CLACT_SetActorAutoAnim((struct Actor *)r,1);return r;}
 
 
 
@@ -1516,6 +1530,6 @@ void UN_SELECT_SetupDisplay(void)
     G3X_SetClearColor(0, 0, 0x7fff, 63, 0);
     *(volatile unsigned *)0x04000580 = 0xbfff0000;
     for (i = 0; i < 4; i++)
-        G3D_SYSTEM_SetLight((unsigned char)i, &d_021BAED8[i * 4]);
+        G3D_SYSTEM_SetLight((unsigned char)i, (struct G3dLight *)(&d_021BAED8[i * 4]));
     G3D_SYSTEM_SetSwapBuffersMode(0, 0);
 }

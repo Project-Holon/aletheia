@@ -59,6 +59,12 @@
  *   VEC_DotProduct   0x0207CA68  arm
  *   FX_AcosIdx       0x0207D184  arm
  *   gFieldCameraRingRefVec       0x021D3E38  data   a4
+ *   G3D_CAMERA_SetFar            0x02048B6C  arm
+ *   G3D_CAMERA_SetNear           0x02048B60  arm
+ *   _fadd                        0x0209C95C  arm
+ *   _ffix                        0x0209C494  arm
+ *   _fflt                        0x0209BDBC  arm
+ *   _fsub                        0x0209CB8C  arm
  */
 #include "field_camera_types.h"
 
@@ -81,7 +87,7 @@ typedef void (*FieldCameraEnterFunc)(FieldCamera *camera);
 extern u32 MI_CpuFill8(void *, int, u32);
 extern void *GFL_HEAP_Alloc(u16, u32, u32, const void *, u32);
 extern u32 GFL_HEAP_Free(void *);
-extern void *ARC_TOOL_CreateHandle(u32, u32);
+extern void *ARC_TOOL_CreateHandle(u32 archiveID, u16 heapID);
 extern void ARC_TOOL_DeleteHandle(void *);
 extern void VEC_Add(VecFx32 *, VecFx32 *, VecFx32 *);
 extern int G3D_CAMERA_GetMode(struct G3dCamera *camera);
@@ -90,14 +96,15 @@ extern u16 FX_AcosIdx(int a);
 extern void G3D_SYSTEM_SetSwapBuffersMode(u32 a, u32 b);
 extern void G3D_CAMERA_SetFovySin(struct G3dCamera *camera, u32 v);
 extern void G3D_CAMERA_SetFovyCos(struct G3dCamera *camera, u32 v);
-extern u32 ARC_TOOL_GetHandleMemberSize(struct ArcFile *arc, u32 member);
-extern void ARC_TOOL_ReadHandleMemberRange(struct ArcFile *, u32, u32, u32, void *);
+struct ArcHandle;
+extern u32 ARC_TOOL_GetHandleMemberSize(struct ArcHandle *arc, u32 memberIdx);
+extern void ARC_TOOL_ReadHandleMemberRange(struct ArcHandle *arc, u32 memberIdx, u32 offset, u32 size, void *dst);
 extern void VEC_Normalize(VecFx32 *, VecFx32 *);
 extern void VEC_MultAdd(int scale, VecFx32 *dir, VecFx32 *base, VecFx32 *out);
 extern void G3D_CAMERA_SetCamTarget(struct G3dCamera *camera, const VecFx32 *in);
 extern void G3D_CAMERA_SetEye(struct G3dCamera *camera, const VecFx32 *in);
-extern int VEC_Mag(void *a);
-extern int FX_Atan2Idx(int a, int b);
+extern int VEC_Mag(VecFx32 *pSrc);
+extern u16 FX_Atan2Idx(int a, int b);
 extern void VEC_Subtract(VecFx32 *, VecFx32 *, VecFx32 *);
 extern int VEC_DotProduct(VecFx32 *a, VecFx32 *b);
 extern void G3D_CAMERA_SetNear(struct G3dCamera *camera, const u32 *in);
@@ -107,7 +114,7 @@ extern void G3D_CAMERA_GetCamUp(struct G3dCamera *camera, VecFx32 *out);
 extern void G3D_CAMERA_GetCamTarget(struct G3dCamera *camera, VecFx32 *out);
 extern void G3D_CAMERA_GetEye(struct G3dCamera *camera, VecFx32 *out);
 extern void MI_CpuCopy8(void *, void *, int);
-extern void *ARC_UTIL_LoadHandleMember(void *narc, u32 fileID, u32 decompress, u32 heapID);
+extern void *ARC_UTIL_LoadHandleMember(void *narc, u32 fileID, u32 decompress, u16 heapID);
 extern int FX_Modf(int x, int *ip);
 extern void VEC_CrossProduct(VecFx32 *a, VecFx32 *b, VecFx32 *o);
 FieldCamera *FIELD_CAMERA_Create(int settingId, int mode, struct G3dCamera *g3dCamera, VecFx32 *targetSrc, u16 heapId);
@@ -359,8 +366,8 @@ void FIELD_CAMERA_LoadSetting(FieldCamera *camera, const VecFx32 *targetSrc)
 /* Reads the current setting record out of archive 0x3C. */
 void FIELD_CAMERA_ReadSetting(FieldCamera *camera, FieldCameraSetting *out)
 {
-    ARC_TOOL_GetHandleMemberSize(camera->settingArc, 0);
-    ARC_TOOL_ReadHandleMemberRange(camera->settingArc, 0, sizeof(FieldCameraSetting) * camera->settingId, sizeof(FieldCameraSetting), out);
+    ARC_TOOL_GetHandleMemberSize((struct ArcHandle *)camera->settingArc, 0);
+    ARC_TOOL_ReadHandleMemberRange((struct ArcHandle *)camera->settingArc, 0, sizeof(FieldCameraSetting) * camera->settingId, sizeof(FieldCameraSetting), out);
 }
 
 /* Copies the traced target position into the raw target. */

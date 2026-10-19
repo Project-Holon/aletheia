@@ -282,18 +282,22 @@ typedef struct BtlvEffVmEmitterMotion {
 
 typedef long long fx64;
 
-extern void *ARC_TOOL_LoadMember(u32, u32, u32);
+extern void *ARC_TOOL_LoadMember(u32 archiveID, u32 memberIdx, u16 heapID);
 
 extern u32 GFL_HEAP_Free(void *p);
+struct Tcb;
 
 
-extern void *GFL_USE_AddMainTask(void (*)(void *, void *), void *, int);
+extern struct Tcb *GFL_USE_AddMainTask(void (*)(void *, void *), void *work, u32 priority);
+struct TcbSystem;
+struct TcbTask;
 
-extern void *TCB_AddTask(void *owner, void (*fn)(void *, void *), void *p, u32 n);
+extern struct TcbTask *TCB_AddTask(struct TcbSystem *sys, void (*fn)(void *, void *), void *work, u32 priority);
 
 extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
+struct TcblSystem;
 
-extern u32 TCBL_IsDeletePending(struct S02030EE8 *p);
+extern u32 TCBL_IsDeletePending(struct TcblSystem *tcbl);
 
 
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
@@ -304,9 +308,9 @@ extern void VM_Init(struct ScriptVm *vm, void *user);
 
 extern int VM_Control(struct ScriptVm *vm);
 
-extern void *VM_GetContext(void *vm);
+extern void *VM_GetContext(struct ScriptVm *vm);
 
-extern void VM_Delete(void *);
+extern void VM_Delete(struct ScriptVm *vm);
 
 extern void VM_Start(struct ScriptVm *vm, u8 *pc);
 
@@ -330,7 +334,7 @@ extern int PARTICLE_StartEffectWithCallback(struct ParticleSys *sys, int resId, 
 
 extern void PARTICLE_InitCamera(struct ParticleSys *sys, struct ParticleCameraParams *params, u16 angle, BtlvEffVmVec *pos, BtlvEffVmVec *target, BtlvEffVmVec *up, u16 heapId);
 
-extern int PARTICLE_EMITTER_GetBlock(struct ParticleSys *p);
+extern int PARTICLE_EMITTER_GetBlock(struct Obj3D *p);
 
 extern void BG_SYS_SetPriority(int idx, unsigned short val);
 
@@ -343,12 +347,13 @@ extern void PALANM_LoadArcPaletteToSlotAt(struct PalAnmSlot *slots, u32 arcId, u
 extern u32 BG_SYS_GetScrollX(u32 layer);
 
 extern u32 BG_SYS_GetScrollY(u32 layer);
+struct BtlvBg;
 
-extern void BTLV_BG_SetScroll(int a, int b, int c);
+extern void BTLV_BG_SetScroll(struct BtlvBg *bg, u32 scrollX, u32 scrollY);
 
-extern void BTLV_BG_StartScroll(int a, int b, int c, int d, int e, int f, int g, int h);
+extern void BTLV_BG_StartScroll(struct BtlvBg *bg, s32 flipFlags, u32 mode, s32 x, s32 y, s32 frames, s32 phaseFrames, s32 cycleFrames);
 
-extern void G2x_SetBlendAlpha_(int reg, int a, int b, int c, int d);
+extern void G2x_SetBlendAlpha_(u32 *reg, u32 a, u32 b, u32 c, u32 d);
 
 extern int NNS_G3dWorldPosToScrPos(const BtlvEffVmVec *world, int *px, int *py);
 
@@ -358,21 +363,22 @@ extern void GFL_USE_StopAllSe(void);
 
 extern void GFL_USE_StopSeSlot(int i);
 
-extern void VM_Jump(struct ScriptVm *c, u32 v);
+extern void VM_Jump(struct ScriptVm *vm, u8 *pc);
 
 extern unsigned short PALANM_GetPairedCodeForFirst(int value);
 
-extern void VM_Call(struct ScriptVm *r, unsigned int v);
+extern void VM_Call(struct ScriptVm *vm, u8 *pc);
 
-extern u32 VM_Return(struct ScriptVm *r);
+extern u8 *VM_Return(struct ScriptVm *r);
 
 extern struct ScriptVm *VM_End(struct ScriptVm *vm);
+struct BtlvScu;
 
-extern void BTLV_SCU_ReloadGraphics(const u8 *a);
+extern void BTLV_SCU_ReloadGraphics(struct BtlvScu *scu);
 
 extern void BG_SYS_ChangeScrollImmediate(u32 layer, u32 a, u32 b);
 
-extern int BTLV_BG_IsScrolling(void *);
+extern u32 BTLV_BG_IsScrolling(struct BtlvBg *bg);
 
 extern int PARTICLE_GetEffectCount(struct ParticleSys *sys);
 
@@ -398,7 +404,7 @@ extern u16 FX_AcosIdx(int a);
 
 extern void VEC_CrossProduct(const BtlvEffVmVec *a, const BtlvEffVmVec *b, BtlvEffVmVec *c);
 
-extern void MTX_RotAxis43(void *m, const BtlvEffVmVec *axis, int s, int c);
+extern void MTX_RotAxis43(void *m, void *v, s32 sinVal, s32 cosVal);
 
 extern void MTX_MultVec43(const BtlvEffVmVec *a, const void *m, BtlvEffVmVec *out);
 
@@ -452,7 +458,7 @@ extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 
 extern int GFL_USE_GetSeSlot(u32 a);
 
-extern void GFL_USE_PlaySeInSlot(void *arg, int i);
+extern void GFL_USE_PlaySeInSlot(u32 seqNo, s32 slot);
 
 extern struct SndHandle *GFL_USE_GetSeHandle(int slot);
 
@@ -474,20 +480,21 @@ fx32 FX_Div(fx32 numer, fx32 denom);
 extern void GFL_NET_SetBgmTrackVolumeUnlessVoiceChat(void *a, void *b);
 
 extern void PARTICLE_ApplyLoadHandlers(struct ParticleSys *sys);
+struct BtlvVec3;
 
-void BTLV_CAMERA_SetEyeAndTarget(struct BtlvCamera *camera, BtlvEffVmVec *eye, BtlvEffVmVec *target);
+void BTLV_CAMERA_SetEyeAndTarget(struct BtlvCamera *camera, struct BtlvVec3 *eye, struct BtlvVec3 *target);
 
 void BTLV_CAMERA_RotateOrbit(struct BtlvCamera *camera, int yaw, int pitch);
 
-void BTLV_CAMERA_StartMove(struct BtlvCamera *camera, BtlvEffVmVec *a, BtlvEffVmVec *b, int n, int s, int t);
+void BTLV_CAMERA_StartMove(struct BtlvCamera *camera, struct BtlvVec3 *eyeDest, struct BtlvVec3 *targetDest, s32 frames, s32 delay, s32 easeCount);
 
 void BTLV_CAMERA_StartMoveWithEasing(struct BtlvCamera *camera, int mode, fx32 v, int unused, int n, int g, int h);
 
-void BTLV_CAMERA_GetEyeAndTarget(struct BtlvCamera *camera, BtlvEffVmVec *eye, BtlvEffVmVec *target);
+void BTLV_CAMERA_GetEyeAndTarget(struct BtlvCamera *camera, struct BtlvVec3 *eyeOut, struct BtlvVec3 *targetOut);
 
-void BTLV_CAMERA_AdvanceOrbitEye(struct BtlvCamera *camera, int yaw, int pitch, BtlvEffVmVec *eye, BtlvEffVmVec *target);
+void BTLV_CAMERA_AdvanceOrbitEye(struct BtlvCamera *camera, s32 dPitch, s32 dYaw, struct BtlvVec3 *eyeOut, struct BtlvVec3 *targetBase);
 
-void BTLV_CAMERA_GetDefaultEyeAndTarget(BtlvEffVmVec *eye, BtlvEffVmVec *target);
+void BTLV_CAMERA_GetDefaultEyeAndTarget(struct BtlvVec3 *eyeOut, struct BtlvVec3 *targetOut);
 
 int BTLV_CAMERA_IsMoving(struct BtlvCamera *camera);
 
@@ -517,11 +524,11 @@ BtlvMcssWork *BTLV_EFFECT_GetMcss(void);
 
 BtlvGaugeWork *BTLV_EFFECT_GetGauge(void);
 
-int BTLV_EFFECT_GetPalanm(void);
+struct PalAnmSlot *BTLV_EFFECT_GetPalanm(void);
 
 BtlvClact *BTLV_EFFECT_GetClact(void);
 
-int BTLV_EFFECT_GetBg(void);
+struct BtlvBg *BTLV_EFFECT_GetBg(void);
 
 int BTLV_EFFECT_GetMode(void);
 
@@ -834,24 +841,25 @@ void BTLV_MCSS_SetAnimStopMode(BtlvMcssWork *mcss, int key, int mode);
 int BTLV_MCSS_IsVanished(BtlvMcssWork *mcss, int key);
 
 void BTLV_MCSS_SetVanishMode(BtlvMcssWork *mcss, int key, int kind);
+struct BtlvMcssWork;
 
-void BTLV_MCSS_GetSlotPosition(BtlvMcssWork *mcss, void *out, int idx);
+void BTLV_MCSS_GetSlotPosition(struct BtlvMcssWork *work, struct BtlvVec3 *out, s32 pos);
 
-void BTLV_MCSS_GetSlotPositionForRule(BtlvMcssWork *mcss, BtlvEffVmVec *out, int idx, int kind);
+void BTLV_MCSS_GetSlotPositionForRule(struct BtlvVec3 *def, struct BtlvVec3 *out, s32 pos, s32 rule);
 
 int BTLV_MCSS_GetSlotScale(BtlvMcssWork *mcss, int i, int mode);
 
 void BTLV_MCSS_SetShadowVanish(BtlvMcssWork *mcss, int key, u8 v);
 
-void BTLV_MCSS_StartPositionTween(BtlvMcssWork *mcss, int key, int kind, BtlvEffVmVec *q, int a, int b, int c);
+void BTLV_MCSS_StartPositionTween(struct BtlvMcssWork *work, s32 pos, s32 kind, struct BtlvVec3 *target, s32 frames, s32 waitFrames, s32 repeat);
 
-void BTLV_MCSS_StartShadowScaleTween(BtlvMcssWork *mcss, int i, int kind, BtlvEffVmVec *q, int n, int f48, int f4c);
+void BTLV_MCSS_StartShadowScaleTween(struct BtlvMcssWork *work, s32 pos, s32 kind, struct BtlvVec3 *target, s32 frames, s32 waitFrames, s32 repeat);
 
-void BTLV_MCSS_StartScaleTween(BtlvMcssWork *mcss, int i, int kind, BtlvEffVmVec *q, int n, int f48, int f4c);
+void BTLV_MCSS_StartScaleTween(struct BtlvMcssWork *work, s32 pos, s32 kind, struct BtlvVec3 *target, s32 frames, s32 waitFrames, s32 repeat);
 
-void BTLV_MCSS_StartDrawScaleTween(BtlvMcssWork *mcss, int i, int kind, BtlvEffVmVec *q, int n, int f48, int f4c);
+void BTLV_MCSS_StartDrawScaleTween(struct BtlvMcssWork *work, s32 pos, s32 kind, struct BtlvVec3 *target, s32 frames, s32 waitFrames, s32 repeat);
 
-void BTLV_MCSS_StartRotateTween(BtlvMcssWork *mcss, int i, int kind, BtlvEffVmVec *q, int n, int f48, int f4c);
+void BTLV_MCSS_StartRotateTween(struct BtlvMcssWork *work, s32 pos, s32 kind, struct BtlvVec3 *target, s32 frames, s32 waitFrames, s32 repeat);
 
 void BTLV_MCSS_StartBlinkTask(BtlvMcssWork *mcss, int key, int kind, int a, int b);
 
@@ -1480,7 +1488,7 @@ int BTLV_EFFVM_CmdSetupCamera(struct ScriptVm *vm, BtlvEffVmWork *work)
         target.z = d_0220ACA0[4].z;
         break;
     default:
-        BTLV_CAMERA_GetDefaultEyeAndTarget(&eye, &target);
+        BTLV_CAMERA_GetDefaultEyeAndTarget((struct BtlvVec3 *)(&eye), (struct BtlvVec3 *)(&target));
         if (work->flags.bit.cameraOffset) {
             BTLV_EFFVM_SpriteCleanupTaskMain(0x1000, 0x1000, frames, easeIn, 0);
             work->flags.bit.cameraOffset = 0;
@@ -1489,10 +1497,10 @@ int BTLV_EFFVM_CmdSetupCamera(struct ScriptVm *vm, BtlvEffVmWork *work)
     }
     switch (moveType) {
     case 0:
-        BTLV_CAMERA_SetEyeAndTarget(BTLV_EFFECT_GetCamera(), &eye, &target);
+        BTLV_CAMERA_SetEyeAndTarget(BTLV_EFFECT_GetCamera(), (struct BtlvVec3 *)(&eye), (struct BtlvVec3 *)(&target));
         break;
     case 1:
-        BTLV_CAMERA_StartMove(BTLV_EFFECT_GetCamera(), &eye, &target, frames, easeIn, easeMode);
+        BTLV_CAMERA_StartMove(BTLV_EFFECT_GetCamera(), (struct BtlvVec3 *)(&eye), (struct BtlvVec3 *)(&target), frames, easeIn, easeMode);
         break;
     }
     return work->result;
@@ -1522,16 +1530,16 @@ int BTLV_EFFVM_CmdMoveCameraTo(struct ScriptVm *vm, BtlvEffVmWork *work)
     BTLV_EFFVM_RefreshMcssOrtho(work);
     switch (moveType) {
     case 0:
-        BTLV_CAMERA_SetEyeAndTarget(BTLV_EFFECT_GetCamera(), &eye, &target);
+        BTLV_CAMERA_SetEyeAndTarget(BTLV_EFFECT_GetCamera(), (struct BtlvVec3 *)(&eye), (struct BtlvVec3 *)(&target));
         break;
     case 1:
-        BTLV_CAMERA_StartMove(BTLV_EFFECT_GetCamera(), &eye, &target, frames, easeIn, easeMode);
+        BTLV_CAMERA_StartMove(BTLV_EFFECT_GetCamera(), (struct BtlvVec3 *)(&eye), (struct BtlvVec3 *)(&target), frames, easeIn, easeMode);
         break;
     case 2:
-        BTLV_CAMERA_GetEyeAndTarget(BTLV_EFFECT_GetCamera(), &curEye, &curTarget);
+        BTLV_CAMERA_GetEyeAndTarget(BTLV_EFFECT_GetCamera(), (struct BtlvVec3 *)(&curEye), (struct BtlvVec3 *)(&curTarget));
         VEC_Add(&curEye, &eye, &eye);
         VEC_Add(&curTarget, &target, &target);
-        BTLV_CAMERA_StartMove(BTLV_EFFECT_GetCamera(), &eye, &target, frames, easeIn, easeMode);
+        BTLV_CAMERA_StartMove(BTLV_EFFECT_GetCamera(), (struct BtlvVec3 *)(&eye), (struct BtlvVec3 *)(&target), frames, easeIn, easeMode);
         break;
     }
     return work->result;
@@ -1560,8 +1568,8 @@ int BTLV_EFFVM_CmdRotateCameraOrbit(struct ScriptVm *vm, BtlvEffVmWork *work)
         BTLV_CAMERA_RotateOrbit(BTLV_EFFECT_GetCamera(), yaw, pitch);
         break;
     case 1:
-        BTLV_CAMERA_AdvanceOrbitEye(BTLV_EFFECT_GetCamera(), yaw, pitch, &eye, &target);
-        BTLV_CAMERA_StartMove(BTLV_EFFECT_GetCamera(), &eye, &target, frames, easeIn, easeMode);
+        BTLV_CAMERA_AdvanceOrbitEye(BTLV_EFFECT_GetCamera(), yaw, pitch, (struct BtlvVec3 *)(&eye), (struct BtlvVec3 *)(&target));
+        BTLV_CAMERA_StartMove(BTLV_EFFECT_GetCamera(), (struct BtlvVec3 *)(&eye), (struct BtlvVec3 *)(&target), frames, easeIn, easeMode);
         break;
     }
     return work->result;
@@ -1614,7 +1622,7 @@ int BTLV_EFFVM_CmdSetBillboardMode(struct ScriptVm *vm, BtlvEffVmWork *work)
 int BTLV_EFFVM_CmdSaveCameraPosition(int vm, BtlvEffVmWork *work)
 {
     work->camVecSaved = 1;
-    BTLV_CAMERA_GetEyeAndTarget(BTLV_EFFECT_GetCamera(), &work->camEye, &work->camTarget);
+    BTLV_CAMERA_GetEyeAndTarget(BTLV_EFFECT_GetCamera(), (struct BtlvVec3 *)(&work->camEye), (struct BtlvVec3 *)(&work->camTarget));
     return work->result;
 }
 
@@ -1773,7 +1781,7 @@ int BTLV_EFFVM_CmdStartParticleEffectTargeted(struct ScriptVm *vm, BtlvEffVmWork
         projection.nearZ = 0x1000;
         projection.farZ = 0x200000;
         projection.projScale = 0x1000;
-        if (PARTICLE_EMITTER_GetBlock(work->emitters[slot]) == 0)
+        if (PARTICLE_EMITTER_GetBlock((struct Obj3D *)work->emitters[slot]) == 0)
             PARTICLE_InitCamera(work->emitters[slot], &projection, 0x2000, &cameraPos, &cameraTarget, &cameraUp, (u16)((work->heapId & 0x7fff) | 0x8000));
         BTLV_EFFVM_StartParticleEffectInternal(work, req, slot, effectIdx);
     }
@@ -1820,7 +1828,7 @@ int BTLV_EFFVM_CmdStartParticleEffectForEachInstance(struct ScriptVm *vm, BtlvEf
             projection.nearZ = 0x1000;
             projection.farZ = 0x200000;
             projection.projScale = 0x1000;
-            if (PARTICLE_EMITTER_GetBlock(work->emitters[slot]) == 0)
+            if (PARTICLE_EMITTER_GetBlock((struct Obj3D *)work->emitters[slot]) == 0)
                 PARTICLE_InitCamera(work->emitters[slot], &projection, 0x2000, &cameraPos, &cameraTarget, &cameraUp, (u16)((work->heapId & 0x7fff) | 0x8000));
             req->mode = 2;
         }
@@ -1955,7 +1963,7 @@ int BTLV_EFFVM_CmdStartParticleEffectTargetedOffset(struct ScriptVm *vm, BtlvEff
         projection.nearZ = 0x1000;
         projection.farZ = 0x200000;
         projection.projScale = 0x1000;
-        if (PARTICLE_EMITTER_GetBlock(work->emitters[slot]) == 0)
+        if (PARTICLE_EMITTER_GetBlock((struct Obj3D *)work->emitters[slot]) == 0)
             PARTICLE_InitCamera(work->emitters[slot], &projection, 0x2000, &cameraPos, &cameraTarget, &cameraUp, (work->heapId & 0x7fff) | 0x8000);
         if (PARTICLE_StartEffectWithCallback(work->emitters[slot], effectIdx, BTLV_EFFVM_ParticleStartCallback, (int)req) == -1) {
             GFL_HEAP_Free(req);
@@ -2010,7 +2018,7 @@ int BTLV_EFFVM_CmdStartParticleEffectTargetedConstOffset(struct ScriptVm *vm, Bt
         projection.nearZ = 0x1000;
         projection.farZ = 0x200000;
         projection.projScale = 0x1000;
-        if (PARTICLE_EMITTER_GetBlock(work->emitters[slot]) == 0)
+        if (PARTICLE_EMITTER_GetBlock((struct Obj3D *)work->emitters[slot]) == 0)
             PARTICLE_InitCamera(work->emitters[slot], &projection, 0x2000, &cameraPos, &cameraTarget, &cameraUp, (work->heapId & 0x7fff) | 0x8000);
         if (PARTICLE_StartEffectWithCallback(work->emitters[slot], effectIdx, BTLV_EFFVM_ParticleStartCallback, (int)req) == -1) {
             GFL_HEAP_Free(req);
@@ -2059,7 +2067,7 @@ int BTLV_EFFVM_CmdStartPokePositionTween(struct ScriptVm *vm, BtlvEffVmWork *wor
     repeat = VM_GetU32(vm);
     if (targetCount != 0) {
         for (; targetIdx < targetCount; targetIdx++)
-            BTLV_MCSS_StartPositionTween(BTLV_EFFECT_GetMcss(), targetIds[targetIdx], kind, &target, frames, waitFrames, repeat);
+            BTLV_MCSS_StartPositionTween(BTLV_EFFECT_GetMcss(), targetIds[targetIdx], kind, (struct BtlvVec3 *)(&target), frames, waitFrames, repeat);
     }
     return work->result;
 }
@@ -2142,7 +2150,7 @@ int BTLV_EFFVM_CmdStartPokeShadowScaleTween(struct ScriptVm *vm, BtlvEffVmWork *
     repeat = VM_GetU32(vm);
     if (targetCount != 0) {
         for (targetIdx = 0; targetIdx < targetCount; targetIdx++)
-            BTLV_MCSS_StartShadowScaleTween(BTLV_EFFECT_GetMcss(), targetIds[targetIdx], kind, &target, frames, waitFrames, repeat);
+            BTLV_MCSS_StartShadowScaleTween(BTLV_EFFECT_GetMcss(), targetIds[targetIdx], kind, (struct BtlvVec3 *)(&target), frames, waitFrames, repeat);
     }
     return work->result;
 }
@@ -2169,7 +2177,7 @@ int BTLV_EFFVM_CmdStartPokeRotateTween(struct ScriptVm *vm, BtlvEffVmWork *work)
     repeat = VM_GetU32(vm);
     if (targetCount != 0) {
         for (; targetIdx < targetCount; targetIdx++)
-            BTLV_MCSS_StartRotateTween(BTLV_EFFECT_GetMcss(), targetIds[targetIdx], kind, &target, frames, waitFrames, repeat);
+            BTLV_MCSS_StartRotateTween(BTLV_EFFECT_GetMcss(), targetIds[targetIdx], kind, (struct BtlvVec3 *)(&target), frames, waitFrames, repeat);
     }
     return work->result;
 }
@@ -2334,7 +2342,7 @@ int BTLV_EFFVM_CmdStartPokeShadowScaleTweenSecondary(struct ScriptVm *vm, BtlvEf
     repeat = VM_GetU32(vm);
     if (targetCount != 0) {
         for (targetIdx = 0; targetIdx < targetCount; targetIdx++)
-            BTLV_MCSS_StartDrawScaleTween(BTLV_EFFECT_GetMcss(), targetIds[targetIdx], kind, &target, frames, waitFrames, repeat);
+            BTLV_MCSS_StartDrawScaleTween(BTLV_EFFECT_GetMcss(), targetIds[targetIdx], kind, (struct BtlvVec3 *)(&target), frames, waitFrames, repeat);
     }
     return work->result;
 }
@@ -2386,7 +2394,7 @@ int BTLV_EFFVM_CmdSetPokePosition(struct ScriptVm *vm, BtlvEffVmWork *work)
     frames = VM_GetU32(vm);
     waitFrames = VM_GetU32(vm);
     repeat = VM_GetU32(vm);
-    BTLV_MCSS_StartPositionTween(BTLV_EFFECT_GetMcss(), targetPos, kind, &target, frames, waitFrames, repeat);
+    BTLV_MCSS_StartPositionTween(BTLV_EFFECT_GetMcss(), targetPos, kind, (struct BtlvVec3 *)(&target), frames, waitFrames, repeat);
     return work->result;
 }
 
@@ -2489,9 +2497,9 @@ int BTLV_EFFVM_CmdSetBlendRegister(struct ScriptVm *vm, BtlvEffVmWork *work)
     VM_GetU32(vm);
     VM_GetU32(vm);
     if (blendLevel == 0x1f)
-        G2x_SetBlendAlpha_(0x04000050, 2, 0x3d, 0x1f, 7);
+        G2x_SetBlendAlpha_((u32 *)0x04000050, 2, 0x3d, 0x1f, 7);
     else
-        G2x_SetBlendAlpha_(0x04000050, 10, 0x35, 0x1f, blendLevel);
+        G2x_SetBlendAlpha_((u32 *)0x04000050, 10, 0x35, 0x1f, blendLevel);
     work->flags.bit.blendActive = 1;
     return work->result;
 }
@@ -2555,7 +2563,7 @@ int BTLV_EFFVM_CmdLoadClactAtPoke(struct ScriptVm *vm, BtlvEffVmWork *work)
     dy = VM_GetU32(vm);
     scaleX = VM_GetU32(vm);
     scaleY = VM_GetU32(vm);
-    BTLV_MCSS_GetSlotPosition(BTLV_EFFECT_GetMcss(), &pos, battlerPos);
+    BTLV_MCSS_GetSlotPosition(BTLV_EFFECT_GetMcss(), (struct BtlvVec3 *)(&pos), battlerPos);
     pos.x += dx;
     pos.y += dy;
     NNS_G3dWorldPosToScrPos(&pos, &screenX, &screenY);
@@ -2890,7 +2898,7 @@ void BTLV_EFFVM_CompareAndJump(struct ScriptVm *vm, int lhs, int rhs, int op, in
         break;
     }
     if (cond == 1)
-        VM_Jump(vm, (u32)vm->pc + off);
+        VM_Jump(vm, (u8 *)vm->pc + off);
 }
 
 /*
@@ -2903,7 +2911,7 @@ int BTLV_EFFVM_CmdJumpIfPokeLoaded(struct ScriptVm *vm, BtlvEffVmWork *work)
     int jumpOffset = VM_GetU32(vm);
 
     if (expected == BTLV_EFFECT_IsPokeSpriteLoaded(pos))
-        VM_Jump(vm, (u32)vm->pc + jumpOffset);
+        VM_Jump(vm, (u8 *)vm->pc + jumpOffset);
     return work->result;
 }
 
@@ -3066,7 +3074,7 @@ int BTLV_EFFVM_CmdLoadClactFromPoke(struct ScriptVm *vm, BtlvEffVmWork *work)
     int screenY;
     int typeIdx;
 
-    BTLV_MCSS_GetSlotPosition(BTLV_EFFECT_GetMcss(), &pos, battlerPos);
+    BTLV_MCSS_GetSlotPosition(BTLV_EFFECT_GetMcss(), (struct BtlvVec3 *)(&pos), battlerPos);
     pos.x += dx;
     pos.y += dy;
     NNS_G3dWorldPosToScrPos(&pos, &screenX, &screenY);
@@ -3094,7 +3102,7 @@ int BTLV_EFFVM_CmdCallScript(struct ScriptVm *vm, BtlvEffVmWork *work)
     work->scriptVar = 0;
     file = ARC_TOOL_LoadMember(0x43, scriptId - 0x231, (u16)((work->heapId & 0x7fff) | 0x8000));
     work->scriptBuf = file;
-    VM_Call(vm, (u32)file + file->variant[0].entryOffset);
+    VM_Call(vm, (u8 *)file + file->variant[0].entryOffset);
     work->callDepth++;
     return work->result;
 }
@@ -3120,7 +3128,7 @@ int BTLV_EFFVM_CmdReturnScript(int vm, BtlvEffVmWork *work)
 int BTLV_EFFVM_CmdJumpScript(struct ScriptVm *vm, BtlvEffVmWork *work)
 {
     int off = VM_GetU32(vm);
-    VM_Jump(vm, (u32)vm->pc + off);
+    VM_Jump(vm, (u8 *)vm->pc + off);
     return work->result;
 }
 
@@ -3150,7 +3158,7 @@ int BTLV_EFFVM_CmdJumpToArchiveScript(struct ScriptVm *vm, BtlvEffVmWork *work)
         work->scriptBuf = ARC_TOOL_LoadMember((int)0x43, (int)(id - 0x231), (u16)((work->heapId & 0x7fff) | 0x8000));
     file = work->scriptBuf;
     work->scriptVar = 0;
-    VM_Jump(vm, (u32)file + file->variant[0].entryOffset);
+    VM_Jump(vm, (u8 *)file + file->variant[0].entryOffset);
     return work->result;
 }
 
@@ -3224,7 +3232,7 @@ int BTLV_EFFVM_ReleaseScriptResources(struct ScriptVm *vm, BtlvEffVmWork *work)
         BG_SYS_ChangeScrollImmediate(3, 3, work->bg3ScrollY);
     }
     if (work->flags.bit.blendActive) {
-        G2x_SetBlendAlpha_(0x04000050, 2, 0x3d, 0x1f, 7);
+        G2x_SetBlendAlpha_((u32 *)0x04000050, 2, 0x3d, 0x1f, 7);
         work->flags.bit.blendActive = 0;
     }
     if (work->flags.bit.stopSeOnEnd)
@@ -3911,11 +3919,11 @@ void BTLV_EFFVM_ParticleStartCallback(void *emitter)
         srcPos.z = req->fixedSrc.z;
         break;
     case 14: case 15: case 16: case 17:
-        BTLV_MCSS_GetSlotPositionForRule(BTLV_EFFECT_GetMcss(), &srcPos, req->srcKey - 12, 1);
+        BTLV_MCSS_GetSlotPositionForRule((struct BtlvVec3 *)(BTLV_EFFECT_GetMcss()), (struct BtlvVec3 *)(&srcPos), req->srcKey - 12, 1);
         req->srcKey = -1;
         break;
     case 18: case 19: case 20: case 21:
-        BTLV_MCSS_GetSlotPositionForRule(BTLV_EFFECT_GetMcss(), &srcPos, req->srcKey - 16, 1);
+        BTLV_MCSS_GetSlotPositionForRule((struct BtlvVec3 *)(BTLV_EFFECT_GetMcss()), (struct BtlvVec3 *)(&srcPos), req->srcKey - 16, 1);
         switch (req->srcKey) {
         case 18: srcPos.z += 0x1a00; break;
         case 19: srcPos.z += 0x2600; break;
@@ -3926,7 +3934,7 @@ void BTLV_EFFVM_ParticleStartCallback(void *emitter)
         break;
     }
     if (req->srcKey != -1 && req->srcKey != 8)
-        BTLV_MCSS_GetSlotPosition(BTLV_EFFECT_GetMcss(), &srcPos, req->srcKey);
+        BTLV_MCSS_GetSlotPosition(BTLV_EFFECT_GetMcss(), (struct BtlvVec3 *)(&srcPos), req->srcKey);
     switch (req->dstKey) {
     case 0: case 1: case 2: case 3: case 4: case 5: case 6: case 7:
         req->dstKey = BTLV_EFFVM_ResolveSideFromVm(req->vm, req->dstKey);
@@ -3942,7 +3950,7 @@ void BTLV_EFFVM_ParticleStartCallback(void *emitter)
         flip = 1;
     case 11:
         dstMode = BTLV_EFFVM_ResolveAnchorSlot(req->vm, &req->dstKey);
-        BTLV_MCSS_GetSlotPositionForRule(BTLV_EFFECT_GetMcss(), &dstPos, req->dstKey, dstMode);
+        BTLV_MCSS_GetSlotPositionForRule((struct BtlvVec3 *)(BTLV_EFFECT_GetMcss()), (struct BtlvVec3 *)(&dstPos), req->dstKey, dstMode);
         req->dstKey = -1;
         break;
     case 8:
@@ -3951,11 +3959,11 @@ void BTLV_EFFVM_ParticleStartCallback(void *emitter)
         dstPos.z = req->fixedDst.z;
         break;
     case 14: case 15: case 16: case 17:
-        BTLV_MCSS_GetSlotPositionForRule(BTLV_EFFECT_GetMcss(), &dstPos, req->dstKey - 12, 1);
+        BTLV_MCSS_GetSlotPositionForRule((struct BtlvVec3 *)(BTLV_EFFECT_GetMcss()), (struct BtlvVec3 *)(&dstPos), req->dstKey - 12, 1);
         req->dstKey = -1;
         break;
     case 18: case 19: case 20: case 21:
-        BTLV_MCSS_GetSlotPositionForRule(BTLV_EFFECT_GetMcss(), &dstPos, req->dstKey - 16, 1);
+        BTLV_MCSS_GetSlotPositionForRule((struct BtlvVec3 *)(BTLV_EFFECT_GetMcss()), (struct BtlvVec3 *)(&dstPos), req->dstKey - 16, 1);
         switch (req->srcKey) {
         case 18: dstPos.z += 0x1a00; break;
         case 19: dstPos.z += 0x2600; break;
@@ -3966,7 +3974,7 @@ void BTLV_EFFVM_ParticleStartCallback(void *emitter)
         break;
     }
     if (req->dstKey != -1 && req->dstKey != 8)
-        BTLV_MCSS_GetSlotPosition(BTLV_EFFECT_GetMcss(), &dstPos, req->dstKey);
+        BTLV_MCSS_GetSlotPosition(BTLV_EFFECT_GetMcss(), (struct BtlvVec3 *)(&dstPos), req->dstKey);
     BTLV_EFFECT_GetMode();
     srcPos.z += 0x500;
     dstPos.z += 0x500;
@@ -3985,7 +3993,7 @@ void BTLV_EFFVM_ParticleStartCallback(void *emitter)
     dstPos.y += req->offset.y;
     if (req->motionKind != 0) {
         work = VM_GetContext((void *)req->vm);
-        (BtlvEffVmEmitterMotion *)work->allocBuffers[work->allocBufferCount] = GFL_HEAP_Alloc((u16)((work->heapId & 0x7fff) | 0x8000), 0x60, 0, d_0220AE68, 0x194a);
+        work->allocBuffers[work->allocBufferCount] = GFL_HEAP_Alloc((u16)((work->heapId & 0x7fff) | 0x8000), 0x60, 0, d_0220AE68, 0x194a);
         motion = (BtlvEffVmEmitterMotion *)work->allocBuffers[work->allocBufferCount];
         PARTICLE_EMITTER_SetUserData(emitter, (int)motion);
         PARTICLE_EMITTER_SetCallback(emitter, (int)BTLV_EFFVM_ParticleMotionStep);
@@ -4034,7 +4042,7 @@ void BTLV_EFFVM_ParticleStartCallback(void *emitter)
         angle = FX_AcosIdx(VEC_DotProduct((const BtlvEffVmVec *)&refAxis, (const BtlvEffVmVec *)&travelDir));
         VEC_CrossProduct((const BtlvEffVmVec *)&refAxis, (const BtlvEffVmVec *)&travelDir, &rotAxis);
         VEC_Normalize((const BtlvEffVmVec *)&rotAxis, &rotAxis);
-        MTX_RotAxis43(motion, (const BtlvEffVmVec *)&rotAxis, FX_SinCosTable_[(angle >> 4) * 2], FX_SinCosTable_[(angle >> 4) * 2 + 1]);
+        MTX_RotAxis43((void *)motion, (void *)&rotAxis, FX_SinCosTable_[(angle >> 4) * 2], FX_SinCosTable_[(angle >> 4) * 2 + 1]);
         motion->pos.x = srcPos.x;
         motion->pos.y = srcPos.y;
         motion->pos.z = srcPos.z;
@@ -4058,7 +4066,7 @@ void BTLV_EFFVM_ParticleStartCallback(void *emitter)
         angle = FX_AcosIdx(VEC_DotProduct((const BtlvEffVmVec *)&fromDirXZ, (const BtlvEffVmVec *)&toDirXZ));
         VEC_CrossProduct((const BtlvEffVmVec *)&fromDirXZ, (const BtlvEffVmVec *)&toDirXZ, &turnAxis);
         VEC_Normalize((const BtlvEffVmVec *)&turnAxis, &turnAxis);
-        MTX_RotAxis43(&turnMatrix, (const BtlvEffVmVec *)&turnAxis, FX_SinCosTable_[(angle >> 4) * 2], FX_SinCosTable_[(angle >> 4) * 2 + 1]);
+        MTX_RotAxis43((void *)(&turnMatrix), (void *)&turnAxis, FX_SinCosTable_[(angle >> 4) * 2], FX_SinCosTable_[(angle >> 4) * 2 + 1]);
         fromDirXZ.x = emitterDir.dir.x;
         fromDirXZ.y = emitterDir.dir.y;
         fromDirXZ.z = emitterDir.dir.z;
@@ -4236,7 +4244,7 @@ void BTLV_EFFVM_PlaySeWithParams(u32 seId, int slot, int pan, int pitch, unsigne
         GFL_USE_PlaySeDefaultVolume(seId);
         slot = GFL_USE_GetSeSlot(seId);
     } else {
-        GFL_USE_PlaySeInSlot((void *)seId, slot);
+        GFL_USE_PlaySeInSlot((u32)seId, slot);
     }
     NNS_SndHandleSetVolume(GFL_USE_GetSeHandle(slot), volume);
     GFL_USE_SetSeSlotParams(slot, -1, -1, pan);
@@ -4387,7 +4395,7 @@ int BTLV_EFFVM_SetupEmitterCallbacks(void *vm, BtlvEffVmWork *work, int mode)
     if (idx == 16)
         goto end;
     if (mode == 1) {
-        if (PARTICLE_EMITTER_GetBlock(work->emitters[idx]) == 0) {
+        if (PARTICLE_EMITTER_GetBlock((struct Obj3D *)work->emitters[idx]) == 0) {
             struct ParticleCameraParams projection;
             BtlvEffVmVec cameraPos = {0, 0, 0};
             BtlvEffVmVec cameraTarget;
@@ -4409,12 +4417,12 @@ int BTLV_EFFVM_SetupEmitterCallbacks(void *vm, BtlvEffVmWork *work, int mode)
     case 0:
     case 1:
         anchorPos = BTLV_EFFVM_ResolveSlotKey(vm, 14);
-        BTLV_MCSS_GetSlotPosition(BTLV_EFFECT_GetMcss(), &motion->center, anchorPos);
+        BTLV_MCSS_GetSlotPosition(BTLV_EFFECT_GetMcss(), (struct BtlvVec3 *)(&motion->center), anchorPos);
         break;
     case 2:
     case 3:
         anchorPos = BTLV_EFFVM_ResolveSlotKey(vm, 16);
-        BTLV_MCSS_GetSlotPosition(BTLV_EFFECT_GetMcss(), &motion->center, anchorPos);
+        BTLV_MCSS_GetSlotPosition(BTLV_EFFECT_GetMcss(), (struct BtlvVec3 *)(&motion->center), anchorPos);
         break;
     case 4:
     case 5:
@@ -4855,7 +4863,7 @@ void BTLV_EFFVM_SpriteCleanupTaskMain(fx32 scaleEven, fx32 scaleOdd, int frames,
             scale.x = newScale;
             scale.y = newScale;
             scale.z = 1 << 12;
-            BTLV_MCSS_StartScaleTween(BTLV_EFFECT_GetMcss(), i, 1, &scale, frames, waitFrames, repeats);
+            BTLV_MCSS_StartScaleTween(BTLV_EFFECT_GetMcss(), i, 1, (struct BtlvVec3 *)(&scale), frames, waitFrames, repeats);
         }
     }
 }

@@ -26,8 +26,9 @@ typedef struct LearnsetEntry {
     u16 move;
     u16 level;
 } LearnsetEntry;
+struct PokemonParam;
 
-extern unsigned int POKE_TOOL_GetPartyValue(void *a, unsigned int b, unsigned int c);
+extern unsigned int POKE_TOOL_GetPartyValue(struct PokemonParam *pp, u32 paramId, u32 arg);
 
 extern void *GFL_HEAP_Alloc(u32 heap, u32 size, int clear, const char *site, u16 tag);
 

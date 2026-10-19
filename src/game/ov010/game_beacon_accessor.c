@@ -262,7 +262,7 @@ extern void STRBUF_SetStringN(struct Strbuf *str, const u16 *src, u32 length);
 
 extern u32 SYMBOL_SAVE_ReadBitField(const u8 *bits, int id);
 
-extern const u16 *OSi_GetOwnerInfoExBuffer(void);
+extern char *OSi_GetOwnerInfoExBuffer(void);
 
 extern void STRBUF_Clear(struct Strbuf *str);
 
@@ -477,7 +477,7 @@ u8 GAME_BEACON_ACCESSOR_GetResearchTeamRank(const GameBeaconInfo *info)
 void GAME_BEACON_ACCESSOR_GetFavoriteColorRgb(u16 *rgb, const GameBeaconInfo *info)
 {
     int color = info->favoriteColor;
-    const u16 *colorTable = OSi_GetOwnerInfoExBuffer();
+    const u16 *colorTable = (u16 *)OSi_GetOwnerInfoExBuffer();
 
     *rgb = colorTable[color & 0xF];
 }
@@ -767,7 +767,7 @@ extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
 
 extern void STRBUF_Delete(struct Strbuf *buf);
 
-extern void WORDSET_SetSlotTag(struct WordSet *wordSet, u32 bufferIndex, const void *str, u32 sex, u32 flag, u32 language);
+extern void WORDSET_SetSlotTag(struct WordSet *words, u32 slot, struct Strbuf *src, u32 grammarCase, u32 isPlural, u32 gender);
 
 extern void WORDSET_SetSlotSpeciesName(struct WordSet *wordSet, u32 bufferIndex, u16 value);
 
@@ -779,7 +779,7 @@ extern void WORDSET_SetSlotFromMsg117(struct WordSet *wordSet, u32 bufferIndex, 
 
 extern void WORDSET_SetSlotNumber(struct WordSet *wordSet, u32 bufferIndex, u32 value, u32 digits, u32 padding, u32 flag);
 
-extern void WORDSET_SetSlotPokeData(struct WordSet *wordSet, u32 bufferIndex, u32 value);
+extern void WORDSET_SetSlotPokeData(struct WordSet *words, u32 slot, void *source);
 
 extern void WORDSET_SetSlotFromMsgBE(struct WordSet *wordSet, u32 bufferIndex, u32 value);
 
@@ -850,7 +850,7 @@ void GAME_BEACON_ACCESSOR_RegisterRecordWords(GameBeaconInfo *info, struct WordS
     switch (printKind) {
     case BEACON_PRINT_TRAINER_NO:
         value = GAME_BEACON_ACCESSOR_GetActionTrainerNo(info);
-        WORDSET_SetSlotPokeData(wordSet, 1, value);
+        WORDSET_SetSlotPokeData(wordSet, 1, (void *)value);
         WORDSET_SetSlotFromMsgBE(wordSet, 2, value);
         break;
     case BEACON_PRINT_MONS_NO:

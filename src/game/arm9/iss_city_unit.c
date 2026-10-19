@@ -20,6 +20,9 @@
  *   _double_arith_prelude   0x0209AC04  arm
  *   _d2s            0x0209C508  arm
  *   ARC_TOOL_LoadMemberRange  0x02048F88  arm
+ *   _dadd                        0x0209AC04  arm
+ *   _dfix                        0x0209C508  arm
+ *   _dflt                        0x0209B750  arm
  */
 #include "iss_city_sys_shared_types.h"
 

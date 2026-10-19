@@ -100,7 +100,7 @@ extern int  GFL_NET_SYSTEM_GetChildRingDataSize(void);
 extern struct GFLNetHandle *GFL_NET_HANDLE_GetNetHandle(s32 netId);
 extern struct GFLNetHandle *GFL_NET_HANDLE_GetCurrentHandle(void);
 extern u32 GFL_NET_GetHandleNetID(struct GFLNetHandle *pNet);
-extern u32 GFL_NET_SendDataMask(struct GFLNetHandle *pNet, u32 sendTarget, u32 code, u32 size, u32 data, u32 bFast, u32 bRepeat, u32 bSendBuff);
+extern u32 GFL_NET_SendDataMask(struct GFLNetHandle *handle, unsigned int targetMask, unsigned int command, unsigned int size, void *data, unsigned int sendFlags, unsigned int skipIfQueued, unsigned int queueMode);
 extern char sSrcFileName[];
 extern char sAssertWorkIsNull[];
 extern char sAssertWorkNotNull[];
@@ -319,7 +319,7 @@ u32 GFL_NET_LOWER_DATA_SendChunk(int size)
         handle = GFL_NET_HANDLE_GetNetHandle(NET_LDATA_NETID_SERVER);
     else
         handle = GFL_NET_HANDLE_GetCurrentHandle();
-    return GFL_NET_SendDataMask(handle, _pNetLdataWork->sendTarget, NET_LDATA_CMD_DATA, size, dataAddr, 0, 1, 1);
+    return GFL_NET_SendDataMask(handle, _pNetLdataWork->sendTarget, NET_LDATA_CMD_DATA, size, (void *)dataAddr, 0, 1, 1);
 }
 
 
@@ -397,7 +397,7 @@ int GFL_NET_LOWER_DATA_SendControl(int kind)
         handle = GFL_NET_HANDLE_GetCurrentHandle();
     header.kind = kind;
     header.size = _pNetLdataWork->sendSize;
-    return GFL_NET_SendDataMask(handle, _pNetLdataWork->sendTarget, NET_LDATA_CMD_CONTROL, 4, (u32)(&header), 0, 1, 0);
+    return GFL_NET_SendDataMask(handle, _pNetLdataWork->sendTarget, NET_LDATA_CMD_CONTROL, 4, (&header), 0, 1, 0);
 }
 
 

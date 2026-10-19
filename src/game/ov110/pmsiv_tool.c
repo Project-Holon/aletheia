@@ -35,7 +35,7 @@ extern void TCB_DeleteTask(struct Node *n);
 
 extern void BG_SYS_ChangeScrollImmediate(u32, u32, u32);
 
-extern void G2x_SetBlendAlpha_(void *, int, int, int, int);
+extern void G2x_SetBlendAlpha_(u32 *reg, u32 a, u32 b, u32 c, u32 d);
 
 extern unsigned int BG_SYS_GetChannelScrollX(u8 channel);
 

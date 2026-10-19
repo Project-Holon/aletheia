@@ -41,8 +41,8 @@ typedef void (*MIDmaCallback)(void *arg);
 
 extern void MIi_CpuSend32(const void *src, void *dst, u32 n);
 extern int  OS_IsRunOnTwl(void);
-extern void MI_SendNDmaGXCommandAsyncFast(u32 ndma, const void *src, u32 sz, MIDmaCallback cb, void *arg);
-extern void MI_SendNDmaGXCommandAsync(u32 ndma, const void *src, u32 sz, MIDmaCallback cb, void *arg);
+extern void MI_SendNDmaGXCommandAsyncFast(unsigned int ch, unsigned int src, unsigned int size, MIDmaCallback cb, unsigned int arg);
+extern void MI_SendNDmaGXCommandAsync(unsigned int ch, unsigned int src, unsigned int size, MIDmaCallback cb, unsigned int arg);
 extern void MI_SendGXCommandAsyncFast(u32 dma, const void *src, u32 sz, MIDmaCallback cb, void *arg);
 extern void MI_SendGXCommandAsync(u32 dma, const void *src, u32 sz, MIDmaCallback cb, void *arg);
 extern void MIi_CpuCopyFast(const void *src, void *dst, u32 n);
@@ -188,7 +188,7 @@ void NNS_G3dGeSendDL(const u32 *src, u32 sz)
             u32 id = GXi_DmaId;
             u32 dma = id > 3 ? (u32)-1 : id;
             if (dma == (u32)-1)
-                MI_SendNDmaGXCommandAsyncFast(id > 3 ? id - 4 : (u32)-1, src, sz, NNSi_G3dGeSendDLDone, (void *)&gNnsG3dGeState.busy);
+                MI_SendNDmaGXCommandAsyncFast((unsigned int)(id > 3 ? id - 4 : (u32)-1), (unsigned int)src, (unsigned int)sz, NNSi_G3dGeSendDLDone, (unsigned int)&gNnsG3dGeState.busy);
             else
                 MI_SendGXCommandAsyncFast(dma, src, sz, NNSi_G3dGeSendDLDone, (void *)&gNnsG3dGeState.busy);
         } else {
@@ -199,7 +199,7 @@ void NNS_G3dGeSendDL(const u32 *src, u32 sz)
             u32 id = GXi_DmaId;
             u32 dma = id > 3 ? (u32)-1 : id;
             if (dma == (u32)-1)
-                MI_SendNDmaGXCommandAsync(id > 3 ? id - 4 : (u32)-1, src, sz, NNSi_G3dGeSendDLDone, (void *)&gNnsG3dGeState.busy);
+                MI_SendNDmaGXCommandAsync((unsigned int)(id > 3 ? id - 4 : (u32)-1), (unsigned int)src, (unsigned int)sz, NNSi_G3dGeSendDLDone, (unsigned int)&gNnsG3dGeState.busy);
             else
                 MI_SendGXCommandAsync(dma, src, sz, NNSi_G3dGeSendDLDone, (void *)&gNnsG3dGeState.busy);
         } else {

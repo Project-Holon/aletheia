@@ -56,6 +56,8 @@
  *   FIELD_WFBC_DATA_LOCAL_GetNpcId  0x021867B0  thumb  ov020
  *   MI_CpuCopy8  0x02082D44  arm  arm9
  *   FIELD_WFBC_DATA_LOCAL_CountPeople  0x02186278  thumb  ov020
+ *   _u32_div_f                   0x0209C2B0  arm
+ *   _ull_mul                     0x0209C054  arm
  */
 struct ArcHandle;
 struct EventDataSystem;
@@ -78,28 +80,30 @@ typedef unsigned long long u64;
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32 GFL_HEAP_Free(void *p);
 extern void FLDMMDL_SysSetDrawEnable(struct MmdlSys *mmdlSys, int flag);
-extern struct LandDataPatch *LAND_DATA_PATCH_Create(u32 blockId, u32 heapId);
-extern void LAND_DATA_PATCH_OverwriteAttr(struct LandDataPatch *patch, void *attrBuf, u32 srcX, u32 srcZ, u32 dstX, u32 dstZ, u32 sizeX, u32 sizeZ);
-extern int LAND_DATA_PATCH_AddBuildModels(struct LandDataPatch *patch, int buildModelMan, int mapBlockIndex, int modelNum, int dstX, int dstZ);
-extern void LAND_DATA_PATCH_Delete(struct LandDataPatch *patch);
+extern unsigned int *LAND_DATA_PATCH_Create(u32 blockId, u32 heapId);
+extern void LAND_DATA_PATCH_OverwriteAttr(unsigned int patch, unsigned char *mapAttr, unsigned int srcX, unsigned int srcY, unsigned int dstX, unsigned int dstY, unsigned int width, unsigned int height);
+extern unsigned int LAND_DATA_PATCH_AddBuildModels(unsigned int patch, unsigned int bmodelMan, unsigned int mapIndex, unsigned int firstIndex, int offsetX, int offsetZ);
+extern void LAND_DATA_PATCH_Delete(void **patch);
 extern u32 ARC_TOOL_GetHandleMemberSize(struct ArcHandle *arc, u32 member);
-extern FieldWfbcConnectEntry *ARC_TOOL_LoadHandleMember(struct ArcHandle *arc, int member, u16 heapId);
+extern void *ARC_TOOL_LoadHandleMember(struct ArcHandle *arc, u32 memberIdx, u16 heapID);
 extern void EVENTDATA_SYSTEM_DisableConnect(struct EventDataSystem *eventData, u16 index);
-extern void *ARC_UTIL_LoadHandleMember(struct ArcHandle *arc, u32 member, u32 compressed, u32 heapId);
-extern void FIELD_CAMERA_SetSetting(u32 *camera, u32 value);
+extern void *ARC_UTIL_LoadHandleMember(void *narc, u32 fileID, u32 decompress, u16 heapID);
+struct FieldCamera;
+extern void FIELD_CAMERA_SetSetting(struct FieldCamera *camera, u32 settingId);
 extern void FIELD_WFBC_DATA_LOCAL_ApplyGiftMoodBonus(WfbcPerson *person);
-extern struct MyStatus *MYSTATUS_Create(int heapId);
+extern void *MYSTATUS_Create(int heapId);
 extern void MYSTATUS_Init(struct MyStatus *myStatus);
-extern u32 MYSTATUS_CopyName(struct MyStatus *myStatus, const u16 *name);
+extern void MYSTATUS_CopyName(u16 *dest, u16 *src);
 extern void MYSTATUS_SetId(struct MyStatus *myStatus, u32 id);
-extern void WORDSET_SetSlotMyStatus(struct WordSet *wordSet, u32 bufIndex, struct MyStatus *myStatus);
+extern void WORDSET_SetSlotMyStatus(struct WordSet *words, u32 slot, void *source);
 extern void FIELD_WFBC_DATA_LOCAL_ClearArrivalFlag(WfbcPerson *person);
 extern int FIELD_WFBC_DATA_LOCAL_HasArrivalFlag(WfbcPerson *person);
 extern struct WfbcNpcData *FIELD_WFBC_DATA_LOCAL_OpenNpcData(int type, int heapId);
 extern struct ArcHandle *ARC_TOOL_CreateHandle(unsigned int arcId, unsigned int heapId);
-extern u8 *FIELD_WFBC_DATA_LOCAL_LoadMmdlPositionTable(struct WfbcNpcData *npcData, int cityType, int heapId);
-extern void FIELD_WFBC_DATA_LOCAL_FreeMmdlPositionTable(u8 *posTable);
-extern void ARC_TOOL_DeleteHandle(struct ArcHandle *arc);
+struct WfbcPosition;
+extern struct WfbcPosition *FIELD_WFBC_DATA_LOCAL_LoadMmdlPositionTable(struct WfbcNpcData *npcData, int cityType, unsigned int heapId);
+extern void FIELD_WFBC_DATA_LOCAL_FreeMmdlPositionTable(struct WfbcPosition *positions);
+extern void ARC_TOOL_DeleteHandle(void *handle);
 extern void FIELD_WFBC_DATA_LOCAL_CloseNpcData(struct WfbcNpcData *npcData);
 extern u32 MI_CpuFill8(void *dst, int value, int size);
 extern int FIELD_WFBC_DATA_LOCAL_IsDataComplete(WfbcData *data);
@@ -122,7 +126,7 @@ u8 FIELD_WFBC_GetCityType(FieldWfbc *wfbc);
 u8 FIELD_WFBC_IsBackPeople(FieldWfbc *wfbc);
 int FIELD_WFBC_PatchLandData(FieldWfbc *wfbc, void *attrBuf, int buildModelMan, int mapBlockIndex, int modelNum, int cellX, int cellZ, u16 heapId);
 void FIELD_WFBC_DisableUnusedConnects(FieldWfbc *wfbc, struct EventDataSystem *eventData, int skip, u32 heapId);
-void FIELD_WFBC_SetUpCamera(FieldWfbc *wfbc, int camera, int heapId);
+void FIELD_WFBC_SetUpCamera(FieldWfbc *wfbc, struct FieldCamera *camera, int heapId);
 void FIELD_WFBC_SetMmdlSys(FieldWfbc *wfbc, struct MmdlSys *mmdlSys);
 void FIELD_WFBC_SetUp(FieldWfbc *wfbc, WfbcData *saveData, u32 isBackPeople, u32 heapId);
 void FIELD_WFBC_RemovePeople(FieldWfbc *wfbc, u32 npcId);
@@ -220,14 +224,14 @@ int FIELD_WFBC_PatchLandData(FieldWfbc *wfbc, void *attrBuf, int buildModelMan, 
     if (cell.pos.type != 0xFF) {
         dstX = (cellX * 8) & 0x1F;
         dstZ = (cellZ * 8) & 0x1F;
-        patch = LAND_DATA_PATCH_Create(cell.blockId, (u16)((heapId & 0x7FFF) | 0x8000));
+        patch = (struct LandDataPatch *)LAND_DATA_PATCH_Create(cell.blockId, (u16)((heapId & 0x7FFF) | 0x8000));
         offsetZ = cell.pos.offsetZ;
         offsetX = cell.pos.offsetX;
-        LAND_DATA_PATCH_OverwriteAttr(patch, attrBuf, offsetX * 8, offsetZ * 8, dstX, dstZ, 8, 8);
+        LAND_DATA_PATCH_OverwriteAttr((unsigned int)patch, attrBuf, offsetX * 8, offsetZ * 8, dstX, dstZ, 8, 8);
         if (offsetX == 0 && offsetZ == 0) {
-            modelNum = LAND_DATA_PATCH_AddBuildModels(patch, buildModelMan, mapBlockIndex, modelNum, dstX, dstZ);
+            modelNum = LAND_DATA_PATCH_AddBuildModels((unsigned int)patch, buildModelMan, mapBlockIndex, modelNum, dstX, dstZ);
         }
-        LAND_DATA_PATCH_Delete(patch);
+        LAND_DATA_PATCH_Delete((void **)patch);
     }
     return modelNum;
 }
@@ -274,11 +278,11 @@ void FIELD_WFBC_DisableUnusedConnects(FieldWfbc *wfbc, struct EventDataSystem *e
     GFL_HEAP_Free(entries);
 }
 
-void FIELD_WFBC_SetUpCamera(FieldWfbc *wfbc, int camera, int heapId)
+void FIELD_WFBC_SetUpCamera(FieldWfbc *wfbc, struct FieldCamera *camera, int heapId)
 {
     u16 *values;
     values = ARC_UTIL_LoadHandleMember(wfbc->arcHandle, 0x24, 0, (u16)((heapId & 0x7fff) | 0x8000));
-    FIELD_CAMERA_SetSetting((u32 *)camera, values[FIELD_WFBC_GetPeopleNum(wfbc)]);
+    FIELD_CAMERA_SetSetting((struct FieldCamera *)camera, values[FIELD_WFBC_GetPeopleNum(wfbc)]);
     GFL_HEAP_Free(values);
 }
 
@@ -319,7 +323,7 @@ void FIELD_WFBC_SetWordSetParentName(FieldWfbc *wfbc, struct WordSet *wordSet, i
     people = FIELD_WFBC_FindPeopleByNpcId(wfbc, npcId);
     myStatus = MYSTATUS_Create((u16)((heapId & 0x7fff) | 0x8000));
     MYSTATUS_Init(myStatus);
-    MYSTATUS_CopyName(myStatus, people->person.parentName);
+    MYSTATUS_CopyName((u16 *)myStatus, people->person.parentName);
     MYSTATUS_SetId(myStatus, people->person.parentId);
     WORDSET_SetSlotMyStatus(wordSet, bufIndex, myStatus);
     GFL_HEAP_Free(myStatus);
@@ -360,14 +364,14 @@ void FIELD_WFBC_LoadResources(FieldWfbc *wfbc, int heapId)
         }
         wfbc->arcHandle = ARC_TOOL_CreateHandle(0x9a, heapId);
         wfbc->blockTable = GFL_HEAP_Alloc(heapId, sizeof(FieldWfbcBlockTable), 1, sFieldWfbcFileName, 0x3ab);
-        wfbc->mmdlPosTable = FIELD_WFBC_DATA_LOCAL_LoadMmdlPositionTable(wfbc->npcData, wfbc->cityType, heapId);
+        wfbc->mmdlPosTable = (unsigned char *)FIELD_WFBC_DATA_LOCAL_LoadMmdlPositionTable(wfbc->npcData, wfbc->cityType, heapId);
     }
 }
 
 void FIELD_WFBC_FreeResources(FieldWfbc *wfbc)
 {
     if (wfbc->npcData != 0) {
-        FIELD_WFBC_DATA_LOCAL_FreeMmdlPositionTable(wfbc->mmdlPosTable);
+        FIELD_WFBC_DATA_LOCAL_FreeMmdlPositionTable((struct WfbcPosition *)wfbc->mmdlPosTable);
         GFL_HEAP_Free(wfbc->blockTable);
         ARC_TOOL_DeleteHandle(wfbc->arcHandle);
         FIELD_WFBC_DATA_LOCAL_CloseNpcData(wfbc->npcData);

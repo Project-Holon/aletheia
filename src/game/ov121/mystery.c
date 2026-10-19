@@ -215,6 +215,7 @@
  *   PRINTSYS_QUE_Delete  0x0201C4C0  thumb  arm9
  *   WORDSET_Delete  0x0201ED04  thumb  arm9
  */
+#include "../version.h"
 
 #define PALETTE ((void *)0x050003C0)
 #define D(k) (*(u32 *)(desc+(k)))
@@ -421,30 +422,34 @@ extern int GF_OVERLAY_Load(int id);
 extern void GFL_HEAP_CreateChildHeap(u32 a, u32 b, u32 c);
 extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
 extern void MI_CpuFill8(void *, int, int);
-extern void *GAME_DATA_Create(u16 id);
-extern void *GAME_DATA_GetSaveControl(struct Big *p);
-extern void *MYSTERY_DATA_Create(void *, void *, void *);
+struct GameData;
+extern struct GameData *GAME_DATA_Create(u16 id);
+struct SaveControl;
+extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gd);
+struct MysteryData;
+extern struct MysteryData *MYSTERY_DATA_Create(struct SaveControl *save, s32 mode, u32 heapId);
 extern u8 *MYSTERY_GRAPHIC_Create(int arg, u16 heap);
 extern unsigned MYSTERY_GRAPHIC_GetClactUnit(char *p);
 extern struct GfFont *GF_FONT_Create(int archiveId, int fileId, int format, int isFixedWidth, u32 heapId);
-extern u32 PRINTSYS_QUE_Create(void *p);
+struct PrintQueue;
+extern struct PrintQueue *PRINTSYS_QUE_Create(u32 heap);
 extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern struct WordSet *WORDSET_CreateDefault(u32 heap);
+extern struct WordSet *WORDSET_CreateDefault(u16 heapId);
 extern void *MYSTERY_UTIL_CreateTask(void *, void *, u16);
 extern void *MYSTERY_UTIL_CreateMenuWindow(int a, u8 b, void *c, void *d, u16 heap);
 extern void MYSTERY_UTIL_DrawMenuWindow(u8 *p, int a, int b);
 extern void *MYSTERY_NET_Create(void *arg, int heap);
-extern void GFL_USE_CancelChangeAndPlayBgm(int, int);
+extern void GFL_USE_CancelChangeAndPlayBgm(u32 bgmNo, u32 trackMask);
 extern void MYSTERY_NET_Delete(u8 *p);
 extern void MYSTERY_UTIL_DeleteMenuWindow(u8 *p);
 extern void MYSTERY_UTIL_DeleteTask(void *);
 extern u32 WORDSET_Delete(struct WordSet *p);
-extern u32 MSGDATA_Delete(struct Rec *rec);
-extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
-extern u32 GF_FONT_Delete(void *ptr);
+extern u32 MSGDATA_Delete(struct MsgBank *bank);
+extern void PRINTSYS_QUE_Delete(struct PrintQueue *queue);
+extern u32 GF_FONT_Delete(struct GfFont *font);
 extern void MYSTERY_GRAPHIC_Delete(u8 *p);
-extern void MYSTERY_DATA_Delete(void *);
-extern void GAME_DATA_Delete(u8 *p);
+extern void MYSTERY_DATA_Delete(struct MysteryData *data);
+extern void GAME_DATA_Delete(struct GameData *gameData);
 extern void PROCSYS_FreeProcWork(struct Proc *p);
 extern void GFL_HEAP_DeleteChecked(unsigned int);
 extern void OS_ResetSystem(u32 parameter);
@@ -455,7 +460,7 @@ extern void MYSTERY_UTIL_DispatchTask(char *p);
 extern void MYSTERY_GRAPHIC_Draw(u8 *p);
 extern void MYSTERY_GRAPHIC_DrawScene(char *p);
 extern void MYSTERY_GRAPHIC_DrawEnd(char *p);
-extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
+extern u32 PRINTSYS_QUE_Main(struct PrintQueue *queue);
 extern void MYSTERY_UTIL_UpdateMenuWindow(u8 *p);
 extern int MYSTERY_UTIL_IsWindowListDone(u8 *p);
 extern int MYSTERY_UTIL_Update(void **);
@@ -471,23 +476,25 @@ extern void BG_SYS_InitRun(u8 layer, u32 size, u32 offset, u32 heapId);
 extern int CLACT_RegisterPalette(void *,u32,u32,u32,u16);
 extern int CLACT_RegisterCellAnim(void *,u32,u32,u32);
 extern int CLACT_RegisterCharacter(void *,u32,u32,u32,u16);
-extern void *ARC_UTIL_LoadPaletteBlockFromHandle(void *arc, u32 memberIdx, u32 unpackedOut, u32 flags);
+extern void *ARC_UTIL_LoadPaletteBlockFromHandle(void *arc, u32 memberIdx, void *unpackedOut, u16 flags);
 extern void MI_CpuCopy8(const void *,void *,int);
 extern u32 GFL_HEAP_Free(void *p);
 extern struct Obj *CLACT_CreateActor(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
-extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
+extern void CLACT_SetActorDrawEnable(struct Actor *actor, u32 value);
 extern u32 GFL_USE_GetRandomBelow(u32 range);
-extern void CLACT_DeleteActor(struct Obj *p);
+extern void CLACT_DeleteActor(struct Actor *actor);
 extern void CLACT_ReleasePalette(u32 i);
 extern void CLACT_ReleaseCharacter(u32 i);
 extern void CLACT_ReleaseCellAnim(u32 i);
 extern void *ARC_UTIL_LoadPaletteBlockFromArchive(u32 archiveID, u32 memberIdx, u32 unpackedOut, u32 flags);
-extern void CLACT_TransferPalette(void *,void *,int);
+struct PaletteData;
+extern void CLACT_TransferPalette(u32 idx, struct PaletteData *dest, u32 count);
 extern s32 MYSTERY_UTIL_BlendPalette(int a, u16 *p, int angle, int bank, u8 index, u16 c1, u16 c2);
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern int PARTICLE_CreateSystemDefault(int a, int b, int c, int d);
-extern int PARTICLE_LoadArchiveMember(u32 a, u32 b, u32 c);
-extern void PARTICLE_SetupSystem(int, int, int, int);
+struct ParticleSys;
+extern struct ParticleSys *PARTICLE_CreateSystemDefault(u32 workBuf, u32 workSize, u32 withCamera, u32 heapId);
+extern void *PARTICLE_LoadArchiveMember(u32 a, u32 b, u32 c);
+extern void PARTICLE_SetupSystem(struct ParticleSys *sys, void *block, u32 applyNow, u32 taskMgr);
 extern int PARTICLE_StartEffectWithCallback(int *p, int a, int b, int c);
 extern void MYSTERY_UTIL_SetMenuMessage(u8 *,int,int,int);
 extern void MYSTERY_UTIL_SetTaskHandler(u32 *p, u32 a);
@@ -506,42 +513,48 @@ extern int MYSTERY_UTIL_UpdateMenu(char *);
 extern unsigned MYSTERY_UTIL_GetMenuState(u8 *p);
 extern u32 KEY_GetTrg(void);
 extern void GF_STANDARD_GetCachedDate(struct RtcDate *date);
-extern int MYSTERY_DATA_IsEventFlag(char *p, unsigned int bit);
-extern int MYSTERY_DATA_AddCard(void *p, void *arg);
-extern void MYSTERY_DATA_SetEventFlag(void *p, unsigned int idx);
-extern u32 MYSTERY_DATA_HasCardSpace(u8 *p);
-extern u32 MYSTERY_DATA_GetCardSlotNum(struct Obj *);
-extern int MYSTERY_DATA_IsCardReceived(char *p, unsigned int idx);
-extern int MYSTERY_DATA_IsMainSave(struct Obj *data);
+extern int MYSTERY_DATA_IsEventFlag(struct MysteryData *data, u32 flag);
+extern int MYSTERY_DATA_AddCard(struct MysteryData *data, void *card);
+extern void MYSTERY_DATA_SetEventFlag(struct MysteryData *data, u32 flag);
+extern u32 MYSTERY_DATA_HasCardSpace(struct MysteryData *data);
+extern u32 MYSTERY_DATA_GetCardSlotNum(struct MysteryData *data);
+extern int MYSTERY_DATA_IsCardReceived(struct MysteryData *data, u32 slot);
+extern int MYSTERY_DATA_IsMainSave(struct MysteryData *data);
 extern int APP_ENV_IsWirelessAvailable(void);
 extern void *MYSTERY_NET_GetResult(char *p);
 extern void MYSTERY_UTIL_SetListValue(u8 *p, u32 i, u32 value);
 extern void MYSTERY_GRAPHIC_StartRender(u8 *p);
-extern void MYSTERY_DATA_SaveStart(void *data, int gameData);
-extern int MYSTERY_DATA_SaveMain(void *data, int gameData);
+extern void MYSTERY_DATA_SaveStart(struct MysteryData *data, struct GameData *gameData);
+extern int MYSTERY_DATA_SaveMain(struct MysteryData *data, struct GameData *gameData);
 extern void MYSTERY_GRAPHIC_StopRender(char *p);
 extern void *MYSTERY_ALBUM_CreateSlotWork(MysteryAlbumDesc *,u16);
-extern void *MYSTERY_ALBUM_CreateAlbumView(void *,void *,void *,u16);
-extern void MYSTERY_ALBUM_RequestSetup(u8 *p, u32 b);
-extern void MYSTERY_ALBUM_StepIntro(char *p);
-extern void MYSTERY_ALBUM_StartIntro(u8 *p);
-extern int MYSTERY_ALBUM_IsIntroIdle(char *p);
-extern void G2x_SetBlendAlpha_(void *,int,int,int,int);
+struct CtxB;
+struct MysteryAlbumCard;
+struct MysteryAlbumView;
+extern struct MysteryAlbumView *MYSTERY_ALBUM_CreateAlbumView(struct MysteryAlbumCard *card, struct CtxB *slotWork, void *gameData, u16 heap);
+struct MysteryAlbum;
+extern void MYSTERY_ALBUM_RequestSetup(struct MysteryAlbum *album, u32 mode);
+extern void MYSTERY_ALBUM_StepIntro(struct MysteryAlbum *album);
+extern void MYSTERY_ALBUM_StartIntro(struct MysteryAlbum *album);
+extern int MYSTERY_ALBUM_IsIntroIdle(struct MysteryAlbum *album);
+extern void G2x_SetBlendAlpha_(u32 *reg, u32 a, u32 b, u32 c, u32 d);
 extern void *MYSTERY_ALBUM_Create(MysteryNetAlbumDesc *,int);
-extern void MYSTERY_ALBUM_Update(struct Obj *obj);
+struct MysteryAlbumWorkVolatile;
+extern void MYSTERY_ALBUM_Update(struct MysteryAlbumWorkVolatile *obj);
 extern int MYSTERY_ALBUM_GetWindowState(char *p);
-extern void MYSTERY_ALBUM_DeleteWork(struct Obj *obj);
+struct MysteryAlbumWork;
+extern void MYSTERY_ALBUM_DeleteWork(struct MysteryAlbumWork *obj);
 extern void MYSTERY_ALBUM_UpdateWindows(char *p);
 extern void PROCSYS_PushGlobal(u32,u32,u32);
 extern void GFL_NET_RefreshWmIconAtTopRight(u32,u32);
-extern void MYSTERY_ALBUM_Delete(char *);
+extern void MYSTERY_ALBUM_Delete(struct MysteryAlbum *album);
 extern void MYSTERY_ALBUM_DeleteSlotWork(void **);
 extern void MYSTERY_UTIL_MarkTaskDone(u32 *p);
 extern void *MYSTERY_UTIL_CreateMenu(MysterySaveDesc *, int);
 extern void MYSTERY_UTIL_DeleteMenu(u8 *p);
-extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
+extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
 extern void STRBUF_SetStringN(struct Strbuf *,const u16 *,u32);
-extern void STRBUF_Delete(struct U16Vec *vec);
+extern void STRBUF_Delete(struct Strbuf *strbuf);
 extern void ARC_UTIL_UploadBgPaletteFromArchive(int,int,int,int,int,int,int);
 extern void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 extern void BG_SYS_PushTile(u32 index);
@@ -549,33 +562,37 @@ extern void *MYSTERY_UTIL_CreateDetailWindow(MysteryMessageDesc *,int);
 extern void BG_SYS_ClearSlot(unsigned);
 extern void MYSTERY_UTIL_DeleteDetailWindow(u8 *p);
 extern int MYSTERY_UTIL_SetVoice(unsigned char *);
-extern void *MYSTERY_UTIL_CreateWindowList(int,MysteryPartyDesc *,int,int,int,void *,void *,void *,int);
+extern void *MYSTERY_UTIL_CreateWindowList(int,MysteryPartyDesc *,int,int,int,void *,struct MsgBank *,void *,int);
 extern void MYSTERY_UTIL_ClearWindowList(u8 *p);
 extern void MYSTERY_UTIL_DeleteWindowList(u8 *p);
-extern void CLACT_SetActorPaletteOffset(struct Obj *o, u32 v, u32 flag);
+extern void CLACT_SetActorPaletteOffset(struct Actor *actor, u32 offset, u32 pltt_op);
 extern u32 GFL_USE_GetRandom(u32);
-extern u8 *GAME_DATA_GetMyStatus(void *p);
-extern u32 MYSTATUS_GetId(const struct Sub0200852CObj *obj);
+struct MyStatus;
+extern struct MyStatus *GAME_DATA_GetMyStatus(struct GameData *gd);
+extern u32 MYSTATUS_GetId(struct MyStatus *mystatus);
 extern void *POKE_TOOL_Create(u16,u16,u32,u32,u32);
-extern u32 POKE_TOOL_CreatePersonalRnd(u32 otId, int species, int form, int ratioMode, int shinyWanted, int mode);
-extern void POKE_TOOL_SetupPartyParamEx(struct Mon *p, u16 species, u16 level, unsigned long long id, u32 pow, unsigned long long rnd);
-extern void POKE_TOOL_SetPartyValue(void *,u32,u32);
-extern u32 POKE_TOOL_SetDefaultMoves(void *);
+extern u32 POKE_TOOL_CreatePersonalRnd(u32 otId, s32 species, u16 form, s32 ratioMode, s32 shinyWanted, s32 mode);
+struct PokemonParam;
+extern void POKE_TOOL_SetupPartyParamEx(struct PokemonParam *pp, u16 species, u16 level, u64 otId, u32 ivs, u64 personality);
+extern void POKE_TOOL_SetPartyValue(struct PokemonParam *pp, u32 paramId, u32 value);
+extern u32 POKE_TOOL_SetDefaultMoves(struct PokemonParam *pp);
 extern u32 POKE_TOOL_AddMove(void *,u32);
 extern void POKE_TOOL_PushMove(void *p, int move);
-extern void POKE_TOOL_SetAbility(void *,u32,u32);
+struct BoxPokemon;
+extern void POKE_TOOL_SetAbility(struct BoxPokemon *box, u32 species, u32 form);
 extern u16 STRBUF_GetEosChar(void);
 extern const void *MYSTATUS_GetName(const void *p);
-extern u8 MYSTATUS_GetSex(const struct Sub0200852CObj *obj);
-extern void *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
-extern void *POKE_TOOL_CastToBoxParam(void *);
-extern void SAVE_EVENT_WriteWithDate(void *,u32,u32,u32,u32);
-extern void POKE_TOOL_RecalcParam(void *);
-extern u32 POKE_TOOL_GetPartyValue(void *,u32,u32);
-extern int POKEGRA_OpenHandle(int);
-extern void *POKE_TOOL_GetBoxParam(void *);
+extern u8 MYSTATUS_GetSex(struct MyStatus *mystatus);
+extern struct Strbuf *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
+extern struct PokemonParam *POKE_TOOL_CastToBoxParam(struct PokemonParam *mon);
+struct SaveData;
+extern void SAVE_EVENT_WriteWithDate(struct SaveData *save, u32 eventId, u32 year, u32 month, u32 day);
+extern void POKE_TOOL_RecalcParam(struct PokemonParam *pp);
+extern u32 POKE_TOOL_GetPartyValue(struct PokemonParam *pp, u32 paramId, u32 arg);
+extern void *POKEGRA_OpenHandle(u32 heapId);
+extern struct BoxPokemon *POKE_TOOL_GetBoxParam(struct PokemonParam *pp);
 extern int POKEGRA_RegisterPalettePP(int,void *,int,int,u16,u16);
-extern u32 POKEGRA_RegisterCellAnimPP(u32,u32,u32,u32,u16);
+extern u32 POKEGRA_RegisterCellAnimPP(void *pp, u32 dir, u32 mapping, u32 unusedArg, u16 heapId);
 extern int POKEGRA_RegisterCgrPP(int,void *,int,int,u16);
 extern u32 FILE_UTIL_Get(u32 item, u32 which);
 extern void MIi_CpuClear16(u32,void *,u32);
@@ -584,26 +601,30 @@ extern void MYSTERY_UTIL_BlendPaletteRange(void *a, u16 *p, u16 angle, int bank,
 extern void CLACT_SetActorSurfacePosAxis(struct Actor *actor, s16 value, u32 space, u32 axis);
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
-extern void CLACT_GetActorPos(const struct Actor *actor, struct Pt *out);
-extern u32 CLACT_GetActorDrawEnable(struct Obj *p);
-extern void CLACT_SetActorPos(struct Actor *actor, const struct Pt *src);
+struct Pt16;
+extern void CLACT_GetActorPos(struct Actor *actor, struct Pt16 *out);
+extern u32 CLACT_GetActorDrawEnable(struct Actor *actor);
+extern void CLACT_SetActorPos(struct Actor *actor, struct Pt16 *pos);
 extern void BG_SYS_ChangeScroll(u32 index, u32 a, u32 b);
-extern void *BMP_OAM_CreateSys(unsigned int heapId, void *clact);
+struct BmpOamSys;
+extern struct BmpOamSys *BMP_OAM_CreateSys(unsigned int heapId, void *clact);
 extern void *MYSTERY_UTIL_CreateTaskEx(const char *p, u16 a, u16 b, int c, u8 d, int e, void *f, void *g, u16 heap);
 extern void MYSTERY_UTIL_SetActorPairColor(u8 *p, int a);
 extern void MYSTERY_UTIL_SetVec(u32 *p, u32 a, u32 b, u32 c);
 extern void MYSTERY_UTIL_SetActorPairText(char *p, int a, int b, int c);
 extern void MYSTERY_UTIL_UpdateActorPair(char *p);
 extern void MYSTERY_UTIL_DeleteActorPair(unsigned char *p);
-extern void BMP_OAM_DeleteSys(void *);
+extern void BMP_OAM_DeleteSys(struct BmpOamSys *sys);
 extern int MYSTERY_UTIL_IsMenuFinished(u8 *p);
-extern u32 POKEGRA_LoadCharDataPP(void *outCharData, void *mon, u32 dir, u32 heapId);
+extern void *POKEGRA_LoadCharDataPP(u32 *outCharData, void *pp, u32 dir, u16 heapId);
 extern void POKEGRA_ConvertCharTo2D(void *,u16);
-extern int MYSTERY_DATA_CheckPacketCrc(u8 *obj);
+struct MysteryGiftPacket;
+extern int MYSTERY_DATA_CheckPacketCrc(struct MysteryGiftPacket *packet);
 extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
 extern void G3X_SetFog(int,int,int,int);
 extern void G3X_SetClearColor(u16 rgb, int alpha, int depth, int polygonID, int fog);
-extern void G3D_SYSTEM_SetLight(u32 idx, const u16 *src);
+struct G3dLight;
+extern void G3D_SYSTEM_SetLight(u32 lightIdx, struct G3dLight *light);
 extern void G3D_SYSTEM_SetSwapBuffersMode(u32 a, u32 b);
 int MYSTERY_Create(void *a, u32 b, u32 c);
 int MYSTERY_Delete(void *a, int b, int c, char *p);
@@ -689,12 +710,12 @@ int MYSTERY_Create(void *owner, u32 unused, u32 arg)
     MI_CpuFill8(work, 0, 0x69C);
     work->savedValue = arg;
     work->gameData.ptr = GAME_DATA_Create(29);
-    work->mysteryData.ptr = MYSTERY_DATA_Create(GAME_DATA_GetSaveControl(work->gameData.ptr), (void *)1, (void *)29);
+    work->mysteryData.ptr = MYSTERY_DATA_Create(GAME_DATA_GetSaveControl(work->gameData.ptr), (s32)1, (u32)29);
     work->graphic = MYSTERY_GRAPHIC_Create(1, 29);
     MYSTERY_InitBgHeap(&work->heap, 29);
     MYSTERY_CreateClact((char *)&work->clact, (void *)MYSTERY_GRAPHIC_GetClactUnit((char *)work->graphic), 29);
     work->font.ptr = GF_FONT_Create(23, 0, 0, 0, 29);
-    work->printQueue.val = PRINTSYS_QUE_Create((void *)29);
+    work->printQueue.val = (u32)PRINTSYS_QUE_Create((u32)29);
     work->msgBank.ptr = MSGDATA_CreateFromArchive(0, 2, 0x50, 29);
     work->msgBankAlt.ptr = MSGDATA_CreateFromArchive(0, 3, 0x9E, 29);
     work->wordSet.ptr = WORDSET_CreateDefault(29);
@@ -850,7 +871,7 @@ void MYSTERY_CreateClact(char *p, void *owner, u16 heap)
     *(int *)&((MysteryClactActor *)p)->palette.val=CLACT_RegisterPalette(arc,8,2,0,heap);
     *(int *)&((MysteryClactActor *)p)->cellAnim.val=CLACT_RegisterCellAnim(arc,34,37,heap);
     *(int *)&((MysteryClactActor *)p)->character.val=CLACT_RegisterCharacter(arc,16,0,2,heap);
-    allocation=ARC_UTIL_LoadPaletteBlockFromHandle(arc,8,(u32)(&res),heap);
+    allocation=ARC_UTIL_LoadPaletteBlockFromHandle((void *)arc,8,(&res),heap);
     data=*(char * *)&((MysteryClactResource *)res)->data;
     MI_CpuCopy8(data,p+0xda,32);
     data+=32;
@@ -911,7 +932,7 @@ void MYSTERY_TransferPalette(u8 *p,int heap)
     void *out;
     void *raw;
     raw=ARC_UTIL_LoadPaletteBlockFromArchive(34,8,(u32)(&out),heap);
-    CLACT_TransferPalette(((MysteryClactActor *)p)->palette.ptr,out,7);
+    CLACT_TransferPalette((u32)(((MysteryClactActor *)p)->palette.ptr),out,7);
     GFL_HEAP_Free(raw);
 }
 
@@ -989,8 +1010,8 @@ void MYSTERY_DeleteParticle(void *p)
  */
 void MYSTERY_LoadParticle(int *p, int a, int b, int c)
 {
-    int x = PARTICLE_LoadArchiveMember(a, b, c);
-    PARTICLE_SetupSystem(*p, x, 1, 0);
+    int x = (s32)PARTICLE_LoadArchiveMember(a, b, c);
+    PARTICLE_SetupSystem((struct ParticleSys *)(*p), (void *)x, 1, 0);
 }
 
 
@@ -1345,11 +1366,11 @@ void MYSTERY_TaskAlbum(void *task,u32 *state,u8 *p)
         if (MYSTERY_IsCardViewDone((char *)(p+12))) *state=4;
         break;
     case 4:
-        MYSTERY_DATA_SaveStart(((MysteryWork *)p)->mysteryData.ptr,(int)(((MysteryWork *)p)->gameData.ptr));
+        MYSTERY_DATA_SaveStart(((MysteryWork *)p)->mysteryData.ptr,(struct GameData *)(((MysteryWork *)p)->gameData.ptr));
         *state=5;
         break;
     case 5:
-        if (MYSTERY_DATA_SaveMain(((MysteryWork *)p)->mysteryData.ptr,(int)(((MysteryWork *)p)->gameData.ptr))==2) *state=6;
+        if (MYSTERY_DATA_SaveMain(((MysteryWork *)p)->mysteryData.ptr,(((MysteryWork *)p)->gameData.ptr))==2) *state=6;
         break;
     case 6:
         MYSTERY_InitCardView(p+12,1);
@@ -1397,7 +1418,7 @@ void MYSTERY_TaskAlbum(void *task,u32 *state,u8 *p)
         d.w[10]=((MysteryWork *)p)->printQueue.val;
         d.w[11]=((MysteryWork *)p)->wordSet.val;
         ((MysteryWork *)p)->albumWork=MYSTERY_ALBUM_CreateSlotWork(&d,29);
-        ((MysteryWork *)p)->album=MYSTERY_ALBUM_CreateAlbumView(p+972,((MysteryWork *)p)->albumWork,((MysteryWork *)p)->gameData.ptr,29);
+        ((MysteryWork *)p)->album=MYSTERY_ALBUM_CreateAlbumView((struct MysteryAlbumCard *)(p+972),((MysteryWork *)p)->albumWork,((MysteryWork *)p)->gameData.ptr,29);
         MYSTERY_ALBUM_RequestSetup(((MysteryWork *)p)->album,0);
         *state=13;
         break;
@@ -1654,7 +1675,7 @@ void MYSTERY_TaskNetExit(void *task,u32 *state,u8 *p)
 
 void MYSTERY_TaskCleanup(void *p,int n,char *q) {
  MYSTERY_DeleteSaveMenu(q);MYSTERY_DeleteCardMenu(q);MYSTERY_DeletePartyMenu(q);
- if(*(char * *)&((MysteryWork *)q)->album) {MYSTERY_ALBUM_Delete(*(char * *)&((MysteryWork *)q)->album);MYSTERY_ALBUM_DeleteSlotWork(*(void ** *)&((MysteryWork *)q)->albumWork);}
+ if(*(char * *)&((MysteryWork *)q)->album) {MYSTERY_ALBUM_Delete((struct MysteryAlbum *)(*(char * *)&((MysteryWork *)q)->album));MYSTERY_ALBUM_DeleteSlotWork(*(void ** *)&((MysteryWork *)q)->albumWork);}
  MYSTERY_UTIL_MarkTaskDone(p);
 }
 
@@ -1938,7 +1959,7 @@ void MYSTERY_CreateReceivedMon(u8 *out,void *owner,const u8 *desc,void *save,voi
         work.move[0]=H(18);work.move[1]=H(20);work.move[2]=H(22);work.move[3]=H(24);
         if(desc[179]!=1 || species>649 || species==0 || level>100 || H(16)>626) goto image;
         if(level==0) level=(u16)(GFL_USE_GetRandom(100)+1);
-        if(D(0)==0) otId=MYSTATUS_GetId((const struct Sub0200852CObj *)GAME_DATA_GetMyStatus(save));
+        if(D(0)==0) otId=MYSTATUS_GetId((struct MyStatus *)GAME_DATA_GetMyStatus(save));
         if(gender==255) gender=2;
         for(i=0;i<6;i++) if(work.iv[i]==255) work.iv[i]=GFL_USE_GetRandom(32);
         id=otId;
@@ -1992,7 +2013,7 @@ void MYSTERY_CreateReceivedMon(u8 *out,void *owner,const u8 *desc,void *save,voi
         else POKE_TOOL_SetPartyValue(allocated,142,(u32)(desc+74));
         value=desc[90];
         if(value<=2) POKE_TOOL_SetPartyValue(allocated,154,value);
-        else {value=MYSTATUS_GetSex((const struct Sub0200852CObj *)GAME_DATA_GetMyStatus(save));POKE_TOOL_SetPartyValue(allocated,154,value);}
+        else {value=MYSTATUS_GetSex((struct MyStatus *)GAME_DATA_GetMyStatus(save));POKE_TOOL_SetPartyValue(allocated,154,value);}
         if(desc[92]) {
             POKE_TOOL_SetPartyValue(allocated,76,1);
             str=MSGDATA_AllocString(gSpeciesNameBank,650);
@@ -2001,16 +2022,16 @@ void MYSTERY_CreateReceivedMon(u8 *out,void *owner,const u8 *desc,void *save,voi
         }
         year=(u16)((int)D(172)>>16);month=(u8)((int)D(172)>>8);day=(u8)D(172);
         if(desc[92]) place=H(56);else place=H(58);
-        SAVE_EVENT_WriteWithDate(POKE_TOOL_CastToBoxParam(allocated),place,year-2000,month,day);
+        SAVE_EVENT_WriteWithDate((struct SaveData *)POKE_TOOL_CastToBoxParam(allocated),place,year-2000,month,day);
         POKE_TOOL_RecalcParam(allocated);
         if(POKE_TOOL_GetPartyValue(allocated,3,0)!=0) {GFL_HEAP_Free(allocated);mon=0;}
         else mon=allocated;
         goto image;
     image:
-        arc=POKEGRA_OpenHandle(heap);
+        arc=(u32)POKEGRA_OpenHandle(heap);
         O(12)=POKEGRA_RegisterPalettePP((int)arc,POKE_TOOL_GetBoxParam(mon),0,0,448,heap);
         clamp=0;
-        O(20)=POKEGRA_RegisterCellAnimPP((u32)POKE_TOOL_GetBoxParam(mon),0,2,0,heap);
+        O(20)=POKEGRA_RegisterCellAnimPP(POKE_TOOL_GetBoxParam(mon),0,2,0,heap);
         O(16)=POKEGRA_RegisterCgrPP((int)arc,POKE_TOOL_GetBoxParam(mon),0,0,heap);
         OH(296)=MYSTERY_MeasureGraChar((int)POKE_TOOL_GetBoxParam(mon),heap)-48;
         if(*(s16 *)(out+296)>48) clamp=48;
@@ -2344,7 +2365,7 @@ void MYSTERY_InitScroll(u8 *p,void *q,u16 h)
     ((MysteryScroll *)p)->startValue=-819;
     ((MysteryScroll *)p)->heapId=h;
     for(i=0;i<32;i++) {
-        CLACT_GetActorPos(MYSTERY_GetClactActor(((MysteryScroll *)p)->clactUnit,i+1),(struct Pt *)xy);
+        CLACT_GetActorPos(MYSTERY_GetClactActor(((MysteryScroll *)p)->clactUnit,i+1),(struct Pt16 *)xy);
         ((MysteryScroll *)p)->y[i]=xy[1]<<12;
         ((MysteryScroll *)p)->vy[i]=GFL_USE_GetRandomBelow(4096)+6554;
     }
@@ -2394,9 +2415,9 @@ void MYSTERY_UpdateScrollA(u8 *p)
         sprite=MYSTERY_GetClactActor(((MysteryScroll *)p)->clactUnit,i+1);
         if(CLACT_GetActorDrawEnable(sprite)) {
             ((MysteryScroll *)p)->y[i]=((MysteryScroll *)p)->y[i]+((MysteryScroll *)p)->vy[i];
-            CLACT_GetActorPos(sprite,(struct Pt *)xy);
+            CLACT_GetActorPos(sprite,(struct Pt16 *)xy);
             xy[1]=((MysteryScroll *)p)->y[i]>>12;
-            CLACT_SetActorPos(sprite,(const struct Pt *)xy);
+            CLACT_SetActorPos(sprite,(struct Pt16 *)xy);
             if(xy[1]>=0 && xy[1]<=208) CLACT_SetActorDrawEnable(sprite,1);
             else CLACT_SetActorDrawEnable(sprite,0);
         }
@@ -2421,9 +2442,9 @@ void MYSTERY_UpdateScrollB(u8 *p)
         ((MysteryScroll *)p)->y[i]=((MysteryScroll *)p)->y[i]+((MysteryScroll *)p)->vy[i];
         if(((MysteryScroll *)p)->y[i]>=851968) ((MysteryScroll *)p)->y[i]=-65536;
         sprite=MYSTERY_GetClactActor(((MysteryScroll *)p)->clactUnit,i+1);
-        CLACT_GetActorPos(sprite,(struct Pt *)xy);
+        CLACT_GetActorPos(sprite,(struct Pt16 *)xy);
         xy[1]=((MysteryScroll *)p)->y[i]>>12;
-        CLACT_SetActorPos(sprite,(const struct Pt *)xy);
+        CLACT_SetActorPos(sprite,(struct Pt16 *)xy);
         if(xy[1]>=0 && xy[1]<=208) CLACT_SetActorDrawEnable(sprite,1);
         else CLACT_SetActorDrawEnable(sprite,0);
     }
@@ -2475,7 +2496,7 @@ unsigned MYSTERY_MeasureGraChar(int id,int heap)
     void *allocation;
     u8 *table;
     heap=(heap&32767)|32768;
-    allocation=(void *)POKEGRA_LoadCharDataPP(&object,(void *)id,(int)0,(u16)heap);
+    allocation=(void *)POKEGRA_LoadCharDataPP((u32 *)(&object),(void *)id,(int)0,(u16)heap);
     POKEGRA_ConvertCharTo2D(object,heap);
     for(row=11;row>=0;row--) {
         for(col=0;col<12;col++) {
@@ -2496,7 +2517,7 @@ unsigned MYSTERY_MeasureGraChar(int id,int heap)
 
 
 int MYSTERY_IsCardValid(char *p,int n) {
- if(MYSTERY_DATA_CheckPacketCrc((u8 *)p)!=0 && n==0 && (((MysteryPacket *)p)->crc==0 || (((MysteryPacket *)p)->crc&0x200000)!=0)) return 1;
+ if(MYSTERY_DATA_CheckPacketCrc((struct MysteryGiftPacket *)p)!=0 && n==0 && (((MysteryPacket *)p)->crc==0 || (((MysteryPacket *)p)->crc&PM_VERSION_MASK)!=0)) return 1;
  return 0;
 }
 
@@ -2517,6 +2538,6 @@ void MYSTERY_SetupDisplay3d(void)
     G3X_SetFog(0,0,0,0);
     G3X_SetClearColor(0,0,32767,63,0);
     *(volatile unsigned *)0x04000580=0xBFFF0000;
-    for(i=0;i<4;i++) G3D_SYSTEM_SetLight((u8)i,(const u16 *)(d_021DF5E4+i*2));
+    for(i=0;i<4;i++) G3D_SYSTEM_SetLight((u8)i,(struct G3dLight *)(d_021DF5E4+i*2));
     G3D_SYSTEM_SetSwapBuffersMode(0,0);
 }

@@ -78,8 +78,9 @@ typedef struct Strbuf *(*RegulationLineFn)(const struct Regulation *, struct Wor
                                            struct RegulationText *, struct Strbuf *, u16);
 
 extern void  ARC_TOOL_ReadMember(void *dst, u32 archiveId, u32 memberId);
+struct PokemonParam;
 
-extern u32  POKE_TOOL_GetPartyValue(struct Pokemon *mon, u32 paramId, u32 value);
+extern u32  POKE_TOOL_GetPartyValue(struct PokemonParam *pp, u32 paramId, u32 arg);
 
 extern u32 REGULATION_GetRuleValue(const struct Regulation *reg, u32 ruleId);
 
@@ -89,7 +90,7 @@ extern u32 POKEPARTY_GetCount(struct Party *party);
 
 extern void MI_CpuFill8(void *dst, u8 v, u32 n);
 
-extern struct Pokemon *POKEPARTY_GetMember(struct Party *party, u32 index);
+extern struct PokemonParam *POKEPARTY_GetMember(struct Party *party, u32 index);
 
 extern u32 POKEPARTY_GetBattleReadyCount(struct Party *party);
 
@@ -115,9 +116,9 @@ extern u32 MSGDATA_Delete(struct MsgBank *bank);
 
 extern u32 GFL_HEAP_Free(void *p);
 
-void POKE_TOOL_SetDefaultName(struct Pokemon *mon);
+void POKE_TOOL_SetDefaultName(struct PokemonParam *mon);
 
-void POKE_TOOL_SetLevelAndRecalc(struct Pokemon *mon, u32 level);
+void POKE_TOOL_SetLevelAndRecalc(struct PokemonParam *mon, u32 level);
 
 int POKE_REGULATION_IsInSpeciesTable(unsigned short species);
 
@@ -199,8 +200,8 @@ int POKE_REGULATION_IsInSpeciesTable(unsigned short species)
  */
 int POKE_REGULATION_CheckPokemon(const struct Regulation *reg, struct Pokemon *mon)
 {
-    u16 species = (u16)POKE_TOOL_GetPartyValue(mon, 5, 0);
-    u16 item = (u16)POKE_TOOL_GetPartyValue(mon, 6, 0);
+    u16 species = (u16)POKE_TOOL_GetPartyValue((struct PokemonParam *)mon, 5, 0);
+    u16 item = (u16)POKE_TOOL_GetPartyValue((struct PokemonParam *)mon, 6, 0);
     int levelLimit;
     int levelRule;
     int level;
@@ -211,7 +212,7 @@ int POKE_REGULATION_CheckPokemon(const struct Regulation *reg, struct Pokemon *m
 
     levelLimit = REGULATION_GetRuleValue(reg, 4);
     levelRule = REGULATION_GetRuleValue(reg, 5);
-    level = POKE_TOOL_GetPartyValue(mon, 0x9E, 0);
+    level = POKE_TOOL_GetPartyValue((struct PokemonParam *)mon, 0x9E, 0);
 
     switch (levelRule) {
     case 1:
@@ -225,7 +226,7 @@ int POKE_REGULATION_CheckPokemon(const struct Regulation *reg, struct Pokemon *m
     }
 
     reason = 0;
-    if (POKE_TOOL_GetPartyValue(mon, 0x4C, 0) != 0)
+    if (POKE_TOOL_GetPartyValue((struct PokemonParam *)mon, 0x4C, 0) != 0)
         return 0x20;
     if (REGULATION_GetVetoBit(reg, 9, species) != 0)
         return 4;
@@ -319,10 +320,10 @@ int POKE_REGULATION_CheckPartyUsable(const struct Regulation *reg, struct Party 
     usable = partyCount;
     MI_CpuFill8(unused, 0, 12);
     for (i = 0; i < partyCount; i++) {
-        struct Pokemon *mon = POKEPARTY_GetMember(party, i);
+        struct Pokemon *mon = (struct Pokemon *)POKEPARTY_GetMember(party, i);
 
-        species[i] = (u16)POKE_TOOL_GetPartyValue(mon, 5, 0);
-        levels[i] = (u16)POKE_TOOL_GetPartyValue(mon, 0x9E, 0);
+        species[i] = (u16)POKE_TOOL_GetPartyValue((struct PokemonParam *)mon, 5, 0);
+        levels[i] = (u16)POKE_TOOL_GetPartyValue((struct PokemonParam *)mon, 0x9E, 0);
         if (POKE_REGULATION_CheckPokemon(reg, mon) != 0) {
             species[i] = 0;
             usable--;
@@ -374,8 +375,8 @@ int POKE_REGULATION_CheckPartyUsable(const struct Regulation *reg, struct Party 
  */
 int POKE_REGULATION_CheckPokemonFlags(const struct Regulation *reg, struct Pokemon *mon, u32 *flags)
 {
-    u16 species = (u16)POKE_TOOL_GetPartyValue(mon, 5, 0);
-    u16 item = (u16)POKE_TOOL_GetPartyValue(mon, 6, 0);
+    u16 species = (u16)POKE_TOOL_GetPartyValue((struct PokemonParam *)mon, 5, 0);
+    u16 item = (u16)POKE_TOOL_GetPartyValue((struct PokemonParam *)mon, 6, 0);
     int allowed = 1;
     int levelLimit;
     int levelRule;
@@ -386,7 +387,7 @@ int POKE_REGULATION_CheckPokemonFlags(const struct Regulation *reg, struct Pokem
 
     levelLimit = REGULATION_GetRuleValue(reg, 4);
     levelRule = REGULATION_GetRuleValue(reg, 5);
-    level = POKE_TOOL_GetPartyValue(mon, 0x9E, 0);
+    level = POKE_TOOL_GetPartyValue((struct PokemonParam *)mon, 0x9E, 0);
 
     switch (levelRule) {
     case 1:
@@ -404,7 +405,7 @@ int POKE_REGULATION_CheckPokemonFlags(const struct Regulation *reg, struct Pokem
     }
 
     if (REGULATION_GetVetoBit(reg, 9, species) != 0) {
-        if (POKE_TOOL_GetPartyValue(mon, 0x4C, 0) == 0) {
+        if (POKE_TOOL_GetPartyValue((struct PokemonParam *)mon, 0x4C, 0) == 0) {
             allowed = 0;
             *flags |= 4;
         }
@@ -465,14 +466,14 @@ int POKE_REGULATION_CheckParty(const struct Regulation *reg, struct Party *party
         error = 4;
     }
     for (i = 0; i < (int)POKEPARTY_GetCount(party); i++) {
-        mon = POKEPARTY_GetMember(party, i);
+        mon = (struct Pokemon *)POKEPARTY_GetMember(party, i);
         if (POKE_REGULATION_CheckPokemonFlags(reg, mon, flags) == 0)
             error = 5;
-        if (POKE_TOOL_GetPartyValue(mon, 0x4c, 0) == 0) {
-            species[i] = POKE_TOOL_GetPartyValue(mon, 5, 0);
-            item[i] = POKE_TOOL_GetPartyValue(mon, 6, 0);
-            levels[i] = POKE_TOOL_GetPartyValue(mon, 0x6f, 0);
-            levelSum += POKE_TOOL_GetPartyValue(mon, 0x9e, 0);
+        if (POKE_TOOL_GetPartyValue((struct PokemonParam *)mon, 0x4c, 0) == 0) {
+            species[i] = POKE_TOOL_GetPartyValue((struct PokemonParam *)mon, 5, 0);
+            item[i] = POKE_TOOL_GetPartyValue((struct PokemonParam *)mon, 6, 0);
+            levels[i] = POKE_TOOL_GetPartyValue((struct PokemonParam *)mon, 0x6f, 0);
+            levelSum += POKE_TOOL_GetPartyValue((struct PokemonParam *)mon, 0x9e, 0);
         }
     }
     if ((int)REGULATION_GetRuleValue(reg, 7) == 0 && total > 1) {
@@ -562,13 +563,13 @@ void POKE_REGULATION_AdjustPartyLevels(const struct Regulation *reg, struct Part
     int i;
 
     for (i = 0; i < (int)POKEPARTY_GetCount(party); i++) {
-        struct Pokemon *mon = POKEPARTY_GetMember(party, i);
+        struct Pokemon *mon = (struct Pokemon *)POKEPARTY_GetMember(party, i);
 
-        if (POKE_TOOL_GetPartyValue(mon, 0xA9, 0) != 0) {
-            u32 level = POKE_TOOL_GetPartyValue(mon, 0x9E, 0);
+        if (POKE_TOOL_GetPartyValue((struct PokemonParam *)mon, 0xA9, 0) != 0) {
+            u32 level = POKE_TOOL_GetPartyValue((struct PokemonParam *)mon, 0x9E, 0);
 
             if (POKE_REGULATION_AdjustLevel(reg, level) != level)
-                POKE_TOOL_SetLevelAndRecalc(mon, levelValue);
+                POKE_TOOL_SetLevelAndRecalc((struct PokemonParam *)mon, levelValue);
         }
     }
 }
@@ -594,10 +595,10 @@ void POKE_REGULATION_ResetPartyNicknames(const struct Regulation *reg, struct Pa
         return;
 
     for (i = 0; i < (int)POKEPARTY_GetCount(party); i++) {
-        struct Pokemon *mon = POKEPARTY_GetMember(party, i);
+        struct Pokemon *mon = (struct Pokemon *)POKEPARTY_GetMember(party, i);
 
-        if (POKE_TOOL_GetPartyValue(mon, 0xA9, 0) != 0)
-            POKE_TOOL_SetDefaultName(mon);
+        if (POKE_TOOL_GetPartyValue((struct PokemonParam *)mon, 0xA9, 0) != 0)
+            POKE_TOOL_SetDefaultName((struct PokemonParam *)mon);
     }
 }
 
@@ -864,10 +865,10 @@ int POKE_REGULATION_CheckOrder(const struct Regulation *reg, struct Party *party
         slot = (u8)(order[i] - 1);
         if ((int)slot >= (int)POKEPARTY_GetCount(party))
             continue;
-        mon = POKEPARTY_GetMember(party, slot);
-        species = POKE_TOOL_GetPartyValue(mon, 5, 0);
-        item = POKE_TOOL_GetPartyValue(mon, 6, 0);
-        levelCost = (u32)POKE_REGULATION_AdjustLevel(reg, POKE_TOOL_GetPartyValue(mon, 0x9e, 0));
+        mon = (struct Pokemon *)POKEPARTY_GetMember(party, slot);
+        species = POKE_TOOL_GetPartyValue((struct PokemonParam *)mon, 5, 0);
+        item = POKE_TOOL_GetPartyValue((struct PokemonParam *)mon, 6, 0);
+        levelCost = (u32)POKE_REGULATION_AdjustLevel(reg, POKE_TOOL_GetPartyValue((struct PokemonParam *)mon, 0x9e, 0));
         reason = POKE_REGULATION_CheckPokemon(reg, mon);
         if (reason != 0) {
             if (flags != 0)
@@ -899,7 +900,7 @@ int POKE_REGULATION_CheckOrder(const struct Regulation *reg, struct Party *party
         if (picked != 0)
             picked[count] = (char)(slot + 1);
         speciesList[count] = species;
-        formList[count] = POKE_TOOL_GetPartyValue(mon, 0x6f, 0);
+        formList[count] = POKE_TOOL_GetPartyValue((struct PokemonParam *)mon, 0x6f, 0);
         itemList[count] = item;
         levelTotal = (u16)(levelTotal + (u16)levelCost);
         count = (u8)(count + 1);

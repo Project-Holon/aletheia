@@ -132,7 +132,7 @@ typedef struct PokeVoiceWork {
 
 extern u32 EVENT_TRAINER_GetTrainerIdFromScriptId(u32 scriptId);
 extern GameData *GAMESYSTEM_GetGameData(GameSystem *gameSystem);
-extern FieldMap *GAMESYSTEM_GetFieldMap(GameSystem *gameSystem);
+extern void *GAMESYSTEM_GetFieldMap(GameSystem *gameSystem);
 extern ScriptWork *SCRCMD_WORK_GetScriptWork(ScrcmdWork *cmdWork);
 extern GameSystem *SCRCMD_WORK_GetGameSystem(ScrcmdWork *cmdWork);
 extern GameData *SCRCMD_WORK_GetGameData(ScrcmdWork *cmdWork);
@@ -141,31 +141,34 @@ extern u16 SCRIPT_WORK_ReadWorkValue(ScriptVm *vm, ScrcmdWork *cmdWork);
 extern u16 *SCRIPT_WORK_ReadWorkPointer(ScriptVm *vm, ScrcmdWork *cmdWork);
 extern ScriptFieldParam *SCRIPT_WORK_ResetFieldParam(ScriptWork *scriptWork);
 extern u16 SCRIPT_WORK_GetScriptId(ScriptWork *scriptWork);
-extern ScriptTrainerSlot *SCRIPT_WORK_GetTrainerEntry(ScriptWork *scriptWork, int index);
-extern GameSystem *SCRIPT_WORK_GetGameSystem(ScriptWork *scriptWork);
-extern u8 *SCRIPT_WORK_GetTrainerParam(ScriptWork *scriptWork);
-extern void SCRIPT_SYS_CallEvent(ScriptWork *scriptWork, GameEvent *event);
+struct ScriptWork;
+struct ScriptTrainerEntry;
+extern struct ScriptTrainerEntry *SCRIPT_WORK_GetTrainerEntry(ScriptWork *scriptWork, int index);
+extern void *SCRIPT_WORK_GetGameSystem(ScriptWork *scriptWork);
+extern u32 *SCRIPT_WORK_GetTrainerParam(ScriptWork *scriptWork);
+extern void SCRIPT_SYS_CallEvent(void *scriptWork, void *task);
 extern void SCRIPT_WORK_SetCheckFlag(int checkFlag);
 extern void SCRIPT_WORK_ResetCheckFlag(int checkFlag);
 extern TrainerEyeWork *EVENT_TRAINER_EYE_Create(u32 heapId, FieldMap *fieldMap, TrainerEyeHit *hit, int recordIndex);
-extern GameEvent *EVENT_TRAINER_EYE_CreatePairEvent(GameSystem *gameSystem, TrainerEyeWork *first, TrainerEyeWork *second);
+struct TrainerEyeWork;
+extern GameEvent *EVENT_TRAINER_EYE_CreatePairEvent(void *owner, struct TrainerEyeWork *first, struct TrainerEyeWork *second);
 extern u16 FLDMMDL_GetObjId(Mmdl *mmdl);
 extern int EVENT_TRAINER_GetBattleType(int trainerId);
 extern int EVENT_TRAINER_IsDoubleBattle(int trainerId);
-extern u32 EVENT_TRAINER_IsSecondaryScriptId(u32 scriptId);
-extern GameEvent *EVENT_BATTLE_CreateEncounterTask(GameSystem *gameSystem, FieldMap *fieldMap, int battleKind, int allyTrainerId, int trainerId, int secondTrainerId, int thirdTrainerId);
-extern GameEvent *EVENT_BATTLE_CreateEncounterTaskWithMon(GameSystem *gameSystem, FieldMap *fieldMap, u32 battleKind, u32 reserved, u32 trainerId, u32 secondTrainerId, u32 thirdTrainerId, u32 fourthTrainerId);
-extern u32 TPOKE_DATA_GetRecordField(u32 trainerId, u32 index);
+extern s32 EVENT_TRAINER_IsSecondaryScriptId(u32 scriptId);
+extern s32 EVENT_BATTLE_CreateEncounterTask(s32 gameSystem, s32 battleSrc, s32 battleMode, s32 battleFlags, s32 battleKind, s32 fieldEffect, s32 options);
+extern void *EVENT_BATTLE_CreateEncounterTaskWithMon(void *gameSystem, u32 battleSrc, u32 battleMode, u32 battleFlags, u32 battleKind, u32 fieldEffect, u32 options, u32 entryIndex);
+extern u32 TPOKE_DATA_GetRecordField(void *a, unsigned int idx);
 extern u16 FIELD_SOUND_SYSTEM_GetTrainerClassBgm(u32 trainerClass);
 extern GameEvent *FIELD_SOUND_SYSTEM_StartPushAndPlayWaitTask(GameSystem *gameSystem, u32 bgmNo);
 extern GameEvent *EVENT_FIELDMAP_CONTROL_StartFadeIn(GameSystem *gameSystem, FieldMap *fieldMap, int effect, int skipWait, int restoreBg, u8 seasonShown, u8 seasonTarget);
-extern TrainerRecord *GAME_DATA_GetTrainerRecord(GameData *gameData);
+extern void *GAME_DATA_GetTrainerRecord(GameData *gameData);
 extern u16 FIELDMAP_GetZoneId(FieldMap *fieldMap);
-extern int ZONEDATA_IsZoneInTableDFD2(u32 zoneId);
+extern u32 ZONEDATA_IsZoneInTableDFD2(u32 zoneId);
 extern u32 RECORD_AddOne(TrainerRecord *record, int index);
 extern u16 VM_ReadU16(ScriptVm *vm);
 extern GameEvent *FIELD_SOUND_SYSTEM_StartFadeOutAndPlayTask(GameSystem *gameSystem, u32 bgmNo);
-extern FieldSoundSystem *GAME_DATA_GetBgmInfo(GameData *gameData);
+extern u32 GAME_DATA_GetBgmInfo(GameData *gameData);
 extern void FIELD_SOUND_SYSTEM_PauseSlots(FieldSoundSystem *soundSystem, u32 slotMask);
 extern GameEvent *FIELD_SOUND_SYSTEM_StartFadeOutAndPlayWithFadeTask(GameSystem *gameSystem, u32 bgmNo, u16 fadeFrames);
 extern GameEvent *FIELD_SOUND_SYSTEM_StartFadeOutAndPlayFixedBgmTask(GameSystem *gameSystem, u16 bgmNo);
@@ -187,17 +190,18 @@ extern u32 FIELD_SOUND_SYSTEM_IsBusy(FieldSoundSystem *soundSystem);
 extern GameEvent *GAME_EVENT_Create(GameSystem *gameSystem, GameEvent *parent, void *func, unsigned int workSize);
 extern void *GAME_EVENT_GetWork(GameEvent *event);
 extern u32 PM_VOICE_IsSlotActive(u32 handle);
-extern u32 SCRCMD_WORK_GetFadeParam(ScrcmdWork *cmdWork);
-extern IssSystem *GAMESYSTEM_GetIssSystem(GameSystem *gameSystem);
+extern s32 SCRCMD_WORK_GetFadeParam(ScrcmdWork *cmdWork);
+extern void *GAMESYSTEM_GetIssSystem(GameSystem *gameSystem);
 extern IssSwitchSys *ISS_SYS_GetSwitchSys(IssSystem *issSystem);
-extern void ISS_SWITCH_SYS_SwitchOn(IssSwitchSys *switchSys, u32 switchNo);
-extern void ISS_SWITCH_SYS_SwitchOff(IssSwitchSys *switchSys, u32 switchNo);
-extern int ISS_SWITCH_SYS_IsSwitchOn(IssSwitchSys *switchSys, int switchNo);
+extern void ISS_SWITCH_SYS_SwitchOn(u8 *sys, u32 switchIdx);
+extern void ISS_SWITCH_SYS_SwitchOff(u8 *sys, u32 switchIdx);
+extern u32 ISS_SWITCH_SYS_IsSwitchOn(struct IssSwitchSys *sys, u32 switchIdx);
 extern int GFL_USE_IsLoaderBusy(void);
-extern void PM_VOICE_GetPerapVoiceSave(void **out);
+struct SaveBlock;
+extern void PM_VOICE_GetPerapVoiceSave(struct SaveBlock **out);
 extern u32 PM_VOICE_Play(u32 species, u32 form, u32 pan, u32 dual, u32 volumeBiasB, u32 frequencyOffsetB, u32 reverse, void **recordedVoice);
-extern void SCRCMD_WORK_SetFadeParam(ScrcmdWork *cmdWork, u32 voiceHandle);
-extern MyItem *GAME_DATA_GetMyItem(GameData *gameData);
+extern void SCRCMD_WORK_SetFadeParam(struct ScrcmdWork *work, s32 param);
+extern void *GAME_DATA_GetMyItem(GameData *gameData);
 extern u16 MYITEM_SAVEDATA_AddItem(MyItem *myItem, u32 itemNo, u32 count, u32 heapId);
 extern u16 MYITEM_SAVEDATA_RemoveItem(MyItem *myItem, u32 itemNo, u32 count, u32 heapId);
 extern u16 MYITEM_SAVEDATA_CanAddItem(MyItem *myItem, u32 itemNo, u32 count, u32 heapId);
@@ -284,9 +288,9 @@ int SCRCMD_CreateTrainerEye(ScriptVm *vm, ScrcmdWork *cmdWork)
     fieldParam = SCRIPT_WORK_ResetFieldParam(scriptWork);
     slotIndex = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
     if (slotIndex == 0) {
-        slot = SCRIPT_WORK_GetTrainerEntry(scriptWork, 0);
+        slot = (struct ScriptTrainerSlot *)SCRIPT_WORK_GetTrainerEntry(scriptWork, 0);
     } else if (slotIndex == 1) {
-        slot = SCRIPT_WORK_GetTrainerEntry(scriptWork, 1);
+        slot = (struct ScriptTrainerSlot *)SCRIPT_WORK_GetTrainerEntry(scriptWork, 1);
     }
     slot->eyeWork = EVENT_TRAINER_EYE_Create(SCRCMD_WORK_GetHeapId(cmdWork), fieldParam->fieldSystem, &slot->hit, slotIndex);
     return 0;
@@ -296,8 +300,8 @@ int SCRCMD_CreateTrainerEye(ScriptVm *vm, ScrcmdWork *cmdWork)
 int SCRCMD_CallTrainerEyePairEvent(ScriptVm *vm, ScrcmdWork *cmdWork)
 {
     ScriptWork *scriptWork = SCRCMD_WORK_GetScriptWork(cmdWork);
-    ScriptTrainerSlot *firstSlot = SCRIPT_WORK_GetTrainerEntry(scriptWork, 0);
-    ScriptTrainerSlot *secondSlot = SCRIPT_WORK_GetTrainerEntry(scriptWork, 1);
+    ScriptTrainerSlot *firstSlot = (struct ScriptTrainerSlot *)SCRIPT_WORK_GetTrainerEntry(scriptWork, 0);
+    ScriptTrainerSlot *secondSlot = (struct ScriptTrainerSlot *)SCRIPT_WORK_GetTrainerEntry(scriptWork, 1);
 
     SCRIPT_SYS_CallEvent(scriptWork, EVENT_TRAINER_EYE_CreatePairEvent(SCRCMD_WORK_GetGameSystem(cmdWork), firstSlot->eyeWork, secondSlot->eyeWork));
     return 1;
@@ -306,7 +310,7 @@ int SCRCMD_CallTrainerEyePairEvent(ScriptVm *vm, ScrcmdWork *cmdWork)
 /* Script command: store the hit kind of trainer slot 0 in a script variable. */
 int SCRCMD_GetTrainerHitKind(ScriptVm *vm, ScrcmdWork *cmdWork)
 {
-    ScriptTrainerSlot *slot = SCRIPT_WORK_GetTrainerEntry(SCRCMD_WORK_GetScriptWork(cmdWork), 0);
+    ScriptTrainerSlot *slot = (struct ScriptTrainerSlot *)SCRIPT_WORK_GetTrainerEntry(SCRCMD_WORK_GetScriptWork(cmdWork), 0);
 
     *SCRIPT_WORK_ReadWorkPointer(vm, cmdWork) = slot->hit.hitKind;
     return 0;
@@ -325,9 +329,9 @@ int SCRCMD_GetTrainerEyeTrainerId(ScriptVm *vm, ScrcmdWork *cmdWork)
     result = SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
     slot = 0;
     if (slotIndex == 0) {
-        slot = SCRIPT_WORK_GetTrainerEntry(scriptWork, 0);
+        slot = (struct ScriptTrainerSlot *)SCRIPT_WORK_GetTrainerEntry(scriptWork, 0);
     } else if (slotIndex == 1) {
-        slot = SCRIPT_WORK_GetTrainerEntry(scriptWork, 1);
+        slot = (struct ScriptTrainerSlot *)SCRIPT_WORK_GetTrainerEntry(scriptWork, 1);
     }
     *result = slot ? slot->hit.trainerId : 0;
     return 0;
@@ -346,9 +350,9 @@ int SCRCMD_GetTrainerEyeObjId(ScriptVm *vm, ScrcmdWork *cmdWork)
     result = SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
     slot = 0;
     if (slotIndex == 0) {
-        slot = SCRIPT_WORK_GetTrainerEntry(scriptWork, 0);
+        slot = (struct ScriptTrainerSlot *)SCRIPT_WORK_GetTrainerEntry(scriptWork, 0);
     } else if (slotIndex == 1) {
-        slot = SCRIPT_WORK_GetTrainerEntry(scriptWork, 1);
+        slot = (struct ScriptTrainerSlot *)SCRIPT_WORK_GetTrainerEntry(scriptWork, 1);
     }
     *result = slot ? FLDMMDL_GetObjId(slot->hit.trainer) : 0;
     return 0;
@@ -387,7 +391,7 @@ int SCRCMD_StartTrainerBattle(ScriptVm *vm, ScrcmdWork *cmdWork)
     if (secondTrainerId == 0 && EVENT_TRAINER_IsDoubleBattle(trainerId) == 1) {
         secondTrainerId = trainerId;
     }
-    SCRIPT_SYS_CallEvent(scriptWork, EVENT_BATTLE_CreateEncounterTask(SCRIPT_WORK_GetGameSystem(scriptWork), SCRIPT_WORK_ResetFieldParam(scriptWork)->fieldSystem, battleKind, 0, trainerId, secondTrainerId, thirdTrainerId));
+    SCRIPT_SYS_CallEvent((void *)scriptWork, (void *)(EVENT_BATTLE_CreateEncounterTask((s32)SCRIPT_WORK_GetGameSystem(scriptWork), (s32)(SCRIPT_WORK_ResetFieldParam(scriptWork)->fieldSystem), battleKind, 0, trainerId, secondTrainerId, thirdTrainerId)));
     SCRCMD_IncrementTrainerRecord(cmdWork);
     return 1;
 }
@@ -404,7 +408,7 @@ int SCRCMD_StartMultiTrainerBattle(ScriptVm *vm, ScrcmdWork *cmdWork)
     trainerId = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
     secondTrainerId = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
     thirdTrainerId = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
-    SCRIPT_SYS_CallEvent(scriptWork, EVENT_BATTLE_CreateEncounterTask(SCRIPT_WORK_GetGameSystem(scriptWork), SCRIPT_WORK_ResetFieldParam(scriptWork)->fieldSystem, 1, allyTrainerId, trainerId, secondTrainerId, thirdTrainerId));
+    SCRIPT_SYS_CallEvent((void *)scriptWork, (void *)(EVENT_BATTLE_CreateEncounterTask((s32)SCRIPT_WORK_GetGameSystem(scriptWork), (s32)(SCRIPT_WORK_ResetFieldParam(scriptWork)->fieldSystem), 1, allyTrainerId, trainerId, secondTrainerId, thirdTrainerId)));
     SCRCMD_IncrementTrainerRecord(cmdWork);
     return 1;
 }
@@ -469,7 +473,7 @@ int SCRCMD_PlayTrainerEncounterBgm(ScriptVm *vm, ScrcmdWork *cmdWork)
     gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
     SCRCMD_WORK_GetGameData(cmdWork);
     scriptWork = SCRCMD_WORK_GetScriptWork(cmdWork);
-    SCRIPT_SYS_CallEvent(scriptWork, FIELD_SOUND_SYSTEM_StartPushAndPlayWaitTask(gameSystem, FIELD_SOUND_SYSTEM_GetTrainerClassBgm(TPOKE_DATA_GetRecordField(SCRIPT_WORK_ReadWorkValue(vm, cmdWork), 1))));
+    SCRIPT_SYS_CallEvent(scriptWork, FIELD_SOUND_SYSTEM_StartPushAndPlayWaitTask(gameSystem, FIELD_SOUND_SYSTEM_GetTrainerClassBgm(TPOKE_DATA_GetRecordField((void *)(SCRIPT_WORK_ReadWorkValue(vm, cmdWork)), 1))));
     return 1;
 }
 
@@ -492,9 +496,9 @@ int SCRCMD_ClassifyTrainer(ScriptVm *vm, ScrcmdWork *cmdWork)
 
     trainerId = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
     result = SCRIPT_WORK_ReadWorkPointer(vm, cmdWork);
-    if (TPOKE_DATA_GetRecordField(trainerId, 9)) {
+    if (TPOKE_DATA_GetRecordField((void *)trainerId, 9)) {
         kind = 1;
-    } else if (TPOKE_DATA_GetRecordField(trainerId, 11)) {
+    } else if (TPOKE_DATA_GetRecordField((void *)trainerId, 11)) {
         kind = 2;
     } else {
         kind = 0;
@@ -508,7 +512,7 @@ int SCRCMD_GetTrainerBattleParam(ScriptVm *vm, ScrcmdWork *cmdWork)
 {
     u32 trainerId = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
 
-    *SCRIPT_WORK_ReadWorkPointer(vm, cmdWork) = TPOKE_DATA_GetRecordField(trainerId, 0xb);
+    *SCRIPT_WORK_ReadWorkPointer(vm, cmdWork) = TPOKE_DATA_GetRecordField((void *)trainerId, 0xb);
     return 0;
 }
 
@@ -537,7 +541,7 @@ int SCRCMD_StartTrainerBattleWithMon(ScriptVm *vm, ScrcmdWork *cmdWork)
     if (secondTrainerId == 0 && EVENT_TRAINER_IsDoubleBattle(trainerId) == 1) {
         secondTrainerId = trainerId;
     }
-    SCRIPT_SYS_CallEvent(scriptWork, EVENT_BATTLE_CreateEncounterTaskWithMon(SCRIPT_WORK_GetGameSystem(scriptWork), SCRIPT_WORK_ResetFieldParam(scriptWork)->fieldSystem, battleKind, 0, trainerId, secondTrainerId, thirdTrainerId, fourthTrainerId));
+    SCRIPT_SYS_CallEvent((void *)scriptWork, (void *)((u32)EVENT_BATTLE_CreateEncounterTaskWithMon((void *)SCRIPT_WORK_GetGameSystem(scriptWork), (u32)(SCRIPT_WORK_ResetFieldParam(scriptWork)->fieldSystem), battleKind, 0, trainerId, secondTrainerId, thirdTrainerId, fourthTrainerId)));
     return 1;
 }
 
@@ -560,7 +564,7 @@ int SCRCMD_FadeOutPlayBgm(ScriptVm *vm, ScrcmdWork *cmdWork)
     gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
     scriptWork = SCRCMD_WORK_GetScriptWork(cmdWork);
     SCRIPT_SYS_CallEvent(scriptWork, FIELD_SOUND_SYSTEM_StartFadeOutAndPlayTask(gameSystem, VM_ReadU16(vm)));
-    FIELD_SOUND_SYSTEM_PauseSlots(GAME_DATA_GetBgmInfo(GAMESYSTEM_GetGameData(gameSystem)), 2);
+    FIELD_SOUND_SYSTEM_PauseSlots((struct FieldSoundSystem *)GAME_DATA_GetBgmInfo(GAMESYSTEM_GetGameData(gameSystem)), 2);
     SCRIPT_WORK_SetCheckFlag(13);
     return 1;
 }
@@ -576,7 +580,7 @@ int SCRCMD_FadeOutPlayBgmWithFade(ScriptVm *vm, ScrcmdWork *cmdWork)
     scriptWork = SCRCMD_WORK_GetScriptWork(cmdWork);
     event = FIELD_SOUND_SYSTEM_StartFadeOutAndPlayWithFadeTask(gameSystem, VM_ReadU16(vm), VM_ReadU16(vm));
     SCRIPT_SYS_CallEvent(scriptWork, event);
-    FIELD_SOUND_SYSTEM_PauseSlots(GAME_DATA_GetBgmInfo(GAMESYSTEM_GetGameData(gameSystem)), 2);
+    FIELD_SOUND_SYSTEM_PauseSlots((struct FieldSoundSystem *)GAME_DATA_GetBgmInfo(GAMESYSTEM_GetGameData(gameSystem)), 2);
     SCRIPT_WORK_SetCheckFlag(13);
     return 1;
 }
@@ -592,7 +596,7 @@ int SCRCMD_FadeOutPlayFixedBgm(ScriptVm *vm, ScrcmdWork *cmdWork)
     scriptWork = SCRCMD_WORK_GetScriptWork(cmdWork);
     event = FIELD_SOUND_SYSTEM_StartFadeOutAndPlayFixedBgmTask(gameSystem, VM_ReadU16(vm));
     SCRIPT_SYS_CallEvent(scriptWork, event);
-    FIELD_SOUND_SYSTEM_PauseSlots(GAME_DATA_GetBgmInfo(GAMESYSTEM_GetGameData(gameSystem)), 2);
+    FIELD_SOUND_SYSTEM_PauseSlots((struct FieldSoundSystem *)GAME_DATA_GetBgmInfo(GAMESYSTEM_GetGameData(gameSystem)), 2);
     SCRIPT_WORK_SetCheckFlag(13);
     return 1;
 }
@@ -636,7 +640,7 @@ int SCRCMD_FadeBgmVolume(ScriptVm *vm, ScrcmdWork *cmdWork)
     gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
     gameData = GAMESYSTEM_GetGameData(gameSystem);
     GAMESYSTEM_GetFieldMap(gameSystem);
-    soundSystem = GAME_DATA_GetBgmInfo(gameData);
+    soundSystem = (struct FieldSoundSystem *)GAME_DATA_GetBgmInfo(gameData);
     level = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
     FIELD_SOUND_SYSTEM_FadeVolume(soundSystem, level, (u8)SCRIPT_WORK_ReadWorkValue(vm, cmdWork));
     SCRIPT_WORK_SetCheckFlag(12);
@@ -653,7 +657,7 @@ int SCRCMD_RestoreBgmVolume(ScriptVm *vm, ScrcmdWork *cmdWork)
     gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
     gameData = GAMESYSTEM_GetGameData(gameSystem);
     GAMESYSTEM_GetFieldMap(gameSystem);
-    soundSystem = GAME_DATA_GetBgmInfo(gameData);
+    soundSystem = (struct FieldSoundSystem *)GAME_DATA_GetBgmInfo(gameData);
     FIELD_SOUND_SYSTEM_FadeVolume(soundSystem, 0x7f, (u8)SCRIPT_WORK_ReadWorkValue(vm, cmdWork));
     SCRIPT_WORK_ResetCheckFlag(12);
     return 0;
@@ -662,7 +666,7 @@ int SCRCMD_RestoreBgmVolume(ScriptVm *vm, ScrcmdWork *cmdWork)
 /* Event function: restore the BGM volume at once, then finish. */
 int SCRCMD_RestoreBgmVolumeEvent(BgmEventWork *work, u32 *seq)
 {
-    FieldSoundSystem *soundSystem = GAME_DATA_GetBgmInfo(GAMESYSTEM_GetGameData(work->gameSystem));
+    FieldSoundSystem *soundSystem = (struct FieldSoundSystem *)GAME_DATA_GetBgmInfo(GAMESYSTEM_GetGameData(work->gameSystem));
 
     switch (*seq) {
     case 0:
@@ -695,7 +699,7 @@ int SCRCMD_ResumeZoneBgm(ScriptVm *vm, ScrcmdWork *cmdWork)
     gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
     gameData = GAMESYSTEM_GetGameData(gameSystem);
     fieldMap = GAMESYSTEM_GetFieldMap(gameSystem);
-    soundSystem = GAME_DATA_GetBgmInfo(gameData);
+    soundSystem = (struct FieldSoundSystem *)GAME_DATA_GetBgmInfo(gameData);
     scriptWork = SCRCMD_WORK_GetScriptWork(cmdWork);
     season = GAME_DATA_GetSeason(gameData);
     zoneBgm = FIELD_SOUND_SYSTEM_GetFieldBgmForZoneEx(gameData, FIELDMAP_GetZoneId(fieldMap), season);
@@ -718,7 +722,7 @@ int SCRCMD_ResumeZoneBgmWithFade(ScriptVm *vm, ScrcmdWork *cmdWork)
     gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
     gameData = GAMESYSTEM_GetGameData(gameSystem);
     fieldMap = GAMESYSTEM_GetFieldMap(gameSystem);
-    soundSystem = GAME_DATA_GetBgmInfo(gameData);
+    soundSystem = (struct FieldSoundSystem *)GAME_DATA_GetBgmInfo(gameData);
     scriptWork = SCRCMD_WORK_GetScriptWork(cmdWork);
     fadeOutFrames = VM_ReadU16(vm);
     season = GAME_DATA_GetSeason(gameData);
@@ -788,7 +792,7 @@ int SCRCMD_PopBgmEvent(BgmEventWork *work, u32 *seq)
 /* Script command: resume the BGM slots of mask 2, then clear check flag 13. */
 int SCRCMD_ResumeBgmSlots(ScriptVm *vm, ScrcmdWork *cmdWork)
 {
-    FIELD_SOUND_SYSTEM_ResumeSlots(GAME_DATA_GetBgmInfo(GAMESYSTEM_GetGameData(SCRCMD_WORK_GetGameSystem(cmdWork))), 2);
+    FIELD_SOUND_SYSTEM_ResumeSlots((struct FieldSoundSystem *)GAME_DATA_GetBgmInfo(GAMESYSTEM_GetGameData(SCRCMD_WORK_GetGameSystem(cmdWork))), 2);
     SCRIPT_WORK_ResetCheckFlag(13);
     return 0;
 }
@@ -796,7 +800,7 @@ int SCRCMD_ResumeBgmSlots(ScriptVm *vm, ScrcmdWork *cmdWork)
 /* Event function: resume the BGM slots of mask 2 and finish. */
 int SCRCMD_ResumeBgmSlotsEvent(BgmEventWork *work, u32 *seq)
 {
-    FIELD_SOUND_SYSTEM_ResumeSlots(GAME_DATA_GetBgmInfo(GAMESYSTEM_GetGameData(work->gameSystem)), 2);
+    FIELD_SOUND_SYSTEM_ResumeSlots((struct FieldSoundSystem *)GAME_DATA_GetBgmInfo(GAMESYSTEM_GetGameData(work->gameSystem)), 2);
     return 1;
 }
 
@@ -808,7 +812,7 @@ void SCRCMD_ClearFinishedSeSlots(ScriptWork *scriptWork)
     int slot;
     u8 *seSlotMask;
 
-    seSlotMask = SCRIPT_WORK_GetTrainerParam(scriptWork);
+    seSlotMask = (u8 *)SCRIPT_WORK_GetTrainerParam(scriptWork);
     for (slot = 0; slot < 5; slot++) {
         if (*seSlotMask & (1 << slot)) {
             if (GFL_USE_IsSeSlotBusy(slot) == 0)
@@ -820,7 +824,7 @@ void SCRCMD_ClearFinishedSeSlots(ScriptWork *scriptWork)
 /* Sets the bit of the slot that plays a sound effect. */
 void SCRCMD_MarkSeSlot(ScriptWork *scriptWork, u32 seNo)
 {
-    u8 *seSlotMask = SCRIPT_WORK_GetTrainerParam(scriptWork);
+    u8 *seSlotMask = (u8 *)SCRIPT_WORK_GetTrainerParam(scriptWork);
 
     *seSlotMask |= 1 << GFL_USE_GetSeSlot(seNo);
 }
@@ -831,7 +835,7 @@ int SCRCMD_IsMarkedSeBusy(ScriptWork *scriptWork)
     int slot;
     u8 *seSlotMask;
 
-    seSlotMask = SCRIPT_WORK_GetTrainerParam(scriptWork);
+    seSlotMask = (u8 *)SCRIPT_WORK_GetTrainerParam(scriptWork);
     for (slot = 0; slot < 5; slot++) {
         if (*seSlotMask & (1 << slot)) {
             if (GFL_USE_IsSeSlotBusy(slot) == 1)
@@ -848,7 +852,7 @@ void SCRCMD_StopMarkedSeSlots(ScriptWork *scriptWork)
     int slot;
     u8 *seSlotMask;
 
-    seSlotMask = SCRIPT_WORK_GetTrainerParam(scriptWork);
+    seSlotMask = (u8 *)SCRIPT_WORK_GetTrainerParam(scriptWork);
     for (slot = 0; slot < 5; slot++) {
         if (*seSlotMask & (1 << slot))
             GFL_USE_StopSeSlot(slot);
@@ -913,7 +917,7 @@ int SCRCMD_WaitBgmThenPop(ScriptVm *vm, void *user)
 
     gameSystem = SCRCMD_WORK_GetGameSystem(cmdWork);
     scriptWork = SCRCMD_WORK_GetScriptWork(cmdWork);
-    soundSystem = GAME_DATA_GetBgmInfo(GAMESYSTEM_GetGameData(gameSystem));
+    soundSystem = (struct FieldSoundSystem *)GAME_DATA_GetBgmInfo(GAMESYSTEM_GetGameData(gameSystem));
     if (GFL_USE_IsBgmPlaying() == 0 && FIELD_SOUND_SYSTEM_IsBusy(soundSystem) == 0) {
         SCRIPT_SYS_CallEvent(scriptWork, FIELD_SOUND_SYSTEM_StartPopAndWaitTask(gameSystem, 0, 6));
         return 1;
@@ -1010,7 +1014,7 @@ int SCRCMD_IssSwitchOn(ScriptVm *vm, ScrcmdWork *cmdWork)
 {
     IssSwitchSys *switchSys = ISS_SYS_GetSwitchSys(GAMESYSTEM_GetIssSystem(SCRCMD_WORK_GetGameSystem(cmdWork)));
 
-    ISS_SWITCH_SYS_SwitchOn(switchSys, SCRIPT_WORK_ReadWorkValue(vm, cmdWork));
+    ISS_SWITCH_SYS_SwitchOn((u8 *)switchSys, SCRIPT_WORK_ReadWorkValue(vm, cmdWork));
     return 0;
 }
 
@@ -1019,7 +1023,7 @@ int SCRCMD_IssSwitchOff(ScriptVm *vm, ScrcmdWork *cmdWork)
 {
     IssSwitchSys *switchSys = ISS_SYS_GetSwitchSys(GAMESYSTEM_GetIssSystem(SCRCMD_WORK_GetGameSystem(cmdWork)));
 
-    ISS_SWITCH_SYS_SwitchOff(switchSys, SCRIPT_WORK_ReadWorkValue(vm, cmdWork));
+    ISS_SWITCH_SYS_SwitchOff((u8 *)switchSys, SCRIPT_WORK_ReadWorkValue(vm, cmdWork));
     return 0;
 }
 
@@ -1045,7 +1049,7 @@ int SCRCMD_PokeVoiceEvent(GameEvent *event, u32 *seq, PokeVoiceWork *work)
         u32 species, form;
         form = work->form;
         species = work->species;
-        PM_VOICE_GetPerapVoiceSave(&voiceSave);
+        PM_VOICE_GetPerapVoiceSave((struct SaveBlock **)(&voiceSave));
         voiceHandle = PM_VOICE_Play(species, form, 0x40, 0, 0, 0, 0, &voiceSave);
     } else {
         voiceHandle = PM_VOICE_Play(work->species, work->form, 0x40, 0, 0, 0, 0, 0);

@@ -22,6 +22,7 @@
  *   vman_File                  0x020A7964  data
  *   _VramBankSizes             0x020A07C8  data
  *   _UnitSizes                 0x020A07A0  data
+ *   _u32_div_f                   0x0209C2B0  arm
  */
 #include "vman_shared_types.h"
 

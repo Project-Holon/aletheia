@@ -56,8 +56,9 @@ constants of this file: they are read from the pool words and instruction
 immediates of the decryptor itself, whose bytes
 [0x021889E4, 0x02188B48) are first checked against DECRYPTOR_SHA1 (the
 digest of the code this reading was made from; a digest cannot be turned
-back into the code).  A different image is refused, not decrypted by a
-guess.
+back into the code).  Pokemon Black and Pokemon White each have a pinned
+digest (VERSIONS); White's overlay loads 0x20 higher and every pinned address
+moves with it.  A different image is refused, not decrypted by a guess.
 
 Evidence and checks (each failure raises CryptError; nothing is written)
 ------------------------------------------------------------------------
@@ -152,6 +153,23 @@ OVERLAY_ID = 230
 REGION = "ov230d"
 VIEW_FILE = "ov230d.bin"
 
+# Versions.  Pokemon White's overlay 230 is the same code loaded 0x20 higher (the ARM9 module is
+# 32 bytes longer, so every overlay base moves): every address below is a Black address, and a
+# version adds SHIFT to it.  The only byte of the decryptor that differs is the low byte of the
+# pool word END (0x02188B3C, ov230's end address, 0xA0 in Black and 0xC0 in White); KEY, DELTA,
+# BIAS and the cipher are the same.  Each version pins its own digests of the three spans.
+VERSIONS = {
+    0x00: ("black", "6695c80eccf06b9fca7682cee76bd7a9e67023dd",
+           "9312544f5ff88e7e895c1f7e20e401d2c07eb039",
+           "573e3ab8fd66ac981a4cdeea1409fb17e0e35278"),
+    0x20: ("white",
+           "ff437c9ac38e6778abf517a2ba8ee584a26e1f34", "9312544f5ff88e7e895c1f7e20e401d2c07eb039",
+           "85becd93c18e53fca461374eac4875e0832ebd9b"),
+}
+BLACK_BASE = 0x02187F00
+SHIFT = 0
+VERSION_NAME = "black"
+
 # The decryptor as read from the image: cache flush func_021889E4,
 # classifier func_02188A0C, loc_02188A48 and its three pool words.
 DECRYPTOR_SPAN = (0x021889E4, 0x02188B48)
@@ -182,6 +200,30 @@ BODY_BIAS = 0x1600          # address bias of the parameter blocks
 STUB_SIZE = 0x24            # a call stub; its 6-word parameter block follows
 STUB_WORDS = (0xE18FC00F, 0xE01CC00C, 0x03A0C000, 0x128CC01C, 0xE59CC014, 0xE24CCC16,
               0xE92D1000, 0xE18FC00F, 0xE8BD8000)
+
+
+_ADDR_NAMES = ("DECRYPTOR", "LDR_END", "LDR_KEY", "LDR_DELTA", "SUB_BIAS_SIZE", "SUB_BIAS_ADDR",
+               "DISPATCHER", "BSS_START")
+_SPAN_NAMES = ("DECRYPTOR_SPAN", "CIPHER_SPAN", "DISPATCH_SPAN")
+_BLACK = {n: globals()[n] for n in _ADDR_NAMES + _SPAN_NAMES}
+
+
+def _select(base):
+    """Pick the version from the overlay's load address and move every pinned address."""
+    global SHIFT, VERSION_NAME, DECRYPTOR_SHA1, CIPHER_SHA1, DISPATCH_SHA1
+    shift = base - BLACK_BASE
+    if shift not in VERSIONS:
+        raise CryptError("overlay 230 loads at 0x%08X; this module knows the loads of %s"
+                         % (base, ", ".join("%s 0x%08X" % (v[0], BLACK_BASE + k)
+                                            for k, v in sorted(VERSIONS.items()))))
+    SHIFT = shift
+    VERSION_NAME = VERSIONS[shift][0]
+    DECRYPTOR_SHA1, CIPHER_SHA1, DISPATCH_SHA1 = VERSIONS[shift][1:]
+    g = globals()
+    for n in _ADDR_NAMES:
+        g[n] = _BLACK[n] + shift
+    for n in _SPAN_NAMES:
+        g[n] = (_BLACK[n][0] + shift, _BLACK[n][1] + shift)
 
 
 class CryptError(Exception):
@@ -236,6 +278,7 @@ def _classify(w):
 
 def _params(mem, base):
     """(END, KEY, DELTA, BIAS) read from the verified decryptor."""
+    _select(base)
     lo, hi = DECRYPTOR_SPAN
     if lo < base or hi - base > len(mem):
         raise CryptError("the decryptor span is outside this image")

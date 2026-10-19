@@ -95,21 +95,25 @@ typedef struct FldeffKemuriWork {
 
 extern u32 GFL_HEAP_Free(void *p);
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *file, u16 line);
-extern void FLDMMDL_GetPos(const Mmdl *mmdl, VecFx32 *out);
-extern void *FLDMMDL_GetMmdlSys(const Mmdl *mmdl);
+struct MmdlVec;
+struct Mmdl;
+extern void FLDMMDL_GetPos(struct Mmdl *mmdl, struct MmdlVec *out);
+struct MmdlSys;
+extern struct MmdlSys *FLDMMDL_GetMmdlSys(const Mmdl *mmdl);
 extern void FIELD_G3DOBJ_InitResDesc(FieldG3dObjResDesc *desc);
-extern int FIELD_G3DOBJ_SetResDescModel(FieldG3dObjResDesc *desc, u32 arc, u32 file);
+extern void FIELD_G3DOBJ_SetResDescModel(FieldG3dObjResDesc *desc, u32 arc, u32 file);
 extern void FIELD_G3DOBJ_SetResDescAnimeArc(FieldG3dObjResDesc *desc, u32 arc);
 extern void FIELD_G3DOBJ_AddResDescAnimeFile(FieldG3dObjResDesc *desc, u16 file);
 extern int FIELD_G3DOBJ_AddResourceDefaultPal(FieldG3dObjCtrl *ctrl, FieldG3dObjResDesc *desc, int mode);
 extern u32 FIELD_G3DOBJ_DeleteResource(FieldG3dObjCtrl *ctrl, int resIdx);
-extern u32 FLDMMDL_SysGetAreaId(void *mmdlSys);
-extern u32 FIELD_G3DOBJ_AddObject(FieldG3dObjCtrl *ctrl, u16 resIdx, u16 modelIdx, VecFx32 *pos);
+extern u32 FLDMMDL_SysGetAreaId(struct MmdlSys *sys);
+extern u16 FIELD_G3DOBJ_AddObject(FieldG3dObjCtrl *ctrl, u16 resIdx, u16 modelIdx, VecFx32 *pos);
 void FIELD_G3DOBJ_DeleteObject(FieldG3dObjCtrl *ctrl, int objIdx);
 extern int FIELD_G3DOBJ_IncAnimeFrame(FieldG3dObjCtrl *ctrl, int objIdx, int speed);
 FieldG3dObjCtrl *FIELD_EFFECT_GetFieldMapData(FieldEffectSys *sys);
-int FIELD_EFFECT_GetArcHandle(FieldEffectSys *sys);
-void *FIELD_EFFECT_GetResource(FieldEffectSys *sys, int id);
+struct FieldEffectSys;
+u32 FIELD_EFFECT_GetArcHandle(FieldEffectSys *sys);
+s32 FIELD_EFFECT_GetResource(FieldEffectSys *sys, int id);
 void FIELD_EFFECT_AddObject(FieldEffectSys *sys, const FieldEffectObjFuncs *funcs, const VecFx32 *pos, u32 mode, void *param, u32 priority);
 void FIELD_EFFECT_DeleteObject(FieldEffectObj *obj);
 void *FIELD_EFFECT_GetObjectParam(FieldEffectObj *obj);
@@ -198,10 +202,10 @@ void FLDEFF_KEMURI_Start(Mmdl *mmdl, FieldEffectSys *sys)
 {
     VecFx32 pos;
     FldeffKemuriParam param;
-    FLDMMDL_GetPos(mmdl, &pos);
+    FLDMMDL_GetPos(mmdl, (struct MmdlVec *)(&pos));
     pos.y += FLDEFF_KEMURI_RAISE;
     pos.z += FLDEFF_KEMURI_FORWARD;
-    param.kemuri = FIELD_EFFECT_GetResource(sys, FLDEFF_ID_KEMURI);
+    param.kemuri = (struct FldeffKemuri *)FIELD_EFFECT_GetResource(sys, FLDEFF_ID_KEMURI);
     param.pos = pos;
     FIELD_EFFECT_AddObject(sys, &gFldeffKemuriObjFuncs, 0, 0, &param, 0);
 }
@@ -218,12 +222,12 @@ void FLDEFF_KEMURI_StartFacing(Mmdl *mmdl, FieldEffectSys *sys)
     FldeffKemuriParam param;
     int dirIndex;
     dirIndex = FLDMMDL_SysGetAreaId(FLDMMDL_GetMmdlSys(mmdl));
-    FLDMMDL_GetPos(mmdl, &pos);
+    FLDMMDL_GetPos(mmdl, (struct MmdlVec *)(&pos));
     pos.y += FLDEFF_KEMURI_RAISE;
     dirIndex = (dirIndex >> 4) * 2;
     pos.z += (s32)(((long long)FX_SinCosTable_[dirIndex + 1] * FLDEFF_KEMURI_FORWARD + 0x800) >> 12);
     pos.x += (s32)(((long long)FX_SinCosTable_[dirIndex] * FLDEFF_KEMURI_FORWARD + 0x800) >> 12);
-    param.kemuri = FIELD_EFFECT_GetResource(sys, FLDEFF_ID_KEMURI);
+    param.kemuri = (struct FldeffKemuri *)FIELD_EFFECT_GetResource(sys, FLDEFF_ID_KEMURI);
     param.pos = pos;
     FIELD_EFFECT_AddObject(sys, &gFldeffKemuriObjFuncs, 0, 0, &param, 0);
 }

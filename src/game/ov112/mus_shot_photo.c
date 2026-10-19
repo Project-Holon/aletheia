@@ -114,7 +114,7 @@
 #include "mus_shot_photo_shared_types.h"
 #include "musical_shot_types.h"
 
-struct Camera;
+struct G3dCamera;
 
 struct Lights;
 
@@ -137,7 +137,7 @@ typedef struct
 
 extern void *GFL_HEAP_Alloc(u32,u32,int,const char *,u16);
 
-extern void G2x_SetBlendAlpha_(void *,int,int,int,int);
+extern void G2x_SetBlendAlpha_(u32 *reg, u32 a, u32 b, u32 c, u32 d);
 
 extern u32 GFL_HEAP_Free(void *p);
 
@@ -162,10 +162,12 @@ extern void STA_ACT_LIGHT_DeleteBillboardImage(char *p);
 extern void MUSICAL_MCSS_DeleteRenderObj(int a);
 
 extern void MUSICAL_MCSS_DeleteActorPool(u8 *);
+struct BmpWin;
 
-extern u32 BMP_WIN_Delete(struct Descriptor *d);
+extern u32 BMP_WIN_Delete(struct BmpWin *win);
+struct GfFont;
 
-extern u32 GF_FONT_Delete(void *ptr);
+extern u32 GF_FONT_Delete(struct GfFont *font);
 
 extern void STA_ACT_LIGHT_UpdateBillboard(u8 *p);
 
@@ -188,8 +190,11 @@ extern void MUSICAL_SHOT_SYS_NoOp(u8 *);
 extern void G3D_SYSTEM_DrawStart(void);
 
 extern void G3D_SYSTEM_ApplyLookAt(void);
+struct LightSlot;
+struct BbBoard;
+struct G3dCamera;
 
-extern void BILLBOARD_Draw(struct Board *b, struct Camera *cam, struct Lights *lights);
+extern void BILLBOARD_Draw(struct BbBoard *board, struct G3dCamera *camera, struct LightSlot *lights);
 
 extern void G3D_SYSTEM_DrawEnd(void);
 
@@ -200,8 +205,9 @@ extern void BG_SYS_EnableBg0WithPriority(u32 mode);
 extern void G3D_SYSTEM_SetSwapBuffersMode(u32 a, u32 b);
 
 extern void *G3D_CAMERA_Create(int, int, int, int, int, int, int, int, const void *, const void *, const void *, int);
+struct G3dCamera;
 
-extern void G3D_CAMERA_Reset(struct Light *l);
+extern void G3D_CAMERA_Reset(struct G3dCamera *camera);
 
 extern void G3X_SetEdgeColorTable(const void *a);
 
@@ -211,7 +217,7 @@ extern void BILLBOARD_SetScale(u8 *dst, struct Blk3 *src);
 
 extern void BG_SYS_ChangeScrollImmediate(u32, u32, u32);
 
-extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
+extern void *ARC_TOOL_CreateHandle(u32 archiveID, u16 heapID);
 
 extern u32 ARC_UTIL_UploadPaletteFromHandle(void *arc, u32 memberIdx, u32 kind, u32 offset, u32 dest, u32 size, u16 flags);
 
@@ -238,8 +244,9 @@ extern u32 G3D_CAMERA_Delete(void *ptr);
 extern void G3D_SYSTEM_Exit(void);
 
 extern void *MUSICAL_MCSS_CreateRenderObj(u32);
+struct McssActorPool;
 
-extern struct Object *MUSICAL_MCSS_CreateActorPool(u32 owner, int count, u16 heap);
+extern struct McssActorPool *MUSICAL_MCSS_CreateActorPool(u32 owner, int count, u16 heap);
 
 extern u8 *STA_ACT_LIGHT_AddBillboardImage(u16 heap, u32 b, u32 c, u32 d, u32 e);
 
@@ -367,7 +374,7 @@ void MUSICAL_SHOT_SYS_DrawScene(u8 *scene)
     MUSICAL_MCSS_DrawRenderObj((void **)((ShotScene *)scene)->renderObj);
     STA_ACT_LIGHT_UpdateSprite((char *)((ShotScene *)scene)->sprite);
     STA_ACT_LIGHT_DrawModel((u8 *)((ShotScene *)scene)->model);
-    BILLBOARD_Draw((struct Board *)((ShotScene *)scene)->board,(struct Camera *)((ShotScene *)scene)->camera,0);
+    BILLBOARD_Draw((struct BbBoard *)((ShotScene *)scene)->board,(struct G3dCamera *)((ShotScene *)scene)->camera,0);
     MUSICAL_SHOT_SYS_NoOp(scene);
     G3D_SYSTEM_DrawEnd();
 }
@@ -559,41 +566,42 @@ struct Strbuf;
 
 typedef struct { u32 words[4]; } Quad;
 
-extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
+extern struct BmpWin *BMP_WIN_Create(u32 bgLayer, u32 posX, u32 posY, u8 width, u8 height, u8 palette, u8 allocDir);
+struct Bmp;
 
-extern void *BMP_WIN_GetBmp(struct Descriptor *p);
+extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *win);
 
-extern void BMP_Clear(struct CharBuf *buf, u8 value);
+extern void BMP_Clear(struct Bmp *bmp, u8 value);
 
 extern struct GfFont *GF_FONT_Create(int archiveId, int fileId, int format, int isFixedWidth, u32 heapId);
 
-extern u32 ARC_UTIL_UploadPaletteFromArchiveWhole(u32,u32,u32,u32,u32,u16);
+extern void ARC_UTIL_UploadPaletteFromArchiveWhole(u32,u32,u32,u32,u32,u16);
 
-extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
+extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
 
-extern struct WordSet *WORDSET_CreateDefault(u32 heap);
+extern struct WordSet *WORDSET_CreateDefault(u16 heapId);
 
 extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 
-extern void *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
+extern struct Strbuf *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
 
 extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 
-extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
+extern void WORDSET_CopyTaggedText(struct WordSet *words, struct Strbuf *dst, struct Strbuf *src);
 
-extern void PRINTSYS_PrintColor(void *,s16,s16,void *,void *,u16);
+extern void PRINTSYS_PrintColor(struct Bmp *bmp, s16 x, s16 y, struct Strbuf *str, struct GfFont *font, u16 color);
 
-extern void STRBUF_Delete(struct U16Vec *vec);
+extern void STRBUF_Delete(struct Strbuf *strbuf);
 
 extern u32 WORDSET_Delete(struct WordSet *p);
 
-extern u32 MSGDATA_Delete(struct Rec *rec);
+extern u32 MSGDATA_Delete(struct MsgBank *bank);
 
 extern void STRBUF_SetString(struct Strbuf *o, const u16 *src);
 
-extern void BMP_WIN_TransferChars(struct Descriptor *d);
+extern void BMP_WIN_TransferChars(struct BmpWin *win);
 
-extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
+extern void BMP_WIN_MakeScreen(struct BmpWin *win);
 
 extern void BG_SYS_PushTile(u32);
 

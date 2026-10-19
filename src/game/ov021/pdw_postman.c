@@ -131,18 +131,22 @@ extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *file, u
 extern u32 GFL_HEAP_Free(void *p);
 extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern u32 MSGDATA_Delete(struct MsgBank *msgData);
-extern void MSGDATA_ReadString(struct MsgBank *msgData, u32 strId, struct StrBuf *dest);
+struct Strbuf;
+extern void MSGDATA_ReadString(struct MsgBank *bank, unsigned int index, struct Strbuf *dest);
 extern struct WordSet *WORDSET_CreateDefault(u32 heapId);
 extern u32 WORDSET_Delete(struct WordSet *wordSet);
 extern void WORDSET_SetSlotNumber(struct WordSet *wordSet, u32 bufId, u32 number, u32 digits, u32 dispType, u32 code);
-extern void WORDSET_CopyTaggedText(struct WordSet *wordSet, struct StrBuf *dest, struct StrBuf *src);
-extern struct StrBuf *STRBUF_Create(u32 capacity, u32 heapId);
-extern void STRBUF_Delete(struct StrBuf *strBuf);
+extern void WORDSET_CopyTaggedText(struct WordSet *words, struct Strbuf *dst, struct Strbuf *src);
+struct Strbuf;
+extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
+extern void STRBUF_Delete(struct Strbuf *strbuf);
 extern u8 BMP_WIN_GetBgLayer(struct BmpWin *bmpWin);
-extern struct Bitmap *BMP_WIN_GetBmp(struct BmpWin *bmpWin);
+struct Bmp;
+extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *bmpWin);
 extern void BMP_WIN_TransferChars(struct BmpWin *bmpWin);
 extern void BG_SYS_PushTile(u32 bgFrame);
-extern struct FieldMsgWin *FIELD_MSGBG_CreateMsgWin(struct FieldMsgBg *msgBg, struct MsgBank *msgData, u16 x, u16 y, u16 width, u16 height);
+struct MsgData;
+extern struct FieldMsgWin *FIELD_MSGBG_CreateMsgWin(struct FieldMsgBg *msgBg, struct MsgData *msgData, unsigned short x, unsigned short y, unsigned short width, unsigned short height);
 extern int FIELD_MSGBG_DeleteMsgWin(struct FieldMsgWin *msgWin);
 extern void FIELD_MSGBG_MsgWinPrintStr(struct FieldMsgWin *msgWin, int x, u16 y, struct StrBuf *str);
 extern int FIELD_MSGBG_IsMsgWinTransDone(struct FieldMsgWin *msgWin);
@@ -150,24 +154,26 @@ extern void FIELD_MSGBG_ClearMsgWin(struct FieldMsgWin *msgWin);
 extern struct BmpWin *FIELD_MSGBG_GetMsgWinBmpWin(struct FieldMsgWin *msgWin);
 extern struct FieldMsgCursor *FIELD_MSGBG_CreateCursor(struct FieldMsgBg *msgBg);
 extern void FIELD_MSGBG_DeleteCursor(struct FieldMsgCursor *cursor);
-extern void FIELD_MSGBG_AnimateCursor(struct FieldMsgCursor *cursor, struct Bitmap *bmp, u32 color);
+extern void FIELD_MSGBG_AnimateCursor(struct FieldMsgCursor *cursor, struct Bmp *bmp, u32 color);
 extern u32 KEY_GetTrg(void);
 extern void GFL_USE_PlaySeDefaultVolume(u32 seNo);
-extern struct MyItem *GAME_DATA_GetMyItem(const struct GameData *gameData);
-extern u16 BLOCK20_SAVEDATA_GetEntryId(const struct PdwPostmanSave *save, int slot);
-extern u8 BLOCK20_SAVEDATA_GetEntryValue(const struct PdwPostmanSave *save, int slot);
-extern void BLOCK20_SAVEDATA_ClearEntry(struct PdwPostmanSave *save, int slot);
+extern void *GAME_DATA_GetMyItem(const struct GameData *gameData);
+struct CgearSaveBlock;
+extern u16 BLOCK20_SAVEDATA_GetEntryId(struct CgearSaveBlock *block, int index);
+extern u8 BLOCK20_SAVEDATA_GetEntryValue(struct CgearSaveBlock *block, int index);
+extern void BLOCK20_SAVEDATA_ClearEntry(struct CgearSaveBlock *block, int index);
 extern int MYITEM_SAVEDATA_CanAddItem(struct MyItem *bag, u32 itemId, u32 count, u32 heapId);
 extern int MYITEM_SAVEDATA_AddItem(struct MyItem *bag, int itemId, int count, int heapId);
 extern struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *gameSystem);
-extern struct FieldMap *GAMESYSTEM_GetFieldMap(const struct GameSystem *gameSystem);
+extern void *GAMESYSTEM_GetFieldMap(const struct GameSystem *gameSystem);
 extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gameData);
-extern struct PdwPostmanSave *GAME_SYNC_GetBlock(struct SaveControl *save);
+struct GameSyncData;
+extern struct GameSyncData *GAME_SYNC_GetBlock(struct SaveControl *save);
 extern struct GameEvent *GAME_EVENT_Create(struct GameSystem *gameSystem, struct GameEvent *parent, GameEventFunc func, u32 workSize);
 extern void *GAME_EVENT_GetWork(struct GameEvent *event);
 extern u32 MYSTERY_DATA_IsCardExist(struct MysteryData *data, u32 slot);
 extern int MYSTERY_DATA_IsCardReceived(struct MysteryData *data, unsigned int slot);
-extern int MYSTERY_DATA_GetCard(struct MysteryData *data, int slot, MysteryCard *card);
+extern int MYSTERY_DATA_GetCard(struct MysteryData *data, u32 slot, void *out);
 extern void MYSTERY_DATA_SetCardReceived(struct MysteryData *data, u32 slot);
 
 PdwPostmanListWin *PDW_POSTMAN_CreateListWin(struct FieldMap *fieldMap, PdwPostmanItem *items, int itemCount);
@@ -200,10 +206,10 @@ PdwPostmanListWin *PDW_POSTMAN_CreateListWin(struct FieldMap *fieldMap, PdwPostm
     listWin->itemCount = itemCount;
     listWin->msgData = MSGDATA_CreateFromArchive(0, 3, 0x13B, heapId);
     listWin->wordSet = WORDSET_CreateDefault(heapId);
-    listWin->strBuf = STRBUF_Create(0x80, heapId);
-    listWin->expandBuf = STRBUF_Create(0x80, heapId);
+    listWin->strBuf = (struct StrBuf *)STRBUF_Create(0x80, heapId);
+    listWin->expandBuf = (struct StrBuf *)STRBUF_Create(0x80, heapId);
     height = (itemCount * PDW_POSTMAN_LINE_HEIGHT + 7) & ~7;
-    listWin->msgWin = FIELD_MSGBG_CreateMsgWin(FIELDMAP_GetMsgBg(fieldMap), listWin->msgData, 1, 1, 0x15, (u16)(height / 8));
+    listWin->msgWin = FIELD_MSGBG_CreateMsgWin(FIELDMAP_GetMsgBg(fieldMap), (struct MsgData *)listWin->msgData, 1, 1, 0x15, (u16)(height / 8));
     return listWin;
 }
 
@@ -213,8 +219,8 @@ int PDW_POSTMAN_DeleteListWin(PdwPostmanListWin *listWin)
     FIELD_MSGBG_ClearMsgWin(listWin->msgWin);
     FIELD_MSGBG_DeleteMsgWin(listWin->msgWin);
     BG_SYS_PushTile(1);
-    STRBUF_Delete(listWin->strBuf);
-    STRBUF_Delete(listWin->expandBuf);
+    STRBUF_Delete((struct Strbuf *)listWin->strBuf);
+    STRBUF_Delete((struct Strbuf *)listWin->expandBuf);
     WORDSET_Delete(listWin->wordSet);
     MSGDATA_Delete(listWin->msgData);
     return GFL_HEAP_Free(listWin);
@@ -228,11 +234,11 @@ void PDW_POSTMAN_PrintListWin(PdwPostmanListWin *listWin)
 
     itemNames = MSGDATA_CreateFromArchive(0, 2, 0x36, (u16)((listWin->heapId & 0x7fff) | 0x8000));
     for (i = 0; i < listWin->itemCount; i++) {
-        MSGDATA_ReadString(itemNames, listWin->items[i].itemId, listWin->strBuf);
+        MSGDATA_ReadString(itemNames, listWin->items[i].itemId, (struct Strbuf *)listWin->strBuf);
         FIELD_MSGBG_MsgWinPrintStr(listWin->msgWin, 0, i * PDW_POSTMAN_LINE_HEIGHT, listWin->strBuf);
-        MSGDATA_ReadString(listWin->msgData, 5, listWin->strBuf);
+        MSGDATA_ReadString(listWin->msgData, 5, (struct Strbuf *)listWin->strBuf);
         WORDSET_SetSlotNumber(listWin->wordSet, 0, listWin->items[i].count, 2, 1, 1);
-        WORDSET_CopyTaggedText(listWin->wordSet, listWin->expandBuf, listWin->strBuf);
+        WORDSET_CopyTaggedText(listWin->wordSet, (struct Strbuf *)listWin->expandBuf, (struct Strbuf *)listWin->strBuf);
         FIELD_MSGBG_MsgWinPrintStr(listWin->msgWin, 0x6c, i * PDW_POSTMAN_LINE_HEIGHT, listWin->expandBuf);
     }
     MSGDATA_Delete(itemNames);
@@ -307,8 +313,8 @@ PdwPostmanItem *PDW_POSTMAN_CreateReceivableList(struct GameData *gameData, u32 
     i = 0;
     count = 0;
     for (; i < PDW_POSTMAN_ITEM_MAX; i++) {
-        itemId = BLOCK20_SAVEDATA_GetEntryId(save, i);
-        itemCount = BLOCK20_SAVEDATA_GetEntryValue(save, i);
+        itemId = BLOCK20_SAVEDATA_GetEntryId((struct CgearSaveBlock *)save, i);
+        itemCount = BLOCK20_SAVEDATA_GetEntryValue((struct CgearSaveBlock *)save, i);
         if (itemId != 0 && MYITEM_SAVEDATA_CanAddItem(bag, itemId, itemCount, heapId) == 1) {
             items[count].itemId = itemId;
             items[count].count = itemCount;
@@ -326,11 +332,11 @@ void PDW_POSTMAN_ReceiveItems(struct GameData *gameData, int heapId, struct PdwP
     u32 i;
 
     for (i = 0; i < PDW_POSTMAN_ITEM_MAX; i++) {
-        int itemId = BLOCK20_SAVEDATA_GetEntryId(save, i);
-        int count = BLOCK20_SAVEDATA_GetEntryValue(save, i);
+        int itemId = BLOCK20_SAVEDATA_GetEntryId((struct CgearSaveBlock *)save, i);
+        int count = BLOCK20_SAVEDATA_GetEntryValue((struct CgearSaveBlock *)save, i);
         if (itemId != 0) {
             if (MYITEM_SAVEDATA_AddItem(bag, itemId, count, heapId) == 1)
-                BLOCK20_SAVEDATA_ClearEntry(save, i);
+                BLOCK20_SAVEDATA_ClearEntry((struct CgearSaveBlock *)save, i);
         }
     }
 }
@@ -351,8 +357,8 @@ int PDW_POSTMAN_CountUnreceivable(struct GameData *gameData, int heapId, struct 
     i = 0;
     count = 0;
     for (; i < PDW_POSTMAN_ITEM_MAX; i++) {
-        itemId = BLOCK20_SAVEDATA_GetEntryId(save, i);
-        itemCount = BLOCK20_SAVEDATA_GetEntryValue(save, i);
+        itemId = BLOCK20_SAVEDATA_GetEntryId((struct CgearSaveBlock *)save, i);
+        itemCount = BLOCK20_SAVEDATA_GetEntryValue((struct CgearSaveBlock *)save, i);
         if (itemId != 0) {
             if (MYITEM_SAVEDATA_CanAddItem(bag, itemId, itemCount, heapId) == 0)
                 count++;
@@ -374,8 +380,8 @@ u32 PDW_POSTMAN_GetUnreceivableItem(struct GameData *gameData, int heapId, struc
     i = 0;
     count = 0;
     for (; i < PDW_POSTMAN_ITEM_MAX; i++) {
-        itemId = BLOCK20_SAVEDATA_GetEntryId(save, i);
-        itemCount = BLOCK20_SAVEDATA_GetEntryValue(save, i);
+        itemId = BLOCK20_SAVEDATA_GetEntryId((struct CgearSaveBlock *)save, i);
+        itemCount = BLOCK20_SAVEDATA_GetEntryValue((struct CgearSaveBlock *)save, i);
         if (itemId != 0) {
             if (MYITEM_SAVEDATA_CanAddItem(bag, itemId, itemCount, heapId) == 0) {
                 if (count == index)
@@ -396,7 +402,7 @@ struct GameEvent *PDW_POSTMAN_CreateListEvent(struct GameSystem *gameSystem)
     PdwPostmanEventWork *work;
 
     gameData = GAMESYSTEM_GetGameData(gameSystem);
-    save = GAME_SYNC_GetBlock(GAME_DATA_GetSaveControl(gameData));
+    save = (struct PdwPostmanSave *)GAME_SYNC_GetBlock(GAME_DATA_GetSaveControl(gameData));
     event = GAME_EVENT_Create(gameSystem, 0, PDW_POSTMAN_ListEvent, sizeof(PdwPostmanEventWork));
     work = GAME_EVENT_GetWork(event);
     work->fieldMap = GAMESYSTEM_GetFieldMap(gameSystem);

@@ -156,23 +156,26 @@ extern void GFL_HEAP_CreateChildHeap(u32 a, u32 b, u32 c);
 extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
 extern void MI_CpuFill8(void *,int,int);
 extern struct GfFont *GF_FONT_Create(int archiveId, int fileId, int format, int isFixedWidth, u32 heapId);
-extern u32 PRINTSYS_QUE_Create(void *);
+struct PrintQueue;
+extern struct PrintQueue *PRINTSYS_QUE_Create(unsigned int heap);
 extern void *ZUKAN_INFO_CreateFromMon(u16,void *,u32,u32,u32,u32,u8,u32,u32,u32,u32,u32,u32);
 extern char *ZUKAN_NICKNAME_Create(u16 heap, u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h);
 extern void GFL_NET_RefreshWmIconAtTopRight(u32,u32);
 extern void *GFL_USE_AddMainTask(u32,u32,u32);
 extern void FADE_Start(u32,int,int,int);
-extern void TCB_DeleteTask(struct Node *n);
-extern void ZUKAN_NICKNAME_Delete(unsigned *p);
+struct TcbTask;
+extern void TCB_DeleteTask(struct TcbTask *task);
+struct ZukanNicknameWork;
+extern void ZUKAN_NICKNAME_Delete(struct ZukanNicknameWork *p);
 extern void ZUKAN_INFO_Delete(char *p);
-extern void PRINTSYS_QUE_Clear(struct PrintSys *p);
-extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
-extern u32 GF_FONT_Delete(void *ptr);
+extern void PRINTSYS_QUE_Clear(struct PrintQueue *queue);
+extern void PRINTSYS_QUE_Delete(struct PrintQueue *queue);
+extern u32 GF_FONT_Delete(struct GfFont *font);
 extern void PROCSYS_FreeProcWork(struct Proc *p);
 extern void GFL_HEAP_DeleteChecked(u32 heap);
 extern void GF_OVERLAY_Unload(int);
 extern void ZUKAN_INFO_Update(char *);
-extern int ZUKAN_NICKNAME_Main(char *);
+extern int ZUKAN_NICKNAME_Main(struct ZukanNicknameWork *p);
 extern int FADE_IsActive(void);
 extern void ZUKAN_INFO_Start(char *);
 extern int TOUCHPANEL_GetTrg(void);
@@ -184,12 +187,12 @@ extern int ZUKAN_INFO_IsDone(char *);
 extern void G2x_SetBlendBrightnessExt_(u32,int,int,int,int,int);
 extern void ZUKAN_INFO_ClearDisplay(char *);
 extern void ZUKAN_INFO_NotifyFadeDone(char *);
-extern void ZUKAN_NICKNAME_SetupScreen(char *);
-extern int ZUKAN_NICKNAME_GetResult(char *);
-extern u32 PRINTSYS_QUE_Main(struct PrintSys *);
+extern void ZUKAN_NICKNAME_SetupScreen(struct ZukanNicknameWork *p);
+extern int ZUKAN_NICKNAME_GetResult(struct ZukanNicknameWork *p);
+extern u32 PRINTSYS_QUE_Main(struct PrintQueue *queue);
 extern void BG_SYS_ClearSlot(u32 i);
 extern void BG_SYS_SetPriority(int idx, unsigned short val);
-extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
+extern void *ARC_TOOL_CreateHandle(unsigned int archiveID, unsigned short heapID);
 extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern u32 ARC_UTIL_RegisterObjCharFromHandle(void *arc, u32 memberIdx, u32 bgId, u32 size, u32 heapID, u16 flags);
 extern void ARC_UTIL_UploadBgPaletteFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
@@ -216,7 +219,9 @@ extern void BG_SYS_FreeLayerBuf(u32 i);
 extern void BMP_WIN_Exit(void);
 extern void BG_SYS_Delete(void);
 extern void BG_SYS_Update(void);
-extern void CLACT_InitSystem(const struct Cfg *cfg, unsigned int arg, unsigned int heapId);
+struct DispVramCfg;
+struct SysInit;
+extern void CLACT_InitSystem(struct SysInit *cfg, struct DispVramCfg *res_cfg, unsigned int heapId);
 extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 extern void CLACT_SetUnitDefaultRenderer(struct Bank *bank);
 extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
@@ -269,7 +274,7 @@ int ZUKAN_TOROKU_GRAPHIC_Init(void *owner,int unused,u32 *args)
     work->heapId=0x6a;
     work->display=ZUKAN_TOROKU_GRAPHIC_CreateDisplay(1,work->heapId);
     work->font=GF_FONT_Create(0x17,0,0,0,work->heapId);
-    work->printQueue=PRINTSYS_QUE_Create((void *)(u32)work->heapId);
+    work->printQueue=(unsigned int)PRINTSYS_QUE_Create((unsigned int)(u32)work->heapId);
     if(args[0]==0) { work->state=0; work->step=0; } else { work->state=1; work->step=0; }
     mode=0;
     if(args[0]!=0) mode=1;
@@ -318,7 +323,7 @@ int ZUKAN_TOROKU_GRAPHIC_Main(void *unused,int unused2,u32 *args,ZukanTorokuWork
     int done=0;
     int result,flag,input;
     ZUKAN_INFO_Update((char *)work->menu);
-    result=ZUKAN_NICKNAME_Main((char *)work->nickname);
+    result=ZUKAN_NICKNAME_Main((struct ZukanNicknameWork *)work->nickname);
     switch(work->state) {
     case 0:
         switch(work->step) {
@@ -358,14 +363,14 @@ int ZUKAN_TOROKU_GRAPHIC_Main(void *unused,int unused2,u32 *args,ZukanTorokuWork
             if(FADE_IsActive()==0) { ZUKAN_INFO_NotifyFadeDone((char *)work->menu); work->step=1; }
             break;
         case 1:
-            ZUKAN_NICKNAME_SetupScreen((char *)work->nickname); work->step=2;
+            ZUKAN_NICKNAME_SetupScreen((struct ZukanNicknameWork *)work->nickname); work->step=2;
             break;
         case 2:
             if(result==1) { FADE_Start(3,0,16,2); work->step=3; }
             break;
         case 3:
             if(FADE_IsActive()==0) {
-                switch(ZUKAN_NICKNAME_GetResult((char *)work->nickname)) {
+                switch(ZUKAN_NICKNAME_GetResult((struct ZukanNicknameWork *)work->nickname)) {
                 case 0: args[7]=0; break;
                 case 1: args[7]=1; break;
                 }
@@ -375,7 +380,7 @@ int ZUKAN_TOROKU_GRAPHIC_Main(void *unused,int unused2,u32 *args,ZukanTorokuWork
         }
         break;
     }
-    PRINTSYS_QUE_Main((struct PrintSys *)work->printQueue);
+    PRINTSYS_QUE_Main((struct PrintQueue *)work->printQueue);
     ZUKAN_TOROKU_GRAPHIC_Draw((void *)work->display);
     ZUKAN_TOROKU_GRAPHIC_Update((void *)work->display);
     ZUKAN_TOROKU_GRAPHIC_UpdateSub((void *)work->display);
@@ -532,7 +537,7 @@ void ZUKAN_TOROKU_GRAPHIC_ResetDisplay(ZukanTorokuDisplay *display){BG_SYS_Updat
 void ZUKAN_TOROKU_GRAPHIC_InitActors(struct Bank **actors, int a, int b)
 {
     MI_CpuFill8(actors, 0, 4);
-    CLACT_InitSystem((const struct Cfg *)0x0220BACC, a, b);
+    CLACT_InitSystem((struct SysInit *)0x0220BACC, (struct DispVramCfg *)a, b);
     *actors = CLACT_CreateUnit(0x80, 0, b);
     CLACT_SetUnitDefaultRenderer(*actors);
     BG_SYS_SetMainPlaneVisible(0x10, 1);

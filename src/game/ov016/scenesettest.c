@@ -181,13 +181,14 @@ extern void MIi_CpuCopy32(void *srcp, void *destp, unsigned long size);
 extern int DWC_AC_Create(struct tagDWCACConfig *config);
 extern void OS_Terminate(void);
 extern void DWCi_AC_InsertApInfo(int no, struct NCFGApInfo *info);
-extern void *DWCi_TSKlForm(int kind, void (*func)(void *), void *work, unsigned char prio);
+struct TCB;
+extern struct TCB *DWCi_TSKlForm(int kind, void (*func)(void *), void *work, unsigned char prio);
 extern int DWCi_EFFlFade(int kind, int lcd, int plane, int frame);
 extern void DWCi_GXlVisible(int a, int b);
 extern bool DWCi_EFFlCheck(int lcd);
 extern void DWCi_ChangeScene(void (*scene)(void));
 extern void procScene(void);
-extern void *DWCi_SETTINGlGetMemMap(void);
+extern char *DWCi_SETTINGlGetMemMap(void);
 extern int DWC_AC_Destroy(void);
 extern void *DWCi_BACKUPlGetWifi();
 extern void MI_CpuCopy8(void *srcp, void *dstp, unsigned long size);
@@ -396,7 +397,7 @@ static void endScene1(void)
  */
 static void endScene2(void)
 {
-    unsigned char *map = DWCi_SETTINGlGetMemMap();
+    unsigned char *map = (unsigned char *)DWCi_SETTINGlGetMemMap();
     if (DWC_AC_Destroy() == 0)
         return;
     MI_CpuCopy8(DWCi_BACKUPlGetWifi(), map + 0xF0, 14);

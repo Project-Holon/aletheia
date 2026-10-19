@@ -63,8 +63,8 @@ typedef struct {
 } SOCInAddr;
 
 extern void OS_GetLowEntropyData(u32 *buffer);
-extern void CPS_SslAddRandomSeed(void *, int);
-extern int SOC_Recv(int, int *, int, int);
+extern void CPS_SslAddRandomSeed(void *random_seed, unsigned int len);
+extern int SOC_Recv(int s, void *buf, int len, int flags);
 extern void SOC_Socket(int, int, int);
 extern int SOC_Close(int socket);
 extern void OS_Sleep(unsigned long msec);
@@ -73,15 +73,15 @@ extern void NHTTPi_free(void *ptr_p);
 extern int SOC_Connect(int s, void *sockAddr);
 extern void *NHTTPi_alloc(unsigned long size, int align);
 extern void NHTTPi_memclr(void *dst_p, int size);
-extern int SOCL_EnableSsl(int s, NHTTPSslCon *con);
-extern int NHTTPi_CpsAuthCallback(int result);
-extern void NHTTPi_memcpy(void *dst_p, void *src_p, int size);
+extern int SOCL_EnableSsl(int s, void *con);
+static int NHTTPi_CpsAuthCallback(int result);
+extern void NHTTPi_memcpy(void *dst, void *src, unsigned int size);
 NHTTPConnection *NHTTPi_Request2Connection(NHTTPMutexInfo *mutexInfo_p, NHTTPReq *req_p);
-extern int SOC_Send(int socket, char *buf_p, int len, int flags);
+extern int SOC_Send(int s, void *buf, int len, int flags);
 extern void NHTTPi_lockReqList(NHTTPMutexInfo *mutexInfo_p);
 extern void NHTTPi_unlockReqList(NHTTPMutexInfo *mutexInfo_p);
-extern void SOC_Shutdown(int, int);
-extern int SOC_InetAtoN(char *cp, SOCInAddr *inp);
+extern int SOC_Shutdown(int, int);
+extern int SOC_InetAtoN(char *cp, unsigned int *inp);
 extern SOCHostEnt *SOC_GetHostByName(char *name);
 int NHTTPi_CpsAuthCallbackForDebug(void);
 void NHTTPi_SetSSLseed(void);
@@ -339,7 +339,7 @@ unsigned long NHTTPi_resolveHostname(NHTTPReq *req_p, char *hostname_p)
     unsigned long addr = 0;
     SOCInAddr inAddr;
 
-    if (SOC_InetAtoN(hostname_p, &inAddr)) {
+    if (SOC_InetAtoN(hostname_p, (unsigned int *)(&inAddr))) {
         addr = inAddr.addr;
     } else {
         hostEnt = SOC_GetHostByName(hostname_p);

@@ -30,6 +30,12 @@
  *   FS_WriteFile  0x02078BC4  arm  arm9
  *   FS_CreateFileFromMemory  0x0207A940  arm  arm9
  *   OS_ReceiveMessage  0x02085E50  arm  arm9
+ *   data_02734528                0x02734528  data
+ *   data_0273452C                0x0273452C  data
+ *   data_02734534                0x02734534  data
+ *   data_02734554                0x02734554  data
+ *   data_02734574                0x02734574  data
+ *   data_02734614                0x02734614  data
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -100,14 +106,15 @@ extern u32 OS_RestoreInterrupts(u32);
 extern BOOL OS_IsRunOnTwl(void);
 extern void OS_SleepThread(void *);
 extern void OS_WakeupThread(void *);
-extern void FS_InitFile(void *);
-extern void OS_InitMessageQueue(void *, void **, int);
+extern void FS_InitFile(FSFile *file);
+struct OSMessageQueue;
+extern void OS_InitMessageQueue(struct OSMessageQueue *mq, void **msgArray, s32 msgCount);
 extern void OS_CreateThread(void *, void (*)(void *), void *, void *, u32, u32);
 extern void OS_WakeupThreadDirect(void *);
-extern BOOL OS_SendMessage(void *, void *, int);
-extern BOOL OS_ReceiveMessage(void *queue, void *msg, s32 flags);
+extern BOOL OS_SendMessage(struct OSMessageQueue *mq, void *msg, s32 flags);
+extern BOOL OS_ReceiveMessage(struct OSMessageQueue *mq, void **msg, s32 flags);
 extern BOOL FS_OpenFileEx(FSFile *file, const char *path, u32 mode);
-extern void FS_CloseFile(FSFile *file);
+extern s32 FS_CloseFile(FSFile *file);
 extern u32 FS_GetFileLength(FSFile *file);
 extern u32 FS_GetFilePosition(FSFile *file);
 extern BOOL FS_SeekFile(FSFile *file, long offset, int origin);
@@ -174,7 +181,7 @@ void DSPi_FileIOProc(void *arg)
             if (index < 8) {
                 break;
             }
-            OS_ReceiveMessage(p->queue, msg, 1);
+            OS_ReceiveMessage((struct OSMessageQueue *)p->queue, (void **)msg, 1);
         }
         p->pending &= ~(1 << index);
         OS_RestoreInterrupts(state);
@@ -264,14 +271,14 @@ void DSPi_NotifyFileIOUpdation(u32 ch)
         for (i = 0; i < 8; i++) {
             FS_InitFile(&t->files[i]);
         }
-        OS_InitMessageQueue(t->queue, t->msgbuf, 1);
+        OS_InitMessageQueue((struct OSMessageQueue *)t->queue, t->msgbuf, 1);
         t->pending = 0;
         t->started = 1;
         OS_CreateThread(t->thread, DSPi_FileIOProc, t, t->stack + 0x1000, 0x1000, 13);
         OS_WakeupThreadDirect(t->thread);
     }
     t->pending |= 1 << ch;
-    OS_SendMessage(t->queue, (void *)ch, 0);
+    OS_SendMessage((struct OSMessageQueue *)t->queue, (void *)ch, 0);
     OS_RestoreInterrupts(ints);
 }
 

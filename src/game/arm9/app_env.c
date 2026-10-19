@@ -37,11 +37,11 @@ struct OwnerInfo {
     u8 rest[0x50];
 };
 
-extern u32 OS_IsRunOnTwl(void);
+extern s32 OS_IsRunOnTwl(void);
 
 extern struct DeviceInfo *OS_GetParentalControlInfoPtr(void);
 
-extern void OS_IsAvailableWireless(void);
+extern s32 OS_IsAvailableWireless(void);
 
 extern int OS_IsAgreeEULA(void);
 

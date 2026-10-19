@@ -48,23 +48,29 @@ typedef unsigned short u16;
 #include "../ov021/bsubway_scr_types.h"
 
 extern void GFL_NET_StartSession(struct Req *req, u32 transportArg, u32 userArg);
-extern u8 *GAME_DATA_GetMyStatus(void *p);
-extern void MYSTATUS_Copy(void *, void *);
-extern void OS_GetMacAddress(void *);
+struct GameData;
+struct MyStatus;
+extern struct MyStatus *GAME_DATA_GetMyStatus(struct GameData *gd);
+extern void MYSTATUS_Copy(struct MyStatus *src, struct MyStatus *dest);
+extern void OS_GetMacAddress(u8 *macAddress);
 extern void GFL_NET_COMMAND_AddCommandTable(u32, u32, u32, u32);
 void GFL_NET_COMMAND_DeleteCommandTable(u32 key);
 extern struct NetHandle *GFL_NET_HANDLE_GetCurrentHandle(void);
 extern int GFL_NET_StartTimingSync();
-extern int GFL_NET_CheckTimingSync();
-extern void *BSUBWAY_SCR_GetParty(u8 *p);
-extern u8 MYSTATUS_GetSex(const struct Sub0200852CObj *obj);
-extern void *POKEPARTY_GetMember(void *p, u32 idx);
-extern u32 POKE_TOOL_GetPartyValue(void *p, u32 id, u32 v);
-extern u16 BSUBWAY_SCR_GetWinCount(u8 *p);
+struct GFLNetHandle;
+extern u32 GFL_NET_CheckTimingSync(struct GFLNetHandle *handle, u32 timingNo);
+struct BsubwayScrWork;
+extern void *BSUBWAY_SCR_GetParty(struct BsubwayScrWork *work);
+extern u8 MYSTATUS_GetSex(struct MyStatus *mystatus);
+struct Party;
+struct PokemonParam;
+extern struct PokemonParam *POKEPARTY_GetMember(struct Party *party, u32 pos);
+extern u32 POKE_TOOL_GetPartyValue(struct PokemonParam *pp, u32 paramId, u32 arg);
+extern u16 BSUBWAY_SCR_GetWinCount(struct BsubwayScrWork *work);
 extern u16 BSUBWAY_SCR_GetStageNo(u16 v);
 extern void MI_CpuCopy8(void *dst, void *src, int n);
 extern u32 GFL_NET_ERR_GetErrorLevel(void);
-extern int GFL_NET_SendToHandle(struct NetHandle *a, u32 b, u32 c, u32 d);
+extern int GFL_NET_SendToHandle(struct GFLNetHandle *handle, u32 command, u32 size, void *data);
 extern u16 GFL_NET_SYSTEM_GetCurrentAid(void);
 void BSUBWAY_COMM_NetInit(void *arg);
 void *BSUBWAY_COMM_GetBeaconData(BsubwayScrWork *work);
@@ -116,7 +122,7 @@ void *BSUBWAY_COMM_GetBeaconData(BsubwayScrWork *work)
 {
     BsubwayCommInfo *info;
     info = &work->commInfo;
-    MYSTATUS_Copy(GAME_DATA_GetMyStatus(work->gameData), info);
+    MYSTATUS_Copy((struct MyStatus *)(GAME_DATA_GetMyStatus(work->gameData)), (struct MyStatus *)info);
     OS_GetMacAddress(info->macAddress);
     info->magic = 0x3a0b;
     return info;
@@ -170,7 +176,7 @@ int BSUBWAY_COMM_StartTimingSync(int timingNo)
 /* Checks the timing sync timingNo on the current net handle. */
 int BSUBWAY_COMM_CheckTimingSync(int timingNo)
 {
-    return GFL_NET_CheckTimingSync(GFL_NET_HANDLE_GetCurrentHandle(), timingNo);
+    return GFL_NET_CheckTimingSync((struct GFLNetHandle *)(GFL_NET_HANDLE_GetCurrentHandle()), timingNo);
 }
 
 
@@ -182,11 +188,11 @@ void BSUBWAY_COMM_SetSendPlayerData(BsubwayScrWork *work, void *gameData)
     int i;
 
     myStatus = GAME_DATA_GetMyStatus(gameData);
-    party = BSUBWAY_SCR_GetParty((u8 *)work);
+    party = BSUBWAY_SCR_GetParty((struct BsubwayScrWork *)work);
     work->sendBuf.player.sex = MYSTATUS_GetSex(myStatus);
     for (i = 0; i < 2; i++)
         work->sendBuf.player.monsNo[i] = POKE_TOOL_GetPartyValue(POKEPARTY_GetMember(party, work->memberIndex[i]), 5, 0);
-    work->sendBuf.player.stage = BSUBWAY_SCR_GetStageNo(BSUBWAY_SCR_GetWinCount((u8 *)work));
+    work->sendBuf.player.stage = BSUBWAY_SCR_GetStageNo(BSUBWAY_SCR_GetWinCount((struct BsubwayScrWork *)work));
 }
 
 
@@ -255,7 +261,7 @@ void BSUBWAY_COMM_SetSendData(BsubwayScrWork *work, u32 cmd, u16 arg)
         return;
     case 3:
         work->sendCommand = 0x2C03;
-        MYSTATUS_Copy(GAME_DATA_GetMyStatus(gameData), work->sendBuf.raw);
+        MYSTATUS_Copy((struct MyStatus *)(GAME_DATA_GetMyStatus(gameData)), (struct MyStatus *)work->sendBuf.raw);
         return;
     case 4:
         work->sendCommand = 0x2C04;
@@ -288,7 +294,7 @@ int BSUBWAY_COMM_SendData(BsubwayScrWork *work)
     command = work->sendCommand;
     if (command >= 0x2C08)
         return 1;
-    if (GFL_NET_SendToHandle(GFL_NET_HANDLE_GetCurrentHandle(), command, 0x46, (u32)work->sendBuf.raw) == 1)
+    if (GFL_NET_SendToHandle((struct GFLNetHandle *)(GFL_NET_HANDLE_GetCurrentHandle()), command, 0x46, (void *)work->sendBuf.raw) == 1)
         return 1;
     return 0;
 }

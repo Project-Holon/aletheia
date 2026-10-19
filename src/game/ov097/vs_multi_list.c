@@ -258,7 +258,8 @@ enum { NUMBER_DISP_LEFT };
 extern void GFL_HEAP_CreateChildHeap(unsigned int, unsigned int, unsigned int);
 extern void *PROCSYS_AllocProcWork(struct Proc *, unsigned int, unsigned int);
 extern void MI_CpuFill8(void *, int, unsigned int);
-extern void BGWINFRM_UpdateMoves(struct WinMgr *mgr);
+struct BgWinFrmWork;
+extern void BGWINFRM_UpdateMoves(struct BgWinFrmWork *wk);
 extern void CLACT_DrawSystem(void);
 extern void PROCSYS_FreeProcWork(struct Proc *proc);
 extern void GFL_HEAP_DeleteChecked(unsigned int heap);
@@ -268,11 +269,12 @@ extern void BG_SYS_SetLcdSwap(u32 swap);
 extern void GFL_NET_RefreshWmIconAtTopRight(u32 a, u32 b);
 extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
 extern u32 WIPE_SYS_EndCheck(void);
-extern u32 PRINTSYS_QUE_IsFinished(const struct PrintSys *p);
-extern void BGWINFRM_StartMove(struct WinMgr *mgr, u32 idx, s8 dx, s8 dy, u8 frames);
-extern u32 BGWINFRM_IsMoving(struct WinMgr *mgr, u32 idx);
+struct PrintQueue;
+extern u32 PRINTSYS_QUE_IsFinished(struct PrintQueue *queue);
+extern void BGWINFRM_StartMove(struct BgWinFrmWork *wk, u32 idx, s8 moveX, s8 moveY, u8 count);
+extern u32 BGWINFRM_IsMoving(struct BgWinFrmWork *wk, u32 idx);
 extern void GFL_USE_PlaySeDefaultVolume(u32);
-extern void WIPE_SYS_Start(void *, u32, u32, u32, u32, u32, u32);
+extern void WIPE_SYS_Start(void *divisionMode, u32 mainPattern, u32 subPattern, u16 color, u32 frames, u32 wait, u32 heapId);
 extern void BG_SYS_SetVramBanks(const struct DispVram *c);
 extern void BG_SYS_Create(u16 heapId);
 extern void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
@@ -281,60 +283,66 @@ extern void BG_SYS_ClearSlot(u32 i);
 extern void BG_SYS_InitRun(u8 layer, u32 size, u32 offset, u32 heapId);
 extern void BG_SYS_FreeLayerBuf(u32);
 extern void BG_SYS_Delete(void);
-extern struct ArcHandle *ARC_TOOL_CreateHandle(u32 id, u32 heap);
-extern u32 ARC_UTIL_UploadBgCharFromHandle(struct ArcHandle *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
-extern void ARC_UTIL_UploadBgPaletteFromHandle(struct ArcHandle *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
-extern void ARC_UTIL_UploadPaletteFromHandleWhole(struct ArcHandle *a, u32 b, u32 c, u32 d, u32 e, u16 f);
-extern void ARC_TOOL_DeleteHandle(struct ArcHandle *h);
+extern void *ARC_TOOL_CreateHandle(u32 archiveID, u16 heapID);
+extern u32 ARC_UTIL_UploadBgCharFromHandle(void *arc, u32 memberIdx, u32 bgId, u32 tileOffset, u32 size, u32 heapID, u16 allocFlags);
+extern void ARC_UTIL_UploadBgPaletteFromHandle(void *arc, u32 memberIdx, u32 channel, u32 offset, u32 size, u32 heapID, u16 flags);
+extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *arc, u32 memberIdx, u32 kind, u32 dest, u32 size, u16 flags);
+extern void ARC_TOOL_DeleteHandle(void *handle);
 extern void BG_SYS_LoadPlttEntry(u32 a, u32 b);
 extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern struct GfFont *GF_FONT_Create(int archiveId, int fileId, int format, int isFixedWidth, u32 heapId);
-extern struct WordSet *WORDSET_CreateDefault(u32 heap);
-extern struct PrintSys *PRINTSYS_QUE_CreateEx(u16 n, u32 heap);
+extern struct WordSet *WORDSET_CreateDefault(u16 heapId);
+extern struct PrintQueue *PRINTSYS_QUE_CreateEx(u16 n, u32 heap);
 extern u32 MSGDATA_Delete(struct MsgBank *msgBank);
 extern u32 GF_FONT_Delete(struct GfFont *font);
 extern u32 WORDSET_Delete(struct WordSet *p);
-extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
-extern struct VBlankTask *GFL_USE_AddMainTask(void (*)(void), void *, u32);
-extern void TCB_DeleteTask(struct VBlankTask *task);
+extern void PRINTSYS_QUE_Delete(struct PrintQueue *queue);
+struct Tcb;
+extern struct Tcb *GFL_USE_AddMainTask(void (*)(void), void *, u32);
+struct TcbTask;
+extern void TCB_DeleteTask(struct TcbTask *task);
 extern void BG_SYS_Update(void);
 extern void CLACT_VBlankSystem(void);
-extern u32 POKEPARTY_GetCount(struct PokeParty *party);
-extern struct PokemonParam *POKEPARTY_GetMember(struct PokeParty *party, u32 idx);
+struct Party;
+extern u32 POKEPARTY_GetCount(struct Party *party);
+extern struct PokemonParam *POKEPARTY_GetMember(struct Party *party, u32 pos);
 extern void BMP_WIN_Init(u16 heapId);
-extern struct BmpWin *BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
+extern struct BmpWin *BMP_WIN_Create(u32 bgLayer, u32 posX, u32 posY, u8 width, u8 height, u8 palette, u8 allocDir);
 extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *p);
 extern void BMP_Clear(struct Bmp *buf, u8 value);
 extern void BMP_WIN_TransferChars(struct BmpWin *);
 extern u32 BMP_WIN_Delete(struct BmpWin *d);
 extern void BMP_WIN_Exit(void);
-extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
-extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintSys *p, struct Bmp *v);
+extern u32 PRINTSYS_QUE_Main(struct PrintQueue *queue);
+extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintQueue *queue, struct Bmp *bmp);
 extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
 extern struct Strbuf *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
 extern u8 BMP_WIN_GetWidth(struct BmpWin *p);
 extern void STRBUF_Delete(struct Strbuf *strbuf);
-extern void WORDSET_SetSlotMonNickname(struct WordSet *p, u32 i, struct PokemonParam *mon);
+extern void WORDSET_SetSlotMonNickname(struct WordSet *words, unsigned int slot, void *mon);
 extern void WORDSET_CopyTaggedText(struct WordSet *ws, struct Strbuf *dst, struct Strbuf *src);
-extern void PRINTSYS_PrintQueColor(struct PrintSys *que, struct Bmp *bmp, u32 x, u32 y, struct Strbuf *str, struct GfFont *font, u16 color);
+extern void PRINTSYS_PrintQueColor(struct PrintQueue *queue, struct Bmp *bmp, unsigned int x, short y, struct Strbuf *str, struct GfFont *font, unsigned short color);
 extern u32 POKE_TOOL_GetPartyValue(struct PokemonParam *mon, u32 param, u32 unused);
 extern u8 POKE_TOOL_GetGender(struct PokemonParam *mon);
 extern u32 PRINTSYS_MeasureWidestLine(struct Strbuf *str, struct GfFont *font, u32 margin);
 extern void WORDSET_SetSlotNumber(struct WordSet *, u32, u32, u32, u32, u32);
-extern void BMP_FillRect(struct Bmp *, unsigned, unsigned, unsigned, unsigned, unsigned);
-extern void CLACT_InitSystem(const struct ClactInit *, unsigned, unsigned);
+extern void BMP_FillRect(struct Bmp *bmp, u32 x, u32 y, u32 w, u16 h, u8 value);
+struct DispVramCfg;
+struct SysInit;
+extern void CLACT_InitSystem(struct SysInit *cfg, struct DispVramCfg *res_cfg, u32 heapId);
 extern void CLACT_ExitSystem(void);
-extern void *POKE_TOOL_GetBoxParam(struct PokemonParam *mon);
-extern u32 POKE_TOOL_GetGraphicIndex(void *boxParam);
+struct BoxPokemon;
+extern struct BoxPokemon *POKE_TOOL_GetBoxParam(struct PokemonParam *mon);
+extern u32 POKE_TOOL_GetGraphicIndex(struct BoxPokemon *box);
 extern u32 POKE_TOOL_CalcGraphicIndex(u32, u32, u32, u32);
-extern int CLACT_RegisterCharacter(struct ArcHandle *, u32, u32, u32, u16);
+extern int CLACT_RegisterCharacter(void *archive, u32 file_idx, u32 compressed, u32 vram_mode, u16 heap_id);
 extern int POKE_TOOL_GetIconPaletteArcId(void);
-extern int CLACT_RegisterPaletteCompressed(struct ArcHandle *, u32, u32, u32, u16);
+extern int CLACT_RegisterPaletteCompressed(void *archive, u32 file_idx, u32 vram_mode, u32 vram_offset, u16 heap_id);
 extern int POKE_TOOL_GetIconCellArcIdSub(void);
 extern int POKE_TOOL_GetIconCellEntryIdSub(void);
-extern int CLACT_RegisterCellAnim(struct ArcHandle *, u32, u32, u32);
+extern int CLACT_RegisterCellAnim(void *archive, u32 cell_file_idx, u32 anim_file_idx, u32 heap_id);
 extern u32 APP_ICON_GetArchiveId(void);
-extern int CLACT_RegisterPalette(struct ArcHandle *, u32, u32, u32, u16);
+extern int CLACT_RegisterPalette(void *archive, u32 file_idx, u32 vram_mode, u32 vram_offset, u16 heap_id);
 extern int APP_ICON_GetGearCellFileId(int);
 extern int APP_ICON_GetNoneFileId(void);
 extern int APP_ICON_GetGearPaletteFileId(int);
@@ -344,24 +352,25 @@ extern void CLACT_ReleasePalette(u32 i);
 extern void CLACT_ReleaseCellAnim(u32 i);
 extern struct ClactUnit *CLACT_CreateUnit(int, u8, u32);
 extern struct ClactActor *CLACT_CreateActor(struct ClactUnit *, unsigned int, unsigned int, unsigned int, const struct VsMultiActorDesc *, unsigned short, unsigned short);
-extern void CLACT_SetActorDrawEnable(struct ClactActor *, u32);
-extern void CLACT_SetActorAutoAnim(struct ClactActor *, u32);
-extern int POKE_TOOL_GetIconPalette(void *boxParam);
-extern void CLACT_SetActorPaletteOffset(struct ClactActor *, u32, u32);
+struct Actor;
+extern void CLACT_SetActorDrawEnable(struct Actor *actor, u32 value);
+extern void CLACT_SetActorAutoAnim(struct Actor *actor, u32 enable);
+extern u32 POKE_TOOL_GetIconPalette(struct BoxPokemon *box);
+extern void CLACT_SetActorPaletteOffset(struct Actor *actor, u32 offset, u32 pltt_op);
 extern u32 FILE_UTIL_IsMailItem(u16);
-extern void CLACT_SetActorAnimFrame(struct ClactActor *, u32);
-extern void CLACT_SetActorAnimSeq(struct ClactActor *, u16);
-extern void CLACT_DeleteActor(struct ClactActor *);
+extern void CLACT_SetActorAnimFrame(struct Actor *actor, u32 frame);
+extern void CLACT_SetActorAnimSeq(struct Actor *actor, u16 value);
+extern void CLACT_DeleteActor(struct Actor *actor);
 extern u32 CLACT_DeleteUnit(struct ClactUnit *unit);
 extern void CLACT_GetActorSurfacePos(struct ClactActor *actor, struct PosS16 *out, u16 space);
 extern void CLACT_AddActorSurfacePos(struct ClactActor *actor, const struct PosS16 *delta, u32 which);
-extern struct WinMgr *BGWINFRM_Create(u32 transMode, u32 frameMax, u32 heap);
-extern void BGWINFRM_AddFrame(struct WinMgr *mgr, u32 idx, u32 bg, u32 w, u32 h);
-extern void BGWINFRM_PutBmpWin(struct WinMgr *mgr, u32 idx, struct BmpWin *window);
-extern void BGWINFRM_SetFrameData(struct WinMgr *mgr, u32 idx, const void *src);
-extern void BGWINFRM_ChangePalette(struct WinMgr *mgr, u32 idx, int x, int y, u8 w, u8 h, u8 pal);
-extern void BGWINFRM_PutFrame(struct WinMgr *mgr, u32 idx, s8 x, s8 y);
-extern void BGWINFRM_Delete(struct WinMgr *mgr);
+extern struct BgWinFrmWork *BGWINFRM_Create(u32 transMode, u32 frameMax, u32 heap);
+extern void BGWINFRM_AddFrame(struct BgWinFrmWork *wk, u32 idx, u32 bgFrame, u32 sizeX, u32 sizeY);
+extern void BGWINFRM_PutBmpWin(struct BgWinFrmWork *wk, unsigned int idx, void *bmpWin);
+extern void BGWINFRM_SetFrameData(struct BgWinFrmWork *wk, unsigned int idx, void *src);
+extern void BGWINFRM_ChangePalette(struct BgWinFrmWork *wk, unsigned int idx, int x, int y, unsigned char sizeX, unsigned char sizeY, unsigned char palette);
+extern void BGWINFRM_PutFrame(struct BgWinFrmWork *wk, u32 idx, s8 x, s8 y);
+extern void BGWINFRM_Delete(struct BgWinFrmWork *wk);
 extern u32 BG_SYS_GetBuf(int);
 extern void *GFL_HEAP_Alloc(u32, u32, int, const char *, u16);
 extern u32 GFL_HEAP_Free(void *p);
@@ -433,7 +442,7 @@ int VS_MULTI_LIST_ProcMain(struct Proc *proc, int *seq, int unused, struct VsMul
 {
     *seq = gVsMultiListStateTable[*seq](work);
     if (*seq == VS_MULTI_LIST_STATE_END) return 1;
-    BGWINFRM_UpdateMoves(work->bgFrames);
+    BGWINFRM_UpdateMoves((struct BgWinFrmWork *)work->bgFrames);
     VS_MULTI_LIST_UpdatePrintQueue(work);
     CLACT_DrawSystem();
     return 0;
@@ -501,30 +510,30 @@ int VS_MULTI_LIST_StateSlideIn(struct VsMultiList *work)
     u32 i;
     switch (work->slidePhase) {
     case 0:
-        if (PRINTSYS_QUE_IsFinished(work->printQue) == 0) break;
+        if (PRINTSYS_QUE_IsFinished((struct PrintQueue *)work->printQue) == 0) break;
         if (work->args->swapSides == 0) {
             for (i = 0; i < 3; i++) {
-                BGWINFRM_StartMove(work->bgFrames, i + 3, -1, 0, 16);
-                BGWINFRM_StartMove(work->bgFrames, i + 9, -1, 0, 16);
+                BGWINFRM_StartMove((struct BgWinFrmWork *)work->bgFrames, i + 3, -1, 0, 16);
+                BGWINFRM_StartMove((struct BgWinFrmWork *)work->bgFrames, i + 9, -1, 0, 16);
             }
         } else {
             for (i = 0; i < 3; i++) {
-                BGWINFRM_StartMove(work->bgFrames, i, 1, 0, 16);
-                BGWINFRM_StartMove(work->bgFrames, i + 6, 1, 0, 16);
+                BGWINFRM_StartMove((struct BgWinFrmWork *)work->bgFrames, i, 1, 0, 16);
+                BGWINFRM_StartMove((struct BgWinFrmWork *)work->bgFrames, i + 6, 1, 0, 16);
             }
         }
         GFL_USE_PlaySeDefaultVolume(0x642);
         (work->slidePhase)++;
     case 1:
         if (work->args->swapSides == 0) {
-            if (BGWINFRM_IsMoving(work->bgFrames, 3) == 0) {
+            if (BGWINFRM_IsMoving((struct BgWinFrmWork *)work->bgFrames, 3) == 0) {
                 (work->slidePhase)++;
                 GFL_USE_PlaySeDefaultVolume(0x57a);
                 return VS_MULTI_LIST_EnterWaitState(work, 0x80, 4);
             }
             VS_MULTI_LIST_MoveSlotActors(work, 3, -8);
         } else {
-            if (BGWINFRM_IsMoving(work->bgFrames, 0) == 0) {
+            if (BGWINFRM_IsMoving((struct BgWinFrmWork *)work->bgFrames, 0) == 0) {
                 (work->slidePhase)++;
                 GFL_USE_PlaySeDefaultVolume(0x57a);
                 return VS_MULTI_LIST_EnterWaitState(work, 0x80, 4);
@@ -614,7 +623,7 @@ void VS_MULTI_LIST_CreateTextResources(struct VsMultiList *work)
     work->font = GF_FONT_Create(0x17, 0, 0, 0, 0x71);
     work->fontSmall = GF_FONT_Create(0x17, 3, 0, 0, 0x71);
     work->wordSet = WORDSET_CreateDefault(0x71);
-    work->printQue = PRINTSYS_QUE_CreateEx(0x800, 0x71);
+    work->printQue = (struct PrintSys *)PRINTSYS_QUE_CreateEx(0x800, 0x71);
 }
 
 void VS_MULTI_LIST_DeleteTextResources(struct VsMultiList *work)
@@ -623,17 +632,17 @@ void VS_MULTI_LIST_DeleteTextResources(struct VsMultiList *work)
     GF_FONT_Delete(work->font);
     GF_FONT_Delete(work->fontSmall);
     WORDSET_Delete(work->wordSet);
-    PRINTSYS_QUE_Delete(work->printQue);
+    PRINTSYS_QUE_Delete((struct PrintQueue *)work->printQue);
 }
 
 void VS_MULTI_LIST_AddVBlankTask(struct VsMultiList *work)
 {
-    work->vblankTask = GFL_USE_AddMainTask(VS_MULTI_LIST_VBlankCallback, work, 0);
+    work->vblankTask = (struct VBlankTask *)GFL_USE_AddMainTask(VS_MULTI_LIST_VBlankCallback, work, 0);
 }
 
 void VS_MULTI_LIST_DeleteVBlankTask(struct VsMultiList *work)
 {
-    TCB_DeleteTask(work->vblankTask);
+    TCB_DeleteTask((struct TcbTask *)work->vblankTask);
 }
 
 static inline void OS_SetIrqCheckFlag(u32 intr) { *(volatile u32 *)((u32)SDK_AUTOLOAD_DTCM_START + 0x3ff8) |= intr; }
@@ -665,12 +674,12 @@ void VS_MULTI_LIST_InitMons(struct VsMultiList *work)
         secondParty = args->party0;
     }
     for (i = 0; i < 3; i++) {
-        if (POKEPARTY_GetCount(firstParty) > i)
-            work->mons[i] = POKEPARTY_GetMember(firstParty, i);
+        if (POKEPARTY_GetCount((struct Party *)firstParty) > i)
+            work->mons[i] = POKEPARTY_GetMember((struct Party *)firstParty, i);
         else
             work->mons[i] = 0;
-        if (POKEPARTY_GetCount(secondParty) > i)
-            work->mons[3 + i] = POKEPARTY_GetMember(secondParty, i);
+        if (POKEPARTY_GetCount((struct Party *)secondParty) > i)
+            work->mons[3 + i] = POKEPARTY_GetMember((struct Party *)secondParty, i);
         else
             work->mons[3 + i] = 0;
     }
@@ -705,11 +714,11 @@ void VS_MULTI_LIST_UpdatePrintQueue(struct VsMultiList *work)
     unsigned i;
     struct PrintSys *printQue;
 
-    PRINTSYS_QUE_Main(work->printQue);
+    PRINTSYS_QUE_Main((struct PrintQueue *)work->printQue);
     for (i = 0; i < 6; i++) {
         printQue = work->printQue;
         if (work->windows[i].dirty != 0) {
-            if (PRINTSYS_QUE_IsExistTarget(printQue, BMP_WIN_GetBmp(work->windows[i].bmpWin)) == 0) {
+            if (PRINTSYS_QUE_IsExistTarget((struct PrintQueue *)printQue, BMP_WIN_GetBmp(work->windows[i].bmpWin)) == 0) {
                 BMP_WIN_TransferChars(work->windows[i].bmpWin);
                 work->windows[i].dirty = 0;
             }
@@ -720,7 +729,7 @@ void VS_MULTI_LIST_UpdatePrintQueue(struct VsMultiList *work)
 static inline void PrintLeft(struct VsMultiList *work, int slot, struct Strbuf *str, int x, int y, u16 color)
 {
     struct PrintSys *printQue = work->printQue;
-    PRINTSYS_PrintQueColor(printQue, BMP_WIN_GetBmp(work->windows[slot].bmpWin), x, y, str, work->font, color);
+    PRINTSYS_PrintQueColor((struct PrintQueue *)printQue, BMP_WIN_GetBmp(work->windows[slot].bmpWin), x, y, str, work->font, color);
     work->windows[slot].dirty = 1;
 }
 
@@ -731,7 +740,7 @@ static inline void PrintRight(struct VsMultiList *work, int slot, struct BmpWin 
     u32 width = BMP_WIN_GetWidth(window);
     short x = (short)(width * 8 - PRINTSYS_MeasureWidestLine(str, work->font, 0));
     struct PrintSys *printQue = work->printQue;
-    PRINTSYS_PrintQueColor(printQue, BMP_WIN_GetBmp(work->windows[slot].bmpWin), x, 7, str, font, color);
+    PRINTSYS_PrintQueColor((struct PrintQueue *)printQue, BMP_WIN_GetBmp(work->windows[slot].bmpWin), x, 7, str, font, color);
     work->windows[slot].dirty = 1;
     STRBUF_Delete(str);
 }
@@ -776,7 +785,7 @@ void VS_MULTI_LIST_PrintName(struct VsMultiList *work, int slot)
 static inline void PrintLevel(struct VsMultiList *work, u32 slot, struct Strbuf *str)
 {
     struct PrintSys *printQue = work->printQue;
-    PRINTSYS_PrintQueColor(printQue,
+    PRINTSYS_PrintQueColor((struct PrintQueue *)printQue,
                   BMP_WIN_GetBmp(work->windows[slot].bmpWin), 8, 0x20, str,
                   work->fontSmall, 0x3dc0);
     work->windows[slot].dirty = 1;
@@ -840,7 +849,7 @@ void VS_MULTI_LIST_PrintHp(struct VsMultiList *work, int slot)
         u32 bmp;
         printQue1 = (u32)work->printQue;
         bmp = (u32)BMP_WIN_GetBmp(work->windows[slot].bmpWin);
-        PRINTSYS_PrintQueColor((struct PrintSys *)printQue1, (struct Bmp *)bmp, (short)labelX, 0x20, hpLabel, work->fontSmall, 0x3dc0);
+        PRINTSYS_PrintQueColor((struct PrintQueue *)printQue1, (struct Bmp *)bmp, (short)labelX, 0x20, hpLabel, work->fontSmall, 0x3dc0);
     }
     work->windows[slot].dirty = 1;
     STRBUF_Delete(hpLabel);
@@ -854,7 +863,7 @@ void VS_MULTI_LIST_PrintHp(struct VsMultiList *work, int slot)
         x = labelX - PRINTSYS_MeasureWidestLine(buf, (struct GfFont *)font, 0);
         printQue2 = (u32)work->printQue;
         bmp = (u32)BMP_WIN_GetBmp(work->windows[slot].bmpWin);
-        PRINTSYS_PrintQueColor((struct PrintSys *)printQue2, (struct Bmp *)bmp, x, 0x20, buf, (struct GfFont *)font, 0x3dc0);
+        PRINTSYS_PrintQueColor((struct PrintQueue *)printQue2, (struct Bmp *)bmp, x, 0x20, buf, (struct GfFont *)font, 0x3dc0);
     }
     work->windows[slot].dirty = 1;
     STRBUF_Delete(hpFormat);
@@ -866,7 +875,7 @@ void VS_MULTI_LIST_PrintHp(struct VsMultiList *work, int slot)
         u32 bmp;
         printQue3 = (u32)work->printQue;
         bmp = (u32)BMP_WIN_GetBmp(work->windows[slot].bmpWin);
-        PRINTSYS_PrintQueColor((struct PrintSys *)printQue3, (struct Bmp *)bmp, (short)(labelX + labelWidth), 0x20, buf, work->fontSmall, 0x3dc0);
+        PRINTSYS_PrintQueColor((struct PrintQueue *)printQue3, (struct Bmp *)bmp, (short)(labelX + labelWidth), 0x20, buf, work->fontSmall, 0x3dc0);
     }
     work->windows[slot].dirty = 1;
     STRBUF_Delete(maxHpFormat);
@@ -898,7 +907,7 @@ void VS_MULTI_LIST_ExitIcons(struct VsMultiList *work)
 void VS_MULTI_LIST_InitClact(void)
 {
     struct ClactInit init = gVsMultiListClactInit;
-    CLACT_InitSystem(&init, (unsigned)&gVsMultiListDispVram, 0x71);
+    CLACT_InitSystem((struct SysInit *)(&init), (struct DispVramCfg *)&gVsMultiListDispVram, 0x71);
 }
 
 void VS_MULTI_LIST_ExitClact(void)
@@ -990,23 +999,23 @@ void VS_MULTI_LIST_CreateActors(struct VsMultiList *work)
     }
     for (i = 0; i < 6; i++) {
         if (work->mons[i] == 0) {
-            CLACT_SetActorDrawEnable(work->actors.set.icon[i], 0);
-            CLACT_SetActorDrawEnable(work->actors.set.heldItem[i], 0);
-            CLACT_SetActorDrawEnable(work->actors.set.markerD[i], 0);
+            CLACT_SetActorDrawEnable((struct Actor *)work->actors.set.icon[i], 0);
+            CLACT_SetActorDrawEnable((struct Actor *)work->actors.set.heldItem[i], 0);
+            CLACT_SetActorDrawEnable((struct Actor *)work->actors.set.markerD[i], 0);
         } else {
-            CLACT_SetActorAutoAnim(work->actors.set.icon[i], 1);
-            CLACT_SetActorPaletteOffset(work->actors.set.icon[i], POKE_TOOL_GetIconPalette(POKE_TOOL_GetBoxParam(work->mons[i])), 1);
+            CLACT_SetActorAutoAnim((struct Actor *)work->actors.set.icon[i], 1);
+            CLACT_SetActorPaletteOffset((struct Actor *)work->actors.set.icon[i], POKE_TOOL_GetIconPalette(POKE_TOOL_GetBoxParam(work->mons[i])), 1);
             heldItem = POKE_TOOL_GetPartyValue(work->mons[i], POKE_TOOL_PARAM_HELD_ITEM, 0);
-            if (heldItem == 0) CLACT_SetActorDrawEnable(work->actors.set.heldItem[i], 0);
+            if (heldItem == 0) CLACT_SetActorDrawEnable((struct Actor *)work->actors.set.heldItem[i], 0);
             else if (FILE_UTIL_IsMailItem(heldItem) == 1) {
-                CLACT_SetActorAnimFrame(work->actors.set.heldItem[i], 0);
-                CLACT_SetActorAnimSeq(work->actors.set.heldItem[i], 1);
+                CLACT_SetActorAnimFrame((struct Actor *)work->actors.set.heldItem[i], 0);
+                CLACT_SetActorAnimSeq((struct Actor *)work->actors.set.heldItem[i], 1);
             } else {
-                CLACT_SetActorAnimFrame(work->actors.set.heldItem[i], 0);
-                CLACT_SetActorAnimSeq(work->actors.set.heldItem[i], 0);
+                CLACT_SetActorAnimFrame((struct Actor *)work->actors.set.heldItem[i], 0);
+                CLACT_SetActorAnimSeq((struct Actor *)work->actors.set.heldItem[i], 0);
             }
         }
-        CLACT_SetActorDrawEnable(work->actors.set.markerC[i], 0);
+        CLACT_SetActorDrawEnable((struct Actor *)work->actors.set.markerC[i], 0);
     }
     if (work->args->swapSides == 0) {
         for (i = 0; i < 3; i++) {
@@ -1029,7 +1038,7 @@ void VS_MULTI_LIST_DeleteActors(struct VsMultiList *work)
 {
     unsigned i;
     for (i = 0; i < 24; i++)
-        CLACT_DeleteActor(work->actors.all[i]);
+        CLACT_DeleteActor((struct Actor *)work->actors.all[i]);
     CLACT_DeleteUnit(work->clactUnit);
 }
 
@@ -1061,55 +1070,55 @@ void VS_MULTI_LIST_CreateBgFrames(struct VsMultiList *work)
 {
     u16 i;
     u8 *palette, *buf;
-    work->bgFrames = BGWINFRM_Create(2, 12, 0x71);
+    work->bgFrames = (struct WinMgr *)BGWINFRM_Create(2, 12, 0x71);
     for (i = 0; i < 6; i++) {
-        BGWINFRM_AddFrame(work->bgFrames, i, 1, 16, 6);
-        BGWINFRM_AddFrame(work->bgFrames, i + 6, 0, 16, 6);
-        BGWINFRM_PutBmpWin(work->bgFrames, i + 6, work->windows[i].bmpWin);
+        BGWINFRM_AddFrame((struct BgWinFrmWork *)work->bgFrames, i, 1, 16, 6);
+        BGWINFRM_AddFrame((struct BgWinFrmWork *)work->bgFrames, i + 6, 0, 16, 6);
+        BGWINFRM_PutBmpWin((struct BgWinFrmWork *)work->bgFrames, i + 6, work->windows[i].bmpWin);
     }
     palette = (u8 *)BG_SYS_GetBuf(1);
     buf = GFL_HEAP_Alloc(0x8071, 0xc0, 0, gVsMultiListSrcName, 0x606);
     for (i = 0; i < 6; i++) MIi_CpuCopy16(palette + i * 64, buf + i * 32, 32);
-    for (i = 0; i < 6; i++) if (work->mons[i]) BGWINFRM_SetFrameData(work->bgFrames, i, buf);
+    for (i = 0; i < 6; i++) if (work->mons[i]) BGWINFRM_SetFrameData((struct BgWinFrmWork *)work->bgFrames, i, buf);
     for (i = 0; i < 6; i++) MIi_CpuCopy16(palette + (i + 18) * 64, buf + i * 32, 32);
-    for (i = 0; i < 6; i++) if (!work->mons[i]) BGWINFRM_SetFrameData(work->bgFrames, i, buf);
+    for (i = 0; i < 6; i++) if (!work->mons[i]) BGWINFRM_SetFrameData((struct BgWinFrmWork *)work->bgFrames, i, buf);
     GFL_HEAP_Free(buf);
     BG_SYS_ClearSlot(1);
     if (work->args->swapSides == 0) {
-        for (i = 3; i < 6; i++) if (work->mons[i]) BGWINFRM_ChangePalette(work->bgFrames, i, 0, 0, 16, 6, 5);
+        for (i = 3; i < 6; i++) if (work->mons[i]) BGWINFRM_ChangePalette((struct BgWinFrmWork *)work->bgFrames, i, 0, 0, 16, 6, 5);
     } else {
-        for (i = 0; i < 3; i++) if (work->mons[i]) BGWINFRM_ChangePalette(work->bgFrames, i, 0, 0, 16, 6, 5);
+        for (i = 0; i < 3; i++) if (work->mons[i]) BGWINFRM_ChangePalette((struct BgWinFrmWork *)work->bgFrames, i, 0, 0, 16, 6, 5);
     }
     if (work->args->swapSides == 0) {
-        BGWINFRM_PutFrame(work->bgFrames, 0, 0, 0);
-        BGWINFRM_PutFrame(work->bgFrames, 1, 0, 6);
-        BGWINFRM_PutFrame(work->bgFrames, 2, 0, 12);
-        BGWINFRM_PutFrame(work->bgFrames, 6, 0, 0);
-        BGWINFRM_PutFrame(work->bgFrames, 7, 0, 6);
-        BGWINFRM_PutFrame(work->bgFrames, 8, 0, 12);
-        BGWINFRM_PutFrame(work->bgFrames, 3, 32, 1);
-        BGWINFRM_PutFrame(work->bgFrames, 4, 32, 7);
-        BGWINFRM_PutFrame(work->bgFrames, 5, 32, 13);
-        BGWINFRM_PutFrame(work->bgFrames, 9, 32, 1);
-        BGWINFRM_PutFrame(work->bgFrames, 10, 32, 7);
-        BGWINFRM_PutFrame(work->bgFrames, 11, 32, 13);
+        BGWINFRM_PutFrame((struct BgWinFrmWork *)work->bgFrames, 0, 0, 0);
+        BGWINFRM_PutFrame((struct BgWinFrmWork *)work->bgFrames, 1, 0, 6);
+        BGWINFRM_PutFrame((struct BgWinFrmWork *)work->bgFrames, 2, 0, 12);
+        BGWINFRM_PutFrame((struct BgWinFrmWork *)work->bgFrames, 6, 0, 0);
+        BGWINFRM_PutFrame((struct BgWinFrmWork *)work->bgFrames, 7, 0, 6);
+        BGWINFRM_PutFrame((struct BgWinFrmWork *)work->bgFrames, 8, 0, 12);
+        BGWINFRM_PutFrame((struct BgWinFrmWork *)work->bgFrames, 3, 32, 1);
+        BGWINFRM_PutFrame((struct BgWinFrmWork *)work->bgFrames, 4, 32, 7);
+        BGWINFRM_PutFrame((struct BgWinFrmWork *)work->bgFrames, 5, 32, 13);
+        BGWINFRM_PutFrame((struct BgWinFrmWork *)work->bgFrames, 9, 32, 1);
+        BGWINFRM_PutFrame((struct BgWinFrmWork *)work->bgFrames, 10, 32, 7);
+        BGWINFRM_PutFrame((struct BgWinFrmWork *)work->bgFrames, 11, 32, 13);
     } else {
-        BGWINFRM_PutFrame(work->bgFrames, 0, -16, 0);
-        BGWINFRM_PutFrame(work->bgFrames, 1, -16, 6);
-        BGWINFRM_PutFrame(work->bgFrames, 2, -16, 12);
-        BGWINFRM_PutFrame(work->bgFrames, 6, -16, 0);
-        BGWINFRM_PutFrame(work->bgFrames, 7, -16, 6);
-        BGWINFRM_PutFrame(work->bgFrames, 8, -16, 12);
-        BGWINFRM_PutFrame(work->bgFrames, 3, 16, 1);
-        BGWINFRM_PutFrame(work->bgFrames, 4, 16, 7);
-        BGWINFRM_PutFrame(work->bgFrames, 5, 16, 13);
-        BGWINFRM_PutFrame(work->bgFrames, 9, 16, 1);
-        BGWINFRM_PutFrame(work->bgFrames, 10, 16, 7);
-        BGWINFRM_PutFrame(work->bgFrames, 11, 16, 13);
+        BGWINFRM_PutFrame((struct BgWinFrmWork *)work->bgFrames, 0, -16, 0);
+        BGWINFRM_PutFrame((struct BgWinFrmWork *)work->bgFrames, 1, -16, 6);
+        BGWINFRM_PutFrame((struct BgWinFrmWork *)work->bgFrames, 2, -16, 12);
+        BGWINFRM_PutFrame((struct BgWinFrmWork *)work->bgFrames, 6, -16, 0);
+        BGWINFRM_PutFrame((struct BgWinFrmWork *)work->bgFrames, 7, -16, 6);
+        BGWINFRM_PutFrame((struct BgWinFrmWork *)work->bgFrames, 8, -16, 12);
+        BGWINFRM_PutFrame((struct BgWinFrmWork *)work->bgFrames, 3, 16, 1);
+        BGWINFRM_PutFrame((struct BgWinFrmWork *)work->bgFrames, 4, 16, 7);
+        BGWINFRM_PutFrame((struct BgWinFrmWork *)work->bgFrames, 5, 16, 13);
+        BGWINFRM_PutFrame((struct BgWinFrmWork *)work->bgFrames, 9, 16, 1);
+        BGWINFRM_PutFrame((struct BgWinFrmWork *)work->bgFrames, 10, 16, 7);
+        BGWINFRM_PutFrame((struct BgWinFrmWork *)work->bgFrames, 11, 16, 13);
     }
 }
 
 void VS_MULTI_LIST_DeleteBgFrames(struct VsMultiList *work)
 {
-    BGWINFRM_Delete(work->bgFrames);
+    BGWINFRM_Delete((struct BgWinFrmWork *)work->bgFrames);
 }

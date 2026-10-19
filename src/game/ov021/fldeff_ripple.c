@@ -61,16 +61,17 @@ typedef struct RippleStartParam {
 extern u32 GFL_HEAP_Free(void *p);
 
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+struct FieldEffectSys;
 
-extern struct FieldMap *FIELD_EFFECT_GetFieldMap(FieldEffectSys *fieldEffect);
+extern u32 FIELD_EFFECT_GetFieldMap(FieldEffectSys *fieldEffect);
 
 extern struct BbActSys *FIELDMAP_GetGroundBbdAct(struct FieldMap *fieldMap);
 
-extern ArcHandle *FIELD_EFFECT_GetArcHandle(FieldEffectSys *fieldEffect);
+extern u32 FIELD_EFFECT_GetArcHandle(FieldEffectSys *fieldEffect);
 
 extern G3dResource *G3D_SYSTEM_CreateResourceArcHandle(ArcHandle *arc, u32 fileId);
 
-extern void FIELD_EFFECT_ApplyPaletteTable(FieldEffectSys *fieldEffect, G3dResource *res);
+extern void FIELD_EFFECT_ApplyPaletteTable(struct FieldEffectSys *sys, void *model);
 
 extern u16 BILLBOARD_ACT_CreateSlots(struct BbActSys *sys, const struct BbActRec *recs, u32 count);
 
@@ -78,9 +79,10 @@ extern void BILLBOARD_ACT_DeleteSlots(struct BbActSys *sys, u32 first, u32 count
 
 extern void FLDMMDL_MOVE_GridToVectorPos(int x, int y, int *p);
 
-extern void *FIELD_EFFECT_GetResource(FieldEffectSys *fieldEffect, u32 effectId);
+extern s32 FIELD_EFFECT_GetResource(struct FieldEffectSys *sys, s32 id);
+struct FieldEffectObjFuncs;
 
-extern void FIELD_EFFECT_AddObject(FieldEffectSys *fieldEffect, const void *funcs, const VecFx32 *pos, u32 mode, void *param, u32 priority);
+extern void FIELD_EFFECT_AddObject(struct FieldEffectSys *sys, struct FieldEffectObjFuncs *funcs, VecFx32 *pos, u32 mode, void *param, u32 priority);
 
 RippleWork *FLDEFF_RIPPLE_Create(FieldEffectSys *fieldEffect, u32 heapId);
 
@@ -109,12 +111,13 @@ extern void FIELD_EFFECT_SetObjectPos(FieldEffectObj *obj, VecFx32 *pos);
 extern u16 BILLBOARD_ACT_CreateEntries(struct BbActSys *o, u16 base, const struct BbActDesc *d, u32 count, u32 mode);
 
 extern void FIELD_EFFECT_DeleteObject(FieldEffectObj *obj);
+struct BbActCmd;
 
-extern void BILLBOARD_ACT_SetEntryCommands(void *p, int idx, u32 v, u16 h);
+extern void BILLBOARD_ACT_SetEntryCommands(struct BbActSys *sys, s32 entryIndex, struct BbActCmd **cmdLists, u16 listCount);
 
-extern void BILLBOARD_ACT_SetEntryList(void *p, int idx, u32 h);
+extern void BILLBOARD_ACT_SetEntryList(struct BbActSys *sys, s32 entryIndex, u32 listIndex);
 
-extern void BILLBOARD_ACT_SetEntryEnabled(void *p, int idx, u32 v);
+extern void BILLBOARD_ACT_SetEntryEnabled(struct BbActSys *sys, s32 entryIndex, u32 enabled);
 
 extern void BILLBOARD_ACT_DeleteEntries(struct BbActSys *o, u16 first, u32 count);
 
@@ -138,7 +141,7 @@ RippleWork *FLDEFF_RIPPLE_Create(FieldEffectSys *fieldEffect, u32 heapId)
     RippleWork *work = GFL_HEAP_Alloc(heapId, 0xC, 1, sFldeffRippleFileName, 0x56);
 
     work->fieldEffect = fieldEffect;
-    work->bbActSys = FIELDMAP_GetGroundBbdAct(FIELD_EFFECT_GetFieldMap(fieldEffect));
+    work->bbActSys = FIELDMAP_GetGroundBbdAct((struct FieldMap *)FIELD_EFFECT_GetFieldMap(fieldEffect));
     FLDEFF_RIPPLE_AddActor(work);
     return work;
 }
@@ -155,7 +158,7 @@ void FLDEFF_RIPPLE_AddActor(RippleWork *work)
 {
     struct BbActRec rec;
     G3dResource *res;
-    ArcHandle *arc = FIELD_EFFECT_GetArcHandle(work->fieldEffect);
+    ArcHandle *arc = (struct ArcHandle *)FIELD_EFFECT_GetArcHandle(work->fieldEffect);
 
     rec.format = 2;
     rec.sizeS = 0x13;
@@ -182,9 +185,9 @@ void FLDEFF_RIPPLE_Start(FieldEffectSys *fieldEffect, int gridX, int gridZ, fx32
     FLDMMDL_MOVE_GridToVectorPos(gridX, gridZ, (int *)(&pos));
     pos.y = height - 0x8000;
     pos.z -= 0x5000;
-    param.work = FIELD_EFFECT_GetResource(fieldEffect, 7);
+    param.work = (struct RippleWork *)FIELD_EFFECT_GetResource(fieldEffect, 7);
     param.pos = pos;
-    FIELD_EFFECT_AddObject(fieldEffect, sRippleFuncs, 0, 0, &param, 0);
+    FIELD_EFFECT_AddObject(fieldEffect, (struct FieldEffectObjFuncs *)sRippleFuncs, 0, 0, &param, 0);
 }
 
 /* Ripple effect (fldeff_ripple.c): callbacks of its field effect object. */
@@ -213,7 +216,7 @@ void FLDEFF_RIPPLE_InitObj(FieldEffectObj *obj, RippleObjWork *work)
         FIELD_EFFECT_DeleteObject(obj);
         return;
     }
-    BILLBOARD_ACT_SetEntryCommands((struct BbActSys *)actSys, work->entryId, (u32)gRippleBoardCommands, 1);
+    BILLBOARD_ACT_SetEntryCommands((struct BbActSys *)actSys, work->entryId, (struct BbActCmd **)gRippleBoardCommands, 1);
     entryId = work->entryId;
     BILLBOARD_ACT_SetEntryList((struct BbActSys *)actSys, entryId, 0);
     BILLBOARD_ACT_SetEntryEnabled((struct BbActSys *)actSys, entryId, 1);

@@ -23,6 +23,9 @@
  *   GFL_HEAP_Alloc  0x02030734  arm
  *   MSGDATA_CreateFromArchive  0x02045B38  arm
  *   MSGDATA_ReadString  0x02045CAC  arm
+ *   POKEPARTY_GetCount           0x0201AA18  thumb
+ *   POKEPARTY_GetMember          0x0201AB28  thumb
+ *   POKE_TOOL_GetPartyValue      0x02017E1C  thumb
  */
 #include "wifilist_tail_shared_types.h"
 #include "musical_save_shared_types.h"
@@ -118,23 +121,25 @@ extern void MI_CpuFill8(void *dest, u8 data, u32 size);
 
 extern void MI_CpuCopy8(const void *src, void *dest, u32 size);
 
-extern u16  GF_STANDARD_CalcCrc16(const void *data, u32 size);
+extern u16  GF_STANDARD_CalcCrc16(u8 *src, u32 len);
 
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
 extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+struct Strbuf;
 
-extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
+extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, struct Strbuf *dest);
 
 extern u32  MSGDATA_Delete(struct MsgBank *bank);
 
-extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
+extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
 
 extern u32 POKEPARTY_GetCount(struct Party *party);
+struct PokemonParam;
 
-extern struct PokeParam *POKEPARTY_GetMember(struct Party *party, u32 index);
+extern struct PokemonParam *POKEPARTY_GetMember(struct Party *party, u32 index);
 
-extern u32 POKE_TOOL_GetPartyValue(struct PokeParam *mon, u32 param, u32 arg);
+extern u32 POKE_TOOL_GetPartyValue(struct PokemonParam *pp, u32 paramId, u32 arg);
 
 extern void *SAVE_CONTROL_GetBlock(struct SaveControl *save, u32 blockId);
 
@@ -361,7 +366,7 @@ u32 REGULATION_Card_IsCrcValid(struct RegulationCard *card)
 
 u16 REGULATION_Card_CalcCrc(struct RegulationCard *card)
 {
-    return GF_STANDARD_CalcCrc16(card, 0x15E);
+    return GF_STANDARD_CalcCrc16((u8 *)card, 0x15E);
 }
 
 struct RegulationCard *REGULATION_GetCard(struct RegulationCard *cards, u32 index)
@@ -416,13 +421,13 @@ void REGULATION_BuildParty(struct RegulationParty *dest, struct Party *party)
 
     REGULATION_InitParty(dest);
     for (i = 0; i < (int)POKEPARTY_GetCount(party); i++) {
-        struct PokeParam *mon = POKEPARTY_GetMember(party, i);
+        struct PokeParam *mon = (struct PokeParam *)POKEPARTY_GetMember(party, i);
 
-        if (POKE_TOOL_GetPartyValue(mon, 0xa9, 0) != 0) {
-            REGULATION_Party_SetValue(dest, 0, i, POKE_TOOL_GetPartyValue(mon, 5, 0));
-            REGULATION_Party_SetValue(dest, 1, i, POKE_TOOL_GetPartyValue(mon, 0x6f, 0));
-            REGULATION_Party_SetValue(dest, 2, i, POKE_TOOL_GetPartyValue(mon, 6, 0) != 0);
-            REGULATION_Party_SetValue(dest, 3, i, POKE_TOOL_GetPartyValue(mon, 0x6e, 0));
+        if (POKE_TOOL_GetPartyValue((struct PokemonParam *)mon, 0xa9, 0) != 0) {
+            REGULATION_Party_SetValue(dest, 0, i, POKE_TOOL_GetPartyValue((struct PokemonParam *)mon, 5, 0));
+            REGULATION_Party_SetValue(dest, 1, i, POKE_TOOL_GetPartyValue((struct PokemonParam *)mon, 0x6f, 0));
+            REGULATION_Party_SetValue(dest, 2, i, POKE_TOOL_GetPartyValue((struct PokemonParam *)mon, 6, 0) != 0);
+            REGULATION_Party_SetValue(dest, 3, i, POKE_TOOL_GetPartyValue((struct PokemonParam *)mon, 0x6e, 0));
         }
     }
 }

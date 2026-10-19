@@ -216,7 +216,7 @@ extern void OSi_CancelThreadAlarmForSleep(OSThread *thread);
 void OS_KillThreadWithPriority(OSThread *thread, void *arg, u32 prio);
 extern void OSi_ExitThread_ArgSpecified(OSThread *thread, void *arg);
 extern BOOL OS_SetThreadPriority(OSThread *thread, u32 prio);
-void OS_CancelAlarm(void *alarm);
+void OS_CancelAlarm(struct OSiAlarm *alarm);
 extern void OS_CreateAlarm(OSAlarm *alarm);
 extern void OS_SetAlarm(OSAlarm *alarm, u64 tick, OSAlarmHandler handler, void *arg);
 extern void OSi_SleepAlarmCallback(void *arg);

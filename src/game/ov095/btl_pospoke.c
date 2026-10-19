@@ -35,16 +35,19 @@
 #include "../ov093/btl_records_types.h"
 
 extern u32 BTL_MAIN_GetRuleSlotSpan(int);
-extern void BTL_MAIN_GetSlotClientAndNth(int, int, u8 *, u8 *);
-extern int BTL_SIDE_GetClientPoke(int, int, int);
-extern int BTL_POKEPARAM_IsFainted(int);
-extern int BTL_POKEPARAM_GetPokeId(int);
+struct BtlMain;
+extern void BTL_MAIN_GetSlotClientAndNth(struct BtlMain *main, u8 slot, u8 *outClientId, u8 *outNth);
+struct BtlSide;
+struct BtlPokeParam;
+extern struct BtlPokeParam *BTL_SIDE_GetClientPoke(struct BtlSide *side, u32 clientId, u8 nth);
+extern int BTL_POKEPARAM_IsFainted(struct BtlPokeParam *pp);
+extern u8 BTL_POKEPARAM_GetPokeId(struct BtlPokeParam *pp);
 extern int BTL_SLOT_GetRotateSrcIndex(int);
 extern int BTL_SLOT_GetRotateDstIndex(int);
-extern int BTL_MAIN_IsPokeSamePair(int, int);
-extern int BTL_SIDE_GetPokeByIdThunk(int, int);
-extern int BTL_POKEPARAM_AddFoughtPoke(int, int);
-extern int BTL_MAIN_CheckFrontPos(void *, int);
+extern int BTL_MAIN_IsPokeSamePair(u32 pokeIdA, u32 pokeIdB);
+extern struct BtlPokeParam *BTL_SIDE_GetPokeByIdThunk(struct BtlSide *side, s32 pokeId);
+extern void BTL_POKEPARAM_AddFoughtPoke(struct BtlPokeParam *poke, u32 pokeId);
+extern int BTL_MAIN_CheckFrontPos(struct BtlMain *main, u32 posIdx);
 void BTL_POSPOKE_Init(BtlPosPoke *a, int b, int c);
 void BTL_POSPOKE_SetupPos(BtlPosPoke *a, int b, int c, u8 d);
 void BTL_POSPOKE_RemovePoke(BtlPosPoke *p, int b);
@@ -87,10 +90,10 @@ void BTL_POSPOKE_SetupPos(BtlPosPoke *a, int b, int c, u8 d)
     int poke;
     int pokeId;
 
-    BTL_MAIN_GetSlotClientAndNth(b, d, &clientId, &nth);
-    poke = BTL_SIDE_GetClientPoke(c, clientId, nth);
-    if (poke != 0 && BTL_POKEPARAM_IsFainted(poke) == 0) {
-        pokeId = BTL_POKEPARAM_GetPokeId(poke);
+    BTL_MAIN_GetSlotClientAndNth((struct BtlMain *)b, d, &clientId, &nth);
+    poke = (s32)BTL_SIDE_GetClientPoke((struct BtlSide *)c, clientId, nth);
+    if (poke != 0 && (struct BtlPokeParam *)BTL_POKEPARAM_IsFainted((struct BtlPokeParam *)poke) == 0) {
+        pokeId = BTL_POKEPARAM_GetPokeId((struct BtlPokeParam *)poke);
         a->entry[d].pokeId = pokeId;
         a->posOfPoke[pokeId] = d;
     } else {
@@ -149,8 +152,8 @@ void BTL_POSPOKE_RotateInPoke(BtlPosPoke *p, u32 size, u32 category, int key, in
     tmp = p->entry[idx[0]];
     p->entry[idx[first]] = p->entry[idx[second]];
     p->entry[idx[second]] = tmp;
-    if (BTL_POKEPARAM_IsFainted(key) == 0)
-        BTL_POSPOKE_SetPoke(p, idx[0], BTL_POKEPARAM_GetPokeId(key), extra);
+    if ((struct BtlPokeParam *)BTL_POKEPARAM_IsFainted((struct BtlPokeParam *)key) == 0)
+        BTL_POSPOKE_SetPoke(p, idx[0], BTL_POKEPARAM_GetPokeId((struct BtlPokeParam *)key), extra);
     else
         p->entry[i].pokeId = BTL_POSPOKE_NO_POKE;
     for (i = 0; i < n; i++) BTL_POSPOKE_UpdatePosOfPoke(p, idx[i]);
@@ -173,8 +176,8 @@ void BTL_POSPOKE_RegisterFoughtPokes(BtlPosPoke *a, int b, int c)
             continue;
         if (BTL_MAIN_IsPokeSamePair(q->pokeId, pokeId) != 0)
             continue;
-        BTL_POKEPARAM_AddFoughtPoke(BTL_SIDE_GetPokeByIdThunk(c, q->pokeId), pokeId);
-        BTL_POKEPARAM_AddFoughtPoke(BTL_SIDE_GetPokeByIdThunk(c, pokeId), q->pokeId);
+        BTL_POKEPARAM_AddFoughtPoke(BTL_SIDE_GetPokeByIdThunk((struct BtlSide *)c, q->pokeId), pokeId);
+        BTL_POKEPARAM_AddFoughtPoke(BTL_SIDE_GetPokeByIdThunk((struct BtlSide *)c, pokeId), q->pokeId);
     }
 }
 

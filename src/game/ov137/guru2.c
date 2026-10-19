@@ -65,27 +65,32 @@ extern void PROCSYS_Delete(struct S020314B8 *p);
 
 extern void PROCSYS_FreeProcWork(struct Proc *p);
 
-extern void *GFL_HEAP_Alloc(u16,u32,int,const char *,u16);
+extern void *GFL_HEAP_Alloc(unsigned int heapId, unsigned int size, int clear, char *site, unsigned short tag);
 
 extern u32 GFL_HEAP_Free(void *p);
 
 extern void PROCSYS_Push(void *,int,const void *,void *);
+struct GameData;
 
-extern void *GAME_DATA_GetMyParty(const struct BigObj *p);
+extern void *GAME_DATA_GetMyParty(struct GameData *gd);
 
-extern void *GAME_DATA_GetMyItem(const struct BigObj *p);
+extern void *GAME_DATA_GetMyItem(struct GameData *gd);
+struct Party;
 
-extern u32 POKEPARTY_GetCount(void *);
+extern u32 POKEPARTY_GetCount(struct Party *party);
+struct PokemonParam;
 
-extern void *POKEPARTY_GetMember(void *p, u32 idx);
+extern struct PokemonParam *POKEPARTY_GetMember(struct Party *party, unsigned int pos);
 
 extern void GFL_NET_SetAutoExit(u8 autoExit);
+struct MyStatus;
 
-extern u8 *GAME_DATA_GetMyStatus(void *p);
+extern struct MyStatus *GAME_DATA_GetMyStatus(struct GameData *gd);
 
 extern void *ZUKAN_SAVE_GetFromGameData(void *);
+struct ZukanSave;
 
-extern u32 ZUKAN_SAVE_IsNationalDexEnabled(struct Blk37 *p);
+extern u32 ZUKAN_SAVE_IsNationalDexEnabled(struct ZukanSave *pZukan);
 
 int GURU2_EntryProcInit(void *obj,int a,struct Guru2Param *param);
 
@@ -163,7 +168,7 @@ int GURU2_EntryProcExit(void *obj,int seq,int parentWork,struct Guru2Entry *p)
 struct Guru2Session *GURU2_SessionCreate(struct Guru2Param *param,int heap)
 {
     struct Guru2Session *p;
-    p=GFL_HEAP_Alloc((u16)heap,36,0,gGuru2AllocFileName,171);
+    p=GFL_HEAP_Alloc((u16)heap,36,0,(char *)gGuru2AllocFileName,171);
     MI_CpuFill8(p,0,36);
     p->param=param;
     p->comm=GURU2_COMM_Create(p,heap);
@@ -197,7 +202,7 @@ struct Guru2PartyListParam *GURU2_PartyListArgsCreate(struct Guru2Entry *p,int l
 {
     struct Guru2PartyListParam *v;
     int i;
-    v=GFL_HEAP_Alloc(4,sizeof(struct Guru2PartyListParam),1,gGuru2AllocFileName,256);
+    v=GFL_HEAP_Alloc(4,sizeof(struct Guru2PartyListParam),1,(char *)gGuru2AllocFileName,256);
     v->party=GAME_DATA_GetMyParty(p->gameData);
     v->playerData=GAME_DATA_GetMyItem(p->gameData);
     v->initialMode=0;
@@ -250,7 +255,7 @@ int GURU2_EntryStateAfterPartyList(struct Guru2Entry *p)
     if(mode==1) {
         GAME_DATA_GetMyStatus(p->gameData);
         q=ZUKAN_SAVE_GetFromGameData(p->gameData);
-        p->statusParam=GFL_HEAP_Alloc(4,40,0,gGuru2AllocFileName,328);
+        p->statusParam=GFL_HEAP_Alloc(4,40,0,(char *)gGuru2AllocFileName,328);
         MI_CpuFill8(p->statusParam,0,40);
         r=GAME_DATA_GetMyParty(p->gameData);
         p->statusParam->party=r;

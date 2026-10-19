@@ -150,7 +150,7 @@ int DWC_BACKUPlCheckIp(u8 *ip, u8 *mask);
 int DWC_BACKUPlCheckAddress(unsigned char *address);
 int writeDisable(void);
 void *DWCi_BACKUPlGetWifi(void);
-extern u8 Wifi[14];
+static u8 Wifi[14];
 extern DWCBackupStatics Address;
 extern char g_02146A94[];
 

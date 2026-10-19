@@ -36,7 +36,7 @@
 extern void *gsirealloc(void *ptr, unsigned long size);
 extern void gsifree(void *ptr);
 extern void *memcpy(void *, const void *, unsigned int);
-extern int gsDebugFormat(int index, char *table, int mask, const char *fmt, ...);
+extern void gsDebugFormat(int cat, int type, int level, char *fmt, ...);
 extern int ghiAppendDataToBuffer(GHIBuffer *buffer, char *data, int dataLen);
 extern int OS_SPrintf(char *dst, char *fmt, ...);
 extern int GSISocketSelect(int, int *, int *, int *);
@@ -58,7 +58,7 @@ extern char sGhttpLineEndBuffer[];
 extern char sGhttpIntFormatBuffer[];
 
 
-extern unsigned int strlen(const char *);
+extern int strlen(unsigned char *s);
 extern void *MSL_C_LIB_MemsetPtr(void *dest, int c, u32 n);
 int ghiResizeBuffer(GHIBuffer *buffer, int sizeIncrement)
 {
@@ -156,7 +156,7 @@ int ghiAppendDataToBuffer(GHIBuffer *buffer, char *data, int dataLen)
     if (buffer->readOnly != 0)
         return 0;
     if (dataLen == 0)
-        dataLen = strlen(data);
+        dataLen = strlen((unsigned char *)data);
     newLen = buffer->len + dataLen;
     while (newLen >= buffer->size) {
         if (buffer->fixed != 0) {
@@ -200,7 +200,7 @@ int ghiEncryptDataToBuffer(GHIBuffer *buffer, const char *data, int dataLen)
         return ghiAppendDataToBuffer(buffer, (char *)data, dataLen);
 
     if (dataLen == 0)
-        dataLen = strlen((const char *)data);
+        dataLen = strlen((unsigned char *)data);
     if (dataLen == 0)
         return 1;
 
@@ -220,7 +220,7 @@ int ghiEncryptDataToBuffer(GHIBuffer *buffer, const char *data, int dataLen)
             pos += fragmentLen;
             buffer->len = buffer->size - bufSpace;
         } else {
-            gsDebugFormat(8, (char *)4, 2, sGhttpGhiencryptdatatobufferEncounteredUnhandledReturnCode, result);
+            gsDebugFormat((int)8, (int)4, 2, sGhttpGhiencryptdatatobufferEncounteredUnhandledReturnCode, result);
             return 0;
         }
     } while (pos < dataLen);

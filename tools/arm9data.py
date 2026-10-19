@@ -16,7 +16,7 @@ What is cut into typed C objects:
     SDK_STATIC_BSS_START (0x020A9E80).  The module has no static-initialiser
     table, so the two sections follow each other without a terminator;
   * .bss from SDK_STATIC_BSS_START to SDK_STATIC_BSS_END;
-  * _start_BuildParams, the .version strings (crt0.c, 0x02005030..0x02005124) and the
+  * _start_BuildParams (crt0_build.c), the six .version strings (sdk_version_*.c, 0x02005030..0x02005124) and the
     SHA-1 round constants (sha1.c, 0x02081E6C) are source now, not companions;
 Every object gets an owner file (the file whose code refers to it, else the file of
 a function it points at, ...) and a companion <stem>.zdata.c / <stem>.zpre.c with
@@ -542,7 +542,7 @@ def companions(out=None, relink=False, data_start=DATA_START):
         put(defs, True)
 
     # _start_BuildParams, the .version strings and the SHA-1 round constants are defined
-    # in src/game/arm9/crt0.c and sha1.c now (values from build/gen, tools/gendata.py)
+    # in src/game/arm9/crt0_build.c, sdk_version_*.c and sha1.c now
     fixed = {}
 
     plan = [("%08X" % ob["addr"], ob["size"], ob["sec"], files[ob["owner"]]["name"], ob["name"]) for ob in objs]

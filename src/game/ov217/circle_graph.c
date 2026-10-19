@@ -58,6 +58,15 @@
  *   cos 0x0209A390 arm
  *   sin 0x0209AA08 arm
  *   NNS_G3dWorldPosToScrPos  0x0206DF3C  arm
+ *   _f2d                         0x0209BD38  arm
+ *   _fadd                        0x0209C95C  arm
+ *   _fdiv                        0x0209CE10  arm
+ *   _fflt                        0x0209BDBC  arm
+ *   _ffltu                       0x0209BE04  arm
+ *   _fgr                         0x0209BBB0  arm
+ *   _fmul                        0x0209C77C  arm
+ *   _fsub                        0x0209CB8C  arm
+ *   _u32_div_f                   0x0209C2B0  arm
  */
 #include "circle_graph.h"
 
@@ -107,8 +116,8 @@ extern void NNS_G3dGlbFlush(void);
 extern void VEC_Fx16Add(const s16 *a, const s16 *b, s16 *out);
 extern double cos(double);
 extern double sin(double);
-/* SDK: NNS_G3dWorldPosToScrPos */
-extern void NNS_G3dWorldPosToScrPos(const VecFx32 *pos, s32 *px, s32 *py);
+                                  
+extern s32 NNS_G3dWorldPosToScrPos(const VecFx32 *pos, s32 *px, s32 *py);
 
 extern const char d_021C4064[];
 extern VecFx32 d_02148D8C;              /* camera eye */

@@ -70,12 +70,13 @@ extern void *gsXmlCreateStreamReader(void);
 extern int gsXmlParseBuffer(void *stream, char *data, int len);
 extern int ghttpRequestThink(int request);
 extern void *ZUKAN_DETAIL_AREA_ResetBlendAlpha();
-extern void ghttpPostSetAutoFree(void *post, int autoFree);
-extern void ghttpPostAddXml();
+struct GHIPost;
+extern void ghttpPostSetAutoFree(struct GHIPost *post, int autoFree);
+extern int ghttpPostAddXml(struct GHIPost *post, void *xml);
 extern int ghttpGetExA(char *URL, char *headers, char *buffer, int bufferSize, void *post, int throttle, int blocking, void *progressCallback, int (*completedCallback)(int, int, char *, int, void *), void *param);
 extern void ghttpCancelRequest(int request);
-void gsXmlFreeReader(int x);
-void ghttpFreePostAndUpdateConnection(int x, int y);
+void gsXmlFreeReader(void *stream);
+void ghttpFreePostAndUpdateConnection(int request, struct GHIPost *post);
 void *gsiExecuteSoap(char *theURL, char *theService, void *theRequestSoap, GSSoapCallback theCallbackFunc, void *theUserData);
 GSSoapTask *gsiExecuteSoapWithTimeout(char *theURL, char *theService, void *theRequestSoap, GSSoapCallback theCallbackFunc, unsigned int theTimeoutMs, void *theUserData);
 GSSoapTask *gsiExecuteSoapCustom(char *theURL, char *theService, void *theRequestSoap, GSSoapCallback theCallbackFunc, void (*theCustomFunc)(void *, void *), void *theUserData);
@@ -279,11 +280,11 @@ int gsiSoapTaskCleanup(void *theTask)
     GSSoapTask *p = (GSSoapTask *)theTask;
 
     if (p->stream)
-        gsXmlFreeReader((int)p->stream);
+        gsXmlFreeReader(p->stream);
     if (p->buffer)
         gsifree(p->buffer);
     if (p->post)
-        ghttpFreePostAndUpdateConnection(p->httpRequest, (int)p->post);
+        ghttpFreePostAndUpdateConnection(p->httpRequest, p->post);
     gsifree(p);
     return 1;
 }

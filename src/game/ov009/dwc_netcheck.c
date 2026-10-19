@@ -213,38 +213,39 @@ extern char gDwcNetcheckLabelData[];
 extern char gDwcNetcheckLabelWait[];
 
 extern int DWC_Http_Create(DWCHttp *http, DWCHttpParam *param);
-extern void DWC_Http_Destroy(DWCHttp *http);
-extern int DWC_Http_FinishHeader(DWCHttp *http);
+extern void DWC_Http_Destroy(char *http);
+extern int DWC_Http_FinishHeader(char *http);
 extern unsigned long OS_GetThreadPriority(void *thread);
-extern void DWC_Http_StartThread(DWCHttp *http, unsigned long prio);
+extern void DWC_Http_StartThread(char *http, unsigned int prio);
 extern int OS_IsThreadTerminated(void *thread);
 extern void OS_JoinThread(void *thread);
 extern int DWC_Http_ParseResult(DWCHttp *http, int noparsebody);
-extern char *DWC_Http_GetResult(DWCHttp *http, char *label);
-extern int atoi(const char *p);
+extern char *DWC_Http_GetResult(char *http, char *label);
+extern int atoi(unsigned int s);
 extern int strcmp(const char *a, const char *b);
-extern int DWC_Auth_GetCalInfoFromNVRAM(DWCCalInfo *cal);
+extern int DWC_Auth_GetCalInfoFromNVRAM(void *cal);
 extern int DWC_Auth_SetCalInfoToHttp(DWCHttp *http, DWCCalInfo *calinfo, int allowessid);
 extern int DWC_Http_Add_PostBase64Item(DWCHttp *http, char *label, char *data, unsigned long data_len);
 extern void DWCi_Netcheck_SetError(int error);
-extern char *strncpy(char *dst, const char *src, unsigned long n);
+extern unsigned char *strncpy(unsigned char *dest, unsigned char *src, unsigned int n);
 extern void DWCi_BM_GetWiFiInfo(DWCWiFiInfo *buf);
-extern int DWC_Auth_Create(DWCAuthParam *param, void *http);
+extern int DWC_Auth_Create(DWCAuthParam *param, struct DWCHttp *http);
 extern void DWC_Auth_Join(void);
 extern int DWC_Auth_GetError(void);
-extern void DWC_Auth_GetResult(DWCAuthResult *result);
+extern void DWC_Auth_GetResult(int *result);
 extern void DWC_Auth_Destroy(void);
-extern int DWC_Http_GetBase64DecodedResult(DWCHttp *http, char *label, char *buffer, unsigned long buffer_len);
-extern int DWC_Http_Add_Body(DWCHttp *http, char *data);
+extern int DWC_Http_GetBase64DecodedResult(char *http, char *label, char *buffer, unsigned int buffer_len);
+extern int DWC_Http_Add_Body(char *http, char *data);
 extern void OS_Sleep(unsigned long msec);
 
 extern void MI_CpuFill8(void *dstp, unsigned char data, unsigned long size);
-extern void OS_InitMutex(void *mutex);
-extern void OS_LockMutex(void *mutex);
-extern void OS_UnlockMutex(void *mutex);
+struct OSMutex;
+extern void OS_InitMutex(struct OSMutex *mutex);
+extern void OS_LockMutex(struct OSMutex *mutex);
+extern void OS_UnlockMutex(struct OSMutex *mutex);
 extern void OS_CreateThread(void *thread, void (*func)(void *), void *arg, void *stack, unsigned long size, unsigned long prio);
 extern void OS_WakeupThreadDirect(void *thread);
-extern void DWC_Http_Abort(DWCHttp *http);
+extern void DWC_Http_Abort(char *http);
 extern void DWC_Auth_Abort(void);
 void DWCi_Netcheck_StartThread(void);
 static void DWCi_Netcheck_Thread(void *arg);
@@ -274,7 +275,7 @@ int DWC_Netcheck_Create(DWCNetcheckParam *param)
         return 4;
     }
     DWChttp.ishotspot = 0;
-    OS_InitMutex(DWChttp.nc->mutex);
+    OS_InitMutex((struct OSMutex *)DWChttp.nc->mutex);
     DWCi_Netcheck_StartThread();
     return 0;
 }
@@ -287,7 +288,7 @@ void DWC_Netcheck_Destroy(void)
     void (*free)(unsigned long, void *, long) = DWChttp.nc->param.free;
 
     if (DWChttp.http != 0) {
-        DWC_Http_Destroy(DWChttp.http);
+        DWC_Http_Destroy((char *)DWChttp.http);
         free(0, DWChttp.http, 0);
         DWChttp.http = 0;
     }
@@ -316,7 +317,7 @@ void DWC_Netcheck_Abort(void)
         return;
     }
     if (DWChttp.http != 0) {
-        DWC_Http_Abort(DWChttp.http);
+        DWC_Http_Abort((char *)DWChttp.http);
     }
     DWC_Auth_Abort();
     if (DWChttp.nc->thread.id != 0 &&
@@ -333,9 +334,9 @@ int DWC_Netcheck_GetError(void)
 {
     int error;
 
-    OS_LockMutex(DWChttp.nc->mutex);
+    OS_LockMutex((struct OSMutex *)DWChttp.nc->mutex);
     error = DWChttp.nc->error;
-    OS_UnlockMutex(DWChttp.nc->mutex);
+    OS_UnlockMutex((struct OSMutex *)DWChttp.nc->mutex);
     return error;
 }
 
@@ -395,16 +396,16 @@ static void DWCi_Netcheck_Thread(void *arg)
         DWChttp.httpparam.timeout = 20000;
         DWCnetcheck_->returncode = -2;
         if (DWC_Http_Create(DWChttp_, &DWCnetcheckhttpparam) != 0) {
-            DWC_Http_Destroy(DWChttp_);
+            DWC_Http_Destroy((char *)DWChttp_);
             DWCi_Netcheck_SetError(1);
             goto exit;
         }
-        if (DWC_Http_FinishHeader(DWChttp_) != 0) {
-            DWC_Http_Destroy(DWChttp_);
+        if (DWC_Http_FinishHeader((char *)DWChttp_) != 0) {
+            DWC_Http_Destroy((char *)DWChttp_);
             DWCi_Netcheck_SetError(1);
             goto exit;
         }
-        DWC_Http_StartThread(DWChttp_, OS_GetThreadPriority(OS_GetCurrentThread()) - 1);
+        DWC_Http_StartThread((char *)DWChttp_, OS_GetThreadPriority(OS_GetCurrentThread()) - 1);
         if (DWChttp_->thread.id != 0 && !OS_IsThreadTerminated(&DWChttp_->thread))
             OS_JoinThread(&DWChttp_->thread);
         switch (DWChttp_->error) {
@@ -413,17 +414,17 @@ static void DWCi_Netcheck_Thread(void *arg)
         case 2:
             DWCnetcheck_->returncode = -1;
         default:
-            DWC_Http_Destroy(DWChttp_);
+            DWC_Http_Destroy((char *)DWChttp_);
             DWCi_Netcheck_SetError(3);
             goto exit;
         }
         if (DWC_Http_ParseResult(DWChttp_, 0) != 1) {
-            DWC_Http_Destroy(DWChttp_);
+            DWC_Http_Destroy((char *)DWChttp_);
             DWCi_Netcheck_SetError(2);
             goto exit;
         }
-        httpretcode = DWC_Http_GetResult(DWChttp_, gDwcNetcheckLabelHttpResult);
-        httpretcodei = atoi(httpretcode);
+        httpretcode = DWC_Http_GetResult((char *)DWChttp_, gDwcNetcheckLabelHttpResult);
+        httpretcodei = atoi((unsigned int)httpretcode);
         if (errno == 34) {
             DWCi_Netcheck_SetError(2);
             goto exit;
@@ -436,7 +437,7 @@ static void DWCi_Netcheck_Thread(void *arg)
             DWChttp.ishotspot = 1;
             if (DWCnetcheck_->blurl != 0) {
                 DWCnetcheck_->returncode = -6;
-                DWC_Http_Destroy(DWChttp_);
+                DWC_Http_Destroy((char *)DWChttp_);
                 DWChttp.httpparam.url = DWCauthhttpparam.url;
                 DWChttp.httpparam.action = 0;
                 DWChttp.httpparam.len_recvbuf = 0x200;
@@ -446,64 +447,64 @@ static void DWCi_Netcheck_Thread(void *arg)
                 if (strcmp(DWChttp.httpparam.url, gDwcNetcheckNasUrl) != 0)
                     DWChttp.httpparam.ignoreca = 1;
                 if (DWC_Http_Create(DWChttp_, &DWCnetcheckhttpparam) != 0) {
-                    DWC_Http_Destroy(DWChttp_);
+                    DWC_Http_Destroy((char *)DWChttp_);
                     DWCi_Netcheck_SetError(1);
                     goto exit;
                 }
                 if (!DWC_Auth_GetCalInfoFromNVRAM(&calinfo) || !DWC_Auth_SetCalInfoToHttp(DWChttp_, &calinfo, 1)) {
-                    DWC_Http_Destroy(DWChttp_);
+                    DWC_Http_Destroy((char *)DWChttp_);
                     DWCi_Netcheck_SetError(8);
                     goto exit;
                 }
                 if (DWC_Http_Add_PostBase64Item(DWChttp_, gDwcNetcheckPostLabelAction, gDwcNetcheckPostValueMessage, 7) != 0
                  || DWC_Http_Add_PostBase64Item(DWChttp_, gDwcNetcheckPostLabelHotspot, DWCnetcheck_->blurl, strlen(DWCnetcheck_->blurl)) != 0) {
-                    DWC_Http_Destroy(DWChttp_);
+                    DWC_Http_Destroy((char *)DWChttp_);
                     DWCi_Netcheck_SetError(8);
                     goto exit;
                 }
                 free(0, DWCnetcheck_->blurl, 0);
                 DWCnetcheck_->blurl = 0;
-                if (DWC_Http_FinishHeader(DWChttp_) != 0) {
-                    DWC_Http_Destroy(DWChttp_);
+                if (DWC_Http_FinishHeader((char *)DWChttp_) != 0) {
+                    DWC_Http_Destroy((char *)DWChttp_);
                     DWCi_Netcheck_SetError(1);
                     goto exit;
                 }
-                DWC_Http_StartThread(DWChttp_, OS_GetThreadPriority(OS_GetCurrentThread()) - 1);
+                DWC_Http_StartThread((char *)DWChttp_, OS_GetThreadPriority(OS_GetCurrentThread()) - 1);
                 if (DWChttp_->thread.id != 0 && !OS_IsThreadTerminated(&DWChttp_->thread))
                     OS_JoinThread(&DWChttp_->thread);
                 switch (DWChttp_->error) {
                 case 2:
                     DWCnetcheck_->returncode = -1;
                 default:
-                    DWC_Http_Destroy(DWChttp_);
+                    DWC_Http_Destroy((char *)DWChttp_);
                     DWCi_Netcheck_SetError(3);
                     goto exit;
                 case 8:
-                    DWC_Http_Destroy(DWChttp_);
+                    DWC_Http_Destroy((char *)DWChttp_);
                     DWCi_Netcheck_SetError(7);
                     goto exit;
                 }
             }
             body302 = DWChttp_->rep.buffer;
             if (body302 == 0) {
-                DWC_Http_Destroy(DWChttp_);
+                DWC_Http_Destroy((char *)DWChttp_);
                 DWCi_Netcheck_SetError(2);
                 goto exit;
             }
             DWCnetcheck_->url = alloc(0, strlen(body302) + 1);
             if (DWCnetcheck_->url == 0) {
-                DWC_Http_Destroy(DWChttp_);
+                DWC_Http_Destroy((char *)DWChttp_);
                 DWCi_Netcheck_SetError(4);
                 goto exit;
             }
-            strncpy(DWCnetcheck_->url, body302, strlen(body302) + 1);
+            strncpy((unsigned char *)DWCnetcheck_->url, (unsigned char *)body302, strlen(body302) + 1);
             break;
         default:
-            DWC_Http_Destroy(DWChttp_);
+            DWC_Http_Destroy((char *)DWChttp_);
             DWCi_Netcheck_SetError(10);
             goto exit;
         }
-        DWC_Http_Destroy(DWChttp_);
+        DWC_Http_Destroy((char *)DWChttp_);
 
         DWCi_BM_GetWiFiInfo(&DWC_netcheck_wifiinfo);
         if (DWC_netcheck_wifiinfo.attestedUserId == 0) {
@@ -521,7 +522,7 @@ static void DWCi_Netcheck_Thread(void *arg)
                 if (DWC_Auth_GetError() == 9) {
                     DWCnetcheck_->returncode = -1;
                 } else {
-                    DWC_Auth_GetResult(&authresult);
+                    DWC_Auth_GetResult((int *)(&authresult));
                     if (DWChttp.allow302 == 1 && (authresult.returncode == -23302 || DWC_Auth_GetError() == 11)) {
                         DWCnetcheck_->returncode = 0;
                         DWC_Auth_Destroy();
@@ -552,36 +553,36 @@ static void DWCi_Netcheck_Thread(void *arg)
         if (strcmp(DWChttp.httpparam.url, gDwcNetcheckNasUrl) != 0)
             DWChttp.httpparam.ignoreca = 1;
         if (DWC_Http_Create(DWChttp_, &DWCnetcheckhttpparam) != 0) {
-            DWC_Http_Destroy(DWChttp_);
+            DWC_Http_Destroy((char *)DWChttp_);
             DWCi_Netcheck_SetError(1);
             goto exit;
         }
         if (!DWC_Auth_GetCalInfoFromNVRAM(&calinfo) || !DWC_Auth_SetCalInfoToHttp(DWChttp_, &calinfo, 1)) {
-            DWC_Http_Destroy(DWChttp_);
+            DWC_Http_Destroy((char *)DWChttp_);
             DWCi_Netcheck_SetError(8);
             goto exit;
         }
         if (DWC_Http_Add_PostBase64Item(DWChttp_, gDwcNetcheckPostLabelAction, gDwcNetcheckPostValueParse, 5) != 0
          || DWC_Http_Add_PostBase64Item(DWChttp_, gDwcNetcheckPostLabelHtml, DWCnetcheck_->url, strlen(DWCnetcheck_->url)) != 0) {
-            DWC_Http_Destroy(DWChttp_);
+            DWC_Http_Destroy((char *)DWChttp_);
             DWCi_Netcheck_SetError(8);
             goto exit;
         }
         free(0, DWCnetcheck_->url, 0);
         DWCnetcheck_->url = 0;
-        if (DWC_Http_FinishHeader(DWChttp_) != 0) {
-            DWC_Http_Destroy(DWChttp_);
+        if (DWC_Http_FinishHeader((char *)DWChttp_) != 0) {
+            DWC_Http_Destroy((char *)DWChttp_);
             DWCi_Netcheck_SetError(1);
             goto exit;
         }
-        DWC_Http_StartThread(DWChttp_, OS_GetThreadPriority(OS_GetCurrentThread()) - 1);
+        DWC_Http_StartThread((char *)DWChttp_, OS_GetThreadPriority(OS_GetCurrentThread()) - 1);
         if (DWChttp_->thread.id != 0 && !OS_IsThreadTerminated(&DWChttp_->thread))
             OS_JoinThread(&DWChttp_->thread);
         switch (DWChttp_->error) {
         case 8:
             break;
         case 3:
-            DWC_Http_Destroy(DWChttp_);
+            DWC_Http_Destroy((char *)DWChttp_);
             if (DWChttp.allow302 == 1) {
                 DWCnetcheck_->returncode = 0;
                 DWCi_Netcheck_SetError(11);
@@ -592,24 +593,24 @@ static void DWCi_Netcheck_Thread(void *arg)
         case 2:
             DWCnetcheck_->returncode = -1;
         default:
-            DWC_Http_Destroy(DWChttp_);
+            DWC_Http_Destroy((char *)DWChttp_);
             DWCi_Netcheck_SetError(3);
             goto exit;
         }
         if (DWC_Http_ParseResult(DWChttp_, 0) != 1) {
-            DWC_Http_Destroy(DWChttp_);
+            DWC_Http_Destroy((char *)DWChttp_);
             DWCi_Netcheck_SetError(2);
             goto exit;
         }
-        httpretcode = DWC_Http_GetResult(DWChttp_, gDwcNetcheckLabelHttpResult);
-        httpretcodei = atoi(httpretcode);
+        httpretcode = DWC_Http_GetResult((char *)DWChttp_, gDwcNetcheckLabelHttpResult);
+        httpretcodei = atoi((unsigned int)httpretcode);
         if (errno == 34) {
-            DWC_Http_Destroy(DWChttp_);
+            DWC_Http_Destroy((char *)DWChttp_);
             DWCi_Netcheck_SetError(2);
             goto exit;
         }
         if (httpretcodei != 200) {
-            DWC_Http_Destroy(DWChttp_);
+            DWC_Http_Destroy((char *)DWChttp_);
             if (DWChttp.allow302 == 1 && httpretcodei == 302) {
                 DWCnetcheck_->returncode = 0;
                 DWCi_Netcheck_SetError(11);
@@ -618,14 +619,14 @@ static void DWCi_Netcheck_Thread(void *arg)
             DWCi_Netcheck_SetError(2);
             goto exit;
         }
-        if (DWC_Http_GetBase64DecodedResult(DWChttp_, gDwcNetcheckLabelReturnCd, retcode, 4) <= 0) {
-            DWC_Http_Destroy(DWChttp_);
+        if (DWC_Http_GetBase64DecodedResult((char *)DWChttp_, gDwcNetcheckLabelReturnCd, retcode, 4) <= 0) {
+            DWC_Http_Destroy((char *)DWChttp_);
             DWCi_Netcheck_SetError(9);
             goto exit;
         }
-        httpretcodei = atoi(retcode);
+        httpretcodei = atoi((unsigned int)retcode);
         if (errno == 34) {
-            DWC_Http_Destroy(DWChttp_);
+            DWC_Http_Destroy((char *)DWChttp_);
             DWCi_Netcheck_SetError(9);
             goto exit;
         }
@@ -635,69 +636,69 @@ static void DWCi_Netcheck_Thread(void *arg)
             goto exit;
         }
         if (httpretcodei >= 100) {
-            DWC_Http_Destroy(DWChttp_);
+            DWC_Http_Destroy((char *)DWChttp_);
             DWCi_Netcheck_SetError(6);
             goto exit;
         }
-        url_len = DWC_Http_GetBase64DecodedResult(DWChttp_, gDwcNetcheckLabelUrl, 0, 0);
+        url_len = DWC_Http_GetBase64DecodedResult((char *)DWChttp_, gDwcNetcheckLabelUrl, 0, 0);
         if (url_len <= 0) {
-            DWC_Http_Destroy(DWChttp_);
+            DWC_Http_Destroy((char *)DWChttp_);
             DWCi_Netcheck_SetError(9);
             goto exit;
         }
-        data_len = DWC_Http_GetBase64DecodedResult(DWChttp_, gDwcNetcheckLabelData, 0, 0);
+        data_len = DWC_Http_GetBase64DecodedResult((char *)DWChttp_, gDwcNetcheckLabelData, 0, 0);
         if (data_len <= 0) {
-            DWC_Http_Destroy(DWChttp_);
+            DWC_Http_Destroy((char *)DWChttp_);
             DWCi_Netcheck_SetError(9);
             goto exit;
         }
-        wait_len = DWC_Http_GetBase64DecodedResult(DWChttp_, gDwcNetcheckLabelWait, 0, 0);
+        wait_len = DWC_Http_GetBase64DecodedResult((char *)DWChttp_, gDwcNetcheckLabelWait, 0, 0);
         url = alloc(0, url_len + 1);
         if (url == 0) {
-            DWC_Http_Destroy(DWChttp_);
+            DWC_Http_Destroy((char *)DWChttp_);
             DWCi_Netcheck_SetError(4);
             goto exit;
         }
         data = alloc(0, data_len + 1);
         if (data == 0) {
-            DWC_Http_Destroy(DWChttp_);
+            DWC_Http_Destroy((char *)DWChttp_);
             DWCi_Netcheck_SetError(4);
             goto exit;
         }
         if (wait_len > 0) {
             wait = alloc(0, wait_len + 1);
             if (wait == 0) {
-                DWC_Http_Destroy(DWChttp_);
+                DWC_Http_Destroy((char *)DWChttp_);
                 DWCi_Netcheck_SetError(4);
                 goto exit;
             }
         }
-        url_len = DWC_Http_GetBase64DecodedResult(DWChttp_, gDwcNetcheckLabelUrl, url, url_len + 1);
+        url_len = DWC_Http_GetBase64DecodedResult((char *)DWChttp_, gDwcNetcheckLabelUrl, url, url_len + 1);
         if (url_len < 0) {
-            DWC_Http_Destroy(DWChttp_);
+            DWC_Http_Destroy((char *)DWChttp_);
             DWCi_Netcheck_SetError(9);
             goto exit;
         }
         url[url_len] = 0;
-        data_len = DWC_Http_GetBase64DecodedResult(DWChttp_, gDwcNetcheckLabelData, data, data_len + 1);
+        data_len = DWC_Http_GetBase64DecodedResult((char *)DWChttp_, gDwcNetcheckLabelData, data, data_len + 1);
         if (data_len < 0) {
-            DWC_Http_Destroy(DWChttp_);
+            DWC_Http_Destroy((char *)DWChttp_);
             DWCi_Netcheck_SetError(9);
             goto exit;
         }
         data[data_len] = 0;
         wait_sec = 0;
         if (wait_len > 0) {
-            wait_len = DWC_Http_GetBase64DecodedResult(DWChttp_, gDwcNetcheckLabelWait, wait, wait_len + 1);
+            wait_len = DWC_Http_GetBase64DecodedResult((char *)DWChttp_, gDwcNetcheckLabelWait, wait, wait_len + 1);
             if (wait_len < 0) {
-                DWC_Http_Destroy(DWChttp_);
+                DWC_Http_Destroy((char *)DWChttp_);
                 DWCi_Netcheck_SetError(9);
                 goto exit;
             }
             wait[wait_len] = 0;
-            wait_sec = atoi(wait);
+            wait_sec = atoi((unsigned int)wait);
             if (errno == 34) {
-                DWC_Http_Destroy(DWChttp_);
+                DWC_Http_Destroy((char *)DWChttp_);
                 DWCi_Netcheck_SetError(9);
                 goto exit;
             }
@@ -705,7 +706,7 @@ static void DWCi_Netcheck_Thread(void *arg)
             if (wait_sec > 180000)
                 wait_sec = 180000;
         }
-        DWC_Http_Destroy(DWChttp_);
+        DWC_Http_Destroy((char *)DWChttp_);
 
         DWCnetcheck_->returncode = -5;
         DWChttp.httpparam.url = url;
@@ -715,21 +716,21 @@ static void DWCi_Netcheck_Thread(void *arg)
         DWChttp.httpparam.free = free;
         DWChttp.httpparam.timeout = 120000;
         if (DWC_Http_Create(DWChttp_, &DWCnetcheckhttpparam) != 0) {
-            DWC_Http_Destroy(DWChttp_);
+            DWC_Http_Destroy((char *)DWChttp_);
             DWCi_Netcheck_SetError(1);
             goto exit;
         }
-        if (DWC_Http_Add_Body(DWChttp_, data) != 0) {
-            DWC_Http_Destroy(DWChttp_);
+        if (DWC_Http_Add_Body((char *)DWChttp_, data) != 0) {
+            DWC_Http_Destroy((char *)DWChttp_);
             DWCi_Netcheck_SetError(8);
             goto exit;
         }
-        if (DWC_Http_FinishHeader(DWChttp_) != 0) {
-            DWC_Http_Destroy(DWChttp_);
+        if (DWC_Http_FinishHeader((char *)DWChttp_) != 0) {
+            DWC_Http_Destroy((char *)DWChttp_);
             DWCi_Netcheck_SetError(1);
             goto exit;
         }
-        DWC_Http_StartThread(DWChttp_, OS_GetThreadPriority(OS_GetCurrentThread()) - 1);
+        DWC_Http_StartThread((char *)DWChttp_, OS_GetThreadPriority(OS_GetCurrentThread()) - 1);
         if (DWChttp_->thread.id != 0 && !OS_IsThreadTerminated(&DWChttp_->thread))
             OS_JoinThread(&DWChttp_->thread);
         switch (DWChttp_->error) {
@@ -738,29 +739,29 @@ static void DWCi_Netcheck_Thread(void *arg)
         case 2:
             DWCnetcheck_->returncode = -1;
         default:
-            DWC_Http_Destroy(DWChttp_);
+            DWC_Http_Destroy((char *)DWChttp_);
             DWCi_Netcheck_SetError(3);
             goto exit;
         }
         if (DWC_Http_ParseResult(DWChttp_, 1) != 1) {
-            DWC_Http_Destroy(DWChttp_);
+            DWC_Http_Destroy((char *)DWChttp_);
             DWCi_Netcheck_SetError(2);
             goto exit;
         }
         bodywayport = DWChttp_->rep.buffer;
         if (bodywayport == 0) {
-            DWC_Http_Destroy(DWChttp_);
+            DWC_Http_Destroy((char *)DWChttp_);
             DWCi_Netcheck_SetError(2);
             goto exit;
         }
         DWCnetcheck_->blurl = alloc(0, strlen(bodywayport) + 1);
         if (DWCnetcheck_->blurl == 0) {
-            DWC_Http_Destroy(DWChttp_);
+            DWC_Http_Destroy((char *)DWChttp_);
             DWCi_Netcheck_SetError(4);
             goto exit;
         }
-        strncpy(DWCnetcheck_->blurl, bodywayport, strlen(bodywayport) + 1);
-        DWC_Http_Destroy(DWChttp_);
+        strncpy((unsigned char *)DWCnetcheck_->blurl, (unsigned char *)bodywayport, strlen(bodywayport) + 1);
+        DWC_Http_Destroy((char *)DWChttp_);
         OS_Sleep(wait_sec);
     }
 exit:
@@ -777,7 +778,7 @@ exit:
  */
 void DWCi_Netcheck_SetError(int error)
 {
-    OS_LockMutex(DWChttp.nc->mutex);
+    OS_LockMutex((struct OSMutex *)DWChttp.nc->mutex);
     DWChttp.nc->error = error;
-    OS_UnlockMutex(DWChttp.nc->mutex);
+    OS_UnlockMutex((struct OSMutex *)DWChttp.nc->mutex);
 }

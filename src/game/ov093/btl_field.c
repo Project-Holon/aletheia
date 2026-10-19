@@ -123,15 +123,19 @@
 
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32 GFL_HEAP_Free(void *p);
-extern u32 HAND_FIELD_AddFactor(u32 slot, int arg);
+struct BtlEventFactor;
+extern struct BtlEventFactor *HAND_FIELD_AddFactor(s32 effectId, s32 ownerId);
 extern BtlFieldSlotKey BTL_SICKCONT_MakeNone(void);
 extern u32 BTL_SICKCONT_GetPosition(BtlFieldSlotKey key);
-extern void HAND_FIELD_RemoveFactor(u32 handle);
-extern void BTL_SICKCONT_SetPosition(BtlFieldSlotKey *key, u8 position);
-extern u8 BTL_POKEPARAM_GetPokeId(u8 *p);
+extern void HAND_FIELD_RemoveFactor(struct BtlEventFactor *factor);
+union BtlvSlot;
+extern void BTL_SICKCONT_SetPosition(union BtlvSlot *slot, u8 pos);
+struct BtlPokeParam;
+extern u8 BTL_POKEPARAM_GetPokeId(struct BtlPokeParam *pp);
 extern int BTL_MAIN_IsPokeSamePair(u8 a, u8 b);
-extern u8 *BTL_SIDE_GetPokeById(char *p, u8 i);
-extern int BTL_POKEPARAM_HasMove(u8 *p, u16 id);
+struct BtlSide;
+extern struct BtlPokeParam *BTL_SIDE_GetPokeById(struct BtlSide *side, u8 pokeId);
+extern int BTL_POKEPARAM_HasMove(struct BtlPokeParam *pp, u16 moveId);
 extern u8 BTL_SICKCONT_GetLow(BtlFieldSlotKey key);
 void BTL_FIELD_ResetSlot(BtlFieldState *state, u32 slot);
 void BTL_FIELD_ResetStatic(int value);
@@ -350,7 +354,7 @@ int BTL_FIELD_RegisterSlot(BtlFieldState *state, u32 slot, BtlFieldSlotKey key, 
 
     if (state->inUse[slot] == 0) {
         if (allocHandle != 0) {
-            state->effectHandle[slot] = HAND_FIELD_AddFactor(slot, 0);
+            state->effectHandle[slot] = (u32)HAND_FIELD_AddFactor(slot, 0);
             if (state->effectHandle[slot] == 0)
                 return 0;
         }
@@ -373,7 +377,7 @@ int BTL_FIELD_RemoveSlot(BtlFieldState *state, u32 slot)
 {
     if (BTL_FIELD_IsSlotInUse(state, slot) != 0) {
         if (state->effectHandle[slot] != 0) {
-            HAND_FIELD_RemoveFactor(state->effectHandle[slot]);
+            HAND_FIELD_RemoveFactor((struct BtlEventFactor *)state->effectHandle[slot]);
             state->effectHandle[slot] = 0;
         }
         BTL_FIELD_ResetSlot(state, slot);
@@ -428,10 +432,10 @@ void BTL_FIELD_RemoveHolderFromSlots(BtlFieldState *state, u32 pokeId)
                 state->holderIds[slot][j] = BTL_FIELD_EMPTY_HOLDER;
                 state->holderCount[slot] = state->holderCount[slot] - 1;
                 if (state->holderCount[slot] == 0) {
-                    if (state->effectHandle[slot]) { HAND_FIELD_RemoveFactor(state->effectHandle[slot]); state->effectHandle[slot] = 0; }
+                    if (state->effectHandle[slot]) { HAND_FIELD_RemoveFactor((struct BtlEventFactor *)state->effectHandle[slot]); state->effectHandle[slot] = 0; }
                     BTL_FIELD_ResetSlot(state, slot);
                 } else {
-                    if (pokeId == BTL_SICKCONT_GetPosition(state->key[slot])) BTL_SICKCONT_SetPosition(&state->key[slot], state->holderIds[slot][0]);
+                    if (pokeId == BTL_SICKCONT_GetPosition(state->key[slot])) BTL_SICKCONT_SetPosition((union BtlvSlot *)(&state->key[slot]), state->holderIds[slot][0]);
                 }
             }
         }
@@ -456,7 +460,7 @@ int BTL_FIELD_IsMoveSealedBySlot(BtlFieldState *state, char *side, void *pokePar
     for (i = 0; i < count; i++) {
         holderId = state->holderIds[BTL_FIELD_SLOT_MOVE_SEAL][i];
         if (BTL_MAIN_IsPokeSamePair(selfId, holderId) == 0) {
-            if (BTL_POKEPARAM_HasMove(BTL_SIDE_GetPokeById(side, holderId), moveId) != 0)
+            if (BTL_POKEPARAM_HasMove(BTL_SIDE_GetPokeById((struct BtlSide *)side, holderId), moveId) != 0)
                 return 1;
         }
     }
@@ -486,7 +490,7 @@ void BTL_FIELD_TickSlots(BtlFieldState *state, void (*onExpire)(u32, u32), u32 a
         if (state->elapsedTurns[slot] < duration)
             continue;
         if (state->effectHandle[slot] != 0) {
-            HAND_FIELD_RemoveFactor(state->effectHandle[slot]);
+            HAND_FIELD_RemoveFactor((struct BtlEventFactor *)state->effectHandle[slot]);
             state->effectHandle[slot] = 0;
         }
         BTL_FIELD_ResetSlot(state, slot);

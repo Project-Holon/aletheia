@@ -63,11 +63,12 @@ typedef struct BeaconSearchEventWork {
     u8 mode;
 } BeaconSearchEventWork;
 
-extern struct FieldMap *GAMESYSTEM_GetFieldMap(const struct GameSystem *gameSystem);
+extern void *GAMESYSTEM_GetFieldMap(const struct GameSystem *gameSystem);
 
 extern void *GAME_EVENT_GetWork(struct GameEvent *event);
+struct FieldSubscreen;
 
-extern void *FIELDMAP_GetSubscreen(struct FieldMap *fieldMap);
+extern struct FieldSubscreen *FIELDMAP_GetSubscreen(struct FieldMap *fieldMap);
 
 extern void GAME_EVENT_CallEvent(struct GameEvent *parent, struct GameEvent *child);
 
@@ -85,7 +86,7 @@ extern struct GameEvent *FIELD_SOUND_SYSTEM_StartPopTask(struct GameSystem *game
 
 extern struct GameEvent *FIELD_STATUS_CreateFieldOpenEvent(struct GameSystem *gameSystem);
 
-extern void FIELD_SUBSCREEN_ChangeModeNow(void *subscreen, u32 mode);
+extern void FIELD_SUBSCREEN_ChangeModeNow(struct FieldSubscreen *work, u32 mode);
 
 extern struct GameEvent *EVENT_FIELDMAP_CONTROL_StartFadeIn(struct GameSystem *gameSystem, struct FieldMap *fieldMap, int mode, int subMode, int enable, u8 optionA, u8 optionB);
 

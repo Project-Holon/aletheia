@@ -195,7 +195,9 @@ extern void GAME_EVENT_CallEvent(GameEvent *parent, GameEvent *child);
 extern struct FieldCamera *FIELDMAP_GetCamera(FieldMap *fieldMap);
 extern struct FieldPlayer *FIELDMAP_GetFieldPlayer(FieldMap *fieldMap);
 extern FieldTaskManager *FIELDMAP_GetTaskManager(FieldMap *fieldMap);
-extern struct FieldEffectCtrl *FIELDMAP_GetEffect(FieldMap *fieldMap);
+struct FieldMap;
+struct FieldEffectCont;
+extern struct FieldEffectCont *FIELDMAP_GetEffect(FieldMap *fieldMap);
 extern struct FieldG3dMapper *FIELDMAP_GetG3dMapper(FieldMap *fieldMap);
 extern Mmdl *FIELD_PLAYER_GetMmdl(struct FieldPlayer *player);
 extern void FIELD_PLAYER_GetPos(struct FieldPlayer *player, VecFx32 *out);
@@ -211,7 +213,8 @@ extern FieldTask *FIELD_TASK_CreatePlayerPosTween(FieldMap *fieldMap, u32 frames
 extern FieldTask *FIELD_TASK_CreateCameraDistanceTween(FieldMap *fieldMap, u16 frames, int targetDistance);
 extern FieldTask *FIELD_TASK_CreateFade(FieldMap *fieldMap, u32 fadeMode, u32 startBrightness, u32 endBrightness, u32 wait);
 extern FieldTask *FIELD_TASK_CreateWait(FieldMap *fieldMap, u16 frames);
-extern FieldTask *FIELD_TASK_CreateRepeatPlayerEffect(FieldMap *fieldMap, Mmdl *mmdl, u16 frames, u16 interval);
+struct Mmdl;
+extern FieldTask *FIELD_TASK_CreateRepeatPlayerEffect(struct FieldMap *fieldMap, struct Mmdl *unused, u16 frames, u16 interval);
 extern void FIELD_TASK_MANAGER_AddTask(FieldTaskManager *manager, FieldTask *task, FieldTask *prerequisite);
 extern int FIELD_TASK_MANAGER_IsEmpty(FieldTaskManager *manager);
 extern struct FieldCameraAnime *FIELD_CAMERA_ANIME_Create(FieldMap *fieldMap);
@@ -219,16 +222,20 @@ extern void FIELD_CAMERA_ANIME_SetData(struct FieldCameraAnime *anime, FieldCame
 extern int FIELD_CAMERA_ANIME_Setup(struct FieldCameraAnime *anime);
 extern void FIELD_CAMERA_ANIME_GetCurrentParam(struct FieldCamera *camera, FieldCameraParam *param);
 extern void FIELD_CAMERA_ANIME_ApplyStartParam(struct FieldCameraAnime *anime);
-extern int FIELD_CAMERA_ANIME_Start(struct FieldCameraAnime *anime);
+extern void FIELD_CAMERA_ANIME_Start(struct FieldCameraAnime *anime);
 extern void FIELD_CAMERA_ANIME_Restore(struct FieldCameraAnime *anime);
 extern void FIELD_CAMERA_ANIME_Delete(struct FieldCameraAnime *anime);
-extern struct BuildModelMan *FIELD_G3D_MAPPER_GetBuildModel(struct FieldG3dMapper *mapper);
-extern struct BuildModelEntry **FIELD_BUILDMODEL_CollectEntriesInRect(struct BuildModelMan *man, EventDisappearRect *rect, int kind, int *count);
+struct FieldBuildModel;
+extern struct FieldBuildModel *FIELD_G3D_MAPPER_GetBuildModel(struct FieldG3dMapper *mapper);
+struct BuildModelRect;
+extern struct BuildModelEntry **FIELD_BUILDMODEL_CollectEntriesInRect(struct BuildModelMan *man, struct BuildModelRect *rect, int kind, int *count);
 extern struct BuildModelNode *FIELD_BUILDMODEL_CreateNodeFromEntry(struct BuildModelMan *man, struct BuildModelEntry *entry);
 extern void FIELD_BUILDMODEL_PlayNodeSlot(struct BuildModelNode *node, int slot, int mode);
 extern int FIELD_BUILDMODEL_IsNodeSlotIdle(struct BuildModelNode *node, int slot);
 extern void FIELD_BUILDMODEL_DeleteNode(struct BuildModelNode *node);
-extern void FLDEFF_KEMURI_Start(Mmdl *mmdl, struct FieldEffectCtrl *effectCtrl);
+struct FieldEffectSys;
+struct Mmdl;
+extern void FLDEFF_KEMURI_Start(struct Mmdl *mmdl, struct FieldEffectSys *sys);
 extern unsigned int GFL_HEAP_Free(void *block);
 extern unsigned int KEY_GetCont(void);
 extern int FADE_IsActive(void);
@@ -364,7 +371,7 @@ int EVENT_DISAPPEAR_RunWalkFall(GameEvent *event, int *seq, EventDisappearWork *
 
     player = FIELDMAP_GetFieldPlayer(work->fieldMap);
     mmdl = FIELD_PLAYER_GetMmdl(player);
-    effectCtrl = FIELDMAP_GetEffect(work->fieldMap);
+    effectCtrl = (struct FieldEffectCtrl *)FIELDMAP_GetEffect(work->fieldMap);
     camera = FIELDMAP_GetCamera(work->fieldMap);
     switch (*seq) {
     case EVENT_DISAPPEAR_WALK_START:
@@ -374,12 +381,12 @@ int EVENT_DISAPPEAR_RunWalkFall(GameEvent *event, int *seq, EventDisappearWork *
         break;
     case EVENT_DISAPPEAR_WALK_FIND_NODE:
         GFL_USE_PlaySeInSlot(EVENT_DISAPPEAR_SE_WALK_LOOP, GFL_USE_GetSeSlot(EVENT_DISAPPEAR_SE_WALK_LOOP));
-        buildModelMan = FIELD_G3D_MAPPER_GetBuildModel(FIELDMAP_GetG3dMapper(work->fieldMap));
+        buildModelMan = (struct BuildModelMan *)FIELD_G3D_MAPPER_GetBuildModel(FIELDMAP_GetG3dMapper(work->fieldMap));
         rect.xMin = work->targetPos.x - 0x20000;
         rect.xMax = work->targetPos.x + 0x20000;
         rect.zMin = work->targetPos.z - 0x20000;
         rect.zMax = work->targetPos.z + 0x20000;
-        entries = FIELD_BUILDMODEL_CollectEntriesInRect(buildModelMan, &rect, 2, &count);
+        entries = FIELD_BUILDMODEL_CollectEntriesInRect(buildModelMan, (struct BuildModelRect *)(&rect), 2, &count);
         if (*entries != 0) {
             work->buildNode = FIELD_BUILDMODEL_CreateNodeFromEntry(buildModelMan, *entries);
             FIELD_BUILDMODEL_PlayNodeSlot(work->buildNode, 0, 0);
@@ -427,7 +434,7 @@ int EVENT_DISAPPEAR_RunWalkFall(GameEvent *event, int *seq, EventDisappearWork *
         frame = work->frame;
         work->frame = frame + 1;
         if (frame % 10 == 0)
-            FLDEFF_KEMURI_Start(mmdl, effectCtrl);
+            FLDEFF_KEMURI_Start(mmdl, (struct FieldEffectSys *)effectCtrl);
         if (FIELD_TASK_MANAGER_IsEmpty(FIELDMAP_GetTaskManager(work->fieldMap)) != 0)
             *seq = EVENT_DISAPPEAR_WALK_FALL;
         break;
@@ -603,7 +610,7 @@ void EVENT_DISAPPEAR_StartSpinAndEffect(EventDisappearWork *work)
 
     fieldMap = work->fieldMap;
     taskManager = FIELDMAP_GetTaskManager(fieldMap);
-    effectTask = FIELD_TASK_CreateRepeatPlayerEffect(fieldMap, FIELD_PLAYER_GetMmdl(FIELDMAP_GetFieldPlayer(fieldMap)), 0x28, 6);
+    effectTask = FIELD_TASK_CreateRepeatPlayerEffect(fieldMap, (FIELD_PLAYER_GetMmdl(FIELDMAP_GetFieldPlayer(fieldMap))), 0x28, 6);
     easeTask = FIELD_TASK_CreatePlayerSpinEaseIn(fieldMap, EVENT_DISAPPEAR_SPIN_FRAMES, 4);
     linearTask = FIELD_TASK_CreatePlayerSpinLinear(fieldMap, EVENT_DISAPPEAR_SPIN_FRAMES, EVENT_DISAPPEAR_SPIN_LINEAR_COUNT);
     FIELD_TASK_MANAGER_AddTask(taskManager, effectTask, 0);

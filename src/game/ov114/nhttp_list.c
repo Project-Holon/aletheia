@@ -32,7 +32,8 @@ extern int NHTTPi_destroyRequestObject(NHTTPMutexInfo *, NHTTPReq *);
 extern void NHTTPi_free(void *);
 extern void NHTTPi_CompleteCallback(NHTTPMutexInfo *, NHTTPConnection *);
 extern int NHTTPi_DeleteConnection(NHTTPConnection *);
-extern NHTTPi_REQLIST *NHTTPi_getHdrFromList(NHTTPi_REQLIST **head_pp);
+struct _NHTTPi_DATALIST;
+extern struct _NHTTPi_DATALIST *NHTTPi_getHdrFromList(struct _NHTTPi_DATALIST **head_pp);
 void NHTTPi_InitListInfo(NHTTPListInfo *listInfo_p);
 int NHTTPi_setReqQueue(NHTTPListInfo *listInfo_p, NHTTPReq *req_p);
 NHTTPi_REQLIST *NHTTPi_findReqQueue(NHTTPListInfo *listInfo_p, int id);
@@ -154,5 +155,5 @@ void NHTTPi_allFreeReqQueue(NHTTPListInfo *listInfo_p, NHTTPMutexInfo *mutexInfo
 
 NHTTPi_REQLIST *NHTTPi_popReqQueue(NHTTPListInfo *listInfo_p)
 {
-    return NHTTPi_getHdrFromList(&listInfo_p->head);
+    return (struct _NHTTPi_REQLIST *)NHTTPi_getHdrFromList((struct _NHTTPi_DATALIST **)(&listInfo_p->head));
 }

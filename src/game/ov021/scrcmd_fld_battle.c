@@ -72,14 +72,16 @@ typedef struct PartyCheckTaskWork {
     u16 heapId;                          /* 0x16 */
     u16 *result;                         /* 0x18 */
 } PartyCheckTaskWork;
+struct ScriptWork;
 
-extern void *SCRCMD_WORK_GetScriptWork(void *p);
-extern void *SCRCMD_WORK_GetGameData(void *work);
-extern void *SCRIPT_WORK_GetWordSet(void *p);
-extern unsigned int SCRIPT_WORK_ReadWorkValue(void *vm, void *cmdWork);
-extern u16 *SCRIPT_WORK_ReadWorkPointer(void *vm, void *cmdWork);
-extern u16 SCRCMD_WORK_GetHeapId(void *work);
-extern void *SCRCMD_WORK_GetGameSystem(void *work);
+extern struct ScriptWork *SCRCMD_WORK_GetScriptWork(struct ScrcmdWork *work);
+extern struct GameData *SCRCMD_WORK_GetGameData(struct ScrcmdWork *work);
+extern void *SCRIPT_WORK_GetWordSet(struct ScriptWork *work);
+struct ScriptVm;
+extern unsigned int SCRIPT_WORK_ReadWorkValue(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
+extern u16 *SCRIPT_WORK_ReadWorkPointer(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
+extern u16 SCRCMD_WORK_GetHeapId(struct ScrcmdWork *work);
+extern struct GameSystem *SCRCMD_WORK_GetGameSystem(struct ScrcmdWork *work);
 extern void *POKE_REGULATION_Load(int a, int b);
 extern u32 GFL_HEAP_Free(void *p);
 extern void SCRIPT_SYS_CallEvent(void *vm, void *task);
@@ -87,18 +89,24 @@ extern void WORDSET_SetSlotSpeciesName(struct WordSet *p, u32 i, u16 v);
 extern void *ZUKAN_SAVE_GetFromGameData(void *a);
 extern u32 ZUKAN_SAVE_IsCaught(struct ZukanSave *p, u16 id);
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void *GAMESYSTEM_GetGameData(const struct GameSystem *p);
+extern struct GameData *GAMESYSTEM_GetGameData(const struct GameSystem *p);
 extern void *GAMESYSTEM_GetFieldMap(const struct GameSystem *p);
 extern void *GAME_DATA_GetMyParty(const struct GameData *p);
-extern void *GAME_DATA_GetSaveControl(struct GameData *p);
-extern int POKE_REGULATION_CheckPartyUsable(void *rules, void *party);
-extern int POKE_REGULATION_CheckParty(void *rules, void *party, u32 *mask);
-extern void *BATTLE_BOX_GetFromSave(void *);
-extern u32 BATTLE_BOX_HasMon(void *a);
-extern void *BATTLE_BOX_CreateParty(int box, int heap);
+struct SaveControl;
+extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *p);
+struct Party;
+struct Regulation;
+extern int POKE_REGULATION_CheckPartyUsable(struct Regulation *reg, struct Party *party);
+extern int POKE_REGULATION_CheckParty(struct Regulation *reg, struct Party *party, u32 *flags);
+struct BattleBoxSave;
+extern struct BattleBoxSave *BATTLE_BOX_GetFromSave(struct SaveControl *save);
+struct BoxMonGroup;
+extern u32 BATTLE_BOX_HasMon(struct BoxMonGroup *box);
+extern struct Party *BATTLE_BOX_CreateParty(struct BoxMonGroup *box, int heap);
 extern struct FieldTask *GAME_EVENT_Create(void *owner, void *a, void *b, u32 size);
-extern void *GAME_EVENT_GetWork(struct FieldTask *p);
-extern struct PartySelectList *PARTY_SELECT_LIST_Create(u32 a, u32 b, u32 c, u32 d, u32 e, u16 heap);
+struct GameEvent;
+extern void *GAME_EVENT_GetWork(struct GameEvent *event);
+extern struct PartySelectList *PARTY_SELECT_LIST_Create(void *owner, void *firstParty, void *secondParty, u32 sideFlagFirst, u32 sideFlagSecond, u16 heapId);
 extern int PARTY_SELECT_LIST_Main(struct PartySelectList *p);
 extern u32 PARTY_SELECT_LIST_Delete(struct PartySelectList *p, u32 *out);
 int SCRCMD_FLD_BATTLE_RegisterAllowedSpecies(struct ScriptVm *vm, struct ScrcmdWork *work);
@@ -247,7 +255,7 @@ void *SCRCMD_FLD_BATTLE_CreatePartyCheckTask(void *gameSystem, int isSubwayRules
     battleRec = BATTLE_BOX_GetFromSave(GAME_DATA_GetSaveControl(gameData));
     if (BATTLE_BOX_HasMon(battleRec) == 1) {
         mask = 0;
-        recordParty = BATTLE_BOX_CreateParty((int)battleRec, heapId);
+        recordParty = BATTLE_BOX_CreateParty(battleRec, heapId);
         if (isSubwayRules) {
             recordPartyInvalid = POKE_REGULATION_CheckPartyUsable(rules, recordParty);
         } else {
@@ -271,7 +279,7 @@ void *SCRCMD_FLD_BATTLE_CreatePartyCheckTask(void *gameSystem, int isSubwayRules
     }
     task = GAME_EVENT_Create(gameSystem, 0, (void *)SCRCMD_FLD_BATTLE_PartyCheckTaskMain, 0x1c);
     playerFlag = 0;
-    taskWork = GAME_EVENT_GetWork(task);
+    taskWork = GAME_EVENT_GetWork((struct GameEvent *)task);
     taskWork->gameSystem = gameSystem;
     taskWork->fieldMap = GAMESYSTEM_GetFieldMap(gameSystem);
     taskWork->result = result;
@@ -295,8 +303,8 @@ int SCRCMD_FLD_BATTLE_PartyCheckTaskMain(struct FieldTask *fieldTask, int *state
 
     switch (*state) {
     case 0:
-        taskWork->partySelect = PARTY_SELECT_LIST_Create((u32)taskWork->fieldMap, (u32)taskWork->playerParty,
-                                              (u32)taskWork->recordParty, taskWork->playerPartyInvalid,
+        taskWork->partySelect = PARTY_SELECT_LIST_Create((void *)taskWork->fieldMap, (void *)taskWork->playerParty,
+                                              (void *)taskWork->recordParty, taskWork->playerPartyInvalid,
                                               taskWork->recordPartyInvalid, taskWork->heapId);
         (*state)++;
         break;

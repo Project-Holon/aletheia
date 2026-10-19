@@ -248,16 +248,19 @@ typedef struct { u32 values[6]; } HelpMessageTable;
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32 GFL_HEAP_Free(void *p);
 extern u32 *PMS_INPUT_GetUiInputModePtr(struct PmsInput *input);
-extern void CLACT_InitSystem(const void *initParam, const void *vramBanks, u32 heapId);
+struct DispVramCfg;
+struct SysInit;
+extern void CLACT_InitSystem(struct SysInit *cfg, struct DispVramCfg *res_cfg, u32 heapId);
 extern struct ClactUnit *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 extern void BG_SYS_Create(u16 heapId);
 extern void BMP_WIN_Init(u16 heapId);
 extern void GXx_SetMasterBrightness_(volatile u16 *reg, int brightness);
-extern u32 PMS_INPUT_GetTasks(struct PmsInput *input);
-extern void *TCB_AddTask(u32 tcbList, ViewTaskFunc func, void *work, int priority);
-extern void *ARC_TOOL_CreateHandle(u32 id, u32 heapId);
+struct TcbSystem;
+extern struct TcbSystem *PMS_INPUT_GetTasks(struct PmsInput *input);
+extern struct TcbTask *TCB_AddTask(struct TcbSystem *sys, ViewTaskFunc func, void *work, u32 priority);
+extern void *ARC_TOOL_CreateHandle(u32 archiveID, u16 heapID);
 extern void ARC_TOOL_DeleteHandle(void *handle);
-extern void TCB_DeleteTask(void *tcb);
+extern void TCB_DeleteTask(struct TcbTask *task);
 extern void PMSIV_MENU_Delete(struct PmsivMenu *menu);
 extern unsigned int CLACT_DeleteUnit(struct ClactUnit *unit);
 extern void CLACT_ReleasePalette(unsigned int);
@@ -266,29 +269,36 @@ extern void CLACT_ReleaseCellAnim(unsigned int);
 extern void CLACT_ExitSystem(void);
 extern void BMP_WIN_Exit(void);
 extern void BG_SYS_Delete(void);
-extern void *GFL_USE_AddMainTask(void (*fn)(void *, void *), void *work, int priority);
+struct Tcb;
+extern struct Tcb *GFL_USE_AddMainTask(void (*fn)(void *, void *), void *work, u32 priority);
 extern void CLACT_DrawSystem(void);
 extern void PMSIV_MENU_Update(struct PmsivMenu *menu);
-extern unsigned int PRINTSYS_QUE_Main(struct PrintQue *queue);
+struct PrintQueue;
+extern unsigned int PRINTSYS_QUE_Main(struct PrintQueue *queue);
 extern void BG_SYS_Update(void);
 extern void CLACT_VBlankSystem(void);
 extern struct PmsInputViewTask *TCBL_IsDeletePending(void *tcb);
 extern void BG_SYS_ClearGraphicsMemory(unsigned);
 extern void BG_SYS_ClearMainPlanes(void);
 extern void BG_SYS_ClearSubPlanes(void);
-extern struct PmsivEdit *PMSIV_EDIT_Create(struct PmsInputView *view, struct PmsInput *input, struct PmsInputData *wordData);
-extern void PMSIV_EDIT_Setup(struct PmsivEdit *edit, void *arcHandle);
-extern struct PmsivCategory *PMSIV_CATEGORY_Create(struct PmsInputView *view, struct PmsInput *input, struct PmsInputData *wordData);
-extern void PMSIV_CATEGORY_Setup(struct PmsivCategory *category, void *arcHandle);
+struct PmsInputState;
+struct PmsInputView;
+struct PmsivEdit;
+extern struct PmsivEdit *PMSIV_EDIT_Create(struct PmsInputView *view, struct PmsInputState *input, void *param);
+extern void PMSIV_EDIT_Setup(struct PmsivEdit *p, void *arcHandle);
+struct PmsivCategory;
+extern struct PmsivCategory *PMSIV_CATEGORY_Create(struct PmsInputView *view, struct PmsInputState *input, struct PmsInputData *wordData);
+extern void PMSIV_CATEGORY_Setup(struct PmsivCategory *p, void *data);
 extern struct PmsivWordwin *PMSIV_WORDWIN_Create(struct PmsInputView *view, struct PmsInput *input, struct PmsInputData *wordData);
 extern void PMSIV_WORDWIN_Setup(struct PmsivWordwin *wordwin);
 extern void ARC_UTIL_UploadBgPaletteFromHandle(void *handle, u32 fileId, u32 bgId, u32 offset, u32 size, u32 flags, u16 heapId);
 extern u32 ARC_UTIL_UploadBgCharFromHandle(void *handle, u32 fileId, u32 bgId, u32 offset, u32 size, u32 flags, u16 heapId);
 extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
 extern void ARC_UTIL_UploadPaletteFromHandle(void *handle, u32 fileId, u32 paletteType, u32 offset, u32 size, u32 flags, u16 heapId);
-extern int NNS_GfdRegisterNewVramTransferTask(u32 target, u32 offset, const void *data, int size);
+extern int NNS_GfdRegisterNewVramTransferTask(void *pTaskFunc, unsigned int dstOffset, unsigned int srcAddr, int szByte);
 extern void BG_SYS_FillTileMap(u8 bgId, u8 x, u8 y, u8 width, u8 height, u8 paletteBank);
-extern struct BmpWin *BMP_WIN_Create(u32, u32, u32, u32, u8, u8, u8);
+struct BmpWin;
+extern struct BmpWin *BMP_WIN_Create(u32 bgLayer, u32 posX, u32 posY, u8 width, u8 height, u8 palette, u8 allocDir);
 extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *win);
 extern void BMP_Clear(struct Bmp *bmp, u8 value);
 extern u32 PMS_INPUT_HasInitialSentence(struct PmsInput *input);
@@ -301,22 +311,23 @@ extern void GX_DispOn(void);
 extern signed int CLACT_RegisterPalette(void *handle, unsigned int fileId, unsigned int screen, unsigned int offset, u16 heapId);
 extern int CLACT_RegisterCharacter(void *handle, u32 fileId, u32 compressed, u32 screen, u16 heapId);
 extern int CLACT_RegisterCellAnim(void *handle, u32 cellFileId, u32 animFileId, u32 heapId);
-extern void WIPE_SYS_Start(void *,u32,u32,u32,u32,u32,u32);
+extern void WIPE_SYS_Start(void *divisionMode, u32 mainPattern, u32 subPattern, u16 color, u32 frames, u32 wait, u32 heapId);
 extern u32 WIPE_SYS_EndCheck(void);
 extern u32 BMP_WIN_Delete(struct BmpWin *win);
 extern void PMSIV_EDIT_Delete(struct PmsivEdit *edit);
 extern void PMSIV_CATEGORY_Delete(struct PmsivCategory *category);
 extern void PMSIV_WORDWIN_Delete(struct PmsivWordwin *wordwin);
 extern u32 GF_FONT_Delete(struct GfFont *font);
-extern void PRINTSYS_QUE_Clear(struct PrintQue *queue);
-extern void PRINTSYS_QUE_Delete(struct PrintQue *queue);
+extern void PRINTSYS_QUE_Clear(struct PrintQueue *queue);
+extern void PRINTSYS_QUE_Delete(struct PrintQueue *queue);
 extern void BG_SYS_FreeLayerBuf(u32 i);
-extern void BG_SYS_SetVramBanks(const void *vramBanks);
+struct DispVram;
+extern void BG_SYS_SetVramBanks(struct DispVram *banks);
 extern void BG_SYS_SetGraphicsMode(const void *dispConfig);
 extern void BG_SYS_InitBgLayer(u32 bgId, const void *bgTemplate, u32 type);
 extern void BG_SYS_ClearSlot(u32 i);
 extern struct GfFont *GF_FONT_Create(int, int, int, int, u32 heapId);
-extern struct PrintQue *PRINTSYS_QUE_CreateEx(u16, u32);
+extern struct PrintQueue *PRINTSYS_QUE_CreateEx(u16, u32);
 extern void PMSIV_EDIT_Redraw(struct PmsivEdit *edit);
 extern u16 PMS_INPUT_GetWordSlot(struct PmsInput *input);
 extern void PMSIV_EDIT_PlaceCursorAtSlot(struct PmsivEdit *edit, int i);
@@ -385,24 +396,28 @@ extern void PMSIV_CATEGORY_StartSelectAnim(struct PmsivCategory *category, unsig
 extern void PMSIV_WORDWIN_StartPickAnim(struct PmsivWordwin *wordwin, unsigned n);
 extern unsigned int PMSIV_EDIT_GetSlotCount(struct PmsivEdit *edit);
 extern u16 PMSIV_EDIT_GetSlotWordId(struct PmsivEdit *edit, int i);
-extern void PMSIV_EDIT_GetSlotRect(struct PmsivEdit *edit, const void *src, int n);
+extern void PMSIV_EDIT_GetSlotRect(struct PmsivEdit *p, unsigned char *rect, int slot);
 extern u32 PMSIV_MENU_IsEntryFinished(struct PmsivMenu *menu, u32 index);
 extern void PMSIV_MENU_SelectItem(struct PmsivMenu *menu, int mode);
 extern int OS_DisableInterrupts(void);
 extern void OS_RestoreInterrupts(int state);
 extern struct ClactActor *CLACT_CreateActor(void *unit, unsigned int, unsigned int, unsigned int, const void *setup, u16, u16);
-extern void CLACT_SetActorAutoAnim(struct ClactActor *, u32);
-extern void CLACT_SetActorAutoAnimSpeed(struct ClactActor *actor, u32 v);
-extern u32 PMSIV_WORDWIN_GetThumb(struct PmsivWordwin *wordwin, struct ScreenPos *out);
+struct Actor;
+extern void CLACT_SetActorAutoAnim(struct Actor *actor, u32 enable);
+extern void CLACT_SetActorAutoAnimSpeed(struct Actor *actor, u32 speed);
+struct PtS;
+extern u32 PMSIV_WORDWIN_GetThumb(struct PmsivWordwin *p, struct PtS *out);
 extern void PMSIV_WORDWIN_SetThumbY(struct PmsivWordwin *wordwin, int y);
 extern unsigned PMSIV_WORDWIN_GetThumbRow(struct PmsivWordwin *wordwin, unsigned n);
 extern u32 ARC_UTIL_UploadBgPaletteAddFromHandleExt(void *handle, u32 fileId, u32 bgType, u32 flags, u32 offset, u32 size, u32 shift, u16 heapId);
-extern struct MsgData *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern void *MSGDATA_AllocString(struct MsgData *msgData, u32 index);
-extern void PRINTSYS_PrintQueColor(struct PrintQue *queue, struct Bmp *bmp, u32 x, u32 y, void *str, struct GfFont *font, u16 color);
-extern void STRBUF_Delete(void *str);
-extern u32 MSGDATA_Delete(struct MsgData *msgData);
-extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintQue *queue, struct Bmp *bmp);
+struct MsgBank;
+extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern struct Strbuf *MSGDATA_AllocString(struct MsgBank *bank, unsigned int index);
+extern void PRINTSYS_PrintQueColor(struct PrintQueue *queue, struct Bmp *bmp, unsigned int x, short y, struct Strbuf *str, struct GfFont *font, unsigned short color);
+extern void STRBUF_Delete(struct Strbuf *strbuf);
+struct MsgBank;
+extern u32 MSGDATA_Delete(struct MsgBank *bank);
+extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintQueue *queue, struct Bmp *bmp);
 extern void BMP_WIN_TransferChars(struct BmpWin *win);
 extern void BMP_WIN_MakeScreen(struct BmpWin *win);
 extern u8 BMP_WIN_GetBgLayer(struct BmpWin *win);
@@ -445,7 +460,7 @@ void *PMS_INPUT_VIEW_Create(struct PmsInput *input, struct PmsInputData *wordDat
         view->input=input;
         view->wordData=wordData;
         view->uiInputMode=PMS_INPUT_GetUiInputModePtr(input);
-        CLACT_InitSystem(gClActorInitParam,gPmsInputVramBanks,PMS_INPUT_VIEW_HEAP_ID);
+        CLACT_InitSystem((struct SysInit *)gClActorInitParam,(struct DispVramCfg *)gPmsInputVramBanks,PMS_INPUT_VIEW_HEAP_ID);
         view->clactUnit=CLACT_CreateUnit(128,0,PMS_INPUT_VIEW_HEAP_ID);
         BG_SYS_Create(PMS_INPUT_VIEW_HEAP_ID);
         BMP_WIN_Init(PMS_INPUT_VIEW_HEAP_ID);
@@ -497,7 +512,7 @@ void PMS_INPUT_VIEW_MainTask(void *tcb, void *work) {
     CLACT_DrawSystem();
     if(view->menu) PMSIV_MENU_Update(view->menu);
     if(view->printQue) {
-        PRINTSYS_QUE_Main(view->printQue);
+        PRINTSYS_QUE_Main((struct PrintQueue *)view->printQue);
         PMS_INPUT_VIEW_FlushHelpText(view);
     }
 }
@@ -569,9 +584,9 @@ void PMS_INPUT_VIEW_TaskInit(void *tcb, struct PmsInputViewTask *task) {
     h=ARC_TOOL_CreateHandle(43,42);
     PMS_INPUT_VIEW_InitDisplay(task);
     PMS_INPUT_VIEW_RegisterSpriteResources(task,h);
-    task->view->edit=PMSIV_EDIT_Create(task->view,task->input,task->wordData);
+    task->view->edit=PMSIV_EDIT_Create(task->view,(struct PmsInputState *)task->input,task->wordData);
     PMSIV_EDIT_Setup(task->view->edit,h);
-    task->view->category=PMSIV_CATEGORY_Create(task->view,task->input,task->wordData);
+    task->view->category=PMSIV_CATEGORY_Create(task->view,(struct PmsInputState *)task->input,task->wordData);
     PMSIV_CATEGORY_Setup(task->view->category,h);
     task->view->wordwin=PMSIV_WORDWIN_Create(task->view,task->input,task->wordData);
     PMSIV_WORDWIN_Setup(task->view->wordwin);
@@ -582,9 +597,9 @@ void PMS_INPUT_VIEW_TaskInit(void *tcb, struct PmsInputViewTask *task) {
     BG_SYS_SetPlaneVisible(6,0);
     ARC_UTIL_UploadPaletteFromHandle(h,4,4,128,160,32,42);
     task->view->helpBgColor[0]=0x294b;
-    NNS_GfdRegisterNewVramTransferTask(31,188,&task->view->helpBgColor[0],2);
+    NNS_GfdRegisterNewVramTransferTask((void *)31,(unsigned int)188,(unsigned int)(&task->view->helpBgColor[0]),2);
     task->view->helpBgColor[1]=0x5694;
-    NNS_GfdRegisterNewVramTransferTask(31,190,&task->view->helpBgColor[1],2);
+    NNS_GfdRegisterNewVramTransferTask((void *)31,(unsigned int)190,(unsigned int)(&task->view->helpBgColor[1]),2);
     ARC_UTIL_UploadBgCharFromHandle(h,18,7,0,0,0,42);
     ARC_UTIL_UploadBgPaletteFromHandle(h,24,7,0,0,0,42);
     BG_SYS_FillTileMap(7,0,0,32,32,5);
@@ -636,8 +651,8 @@ void PMS_INPUT_VIEW_TaskExit(void *tcb, struct PmsInputViewTask *task) {
             PMSIV_CATEGORY_Delete(task->view->category);
             PMSIV_WORDWIN_Delete(task->view->wordwin);
             GF_FONT_Delete(view->font);
-            PRINTSYS_QUE_Clear(view->printQue);
-            PRINTSYS_QUE_Delete(view->printQue);
+            PRINTSYS_QUE_Clear((struct PrintQueue *)view->printQue);
+            PRINTSYS_QUE_Delete((struct PrintQueue *)view->printQue);
             view->printQue = 0;
             BG_SYS_FreeLayerBuf(0);
             BG_SYS_FreeLayerBuf(1);
@@ -668,7 +683,7 @@ void PMS_INPUT_VIEW_InitDisplay(struct PmsInputViewTask *task) {
     struct PmsInputView *view=task->view;
     int i;
     GX_SetDispSelect(GX_DISP_SELECT_SUB_MAIN);
-    BG_SYS_SetVramBanks(gPmsInputVramBanks);
+    BG_SYS_SetVramBanks((struct DispVram *)gPmsInputVramBanks);
     BG_SYS_SetGraphicsMode(gPmsInputDispConfig);
     BG_SYS_InitBgLayer(0,gPmsInputBgTemplate0,0);
     BG_SYS_InitBgLayer(1,gPmsInputBgTemplate1,0);
@@ -683,7 +698,7 @@ void PMS_INPUT_VIEW_InitDisplay(struct PmsInputViewTask *task) {
         BG_SYS_SetPlaneVisible((u8)i,1);
     }
     view->font=GF_FONT_Create(23,0,0,0,42);
-    view->printQue=PRINTSYS_QUE_CreateEx(0x500,42);
+    view->printQue=(struct PrintQue *)PRINTSYS_QUE_CreateEx(0x500,42);
 }
 
 void PMS_INPUT_VIEW_TaskFadeIn(void *tcb, struct PmsInputViewTask *task) {
@@ -1258,7 +1273,7 @@ int PMS_INPUT_VIEW_GetEditEntry(struct PmsInputView *view, int i)
 
 void PMS_INPUT_VIEW_SetEditText(struct PmsInputView *view, const void *src, u8 n)
 {
-    PMSIV_EDIT_GetSlotRect(view->edit, src, n);
+    PMSIV_EDIT_GetSlotRect(view->edit, (unsigned char *)src, n);
 }
 
 int PMS_INPUT_VIEW_GetMenuResult(struct PmsInputView *view)
@@ -1328,8 +1343,8 @@ struct ClactActor *PMS_INPUT_VIEW_CreateActor(struct PmsInputView *view, const s
     actor = CLACT_CreateActor(view->clactUnit, res->character, res->palette, res->cellAnim, &setup, f, PMS_INPUT_VIEW_HEAP_ID);
     OS_RestoreInterrupts(s);
     if (actor) {
-        CLACT_SetActorAutoAnim(actor, 1);
-        CLACT_SetActorAutoAnimSpeed(actor, 1 << 12);
+        CLACT_SetActorAutoAnim((struct Actor *)actor, 1);
+        CLACT_SetActorAutoAnimSpeed((struct Actor *)actor, 1 << 12);
     }
     return actor;
 }
@@ -1337,7 +1352,7 @@ struct ClactActor *PMS_INPUT_VIEW_CreateActor(struct PmsInputView *view, const s
 int PMS_INPUT_VIEW_CompareWordwinPosition(struct PmsInputView *view, int unused, unsigned n)
 {
     struct ScreenPos pos;
-    if(PMSIV_WORDWIN_GetThumb(view->wordwin, &pos)==0) return 3;
+    if(PMSIV_WORDWIN_GetThumb(view->wordwin, (struct PtS *)(&pos))==0) return 3;
     if(n<(unsigned)pos.y) return 1;
     if(n>(unsigned)pos.y) return 2;
     if(n==(unsigned)pos.y) return 0;
@@ -1379,7 +1394,7 @@ void PMS_INPUT_VIEW_PrintHelpMessage(struct PmsInputViewTask *task,int index)
     msgData=MSGDATA_CreateFromArchive(0,2,146,PMS_INPUT_VIEW_HEAP_ID);
     str=MSGDATA_AllocString(msgData,table.values[index]);
     view=task->view;
-    PRINTSYS_PrintQueColor(task->view->printQue,BMP_WIN_GetBmp(view->helpWin),2,4,str,view->font,0x39e7);
+    PRINTSYS_PrintQueColor((struct PrintQueue *)task->view->printQue,BMP_WIN_GetBmp(view->helpWin),2,4,str,view->font,0x39e7);
     task->view->helpTextPending=1;
     STRBUF_Delete(str);
     MSGDATA_Delete(msgData);
@@ -1388,7 +1403,7 @@ void PMS_INPUT_VIEW_PrintHelpMessage(struct PmsInputViewTask *task,int index)
 void PMS_INPUT_VIEW_FlushHelpText(struct PmsInputView *view)
 {
     struct BmpWin *win;
-    if(view->helpTextPending!=0 && PRINTSYS_QUE_IsExistTarget(view->printQue,BMP_WIN_GetBmp(view->helpWin))==0) {
+    if(view->helpTextPending!=0 && PRINTSYS_QUE_IsExistTarget((struct PrintQueue *)view->printQue,BMP_WIN_GetBmp(view->helpWin))==0) {
         win=view->helpWin;
         BMP_WIN_TransferChars(win);
         BMP_WIN_MakeScreen(win);

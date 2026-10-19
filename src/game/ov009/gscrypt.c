@@ -44,9 +44,9 @@ typedef struct {
     gsLargeInt_t exponent;
 } gsCryptRSAKey;
 
-extern int gsLargeIntReverseBytes(gsLargeInt_t *lint);
+extern int gsLargeIntReverseBytes(char *p);
 extern int gsLargeIntPowerMod(gsLargeInt_t *b, gsLargeInt_t *p, gsLargeInt_t *m, gsLargeInt_t *dest);
-extern int memcmp(const void *, const void *, u32);
+extern int memcmp(unsigned char *s1, unsigned char *s2, unsigned int n);
 
 int gsCryptRSAVerifySignedHash(const gsCryptRSAKey *publicKey, const u8 *hash, u32 hashLen, const u8 *sig, u32 sigLen)
 {
@@ -70,9 +70,9 @@ int gsCryptRSAVerifySignedHash(const gsCryptRSAKey *publicKey, const u8 *hash, u
         return -1;
     lintRSASignature.mLength = sigLen / sizeof(u32);
     memcpy(lintRSASignature.mData, sig, sigLen);
-    gsLargeIntReverseBytes(&lintRSASignature);
+    gsLargeIntReverseBytes((char *)(&lintRSASignature));
     gsLargeIntPowerMod(&lintRSASignature, (gsLargeInt_t *)&publicKey->exponent, (gsLargeInt_t *)&publicKey->modulus, &lintRSASignature);
-    gsLargeIntReverseBytes(&lintRSASignature);
+    gsLargeIntReverseBytes((char *)(&lintRSASignature));
     if (packet[0] != 0 || packet[1] != 1)
         return -2;
     for (i = 2; i < 128; i++) {
@@ -88,7 +88,7 @@ int gsCryptRSAVerifySignedHash(const gsCryptRSAKey *publicKey, const u8 *hash, u
         i += sizeof(md5Header);
         if (hashLen != 16)
             return -5;
-        if (memcmp(&packet[i], hash, 16) != 0)
+        if (memcmp((unsigned char *)(&packet[i]), (unsigned char *)hash, 16) != 0)
             return -5;
     } else if ((i + sizeof(sha1Header) + 20) == lintRSASignature.mLength * sizeof(u32)) {
         if (memcmp(sha1Header, &packet[i], sizeof(sha1Header)) != 0)
@@ -96,7 +96,7 @@ int gsCryptRSAVerifySignedHash(const gsCryptRSAKey *publicKey, const u8 *hash, u
         i += sizeof(sha1Header);
         if (hashLen != 20)
             return -5;
-        if (memcmp(&packet[i], hash, 20) != 0)
+        if (memcmp((unsigned char *)(&packet[i]), (unsigned char *)hash, 20) != 0)
             return -5;
     } else {
         return -4;

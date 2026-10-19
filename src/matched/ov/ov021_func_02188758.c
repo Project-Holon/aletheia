@@ -32,7 +32,7 @@
  *   FLDMMDL_UpdateSysProc  0x0216CD64  thumb  ov010
  *   FIELD_GIMMICK_RunMapCallback  0x021BE258  thumb  ov021
  *   FIELD_EFFECT_Update  0x021ABE04  thumb  ov021
- *   EVENT_COMM_COMMON_CmdCallMissionInfoEvent  0x0217F914  thumb  ov018
+ *   UNION_EFF_Main  0x0217F914  thumb  ov019
  *   FIELD_SUBPROC_MGR_RunUpdate  0x021BB948  thumb  ov021
  *   FIELD_MSGBG_Main  0x021903E0  thumb  ov021
  *   TCB_Main  0x02030D28  arm
@@ -82,7 +82,7 @@ extern void FIELD_SUBSCREEN_Main(u32 *a);
 extern int FLDMMDL_UpdateSysProc(int a0);
 extern void FIELD_GIMMICK_RunMapCallback(void *p);
 extern void FIELD_EFFECT_Update(u32 a);
-extern void EVENT_COMM_COMMON_CmdCallMissionInfoEvent(u32 a);
+extern void UNION_EFF_Main(u32 a);
 extern void FIELD_SUBPROC_MGR_RunUpdate(u8 *p);
 extern void FIELD_MSGBG_Main(struct Obj *o);
 extern void TCB_Main(struct Ctx *c);
@@ -126,7 +126,7 @@ int FIELDMAP_SeqUpdate(void *a, u8 *p)
     FIELD_GIMMICK_RunMapCallback(p);
     FIELD_EFFECT_Update(((struct Obj00518 *)p)->f94);
     if (((struct Obj00518 *)p)->f98 != 0)
-        EVENT_COMM_COMMON_CmdCallMissionInfoEvent(((struct Obj00518 *)p)->f98);
+        UNION_EFF_Main(((struct Obj00518 *)p)->f98);
     FIELD_SUBPROC_MGR_RunUpdate((u8 *)(((struct Obj00518 *)p)->fBC));
     if (((struct Obj00518 *)p)->f28 != 0)
         FIELD_MSGBG_Main((struct Obj *)(((struct Obj00518 *)p)->f28));

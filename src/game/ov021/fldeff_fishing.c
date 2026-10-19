@@ -46,6 +46,8 @@
  *   G3D_SYSTEM_LoopObjectAnimeFrame  0x02047910  arm
  *   sFishingDrawStatus  0x021D92FC  data
  *   GFL_HEAP_Alloc  0x02030734  arm
+ *   _fadd                        0x0209C95C  arm
+ *   _fflt                        0x0209BDBC  arm
  */
 #include "../ov010/fldmmdl_types.h"
 #include "field_effect_types.h"
@@ -118,20 +120,21 @@ extern void FIELD_EFFECT_GetObjectPos(FieldEffectObj *effect, VecFx32 *out);
 extern int G3D_SYSTEM_DrawObjectCulling(G3dObject *obj, G3dObjectStatus *status);
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *file, u16 line);
 extern u32 GFL_HEAP_Free(void *p);
-extern ArcHandle *FIELD_EFFECT_GetArcHandle(FieldEffectSys *fieldEffect);
+struct FieldEffectSys;
+extern u32 FIELD_EFFECT_GetArcHandle(FieldEffectSys *fieldEffect);
 extern G3dResource *G3D_SYSTEM_CreateResourceArcHandle(ArcHandle *arc, u32 fileId);
 extern int G3D_SYSTEM_TransVramTexture(G3dResource *res);
 extern void G3D_SYSTEM_DeleteResource(G3dResource *res);
 extern int G3D_SYSTEM_FreeVramTexture(G3dResource *res);
-extern void *FIELD_EFFECT_GetResource(FieldEffectSys *fieldEffect, u32 effectId);
+extern s32 FIELD_EFFECT_GetResource(struct FieldEffectSys *sys, s32 id);
 extern void FIELD_EFFECT_AddObject(FieldEffectSys *fieldEffect, const FieldEffectObjFuncs *funcs, const VecFx32 *pos, u32 mode, void *param, u32 priority);
 extern void *FIELD_EFFECT_GetObjectParam(FieldEffectObj *effect);
 extern void FIELD_EFFECT_SetObjectPos(FieldEffectObj *effect, const VecFx32 *pos);
 extern void *FIELD_EFFECT_GetObjectWork(FieldEffectObj *effect);
 extern G3dRender *G3D_SYSTEM_CreateRender(G3dResource *mdlRes, u32 mdlIdx, G3dResource *texRes);
-extern G3dAnime *G3D_SYSTEM_CreateAnime(G3dRender *render, const G3dResource *anmRes, int anmIdx);
+extern G3dAnime *G3D_SYSTEM_CreateAnime(struct G3dRender *render, struct G3dResource *anmRes, u32 anmIdx);
 extern G3dObject *G3D_SYSTEM_CreateObject(G3dRender *render, G3dAnime **anmTbl, int anmCount);
-extern u32 G3D_SYSTEM_EnableObjectAnime(G3dObject *obj, u32 anmIdx);
+extern s32 G3D_SYSTEM_EnableObjectAnime(G3dObject *obj, u32 anmIdx);
 extern void G3D_SYSTEM_DeleteAnime(G3dAnime *anime);
 extern void G3D_SYSTEM_DeleteObject(G3dObject *obj);
 extern void G3D_SYSTEM_DeleteRender(G3dRender *render);
@@ -169,7 +172,7 @@ void FLDEFF_FISHING_Delete(FieldEffectSys *fieldEffect, FishingRodRes *res)
 
 void FLDEFF_FISHING_LoadResources(FishingRodRes *res)
 {
-    ArcHandle *arc = FIELD_EFFECT_GetArcHandle(res->fieldEffect);
+    ArcHandle *arc = (struct ArcHandle *)FIELD_EFFECT_GetArcHandle(res->fieldEffect);
 
     res->model = G3D_SYSTEM_CreateResourceArcHandle(arc, FISHING_MODEL_FILE);
     G3D_SYSTEM_TransVramTexture(res->model);
@@ -198,7 +201,7 @@ void FLDEFF_FISHING_Start(FieldEffectSys *fieldEffect, const VecFx32 *pos, u32 r
     int offset;
     float fixed;
 
-    param.res = FIELD_EFFECT_GetResource(fieldEffect, FLDEFF_ID_FISHING);
+    param.res = (struct FishingRodRes *)FIELD_EFFECT_GetResource(fieldEffect, FLDEFF_ID_FISHING);
     param.pos = *pos;
     offset = offsets.offset[side][rodKind];
     if (offset != 0) {

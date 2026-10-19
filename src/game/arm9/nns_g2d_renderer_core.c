@@ -255,12 +255,12 @@ typedef struct CellTransferState {
     u32          szByte;            /* +0x2c */
 } CellTransferState;
 
-extern void G3_LoadMtx43(const MtxFx43 *m);
+extern void G3_LoadMtx43(void *m);
 extern void MIi_CpuClear16(u16 data, void *dest, u32 size);
-extern BOOL NNSi_G2dIsVramHandleSet(const NNSG2dImageProxy *pImgProxy, u32 vramType);
-extern u32 NNSi_G2dGetVramHandleValue(const NNSG2dImageProxy *pImgProxy, u32 vramType);
-extern BOOL NNSi_G2dIsVramHandleSetEx(const NNSG2dPaletteProxy *pPltProxy, u32 vramType);
-extern u32 NNSi_G2dGetVramHandleEx(const NNSG2dPaletteProxy *pPltProxy, u32 vramType);
+extern BOOL NNSi_G2dIsVramHandleSet(unsigned int *p, unsigned int i);
+extern int NNSi_G2dGetVramHandleValue(int *p, int i);
+extern BOOL NNSi_G2dIsVramHandleSetEx(char *p, int i);
+extern int NNSi_G2dGetVramHandleEx(char *p, int i);
 extern CellTransferState *NNSi_G2dGetCellTransferState(u32 stateIdx);
 void NNSi_G2dCalcSpriteParams(const GXOamAttr *pOam, const NNSG2dImageAttr *pTexImageAttr, u32 texBaseAddr, u32 pltBaseAddr, SpriteParams *pResult);
 void NNSi_G2dSetOamSoftEmuAutoZOffsetEnabled(u32 enabled);
@@ -1435,16 +1435,16 @@ void NNS_G2dRndCoreBeginRendering(NNSG2dRndCoreInstance *pRnd)
         reg[0] = 1;
 
         pImgProxy = sRndCoreInstance->pImgProxy;
-        p->baseTexAddr3D = NNSi_G2dIsVramHandleSet(pImgProxy, 0) ? NNSi_G2dGetVramHandleValue(pImgProxy, 0) : 0;
+        p->baseTexAddr3D = NNSi_G2dIsVramHandleSet((unsigned int *)pImgProxy, 0) ? NNSi_G2dGetVramHandleValue((int *)pImgProxy, 0) : 0;
 
         pPltProxy = sRndCoreInstance->pPltProxy;
-        p->basePltAddr3D = NNSi_G2dIsVramHandleSetEx(pPltProxy, 0) ? NNSi_G2dGetVramHandleEx(pPltProxy, 0) : 0;
+        p->basePltAddr3D = NNSi_G2dIsVramHandleSetEx((char *)pPltProxy, 0) ? NNSi_G2dGetVramHandleEx((char *)pPltProxy, 0) : 0;
     } else {
         const NNSG2dImageProxy *pImgProxy = p->pImgProxy;
         int r;
 
-        if (NNSi_G2dIsVramHandleSet(pImgProxy, type)) {
-            r = NNSi_G2dGetVramHandleValue(pImgProxy, type);
+        if (NNSi_G2dIsVramHandleSet((unsigned int *)pImgProxy, type)) {
+            r = NNSi_G2dGetVramHandleValue((int *)pImgProxy, type);
             r = (int)((u32)r >> ((int)((pImgProxy->attr.mappingType & 0x700000) >> 20) + 5));
         } else {
             r = 0;

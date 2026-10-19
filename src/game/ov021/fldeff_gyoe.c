@@ -59,6 +59,10 @@
  *   FIELDMAP_GetCamera  0x02188C58  thumb  ov021
  *   FIELD_CAMERA_GetG3dCamera  0x0218EC2C  thumb  ov021
  *   VEC_Add  0x0207C9D0  arm
+ *   _fadd                        0x0209C95C  arm
+ *   _ffix                        0x0209C494  arm
+ *   _fflt                        0x0209BDBC  arm
+ *   _fsub                        0x0209CB8C  arm
  */
 #include "../ov010/fldmmdl_types.h"
 
@@ -109,30 +113,36 @@ typedef struct FldeffGyoeTaskParam {
 
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *file, u16 line);
 
-extern void GFL_HEAP_Free(void *p);
+extern u32 GFL_HEAP_Free(void *p);
+struct FieldEffectSys;
 
-extern void *FIELD_EFFECT_GetArcHandle(void *fieldEffectCtrl);
+extern u32 FIELD_EFFECT_GetArcHandle(struct FieldEffectSys *sys);
+struct ArcHandle;
+struct G3dResource;
 
-extern void *G3D_SYSTEM_CreateResourceArcHandle(void *g3dHeap, u32 resId);
+extern struct G3dResource *G3D_SYSTEM_CreateResourceArcHandle(struct ArcHandle *arc, u32 dataId);
 
-extern int G3D_SYSTEM_TransVramTexture(void *resource);
+extern int G3D_SYSTEM_TransVramTexture(struct G3dResource *res);
+struct G3dRender;
 
-extern void *G3D_SYSTEM_CreateRender(void *resource, u32 index, void *texResource);
+extern struct G3dRender *G3D_SYSTEM_CreateRender(struct G3dResource *mdlRes, u32 mdlIdx, struct G3dResource *texRes);
+struct G3dAnime;
+struct G3dObject;
 
-extern void *G3D_SYSTEM_CreateObject(void *renderObj, u32 *anime, int animeCount);
+extern struct G3dObject *G3D_SYSTEM_CreateObject(struct G3dRender *render, struct G3dAnime **anmTbl, s32 anmCount);
 
-extern void G3D_SYSTEM_DeleteObject(void *object);
+extern void G3D_SYSTEM_DeleteObject(struct G3dObject *obj);
 
-extern void G3D_SYSTEM_DeleteRender(void *renderObj);
+extern void G3D_SYSTEM_DeleteRender(struct G3dRender *render);
 
-extern void G3D_SYSTEM_DeleteResource(void *resource);
+extern void G3D_SYSTEM_DeleteResource(struct G3dResource *res);
 
 /* ---- externs ---- */
-int FIELD_EFFECT_GetResource(void *fieldEffectCtrl, u32 effectId);
+int FIELD_EFFECT_GetResource(struct FieldEffectSys *sys, s32 id);
 
 void FLDMMDL_GetCheckInfo(Mmdl *mmdl, MmdlCheckInfo *info);
 
-void *FIELD_EFFECT_GetFieldMap(void *fieldEffectCtrl);
+u32 FIELD_EFFECT_GetFieldMap(struct FieldEffectSys *sys);
 
 void FLDEFF_GYOE_PlaySe(int type);
 
@@ -168,7 +178,7 @@ void FLDEFF_GYOE_Delete(void *fieldEffectCtrl, FldeffGyoe *gyoe)
 
 void FLDEFF_GYOE_InitResource(FldeffGyoe *gyoe)
 {
-    void *g3dHeap = FIELD_EFFECT_GetArcHandle(gyoe->fieldEffectCtrl);
+    void *g3dHeap = (void *)FIELD_EFFECT_GetArcHandle(gyoe->fieldEffectCtrl);
     int i;
     for (i = 0; i < FLDEFF_GYOE_RES_MAX; i++) {
         gyoe->resource[i] = G3D_SYSTEM_CreateResourceArcHandle(g3dHeap, sGyoeResIds[i]);
@@ -197,7 +207,7 @@ void *FLDEFF_GYOE_SetMMdl(void *fieldEffectCtrl, Mmdl *mmdl, u32 type, u32 sePla
     param.gyoe = (FldeffGyoe *)FIELD_EFFECT_GetResource(fieldEffectCtrl, 4);
     param.mmdl = mmdl;
     FLDMMDL_GetCheckInfo(mmdl, &param.mmdlInfo);
-    param.fieldMap = FIELD_EFFECT_GetFieldMap(fieldEffectCtrl);
+    param.fieldMap = (void *)FIELD_EFFECT_GetFieldMap(fieldEffectCtrl);
     if (sePlay == 1)
         FLDEFF_GYOE_PlaySe(type);
     return FIELD_EFFECT_AddObject(fieldEffectCtrl, &sGyoeTaskHeader, 0, 0, &param, 0);
@@ -227,20 +237,23 @@ typedef struct GxState {
     u8 pad0[0x7C];
     u32 matrixDirtyFlags;      /* 0x7C */
 } GxState;
+struct FieldEffectObj;
 
-extern void *FIELD_EFFECT_GetObjectWork(void *task);
+extern void *FIELD_EFFECT_GetObjectWork(struct FieldEffectObj *obj);
 
 extern FldeffGyoeTaskParam *FIELD_EFFECT_GetObjectParam(void *task);
 
-extern void FIELD_EFFECT_UpdateObject(void *task);
+extern void FIELD_EFFECT_UpdateObject(struct FieldEffectObj *obj);
 
 extern int FLDMMDL_CheckCheckInfo(Mmdl *mmdl, MmdlCheckInfo *info);
+struct MmdlVec;
+struct Mmdl;
 
-extern void FLDMMDL_GetPos(Mmdl *mmdl, VecFx32 *out);
+extern void FLDMMDL_GetPos(struct Mmdl *mmdl, struct MmdlVec *out);
 
-extern void FIELD_EFFECT_SetObjectPos(void *task, VecFx32 *pos);
+extern void FIELD_EFFECT_SetObjectPos(struct FieldEffectObj *obj, VecFx32 *pos);
 
-void FIELD_EFFECT_DeleteObject(void *task);
+void FIELD_EFFECT_DeleteObject(struct FieldEffectObj *obj);
 
 extern void MIi_CpuCopyFast(const void *src, void *dst, u32 size);
 
@@ -251,16 +264,18 @@ extern void NNS_G3dGeFlushBuffer(void);
 extern void MTX_Identity33_(MtxFx33 *mtx);
 
 extern void FIELD_EFFECT_GetObjectPos(void *task, G3dObjectTransform *transform);
+struct G3dObjectStatus;
 
-extern int G3D_SYSTEM_DrawObjectCulling(void *object, G3dObjectTransform *transform);
+extern int G3D_SYSTEM_DrawObjectCulling(struct G3dObject *obj, struct G3dObjectStatus *status);
 
 void GFL_USE_PlaySeDefaultVolume(u32 seId);
+struct G3dCamera;
 
-void G3D_CAMERA_GetEye(void *g3dCamera, VecFx32 *out);
+void G3D_CAMERA_GetEye(struct G3dCamera *camera, VecFx32 *out);
 
-void G3D_CAMERA_GetCamUp(void *g3dCamera, VecFx32 *out);
+void G3D_CAMERA_GetCamUp(struct G3dCamera *camera, VecFx32 *out);
 
-void G3D_CAMERA_GetCamTarget(void *g3dCamera, VecFx32 *out);
+void G3D_CAMERA_GetCamTarget(struct G3dCamera *camera, VecFx32 *out);
 
 void MTX_LookAt(VecFx32 *eye, VecFx32 *target, VecFx32 *up, int *outMtx43);
 
@@ -269,10 +284,13 @@ void MI_Copy36B(int *mtx43, int *outMtx33);
 void MTX_Inverse33(int *mtx33, int *outMtx33);
 
 void MTX_MultVec33(VecFx32 *src, int *mtx33, VecFx32 *dst);
+struct FieldMap;
+struct FieldCamera;
 
-void *FIELDMAP_GetCamera(void *fieldMap);
+struct FieldCamera *FIELDMAP_GetCamera(struct FieldMap *fieldMap);
+struct G3dCamera;
 
-void *FIELD_CAMERA_GetG3dCamera(void *fieldCamera);
+struct G3dCamera *FIELD_CAMERA_GetG3dCamera(struct FieldCamera *camera);
 
 void VEC_Add(VecFx32 *a, VecFx32 *b, VecFx32 *dst);
 
@@ -312,7 +330,7 @@ void FLDEFF_GYOE_StartHeld(void *fieldEffectCtrl, Mmdl *mmdl, int type, int sePl
     param.gyoe = (FldeffGyoe *)FIELD_EFFECT_GetResource(fieldEffectCtrl, 4);
     param.mmdl = mmdl;
     FLDMMDL_GetCheckInfo(mmdl, &param.mmdlInfo);
-    param.fieldMap = FIELD_EFFECT_GetFieldMap(fieldEffectCtrl);
+    param.fieldMap = (void *)FIELD_EFFECT_GetFieldMap(fieldEffectCtrl);
     if (sePlay == 1) {
         FLDEFF_GYOE_PlaySe(type);
     }
@@ -345,7 +363,7 @@ void FLDEFF_GYOE_UpdateHeldTask(void *task, FldeffGyoeTaskWork *work)
         work->finished = 1;
         return;
     }
-    FLDMMDL_GetPos(work->param.mmdl, &pos);
+    FLDMMDL_GetPos(work->param.mmdl, (struct MmdlVec *)(&pos));
     FLDEFF_GYOE_StepAnimation(work, &pos);
     FIELD_EFFECT_SetObjectPos(task, &pos);
 }
@@ -358,7 +376,7 @@ void FLDEFF_GYOE_UpdateTask(void *task, FldeffGyoeTaskWork *work)
         FIELD_EFFECT_DeleteObject(task);
         return;
     }
-    FLDMMDL_GetPos(work->param.mmdl, &pos);
+    FLDMMDL_GetPos(work->param.mmdl, (struct MmdlVec *)(&pos));
     FLDEFF_GYOE_StepAnimation(work, &pos);
     FIELD_EFFECT_SetObjectPos(task, &pos);
 }
@@ -388,7 +406,7 @@ void FLDEFF_GYOE_DrawTask(void *task, FldeffGyoeTaskWork *work)
     NNS_G3dGeFlushBuffer();
     MTX_Identity33_(&transform.rotation);
     FIELD_EFFECT_GetObjectPos(task, &transform);
-    G3D_SYSTEM_DrawObjectCulling(work->param.gyoe->object[work->param.type], &transform);
+    G3D_SYSTEM_DrawObjectCulling(work->param.gyoe->object[work->param.type], (struct G3dObjectStatus *)(&transform));
     MIi_CpuCopyFast(&saved, &g_DefaultProjectionMtx, 0x40);
     SCREENTEX_CameraState.matrixDirtyFlags &= ~0x50;
     NNS_G3dGlbFlush();

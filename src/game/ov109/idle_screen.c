@@ -92,22 +92,22 @@ struct BgTemplateSet {
     struct BgTemplate layer[4];
 };
 
-extern void BG_SYS_Create(u32 heapId);
+extern void BG_SYS_Create(unsigned short heapId);
 extern void BG_SYS_SetVramBanks(const struct DispVram *banks);
 extern void MIi_CpuClear32(u32 value, void *dst, u32 size);
 extern void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
 extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void BG_SYS_ClearSlot(u32 i);
 extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
-extern void ARC_UTIL_UploadBgCharFromArchive(u32 arcId, u32 fileId, u32 frame, u32 offset, u32 size, u32 compressed, u32 heapId);
-extern void ARC_UTIL_UploadBgPaletteFromArchive(u32 arcId, u32 fileId, u32 frame, u32 offset, u32 size, u32 compressed, u32 heapId);
-extern void ARC_UTIL_UploadPaletteFromArchiveWhole(u32 arcId, u32 fileId, u32 type, u32 offset, u32 size, u32 heapId);
+extern unsigned int ARC_UTIL_UploadBgCharFromArchive(void *archiveID, void *memberIdx, void *bgId, void *tileOffset, unsigned int size, unsigned int heapID, unsigned short allocFlags);
+extern void ARC_UTIL_UploadBgPaletteFromArchive(unsigned int archiveID, unsigned int memberIdx, unsigned int channel, unsigned int offset, unsigned int size, unsigned int heapID, unsigned short flags);
+extern void ARC_UTIL_UploadPaletteFromArchiveWhole(unsigned int archiveID, unsigned int memberIdx, unsigned int kind, unsigned int dest, unsigned int size, unsigned short flags);
 extern void BG_SYS_ResetSubDisplay(void);
 extern void BG_SYS_SetLcdSwap(u32 swap);
-extern void FADE_Start(u32 screenMask, u32 startLevel, u32 endLevel, u32 speed);
+extern void FADE_Start(unsigned int a, int b, int c, int d);
 extern void UI_Update(void);
 extern void FADE_Update(void);
-extern void OS_WaitIrq(u32 clear, u32 irqFlags);
+extern void OS_WaitIrq(int clear, unsigned int irqFlags);
 
 static const struct DispConfig sDispConfig = { 1, 0, 0, 0 };
 
@@ -154,7 +154,7 @@ void IDLE_SCREEN_Run(void)
     BG_SYS_SetMainPlaneVisible(4, 1);
     *(vu32 *)0x04000000 = (*(vu32 *)0x04000000 & 0xFFCFFFEF) | 0x10;
     *(vu32 *)0x04001000 = (*(vu32 *)0x04001000 & 0xFFCFFFEF) | 0x10;
-    ARC_UTIL_UploadBgCharFromArchive(0x16, 1, 2, 0, 0, 0, 1);
+    ARC_UTIL_UploadBgCharFromArchive((void *)0x16, (void *)1, (void *)2, 0, 0, 0, 1);
     ARC_UTIL_UploadBgPaletteFromArchive(0x16, 2, 2, 0, 0, 0, 1);
     ARC_UTIL_UploadPaletteFromArchiveWhole(0x16, 0, 0, 0, 0x100, 1);
     BG_SYS_ResetSubDisplay();

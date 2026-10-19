@@ -147,78 +147,89 @@ typedef struct { unsigned char a,b,c,d; } Bytes;
 
 typedef struct { Bytes first, second; } Object;
 
-extern void *BOX2_SEQ_CreateActorFromDesc(BoxWork *, const Desc *);
-extern void BOX2_SEQ_SetActorDrawEnable(BoxWork *, int, int);
-extern void BGWINFRM_GetPos(struct WinMgr *mgr, u32 idx, s8 *x, s8 *y);
-extern void BOX2_SEQ_AddActorSurfacePos(BoxWork *p, int i, int a, int b, unsigned short c);
-extern void BOX2_SEQ_GetActorSurfacePos(BoxWork *, int, short *, short *, unsigned short);
+extern void *BOX2_SEQ_CreateActorFromDesc(char *w, Desc *s);
+extern void BOX2_SEQ_SetActorDrawEnable(char *work, int i, int v);
+struct BgWinFrmWork;
+extern void BGWINFRM_GetPos(struct BgWinFrmWork *wk, u32 idx, s8 *x, s8 *y);
+extern void BOX2_SEQ_AddActorSurfacePos(char *work, int i, int a, int b, unsigned short c);
+extern void BOX2_SEQ_GetActorSurfacePos(char *work, int i, short *a, short *b, unsigned short space);
 extern void BMP_OAM_GetPos(struct BmpOam *p, s16 *out_x, s16 *out_y);
-extern void BMP_OAM_SetPos(struct Grid *g, s16 x, s16 y);
+extern void BMP_OAM_SetPos(struct BmpOam *bmpOam, short x, short y);
 extern unsigned char BOX2_MAIN_WrapOffset(unsigned char *p, int a);
 extern void BOX2_SEQ_DrawMonName(char **, unsigned, int);
-extern void *ARC_UTIL_LoadScreenDataFromArchive(u32 archiveID, u32 memberIdx, u32 heapID, u32 unpackedOut, u16 flags);
+extern void *ARC_UTIL_LoadScreenDataFromArchive(u32 archiveID, u32 memberIdx, u32 heapID, void *unpackedOut, u16 flags);
 extern void MI_CpuCopy8(const void *, void *, unsigned);
 extern u32 GFL_HEAP_Free(void *p);
 extern int BOX2_MAIN_GetBoxWallpaper(BoxTask *p, int box);
-extern u16 CLACT_GetActorCharacterIndex(u8 *p);
+struct Actor;
+extern u16 CLACT_GetActorCharacterIndex(struct Actor *actor);
 extern void CLACT_TransferCharacterPart(int a, void *b, u32 c, int d, int e);
-extern struct Sub020079BCEntry *BOX_SAVEDATA_GetPokemon(void **save, u32 box, u32 slot);
-extern u32 POKE_TOOL_DecodeBoxParam(struct Sav *p);
-extern u32 POKE_TOOL_GetBoxValue(void *p, u32 id, u32 v);
-extern void *POKE_PERSONAL_Create(u32 a, int b, u32 c);
-extern u32 POKE_PERSONAL_GetParam(const struct Personal *p, u32 field);
-extern void POKE_PERSONAL_Delete(void *p);
-extern u32 POKE_TOOL_EncodeBoxParam(struct Sav *p, u32 f);
+struct GameData;
+struct BoxPokemon;
+extern struct BoxPokemon *BOX_SAVEDATA_GetPokemon(struct GameData *gameData, unsigned int box, unsigned int slot);
+extern u32 POKE_TOOL_DecodeBoxParam(struct BoxPokemon *box);
+extern u32 POKE_TOOL_GetBoxValue(struct BoxPokemon *box, unsigned int paramId, unsigned int arg);
+struct PersonalData;
+extern struct PersonalData *POKE_PERSONAL_Create(u32 a, int b, u32 c);
+extern u32 POKE_PERSONAL_GetParam(struct PersonalData *data, unsigned int field);
+extern void POKE_PERSONAL_Delete(struct PersonalData *data);
+extern u32 POKE_TOOL_EncodeBoxParam(struct BoxPokemon *box, unsigned int didDecode);
 extern void MIi_CpuClear16(u32 value, void *dest, u32 size);
-extern u32 BOX2_SEQ_GetActorDrawEnable(BoxWork *p, int i);
-extern void BMP_OAM_SetEnabled(u8 *g, u32 a);
+extern u32 BOX2_SEQ_GetActorDrawEnable(char *work, int i);
+extern void BMP_OAM_SetEnabled(struct BmpOam *bmpOam, unsigned int enabled);
 extern void BOX2_SEQ_DrawOffsetName(unsigned char *p, int i);
-extern void BOX2_SEQ_SetActorAutoAnim(BoxWork *p, int i, int v);
-extern void *BMP_OAM_CreateSys(u32,void *);
+extern void BOX2_SEQ_SetActorAutoAnim(char *work, int i, int v);
+struct BmpOamSys;
+extern struct BmpOamSys *BMP_OAM_CreateSys(u32,void *);
 extern struct Bmp *BMP_Create(u32 width, u32 height, u32 depth, u16 heap);
 extern struct Grid *BMP_OAM_Create(struct Sys *sys, const struct Param *param);
-extern void BMP_OAM_Delete(struct Grid *g);
+extern void BMP_OAM_Delete(struct BmpOam *bmpOam);
 extern void BMP_Delete(struct Bmp *p);
-extern void BMP_OAM_DeleteSys(void *p);
-extern int BMP_OAM_GetEnabled(const int *p);
+extern void BMP_OAM_DeleteSys(struct BmpOamSys *sys);
+extern int BMP_OAM_GetEnabled(struct BmpOam *bmpOam);
 extern u8 UI_GetInputMode(void);
-extern struct CursorMoveObj *CURSOR_MOVE_Create(u32 entries, u32 vt, u32 ctx, u32 state, u8 start, u16 heapId);
-extern void CURSOR_MOVE_EnableInput(struct CursorMoveObj *obj);
+struct CursorVtbl;
+struct CursorEntry;
+struct Cursor;
+extern struct Cursor *CURSOR_MOVE_Create(struct CursorEntry *entries, struct CursorVtbl *vt, unsigned int ctx, unsigned int state, unsigned char start, unsigned short heapId);
+extern void CURSOR_MOVE_EnableInput(struct Cursor *obj);
 extern void BOX2_SEQ_SetCursorDraw(char **, int);
-extern u32 CURSOR_MOVE_GetState(struct Sound *obj);
-extern void CURSOR_MOVE_Delete(void);
-extern void *CURSOR_MOVE_GetEntry(void **obj, u32 idx);
+extern u32 CURSOR_MOVE_GetState(struct Cursor *obj);
+extern u32 CURSOR_MOVE_Delete(void *cursor);
+extern struct CursorEntry *CURSOR_MOVE_GetEntry(struct Cursor *obj, unsigned int idx);
 extern void BOX2_SEQ_RefreshHandSlot(BoxTask *p);
 extern void BOX2_MAIN_SetSeqParam(BoxWork *p, int v);
 extern int BOX2_MAIN_SceneApplyScroll(BoxTask *p);
-extern void CURSOR_MOVE_SetCurrent(struct Sound *obj, u8 sel);
-extern u8 CURSOR_MOVE_GetCurrent(struct Sound *obj);
-extern int CURSOR_MOVE_PollRepeatInput(struct Sound *obj);
+extern void CURSOR_MOVE_SetCurrent(struct Cursor *obj, unsigned char sel);
+extern u8 CURSOR_MOVE_GetCurrent(struct Cursor *obj);
+extern int CURSOR_MOVE_PollRepeatInput(struct Cursor *obj);
 extern u32 KEY_GetTrg(void);
 extern void UI_SetInputMode(u8 v);
 extern unsigned int KEY_GetRepeat(void);
 extern void BOX2_MAIN_ActivateKeyCursor(BoxTask *p);
-extern unsigned BOX2_MAIN_GetPartyValueAt(void ***p, unsigned short a, int box, unsigned id, unsigned v);
+extern unsigned BOX2_MAIN_GetPartyValueAt(void ***task, unsigned short a, unsigned short box, unsigned int id, unsigned int v);
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern int TOUCHPANEL_HitTrg(const void *);
 extern int TOUCHPANEL_HitCont(const void *);
 extern u32 TOUCHPANEL_HitPoint(struct Ctx *ctx, u32 a, u32 b);
 extern unsigned TOUCHPANEL_GetPointCont(unsigned *outA, unsigned *outB);
-extern struct WinMgr *BGWINFRM_Create(u32 transMode, u32 frameMax, u32 heap);
-extern void BGWINFRM_AddFrame(struct WinMgr *mgr, u32 idx, u32 bg, u32 w, u32 h);
+struct BgWinFrmWork;
+extern struct BgWinFrmWork *BGWINFRM_Create(u32 transMode, u32 frameMax, u32 heap);
+extern void BGWINFRM_AddFrame(struct BgWinFrmWork *wk, unsigned int idx, unsigned int bgFrame, unsigned int sizeX, unsigned int sizeY);
 extern void BOX2_SEQ_AddTextFrame(BoxWork *);
 extern void BOX2_SEQ_AddMsgFrame(unsigned char *p);
-extern void BOX2_SEQ_AddNameFrame(char *);
+struct BoxTask;
+extern void BOX2_SEQ_AddNameFrame(struct BoxTask *task);
 extern void BOX2_SEQ_PutNameFrame(char *);
-extern void BGWINFRM_Delete(struct WinMgr *mgr);
-extern void BGWINFRM_SetFrameDataArc(struct WinMgr *mgr, u32 idx, u32 arc, u32 member, u32 alloc);
-extern void BGWINFRM_PutFrame(struct WinMgr *mgr, u32 idx, s8 x, s8 y);
-extern void BGWINFRM_StartMove(struct WinMgr *mgr, u32 idx, s8 dx, s8 dy, u8 frames);
-extern u32 BGWINFRM_UpdateMove(struct WinMgr *mgr, u32 idx);
+extern void BGWINFRM_Delete(struct BgWinFrmWork *wk);
+extern void BGWINFRM_SetFrameDataArc(struct BgWinFrmWork *wk, unsigned int idx, unsigned int arcId, unsigned int datId, unsigned int compressed);
+extern void BGWINFRM_PutFrame(struct BgWinFrmWork *wk, u32 idx, s8 x, s8 y);
+extern void BGWINFRM_StartMove(struct BgWinFrmWork *wk, u32 idx, s8 moveX, s8 moveY, u8 count);
+extern u32 BGWINFRM_UpdateMove(struct BgWinFrmWork *wk, u32 idx);
 extern void BOX2_SEQ_MoveActorToWindow(BoxTask *p);
-extern void BGWINFRM_HideFrame(struct WinMgr *mgr, u32 idx);
+extern void BGWINFRM_HideFrame(struct BgWinFrmWork *wk, unsigned int idx);
 extern u32 BG_SYS_GetBuf(int channel);
-extern void BGWINFRM_SetFrameData(struct WinMgr *mgr, u32 idx, const void *src);
+extern void BGWINFRM_SetFrameData(struct BgWinFrmWork *wk, unsigned int idx, void *src);
 void BOX2_UI_CreatePartyActors(BoxWork *p);
 void BOX2_UI_ToggleSlotPair(BoxWork *p, int a);
 void BOX2_UI_LayoutPartySlots(BoxTask *p);
@@ -228,7 +239,7 @@ void BOX2_UI_SetCloseButtonPos(BoxWork *a);
 void BOX2_UI_RefreshBoxHeader(BoxTask *p);
 void BOX2_UI_FindSlotPos(BoxWork *work, int row, short *outX, short *outY);
 void BOX2_UI_DrawSlot(BoxTask *p, int i);
-void BOX2_UI_DrawAllSlots(int p);
+void BOX2_UI_DrawAllSlots(u8 *p);
 void BOX2_UI_DrawSlotByName(char *p, int a);
 void BOX2_UI_UploadSlotChar(BoxTask *p, int a, int i);
 void BOX2_UI_FindAndDrawSlot(BoxTask *p, int a, int b);
@@ -377,7 +388,7 @@ void BOX2_UI_CreatePartyActors(BoxWork *work)
         t = base;
         t.y += (short)(i * 0x22);
         t.c = i + 0x39;
-        work->partyActors[i] = BOX2_SEQ_CreateActorFromDesc(work, &t);
+        work->partyActors[i] = BOX2_SEQ_CreateActorFromDesc((char *)work, &t);
     }
 }
 
@@ -391,8 +402,8 @@ void BOX2_UI_CreatePartyActors(BoxWork *work)
  */
 void BOX2_UI_ToggleSlotPair(BoxWork *work, int a)
 {
-    BOX2_SEQ_SetActorDrawEnable(work, 0, a);
-    BOX2_SEQ_SetActorDrawEnable(work, 1, a);
+    BOX2_SEQ_SetActorDrawEnable((char *)work, 0, a);
+    BOX2_SEQ_SetActorDrawEnable((char *)work, 1, a);
 }
 
 
@@ -405,12 +416,12 @@ void BOX2_UI_LayoutPartySlots(BoxTask *task)
     signed char t[2];
     unsigned i;
     short x, y;
-    BGWINFRM_GetPos(task->work->winMgr, 7, &t[1], &t[0]);
+    BGWINFRM_GetPos((struct BgWinFrmWork *)task->work->winMgr, 7, &t[1], &t[0]);
     i = 0;
     y = t[0] * 8 + 8;
     x = t[1] * 8 + 0x17;
     for (; i < 6; i++)
-        BOX2_SEQ_AddActorSurfacePos((BoxWork *)task->work, i + 0xd, (short)(x + (i % 2) * 0x20), (short)(y + (i / 2) * 0x18), (short)0);
+        BOX2_SEQ_AddActorSurfacePos((char *)task->work, i + 0xd, (short)(x + (i % 2) * 0x20), (short)(y + (i / 2) * 0x18), (short)0);
 }
 
 
@@ -439,11 +450,11 @@ void BOX2_UI_MoveSlotIcon(BoxTask *task, int d)
 {
     short t[2];
     int i = 0;
-    BOX2_SEQ_GetActorSurfacePos(task->work, 2, &t[1], &t[0], 0);
-    BOX2_SEQ_AddActorSurfacePos((BoxWork *)task->work, 2, (short)(t[1] - d), (short)t[0], (short)0);
+    BOX2_SEQ_GetActorSurfacePos((char *)task->work, 2, &t[1], &t[0], 0);
+    BOX2_SEQ_AddActorSurfacePos((char *)task->work, 2, (short)(t[1] - d), (short)t[0], (short)0);
     for (; i < 6u; i++) {
-        BOX2_SEQ_GetActorSurfacePos(task->work, i + 0x2d, &t[1], &t[0], 0);
-        BOX2_SEQ_AddActorSurfacePos((BoxWork *)task->work, i + 0x2d, (short)(t[1] - d), (short)t[0], (short)0);
+        BOX2_SEQ_GetActorSurfacePos((char *)task->work, i + 0x2d, &t[1], &t[0], 0);
+        BOX2_SEQ_AddActorSurfacePos((char *)task->work, i + 0x2d, (short)(t[1] - d), (short)t[0], (short)0);
         BMP_OAM_GetPos(task->work->oamSlots[i + 1].obj, &t[1], &t[0]);
         BMP_OAM_SetPos(task->work->oamSlots[i + 1].obj, t[1] - d, t[0]);
     }
@@ -459,7 +470,7 @@ void BOX2_UI_MoveSlotIcon(BoxTask *task, int d)
  */
 void BOX2_UI_SetCloseButtonPos(BoxWork *a)
 {
-    BOX2_SEQ_AddActorSurfacePos((BoxWork *)a, 2, 0x4b * 4, 0x22, 0);
+    BOX2_SEQ_AddActorSurfacePos((char *)a, 2, 0x4b * 4, 0x22, 0);
 }
 
 
@@ -478,7 +489,7 @@ void BOX2_UI_RefreshBoxHeader(BoxTask *task)
         t = base;
         y = i * 0x22;
         t.y += (short)y;
-        BOX2_SEQ_AddActorSurfacePos((BoxWork *)task->work, i + 0x2d, t.x, t.y, 0);
+        BOX2_SEQ_AddActorSurfacePos((char *)task->work, i + 0x2d, t.x, t.y, 0);
         BOX2_UI_UploadSlotChar((BoxTask *)task, a, i + 0x2d);
         BMP_OAM_SetPos(task->work->oamSlots[i + 1].obj, 0x13c, y + 2);
         BOX2_SEQ_DrawMonName((char **)task, a, i + 1);
@@ -504,7 +515,7 @@ void BOX2_UI_FindSlotPos(BoxWork *work, int row, short *outX, short *outY)
     unsigned i;
     row = (row + 1) * 0x22;
     for (i = 0; i < 6; i++) {
-        BOX2_SEQ_GetActorSurfacePos(work, i + 0x2d, outX, outY, 0);
+        BOX2_SEQ_GetActorSurfacePos((char *)work, i + 0x2d, outX, outY, 0);
         if (row == outY[0])
             return;
     }
@@ -520,7 +531,7 @@ void BOX2_UI_FindSlotPos(BoxWork *work, int row, short *outX, short *outY)
 void BOX2_UI_DrawSlot(BoxTask *task, int i)
 {
     void *t;
-    void *q = ARC_UTIL_LoadScreenDataFromArchive(0x74, 0x47, 1, (u32)(&t), 0x4c);
+    void *q = ARC_UTIL_LoadScreenDataFromArchive(0x74, 0x47, 1, (&t), 0x4c);
     MI_CpuCopy8(((BoxArcRes *)(t))->data, task->work->charPool[i], 0x400);
     GFL_HEAP_Free((void *)q);
     BOX2_UI_ReplaceColorIndex((int)task, (unsigned char *)(task->work->charPool[i]), BOX2_MAIN_GetBoxWallpaper((BoxTask *)task, i), 8, 0x400);
@@ -535,7 +546,7 @@ void BOX2_UI_DrawSlot(BoxTask *task, int i)
 /*
  * Clear all 24 entries.
  */
-void BOX2_UI_DrawAllSlots(int task)
+void BOX2_UI_DrawAllSlots(u8 *task)
 {
     unsigned i;
     for (i = 0; i < 24; i++)
@@ -576,7 +587,7 @@ void BOX2_UI_DrawSlotByName(char *task, int a)
 void BOX2_UI_UploadSlotChar(BoxTask *task, int a, int i)
 {
     int q = (int)task->work;
-    int x = CLACT_GetActorCharacterIndex((u8 *)(*(int *)(q + i * 4 + 0x9E74)));
+    int x = CLACT_GetActorCharacterIndex((struct Actor *)(*(int *)(q + i * 4 + 0x9E74)));
     CLACT_TransferCharacterPart(x, (void *)(q + 0x3E70 + a * 0x400), 0x400, 0, 0);
 }
 
@@ -594,7 +605,7 @@ void BOX2_UI_FindAndDrawSlot(BoxTask *task, int a, int b)
     int i = 0;
     b *= 0x22;
     for (; i < 6u; i++) {
-        BOX2_SEQ_GetActorSurfacePos(task->work, i + 0x2d, &t[1], &t[0], 0);
+        BOX2_SEQ_GetActorSurfacePos((char *)task->work, i + 0x2d, &t[1], &t[0], 0);
         if (b == t[0]) {
             BOX2_UI_UploadSlotChar((BoxTask *)task, a, i + 0x2d);
             BOX2_SEQ_DrawMonName((char **)task, a, i + 1);
@@ -638,14 +649,14 @@ void BOX2_UI_LoadMonIcon(int **a, int box, u8 *dest)
         tx = 10;
         for (x = 0; x < 6; tx += 2, x++) {
             e = BOX_SAVEDATA_GetPokemon((void *)(*a)[1], box, x + y * 6);
-            sv = POKE_TOOL_DecodeBoxParam((struct Sav *)e);
+            sv = POKE_TOOL_DecodeBoxParam((struct BoxPokemon *)e);
             sp = POKE_TOOL_GetBoxValue((void *)e, 5, 0);
             if (POKE_TOOL_GetBoxValue((void *)e, 0xa9, 0)) {
                 if (POKE_TOOL_GetBoxValue((void *)e, 0x4c, 0) == 0) {
                     void *pd;
                     form = POKE_TOOL_GetBoxValue((void *)e, 0x6f, 0);
                     pd = POKE_PERSONAL_Create((u16)sp, form, 0x4c);
-                    t = (u16)POKE_PERSONAL_GetParam((const struct Personal *)pd, 0x21);
+                    t = (u16)POKE_PERSONAL_GetParam((struct PersonalData *)pd, 0x21);
                     POKE_PERSONAL_Delete((void *)pd);
                 } else {
                     t = (sp == 490) ? 1 : 8;
@@ -655,7 +666,7 @@ void BOX2_UI_LoadMonIcon(int **a, int box, u8 *dest)
                 for (i = ty; i < ty + 2; i++)
                     MIi_CpuClear16(t, dest + ((((i & 7) << 3) + ((((i >> 3) << 2) + (tx >> 3)) << 6)) + (tx & 7)), 2);
             }
-            POKE_TOOL_EncodeBoxParam((struct Sav *)e, sv);
+            POKE_TOOL_EncodeBoxParam((struct BoxPokemon *)e, sv);
         }
     }
 }
@@ -677,29 +688,29 @@ void BOX2_UI_AddSlotIcon(BoxTask *task, int d)
     if (d < 0)
         step *= -1;
     for (i = 0; i < 6u; i++) {
-        BOX2_SEQ_GetActorSurfacePos(task->work, i + 0x2D, &t[3], &t[2], 0);
+        BOX2_SEQ_GetActorSurfacePos((char *)task->work, i + 0x2D, &t[3], &t[2], 0);
         x = t[2] + step;
-        BOX2_SEQ_AddActorSurfacePos((BoxWork *)task->work, i + 0x2D, (short)t[3], (short)x, (short)0);
+        BOX2_SEQ_AddActorSurfacePos((char *)task->work, i + 0x2D, (short)t[3], (short)x, (short)0);
         BMP_OAM_GetPos(task->work->oamSlots[i + 1].obj, &t[1], &t[0]);
         y = t[0] + step;
         BMP_OAM_SetPos(task->work->oamSlots[i + 1].obj, t[1], y);
         if (x < -0x10) {
             k = BOX2_MAIN_WrapOffset((unsigned char *)task, 4);
             BOX2_UI_UploadSlotChar((BoxTask *)task, k, i + 0x2D);
-            BOX2_SEQ_AddActorSurfacePos((BoxWork *)task->work, i + 0x2D, (short)t[3], (short)(x + 0xCC), (short)0);
+            BOX2_SEQ_AddActorSurfacePos((char *)task->work, i + 0x2D, (short)t[3], (short)(x + 0xCC), (short)0);
             BOX2_SEQ_DrawMonName((char **)task, k, i + 1);
             BMP_OAM_SetPos(task->work->oamSlots[i + 1].obj, t[1], y + 0xCC);
         } else if (x >= 0xBA) {
             k = BOX2_MAIN_WrapOffset((unsigned char *)task, -1);
             BOX2_UI_UploadSlotChar((BoxTask *)task, k, i + 0x2D);
-            BOX2_SEQ_AddActorSurfacePos((BoxWork *)task->work, i + 0x2D, (short)t[3], (short)(x - 0xCC), (short)0);
+            BOX2_SEQ_AddActorSurfacePos((char *)task->work, i + 0x2D, (short)t[3], (short)(x - 0xCC), (short)0);
             BOX2_SEQ_DrawMonName((char **)task, k, i + 1);
             BMP_OAM_SetPos(task->work->oamSlots[i + 1].obj, t[1], y - 0xCC);
         }
     }
-    if (BOX2_SEQ_GetActorDrawEnable((BoxWork *)task->work, 2) == 1) {
-        BOX2_SEQ_GetActorSurfacePos(task->work, 2, &t[3], &t[2], 0);
-        BOX2_SEQ_AddActorSurfacePos((BoxWork *)task->work, 2, (short)t[3], (short)(t[2] + step), (short)0);
+    if (BOX2_SEQ_GetActorDrawEnable((char *)task->work, 2) == 1) {
+        BOX2_SEQ_GetActorSurfacePos((char *)task->work, 2, &t[3], &t[2], 0);
+        BOX2_SEQ_AddActorSurfacePos((char *)task->work, 2, (short)t[3], (short)(t[2] + step), (short)0);
     }
 }
 
@@ -712,15 +723,15 @@ void BOX2_UI_HideSlotIcon(BoxTask *task, int d)
 {
     short t[2];
     if (d < 0 && task->curBox == BOX2_MAIN_WrapOffset((unsigned char *)task, -1)) {
-        BOX2_SEQ_GetActorSurfacePos(task->work, 2, &t[1], &t[0], 0);
-        BOX2_SEQ_AddActorSurfacePos((BoxWork *)task->work, 2, t[1], -0x22, 0);
-        BOX2_SEQ_SetActorDrawEnable(task->work, 2, 1);
+        BOX2_SEQ_GetActorSurfacePos((char *)task->work, 2, &t[1], &t[0], 0);
+        BOX2_SEQ_AddActorSurfacePos((char *)task->work, 2, t[1], -0x22, 0);
+        BOX2_SEQ_SetActorDrawEnable((char *)task->work, 2, 1);
         return;
     }
     if (d > 0 && task->curBox == BOX2_MAIN_WrapOffset((unsigned char *)task, 4)) {
-        BOX2_SEQ_GetActorSurfacePos(task->work, 2, &t[1], &t[0], 0);
-        BOX2_SEQ_AddActorSurfacePos((BoxWork *)task->work, 2, t[1], 0xcc, 0);
-        BOX2_SEQ_SetActorDrawEnable(task->work, 2, 1);
+        BOX2_SEQ_GetActorSurfacePos((char *)task->work, 2, &t[1], &t[0], 0);
+        BOX2_SEQ_AddActorSurfacePos((char *)task->work, 2, t[1], 0xcc, 0);
+        BOX2_SEQ_SetActorDrawEnable((char *)task->work, 2, 1);
     }
 }
 
@@ -736,13 +747,13 @@ void BOX2_UI_UpdateCurrentBoxMarker(BoxTask *task)
     short xy[2];
     for (i = 0; i < 6; i++) {
         if (task->curBox == BOX2_MAIN_WrapOffset((unsigned char *)task, (signed char)(i - 1))) {
-            BOX2_SEQ_GetActorSurfacePos(task->work, 2, &xy[1], &xy[0], 0);
-            BOX2_SEQ_AddActorSurfacePos((BoxWork *)task->work, 2, (short)xy[1], (short)(i * 0x22), (short)0);
-            BOX2_SEQ_SetActorDrawEnable(task->work, 2, 1);
+            BOX2_SEQ_GetActorSurfacePos((char *)task->work, 2, &xy[1], &xy[0], 0);
+            BOX2_SEQ_AddActorSurfacePos((char *)task->work, 2, (short)xy[1], (short)(i * 0x22), (short)0);
+            BOX2_SEQ_SetActorDrawEnable((char *)task->work, 2, 1);
             return;
         }
     }
-    BOX2_SEQ_SetActorDrawEnable(task->work, 2, 0);
+    BOX2_SEQ_SetActorDrawEnable((char *)task->work, 2, 0);
 }
 
 
@@ -753,8 +764,8 @@ void BOX2_UI_UpdateCurrentBoxMarker(BoxTask *task)
 void BOX2_UI_ShowMiniIcon(BoxTask *task, int i)
 {
     short y = d_021EFCD8[i];
-    BOX2_SEQ_AddActorSurfacePos((BoxWork *)task->work, 3, 0xce, y, 0);
-    BOX2_SEQ_SetActorDrawEnable(task->work, 3, 1);
+    BOX2_SEQ_AddActorSurfacePos((char *)task->work, 3, 0xce, y, 0);
+    BOX2_SEQ_SetActorDrawEnable((char *)task->work, 3, 1);
     BMP_OAM_SetPos(task->work->oamSlots[0].obj, 0x9e, y - 8);
     BMP_OAM_SetEnabled(task->work->oamSlots[0].obj, 1);
 }
@@ -775,8 +786,8 @@ void BOX2_UI_SetMiniIconVisible(BoxTask *task, int a, int b)
         BOX2_UI_ShowMiniIcon((BoxTask *)task, a);
         return;
     }
-    BOX2_SEQ_SetActorDrawEnable(task->work, 3, 0);
-    BMP_OAM_SetEnabled((u8 *)((*(int *)&task->work->oamSlots[0].obj)), 0);
+    BOX2_SEQ_SetActorDrawEnable((char *)task->work, 3, 0);
+    BMP_OAM_SetEnabled((struct BmpOam *)((*(int *)&task->work->oamSlots[0].obj)), 0);
 }
 
 
@@ -791,31 +802,31 @@ void BOX2_UI_DeleteSlotObjects(BoxTask *task, int a, int b, int c)
     task->slot7Mode = b;
     task->slot8Mode = c;
     if (a == 0) {
-        BOX2_SEQ_SetActorDrawEnable(task->work, 6, 1);
-        BOX2_SEQ_SetActorAutoAnim((BoxWork *)task->work, 6, 1);
+        BOX2_SEQ_SetActorDrawEnable((char *)task->work, 6, 1);
+        BOX2_SEQ_SetActorAutoAnim((char *)task->work, 6, 1);
     } else if (a == 1) {
-        BOX2_SEQ_SetActorDrawEnable(task->work, 6, 0);
+        BOX2_SEQ_SetActorDrawEnable((char *)task->work, 6, 0);
     } else {
-        BOX2_SEQ_SetActorDrawEnable(task->work, 6, 1);
-        BOX2_SEQ_SetActorAutoAnim((BoxWork *)task->work, 6, 0xF);
+        BOX2_SEQ_SetActorDrawEnable((char *)task->work, 6, 1);
+        BOX2_SEQ_SetActorAutoAnim((char *)task->work, 6, 0xF);
     }
     if (b == 0) {
-        BOX2_SEQ_SetActorDrawEnable(task->work, 7, 1);
-        BOX2_SEQ_SetActorAutoAnim((BoxWork *)task->work, 7, 0);
+        BOX2_SEQ_SetActorDrawEnable((char *)task->work, 7, 1);
+        BOX2_SEQ_SetActorAutoAnim((char *)task->work, 7, 0);
     } else if (b == 1) {
-        BOX2_SEQ_SetActorDrawEnable(task->work, 7, 0);
+        BOX2_SEQ_SetActorDrawEnable((char *)task->work, 7, 0);
     } else {
-        BOX2_SEQ_SetActorDrawEnable(task->work, 7, 1);
-        BOX2_SEQ_SetActorAutoAnim((BoxWork *)task->work, 7, 0xE);
+        BOX2_SEQ_SetActorDrawEnable((char *)task->work, 7, 1);
+        BOX2_SEQ_SetActorAutoAnim((char *)task->work, 7, 0xE);
     }
     if (c == 0) {
-        BOX2_SEQ_SetActorDrawEnable(task->work, 8, 1);
-        BOX2_SEQ_SetActorAutoAnim((BoxWork *)task->work, 8, 0);
+        BOX2_SEQ_SetActorDrawEnable((char *)task->work, 8, 1);
+        BOX2_SEQ_SetActorAutoAnim((char *)task->work, 8, 0);
     } else if (c == 1) {
-        BOX2_SEQ_SetActorDrawEnable(task->work, 8, 0);
+        BOX2_SEQ_SetActorDrawEnable((char *)task->work, 8, 0);
     } else {
-        BOX2_SEQ_SetActorDrawEnable(task->work, 8, 1);
-        BOX2_SEQ_SetActorAutoAnim((BoxWork *)task->work, 8, 2);
+        BOX2_SEQ_SetActorDrawEnable((char *)task->work, 8, 1);
+        BOX2_SEQ_SetActorAutoAnim((char *)task->work, 8, 2);
     }
 }
 
@@ -829,9 +840,9 @@ void BOX2_UI_DeleteSlotObjects(BoxTask *task, int a, int b, int c)
  */
 void BOX2_UI_HideSlots678(BoxTask *task)
 {
-    BOX2_SEQ_SetActorDrawEnable(task->work, 6, 0);
-    BOX2_SEQ_SetActorDrawEnable(task->work, 7, 0);
-    BOX2_SEQ_SetActorDrawEnable(task->work, 8, 0);
+    BOX2_SEQ_SetActorDrawEnable((char *)task->work, 6, 0);
+    BOX2_SEQ_SetActorDrawEnable((char *)task->work, 7, 0);
+    BOX2_SEQ_SetActorDrawEnable((char *)task->work, 8, 0);
 }
 
 
@@ -870,7 +881,7 @@ void BOX2_UI_DeleteBmpOam(char *work)
 {
     unsigned i;
     for (i = 0; i < 9; i++) {
-        BMP_OAM_Delete((struct Grid *)(*(int *)(work + i * 8 + 4)));
+        BMP_OAM_Delete((struct BmpOam *)(*(int *)(work + i * 8 + 4)));
         BMP_Delete((struct Bmp *)(*(int *)(work + i * 8 + 8)));
     }
     BMP_OAM_DeleteSys((void *)(((BoxOamSys *)(work))->sys));
@@ -883,7 +894,7 @@ void BOX2_UI_DeleteBmpOam(char *work)
 
 void BOX2_UI_SetSlotOamEnabled(BoxWork *work, int i, int v)
 {
-    BMP_OAM_SetEnabled((u8 *)((*(int *)&work->oamSlots[i].obj)), v);
+    BMP_OAM_SetEnabled((struct BmpOam *)((*(int *)&work->oamSlots[i].obj)), v);
 }
 
 
@@ -900,7 +911,7 @@ void BOX2_UI_SetSlotOamEnabled(BoxWork *work, int i, int v)
  */
 int BOX2_UI_GetSlotOamEnabled(BoxWork *a, int i)
 {
-    return BMP_OAM_GetEnabled((const int *)((*(int *)&a->oamSlots[i].obj)));
+    return BMP_OAM_GetEnabled((struct BmpOam *)((*(int *)&a->oamSlots[i].obj)));
 }
 
 
@@ -953,7 +964,7 @@ void BOX2_UI_CreateCursor(char **work)
     case 5: i = 15; break;
     }
     BOX2_UI_DeleteCursorMove((int *)work);
-    ((BoxWork *)work[11])->cursorMove = CURSOR_MOVE_Create(d_021F02F0[i].a, d_021F02F0[i].b, (u32)work, f, ((unsigned *)work)[9], 0x4c);
+    ((BoxWork *)work[11])->cursorMove = CURSOR_MOVE_Create((struct CursorEntry *)d_021F02F0[i].a, (struct CursorVtbl *)d_021F02F0[i].b, (u32)work, f, ((unsigned *)work)[9], 0x4c);
     CURSOR_MOVE_EnableInput(((BoxWork *)work[11])->cursorMove);
     BOX2_UI_UpdateCursor((char *)work, ((int *)work)[9]);
     BOX2_SEQ_SetCursorDraw(work, f);
@@ -969,7 +980,7 @@ void BOX2_UI_MoveCursor(char **work, int idx, int v)
 {
     int r = CURSOR_MOVE_GetState(((BoxWork *)work[11])->cursorMove);
     BOX2_UI_DeleteCursorMove((int *)work);
-    ((BoxWork *)work[11])->cursorMove = CURSOR_MOVE_Create(d_021F02F0[idx].a, d_021F02F0[idx].b, (u32)work, r, v, 0x4C);
+    ((BoxWork *)work[11])->cursorMove = CURSOR_MOVE_Create((struct CursorEntry *)d_021F02F0[idx].a, (struct CursorVtbl *)d_021F02F0[idx].b, (u32)work, r, v, 0x4C);
     CURSOR_MOVE_EnableInput(((BoxWork *)work[11])->cursorMove);
     BOX2_UI_UpdateCursor((char *)work, v);
     BOX2_SEQ_SetCursorDraw(work, r);
@@ -991,7 +1002,7 @@ void BOX2_UI_MoveCursor(char **work, int idx, int v)
 void BOX2_UI_DeleteCursorMove(int *task)
 {
     if ((*(int *)&((BoxTask *)task)->work->cursorMove)) {
-        CURSOR_MOVE_Delete();
+        CURSOR_MOVE_Delete((void *)(*(int *)&((BoxTask *)task)->work->cursorMove));
         (*(int *)&((BoxTask *)task)->work->cursorMove) = 0;
     }
 }
@@ -1002,8 +1013,8 @@ void BOX2_UI_DeleteCursorMove(int *task)
 
 void BOX2_UI_SetCursorPos(char **task, unsigned idx)
 {
-    unsigned char *c = CURSOR_MOVE_GetEntry(((BoxWork *)task[11])->cursorMove, idx);
-    BOX2_SEQ_AddActorSurfacePos(((BoxTask *)task)->work, 4, c[0], c[1], 0);
+    unsigned char *c = (unsigned char *)CURSOR_MOVE_GetEntry(((BoxWork *)task[11])->cursorMove, idx);
+    BOX2_SEQ_AddActorSurfacePos((char *)(((BoxTask *)task)->work), 4, c[0], c[1], 0);
 }
 
 
@@ -1025,13 +1036,13 @@ void BOX2_UI_UpdateCursor(char *task, int v)
 void BOX2_UI_ShowCursor(BoxTask *task, int v)
 {
     BOX2_UI_UpdateCursor((char *)task, v);
-    BOX2_SEQ_SetActorDrawEnable(task->work, 4, 1);
+    BOX2_SEQ_SetActorDrawEnable((char *)task->work, 4, 1);
 }
 
 
 void BOX2_UI_HideCursor(BoxTask *task)
 {
-    BOX2_SEQ_SetActorDrawEnable(task->work, 4, 0);
+    BOX2_SEQ_SetActorDrawEnable((char *)task->work, 4, 0);
 }
 
 
@@ -1053,7 +1064,7 @@ void BOX2_UI_SetCursorSeq(BoxTask *task, int a, int b)
  */
 void BOX2_UI_PlayAndUpdateCursor(BoxTask *task, unsigned int a)
 {
-    CURSOR_MOVE_SetCurrent((struct Sound *)((*(int *)&task->work->cursorMove)), (unsigned char)a);
+    CURSOR_MOVE_SetCurrent((struct Cursor *)((*(int *)&task->work->cursorMove)), (unsigned char)a);
     BOX2_UI_UpdateCursor((char *)task, a);
 }
 
@@ -1135,7 +1146,7 @@ void BOX2_UI_CursorTagA(void *a, int tag)
  */
 void BOX2_UI_PlaceCursorAtIcon(BoxTask *task, unsigned idx)
 {
-    unsigned char *q = CURSOR_MOVE_GetEntry(*(void ** *)&task->work->cursorMove, idx);
+    unsigned char *q = (unsigned char *)CURSOR_MOVE_GetEntry((struct Cursor *)(*(void ** *)&task->work->cursorMove), idx);
     BOX2_UI_PlaceCursorBetween((BoxWork *)task->work, 0x54, 0x10, q[0], q[1]);
 }
 
@@ -1707,7 +1718,7 @@ void BOX2_UI_SetCursorSeqF(BoxTask *task, int a, int b)
  */
 void BOX2_UI_PlayAndUpdateCursorB(BoxTask *task, unsigned int a)
 {
-    CURSOR_MOVE_SetCurrent((struct Sound *)((*(int *)&task->work->cursorMove)), (unsigned char)a);
+    CURSOR_MOVE_SetCurrent((struct Cursor *)((*(int *)&task->work->cursorMove)), (unsigned char)a);
     BOX2_UI_UpdateCursor((char *)task, a);
 }
 
@@ -1726,7 +1737,7 @@ void BOX2_UI_SetCursorSeqG(BoxTask *task, int a, int b)
 
 void BOX2_UI_PlayAndUpdateCursorC(BoxTask *task, unsigned int a)
 {
-    CURSOR_MOVE_SetCurrent((struct Sound *)((*(int *)&task->work->cursorMove)), (unsigned char)a);
+    CURSOR_MOVE_SetCurrent((struct Cursor *)((*(int *)&task->work->cursorMove)), (unsigned char)a);
     BOX2_UI_UpdateCursor((char *)task, a);
 }
 
@@ -1756,7 +1767,7 @@ void BOX2_UI_MoveCursorToHeld(BoxTask *task, int a)
 {
     int v;
     if (a == 0 || (unsigned)(a - 5) <= 1) {
-        CURSOR_MOVE_SetCurrent((struct Sound *)((*(int *)&task->work->cursorMove)),
+        CURSOR_MOVE_SetCurrent((struct Cursor *)((*(int *)&task->work->cursorMove)),
                       task->work->heldSlot & 0xff);
         v = task->work->heldSlot;
     } else {
@@ -1995,8 +2006,8 @@ void BOX2_UI_CursorTagI(char *a, int b)
  */
 void BOX2_UI_MoveCursorBetweenIcons(BoxWork *q, int a, int b)
 {
-    unsigned char *x = CURSOR_MOVE_GetEntry((void **)((*(int *)&q->cursorMove)), a);
-    unsigned char *y = CURSOR_MOVE_GetEntry((void **)((*(int *)&q->cursorMove)), b);
+    unsigned char *x = (unsigned char *)CURSOR_MOVE_GetEntry((struct Cursor *)((*(int *)&q->cursorMove)), a);
+    unsigned char *y = (unsigned char *)CURSOR_MOVE_GetEntry((struct Cursor *)((*(int *)&q->cursorMove)), b);
     BOX2_UI_PlaceCursorBetween((BoxWork *)q, x[0], x[1], y[0], y[1]);
 }
 
@@ -2183,18 +2194,18 @@ int BOX2_UI_GetPageButtonHit2(void)
 void BOX2_UI_InitWindowFrames(BoxTask *task)
 {
     BoxWork *w=task->work;
-    (w->winMgr)=BGWINFRM_Create(2,12,0x4c);
+    (w->winMgr)=(struct WinMgr *)BGWINFRM_Create(2,12,0x4c);
     BOX2_SEQ_AddTextFrame(w);
     BOX2_UI_AddFadeFrame((BoxTask *)task);
     BOX2_SEQ_AddMsgFrame((unsigned char *)task);
-    BOX2_SEQ_AddNameFrame((char *)task);
-    BGWINFRM_AddFrame((w->winMgr),8,1,11,15);
+    BOX2_SEQ_AddNameFrame((struct BoxTask *)task);
+    BGWINFRM_AddFrame((struct BgWinFrmWork *)((w->winMgr)),8,1,11,15);
     if(task->params->mode==4) BOX2_UI_SetFrameData((w->winMgr),8,8);
     else BOX2_UI_SetFrameData((w->winMgr),8,9);
-    BGWINFRM_AddFrame((w->winMgr),7,1,11,15);
+    BGWINFRM_AddFrame((struct BgWinFrmWork *)((w->winMgr)),7,1,11,15);
     BOX2_UI_SetFrameData((w->winMgr),7,10);
     BOX2_SEQ_PutNameFrame((char *)task);
-    BGWINFRM_AddFrame((w->winMgr),9,1,11,21);
+    BGWINFRM_AddFrame((struct BgWinFrmWork *)((w->winMgr)),9,1,11,21);
     BOX2_UI_SetFrameData((w->winMgr),9,11);
     BOX2_UI_PutSlotFrames((w->winMgr));
 }
@@ -2208,7 +2219,7 @@ void BOX2_UI_InitWindowFrames(BoxTask *task)
  */
 void BOX2_UI_DeleteWindowFrames(BoxWork *work)
 {
-    BGWINFRM_Delete(*(struct WinMgr * *)&work->winMgr);
+    BGWINFRM_Delete((struct BgWinFrmWork *)(*(struct WinMgr * *)&work->winMgr));
 }
 
 
@@ -2220,7 +2231,7 @@ void BOX2_UI_DeleteWindowFrames(BoxWork *work)
  */
 void BOX2_UI_SetFrameData(struct WinMgr *mgr, int frameIndex, int dataId)
 {
-    BGWINFRM_SetFrameDataArc(mgr, frameIndex, 0x74, dataId, 1);
+    BGWINFRM_SetFrameDataArc((struct BgWinFrmWork *)mgr, frameIndex, 0x74, dataId, 1);
 }
 
 
@@ -2232,7 +2243,7 @@ void BOX2_UI_SetFrameData(struct WinMgr *mgr, int frameIndex, int dataId)
  */
 void BOX2_UI_PutTopBarOpen(struct WinMgr *mgr)
 {
-    BGWINFRM_PutFrame(mgr, 8, 2, 6);
+    BGWINFRM_PutFrame((struct BgWinFrmWork *)mgr, 8, 2, 6);
 }
 
 
@@ -2241,7 +2252,7 @@ void BOX2_UI_PutTopBarOpen(struct WinMgr *mgr)
 
 void BOX2_UI_PutTopBarClosed(struct WinMgr *mgr)
 {
-    BGWINFRM_PutFrame(mgr, 8, 0x15, 6);
+    BGWINFRM_PutFrame((struct BgWinFrmWork *)mgr, 8, 0x15, 6);
 }
 
 
@@ -2250,7 +2261,7 @@ void BOX2_UI_PutTopBarClosed(struct WinMgr *mgr)
 
 void BOX2_UI_PutBottomBarOpen(struct WinMgr *mgr)
 {
-    BGWINFRM_PutFrame(mgr, 8, 2, 0x18);
+    BGWINFRM_PutFrame((struct BgWinFrmWork *)mgr, 8, 2, 0x18);
 }
 
 
@@ -2259,7 +2270,7 @@ void BOX2_UI_PutBottomBarOpen(struct WinMgr *mgr)
 
 void BOX2_UI_PutBottomBarClosed(struct WinMgr *mgr)
 {
-    BGWINFRM_PutFrame(mgr, 8, 0x15, 0x18);
+    BGWINFRM_PutFrame((struct BgWinFrmWork *)mgr, 8, 0x15, 0x18);
 }
 
 
@@ -2272,9 +2283,9 @@ void BOX2_UI_PutBottomBarClosed(struct WinMgr *mgr)
 void BOX2_UI_CloseBar(struct WinMgr *mgr)
 {
     s8 buf[4];
-    BGWINFRM_GetPos(mgr, 8, buf + 1, buf);
+    BGWINFRM_GetPos((struct BgWinFrmWork *)mgr, 8, buf + 1, buf);
     if ((signed char)buf[0] != 6)
-        BGWINFRM_StartMove(mgr, 8, 0, -1, (unsigned char)(buf[0] - 6));
+        BGWINFRM_StartMove((struct BgWinFrmWork *)mgr, 8, 0, -1, (unsigned char)(buf[0] - 6));
 }
 
 
@@ -2287,9 +2298,9 @@ void BOX2_UI_CloseBar(struct WinMgr *mgr)
 void BOX2_UI_OpenBar(struct WinMgr *mgr)
 {
     s8 buf[4];
-    BGWINFRM_GetPos(mgr, 8, buf + 1, buf);
+    BGWINFRM_GetPos((struct BgWinFrmWork *)mgr, 8, buf + 1, buf);
     if ((signed char)buf[0] != 0x18)
-        BGWINFRM_StartMove(mgr, 8, 0, 1, (unsigned char)(0x18 - buf[0]));
+        BGWINFRM_StartMove((struct BgWinFrmWork *)mgr, 8, 0, 1, (unsigned char)(0x18 - buf[0]));
 }
 
 
@@ -2301,7 +2312,7 @@ void BOX2_UI_OpenBar(struct WinMgr *mgr)
  */
 void BOX2_UI_SlideBarIn(struct WinMgr *mgr)
 {
-    BGWINFRM_StartMove(mgr, 8, 1, 0, 0x13);
+    BGWINFRM_StartMove((struct BgWinFrmWork *)mgr, 8, 1, 0, 0x13);
 }
 
 
@@ -2310,7 +2321,7 @@ void BOX2_UI_SlideBarIn(struct WinMgr *mgr)
 
 void BOX2_UI_SlideBarOut(struct WinMgr *mgr)
 {
-    BGWINFRM_StartMove(mgr, 8, -1, 0, 0x13);
+    BGWINFRM_StartMove((struct BgWinFrmWork *)mgr, 8, -1, 0, 0x13);
 }
 
 
@@ -2322,9 +2333,9 @@ int BOX2_UI_UpdateBarMove(BoxTask *task)
     signed char a[2];
     signed char b[2];
     unsigned r;
-    BGWINFRM_GetPos(task->work->winMgr, 8, &a[1], &a[0]);
-    r = BGWINFRM_UpdateMove(task->work->winMgr, 8);
-    BGWINFRM_GetPos(task->work->winMgr, 8, &b[1], &b[0]);
+    BGWINFRM_GetPos((struct BgWinFrmWork *)task->work->winMgr, 8, &a[1], &a[0]);
+    r = BGWINFRM_UpdateMove((struct BgWinFrmWork *)task->work->winMgr, 8);
+    BGWINFRM_GetPos((struct BgWinFrmWork *)task->work->winMgr, 8, &b[1], &b[0]);
     if (a[1] != b[1] || a[0] != b[0])
         BOX2_SEQ_MoveActorToWindow((BoxTask *)task);
     {
@@ -2345,7 +2356,7 @@ int BOX2_UI_UpdateBarMove(BoxTask *task)
 int BOX2_UI_IsTopBarOpen(struct WinMgr *mgr)
 {
     s8 buf[4];
-    BGWINFRM_GetPos(mgr, 8, buf + 1, buf);
+    BGWINFRM_GetPos((struct BgWinFrmWork *)mgr, 8, buf + 1, buf);
     return buf[1] == 0x15 && buf[0] == 6;
 }
 
@@ -2358,7 +2369,7 @@ int BOX2_UI_IsTopBarOpen(struct WinMgr *mgr)
 int BOX2_UI_IsTopBarClosed(struct WinMgr *mgr)
 {
     s8 buf[4];
-    BGWINFRM_GetPos(mgr, 8, buf + 1, buf);
+    BGWINFRM_GetPos((struct BgWinFrmWork *)mgr, 8, buf + 1, buf);
     return buf[1] == 0x2 && buf[0] == 6;
 }
 
@@ -2372,7 +2383,7 @@ int BOX2_UI_IsTopBarClosed(struct WinMgr *mgr)
 int BOX2_UI_IsTopBarMid(struct WinMgr *mgr)
 {
     s8 buf[4];
-    BGWINFRM_GetPos(mgr, 8, buf + 1, buf);
+    BGWINFRM_GetPos((struct BgWinFrmWork *)mgr, 8, buf + 1, buf);
     return buf[0] == 6;
 }
 
@@ -2387,7 +2398,7 @@ void BOX2_UI_PutSlotFrames(struct WinMgr *mgr)
 {
     unsigned i;
     for (i = 0; i < 6; i++)
-        BGWINFRM_PutFrame(mgr, i, 0x20, (signed char)(i * 3 + 2));
+        BGWINFRM_PutFrame((struct BgWinFrmWork *)mgr, i, 0x20, (signed char)(i * 3 + 2));
 }
 
 
@@ -2397,7 +2408,7 @@ void BOX2_UI_PutListFrames(struct WinMgr *mgr)
 {
     unsigned i;
     for (i = 0; i < 6; i++)
-        BGWINFRM_PutFrame(mgr, i, 0x15, (signed char)(i * 3 + 2));
+        BGWINFRM_PutFrame((struct BgWinFrmWork *)mgr, i, 0x15, (signed char)(i * 3 + 2));
 }
 
 
@@ -2408,8 +2419,8 @@ void BOX2_UI_ResetSlotFrames(struct WinMgr *mgr)
 {
     unsigned i;
     for (i = 0; i < 6; i++) {
-        BGWINFRM_HideFrame(mgr, i);
-        BGWINFRM_PutFrame(mgr, i, 0x20, i * 3 + 2);
+        BGWINFRM_HideFrame((struct BgWinFrmWork *)mgr, i);
+        BGWINFRM_PutFrame((struct BgWinFrmWork *)mgr, i, 0x20, i * 3 + 2);
     }
 }
 
@@ -2421,11 +2432,11 @@ void BOX2_UI_CloseListPack(struct WinMgr *mgr)
 {
     signed char buf[2];
     unsigned short i = 0;
-    BGWINFRM_GetPos(mgr, 0, &buf[1], &buf[0]);
+    BGWINFRM_GetPos((struct BgWinFrmWork *)mgr, 0, &buf[1], &buf[0]);
     if (buf[1] == 0x15)
         return;
     for (; i < 6; i++)
-        BGWINFRM_StartMove(mgr, i, -1, 0, buf[1] - 0x15);
+        BGWINFRM_StartMove((struct BgWinFrmWork *)mgr, i, -1, 0, buf[1] - 0x15);
 }
 
 
@@ -2436,11 +2447,11 @@ void BOX2_UI_OpenListPack(struct WinMgr *mgr)
 {
     signed char buf[2];
     unsigned short i = 0;
-    BGWINFRM_GetPos(mgr, 0, &buf[1], &buf[0]);
+    BGWINFRM_GetPos((struct BgWinFrmWork *)mgr, 0, &buf[1], &buf[0]);
     if (buf[1] == 0x20)
         return;
     for (; i < 6; i++)
-        BGWINFRM_StartMove(mgr, i, 1, 0, 0x20 - buf[1]);
+        BGWINFRM_StartMove((struct BgWinFrmWork *)mgr, i, 1, 0, 0x20 - buf[1]);
 }
 
 
@@ -2454,7 +2465,7 @@ int BOX2_UI_UpdateListPacks(struct WinMgr *mgr)
     unsigned i;
     int found = 0;
     for (i = 0; i < 6; i++) {
-        if (BGWINFRM_UpdateMove(mgr, i) == 1)
+        if (BGWINFRM_UpdateMove((struct BgWinFrmWork *)mgr, i) == 1)
             found = 1;
     }
     return found;
@@ -2466,7 +2477,7 @@ int BOX2_UI_UpdateListPacks(struct WinMgr *mgr)
 int BOX2_UI_IsListOpen(struct WinMgr *mgr)
 {
     s8 buf[4];
-    BGWINFRM_GetPos(mgr, 0, buf + 1, buf);
+    BGWINFRM_GetPos((struct BgWinFrmWork *)mgr, 0, buf + 1, buf);
     return buf[1] != 0x20;
 }
 
@@ -2479,7 +2490,7 @@ int BOX2_UI_IsListOpen(struct WinMgr *mgr)
 int BOX2_UI_IsListClosed(struct WinMgr *mgr)
 {
     s8 buf[4];
-    BGWINFRM_GetPos(mgr, 0, buf + 1, buf);
+    BGWINFRM_GetPos((struct BgWinFrmWork *)mgr, 0, buf + 1, buf);
     return buf[1] == 0x15;
 }
 
@@ -2493,8 +2504,8 @@ int BOX2_UI_IsListClosed(struct WinMgr *mgr)
 void BOX2_UI_AddFadeFrame(BoxTask *task)
 {
     int x = BG_SYS_GetBuf(0);
-    BGWINFRM_AddFrame(task->work->winMgr, 6, 0, 0x20, 3);
-    BGWINFRM_SetFrameData(task->work->winMgr, 6, (const void *)(x + 0x540));
+    BGWINFRM_AddFrame((struct BgWinFrmWork *)task->work->winMgr, 6, 0, 0x20, 3);
+    BGWINFRM_SetFrameData((struct BgWinFrmWork *)task->work->winMgr, 6, (void *)(x + 0x540));
 }
 
 
@@ -2503,7 +2514,7 @@ void BOX2_UI_AddFadeFrame(BoxTask *task)
 
 void BOX2_UI_PutFadeFrame(struct WinMgr *mgr)
 {
-    BGWINFRM_PutFrame(mgr, 6, 0, 0x15);
+    BGWINFRM_PutFrame((struct BgWinFrmWork *)mgr, 6, 0, 0x15);
 }
 
 
@@ -2515,7 +2526,7 @@ void BOX2_UI_PutFadeFrame(struct WinMgr *mgr)
  */
 void BOX2_UI_ShowWindowA(BoxWork *work)
 {
-    BGWINFRM_PutFrame(*(struct WinMgr * *)&work->winMgr, 0xa, 0, 0x15);
+    BGWINFRM_PutFrame((struct BgWinFrmWork *)(*(struct WinMgr * *)&work->winMgr), 0xa, 0, 0x15);
 }
 
 
@@ -2527,7 +2538,7 @@ void BOX2_UI_ShowWindowA(BoxWork *work)
  */
 void BOX2_UI_HideWindowA(BoxWork *work)
 {
-    BGWINFRM_HideFrame(*(struct WinMgr * *)&work->winMgr, 0xa);
+    BGWINFRM_HideFrame((struct BgWinFrmWork *)(*(struct WinMgr * *)&work->winMgr), 0xa);
 }
 
 
@@ -2536,7 +2547,7 @@ void BOX2_UI_HideWindowA(BoxWork *work)
 
 void BOX2_UI_ShowWindowB(BoxWork *work)
 {
-    BGWINFRM_PutFrame(*(struct WinMgr * *)&work->winMgr, 0xb, 0, 0x15);
+    BGWINFRM_PutFrame((struct BgWinFrmWork *)(*(struct WinMgr * *)&work->winMgr), 0xb, 0, 0x15);
 }
 
 
@@ -2548,7 +2559,7 @@ void BOX2_UI_ShowWindowB(BoxWork *work)
  */
 void BOX2_UI_HideWindowB(BoxWork *work)
 {
-    BGWINFRM_HideFrame(*(struct WinMgr * *)&work->winMgr, 0xb);
+    BGWINFRM_HideFrame((struct BgWinFrmWork *)(*(struct WinMgr * *)&work->winMgr), 0xb);
 }
 
 
@@ -2556,8 +2567,8 @@ void BOX2_UI_HideWindowB(BoxWork *work)
 
 void BOX2_UI_PutTopBarThenClose(struct WinMgr *mgr)
 {
-    BGWINFRM_PutFrame(mgr, 7, 0x15, 0x18);
-    BGWINFRM_StartMove(mgr, 7, 0, -1, 0x13);
+    BGWINFRM_PutFrame((struct BgWinFrmWork *)mgr, 7, 0x15, 0x18);
+    BGWINFRM_StartMove((struct BgWinFrmWork *)mgr, 7, 0, -1, 0x13);
 }
 
 
@@ -2566,7 +2577,7 @@ void BOX2_UI_PutTopBarThenClose(struct WinMgr *mgr)
 
 void BOX2_UI_RepenTopBar(struct WinMgr *mgr)
 {
-    BGWINFRM_StartMove(mgr, 7, 0, 1, 0x13);
+    BGWINFRM_StartMove((struct BgWinFrmWork *)mgr, 7, 0, 1, 0x13);
 }
 
 
@@ -2589,9 +2600,9 @@ unsigned BOX2_UI_UpdateTopBarMove(BoxTask *task)
 {
     signed char a[2], b[2];
     unsigned r;
-    BGWINFRM_GetPos(task->work->winMgr,7,&a[1],&a[0]);
-    r=BGWINFRM_UpdateMove(task->work->winMgr,7);
-    BGWINFRM_GetPos(task->work->winMgr,7,&b[1],&b[0]);
+    BGWINFRM_GetPos((struct BgWinFrmWork *)task->work->winMgr,7,&a[1],&a[0]);
+    r=BGWINFRM_UpdateMove((struct BgWinFrmWork *)task->work->winMgr,7);
+    BGWINFRM_GetPos((struct BgWinFrmWork *)task->work->winMgr,7,&b[1],&b[0]);
     if(a[1]!=b[1] || a[0]!=b[0]) BOX2_UI_LayoutPartySlots((BoxTask *)task);
     return r;
 }
@@ -2604,8 +2615,8 @@ unsigned BOX2_UI_UpdateTopBarMove(BoxTask *task)
  */
 void BOX2_UI_PutInfoBar(struct WinMgr *mgr)
 {
-    BGWINFRM_PutFrame(mgr, 9, 0x20, 0);
-    BGWINFRM_StartMove(mgr, 9, -1, 0, 0xb);
+    BGWINFRM_PutFrame((struct BgWinFrmWork *)mgr, 9, 0x20, 0);
+    BGWINFRM_StartMove((struct BgWinFrmWork *)mgr, 9, -1, 0, 0xb);
 }
 
 
@@ -2614,13 +2625,13 @@ void BOX2_UI_PutInfoBar(struct WinMgr *mgr)
 
 void BOX2_UI_CloseInfoBar(struct WinMgr *mgr)
 {
-    BGWINFRM_StartMove(mgr, 9, 1, 0, 0xb);
+    BGWINFRM_StartMove((struct BgWinFrmWork *)mgr, 9, 1, 0, 0xb);
 }
 
 int BOX2_UI_IsInfoBarOpen(struct WinMgr *mgr)
 {
     s8 buf[2];
-    BGWINFRM_GetPos(mgr, 9, &buf[1], &buf[0]);
+    BGWINFRM_GetPos((struct BgWinFrmWork *)mgr, 9, &buf[1], &buf[0]);
     if (buf[1] == 0x15) {
         return 1;
     }

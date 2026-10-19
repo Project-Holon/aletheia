@@ -26,9 +26,9 @@
  *   _ZZ18DWCi_GetMathRand32mE15stRandContext32  0x021AA848  data
  */
 #include "../../matched/arm9_sdk/libc/string.h"
-extern int strncmp(const char *a, const char *b, unsigned long n);
-extern char *strncpy(char *d, const char *s, unsigned long n);
-extern char *strchr(const char *s, int c);
+extern int strncmp(unsigned char *s1, unsigned char *s2, unsigned int n);
+extern unsigned char *strncpy(unsigned char *dest, unsigned char *src, unsigned int n);
+extern unsigned char *strchr(unsigned char *s, int c);
 
 typedef unsigned char  u8;
 
@@ -42,7 +42,7 @@ typedef struct {
     u64 add;
 } MATHRandContext32;
 
-extern int OS_SNPrintf(char *dst, int len, const char *fmt, ...);
+extern int OS_SNPrintf(char *dst, unsigned int len, char *fmt, ...);
 extern void OS_GetMacAddress(u8 *macAddress);
 extern u64 OS_GetTick(void);
 /* * DWC_SetCommonKeyValueString: writes one separator-key-separator-value pair and returns its length. */ int DWC_SetCommonKeyValueString(const char *key, const char *value, char *string, char sep);
@@ -72,7 +72,7 @@ int DWC_SetCommonKeyValueString(const char *key, const char *value, char *string
  */
 int DWC_AddCommonKeyValueString(const char *key, const char *value, char *string, char sep)
 {
-    DWC_SetCommonKeyValueString(key, value, strchr(string, 0), sep);
+    DWC_SetCommonKeyValueString(key, value, (char *)strchr((unsigned char *)string, 0), sep);
     return strlen((const char *)string);
 }
 
@@ -87,33 +87,33 @@ int DWC_GetCommonValueString(char *key, char *value, char *string, char separato
     char *pSrcEnd;
     char *pSrcBegin;
 
-    pSrcBegin = strchr(string, separator);
+    pSrcBegin = (char *)strchr((unsigned char *)string, separator);
     if (pSrcBegin == 0)
         return -1;
     for (;;) {
-        if (strncmp(pSrcBegin + 1, key, strlen(key)) == 0) {
+        if (strncmp((unsigned char *)(pSrcBegin + 1), (unsigned char *)key, strlen(key)) == 0) {
             len = strlen(key);
             if (separator == *(char *)(len + (int)pSrcBegin + 1))
                 break;
         }
-        pSrcBegin = strchr(pSrcBegin + 1, separator);
+        pSrcBegin = (char *)strchr((unsigned char *)(pSrcBegin + 1), separator);
         if (pSrcBegin == 0)
             return -1;
-        pSrcBegin = strchr(pSrcBegin + 1, separator);
+        pSrcBegin = (char *)strchr((unsigned char *)(pSrcBegin + 1), separator);
         if (pSrcBegin == 0)
             return -1;
     }
-    pSrcBegin = strchr(pSrcBegin + 1, separator);
+    pSrcBegin = (char *)strchr((unsigned char *)(pSrcBegin + 1), separator);
     if (pSrcBegin == 0)
         return -1;
-    pSrcEnd = strchr(pSrcBegin + 1, separator);
+    pSrcEnd = (char *)strchr((unsigned char *)(pSrcBegin + 1), separator);
     if (pSrcEnd != 0)
         len = pSrcEnd - (pSrcBegin + 1);
     else
         len = strlen(pSrcBegin + 1);
     if (value == 0)
         return len;
-    strncpy(value, pSrcBegin + 1, len);
+    strncpy((unsigned char *)value, (unsigned char *)(pSrcBegin + 1), len);
     value[len] = 0;
     return len;
 }

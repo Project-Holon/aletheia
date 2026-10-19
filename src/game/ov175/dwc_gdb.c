@@ -107,7 +107,7 @@ extern int DWC_GHTTPCleanupRootCAList(const char *url);
 extern int ghttpGetState(int request);
 extern void ghttpCancelRequest(int request);
 extern int OS_SNPrintf(char *dst, unsigned long len, const char *fmt, ...);
-extern int OS_VSNPrintf(char *s, unsigned long n, const char *format, va_list args);
+extern int OS_VSNPrintf(char *dst, unsigned int len, char *format, void *vlist);
 
 extern int sakeStartup(SAKEInternal **sakePtr);
 extern void sakeShutdown(SAKEInternal *sake);

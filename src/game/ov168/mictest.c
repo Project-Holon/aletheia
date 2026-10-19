@@ -30,7 +30,7 @@
  *   GFL_USE_FadeInBgmFull  0x02005DF8  thumb
  *   PROCSYS_ReplaceGlobal  0x020312F8  arm
  *   ov088_id       0x00000058  data  a1
- *   d_021BD574     0x021BD574  data  a4
+ *   d_021BD574     0x021BD574  data  ov088 a4
  *   TCB_Main   0x02030D28  arm
  *   WIPE_SYS_Start   0x0202208C  thumb
  *   WIPE_SYS_EndCheck   0x020221A4  thumb
@@ -129,7 +129,7 @@
     ((int)(((x) > 0) ? (x) * 4096 + 0.5f : (x) * 4096 - 0.5f))
 #define FX_MUL(a, b) ((fx32)(((fx64)(a) * (b) + 0x800) >> 12))
 struct Proc;
-struct Ctx;
+struct TcbSystem;
 struct Node;
 struct Actor;
 struct Obj;
@@ -260,7 +260,7 @@ typedef struct MictestWork {
     MictestMic mic;
     MictestState state;
     void *heapHandle;
-    struct Ctx *taskCtx;
+    struct TcbSystem *taskCtx;
     struct Node *node;
     int heapId;
 } MictestWork;
@@ -270,7 +270,8 @@ extern void *PROCSYS_AllocProcWork(struct Proc *obj, u32 size, u32 heap);
 extern void MI_CpuFill8(void *,int,u32);
 extern u32 TCB_GetTaskOffset(u32);
 extern void *GFL_HEAP_Alloc(u32,u32,int,const char *,u16);
-extern struct Ctx *TCB_Init(u32 capacity, struct Ctx *c);
+struct TcbSystem;
+extern struct TcbSystem *TCB_Init(u32 capacity, struct TcbSystem *sys);
 extern void *GFL_USE_AddMainTask(u32,u32,u32);
 extern void GFL_USE_FadeOutBgm(u32 a);
 extern void TCB_DeleteTask(struct Node *n);
@@ -280,35 +281,38 @@ extern void PROCSYS_FreeProcWork(struct Proc *p);
 extern void GFL_HEAP_DeleteChecked(u32 heap);
 extern void GFL_USE_FadeInBgmFull(u32 a);
 extern void PROCSYS_ReplaceGlobal(u32 overlayId, u32 data, u32 procWork);
-extern void TCB_Main(struct Ctx *c);
-extern void WIPE_SYS_Start(void *divisionMode, u32 mainPattern, u32 subPattern, u32 color, u32 frames, u32 wait, u32 heapId);
+struct TcbSystem;
+extern void TCB_Main(struct TcbSystem *sys);
+extern void WIPE_SYS_Start(void *divisionMode, unsigned int mainPattern, unsigned int subPattern, unsigned short color, unsigned int frames, unsigned int wait, unsigned int heapId);
 extern u32 WIPE_SYS_EndCheck(void);
 extern int MICTEST_CheckTouchOrKey(void);
 extern u32 SND_MIC_IsLimitReached(void);
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
-extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
+extern void CLACT_SetActorAnimSeq(struct Actor *actor, unsigned short value);
 extern u32 CLACT_IsActorAnimActive(struct Actor *a);
 extern void BG_SYS_ClearMainPlanes(void);
 extern void BG_SYS_ClearSubPlanes(void);
-extern u32 WIPE_ResetWndMask(void *win);
+extern void WIPE_ResetWndMask(void *win);
 extern void BG_SYS_SetVramBanks(const struct DispVram *c);
 extern void NNS_GfdDoVramTransfer(void);
-extern void CLACT_InitSystem(const struct Cfg *cfg, u32 arg, u32 heapId);
+struct DispVramCfg;
+struct SysInit;
+extern void CLACT_InitSystem(struct SysInit *cfg, struct DispVramCfg *res_cfg, unsigned int heapId);
 extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
 extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
 extern void CLACT_ExitSystem(void);
-extern void CLACT_AddActorAnimFrame(struct Obj *p, u32 arg);
+extern void CLACT_AddActorAnimFrame(struct Actor *actor, unsigned int frames);
 extern void CLACT_DrawSystem(void);
 extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
-extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
+extern void *ARC_TOOL_CreateHandle(unsigned int archiveID, unsigned short heapID);
 extern u32 APP_ICON_GetArchiveId(void);
 extern s32 CLACT_RegisterPalette(void *a, u32 b, u32 c, u32 d, u16 g);
 extern int CLACT_RegisterCharacter(void *,u32,u32,u32,u16);
 extern int CLACT_RegisterCellAnim(void *,u32,u32,u32);
 extern void ARC_TOOL_DeleteHandle(void *);
 extern struct Obj *CLACT_CreateActor(void *,u32,u32,u32,const void *,u16,u16);
-extern void CLACT_SetActorAutoAnim(struct Obj *p, u32 v);
-extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
+extern void CLACT_SetActorAutoAnim(struct Actor *actor, unsigned int enable);
+extern void CLACT_SetActorDrawEnable(struct Actor *actor, unsigned int value);
 extern void CLACT_SetActorAffineMode(struct Actor *actor, u32 value);
 extern void CLACT_SetActorFlip(struct Actor *actor, u32 which, u32 set);
 extern u32 CLACT_DeleteUnit(struct Bank *bank);
@@ -329,30 +333,36 @@ extern u32 ARC_UTIL_UploadBgCharFromArchive(void *archiveID, void *memberIdx, vo
 extern void ARC_UTIL_UploadBgPaletteFromArchive(u32 archiveID, u32 memberIdx, u32 channel, u32 offset, u32 size, u32 heapID, u16 flags);
 extern void BG_SYS_Update(void);
 extern struct MsgBank *MSGDATA_CreateFromArchive(unsigned int resident, unsigned int arcId, unsigned int fileId, unsigned int heapId);
-extern unsigned int BMP_WIN_CreateAt(unsigned int layer, unsigned int a, unsigned int b, unsigned int tiles, u8 c, u8 d, unsigned int offset);
-extern void *BMP_WIN_GetBmp(struct Descriptor *p);
-extern void BMP_Clear(struct CharBuf *buf, u8 value);
-extern void BMP_WIN_ClearScreen(struct Descriptor *d);
-extern void *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
-extern void PRINTSYS_PrintColor(void *,s16,s16,void *,void *,u16);
-extern void STRBUF_Delete(struct U16Vec *vec);
-extern void BMP_WIN_TransferChars(struct Descriptor *d);
-extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
-extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
+struct BmpWin;
+extern struct BmpWin *BMP_WIN_CreateAt(unsigned int bgLayer, unsigned int posX, unsigned int posY, unsigned char width, unsigned char height, unsigned char palette, unsigned int charOffset);
+struct Bmp;
+extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *win);
+extern void BMP_Clear(struct Bmp *bmp, unsigned char value);
+extern void BMP_WIN_ClearScreen(struct BmpWin *win);
+struct Strbuf;
+extern struct Strbuf *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
+extern void PRINTSYS_PrintColor(struct Bmp *bmp, short x, short y, struct Strbuf *str, struct GfFont *font, unsigned short color);
+extern void STRBUF_Delete(struct Strbuf *strbuf);
+extern void BMP_WIN_TransferChars(struct BmpWin *win);
+extern void BMP_WIN_MakeScreen(struct BmpWin *win);
+extern u8 BMP_WIN_GetBgLayer(struct BmpWin *win);
 extern void BG_SYS_PushTile(unsigned);
-extern u32 BMP_WIN_Delete(struct Descriptor *d);
+extern u32 BMP_WIN_Delete(struct BmpWin *win);
 extern u32 MSGDATA_Delete(struct MsgBank *bank);
-extern u32 GF_FONT_Delete(void *ptr);
+extern u32 GF_FONT_Delete(struct GfFont *font);
 extern void SND_MIC_Init(u16 heap);
-extern void UI_SetKeepAwakeFlagsGlobal(u32 v);
+extern void UI_SetKeepAwakeFlagsGlobal(unsigned char flags);
 extern void SND_MIC_Exit(void);
-extern void UI_ClearKeepAwakeFlagsGlobal(u32 v);
+extern void UI_ClearKeepAwakeFlagsGlobal(unsigned char v);
 extern void SND_MIC_AddElapsed(u32 n);
-extern void MIC_StartLimitedSampling(int *);
+struct MICAutoParam;
+extern int MIC_StartLimitedSampling(struct MICAutoParam *param);
 extern int MIC_StopLimitedSampling(void);
 extern u32 GFL_USE_GetRandom(u32 range);
-extern u32 TCB_AddTask(int owner, void (*fn)(), int arg, int n);
-extern u32 TCBL_IsDeletePending(struct S02030EE8 *p);
+struct TcbTask;
+extern struct TcbTask *TCB_AddTask(struct TcbSystem *sys, void (*fn)(), void *work, unsigned int priority);
+struct TcblSystem;
+extern u32 TCBL_IsDeletePending(struct TcblSystem *tcbl);
 extern int GF_STANDARD_SinFromDegrees(u32 x);
 extern void CLACT_SetActorPosAxis(struct Actor *actor, signed short value, u32 axis);
 extern void VEC_Add(void *, void *, void *);
@@ -477,7 +487,7 @@ int MICTEST_Main(int a, int b, int c, MictestWork *p)
     MICTEST_UpdateActors(p);
     MICTEST_BgNoop(&p->render);
     MICTEST_UpdateMic(&p->mic);
-    TCB_Main(p->taskCtx);
+    TCB_Main((struct TcbSystem *)p->taskCtx);
     return 0;
 }
 
@@ -630,7 +640,7 @@ void MICTEST_VBlank(void *unused, MictestWork *p)
 
 void MICTEST_InitActorSystem(int unused, u32 heap)
 {
-    CLACT_InitSystem((void *)0x020A1448, (u32)((void *)0x021848D4), (u16)heap);
+    CLACT_InitSystem((void *)0x020A1448, ((void *)0x021848D4), (u16)heap);
     BG_SYS_SetMainPlaneVisible(0x10, 1);
     BG_SYS_SetSubPlaneVisible(0x10, 1);
 }
@@ -825,7 +835,7 @@ end:
 void MICTEST_ArmMic(MictestMic *p)
 {
     if (p->busy == 0) {
-        MIC_StartLimitedSampling((int *)p);
+        MIC_StartLimitedSampling((struct MICAutoParam *)p);
         p->recording = 1;
     } else {
         p->stopPending = 1;
@@ -934,9 +944,9 @@ void MICTEST_InitSpriteTask(int owner, void *handle, MictestSprite *entry, s16 x
     u32 t;
     int c;
 
-    t = TCB_AddTask(owner, MICTEST_UpdateSpriteTask, (int)entry, 0);
+    t = (unsigned int)TCB_AddTask((struct TcbSystem *)owner, MICTEST_UpdateSpriteTask, entry, (unsigned int)0);
     entry->task = (void *)t;
-    o = (MictestMotion *)TCBL_IsDeletePending((struct S02030EE8 *)t);
+    o = (MictestMotion *)TCBL_IsDeletePending((struct TcblSystem *)t);
     o->actor = handle;
     o->wait = wait;
     o->x = FX_F32_TO_FX32(x);

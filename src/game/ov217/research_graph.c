@@ -262,6 +262,7 @@
  *   BG_SYS_ClearSlot  0x020414EC  arm  arm9
  *   BG_SYS_Update  0x020419E4  arm  arm9
  *   BG_SYS_FreeLayerBuf  0x020403F4  arm  arm9
+ *   _u32_div_f                   0x0209C2B0  arm
  */
 #include "../../matched/include/G_Bg.h"
 #include "research_shared_types.h"
@@ -350,12 +351,13 @@ struct CursorRect { u8 x, y, w, h; };
 struct ArrowCreateArgs { u32 charId; u32 paletteId; u32 cellId; u16 space; u16 animSeq[4]; };
 
 struct PercentageCreateArgs { u32 charIndex; u32 paletteIndex; u32 cellAnimIndex; u16 priority; u16 digitAnimSeq; u16 signAnimSeq; };
+struct GameSystem;
 
-extern u32 GAMESYSTEM_TryStartAutoComm(struct IcaAnime *p);
+extern u32 GAMESYSTEM_TryStartAutoComm(struct GameSystem *gameSystem);
 
 extern void GFL_NET_RefreshWmIconAtTopRight(u32 a, u32 b);
 
-extern void *ARC_TOOL_CreateHandle(unsigned int id, u32 heap);
+extern void *ARC_TOOL_CreateHandle(unsigned int archiveID, unsigned short heapID);
 
 extern void *ARC_TOOL_LoadHandleMember(struct ArcFile *, u32, u32);
 
@@ -369,9 +371,10 @@ extern int BG_SYS_PushTile(int);
 
 extern void ARC_TOOL_DeleteHandle(void *);
 
-extern void BG_SYS_FillTileMap(int index, int x0, int y0, int w, int h, int pal);
+extern void BG_SYS_FillTileMap(unsigned char index, unsigned char x0, unsigned char y0, unsigned char w, unsigned char h, unsigned char pal);
+struct ResearchCommon;
 
-extern u32 RESEARCH_COMMON_GetHeapId(void *);
+extern u32 RESEARCH_COMMON_GetHeapId(struct ResearchCommon *common);
 
 extern void RESEARCH_COMMON_UpdatePaletteAnime(unsigned);
 
@@ -381,7 +384,7 @@ extern u32 KEY_GetTrg(void);
 
 extern int TOUCHPANEL_HitTrg(const void *);
 
-extern void * RESEARCH_COMMON_GetTouchRects(void *);
+extern void * RESEARCH_COMMON_GetTouchRects(struct ResearchCommon *common);
 
 extern u32 GFL_USE_PlaySeDefaultVolume(u32 a);
 
@@ -390,52 +393,55 @@ extern int FADE_IsActive(void);
 extern void RESEARCH_COMMON_StopPaletteAnime(u32 common);
 
 extern void RESEARCH_COMMON_RestorePaletteAnime(u32 common);
+struct RingQueue;
 
-extern void RingQueue_Push(u32, u32);
+extern void RingQueue_Push(struct RingQueue *queue, int value);
 
-extern u32 RingQueue_Pop(struct Ring *r);
+extern u32 RingQueue_Pop(struct RingQueue *queue);
 
-extern u32 RingQueue_IsEmpty();
+extern int RingQueue_IsEmpty(struct RingQueue *queue);
 
-extern u32 RESEARCH_COMMON_GetPreviousScreen(void *p);
+extern u32 RESEARCH_COMMON_GetPreviousScreen(struct ResearchCommon *common);
 
-extern u32 RESEARCH_COMMON_GetEntryHandled(void *p);
+extern u32 RESEARCH_COMMON_GetEntryHandled(struct ResearchCommon *common);
 
-extern void RESEARCH_COMMON_SetEntryHandled(u8 *p, u32 v);
+extern void RESEARCH_COMMON_SetEntryHandled(struct ResearchCommon *common, unsigned int value);
 
 extern u8 GAME_BEACON_PopQuestionnaireUpdated(void);
 
-extern void RESEARCH_COMMON_StartPaletteAnime(u8 *p, u32 i);
+extern void RESEARCH_COMMON_StartPaletteAnime(struct ResearchCommon *common, unsigned int index);
+struct Actor;
 
-extern void CLACT_SetActorDrawEnable(struct Obj *, unsigned int);
+extern void CLACT_SetActorDrawEnable(struct Actor *actor, unsigned int value);
 
-extern void CLACT_SetActorAutoAnim(struct Obj *p, unsigned int v);
+extern void CLACT_SetActorAutoAnim(struct Actor *actor, unsigned int enable);
 
 extern void FADE_Start(u32 a, s32 b, s32 c, s32 d);
+struct PaletteAnime;
 
-extern void PALETTE_ANIME_Start(u8 *p, u32 b, u16 c);
+extern void PALETTE_ANIME_Start(struct PaletteAnime *anime, unsigned int mode, unsigned short color);
 
-extern void PALETTE_ANIME_Stop(u32 anime);
+extern void PALETTE_ANIME_Stop(struct PaletteAnime *anime);
 
-extern void PALETTE_ANIME_Update(int);
+extern void PALETTE_ANIME_Update(struct PaletteAnime *anime);
 
-extern unsigned RESEARCH_COMMON_GetAppResource(void *);
+extern unsigned RESEARCH_COMMON_GetAppResource(struct ResearchCommon *common);
 
-extern u32 RESEARCH_COMMON_GetInputFlag(void *p);
+extern u32 RESEARCH_COMMON_GetInputFlag(struct ResearchCommon *common);
 
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
 extern struct GfFont *GF_FONT_Create(int archiveId, int fileId, int format, int isFixedWidth, u32 heapId);
 
-extern u32 GF_FONT_Delete(void *ptr);
+extern u32 GF_FONT_Delete(struct GfFont *font);
 
 extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 
-extern u32 MSGDATA_Delete(struct Rec *rec);
+extern u32 MSGDATA_Delete(struct MsgBank *bank);
 
 extern int RingQueue_Create(int capacity, int heapId);
 
-extern void RingQueue_Destroy(void *p);
+extern void RingQueue_Destroy(struct RingQueue *queue);
 
 extern void BMP_WIN_Init(u16);
 
@@ -446,12 +452,14 @@ extern void BG_SYS_Init(u32 layer, u32 value, u32 count, u32 index);
 extern u32 BG_SYS_ClearSlot();
 
 extern void BG_SYS_FreeTiles(u32, u32, u32);
+struct BgTextLabelConfig;
+struct BgTextLabel;
 
-extern struct Record *BgTextLabel_Create(const struct Config *config, u32 a, u32 b, u32 heap);
+extern struct BgTextLabel *BgTextLabel_Create(struct BgTextLabelConfig *config, unsigned int font, unsigned int msgBank, unsigned int heapId);
 
-u32 BgTextLabel_PrintMessage(u32 label, u32 msgIndex);
+u32 BgTextLabel_PrintMessage(struct BgTextLabel *label, unsigned int msgIndex);
 
-extern void BgTextLabel_Destroy(u8 *p);
+extern void BgTextLabel_Destroy(struct BgTextLabel *label);
 
 extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 vram_mode, u16 flags);
 
@@ -469,31 +477,34 @@ extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 
 extern u32 CLACT_DeleteUnit(struct Bank *bank);
 
-extern void CLACT_DeleteActor(struct Obj *p);
+extern void CLACT_DeleteActor(struct Actor *actor);
 
 extern u32 PALETTE_ANIME_Create(u32 heapId);
 
-extern u32 PALETTE_ANIME_Destroy(void *anime);
+extern u32 PALETTE_ANIME_Destroy(struct PaletteAnime *anime);
 
-extern void PALETTE_ANIME_Bind(void *p, u32 b, u32 c, u32 d);
+extern void PALETTE_ANIME_Bind(struct PaletteAnime *anime, unsigned short *palette, unsigned short *original, int colorCount);
 
-extern int PALETTE_ANIME_Restore(char *p);
+extern int PALETTE_ANIME_Restore(struct PaletteAnime *anime);
 
 extern void CLACT_VBlankSystem(void);
 
 extern u32 KEY_GetCont(void);
+struct GameData;
+struct SaveControl;
 
-extern void *GAME_DATA_GetSaveControl(struct Big *);
+extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gd);
 
 extern void *SYMBOL_SAVE_GetBitBlock(void *saveData);
 
 extern int MISC_SAVEDATA_GetStatusByte(int tally, int index);
+struct BmpOam;
 
-extern void BMP_OAM_SetPalette(u8 *g, u32 a);
+extern void BMP_OAM_SetPalette(struct BmpOam *bmpOam, unsigned int palette);
 
 extern void CLACT_AddActorSurfacePos(struct Obj *p,const struct Vec2 *delta,u32 which);
 
-extern void BgTextLabel_SetVisible(u8 *p, int visible);
+extern void BgTextLabel_SetVisible(struct BgTextLabel *label, int visible);
 
 
 extern int PALANM_RequestFade(PalAnmObj *, u16, u16, s16, u8, u8, u16, void *);
@@ -504,27 +515,30 @@ extern u32 PALETTE_ANIME_IsRunning();
 
 extern u32 PALANM_TransferPalettes(struct S02021D50 *p);
 
-extern u32 BG_SYS_Update();
+extern void BG_SYS_Update();
 
-extern void BMP_OAM_SetEnabled(u8 *g, u32 a);
+extern void BMP_OAM_SetEnabled(struct BmpOam *bmpOam, unsigned int enabled);
+struct TcbList;
 
-extern u32 GFL_USE_GetMainTaskList(void);
+extern struct TcbList *GFL_USE_GetMainTaskList(void);
 
 extern struct Bmp *BMP_Create(u32 width, u32 height, u32 depth, u16 heap);
 
 extern struct Bmp *BMP_CreateFromArchive(u32,u32,u32,u32);
 
-extern void BMP_Blit(struct Bmp *,struct Bmp *,u32,u32,int,int,u32,u32,u32);
+extern void BMP_Blit(struct Bmp *src, struct Bmp *dst, unsigned int srcX, unsigned int srcY, int dstX, int dstY, unsigned int w, unsigned int h, unsigned short colorKey);
+struct Strbuf;
 
-extern void *MSGDATA_AllocString(struct MsgBank *,u32);
+extern struct Strbuf *MSGDATA_AllocString(struct MsgBank *,u32);
 
-extern void PRINTSYS_PrintColor(void *,s16,s16,void *,void *,u16);
+extern void PRINTSYS_PrintColor(struct Bmp *bmp, short x, short y, struct Strbuf *str, struct GfFont *font, unsigned short color);
+struct BmpOamSys;
 
-extern void BMP_OAM_DeleteSys(void *p);
+extern void BMP_OAM_DeleteSys(struct BmpOamSys *sys);
 
-extern void BMP_OAM_UploadChars(struct Obj *);
+extern void BMP_OAM_UploadChars(struct BmpOam *bmpOam);
 
-extern void BMP_OAM_Delete(struct Grid *g);
+extern void BMP_OAM_Delete(struct BmpOam *bmpOam);
 
 extern void *PALANM_Create(u32);
 
@@ -535,12 +549,15 @@ extern void PALANM_CopyHwPaletteToSlot(struct PalAnmSlot *, u32, u32, u32);
 extern u32 PALANM_Delete(void *ctx);
 
 extern void PALANM_FreeSlotBuffers(struct PalAnmSlot *slots, u32 idx);
+struct Tcb;
 
-extern int GFL_USE_AddMainTask(void (*)(void), void *, int);
+extern struct Tcb *GFL_USE_AddMainTask(void (*)(void), void *work, unsigned int priority);
+struct TcbTask;
 
-extern void TCB_DeleteTask(struct Node *n);
+extern void TCB_DeleteTask(struct TcbTask *task);
+struct Arrow;
 
-extern void ARROW_Update(void *h);
+extern void ARROW_Update(struct Arrow *arrow);
 
 void RESEARCH_GRAPH_InitOverlayBackgrounds(char *p);
 
@@ -587,12 +604,13 @@ void RESEARCH_GRAPH_OpenComm(u8 *graph);
 int RESEARCH_GRAPH_GetCommKindOrStart(u8 *graph);
 
 extern int GFL_USE_IsAnySeBusy(void);
+struct CircleGraph;
 
-extern void CircleGraph_SetEnabled(u8 *h, u32 v);
+extern void CircleGraph_SetEnabled(struct CircleGraph *graph, unsigned int enabled);
 
-extern void CircleGraph_QueueDrawSlow(u8 *h);
+extern void CircleGraph_QueueDrawSlow(struct CircleGraph *graph);
 
-extern void CircleGraph_QueueDrawMedium(u8 *h);
+extern void CircleGraph_QueueDrawMedium(struct CircleGraph *graph);
 
 u32 RESEARCH_GRAPH_ExitOverlayBackgrounds();
 
@@ -630,79 +648,83 @@ void RESEARCH_GRAPH_UnregisterVBlank(u8 *graph);
 
 void RESEARCH_GRAPH_ClearNotifyFlag(unsigned char *graph);
 
-extern void CircleGraph_QueueErase(u8 *h);
+extern void CircleGraph_QueueErase(struct CircleGraph *graph);
 
-extern void CircleGraph_HoldUpdate(u8 *h, u32 v);
+extern void CircleGraph_HoldUpdate(struct CircleGraph *graph, unsigned int frames);
 
-extern void CircleGraph_QueueDrawFast(u8 *h);
+extern void CircleGraph_QueueDrawFast(struct CircleGraph *graph);
 
-extern u8 CircleGraph_GetSliceKey(u8 *p, u8 n);
+extern u8 CircleGraph_GetSliceKey(struct CircleGraph *graph, unsigned char index);
+struct GraphTable;
 
-extern u32 GRAPHTABLE_FindEntry(const u8 *p, u8 unused, u8 key);
+extern u32 GRAPHTABLE_FindEntry(struct GraphTable *table, unsigned char key, unsigned char entryId);
 
-extern u8 CircleGraph_FindSliceIndex(u8 *p, u8 key);
+extern u8 CircleGraph_FindSliceIndex(struct CircleGraph *graph, unsigned char key);
 
-extern void CircleGraph_SetCenterDepth(u8 *p, int z);
+extern void CircleGraph_SetCenterDepth(struct CircleGraph *graph, int z);
+struct CircleGraphInput;
 
-extern void CircleGraph_SetSlices(u8 *p, u8 *tab, int n);
+extern void CircleGraph_SetSlices(struct CircleGraph *graph, struct CircleGraphInput *inputs, int count);
 
-extern void CircleGraph_Update(u8 *p);
+extern void CircleGraph_Update(struct CircleGraph *graph);
 
-extern void CircleGraph_Draw(u8 *p);
+extern void CircleGraph_Draw(struct CircleGraph *graph);
 
-extern unsigned GRAPHTABLE_GetEntryRed(void *,unsigned,unsigned);
+extern unsigned GRAPHTABLE_GetEntryRed(struct GraphTable *table, unsigned int group, unsigned int entry);
 
-extern unsigned GRAPHTABLE_GetEntryGreen(void *,unsigned,unsigned);
+extern unsigned GRAPHTABLE_GetEntryGreen(struct GraphTable *table, unsigned int group, unsigned int entry);
 
-extern unsigned GRAPHTABLE_GetEntryBlue(void *,unsigned,unsigned);
+extern unsigned GRAPHTABLE_GetEntryBlue(struct GraphTable *table, unsigned int group, unsigned int entry);
 
-extern unsigned ARROW_Reset(unsigned);
+extern void ARROW_Reset(struct Arrow *arrow);
 
-extern u8 CircleGraph_GetPercentByKey(u8 *p, u8 key);
+extern u8 CircleGraph_GetPercentByKey(struct CircleGraph *graph, unsigned char key);
 
-extern void CircleGraph_GetLabelPositionByKey(u8 *h, u8 key, s32 *px, s32 *py);
+extern void CircleGraph_GetLabelPositionByKey(struct CircleGraph *graph, unsigned char key, int *px, int *py);
 
-extern void ARROW_Layout(int arrow, int tipX, int tipY, int cornerX, int endY);
+extern void ARROW_Layout(struct Arrow *arrow, int tipX, int tipY, int cornerX, int endY);
 
-extern void ARROW_Start(unsigned);
+extern void ARROW_Start(struct Arrow *arrow);
 
-extern u8 CircleGraph_GetPercentByIndex(u8 *p, u8 n);
+extern u8 CircleGraph_GetPercentByIndex(struct CircleGraph *graph, unsigned char index);
 
-extern void CircleGraph_GetLabelPositionByIndex(u8 *h, u8 n, s32 *px, s32 *py);
+extern void CircleGraph_GetLabelPositionByIndex(struct CircleGraph *graph, unsigned char index, int *px, int *py);
+struct Percentage;
 
-extern unsigned PERCENTAGE_SetValue(unsigned,unsigned);
+extern void PERCENTAGE_SetValue(struct Percentage *pct, unsigned int value);
 
-extern unsigned PERCENTAGE_SetPosition(unsigned,unsigned,unsigned);
+extern void PERCENTAGE_SetPosition(struct Percentage *pct, unsigned int x, unsigned int y);
 
-extern void PERCENTAGE_SetVisible(u32 a, u32 b);
+extern void PERCENTAGE_SetVisible(struct Percentage *pct, unsigned int visible);
 
 u32 RESEARCH_GRAPH_ClampByte(s32 v);
 
-extern void BgTextLabel_PrintText(u8 *p, struct U16Vec *text);
+extern void BgTextLabel_PrintText(struct BgTextLabel *label, void *text);
 
-extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
+extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
 
-extern void STRBUF_Delete(struct U16Vec *vec);
+extern void STRBUF_Delete(struct Strbuf *strbuf);
 
 extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 
-extern void WORDSET_SetSlotTag(struct WordSet *p, u32 i, const void *src, u32 n, u32 f, u32 c);
+extern void WORDSET_SetSlotTag(struct WordSet *words, unsigned int slot, struct Strbuf *src, unsigned int grammarCase, unsigned int isPlural, unsigned int gender);
 
-extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
+extern void WORDSET_CopyTaggedText(struct WordSet *words, struct Strbuf *dst, struct Strbuf *src);
 
 extern void CLACT_SetActorAnimLoopCount(struct Actor *,unsigned);
 
 extern u32 RESEARCH_COMMON_GetContext(u32 *p);
 
-extern int CircleGraph_IsAnimating(u8 *p);
+extern int CircleGraph_IsAnimating(struct CircleGraph *graph);
+struct SymbolBitSave;
 
-extern void *SYMBOL_SAVE_GetQuestionnaireBits(void *a);
+extern unsigned char *SYMBOL_SAVE_GetQuestionnaireBits(struct SymbolBitSave *save);
 
 extern u32 SYMBOL_SAVE_ReadBitField(const u8 *, int);
 
-extern u32 GRAPHTABLE_GetEntryId(void *, u32, u8);
+extern u32 GRAPHTABLE_GetEntryId(struct GraphTable *table, unsigned int group, unsigned char entry);
 
-extern int GAME_DATA_GetPlayTime(int);
+extern struct PlayTime *GAME_DATA_GetPlayTime(struct GameData *gd);
 
 extern u16 PLAYTIME_GetHours(const struct PlayTime *p);
 
@@ -720,13 +742,13 @@ void RESEARCH_GRAPH_ClearPalAnm(void *p);
 
 void RESEARCH_GRAPH_ClearPaletteAnime(void *p);
 
-extern struct WordSet *WORDSET_CreateDefault(u32 heap);
+extern struct WordSet *WORDSET_CreateDefault(unsigned short heapId);
 
 extern u32 WORDSET_Delete(struct WordSet *p);
 
-extern u32 CircleGraph_Create(u32 heapId);
+extern struct CircleGraph *CircleGraph_Create(u32 heapId);
 
-extern u32 CircleGraph_Destroy(void *graph);
+extern u32 CircleGraph_Destroy(struct CircleGraph *graph);
 
 extern void MI_CpuFill8(u32, u32, u32);
 
@@ -735,14 +757,17 @@ extern u32 MISC_SAVEDATA_GetTallyWord(u8 *p, int i);
 extern u32 MISC_SAVEDATA_GetTallyValue(u8 *tally, u32 fieldId, u32 index);
 
 extern int MISC_SAVEDATA_GetScoreValue(int tally, int fieldId, int index);
+struct ArrowResources;
 
-extern u32 ARROW_Create(u32, u32);
+extern struct Arrow *ARROW_Create(unsigned int heapId, struct ArrowResources *resources);
 
-extern u32 ARROW_Destroy(void *arrow);
+extern u32 ARROW_Destroy(struct Arrow *arrow);
+struct ClactUnit;
+struct PercentageTemplate;
 
-extern u32 PERCENTAGE_Create(u32, u32, u32);
+extern u32 PERCENTAGE_Create(unsigned int heapId, struct PercentageTemplate *tmpl, struct ClactUnit *unit);
 
-extern u32 PERCENTAGE_Destroy(void *pct);
+extern u32 PERCENTAGE_Destroy(struct Percentage *pct);
 
 extern void G3X_Init(void);
 
@@ -1473,8 +1498,8 @@ void RESEARCH_GRAPH_EnterDrawSlow(u8 *graph)
         RESEARCH_GRAPH_EnableOamsA(graph);
         RESEARCH_GRAPH_SetSlicesFromGraphA(graph, 0);
         RESEARCH_GRAPH_SetSlicesFromGraphA(graph, 1);
-        CircleGraph_SetEnabled(RESEARCH_GRAPH_GetLeftCircle(graph), 1);
-        CircleGraph_QueueDrawSlow(RESEARCH_GRAPH_GetLeftCircle(graph));
+        CircleGraph_SetEnabled((struct CircleGraph *)(RESEARCH_GRAPH_GetLeftCircle(graph)), 1);
+        CircleGraph_QueueDrawSlow((struct CircleGraph *)(RESEARCH_GRAPH_GetLeftCircle(graph)));
         RESEARCH_GRAPH_IncSubState(graph);
         break;
     case 1:
@@ -1581,8 +1606,8 @@ void RESEARCH_GRAPH_EnterDrawMedium(char *graph)
         RESEARCH_GRAPH_SetSlicesFromGraphB((u8 *)graph, 0);
         RESEARCH_GRAPH_SetSlicesFromGraphB((u8 *)graph, 1);
         RESEARCH_GRAPH_SetCenterDepth(graph);
-        CircleGraph_SetEnabled(RESEARCH_GRAPH_GetRightCircle(graph), 1);
-        CircleGraph_QueueDrawMedium(RESEARCH_GRAPH_GetRightCircle(graph));
+        CircleGraph_SetEnabled((struct CircleGraph *)(RESEARCH_GRAPH_GetRightCircle(graph)), 1);
+        CircleGraph_QueueDrawMedium((struct CircleGraph *)(RESEARCH_GRAPH_GetRightCircle(graph)));
         RESEARCH_GRAPH_IncSubState(graph);
         break;
     case 1:
@@ -1597,7 +1622,7 @@ void RESEARCH_GRAPH_EnterDrawMedium(char *graph)
     case 2:
         ((struct ResearchObjB *)graph)->detailMode = 0;
         RESEARCH_GRAPH_SwapCenterPairs(graph);
-        CircleGraph_SetEnabled(RESEARCH_GRAPH_GetRightCircle(graph), 0);
+        CircleGraph_SetEnabled((struct CircleGraph *)(RESEARCH_GRAPH_GetRightCircle(graph)), 0);
         RESEARCH_GRAPH_LoadBackground(graph);
         RESEARCH_GRAPH_SetDetailLabelVisible(graph);
         RESEARCH_GRAPH_PrintSliceLabel(graph);
@@ -1632,8 +1657,8 @@ void RESEARCH_GRAPH_EnterDrawMediumAlt(char *graph)
         RESEARCH_GRAPH_SetSlicesFromGraphB((u8 *)graph, 0);
         RESEARCH_GRAPH_SetSlicesFromGraphB((u8 *)graph, 1);
         RESEARCH_GRAPH_SetCenterDepth(graph);
-        CircleGraph_SetEnabled(RESEARCH_GRAPH_GetRightCircle(graph), 1);
-        CircleGraph_QueueDrawMedium(RESEARCH_GRAPH_GetRightCircle(graph));
+        CircleGraph_SetEnabled((struct CircleGraph *)(RESEARCH_GRAPH_GetRightCircle(graph)), 1);
+        CircleGraph_QueueDrawMedium((struct CircleGraph *)(RESEARCH_GRAPH_GetRightCircle(graph)));
         RESEARCH_GRAPH_IncSubState(graph);
         break;
     case 1:
@@ -1648,7 +1673,7 @@ void RESEARCH_GRAPH_EnterDrawMediumAlt(char *graph)
     case 2:
         ((struct ResearchObjB *)graph)->detailMode = 0;
         RESEARCH_GRAPH_SwapCenterPairs(graph);
-        CircleGraph_SetEnabled(RESEARCH_GRAPH_GetRightCircle(graph), 0);
+        CircleGraph_SetEnabled((struct CircleGraph *)(RESEARCH_GRAPH_GetRightCircle(graph)), 0);
         RESEARCH_GRAPH_LoadBackground(graph);
         RESEARCH_GRAPH_DrawIndexCursor(graph);
         RESEARCH_GRAPH_SetDetailLabelVisible(graph);
@@ -1745,7 +1770,7 @@ void RESEARCH_GRAPH_SetStateChanged(void *graph)
  */
 void RESEARCH_GRAPH_SetEntryHandled(u8 *graph, u32 handled)
 {
-    RESEARCH_COMMON_SetEntryHandled(*(u8 * *)&((struct ResearchObjB *)graph)->owner, handled);
+    RESEARCH_COMMON_SetEntryHandled((struct ResearchCommon *)(*(u8 * *)&((struct ResearchObjB *)graph)->owner), handled);
 }
 
 void RESEARCH_GRAPH_SetActive(void *graph, u32 active)
@@ -1793,14 +1818,14 @@ void RESEARCH_GRAPH_IncTimer(void *graph)
  */
 void RESEARCH_GRAPH_PushCommand(u8 *graph, u32 command)
 {
-    RingQueue_Push((u32)(((struct ResearchObjB *)graph)->commandQueue), command);
+    RingQueue_Push((struct RingQueue *)((((struct ResearchObjB *)graph)->commandQueue)), command);
 }
 
 void RESEARCH_GRAPH_ProcessCommand(u32 graph)
 {
     if (((struct ResearchObjB *)graph)->stateChanged != 0) {
-    if (RingQueue_IsEmpty(((struct ResearchObjB *)graph)->commandQueue) == 0) {
-    RESEARCH_GRAPH_StartSubState((void *)graph, RingQueue_Pop((struct Ring *)(((struct ResearchObjB *)graph)->commandQueue)));
+    if (RingQueue_IsEmpty((struct RingQueue *)(((struct ResearchObjB *)graph)->commandQueue)) == 0) {
+    RESEARCH_GRAPH_StartSubState((void *)graph, RingQueue_Pop((struct RingQueue *)(((struct ResearchObjB *)graph)->commandQueue)));
     }
     }
 }
@@ -1921,7 +1946,7 @@ void RESEARCH_GRAPH_MoveGroupBackward(char *graph)
 {
     if (((struct ResearchObjB *)graph)->entryShown != 0) {
         if (RESEARCH_GRAPH_GetGroupValue(graph) != 0) {
-            CircleGraph_QueueErase(RESEARCH_GRAPH_GetLeftCircle(graph));
+            CircleGraph_QueueErase((struct CircleGraph *)(RESEARCH_GRAPH_GetLeftCircle(graph)));
         }
     }
     RESEARCH_GRAPH_BuildGraphTable(graph);
@@ -1951,7 +1976,7 @@ void RESEARCH_GRAPH_MoveGroupForward(char *graph)
 {
     if (((struct ResearchObjB *)graph)->entryShown != 0) {
         if (RESEARCH_GRAPH_GetGroupValue(graph) != 0) {
-            CircleGraph_QueueErase(RESEARCH_GRAPH_GetLeftCircle(graph));
+            CircleGraph_QueueErase((struct CircleGraph *)(RESEARCH_GRAPH_GetLeftCircle(graph)));
         }
     }
     RESEARCH_GRAPH_BuildGraphTable(graph);
@@ -2010,7 +2035,7 @@ void RESEARCH_GRAPH_ToggleEntry(char *graph)
         return;
     }
     if (((struct ResearchObjB *)graph)->entryShown != 0 && RESEARCH_GRAPH_GetGroupValue(graph) != 0) {
-        CircleGraph_QueueErase(RESEARCH_GRAPH_GetLeftCircle(graph));
+        CircleGraph_QueueErase((struct CircleGraph *)(RESEARCH_GRAPH_GetLeftCircle(graph)));
         flag = 1;
     }
     switch (((struct ResearchObjB *)graph)->graphKind) {
@@ -2039,10 +2064,10 @@ void RESEARCH_GRAPH_ToggleEntry(char *graph)
     }
     if (((struct ResearchObjB *)graph)->entryShown != 0 && RESEARCH_GRAPH_GetGroupValue(graph) != 0) {
         if (flag != 0) {
-            CircleGraph_HoldUpdate(RESEARCH_GRAPH_GetLeftCircle(graph), 0x14);
+            CircleGraph_HoldUpdate((struct CircleGraph *)(RESEARCH_GRAPH_GetLeftCircle(graph)), 0x14);
         }
-        CircleGraph_QueueDrawFast(RESEARCH_GRAPH_GetLeftCircle(graph));
-        CircleGraph_SetEnabled(RESEARCH_GRAPH_GetLeftCircle(graph), 1);
+        CircleGraph_QueueDrawFast((struct CircleGraph *)(RESEARCH_GRAPH_GetLeftCircle(graph)));
+        CircleGraph_SetEnabled((struct CircleGraph *)(RESEARCH_GRAPH_GetLeftCircle(graph)), 1);
     }
     GFL_USE_PlaySeDefaultVolume(0x548);
 }
@@ -2126,8 +2151,8 @@ void RESEARCH_GRAPH_SetEntryFromSlice(char *graph)
     u8 *o = RESEARCH_GRAPH_GetLeftCircle(graph);
 
     u32 k = RESEARCH_GRAPH_GetGroupKey(graph);
-    int v = CircleGraph_GetSliceKey(o, 0);
-    ((struct ResearchObjB *)graph)->entryIndex = GRAPHTABLE_FindEntry((const u8 *)(graph + 0x38), (u8)k, (u8)v);
+    int v = CircleGraph_GetSliceKey((struct CircleGraph *)o, 0);
+    ((struct ResearchObjB *)graph)->entryIndex = GRAPHTABLE_FindEntry((struct GraphTable *)(graph + 0x38), (u8)k, (u8)v);
 }
 
 /*
@@ -2144,11 +2169,11 @@ void RESEARCH_GRAPH_StepEntry(u8 *graph, int step)
     kind = RESEARCH_GRAPH_GetGroupKey(graph);
     count = RESEARCH_GRAPH_GetGroupCount(graph);
     index = RESEARCH_GRAPH_GetEntryKey(graph);
-    index = CircleGraph_FindSliceIndex(object, index);
+    index = CircleGraph_FindSliceIndex((struct CircleGraph *)object, index);
 
     index = (count + (index + step)) % count;
-    index = CircleGraph_GetSliceKey(object, index);
-    graph[697] = GRAPHTABLE_FindEntry(graph + 56, kind, index);
+    index = CircleGraph_GetSliceKey((struct CircleGraph *)object, index);
+    graph[697] = GRAPHTABLE_FindEntry((struct GraphTable *)(graph + 56), kind, index);
 }
 
 void RESEARCH_GRAPH_ClearEntryIndex(u8 *graph)
@@ -2167,7 +2192,7 @@ void RESEARCH_GRAPH_SyncArrow(u8 *graph)
 
 void RESEARCH_GRAPH_SetHighlightSelected(u32 graph)
 {
-    BMP_OAM_SetPalette((u8 *)(((struct ResearchObjB *)graph)->oamObjectB), 0);
+    BMP_OAM_SetPalette((struct BmpOam *)(((struct ResearchObjB *)graph)->oamObjectB), 0);
     RESEARCH_GRAPH_StopSlotPaletteAnime((u8 *)graph, 5);
     RESEARCH_GRAPH_StopSlotPaletteAnime((u8 *)graph, 6);
     RESEARCH_GRAPH_StartSlotPaletteAnime((char *)graph, 2);
@@ -2175,38 +2200,38 @@ void RESEARCH_GRAPH_SetHighlightSelected(u32 graph)
 
 void RESEARCH_GRAPH_SetHighlightA(u32 graph)
 {
-    BMP_OAM_SetPalette((u8 *)(((struct ResearchObjB *)graph)->oamObjectB), 0);
+    BMP_OAM_SetPalette((struct BmpOam *)(((struct ResearchObjB *)graph)->oamObjectB), 0);
     RESEARCH_GRAPH_StartSlotPaletteAnime((char *)graph, 3);
 }
 
 void RESEARCH_GRAPH_SetHighlightB(u32 graph)
 {
-    BMP_OAM_SetPalette((u8 *)(((struct ResearchObjB *)graph)->oamObjectB), 1);
+    BMP_OAM_SetPalette((struct BmpOam *)(((struct ResearchObjB *)graph)->oamObjectB), 1);
     RESEARCH_GRAPH_StopSlotPaletteAnime((u8 *)graph, 3);
 }
 
 void RESEARCH_GRAPH_SetHighlightC(u32 graph)
 {
-    BMP_OAM_SetPalette((u8 *)(((struct ResearchObjB *)graph)->oamObjectB), 0);
+    BMP_OAM_SetPalette((struct BmpOam *)(((struct ResearchObjB *)graph)->oamObjectB), 0);
     RESEARCH_GRAPH_StartSlotPaletteAnime((char *)graph, 4);
 }
 
 void RESEARCH_GRAPH_SetNormalA(u32 graph)
 {
-    BMP_OAM_SetPalette((u8 *)(((struct ResearchObjB *)graph)->oamObjectB), 1);
+    BMP_OAM_SetPalette((struct BmpOam *)(((struct ResearchObjB *)graph)->oamObjectB), 1);
     RESEARCH_GRAPH_StopSlotPaletteAnime((u8 *)graph, 5);
     RESEARCH_GRAPH_StartSlotPaletteAnime((char *)graph, 6);
 }
 
 void RESEARCH_GRAPH_SetNormalB(u32 graph)
 {
-    BMP_OAM_SetPalette((u8 *)(((struct ResearchObjB *)graph)->oamObjectB), 1);
+    BMP_OAM_SetPalette((struct BmpOam *)(((struct ResearchObjB *)graph)->oamObjectB), 1);
     RESEARCH_GRAPH_StartSlotPaletteAnime((char *)graph, 5);
 }
 
 void RESEARCH_GRAPH_StartPaletteAnime(u32 *graph)
 {
-    RESEARCH_COMMON_StartPaletteAnime((u8 *)(*graph), 0);
+    RESEARCH_COMMON_StartPaletteAnime((struct ResearchCommon *)(*graph), 0);
 }
 
 /*
@@ -2235,8 +2260,8 @@ void RESEARCH_GRAPH_QuantizePosition(u32 input)
 
 void RESEARCH_GRAPH_SetCenterDepth(void *graph)
 {
-    CircleGraph_SetCenterDepth(RESEARCH_GRAPH_GetLeftCircle(graph), 0xFFFFE000);
-    CircleGraph_SetCenterDepth(RESEARCH_GRAPH_GetRightCircle(graph), 0);
+    CircleGraph_SetCenterDepth((struct CircleGraph *)(RESEARCH_GRAPH_GetLeftCircle(graph)), 0xFFFFE000);
+    CircleGraph_SetCenterDepth((struct CircleGraph *)(RESEARCH_GRAPH_GetRightCircle(graph)), 0);
 }
 
 void RESEARCH_GRAPH_SetSlicesFromGraphA(u8 *graph,int mode)
@@ -2256,7 +2281,7 @@ void RESEARCH_GRAPH_SetSlicesFromGraphA(u8 *graph,int mode)
         RESEARCH_GRAPH_QuantizePosition((u32)t);
         switch(mode) { case 0: t->value=q->valueA; break; case 1: t->value=q->valueB; break; }
     }
-    CircleGraph_SetSlices((u8 *)object,(u8 *)items,count);
+    CircleGraph_SetSlices((struct CircleGraph *)object,(struct CircleGraphInput *)items,count);
 }
 
 void RESEARCH_GRAPH_SetSlicesFromGraphB(u8 *graph, u32 mode)
@@ -2276,15 +2301,15 @@ void RESEARCH_GRAPH_SetSlicesFromGraphB(u8 *graph, u32 mode)
         RESEARCH_GRAPH_QuantizePosition((u32)t);
         switch(mode) { case 0: t->value=q->valueA; break; case 1: t->value=q->valueB; break; }
     }
-    CircleGraph_SetSlices((u8 *)object,(u8 *)items,count);
+    CircleGraph_SetSlices((struct CircleGraph *)object,(struct CircleGraphInput *)items,count);
 }
 
 void RESEARCH_GRAPH_UpdateCircles(char *graph)
 {
     int i;
     for (i = 0; i < 2; i++) {
-        CircleGraph_Update(*(u8 **)(graph + i * 4 + 0x2bc));
-        CircleGraph_Update(*(u8 **)(graph + i * 4 + 0x2c4));
+        CircleGraph_Update((struct CircleGraph *)(*(u8 **)(graph + i * 4 + 0x2bc)));
+        CircleGraph_Update((struct CircleGraph *)(*(u8 **)(graph + i * 4 + 0x2c4)));
     }
 }
 
@@ -2292,8 +2317,8 @@ void RESEARCH_GRAPH_DrawCircles(char *graph)
 {
     int i;
     for (i = 0; i < 2; i++) {
-        CircleGraph_Draw(*(u8 **)(graph + i * 4 + 0x2bc));
-        CircleGraph_Draw(*(u8 **)(graph + i * 4 + 0x2c4));
+        CircleGraph_Draw((struct CircleGraph *)(*(u8 **)(graph + i * 4 + 0x2bc)));
+        CircleGraph_Draw((struct CircleGraph *)(*(u8 **)(graph + i * 4 + 0x2c4)));
     }
 }
 
@@ -2329,20 +2354,20 @@ void RESEARCH_GRAPH_LayoutArrow(char *graph)
     u8 *object;
     unsigned index;
     s32 x,y;
-    ARROW_Reset(*(unsigned *)&((struct ResearchObjB *)graph)->arrow);
+    ARROW_Reset((struct Arrow *)(*(unsigned *)&((struct ResearchObjB *)graph)->arrow));
     if (((struct ResearchObjB *)graph)->detailMode==1) return;
     if (((struct ResearchObjB *)graph)->entryShown==0) return;
     if (RESEARCH_GRAPH_GetGroupValue(graph)==0) return;
     object=RESEARCH_GRAPH_GetLeftCircle(graph);
     index=RESEARCH_GRAPH_GetEntryKey(graph);
-    if (CircleGraph_GetPercentByKey(object,index)==0) return;
+    if (CircleGraph_GetPercentByKey((struct CircleGraph *)object,index)==0) return;
     if (((struct ResearchObjB *)graph)->entryShown!=0) {
         object=RESEARCH_GRAPH_GetLeftCircle(graph);
         index=RESEARCH_GRAPH_GetEntryKey(graph);
-        CircleGraph_GetLabelPositionByKey(object,index,&x,&y);
+        CircleGraph_GetLabelPositionByKey((struct CircleGraph *)object,index,&x,&y);
 
-        ARROW_Layout(*(unsigned *)&((struct ResearchObjB *)graph)->arrow,104,34,x,y);
-        ARROW_Start(*(unsigned *)&((struct ResearchObjB *)graph)->arrow);
+        ARROW_Layout((struct Arrow *)(*(unsigned *)&((struct ResearchObjB *)graph)->arrow),104,34,x,y);
+        ARROW_Start((struct Arrow *)(*(unsigned *)&((struct ResearchObjB *)graph)->arrow));
     }
 }
 
@@ -2363,13 +2388,13 @@ void RESEARCH_GRAPH_UpdatePercentages(char *graph)
     i=0;
     n--;
     for (;n>=0;n--) {
-        id=CircleGraph_GetPercentByIndex(object,n);
-        CircleGraph_GetLabelPositionByIndex(object,n,&x,&y);
+        id=CircleGraph_GetPercentByIndex((struct CircleGraph *)object,n);
+        CircleGraph_GetLabelPositionByIndex((struct CircleGraph *)object,n,&x,&y);
 
         if (id>=10) {
             slot=*(unsigned *)(graph+i*4+0x2d4);
-            PERCENTAGE_SetValue(slot,id);
-            PERCENTAGE_SetPosition(slot,x,y);
+            PERCENTAGE_SetValue((struct Percentage *)slot,id);
+            PERCENTAGE_SetPosition((struct Percentage *)slot,x,y);
             i++;
         }
     }
@@ -2381,7 +2406,7 @@ void RESEARCH_GRAPH_HideAllPercentages(char *graph)
     int i;
     u8 z = 0;
     for (i = 0; i < 10; i++) {
-        PERCENTAGE_SetVisible(*(u32 *)(graph + i * 4 + 0x2d4), z);
+        PERCENTAGE_SetVisible((struct Percentage *)(*(u32 *)(graph + i * 4 + 0x2d4)), z);
     }
     ((struct ResearchObjB *)graph)->percentageVisible = z;
 }
@@ -2393,7 +2418,7 @@ void RESEARCH_GRAPH_HideAllPercentages(char *graph)
  */
 void RESEARCH_GRAPH_ShowPercent(u8 *graph, u32 index)
 {
-    PERCENTAGE_SetVisible((u32)(*(u32*)(graph + (index)*4 + 724)), 1);
+    PERCENTAGE_SetVisible((struct Percentage *)((*(u32*)(graph + (index)*4 + 724))), 1);
 }
 
 void RESEARCH_GRAPH_ShowPercentages(char *graph)
@@ -2455,20 +2480,20 @@ void RESEARCH_GRAPH_LoadBackground(char *graph)
  */
 void RESEARCH_GRAPH_PrintTitle(char *graph)
 {
-    BgTextLabel_PrintMessage(((struct ResearchObjB *)graph)->titleLabel, d_021C3628[((struct ResearchObjB *)graph)->titleGroup]);
+    BgTextLabel_PrintMessage((struct BgTextLabel *)(((struct ResearchObjB *)graph)->titleLabel), d_021C3628[((struct ResearchObjB *)graph)->titleGroup]);
 }
 
 void RESEARCH_GRAPH_PrintGroupLabel(char *graph)
 {
     u32 i = RESEARCH_GRAPH_GetGroupKey(graph);
-    BgTextLabel_PrintMessage(((struct ResearchObjB *)graph)->groupLabel, d_021C36B8[i]);
+    BgTextLabel_PrintMessage((struct BgTextLabel *)(((struct ResearchObjB *)graph)->groupLabel), d_021C36B8[i]);
 }
 
 void RESEARCH_GRAPH_PrintKindLabel(char *graph)
 {
     u32 o = ((struct ResearchObjB *)graph)->kindLabel;
     u32 i = RESEARCH_GRAPH_GetGroupKey(graph);
-    BgTextLabel_PrintMessage(o, d_021C369A[i]);
+    BgTextLabel_PrintMessage((struct BgTextLabel *)o, d_021C369A[i]);
 }
 
 void RESEARCH_GRAPH_PrintSliceLabel(char *graph)
@@ -2479,18 +2504,18 @@ void RESEARCH_GRAPH_PrintSliceLabel(char *graph)
     u32 a, b, c;
     void *x, *y, *z;
     if (((struct ResearchObjB *)graph)->entryShown == 0 || ((struct ResearchObjB *)graph)->detailMode == 1) {
-        BgTextLabel_SetVisible((u8 *)t, 0);
+        BgTextLabel_SetVisible((struct BgTextLabel *)t, 0);
         return;
     }
     if (RESEARCH_GRAPH_GetGroupValue(graph) == 0) {
-        BgTextLabel_SetVisible((u8 *)t, 0);
+        BgTextLabel_SetVisible((struct BgTextLabel *)t, 0);
         return;
     }
     k = RESEARCH_GRAPH_GetEntryKey(graph);
-    a = CircleGraph_FindSliceIndex(o, (u8)k);
+    a = CircleGraph_FindSliceIndex((struct CircleGraph *)o, (u8)k);
 
     b = RESEARCH_GRAPH_GetEntryValue(graph);
-    c = CircleGraph_GetPercentByKey(o, (u8)k);
+    c = CircleGraph_GetPercentByKey((struct CircleGraph *)o, (u8)k);
     x = MSGDATA_AllocString(((struct ResearchObjB *)graph)->msgBankA, 0xd);
     y = MSGDATA_AllocString(((struct ResearchObjB *)graph)->msgBankB, k);
     z = STRBUF_Create(0x80, ((struct ResearchObjB *)graph)->heapId);
@@ -2499,8 +2524,8 @@ void RESEARCH_GRAPH_PrintSliceLabel(char *graph)
     WORDSET_SetSlotNumber(((struct ResearchObjB *)graph)->wordSet, 2, b, 5, 1, 1);
     WORDSET_SetSlotNumber(((struct ResearchObjB *)graph)->wordSet, 3, c, 3, 1, 1);
     WORDSET_CopyTaggedText(((struct ResearchObjB *)graph)->wordSet, z, x);
-    BgTextLabel_PrintText((u8 *)t, z);
-    BgTextLabel_SetVisible((u8 *)t, 1);
+    BgTextLabel_PrintText((struct BgTextLabel *)t, z);
+    BgTextLabel_SetVisible((struct BgTextLabel *)t, 1);
     STRBUF_Delete(x);
     STRBUF_Delete(z);
     STRBUF_Delete(y);
@@ -2514,20 +2539,20 @@ void RESEARCH_GRAPH_PrintTimeLabel(char *graph)
     unsigned index;
     struct U16Vec *a,*b,*buf;
     if (((struct ResearchObjB *)graph)->entryShown==0 || RESEARCH_GRAPH_GetGroupValue(graph)==0) {
-        BgTextLabel_SetVisible((u8 *)(((struct ResearchObjB *)graph)->timeLabel),0);
+        BgTextLabel_SetVisible((struct BgTextLabel *)(((struct ResearchObjB *)graph)->timeLabel),0);
         return;
     }
     index=RESEARCH_GRAPH_GetEntryIdBySave((unsigned char *)graph);
-    a=MSGDATA_AllocString(*(struct MsgBank * *)&((struct ResearchObjB *)graph)->msgBankA,14);
-    b=MSGDATA_AllocString(*(struct MsgBank * *)&((struct ResearchObjB *)graph)->msgBankB,index);
-    buf=STRBUF_Create(128,((struct ResearchObjB *)graph)->heapId);
-    WORDSET_SetSlotTag(*(struct WordSet * *)&((struct ResearchObjB *)graph)->wordSet,0,b,0,1,2);
-    WORDSET_CopyTaggedText(*(struct WordSet * *)&((struct ResearchObjB *)graph)->wordSet,buf,a);
-    BgTextLabel_SetVisible((u8 *)(((struct ResearchObjB *)graph)->timeLabel),1);
-    BgTextLabel_PrintText((u8 *)(((struct ResearchObjB *)graph)->timeLabel),buf);
-    STRBUF_Delete(a);
-    STRBUF_Delete(buf);
-    STRBUF_Delete(b);
+    a=(struct U16Vec *)MSGDATA_AllocString(*(struct MsgBank * *)&((struct ResearchObjB *)graph)->msgBankA,14);
+    b=(struct U16Vec *)MSGDATA_AllocString(*(struct MsgBank * *)&((struct ResearchObjB *)graph)->msgBankB,index);
+    buf=(struct U16Vec *)STRBUF_Create(128,((struct ResearchObjB *)graph)->heapId);
+    WORDSET_SetSlotTag(*(struct WordSet * *)&((struct ResearchObjB *)graph)->wordSet,0,(struct Strbuf *)b,0,1,2);
+    WORDSET_CopyTaggedText(*(struct WordSet * *)&((struct ResearchObjB *)graph)->wordSet,(struct Strbuf *)buf,(struct Strbuf *)a);
+    BgTextLabel_SetVisible((struct BgTextLabel *)(((struct ResearchObjB *)graph)->timeLabel),1);
+    BgTextLabel_PrintText((struct BgTextLabel *)(((struct ResearchObjB *)graph)->timeLabel),buf);
+    STRBUF_Delete((struct Strbuf *)a);
+    STRBUF_Delete((struct Strbuf *)buf);
+    STRBUF_Delete((struct Strbuf *)b);
 }
 
 void RESEARCH_GRAPH_PrintTeamLabel(char *graph)
@@ -2561,7 +2586,7 @@ void RESEARCH_GRAPH_PrintTeamLabel(char *graph)
     b = STRBUF_Create(0x80, ((struct ResearchObjB *)graph)->heapId);
     WORDSET_SetSlotNumber(c, 0, x, 6, 1, 1);
     WORDSET_CopyTaggedText(c, b, a);
-    BgTextLabel_PrintText((u8 *)(((struct ResearchObjB *)graph)->teamLabel), b);
+    BgTextLabel_PrintText((struct BgTextLabel *)(((struct ResearchObjB *)graph)->teamLabel), b);
     STRBUF_Delete(a);
     STRBUF_Delete(b);
 }
@@ -2569,18 +2594,18 @@ void RESEARCH_GRAPH_PrintTeamLabel(char *graph)
 void RESEARCH_GRAPH_SetTeamLabelVisible(char *graph)
 {
     if (RESEARCH_GRAPH_GetGroupValue(graph) == 0) {
-        BgTextLabel_SetVisible((u8 *)(((struct ResearchObjB *)graph)->emptyLabel), 1);
+        BgTextLabel_SetVisible((struct BgTextLabel *)(((struct ResearchObjB *)graph)->emptyLabel), 1);
     } else {
-        BgTextLabel_SetVisible((u8 *)(((struct ResearchObjB *)graph)->emptyLabel), 0);
+        BgTextLabel_SetVisible((struct BgTextLabel *)(((struct ResearchObjB *)graph)->emptyLabel), 0);
     }
 }
 
 void RESEARCH_GRAPH_SetDetailLabelVisible(char *graph)
 {
     if (((struct ResearchObjB *)graph)->detailMode != 0) {
-        BgTextLabel_SetVisible((u8 *)(((struct ResearchObjB *)graph)->detailLabel), 1);
+        BgTextLabel_SetVisible((struct BgTextLabel *)(((struct ResearchObjB *)graph)->detailLabel), 1);
     } else {
-        BgTextLabel_SetVisible((u8 *)(((struct ResearchObjB *)graph)->detailLabel), 0);
+        BgTextLabel_SetVisible((struct BgTextLabel *)(((struct ResearchObjB *)graph)->detailLabel), 0);
     }
 }
 
@@ -2593,8 +2618,8 @@ void RESEARCH_GRAPH_LayoutActors(char *graph)
     a=(struct Obj *)RESEARCH_GRAPH_GetMarkerActor(graph,0);
     b=(struct Obj *)RESEARCH_GRAPH_GetMarkerActor(graph,1);
     if (((struct ResearchObjB *)graph)->detailMode==1 || ((struct ResearchObjB *)graph)->cursorIndex==2 || ((struct ResearchObjB *)graph)->cursorIndex==4) {
-        CLACT_SetActorDrawEnable(a,0);
-        CLACT_SetActorDrawEnable(b,0);
+        CLACT_SetActorDrawEnable((struct Actor *)a,0);
+        CLACT_SetActorDrawEnable((struct Actor *)b,0);
         return;
     }
     pos.x=row->offsets[0]+row->offsets[4];
@@ -2603,18 +2628,18 @@ void RESEARCH_GRAPH_LayoutActors(char *graph)
     pos.x=row->offsets[0]+row->offsets[6];
     pos.y=row->offsets[1]+row->offsets[7];
     CLACT_AddActorSurfacePos(b,&pos,0);
-    CLACT_SetActorDrawEnable(a,1);
-    CLACT_SetActorDrawEnable(b,1);
-    CLACT_SetActorAutoAnim(a,1);
-    CLACT_SetActorAutoAnim(b,1);
+    CLACT_SetActorDrawEnable((struct Actor *)a,1);
+    CLACT_SetActorDrawEnable((struct Actor *)b,1);
+    CLACT_SetActorAutoAnim((struct Actor *)a,1);
+    CLACT_SetActorAutoAnim((struct Actor *)b,1);
 }
 
 void RESEARCH_GRAPH_SetTriangleActorVisible(char *graph)
 {
     if (((struct ResearchObjB *)graph)->entryShown == 0 || RESEARCH_GRAPH_GetGroupValue(graph) == 0) {
-        CLACT_SetActorDrawEnable((struct Obj *)((struct ResearchObjB *)graph)->triangleActor, 0);
+        CLACT_SetActorDrawEnable((struct Actor *)((struct ResearchObjB *)graph)->triangleActor, 0);
     } else {
-        CLACT_SetActorDrawEnable((struct Obj *)((struct ResearchObjB *)graph)->triangleActor, 1);
+        CLACT_SetActorDrawEnable((struct Actor *)((struct ResearchObjB *)graph)->triangleActor, 1);
     }
 }
 
@@ -2627,18 +2652,18 @@ void RESEARCH_GRAPH_LayoutMarkerActor(char *graph)
     const u16 *table;
     obj=*(struct Obj * *)&((struct ResearchObjB *)graph)->markerActor;
     table=d_021C3850;
-    if (((struct ResearchObjB *)graph)->entryShown==0) { CLACT_SetActorDrawEnable(obj,0); return; }
-    if (((struct ResearchObjB *)graph)->cursorIndex!=2) { CLACT_SetActorDrawEnable(obj,0); return; }
+    if (((struct ResearchObjB *)graph)->entryShown==0) { CLACT_SetActorDrawEnable((struct Actor *)obj,0); return; }
+    if (((struct ResearchObjB *)graph)->cursorIndex!=2) { CLACT_SetActorDrawEnable((struct Actor *)obj,0); return; }
     index=RESEARCH_GRAPH_GetEntryIdBySave((u8 *)graph);
-    if (CircleGraph_GetPercentByKey(RESEARCH_GRAPH_GetLeftCircle(graph),index)==0) { CLACT_SetActorDrawEnable(obj,0); return; }
-    if (index==0) { CLACT_SetActorDrawEnable(obj,0); return; }
-    CircleGraph_GetLabelPositionByKey(RESEARCH_GRAPH_GetLeftCircle(graph),index,&x,&y);
+    if (CircleGraph_GetPercentByKey((struct CircleGraph *)(RESEARCH_GRAPH_GetLeftCircle(graph)),index)==0) { CLACT_SetActorDrawEnable((struct Actor *)obj,0); return; }
+    if (index==0) { CLACT_SetActorDrawEnable((struct Actor *)obj,0); return; }
+    CircleGraph_GetLabelPositionByKey((struct CircleGraph *)(RESEARCH_GRAPH_GetLeftCircle(graph)),index,&x,&y);
 
     pos.x=x;
     pos.y=y;
     CLACT_AddActorSurfacePos(obj,&pos,table[12]);
-    CLACT_SetActorDrawEnable(obj,1);
-    CLACT_SetActorAutoAnim(obj,1);
+    CLACT_SetActorDrawEnable((struct Actor *)obj,1);
+    CLACT_SetActorAutoAnim((struct Actor *)obj,1);
     CLACT_SetActorAnimLoopCount((struct Actor *)obj,2);
 }
 
@@ -2669,12 +2694,12 @@ void RESEARCH_GRAPH_DisableOams(void *graph)
 
 void RESEARCH_GRAPH_SetOamEnabled(u8 *graph, u32 index, u32 enabled)
 {
-    BMP_OAM_SetEnabled((u8 *)(*(u32 *)(graph + index * 4 + 0x3a8)), enabled);
+    BMP_OAM_SetEnabled((struct BmpOam *)(*(u32 *)(graph + index * 4 + 0x3a8)), enabled);
 }
 
 void RESEARCH_GRAPH_StartSlotPaletteAnime(char *graph, int slot)
 {
-    PALETTE_ANIME_Start((u8 *)(*(u32 *)(graph + slot * 4 + 0x324)), d_021C3A34[slot].mode, d_021C3A34[slot].color);
+    PALETTE_ANIME_Start((struct PaletteAnime *)(*(u32 *)(graph + slot * 4 + 0x324)), d_021C3A34[slot].mode, d_021C3A34[slot].color);
 }
 
 /*
@@ -2684,7 +2709,7 @@ void RESEARCH_GRAPH_StartSlotPaletteAnime(char *graph, int slot)
  */
 void RESEARCH_GRAPH_StopSlotPaletteAnime(u8 *graph, u32 slot)
 {
-    PALETTE_ANIME_Stop((u32)(*(u32*)(graph + (slot)*4 + 804)));
+    PALETTE_ANIME_Stop((struct PaletteAnime *)((*(u32*)(graph + (slot)*4 + 804))));
 }
 
 /*
@@ -2701,7 +2726,7 @@ void RESEARCH_GRAPH_UpdateSlotPalettes(int *graph)
 {
     int i;
     for (i = 0; i < 8; i++)
-        PALETTE_ANIME_Update(graph[i + 0xC9]);
+        PALETTE_ANIME_Update((struct PaletteAnime *)(graph[i + 0xC9]));
 }
 
 /*
@@ -2850,7 +2875,7 @@ u8 *RESEARCH_GRAPH_GetRightCircle(void *graph)
 
 u32 RESEARCH_GRAPH_AreCirclesIdle(u32 graph)
 {
-    if (CircleGraph_IsAnimating(*(u8 * *)&((struct ResearchObjB *)graph)->leftCircleA) != 0 || CircleGraph_IsAnimating(*(u8 * *)&((struct ResearchObjB *)graph)->leftCircleB) != 0 || CircleGraph_IsAnimating(*(u8 * *)&((struct ResearchObjB *)graph)->rightCircleA) != 0 || CircleGraph_IsAnimating(*(u8 * *)&((struct ResearchObjB *)graph)->rightCircleB) != 0) {
+    if (CircleGraph_IsAnimating((struct CircleGraph *)(*(u8 * *)&((struct ResearchObjB *)graph)->leftCircleA)) != 0 || CircleGraph_IsAnimating((struct CircleGraph *)(*(u8 * *)&((struct ResearchObjB *)graph)->leftCircleB)) != 0 || CircleGraph_IsAnimating((struct CircleGraph *)(*(u8 * *)&((struct ResearchObjB *)graph)->rightCircleA)) != 0 || CircleGraph_IsAnimating((struct CircleGraph *)(*(u8 * *)&((struct ResearchObjB *)graph)->rightCircleB)) != 0) {
     return 0;
     }
     return 1;
@@ -2957,7 +2982,7 @@ u8 RESEARCH_GRAPH_GetFirstSaveGroup(u8 *graph)
     u8 a,b,c,j;
     void *base;
     int i;
-    base=SYMBOL_SAVE_GetBitBlock(GAME_DATA_GetSaveControl((struct Big *)RESEARCH_GRAPH_GetAppResource(graph)));
+    base=SYMBOL_SAVE_GetBitBlock(GAME_DATA_GetSaveControl((struct GameData *)RESEARCH_GRAPH_GetAppResource(graph)));
     for (i=0;i<3;i++) bytes[i]=MISC_SAVEDATA_GetStatusByte((int)base,i);
     b=bytes[1];
     c=bytes[2];
@@ -2973,13 +2998,13 @@ u32 RESEARCH_GRAPH_GetEntryIdBySave(u8 *graph)
     void *bits;
     u32 index;
     u16 n;
-    bits = SYMBOL_SAVE_GetQuestionnaireBits(SYMBOL_SAVE_GetBitBlock(GAME_DATA_GetSaveControl((struct Big *)RESEARCH_GRAPH_GetAppResource(graph))));
+    bits = SYMBOL_SAVE_GetQuestionnaireBits(SYMBOL_SAVE_GetBitBlock(GAME_DATA_GetSaveControl((struct GameData *)RESEARCH_GRAPH_GetAppResource(graph))));
     index = RESEARCH_GRAPH_GetGroupKey(graph);
     if (index == 29) return RESEARCH_GRAPH_GetPlayTimeGroupId(graph);
     n = SYMBOL_SAVE_ReadBitField((const u8 *)bits, index);
     if (n == 0) return 0;
     n--;
-    return (u8)GRAPHTABLE_GetEntryId(graph + 0x38, graph[0x2b8], n);
+    return (u8)GRAPHTABLE_GetEntryId((struct GraphTable *)(graph + 0x38), graph[0x2b8], n);
 }
 
 /*
@@ -2989,7 +3014,7 @@ u32 RESEARCH_GRAPH_GetEntryIdBySave(u8 *graph)
  */
 u32 RESEARCH_GRAPH_GetPlayTimeGroupId(u8 *graph)
 {
-    u32 v = PLAYTIME_GetHours((const struct PlayTime *)GAME_DATA_GetPlayTime(RESEARCH_GRAPH_GetAppResource(graph)));
+    u32 v = PLAYTIME_GetHours((const struct PlayTime *)GAME_DATA_GetPlayTime((struct GameData *)(RESEARCH_GRAPH_GetAppResource(graph))));
     if (v < 10) return 135;
     if (v < 20) return 136;
     if (v < 30) return 137;
@@ -3014,7 +3039,7 @@ u32 RESEARCH_GRAPH_GetPlayTimeGroupId(u8 *graph)
  */
 u16 RESEARCH_GRAPH_GetSaveBits(u32 graph)
 {
-    return MISC_SAVEDATA_GetHalfword((const u16 *)SYMBOL_SAVE_GetBitBlock(GAME_DATA_GetSaveControl((struct Big *)RESEARCH_GRAPH_GetAppResource((u8 *)graph))), RESEARCH_GRAPH_GetGroupKey((void *)graph));
+    return MISC_SAVEDATA_GetHalfword((const u16 *)SYMBOL_SAVE_GetBitBlock(GAME_DATA_GetSaveControl((struct GameData *)RESEARCH_GRAPH_GetAppResource((u8 *)graph))), RESEARCH_GRAPH_GetGroupKey((void *)graph));
 }
 
 u32 RESEARCH_GRAPH_GetClactUnit(void *graph, u32 index)
@@ -3056,7 +3081,7 @@ void RESEARCH_GRAPH_InitFields(char *graph)
     ((struct ResearchObjB *)graph)->groupIndex = 0;
     ((struct ResearchObjB *)graph)->entryIndex = 0;
     ((struct ResearchObjB *)graph)->graphKind = 0;
-    ((struct ResearchObjB *)graph)->fadeParamU = GFL_USE_GetMainTaskList();
+    ((struct ResearchObjB *)graph)->fadeParamU = (unsigned int)GFL_USE_GetMainTaskList();
     ((struct ResearchObjB *)graph)->percentageCount = 0;
     ((struct ResearchObjB *)graph)->percentageVisible = 0;
     ((struct ResearchObjB *)graph)->active = 0;
@@ -3155,7 +3180,7 @@ void RESEARCH_GRAPH_DeleteMessages(int *graph)
 {
     int i;
     for (i = 0; i < 3; i++)
-        MSGDATA_Delete((struct Rec *)graph[i + 3]);
+        MSGDATA_Delete((struct MsgBank *)graph[i + 3]);
 }
 
 void RESEARCH_GRAPH_ClearWordSet(void *graph)
@@ -3191,8 +3216,8 @@ void RESEARCH_GRAPH_CreateCircles(char *graph)
 {
     int i;
     for (i = 0; i < 2; i++) {
-        *(u32 *)(graph + i * 4 + 0x2bc) = CircleGraph_Create(((struct ResearchObjB *)graph)->heapId);
-        *(u32 *)(graph + i * 4 + 0x2c4) = CircleGraph_Create(((struct ResearchObjB *)graph)->heapId);
+        *(u32 *)(graph + i * 4 + 0x2bc) = (unsigned int)CircleGraph_Create((unsigned int)(((struct ResearchObjB *)graph)->heapId));
+        *(u32 *)(graph + i * 4 + 0x2c4) = (unsigned int)CircleGraph_Create((unsigned int)(((struct ResearchObjB *)graph)->heapId));
     }
 }
 
@@ -3253,7 +3278,7 @@ void RESEARCH_GRAPH_BuildGraphTable(char *graph)
     int i, j, k;
     void *h;
     u8 first;
-    h = SYMBOL_SAVE_GetBitBlock(GAME_DATA_GetSaveControl((struct Big *)RESEARCH_GRAPH_GetAppResource((u8 *)graph)));
+    h = SYMBOL_SAVE_GetBitBlock(GAME_DATA_GetSaveControl((struct GameData *)RESEARCH_GRAPH_GetAppResource((u8 *)graph)));
     first = RESEARCH_GRAPH_GetFirstSaveGroup((u8 *)graph);
     i = 0;
     grp[0] = MISC_SAVEDATA_GetStatusByte((int)h, 0);
@@ -3334,7 +3359,7 @@ void RESEARCH_GRAPH_CreateArrow(char *graph)
     args.animSeq[1] = 1;
     args.animSeq[2] = 2;
     args.animSeq[3] = 3;
-    ((struct ResearchObjB *)graph)->arrow = (void *)ARROW_Create(((struct ResearchObjB *)graph)->heapId, (u32)&args);
+    ((struct ResearchObjB *)graph)->arrow = (void *)ARROW_Create(((struct ResearchObjB *)graph)->heapId, (struct ArrowResources *)(&args));
 }
 
 /*
@@ -3373,8 +3398,8 @@ void RESEARCH_GRAPH_CreatePercentages(char *graph)
     args.digitAnimSeq = 12;
     args.signAnimSeq = 13;
     for (i = 0; i < 10; i++) {
-        *(u32 *)(graph + i * 4 + 0x2d4) = PERCENTAGE_Create(((struct ResearchObjB *)graph)->heapId, (u32)&args, RESEARCH_GRAPH_GetSharedHandle(graph, 3));
-        PERCENTAGE_SetVisible(*(u32 *)(graph + i * 4 + 0x2d4), 0);
+        *(u32 *)(graph + i * 4 + 0x2d4) = PERCENTAGE_Create(((struct ResearchObjB *)graph)->heapId, (struct PercentageTemplate *)(&args), (struct ClactUnit *)(RESEARCH_GRAPH_GetSharedHandle(graph, 3)));
+        PERCENTAGE_SetVisible((struct Percentage *)(*(u32 *)(graph + i * 4 + 0x2d4)), 0);
     }
 }
 
@@ -3423,7 +3448,7 @@ extern void BG_SYS_InitBgLayer(u32, const struct BgTemplate *, u32);
 
 extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
 
-extern void G2x_SetBlendAlpha_(u32 *, u32, u32, int, int);
+extern void G2x_SetBlendAlpha_(unsigned int *reg, unsigned int a, unsigned int b, unsigned int c, unsigned int d);
 
 extern u32 BG_SYS_FreeLayerBuf();
 
@@ -3596,9 +3621,9 @@ void RESEARCH_GRAPH_CreateLabels(char *graph)
         args.green = d_021C3B7C[i].green;
         args.blue = d_021C3B7C[i].blue;
         args.centered = d_021C3B7C[i].centered;
-        *(u32 *)(graph + i * 4 + 0x344) = (u32)BgTextLabel_Create(&args, ((struct ResearchObjB *)graph)->font, *(u32 *)(graph + d_021C3B7C[i].messageIndex * 4 + 12), ((struct ResearchObjB *)graph)->heapId);
+        *(u32 *)(graph + i * 4 + 0x344) = (u32)BgTextLabel_Create((struct BgTextLabelConfig *)(&args), ((struct ResearchObjB *)graph)->font, *(u32 *)(graph + d_021C3B7C[i].messageIndex * 4 + 12), ((struct ResearchObjB *)graph)->heapId);
         handle = *(u32 *)(graph + i * 4 + 0x344);
-        BgTextLabel_PrintMessage(handle, d_021C3B7C[i].messageMode);
+        BgTextLabel_PrintMessage((struct BgTextLabel *)handle, d_021C3B7C[i].messageMode);
     }
 }
 
@@ -3609,7 +3634,7 @@ void RESEARCH_GRAPH_DestroyLabels(int *graph)
 {
     int i;
     for (i = 0; i < 9; i++) {
-        BgTextLabel_Destroy((u8 *)graph[i + 0xD1]);
+        BgTextLabel_Destroy((struct BgTextLabel *)graph[i + 0xD1]);
         graph[i + 0xD1] = 0;
     }
 }
@@ -3712,7 +3737,7 @@ void RESEARCH_GRAPH_CreateActors(u8 *graph)
         d=RESEARCH_GRAPH_GetClactUnit(graph,q->unitC);
         dest=graph+i*4;
         *(u32 *)&((struct ResearchObjB *)dest)->markerActorA=(u32)CLACT_CreateActor((void *)a,b,c,d,&arg,q->space,((struct ResearchObjB *)graph)->heapId);
-        CLACT_SetActorDrawEnable(*(struct Obj * *)&((struct ResearchObjB *)dest)->markerActorA,0);
+        CLACT_SetActorDrawEnable((struct Actor *)(*(struct Obj * *)&((struct ResearchObjB *)dest)->markerActorA),0);
     }
 }
 
@@ -3720,7 +3745,7 @@ void RESEARCH_GRAPH_DeleteActors(int *graph)
 {
     int i;
     for (i = 0; i < 4; i++)
-        CLACT_DeleteActor((struct Obj *)graph[i + 0xE5]);
+        CLACT_DeleteActor((struct Actor *)graph[i + 0xE5]);
 }
 
 /*
@@ -3788,17 +3813,18 @@ struct PaletteAnimeBind {
     u8 pad[11];
 };
 
-extern int BMP_OAM_CreateSys(u16 heap, int a);
+extern struct BmpOamSys *BMP_OAM_CreateSys(unsigned int heapId, void *clact);
 
 extern struct Grid *BMP_OAM_Create(struct Sys *,const struct OamObjectParam *);
+struct GameComm;
 
-extern u32 GAMESYSTEM_GetGameComm(const struct Ctx *);
+extern struct GameComm *GAMESYSTEM_GetGameComm(struct GameSystem *gameSystem);
 
-extern void GAME_COMM_RequestExitNoCallback(struct Comm *p);
+extern void GAME_COMM_RequestExitNoCallback(struct GameComm *comm);
 
-extern u32 GAME_COMM_GetKind(void *obj);
+extern u32 GAME_COMM_GetKind(struct GameComm *comm);
 
-extern void GAME_COMM_SetNotifyFlag(void *obj, u32 flag);
+extern void GAME_COMM_SetNotifyFlag(struct GameComm *comm, unsigned int flag);
 
 extern const struct Tab d_021C3C54;
 
@@ -3840,7 +3866,7 @@ void RESEARCH_GRAPH_DeleteBmps(int *graph)
 
 void RESEARCH_GRAPH_CreateOamSys(u8 *graph)
 {
-    ((struct ResearchObjB *)graph)->oamSys = BMP_OAM_CreateSys(((struct ResearchObjB *)graph)->heapId, ((struct ResearchObjB *)graph)->units[2]);
+    ((struct ResearchObjB *)graph)->oamSys = (unsigned int)BMP_OAM_CreateSys((unsigned int)(((struct ResearchObjB *)graph)->heapId), (void *)(((struct ResearchObjB *)graph)->units[2]));
 }
 
 void RESEARCH_GRAPH_DeleteOamSys(u8 *graph)
@@ -3877,8 +3903,8 @@ void RESEARCH_GRAPH_CreateOamObjects(u8 *graph)
         param.drawPriority=q->drawPriority; param.bgPriority=q->bgPriority;
         param.space=q->space; param.engine=q->engine;
         *(struct Grid **)(dest+outOff)=BMP_OAM_Create(*(struct Sys **)(graph+sysOff),&param);
-        BMP_OAM_SetEnabled(*(u8 **)(dest+callOff),0);
-        BMP_OAM_UploadChars(*(struct Obj **)(dest+uploadOff));
+        BMP_OAM_SetEnabled((struct BmpOam *)(*(u8 **)(dest+callOff)),0);
+        BMP_OAM_UploadChars((struct BmpOam *)(*(struct Obj **)(dest+uploadOff)));
     }
 }
 
@@ -3889,7 +3915,7 @@ void RESEARCH_GRAPH_DeleteOamObjects(int *graph)
 {
     int i;
     for (i = 0; i < 2; i++)
-        BMP_OAM_Delete((struct Grid *)graph[i + 0xEA]);
+        BMP_OAM_Delete((struct BmpOam *)graph[i + 0xEA]);
 }
 
 /*
@@ -3952,14 +3978,14 @@ void RESEARCH_GRAPH_BindPaletteAnime(u8 *graph)
 {
     int i;
     for (i = 0; i < 8; i++)
-        PALETTE_ANIME_Bind((void *)(*(int *)(graph + i * 4 + 0x324)), d_021C3A28[i].palette, d_021C3A28[i].original, d_021C3A28[i].colorCount);
+        PALETTE_ANIME_Bind((void *)(*(int *)(graph + i * 4 + 0x324)), (unsigned short *)d_021C3A28[i].palette, (unsigned short *)d_021C3A28[i].original, d_021C3A28[i].colorCount);
 }
 
 void RESEARCH_GRAPH_RestorePaletteAnime(int *graph)
 {
     int i;
     for (i = 0; i < 8; i++)
-        PALETTE_ANIME_Restore((char *)graph[i + 0xC9]);
+        PALETTE_ANIME_Restore((struct PaletteAnime *)graph[i + 0xC9]);
 }
 
 /*
@@ -3974,7 +4000,7 @@ void RESEARCH_GRAPH_RestartNetwork(u32 graph)
 
 void RESEARCH_GRAPH_RegisterVBlank(char *graph)
 {
-    ((struct ResearchObjB *)graph)->vblankNode = GFL_USE_AddMainTask((void (*)(void))RESEARCH_GRAPH_TransferPalettes, graph, 0);
+    ((struct ResearchObjB *)graph)->vblankNode = (unsigned int)GFL_USE_AddMainTask((void (*)(void))RESEARCH_GRAPH_TransferPalettes, graph, (unsigned int)0);
 }
 
 /*
@@ -3984,7 +4010,7 @@ void RESEARCH_GRAPH_RegisterVBlank(char *graph)
  */
 void RESEARCH_GRAPH_UnregisterVBlank(u8 *graph)
 {
-    TCB_DeleteTask((struct Node *)((u32)(((struct ResearchObjB *)graph)->vblankNode)));
+    TCB_DeleteTask((struct TcbTask *)((u32)(((struct ResearchObjB *)graph)->vblankNode)));
 }
 
 u32 RESEARCH_GRAPH_ClampByte(s32 value)
@@ -4005,10 +4031,10 @@ u32 RESEARCH_GRAPH_ClampByte(s32 value)
  */
 void RESEARCH_GRAPH_OpenComm(u8 *graph)
 {
-    u32 comm = GAMESYSTEM_GetGameComm((const struct Ctx *)RESEARCH_GRAPH_GetContext(graph));
+    u32 comm = (unsigned int)GAMESYSTEM_GetGameComm((struct GameSystem *)RESEARCH_GRAPH_GetContext(graph));
     GAME_COMM_SetNotifyFlag((void *)comm, 1);
     if (GAME_COMM_GetKind((void *)comm) == 2) {
-    GAME_COMM_RequestExitNoCallback((struct Comm *)comm);
+    GAME_COMM_RequestExitNoCallback((struct GameComm *)comm);
     }
 }
 
@@ -4016,9 +4042,9 @@ int RESEARCH_GRAPH_GetCommKindOrStart(u8 *graph)
 {
     u32 r;
     r = RESEARCH_GRAPH_GetContext(graph);
-    switch (GAME_COMM_GetKind((void *)GAMESYSTEM_GetGameComm((const struct Ctx *)r))) {
+    switch (GAME_COMM_GetKind((void *)GAMESYSTEM_GetGameComm((struct GameSystem *)r))) {
     case 0:
-        GAMESYSTEM_TryStartAutoComm((struct IcaAnime *)r);
+        GAMESYSTEM_TryStartAutoComm((struct GameSystem *)r);
         return 1;
     default:
         return 1;
@@ -4029,5 +4055,5 @@ int RESEARCH_GRAPH_GetCommKindOrStart(u8 *graph)
 
 void RESEARCH_GRAPH_ClearNotifyFlag(unsigned char *graph)
 {
-    GAME_COMM_SetNotifyFlag((void *)GAMESYSTEM_GetGameComm((const struct Ctx *)RESEARCH_GRAPH_GetContext(graph)), 0);
+    GAME_COMM_SetNotifyFlag((void *)GAMESYSTEM_GetGameComm((struct GameSystem *)RESEARCH_GRAPH_GetContext(graph)), 0);
 }

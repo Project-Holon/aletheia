@@ -32,6 +32,7 @@
  *   gsDebugFormat  0x0217D254  arm  ov009
  *   gGpiOperationDebugInvalidTypeFmt  0x021A4E08  data
  */
+extern void *__builtin__clear(void *dest, unsigned long size);
 typedef struct GPICallback {
     void (*callback)(void **, void *, void *);
     void *param;
@@ -107,21 +108,21 @@ struct GPISearchData {
 };
 
 extern void *gsimalloc(unsigned long size);
-extern void gpiSetErrorString(void **connection, char *errorString);
+extern void gpiSetErrorString(int *p, int b);
 extern void *MSL_C_LIB_MemsetPtr(void *dst, int c, unsigned long n);
-extern int gpiAddCallback(void **connection, GPICallback callback, void *arg, const GPIOperation *operation, int type);
+extern int gpiAddCallback(void **connection, struct GPICallback callback, void *arg, int *operation, int type);
 extern void *gsimalloc(u32 size);
-extern void gpiSetErrorString(void **connection, char *errorString);
+extern void gpiSetErrorString(int *p, int b);
 extern int shutdown(int sock, int how);
 extern int closesocket(int sock);
 extern void gsifree(void *ptr);
 extern int gpiProcessConnect(void **connection, GPIOperation *operation, char *input);
 extern int gpiProcessNewProfile(void **connection, GPIOperation *operation, char *input);
 extern int gpiProcessDeleteProfle(void **connection, GPIOperation *operation, char *input);
-extern int gpiProcessGetInfo(void **connection, GPIOperation *operation, char *input);
+extern int gpiProcessGetInfo(void **connection, struct GPIOperation_s *operation, char *input);
 extern int gpiProcessRegisterUniqueNick(void **connection, GPIOperation *operation, char *input);
 extern int gpiProcessRegisterCdKey(void **connection, GPIOperation *operation, char *input);
-extern int gsDebugFormat(int index, char *table, int mask, const char *fmt, ...);
+extern void gsDebugFormat(int cat, int type, int level, char *fmt, ...);
 int gpiFailedOpCallback(void **connection, const GPIOperation *operation);
 int gpiAddOperation(void **connection, int type, void *data, GPIOperation **op, int blocking, void (*callback)(void **, void *, void *), void *param);
 /*
@@ -177,7 +178,7 @@ int gpiFailedOpCallback(void **connection, const GPIOperation *operation)
             GPConnectResponseArg *arg;
             arg = (GPConnectResponseArg *)gsimalloc(sizeof(GPConnectResponseArg));
             if (arg == 0) {
-                gpiSetErrorString(connection, gGpiOperationErrorOutOfMemory);
+                gpiSetErrorString((int *)connection, (int)gGpiOperationErrorOutOfMemory);
                 return 1;
             }
             MSL_C_LIB_MemsetPtr(arg, 0, sizeof(GPConnectResponseArg));
@@ -187,7 +188,7 @@ int gpiFailedOpCallback(void **connection, const GPIOperation *operation)
                 iconnection->profileid = 0;
             }
             {
-                int __result__ = gpiAddCallback(connection, callback, arg, operation, 0);
+                int __result__ = gpiAddCallback(connection, callback, arg, (int *)operation, 0);
                 if (__result__ != 0)
                     return __result__;
             }
@@ -198,13 +199,13 @@ int gpiFailedOpCallback(void **connection, const GPIOperation *operation)
             GPNewProfileResponseArg *arg;
             arg = (GPNewProfileResponseArg *)gsimalloc(sizeof(GPNewProfileResponseArg));
             if (arg == 0) {
-                gpiSetErrorString(connection, gGpiOperationErrorOutOfMemory);
+                gpiSetErrorString((int *)connection, (int)gGpiOperationErrorOutOfMemory);
                 return 1;
             }
             __builtin__clear(arg, sizeof(GPNewProfileResponseArg));
             arg->result = operation->result;
             {
-                int __result__ = gpiAddCallback(connection, callback, arg, operation, 0);
+                int __result__ = gpiAddCallback(connection, callback, arg, (int *)operation, 0);
                 if (__result__ != 0)
                     return __result__;
             }
@@ -215,13 +216,13 @@ int gpiFailedOpCallback(void **connection, const GPIOperation *operation)
             GPDeleteProfileResponseArg *arg;
             arg = (GPDeleteProfileResponseArg *)gsimalloc(sizeof(GPDeleteProfileResponseArg));
             if (arg == 0) {
-                gpiSetErrorString(connection, gGpiOperationErrorOutOfMemory);
+                gpiSetErrorString((int *)connection, (int)gGpiOperationErrorOutOfMemory);
                 return 1;
             }
             __builtin__clear(arg, sizeof(GPDeleteProfileResponseArg));
             arg->result = operation->result;
             {
-                int __result__ = gpiAddCallback(connection, callback, arg, operation, 0);
+                int __result__ = gpiAddCallback(connection, callback, arg, (int *)operation, 0);
                 if (__result__ != 0)
                     return __result__;
             }
@@ -232,13 +233,13 @@ int gpiFailedOpCallback(void **connection, const GPIOperation *operation)
             GPGetInfoResponseArg *arg;
             arg = (GPGetInfoResponseArg *)gsimalloc(sizeof(GPGetInfoResponseArg));
             if (arg == 0) {
-                gpiSetErrorString(connection, gGpiOperationErrorOutOfMemory);
+                gpiSetErrorString((int *)connection, (int)gGpiOperationErrorOutOfMemory);
                 return 1;
             }
             MSL_C_LIB_MemsetPtr(arg, 0, sizeof(GPGetInfoResponseArg));
             arg->result = operation->result;
             {
-                int __result__ = gpiAddCallback(connection, callback, arg, operation, 0);
+                int __result__ = gpiAddCallback(connection, callback, arg, (int *)operation, 0);
                 if (__result__ != 0)
                     return __result__;
             }
@@ -249,14 +250,14 @@ int gpiFailedOpCallback(void **connection, const GPIOperation *operation)
             GPProfileSearchResponseArg *arg;
             arg = (GPProfileSearchResponseArg *)gsimalloc(sizeof(GPProfileSearchResponseArg));
             if (arg == 0) {
-                gpiSetErrorString(connection, gGpiOperationErrorOutOfMemory);
+                gpiSetErrorString((int *)connection, (int)gGpiOperationErrorOutOfMemory);
                 return 1;
             }
             __builtin__clear(arg, sizeof(GPProfileSearchResponseArg));
             arg->result = operation->result;
             arg->matches = 0;
             {
-                int __result__ = gpiAddCallback(connection, callback, arg, operation, 0);
+                int __result__ = gpiAddCallback(connection, callback, arg, (int *)operation, 0);
                 if (__result__ != 0)
                     return __result__;
             }
@@ -267,13 +268,13 @@ int gpiFailedOpCallback(void **connection, const GPIOperation *operation)
             GPRegisterUniqueNickResponseArg *arg;
             arg = (GPRegisterUniqueNickResponseArg *)gsimalloc(sizeof(GPRegisterUniqueNickResponseArg));
             if (arg == 0) {
-                gpiSetErrorString(connection, gGpiOperationErrorOutOfMemory);
+                gpiSetErrorString((int *)connection, (int)gGpiOperationErrorOutOfMemory);
                 return 1;
             }
             __builtin__clear(arg, sizeof(GPRegisterUniqueNickResponseArg));
             arg->result = operation->result;
             {
-                int __result__ = gpiAddCallback(connection, callback, arg, operation, 0);
+                int __result__ = gpiAddCallback(connection, callback, arg, (int *)operation, 0);
                 if (__result__ != 0)
                     return __result__;
             }
@@ -284,13 +285,13 @@ int gpiFailedOpCallback(void **connection, const GPIOperation *operation)
             GPRegisterCdKeyResponseArg *arg;
             arg = (GPRegisterCdKeyResponseArg *)gsimalloc(sizeof(GPRegisterCdKeyResponseArg));
             if (arg == 0) {
-                gpiSetErrorString(connection, gGpiOperationErrorOutOfMemory);
+                gpiSetErrorString((int *)connection, (int)gGpiOperationErrorOutOfMemory);
                 return 1;
             }
             __builtin__clear(arg, sizeof(GPRegisterCdKeyResponseArg));
             arg->result = operation->result;
             {
-                int __result__ = gpiAddCallback(connection, callback, arg, operation, 0);
+                int __result__ = gpiAddCallback(connection, callback, arg, (int *)operation, 0);
                 if (__result__ != 0)
                     return __result__;
             }
@@ -313,7 +314,7 @@ int gpiAddOperation(void **connection, int type, void *data,
 
     operation = (struct GPIOperation_s *)gsimalloc(0x24);
     if (operation == 0) {
-        gpiSetErrorString(connection, gGpiOperationErrorOutOfMemory);
+        gpiSetErrorString((int *)connection, (int)gGpiOperationErrorOutOfMemory);
         return 1;
     }
     operation->type = type;
@@ -454,7 +455,7 @@ int gpiProcessOperation(void **connection, GPIOperation *operation, char *input)
         result = gpiProcessRegisterCdKey(connection, (GPIOperation *)operation, input);
         break;
     default:
-        gsDebugFormat(1, (char *)4, 1, gGpiOperationDebugInvalidTypeFmt, operation->type);
+        gsDebugFormat((int)1, (int)4, 1, gGpiOperationDebugInvalidTypeFmt, operation->type);
         break;
     }
     if (result != 0)

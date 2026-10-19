@@ -31,6 +31,13 @@
  *   MTX_MultVec33  0x0207B51C  arm
  *   VEC_Add  0x0207C9D0  arm
  *   ARC_TOOL_CreateHandle  0x020490F4  arm
+ *   _fdiv                        0x0209CE10  arm
+ *   _ffix                        0x0209C494  arm
+ *   _fflt                        0x0209BDBC  arm
+ *   _fgr                         0x0209BBB0  arm
+ *   _fls                         0x0209BC74  arm
+ *   _fmul                        0x0209C77C  arm
+ *   _u32_div_f                   0x0209C2B0  arm
  */
 #include "script_vm_types.h"
 #include "vm_shared_types.h"
@@ -69,11 +76,12 @@ extern u32 GFL_HEAP_Free(void *memory);
 
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
-extern void ARC_TOOL_DeleteHandle(struct ArcFile *arc);
+extern void ARC_TOOL_DeleteHandle(void *handle);
 
 extern struct ArcFile *ARC_TOOL_CreateHandle(unsigned int arcId, unsigned int heapId);
+struct ArcHandle;
 
-extern void  ARC_TOOL_ReadHandleMemberRange(struct ArcFile *arc, u32 dataId, u32 offset, u32 size, void *dst);
+extern void  ARC_TOOL_ReadHandleMemberRange(struct ArcHandle *arc, u32 memberIdx, u32 offset, u32 size, void *dst);
 
 extern void G3D_CAMERA_SetEye(void *camera, struct Vec3 *position);
 
@@ -482,10 +490,10 @@ void ICA_ANIME_LoadHeader(struct IcaAnime *anime, u32 arcId, u32 dataId, u32 hea
     anime->heapId = (u16)heapId;
     anime->arcHandle = ARC_TOOL_CreateHandle(arcId, heapId);
     anime->dataId = dataId;
-    ARC_TOOL_ReadHandleMemberRange(anime->arcHandle, dataId, 0, 4, &anime->frameNum);
-    ARC_TOOL_ReadHandleMemberRange(anime->arcHandle, anime->dataId, 4, 1, channelFlags + 2);
-    ARC_TOOL_ReadHandleMemberRange(anime->arcHandle, anime->dataId, 5, 1, channelFlags + 1);
-    ARC_TOOL_ReadHandleMemberRange(anime->arcHandle, anime->dataId, 6, 1, channelFlags);
+    ARC_TOOL_ReadHandleMemberRange((struct ArcHandle *)anime->arcHandle, dataId, 0, 4, &anime->frameNum);
+    ARC_TOOL_ReadHandleMemberRange((struct ArcHandle *)anime->arcHandle, anime->dataId, 4, 1, channelFlags + 2);
+    ARC_TOOL_ReadHandleMemberRange((struct ArcHandle *)anime->arcHandle, anime->dataId, 5, 1, channelFlags + 1);
+    ARC_TOOL_ReadHandleMemberRange((struct ArcHandle *)anime->arcHandle, anime->dataId, 6, 1, channelFlags);
     hasScale = 1;
     if (channelFlags[2] == 0) {
         hasScale = 0;
@@ -612,7 +620,7 @@ void ICA_ANIME_LoadFrames(struct IcaAnime *anime, s32 frame)
 
     floats = (volatile float *)GFL_HEAP_Alloc((u16)((anime->heapId & 0x7fff) | 0x8000), size, 0, _IcaAnimeFileName, 0x2bd);
     frameIdx = 0;
-    ARC_TOOL_ReadHandleMemberRange(anime->arcHandle, anime->dataId, offset, size, (void *)floats);
+    ARC_TOOL_ReadHandleMemberRange((struct ArcHandle *)anime->arcHandle, anime->dataId, offset, size, (void *)floats);
 
     value = 0;
     for (; frameIdx < anime->bufFrameNum; frameIdx++) {

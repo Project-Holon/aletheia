@@ -54,14 +54,15 @@ struct Percentage {
 };
 
 extern u32 GFL_HEAP_Free(void *mem);
-extern void CLACT_SetActorDrawEnable(struct ClactActor *actor, unsigned int enable);
-extern void CLACT_DeleteActor(struct ClactActor *actor);
+struct Actor;
+extern void CLACT_SetActorDrawEnable(struct Actor *actor, unsigned int value);
+extern void CLACT_DeleteActor(struct Actor *actor);
 extern struct ClactActor *CLACT_CreateActor(void *unit, unsigned int charId, unsigned int palId, unsigned int cellId, const struct ActorHeader *header, unsigned short priority, unsigned short heapId);
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void CLACT_AddActorSurfacePos(struct ClactActor *actor, const struct SurfacePos *pos, u32 space);
-extern void CLACT_SetActorAnimSeq(struct ClactActor *actor, u16 seq);
-extern void CLACT_SetActorAnimFrame(struct ClactActor *actor, u32 frame);
-extern void CLACT_StopActorAnim(struct ClactActor *actor);
+extern void CLACT_SetActorAnimSeq(struct Actor *actor, unsigned short value);
+extern void CLACT_SetActorAnimFrame(struct Actor *actor, unsigned int frame);
+extern void CLACT_StopActorAnim(struct Actor *actor);
 
 u32 PERCENTAGE_Create(u32 heapId, const struct PercentageTemplate *tmpl, struct ClactUnit *unit);
 u32 PERCENTAGE_Destroy(struct Percentage *pct);
@@ -130,14 +131,14 @@ void PERCENTAGE_SetVisible(struct Percentage *pct, unsigned int visible)
  */
 void PERCENTAGE_SetVisibleImpl(struct Percentage *pct, unsigned int visible)
 {
-    CLACT_SetActorDrawEnable(pct->actors[0], visible);
+    CLACT_SetActorDrawEnable((struct Actor *)pct->actors[0], visible);
     if (PERCENTAGE_GetHundredsDigit(pct) != 0) {
-        CLACT_SetActorDrawEnable(pct->actors[1], visible);
+        CLACT_SetActorDrawEnable((struct Actor *)pct->actors[1], visible);
     }
     if (PERCENTAGE_GetHundredsDigit(pct) != 0 || PERCENTAGE_GetTensDigit(pct) != 0) {
-        CLACT_SetActorDrawEnable(pct->actors[2], visible);
+        CLACT_SetActorDrawEnable((struct Actor *)pct->actors[2], visible);
     }
-    CLACT_SetActorDrawEnable(pct->actors[3], visible);
+    CLACT_SetActorDrawEnable((struct Actor *)pct->actors[3], visible);
 }
 
 /* Places every actor and sets the digit animation frames; all actors start hidden. */
@@ -152,35 +153,35 @@ void PERCENTAGE_Layout(struct Percentage *pct)
     pos.y = pct->y;
 
     CLACT_AddActorSurfacePos(actor, &pos, tmpl->priority);
-    CLACT_SetActorAnimSeq(actor, tmpl->signAnimSeq);
+    CLACT_SetActorAnimSeq((struct Actor *)actor, tmpl->signAnimSeq);
 
-    CLACT_SetActorAnimFrame(actor, 0);
-    CLACT_StopActorAnim(actor);
-    CLACT_SetActorDrawEnable(actor, 0);
+    CLACT_SetActorAnimFrame((struct Actor *)actor, 0);
+    CLACT_StopActorAnim((struct Actor *)actor);
+    CLACT_SetActorDrawEnable((struct Actor *)actor, 0);
 
     actor = pct->actors[1];
     PERCENTAGE_GetHundredsPosition(pct, &pos.x, &pos.y);
     CLACT_AddActorSurfacePos(actor, &pos, tmpl->priority);
-    CLACT_SetActorAnimSeq(actor, tmpl->digitAnimSeq);
-    CLACT_SetActorAnimFrame(actor, PERCENTAGE_GetHundredsDigit(pct) << 12);
-    CLACT_StopActorAnim(actor);
-    CLACT_SetActorDrawEnable(actor, 0);
+    CLACT_SetActorAnimSeq((struct Actor *)actor, tmpl->digitAnimSeq);
+    CLACT_SetActorAnimFrame((struct Actor *)actor, PERCENTAGE_GetHundredsDigit(pct) << 12);
+    CLACT_StopActorAnim((struct Actor *)actor);
+    CLACT_SetActorDrawEnable((struct Actor *)actor, 0);
 
     actor = pct->actors[2];
     PERCENTAGE_GetTensPosition(pct, &pos.x, &pos.y);
     CLACT_AddActorSurfacePos(actor, &pos, tmpl->priority);
-    CLACT_SetActorAnimSeq(actor, tmpl->digitAnimSeq);
-    CLACT_SetActorAnimFrame(actor, PERCENTAGE_GetTensDigit(pct) << 12);
-    CLACT_StopActorAnim(actor);
-    CLACT_SetActorDrawEnable(actor, 0);
+    CLACT_SetActorAnimSeq((struct Actor *)actor, tmpl->digitAnimSeq);
+    CLACT_SetActorAnimFrame((struct Actor *)actor, PERCENTAGE_GetTensDigit(pct) << 12);
+    CLACT_StopActorAnim((struct Actor *)actor);
+    CLACT_SetActorDrawEnable((struct Actor *)actor, 0);
 
     actor = pct->actors[3];
     PERCENTAGE_GetOnesPosition(pct, &pos.x, &pos.y);
     CLACT_AddActorSurfacePos(actor, &pos, tmpl->priority);
-    CLACT_SetActorAnimSeq(actor, tmpl->digitAnimSeq);
-    CLACT_SetActorAnimFrame(actor, PERCENTAGE_GetOnesDigit(pct) << 12);
-    CLACT_StopActorAnim(actor);
-    CLACT_SetActorDrawEnable(actor, hidden);
+    CLACT_SetActorAnimSeq((struct Actor *)actor, tmpl->digitAnimSeq);
+    CLACT_SetActorAnimFrame((struct Actor *)actor, PERCENTAGE_GetOnesDigit(pct) << 12);
+    CLACT_StopActorAnim((struct Actor *)actor);
+    CLACT_SetActorDrawEnable((struct Actor *)actor, hidden);
 }
 
 /* Stores the value. */
@@ -303,7 +304,7 @@ void PERCENTAGE_DeleteActors(struct Percentage *pct)
 {
     int i;
     for (i = 0; i < 4; i++)
-        CLACT_DeleteActor(pct->actors[i]);
+        CLACT_DeleteActor((struct Actor *)pct->actors[i]);
 }
 
 /* Copies the 20-byte template into the object. */

@@ -275,6 +275,7 @@
  *   ARC_UTIL_UploadPaletteFromArchiveWhole  0x02049B40  arm  arm9
  *   MYITEM_SAVEDATA_CompactAllPockets  0x0200816C  thumb  arm9
  *   MYITEM_SAVEDATA_GetLastFieldPocket  0x02008284  thumb  arm9
+ *   sButtonHitTable              0x021BBA04  data
  */
 
 #include "itemmenu_types.h"
@@ -451,25 +452,28 @@ typedef struct ItemMenuArgs {
     int bagMode;
     int bagFilter;
 } ItemMenuArgs;
+struct TaskMenuWork;
 
 
-extern u32 APP_TASKMENU_IsFinish(struct TaskMenu *m);
-extern u8 APP_TASKMENU_GetCursorPos(const struct TaskMenu *p);
+extern u32 APP_TASKMENU_IsFinish(struct TaskMenuWork *menu);
+extern u8 APP_TASKMENU_GetCursorPos(struct TaskMenuWork *menu);
 extern void GAME_BEACON_SetItemUse(u16 id);
 extern u32 FILE_UTIL_GetItemParam(u16 a, u32 sel, u32 id);
 struct FieldSkillUseFlags;
 extern u32 FIELD_SKILL_USE_FLAGS_IsSkillUsable(const struct FieldSkillUseFlags *flags, u32 skillIndex);
-extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
+extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, struct Strbuf *dest);
 extern void WORDSET_SetSlotMyStatus(struct WordSet *p, u32 i, void *a);
-extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
+extern void WORDSET_CopyTaggedText(struct WordSet *words, struct Strbuf *dst, struct Strbuf *src);
 extern void CLACT_SetActorAutoAnim(struct Actor *p, u32 v);
 extern u8 UI_GetInputMode(void);
-extern void APP_TASKMENU_CloseMenu(struct TaskMenu *m);
+extern void APP_TASKMENU_CloseMenu(struct TaskMenuWork *menu);
 extern u32 PALANM_IsOutsideReservedIdRange(u16 v);
 extern unsigned int FILE_UTIL_IsMailItem(u16 v);
-extern u32 PRINTSYS_QUE_IsFinished(const struct PrintSys *p);
+struct PrintQueue;
+extern u32 PRINTSYS_QUE_IsFinished(struct PrintQueue *queue);
 extern int TOUCHPANEL_GetCont(void);
-extern s32 BUTTON_MAN_UpdateSlots(struct ButtonTask *task);
+struct ButtonMan;
+extern s32 BUTTON_MAN_UpdateSlots(struct ButtonMan *c);
 extern s32 BLINK_PALANM_Update(struct BlinkPalAnm *p);
 extern u32 KEY_GetTrg(void);
 extern void GFL_USE_PlaySeDefaultVolume(unsigned int se);
@@ -484,17 +488,20 @@ extern u16 FILE_UTIL_GetMachineMove(u16 id);
 extern void WORDSET_SetSlotFromMsgCB(struct WordSet *p, u32 i, u32 v);
 extern u8 FILE_UTIL_GetMachineIndex(u16 id);
 extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
-extern struct MiscSave *GAME_DATA_GetMiscSave(struct GameData *gameData);
+extern void *GAME_DATA_GetMiscSave(struct GameData *gameData);
 extern u32 MISC_AddMoney(struct MiscSave *p, u32 v);
-extern u32 MYITEM_SAVEDATA_RemoveItem(u8 *base, u16 id, u16 qty, u16 d);
-extern u32 MYITEM_SAVEDATA_GetItemQuantity(u8 *base, u16 id, u16 d);
+struct MyItem;
+extern u32 MYITEM_SAVEDATA_RemoveItem(struct MyItem *bag, u16 itemId, u16 quantity, u16 heapId);
+extern u32 MYITEM_SAVEDATA_GetItemQuantity(struct MyItem *bag, u16 itemId, u16 heapId);
 extern void CLACT_SetActorDrawEnable(struct Actor *p, u32 v);
 extern int TOUCHPANEL_HitCont(const void *p);
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void MYITEM_SAVEDATA_CopyPocket(u8 *base, void *buf, u32 id, int save);
+extern void MYITEM_SAVEDATA_CopyPocket(struct MyItem *bag, void *buffer, u32 pocket, s32 toBuffer);
 extern void *FILE_UTIL_CreateItemArcHandle(u32 a);
-extern int FILE_UTIL_LoadArcMember(int h, int id, u16 heap);
-extern u32 FILE_UTIL_GetItemRecordParam(struct ItemData *p, u32 sel);
+struct ArcFile;
+extern void *FILE_UTIL_LoadArcMember(struct ArcFile *arc, u32 item, u32 heap);
+struct ItemRecord;
+extern u32 FILE_UTIL_GetItemRecordParam(struct ItemRecord *record, u32 prop);
 extern u32 GFL_HEAP_Free(void *p);
 extern void ARC_TOOL_DeleteHandle(void *arc);
 extern void MATH_QSort(void *head, u32 num, u32 width, int (*comp)(SortEntry *, SortEntry *), void *buf);
@@ -505,33 +512,36 @@ extern int GAME_DATA_ContainsRecentId(void *p, int a);
 extern void *FILE_UTIL_LoadItemRecord(unsigned int item, unsigned int which, unsigned int heap);
 extern void PALANM_TransferPalettes(struct PalAnmSlot *p);
 extern void CLACT_VBlankSystem();
-extern void WIPE_SYS_Start(void *divisionMode, u32 mainPattern, u32 subPattern, u32 color, u32 frames, u32 wait, u32 heapId);
+extern void WIPE_SYS_Start(void *divisionMode, u32 mainPattern, u32 subPattern, u16 color, u32 frames, u32 wait, u32 heapId);
 extern u32 WIPE_SYS_EndCheck(void);
-extern void TCBL_Main(struct Tcbl *p);
-extern void TCB_DeleteTask(struct TcblTask *n);
+struct TcblSystem;
+extern void TCBL_Main(struct TcblSystem *tcbl);
+struct TcbTask;
+extern void TCB_DeleteTask(struct TcbTask *task);
 extern void MYITEM_SAVEDATA_SetLastFieldPocket(struct BagCursor *p, u16 v);
 extern void MYITEM_SAVEDATA_SetFieldPocketCursor(struct BagCursor *p, int i, s16 a, s16 b);
-extern u32 APP_TASKMENU_RES_Delete(struct TaskMenuRes *s);
-extern void TCBL_Destroy(struct Tcbl *p);
+extern void APP_TASKMENU_RES_Delete(struct TaskMenuRes *s);
+extern void TCBL_Destroy(struct TcblSystem *tcbl);
 extern u32 MSGDATA_Delete(struct MsgBank *bank);
 extern void STRBUF_Delete(struct Strbuf *vec);
 extern u32 WORDSET_Delete(struct WordSet *p);
 extern void BG_SYS_FreeTileRun(u32 layer, u32 offset, u32 size);
 extern u32 BMP_WIN_Delete(struct BmpWin *d);
 extern void BG_SYS_FreeTiles(u32 a, u32 b, u32 c);
-extern u32 GF_FONT_Delete(void *ptr);
-extern int APP_KEYCURSOR_Delete(struct KeyCursor *keyCursor);
-extern void PRINTSYS_QUE_Clear(struct PrintSys *p);
-extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
-extern void BUTTON_MAN_Delete(struct ButtonTask *task);
+struct GfFont;
+extern u32 GF_FONT_Delete(struct GfFont *font);
+extern void APP_KEYCURSOR_Delete(struct KeyCursor *keyCursor);
+extern void PRINTSYS_QUE_Clear(struct PrintQueue *queue);
+extern void PRINTSYS_QUE_Delete(struct PrintQueue *queue);
+extern void BUTTON_MAN_Delete(struct ButtonMan *bm);
 extern void BMP_WIN_Exit(void);
 extern void BG_SYS_Delete(void);
 extern int KEY_SetRepeatSpeed(int speed, int wait);
 extern void PROCSYS_FreeProcWork(struct Proc *a);
 extern void GFL_HEAP_DeleteChecked(unsigned int a);
 extern struct BlinkPalAnm *BLINK_PALANM_Create(u16 firstColor, u16 colorCount, u32 mode, u16 heap);
-extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
-extern void BLINK_PALANM_LoadPalettes(struct BlinkPalAnm *p, u8 *archive, u32 fileId, u32 srcStart, u32 dstStart);
+extern void *ARC_TOOL_CreateHandle(u32 archiveID, u16 heapID);
+extern void BLINK_PALANM_LoadPalettes(struct BlinkPalAnm *anm, void *archive, u32 fileId, u32 srcStart, u32 dstStart);
 extern u32 BLINK_PALANM_Delete(struct BlinkPalAnm *p);
 extern void CLACT_SetActorAnimFrame(struct Actor *p, u32 value);
 extern u32 CLACT_IsActorAnimActive(struct Actor *a);
@@ -543,7 +553,7 @@ extern void PALANM_FreeSlotBuffers(struct PalAnmSlot *slots, u32 idx);
 extern u32 PALANM_Delete(void *ctx);
 extern int GAME_DATA_GetIntrudeCount(const struct GameData *p);
 extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
-extern void BG_SYS_FreeSlot(int bg);
+extern void BG_SYS_FreeSlot(u8 idx);
 extern void BG_SYS_PushTile(u32 layer);
 extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
 extern void BG_SYS_Init(u32 layer, u32 value, u32 count, u32 index);
@@ -557,13 +567,16 @@ extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 extern void BG_SYS_Create(u16);
 extern void BMP_WIN_Init(u16);
 extern void GF_FONT_InitTextColor(void);
-extern void BG_SYS_SetVramBanks(const struct VramBankConfig *c);
-extern void CLACT_InitSystem(const struct ClactSystemConfig *cfg, u32 arg, u32 heapId);
+struct DispVram;
+extern void BG_SYS_SetVramBanks(struct DispVram *banks);
+struct DispVramCfg;
+struct SysInit;
+extern void CLACT_InitSystem(struct SysInit *cfg, struct DispVramCfg *res_cfg, u32 heapId);
 extern void BG_SYS_SetGraphicsMode(struct DispConfig *cfg);
 extern void BG_SYS_SetMainVisiblePlanes(u32 planes);
 extern void BG_SYS_SetSubVisiblePlanes(u32 planes);
 extern void GF_FONT_SetDefaultTextColor(void);
-extern void *BMP_MENUWORK_LoadFrameGfx(void *layer, u32 palSlot, u32 frameId, u32 heapId);
+extern void *BMP_MENUWORK_LoadFrameGfx(u32 layer, u32 palSlot, u32 frameId, u16 heapId);
 extern void ARC_UTIL_UploadPaletteFromHandle(void *arc, u32 memberIdx, u32 kind, u32 offset, u32 dest, u32 size, u16 flags);
 extern void ARC_UTIL_UploadPaletteFromArchiveWhole(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern struct ClactUnit *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
@@ -580,7 +593,7 @@ extern u8 APP_ICON_GetTypePaletteOffset(int i);
 extern struct Actor *CLACT_CreateActor(void *owner, u32 i, u32 j, u32 k, const void *position, u16 f, u16 g);
 extern void CLACT_SetActorPaletteOffset(struct Actor *o, u32 v, u32 flag);
 extern int WAZA_TOOL_GetDamageType(int);
-extern u8 WAZA_TOOL_GetType(void *p);
+extern u8 WAZA_TOOL_GetType(u16 move);
 extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *window);
 extern void BMP_Clear(struct Bmp *bmp, u8 value);
 extern void BMP_WIN_TransferChars(struct BmpWin *d);
@@ -594,70 +607,74 @@ extern void CLACT_ReleaseCellAnim(u32 i);
 extern void BMP_Delete(struct Bmp *p);
 extern u32 CLACT_DeleteUnit(struct ClactUnit *bank);
 extern void CLACT_ExitSystem(void);
-extern struct BmpWin *BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
+extern struct BmpWin *BMP_WIN_Create(u32 bgLayer, u32 posX, u32 posY, u8 width, u8 height, u8 palette, u8 allocDir);
 extern void BMP_WIN_MakeScreen(struct BmpWin *window);
 extern int FILE_UTIL_Get(unsigned short, int);
 extern void CLACT_DrawSystem(void);
-extern void APP_TASKMENU_UpdateMenu(void *);
+extern void APP_TASKMENU_UpdateMenu(struct TaskMenuWork *menu);
 extern struct Bmp *BMP_Create(u32 width, u32 height, u32 depth, u16 heap);
 extern u32 FILE_UTIL_IsMachineItem(u32 id);
 extern u8 BMP_WIN_GetBgLayer(struct BmpWin *p);
-extern void PRINTSYS_PrintColor(void *x, s16 y, s16 z, void *s, void *w, u16 v);
+extern void PRINTSYS_PrintColor(struct Bmp *bmp, s16 x, s16 y, struct Strbuf *str, struct GfFont *font, u16 color);
 extern void CLACT_GetActorSurfacePos(struct Actor *actor, struct SurfacePos *out, u16 space);
 extern void CLACT_AddActorSurfacePos(struct Actor *p, const struct SurfacePos *delta, u32 which);
-extern void CLACT_SetActorAnimIndex(void *, int);
+extern void CLACT_SetActorAnimIndex(struct Actor *actor, u32 anim_idx);
 extern int CLACT_GetCharacterVramAddress(u32 idx, u32 flag);
 extern void *BMP_GetPixels(const struct Bmp *bmp);
 extern u32 BMP_GetByteSize(const struct Bmp *bmp);
 extern void DC_FlushRange(void *, u32);
-extern void GX_LoadOBJ(void *, void *, u32);
+extern void GX_LoadOBJ(void *pSrc, u32 offset, u32 szByte);
 extern u32 TOUCHPANEL_GetPointCont(u32 *outA, u32 *outB);
 extern u32 SCROLLBAR_GetPosFromValue(u32 a, u32 b, u32 c, u32 d, u32 e);
-extern void BMP_MENUWORK_DrawWindowBorder(void *, unsigned);
+extern void BMP_MENUWORK_DrawWindowBorder(struct BmpWin *desc, u32 commitMode);
 extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
-extern struct TaskMenu *APP_TASKMENU_OpenMenu(struct TaskMenuTmpl *tmpl, struct TaskMenuRes *res);
+struct TaskMenuInitWork;
+extern struct TaskMenuWork *APP_TASKMENU_OpenMenu(struct TaskMenuInitWork *init, struct TaskMenuRes *res);
 extern u32 ARC_UTIL_UploadBgPaletteAddFromHandleExt(void *arc, u32 memberIdx, u32 channel, u32 offset, u32 add, u32 size, u32 heapID, u16 flags);
 extern u8 WAZA_TOOL_GetMaxPP(u16 move, u32 ppUp);
 extern u32 WAZA_TOOL_GetParam(u16 id, u32 field);
 extern u32 WAZA_TOOL_IsAlwaysHit(u16 id);
-extern void BMP_FillRect(struct Bmp *b, u32 x, u32 y, u32 w, u32 h, u32 value);
+extern void BMP_FillRect(struct Bmp *bmp, u32 x, u32 y, u32 w, u16 h, u8 value);
 extern signed char MSG_SPEED_GetWait(void);
 extern struct TextStream *PRINTSYS_PrintStream(int, int, int, void *, int, int, struct Tcbl *, int, int, int);
-extern void BMP_MENUWORK_DrawWindow(void *win, int commitMode, int tileBase, int palette);
-extern u32 PRINTSYS_PrintStreamGetState(struct TextStream *stream);
-extern void APP_KEYCURSOR_Update(struct KeyCursor *keyCursor, struct TextStream *stream, struct BmpWin *window);
-extern void PRINTSYS_PrintStreamDelete(struct TextStream *p);
-extern void PRINTSYS_PrintStreamReleasePause(struct TextStream *stream);
+extern void BMP_MENUWORK_DrawWindow(struct BmpWin *win, s32 commitMode, u16 tileBase, u32 palette);
+struct TextPrinter;
+extern u32 PRINTSYS_PrintStreamGetState(struct TextPrinter *printer);
+extern void APP_KEYCURSOR_Update(struct KeyCursor *cursor, struct TextPrinter *printStream, void *win);
+extern void PRINTSYS_PrintStreamDelete(struct TextPrinter *printer);
+extern void PRINTSYS_PrintStreamReleasePause(struct TextPrinter *printer);
 extern unsigned int KEY_GetCont(void);
-extern void PRINTSYS_PrintStreamShortWait(struct TextStream *p, s32 v);
+extern void PRINTSYS_PrintStreamShortWait(struct TextPrinter *printer, s32 wait);
 extern void WORDSET_SetSlotFromMsg37(struct WordSet *p, u32 i, u32 v);
-extern u32 PRINTSYS_MeasureWidestLine(struct Strbuf *s, u32 a, u32 b);
+extern u32 PRINTSYS_MeasureWidestLine(struct Strbuf *text, struct GfFont *font, unsigned int spacing);
 extern u32 MISC_GetMoney(struct MiscSave *);
-extern void *ARC_UTIL_LoadHandleMember(void *narc, unsigned int fileID, unsigned int decompress, unsigned int heapID);
+extern void *ARC_UTIL_LoadHandleMember(void *narc, u32 fileID, u32 decompress, u16 heapID);
 extern int NNS_G2dGetUnpackedScreenData(void *file, void **out);
-extern void BG_SYS_DrawTile(unsigned int index, unsigned int src, unsigned int dx, unsigned int dy, u8 cw, u8 ch);
+extern void BG_SYS_DrawTile(u32 index, void *src, u8 dx, u8 dy, u8 cw, u8 ch);
 extern void BG_SYS_MarkTileDirty(u32 bit);
-extern u32 GFL_USE_GetMainTaskList(void);
+struct TcbList;
+extern struct TcbList *GFL_USE_GetMainTaskList(void);
 extern int PALANM_RequestFade(void *p, u16 mask, u16 col, FadeStep step, u8 b, u8 c, u16 d, u32 ctx);
 extern void G2x_SetBlendBrightness_(u32 addr, int plane, int brightness);
 extern u32 CLACT_GetActorDrawEnable(struct Actor *p);
-extern void PRINTSYS_PrintQueColor(void *owner, struct Bmp *bmp, u32 b, u32 c, void *d, u32 e, u16 f);
-extern void GFL_HEAP_CreateChildHeap();
-extern void *PROCSYS_AllocProcWork();
-extern void KEY_GetRepeatSpeed();
+extern void PRINTSYS_PrintQueColor(struct PrintQueue *queue, struct Bmp *bmp, u32 x, s16 y, struct Strbuf *str, struct GfFont *font, u16 color);
+extern void GFL_HEAP_CreateChildHeap(u32 parentHeapId, u32 newHeapId, u32 size);
+extern void *PROCSYS_AllocProcWork(struct Proc *proc, u32 size, u32 heapId);
+extern void KEY_GetRepeatSpeed(u32 *speed, u32 *wait);
 extern void MYITEM_SAVEDATA_CompactAllPockets();
 extern int MYITEM_SAVEDATA_GetLastFieldPocket(struct BagCursor *p);
 extern void MYITEM_SAVEDATA_GetFieldPocketCursor(struct BagCursor *p, int i, s16 *a, s16 *b);
-extern void *MSGDATA_CreateFromArchive();
-extern void *WORDSET_CreateDefault();
-extern void *PRINTSYS_QUE_CreateEx();
-extern struct KeyCursor *APP_KEYCURSOR_CreateDefault();
-extern int GF_FONT_Create();
+extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern struct WordSet *WORDSET_CreateDefault(u16 heapId);
+extern struct PrintQueue *PRINTSYS_QUE_CreateEx(u16 bufSize, u32 heap);
+extern struct KeyCursor *APP_KEYCURSOR_CreateDefault(u32 id, u32 isLive, u32 isFlip, u16 heapId);
+extern struct GfFont *GF_FONT_Create(s32 archiveId, s32 fileId, s32 format, s32 isFixedWidth, u32 heapId);
 extern struct ButtonTask *BUTTON_MAN_Create();
 extern struct TcblTask *GFL_USE_AddMainTask();
-extern struct Tcbl *TCBL_Create();
-extern struct TaskMenuRes *APP_TASKMENU_RES_Create();
-extern void GFL_NET_RefreshWmIconAtTopRight();
+extern struct TcblSystem *TCBL_Create(u16 heapId, u16 workHeapId, u32 taskCount, u32 workSize);
+struct GFont;
+extern struct TaskMenuRes *APP_TASKMENU_RES_Create(u16 bgFrame, u16 palNo, struct GFont *font, struct PrintQueue *printQue, u16 heapId);
+extern void GFL_NET_RefreshWmIconAtTopRight(u32 restartParamA, u32 restartParamB);
 void ITEMMENU_HandleActionMenuChoice(ItemMenuWork *work);
 void ITEMMENU_TaskSelectItem(ItemMenuWork *work);
 void ITEMMENU_TaskBagMain(ItemMenuWork *work);
@@ -808,24 +825,27 @@ typedef struct ItemUseRange {
     u16 itemCount;
     void (*useHandler)(void *);
 } ItemUseRange;
+struct BagSlot;
 /* Message ids of the bag message bank. */
 #define ITEMMENU_MSG_CANT_USE_KEY_ITEM 0x38
 #define ITEMMENU_MSG_CANT_USE_IN_CONTEXT 0x39
 #define ITEMMENU_MSG_CANT_USE_NOW 0x3A
 #define ITEMMENU_MSG_REPEL_USED 0x3F
 #define ITEMMENU_MSG_REPEL_STILL_ACTIVE 0x40
-extern BagSlot *MYITEM_SAVEDATA_GetSlot(void *bag, u32 pocket, u32 index);
+extern BagSlot *MYITEM_SAVEDATA_GetSlot(struct MyItem *bag, u32 pocket, u32 index);
 extern unsigned int MYITEM_SAVEDATA_CountUsedSlots(const BagSlot *items, unsigned int maxCount);
-extern u32 MYITEM_SAVEDATA_CountUsedSlotsInPocket(void *bag, u32 pocket);
-extern void WORDSET_SetSlotFromMsg36(void *wordSet, u32 slot, u32 itemId);
-extern void WORDSET_SetSlotFromBank(void *wordSet, u32 slot, u32 itemId, u32 isPlural, u32 flags);
+extern u32 MYITEM_SAVEDATA_CountUsedSlotsInPocket(struct MyItem *bag, u32 pocket);
+extern void WORDSET_SetSlotFromMsg36(struct WordSet *words, u32 slot, u32 entryIndex);
+extern void WORDSET_SetSlotFromBank(struct WordSet *words, u32 slot, u32 entryIndex, u32 useFirstBank, u32 useSecondBank);
 extern void MI_CpuCopy8(const void *src, void *dest, unsigned int size);
 extern u32 SCROLLBAR_GetValueFromPos(u32 range, u32 position, u32 thumbSize, u32 trackSize, u32 flags);
 extern u32 TOUCHPANEL_GetPointTrg(u32 *outX, u32 *outY);
-extern void *GAME_DATA_GetSaveControl(void *saveData);
+struct SaveControl;
+extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gd);
 extern void *MOVE_POKEMON_SAVE_GetBlock(void *fieldSave);
-extern u32 MOVE_POKEMON_SAVE_IsCooldownDone(void *repelState);
-extern void MOVE_POKEMON_SAVE_SetCooldown(void *repelState, u8 steps);
+struct MovePokemonSave;
+extern u32 MOVE_POKEMON_SAVE_IsCooldownDone(struct MovePokemonSave *pSave);
+extern void MOVE_POKEMON_SAVE_SetCooldown(struct MovePokemonSave *pSave, u8 cooldown);
 void ITEMMENU_SetTask(ItemMenuWork *work, ItemMenuTaskFn taskFn);
 void ITEMMENU_ForceRedrawList(ItemMenuWork *work);
 void ITEMMENU_RedrawList(ItemMenuWork *work);
@@ -863,8 +883,8 @@ u32 ITEMMENU_TryStartPlant(ItemMenuWork *work);
 u32 ITEMMENU_TryStartSell(ItemMenuWork *work);
 int ITEMMENU_FindUseRange(u16 itemId);
 extern const ItemUseRange gItemMenuUseRanges[8];
-extern u32 PRINTSYS_QUE_Main(void *printSys);
-extern u32 PRINTSYS_QUE_IsExistTarget(void *printSys, void *textBuffer);
+extern u32 PRINTSYS_QUE_Main(struct PrintQueue *queue);
+extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintQueue *queue, struct Bmp *bmp);
 
 
 /* Sets the task function of the screen and the key repeat speed. */
@@ -1184,7 +1204,7 @@ void ITEMMENU_TaskListInput(ItemMenuWork *work)
     int startIndex;
 
     BLINK_PALANM_Update(work->blinkPalAnm);
-    if (PRINTSYS_QUE_IsFinished(work->printSys) == 0)
+    if (PRINTSYS_QUE_IsFinished((struct PrintQueue *)work->printSys) == 0)
         return;
     startIndex = ITEMMENU_GetCursorIndex(work);
     if (ITEMMENU_HandleScrollbarTouch(work)) {
@@ -1515,8 +1535,8 @@ void ITEMMENU_HandleActionMenuChoice(ItemMenuWork *work)
 
     if (ITEMMENU_IsMessageFinished(work) == 0)
         return;
-    if (APP_TASKMENU_IsFinish(work->menuList)) {
-        actionId = work->menuActionTable[APP_TASKMENU_GetCursorPos(work->menuList)];
+    if (APP_TASKMENU_IsFinish((struct TaskMenuWork *)work->menuList)) {
+        actionId = work->menuActionTable[APP_TASKMENU_GetCursorPos((struct TaskMenuWork *)work->menuList)];
         work->usageContext = actionId;
         switch (actionId) {
         case 0:
@@ -1598,7 +1618,7 @@ void ITEMMENU_HandleActionMenuChoice(ItemMenuWork *work)
     }
     if (closeMenu) {
         ITEMMENU_ClearMessageWindow(work);
-        APP_TASKMENU_CloseMenu(work->menuList);
+        APP_TASKMENU_CloseMenu((struct TaskMenuWork *)work->menuList);
         work->menuList = 0;
     }
 }
@@ -1664,11 +1684,11 @@ void ITEMMENU_TaskBagMain(ItemMenuWork *work)
     unsigned int keys;
     int previousPocket;
 
-    if (PRINTSYS_QUE_IsFinished(work->printSys) == 0)
+    if (PRINTSYS_QUE_IsFinished((struct PrintQueue *)work->printSys) == 0)
         return;
     if (TOUCHPANEL_GetCont() == 0)
         work->isTouchActive = 0;
-    BUTTON_MAN_UpdateSlots(work->taskSys);
+    BUTTON_MAN_UpdateSlots((struct ButtonMan *)work->taskSys);
     BLINK_PALANM_Update(work->blinkPalAnm);
     if (work->taskFn != (ItemMenuTaskFn)ITEMMENU_TaskBagMain)
         return;
@@ -1784,9 +1804,9 @@ void ITEMMENU_TaskBagMain(ItemMenuWork *work)
 
 void ITEMMENU_TaskActionMenuInput(ItemMenuWork *work)
 {
-    if (APP_TASKMENU_IsFinish(work->menuList) == 0)
+    if (APP_TASKMENU_IsFinish((struct TaskMenuWork *)work->menuList) == 0)
         return;
-    if (APP_TASKMENU_GetCursorPos(work->menuList) == 0) {
+    if (APP_TASKMENU_GetCursorPos((struct TaskMenuWork *)work->menuList) == 0) {
         ITEMMENU_ClearMessageWindow(work);
         work->nextState = 6;
         ITEMMENU_SetTask(work, 0);
@@ -1896,9 +1916,9 @@ void ITEMMENU_TaskTossConfirmInput(ItemMenuWork *work)
     int choice;
     int cursorActive;
 
-    if (APP_TASKMENU_IsFinish(work->menuList) == 0)
+    if (APP_TASKMENU_IsFinish((struct TaskMenuWork *)work->menuList) == 0)
         return;
-    choice = APP_TASKMENU_GetCursorPos(work->menuList);
+    choice = APP_TASKMENU_GetCursorPos((struct TaskMenuWork *)work->menuList);
     ITEMMENU_CloseYesNoList(work);
     BG_SYS_ClearSlot(3);
     if (choice == 0) {
@@ -2092,9 +2112,9 @@ void ITEMMENU_TaskSellConfirmInput(ItemMenuWork *work)
 
     if (ITEMMENU_IsMessageFinished(work) == 0)
         return;
-    if (APP_TASKMENU_IsFinish(work->menuList) == 0)
+    if (APP_TASKMENU_IsFinish((struct TaskMenuWork *)work->menuList) == 0)
         return;
-    choice = APP_TASKMENU_GetCursorPos(work->menuList);
+    choice = APP_TASKMENU_GetCursorPos((struct TaskMenuWork *)work->menuList);
     ITEMMENU_CloseYesNoList(work);
     switch (choice) {
     case 0:
@@ -2314,10 +2334,10 @@ void ITEMMENU_SortPocket(ItemMenuWork *work)
     itemCount = ITEMMENU_GetItemCount(work);
     itemArchive = (int)FILE_UTIL_CreateItemArcHandle(work->heapId);
     for (i = 0; i < itemCount; i++) {
-        itemData = FILE_UTIL_LoadArcMember(itemArchive, items[i].itemId, work->heapId);
+        itemData = (s32)FILE_UTIL_LoadArcMember((struct ArcFile *)itemArchive, items[i].itemId, work->heapId);
         entry = &ents[i];
-        iconKind = FILE_UTIL_GetItemRecordParam((struct ItemData *)itemData, 0xF);
-        entry->key = (iconKind << 28) + (FILE_UTIL_GetItemRecordParam((struct ItemData *)itemData, 0x11) << 16) + items[i].itemId;
+        iconKind = FILE_UTIL_GetItemRecordParam((struct ItemRecord *)itemData, 0xF);
+        entry->key = (iconKind << 28) + (FILE_UTIL_GetItemRecordParam((struct ItemRecord *)itemData, 0x11) << 16) + items[i].itemId;
         entry->item = items[i];
         GFL_HEAP_Free((void *)itemData);
     }
@@ -2656,7 +2676,7 @@ void ITEMMENU_VBlankCallback(int unusedArg, ItemMenuWork *work)
 
 void ITEMMENU_TaskStartFadeIn(ItemMenuWork *work)
 {
-    if (PRINTSYS_QUE_IsFinished(work->printSys)) {
+    if (PRINTSYS_QUE_IsFinished((struct PrintQueue *)work->printSys)) {
         WIPE_SYS_Start(0, 1, 1, 0, 6, 1, work->heapId);
         GFL_USE_PlaySeDefaultVolume(0x79F);
         ITEMMENU_SetTask(work, ITEMMENU_TaskWaitFadeIn);
@@ -2714,9 +2734,9 @@ int ITEMMENU_Init(void *proc, int subState, ItemMenuArgs *args)
     work->messageString = STRBUF_Create(0xc8, work->heapId);
     work->listStrings = STRBUF_Create(0x40, work->heapId);
     work->wordSet = WORDSET_CreateDefault(work->heapId);
-    work->printSys = PRINTSYS_QUE_CreateEx(0x40 << 6, work->heapId);
+    work->printSys = (struct PrintSys *)PRINTSYS_QUE_CreateEx(0x40 << 6, work->heapId);
     work->itemDescWindow = APP_KEYCURSOR_CreateDefault(0xf, 1, 1, work->heapId);
-    work->menuTaskArg = GF_FONT_Create(0x17, 0, 0, 0, work->heapId);
+    work->menuTaskArg = (u32)GF_FONT_Create(0x17, 0, 0, 0, work->heapId);
     ITEMMENU_SetupGraphics(work);
     ITEMMENU_InitWindows(work);
     ITEMMENU_LoadPocketGraphics(work);
@@ -2727,9 +2747,9 @@ int ITEMMENU_Init(void *proc, int subState, ItemMenuArgs *args)
     ITEMMENU_CreateBlinkPalAnm(work);
     ITEMMENU_AllocPalAnmSlots(work);
     work->unitList = GFL_USE_AddMainTask(ITEMMENU_VBlankCallback, work, 0);
-    work->touchTask = TCBL_Create(work->heapId, work->heapId, 1, 0);
+    work->touchTask = (struct Tcbl *)TCBL_Create(work->heapId, work->heapId, 1, 0);
     ITEMMENU_PrintPocketName(work);
-    work->taskMenuState = APP_TASKMENU_RES_Create(3, 9, work->menuTaskArg, work->printSys, work->heapId);
+    work->taskMenuState = APP_TASKMENU_RES_Create(3, 9, (struct GFont *)work->menuTaskArg, (struct PrintQueue *)work->printSys, work->heapId);
     GFL_NET_RefreshWmIconAtTopRight(1, work->heapId);
     ITEMMENU_SetCursorActive(work, UI_GetInputMode() ? 0 : 1);
     ITEMMENU_ResetDisplayLayers();
@@ -2757,7 +2777,7 @@ int ITEMMENU_Main(int procArg, int subState, int unusedArg, ItemMenuWork *work)
     }
     ITEMMENU_FreeActionMenuResources(work);
     ITEMMENU_FlushDirtyWindows(work);
-    TCBL_Main(work->touchTask);
+    TCBL_Main((struct TcblSystem *)work->touchTask);
     return 0;
 }
 
@@ -2772,15 +2792,15 @@ int ITEMMENU_Exit(void *proc, int subState, ItemMenuResult *parentArgs, ItemMenu
 {
     if (WIPE_SYS_EndCheck() != 1)
         return 0;
-    if (PRINTSYS_QUE_IsFinished(work->printSys) == 0)
+    if (PRINTSYS_QUE_IsFinished((struct PrintQueue *)work->printSys) == 0)
         return 0;
-    TCB_DeleteTask(work->unitList);
+    TCB_DeleteTask((struct TcbTask *)work->unitList);
     MYITEM_SAVEDATA_SetLastFieldPocket(work->bagCursor, work->currentPocket);
     MYITEM_SAVEDATA_SetFieldPocketCursor(work->bagCursor, (u16)work->currentPocket, work->cursorRow, work->scrollOffset + 1);
     APP_TASKMENU_RES_Delete(work->taskMenuState);
     ITEMMENU_FreeGraphics(work);
     ITEMMENU_ApplyBgPalettes(work);
-    TCBL_Destroy(work->touchTask);
+    TCBL_Destroy((struct TcblSystem *)work->touchTask);
     MSGDATA_Delete(work->msgBank);
     STRBUF_Delete(work->tempString);
     STRBUF_Delete(work->messageString);
@@ -2794,11 +2814,11 @@ int ITEMMENU_Exit(void *proc, int subState, ItemMenuResult *parentArgs, ItemMenu
     BG_SYS_FreeTiles(3, 1, 0);
     GF_FONT_Delete((void *)work->menuTaskArg);
     APP_KEYCURSOR_Delete(work->itemDescWindow);
-    PRINTSYS_QUE_Clear(work->printSys);
-    PRINTSYS_QUE_Delete(work->printSys);
+    PRINTSYS_QUE_Clear((struct PrintQueue *)work->printSys);
+    PRINTSYS_QUE_Delete((struct PrintQueue *)work->printSys);
     ITEMMENU_FreePalAnmSlots(work);
     ITEMMENU_DeleteBlinkPalAnm(work);
-    BUTTON_MAN_Delete(work->taskSys);
+    BUTTON_MAN_Delete((struct ButtonMan *)work->taskSys);
     BMP_WIN_Exit();
     BG_SYS_Delete();
     parentArgs->nextState = work->nextState;
@@ -3355,15 +3375,15 @@ void ITEMMENU_SetupGraphics(ItemMenuWork *work)
     BG_SYS_Create(work->heapId);
     BMP_WIN_Init(work->heapId);
     GF_FONT_InitTextColor();
-    BG_SYS_SetVramBanks((const struct VramBankConfig *)sVramBankConfig);
-    CLACT_InitSystem((const struct ClactSystemConfig *)sClactSystemConfig, (u32)sVramBankConfig, work->heapId);
+    BG_SYS_SetVramBanks((struct DispVram *)sVramBankConfig);
+    CLACT_InitSystem((struct SysInit *)sClactSystemConfig, (struct DispVramCfg *)sVramBankConfig, work->heapId);
     dispConfig = sDispConfig;
     BG_SYS_SetGraphicsMode(&dispConfig);
     BG_SYS_SetMainVisiblePlanes(0);
     BG_SYS_SetSubVisiblePlanes(0);
     ITEMMENU_InitDisplayBanks();
     GF_FONT_SetDefaultTextColor();
-    work->keyRepeatPacked = (u32)BMP_MENUWORK_LoadFrameGfx((void *)3, 13, 0, work->heapId);
+    work->keyRepeatPacked = (u32)(u32)BMP_MENUWORK_LoadFrameGfx((u32)3, 13, 0, work->heapId);
     archive = ARC_TOOL_CreateHandle(0x58, work->heapId);
     ARC_UTIL_UploadPaletteFromHandleWhole(archive, 8, 4, 0, 0, work->heapId);
     if (MYSTATUS_GetSex(work->myStatus) == 0)
@@ -3478,7 +3498,7 @@ void ITEMMENU_SetLayersVisible(void *p, int v) { BG_SYS_SetPlaneVisible(5, v); B
  */
 void ITEMMENU_SetMoveTypeIconsVisible(ItemMenuWork *work, int mode)
 {
-    int moveId;
+    u16 moveId;
     if (mode == 1) {
         work->screenState = 1;
     } else {
@@ -3490,7 +3510,7 @@ void ITEMMENU_SetMoveTypeIconsVisible(ItemMenuWork *work, int mode)
     moveId = FILE_UTIL_GetMachineMove(ITEMMENU_GetSlot(work, ITEMMENU_GetCursorIndex(work))->itemId);
     if (moveId != 0) {
         CLACT_SetActorDrawEnable(work->damageClassActors[WAZA_TOOL_GetDamageType(moveId)], mode);
-        CLACT_SetActorDrawEnable(work->typeActors[WAZA_TOOL_GetType((void *)moveId)], mode);
+        CLACT_SetActorDrawEnable(work->typeActors[WAZA_TOOL_GetType(moveId)], mode);
     }
 }
 
@@ -3712,7 +3732,7 @@ void ITEMMENU_CreateMovingCursor(ItemMenuWork *work, int id)
 
 
 
-void ITEMMENU_FreeActionMenuResources(ItemMenuWork *work) { CLACT_DrawSystem(); if (work->menuList) APP_TASKMENU_UpdateMenu(work->menuList); }
+void ITEMMENU_FreeActionMenuResources(ItemMenuWork *work) { CLACT_DrawSystem(); if (work->menuList) APP_TASKMENU_UpdateMenu((struct TaskMenuWork *)work->menuList); }
 
 
 
@@ -3860,8 +3880,8 @@ void ITEMMENU_PrintItemList(ItemMenuWork *work)
         if (itemIdPtr == 0 || *itemIdPtr == 0) {
             continue;
         }
-        itemData = FILE_UTIL_LoadArcMember(itemArchive, *itemIdPtr, work->heapId);
-        iconKind = FILE_UTIL_GetItemRecordParam((struct ItemData *)itemData, 0xf);
+        itemData = (s32)FILE_UTIL_LoadArcMember((struct ArcFile *)itemArchive, *itemIdPtr, work->heapId);
+        iconKind = FILE_UTIL_GetItemRecordParam((struct ItemRecord *)itemData, 0xf);
         if (sRowStyleFlags[i] == 0) {
             if (ITEMMENU_GetRowColorKind(*itemIdPtr) == 1) {
                 color = 0x18AD;
@@ -3895,7 +3915,7 @@ void ITEMMENU_PrintItemList(ItemMenuWork *work)
             work->slotAnimIndex[i] = 8;
         } else if (FILE_UTIL_GetId(*itemIdPtr) != 0xff) {
             work->slotAnimIndex[i] = 7;
-        } else if (FILE_UTIL_GetItemRecordParam((struct ItemData *)itemData, 4) == 0) {
+        } else if (FILE_UTIL_GetItemRecordParam((struct ItemRecord *)itemData, 4) == 0) {
             work->slotAnimIndex[i] = 3;
         } else if (ITEMMENU_IsItemRegistered(work, *itemIdPtr) == 0) {
             work->slotAnimIndex[i] = 2;
@@ -3955,10 +3975,10 @@ void ITEMMENU_UploadSlotGraphics(ItemMenuWork *work)
         srcChars = (u8 *)CLACT_GetCharacterVramAddress(*(u32 *)(workBytes + i * 4 + 0x5F4), 0);
         dstPixels = BMP_GetPixels(*(void **)(workBytes + i * 4 + 0x614));
         DC_FlushRange(dstPixels, BMP_GetByteSize(*(void **)(workBytes + i * 4 + 0x614)));
-        GX_LoadOBJ(dstPixels + 0x100, srcChars + 0x80, 0x80);
-        GX_LoadOBJ(dstPixels + 0x280, srcChars + 0x100, 0x80);
-        GX_LoadOBJ(dstPixels, srcChars + 0x300, 0x100);
-        GX_LoadOBJ(dstPixels + 0x180, srcChars + 0x400, 0x100);
+        GX_LoadOBJ(dstPixels + 0x100, (u32)(srcChars + 0x80), 0x80);
+        GX_LoadOBJ(dstPixels + 0x280, (u32)(srcChars + 0x100), 0x80);
+        GX_LoadOBJ(dstPixels, (u32)(srcChars + 0x300), 0x100);
+        GX_LoadOBJ(dstPixels + 0x180, (u32)(srcChars + 0x400), 0x100);
         if (*(u32 *)(workBytes + i * 4 + 0x654) != 0) {
             if (work->currentPocket == 4) {
                 if (ITEMMENU_IsBrowseMode(work) == 1 && *(u32 *)(workBytes + i * 4 + 0x654) != 3) {
@@ -4180,7 +4200,7 @@ void ITEMMENU_OpenPopupList(ItemMenuWork *work, int *msgIds, int entryCount)
         rowView->listEntries[0].extra = 0;
     }
     work->listEntries[i - 1].extra = 1;
-    work->menuList = APP_TASKMENU_OpenMenu(&menuTemplate, work->taskMenuState);
+    work->menuList = (struct TaskMenu *)APP_TASKMENU_OpenMenu((struct TaskMenuInitWork *)(&menuTemplate), work->taskMenuState);
     for (i = 0; i < entryCount; i++) {
         STRBUF_Delete((struct Strbuf *)(*(int *)&work->listEntries[i].text));
     }
@@ -4218,7 +4238,7 @@ void ITEMMENU_PrintMoveInfoText(ItemMenuWork *work, int moveId)
     infoWindow = &work->listWindows[0];
 
     CLACT_SetActorDrawEnable(work->damageClassActors[WAZA_TOOL_GetDamageType((u16)moveId)], 1);
-    CLACT_SetActorDrawEnable(work->typeActors[WAZA_TOOL_GetType((void *)(u16)moveId)], 1);
+    CLACT_SetActorDrawEnable(work->typeActors[WAZA_TOOL_GetType((u16)moveId)], 1);
     maxPp = (int)WAZA_TOOL_GetMaxPP(moveId, 0);
     power = (int)WAZA_TOOL_GetParam(moveId, 3);
     accuracy = (int)WAZA_TOOL_GetParam(moveId, 4);
@@ -4311,11 +4331,11 @@ int ITEMMENU_IsMessageFinished(ItemMenuWork *work)
     int streamState;
 
     if (work->messageWindow != 0) {
-        streamState = PRINTSYS_PrintStreamGetState(work->messageWindow);
-        APP_KEYCURSOR_Update(work->itemDescWindow, work->messageWindow, work->messageWindows[0].window);
+        streamState = PRINTSYS_PrintStreamGetState((struct TextPrinter *)work->messageWindow);
+        APP_KEYCURSOR_Update(work->itemDescWindow, (struct TextPrinter *)work->messageWindow, work->messageWindows[0].window);
         switch (streamState) {
         case 2:
-            PRINTSYS_PrintStreamDelete(work->messageWindow);
+            PRINTSYS_PrintStreamDelete((struct TextPrinter *)work->messageWindow);
             work->messageWindow = 0;
             work->messageWindowOpen = 0;
             break;
@@ -4323,14 +4343,14 @@ int ITEMMENU_IsMessageFinished(ItemMenuWork *work)
             if (work->messageWindowOpen == 0) {
                 if ((KEY_GetTrg() & 3) != 0 || TOUCHPANEL_GetTrg() != 0) {
                     GFL_USE_PlaySeDefaultVolume(0x547);
-                    PRINTSYS_PrintStreamReleasePause(work->messageWindow);
+                    PRINTSYS_PrintStreamReleasePause((struct TextPrinter *)work->messageWindow);
                     work->messageWindowOpen = 1;
                 }
             }
             break;
         case 0:
             if ((KEY_GetCont() & 3) != 0 || TOUCHPANEL_GetCont() != 0) {
-                PRINTSYS_PrintStreamShortWait(work->messageWindow, 0);
+                PRINTSYS_PrintStreamShortWait((struct TextPrinter *)work->messageWindow, 0);
             }
             work->messageWindowOpen = 0;
             break;
@@ -4373,7 +4393,7 @@ void ITEMMENU_PrintPocketCount(ItemMenuWork *work, int itemCount)
     MSGDATA_ReadString(work->msgBank, 0x8B, work->tempString);
     WORDSET_SetSlotFromMsg37(work->wordSet, 0, itemCount);
     WORDSET_CopyTaggedText(work->wordSet, work->messageString, work->tempString);
-    freeWidth = 0x60 - PRINTSYS_MeasureWidestLine(work->messageString, work->menuTaskArg, 0);
+    freeWidth = 0x60 - PRINTSYS_MeasureWidestLine(work->messageString, (struct GfFont *)work->menuTaskArg, 0);
     ITEMMENU_PrintToWindow(work, &work->messageWindows[1], work->messageString, (unsigned short)(freeWidth >> 1), 4, 0x3C40);
     ITEMMENU_FlushWindowAt(&work->messageWindows[1]);
 }
@@ -4438,7 +4458,7 @@ void ITEMMENU_OpenYesNoList(ItemMenuWork *work)
     MSGDATA_ReadString(work->msgBank, 0x85, (void *)labelString);
     work->listEntries[1].color = 0x39E0;
     work->listEntries[1].extra = 0;
-    work->menuList = APP_TASKMENU_OpenMenu(&menuTemplate, work->taskMenuState);
+    work->menuList = (struct TaskMenu *)APP_TASKMENU_OpenMenu((struct TaskMenuInitWork *)(&menuTemplate), work->taskMenuState);
     STRBUF_Delete((struct Strbuf *)(work->listEntries[0].text));
     STRBUF_Delete((struct Strbuf *)(work->listEntries[1].text));
     ITEMMENU_SetBackButtonAnim(work, 0);
@@ -4449,7 +4469,7 @@ void ITEMMENU_OpenYesNoList(ItemMenuWork *work)
 
 
 
-void ITEMMENU_CloseYesNoList(ItemMenuWork *work) { APP_TASKMENU_CloseMenu(work->menuList); work->menuList = 0; }
+void ITEMMENU_CloseYesNoList(ItemMenuWork *work) { APP_TASKMENU_CloseMenu((struct TaskMenuWork *)work->menuList); work->menuList = 0; }
 
 
 
@@ -4474,7 +4494,7 @@ void ITEMMENU_LoadSellPalette(ItemMenuWork *work)
         for (; i < tileCount; i++) {
             tiles[i] += (u16)((u16)(int)work->bgPaletteD | 0x3000);
         }
-        BG_SYS_DrawTile(3, (unsigned int)screenImage->data, 0x10, 0xC, (unsigned)screenImage->width >> 3, (unsigned)screenImage->height >> 3);
+        BG_SYS_DrawTile(3, (void *)screenImage->data, 0x10, 0xC, (unsigned)screenImage->width >> 3, (unsigned)screenImage->height >> 3);
         BG_SYS_MarkTileDirty(3);
     }
     GFL_HEAP_Free((void *)screenData);
@@ -4569,8 +4589,8 @@ void ITEMMENU_UpdateSideButtons(ItemMenuWork *work, int page)
     work->currentPage = page;
     isSortFlagSet = GAME_DATA_ContainsRecentId(work->saveData, ITEMMENU_PocketToSortFlag(work->currentPocket));
     if (page == 1) {
-        PALANM_RequestFade(work->palAnmSlot, 4, 0x23CF, 0, 0, 0, 0, GFL_USE_GetMainTaskList());
-        PALANM_RequestFade(work->palAnmSlot, 1, 1, 0, 0, 0, 0, GFL_USE_GetMainTaskList());
+        PALANM_RequestFade(work->palAnmSlot, 4, 0x23CF, 0, 0, 0, 0, (u32)GFL_USE_GetMainTaskList());
+        PALANM_RequestFade(work->palAnmSlot, 1, 1, 0, 0, 0, 0, (u32)GFL_USE_GetMainTaskList());
         G2x_SetBlendBrightness_(0x04000050, 6, 0);
         ITEMMENU_UpdateInputGuardAnim(work);
         CLACT_SetActorAnimSeq(work->sideActor[0], 4);
@@ -4584,8 +4604,8 @@ void ITEMMENU_UpdateSideButtons(ItemMenuWork *work, int page)
         ITEMMENU_SetBackButtonAnim(work, 1);
     } else {
         PALANM_CopyHwPaletteToSlot(work->palAnmSlot, 2, 0, 0x200);
-        PALANM_RequestFade(work->palAnmSlot, 4, 0x23CF, 0, 8, 8, 0, GFL_USE_GetMainTaskList());
-        PALANM_RequestFade(work->palAnmSlot, 1, 1, 0, 8, 8, 0, GFL_USE_GetMainTaskList());
+        PALANM_RequestFade(work->palAnmSlot, 4, 0x23CF, 0, 8, 8, 0, (u32)GFL_USE_GetMainTaskList());
+        PALANM_RequestFade(work->palAnmSlot, 1, 1, 0, 8, 8, 0, (u32)GFL_USE_GetMainTaskList());
         if (work->bagMode == 4 && CLACT_GetActorDrawEnable(work->sideActor[0]) == 0) {
             G2x_SetBlendBrightness_(0x04000050, 2, -8);
         } else {
@@ -4682,7 +4702,7 @@ void ITEMMENU_PrintToWindow(ItemMenuWork *work, ItemMenuWindow *slot, void *str,
 {
     void *print = work->printSys;
 
-    PRINTSYS_PrintQueColor(print, BMP_WIN_GetBmp(slot->window), (TextCoord)x, y, str, work->menuTaskArg, color);
+    PRINTSYS_PrintQueColor(print, BMP_WIN_GetBmp(slot->window), (TextCoord)x, y, str, (struct GfFont *)work->menuTaskArg, color);
     slot->isDirty = 1;
 }
 
@@ -4712,7 +4732,7 @@ static inline void flushWindow(ItemMenuWork *work, ItemMenuWindow *slot)
 
 void ITEMMENU_FlushDirtyWindows(ItemMenuWork *work)
 {
-    PRINTSYS_QUE_Main(work->printSys);
+    PRINTSYS_QUE_Main((struct PrintQueue *)work->printSys);
     flushWindow(work, &work->listWindows[0]);
     flushWindow(work, &work->listWindows[1]);
     flushWindow(work, &work->listWindows[2]);

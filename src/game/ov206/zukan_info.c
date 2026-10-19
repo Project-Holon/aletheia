@@ -288,78 +288,88 @@ struct UnpackedPalette {
     u8 pad_0[12];
     void *palette;
 };
+struct PokemonParam;
 
-extern unsigned POKE_TOOL_GetPartyValue(void *,unsigned,unsigned);
-extern u8 POKE_TOOL_GetGender(void *);
-extern unsigned POKE_TOOL_IsShiny(void *);
+extern unsigned POKE_TOOL_GetPartyValue(struct PokemonParam *pp, unsigned int paramId, unsigned int arg);
+extern u8 POKE_TOOL_GetGender(struct PokemonParam *pp);
+extern unsigned POKE_TOOL_IsShiny(struct PokemonParam *pp);
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void MI_CpuFill8(void *p, int v, int n);
-extern u32 PRINTSYS_QUE_Create(void *p);
+struct PrintQueue;
+extern struct PrintQueue *PRINTSYS_QUE_Create(unsigned int heap);
 extern void BG_SYS_SetPriority(int idx, unsigned short val);
-extern u32 POKE_PERSONAL_GetParam(const struct Personal *p, u32 field);
+struct PersonalData;
+extern u32 POKE_PERSONAL_GetParam(struct PersonalData *data, unsigned int field);
 extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern u32 ARC_UTIL_RegisterObjCharFromHandle(void *arc, u32 memberIdx, u32 bgId, u32 size, u32 heapID, u16 flags);
 extern void ARC_UTIL_UploadBgPaletteFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
-extern void BG_SYS_SetTileEntry(u32 layer, int value, int x0, int y0, u8 w, u8 h, u8 mode);
+extern void BG_SYS_SetTileEntry(unsigned int layer, unsigned short value, unsigned char x0, unsigned char y0, unsigned char w, unsigned char h, unsigned char mode);
 extern void ARC_UTIL_UploadPaletteFromHandle(void *arc, u32 memberIdx, u32 kind, u32 offset, u32 dest, u32 size, u16 flags);
 extern u32 ARC_UTIL_UploadBgPaletteAddFromHandle(void *arc, u32 memberIdx, u32 channel, u32 offset, u32 add, u32 size, u32 heapID, u16 flags);
 extern void BG_SYS_FillTileMap(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
-extern u32 ARC_TOOL_GetHandleMemberSize(struct ArcFile *arc, u32 member);
-extern void ARC_TOOL_ReadHandleMember(struct ArcFile *arc, u32 member, void *dst);
+struct ArcHandle;
+extern u32 ARC_TOOL_GetHandleMemberSize(struct ArcHandle *arc, unsigned int memberIdx);
+extern void ARC_TOOL_ReadHandleMember(struct ArcHandle *arc, unsigned int memberIdx, void *dst);
 extern s32 NNS_G2dGetUnpackedPaletteData(struct NitroFileHeader *file, void **out);
 extern u32 GFL_HEAP_Free(void *p);
-extern void *GFL_USE_AddMainTask(void (*cb)(int, char *), void *arg, int pri);
+struct Tcb;
+extern struct Tcb *GFL_USE_AddMainTask(void (*cb)(int, char *), void *work, unsigned int priority);
 extern void G2x_SetBlendBrightness_(u32 addr, int plane, int brightness);
 extern void BG_SYS_ChangeScrollImmediate(u32 layer, u32 a, u32 b);
 extern void BG_SYS_PushTile(u32 layer);
-extern void TCB_DeleteTask(struct Node *n);
+struct TcbTask;
+extern void TCB_DeleteTask(struct TcbTask *task);
 extern void BG_SYS_FreeTileRun(u32 layer, u32 offset, u32 size);
-extern void PRINTSYS_QUE_Clear(struct PrintSys *p);
-extern void PRINTSYS_QUE_Delete(struct PrintSys *p);
-extern u32 PM_VOICE_Play(u32, u32, u32, u32, u32, u32, u32, u32);
-extern void CLACT_GetActorPos(const struct Actor *actor, struct Pt *out);
-extern void CLACT_SetActorPos(struct Actor *actor, const struct Pt *src);
-extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
-extern void *POKE_PERSONAL_Create(u32 a, int b, u32 c);
-extern void POKE_PERSONAL_Delete(void *p);
+extern void PRINTSYS_QUE_Clear(struct PrintQueue *queue);
+extern void PRINTSYS_QUE_Delete(struct PrintQueue *queue);
+extern u32 PM_VOICE_Play(unsigned int species, unsigned int form, unsigned int pan, unsigned int dual, unsigned int volumeBiasB, unsigned int frequencyOffsetB, unsigned int reverse, void **recordedVoice);
+struct Pt16;
+extern void CLACT_GetActorPos(struct Actor *actor, struct Pt16 *out);
+extern void CLACT_SetActorPos(struct Actor *actor, struct Pt16 *pos);
+extern u32 PRINTSYS_QUE_Main(struct PrintQueue *queue);
+extern struct PersonalData *POKE_PERSONAL_Create(u32 a, int b, u32 c);
+extern void POKE_PERSONAL_Delete(struct PersonalData *data);
 extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
 extern void BG_SYS_ChangeScroll(u32 index, u32 a, u32 b);
 extern void *ARC_UTIL_LoadHandleMemberWithSize(void *narc, int fileId, int decompress, u32 heapId, u32 *out_size);
 extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u32 c, u32 d, u32 slot);
-extern void *BMP_WIN_GetBmp(struct Descriptor *p);
-extern void BMP_Clear(struct CharBuf *buf, u8 value);
-extern unsigned int BMP_WIN_Delete(struct Descriptor *d);
-extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
-extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
-extern u32 PRINTSYS_MeasureWidestLine(struct StrObj *s, u32 a, u32 b);
+struct BmpWin;
+extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *win);
+extern void BMP_Clear(struct Bmp *bmp, unsigned char value);
+extern unsigned int BMP_WIN_Delete(struct BmpWin *win);
+struct Strbuf;
+extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
+extern void WORDSET_CopyTaggedText(struct WordSet *words, struct Strbuf *dst, struct Strbuf *src);
+struct GfFont;
+extern u32 PRINTSYS_MeasureWidestLine(struct Strbuf *text, struct GfFont *font, unsigned int spacing);
 extern u16 BMP_GetWidth(const struct Bmp *bmp);
-extern void PRINTSYS_PrintQueColor(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
-extern void STRBUF_Delete(struct U16Vec *vec);
-extern void *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
+extern void PRINTSYS_PrintQueColor(struct PrintQueue *queue, struct Bmp *bmp, unsigned int x, short y, struct Strbuf *str, struct GfFont *font, unsigned short color);
+extern void STRBUF_Delete(struct Strbuf *strbuf);
+extern struct Strbuf *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
 extern u16 *POKE_PERSONAL_LoadFormTable(u32 heap, u16 *countOut);
-extern struct WordSet *WORDSET_CreateDefault(u32 heap);
+extern struct WordSet *WORDSET_CreateDefault(unsigned short heapId);
 extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern u32 WORDSET_Delete(struct WordSet *p);
-extern unsigned int PRINTSYS_QUE_IsExistTarget(struct PrintSys *p, void *v);
-extern void BMP_WIN_TransferChars(struct Descriptor *);
-extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
-extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
+extern unsigned int PRINTSYS_QUE_IsExistTarget(struct PrintQueue *queue, struct Bmp *bmp);
+extern void BMP_WIN_TransferChars(struct BmpWin *win);
+extern void BMP_WIN_MakeScreen(struct BmpWin *win);
+extern u8 BMP_WIN_GetBgLayer(struct BmpWin *win);
 extern void BG_SYS_MarkTileDirty(u32 bit);
 extern struct Bmp *BMP_CreateFromArchive(u32 arc, u32 member, u32 heap2, u32 heap);
 extern void BMP_Blit(struct Bmp *dst, struct Bmp *src, u32 x, u32 y, int sx, int sy, u32 w, u32 h, u32 key);
 extern void BMP_Delete(struct Bmp *p);
-extern int POKEGRA_RegisterCgr(int,int,int,int,int,int,int,int,int,unsigned short);
+extern unsigned int POKEGRA_RegisterCgr(unsigned int handle, unsigned int monsNo, unsigned int formNo, unsigned int sex, unsigned int rare, unsigned int dir, unsigned int egg, unsigned int personality, unsigned int drawType, unsigned short heapId);
 extern int POKEGRA_RegisterPalette(int,int,int,int,int,int,int,int,unsigned short,unsigned short);
-extern int POKEGRA_RegisterCellAnim(int,int,int,int,int,int,int,int,unsigned short);
+extern unsigned int POKEGRA_RegisterCellAnim(unsigned int monsNo, unsigned int formNo, unsigned int sex, unsigned int rare, unsigned int dir, unsigned int egg, unsigned int mapping, unsigned int unusedArg, unsigned short heapId);
 extern void CLACT_ReleasePalette(u32 i);
 extern void CLACT_ReleaseCharacter(u32 i);
 extern void CLACT_ReleaseCellAnim(u32 i);
 extern struct Obj *CLACT_CreateActor(void *,unsigned int,unsigned int,unsigned int,const void *,unsigned short,unsigned short);
-extern void CLACT_SetActorDrawPriority(struct Node *node, u32 val);
+extern void CLACT_SetActorDrawPriority(struct Actor *actor, unsigned int priority);
 extern void CLACT_SetActorObjMode(struct Actor *actor, u32 value);
 extern void CLACT_SetActorFlip(struct Actor *actor, u32 which, u32 set);
-extern void CLACT_DeleteActor(struct Obj *p);
-extern void CLACT_SetActorDrawEnable(struct Obj *p, u32 v);
+extern void CLACT_DeleteActor(struct Actor *actor);
+extern void CLACT_SetActorDrawEnable(struct Actor *actor, unsigned int value);
 extern u32 APP_ICON_GetTouchBarFileId(void);
 extern u8 APP_ICON_GetTypePaletteOffset(int i);
 extern u32 APP_ICON_GetTypeCellFileId(u32 a);
@@ -368,16 +378,16 @@ extern u32 APP_ICON_GetTypeAnimFileId(u32 a);
 extern s32 CLACT_RegisterPaletteEx(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
 extern s32 CLACT_RegisterCellAnim(void *owner, u32 first, u32 second, u32 mode);
 extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 vram_mode, u16 flags);
-extern void CLACT_SetActorPaletteOffset(struct Obj *o, u32 v, u32 flag);
+extern void CLACT_SetActorPaletteOffset(struct Actor *actor, unsigned int offset, unsigned int pltt_op);
 extern void CLACT_AddActorSurfacePos(void *, ActorSurfacePos *, unsigned short);
 extern void *ARC_UTIL_LoadBgCharDataFromHandle(void *arc, unsigned int memberIdx, unsigned int heapID, unsigned int unpackedOut, unsigned short flags);
 extern void CLACT_TransferCharacterPart(int a, void *b, unsigned int c, int d, int e);
 extern s32 NNS_GfdRegisterNewVramTransferTask(void *p, u32 a, u32 b, s32 size);
 extern u32 APP_ICON_GetArchiveId(void);
-extern int POKEGRA_OpenHandle(int heapId);
-extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
+extern void *POKEGRA_OpenHandle(unsigned int heapId);
+extern void *ARC_TOOL_CreateHandle(unsigned int archiveID, unsigned short heapID);
 extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern u32 MSGDATA_Delete(struct Rec *rec);
+extern u32 MSGDATA_Delete(struct MsgBank *bank);
 extern void ARC_TOOL_DeleteHandle(void *);
 void *ZUKAN_INFO_CreateFromMon(u16 heap,void *mon,unsigned formTableNeeded,unsigned showCurrent,unsigned mode,unsigned femaleFlag,u8 bgLayerBase,unsigned clactUnit,unsigned font,unsigned unused,unsigned a10,unsigned a11,unsigned a12);
 void *ZUKAN_INFO_Create(u32 heap, u16 species, u16 form, u16 gender, u16 rare, u32 personalParam, u32 formTableNeeded, u32 showCurrent, u32 mode, u32 femaleFlag, u8 a10, u32 a11, u32 a12, u32 a13, u32 a14, u32 a15, u32 a16);
@@ -544,7 +554,7 @@ void *ZUKAN_INFO_Create(u32 heap, u16 species, u16 form, u16 gender, u16 rare, u
     ((struct ZukanInfo *)p)->bgLayerBase = bgLayerBase;
     ((struct ZukanInfo *)p)->clactUnit = clactUnit;
     ((struct ZukanInfo *)p)->font = font;
-    ((struct ZukanInfo *)p)->printQue = (void *)PRINTSYS_QUE_Create((void *)(((struct ZukanInfo *)p)->heap));
+    ((struct ZukanInfo *)p)->printQue = (void *)PRINTSYS_QUE_Create((unsigned int)(((struct ZukanInfo *)p)->heap));
     *(u32 *)&((struct ZukanInfo *)p)->g[0] = objOverrideA;
     *(u32 *)&((struct ZukanInfo *)p)->g[1] = objOverrideB;
     *(u32 *)&((struct ZukanInfo *)p)->g[2] = objOverrideC;
@@ -727,12 +737,12 @@ void ZUKAN_INFO_Update(char *p)
         int fx = 0;
         int fy = 0;
         void *obj = ((struct ZukanInfo *)p)->actors[((struct ZukanInfo *)p)->selected];
-        CLACT_GetActorPos(obj, &pt);
+        CLACT_GetActorPos(obj, (struct Pt16 *)(&pt));
         pt.x += 1;
         pt.y += 1;
         if (pt.x > 0x80) { pt.x = 0x80; fx = 1; }
         if (pt.y > 0x48) { pt.y = 0x48; fy = 1; }
-        CLACT_SetActorPos(((struct ZukanInfo *)p)->actors[((struct ZukanInfo *)p)->selected], &pt);
+        CLACT_SetActorPos(((struct ZukanInfo *)p)->actors[((struct ZukanInfo *)p)->selected], (struct Pt16 *)(&pt));
         if (fx && fy) ((struct ZukanInfo *)p)->animState = 6;
         break;
     }
@@ -1001,7 +1011,7 @@ void ZUKAN_INFO_CreateWindows(char *p)
     tab = d_021BC174;
     for (i = 0; i < 4; i++) {
         ((struct ZukanInfo *)p)->win[i] = (int)BMP_WIN_Create(((struct ZukanInfo *)p)->layerMain, tab.b[i*4], tab.b[i*4+1], tab.b[i*4+2], tab.b[i*4+3], 3, 1);
-        BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)((struct ZukanInfo *)p)->win[i])), 0);
+        BMP_Clear((struct Bmp *)((u32)BMP_WIN_GetBmp((struct BmpWin *)((struct ZukanInfo *)p)->win[i])), 0);
     }
     for (i = 0; i < 4; i++) {
         ((struct ZukanInfo *)p)->slotDirty[i] = 1;
@@ -1021,7 +1031,7 @@ void ZUKAN_INFO_DeleteWindows(char *p)
     PRINTSYS_QUE_Clear(((struct ZukanInfo *)p)->printQue);
     for(i=0;i<4;i++){
         ((struct ZukanInfo *)p)->slotDirty[i]=1;
-        BMP_WIN_Delete((struct Descriptor *)((struct ZukanInfo *)p)->win[i]);
+        BMP_WIN_Delete((struct BmpWin *)((struct ZukanInfo *)p)->win[i]);
     }
     GFL_HEAP_Free(((struct ZukanInfo *)p)->speciesTable);
 }
@@ -1035,7 +1045,7 @@ void ZUKAN_INFO_DeleteWindows(char *p)
 
 void ZUKAN_INFO_DrawText(int heap,int window,void *printer,int font,int input,unsigned short right,unsigned short y,unsigned short color,int alignment,int expansion)
 {
-    int buffer=(int)BMP_WIN_GetBmp((struct Descriptor *)window);
+    int buffer=(int)BMP_WIN_GetBmp((struct BmpWin *)window);
     unsigned short x;
     int text;
     if(expansion) {
@@ -1045,18 +1055,18 @@ void ZUKAN_INFO_DrawText(int heap,int window,void *printer,int font,int input,un
     switch(alignment) {
     case 0: x=right; break;
     case 1: {
-        unsigned short width=PRINTSYS_MeasureWidestLine((struct StrObj *)text,font,0);
+        unsigned short width=PRINTSYS_MeasureWidestLine((struct Strbuf *)text,(struct GfFont *)font,0);
         x=right-width;
         break;
     }
     case 2: {
-        unsigned short width=PRINTSYS_MeasureWidestLine((struct StrObj *)text,font,0);
+        unsigned short width=PRINTSYS_MeasureWidestLine((struct Strbuf *)text,(struct GfFont *)font,0);
         x=(BMP_GetWidth((const struct Bmp *)buffer)-width)/2;
         break;
     }
     }
-    PRINTSYS_PrintQueColor(printer,(int)buffer,(short)x,(short)y,(int)text,(int)font,color);
-    if(expansion) STRBUF_Delete((struct U16Vec *)text);
+    PRINTSYS_PrintQueColor(printer,(struct Bmp *)buffer,(short)x,(short)y,(struct Strbuf *)text,(struct GfFont *)font,color);
+    if(expansion) STRBUF_Delete((struct Strbuf *)text);
 }
 
 
@@ -1070,7 +1080,7 @@ void ZUKAN_INFO_DrawMessage(int heap,int window,struct MsgBank *bank,void *print
 {
     int text=(int)MSGDATA_AllocString(bank,message);
     ZUKAN_INFO_DrawText(heap,window,printer,font,text,x,y,color,alignment,expansion);
-    STRBUF_Delete((struct U16Vec *)text);
+    STRBUF_Delete((struct Strbuf *)text);
 }
 
 
@@ -1126,7 +1136,7 @@ void ZUKAN_INFO_DrawMainPage(char *p)
         ZUKAN_INFO_DrawText(((struct ZukanInfo *)p)->heap, *(int *)&((struct ZukanInfo *)p)->win[1], (void *)(((struct ZukanInfo *)p)->printQue), ((struct ZukanInfo *)p)->font, ((struct ZukanInfo *)p)->text.input[1], 8, 5, 0x3e7 + 0x59, 0, 0);
     }
     name = MSGDATA_AllocString(gSpeciesNameBank, ((struct ZukanInfo *)p)->species);
-    PRINTSYS_PrintQueColor((void *)(((struct ZukanInfo *)p)->printQue), (u32)BMP_WIN_GetBmp((struct Descriptor *)((struct ZukanInfo *)p)->win[1]), 0x30, 5, (u32)name, ((struct ZukanInfo *)p)->font, 0x440);
+    PRINTSYS_PrintQueColor((void *)(((struct ZukanInfo *)p)->printQue), BMP_WIN_GetBmp((struct BmpWin *)((struct ZukanInfo *)p)->win[1]), 0x30, 5, name, (struct GfFont *)(((struct ZukanInfo *)p)->font), 0x440);
     STRBUF_Delete(name);
     m = 0;
     if (((struct ZukanInfo *)p)->showCurrent != 0) m = ((struct ZukanInfo *)p)->species;
@@ -1227,10 +1237,10 @@ void ZUKAN_INFO_DrawPage(char *p, int idx)
 void ZUKAN_INFO_ClearSlotWindows(char *p)
 {
     int i;
-    PRINTSYS_QUE_Clear((struct PrintSys *)(((struct ZukanInfo *)p)->printQue));
+    PRINTSYS_QUE_Clear((struct PrintQueue *)(((struct ZukanInfo *)p)->printQue));
     for (i = 0; i < 4; i++) {
         ((struct ZukanInfo *)p)->slotDirty[i] = 1;
-        BMP_Clear((struct CharBuf *)((int)BMP_WIN_GetBmp((struct Descriptor *)((struct ZukanInfo *)p)->win[i])), 0);
+        BMP_Clear((struct Bmp *)((int)BMP_WIN_GetBmp((struct BmpWin *)((struct ZukanInfo *)p)->win[i])), 0);
     }
 }
 
@@ -1245,11 +1255,11 @@ void ZUKAN_INFO_FlushSlotWindows(char *p)
 {
     int i;
     for (i = 0; i < 4; i++) {
-        if (((struct ZukanInfo *)p)->slotDirty[i] == 0 && PRINTSYS_QUE_IsExistTarget((struct PrintSys *)(((struct ZukanInfo *)p)->printQue), (void *)BMP_WIN_GetBmp((struct Descriptor *)((struct ZukanInfo *)p)->win[i])) == 0) {
+        if (((struct ZukanInfo *)p)->slotDirty[i] == 0 && PRINTSYS_QUE_IsExistTarget((struct PrintQueue *)(((struct ZukanInfo *)p)->printQue), (void *)BMP_WIN_GetBmp((struct BmpWin *)((struct ZukanInfo *)p)->win[i])) == 0) {
             int window = ((struct ZukanInfo *)p)->win[i];
-            BMP_WIN_TransferChars((struct Descriptor *)window);
-            BMP_WIN_MakeScreen((struct Cfg *)window);
-            BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer((struct Descriptor *)window));
+            BMP_WIN_TransferChars((struct BmpWin *)window);
+            BMP_WIN_MakeScreen((struct BmpWin *)window);
+            BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer((struct BmpWin *)window));
             ((struct ZukanInfo *)p)->slotDirty[i] = 1;
         }
     }
@@ -1270,23 +1280,23 @@ void ZUKAN_INFO_CreateBgBmp(struct ZukanInfo *e)
     int q;
 
     e->winMain = (void *)BMP_WIN_Create(e->layerUpper, 0xc, 4, 4, 3, z, z);
-    q = (int)BMP_WIN_GetBmp((struct Descriptor *)e->winMain);
+    q = (int)BMP_WIN_GetBmp((struct BmpWin *)e->winMain);
     BMP_Blit((struct Bmp *)s, (struct Bmp *)q, 8, 0, z, z, 0x20, 0x18, z);
 
     e->winAlt = (void *)BMP_WIN_Create(e->layerUpper, 0xc, 4, 4, 3, z, z);
-    q = (int)BMP_WIN_GetBmp((struct Descriptor *)e->winAlt);
+    q = (int)BMP_WIN_GetBmp((struct BmpWin *)e->winAlt);
     BMP_Blit((struct Bmp *)s, (struct Bmp *)q, 0xa8, 8, z, z, 0x20, 8, z);
 
-    q = (int)BMP_WIN_GetBmp((struct Descriptor *)e->winAlt);
+    q = (int)BMP_WIN_GetBmp((struct BmpWin *)e->winAlt);
     BMP_Blit((struct Bmp *)s, (struct Bmp *)q, 0xf8, 8, z, 8, 8, 8, z);
 
-    q = (int)BMP_WIN_GetBmp((struct Descriptor *)e->winAlt);
+    q = (int)BMP_WIN_GetBmp((struct BmpWin *)e->winAlt);
     BMP_Blit((struct Bmp *)s, (struct Bmp *)q, 0x28, 0x10, 8, 8, 0x18, 8, z);
 
-    q = (int)BMP_WIN_GetBmp((struct Descriptor *)e->winAlt);
+    q = (int)BMP_WIN_GetBmp((struct BmpWin *)e->winAlt);
     BMP_Blit((struct Bmp *)s, (struct Bmp *)q, 0x80, z, 0, 0x10, 8, 8, 0);
 
-    q = (int)BMP_WIN_GetBmp((struct Descriptor *)e->winAlt);
+    q = (int)BMP_WIN_GetBmp((struct BmpWin *)e->winAlt);
     BMP_Blit((struct Bmp *)s, (struct Bmp *)q, 0x58, 0x10, 8, 0x10, 0x18, 8, z);
 
     BMP_Delete((struct Bmp *)s);
@@ -1319,15 +1329,15 @@ void ZUKAN_INFO_FlushMainWindow(void *obj)
 
     if (((struct ZukanInfo *)obj)->showCurrent != 0) {
         p = ((struct ZukanInfo *)obj)->winMain;
-        BMP_WIN_TransferChars((struct Descriptor *)p);
-        BMP_WIN_MakeScreen((struct Cfg *)p);
-        BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer((struct Descriptor *)p));
+        BMP_WIN_TransferChars((struct BmpWin *)p);
+        BMP_WIN_MakeScreen((struct BmpWin *)p);
+        BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer((struct BmpWin *)p));
         return;
     }
     p = ((struct ZukanInfo *)obj)->winAlt;
-    BMP_WIN_TransferChars((struct Descriptor *)p);
-    BMP_WIN_MakeScreen((struct Cfg *)p);
-    BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer((struct Descriptor *)p));
+    BMP_WIN_TransferChars((struct BmpWin *)p);
+    BMP_WIN_MakeScreen((struct BmpWin *)p);
+    BG_SYS_MarkTileDirty(BMP_WIN_GetBgLayer((struct BmpWin *)p));
 }
 
 
@@ -1410,9 +1420,9 @@ void ZUKAN_INFO_CreateActor(char *p,int x,int y,int index)
     pos.x=x;
     pos.y=y;
     *(int *)(p+0xac+index*4)=(int)CLACT_CreateActor((void *)((struct ZukanInfo *)p)->clactUnit,(u32)((struct ZukanInfo *)p)->charRes[index],(u32)((struct ZukanInfo *)p)->palRes[index],(u32)((struct ZukanInfo *)p)->cellRes[index],&pos,flag,((struct ZukanInfo *)p)->heap);
-    CLACT_SetActorDrawPriority((struct Node *)(*(int *)(p+0xac+index*4)),0);
+    CLACT_SetActorDrawPriority((struct Actor *)(*(int *)(p+0xac+index*4)),0);
     if(((struct ZukanInfo *)p)->mode==2) CLACT_SetActorObjMode((struct Actor *)(*(int *)(p+0xac+index*4)),1);
-    if(POKE_PERSONAL_GetParam((const struct Personal *)(((struct ZukanInfo *)p)->x),34)==0) CLACT_SetActorFlip((struct Actor *)(*(int *)(p+0xac+index*4)),1,1);
+    if(POKE_PERSONAL_GetParam((struct PersonalData *)(((struct ZukanInfo *)p)->x),34)==0) CLACT_SetActorFlip((struct Actor *)(*(int *)(p+0xac+index*4)),1,1);
 }
 
 
@@ -1503,7 +1513,7 @@ void ZUKAN_INFO_DeleteIconActors(char *p)
     for(i=0;i<2;i++) ZUKAN_INFO_DeleteRow(p,i);
     if(((struct ZukanInfo *)p)->iconVisible) {
         for(i=0;i<17;i++) {
-            CLACT_DeleteActor((struct Obj *)((struct ZukanInfo *)p)->iconActors[i]);
+            CLACT_DeleteActor((struct Actor *)((struct ZukanInfo *)p)->iconActors[i]);
             CLACT_ReleaseCharacter((u32)((struct ZukanInfo *)p)->iconChars[i]);
         }
         ((struct ZukanInfo *)p)->iconVisible=0;
@@ -1519,8 +1529,8 @@ void ZUKAN_INFO_DeleteIconActors(char *p)
 void ZUKAN_INFO_ShowFormPair(char *p,int mode,int which)
 {
     void *mon=((struct ZukanInfo *)p)->x;
-    unsigned char first=POKE_PERSONAL_GetParam((const struct Personal *)mon,6);
-    unsigned char second=POKE_PERSONAL_GetParam((const struct Personal *)mon,7);
+    unsigned char first=POKE_PERSONAL_GetParam((struct PersonalData *)mon,6);
+    unsigned char second=POKE_PERSONAL_GetParam((struct PersonalData *)mon,7);
     if(first==second) second=17;
     if(mode==6) ZUKAN_INFO_LayoutFormPair((struct ZukanInfo *)p, first, second, which);
     else ZUKAN_INFO_LayoutFormPairEx((struct ZukanInfo *)p, first, second, mode, which);
@@ -1706,7 +1716,7 @@ void ZUKAN_INFO_DeleteRow(char *p, int index)
     if (((struct ZukanInfo *)p)->iconVisible == 0) {
         for (i = 0; i < 2; i++) {
             if (((struct ZukanInfo *)p)->charIds[index][i] != -1)
-                CLACT_DeleteActor((struct Obj *)(((struct ZukanInfo *)p)->actorSlots[index][i]));
+                CLACT_DeleteActor((struct Actor *)(((struct ZukanInfo *)p)->actorSlots[index][i]));
         }
         for (i = 0; i < 2; i++) {
             if (((struct ZukanInfo *)p)->charIds[index][i] != -1) {

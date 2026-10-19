@@ -53,12 +53,13 @@ extern struct FieldMap *GAMESYSTEM_GetFieldMap(struct GameSystem *gameSystem);
 extern void *ENCEFF_AllocWork(struct EncEffWork *eff, u32 size, u32 heapId);
 extern struct Desc *GAME_EVENT_Create(void *owner, void *a, void *b, u32 size);
 extern struct GameSystem *GAME_EVENT_GetGameSystem(struct GameEvent *event);
-extern EncEffRipple *ENCEFF_GetWork(struct EncEffWork *eff);
+extern void *ENCEFF_GetWork(struct EncEffWork *eff);
 extern void FADE_Start(u32 planes, s32 startLevel, s32 endLevel, s32 wait);
 extern int FADE_IsActive(void);
 extern struct GameEvent *ENCEFF_GetEffect(struct EncEffWork *eff);
 extern void G3X_SetClearColor(u16 color, int alpha, int depth, int polygonId, int clearImage);
-extern void ENCEFF_DrawScreenTexEffect(struct GameEvent *effect);
+struct EncEffScreenTexWork;
+extern void ENCEFF_DrawScreenTexEffect(struct EncEffScreenTexWork *work);
 void *ENCEFF_BuildRippleKind02(void *gameSystem, struct FieldMap *fieldMap);
 void *ENCEFF_BuildRippleKind36(void *gameSystem, struct FieldMap *fieldMap);
 void *ENCEFF_StartRipple(void *gameSystem);
@@ -169,7 +170,7 @@ int ENCEFF_RippleEventMain(struct GameEvent *event, int *state)
 void ENCEFF_UpdateRipple(struct EncEffWork *eff) {
     struct GameEvent *effect = ENCEFF_GetEffect(eff);
     G3X_SetClearColor(0x4210,31,0x7FFF,0,0);
-    ENCEFF_DrawScreenTexEffect(effect);
+    ENCEFF_DrawScreenTexEffect((struct EncEffScreenTexWork *)effect);
 }
 
 

@@ -18,3 +18,14 @@ only stored to a word field, so the type is not visible elsewhere) gives
 Measured in ov194 021F3FBC (still open): a u16 or u8 parameter moves its own
 spill store to the top of the entry block; u32/int parameters stay in the
 middle. Parameter width is a real source fact, so this is not a stand-in.
+
+Mechanism (measured with tools/mwccdbg sched and alias, wave 19): a word
+spill of a u8/u16 variable falls in the unknown-memory set G, an int or
+pointer spill gets its own exact alias object. Two narrow spills in G alias,
+so the earlier one gets a store-store edge (latency 1) to the later one: a
+higher height and a larger release count, and the scheduler issues it first.
+In 021F1E28 this is b -> c; with c as a pointer, a and b tie and program
+order puts a first. `mwccdbg edit --force-alias post:0:2:3` on the pointer
+form gives the image order. No source form was found that puts a pointer
+spill in G (types of the other parameters, inline helper, address-of,
+volatile, K&R definition, opt_* pragmas, scheduling off).

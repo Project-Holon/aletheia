@@ -97,6 +97,13 @@
  *   BG_SYS_FreeSlot  0x020414AC  arm  arm9
  *   MSGDATA_CreateFromArchive  0x02045B38  arm  arm9
  *   ARC_TOOL_CreateHandle  0x020490F4  arm  arm9
+ *   _fadd                        0x0209C95C  arm
+ *   _fdiv                        0x0209CE10  arm
+ *   _ffix                        0x0209C494  arm
+ *   _fflt                        0x0209BDBC  arm
+ *   _ffltu                       0x0209BE04  arm
+ *   _fmul                        0x0209C77C  arm
+ *   _fsub                        0x0209CB8C  arm
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -135,7 +142,8 @@ struct FieldMsgContext;
 
 extern void *GFL_HEAP_Alloc(unsigned int heapId, unsigned int size, int clear, const char *site, unsigned short line);
 extern u32 GFL_HEAP_Free(void *p);
-extern GfFont *FIELD_MSGBG_GetFont(struct FieldMsgContext *msgContext);
+struct FieldMsgBg;
+extern GfFont *FIELD_MSGBG_GetFont(struct FieldMsgBg *msgBg);
 extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void BG_SYS_FreeLayerBuf(u32 bgId);
 extern void BMP_WIN_TransferChars(BmpWin *bmpWin);
@@ -144,38 +152,45 @@ extern unsigned char BMP_WIN_GetBgLayer(BmpWin *bmpWin);
 extern void BG_SYS_PushTile(unsigned int bgLayer);
 extern void BG_SYS_SetPriority(int bgId, unsigned short priority);
 extern void BG_SYS_SetPlaneVisible(unsigned char bgId, unsigned char enable);
-extern void G2x_SetBlendAlpha_(int regAddr, int plane1, int plane2, int evA, int evB);
-extern void BG_SYS_FreeSlot(int bgId);
-extern u32 ARC_TOOL_GetHandleMemberSize(ArcFile *arc, u32 member);
-extern void ARC_TOOL_ReadHandleMember(ArcFile *arc, u32 member, void *dst);
+extern void G2x_SetBlendAlpha_(u32 *reg, u32 a, u32 b, u32 c, u32 d);
+extern void BG_SYS_FreeSlot(u8 idx);
+struct ArcHandle;
+extern u32 ARC_TOOL_GetHandleMemberSize(struct ArcHandle *arc, u32 memberIdx);
+extern void ARC_TOOL_ReadHandleMember(struct ArcHandle *arc, u32 memberIdx, void *dst);
 extern s32 NNS_G2dGetUnpackedPaletteData(NitroFileHeader *file, void **out);
 extern void BG_SYS_LoadPltt(u32 bgId, void *src, u32 size, u32 offset);
 extern u32 BG_SYS_CreateRun(u32 bgId, u32 size, u32 top);
 extern void BG_SYS_FreeTileRun(u32 bgId, u32 offset, u32 size);
 extern Bmp *BMP_WIN_GetBmp(BmpWin *bmpWin);
 extern void BMP_Clear(Bmp *bmp, u8 value);
-extern ClactRenderer *CLACT_CreateRenderer(const u8 *initParam, u32 count, u32 heapId);
-extern void CLACT_DeleteRenderer(ClactRenderer *renderer);
-extern s32 CLACT_RegisterPaletteEx(ArcFile *arc, u32 type, u32 index, u32 size, u16 plane, u16 compress, u16 heapId);
+struct SurfaceInit;
+struct Renderer;
+extern struct Renderer *CLACT_CreateRenderer(struct SurfaceInit *inits, u32 count, u32 heap_id);
+extern void CLACT_DeleteRenderer(struct Renderer *renderer);
+extern s32 CLACT_RegisterPaletteEx(void *archive, u32 file_idx, u32 vram_mode, u32 vram_offset, u16 first_color, u16 color_count, u16 heap_id);
 extern void CLACT_ReleasePalette(u32 paletteId);
 extern ClactUnit *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 extern void CLACT_SetUnitDrawEnable(ClactUnit *unit, u32 mode);
 extern u32 CLACT_DeleteUnit(ClactUnit *unit);
 extern void CLACT_SetUnitRenderer(ClactUnit *unit, ClactRenderer *renderer);
-extern ArcFile *ARC_TOOL_CreateHandle(u32 arcId, u32 heapId);
-extern void ARC_TOOL_DeleteHandle(ArcFile *arc);
+extern void *ARC_TOOL_CreateHandle(u32 archiveID, u16 heapID);
+extern void ARC_TOOL_DeleteHandle(void *handle);
 extern void STRBUF_ToChars(Strbuf *strbuf, u16 *out, u32 count);
 extern u32 GF_FONT_GetCharWidth(GfFont *font, u16 ch);
-extern BmpOamSys *BMP_OAM_CreateSys(unsigned int heapId, ClactUnit *unit);
+extern BmpOamSys *BMP_OAM_CreateSys(u32 heapId, void *clact);
 extern void BMP_OAM_DeleteSys(BmpOamSys *sys);
-extern void BMP_Blit(Bmp *dst, Bmp *src, u32 x, u32 y, int srcX, int srcY, u32 w, u32 h, u32 key);
+extern void BMP_Blit(struct Bmp *src, struct Bmp *dst, u32 srcX, u32 srcY, s32 dstX, s32 dstY, u32 w, u32 h, u16 colorKey);
 extern u32 ZONEDATA_GetPlaceNameId(u32 zoneId);
-extern unsigned int GAMESYSTEM_GetGameComm(const GameSystem *gameSystem);
-extern int INTRUDE_COMM_GetWorkIfRunning(int gameComm);
-extern int GAME_DATA_GetIntrudeIdByte(GameData *gameData);
-extern int GAME_DATA_GetMyStatusByNetId(GameData *gameData, int netId);
-extern Strbuf *MSGDATA_AllocString(MsgData *msgData, u32 index);
-extern void MSGDATA_ReadString(MsgData *msgData, u32 index, Strbuf *dst);
+struct GameComm;
+extern struct GameComm *GAMESYSTEM_GetGameComm(const GameSystem *gameSystem);
+struct IntrudeCommSys;
+extern struct IntrudeCommSys *INTRUDE_COMM_GetWorkIfRunning(struct GameComm *comm);
+extern u8 GAME_DATA_GetIntrudeIdByte(GameData *gameData);
+struct MyStatus;
+extern struct MyStatus *GAME_DATA_GetMyStatusByNetId(struct GameData *gameData, u32 netId);
+struct MsgBank;
+extern Strbuf *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
+extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, struct Strbuf *dest);
 extern void WORDSET_SetSlotMyStatus(WordSet *wordSet, u32 index, void *myStatus);
 extern void WORDSET_SetSlotFromMsg59(WordSet *wordSet, u32 index, u32 value);
 extern void WORDSET_CopyTaggedText(WordSet *wordSet, Strbuf *dst, Strbuf *src);
@@ -183,22 +198,24 @@ extern void STRBUF_Delete(Strbuf *strbuf);
 extern u16 STRBUF_GetLength(Strbuf *strbuf);
 extern void *GAME_DATA_GetMoveModelSys(const GameData *gameData);
 extern u8 GAME_DATA_GetOwnNetId(const GameData *gameData);
-extern unsigned int FIELD_STATUS_GetMapMode(void *fieldStatus);
+struct FieldStatus;
+extern unsigned int FIELD_STATUS_GetMapMode(struct FieldStatus *fs);
 extern u32 ZONEDATA_IsEntralink(u32 zoneId);
-extern void BG_SYS_InitSlot(u32 bgId);
+extern void BG_SYS_InitSlot(u8 idx);
 extern void BG_SYS_ClearSlot(u32 bgId);
 extern void MI_CpuFill8(void *dst, int value, int size);
 extern void *GAMESYSTEM_GetGameData(const GameSystem *gameSystem);
-extern WordSet *WORDSET_CreateDefault(u32 heapId);
-extern MsgData *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern WordSet *WORDSET_CreateDefault(u16 heapId);
+extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
-extern BmpWin *BMP_WIN_Create(u32 bgId, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
+extern BmpWin *BMP_WIN_Create(u32 bgLayer, u32 posX, u32 posY, u8 width, u8 height, u8 palette, u8 allocDir);
 extern u32 WORDSET_Delete(WordSet *wordSet);
-extern u32 MSGDATA_Delete(MsgData *msgData);
+extern u32 MSGDATA_Delete(struct MsgBank *bank);
 extern u32 BMP_WIN_Delete(BmpWin *bmpWin);
 extern void *GAME_DATA_GetSaveControl(GameData *gameData);
 extern void *PLAYER_LOCATION_GetData(void *saveControl);
-extern u16 PLAYER_LOCATION_GetZoneId(const void *location);
+struct PlayerLocationData;
+extern u16 PLAYER_LOCATION_GetZoneId(struct PlayerLocationData *location_data);
 extern u32 PLAYER_LOCATION_SetZoneId(u32 location, u32 zoneId);
 extern u32 ZONEDATA_GetPlaceNameWindow(u32 zoneId);
 extern const u8 gFieldPlaceNameRendererParam[16];
@@ -325,7 +342,7 @@ FieldPlaceName *FIELD_PLACE_NAME_Create(GameSystem *gameSystem, u32 heapId, stru
     FIELD_PLACE_NAME_CreateMsgData(placeName);
     FIELD_PLACE_NAME_CreateMessage(placeName);
     FIELD_PLACE_NAME_SetHeapId(placeName, heapId);
-    FIELD_PLACE_NAME_SetFont(placeName, FIELD_MSGBG_GetFont(msgContext));
+    FIELD_PLACE_NAME_SetFont(placeName, FIELD_MSGBG_GetFont((struct FieldMsgBg *)msgContext));
     FIELD_PLACE_NAME_CreateClactRenderer(placeName);
     FIELD_PLACE_NAME_RegisterClactPalette(placeName);
     FIELD_PLACE_NAME_CreateClactUnit(placeName);
@@ -474,7 +491,7 @@ void FIELD_PLACE_NAME_SetupWindow(FieldPlaceName *placeName)
     BG_SYS_PushTile(BMP_WIN_GetBgLayer(bmpWin));
     BG_SYS_SetPriority(FIELD_PLACE_NAME_BG_LAYER, 1);
     BG_SYS_SetPlaneVisible(FIELD_PLACE_NAME_BG_LAYER, 0);
-    G2x_SetBlendAlpha_(REG_BLDCNT_ADDR, 8, 0x11, 0x10, 4);
+    G2x_SetBlendAlpha_((u32 *)REG_BLDCNT_ADDR, 8, 0x11, 0x10, 4);
 }
 
 /* Releases the BG window resources. */
@@ -500,9 +517,9 @@ void FIELD_PLACE_NAME_LoadPaletteFile(FieldPlaceName *placeName)
 
     heapId = FIELD_PLACE_NAME_GetHeapId(placeName);
     arcHandle = FIELD_PLACE_NAME_GetArcHandle(placeName);
-    file = (NitroFileHeader *)GFL_HEAP_Alloc(heapId, ARC_TOOL_GetHandleMemberSize(arcHandle, 1), 0, (const char *)gFieldPlaceNameFileName, 0x2c8);
+    file = (NitroFileHeader *)GFL_HEAP_Alloc(heapId, ARC_TOOL_GetHandleMemberSize((struct ArcHandle *)arcHandle, 1), 0, (const char *)gFieldPlaceNameFileName, 0x2c8);
     placeName->paletteFile = file;
-    ARC_TOOL_ReadHandleMember(arcHandle, 1, file);
+    ARC_TOOL_ReadHandleMember((struct ArcHandle *)arcHandle, 1, file);
     NNS_G2dGetUnpackedPaletteData(placeName->paletteFile, (void **)&placeName->paletteBlock);
 }
 
@@ -544,14 +561,14 @@ void FIELD_PLACE_NAME_ClearWindow(FieldPlaceName *placeName)
 
 void FIELD_PLACE_NAME_CreateClactRenderer(FieldPlaceName *placeName)
 {
-    placeName->clactRenderer = CLACT_CreateRenderer(gFieldPlaceNameRendererParam, 1, placeName->heapId);
+    placeName->clactRenderer = (struct ClactRenderer *)CLACT_CreateRenderer((struct SurfaceInit *)gFieldPlaceNameRendererParam, 1, placeName->heapId);
 }
 
 void FIELD_PLACE_NAME_DeleteClactRenderer(FieldPlaceName *placeName)
 {
     ClactRenderer *renderer = placeName->clactRenderer;
     if (renderer != 0) {
-        CLACT_DeleteRenderer(renderer);
+        CLACT_DeleteRenderer((struct Renderer *)renderer);
         placeName->clactRenderer = 0;
     }
 }
@@ -813,16 +830,16 @@ void FIELD_PLACE_NAME_LoadMessage(FieldPlaceName *placeName)
         return;
     }
     if (FIELD_PLACE_NAME_UsesIntrudeTemplate(placeName, zoneId) != 0) {
-        INTRUDE_COMM_GetWorkIfRunning((int)GAMESYSTEM_GetGameComm(placeName->gameSystem));
-        myStatus = GAME_DATA_GetMyStatusByNetId(placeName->gameData, GAME_DATA_GetIntrudeIdByte(placeName->gameData));
-        template = MSGDATA_AllocString(placeName->msgData, 3);
-        MSGDATA_ReadString(placeName->msgData, placeNameId, placeName->message);
+        INTRUDE_COMM_GetWorkIfRunning((struct GameComm *)GAMESYSTEM_GetGameComm(placeName->gameSystem));
+        myStatus = (s32)GAME_DATA_GetMyStatusByNetId(placeName->gameData, GAME_DATA_GetIntrudeIdByte(placeName->gameData));
+        template = MSGDATA_AllocString((struct MsgBank *)placeName->msgData, 3);
+        MSGDATA_ReadString((struct MsgBank *)placeName->msgData, placeNameId, placeName->message);
         WORDSET_SetSlotMyStatus(placeName->wordSet, 0, (void *)myStatus);
         WORDSET_SetSlotFromMsg59(placeName->wordSet, 1, placeNameId);
         WORDSET_CopyTaggedText(placeName->wordSet, placeName->message, template);
         STRBUF_Delete(template);
     } else {
-        MSGDATA_ReadString(placeName->msgData, placeNameId, placeName->message);
+        MSGDATA_ReadString((struct MsgBank *)placeName->msgData, placeNameId, placeName->message);
     }
     placeName->messageLength = STRBUF_GetLength(placeName->message);
 }
@@ -838,7 +855,7 @@ int FIELD_PLACE_NAME_UsesIntrudeTemplate(FieldPlaceName *placeName, int zoneId)
     void *fieldStatus;
     int ownNetId;
 
-    intrudeId = INTRUDE_COMM_GetWorkIfRunning((int)GAMESYSTEM_GetGameComm(placeName->gameSystem));
+    intrudeId = (s32)INTRUDE_COMM_GetWorkIfRunning((struct GameComm *)GAMESYSTEM_GetGameComm(placeName->gameSystem));
     fieldStatus = GAME_DATA_GetMoveModelSys(placeName->gameData);
     ownNetId = GAME_DATA_GetOwnNetId(placeName->gameData);
     if (intrudeId != 0) {
@@ -937,7 +954,7 @@ void FIELD_PLACE_NAME_StatePrepare(FieldPlaceName *placeName)
         BG_SYS_PushTile(BMP_WIN_GetBgLayer(bmpWin));
         BG_SYS_SetPriority(FIELD_PLACE_NAME_BG_LAYER, 1);
         BG_SYS_SetPlaneVisible(FIELD_PLACE_NAME_BG_LAYER, 0);
-        G2x_SetBlendAlpha_(REG_BLDCNT_ADDR, 8, 0x11, 0x10, 4);
+        G2x_SetBlendAlpha_((u32 *)REG_BLDCNT_ADDR, 8, 0x11, 0x10, 4);
         FIELD_PLACE_NAME_ResetSpawnCounts(placeName);
         FIELD_PLACE_NAME_IncrementStep(placeName);
         break;
@@ -1065,7 +1082,7 @@ void FIELD_PLACE_NAME_DrawFadeIn(FieldPlaceName *placeName)
     int evA;
     progress = (float)(u32)placeName->frame / 10.0f;
     evA = (int)(16.0f * progress);
-    G2x_SetBlendAlpha_(REG_BLDCNT_ADDR, 8, 0x11, evA, (int)(4.0f + 12.0f * (1.0f - progress)));
+    G2x_SetBlendAlpha_((u32 *)REG_BLDCNT_ADDR, 8, 0x11, evA, (int)(4.0f + 12.0f * (1.0f - progress)));
 }
 
 /* Draw handler of the fade in wait state: nothing to draw. */
@@ -1090,7 +1107,7 @@ void FIELD_PLACE_NAME_DrawFadeOut(FieldPlaceName *placeName)
     int evA;
     progress = (float)(u32)placeName->frame / 20.0f;
     evA = (int)(16.0f * (1.0f - progress));
-    G2x_SetBlendAlpha_(REG_BLDCNT_ADDR, 8, 0x11, evA, (int)(4.0f + 12.0f * progress));
+    G2x_SetBlendAlpha_((u32 *)REG_BLDCNT_ADDR, 8, 0x11, evA, (int)(4.0f + 12.0f * progress));
 }
 
 FieldPlaceName *FIELD_PLACE_NAME_AllocWork(u32 heapId)
@@ -1122,7 +1139,7 @@ void FIELD_PLACE_NAME_CreateWordSet(FieldPlaceName *placeName)
 
 void FIELD_PLACE_NAME_CreateMsgData(FieldPlaceName *placeName)
 {
-    placeName->msgData = MSGDATA_CreateFromArchive(0, 2, 0x59, FIELD_PLACE_NAME_GetHeapId(placeName));
+    placeName->msgData = (struct MsgData *)MSGDATA_CreateFromArchive(0, 2, 0x59, FIELD_PLACE_NAME_GetHeapId(placeName));
 }
 
 void FIELD_PLACE_NAME_CreateMessage(FieldPlaceName *placeName)
@@ -1148,7 +1165,7 @@ void FIELD_PLACE_NAME_DeleteMsgData(FieldPlaceName *placeName)
 {
     MsgData *msgData = placeName->msgData;
     if (msgData != 0) {
-        MSGDATA_Delete(msgData);
+        MSGDATA_Delete((struct MsgBank *)msgData);
         placeName->msgData = 0;
     }
 }

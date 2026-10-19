@@ -362,7 +362,7 @@ enum Position { POSITION_ZERO=0 };
 
 extern void GFL_HEAP_CreateChildHeap(unsigned,unsigned,unsigned);
 
-extern void *PROCSYS_AllocProcWork(struct ProcSystem *,unsigned,unsigned);
+extern void *PROCSYS_AllocProcWork(struct Proc *proc, unsigned int size, unsigned int heapId);
 
 extern void MI_CpuFill8(void *,int,int);
 
@@ -371,8 +371,9 @@ extern void PROCSYS_FreeProcWork(struct Proc *p);
 extern void GFL_HEAP_DeleteChecked(unsigned int heap);
 
 extern void *GFL_USE_AddMainTask(unsigned,unsigned,unsigned);
+struct TcbTask;
 
-extern void TCB_DeleteTask(struct Node *);
+extern void TCB_DeleteTask(struct TcbTask *task);
 
 extern void BG_SYS_Update(void),CLACT_VBlankSystem(void);
 
@@ -402,7 +403,7 @@ extern void BG_SYS_FreeLayerBuf(u32 i);
 
 extern void BG_SYS_Delete(void);
 
-extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
+extern void *ARC_TOOL_CreateHandle(unsigned int archiveID, unsigned short heapID);
 
 extern void ARC_UTIL_UploadPaletteFromHandleWhole(void *,u32,u32,u32,u32,u16);
 
@@ -432,65 +433,69 @@ extern void PALANM_AllocSlotBuffers(struct PalAnmSlot *slots, u32 idx, u32 size,
 
 extern void PALANM_FreeSlotBuffers(struct PalAnmSlot *,unsigned);
 
-extern void PALANM_Delete(struct PalAnmSlot *);
+extern unsigned int PALANM_Delete(void *ctx);
+struct TcbList;
 
-extern u32 GFL_USE_GetMainTaskList(void);
+extern struct TcbList *GFL_USE_GetMainTaskList(void);
 
 extern int PALANM_RequestFade(void *, u16, u16, short, u8, u8, u16, void *);
 
-extern void G2x_SetBlendAlpha_(void *,unsigned,unsigned,unsigned,unsigned);
+extern void G2x_SetBlendAlpha_(unsigned int *reg, unsigned int a, unsigned int b, unsigned int c, unsigned int d);
 
 extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 
 extern struct GfFont *GF_FONT_Create(int archiveId, int fileId, int format, int isFixedWidth, u32 heapId);
 
-extern struct WordSet *WORDSET_CreateDefault(u32 heap);
+extern struct WordSet *WORDSET_CreateDefault(unsigned short heapId);
+struct PrintQueue;
 
-extern u32 PRINTSYS_QUE_Create(void *);
+extern struct PrintQueue *PRINTSYS_QUE_Create(unsigned int heap);
+struct Strbuf;
 
-extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
+extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
 
-extern void STRBUF_Delete(struct U16Vec *);
+extern void STRBUF_Delete(struct Strbuf *strbuf);
 
-extern void PRINTSYS_QUE_Delete(struct PrintSys *);
+extern void PRINTSYS_QUE_Delete(struct PrintQueue *queue);
 
-extern void WORDSET_Delete(struct WordSet *);
+extern unsigned int WORDSET_Delete(struct WordSet *);
 
-extern void GF_FONT_Delete(void *);
+extern unsigned int GF_FONT_Delete(struct GfFont *font);
 
-extern void MSGDATA_Delete(struct Rec *);
+extern unsigned int MSGDATA_Delete(struct MsgBank *bank);
 
 extern u16 *POKE_PERSONAL_LoadFormTable(u32 heap, u16 *countOut);
 
 extern u32 GFL_HEAP_Free(void *p);
 
 extern void BG_SYS_ChangeScroll(u32, u32, u32);
+struct ZukanSave;
 
-extern u16 ZUKAN_SAVE_GetLastViewedSpecies(struct Blk37 *p);
+extern u16 ZUKAN_SAVE_GetLastViewedSpecies(struct ZukanSave *pZukan);
 
 extern struct FrameList *FRAME_LIST_Create(const FrameListParams *params, u32 heap);
 
-extern void FRAME_LIST_CopyMapToBuffer(u8 *p, u32 a, u32 b, u32 c, u32 index);
+extern void FRAME_LIST_CopyMapToBuffer(struct FrameList *list, void *source, unsigned int fileIndex, unsigned int memberIndex, unsigned int mapSlot);
 
-extern void FRAME_LIST_LoadPalettes(u8 *p, u8 *a, u32 b, u32 c, u32 d);
+extern void FRAME_LIST_LoadPalettes(struct FrameList *list, unsigned char *palettes, unsigned int firstSlot, unsigned int srcSlot, unsigned int slotCount);
 
-extern void FRAME_LIST_AddItem(char *ctx, unsigned first, unsigned second);
+extern void FRAME_LIST_AddItem(struct FrameList *list, unsigned int mapIndex, unsigned int value);
 
-extern u32 ZUKAN_SAVE_IsCaught(struct Blk37 *p, u16 id);
+extern u32 ZUKAN_SAVE_IsCaught(struct ZukanSave *pZukan, unsigned short species);
 
-extern u32 ZUKAN_SAVE_IsSeen(struct Blk37 *p, u16 id);
+extern u32 ZUKAN_SAVE_IsSeen(struct ZukanSave *pZukan, unsigned short species);
 
-extern void *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
+extern struct Strbuf *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
 
-extern struct U16Vec *STRBUF_Clone(struct U16Vec *src, u32 heapId);
+extern struct Strbuf *STRBUF_Clone(struct Strbuf *src, unsigned int heapId);
 
 extern void FRAME_LIST_Delete(struct FrameList *);
 
-extern u32 FRAME_LIST_GetItemValue(char *p, int index);
+extern u32 FRAME_LIST_GetItemValue(struct FrameList *list, int index);
 
-extern int FRAME_LIST_GetScrollPos(char *);
+extern int FRAME_LIST_GetScrollPos(struct FrameList *list);
 
-extern int FRAME_LIST_GetCursor(char *);
+extern int FRAME_LIST_GetCursor(struct FrameList *list);
 
 extern void ZUKAN_LIST_UpdateActors(struct ZukanList *),ZUKAN_LIST_FlushWindows(struct ZukanList *),ZUKAN_TickCounter(u32,u32,u8 *);
 
@@ -516,7 +521,7 @@ extern int FRAME_LIST_Update(struct FrameList *p);
 
 extern int ZUKAN_LIST_HandleTouchInput(struct ZukanList *p);
 
-extern int FRAME_LIST_GetSelectedIndex(char *p);
+extern int FRAME_LIST_GetSelectedIndex(struct FrameList *list);
 
 extern void FRAME_LIST_SetCursor(struct FrameList *s, int v);
 
@@ -526,11 +531,11 @@ extern void UI_SetInputMode(u8);
 
 extern void GFL_USE_PlaySeDefaultVolume(u32);
 
-extern u32 ZUKAN_SAVE_GetViewMode(struct Blk37 *p);
+extern u32 ZUKAN_SAVE_GetViewMode(struct ZukanSave *pZukan);
 
-extern void ZUKAN_SAVE_SetViewMode(struct Blk37 *p, u32 v);
+extern void ZUKAN_SAVE_SetViewMode(struct ZukanSave *pZukan, unsigned int value);
 
-extern void FRAME_LIST_SetRowPalette(u8 *p, int a, u32 b);
+extern void FRAME_LIST_SetRowPalette(struct FrameList *list, int row, unsigned int pltt);
 
 extern void PALANM_CopyHwPaletteToSlot(struct PalAnmSlot *, unsigned, unsigned, unsigned);
 
@@ -541,86 +546,89 @@ extern int GAME_DATA_ContainsRecentId(int, int);
 extern void GAME_DATA_SetRecentId(void *, unsigned, unsigned);
 
 extern void BMP_WIN_Init(unsigned short);
+struct BmpWin;
 
-extern unsigned BMP_WIN_Create(unsigned, unsigned, unsigned, unsigned, u8, u8, u8);
+extern struct BmpWin *BMP_WIN_Create(unsigned int bgLayer, unsigned int posX, unsigned int posY, unsigned char width, unsigned char height, unsigned char palette, unsigned char allocDir);
 
-extern u32 BMP_WIN_Delete(struct Descriptor *d);
+extern u32 BMP_WIN_Delete(struct BmpWin *win);
 
 extern void BMP_WIN_Exit(void);
 
-extern unsigned PRINTSYS_QUE_Main(struct PrintSys *);
+extern unsigned PRINTSYS_QUE_Main(struct PrintQueue *queue);
 
-extern void *BMP_WIN_GetBmp(struct Descriptor *p);
+extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *win);
 
-extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintSys *p, void *v);
+extern u32 PRINTSYS_QUE_IsExistTarget(struct PrintQueue *queue, struct Bmp *bmp);
 
-extern void BMP_WIN_TransferChars(struct Descriptor *);
+extern void BMP_WIN_TransferChars(struct BmpWin *win);
 
 extern void TOUCHBAR_PrintAligned(u8 *p, void *a, u16 b, u16 c, u32 s0, u32 s1, u16 s2, u32 s3);
 
-extern void WORDSET_CopyTaggedText(struct WordSet *, void *, void *);
+extern void WORDSET_CopyTaggedText(struct WordSet *words, struct Strbuf *dst, struct Strbuf *src);
 
-extern void BMP_WIN_MakeScreen(struct Cfg *);
+extern void BMP_WIN_MakeScreen(struct BmpWin *win);
 
-extern u8 BMP_WIN_GetBgLayer(struct Descriptor *);
+extern u8 BMP_WIN_GetBgLayer(struct BmpWin *win);
 
-extern u8 BMP_WIN_GetDispWidth(struct Descriptor *p);
+extern u8 BMP_WIN_GetDispWidth(struct BmpWin *win);
 
-extern u8 BMP_WIN_GetDispHeight(struct Descriptor *p);
+extern u8 BMP_WIN_GetDispHeight(struct BmpWin *win);
 
-extern u8 BMP_WIN_GetPosX(struct Descriptor *p);
+extern u8 BMP_WIN_GetPosX(struct BmpWin *win);
 
-extern u8 BMP_WIN_GetPosY(struct Descriptor *p);
+extern u8 BMP_WIN_GetPosY(struct BmpWin *win);
 
 extern void *BMP_GetPixels(const struct Bmp *bmp);
 
 extern void *ARC_UTIL_LoadPaletteDataFromHandle(void *, u32, u32, void **, u16);
 
-extern void *ARC_UTIL_LoadBgCharDataFromHandle(void *arc, u32 memberIdx, u32 heapID, u32 unpackedOut, u16 flags);
+extern void *ARC_UTIL_LoadBgCharDataFromHandle(void *arc, u32 memberIdx, u32 heapID, void *unpackedOut, u16 flags);
 
 extern void MIi_CpuCopy32(const void *src, void *dst, u32 size);
 
-extern u16 ZUKAN_SAVE_CountSeenNational(struct Blk37 *p);
+extern u16 ZUKAN_SAVE_CountSeenNational(struct ZukanSave *pZukan);
 
-extern u16 ZUKAN_SAVE_CountCaughtNational(struct Blk37 *p);
+extern u16 ZUKAN_SAVE_CountCaughtNational(struct ZukanSave *pZukan);
 
-extern u16 ZUKAN_SAVE_CountSeenRegional(struct Blk37 *p, u32 heap);
+extern u16 ZUKAN_SAVE_CountSeenRegional(struct ZukanSave *pZukan, unsigned int heap);
 
-extern u16 ZUKAN_SAVE_CountCaughtRegional(struct Blk37 *p, u32 heap);
+extern u16 ZUKAN_SAVE_CountCaughtRegional(struct ZukanSave *pZukan, unsigned int heap);
 
 extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 
-extern unsigned FRAME_LIST_GetPrinter(char *);
+extern struct PrintSys *FRAME_LIST_GetPrinter(struct FrameList *list);
 
 extern void CLACT_ExitSystem(void);
 
 extern u32 CLACT_GetActorAutoAnim(struct Actor *);
 
-extern void CLACT_AddActorAnimFrame(struct Obj *,u32);
+extern void CLACT_AddActorAnimFrame(struct Actor *actor, unsigned int frames);
 
 extern void CLACT_DrawSystem(void);
 
-extern void CLACT_SetActorAnimFrame(struct Obj *p, u32 value);
+extern void CLACT_SetActorAnimFrame(struct Actor *actor, unsigned int frame);
 
-extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
+extern void CLACT_SetActorAnimSeq(struct Actor *actor, unsigned short value);
 
-extern void CLACT_SetActorAutoAnim(struct Obj *,unsigned int);
+extern void CLACT_SetActorAutoAnim(struct Actor *actor, unsigned int enable);
 
-extern u16 CLACT_GetActorAnimSeq(struct Obj *p);
+extern u16 CLACT_GetActorAnimSeq(struct Actor *actor);
 
 extern u32 CLACT_IsActorAnimActive(struct Actor *);
 
-extern void CLACT_SetActorDrawEnable(struct Obj *,u32);
+extern void CLACT_SetActorDrawEnable(struct Actor *actor, unsigned int value);
 
-extern u32 CLACT_GetActorDrawEnable(struct Obj *);
+extern u32 CLACT_GetActorDrawEnable(struct Actor *actor);
 
 extern void CLACT_SetActorObjMode(struct Actor *,u32);
 
 extern void CLACT_AddActorSurfacePos(struct Obj *p, const struct Vec2 *delta, u32 which);
 
 extern void CLACT_GetActorSurfacePos(struct Actor *,PtS *,unsigned int);
+struct DispVramCfg;
+struct SysInit;
 
-extern void CLACT_InitSystem(const struct Cfg *,u32,u32);
+extern void CLACT_InitSystem(struct SysInit *cfg, struct DispVramCfg *res_cfg, unsigned int heapId);
 
 extern s32 CLACT_RegisterCharacter(void *a, u32 b, u32 c, u32 vram_mode, u16 flags);
 
@@ -657,54 +665,56 @@ extern void CLACT_ReleasePalette(unsigned);
 extern void CLACT_ReleaseCellAnim(unsigned);
 
 extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
+struct ZknSearchActorTemplate;
 
-extern struct Obj *ZUKAN_CreateActor(u32 bank, const u8 *t, u16 heap);
+extern struct Obj *ZUKAN_CreateActor(void *bank, struct ZknSearchActorTemplate *t, u16 heap);
 
 extern void CLACT_SetActorVisible(struct Actor *a, u32 v);
 
-extern u32 ZUKAN_SAVE_GetDexObtained(struct Blk37 *p);
+extern u32 ZUKAN_SAVE_GetDexObtained(struct ZukanSave *pZukan);
 
-extern u32 ZUKAN_SAVE_IsNationalDexEnabled(struct Blk37 *p);
+extern u32 ZUKAN_SAVE_IsNationalDexEnabled(struct ZukanSave *pZukan);
 
-extern void CLACT_DeleteActor(struct Obj *);
+extern void CLACT_DeleteActor(struct Actor *actor);
 
 extern void CLACT_DeleteUnit(struct Bank *);
 
 extern s32 CLACT_RegisterPaletteEx(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
 
-extern void ZUKAN_SAVE_GetViewGenderAndForm(u8 *p, u16 id, u32 *out1, u32 *out2, u32 *outForm, u16 language);
+extern void ZUKAN_SAVE_GetViewGenderAndForm(struct ZukanSave *pZukan, unsigned short species, unsigned int *outGender, unsigned int *outShiny, unsigned int *outForm, unsigned short language);
 
-extern int POKEGRA_OpenHandle(int heapId);
+extern void *POKEGRA_OpenHandle(unsigned int heapId);
 
-extern u32 ZUKAN_SAVE_GetSpindaPersonality(struct Blk37 *p, u32 which);
+extern u32 ZUKAN_SAVE_GetSpindaPersonality(struct ZukanSave *pZukan, unsigned int which);
 
 extern u32 POKEGRA_RegisterCgr(u32,u32,u32,u32,u32,u32,u32,u32,u32,u16);
 
 extern int POKEGRA_RegisterPalette(int,int,int,int,int,int,int,int,u16,u16);
 
 extern u32 POKEGRA_RegisterCellAnim(u32,u32,u32,u32,u32,u32,u32,u32,u16);
+struct PersonalData;
 
-extern void *POKE_PERSONAL_Create(u32,int,u32);
+extern struct PersonalData *POKE_PERSONAL_Create(u32,int,u32);
 
-extern u32 POKE_PERSONAL_GetParam(const struct Personal *p, u32 field);
+extern u32 POKE_PERSONAL_GetParam(struct PersonalData *data, unsigned int field);
 
-extern void POKE_PERSONAL_Delete(void *);
+extern void POKE_PERSONAL_Delete(struct PersonalData *data);
 
 extern void CLACT_SetActorFlip(struct Actor *actor, u32 which, u32 set);
 
-extern void *ARC_UTIL_LoadScreenDataFromHandle(void *arc, u32 memberIdx, u32 heapID, u32 unpackedOut, u16 flags);
+extern void *ARC_UTIL_LoadScreenDataFromHandle(void *arc, u32 memberIdx, u32 heapID, void *unpackedOut, u16 flags);
 
-extern u16 CLACT_GetActorCharacterIndex(u8 *);
+extern u16 CLACT_GetActorCharacterIndex(struct Actor *actor);
 
 extern void CLACT_TransferCharacterPart(int,void *,unsigned,int,int);
 
 extern unsigned POKE_TOOL_CalcIconPalette(unsigned,unsigned,unsigned,unsigned);
 
-extern void CLACT_SetActorPaletteOffset(struct Obj *,unsigned,unsigned);
+extern void CLACT_SetActorPaletteOffset(struct Actor *actor, unsigned int offset, unsigned int pltt_op);
 
 extern int FRAME_LIST_ClampToScrollBar(struct FrameList *s, unsigned int v);
 
-extern int FRAME_LIST_CanScrollDown(char *);
+extern int FRAME_LIST_CanScrollDown(struct FrameList *list);
 
 int ZUKAN_LIST_ProcInit(struct ProcSystem *p,int unused,unsigned arg);
 
@@ -904,7 +914,7 @@ extern const struct ClactActorDesc gZukanListActorDesc;
 
 extern const struct ClactSpeciesActor gZukanListSpeciesActor;
 
-int ZUKAN_LIST_ProcInit(struct ProcSystem *p,int unused,unsigned arg){unsigned *work;GFL_HEAP_CreateChildHeap(1,107,0x60000);work=PROCSYS_AllocProcWork(p,0xc44,107);MI_CpuFill8(work,0,0xc44);*work=arg;return 1;}
+int ZUKAN_LIST_ProcInit(struct ProcSystem *p,int unused,unsigned arg){unsigned *work;GFL_HEAP_CreateChildHeap(1,107,0x60000);work=PROCSYS_AllocProcWork((struct Proc *)p,0xc44,107);MI_CpuFill8(work,0,0xc44);*work=arg;return 1;}
 
 int ZUKAN_LIST_ProcMain(int unused0, int unused1, int unused2, int work)
 {
@@ -922,7 +932,7 @@ int ZUKAN_LIST_ProcExit(void *p)
 
 void ZUKAN_LIST_StartVBlankTask(struct ZukanList *p){p->vblankTask=GFL_USE_AddMainTask((unsigned)ZUKAN_LIST_VBlankTask,(unsigned)p,0);}
 
-void ZUKAN_LIST_StopVBlankTask(struct ZukanList *p){TCB_DeleteTask((struct Node *)p->vblankTask);}
+void ZUKAN_LIST_StopVBlankTask(struct ZukanList *p){TCB_DeleteTask((struct TcbTask *)p->vblankTask);}
 
 /*
  * lever: enum-typed DTCM base preserves the base-first two-pool address; constant addition folds and enum offset reverses pool/register roles.
@@ -1093,11 +1103,11 @@ void ZUKAN_LIST_CreateFontAndPrinter(struct ZukanList *p)
     p->msgBank = MSGDATA_CreateFromArchive(0, 2, 0x114, 0x6B);
     p->font = GF_FONT_Create(0x17, 0, 0, 0, 0x6B);
     p->wordSet = WORDSET_CreateDefault(0x6B);
-    p->printer = (void *)PRINTSYS_QUE_Create((void *)0x6B);
-    p->textBuf = STRBUF_Create(0x80, 0x6B);
+    p->printer = (void *)PRINTSYS_QUE_Create((unsigned int)0x6B);
+    p->textBuf = (struct U16Vec *)STRBUF_Create(0x80, 0x6B);
 }
 
-void ZUKAN_LIST_DeleteFontAndPrinter(struct ZukanList *p){STRBUF_Delete((struct U16Vec *)p->textBuf);PRINTSYS_QUE_Delete((struct PrintSys *)p->printer);WORDSET_Delete((struct WordSet *)p->wordSet);GF_FONT_Delete(p->font);MSGDATA_Delete((struct Rec *)p->msgBank);}
+void ZUKAN_LIST_DeleteFontAndPrinter(struct ZukanList *p){STRBUF_Delete((struct Strbuf *)p->textBuf);PRINTSYS_QUE_Delete((struct PrintQueue *)p->printer);WORDSET_Delete((struct WordSet *)p->wordSet);GF_FONT_Delete(p->font);MSGDATA_Delete((struct MsgBank *)p->msgBank);}
 
 void ZUKAN_LIST_LoadFormTable(struct ZukanList *p) { p->formTable=POKE_PERSONAL_LoadFormTable(107,0); }
 
@@ -1150,7 +1160,7 @@ void ZUKAN_LIST_CreateFrameList(struct ZukanList *p)
     void *arc,*text;
     u32 species,rowIndex;
     arc=ARC_TOOL_CreateHandle(159,0x806b);
-    species=ZUKAN_SAVE_GetLastViewedSpecies(p->args->save);
+    species=ZUKAN_SAVE_GetLastViewedSpecies((struct ZukanSave *)p->args->save);
     tmpl=gZukanListFrameListParams;
     tmpl.itemCount=649;tmpl.userData=p;
     for(rowIndex=0;rowIndex<p->args->count;rowIndex++){
@@ -1165,18 +1175,18 @@ void ZUKAN_LIST_CreateFrameList(struct ZukanList *p)
     }
     p->frameList=FRAME_LIST_Create(&tmpl,107);
     if(p->args->count<7)p->rowCount=p->args->count;else p->rowCount=7;
-    FRAME_LIST_CopyMapToBuffer(p->frameList,(u32)arc,66,0,0);
-    FRAME_LIST_CopyMapToBuffer(p->frameList,(u32)arc,67,0,1);
-    FRAME_LIST_CopyMapToBuffer(p->frameList,(u32)arc,68,0,2);
+    FRAME_LIST_CopyMapToBuffer(p->frameList,arc,66,0,0);
+    FRAME_LIST_CopyMapToBuffer(p->frameList,arc,67,0,1);
+    FRAME_LIST_CopyMapToBuffer(p->frameList,arc,68,0,2);
     FRAME_LIST_LoadPalettes(p->frameList,arc,48,2,3);
     ARC_TOOL_DeleteHandle(arc);
     for(rowIndex=0;rowIndex<p->args->count;rowIndex++){
-        if(ZUKAN_SAVE_IsCaught(p->args->save,p->args->ids[rowIndex])==1){
+        if(ZUKAN_SAVE_IsCaught((struct ZukanSave *)p->args->save,p->args->ids[rowIndex])==1){
             text=MSGDATA_AllocString(gSpeciesNameBank,p->args->ids[rowIndex]);
             *(void **)((u32)(char *)p+rowIndex*4+0x4c)=STRBUF_Clone(text,107);
             STRBUF_Delete(text);
             FRAME_LIST_AddItem(p->frameList,0,0x20000000|p->args->ids[rowIndex]);
-        }else if(ZUKAN_SAVE_IsSeen(p->args->save,p->args->ids[rowIndex])==1){
+        }else if(ZUKAN_SAVE_IsSeen((struct ZukanSave *)p->args->save,p->args->ids[rowIndex])==1){
             text=MSGDATA_AllocString(gSpeciesNameBank,p->args->ids[rowIndex]);
             *(void **)((u32)(char *)p+rowIndex*4+0x4c)=STRBUF_Clone(text,107);
             STRBUF_Delete(text);
@@ -1188,7 +1198,7 @@ void ZUKAN_LIST_CreateFrameList(struct ZukanList *p)
     }
 }
 
-void ZUKAN_LIST_DeleteFrameList(struct ZukanList *p) { u32 i;FRAME_LIST_Delete((struct FrameList *)p->frameList);for(i=0;i<649;i++){struct U16Vec *text=*(struct U16Vec **)((u32)(char *)p+i*4+76);if(text)STRBUF_Delete(text);} }
+void ZUKAN_LIST_DeleteFrameList(struct ZukanList *p) { u32 i;FRAME_LIST_Delete((struct FrameList *)p->frameList);for(i=0;i<649;i++){struct U16Vec *text=*(struct U16Vec **)((u32)(char *)p+i*4+76);if(text)STRBUF_Delete((struct Strbuf *)text);} }
 
 void ZUKAN_LIST_FrameListMoveCallback(struct ZukanList *p, int index, int dest, u16 position, int mode)
 {
@@ -1357,7 +1367,7 @@ int ZUKAN_LIST_StateMain(struct ZukanList *p)
             ZUKAN_LIST_StoreLastViewedSpecies(p,FRAME_LIST_GetSelectedIndex(p->frameList));return ZUKAN_LIST_StartButtonAnim(p,9,4,8);
         case 9:
             GFL_USE_PlaySeDefaultVolume(1356);
-            if(ZUKAN_SAVE_GetViewMode(p->args->save)==1)ZUKAN_SAVE_SetViewMode(p->args->save,0);else ZUKAN_SAVE_SetViewMode(p->args->save,1);
+            if(ZUKAN_SAVE_GetViewMode((struct ZukanSave *)p->args->save)==1)ZUKAN_SAVE_SetViewMode((struct ZukanSave *)p->args->save,0);else ZUKAN_SAVE_SetViewMode((struct ZukanSave *)p->args->save,1);
             p->args->state=2;
             ZUKAN_LIST_StoreLastViewedSpecies(p,FRAME_LIST_GetSelectedIndex(p->frameList));return ZUKAN_LIST_StartButtonAnim(p,8,5,8);
         case 10:GFL_USE_PlaySeDefaultVolume(1606);ZUKAN_LIST_ToggleSaveFlag15(p);break;
@@ -1408,7 +1418,7 @@ int ZUKAN_LIST_StateCursorFlash(struct ZukanList *p)
     case 0:
     case 2:
         if (p->cursorFlashTimer == 0) {
-            FRAME_LIST_SetRowPalette((u8 *)(p->frameList), (unsigned short)FRAME_LIST_GetCursor(p->frameList), 1);
+            FRAME_LIST_SetRowPalette((struct FrameList *)(p->frameList), (unsigned short)FRAME_LIST_GetCursor((struct FrameList *)p->frameList), 1);
             p->cursorFlashTimer = 4;
             (p->cursorFlashPhase)++;
         } else (p->cursorFlashTimer)--;
@@ -1416,7 +1426,7 @@ int ZUKAN_LIST_StateCursorFlash(struct ZukanList *p)
     case 1:
     case 3:
         if (p->cursorFlashTimer == 0) {
-            FRAME_LIST_SetRowPalette((u8 *)(p->frameList), (unsigned short)FRAME_LIST_GetCursor(p->frameList), 2);
+            FRAME_LIST_SetRowPalette((struct FrameList *)(p->frameList), (unsigned short)FRAME_LIST_GetCursor((struct FrameList *)p->frameList), 2);
             BG_SYS_MarkTileDirty(2);
             p->cursorFlashTimer = 4;
             (p->cursorFlashPhase)++;
@@ -1476,11 +1486,11 @@ void ZUKAN_LIST_CreateWindows(struct ZukanList *p)
     unsigned windowIndex;
     BMP_WIN_Init(107);
     for (windowIndex = 0; windowIndex < 3; windowIndex++)
-        *(unsigned *)&p->windows[windowIndex].bmp = BMP_WIN_Create(gZukanListWindowDefs[windowIndex][0], gZukanListWindowDefs[windowIndex][1], gZukanListWindowDefs[windowIndex][2], gZukanListWindowDefs[windowIndex][3], gZukanListWindowDefs[windowIndex][4], gZukanListWindowDefs[windowIndex][5], 1);
+        *(unsigned *)&p->windows[windowIndex].bmp = (unsigned int)BMP_WIN_Create((unsigned int)gZukanListWindowDefs[windowIndex][0], (unsigned int)gZukanListWindowDefs[windowIndex][1], (unsigned int)gZukanListWindowDefs[windowIndex][2], gZukanListWindowDefs[windowIndex][3], gZukanListWindowDefs[windowIndex][4], gZukanListWindowDefs[windowIndex][5], 1);
     ZUKAN_LIST_DrawHeaderRegional(p);
 }
 
-void ZUKAN_LIST_DeleteWindows(struct ZukanList *p) { u32 windowIndex;for(windowIndex=0;windowIndex<3;windowIndex++)BMP_WIN_Delete(*(struct Descriptor **)((u32)(char *)p+windowIndex*8+32));BMP_WIN_Exit(); }
+void ZUKAN_LIST_DeleteWindows(struct ZukanList *p) { u32 windowIndex;for(windowIndex=0;windowIndex<3;windowIndex++)BMP_WIN_Delete((struct BmpWin *)(*(struct Descriptor **)((u32)(char *)p+windowIndex*8+32)));BMP_WIN_Exit(); }
 
 /*
  * extent: 021BD43E..021BD440 is two zero alignment bytes before matched D440.
@@ -1491,12 +1501,12 @@ void ZUKAN_LIST_FlushWindows(struct ZukanList *p)
 {
     int printer;
     long windowIndex;
-    PRINTSYS_QUE_Main((struct PrintSys *)p->printer);
+    PRINTSYS_QUE_Main((struct PrintQueue *)p->printer);
     for (windowIndex = 0; windowIndex < 3u; windowIndex++) {
         printer = (int)p->printer;
         if (p->windows[windowIndex].pending) {
-            if (PRINTSYS_QUE_IsExistTarget((struct PrintSys *)printer, BMP_WIN_GetBmp(p->windows[windowIndex].bmp)) == 0) {
-                BMP_WIN_TransferChars(p->windows[windowIndex].bmp);
+            if (PRINTSYS_QUE_IsExistTarget((struct PrintQueue *)printer, BMP_WIN_GetBmp((struct BmpWin *)p->windows[windowIndex].bmp)) == 0) {
+                BMP_WIN_TransferChars((struct BmpWin *)p->windows[windowIndex].bmp);
                 p->windows[windowIndex].pending = 0;
             }
         }
@@ -1521,7 +1531,7 @@ void ZUKAN_LIST_PrintTouchbarLabelClone(struct ZukanList *p, unsigned index, uns
 {
     void *text;
     text = MSGDATA_AllocString((struct MsgBank *)p->msgBank, msg);
-    WORDSET_CopyTaggedText((struct WordSet *)p->wordSet, p->textBuf, text);
+    WORDSET_CopyTaggedText((struct WordSet *)p->wordSet, (struct Strbuf *)p->textBuf, text);
     TOUCHBAR_PrintAligned((unsigned char *)&p->windows[index], (void *)(p->printer), x, y, *(unsigned *)&p->textBuf, *(unsigned *)&p->font, color, mode);
     STRBUF_Delete(text);
 }
@@ -1547,15 +1557,15 @@ void ZUKAN_LIST_ClearWindow(struct ZukanList *p, u32 windowIndex)
     void *arc;
     u16 col;
 
-    w = BMP_WIN_GetDispWidth(*(struct Descriptor **)((u8 *)ent + windowIndex * 8));
-    h = BMP_WIN_GetDispHeight(*(struct Descriptor **)((u8 *)ent + windowIndex * 8));
-    x = BMP_WIN_GetPosX(*(struct Descriptor **)((u8 *)ent + windowIndex * 8));
-    y = BMP_WIN_GetPosY(*(struct Descriptor **)((u8 *)ent + windowIndex * 8));
-    dst = BMP_GetPixels(BMP_WIN_GetBmp(*(struct Descriptor **)((u8 *)ent + windowIndex * 8)));
+    w = BMP_WIN_GetDispWidth((struct BmpWin *)(*(struct Descriptor **)((u8 *)ent + windowIndex * 8)));
+    h = BMP_WIN_GetDispHeight((struct BmpWin *)(*(struct Descriptor **)((u8 *)ent + windowIndex * 8)));
+    x = BMP_WIN_GetPosX((struct BmpWin *)(*(struct Descriptor **)((u8 *)ent + windowIndex * 8)));
+    y = BMP_WIN_GetPosY((struct BmpWin *)(*(struct Descriptor **)((u8 *)ent + windowIndex * 8)));
+    dst = BMP_GetPixels(BMP_WIN_GetBmp((struct BmpWin *)(*(struct Descriptor **)((u8 *)ent + windowIndex * 8))));
     arc = ARC_TOOL_CreateHandle(0x9F, 0x6B);
     mapHandle = ARC_UTIL_LoadPaletteDataFromHandle(arc, 0x45, 0, &mapRes, 0x806B);
     tileMap = (u8 *)mapRes + 0xC;
-    gfxHandle = ARC_UTIL_LoadBgCharDataFromHandle(arc, 0x39, 0, (u32)(&gfxRes), 0x806B);
+    gfxHandle = ARC_UTIL_LoadBgCharDataFromHandle((void *)arc, 0x39, 0, (&gfxRes), 0x806B);
     gfx = *(u8 **)((u8 *)gfxRes + 0x14);
     ARC_TOOL_DeleteHandle(arc);
     if (h > 0) {
@@ -1576,7 +1586,7 @@ void ZUKAN_LIST_ClearWindow(struct ZukanList *p, u32 windowIndex)
 void ZUKAN_LIST_DrawHeaderRegional(struct ZukanList *p)
 {
     ZUKAN_LIST_ClearWindow(p, 0);
-    if (ZUKAN_SAVE_GetViewMode(p->args->save) == 1)
+    if (ZUKAN_SAVE_GetViewMode((struct ZukanSave *)p->args->save) == 1)
         ZUKAN_LIST_PrintTouchbarLabel(p, 0, 1, 0, 4, 0x39e0, 0);
     else
         ZUKAN_LIST_PrintTouchbarLabel(p, 0, 0, 0, 4, 0x39e0, 0);
@@ -1586,12 +1596,12 @@ void ZUKAN_LIST_DrawHeaderRegional(struct ZukanList *p)
 void ZUKAN_LIST_DrawHeaderCounts(struct ZukanList *p)
 {
     unsigned seenCount, caughtCount;
-    if (ZUKAN_SAVE_GetViewMode(p->args->save) == 1) {
-        seenCount = ZUKAN_SAVE_CountSeenNational(p->args->save);
-        caughtCount = ZUKAN_SAVE_CountCaughtNational(p->args->save);
+    if (ZUKAN_SAVE_GetViewMode((struct ZukanSave *)p->args->save) == 1) {
+        seenCount = ZUKAN_SAVE_CountSeenNational((struct ZukanSave *)p->args->save);
+        caughtCount = ZUKAN_SAVE_CountCaughtNational((struct ZukanSave *)p->args->save);
     } else {
-        seenCount = ZUKAN_SAVE_CountSeenRegional(p->args->save, 0x806b);
-        caughtCount = ZUKAN_SAVE_CountCaughtRegional(p->args->save, 0x806b);
+        seenCount = ZUKAN_SAVE_CountSeenRegional((struct ZukanSave *)p->args->save, 0x806b);
+        caughtCount = ZUKAN_SAVE_CountCaughtRegional((struct ZukanSave *)p->args->save, 0x806b);
     }
     ZUKAN_LIST_ClearWindow(p, 1);
     ZUKAN_LIST_ClearWindow(p, 2);
@@ -1618,12 +1628,12 @@ void ZUKAN_LIST_PrintListRow(struct ZukanList *p, unsigned char *dest, unsigned 
 {
     unsigned printer;
     void *text;
-    printer = FRAME_LIST_GetPrinter(p->frameList);
-    if (ZUKAN_SAVE_GetViewMode((struct Blk37 *)p->args->save) == 0)
+    printer = (unsigned int)FRAME_LIST_GetPrinter(p->frameList);
+    if (ZUKAN_SAVE_GetViewMode((struct ZukanSave *)p->args->save) == 0)
         index = p->formTable[index];
     text = MSGDATA_AllocString((struct MsgBank *)p->msgBank, 8);
     WORDSET_SetSlotNumber((struct WordSet *)p->wordSet, 0, index, 3, 2, 1);
-    WORDSET_CopyTaggedText((struct WordSet *)p->wordSet, p->textBuf, text);
+    WORDSET_CopyTaggedText((struct WordSet *)p->wordSet, (struct Strbuf *)p->textBuf, text);
     STRBUF_Delete(text);
     TOUCHBAR_PrintAligned(dest, (void *)printer, 0, 4, *(unsigned *)&p->textBuf, (unsigned)p->font, 0x39e0, 0);
     TOUCHBAR_PrintAligned(dest, (void *)printer, 28, 4, text0, (unsigned)p->font, 0x39e0, 0);
@@ -1638,7 +1648,7 @@ void ZUKAN_LIST_ExitActors(struct ZukanList *list)
     CLACT_ExitSystem();
 }
 
-void ZUKAN_LIST_UpdateActors(struct ZukanList *p) {u32 actorIndex;for(actorIndex=0;actorIndex<60;actorIndex++) {if(p->actors[actorIndex]) {if(CLACT_GetActorAutoAnim((struct Actor *)p->actors[actorIndex])!=1) CLACT_AddActorAnimFrame(p->actors[actorIndex],0x1000);}}CLACT_DrawSystem();}
+void ZUKAN_LIST_UpdateActors(struct ZukanList *p) {u32 actorIndex;for(actorIndex=0;actorIndex<60;actorIndex++) {if(p->actors[actorIndex]) {if(CLACT_GetActorAutoAnim((struct Actor *)p->actors[actorIndex])!=1) CLACT_AddActorAnimFrame((struct Actor *)p->actors[actorIndex],0x1000);}}CLACT_DrawSystem();}
 
 void ZUKAN_LIST_SetActorAnim(struct ZukanList *p, int actorIndex, int animValue)
 {
@@ -1646,18 +1656,18 @@ void ZUKAN_LIST_SetActorAnim(struct ZukanList *p, int actorIndex, int animValue)
     CLACT_SetActorAnimSeq(*(void **)((char *)p + 0xa74 + actorIndex * 4), (unsigned short)animValue);
 }
 
-void ZUKAN_LIST_StartActorAnim(struct ZukanList *p,int actorIndex,int value) {ZUKAN_LIST_SetActorAnim(p,actorIndex,value);CLACT_SetActorAutoAnim((struct Obj *)(struct Actor *)p->actors[actorIndex],1);}
+void ZUKAN_LIST_StartActorAnim(struct ZukanList *p,int actorIndex,int value) {ZUKAN_LIST_SetActorAnim(p,actorIndex,value);CLACT_SetActorAutoAnim((struct Actor *)(struct Actor *)p->actors[actorIndex],1);}
 
 int ZUKAN_LIST_GetActorAnimSeq(struct ZukanList *p, int actorIndex)
 {
-    return CLACT_GetActorAnimSeq((struct Obj *)(int)p->actors[actorIndex]);
+    return CLACT_GetActorAnimSeq((struct Actor *)(int)p->actors[actorIndex]);
 }
 
 u32 ZUKAN_LIST_IsActorAnimActive(struct ZukanList *p,u32 actorIndex) {return CLACT_IsActorAnimActive((struct Actor *)p->actors[actorIndex]);}
 
-void ZUKAN_LIST_SetActorVisible(struct ZukanList *p,u32 actorIndex,u32 value) {struct Obj *actor;actor=p->actors[actorIndex];if(actor) CLACT_SetActorDrawEnable(actor,value);}
+void ZUKAN_LIST_SetActorVisible(struct ZukanList *p,u32 actorIndex,u32 value) {struct Obj *actor;actor=p->actors[actorIndex];if(actor) CLACT_SetActorDrawEnable((struct Actor *)actor,value);}
 
-u32 ZUKAN_LIST_GetActorVisible(struct ZukanList *p,u32 actorIndex) {return CLACT_GetActorDrawEnable(p->actors[actorIndex]);}
+u32 ZUKAN_LIST_GetActorVisible(struct ZukanList *p,u32 actorIndex) {return CLACT_GetActorDrawEnable((struct Actor *)p->actors[actorIndex]);}
 
 void ZUKAN_LIST_SetActorObjMode(struct ZukanList *p,u32 actorIndex,u32 flag) {if(flag==1) CLACT_SetActorObjMode((struct Actor *)p->actors[actorIndex],1);else CLACT_SetActorObjMode((struct Actor *)p->actors[actorIndex],0);}
 
@@ -1674,7 +1684,7 @@ void ZUKAN_LIST_AddActorPos(struct ZukanList *p, int actorIndex, short x, short 
  */
 void ZUKAN_LIST_GetActorPos(struct ZukanList *p,u32 actorIndex,s16 *x,s16 *y,u16 space) {PtS point;CLACT_GetActorSurfacePos((struct Actor *)p->actors[actorIndex],&point,space);*x=point.x;*y=point.y;}
 
-void ZUKAN_LIST_InitActorSystem(struct ZukanList *p) {struct ClactInit init;init=gZukanListClactInit;CLACT_InitSystem((const struct Cfg *)&init,(u32)ZUKAN_LIST_GetVramBankConfig(),107);}
+void ZUKAN_LIST_InitActorSystem(struct ZukanList *p) {struct ClactInit init;init=gZukanListClactInit;CLACT_InitSystem((struct SysInit *)&init,ZUKAN_LIST_GetVramBankConfig(),107);}
 
 void ZUKAN_LIST_LoadActorResources(struct ZukanList *p)
 {
@@ -1744,16 +1754,16 @@ void ZUKAN_LIST_CreateActors(struct ZukanList *p)
         desc.charIndex = p->charHandles[desc.charIndex];
         desc.palIndex = p->paletteHandles[desc.palIndex];
         desc.animIndex = p->cellAnimHandles[desc.animIndex];
-        p->actors[actorIndex] = ZUKAN_CreateActor((u32)(p->clactUnit), (const u8 *)(&desc), 0x6b);
+        p->actors[actorIndex] = ZUKAN_CreateActor((p->clactUnit), (struct ZknSearchActorTemplate *)(&desc), 0x6b);
         CLACT_SetActorVisible((void *)p->actors[actorIndex], 0);
     }
     if (p->args->count <= 7) {
         ZUKAN_LIST_SetActorVisible(p, 0, 0);
         ZUKAN_LIST_SetActorVisible(p, 1, 0);
     }
-    if (ZUKAN_SAVE_GetDexObtained(p->args->save) == 0)
+    if (ZUKAN_SAVE_GetDexObtained((struct ZukanSave *)p->args->save) == 0)
         ZUKAN_LIST_SetActorVisible(p, 9, 0);
-    if (ZUKAN_SAVE_IsNationalDexEnabled(p->args->save) == 0)
+    if (ZUKAN_SAVE_IsNationalDexEnabled((struct ZukanSave *)p->args->save) == 0)
         ZUKAN_LIST_SetActorVisible(p, 8, 0);
     if (p->args->mode == 1) {
         ZUKAN_LIST_SetActorVisible(p, 8, 0);
@@ -1762,7 +1772,7 @@ void ZUKAN_LIST_CreateActors(struct ZukanList *p)
         ZUKAN_LIST_StartActorAnim(p, 5, 7);
 }
 
-void ZUKAN_LIST_DeleteActor(struct ZukanList *p,u32 actorIndex) {char *actorTable;u32 actorOffset;actorOffset=actorIndex*4;actorTable=(char *)p+0xa74;if(*(struct Obj **)(actorTable+actorOffset)) {CLACT_DeleteActor(*(struct Obj **)(actorTable+actorOffset));*(struct Obj **)(actorTable+actorOffset)=0;}}
+void ZUKAN_LIST_DeleteActor(struct ZukanList *p,u32 actorIndex) {char *actorTable;u32 actorOffset;actorOffset=actorIndex*4;actorTable=(char *)p+0xa74;if(*(struct Obj **)(actorTable+actorOffset)) {CLACT_DeleteActor((struct Actor *)(*(struct Obj **)(actorTable+actorOffset)));*(struct Obj **)(actorTable+actorOffset)=0;}}
 
 void ZUKAN_LIST_DeleteActorUnit(struct ZukanList *p) {u32 actorIndex;for(actorIndex=0;actorIndex<60;actorIndex++) ZUKAN_LIST_DeleteActor(p,actorIndex);CLACT_DeleteUnit((struct Bank *)p->clactUnit);}
 
@@ -1800,9 +1810,9 @@ void ZUKAN_LIST_LoadSpeciesIcon(struct ZukanList *p,u16 species)
     } else {
         void *arc;
         unsigned personality;
-        ZUKAN_SAVE_GetViewGenderAndForm(*(u8 * *)&p->args->save,species,&out1,&out2,&outForm,0x806b);
+        ZUKAN_SAVE_GetViewGenderAndForm((struct ZukanSave *)(*(u8 * *)&p->args->save),species,&out1,&out2,&outForm,0x806b);
         arc=(void *)POKEGRA_OpenHandle(0x806b);
-        personality=species==0x147?ZUKAN_SAVE_GetSpindaPersonality(p->args->save,0):0;
+        personality=species==0x147?ZUKAN_SAVE_GetSpindaPersonality((struct ZukanSave *)p->args->save,0):0;
         *(unsigned *)((char *)p+desc.charIndex*4+0xb64)=POKEGRA_RegisterCgr((u32)arc,species,outForm,out1,out2,0,0,personality,0,0x6b);
         *(unsigned *)((char *)p+desc.palIndex*4+0xbf4)=POKEGRA_RegisterPalette((int)arc,species,outForm,out1,out2,0,0,0,paletteBase,0x6b);
         *(unsigned *)((char *)p+desc.animIndex*4+0xc0c)=POKEGRA_RegisterCellAnim(species,outForm,out1,out2,0,0,2,0,0x6b);
@@ -1812,7 +1822,7 @@ void ZUKAN_LIST_LoadSpeciesIcon(struct ZukanList *p,u16 species)
     desc.charIndex=*(unsigned *)((char *)p+desc.charIndex*4+0xb64);
     desc.palIndex=*(unsigned *)((char *)p+desc.palIndex*4+0xbf4);
     desc.animIndex=*(unsigned *)((char *)p+desc.animIndex*4+0xc0c);
-    *(void **)((char *)p+0xa74+actorIndex*4)=ZUKAN_CreateActor((u32)(p->clactUnit),(const u8 *)(&desc),0x6b);
+    *(void **)((char *)p+0xa74+actorIndex*4)=ZUKAN_CreateActor((p->clactUnit),(struct ZknSearchActorTemplate *)(&desc),0x6b);
     CLACT_SetActorVisible(*(void **)((char *)p+0xa74+actorIndex*4),0);
     personal=POKE_PERSONAL_Create(species,(u16)outForm,0x806b);
     if (species!=0 && POKE_PERSONAL_GetParam(personal,0x22)==0)
@@ -1837,7 +1847,7 @@ void ZUKAN_LIST_UpdateSpeciesActors(struct ZukanList *p) {
     for (rowUpper = 0; rowUpper < 16; rowUpper++) {
         desc.posY = rowUpper * 0x18 + 8;
         desc.charHandle = *(u32 *)((char *)p + rowUpper * 4 + 0xB64);
-        *(u32 *)((char *)p + rowUpper * 4 + 0xA9C) = (u32)ZUKAN_CreateActor(*(u32 *)((char *)p + 0xA70), (const u8 *)(&desc), 0x6b);
+        *(u32 *)((char *)p + rowUpper * 4 + 0xA9C) = (u32)ZUKAN_CreateActor((void *)(*(u32 *)((char *)p + 0xA70)), (struct ZknSearchActorTemplate *)(&desc), 0x6b);
         CLACT_SetActorVisible((struct Actor *)(*(u32 *)((char *)p + rowUpper * 4 + 0xA9C)), 0);
     }
     desc = proto;
@@ -1847,11 +1857,11 @@ void ZUKAN_LIST_UpdateSpeciesActors(struct ZukanList *p) {
         desc.posY = rowLower * 0x18 + 0x20;
         desc.charHandle = *(u32 *)((char *)p + rowLower * 4 + 0xBA4);
         desc.flags = 1;
-        *(u32 *)((char *)p + rowLower * 4 + 0xADC) = (u32)ZUKAN_CreateActor(*(u32 *)((char *)p + 0xA70), (const u8 *)(&desc), 0x6b);
+        *(u32 *)((char *)p + rowLower * 4 + 0xADC) = (u32)ZUKAN_CreateActor((void *)(*(u32 *)((char *)p + 0xA70)), (struct ZknSearchActorTemplate *)(&desc), 0x6b);
         CLACT_SetActorVisible((struct Actor *)(*(u32 *)((char *)p + rowLower * 4 + 0xADC)), 0);
         ZUKAN_LIST_SetActorObjMode(p, rowLower + 0x1a, 1);
         unitPtr = (u32 *)((char *)p + 0xA70);
-        *(u32 *)((char *)p + rowLower * 4 + 0xB1C) = (u32)ZUKAN_CreateActor(*unitPtr, (const u8 *)(&desc), 0x6b);
+        *(u32 *)((char *)p + rowLower * 4 + 0xB1C) = (u32)ZUKAN_CreateActor((void *)(*unitPtr), (struct ZknSearchActorTemplate *)(&desc), 0x6b);
         CLACT_SetActorVisible((struct Actor *)(*(u32 *)((char *)p + rowLower * 4 + 0xB1C)), 0);
         CLACT_SetActorObjMode((struct Actor *)(*(u32 *)((char *)p + rowLower * 4 + 0xB1C)), 2);
     }
@@ -1871,17 +1881,17 @@ void ZUKAN_LIST_TransferSpeciesGraphics(struct ZukanList *p, int actorIndex, uns
     unsigned charHalfSaved;
     owner=ARC_TOOL_CreateHandle(7,0x806b);
     charHalfSaved=charHalf;
-    data=ARC_UTIL_LoadScreenDataFromHandle((void *)((unsigned)owner),POKE_TOOL_CalcGraphicIndex(species,form,charHalfSaved,0),0,(unsigned)&out,0x806b);
+    data=ARC_UTIL_LoadScreenDataFromHandle((void *)((unsigned)owner),POKE_TOOL_CalcGraphicIndex(species,form,charHalfSaved,0),0,&out,0x806b);
     if (mode==1) {
         slot=&p->actors[actorIndex];
-        CLACT_TransferCharacterPart(CLACT_GetActorCharacterIndex((u8 *)*slot),out->part,1024,0,0);
+        CLACT_TransferCharacterPart(CLACT_GetActorCharacterIndex((struct Actor *)*slot),out->part,1024,0,0);
     } else {
         slot=&p->actors[actorIndex];
-        CLACT_TransferCharacterPart(CLACT_GetActorCharacterIndex((u8 *)*slot),out->part,1024,0,1);
+        CLACT_TransferCharacterPart(CLACT_GetActorCharacterIndex((struct Actor *)*slot),out->part,1024,0,1);
     }
     GFL_HEAP_Free(data);
     ARC_TOOL_DeleteHandle(owner);
-    CLACT_SetActorPaletteOffset(*slot,POKE_TOOL_CalcIconPalette(species,form,charHalfSaved,0),1);
+    CLACT_SetActorPaletteOffset((struct Actor *)(*slot),POKE_TOOL_CalcIconPalette(species,form,charHalfSaved,0),1);
 }
 
 int ZUKAN_LIST_FindHiddenSpeciesActor(struct ZukanList *list, int group)
@@ -1911,7 +1921,7 @@ void ZUKAN_LIST_ShowSpeciesActor(struct ZukanList *p,u16 species,enum Position p
 {
     unsigned out1,outForm,out2;
     int actorIndex;
-    ZUKAN_SAVE_GetViewGenderAndForm((u8 *)p->args->save,species,&out1,&out2,&outForm,0x806b);
+    ZUKAN_SAVE_GetViewGenderAndForm((struct ZukanSave *)p->args->save,species,&out1,&out2,&outForm,0x806b);
     actorIndex=ZUKAN_LIST_FindHiddenSpeciesActor(p,mode);
     ZUKAN_LIST_TransferSpeciesGraphics(p,actorIndex,species,outForm,out1,mode);
     ZUKAN_LIST_SetActorVisible(p,actorIndex,1);
@@ -2020,9 +2030,9 @@ extern int TOUCHPANEL_HitTrg(const void *p);
 
 extern u32 KEY_GetTrg(void);
 
-extern void FRAME_LIST_HideCursor(u32);
+extern void FRAME_LIST_HideCursor(struct FrameList *list);
 
-extern int FRAME_LIST_ShowCursor(u8 *p);
+extern void FRAME_LIST_ShowCursor(struct FrameList *list);
 
 int ZUKAN_LIST_HandleTouchInput(struct ZukanList *p)
 {
@@ -2030,11 +2040,11 @@ int ZUKAN_LIST_HandleTouchInput(struct ZukanList *p)
 
     if (hit != -1) {
         if (hit == 8) {
-            if (ZUKAN_SAVE_GetDexObtained(p->args->save) == 0)
+            if (ZUKAN_SAVE_GetDexObtained((struct ZukanSave *)p->args->save) == 0)
                 return -1;
         }
         if (hit == 9) {
-            if (ZUKAN_SAVE_IsNationalDexEnabled(p->args->save) == 0)
+            if (ZUKAN_SAVE_IsNationalDexEnabled((struct ZukanSave *)p->args->save) == 0)
                 return -1;
             if (p->args->mode == 1)
                 return -1;
@@ -2044,7 +2054,7 @@ int ZUKAN_LIST_HandleTouchInput(struct ZukanList *p)
                 return -1;
             if (UI_GetInputMode() == 0) {
                 UI_SetInputMode(1);
-                FRAME_LIST_HideCursor((u32)p->frameList);
+                FRAME_LIST_HideCursor(p->frameList);
             }
         }
         UI_SetInputMode(1);
@@ -2059,13 +2069,13 @@ int ZUKAN_LIST_HandleTouchInput(struct ZukanList *p)
             return 0xb;
         }
         if (KEY_GetTrg() & 8) {
-            if (ZUKAN_SAVE_GetDexObtained(p->args->save) == 1) {
+            if (ZUKAN_SAVE_GetDexObtained((struct ZukanSave *)p->args->save) == 1) {
                 UI_SetInputMode(0);
                 return 8;
             }
         }
         if (KEY_GetTrg() & 4) {
-            if (ZUKAN_SAVE_IsNationalDexEnabled(p->args->save) == 0)
+            if (ZUKAN_SAVE_IsNationalDexEnabled((struct ZukanSave *)p->args->save) == 0)
                 return -1;
             if (p->args->mode == 1)
                 return -1;
@@ -2077,7 +2087,7 @@ int ZUKAN_LIST_HandleTouchInput(struct ZukanList *p)
                 return -1;
             if (UI_GetInputMode() == 1) {
                 UI_SetInputMode(0);
-                FRAME_LIST_ShowCursor((u8 *)((u32)p->frameList));
+                FRAME_LIST_ShowCursor((struct FrameList *)((u32)p->frameList));
             } else {
                 UI_SetInputMode(0);
             }

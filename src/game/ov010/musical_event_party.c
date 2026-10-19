@@ -83,23 +83,29 @@ typedef struct { u8 v[2]; } PositionRemap2;
 
 typedef struct { u8 v[4]; } PositionRemap4;
 
-extern u32 POKEPARTY_GetCount(void *party);
-extern void *POKEPARTY_GetMember(void *party, u32 index);
-extern void POKE_TOOL_SetLevelAndRecalc(void *pokemon, u32 level);
-extern void *BATTLE_BOX_GetFromSave(void *saveControl);
+extern u32 POKEPARTY_GetCount(struct Party *party);
+struct PokemonParam;
+extern struct PokemonParam *POKEPARTY_GetMember(struct Party *party, u32 pos);
+extern void POKE_TOOL_SetLevelAndRecalc(struct PokemonParam *mon, u32 level);
+struct SaveControl;
+struct BattleBoxSave;
+extern struct BattleBoxSave *BATTLE_BOX_GetFromSave(struct SaveControl *save);
 extern struct GameData *GAMESYSTEM_GetGameData(struct GameSystem *gameSystem);
 extern void *GAME_DATA_GetMyParty(const struct GameData *gameData);
-extern u32 POKE_TOOL_GetPartyValue(void *pokemon, u32 paramId, u32 defaultValue);
-extern u32 POKEPARTY_Add(struct Party *party, const struct Pokemon *pokemon);
-extern void *BATTLE_BOX_CreateParty(int battleBox, int heapId);
+extern u32 POKE_TOOL_GetPartyValue(struct PokemonParam *pp, u32 paramId, u32 arg);
+extern u32 POKEPARTY_Add(struct Party *party, struct PokemonParam *member);
+struct BoxMonGroup;
+extern struct Party *BATTLE_BOX_CreateParty(struct BoxMonGroup *box, s32 heap);
 extern void POKEPARTY_Copy(const struct Party *src, struct Party *dst);
 extern u32 GFL_HEAP_Free(void *memory);
-extern void POKE_TOOL_HealParty(void *party);
+extern void POKE_TOOL_HealParty(struct Party *party);
 extern u32 POKEPARTY_RemoveMember(struct Party *party, s32 index);
-extern struct NetHandle *GFL_NET_HANDLE_GetCurrentHandle(void);
-extern u32 GFL_NET_GetHandleNetID(struct NetHandle *handle);
+struct GFLNetHandle;
+extern struct GFLNetHandle *GFL_NET_HANDLE_GetCurrentHandle(void);
+extern u32 GFL_NET_GetHandleNetID(struct GFLNetHandle *handle);
 extern struct MyStatus *GAME_DATA_GetMyStatusPlayer(struct GameData *gameData, u32 playerIndex);
-extern struct WifiList *GAME_DATA_GetWifiList(const struct GameData *gameData);
+struct FieldState;
+extern struct FieldState *GAME_DATA_GetWifiList(const struct GameData *gameData);
 extern int WIFILIST_FindFriendByStatus(struct WifiList *wifiList, struct MyStatus *playerStatus, u32 *outFriendSlot);
 extern void WIFILIST_AddFriendBattleRecord(struct WifiList *wifiList, int friendSlot, int wins, int losses, int trades);
 extern void WIFILIST_SetFriendLastSeen(struct WifiList *wifiList, int friendSlot);
@@ -148,7 +154,7 @@ void MUSICAL_EVENT_BuildParty(int partySource, struct MusicalEventWork *work)
                 POKEPARTY_Add(work->party, member);
         }
     } else {
-        boxParty = BATTLE_BOX_CreateParty(battleBox, 4);
+        boxParty = BATTLE_BOX_CreateParty((struct BoxMonGroup *)battleBox, 4);
         POKEPARTY_Copy(boxParty, work->party);
         GFL_HEAP_Free(boxParty);
     }
@@ -225,15 +231,15 @@ void MUSICAL_EVENT_UpdateFriendRecords(struct MusicalEventWork *work, struct Gam
     for (i = 0; i < participantCount; i++) {
         playerStatus = GAME_DATA_GetMyStatusPlayer(gameData, i);
         if (i != GFL_NET_GetHandleNetID(GFL_NET_HANDLE_GetCurrentHandle()) && playerStatus != 0
-            && WIFILIST_FindFriendByStatus(GAME_DATA_GetWifiList(gameData), playerStatus, (u32 *)(&friendSlot)) != 0) {
+            && WIFILIST_FindFriendByStatus((struct WifiList *)GAME_DATA_GetWifiList(gameData), playerStatus, (u32 *)(&friendSlot)) != 0) {
             if (i == partnerSlot) {
-                WIFILIST_SetFriendLastSeen(GAME_DATA_GetWifiList(gameData), friendSlot);
+                WIFILIST_SetFriendLastSeen((struct WifiList *)GAME_DATA_GetWifiList(gameData), friendSlot);
             } else if (work->battleResult == 0) {
-                WIFILIST_AddFriendBattleRecord(GAME_DATA_GetWifiList(gameData), friendSlot, 1, 0, 0);
+                WIFILIST_AddFriendBattleRecord((struct WifiList *)GAME_DATA_GetWifiList(gameData), friendSlot, 1, 0, 0);
             } else if (work->battleResult == 1) {
-                WIFILIST_AddFriendBattleRecord(GAME_DATA_GetWifiList(gameData), friendSlot, 0, 1, 0);
+                WIFILIST_AddFriendBattleRecord((struct WifiList *)GAME_DATA_GetWifiList(gameData), friendSlot, 0, 1, 0);
             } else {
-                WIFILIST_SetFriendLastSeen(GAME_DATA_GetWifiList(gameData), friendSlot);
+                WIFILIST_SetFriendLastSeen((struct WifiList *)GAME_DATA_GetWifiList(gameData), friendSlot);
             }
         }
     }

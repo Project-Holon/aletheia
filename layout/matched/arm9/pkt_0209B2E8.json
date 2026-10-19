@@ -20,6 +20,9 @@
    "functions": [
     "__dmul"
    ],
+   "addresses": [
+    "0x0209B2E8"
+   ],
    "covers": [
     "0x0209B2E8"
    ]

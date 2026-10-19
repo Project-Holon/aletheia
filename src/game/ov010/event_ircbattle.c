@@ -160,31 +160,37 @@ typedef struct IrcBattleEventTask {
 } IrcBattleEventTask;
 
 typedef struct Tbl4 { u32 v[4]; } Tbl4;
+struct GameSystem;
 
 /* Callees outside this file (named tree-wide by the integrator's rename map). */
-extern void *GAMESYSTEM_GetFieldMap(void *gameSys);
+extern void *GAMESYSTEM_GetFieldMap(struct GameSystem *gameSystem);
+struct GameEvent;
 
-extern void GAME_EVENT_CallEvent(void *parentEvent, void *childEvent);
+extern void GAME_EVENT_CallEvent(struct GameEvent *parent, struct GameEvent *child);
+struct FieldMap;
 
-extern void *FIELD_STATUS_CreateFieldCloseEvent(void *gameSys, void *fieldMap);
+extern struct GameEvent *FIELD_STATUS_CreateFieldCloseEvent(struct GameSystem *gameSystem, struct FieldMap *fieldMap);
 
-extern void GAMESYSTEM_CallProc(void *gameSys, u32 overlayId, void *procTable, void *procArg);
+extern void GAMESYSTEM_CallProc(struct GameSystem *gameSystem, u32 overlayId, void *procData, void *param);
 
-extern u32 GAMESYSTEM_GetProcStatus(void *gameSys);
+extern u32 GAMESYSTEM_GetProcStatus(struct GameSystem *gameSystem);
+struct GameData;
 
-extern void *GAMESYSTEM_GetGameData(void *gameSys);
+extern struct GameData *GAMESYSTEM_GetGameData(struct GameSystem *gameSystem);
 
 extern int GF_OVERLAY_Load(s32 overlayId);
 
 extern void GF_OVERLAY_Unload(s32 overlayId);
 
 extern void GFL_NET_COMMAND_AddCommandTable(u32 a, u32 b, u32 c, u32 d);
+struct GFLNetHandle;
 
-extern struct NetHandle *GFL_NET_HANDLE_GetCurrentHandle(void);
+extern struct GFLNetHandle *GFL_NET_HANDLE_GetCurrentHandle(void);
+struct GFLNetHandle;
 
-extern void GFL_NET_HANDLE_SetTimingSyncRange(struct NetHandle *handle, u32 timing, u32 range);
+extern void GFL_NET_HANDLE_SetTimingSyncRange(struct GFLNetHandle *handle, u32 timingLow, u32 timingHigh);
 
-extern u32 GFL_NET_HANDLE_IsTimingSyncRange(struct NetHandle *handle, u32 timing, u32 range);
+extern u32 GFL_NET_HANDLE_IsTimingSyncRange(struct GFLNetHandle *handle, u32 timingLow, u32 timingHigh);
 
 extern u32 GFL_NET_ERR_GetErrorLevel(void);
 
@@ -198,21 +204,22 @@ extern void GFL_NET_ERR_ResetState(void);
 
 extern struct BattleSetupParam *BTL_SETUP_Create(u32 heapId);
 
-extern void *GAME_DATA_GetTrainerRecord(void *gameData);
+extern void *GAME_DATA_GetTrainerRecord(struct GameData *gd);
 
-extern void BTL_SETUP_SetupCommSingle(struct BattleSetupParam *setup, void *gameData, struct NetHandle *handle, u32 a, u16 heapId);
+extern void BTL_SETUP_SetupCommSingle(struct BattleSetupParam *param, struct GameData *gd, u32 netHandle, u8 commPos, u16 heap);
 
-extern void BTL_SETUP_SetupCommDouble(struct BattleSetupParam *setup, void *gameData, struct NetHandle *handle, u32 a, u16 heapId);
+extern void BTL_SETUP_SetupCommDouble(struct BattleSetupParam *param, struct GameData *gd, u32 netHandle, u8 commPos, u16 heap);
 
-extern void BTL_SETUP_SetupCommTriple(struct BattleSetupParam *setup, void *gameData, struct NetHandle *handle, u32 a, u16 heapId);
+extern void BTL_SETUP_SetupCommTriple(struct BattleSetupParam *param, struct GameData *gd, u32 netHandle, u8 commPos, u16 heap);
 
-extern void BTL_SETUP_SetupCommRotation(struct BattleSetupParam *setup, void *gameData, struct NetHandle *handle, u32 a, u16 heapId);
+extern void BTL_SETUP_SetupCommRotation(struct BattleSetupParam *param, struct GameData *gd, u32 netHandle, u8 commPos, u16 heap);
 
-extern void BTL_SETUP_SetupCommMulti(struct BattleSetupParam *setup, void *gameData, struct NetHandle *handle, u32 a, u8 team, u16 heapId);
+extern void BTL_SETUP_SetupCommMulti(struct BattleSetupParam *param, struct GameData *gd, unsigned int netHandle, unsigned char commPos, unsigned char netId, unsigned short heap);
 
-extern u32 GFL_NET_GetHandleNetID(struct NetHandle *handle);
+extern u32 GFL_NET_GetHandleNetID(struct GFLNetHandle *handle);
+struct Party;
 
-extern void BTL_SETUP_SetParty(struct BattleSetupParam *setup, void *party, int index);
+extern void BTL_SETUP_SetParty(struct BattleSetupParam *param, struct Party *src, s32 client);
 
 extern void BTL_SETUP_AllocRecordBuffer(struct BattleSetupParam *setup, u32 flag);
 
@@ -220,9 +227,9 @@ extern u16 GFL_USE_GetBgmNo(void);
 
 extern void GFL_USE_CancelChangeAndStopBgm(void);
 
-extern void GFL_USE_CancelChangeAndPlayBgm(u32 bgmNo, u16 fadeFrames);
+extern void GFL_USE_CancelChangeAndPlayBgm(u32 bgmNo, u32 trackMask);
 
-extern int BTL_SETUP_Delete(struct BattleSetupParam *setup);
+extern void BTL_SETUP_Delete(struct BattleSetupParam *setup);
 
 extern u32 GFL_NET_IsParentAid(void);
 
@@ -236,33 +243,35 @@ extern int GFL_NET_GetRunState(void);
 
 extern int GFL_NET_Exit(int exitCallback);
 
-extern void *FIELD_STATUS_CreateFieldOpenEvent(void *gameSys);
+extern struct GameEvent *FIELD_STATUS_CreateFieldOpenEvent(struct GameSystem *gameSystem);
 
 extern void GFL_NET_IRC_WIRELESS_Exit(void);
 
-extern void *EVENT_FIELDMAP_CONTROL_StartFadeOut(void *gameSys, void *fieldMap, int sel, int d);
+extern struct GameEvent *EVENT_FIELDMAP_CONTROL_StartFadeOut(struct GameSystem *gameSystem, struct FieldMap *fieldMap, s32 effect, s32 skipWait);
 
-extern void *EVENT_FIELDMAP_CONTROL_StartFadeIn(void *gameSys, void *fieldMap, int sel, int d, int e, u8 f, u8 g);
+extern struct GameEvent *EVENT_FIELDMAP_CONTROL_StartFadeIn(struct GameSystem *gameSystem, struct FieldMap *fieldMap, s32 effect, s32 skipWait, s32 restoreBg, u8 seasonShown, u8 seasonTarget);
 
 extern void *EVENT_BATTLE_REC_SAVE_Start(void *a, const int *p);
+struct MusicalEventWork;
 
-extern void MUSICAL_EVENT_BuildParty(int mode, IrcBattleEntryWork *work);
+extern void MUSICAL_EVENT_BuildParty(s32 partySource, struct MusicalEventWork *work);
 
-extern void MUSICAL_EVENT_TrimAllPartiesToThree(IrcBattleEntryWork *work);
+extern void MUSICAL_EVENT_TrimAllPartiesToThree(struct MusicalEventWork *work);
 
-extern void MUSICAL_EVENT_UpdateFriendRecords(IrcBattleEntryWork *work, void *gameData);
+extern void MUSICAL_EVENT_UpdateFriendRecords(struct MusicalEventWork *work, struct GameData *gameData);
 
-extern void MUSICAL_EVENT_BindParticipantSlots(IrcBattleEntryWork *work, void *gameSys);
+extern void MUSICAL_EVENT_BindParticipantSlots(struct MusicalEventWork *work, struct GameSystem *gameSystem);
 
 extern struct GameEvent *GAME_EVENT_Create(void *gameSys, void *a, void *proc, u32 size);
 
 extern void GAME_EVENT_Change(void *event, void *proc, u32 size);
 
 extern void *GAME_EVENT_GetWork(struct GameEvent *event);
+struct SaveControl;
 
-extern void *GAME_DATA_GetSaveControl(void *gameData);
+extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gd);
 
-extern void *POKEPARTY_Create(u32 heapId);
+extern struct Party *POKEPARTY_Create(u32 heapId);
 
 extern void GFL_USE_FadeInBgmFull(u32 frames);
 
@@ -301,7 +310,7 @@ extern const Tbl4 d_0216FEE0;
 /* Functions of this file. */
 int IRC_BATTLE_ENTRY_Main(void *parentEvent, int *step, IrcBattleEntryWork *work);
 
-struct GameEvent *IRC_BATTLE_ENTRY_Create(void *gameSys, int unused, struct GameEvent *event, int create);
+struct GameEvent *IRC_BATTLE_ENTRY_Create(void *gameSys, void *unused, struct GameEvent *event, int create);
 
 void IRC_BATTLE_ENTRY_FreeParties(IrcBattleEntryWork *work);
 
@@ -363,7 +372,7 @@ int IRC_BATTLE_ENTRY_Main(void *parentEvent, int *step, IrcBattleEntryWork *work
         (*step)++;
         break;
     case 5:
-        MUSICAL_EVENT_BuildParty(work->partyMode, work);
+        MUSICAL_EVENT_BuildParty(work->partyMode, (struct MusicalEventWork *)work);
         work->menuArgs.gameData = work->gameData;
         work->menuArgs.ownParty = work->ownParty;
         work->menuArgs.linkParties[0] = work->linkParties[0];
@@ -400,11 +409,11 @@ int IRC_BATTLE_ENTRY_Main(void *parentEvent, int *step, IrcBattleEntryWork *work
     case 7:
         GF_OVERLAY_Load((u32)ov093_id);
         GFL_NET_COMMAND_AddCommandTable(0x100, (u32)d_021F03C4, 9, 0);
-        GFL_NET_HANDLE_SetTimingSyncRange(GFL_NET_HANDLE_GetCurrentHandle(), 0x6e, 12);
+        GFL_NET_HANDLE_SetTimingSyncRange((struct GFLNetHandle *)(GFL_NET_HANDLE_GetCurrentHandle()), 0x6e, 12);
         (*step)++;
         break;
     case 8:
-        if (GFL_NET_HANDLE_IsTimingSyncRange(GFL_NET_HANDLE_GetCurrentHandle(), 0x6e, 12))
+        if (GFL_NET_HANDLE_IsTimingSyncRange((struct GFLNetHandle *)(GFL_NET_HANDLE_GetCurrentHandle()), 0x6e, 12))
             (*step)++;
         if (GFL_NET_ERR_GetErrorLevel()) {
             if (GFL_NET_ERR_WaitLinkClosed() == 1)
@@ -425,39 +434,39 @@ int IRC_BATTLE_ENTRY_Main(void *parentEvent, int *step, IrcBattleEntryWork *work
         case 1:
             work->ruleCategory = 1;
             work->ruleBase = 2;
-            BTL_SETUP_SetupCommSingle(work->setup, work->gameData, GFL_NET_HANDLE_GetCurrentHandle(), 1, 4);
+            BTL_SETUP_SetupCommSingle(work->setup, work->gameData, (u32)(GFL_NET_HANDLE_GetCurrentHandle()), 1, 4);
             break;
         case 2:
             work->ruleCategory = 1;
             work->ruleBase = 6;
-            BTL_SETUP_SetupCommDouble(work->setup, work->gameData, GFL_NET_HANDLE_GetCurrentHandle(), 1, 4);
+            BTL_SETUP_SetupCommDouble(work->setup, work->gameData, (u32)(GFL_NET_HANDLE_GetCurrentHandle()), 1, 4);
             break;
         case 3:
             work->ruleCategory = 1;
             work->ruleBase = 10;
-            BTL_SETUP_SetupCommTriple(work->setup, work->gameData, GFL_NET_HANDLE_GetCurrentHandle(), 1, 4);
+            BTL_SETUP_SetupCommTriple(work->setup, work->gameData, (u32)(GFL_NET_HANDLE_GetCurrentHandle()), 1, 4);
             break;
         case 4:
             work->ruleCategory = 1;
             work->ruleBase = 14;
-            BTL_SETUP_SetupCommRotation(work->setup, work->gameData, GFL_NET_HANDLE_GetCurrentHandle(), 1, 4);
+            BTL_SETUP_SetupCommRotation(work->setup, work->gameData, (u32)(GFL_NET_HANDLE_GetCurrentHandle()), 1, 4);
             break;
         case 5:
             ruleTable = d_0216FEE0;
             work->ruleCategory = 3;
             work->ruleBase = 18;
-            BTL_SETUP_SetupCommMulti(work->setup, work->gameData, GFL_NET_HANDLE_GetCurrentHandle(), 1,
+            BTL_SETUP_SetupCommMulti(work->setup, work->gameData, (unsigned int)(GFL_NET_HANDLE_GetCurrentHandle()), 1,
                           ruleTable.v[work->menuArgs.teamByNetId[GFL_NET_GetHandleNetID(GFL_NET_HANDLE_GetCurrentHandle())]], 4);
             work->setup->multiMode = 1;
             work->setup->rule = 1;
-            MUSICAL_EVENT_TrimAllPartiesToThree(work);
+            MUSICAL_EVENT_TrimAllPartiesToThree((struct MusicalEventWork *)work);
             break;
         }
         BTL_SETUP_SetParty(work->setup, work->ownParty, 0);
         BTL_SETUP_AllocRecordBuffer(work->setup, 1);
         work->savedBgm = GFL_USE_GetBgmNo();
         GFL_USE_CancelChangeAndStopBgm();
-        GFL_NET_HANDLE_SetTimingSyncRange(GFL_NET_HANDLE_GetCurrentHandle(), 10, 12);
+        GFL_NET_HANDLE_SetTimingSyncRange((struct GFLNetHandle *)(GFL_NET_HANDLE_GetCurrentHandle()), 10, 12);
         (*step)++;
         break;
     case 10:
@@ -470,7 +479,7 @@ int IRC_BATTLE_ENTRY_Main(void *parentEvent, int *step, IrcBattleEntryWork *work
                 GFL_NET_ERR_HaltIfActive();
             GF_OVERLAY_Unload((u32)ov093_id);
             *step = 20;
-        } else if (GFL_NET_HANDLE_IsTimingSyncRange(GFL_NET_HANDLE_GetCurrentHandle(), 10, 12)) {
+        } else if (GFL_NET_HANDLE_IsTimingSyncRange((struct GFLNetHandle *)(GFL_NET_HANDLE_GetCurrentHandle()), 10, 12)) {
             if (GFL_NET_IsParentAid())
                 GFL_USE_CancelChangeAndPlayBgm(0x48B, 0xFFFF);
             else
@@ -479,7 +488,7 @@ int IRC_BATTLE_ENTRY_Main(void *parentEvent, int *step, IrcBattleEntryWork *work
         }
         break;
     case 11:
-        MUSICAL_EVENT_BindParticipantSlots(work, gameSys);
+        MUSICAL_EVENT_BindParticipantSlots((struct MusicalEventWork *)work, gameSys);
         GF_OVERLAY_Unload((u32)ov093_id);
         recArgs.setup = work->setup;
         recArgs.slotData = work->recorderSlots;
@@ -489,7 +498,7 @@ int IRC_BATTLE_ENTRY_Main(void *parentEvent, int *step, IrcBattleEntryWork *work
         break;
     case 12:
         if (GAMESYSTEM_GetProcStatus(gameSys) == 0) {
-            MUSICAL_EVENT_UpdateFriendRecords(work, GAMESYSTEM_GetGameData(gameSys));
+            MUSICAL_EVENT_UpdateFriendRecords((struct MusicalEventWork *)work, GAMESYSTEM_GetGameData(gameSys));
             BTL_SETUP_Delete(work->setup);
             work->setup = 0;
             GFL_USE_CancelChangeAndStopBgm();
@@ -533,12 +542,12 @@ int IRC_BATTLE_ENTRY_Main(void *parentEvent, int *step, IrcBattleEntryWork *work
         break;
     case 17:
         if (GFL_NET_GetRunState() && GFL_NET_ERR_GetErrorLevel() == 0)
-            GFL_NET_HANDLE_SetTimingSyncRange(GFL_NET_HANDLE_GetCurrentHandle(), 0xdc, 12);
+            GFL_NET_HANDLE_SetTimingSyncRange((struct GFLNetHandle *)(GFL_NET_HANDLE_GetCurrentHandle()), 0xdc, 12);
         (*step)++;
         break;
     case 18:
         if (GFL_NET_GetRunState() && GFL_NET_ERR_GetErrorLevel() == 0) {
-            if (GFL_NET_HANDLE_IsTimingSyncRange(GFL_NET_HANDLE_GetCurrentHandle(), 0xdc, 12) == 0)
+            if (GFL_NET_HANDLE_IsTimingSyncRange((struct GFLNetHandle *)(GFL_NET_HANDLE_GetCurrentHandle()), 0xdc, 12) == 0)
                 break;
             work->waitFrames = 0;
             (*step)++;
@@ -603,7 +612,7 @@ int IRC_BATTLE_ENTRY_Main(void *parentEvent, int *step, IrcBattleEntryWork *work
  * its work: the five party lists are allocated here and freed by
  * IRC_BATTLE_ENTRY_FreeParties.
  */
-struct GameEvent *IRC_BATTLE_ENTRY_Create(void *gameSys, int unused, struct GameEvent *event, int create)
+struct GameEvent *IRC_BATTLE_ENTRY_Create(void *gameSys, void *unused, struct GameEvent *event, int create)
 {
     IrcBattleEventTask *task;
     int i;

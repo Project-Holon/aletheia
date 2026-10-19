@@ -49,7 +49,7 @@ typedef union tagU4B {
     unsigned char b[4];
 } tagU4B;
 
-extern int memcmp(const void *s1, const void *s2, unsigned long n);
+extern int memcmp(unsigned char *s1, unsigned char *s2, unsigned int n);
 extern void decodeSSID(char *ssid, unsigned char *buf);
 extern void MI_CpuCopy8(const void *srcp, void *dstp, unsigned long size);
 extern void makeUsbWepKey(unsigned char *seed, unsigned char *wepkey);
@@ -81,7 +81,7 @@ int DWCi_AC_CheckNintendoShopAP(char *ssid)
     unsigned char buf[24];
 
     decodeSSID(ssid, buf);
-    if (memcmp(buf, "NDWCSHAP", 8) == 0) {
+    if (memcmp((unsigned char *)buf, (unsigned char *)("NDWCSHAP"), 8) == 0) {
         return 1;
     }
     return 0;
@@ -111,7 +111,7 @@ int DWCi_AC_GetPostalCode(char *ssid, unsigned char *pos)
     unsigned char buf[24];
 
     decodeSSID(ssid, buf);
-    if (memcmp(buf, g_020A8118, 8) == 0) {
+    if (memcmp((unsigned char *)buf, (unsigned char *)g_020A8118, 8) == 0) {
         MI_CpuCopy8(&buf[8], pos, 10);
         for (i = 0; i < 10; i++) {
             if (pos[i] < 0x20 || pos[i] > 0x7e) {
@@ -129,7 +129,7 @@ int DWCi_AC_GetPostalCode(char *ssid, unsigned char *pos)
  */
 int DWCi_AC_CheckNintendoUsbAP(char *ssid)
 {
-    if (memcmp(ssid, g_020A8124, 8) == 0) {
+    if (memcmp((unsigned char *)ssid, (unsigned char *)g_020A8124, 8) == 0) {
         return 1;
     }
     return 0;

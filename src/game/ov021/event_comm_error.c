@@ -70,8 +70,9 @@ enum {
 extern GameEvent *GAME_EVENT_Create(GameSystem *gameSystem, GameEvent *parent, GameEventFunc handler, u32 workSize);
 
 extern GameSystem *GAME_EVENT_GetGameSystem(GameEvent *event);
+struct GameSystem;
 
-extern FieldMap *GAMESYSTEM_GetFieldMap(GameSystem *gameSystem);
+extern void *GAMESYSTEM_GetFieldMap(GameSystem *gameSystem);
 
 extern struct GameComm *GAMESYSTEM_GetGameComm(GameSystem *gameSystem);
 
@@ -100,10 +101,13 @@ extern int GFL_NET_IsSessionNull(void);
 extern void GFL_NET_ERR_RequestScreen(void);
 
 extern void GFL_NET_ERR_ResetState(void);
+struct FieldMap;
+struct GameEvent;
 
-extern GameEvent *FIELD_STATUS_CreateSubProcEvent(GameSystem *gameSystem, FieldMap *fieldMap, u8 *overlayId, const SubProcData *procData, GameSystem *procWork);
+extern GameEvent *FIELD_STATUS_CreateSubProcEvent(struct GameSystem *gameSystem, struct FieldMap *fieldMap, u32 overlayId, void *procData, void *procWork);
+struct GameBeaconSearchWork;
 
-extern void GAME_BEACON_SEARCH_SetStartDelay(void *searchWork);
+extern void GAME_BEACON_SEARCH_SetStartDelay(struct GameBeaconSearchWork *work);
 
 extern struct MmdlSys *FIELDMAP_GetMmdlSys(FieldMap *fieldMap);
 
@@ -111,7 +115,7 @@ extern int FIELDMAP_IsReady(FieldMap *fieldMap);
 
 extern void FLDMMDL_SysPauseMove(struct MmdlSys *mmdlSys);
 
-extern u32 *FLDMMDL_SysResumeMove(struct MmdlSys *mmdlSys);
+extern void FLDMMDL_SysResumeMove(struct MmdlSys *mmdlSys);
 
 extern u8 ov021_id[];
 
@@ -154,13 +158,13 @@ int EVENT_COMM_ERROR_Run(GameEvent *event, int *seq, void *work)
         if (GAME_COMM_GetLastKind(GAMESYSTEM_GetGameComm(gameSystem)) == 2) {
             if (GAME_DATA_GetIntrudeCount(GAMESYSTEM_GetGameData(gameSystem)) == 1) {
                 GFL_NET_ERR_RequestScreen();
-                child = FIELD_STATUS_CreateSubProcEvent(gameSystem, fieldMap, ov021_id, &sCommErrorSubProcData, gameSystem);
+                child = FIELD_STATUS_CreateSubProcEvent(gameSystem, fieldMap, (u32)ov021_id, (void *)(&sCommErrorSubProcData), gameSystem);
             } else {
                 child = GAME_EVENT_Create(gameSystem, 0, EVENT_COMM_ERROR_RunCommExit, 0);
             }
         } else {
             GFL_NET_ERR_RequestScreen();
-            child = FIELD_STATUS_CreateSubProcEvent(gameSystem, fieldMap, ov021_id, &sCommErrorSubProcData, gameSystem);
+            child = FIELD_STATUS_CreateSubProcEvent(gameSystem, fieldMap, (u32)ov021_id, (void *)(&sCommErrorSubProcData), gameSystem);
         }
         GAME_EVENT_CallEvent(event, child);
         (*seq)++;

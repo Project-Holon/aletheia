@@ -39,6 +39,9 @@ ACCEPTED = [
     ("src/game/arm9/fldmmdl_save.c", "param0 param1 param2", "mirror the Mmdl param0..2 fields (the game's own names)"),
     ("src/game/ov010/fldmmdl_types.h", "param0 param1 param2", "MmdlHeader/Mmdl param0..2, the move model's script parameters"),
     ("src/game/ov010/script_work.c", "param0 param1 param2 param3", "SCRIPT_PARAM0..3, the script variables 0x8000..0x8003"),
+    ("src/game/ov010/event_shortcut_menu.c", "param0 param1 param2 param3", "SCRIPT_WORK_SetParams prototype: SCRIPT_PARAM0..3"),
+    ("src/game/ov010/move_pokemon.c", "param0 param1 param2 param3", "SCRIPT_WORK_SetParams prototype: SCRIPT_PARAM0..3"),
+    ("src/game/ov018/event_comm_common.c", "param0 param1 param2 param3", "SCRIPT_WORK_SetParams prototype: SCRIPT_PARAM0..3"),
     ("src/game/ov114/dwci_nd_types.h", "param1 param2 param3", "DWC Nd SDK field names"),
     ("src/game/arm9/nns_g3d_sbc.c", "param0 param1", "the TEXIMAGE_PARAM words of the SBC command"),
     ("src/game/arm9/nns_g2d_font.c", "x0 x1 xe", "glyph rectangle coordinates (x0, x1 and the end x)"),
@@ -125,7 +128,8 @@ def main():
         for f in files_under(a.list):
             rel = os.path.relpath(f, ROOT).replace(os.sep, "/")
             for no, kind, name in scan(f):
-                print("%s:%d\t%s\t%s" % (rel, no, kind, name))
+                if not accepted(rel, name):
+                    print("%s:%d\t%s\t%s" % (rel, no, kind, name))
         return
     per = {}
     nacc = 0

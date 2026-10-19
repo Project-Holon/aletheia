@@ -148,9 +148,10 @@
  *   WORLDTRADE_DEPOSIT_SetCountryFilter 0x021F88B0 thumb ov135
  *   BMP_MENULIST_GetListIndex  0x020202EC  thumb  arm9
  */
+#include "../version.h"
 #include "worldtrade_types.h"
 
-struct Src;
+struct MenuTemplate;
 
 typedef struct { void *a,*b,*obj,*d,*e,*f,*g,*h,*i; u32 j,k,l; } Init;
 
@@ -162,7 +163,7 @@ typedef struct {
     };
 } TableRow;
 
-/* Menu-list source descriptor handed to BMP_MENULIST_Create as `struct Src`. */
+/* Menu-list source descriptor handed to BMP_MENULIST_Create as `struct MenuTemplate`. */
 typedef struct { u32 ptrs[4]; u16 count, rows; u32 extra[8]; } MenuSrc;
 
 extern void MI_CpuFill8(void *p, u32 v, u32 n);
@@ -175,31 +176,35 @@ extern u32 GFL_HEAP_Free(void *p);
 
 extern void GF_PANIC_Fail(const char *expr, u32 line, const char *file);
 
-extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
+extern void *ARC_TOOL_CreateHandle(u32 archiveID, u16 heapID);
 
 extern void ARC_TOOL_DeleteHandle(void *h);
+struct MyStatus;
 
-extern u8 MYSTATUS_GetSex(const struct Sub0200852CObj *obj);
+extern u8 MYSTATUS_GetSex(struct MyStatus *mystatus);
+struct MsgBank;
+struct Strbuf;
 
-extern void *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
+extern struct Strbuf *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
 
-extern void STRBUF_Delete(struct U16Vec *vec);
+extern void STRBUF_Delete(struct Strbuf *strbuf);
+struct BmpWin;
 
-extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
+extern void BMP_WIN_MakeScreen(struct BmpWin *win);
 
-extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
+extern u8 BMP_WIN_GetBgLayer(struct BmpWin *win);
 
 extern void BG_SYS_PushTile(u32 v);
 
 extern void WORLDTRADE_TITLE_ScrollBg(Work *, u32, u32);
 
-extern void WIPE_SYS_Start(void *, u32, u32, u32, u32, u32, u32);
+extern void WIPE_SYS_Start(void *divisionMode, u32 mainPattern, u32 subPattern, u16 color, u32 frames, u32 wait, u32 heapId);
 
 extern void WORLDTRADE_ENTER_RestartNetTimeout(u8 *);
 
 extern void WORLDTRADE_TITLE_ExitBgPlanes(char *p);
 
-extern void CLACT_SetActorDrawEnable(struct Obj *p, unsigned int v);
+extern void CLACT_SetActorDrawEnable(struct Actor *p, unsigned int v);
 
 extern void BG_SYS_InitBgLayer(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 
@@ -209,7 +214,7 @@ extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
 
 extern void BG_SYS_InitRun(u8 layer, u32 size, u32 offset, u32 heapId);
 
-extern void BG_SYS_SetTileEntry(u32 layer, int value, int x0, int y0, u8 w, u8 h, u8 mode);
+extern void BG_SYS_SetTileEntry(u32 layer, u16 value, u8 x0, u8 y0, u8 w, u8 h, u8 mode);
 
 extern void BG_SYS_FreeLayerBuf(u32 i);
 
@@ -221,33 +226,35 @@ extern u32 ARC_UTIL_UploadBgCharFromHandle(void *a, u32 b, u32 c, u32 d, u32 e, 
 
 extern void WORLDTRADE_TITLE_LoadSubBgSwap(Work *);
 
-extern struct Obj *CLACT_CreateActor(void *, unsigned int, unsigned int, unsigned int, const void *, unsigned short, unsigned short);
+extern struct Actor *CLACT_CreateActor(void *, unsigned int, unsigned int, unsigned int, const void *, unsigned short, unsigned short);
+struct Actor;
 
-extern void CLACT_SetActorAutoAnim(struct Obj *, u32);
+extern void CLACT_SetActorAutoAnim(struct Actor *actor, u32 enable);
 
-extern void CLACT_SetActorAnimSeq(struct Obj *p, u16 value);
+extern void CLACT_SetActorAnimSeq(struct Actor *actor, u16 value);
 
 extern void CLACT_StopActorAnim(struct Actor *a);
 
-extern void CLACT_DeleteActor(struct Obj *p);
+extern void CLACT_DeleteActor(struct Actor *actor);
 
-extern u32 BMP_WIN_Create(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
+extern struct BmpWin *BMP_WIN_Create(u32 bgLayer, u32 posX, u32 posY, u8 width, u8 height, u8 palette, u8 allocDir);
 
-extern void *BMP_WIN_GetBmp(struct Descriptor *p);
+extern void *BMP_WIN_GetBmp(struct BmpWin *p);
+struct Bmp;
 
-extern void BMP_Clear(struct CharBuf *buf, u8 value);
+extern void BMP_Clear(struct Bmp *bmp, u8 value);
 
-extern void BMP_WIN_TransferChars(struct Descriptor *d);
+extern void BMP_WIN_TransferChars(struct BmpWin *d);
 
 extern int WORLDTRADE_INPUT_PrintStringAlignedLine(void *win, void *str, u32 c, u32 d, u32 e, u16 f, void *g);
 
 extern void WORLDTRADE_TITLE_CreateMenuWindow(Work *p, u32 k);
 
-extern void WORLDTRADE_ADAPTER_DeletePrintStream(struct Obj *p);
+extern void WORLDTRADE_ADAPTER_DeletePrintStream(struct Actor *p);
 
-extern u32 BMP_WIN_Delete(struct Descriptor *d);
+extern u32 BMP_WIN_Delete(struct BmpWin *win);
 
-extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
+extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
 
 extern void GFL_USE_PlaySeDefaultVolume(u32 id);
 
@@ -259,27 +266,29 @@ extern void BMP_MENUWORK_AddMsgItem(struct Slot *table, u32 a, u32 b, u32 tag, u
 
 extern u32 BMP_MENUWORK_Delete(void *p);
 
-extern void BMP_MENUWORK_DrawWindowBorder(void *desc, u32 kind);
+extern void BMP_MENUWORK_DrawWindowBorder(struct BmpWin *desc, u32 commitMode);
+struct BoxPokemon;
 
-extern u32 POKE_TOOL_GetBoxValue(void *p, u32 id, u32 v);
+extern u32 POKE_TOOL_GetBoxValue(struct BoxPokemon *box, u32 paramId, u32 arg);
 
-extern int POKE_TOOL_ChangeBoxForm(int box, int newForm);
+extern int POKE_TOOL_ChangeBoxForm(struct BoxPokemon *box, s32 newForm);
 
 extern u32 WORLDTRADE_ADAPTER_IsStreamBusy(PrintStreamCtx *p);
+struct WordSet;
 
 
-extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
+extern void WORDSET_CopyTaggedText(struct WordSet *words, struct Strbuf *dst, struct Strbuf *src);
 
 
-extern void BMP_MENUWORK_DrawWindow(void *win, int commitMode, int tileBase, int palette);
+extern void BMP_MENUWORK_DrawWindow(struct BmpWin *win, s32 commitMode, u16 tileBase, u32 palette);
 
 extern u32 WORLDTRADE_ADAPTER_QueuePrintDefaultColor(void *p, u8 b, void *s, u32 x, u32 y, void *out);
 
 extern void MIi_CpuCopyFast(const void *src, void *dst, u32 n);
 
-extern u32 POKE_TOOL_CalcBoxLevel(void *p);
+extern u32 POKE_TOOL_CalcBoxLevel(struct BoxPokemon *box);
 
-extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
+extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, struct Strbuf *dest);
 
 extern void *WORLDTRADE_INPUT_MenuCreate(Init *,u32,u32);
 
@@ -296,18 +305,20 @@ void WORLDTRADE_DEPOSIT_ClearListRange(SelTable *p);
 extern void WORLDTRADE_INPUT_MenuSetMode(u8 *p, int mode);
 
 int WORLDTRADE_DEPOSIT_UpdateListMenu(void *p, u16 *old);
+struct BmpMenuList;
 
-extern void BMP_MENULIST_Delete(struct Obj *o, u16 *a, u16 *b);
+extern void BMP_MENULIST_Delete(struct BmpMenuList *menu, u16 *outScroll, u16 *outRow);
 
-extern void WORLDTRADE_ADAPTER_ClearWindowScreen(u32 a, int kind);
+extern void WORLDTRADE_ADAPTER_ClearWindowScreen(void *win, s32 kind);
 
 extern int WORLDTRADE_INPUT_MenuUpdate(void *);
+struct PersonalData;
 
-extern void *POKE_PERSONAL_Create(u32,int,u32);
+extern struct PersonalData *POKE_PERSONAL_Create(u32,int,u32);
 
-extern u32 POKE_PERSONAL_GetParam(const struct Personal *p, u32 field);
+extern u32 POKE_PERSONAL_GetParam(struct PersonalData *data, u32 field);
 
-extern void POKE_PERSONAL_Delete(void *p);
+extern void POKE_PERSONAL_Delete(struct PersonalData *data);
 
 void WORLDTRADE_DEPOSIT_SetListRangeEntry(SelTable *p, int i, u16 a, u16 b);
 
@@ -317,9 +328,10 @@ extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c,
 
 extern u32 WORLDTRADE_ADAPTER_CreateString(u32 a, u32 b, u32 c, u32 d);
 
-extern int ARC_UTIL_LoadMemberWithSize(int archiveID, int memberIdx, int decompress, int heapID, u32 *out);
+extern int ARC_UTIL_LoadMemberWithSize(s32 archiveID, s32 memberIdx, s32 decompress, u16 heapID, u32 *out);
+struct PokemonParam;
 
-extern u32 POKE_TOOL_ChangeForm(void *p, u32 a);
+extern u32 POKE_TOOL_ChangeForm(struct PokemonParam *pp, u32 form);
 
 extern u32 POKE_TOOL_GetPartyParamSize(void);
 
@@ -329,23 +341,26 @@ extern const void *MYSTATUS_GetName(const void *p);
 
 extern void WORDSET_CopyString(const u16 *src, u16 *dst, u32 n);
 
-extern u32 MYSTATUS_GetId(const struct Sub0200852CObj *obj);
+extern u32 MYSTATUS_GetId(struct MyStatus *mystatus);
 
-extern u8 MYSTATUS_GetNation(const struct Sub0200852CObj *obj);
+extern u8 MYSTATUS_GetNation(struct MyStatus *mystatus);
 
-extern u8 MYSTATUS_GetArea(const struct Sub0200852CObj *obj);
+extern u8 MYSTATUS_GetArea(struct MyStatus *mystatus);
 
-extern u8 MYSTATUS_GetTrainerView(const struct Sub0200852CObj *obj);
+extern u8 MYSTATUS_GetTrainerView(struct MyStatus *mystatus);
+struct WifiHistory;
 
-extern u8 WIFI_HISTORY_GetGreetingSet(const struct Sub02009470Obj *obj);
+extern u8 WIFI_HISTORY_GetGreetingSet(struct WifiHistory *history);
 
-extern u8 WIFI_HISTORY_GetVisitedCountryCount(const struct Sub02009470Obj *obj);
+extern u8 WIFI_HISTORY_GetVisitedCountryCount(struct WifiHistory *history);
 
-extern u8 WIFI_HISTORY_GetRatingLevel(const struct Sub02009470Obj *obj);
+extern u8 WIFI_HISTORY_GetRatingLevel(struct WifiHistory *history);
+struct ZukanSave;
 
-extern u32 ZUKAN_SAVE_IsSeen(struct Blk37 *p, u16 id);
+extern u32 ZUKAN_SAVE_IsSeen(struct ZukanSave *pZukan, u16 species);
+struct MenuTemplate;
 
-extern struct Obj *BMP_MENULIST_Create(struct Src *src, u16 a, u16 b, u32 heap);
+extern struct BmpMenuList *BMP_MENULIST_Create(struct MenuTemplate *menuTemplate, u16 scroll, u16 row, u32 heap);
 
 void WORLDTRADE_OpenTaskMenuYesNoDefault(u32 a, u32 b, u32 c, u32 d, u8 e);
 
@@ -443,7 +458,7 @@ void WORLDTRADE_DEPOSIT_PrintConditionLabel(void *win, void *bank, int idx, u32 
 
 void WORLDTRADE_DEPOSIT_DrawRequestWindow(void *bank, void *names, int unused, void **win, u32 index, int mode, int place, void *g);
 
-void WORLDTRADE_DEPOSIT_DrawRequestWindowAlt(void *bank, void *names, int unused, void **win, u32 index, int mode, int place, void *g);
+void WORLDTRADE_DEPOSIT_DrawRequestWindowAlt(void *bank, void *names, void *unused, void **win, u32 index, int mode, int place, void *g);
 
 void WORLDTRADE_DEPOSIT_PrintMonSummary(void *bank, void *ws, void **win, void *mon, MonTag *out, void *g);
 
@@ -542,7 +557,7 @@ int WORLDTRADE_DEPOSIT_Exit(Work *p)
     WORLDTRADE_DEPOSIT_DeleteWindows((Work *)p);
     WORLDTRADE_DEPOSIT_ExitBgPlanes();
     WORLDTRADE_TITLE_ExitBgPlanes((char *)p);
-    CLACT_SetActorDrawEnable((struct Obj *)*(unsigned *)&p->scrollBarObj, 0);
+    CLACT_SetActorDrawEnable((struct Actor *)*(unsigned *)&p->scrollBarObj, 0);
     WORLDTRADE_AdvanceScreenId((Work *)(void *)p);
     return 0;
 }
@@ -558,14 +573,14 @@ void WORLDTRADE_DEPOSIT_PrintMessage(Work *p, u32 msgId, u32 unused1, u32 unused
     u32 h;
 
     WORDSET_CopyTaggedText((struct WordSet *)(*(u32 *)&p->words), (void *)((*(unsigned int *)&p->str)), (void *)v);
-    BMP_Clear((struct CharBuf *)((u32)BMP_WIN_GetBmp((struct Descriptor *)p->frame)), 0xf);
+    BMP_Clear((struct Bmp *)((u32)BMP_WIN_GetBmp((struct BmpWin *)p->frame)), 0xf);
     h = p->frame;
-    BMP_WIN_TransferChars((struct Descriptor *)h);
-    BMP_WIN_MakeScreen((struct Cfg *)h);
-    BG_SYS_PushTile(BMP_WIN_GetBgLayer((struct Descriptor *)h));
+    BMP_WIN_TransferChars((struct BmpWin *)h);
+    BMP_WIN_MakeScreen((struct BmpWin *)h);
+    BG_SYS_PushTile(BMP_WIN_GetBgLayer((struct BmpWin *)h));
     BMP_MENUWORK_DrawWindow((void *)(p->frame), 0, 1, 0xe);
     WORLDTRADE_ADAPTER_QueuePrintDefaultColor((void *)(p->frame), 0, (void *)((*(unsigned int *)&p->str)), 0, 0, (u8 *)p + 0xfa0);
-    STRBUF_Delete((struct U16Vec *)v);
+    STRBUF_Delete((struct Strbuf *)v);
 }
 
 /*
@@ -648,7 +663,7 @@ void WORLDTRADE_DEPOSIT_CreateWindows(Work *p)
     WORLDTRADE_TITLE_CreateMenuWindow(p, 3);
 }
 
-void WORLDTRADE_DEPOSIT_DeleteWindows(Work *p) { int i; WORLDTRADE_ADAPTER_DeletePrintStream((struct Obj *)((char *)p+0xfa0)); BMP_WIN_Delete(p->msgWin); for(i=0;i<6;i++) BMP_WIN_Delete(*(void **)((u32)(char *)p+(u32)i*4+0xd90)); BMP_WIN_Delete(p->d40); }
+void WORLDTRADE_DEPOSIT_DeleteWindows(Work *p) { int i; WORLDTRADE_ADAPTER_DeletePrintStream((struct Actor *)((char *)p+0xfa0)); BMP_WIN_Delete(p->msgWin); for(i=0;i<6;i++) BMP_WIN_Delete(*(void **)((u32)(char *)p+(u32)i*4+0xd90)); BMP_WIN_Delete(p->d40); }
 
 /*
  * CLACT_CreateActor returns the object consumed by the subsequent calls and stores.
@@ -681,9 +696,9 @@ void WORLDTRADE_DEPOSIT_CreateActors(Work *p)
  */
 void WORLDTRADE_DEPOSIT_DeleteActors(Work *p)
 {
-    CLACT_DeleteActor((struct Obj *)(p->sub.depositMarkObj));
-    CLACT_DeleteActor((struct Obj *)((*(unsigned int *)&p->btn[0])));
-    CLACT_DeleteActor((struct Obj *)((*(unsigned int *)&p->btn[1])));
+    CLACT_DeleteActor((struct Actor *)(p->sub.depositMarkObj));
+    CLACT_DeleteActor((struct Actor *)((*(unsigned int *)&p->btn[0])));
+    CLACT_DeleteActor((struct Actor *)((*(unsigned int *)&p->btn[1])));
 }
 
 void WORLDTRADE_DEPOSIT_CreateStrings(Work *p)
@@ -737,7 +752,7 @@ int WORLDTRADE_DEPOSIT_StateCategoryMenuInput(Work *p)
     case (unsigned)-2:
         BMP_MENULIST_Delete(p->speciesMenuList, &((DepositState *)p->st)->menuScroll, &((DepositState *)p->st)->menuRow);
         BMP_MENUWORK_Delete(p->de8);
-        WORLDTRADE_ADAPTER_ClearWindowScreen((u32)(p->side_p2[0]), 0);
+        WORLDTRADE_ADAPTER_ClearWindowScreen((p->side_p2[0]), 0);
         BMP_MENUWORK_DrawWindowBorder(p->d40, 0);
         BMP_WIN_Delete(p->side_p2[0]);
         BMP_WIN_Delete(p->win3);
@@ -800,7 +815,7 @@ int WORLDTRADE_DEPOSIT_StateSpeciesMenuInput(Work *p)
     default:
         p->wantSpecies=result;
         h=(u32)POKE_PERSONAL_Create((u16)result,0,0x48);
-        v=POKE_PERSONAL_GetParam((const struct Personal *)h,20);
+        v=POKE_PERSONAL_GetParam((struct PersonalData *)h,20);
         POKE_PERSONAL_Delete((void *)h);
         ((DepositState *)p->st)->genderEvent=v;
         if(WORLDTRADE_DEPOSIT_SetGenderFromEvent((u8 *)p+0xB50,((DepositState *)p->st)->genderEvent)) {
@@ -1088,7 +1103,7 @@ void WORLDTRADE_DEPOSIT_DrawRequestWindow(void *bank, void *names, int unused, v
     STRBUF_Delete(str);
 }
 
-void WORLDTRADE_DEPOSIT_DrawRequestWindowAlt(void *bank, void *names, int unused, void **win, u32 index, int mode, int place, void *printer)
+void WORLDTRADE_DEPOSIT_DrawRequestWindowAlt(void *bank, void *names, void *unused, void **win, u32 index, int mode, int place, void *printer)
 {
     int i;
     void *str;
@@ -1204,7 +1219,7 @@ void WORLDTRADE_DEPOSIT_BuildOffer(Entry *dst, Work *p)
     } else {
         species = POKE_TOOL_GetBoxValue(p->mon, 5, 0);
         if (species == 0x1EC || species == 0x286) {
-            POKE_TOOL_ChangeBoxForm((int)p->mon, 0);
+            POKE_TOOL_ChangeBoxForm(p->mon, 0);
         }
         WORLDTRADE_ADAPTER_CopyBoxMon(p->mon, (u32)dst);
     }
@@ -1214,7 +1229,7 @@ void WORLDTRADE_DEPOSIT_BuildOffer(Entry *dst, Work *p)
     dst->area = MYSTATUS_GetArea(p->ctx->myStatus);
     dst->trainerView = MYSTATUS_GetTrainerView(p->ctx->myStatus);
     dst->sex = MYSTATUS_GetSex(p->ctx->myStatus);
-    dst->romCode = 0x15;
+    dst->romCode = PM_VERSION_ID;
     dst->language = 2;
     dst->greetingSet = WIFI_HISTORY_GetGreetingSet(p->ctx->wifiHistory);
     dst->visitedCountryCount = WIFI_HISTORY_GetVisitedCountryCount(p->ctx->wifiHistory);
@@ -1269,7 +1284,7 @@ void *WORLDTRADE_DEPOSIT_CreateSpeciesMenuList(Work *p, void **menu, void *win, 
     src.ptrs[0] = (u32)*menu;
     src.ptrs[3] = (u32)win;
     BMP_MENUWORK_DrawWindow(win, 0, 31, 11);
-    return BMP_MENULIST_Create((struct Src *)(&src), p->a[kind], p->b[kind], 0x48);
+    return BMP_MENULIST_Create((struct MenuTemplate *)(&src), p->a[kind], p->b[kind], 0x48);
 }
 
 int WORLDTRADE_DEPOSIT_CreateGenderMenu(void **menu, void *msg, int kind)
@@ -1329,9 +1344,9 @@ typedef struct {
     u8 id;
 } IdRange;
 
-extern s32 BMP_MENULIST_Main(struct Obj *o);
+extern s32 BMP_MENULIST_Main(struct BmpMenuList *menu);
 
-extern void BMP_MENULIST_GetListIndex(struct Obj *obj, u16 *out);
+extern void BMP_MENULIST_GetListIndex(struct BmpMenuList *menu, u16 *outIndex);
 
 void WORLDTRADE_DEPOSIT_SetCountryFilter(Work *p,u32 n);
 

@@ -129,7 +129,7 @@
 #include "nhttp_types.h"
 #include "../../matched/arm9_sdk/libc/string.h"
 
-extern void NHTTPi_memcpy(void *dst_p, void *src_p, int size);
+extern void NHTTPi_memcpy(void *dst, void *src, u32 size);
 extern int NHTTPi_SocSend(NHTTPReq *req_p, int socket, char *buf_p, int len, int flags);
 extern int NHTTPi_SocRecv(NHTTPMutexInfo *mutexInfo_p, NHTTPReq *req_p, int socket, char *buf_p, int len, int flags);
 extern NHTTPConnection *NHTTPi_Request2Connection(NHTTPMutexInfo *mutexInfo_p, NHTTPReq *req_p);
@@ -193,9 +193,9 @@ extern int NHTTPi_SkipLineBuf(NHTTPMutexInfo *mutexInfo_p, NHTTPReq *req_p, int 
 extern int NHTTPi_strToHex(char *p_p, int len);
 extern int NHTTPi_RecvBuf(NHTTPMutexInfo *mutexInfo_p, NHTTPReq *req_p, int socket, int pos, int len);
 extern void NHTTPi_ReceivedCallback(NHTTPMutexInfo *mutexInfo_p, NHTTPConnection *connection_p);
-extern int NHTTPi_ThreadSendProc(NHTTPThreadData *threadData_p);
+static int NHTTPi_ThreadSendProc(NHTTPThreadData *threadData_p);
 extern int NHTTPi_ThreadParseHeaderProc(NHTTPThreadData *threadData_p);
-extern int NHTTPi_ThreadRecvBodyProc(NHTTPThreadData *threadData_p);
+static int NHTTPi_ThreadRecvBodyProc(NHTTPThreadData *threadData_p);
 void NHTTPi_IsCreateCommThreadMessageQueueOn(NHTTPThreadInfo *threadInfo_p);
 void NHTTPi_IsCreateCommThreadMessageQueueOff(NHTTPThreadInfo *threadInfo_p);
 int NHTTPi_IsCreateCommThreadMessageQueue(NHTTPThreadInfo *threadInfo_p);

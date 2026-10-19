@@ -35,12 +35,14 @@ struct MusicalShot {
 extern void MI_CpuCopy8(const void *src, void *dest, u32 size);
 
 extern void *SAVE_CONTROL_GetBlock(struct SaveControl *save, u32 blockId);
+struct ProcLinkReturnList;
 
-extern void EVENT_FIELD_PROCLINK_InitEventdataSystem(char *photo);
+extern void EVENT_FIELD_PROCLINK_InitEventdataSystem(struct ProcLinkReturnList *list);
 
 extern void EVENT_FIELD_PROCLINK_InitIdList(u16 *title);
+struct ProcLinkRequest;
 
-extern void EVENT_FIELD_PROCLINK_InitReturnHeader(void *extraData);
+extern void EVENT_FIELD_PROCLINK_InitReturnHeader(struct ProcLinkRequest *request);
 
 u32 MUSICAL_SHOT_GetSize(void);
 
@@ -101,9 +103,9 @@ u32 MUSICAL_SHOT_GetSize(void)
  */
 void MUSICAL_SHOT_Init(struct MusicalShot *shot)
 {
-    EVENT_FIELD_PROCLINK_InitEventdataSystem((char *)&shot->photo);
+    EVENT_FIELD_PROCLINK_InitEventdataSystem((struct ProcLinkReturnList *)&shot->photo);
     EVENT_FIELD_PROCLINK_InitIdList(shot->title);
-    EVENT_FIELD_PROCLINK_InitReturnHeader(shot->extraData);
+    EVENT_FIELD_PROCLINK_InitReturnHeader((struct ProcLinkRequest *)shot->extraData);
 }
 
 /*

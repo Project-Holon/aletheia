@@ -295,9 +295,9 @@ typedef struct {
 
 #include "g3d_system_types.h"
 
-extern void *GFL_HEAP_Alloc(u16 heapId, u32 size, int clear, const char *file, int line);
-extern void  GFL_HEAP_Free(void *memory);
-extern void  GFL_HEAP_InitAllocatorChecked(NNSFndAllocator *allocator, u16 heapId, u32 align);
+extern void *GFL_HEAP_Alloc(unsigned int heapId, unsigned int size, int clear, char *site, unsigned short tag);
+extern unsigned int GFL_HEAP_Free(void *memory);
+extern void  GFL_HEAP_InitAllocatorChecked(void *block, u32 heapId, s32 newSize);
 extern void  GFL_HEAP_CheckAllocator(void *memory, u32 newSize);
 extern void *GFL_HEAP_AllocSystemChecked(u32 size);
 extern int   GFL_HEAP_FreeSystemChecked(u32 buffer);
@@ -310,20 +310,20 @@ extern void  NNSi_GfdInitTexVramManager(u32 size, u32 size4x4, u32 work, u32 wor
 extern int   NNSi_GfdSizeToGranulePltt(int numBlocks);
 extern void  NNSi_GfdInitPlttVramManager(u32 size, u32 work, u32 workSize, u32 useAsDefault);
 extern void  NNS_G3dAnmObjInit(NNSG3dAnmObj *anmObj, void *anm, NNSG3dResMdl *resMdl, NNSG3dResTex *tex);
-extern void  NNS_G3dRenderObjInit(NNSG3dRenderObj *rndObj, void *resMdl);
+extern void  NNS_G3dRenderObjInit(NNSG3dRenderObj *rndObj, u32 resMdl);
 extern void  NNS_G3dRenderObjAddAnmObj(NNSG3dRenderObj *rndObj, NNSG3dAnmObj *anmObj);
 extern void  NNS_G3dRenderObjRemoveAnmObj(NNSG3dRenderObj *rndObj, NNSG3dAnmObj *anmObj);
-extern u32   NNS_G3dTexGetRequiredSize(NNSG3dResTex *tex);
-extern u32   NNS_G3dTex4x4GetRequiredSize(NNSG3dResTex *tex);
-extern void  NNS_G3dTexSetTexKey(NNSG3dResTex *tex, u32 texKey, u32 tex4x4Key);
-extern void  NNS_G3dTexLoad(NNSG3dResTex *tex, BOOL exec);
+extern s32 NNS_G3dTexGetRequiredSize(void *pTex);
+extern s32 NNS_G3dTex4x4GetRequiredSize(s32 pTex);
+extern void  NNS_G3dTexSetTexKey(NNSG3dResTex *pTex, s32 texKey, s32 tex4x4Key);
+extern void  NNS_G3dTexLoad(NNSG3dResTex *pTex, u32 exec);
 extern void  NNS_G3dTexReleaseTexKey(NNSG3dResTex *tex, u32 *texKey, u32 *tex4x4Key);
 extern u32   NNS_G3dPlttGetRequiredSize(NNSG3dResTex *tex);
 extern void  NNS_G3dPlttSetPlttKey(NNSG3dResTex *tex, u32 plttKey);
 extern void  NNS_G3dPlttLoad(NNSG3dResTex *tex, BOOL exec);
-extern u32   NNS_G3dPlttReleasePlttKey(NNSG3dResTex *tex);
-extern void  NNS_G3dBindMdlTex(void *resMdl, NNSG3dResTex *tex);
-extern void  NNS_G3dBindMdlPltt(void *resMdl, NNSG3dResTex *tex);
+extern void *NNS_G3dPlttReleasePlttKey(NNSG3dResTex *tex);
+extern s32 NNS_G3dBindMdlTex(NNSG3dResMdl *pMdl, NNSG3dResTex *pTex);
+extern s32 NNS_G3dBindMdlPltt(NNSG3dResMdl *pMdl, NNSG3dResTex *pTex);
 extern void  NNS_G3dGlbInit(void);
 extern void  NNS_G3dGlbFlush(void);
 extern void  NNS_G3dGlbFlushP(void);
@@ -333,19 +333,19 @@ extern void  NNS_G3dGlbBaseScale(VecFx32 *scale);
 extern void  NNS_G3dGlbLightVector(int lightIdx, s16 x, s16 y, s16 z);
 extern void  NNS_G3dGlbLightColor(int lightIdx, u32 color);
 extern void  NNS_G3dDraw(NNSG3dRenderObj *rndObj);
-extern u32   NNS_G3dGeIsBufferExist(void);
-extern void  NNS_G3dGeSetBuffer(void *buffer);
+extern s32 NNS_G3dGeIsBufferExist(void);
+extern void  NNS_G3dGeSetBuffer(u32 *cmdBuffer);
 extern void *NNS_G3dGeReleaseBuffer(void);
 extern void  NNS_G3dGeFlushBuffer(void);
 extern void  NNS_G3dGeBufferOP_N(u32 cmd, const void *params, u32 numParams);
 extern void  NNS_G3dInit(void);
-extern NNSG3dRenderObj *NNS_G3dAllocRenderObj(NNSFndAllocator *allocator);
-extern void  NNS_G3dFreeRenderObj(NNSFndAllocator *allocator, NNSG3dRenderObj *rndObj);
+extern void *NNS_G3dAllocRenderObj(NNSFndAllocator *allocator);
+extern void  NNS_G3dFreeRenderObj(NNSFndAllocator *pAllocator, void *pRenderObj);
 extern NNSG3dAnmObj *NNS_G3dAllocAnmObj(NNSFndAllocator *allocator, void *anm, NNSG3dResMdl *resMdl);
-extern void  NNS_G3dFreeAnmObj(NNSFndAllocator *allocator, NNSG3dAnmObj *anmObj);
+extern void  NNS_G3dFreeAnmObj(NNSFndAllocator *pAllocator, void *pAnmObj);
 extern NNSG3dResMdlSet *NNS_G3dGetMdlSet(void *file);
 extern NNSG3dResTex *NNS_G3dGetTex(void *file);
-extern void *NNS_G3dGetAnmByIdx(void *file, u32 anmIdx);
+extern u8 *NNS_G3dGetAnmByIdx(u8 *pFile, u32 resIdx);
 extern void  MTX_FrustumW(fx32 t, fx32 b, fx32 l, fx32 r, fx32 n, fx32 f, fx32 scaleW, MtxFx44 *mtx);
 extern void  MTX_PerspectiveW(fx32 fovySin, fx32 fovyCos, fx32 aspect, fx32 n, fx32 f, fx32 scaleW, MtxFx44 *mtx);
 extern void  MTX_OrthoW(fx32 t, fx32 b, fx32 l, fx32 r, fx32 n, fx32 f, fx32 scaleW, MtxFx44 *mtx);
@@ -923,7 +923,7 @@ BOOL G3D_SYSTEM_FreeVramTexture(G3dResource *res)
     if (tex4x4Loaded)
         NNS_GfdDefaultFuncFreeTexVram(tex4x4Key);
     if ((tex->plttInfo.flag & 1) != 0 && tex->plttInfo.sizePltt != 0)
-        NNS_GfdDefaultFuncFreePlttVram(NNS_G3dPlttReleasePlttKey(tex));
+        NNS_GfdDefaultFuncFreePlttVram((u32)NNS_G3dPlttReleasePlttKey(tex));
     return 1;
 }
 
@@ -976,7 +976,7 @@ NNSG3dResTex *G3D_SYSTEM_GetResourceTex(G3dResource *res)
 BOOL G3D_SYSTEM_AllocTexVramKeys(NNSG3dResTex *tex, u32 *texKey, u32 *tex4x4Key)
 {
     u32 texSize = NNS_G3dTexGetRequiredSize(tex);
-    u32 tex4x4Size = NNS_G3dTex4x4GetRequiredSize(tex);
+    u32 tex4x4Size = NNS_G3dTex4x4GetRequiredSize((s32)tex);
 
     if (texSize != 0) {
         *texKey = NNS_GfdDefaultFuncAllocTexVram(texSize, 0, 0);
@@ -1104,7 +1104,7 @@ have:
         NNS_G3dBindMdlTex(resMdl, tex);
         NNS_G3dBindMdlPltt(resMdl, tex);
     }
-    NNS_G3dRenderObjInit(render->rndObj, resMdl);
+    NNS_G3dRenderObjInit(render->rndObj, (u32)resMdl);
     return render;
 }
 

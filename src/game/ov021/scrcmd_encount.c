@@ -125,48 +125,56 @@ typedef struct CustomEventParam {
 } CustomEventParam;
 
 typedef enum { B_FALSE, B_TRUE } Bool;
+struct ScrcmdWork;
+struct ScriptWork;
 
-extern void *SCRCMD_WORK_GetScriptWork(void *p);
+extern struct ScriptWork *SCRCMD_WORK_GetScriptWork(struct ScrcmdWork *work);
+struct GameSystem;
 
-extern void *SCRCMD_WORK_GetGameSystem(void *work);
+extern struct GameSystem *SCRCMD_WORK_GetGameSystem(struct ScrcmdWork *work);
 
-extern void *GAMESYSTEM_GetFieldMap(const struct Ctx *p);
+extern void *GAMESYSTEM_GetFieldMap(struct GameSystem *gameSystem);
+struct FieldMap;
+struct FieldCamera;
 
-extern void *FIELDMAP_GetCamera(void *a);
+extern struct FieldCamera *FIELDMAP_GetCamera(struct FieldMap *fieldMap);
 
-extern void FIELD_CAMERA_EndDelay(u8 *a);
+extern void FIELD_CAMERA_EndDelay(struct FieldCamera *camera);
 
-extern u32 FIELD_CAMERA_IsDelayEnabled(u8 *a);
+extern u32 FIELD_CAMERA_IsDelayEnabled(struct FieldCamera *camera);
 
-extern int FIELD_CAMERA_IsMoving(u8 *a);
+extern int FIELD_CAMERA_IsMoving(struct FieldCamera *camera);
+struct FieldCameraMoveChannels;
 
-extern void FIELD_CAMERA_StartMoveToSaved(u8 *p, u8 *src, u16 v);
+extern void FIELD_CAMERA_StartMoveToSaved(struct FieldCamera *camera, struct FieldCameraMoveChannels *channels, u16 frames);
 
-extern int FIELD_CAMERA_ResumeTargetTrace(u32 a);
+extern void FIELD_CAMERA_ResumeTargetTrace(struct FieldCamera *camera);
 
-extern void FIELD_CAMERA_RestartDelay(unsigned char *a);
+extern void FIELD_CAMERA_RestartDelay(struct FieldCamera *camera);
 
-extern void FIELD_CAMERA_PopState(u8 *a);
+extern void FIELD_CAMERA_PopState(struct FieldCamera *camera);
 
 extern u32 GFL_HEAP_Free(void *p);
 
-extern void *ARC_TOOL_CreateHandle(unsigned int id, unsigned int heap);
+extern void *ARC_TOOL_CreateHandle(u32 archiveID, u16 heapID);
 
 extern void ARC_TOOL_DeleteHandle(void *);
+struct ScriptVm;
 
-extern u16 *SCRIPT_WORK_ReadWorkPointer(void *vm, void *cmdWork);
+extern u16 *SCRIPT_WORK_ReadWorkPointer(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
+struct GameData;
 
-extern void *SCRCMD_WORK_GetGameData(void *work);
+extern struct GameData *SCRCMD_WORK_GetGameData(struct ScrcmdWork *work);
 
 extern void SCRIPT_SYS_CallEvent(void *a, void *b);
 
-extern u32 SCRIPT_WORK_ReadWorkValue(void *c, void *vm);
+extern u32 SCRIPT_WORK_ReadWorkValue(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
 
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
 extern int FIELD_ENCOUNT_ST_LoadEncountData(EncounterRecord *r, void *h, u32 k, u32 x);
 
-extern u8 GAME_DATA_GetSeason(const struct BigObj *p);
+extern u8 GAME_DATA_GetSeason(struct GameData *gd);
 
 extern u32 GFL_USE_GetRandomBelow(u32 range);
 
@@ -174,9 +182,9 @@ extern u32 SCRIPT_WORK_ResetCheckFlag(u32);
 
 extern u32 FIELDMAP_GetNogridMapper(u8 *p);
 
-extern u32 FIELDMAP_GetMoveKind(u8 *p);
+extern u32 FIELDMAP_GetMoveKind(struct FieldMap *fieldMap);
 
-extern int FIELD_CAMERA_HasDelay(u8 *a);
+extern int FIELD_CAMERA_HasDelay(struct FieldCamera *camera);
 
 extern u32 FIELD_NOGRID_MAPPER_SetActive(u32, u32);
 
@@ -184,9 +192,9 @@ extern void SCRIPT_WORK_SetCheckFlag(int n);
 
 extern struct Desc *GAME_EVENT_Create(void *owner, void *a, void *b, u32 size);
 
-extern void FIELD_CAMERA_PushState(u8 *a);
+extern void FIELD_CAMERA_PushState(struct FieldCamera *camera);
 
-extern void FIELD_CAMERA_StopTargetTrace(u8 *p);
+extern void FIELD_CAMERA_StopTargetTrace(struct FieldCamera *camera);
 
 extern u16 VM_ReadU16(struct ScriptVm *vm);
 
@@ -196,21 +204,27 @@ extern void FIELD_CAMERA_StartMove(u8 *a, void *p, int n);
 
 extern void ARC_TOOL_ReadMember(void *dst, u32 archive_id, u32 member);
 
-extern void FIELD_CAMERA_StartMoveToSetting(u8 *p, u16 v);
+extern void FIELD_CAMERA_StartMoveToSetting(struct FieldCamera *camera, u16 frames);
+struct CameraShakeParams;
+struct GameEvent;
 
-extern void *FIELD_CAMERA_CreateShakeTask(void *a, struct Blk021D2D50 *src);
+extern struct GameEvent *FIELD_CAMERA_CreateShakeTask(struct GameSystem *gameSystem, struct CameraShakeParams *params);
 
-extern void *GAME_EVENT_GetGameSystem(struct Obj *p);
+extern struct GameSystem *GAME_EVENT_GetGameSystem(struct GameEvent *event);
 
-extern void *FIELD_FK_DEMO_StartEvent(void *gameSystem, u8 *fieldMap, u32 variant);
+extern struct GameEvent *FIELD_FK_DEMO_StartEvent(struct GameSystem *gameSystem, struct FieldMap *fieldMap, u32 variant);
 
 extern u32 FIELD_FK_DEMO_GetCameraSettingId(u32 idx);
 
-extern void FIELD_CAMERA_SetSetting(u32 *p, u32 v);
+extern void FIELD_CAMERA_SetSetting(struct FieldCamera *camera, u32 settingId);
+struct FieldmapFunc;
 
-extern u32 FIELDMAP_GetMapFunc(u8 *p);
+extern struct FieldmapFunc *FIELDMAP_GetMapFunc(struct FieldMap *fieldMap);
+struct FieldSubprocTemplate;
+struct FieldSubprocMgr;
+struct FieldSubproc;
 
-extern int *FIELD_SUBPROC_Start(int a, int *d, const int *c);
+extern struct FieldSubproc *FIELD_SUBPROC_Start(s32 overlayId, struct FieldSubprocMgr *mgr, struct FieldSubprocTemplate *tmpl);
 
 u16 SCRCMD_PROC_FLD_AddUniqueU16(u16 *values, u16 count, u16 value);
 
@@ -366,7 +380,7 @@ return 0;
 
 int SCRCMD_PROC_FLD_ResumeCameraTargetTrace(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
-FIELD_CAMERA_ResumeTargetTrace((u32)FIELDMAP_GetCamera(GAMESYSTEM_GetFieldMap(SCRCMD_WORK_GetGameSystem(cmdWork))));
+FIELD_CAMERA_ResumeTargetTrace((struct FieldCamera *)FIELDMAP_GetCamera(GAMESYSTEM_GetFieldMap(SCRCMD_WORK_GetGameSystem(cmdWork))));
 return 0;
 }
 
@@ -425,7 +439,7 @@ int SCRCMD_PROC_FLD_StartCameraMoveToSaved(struct ScriptVm *vm, struct ScrcmdWor
     layers.flag[3] = 1;
     layers.flag[4] = 1;
     layers.flag[5] = 1;
-    FIELD_CAMERA_StartMoveToSaved(fieldRegion, (u8 *)&layers, regionIndex);
+    FIELD_CAMERA_StartMoveToSaved(fieldRegion, (struct FieldCameraMoveChannels *)&layers, regionIndex);
     return 0;
 }
 
@@ -471,16 +485,16 @@ int SCRCMD_PROC_FLD_StartCameraShake(struct ScriptVm *vm, struct ScrcmdWork *cmd
     param.mapZ = mapZ;
     param.reserved0A = 0;
     param.facing = facing;
-    SCRIPT_SYS_CallEvent(scriptWork, FIELD_CAMERA_CreateShakeTask(gameSystem, (struct Blk021D2D50 *)(&param)));
+    SCRIPT_SYS_CallEvent(scriptWork, FIELD_CAMERA_CreateShakeTask(gameSystem, (struct CameraShakeParams *)(&param)));
     return 1;
 }
 
 int SCRCMD_PROC_FLD_PollCameraSaveReady(void *event)
 {
-    u8 *fieldRegion = FIELDMAP_GetCamera(GAMESYSTEM_GetFieldMap(GAME_EVENT_GetGameSystem(event)));
+    u8 *fieldRegion = (u8 *)FIELDMAP_GetCamera(GAMESYSTEM_GetFieldMap(GAME_EVENT_GetGameSystem(event)));
 
-    if (FIELD_CAMERA_IsDelayEnabled(fieldRegion) == 0) {
-        FIELD_CAMERA_PushState(fieldRegion);
+    if (FIELD_CAMERA_IsDelayEnabled((struct FieldCamera *)fieldRegion) == 0) {
+        FIELD_CAMERA_PushState((struct FieldCamera *)fieldRegion);
         return 1;
     }
     return 0;
@@ -500,7 +514,7 @@ int SCRCMD_PROC_FLD_CallOv056Event(struct ScriptVm *vm, struct ScrcmdWork *cmdWo
     u8 *fieldMap = GAMESYSTEM_GetFieldMap(gameSystem);
     unsigned int slotNumber = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
 
-    SCRIPT_SYS_CallEvent(scriptWork, FIELD_FK_DEMO_StartEvent(gameSystem, fieldMap, (u16)(slotNumber - 1)));
+    SCRIPT_SYS_CallEvent(scriptWork, FIELD_FK_DEMO_StartEvent(gameSystem, (struct FieldMap *)fieldMap, (u16)(slotNumber - 1)));
     return 1;
 }
 
@@ -511,30 +525,30 @@ int SCRCMD_PROC_FLD_SetCameraSettingFromFkDemoSlot(struct ScriptVm *vm, struct S
 {
     void *fieldMap = GAMESYSTEM_GetFieldMap(SCRCMD_WORK_GetGameSystem(cmdWork));
     unsigned int slotNumber = SCRIPT_WORK_ReadWorkValue(vm, cmdWork);
-    u32 *fieldRegion = FIELDMAP_GetCamera(fieldMap);
+    u32 *fieldRegion = (u32 *)FIELDMAP_GetCamera(fieldMap);
 
-    FIELD_CAMERA_SetSetting(fieldRegion, FIELD_FK_DEMO_GetCameraSettingId((u16)(slotNumber - 1)));
+    FIELD_CAMERA_SetSetting((struct FieldCamera *)fieldRegion, FIELD_FK_DEMO_GetCameraSettingId((u16)(slotNumber - 1)));
     return 0;
 }
 
 int SCRCMD_PROC_FLD_StartFkDemoSubProc(struct ScriptVm *vm, struct ScrcmdWork *cmdWork)
 {
-    int regionTable = FIELDMAP_GetMapFunc(GAMESYSTEM_GetFieldMap(SCRCMD_WORK_GetGameSystem(cmdWork)));
+    int regionTable = (s32)FIELDMAP_GetMapFunc(GAMESYSTEM_GetFieldMap(SCRCMD_WORK_GetGameSystem(cmdWork)));
 
     switch (SCRIPT_WORK_ReadWorkValue(vm, cmdWork)) {
     case 0:
         break;
     case 1:
-        FIELD_SUBPROC_Start((int)ov56_id, (int *)regionTable, (const int *)g_021F4344);
+        FIELD_SUBPROC_Start((int)ov56_id, (struct FieldSubprocMgr *)regionTable, (struct FieldSubprocTemplate *)g_021F4344);
         break;
     case 2:
-        FIELD_SUBPROC_Start((int)ov56_id, (int *)regionTable, (const int *)g_021F4374);
+        FIELD_SUBPROC_Start((int)ov56_id, (struct FieldSubprocMgr *)regionTable, (struct FieldSubprocTemplate *)g_021F4374);
         break;
     case 3:
-        FIELD_SUBPROC_Start((int)ov56_id, (int *)regionTable, (const int *)g_021F438C);
+        FIELD_SUBPROC_Start((int)ov56_id, (struct FieldSubprocMgr *)regionTable, (struct FieldSubprocTemplate *)g_021F438C);
         break;
     case 4:
-        FIELD_SUBPROC_Start((int)ov56_id, (int *)regionTable, (const int *)g_021F435C);
+        FIELD_SUBPROC_Start((int)ov56_id, (struct FieldSubprocMgr *)regionTable, (struct FieldSubprocTemplate *)g_021F435C);
         break;
     }
     return 0;

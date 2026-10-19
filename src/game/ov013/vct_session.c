@@ -41,7 +41,7 @@
 
 extern u64 OS_GetTick(void);
 
-extern int DWC_SendReliable(int peerId, VctPacket *packet, int length);
+extern int DWC_SendReliable(u8 aid, void *buffer, s32 size);
 
 extern void *MSL_C_LIB_MemsetPtr(void *, int, unsigned int);
 

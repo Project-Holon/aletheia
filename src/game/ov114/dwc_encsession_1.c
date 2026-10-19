@@ -24,13 +24,14 @@
  *   B64Encode  0x0217FA90  arm  ov009
  *   @16077  0x021CE1B8  data
  *   @16117  0x021CE1CC  data
+ *   _u32_div_f                   0x0209C2B0  arm
  */
 #include "../../matched/arm9_sdk/libc/string.h"
 #include "dwc_encsession_types.h"
 #include "dwc_ghttp_types.h"
 
-extern int strncmp(const char *a, const char *b, unsigned long n);
-extern char *strncpy(char *dst, const char *src, unsigned long n);
+extern int strncmp(u8 *s1, u8 *s2, u32 n);
+extern u8 *strncpy(u8 *dest, u8 *src, u32 n);
 extern void *DWC_Alloc(int name, u32 size);
 extern void DWC_Free(int name, void *ptr, u32 size);
 extern void B64Encode(const char *input, char *output, int inlen, int encodingType);
@@ -104,7 +105,7 @@ int DWCi_EncValidateKey(char *gameName, const char *secretKey, unsigned long mul
     if (bitCount != 1) {
         return 0;
     }
-    strncpy(gDwcEncSession.gameName, gameName, 0x20);
+    strncpy((u8 *)gDwcEncSession.gameName, (u8 *)gameName, 0x20);
     {
         unsigned char *d = (unsigned char *)gDwcEncSession.secretKey;
         unsigned char *s = (unsigned char *)secretKey;
@@ -159,7 +160,7 @@ int DWCi_EncSessionValidateResponse(char *response, int responseLen)
         hashHex[i * 2 + 1] = hexDigits[hash[i] & 15];
     }
     hashHex[40] = '\0';
-    if (strncmp(&response[responseLen - 40], hashHex, 40) != 0)
+    if (strncmp((u8 *)(&response[responseLen - 40]), (u8 *)hashHex, 40) != 0)
         return 0;
     gDwcEncSession.decodedBuffer = response;
     gDwcEncSession.decodedBufferLen = responseLen - 40u;

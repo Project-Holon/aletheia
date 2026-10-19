@@ -43,6 +43,8 @@ typedef struct GslTimer {
     unsigned int started;
 } GslTimer;
 #include "../../matched/arm9_sdk/libc/string.h"
+static int gsiLargeIntSubDivide(unsigned int *src, unsigned int length, unsigned int *divisor, unsigned int dlen, int divisorHighBit, unsigned int *quotient);
+extern void *__builtin__clear(void *dest, unsigned long size);
 
 struct GSMD5_CTX;
 typedef unsigned int l_word;
@@ -65,8 +67,8 @@ typedef int gsi_i32;
 typedef unsigned char  u8;
 
 extern unsigned int current_time_hires(void);
-extern void gsiLargeIntTimerEnter(int id);
-extern void gsiLargeIntTimerExit(int id);
+static void gsiLargeIntTimerEnter(int id);
+static void gsiLargeIntTimerExit(int id);
 extern gsi_i32 gsiLargeIntCompare(const l_word *data1, l_word len1,
                                   const l_word *data2, l_word len2);
 extern int gsiLargeIntInverseMod(gsLargeInt_t *mod, l_word *dest);
@@ -87,7 +89,7 @@ extern GslTimer gTimers[9];
 extern char gGsLargeIntHexFormatNibble[];
 extern char gGsLargeIntHexFormatByte[];
 extern void *MSL_C_LIB_AllocFromHeap(unsigned long heap);
-extern void CRT_Free(void *p);
+extern void CRT_Free(u32 heap);
 extern void *MSL_C_LIB_ReallocResource(unsigned long resSet, unsigned long heap);
 void *gsiMemoryMalloc(unsigned long size);
 void gsiMemoryFree(void *p);
@@ -931,7 +933,7 @@ void *gsiMemoryMalloc(unsigned long size)
 
 void gsiMemoryFree(void *p)
 {
-    CRT_Free(p);
+    CRT_Free((u32)p);
 }
 
 void *gsiMemoryRealloc(unsigned long block, unsigned long size)

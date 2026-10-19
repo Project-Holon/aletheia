@@ -98,7 +98,7 @@ extern void GX_SetBankForBG(int mode);
 extern void GX_SetGraphicsMode(int layer, int x, int y);
 extern void *G2_GetBG1CharPtr(void);
 extern void MIi_CpuClear32(u32 value, void *dst, u32 size);
-extern int ARC_UTIL_LoadMember(int arcId, int fileId, int resident, int heapId);
+extern int ARC_UTIL_LoadMember(s32 archiveID, s32 memberIdx, s32 decompress, u16 heapID);
 extern signed int NNS_G2dGetUnpackedCharacterDataEx(struct NitroFileHeader *file, void **out);
 extern void DC_FlushRange(void *data, u32 size);
 extern void MIi_CpuCopy16(void *src, void *dst, u32 size);

@@ -55,8 +55,10 @@
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
 extern u32 GFL_HEAP_Free(void *p);
+struct GameSystem;
+struct GameData;
 
-extern void *GAMESYSTEM_GetGameData(const struct Ctx *p);
+extern struct GameData *GAMESYSTEM_GetGameData(struct GameSystem *gameSystem);
 
 struct Sub020097BCObj;
 
@@ -74,17 +76,19 @@ extern void GFL_USE_CancelChangeAndPlayBgm(u32 a, u32 b);
 
 extern void WORLDTRADE_SetStateAndReturn(Work *p, u32 a, u32 b);
 
-extern void DWC_NASLoginAsync(void);
+extern int DWC_NASLoginAsync(void);
 
 extern int DWC_NASLoginProcess(void);
+struct WifiList;
 
-extern struct Sub020097BCObj *WIFILIST_GetWork(struct Sub020097BCObj *obj);
+extern struct WifiList *WIFILIST_GetWork(struct WifiList *list);
 
-extern int WIFILIST_GetGsProfileId(void *list);
+extern int WIFILIST_GetGsProfileId(struct WifiList *list);
+struct MyStatus;
 
-extern void MYSTATUS_SetProfileIdOnce(struct Sub0200852CObj *obj, u32 value);
+extern void MYSTATUS_SetProfileIdOnce(struct MyStatus *mystatus, unsigned int profile_id);
 
-extern u32 MYSTATUS_GetProfileId(const struct Sub0200852CObj *obj);
+extern u32 MYSTATUS_GetProfileId(struct MyStatus *mystatus);
 
 extern unsigned long long DWC_CreateFriendKey(struct DWCstAccUserData *userdata);
 
@@ -101,10 +105,12 @@ extern s32 DPW_TR_GetAsyncResult(void);
 extern void WORLDTRADE_CancelSave(Work *p);
 
 extern void WORLDTRADE_DeleteTimeIcon(Work *p);
+struct MYSTATUS;
+struct _NHTTPRapTrainerInfo;
 
-extern void NHTTP_RAP_InitTrainerInfo(u8 *buf, void *myStatus);
+extern void NHTTP_RAP_InitTrainerInfo(struct _NHTTPRapTrainerInfo *info_p, struct MYSTATUS *mystatus_p);
 
-extern void DPW_TR_SetProfileAsync(u8 *,u32);
+extern void DPW_TR_SetProfileAsync(unsigned char *profile, unsigned char *resultBuf);
 
 extern void MI_CpuFill8(void *p, u32 value, u32 size);
 
@@ -314,7 +320,7 @@ int WORLDTRADE_ENTER_WaitServerCheck(Work *p)
     return 0;
 }
 
-int WORLDTRADE_ENTER_SendProfile(Work *p) { NHTTP_RAP_InitTrainerInfo(p->trInfo,p->ctx->myStatus);DPW_TR_SetProfileAsync(p->trInfo,(u32)&p->state_iF7C);p->timer=0;return 1; }
+int WORLDTRADE_ENTER_SendProfile(Work *p) { NHTTP_RAP_InitTrainerInfo((struct _NHTTPRapTrainerInfo *)p->trInfo,p->ctx->myStatus);DPW_TR_SetProfileAsync((unsigned char *)p->trInfo,(unsigned char *)(&p->state_iF7C));p->timer=0;return 1; }
 
 /*
  * note: 2026-10-05 wave P19: the sub switch exit (state 0, sub out of range) is a cross-jumped copy of the tail, `b 0x021F8CEC` in the image. Written as `WORLDTRADE_CancelSave(p); goto done;` after the sub switch, with `done: return 0;` at the end. EXACT in c99 and c (296 bytes). Idiom: a-conditional-branch-onto-an-unconditional-b-is-a-cross-jumped-tail-copy.

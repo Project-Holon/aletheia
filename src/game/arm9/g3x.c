@@ -108,8 +108,8 @@ extern void MI_Copy64B(const void *pSrc, void *pDest);
 extern void MI_Copy36B(const void *pSrc, void *pDest);
 extern void MIi_CpuCopy16(const void *src, void *dst, unsigned int size);
 extern void MI_Copy32B(const void *src, void *dst);
-extern void MI_NDmaFillAsync(u32 ndmaNo, void *dest, u32 data, u32 size, MIDmaCallback callback, void *arg);
-extern void MI_NDmaFill(u32 ndmaNo, void *dest, u32 data, u32 size);
+extern void MI_NDmaFillAsync(int ch, unsigned int dst, unsigned int data, unsigned int size, MIDmaCallback callback, unsigned int arg);
+extern void MI_NDmaFill(s32 ch, s32 dst, s32 data, s32 size);
 extern void MIi_DmaFill32Async(u32 dmaNo, void *dest, u32 data, u32 size, MIDmaCallback callback, void *arg, BOOL dmaEnable);
 extern void MIi_DmaFill32(u32 dmaNo, void *dest, u32 data, u32 size, BOOL dmaEnable);
 extern void MIi_CpuClear32(u32 data, void *destp, u32 size);
@@ -382,8 +382,8 @@ void G3X_InitTable(void)
 
     if (GXi_DmaId != (u32)-1) {
         if (GXi_DmaId > 3) {
-            MI_NDmaFillAsync(GXi_DmaId - 4, (void *)0x04000330, 0, 16, 0, 0);
-            MI_NDmaFill(GXi_DmaId - 4, (void *)0x04000360, 0, 96);
+            MI_NDmaFillAsync(GXi_DmaId - 4, (unsigned int)0x04000330, 0, 16, 0, 0);
+            MI_NDmaFill((s32)(GXi_DmaId - 4), (s32)0x04000360, 0, 96);
         } else {
             MIi_DmaFill32Async(GXi_DmaId, (void *)0x04000330, 0, 16, 0, 0, 1);
             MIi_DmaFill32(GXi_DmaId, (void *)0x04000360, 0, 96, 1);

@@ -34,21 +34,41 @@
 
 /* CPS socket: the first 0xa0 bytes of every SOCLSocket */
 struct CPSSoc {
-    unsigned char reserved0[8];
-    unsigned char state;
-    unsigned char reserved9;
-    unsigned short local_port;
-    unsigned char reservedc[0x18 - 0xc];
-    unsigned short remote_port;
-    unsigned short remote_port2;
-    unsigned long remote_ip;
-    unsigned long remote_ip2;
-    unsigned char reserved24[0x4c - 0x24];
-    unsigned char *buf;
-    long total;
-    long reserved54;
-    unsigned char *reserved58;
-    unsigned char reserved5c[0xa0 - 0x5c];
+    void *thread;                       /* 0x00 */
+    unsigned long block_type;           /* 0x04 */
+    unsigned char state;                /* 0x08 */
+    unsigned char ssl;                  /* 0x09 */
+    unsigned short local_port;          /* 0x0a */
+    void *con;                          /* 0x0c */
+    unsigned long when;                 /* 0x10 */
+    unsigned long local_ip_real;        /* 0x14 */
+    unsigned short remote_port;         /* 0x18 */
+    unsigned short remote_port2;        /* 0x1a (remote_port_bound) */
+    unsigned long remote_ip;            /* 0x1c */
+    unsigned long remote_ip2;           /* 0x20 (remote_ip_bound) */
+    unsigned long ackno;                /* 0x24 */
+    unsigned long ackno_sent;           /* 0x28 */
+    unsigned long tick_acked;           /* 0x2c */
+    unsigned short win_sent;            /* 0x30 */
+    unsigned char ack_pending;          /* 0x32 */
+    unsigned char sack_enabled;         /* 0x33 */
+    unsigned long seqno;                /* 0x34 */
+    unsigned short remote_win;          /* 0x38 */
+    unsigned short remote_mss;          /* 0x3a */
+    unsigned long remote_ackno;         /* 0x3c */
+    unsigned long ackrcvd;              /* 0x40 */
+    void *udpread_callback;             /* 0x44 */
+    unsigned long rcvbuf_size;          /* 0x48 */
+    unsigned char *buf;                 /* 0x4c (rcvbuf.data) */
+    long total;                         /* 0x50 (rcvbufp) */
+    long sndbuf_size;                   /* 0x54 */
+    unsigned char *sndbuf_data;         /* 0x58 */
+    unsigned long linbuf_size;          /* 0x5c */
+    unsigned char *linbuf_data;         /* 0x60 */
+    unsigned long outbuf_size;          /* 0x64 */
+    unsigned char *outbuf_data;         /* 0x68 */
+    unsigned long outbufp;              /* 0x6c */
+    struct { unsigned long bufp, size, order; } chunks[4]; /* 0x70 */
 };
 
 struct SOCLiUdpData {
@@ -89,10 +109,10 @@ struct SOCLSocket {
 struct SOCLiCommandRead {
     int (*handler)(void *);
     struct SOCLSocket *socket;
-    long reserved8;
-    signed char reservedC;
-    signed char reservedD;
-    unsigned char reservedE[2];
+    void *response;
+    signed char flag_mode;
+    signed char flag_block;
+    unsigned char padding[2];
     unsigned char *buffer;
     long buffer_len;
     unsigned short *remote_port;
@@ -101,15 +121,17 @@ struct SOCLiCommandRead {
 
 extern int SOCL_SocketIsInvalid(struct SOCLSocket *socket);
 extern int OS_GetProcMode(void);
-extern int OS_TryLockMutex(void *mutex);
-extern void OS_LockMutex(void *mutex);
-extern void OS_UnlockMutex(void *mutex);
+struct OSMutex;
+extern int OS_TryLockMutex(struct OSMutex *mutex);
+extern void OS_LockMutex(struct OSMutex *mutex);
+extern void OS_UnlockMutex(struct OSMutex *mutex);
 extern unsigned char *CPS_SocRead(unsigned long *len);
 extern void OS_Sleep(unsigned long msec);
 extern long CPS_SocGetLength(void);
 extern void MI_CpuCopy(void *srcp, void *destp, unsigned long size);
 extern void CPS_SocConsume(unsigned long len);
-extern struct SOCLiCommandRead *SOCLi_CreateCommandPacket(int (*handler)(void *), struct SOCLSocket *socket, long flag);
+struct SOCLiCommandPacket;
+extern struct SOCLiCommandPacket *SOCLi_CreateCommandPacket(int (*handler)(void *), struct SOCLSocket *socket, long flag);
 extern int SOCLi_ExecCommandPacketInRecvPipe(struct SOCLSocket *socket, struct SOCLiCommandRead *command);
 extern unsigned long OS_DisableInterrupts(void);
 extern unsigned long OS_RestoreInterrupts(unsigned long state);
@@ -185,13 +207,13 @@ int SOCL_ReadFrom(int s, void *buffer, int buffer_len, unsigned short *remote_po
     }
     recv_pipe = socket->recv_pipe;
     if (!(flag_block & 1)) {
-        if (!OS_TryLockMutex(recv_pipe->mutex))
+        if (!OS_TryLockMutex((struct OSMutex *)recv_pipe->mutex))
             return -6;
     } else {
-        OS_LockMutex(recv_pipe->mutex);
+        OS_LockMutex((struct OSMutex *)recv_pipe->mutex);
     }
     result = SOCLi_ReadAndConsumeBuffer(socket, buffer, buffer_len, remote_port, remote_ip, flag_block, flags);
-    OS_UnlockMutex(recv_pipe->mutex);
+    OS_UnlockMutex((struct OSMutex *)recv_pipe->mutex);
     return result;
 }
 
@@ -356,9 +378,9 @@ int SOCLi_ExecReadCommand(struct SOCLSocket *socket, void *buffer, int buffer_le
     long result;
 
     if (flag_block & 1)
-        command = SOCLi_CreateCommandPacket(SOCLi_ReadCallBack, socket, 1);
+        command = (struct SOCLiCommandRead *)SOCLi_CreateCommandPacket(SOCLi_ReadCallBack, socket, 1);
     else
-        command = SOCLi_CreateCommandPacket(SOCLi_ReadSSLNblockCallBack, socket, 1);
+        command = (struct SOCLiCommandRead *)SOCLi_CreateCommandPacket(SOCLi_ReadSSLNblockCallBack, socket, 1);
     command->buffer = buffer;
     command->buffer_len = buffer_len;
     command->remote_port = remote_port;
@@ -485,7 +507,7 @@ int SOCLi_ConsumeBuffer(struct SOCLSocket *socket)
     if (recv_pipe->consumed < recv_pipe->consumed_min)
         return 0;
     result = 0;
-    command = SOCLi_CreateCommandPacket(SOCLi_ConsumeCallBack, socket, result);
+    command = (struct SOCLiCommandRead *)SOCLi_CreateCommandPacket(SOCLi_ConsumeCallBack, socket, result);
     if (command == 0)
         return result - 0x21;
     return SOCLi_ExecCommandPacketInRecvPipe(socket, command);

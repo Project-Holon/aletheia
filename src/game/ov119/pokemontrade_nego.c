@@ -226,7 +226,9 @@
  *   POKETRADE_SAVE_DrawOfferListWindows 0x021E24E8 thumb ov119
  *   POKETRADE_SAVE_SetupWindowRegsSummary 0x021E26AC thumb ov119
  *   POKETRADE_SAVE_DrawPartnerOfferCard 0x021E272C thumb ov119
+ *   _u32_div_f                   0x0209C2B0  arm
  */
+#include "../version.h"
 #include "pokemontrade_types.h"
 
 
@@ -1844,7 +1846,7 @@ void POKETRADE_NEGO_StepPollMonCheck(u8 *p)
                         if(NHTTP_RAP_RecordList_GetValue((u32)data,n)) {
                             value=POKE_TOOL_GetPartyValue(mon,6,0);
                             bank=MSGDATA_CreateFromArchive(0,2,81,((TradeWork *)p)->heapId);
-                            text=MSGDATA_AllocString(bank,15);
+                            text=MSGDATA_AllocString(bank,MSG_PROFANITY_NOTICE);
                             MSGDATA_Delete(bank);
                             if(FILE_UTIL_IsMailItem(value)) {
                                 name=MAIL_Create(*heap);

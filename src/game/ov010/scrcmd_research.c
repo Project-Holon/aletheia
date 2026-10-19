@@ -68,22 +68,27 @@ typedef unsigned long long u64;
 typedef struct { u32 year, month, day, week; } RTCDateFields;
 
 typedef struct { u32 hour, minute, second; } RTCTimeFields;
+struct ScrcmdWork;
+struct ScriptWork;
 
-extern void *SCRCMD_WORK_GetScriptWork(struct ScrCmdWork *work);
+extern struct ScriptWork *SCRCMD_WORK_GetScriptWork(struct ScrcmdWork *work);
+struct GameData;
 
-extern void *SCRCMD_WORK_GetGameData(struct ScrCmdWork *work);
+extern struct GameData *SCRCMD_WORK_GetGameData(struct ScrcmdWork *work);
+struct SaveControl;
 
-extern void *GAME_DATA_GetSaveControl(struct GameData *gameData);
+extern struct SaveControl *GAME_DATA_GetSaveControl(struct GameData *gameData);
 
-extern struct MiscSave *MISC_GetBlock(void *saveControl);
+extern struct MiscSave *MISC_GetBlock(struct SaveControl *save);
+struct ScriptVm;
 
-extern u16 *SCRIPT_WORK_ReadWorkPointer(struct ScriptContext *ctx, struct ScrCmdWork *work);
+extern u16 *SCRIPT_WORK_ReadWorkPointer(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
 
 extern u8 MISC_GetResearchRank(struct MiscSave *beacon);
 
 extern int MISC_SetResearchRank();
 
-extern int GAME_BEACON_SetResearchTeamRank();
+extern void GAME_BEACON_SetResearchTeamRank(u32 rank);
 
 extern u8 MISC_GetResearchMissionIndex(struct MiscSave *beacon);
 
@@ -91,7 +96,7 @@ extern int MISC_GetRecentId(struct MiscSave *beacon, u32 index);
 
 extern void *SYMBOL_SAVE_GetBitBlock(void *saveControl);
 
-extern unsigned int SCRIPT_WORK_ReadWorkValue(struct ScriptContext *ctx, struct ScrCmdWork *work);
+extern unsigned int SCRIPT_WORK_ReadWorkValue(struct ScriptVm *vm, struct ScrcmdWork *cmdWork);
 
 extern void MISC_SetResearchMissionIndex(struct MiscSave *beacon, u8 missionIndex);
 
@@ -106,20 +111,22 @@ extern void MISC_SetLastTime(struct MiscSave *beacon, u32 lo, u32 hi);
 extern int MISC_SAVEDATA_GetScoreValue(int tally, int category, int entry);
 
 extern u32 MISC_SAVEDATA_GetTallyValue(u8 *tally, u32 category, u32 entry);
+struct SymbolBitSave;
 
-extern void *SYMBOL_SAVE_GetQuestionnaireBits(void *survey);
+extern u8 *SYMBOL_SAVE_GetQuestionnaireBits(struct SymbolBitSave *save);
 
 extern void SYMBOL_SAVE_WriteBitField(u8 *answers, int questionId, u32 answer);
 
-extern void GAME_BEACON_SetQuestionnaire(const void *answers);
+extern void GAME_BEACON_SetQuestionnaire(u8 *answers);
+struct GameSystem;
 
-extern void *SCRCMD_WORK_GetGameSystem(struct ScrCmdWork *work);
+extern struct GameSystem *SCRCMD_WORK_GetGameSystem(struct ScrcmdWork *work);
 
 extern void *EVENT_RESEARCH_RADAR_CreateReportTask(void *gameSystem);
 
-extern int SCRIPT_SYS_CallEvent(void *scriptSystem, void *event);
+extern void SCRIPT_SYS_CallEvent(void *scriptSystem, void *event);
 
-extern void *MISC_GetFromSave(void *saveControl);
+extern struct MiscSave *MISC_GetFromSave(struct SaveControl *save);
 
 extern u16 MISC_SAVEDATA_GetHalfword(const u16 *tally, int id);
 
@@ -183,11 +190,11 @@ int SCRCMD_RESEARCH_CmdGetResearchRank(struct ScriptContext *ctx, struct ScrCmdW
     struct MiscSave *beacon;
     u16 *dst;
 
-    SCRCMD_WORK_GetScriptWork(scrWork);
-    gameData = SCRCMD_WORK_GetGameData(scrWork);
+    SCRCMD_WORK_GetScriptWork((struct ScrcmdWork *)scrWork);
+    gameData = SCRCMD_WORK_GetGameData((struct ScrcmdWork *)scrWork);
     saveControl = GAME_DATA_GetSaveControl(gameData);
     beacon = MISC_GetBlock(saveControl);
-    dst = SCRIPT_WORK_ReadWorkPointer(ctx, scrWork);
+    dst = SCRIPT_WORK_ReadWorkPointer((struct ScriptVm *)ctx, (struct ScrcmdWork *)scrWork);
     *dst = MISC_GetResearchRank(beacon);
     return 0;
 }
@@ -199,8 +206,8 @@ int SCRCMD_RESEARCH_CmdRaiseResearchRank(struct ScriptContext *ctx, struct ScrCm
     struct MiscSave *beacon;
     int rank;
 
-    SCRCMD_WORK_GetScriptWork(scrWork);
-    gameData = SCRCMD_WORK_GetGameData(scrWork);
+    SCRCMD_WORK_GetScriptWork((struct ScrcmdWork *)scrWork);
+    gameData = SCRCMD_WORK_GetGameData((struct ScrcmdWork *)scrWork);
     beacon = MISC_GetBlock(GAME_DATA_GetSaveControl(gameData));
     rank = MISC_GetResearchRank(beacon);
     if (rank >= 5)
@@ -218,11 +225,11 @@ int SCRCMD_RESEARCH_CmdGetMissionIndex(struct ScriptContext *ctx, struct ScrCmdW
     struct MiscSave *beacon;
     u16 *dst;
 
-    SCRCMD_WORK_GetScriptWork(scrWork);
-    gameData = SCRCMD_WORK_GetGameData(scrWork);
+    SCRCMD_WORK_GetScriptWork((struct ScrcmdWork *)scrWork);
+    gameData = SCRCMD_WORK_GetGameData((struct ScrcmdWork *)scrWork);
     saveControl = GAME_DATA_GetSaveControl(gameData);
     beacon = MISC_GetBlock(saveControl);
-    dst = SCRIPT_WORK_ReadWorkPointer(ctx, scrWork);
+    dst = SCRIPT_WORK_ReadWorkPointer((struct ScriptVm *)ctx, (struct ScrcmdWork *)scrWork);
     *dst = MISC_GetResearchMissionIndex(beacon);
     return 0;
 }
@@ -235,11 +242,11 @@ int SCRCMD_RESEARCH_CmdGetMissionTargets(struct ScriptContext *ctx, struct ScrCm
     u16 *dst1;
     u16 *dst2;
 
-    SCRCMD_WORK_GetScriptWork(scrWork);
-    beacon = MISC_GetBlock(GAME_DATA_GetSaveControl(SCRCMD_WORK_GetGameData(scrWork)));
-    dst0 = SCRIPT_WORK_ReadWorkPointer(ctx, scrWork);
-    dst1 = SCRIPT_WORK_ReadWorkPointer(ctx, scrWork);
-    dst2 = SCRIPT_WORK_ReadWorkPointer(ctx, scrWork);
+    SCRCMD_WORK_GetScriptWork((struct ScrcmdWork *)scrWork);
+    beacon = MISC_GetBlock(GAME_DATA_GetSaveControl(SCRCMD_WORK_GetGameData((struct ScrcmdWork *)scrWork)));
+    dst0 = SCRIPT_WORK_ReadWorkPointer((struct ScriptVm *)ctx, (struct ScrcmdWork *)scrWork);
+    dst1 = SCRIPT_WORK_ReadWorkPointer((struct ScriptVm *)ctx, (struct ScrcmdWork *)scrWork);
+    dst2 = SCRIPT_WORK_ReadWorkPointer((struct ScriptVm *)ctx, (struct ScrcmdWork *)scrWork);
     *dst0 = MISC_GetRecentId(beacon, 0);
     *dst1 = MISC_GetRecentId(beacon, 1);
     *dst2 = MISC_GetRecentId(beacon, 2);
@@ -253,10 +260,10 @@ int SCRCMD_RESEARCH_CmdGetMissionElapsedHours(struct ScriptContext *ctx, struct 
     void *saveControl;
     u16 *dst;
 
-    SCRCMD_WORK_GetScriptWork(scrWork);
-    gameData = SCRCMD_WORK_GetGameData(scrWork);
+    SCRCMD_WORK_GetScriptWork((struct ScrcmdWork *)scrWork);
+    gameData = SCRCMD_WORK_GetGameData((struct ScrcmdWork *)scrWork);
     saveControl = GAME_DATA_GetSaveControl(gameData);
-    dst = SCRIPT_WORK_ReadWorkPointer(ctx, scrWork);
+    dst = SCRIPT_WORK_ReadWorkPointer((struct ScriptVm *)ctx, (struct ScrcmdWork *)scrWork);
     *dst = SCRCMD_RESEARCH_GetMissionElapsedHours(saveControl);
     return 0;
 }
@@ -272,14 +279,14 @@ int SCRCMD_RESEARCH_CmdStartMission(struct ScriptContext *ctx, struct ScrCmdWork
     int zero;
     u64 now;
 
-    SCRCMD_WORK_GetScriptWork(scrWork);
-    saveControl = GAME_DATA_GetSaveControl(SCRCMD_WORK_GetGameData(scrWork));
+    SCRCMD_WORK_GetScriptWork((struct ScrcmdWork *)scrWork);
+    saveControl = GAME_DATA_GetSaveControl(SCRCMD_WORK_GetGameData((struct ScrcmdWork *)scrWork));
     beacon = MISC_GetBlock(saveControl);
     SYMBOL_SAVE_GetBitBlock(saveControl);
-    missionIndex = SCRIPT_WORK_ReadWorkValue(ctx, scrWork);
-    targetId[0] = SCRIPT_WORK_ReadWorkValue(ctx, scrWork);
-    targetId[1] = SCRIPT_WORK_ReadWorkValue(ctx, scrWork);
-    targetId[2] = SCRIPT_WORK_ReadWorkValue(ctx, scrWork);
+    missionIndex = SCRIPT_WORK_ReadWorkValue((struct ScriptVm *)ctx, (struct ScrcmdWork *)scrWork);
+    targetId[0] = SCRIPT_WORK_ReadWorkValue((struct ScriptVm *)ctx, (struct ScrcmdWork *)scrWork);
+    targetId[1] = SCRIPT_WORK_ReadWorkValue((struct ScriptVm *)ctx, (struct ScrcmdWork *)scrWork);
+    targetId[2] = SCRIPT_WORK_ReadWorkValue((struct ScriptVm *)ctx, (struct ScrcmdWork *)scrWork);
     MISC_SetResearchMissionIndex(beacon, missionIndex);
     zero = 0;
     for (i = 0; i < 3; i++) {
@@ -298,8 +305,8 @@ int SCRCMD_RESEARCH_CmdClearMission(struct ScriptContext *ctx, struct ScrCmdWork
     struct MiscSave *beacon;
     int i;
 
-    SCRCMD_WORK_GetScriptWork(scrWork);
-    saveControl = GAME_DATA_GetSaveControl(SCRCMD_WORK_GetGameData(scrWork));
+    SCRCMD_WORK_GetScriptWork((struct ScrcmdWork *)scrWork);
+    saveControl = GAME_DATA_GetSaveControl(SCRCMD_WORK_GetGameData((struct ScrcmdWork *)scrWork));
     beacon = MISC_GetBlock(saveControl);
     SYMBOL_SAVE_GetBitBlock(saveControl);
     MISC_SetResearchMissionIndex(beacon, 0);
@@ -319,10 +326,10 @@ int SCRCMD_RESEARCH_CmdGetTopTallyEntry(struct ScriptContext *ctx, struct ScrCmd
     int entryId;
     int entryCount;
 
-    SCRCMD_WORK_GetScriptWork(scrWork);
-    tally = SYMBOL_SAVE_GetBitBlock(GAME_DATA_GetSaveControl(SCRCMD_WORK_GetGameData(scrWork)));
-    category = SCRIPT_WORK_ReadWorkValue(ctx, scrWork);
-    dst = SCRIPT_WORK_ReadWorkPointer(ctx, scrWork);
+    SCRCMD_WORK_GetScriptWork((struct ScrcmdWork *)scrWork);
+    tally = SYMBOL_SAVE_GetBitBlock(GAME_DATA_GetSaveControl(SCRCMD_WORK_GetGameData((struct ScrcmdWork *)scrWork)));
+    category = SCRIPT_WORK_ReadWorkValue((struct ScriptVm *)ctx, (struct ScrcmdWork *)scrWork);
+    dst = SCRIPT_WORK_ReadWorkPointer((struct ScriptVm *)ctx, (struct ScrcmdWork *)scrWork);
     entryCount = sTallyCategoryEntryCount[category];
     best = -1;
     for (i = 0; i < entryCount; i++) {
@@ -345,10 +352,10 @@ int SCRCMD_RESEARCH_CmdSetSurveyAnswer(struct ScriptContext *ctx, struct ScrCmdW
     int questionId;
     int answer;
 
-    SCRCMD_WORK_GetScriptWork(scrWork);
-    answers = SYMBOL_SAVE_GetQuestionnaireBits(SYMBOL_SAVE_GetBitBlock(GAME_DATA_GetSaveControl(SCRCMD_WORK_GetGameData(scrWork))));
-    questionId = SCRIPT_WORK_ReadWorkValue(ctx, scrWork);
-    answer = SCRIPT_WORK_ReadWorkValue(ctx, scrWork);
+    SCRCMD_WORK_GetScriptWork((struct ScrcmdWork *)scrWork);
+    answers = SYMBOL_SAVE_GetQuestionnaireBits(SYMBOL_SAVE_GetBitBlock(GAME_DATA_GetSaveControl(SCRCMD_WORK_GetGameData((struct ScrcmdWork *)scrWork))));
+    questionId = SCRIPT_WORK_ReadWorkValue((struct ScriptVm *)ctx, (struct ScrcmdWork *)scrWork);
+    answer = SCRIPT_WORK_ReadWorkValue((struct ScriptVm *)ctx, (struct ScrcmdWork *)scrWork);
     SYMBOL_SAVE_WriteBitField(answers, (u8)questionId, answer);
     GAME_BEACON_SetQuestionnaire(answers);
     return 0;
@@ -361,8 +368,8 @@ int SCRCMD_RESEARCH_CmdStartResearchReport(struct ScriptContext *ctx, struct Scr
     void *gameSystem;
     void *reportEvent;
 
-    scriptSystem = SCRCMD_WORK_GetScriptWork(scrWork);
-    gameSystem = SCRCMD_WORK_GetGameSystem(scrWork);
+    scriptSystem = SCRCMD_WORK_GetScriptWork((struct ScrcmdWork *)scrWork);
+    gameSystem = SCRCMD_WORK_GetGameSystem((struct ScrcmdWork *)scrWork);
     reportEvent = EVENT_RESEARCH_RADAR_CreateReportTask(gameSystem);
     SCRIPT_SYS_CallEvent(scriptSystem, reportEvent);
     return 1;
@@ -376,10 +383,10 @@ int SCRCMD_RESEARCH_CmdGetMissionStatus(struct ScriptContext *ctx, struct ScrCmd
     int missionIndex;
     u16 *dst;
 
-    saveControl = GAME_DATA_GetSaveControl(SCRCMD_WORK_GetGameData(scrWork));
+    saveControl = GAME_DATA_GetSaveControl(SCRCMD_WORK_GetGameData((struct ScrcmdWork *)scrWork));
     beacon = MISC_GetFromSave(saveControl);
-    missionIndex = (u8)SCRIPT_WORK_ReadWorkValue(ctx, scrWork);
-    dst = SCRIPT_WORK_ReadWorkPointer(ctx, scrWork);
+    missionIndex = (u8)SCRIPT_WORK_ReadWorkValue((struct ScriptVm *)ctx, (struct ScrcmdWork *)scrWork);
+    dst = SCRIPT_WORK_ReadWorkPointer((struct ScriptVm *)ctx, (struct ScrcmdWork *)scrWork);
     if (missionIndex == MISC_GetResearchMissionIndex(beacon)) {
         SCRCMD_RESEARCH_GetCurrentMissionStatus(saveControl, dst);
     } else {
@@ -397,9 +404,9 @@ int SCRCMD_RESEARCH_CmdGetMissionProgress(struct ScriptContext *ctx, struct ScrC
     int progress;
     u8 kind;
 
-    saveControl = GAME_DATA_GetSaveControl(SCRCMD_WORK_GetGameData(scrWork));
+    saveControl = GAME_DATA_GetSaveControl(SCRCMD_WORK_GetGameData((struct ScrcmdWork *)scrWork));
     beacon = MISC_GetFromSave(saveControl);
-    dst = SCRIPT_WORK_ReadWorkPointer(ctx, scrWork);
+    dst = SCRIPT_WORK_ReadWorkPointer((struct ScriptVm *)ctx, (struct ScrcmdWork *)scrWork);
     kind = SCRCMD_RESEARCH_GetMissionKind(MISC_GetResearchMissionIndex(beacon));
     if (kind != 0) {
         if (kind == 1) {

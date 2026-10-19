@@ -135,10 +135,10 @@ typedef struct { signed char last; signed char cur; unsigned char flag; void *sc
 
 typedef struct { unsigned char b[4]; } Palette4;
 
-extern struct tagSETTINGINFO *DWCi_SETTIGNlGet(void);
-extern int DWCi_Language(void);
+extern char *DWCi_SETTIGNlGet(void);
+extern unsigned char DWCi_Language(void);
 extern void DWCi_HLlLoadSet(void);
-extern bool DWCi_COMMENTlDispEx(int messageId, int n, int num);
+extern int DWCi_COMMENTlDispEx(int messageId, int n, int num);
 extern void DWCi_CMNlStep(int step);
 extern bool DWCi_Flag(unsigned long flag);
 extern void DWCi_FOCUSlDisp4(int x0, int x1, int y0, int y1);
@@ -151,20 +151,20 @@ extern bool DWCi_EFFlFade(int kind, int lcd, int plane, int frame);
 extern bool DWCi_EFFlWait(int frame);
 extern void DWCi_GXlVisible(int lcd, int plane);
 extern void DWCi_CMNlButton(int kind);
-extern int DWCi_BTNlGet(void);
+extern s8 DWCi_BTNlGet(void);
 extern void DWCi_BTNlEnable(void);
 extern void DWCi_BTNlDisable(void);
-extern void DWCi_BTNlSet(int idx);
-extern void DWCi_SNDlPlay(int no);
-extern bool DWCi_TPlCheckTrigger(Rect *r);
-extern bool DWCi_IPTlCheckTrigger(unsigned short input);
-extern bool DWCi_IPTlCheckRepeat(unsigned short input);
+extern void DWCi_BTNlSet(s8 v);
+extern void DWCi_SNDlPlay(unsigned int v);
+extern int DWCi_TPlCheckTrigger(unsigned short *a);
+extern int DWCi_IPTlCheckTrigger(unsigned int f);
+extern int DWCi_IPTlCheckRepeat(unsigned int f);
 extern void DWCi_SCREENlCopyPalette(void *src, int sColor, int dColor);
 extern void DWCi_SceneEnd(void);
 extern void DWCi_BTNlEnd(void);
-extern bool DWCi_BTNlIsEnd(void);
+extern int DWCi_BTNlIsEnd(void);
 extern void DWCi_FOCUSlDelete(void);
-extern bool DWCi_COMMENTlDelete(void);
+extern int DWCi_COMMENTlDelete(void);
 extern void DWCi_ARClRelease(void *file);
 extern void DWCi_GXlInvisible(int lcd, int plane);
 extern void DWCi_SetParam_(unsigned int a, unsigned int b);
@@ -212,7 +212,7 @@ void DWCi_SceneSetSelectWay(void)
 {
     struct tagSETTINGINFO *info;
 
-    info = DWCi_SETTIGNlGet();
+    info = (struct tagSETTINGINFO *)DWCi_SETTIGNlGet();
     gSceneSetSelectWayFocus.flag = 0;
     if (gSceneSetSelectWayFocus.last == 0)
         gSceneSetSelectWayFocus.last = 1;
@@ -314,7 +314,7 @@ static void input(void)
     unsigned int i;
 
     for (i = 0; i < 4; i++) {
-        if (DWCi_TPlCheckTrigger(&gSceneSetSelectWayButtonRects[DWCi_Flag(1)][i])) {
+        if (DWCi_TPlCheckTrigger((unsigned short *)(&gSceneSetSelectWayButtonRects[DWCi_Flag(1)][i]))) {
             DWCi_BTNlSet(1);
             gSceneSetSelectWayFocus.cur = i;
             DWCi_FOCUSlDisp4(gSceneSetSelectWayFocusRects[DWCi_Flag(1)][gSceneSetSelectWayFocus.cur].left,

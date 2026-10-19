@@ -58,12 +58,13 @@ typedef struct {
 } StaActObjObject;
 
 extern void *GFL_HEAP_Alloc(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void GFL_HEAP_Free(void *);
+extern u32 GFL_HEAP_Free(void *);
 extern void BILLBOARD_SetElemPos(u8 *board, int i, struct Trip *src);
 extern s32 BILLBOARD_AddElem(struct Board *b, u32 id, u16 v12, u16 v14, struct Vec3 *src, u8 k, u32 w, u32 mode);
-extern void BILLBOARD_SetElemVisible(void *,u32,u32 *);
-extern void BILLBOARD_FreeElem(void *, u32);
-extern void BILLBOARD_DeleteImage(u8 *board, int i);
+struct BbBoard;
+extern void BILLBOARD_SetElemVisible(struct BbBoard *board, u32 elemIndex, u32 *visible);
+extern void BILLBOARD_FreeElem(struct BbBoard *board, u32 elemIndex);
+extern void BILLBOARD_DeleteImage(struct BbBoard *board, s32 index);
 StaActObjObject *STA_ACT_OBJ_Create(u16 heap, void *board);
 void STA_ACT_OBJ_Delete(char *p);
 void STA_ACT_OBJ_Update(char *p);

@@ -73,8 +73,8 @@ typedef struct {
     u32 size;
 } DWCEncPutHeader;
 
-extern int strncmp(const char *a, const char *b, unsigned long n);
-extern char *strncpy(char *dst, const char *src, unsigned long n);
+extern int strncmp(u8 *s1, u8 *s2, u32 n);
+extern u8 *strncpy(u8 *dest, u8 *src, u32 n);
 extern void *DWC_Alloc(int name, u32 size);
 extern void DWC_Free(int name, void *ptr, u32 size);
 extern void B64Encode(const char *input, char *output, int inlen, int encodingType);
@@ -82,7 +82,7 @@ extern void MATH_CalcSHA1(void *digest, void *data, u32 len);
 extern void *memcpy();
 extern void DWCi_EncSetError(void);
 extern void DWCi_GsFree(void *ptr);
-extern unsigned long strtoul(const char *str, char **endptr, int base);
+extern unsigned long strtoul(u32 s, u32 *endptr, u32 base);
 extern int DWC_InitGHTTP();
 extern int DWCi_IsError(void);
 extern void DWCi_SetError(int mode, long value);
@@ -155,7 +155,7 @@ void DWCi_EncSessionCompleteCallback(char *buffer, int bufferLen, int result, vo
                     gDwcEncSession.hashPosition[i * 2 + 1] = hexDigits[hash[i] & 15];
                 }
                 gDwcEncSession.hashPosition[-strlen(sDwcEncSessionHash)] = '&';
-                strncpy(gDwcEncSession.lastHash, gDwcEncSession.hashPosition, 41);
+                strncpy((u8 *)gDwcEncSession.lastHash, (u8 *)gDwcEncSession.hashPosition, 41);
                 gDwcEncSession.state = 6;
             } else {
                 DWCi_EncSetError();
@@ -163,7 +163,7 @@ void DWCi_EncSessionCompleteCallback(char *buffer, int bufferLen, int result, vo
             DWCi_GsFree(buffer);
             break;
         case 7:
-            if (strncmp(buffer, sDwcEncSessionError, strlen(sDwcEncSessionError)) == 0) {
+            if (strncmp((u8 *)buffer, (u8 *)sDwcEncSessionError, strlen(sDwcEncSessionError)) == 0) {
                 DWCi_GsFree(buffer);
                 DWCi_EncSetError();
                 return;
@@ -260,12 +260,12 @@ void DWCi_EncSessionInitialize(int server, char *initData)
     }
 
     init = (DWCEncInitData *)initData;
-    strncpy(secretKey, init->info.secretKey, 20);
+    strncpy((u8 *)secretKey, (u8 *)init->info.secretKey, 20);
     secretKey[20] = '\0';
-    multiplier = strtoul(strncpy(buffer, init->info.multiplier, 8), 0, 16);
-    increment = strtoul(strncpy(buffer, init->info.increment, 8), 0, 16);
-    modulus = strtoul(strncpy(buffer, init->info.modulus, 8), 0, 16);
-    checksumMask = strtoul(strncpy(buffer, init->info.checksumMask, 8), 0, 16);
+    multiplier = strtoul((u32)strncpy((u8 *)buffer, (u8 *)init->info.multiplier, 8), 0, 16);
+    increment = strtoul((u32)strncpy((u8 *)buffer, (u8 *)init->info.increment, 8), 0, 16);
+    modulus = strtoul((u32)strncpy((u8 *)buffer, (u8 *)init->info.modulus, 8), 0, 16);
+    checksumMask = strtoul((u32)strncpy((u8 *)buffer, (u8 *)init->info.checksumMask, 8), 0, 16);
     DWCi_EncValidateKey(init->info.gameName, secretKey, multiplier, increment, modulus, checksumMask);
     DWC_InitGHTTP(0);
     gDwcEncSession.state = 3;

@@ -127,7 +127,7 @@ extern void GX_BeginLoadBGExtPltt(void);
 
 extern void GX_EndLoadBGExtPltt(void);
 
-extern void GXS_BeginLoadBGExtPltt(void);
+extern void *GXS_BeginLoadBGExtPltt(void);
 
 extern void GXS_EndLoadBGExtPltt(void);
 
@@ -135,15 +135,15 @@ extern void GX_BeginLoadOBJExtPltt(void);
 
 extern void GX_EndLoadOBJExtPltt(void);
 
-extern void GXS_BeginLoadOBJExtPltt(void);
+extern void *GXS_BeginLoadOBJExtPltt(void);
 
 extern void GXS_EndLoadOBJExtPltt(void);
 
-extern int NNS_G2dGetUnpackedCellBank(int a, int *out);
+extern int NNS_G2dGetUnpackedCellBank(void *a, s32 *out);
 
 extern int   NNS_G2dGetUnpackedAnimBankEx(void *ptr, u32 val);
 
-extern int NNS_G2dGetUnpackedMultiCellBank(u32 a, u32 *out);
+extern int NNS_G2dGetUnpackedMultiCellBank(void *a, u32 *out);
 
 extern int   NNSi_G2dGetUnpackedAnimBank(void *ptr, u32 val);
 
@@ -185,23 +185,23 @@ void ARC_UTIL_UploadPaletteFromHandle(void *arc, u32 memberIdx, u32 kind, u32 of
 
 void ARC_UTIL_UploadPalette(void *file, u32 kind, u32 offset, u32 dest, u32 size);
 
-void *ARC_UTIL_LoadBgCharDataFromArchive(u32 archiveID, u32 memberIdx, u32 heapID, u32 unpackedOut, u16 flags);
+void *ARC_UTIL_LoadBgCharDataFromArchive(u32 archiveID, u32 memberIdx, u32 heapID, void *unpackedOut, u16 flags);
 
-void *ARC_UTIL_LoadBgCharDataFromHandle(void *arc, u32 memberIdx, u32 heapID, u32 unpackedOut, u16 flags);
+void *ARC_UTIL_LoadBgCharDataFromHandle(void *arc, u32 memberIdx, u32 heapID, void *unpackedOut, u16 flags);
 
-void *ARC_UTIL_LoadScreenDataFromArchive(u32 archiveID, u32 memberIdx, u32 heapID, u32 unpackedOut, u16 flags);
+void *ARC_UTIL_LoadScreenDataFromArchive(u32 archiveID, u32 memberIdx, u32 heapID, void *unpackedOut, u16 flags);
 
-void *ARC_UTIL_LoadScreenDataFromHandle(void *arc, u32 memberIdx, u32 heapID, u32 unpackedOut, u16 flags);
+void *ARC_UTIL_LoadScreenDataFromHandle(void *arc, u32 memberIdx, u32 heapID, void *unpackedOut, u16 flags);
 
-void *ARC_UTIL_LoadPaletteDataFromArchive(u32 archiveID, u32 memberIdx, u32 heapID, u32 unpackedOut, u16 flags);
+void *ARC_UTIL_LoadPaletteDataFromArchive(u32 archiveID, u32 memberIdx, u32 heapID, void *unpackedOut, u16 flags);
 
 void *ARC_UTIL_LoadPaletteDataFromHandle(void *arc, u32 memberIdx, u32 heapID, void **out, u16 flags);
 
-void *ARC_UTIL_LoadPaletteBlockFromArchive(u32 archiveID, u32 memberIdx, u32 unpackedOut, u16 flags);
+void *ARC_UTIL_LoadPaletteBlockFromArchive(u32 archiveID, u32 memberIdx, void *unpackedOut, u16 flags);
 
-void *ARC_UTIL_LoadPaletteBlockFromHandle(void *arc, u32 memberIdx, u32 unpackedOut, u16 flags);
+void *ARC_UTIL_LoadPaletteBlockFromHandle(void *arc, u32 memberIdx, void *unpackedOut, u16 flags);
 
-void *ARC_UTIL_LoadCellBankFromArchive(u32 archiveID, u32 memberIdx, u32 heapID, u32 unpackedOut, u16 flags);
+void *ARC_UTIL_LoadCellBankFromArchive(u32 archiveID, u32 memberIdx, u32 heapID, u8 *unpackedOut, u16 flags);
 
 void *ARC_UTIL_LoadCellBankFromHandle(void *arc, u32 memberIdx, u32 heapID, u32 unpackedOut, u16 flags);
 
@@ -209,7 +209,7 @@ void *ARC_UTIL_LoadMultiCellBankFromArchive(u32 archiveID, u32 memberIdx, u32 he
 
 void *ARC_UTIL_LoadMultiCellBankFromHandle(void *arc, u32 memberIdx, u32 heapID, u32 unpackedOut, u16 flags);
 
-void *ARC_UTIL_LoadAnimBankFromArchive(u32 archiveID, u32 memberIdx, u32 heapID, u32 unpackedOut, u16 flags);
+void *ARC_UTIL_LoadAnimBankFromArchive(u32 archiveID, u32 memberIdx, u32 heapID, u8 *unpackedOut, u16 flags);
 
 void *ARC_UTIL_LoadAnimBankFromHandle(void *arc, u32 memberIdx, u32 heapID, u32 unpackedOut, u16 flags);
 
@@ -756,7 +756,7 @@ void ARC_UTIL_UploadPalette(void *file, u32 kind, u32 offset, u32 dest, u32 size
  * the actor again when the hook fails.  ARC_UTIL_LoadPaletteBlockFromArchive / ARC_UTIL_LoadPaletteBlockFromHandle are
  * the 4-argument forms and pass 0 as the third argument.
  */
-void *ARC_UTIL_LoadBgCharDataFromArchive(u32 archiveID, u32 memberIdx, u32 heapID, u32 unpackedOut, u16 flags)
+void *ARC_UTIL_LoadBgCharDataFromArchive(u32 archiveID, u32 memberIdx, u32 heapID, void *unpackedOut, u16 flags)
 {
     void *res = (void *)ARC_UTIL_LoadMember(archiveID, memberIdx, heapID, flags);
     if (res != 0) {
@@ -768,7 +768,7 @@ void *ARC_UTIL_LoadBgCharDataFromArchive(u32 archiveID, u32 memberIdx, u32 heapI
     return res;
 }
 
-void *ARC_UTIL_LoadBgCharDataFromHandle(void *arc, u32 memberIdx, u32 heapID, u32 unpackedOut, u16 flags)
+void *ARC_UTIL_LoadBgCharDataFromHandle(void *arc, u32 memberIdx, u32 heapID, void *unpackedOut, u16 flags)
 {
     void *res = ARC_UTIL_LoadHandleMember(arc, memberIdx, heapID, flags);
     if (res != 0) {
@@ -780,7 +780,7 @@ void *ARC_UTIL_LoadBgCharDataFromHandle(void *arc, u32 memberIdx, u32 heapID, u3
     return res;
 }
 
-void *ARC_UTIL_LoadScreenDataFromArchive(u32 archiveID, u32 memberIdx, u32 heapID, u32 unpackedOut, u16 flags)
+void *ARC_UTIL_LoadScreenDataFromArchive(u32 archiveID, u32 memberIdx, u32 heapID, void *unpackedOut, u16 flags)
 {
     void *res = (void *)ARC_UTIL_LoadMember(archiveID, memberIdx, heapID, flags);
     if (res != 0) {
@@ -792,7 +792,7 @@ void *ARC_UTIL_LoadScreenDataFromArchive(u32 archiveID, u32 memberIdx, u32 heapI
     return res;
 }
 
-void *ARC_UTIL_LoadScreenDataFromHandle(void *arc, u32 memberIdx, u32 heapID, u32 unpackedOut, u16 flags)
+void *ARC_UTIL_LoadScreenDataFromHandle(void *arc, u32 memberIdx, u32 heapID, void *unpackedOut, u16 flags)
 {
     void *res = ARC_UTIL_LoadHandleMember(arc, memberIdx, heapID, flags);
     if (res != 0) {
@@ -804,7 +804,7 @@ void *ARC_UTIL_LoadScreenDataFromHandle(void *arc, u32 memberIdx, u32 heapID, u3
     return res;
 }
 
-void *ARC_UTIL_LoadPaletteDataFromArchive(u32 archiveID, u32 memberIdx, u32 heapID, u32 unpackedOut, u16 flags)
+void *ARC_UTIL_LoadPaletteDataFromArchive(u32 archiveID, u32 memberIdx, u32 heapID, void *unpackedOut, u16 flags)
 {
     void *res = (void *)ARC_UTIL_LoadMember(archiveID, memberIdx, heapID, flags);
     if (res != 0) {
@@ -828,7 +828,7 @@ void *ARC_UTIL_LoadPaletteDataFromHandle(void *arc, u32 memberIdx, u32 heapID, v
     return res;
 }
 
-void *ARC_UTIL_LoadPaletteBlockFromArchive(u32 archiveID, u32 memberIdx, u32 unpackedOut, u16 flags)
+void *ARC_UTIL_LoadPaletteBlockFromArchive(u32 archiveID, u32 memberIdx, void *unpackedOut, u16 flags)
 {
     void *res = (void *)ARC_UTIL_LoadMember(archiveID, memberIdx, 0, flags);
     if (res != 0) {
@@ -840,7 +840,7 @@ void *ARC_UTIL_LoadPaletteBlockFromArchive(u32 archiveID, u32 memberIdx, u32 unp
     return res;
 }
 
-void *ARC_UTIL_LoadPaletteBlockFromHandle(void *arc, u32 memberIdx, u32 unpackedOut, u16 flags)
+void *ARC_UTIL_LoadPaletteBlockFromHandle(void *arc, u32 memberIdx, void *unpackedOut, u16 flags)
 {
     void *res = ARC_UTIL_LoadHandleMember(arc, memberIdx, 0, flags);
     if (res != 0) {
@@ -852,11 +852,11 @@ void *ARC_UTIL_LoadPaletteBlockFromHandle(void *arc, u32 memberIdx, u32 unpacked
     return res;
 }
 
-void *ARC_UTIL_LoadCellBankFromArchive(u32 archiveID, u32 memberIdx, u32 heapID, u32 unpackedOut, u16 flags)
+void *ARC_UTIL_LoadCellBankFromArchive(u32 archiveID, u32 memberIdx, u32 heapID, u8 *unpackedOut, u16 flags)
 {
     void *res = (void *)ARC_UTIL_LoadMember(archiveID, memberIdx, heapID, flags);
     if (res != 0) {
-        if (!NNS_G2dGetUnpackedCellBank((int)res, (int *)unpackedOut)) {
+        if (!NNS_G2dGetUnpackedCellBank(res, (int *)unpackedOut)) {
             GFL_HEAP_Free(res);
             return 0;
         }
@@ -868,7 +868,7 @@ void *ARC_UTIL_LoadCellBankFromHandle(void *arc, u32 memberIdx, u32 heapID, u32 
 {
     void *res = ARC_UTIL_LoadHandleMember(arc, memberIdx, heapID, flags);
     if (res != 0) {
-        if (!NNS_G2dGetUnpackedCellBank((int)res, (int *)unpackedOut)) {
+        if (!NNS_G2dGetUnpackedCellBank(res, (int *)unpackedOut)) {
             GFL_HEAP_Free(res);
             return 0;
         }
@@ -903,11 +903,11 @@ void *ARC_UTIL_LoadMultiCellBankFromHandle(void *arc, u32 memberIdx, u32 heapID,
     return res;
 }
 
-void *ARC_UTIL_LoadAnimBankFromArchive(u32 archiveID, u32 memberIdx, u32 heapID, u32 unpackedOut, u16 flags)
+void *ARC_UTIL_LoadAnimBankFromArchive(u32 archiveID, u32 memberIdx, u32 heapID, u8 *unpackedOut, u16 flags)
 {
     void *res = (void *)ARC_UTIL_LoadMember(archiveID, memberIdx, heapID, flags);
     if (res != 0) {
-        if (!NNS_G2dGetUnpackedMultiCellBank((u32)res, (u32 *)unpackedOut)) {
+        if (!NNS_G2dGetUnpackedMultiCellBank(res, (u32 *)unpackedOut)) {
             GFL_HEAP_Free(res);
             return 0;
         }
@@ -919,7 +919,7 @@ void *ARC_UTIL_LoadAnimBankFromHandle(void *arc, u32 memberIdx, u32 heapID, u32 
 {
     void *res = ARC_UTIL_LoadHandleMember(arc, memberIdx, heapID, flags);
     if (res != 0) {
-        if (!NNS_G2dGetUnpackedMultiCellBank((u32)res, (u32 *)unpackedOut)) {
+        if (!NNS_G2dGetUnpackedMultiCellBank(res, (u32 *)unpackedOut)) {
             GFL_HEAP_Free(res);
             return 0;
         }
@@ -955,7 +955,7 @@ struct LzHeader {
     u32 sizeAndType;
 };
 
-extern void *GFL_HEAP_Alloc(u16 heapID, u32 size, int clear, const char *file, int line);
+extern void *GFL_HEAP_Alloc(unsigned int heapId, unsigned int size, int clear, char *site, unsigned short tag);
 
 extern void MI_UncompressLZ8(const void *src, void *dest);
 
@@ -988,14 +988,14 @@ int ARC_UTIL_LoadMember(int archiveID, int memberIdx, int decompress, u16 heapID
 
     if (decompress != 0) {
         size = ARC_TOOL_GetMemberSize(archiveID, memberIdx);
-        buf = (int)GFL_HEAP_Alloc((u16)((heapID & 0x7fff) | 0x8000), size, 0, arc_util_file, 1599);
+        buf = (int)GFL_HEAP_Alloc((u16)((heapID & 0x7fff) | 0x8000), size, 0, (char *)arc_util_file, 1599);
     } else {
         size = ARC_TOOL_GetMemberSize(archiveID, memberIdx);
-        buf = (int)GFL_HEAP_Alloc(heapID, size, 0, arc_util_file, 1603);
+        buf = (int)GFL_HEAP_Alloc(heapID, size, 0, (char *)arc_util_file, 1603);
     }
     ARC_TOOL_ReadMember((void *)buf, archiveID, memberIdx);
     if (decompress != 0) {
-        outBuf = (int)GFL_HEAP_Alloc(heapID, ((struct LzHeader *)buf)->sizeAndType >> 8, 0, arc_util_file, 1611);
+        outBuf = (int)GFL_HEAP_Alloc(heapID, ((struct LzHeader *)buf)->sizeAndType >> 8, 0, (char *)arc_util_file, 1611);
         ((int (*)(int a0, int a1))MI_UncompressLZ8)(buf, outBuf);
         GFL_HEAP_Free((void *)buf);
         buf = outBuf;
@@ -1015,14 +1015,14 @@ int ARC_UTIL_LoadMemberWithSize(int archiveID, int memberIdx, int decompress, u1
 
     *out = ARC_TOOL_GetMemberSize(archiveID, memberIdx);
     if (decompress != 0) {
-        buf = (int)GFL_HEAP_Alloc((u16)((heapID & 0x7fff) | 0x8000), *out, 0, arc_util_file, 1642);
+        buf = (int)GFL_HEAP_Alloc((u16)((heapID & 0x7fff) | 0x8000), *out, 0, (char *)arc_util_file, 1642);
     } else {
-        buf = (int)GFL_HEAP_Alloc(heapID, *out, 0, arc_util_file, 1646);
+        buf = (int)GFL_HEAP_Alloc(heapID, *out, 0, (char *)arc_util_file, 1646);
     }
     ARC_TOOL_ReadMember((void *)buf, archiveID, memberIdx);
     if (decompress != 0) {
         *out = ((struct LzHeader *)buf)->sizeAndType >> 8;
-        outBuf = (int)GFL_HEAP_Alloc(heapID, *out, 0, arc_util_file, 1656);
+        outBuf = (int)GFL_HEAP_Alloc(heapID, *out, 0, (char *)arc_util_file, 1656);
         ((int (*)(int a0, int a1))MI_UncompressLZ8)(buf, outBuf);
         GFL_HEAP_Free((void *)buf);
         buf = outBuf;
@@ -1059,15 +1059,15 @@ void *ARC_UTIL_LoadHandleMemberWithSize(void *narc, int fileID, int decompress, 
 
     *out_size = ARC_TOOL_GetHandleMemberSize(narc, fileID);
     if (decompress != 0) {
-        buf = GFL_HEAP_Alloc((u16)(((u16)heapID & 0x7FFF) | 0x8000), *out_size, 0, arc_util_file, 1709);
+        buf = GFL_HEAP_Alloc((u16)(((u16)heapID & 0x7FFF) | 0x8000), *out_size, 0, (char *)arc_util_file, 1709);
     } else {
-        buf = GFL_HEAP_Alloc((u16)heapID, *out_size, 0, arc_util_file, 1713);
+        buf = GFL_HEAP_Alloc((u16)heapID, *out_size, 0, (char *)arc_util_file, 1713);
     }
     if (buf != 0) {
         ARC_TOOL_ReadHandleMember(narc, fileID, buf);
         if (decompress != 0) {
             *out_size = ((struct LzHeader *)buf)->sizeAndType >> 8;
-            outBuf = GFL_HEAP_Alloc((u16)heapID, *out_size, 0, arc_util_file, 1725);
+            outBuf = GFL_HEAP_Alloc((u16)heapID, *out_size, 0, (char *)arc_util_file, 1725);
             if (outBuf != 0) {
                 MI_UncompressLZ8(buf, outBuf);
                 GFL_HEAP_Free(buf);

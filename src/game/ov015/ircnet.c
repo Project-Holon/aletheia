@@ -58,11 +58,11 @@ extern void GFL_NET_HANDLE_RemoveHandle(u32 netId);
 extern void IRC_Init(u8 unitId);
 extern void IRC_Connect(void);
 extern unsigned int IRC_IsSender(void);
-extern int IRC_IsConnect(void);
+extern u32 IRC_IsConnect(void);
 extern void IRC_Shutdown(void);
 extern void IRC_Send(u8 *data, u8 size, int command);
 extern int IRC_Move(void);
-extern void IRC_SetRecvCallback(void (*cb)(void));
+extern void IRC_SetRecvCallback(void *cb);
 extern unsigned int IRC_GetUnitNumber(void);
 
 void IRCNET_OnRecv(u8 *pkt, u32 len, u32 type);

@@ -173,6 +173,7 @@
  *   ARC_UTIL_UploadBgPaletteFromHandle  0x020498F4  arm  arm9
  *   ARC_UTIL_UploadPaletteFromArchiveWhole  0x02049B40  arm  arm9
  *   ARC_UTIL_UploadPaletteFromHandleWhole  0x02049B68  arm  arm9
+ *   ARC_UTIL_UploadBgCharFromArchive 0x02049624  arm
  */
 #include "ov137_types.h"
 #include "guru2_shared_types.h"
@@ -195,24 +196,27 @@ extern void MI_CpuFill8(void *,int,unsigned);
 extern void PROCSYS_FreeProcWork(struct Proc *);
 
 extern u32 GFL_HEAP_Free(void *p);
+struct GFLNetHandle;
 
-extern struct Entry *GFL_NET_HANDLE_GetCurrentHandle(void);
+extern struct GFLNetHandle *GFL_NET_HANDLE_GetCurrentHandle(void);
 
 extern u16 GFL_NET_SYSTEM_GetCurrentAid(void);
+struct UnionAppWork;
 
-extern int UNION_APP_GetMemberCount(unsigned char *p);
+extern int UNION_APP_GetMemberCount(struct UnionAppWork *app);
 
-extern u8 UNION_APP_GetJoinedBits(u8 *);
+extern u8 UNION_APP_GetJoinedBits(struct UnionAppWork *app);
 
 extern void BG_SYS_ClearMainPlanes(void),BG_SYS_ClearSubPlanes(void);
 
 extern void GFL_HEAP_CreateChildHeap(u32 src, u32 dst, u32 size);
 
-extern void *ARC_TOOL_CreateHandle(u32 id, u32 heap);
+extern void *ARC_TOOL_CreateHandle(unsigned int archiveID, unsigned short heapID);
 
 extern void BG_SYS_Create(u16);
+struct WordSet;
 
-extern struct WordSet *WORDSET_CreateDefault(u32 heap);
+extern struct WordSet *WORDSET_CreateDefault(unsigned short heapId);
 
 extern struct MsgBank *MSGDATA_CreateFromArchive(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 
@@ -220,15 +224,18 @@ extern struct GfFont *GF_FONT_Create(int archiveId, int fileId, int format, int 
 
 extern void GURU2_RECEIPT_SetVramBanks(void),GURU2_RECEIPT_InitBg(void);
 
-extern void WIPE_SYS_Start(void *,u32,u32,u32,u32,u32,u32);
+extern void WIPE_SYS_Start(void *divisionMode, unsigned int mainPattern, unsigned int subPattern, unsigned short color, unsigned int frames, unsigned int wait, unsigned int heapId);
 
 void GURU2_RECEIPT_LoadGraphics(void *p,void *arc);
+struct Tcb;
 
-extern void *GFL_USE_AddMainTask(void (*)(int,void *),void *,u32);
+extern struct Tcb *GFL_USE_AddMainTask(void (*)(int,void *),void *,u32);
+struct TcblSystem;
 
-extern struct Tcbl *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
+extern struct TcblSystem *TCBL_Create(u16 heap, u16 tag, u32 count, u32 workSize);
+struct PrintQueue;
 
-extern u32 PRINTSYS_QUE_Create(void *);
+extern struct PrintQueue *PRINTSYS_QUE_Create(unsigned int heap);
 
 void GURU2_RECEIPT_InitStrings(u8 *p,void *q);
 
@@ -240,13 +247,13 @@ extern u32 WIPE_SYS_EndCheck(void);
 
 extern u32 GFL_NET_ERR_GetErrorLevel(void);
 
-extern void UNION_APP_Open(u8 *p);
+extern void UNION_APP_Open(struct UnionAppWork *app);
 
-extern void UNION_APP_RequestReset(u8 *p);
+extern void UNION_APP_RequestReset(struct UnionAppWork *app);
 
-extern u32 UNION_APP_IsResetDone(u8 *);
+extern u32 UNION_APP_IsResetDone(struct UnionAppWork *app);
 
-extern void UNION_APP_SetCallbacks(u8 *,Cb,Cb,void *);
+extern void UNION_APP_SetCallbacks(struct UnionAppWork *app, Cb, Cb, void *callbackArg);
 
 typedef struct { void *current; void *previous; } Entry;
 typedef struct { char pad[0x38]; void *font; void *formatter; void *bank; void *names[5]; char pad58[0xe0]; Entry entries[5]; } Context;
@@ -268,13 +275,13 @@ int GURU2_RECEIPT_UpdateMemberChange(FrameObj *obj);
 
 extern void GFL_NET_COMMAND_DeleteCommandTable(unsigned);
 
-extern void TCBL_DeleteAllTasks(struct Tcbl *p);
+extern void TCBL_DeleteAllTasks(struct TcblSystem *tcbl);
 
-extern void TCBL_Destroy(struct S02031140 *p);
+extern void TCBL_Destroy(struct TcblSystem *tcbl);
 
-extern void PRINTSYS_QUE_Clear(struct PrintSys *);
+extern void PRINTSYS_QUE_Clear(struct PrintQueue *queue);
 
-extern void PRINTSYS_QUE_Delete(struct PrintSys *);
+extern void PRINTSYS_QUE_Delete(struct PrintQueue *queue);
 
 void GURU2_RECEIPT_FreeActors(u8 *p);
 
@@ -282,13 +289,14 @@ void GURU2_RECEIPT_DeleteWindows(u8 *p);
 
 void GURU2_RECEIPT_ExitBg(u32 unused);
 
-extern u32 MSGDATA_Delete(struct Rec *rec);
+extern u32 MSGDATA_Delete(struct MsgBank *bank);
 
 extern u32 WORDSET_Delete(struct WordSet *p);
 
-extern u32 GF_FONT_Delete(void *ptr);
+extern u32 GF_FONT_Delete(struct GfFont *font);
+struct TcbTask;
 
-extern void TCB_DeleteTask(struct Node *n);
+extern void TCB_DeleteTask(struct TcbTask *task);
 
 int GURU2_RECEIPT_GetMemberCount(void *p);
 
@@ -298,21 +306,22 @@ void GURU2_RECEIPT_FreeStrings(u8 *p);
 
 extern void GFL_HEAP_DeleteChecked(u32);
 
-extern void GX_LoadOBJPltt(void *, int, int);
+extern void GX_LoadOBJPltt(void *pSrc, unsigned int offset, unsigned int szByte);
 
 extern void CLACT_VBlankSystem(void);
 
 extern void BG_SYS_Update(void);
 
-extern u32 PRINTSYS_QUE_Main(struct PrintSys *ps);
+extern u32 PRINTSYS_QUE_Main(struct PrintQueue *queue);
 
-extern void TCBL_Main(struct Tcbl *p);
+extern void TCBL_Main(struct TcblSystem *tcbl);
 
 extern void BG_SYS_SetVramBanks(const struct DispVram *);
 
 void GURU2_COMM_RegisterCommands(u32 a);
+struct Guru2Comm;
 
-extern int GURU2_COMM_Send(void *p, u32 a, const void *b, u32 c);
+extern int GURU2_COMM_Send(struct Guru2Comm *p, unsigned int id, void *data, unsigned int size);
 
 int GURU2_RECEIPT_ProcInit(void *a,u32 *state,u8 *ctx);
 
@@ -401,7 +410,7 @@ int GURU2_RECEIPT_ProcInit(void *proc,u32 *state,u8 *ctx)
         GURU2_RECEIPT_LoadGraphics(p,arc);
         *(void **)(p+48)=GFL_USE_AddMainTask((void (*)(int, void *))GURU2_RECEIPT_VBlank,p,1);
         *(void **)(p+244)=TCBL_Create(114,114,32,32);
-        *(u32 *)(p+236)=PRINTSYS_QUE_Create((void *)114);
+        *(u32 *)(p+236)=(unsigned int)PRINTSYS_QUE_Create((unsigned int)114);
         GURU2_RECEIPT_InitStrings(p,arc); GURU2_RECEIPT_InitActors(p,arc); GURU2_RECEIPT_CreatePlayerActors(p); GURU2_RECEIPT_CreateWindows(p);
         GURU2_COMM_RegisterCommands((u32)(*(void **)(ctx+24)));
         GFL_NET_RefreshWmIconAtTopRight(1,114); ARC_TOOL_DeleteHandle(arc);
@@ -505,12 +514,12 @@ int GURU2_RECEIPT_ProcMain(int proc,int seq,int parentWork,u8 *p)
  */
 int GURU2_RECEIPT_ProcExit(void *proc,int seq,void *parentWork,u8 *p)
 {
-    TCBL_DeleteAllTasks((struct Tcbl *)(*(unsigned int *)&((struct Guru2Lobby *)p)->tcbl)); TCBL_Destroy((struct S02031140 *)(*(unsigned int *)&((struct Guru2Lobby *)p)->tcbl));
-    PRINTSYS_QUE_Clear((struct PrintSys *)(*(unsigned int *)&((struct Guru2Lobby *)p)->printQue)); PRINTSYS_QUE_Delete((struct PrintSys *)(*(unsigned int *)&((struct Guru2Lobby *)p)->printQue));
+    TCBL_DeleteAllTasks((struct TcblSystem *)(*(unsigned int *)&((struct Guru2Lobby *)p)->tcbl)); TCBL_Destroy((struct TcblSystem *)(*(unsigned int *)&((struct Guru2Lobby *)p)->tcbl));
+    PRINTSYS_QUE_Clear((struct PrintQueue *)(*(unsigned int *)&((struct Guru2Lobby *)p)->printQue)); PRINTSYS_QUE_Delete((struct PrintQueue *)(*(unsigned int *)&((struct Guru2Lobby *)p)->printQue));
     GURU2_RECEIPT_FreeActors(p); GURU2_RECEIPT_ExitBg(((u32 (*)(void *))GURU2_RECEIPT_DeleteWindows)(p));
-    MSGDATA_Delete((struct Rec *)(*(unsigned int *)&((struct Guru2Lobby *)p)->msgData)); WORDSET_Delete((struct WordSet *)(*(unsigned int *)&((struct Guru2Lobby *)p)->wordSet)); GF_FONT_Delete((void *)(*(unsigned int *)&((struct Guru2Lobby *)p)->font));
+    MSGDATA_Delete((struct MsgBank *)(*(unsigned int *)&((struct Guru2Lobby *)p)->msgData)); WORDSET_Delete((struct WordSet *)(*(unsigned int *)&((struct Guru2Lobby *)p)->wordSet)); GF_FONT_Delete((void *)(*(unsigned int *)&((struct Guru2Lobby *)p)->font));
     *(volatile u16 *)0x04000304 |= 0x8000;
-    TCB_DeleteTask((struct Node *)(*(unsigned int *)&((struct Guru2Lobby *)p)->vblankTask));
+    TCB_DeleteTask((struct TcbTask *)(*(unsigned int *)&((struct Guru2Lobby *)p)->vblankTask));
     ((struct Guru2Session *)((struct Guru2Lobby *)p)->session)->startConfirmed=*(unsigned int *)&((struct Guru2Lobby *)p)->startConfirmed;
     ((struct Guru2Session *)((struct Guru2Lobby *)p)->session)->playerCount=GURU2_RECEIPT_GetMemberCount(p);
     ((struct Guru2Session *)((struct Guru2Lobby *)p)->session)->memberMask=GURU2_RECEIPT_GetJoinedBits(p);
@@ -583,14 +592,15 @@ extern void BG_SYS_InitBgLayer(u32,const struct BgTemplate *,u32);
 extern void BG_SYS_ClearSlot(u32);
 
 extern void BG_SYS_InitRun(u8 layer, u32 size, u32 offset, u32 heapId);
+struct Strbuf;
 
-extern struct U16Vec *STRBUF_Create(u32 capacity, u32 heapId);
+extern struct Strbuf *STRBUF_Create(u32 capacity, u32 heapId);
 
-extern void MSGDATA_ReadString(struct MsgBank *bank, u32 index, void *dest);
+extern void MSGDATA_ReadString(struct MsgBank *bank, unsigned int index, struct Strbuf *dest);
 
-extern void *ARC_UTIL_LoadPaletteBlockFromHandle(void *arc, u32 memberIdx, u32 unpackedOut, u32 flags);
+extern void *ARC_UTIL_LoadPaletteBlockFromHandle(void *arc, u32 memberIdx, void *unpackedOut, u16 flags);
 
-extern void STRBUF_Delete(struct U16Vec *vec);
+extern void STRBUF_Delete(struct Strbuf *strbuf);
 
 extern void BG_SYS_FreeLayerBuf(u32);
 
@@ -611,12 +621,16 @@ extern void ARC_UTIL_UploadBgPaletteFromArchive(u32,u32,u32,u32,u32,u32,u16);
 extern void BMP_MENUWORK_LoadCharAndPltt(u32,u32,u32,u32,u16);
 
 extern void BG_SYS_SetPlaneVisible(unsigned char which, unsigned char enable);
+struct GameData;
+struct MyStatus;
 
-extern u8 *GAME_DATA_GetMyStatus(void *);
+extern struct MyStatus *GAME_DATA_GetMyStatus(struct GameData *gd);
 
-extern u8 MYSTATUS_GetSex(const struct Sub0200852CObj *obj);
+extern u8 MYSTATUS_GetSex(struct MyStatus *mystatus);
+struct DispVramCfg;
+struct SysInit;
 
-extern void CLACT_InitSystem(const struct Cfg *cfg, u32 arg, u32 heapId);
+extern void CLACT_InitSystem(struct SysInit *cfg, struct DispVramCfg *res_cfg, unsigned int heapId);
 
 extern struct Bank *CLACT_CreateUnit(int count, u8 flag, u32 heapId);
 
@@ -637,46 +651,49 @@ extern u32 CLACT_DeleteUnit(struct Bank *bank);
 extern void CLACT_ExitSystem(void);
 
 extern struct FrameObj *CLACT_CreateActor(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
+struct Actor;
 
-extern void CLACT_SetActorAutoAnim(struct FrameObj *,unsigned int);
+extern void CLACT_SetActorAutoAnim(struct Actor *actor, unsigned int enable);
 
-extern void CLACT_SetActorAnimSeq(struct FrameObj *p, u16 value);
+extern void CLACT_SetActorAnimSeq(struct Actor *actor, unsigned short value);
 
 extern void BG_SYS_SetMainPlaneVisible(u32 mask, u32 enable);
 
 extern void BG_SYS_SetSubPlaneVisible(u32 mask, u32 enable);
 
-extern void CLACT_SetActorDrawEnable(struct FrameObj *,unsigned int);
+extern void CLACT_SetActorDrawEnable(struct Actor *actor, unsigned int value);
 
 extern void BMP_WIN_Init(u16);
+struct BmpWin;
 
-extern u32 BMP_WIN_Create(u32,u32,u32,u32,u8,u8,u8);
+extern struct BmpWin *BMP_WIN_Create(unsigned int bgLayer, unsigned int posX, unsigned int posY, unsigned char width, unsigned char height, unsigned char palette, unsigned char allocDir);
+struct Bmp;
 
-extern void *BMP_WIN_GetBmp(struct Descriptor *p);
+extern struct Bmp *BMP_WIN_GetBmp(struct BmpWin *win);
 
-extern void BMP_Clear(struct CharBuf *buf, u8 value);
+extern void BMP_Clear(struct Bmp *bmp, unsigned char value);
 
-extern u32 PRINTSYS_MeasureWidestLine(struct StrObj *s, u32 a, u32 b);
+extern u32 PRINTSYS_MeasureWidestLine(struct Strbuf *text, struct GfFont *font, unsigned int spacing);
 
-extern void PRINTSYS_PrintColor(void *, s16, s16, void *, void *, u16);
+extern void PRINTSYS_PrintColor(struct Bmp *bmp, short x, short y, struct Strbuf *str, struct GfFont *font, unsigned short color);
 
-extern void BMP_WIN_TransferChars(struct Descriptor *d);
+extern void BMP_WIN_TransferChars(struct BmpWin *win);
 
-extern void BMP_WIN_MakeScreen(struct Cfg *cfg);
+extern void BMP_WIN_MakeScreen(struct BmpWin *win);
 
-extern u8 BMP_WIN_GetBgLayer(struct Descriptor *p);
+extern u8 BMP_WIN_GetBgLayer(struct BmpWin *win);
 
 extern void BG_SYS_PushTile(u32 index);
 
 extern void BMP_MENU_DeleteYesNo(u8 *o);
 
-extern u32 BMP_WIN_Delete(struct Descriptor *d);
+extern u32 BMP_WIN_Delete(struct BmpWin *win);
 
 extern void BMP_WIN_Exit(void);
 
 extern void GFL_NET_SetAutoExit(unsigned char autoExit);
 
-extern int UNION_APP_Close(unsigned char *p);
+extern int UNION_APP_Close(struct UnionAppWork *app);
 
 extern void GFL_USE_PlaySeDefaultVolume(u32 a);
 
@@ -685,53 +702,55 @@ extern struct BmpMenu *BMP_MENU_CreateYesNo(const WinDat *,u16,u8,u8,u16);
 extern u32 BMP_MENU_ProcessYesNo(u8 *p);
 
 extern void GFL_NET_SetLoginOption(u8 loginOption);
+struct UnionAppEntry;
 
-extern char *UNION_APP_GetMemberEntry(unsigned char *p, int i);
+extern struct UnionAppEntry *UNION_APP_GetMemberEntry(struct UnionAppWork *app, int netId);
 
 extern void WORDSET_SetSlotMyStatus(struct WordSet *p, u32 i, void *a);
 
-extern void GFL_NET_HANDLE_SetUserInfo(char *p, int a, int b, int c);
+extern void GFL_NET_HANDLE_SetUserInfo(struct GFLNetHandle *handle, int timingLow, int timingHigh, int netID);
 
-extern unsigned int GFL_NET_HANDLE_IsTimingSyncRange(struct Link *, unsigned int, unsigned int);
+extern unsigned int GFL_NET_HANDLE_IsTimingSyncRange(struct GFLNetHandle *handle, unsigned int timingLow, unsigned int timingHigh);
+struct TextPrinter;
 
 
-extern void PRINTSYS_PrintStreamStop(void *);
+extern void PRINTSYS_PrintStreamStop(struct TextPrinter *printer);
 
-extern u16 MYSTATUS_GetIdLow16(const struct Sub0200852CObj *obj);
+extern u16 MYSTATUS_GetIdLow16(struct MyStatus *mystatus);
 
-extern void MYSTATUS_NameToStrbuf(void *,void *);
+extern void MYSTATUS_NameToStrbuf(unsigned short *name, struct Strbuf *buf);
 
 extern void WORDSET_SetSlotNumber(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 
-extern void *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
+extern struct Strbuf *MSGDATA_AllocString(struct MsgBank *bank, u32 index);
 
-extern void WORDSET_CopyTaggedText(struct WordSet *ws, void *dst, void *src);
+extern void WORDSET_CopyTaggedText(struct WordSet *words, struct Strbuf *dst, struct Strbuf *src);
 
-extern u32 MYSTATUS_GetId(const struct Sub0200852CObj *obj);
+extern u32 MYSTATUS_GetId(struct MyStatus *mystatus);
 
-extern void BMP_MENUWORK_DrawWindow(void *, int, int, int);
+extern void BMP_MENUWORK_DrawWindow(struct BmpWin *win, int commitMode, unsigned short tileBase, unsigned int palette);
 
 extern void PRINTSYS_PrintStreamDelete(struct Rec3 *p);
 
 extern void *PRINTSYS_PrintStream(void *, int, int, void *, void *, int, void *, int, u16, u16);
 
-extern u32 PRINTSYS_PrintStreamGetState(void *p);
+extern u32 PRINTSYS_PrintStreamGetState(struct TextPrinter *printer);
 
 extern unsigned int KEY_GetCont(void);
 
-extern void PRINTSYS_PrintStreamShortWait(struct Rec *p, s32 v);
+extern void PRINTSYS_PrintStreamShortWait(struct TextPrinter *printer, int wait);
 
 extern u32 KEY_GetTrg(void);
 
-extern void PRINTSYS_PrintStreamReleasePause(void *);
+extern void PRINTSYS_PrintStreamReleasePause(struct TextPrinter *printer);
 
-extern void BMP_MENUWORK_DrawWindowBorder(void *desc, u32 kind);
+extern void BMP_MENUWORK_DrawWindowBorder(struct BmpWin *desc, unsigned int commitMode);
 
-extern u8 MYSTATUS_GetTrainerView(const struct Sub0200852CObj *obj);
+extern u8 MYSTATUS_GetTrainerView(struct MyStatus *mystatus);
 
-extern void *ARC_UTIL_LoadPaletteBlockFromArchive(u32 archiveID, u32 memberIdx, u32 unpackedOut, u32 flags);
+extern void *ARC_UTIL_LoadPaletteBlockFromArchive(unsigned int archiveID, unsigned int memberIdx, unsigned int unpackedOut, unsigned short flags);
 
-extern void *ARC_UTIL_LoadScreenDataFromArchive(u32 archiveID, u32 memberIdx, u32 heapID, u32 unpackedOut, u16 flags);
+extern void *ARC_UTIL_LoadScreenDataFromArchive(u32 archiveID, u32 memberIdx, u32 heapID, void *unpackedOut, u16 flags);
 
 extern void CLACT_TransferCharacter(int a, struct Sub0204A9D0 *b);
 
@@ -892,7 +911,7 @@ void GURU2_RECEIPT_InitStrings(u8 *p,void *arc)
     MSGDATA_ReadString((struct MsgBank *)(*(unsigned int *)&((struct Guru2Lobby *)p)->msgData),17,(void *)titleBuf);
     GURU2_RECEIPT_LoadCharBuffer((char *)p,arc);
     *(unsigned int *)&((struct Guru2Lobby *)p)->paletteAnimEnabled=0; *(unsigned int *)&((struct Guru2Lobby *)p)->paletteAnimCounter=0; *(unsigned int *)&((struct Guru2Lobby *)p)->paletteAnimIndex=0;
-    *(unsigned int *)&((struct Guru2Lobby *)p)->paletteBlock=(u32)ARC_UTIL_LoadPaletteBlockFromHandle(arc,2,(u32)(p+40),114);
+    *(unsigned int *)&((struct Guru2Lobby *)p)->paletteBlock=(u32)ARC_UTIL_LoadPaletteBlockFromHandle((void *)arc,2,(p+40),114);
     ((struct Guru2Lobby *)p)->previousMemberCount=0; *(unsigned int *)&((struct Guru2Lobby *)p)->yesNoMenu=0;
     ((struct Guru2Comm *)((struct Guru2Lobby *)p)->comm)->expectedMemberCount=2;
 }
@@ -963,9 +982,9 @@ void GURU2_RECEIPT_InitActors(const u8 *p)
     u32 a,b;
     const u32 *table;
     void *arc;
-    v=MYSTATUS_GetSex((const struct Sub0200852CObj *)GAME_DATA_GetMyStatus(*(void **)(*(u8 **)(*(u8 **)(p+12)+20)+4)));
+    v=MYSTATUS_GetSex((struct MyStatus *)GAME_DATA_GetMyStatus(*(void **)(*(u8 **)(*(u8 **)(p+12)+20)+4)));
     arc=ARC_TOOL_CreateHandle(31,114);
-    CLACT_InitSystem(&gClActorInitParam,(u32)gGuru2LobbyVramBanks,114);
+    CLACT_InitSystem((struct SysInit *)(&gClActorInitParam),(struct DispVramCfg *)gGuru2LobbyVramBanks,114);
     *(void **)(p+104)=CLACT_CreateUnit(30,1,114);
     i=0;
     table=gGuru2LobbyActorResourceIds+v;
@@ -998,9 +1017,9 @@ void GURU2_RECEIPT_CreatePlayerActors(u8 *p)
     for(i=0;i<5;i++) {
         s.a=gGuru2MemberPositionTable[i*2+2]; s.b=gGuru2MemberPositionTable[i*2+3];
         *(u32 *)(p+i*4+156)=(u32)(struct Obj *)CLACT_CreateActor((void *)*(unsigned int *)&((struct Guru2Lobby *)p)->clactUnit,*(u32 *)(p+i*4+128),*(u32 *)(p+i*4+108),((struct Guru2Lobby *)p)->cellAnimId,&s,0,114);
-        CLACT_SetActorAutoAnim((struct FrameObj *)*(u32 *)(p+i*4+156),1);
-        CLACT_SetActorAnimSeq((struct FrameObj *)(*(u32 *)(p+i*4+156)),0);
-        CLACT_SetActorDrawEnable((struct FrameObj *)*(u32 *)(p+i*4+156),0);
+        CLACT_SetActorAutoAnim((struct Actor *)*(u32 *)(p+i*4+156),1);
+        CLACT_SetActorAnimSeq((struct Actor *)(*(u32 *)(p+i*4+156)),0);
+        CLACT_SetActorDrawEnable((struct Actor *)*(u32 *)(p+i*4+156),0);
     }
     BG_SYS_SetMainPlaneVisible(16,1); BG_SYS_SetSubPlaneVisible(16,0);
 }
@@ -1010,13 +1029,13 @@ void GURU2_RECEIPT_CreatePlayerActors(u8 *p)
  */
 void GURU2_RECEIPT_CreateWindows(struct Guru2Lobby *p) {
     BMP_WIN_Init(0x72);
-    *(u32 *)&p->cornerWindow=BMP_WIN_Create(5,26,20,6,2,13,1);
+    *(u32 *)&p->cornerWindow=(unsigned int)BMP_WIN_Create((unsigned int)5,(unsigned int)26,(unsigned int)20,6,2,13,1);
     BMP_Clear(BMP_WIN_GetBmp(p->cornerWindow),0);
-    *(u32 *)&p->messageWindow=BMP_WIN_Create(0,2,19,27,4,13,1);
+    *(u32 *)&p->messageWindow=(unsigned int)BMP_WIN_Create((unsigned int)0,(unsigned int)2,(unsigned int)19,27,4,13,1);
     BMP_Clear(BMP_WIN_GetBmp(p->messageWindow),15);
-    *(u32 *)&p->titleWindow=BMP_WIN_Create(0,3,1,26,2,15,1);
+    *(u32 *)&p->titleWindow=(unsigned int)BMP_WIN_Create((unsigned int)0,(unsigned int)3,(unsigned int)1,26,2,15,1);
     GURU2_RECEIPT_PrintTitle(p->titleWindow,p->titleBuf,p->font);
-    *(u32 *)&p->memberWindow=BMP_WIN_Create(0,2,6,16,11,15,1);
+    *(u32 *)&p->memberWindow=(unsigned int)BMP_WIN_Create((unsigned int)0,(unsigned int)2,(unsigned int)6,16,11,15,1);
     BMP_Clear(BMP_WIN_GetBmp(p->memberWindow),0);
     GURU2_RECEIPT_PrintMemberList(p->memberWindow, 0, 0x480, (Context *)p);
     p->activeWindow=p->titleWindow;
@@ -1025,7 +1044,7 @@ void GURU2_RECEIPT_CreateWindows(struct Guru2Lobby *p) {
 
 void GURU2_RECEIPT_PrintTitle(void *p, void *text, void *font) {
     int width;
-    width = PRINTSYS_MeasureWidestLine(text, (u32)font, 0);
+    width = PRINTSYS_MeasureWidestLine(text, font, 0);
     BMP_Clear(BMP_WIN_GetBmp(p), 0);
     PRINTSYS_PrintColor(BMP_WIN_GetBmp(p), (208-width)/2, 1, text, font, 0x480);
     BMP_WIN_TransferChars(p);
@@ -1278,14 +1297,14 @@ int GURU2_RECEIPT_StateQuitDelay(char *p,int state) {if(++((struct Guru2Lobby *)
 int GURU2_RECEIPT_StateSetSyncToken(char *p, int state) {
     GFL_NET_HANDLE_GetCurrentHandle();
     ((struct Guru2Lobby *)p)->syncToken = ((struct Guru2Lobby *)p)->syncKey ^ GURU2_RECEIPT_GetJoinedBits(p);
-    GFL_NET_HANDLE_SetUserInfo((char *)GFL_NET_HANDLE_GetCurrentHandle(), 0xcf, 0x28, (u16)(((struct Guru2Lobby *)p)->syncToken));
+    GFL_NET_HANDLE_SetUserInfo((struct GFLNetHandle *)GFL_NET_HANDLE_GetCurrentHandle(), 0xcf, 0x28, (u16)(((struct Guru2Lobby *)p)->syncToken));
     ((struct Guru2Lobby *)p)->stateIndex = 0x10;
     GURU2_RECEIPT_Noop(p);
     return state;
 }
 
 int GURU2_RECEIPT_StateCheckSyncToken(char *p, int state) {
-    if (GFL_NET_HANDLE_IsTimingSyncRange((struct Link *)GFL_NET_HANDLE_GetCurrentHandle(), 0xcf, 0x28) != 0 ||
+    if (GFL_NET_HANDLE_IsTimingSyncRange((struct GFLNetHandle *)GFL_NET_HANDLE_GetCurrentHandle(), 0xcf, 0x28) != 0 ||
         ((struct Guru2Lobby *)p)->syncToken != (GURU2_RECEIPT_GetJoinedBits(p) ^ ((struct Guru2Lobby *)p)->syncKey)) {
         GFL_NET_SetAutoExit(0);
         WIPE_SYS_Start(0,0,0,0,0x10,1,0x72);
@@ -1542,12 +1561,12 @@ void GURU2_RECEIPT_UpdatePlayerActors(u8 *p)
             a=MYSTATUS_GetSex(*(void **)(p+i*8+0x138));
             b=MYSTATUS_GetTrainerView(*(void **)(p+i*8+0x138));
             if (i==GFL_NET_SYSTEM_GetCurrentAid()) {
-                CLACT_SetActorAnimSeq((struct FrameObj *)(*(void **)(p+i*4+0x9c)), 4);
+                CLACT_SetActorAnimSeq((struct Actor *)(*(void **)(p+i*4+0x9c)), 4);
             } else {
                 GURU2_RECEIPT_SetPlayerIcon((u8 *)p,*(u8 **)(p+0x114),i,b,a);
-                CLACT_SetActorAnimSeq((struct FrameObj *)(*(void **)(p+i*4+0x9c)), 4);
+                CLACT_SetActorAnimSeq((struct Actor *)(*(void **)(p+i*4+0x9c)), 4);
             }
-            CLACT_SetActorDrawEnable((struct FrameObj *)(*(void **)(p+i*4+0x9c)), 1);
+            CLACT_SetActorDrawEnable((struct Actor *)(*(void **)(p+i*4+0x9c)), 1);
             *(u32 *)(p+i*4+0x160)=2;
             flag=1;
             break;
@@ -1555,9 +1574,9 @@ void GURU2_RECEIPT_UpdatePlayerActors(u8 *p)
         case 3:
             if(i==GFL_NET_SYSTEM_GetCurrentAid()) {
                 MYSTATUS_GetSex(*(void **)(p+i*8+0x138));
-                CLACT_SetActorAnimSeq((struct FrameObj *)(*(void **)(p+i*4+0x9c)), 5);
+                CLACT_SetActorAnimSeq((struct Actor *)(*(void **)(p+i*4+0x9c)), 5);
             } else {
-                CLACT_SetActorAnimSeq((struct FrameObj *)(*(void **)(p+i*4+0x9c)), 5);
+                CLACT_SetActorAnimSeq((struct Actor *)(*(void **)(p+i*4+0x9c)), 5);
             }
             *(u32 *)(p+i*4+0x160)=0;
             break;
@@ -1578,7 +1597,7 @@ void GURU2_RECEIPT_SetPlayerIcon(u8 *p, u8 *paletteData, int member, int outfit,
     void *screenData;
     int screenDataPtr;
     GX_LoadOBJPltt(*(u8 * *)&((struct NNSG2dPaletteData *)paletteData)->pRawData + gGuru2MemberPaletteIndex[outfit] * 32, member * 32, 32);
-    screenData = ARC_UTIL_LoadScreenDataFromArchive(32, outfit + 1, 0, (u32)(&screenDataPtr), 114);
+    screenData = ARC_UTIL_LoadScreenDataFromArchive(32, outfit + 1, 0, (&screenDataPtr), 114);
     CLACT_TransferCharacter((int)(*(void **)(p + (member + 5) * 4 + 0x6c)), (struct Sub0204A9D0 *)screenDataPtr);
     GFL_HEAP_Free(screenData);
 }
