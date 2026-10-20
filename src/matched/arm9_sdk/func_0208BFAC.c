@@ -8,20 +8,22 @@
  * lang:     c99
  * isa:      arm
  * status:   EXACT
- * note:     spi/ARM9/pm.o PM_GetACAdapter.
+ * note:     spi/ARM9/pm.o PM_GetBatteryLevel.
  *
  * symbols:
  *   OS_IsRunOnTwl          0x02085D3C  arm
- *   PMi_GetACAdapterCore   0x027313AC  arm
+ *   PMi_GetBatteryLevelCore   0x027313AC  arm
  */
 
 int OS_IsRunOnTwl(void);
-unsigned int PMi_GetACAdapterCore(void *buf);
+typedef unsigned int u32;
+typedef unsigned short u16;
+u32 PMi_GetBatteryLevelCore(u16 *levelBuf);
 
-unsigned int PM_GetBatteryLevel(void *isConnectedBuf)
+u32 PM_GetBatteryLevel(u16 *levelBuf)
 {
     if (OS_IsRunOnTwl()) {
-        return PMi_GetACAdapterCore(isConnectedBuf);
+        return PMi_GetBatteryLevelCore(levelBuf);
     }
     return 2;
 }

@@ -226,7 +226,131 @@ def check(jobs=None):
                     and not any(use.endswith(x) for x in hit[1]):
                 ln = base_line + body.count("\n", 0, m.start()) + 1
                 rows_out.append((rel, ln, use, a, hit[0], sorted(hit[1])))
+    have = {(r[0], r[2]) for r in rows_out}
+    for r in check_externs(paths):
+        if (r[0], r[2]) not in have:
+            rows_out.append(r)
     return rows_out, failed
+
+
+# ------------------------------------------------- extern names by address
+
+DECL = re.compile(r"(?m)^(?:extern[ 	]+)?(?!return|typedef)[A-Za-z_][\w 	\*]*?[ 	\*]"
+                  r"([A-Za-z_]\w*)[ 	]*\([^;{}]*\)[ 	]*;")
+
+
+def load_name_tables():
+    """name -> {(region, address)} and (region, address) -> {names} from
+    layout/function_addrs.tsv (every function src/game defines) and the
+    `symbols` list of layout/symbols_sdk.json (vendor names)."""
+    import csv
+    import json
+    by_name, by_ra, tsv_ra = {}, {}, {}
+    with open(os.path.join(ROOT, "layout", "function_addrs.tsv"), newline="") as fh:
+        for r in csv.DictReader(fh, delimiter="	"):
+            ra = (r["region"], int(r["address"], 16))
+            by_name.setdefault(r["name"], set()).add(ra)
+            by_ra.setdefault(ra, set()).add(r["name"])
+            tsv_ra[ra] = r["name"]
+    sdk = os.path.join(ROOT, "layout", "symbols_sdk.json")
+    if os.path.isfile(sdk):
+        with open(sdk, encoding="utf-8") as fh:
+            for e in json.load(fh).get("symbols", []):
+                if not isinstance(e, dict) or "address" not in e or "name" not in e:
+                    continue
+                ra = (e.get("region") or "arm9", e["address"])
+                by_name.setdefault(e["name"], set()).add(ra)
+                by_ra.setdefault(ra, set()).add(e["name"])
+    return by_name, by_ra, tsv_ra
+
+
+def pick_region(cands, fregion):
+    """One (region, address) out of the candidates a name resolves to: the
+    file's own region first, then ARM9 main and ITCM, then a lone candidate."""
+    for reg in (fregion,) + MAIN_REGIONS:
+        here = sorted(c for c in cands if c[0] == reg)
+        if here:
+            # two functions of one name in one region (statics): no answer
+            return here[0] if len(here) == 1 else None
+    return sorted(cands)[0] if len(cands) == 1 else None
+
+
+def check_externs(paths):
+    """Every extern or file-scope prototype of a src/game .c file, and every
+    `symbols:` row, resolved to a region and address (a name through the
+    tables above, a row through its address and the regions that define it).
+    Two names that resolve to one region+address are an alias pair: the
+    callers' name is reported against the name src/game defines there."""
+    by_name, by_ra, tsv_ra = load_name_tables()
+    seen = {}
+    for p in paths:
+        raw, head = read_head(p)
+        f = header_fields(head)
+        fregion = f.get("region", "arm9")
+        rel = os.path.relpath(p, ROOT).replace(os.sep, "/")
+        if rel in ALLOWED_FILES:
+            continue
+        own = set(re.findall(r"(?m)^(?!extern)(?:static[ 	]+|inline[ 	]+)*[A-Za-z_][\w 	\*]*?"
+                             r"([A-Za-z_]\w*)[ 	]*\([^;{}]*\)[ 	]*\{", raw))
+        used = {}
+        for ln, name, addr, kind, rreg in header_rows(head):
+            if kind == "data":
+                continue
+            ra = None
+            if rreg:
+                ra = (rreg, addr)
+            else:
+                regs = [r for r in (fregion,) + MAIN_REGIONS if (r, addr) in by_ra]
+                if regs:
+                    ra = (regs[0], addr)
+                else:
+                    c = [k for k in by_ra if k[1] == addr]
+                    if len(c) == 1:
+                        ra = c[0]
+            if ra:
+                used.setdefault(name, (ln, ra))
+        body = code_only(raw[len(head):])
+        base = head.count("\n")
+        for m in DECL.finditer(body):
+            name = m.group(1)
+            if name in used or name in own:
+                continue
+            mm = ADDRNAME.fullmatch(name)
+            if mm:
+                a = int(mm.group(2), 16)
+                c = [(r, a) for r in (fregion,) + MAIN_REGIONS if (r, a) in by_ra]
+                ra = c[0] if c else None
+            else:
+                cands = by_name.get(name)
+                ra = pick_region(cands, fregion) if cands else None
+            if ra:
+                used[name] = (base + body.count("\n", 0, m.start()) + 1, ra)
+        for name, (ln, ra) in used.items():
+            if exempt(name, ra[1]) or name in own:
+                continue
+            seen.setdefault(ra, {}).setdefault(name, []).append((rel, ln))
+    out = []
+    for ra, names in seen.items():
+        known = set(by_ra.get(ra, ()))
+        canon = tsv_ra.get(ra)
+        if canon is None:
+            allnames = set(names) | known
+            if len(allnames) < 2:
+                continue
+            canon = sorted(known or names)[0]
+        for name, uses in names.items():
+            if name == canon or (not canon and name in known):
+                continue
+            if canon in ra_defs_skip(known, name):
+                continue
+            for rel, ln in uses:
+                out.append((rel, ln, name, ra[1], ra[0], [canon]))
+    return out
+
+
+def ra_defs_skip(known, name):
+    """Names that are not an alias of the definition: none yet."""
+    return set()
 
 
 # ------------------------------------------------------------------ fixing

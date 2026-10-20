@@ -74,12 +74,12 @@ void PMi_FinalizeDebugger(void);
 void PMi_CallPostExitCallbackAndReset(int flag);
 int PMi_TryLockForReset(void);
 
-int PMi_GetBatteryLevelCore(u16 *out)
+u32 PMi_GetBatteryLevelCore(u16 *levelBuf)
 {
     u16 v;
     int r = PM_SendUtilityCommand(15, 1, &v);
-    if (r == 0 && out != 0) {
-        *out = v;
+    if (r == 0 && levelBuf != 0) {
+        *levelBuf = v;
     }
     return r;
 }

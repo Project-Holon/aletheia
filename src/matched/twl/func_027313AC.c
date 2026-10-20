@@ -18,12 +18,12 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 extern int func_0208BC8C(u32 cmd, u32 a, u16 *buf);
 
-int PMi_GetBatteryLevelCore(u16 *out)
+u32 PMi_GetBatteryLevelCore(u16 *levelBuf)
 {
     u16 v;
     int r = func_0208BC8C(15, 1, &v);
-    if (r == 0 && out != 0) {
-        *out = v;
+    if (r == 0 && levelBuf != 0) {
+        *levelBuf = v;
     }
     return r;
 }

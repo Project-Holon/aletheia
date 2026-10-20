@@ -6,7 +6,7 @@
 
 #include "../types.h"
 
-int PMi_GetBatteryLevelCore(u16 *out);
+u32 PMi_GetBatteryLevelCore(u16 *levelBuf);
 void PMi_PreSleepForNdma(int ch);
 void PMi_ProceedToExit(u32 factor);
 void PM_ReadyToExit(void);

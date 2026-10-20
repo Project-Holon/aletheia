@@ -31,7 +31,7 @@ unsigned int PMi_SetAmp(unsigned int status);
 unsigned int PM_SetAmpGain(unsigned int gain);
 unsigned int PM_SetAmpGainLevel(u8 level);
 u32 PM_GetBattery(int *batteryBuf);
-unsigned int PM_GetBatteryLevel(void *isConnectedBuf);
+u32 PM_GetBatteryLevel(u16 *levelBuf);
 u32 PM_GetBackLight(int *top, int *bottom);
 u32 PM_GetAmp(int *swBuf);
 void PMi_SendPxiData(u32 data);

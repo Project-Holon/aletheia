@@ -38,7 +38,7 @@
  *   OS_Halt                        0x020882D0  arm
  *   PMi_SetAmp   0x0208BF08  arm
  *   PM_GetLCDPower         0x0208C688  arm
- *   PMi_GetACAdapterCore   0x027313AC  arm
+ *   PMi_GetBatteryLevelCore   0x027313AC  arm
  *   PXI_SendWordByFifo             0x02088610  arm
  *   MI_WaitDma                     0x02082594  arm
  *   MI_StopDma                     0x020825F0  arm
@@ -108,7 +108,7 @@ extern void PMi_ExecuteList(PMGenCallbackInfo *listp);
 #include "os_terminate_processor.h"
 unsigned int PMi_SetAmp(unsigned int status);
 int PM_GetLCDPower(void);
-unsigned int PMi_GetACAdapterCore(void *buf);
+u32 PMi_GetBatteryLevelCore(u16 *levelBuf);
 #include "os_interrupt.h"
 #include "os_tick.h"
 #include "os_systemwork.h"
@@ -135,7 +135,7 @@ unsigned int PM_SetAmp(unsigned int status);
 unsigned int PM_SetAmpGain(unsigned int gain);
 unsigned int PM_SetAmpGainLevel(u8 level);
 u32 PM_GetBattery(int *batteryBuf);
-unsigned int PM_GetBatteryLevel(void *isConnectedBuf);
+u32 PM_GetBatteryLevel(u16 *levelBuf);
 u32 PM_GetBackLight(int *top, int *bottom);
 u32 PM_GetAmp(int *swBuf);
 void PMi_SendPxiData(u32 data);
@@ -562,12 +562,12 @@ u32 PM_GetBattery(int *batteryBuf)
 }
 
 /*
- * note:     spi/ARM9/pm.o PM_GetACAdapter.
+ * note:     spi/ARM9/pm.o PM_GetBatteryLevel.
  */
-unsigned int PM_GetBatteryLevel(void *isConnectedBuf)
+u32 PM_GetBatteryLevel(u16 *levelBuf)
 {
     if (OS_IsRunOnTwl()) {
-        return PMi_GetACAdapterCore(isConnectedBuf);
+        return PMi_GetBatteryLevelCore(levelBuf);
     }
     return 2;
 }
