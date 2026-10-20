@@ -41,7 +41,6 @@ RET_EXCEPTIONS = {
     ('src/game/arm9/gpower.c', 'GPOWER_ApplyCaptureRate'),
     ('src/game/arm9/iss_switch_set.c', 'ISS_SWITCH_SET_UpdateSwitches'),
     ('src/game/arm9/mcss.c', 'MCSS_SetAnimCallback'),
-    ('src/game/arm9/os_spinlock.c', 'OS_LockByWord'),
     ('src/game/arm9/save_control.c', 'SAVE_CONTROL_StartSave'),
     ('src/game/arm9/zonedata.c', 'ZONEDATA_GetChangedZoneId'),
     ('src/game/ov016/rakuraku.c', 'DWCi_RAKUlGetState'),

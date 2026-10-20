@@ -11,7 +11,7 @@ typedef struct OSLockWord OSLockWord;
 
 void OSi_SyncWithOtherProc(int direction, volatile u8 *regs);
 void OS_InitLock(void);
-void OSi_DoLockByWord(u16 lockID, OSLockWord *lockp, void (*ctrlFuncp)(void), BOOL disableFIQ);
+s32 OSi_DoLockByWord(u16 lockID, OSLockWord *lockp, void (*ctrlFuncp)(void), BOOL disableFIQ);
 int OS_LockByWord(u16 lockID, OSLockWord *lockp, void (*ctrlFuncp)(void));
 s32 OSi_DoUnlockByWord(u16 lockID, OSLockWord *lockp, void (*ctrlFuncp)(void), BOOL disableFIQ);
 s32 OS_UnlockByWord(u16 lockID, OSLockWord *lockp, void (*ctrlFuncp)(void));

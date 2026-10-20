@@ -51,7 +51,7 @@ extern void OSi_FreeCartridgeBus(void);
 int OS_LockByWord(u16 lockID, OSLockWord *lockp, void (*ctrlFuncp)(void));
 void OSi_AllocateCardBus(void);
 void OS_InitLock(void);
-void OSi_DoLockByWord(u16 lockID, OSLockWord *lockp, void (*ctrlFuncp)(void), BOOL disableFIQ);
+s32 OSi_DoLockByWord(u16 lockID, OSLockWord *lockp, void (*ctrlFuncp)(void), BOOL disableFIQ);
 s32 OS_UnlockByWord(u16 lockID, OSLockWord *lockp, void (*ctrlFuncp)(void));
 s32 OSi_DoTryLockByWord(u16 lockID, OSLockWord *lockp, void (*ctrlFuncp)(void), BOOL disableFIQ);
 s32 OS_TryLockByWord(u16 lockID, OSLockWord *lockp, void (*ctrlFuncp)(void));
@@ -145,13 +145,14 @@ void OS_InitLock(void)
     OSi_SyncWithOtherProc(1, (void *)(0x02FFFFB0 + 0x40));
 }
 
-void OSi_DoLockByWord(u16 lockID, OSLockWord *lockp, void (*ctrlFuncp)(void), BOOL disableFIQ)
+s32 OSi_DoLockByWord(u16 lockID, OSLockWord *lockp, void (*ctrlFuncp)(void), BOOL disableFIQ)
 {
-    if (OSi_DoTryLockByWord(lockID, lockp, ctrlFuncp, disableFIQ) <= 0)
-        return;
-    do {
+    s32 lastLockFlag;
+
+    while ((lastLockFlag = OSi_DoTryLockByWord(lockID, lockp, ctrlFuncp, disableFIQ)) > 0) {
         SVC_WaitByLoop(0x400);
-    } while (OSi_DoTryLockByWord(lockID, lockp, ctrlFuncp, disableFIQ) > 0);
+    }
+    return lastLockFlag;
 }
 
 /*
@@ -159,7 +160,7 @@ void OSi_DoLockByWord(u16 lockID, OSLockWord *lockp, void (*ctrlFuncp)(void), BO
  */
 int OS_LockByWord(u16 lockID, OSLockWord *lockp, void (*ctrlFuncp)(void))
 {
-    OSi_DoLockByWord(lockID, lockp, ctrlFuncp, 0);
+    return OSi_DoLockByWord(lockID, lockp, ctrlFuncp, 0);
 }
 
 /*
